@@ -63,8 +63,8 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
     	gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
     	//Assert.assertNotNull(geneExprObjects);
         //Assert.assertTrue(geneExprObjects.length > 0);
-    	resultsetProc.handleGeneView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
-    	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
+    	resultsetProc.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
+    	GeneExprSingleViewResultsContainer geneViewContainer = resultsetProc.getGeneViewResultsContainer();
     	Collection genes = geneViewContainer.getGeneResultsets();
     	Collection labels = geneViewContainer.getGroupsLabels();
     	Collection sampleIds = null;
@@ -150,7 +150,7 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
         				{
 	                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 	                       		String sampleId = (String) sampleIdIterator.next();
-	                       		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
+	                       		SampleFoldChangeValuesResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
 	                       		if(biospecimenResultset != null){
 	                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
 	                       			if(ratio != null)
