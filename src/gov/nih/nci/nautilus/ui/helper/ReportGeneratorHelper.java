@@ -93,30 +93,33 @@ public class ReportGeneratorHelper {
 		Resultant resultant = reportBean.getResultant();
 		Resultant showAllResults;
 		try {
-			//Get the sessionId for this resultant, this works because, at the present time
-			//there is only one type of query that is ever run, and that is a CompoundQuery
-			//if that changes than it will be necesary to modify the code here and many places
-			String sessionId = ((CompoundQuery)(resultant.getAssociatedQuery())).getSessionId();
+		
 			showAllResults = ResultsetManager.executeShowAllQuery(resultant);
-			//check to make sure that we have a sessionId
-			Queriable showAllQuery = showAllResults.getAssociatedQuery();
-			//check the query to make sure that it is a compound query
+			//get the unanotated query from the resultant
+			CompoundQuery showAllQuery = (CompoundQuery)showAllResults.getAssociatedQuery();
+			//check the associated query to make sure that it is a compound query
+			//also sets the _cQuery attribute
 			checkCompoundQuery(showAllQuery);
-			//set the sessionId
-			_cQuery.setSessionId(sessionId);
-			//check the sessionId
-			checkSessionId(_cQuery.getSessionId());
-			//check that we have a queryName
-			checkQueryName( _cQuery.getQueryName()+" show all values report");
-			//set the query name to a show all report
-			resultant.getAssociatedQuery().setQueryName(_queryName);
+			//Get the sessionId and name for this resultant, this works because,
+			//at the present time there is only one type of query that is ever
+			//run, and that is a CompoundQuery if that changes than it will be
+			//necesary to modify the code here and many other places
+			String sessionId = ((CompoundQuery)(resultant.getAssociatedQuery())).getSessionId();
+			String oldQueryName = ((CompoundQuery)(resultant.getAssociatedQuery())).getQueryName();
+			//check the sessionId that it isn't null or empty and set _sessionId in _cQuery
+			checkSessionId(sessionId);
+			//check that we have an oldQueryNameand set the class variable _queryName
+			//and add that it is a all values report
+			checkQueryName( oldQueryName +" show all values report");
+			//store the annotated query in the resultant
+			showAllResults.setAssociatedQuery(_cQuery);
 			//create a new ReportBean
 			_reportBean = new ReportBean();
 			//store the results into the report bean
 			_reportBean.setResultant(showAllResults);
 			//store the cache key that can be used to retrieve this bean later
 			_reportBean.setResultantCacheKey(_queryName);
-			//check the filterParam map for processing
+			//send the filterParamMap for processing and store in _reportBean
 			_reportBean.setFilterParams(processFilterParamMap(filterParams));
 			//generate the reportXML and store in the ReportBean
 			generateReportXML();
@@ -272,6 +275,7 @@ public class ReportGeneratorHelper {
 	private void checkSessionId(String sessionId)throws IllegalStateException {
 		if (sessionId != null && !sessionId.equals("")) {
 			_sessionId = sessionId;
+			_cQuery.setSessionId(sessionId);
 		} else {
 			/*
 			 * We can not store the resultSet without a unique cache to
@@ -306,8 +310,9 @@ public class ReportGeneratorHelper {
 			 * 
 			 */
 			_queryName = _cacheManager.getTempReportName(_sessionId);
-			_cQuery.setQueryName(_queryName);
+			
 		}
+		_cQuery.setQueryName(_queryName);
 	}
 	/**
 	 * check the cache for the results sets for the query
