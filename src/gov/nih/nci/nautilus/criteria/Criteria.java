@@ -20,9 +20,6 @@ abstract public class Criteria implements Serializable {
 			try {
 		
 				String currObjectName = this.getClass().getName();
-				/*
-				 * Suprise, suprise! Ram used Reflection here...
-				 */
 				Class currClass = Class.forName(currObjectName);
 				Method[] allPublicmethods = currClass.getMethods();
 				
