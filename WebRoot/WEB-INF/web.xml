@@ -28,7 +28,7 @@
   <!-- Log4J Initialization Servlet-->
   <servlet>
     <servlet-name>log4j-init</servlet-name>
-    <servlet-class>gov.nih.nci.nautilus.ui.logging.Log4jInit</servlet-class>
+    <servlet-class>gov.nih.nci.nautilus.logging.Log4jInit</servlet-class>
     <init-param>
       <param-name>log4j-init-file</param-name>
       <param-value>WEB-INF/classes/log4j.properties</param-value>
