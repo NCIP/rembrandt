@@ -176,7 +176,7 @@
 	  <div class="filterForm">
 		<b>Highlight:</b> 
 		<xsl:text>&#160;</xsl:text>
-		highlight values greater than <input type="text" name="filter_value1" size="4" />
+		highlight values greater than <input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Highlight" />
 	  </div>
