@@ -324,7 +324,9 @@
 		  	<xsl:for-each select="Cell">
 			  	<xsl:if test="@group!='header'">
 						<xsl:variable name="currentGroup" select="@group" />
-						<input class="checkorradio" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
+						<xsl:if test="$showSampleSelect != 'false'">
+							<input class="checkorradio" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
+						</xsl:if>
 						<xsl:value-of select="$currentGroup"/>
 						<!--
 						[<a href="#" onclick="javascript:goFilterColumn(true, '{$currentGroup}')">Hide <xsl:value-of select="$currentGroup"/></a> | 
