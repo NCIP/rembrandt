@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.ui.bean;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -17,37 +18,49 @@ import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
  */
 public class ChromosomeBean {
 	private Logger logger = Logger.getLogger(ChromosomeBean.class);
-	private ChromosomeNumberDE myChromosome;
-	private Collection cytobands;
-		
-	public Collection getCytobands() {
+	private int chromosomeNumber;
+	private List cytobands;
+	/**
+	 * Returns a Collection of CytobandLookup Objects
+	 * @return
+	 */	
+	public List getCytobands() {
 		return cytobands;
 	}
 	
-	public void setCytobands(Collection cytobands) {
+	public void setCytobands(List cytobands) {
 		this.cytobands = cytobands;
 	}
 	
-	public ChromosomeNumberDE getChromosomeNumberDE() {
-		return myChromosome;
+	public void setChromosomeNumber(int chromosomeNumber) {
+		this.chromosomeNumber = chromosomeNumber;
 	}
 	
-	public void setChromosomeNumberDE(ChromosomeNumberDE chromosome) {
-		this.myChromosome = chromosome;
-	}
-	
-	public String getChromosomeNumber() {
-		String chromosomeNumber = null;
-		try {
-			chromosomeNumber = (String)myChromosome.getValueObject();
-			return chromosomeNumber;
-		}catch(ClassCastException cce) {
-			logger.error("ChromosomeNumberDE is not a String");
-			logger.error(cce);
-		}catch(NullPointerException npe) {
-			logger.error("There is no ChromosomeNumberDE set yet");
-			logger.error(npe);
-		}
+	public int getChromosomeNumber() {
 		return chromosomeNumber;
 	}
+	/**
+	 * Adds a new equals method.  Compares the chromosome numbers
+	 * and if they are the same returns true, else false.
+	 * @param bean
+	 * @return
+	 */
+	public boolean equals(ChromosomeBean bean) {
+		if(bean.getChromosomeNumber()==chromosomeNumber) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	/**
+	 * Overrides the Object.toString() method. Returns a 
+	 * String representation of the chromosomes identifying
+	 * number.
+	 *  
+	 * @return
+	 */
+	public String toString() {
+		return Integer.toString(chromosomeNumber);
+	}
+		
 }

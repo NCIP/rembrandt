@@ -2,10 +2,13 @@ package gov.nih.nci.nautilus.ui.helper;
 
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.lookup.CytobandLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -19,7 +22,7 @@ import org.apache.log4j.Logger;
  */
 public class ChromosomeHelper {
 	private static Logger logger = Logger.getLogger(ChromosomeHelper.class);
-	private static Collection chromosomes;
+	private static List chromosomes;
 	private static ChromosomeHelper instance;
 	
 	//Create the singleton instance
@@ -33,17 +36,10 @@ public class ChromosomeHelper {
 	private ChromosomeHelper() {
 		try {
 			chromosomes = new ArrayList();
-			ChromosomeNumberDE[] chromosomeDEs= LookupManager.getChromosomeDEs();
-			for(int i = 0; i<chromosomeDEs.length;i++) {
-				ChromosomeBean chromosome = new ChromosomeBean();
-				chromosome.setChromosomeNumberDE((ChromosomeNumberDE)chromosomeDEs[i].getValue());
-				CytobandDE[] cytobandDEs = LookupManager.getCytobandDEs(chromosomeDEs[i]);
-				ArrayList cytobands = new ArrayList();
-				for(int j = 0; j < cytobandDEs.length;j++) {
-					cytobands.add(cytobandDEs[j]);
-				}
-				chromosome.setCytobands(cytobands);
-				chromosomes.add(chromosome);
+			chromosomes.add(0,new ChromosomeBean());
+			CytobandLookup[] cytobandLookups = LookupManager.getCytobandPositions();
+			for(int i = 0; i<cytobandLookups.length;i++) {
+				addCytoband(cytobandLookups[i]);
 			}
 		}catch(Exception e) {
 			chromosomes = null;
@@ -62,7 +58,30 @@ public class ChromosomeHelper {
 	 * Returns the Collection of ChromosomeBeans for the UI
 	 * @return
 	 */
-	public Collection getChromosomes() {
+	public List getChromosomes() {
 		return chromosomes;
+	}
+	/**
+	 * checks the List of Chromosomes f
+	 * @param cytoband
+	 * @return
+	 */
+	private void addCytoband(CytobandLookup cytoband) throws Exception {
+		List cytobands;
+		String chromoNumString = cytoband.getChromosome();
+		int chromoNum = Integer.parseInt(chromoNumString);
+		ChromosomeBean bean = new ChromosomeBean();
+		int test = chromosomes.indexOf(bean);
+		if(test!=-1) {
+			bean = (ChromosomeBean)chromosomes.get(test);
+			cytobands = bean.getCytobands();
+			cytobands.add(cytoband);
+			bean.setCytobands(cytobands);
+		}else {
+			cytobands = new ArrayList();
+			cytobands.add(cytoband);
+			bean.setCytobands(cytobands);
+			chromosomes.add(chromoNum, bean);
+		}
 	}
 }
