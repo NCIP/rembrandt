@@ -70,7 +70,7 @@ public class CompoundQuery implements Queriable{
 
 
 	public CompoundQuery(OperatorType operator, Queriable leftQuery, Queriable rightQuery) {
-		setOperatorType( operatorType);
+		setOperatorType(operator);
 		setLeftQuery(leftQuery);
 		setRightQuery(rightQuery);
 	}
