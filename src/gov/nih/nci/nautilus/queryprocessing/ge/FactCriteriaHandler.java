@@ -93,11 +93,11 @@ public class FactCriteriaHandler {
     private static void addSingleUpORDownCriteria(Double foldChange, String type, String colunName, Criteria subCrit, PersistenceBroker pb) throws Exception {
 
         if (type.equals(ExprFoldChangeDE.UP_REGULATION)) {
-            subCrit.addGreaterThan(colunName,foldChange);
+            subCrit.addGreaterOrEqualThan(colunName,foldChange);
         }
         else if (type.equals(ExprFoldChangeDE.DOWN_REGULATION)) {
             double convertedDownFold = 1 / (foldChange.doubleValue());
-            subCrit.addLessThan(colunName, new Double(convertedDownFold));
+            subCrit.addLessOrEqualThan(colunName, new Double(convertedDownFold));
         }
         else {
             throw new Exception("Invalid Regulation: " + type + " Value:" + foldChange);
