@@ -97,4 +97,13 @@ public class OperatorType {
 	public void setOperatorType(String operatorType) {
 		this.operatorType = operatorType;
 	}
+	public Object clone() {
+		OperatorType myClone = null;
+		try {
+			myClone = (OperatorType)super.clone();
+		} catch (CloneNotSupportedException e) {
+			//This will never happen
+		}
+		return myClone;
+	}
 }

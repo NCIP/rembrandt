@@ -342,4 +342,18 @@ public class CompoundQuery implements Queriable, Serializable,Cloneable{
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
+	
+	public Object clone() {
+		CompoundQuery myClone = null;
+		try {
+			myClone = (CompoundQuery)super.clone();
+		} catch (CloneNotSupportedException e) {
+			//This will never happen...
+		}
+		myClone.associatedView = (Viewable)associatedView.clone();
+		myClone.leftQuery = (Queriable)leftQuery.clone();
+		myClone.rightQuery = (Queriable)rightQuery.clone();
+		myClone.operatorType = (OperatorType)operatorType.clone();
+		return myClone;
+	}
 }
