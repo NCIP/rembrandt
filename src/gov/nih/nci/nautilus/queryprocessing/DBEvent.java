@@ -89,4 +89,13 @@ abstract public class DBEvent extends EventObject {
         }
     }
 
+    //clinical
+    public final static class BIOSpecimenRetrieveEvent extends DBEvent {
+            private final static String BIO_ID_CRIT_EVENT = "BIOSpecimenRetrieveEvent";
+            public BIOSpecimenRetrieveEvent () {
+                super(BIO_ID_CRIT_EVENT);
+            }
+        }
+
+
 }
