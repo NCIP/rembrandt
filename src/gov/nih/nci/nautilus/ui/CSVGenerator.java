@@ -230,14 +230,19 @@ public class CSVGenerator  {
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
 				
-				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-				if(dimensionalViewContainer != null)	{		
-					CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
-					
-					SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-					if(sampleViewContainer.getBioSpecimenResultsets().size() > 0 && copyNumberContainer.getCytobandResultsets().size() > 0)	{
-						Collection samples = sampleViewContainer.getBioSpecimenResultsets();
-		
+				CopyNumberSingleViewResultsContainer copyNumberContainer = null;
+
+				if(resultsContainer instanceof DimensionalViewContainer)	{
+					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+					if(dimensionalViewContainer != null)	{
+						copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+					}
+				}
+				else if(resultsContainer instanceof CopyNumberSingleViewResultsContainer)	{ //for single
+					copyNumberContainer = (CopyNumberSingleViewResultsContainer) resultsContainer;
+				}
+				if(copyNumberContainer != null)	{		
+				
 						Collection cytobands = copyNumberContainer.getCytobandResultsets();
 				    	Collection labels = copyNumberContainer.getGroupsLabels();
 				    	Collection sampleIds = null;
@@ -318,13 +323,9 @@ public class CSVGenerator  {
 				        	//append the extra row here
 				        	//sb.append("\n");
 				    	}
-				}
 				
-				else	{
-					sb.append("Copy Number container is empty");
 				}
-				
-			}
+			
 			else	{
 				sb.append("Copy Number container is empty");
 			}	
@@ -338,11 +339,19 @@ public class CSVGenerator  {
 		
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
+				GeneExprSingleViewResultsContainer geneViewContainer = null;
+				if(resultsContainer instanceof DimensionalViewContainer)	{
+					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+					if(dimensionalViewContainer != null)	{
+						geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+					}
+				}
+				else if(resultsContainer instanceof GeneExprSingleViewResultsContainer)	{ //for single
+					geneViewContainer = (GeneExprSingleViewResultsContainer) resultsContainer;
+				}
 				
-			    DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-			    if(dimensionalViewContainer != null)	{
-		        	GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
-			    	Collection genes = geneViewContainer.getGeneResultsets();
+				if(geneViewContainer != null)	{
+					Collection genes = geneViewContainer.getGeneResultsets();
 			    	Collection labels = geneViewContainer.getGroupsLabels();
 			    	Collection sampleIds = null;
 		
