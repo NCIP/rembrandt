@@ -1,7 +1,9 @@
 package gov.nih.nci.nautilus.test;
 
 import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE.UpperAgeLimit;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
@@ -52,10 +54,14 @@ public class QueryTest extends TestCase {
      ArrayPlatformCriteria cdnaPlatformCrit;
      SNPCriteria snpCrit;
      SurvivalCriteria survivalCrit;
+	 AgeCriteria ageCriteria;
+	 GenderCriteria genderCrit;
 
     protected void setUp() throws Exception {
         buildDiseaseTypeCrit();
         buildSurvivalCrit();
+        buildAgeCrit();
+        buildGenderCrit();
         buildRegionCrit();
         buildPlatformCrit();
         buildCloneCrit();
@@ -258,10 +264,12 @@ public class QueryTest extends TestCase {
         ClinicalDataQuery q = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
             q.setQueryName("Test Clinical Query");
             q.setSurvivalCrit(survivalCrit);
+            q.setGenderCrit(genderCrit);
+            q.setAgeCrit(ageCriteria);
             q.setDiseaseOrGradeCrit(diseaseCrit);
             try {
-                ResultSet[] cghObjects = QueryManager.executeQuery(q);
-                print(cghObjects);
+                ResultSet[] patientDataObjects = QueryManager.executeQuery(q);
+                print(patientDataObjects);
                 //testResultset(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
@@ -272,8 +280,15 @@ public class QueryTest extends TestCase {
 	/**
 	 * @param cghObjects
 	 */
-	private void print(ResultSet[] cghObjects) {
-		// TODO Auto-generated method stub
+	private void print(ResultSet[] patientDataObjects) {
+		for(int i =0; i < patientDataObjects.length ;i++){
+			PatientData patientData = (PatientData)patientDataObjects[i];
+			System.out.println( patientData.getSampleId()+
+								"\t"+patientData.getGender()+
+								"\t"+patientData.getDiseaseType()+
+								"\t"+patientData.getSurvivalLengthRange()+
+								"\t"+patientData.getAgeGroup());
+		}
 		
 	}
     }
@@ -379,15 +394,27 @@ public class QueryTest extends TestCase {
     }
     private void buildDiseaseTypeCrit() {
          diseaseCrit = new DiseaseOrGradeCriteria();
-         diseaseCrit.setDisease(new DiseaseNameDE("MIXED"));
+         diseaseCrit.setDisease(new DiseaseNameDE("OLIG"));
     }
-     private void buildSurvivalCrit() {
+    private void buildSurvivalCrit() {
          survivalCrit  = new SurvivalCriteria();
          survivalCrit.setLowerSurvivalRange(
                  new SurvivalDE.LowerSurvivalRange(new Integer("20")));
          survivalCrit.setUpperSurvivalRange(
                  new SurvivalDE.UpperSurvivalRange(new Integer("40")));
 
+    }
+    private void buildAgeCrit() {
+    	ageCriteria  = new AgeCriteria();
+    	ageCriteria.setLowerAgeLimit(
+                new AgeAtDiagnosisDE.LowerAgeLimit(new Integer("00")));
+    	ageCriteria.setUpperAgeLimit(
+                new UpperAgeLimit(new Integer("40")));
+
+   }
+    private void buildGenderCrit(){
+        genderCrit = new GenderCriteria();
+        genderCrit.setGenderDE(new GenderDE("F"));
     }
     private void buildProbeCrit() {
         probeCrit = new CloneOrProbeIDCriteria();
