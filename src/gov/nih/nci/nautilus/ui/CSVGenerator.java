@@ -26,21 +26,18 @@ import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.Viewable;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
-/**
- * @author Landyr
- * Date: Nov 3, 2004
- * 
- */
+import org.apache.log4j.Logger;
+
+
 public class CSVGenerator  {
 	
 
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
-				
+	private static Logger logger = Logger.getLogger(CSVGenerator.class);			
 	public static String displayReport(QueryCollection queryCollection, boolean csv)	{
 		
 		StringBuffer html = new StringBuffer();
@@ -56,8 +53,7 @@ public class CSVGenerator  {
 	  		}
 	  		catch (Throwable t)	{
 	  			errors.append("Error executing the query.<Br><Br>");
-	  			//errors.append(t.getStackTrace().toString());
-	  			System.out.println("Error Executing the query");
+	  			logger.error("Error Executing the query");
 	  			return errors.toString();
 	  		}
 
@@ -190,8 +186,6 @@ public class CSVGenerator  {
 					
 				    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 				    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
-				    		//String geneSymbol = geneResultset.getGeneSymbol().getValue().toString();
-				    		//Collection reporters = geneExprDiseaseContainer.getRepoterResultsets(geneSymbol); 
 				    		Collection reporters = geneResultset.getReporterResultsets();
 				    		
 				    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
@@ -206,7 +200,7 @@ public class CSVGenerator  {
 				        		catch(Exception e)	{
 				        			reporterName = "-";
 				        		}
-				        		System.out.println("Reporter: "+ reporterName);
+				        		logger.debug("Reporter: "+ reporterName);
 				        		
 				        		
 				        		GeneSymbol gene = geneResultset.getGeneSymbol();
@@ -218,7 +212,7 @@ public class CSVGenerator  {
 				        			catch(Exception e){
 				        				geneSymbol = "-";
 				        			}
-				        			System.out.println("Gene Symbol: "+ geneSymbol);
+				        			logger.debug("Gene Symbol: "+ geneSymbol);
 				        		}
 				        		
 				        		//Collection groupTypes = reporterResultset.getGroupByResultsets();
@@ -586,7 +580,7 @@ public class CSVGenerator  {
 				        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
 				        		if(locusLinkIds != null){
 				        			
-				        			System.out.println("LLs for "+reporterName+": "+locusLinkIds.size());
+				        			logger.debug("LLs for "+reporterName+": "+locusLinkIds.size());
 				        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
 				        			{
 				        				try	{
@@ -609,7 +603,7 @@ public class CSVGenerator  {
 				        			*/
 				        			//stringBuffer.append(","+ll);
 				        			//stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
-				        			System.out.println("done with this LL");
+				        			logger.debug("done with this LL");
 				        		}
 				        		else	{
 				        			//stringBuffer.append(",xx");
@@ -635,7 +629,7 @@ public class CSVGenerator  {
 				        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
 				        		if(accNumbers!=null)	{
 				        			
-				        			System.out.println("Acc nos for "+reporterName+": "+accNumbers.size());
+				        			logger.debug("Acc nos for "+reporterName+": "+accNumbers.size());
 				        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
 				        			{
 				        				try	{
@@ -658,7 +652,7 @@ public class CSVGenerator  {
 				        			*/
 				        			//stringBuffer.append(","+acc);
 				        			//stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
-				        			System.out.println("done with this acc");
+				        			logger.debug("done with this acc");
 				        		}
 				        		else	{
 				        			//stringBuffer.append(",xx");
@@ -696,8 +690,9 @@ public class CSVGenerator  {
 				                       					stringBuffer.append(","+resultFormat.format(ratio));
 				                       				}
 				                       				catch(Exception e){
-				                       					System.out.println("cant format result");
-				                       					stringBuffer.append(",x");
+				                       					logger.error("cant format result");
+				                       					logger.error(e);
+                                                        stringBuffer.append(",x");
 				                       				}
 				                       			}
 					                       		else
