@@ -16,6 +16,8 @@ import gov.nih.nci.nautilus.view.ViewType;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -28,11 +30,11 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts.util.LabelValueBean;
 
 
-public class RefineQueryAction extends DispatchAction {
+public class RefineQueryAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	
     /** 
@@ -44,7 +46,7 @@ public class RefineQueryAction extends DispatchAction {
 	 * @return ActionForward
 	 * @throws Exception
 	 */
-	public ActionForward validate(
+	public ActionForward validateQuery(
 		ActionMapping mapping,
 		ActionForm form,
 		HttpServletRequest request,
@@ -205,7 +207,7 @@ public class RefineQueryAction extends DispatchAction {
 	}
 
   
-	public ActionForward displayresult(
+	public ActionForward displayResult(
 		ActionMapping mapping,
 		ActionForm form,
 		HttpServletRequest request,
@@ -265,6 +267,23 @@ public class RefineQueryAction extends DispatchAction {
 				}
 			}
 		}
+	}
+
+
+	/**
+     * Creates and returns the key-value map for methods called based on which 
+     * button is used to submit the form.
+     * @return key-method pairs for the RefineQueryAction
+	 */
+	protected Map getKeyMethodMap() {
+		
+        HashMap map = new HashMap();
+        //Validate Query Button using validate method
+        map.put("RefineQueryAction.validateButton", "validateQuery");
+        //Run Report Button using displayResult method
+        map.put("RefineQueryAction.runReportButton", "displayResult");
+       
+       	return map;
 	}		
      
 }
