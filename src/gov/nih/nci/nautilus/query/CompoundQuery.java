@@ -50,7 +50,7 @@
 package gov.nih.nci.nautilus.query;
 
 
-import gov.nih.nci.nautilus.view.View;
+
 import gov.nih.nci.nautilus.view.ViewType;
 
 /**
