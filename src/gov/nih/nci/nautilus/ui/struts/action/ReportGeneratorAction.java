@@ -107,5 +107,11 @@ public class ReportGeneratorAction extends DispatchAction {
         logger.debug("back: " + goBack);
         return mapping.findForward(goBack);
 	}
+	public ActionForward submitSamples(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+		return runGeneViewReport(mapping, form, request, response);
+	}
 	
 }
