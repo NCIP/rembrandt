@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
 
 import org.apache.struts.action.ActionError;
 import org.apache.struts.util.LabelValueBean;
@@ -47,11 +48,18 @@ public class QuickSearchForm extends BaseForm {
 
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
-
-		ActionErrors errors = new ActionErrors();
+	    
+	    ActionErrors errors = new ActionErrors();
+		/*
+		if(plot!=null&&!plot.equals("")){
+		    if(quickSearchName!=null&&quickSearchName.equals("")){
+		        errors.add("test", new ActionMessage("Just Print Something"));
+		    }
+		}
+	    */
 
 		return errors;
 
 	}
-
+	
 }
