@@ -96,9 +96,15 @@ public class QueryTest extends TestCase {
              q.setQueryName("Test Gene Query");
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             //q.setGeneIDCrit(geneIDCrit);
+
+            //q.setGeneOntologyCrit(ontologyCrit);
+            q.setRegionCrit(regionCrit);
+            //q.setPathwayCrit(pathwayCrit);
+
             //q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
             q.setPathwayCrit(pathwayCrit);
+
 
             q.setArrayPlatformCrit(allPlatformCrit);
            //q.setPlatCriteria(affyOligoPlatformCrit);
@@ -252,7 +258,7 @@ public class QueryTest extends TestCase {
             q.setAssayPlatformCrit(crit);
             //q.setRegionCrit(regionCrit);
             //q.setSNPCrit(snpCrit);
-            //q.setGeneIDCrit(geneIDCrit);
+            q.setGeneIDCrit(geneIDCrit);
             q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setCopyNumberCrit(copyNumberCrit);
 
@@ -284,9 +290,17 @@ public class QueryTest extends TestCase {
 
     private void buildGeneIDCrit() {
         ArrayList inputIDs = new ArrayList();
+        inputIDs.add(0, "10050");
+        inputIDs.add(1, "10056");
         //inputIDs.add(0, "220988");    // Locus Link for hnRNPA3
         //inputIDs.add(0, "BF195526");      // accession numbers for hnRNPA3 gene are AW080932, AA527502, AA528233
          // inputIDs.add(0, "hnRNPA3");
+        // GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("CTNND2");
+        // inputIDs.add(gs);
+         GeneIdentifierDE llObj1 =
+                  new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
+         GeneIdentifierDE llObj2 =
+                  new GeneIdentifierDE.LocusLink((String)inputIDs.get(1));
          GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("CTNND2");
 
          inputIDs.add(gs);
@@ -298,7 +312,8 @@ public class QueryTest extends TestCase {
           //              new GeneIdentifierDE.GeneSymbol((String)inputIDs.get(0));
         ArrayList geneIDentifiers = new ArrayList();
 
-        geneIDentifiers.add(gs);
+        geneIDentifiers.add(llObj1);
+        geneIDentifiers.add(llObj2);
         geneIDCrit = new GeneIDCriteria();
         geneIDCrit.setGeneIdentifiers(geneIDentifiers);
     }
@@ -308,8 +323,8 @@ public class QueryTest extends TestCase {
 
         // cytoband and start & end positions are mutually exclusive
         //regionCrit.setCttoband(new CytobandDE("p36.23"));
-        regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
-        regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
+       // regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
+       // regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
 
         // Chromosome Number is mandatory
         regionCrit.setChromNumber(new ChromosomeNumberDE(new String("1")));
