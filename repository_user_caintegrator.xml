@@ -890,4 +890,24 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
-
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.DiseaseTypeDim"
+       table="DISEASE_TYPE_DIM">
+   <field-descriptor
+             name="diseaseTypeId"
+             column="DISEASE_TYPE_ID"
+             jdbc-type="BIGINT"
+             primarykey="true"
+             orderby="pk_castid"
+        />
+    <field-descriptor
+             name="diseaseType"
+             column="DISEASE_TYPE"
+             jdbc-type="VARCHAR"
+        />
+     <field-descriptor
+             name="diseaseDesc"
+             column="DISEASE_DESC"
+             jdbc-type="VARCHAR"
+        />
+  </class-descriptor>
