@@ -28,8 +28,6 @@ public class SessionTracker implements HttpSessionListener {
 	private static Logger logger = Logger.getLogger(SessionTracker.class);
 	private static boolean appplicationRunning = false;
 	
-	private static int totalActiveSessions = 0;
-	
 	public SessionTracker() {
 		theCacheTracker = new CacheTracker();	
 		CacheManagerDelegate.getInstance().addCacheListener(theCacheTracker);
@@ -37,29 +35,21 @@ public class SessionTracker implements HttpSessionListener {
 	}
 
 	public void sessionCreated(HttpSessionEvent evt) {
-		totalActiveSessions++;
 		activeSessions.put(evt.getSession().getId(), evt.getSession());
 		logger.debug("New session added: " + evt.getSession().getId());
 		logger.debug("Storing reference to new session: " + evt.getSession().getId());
-		logger.debug("Total Active Sessions: " + totalActiveSessions);
+		logger.debug("Total Active Sessions: " + activeSessions.size());
 	}
 
 	public void sessionDestroyed(HttpSessionEvent evt) {
-		totalActiveSessions--;
 		activeSessions.remove(evt.getSession().getId());
 		logger.debug("Session Destroyed: " + evt.getSession().getId());
 		logger.debug("Removing reference to session: " + evt.getSession().getId());
-		logger.debug("Total Active Sessions: " + totalActiveSessions);
+		logger.debug("Total Active Sessions: " + activeSessions.size());
 		//remove the cache for the dead session
 		CacheManagerDelegate.getInstance().removeSessionCache(evt.getSession().getId());
 	}
-	/**
-	 * @return Returns the totalActiveSessions.
-	 */
-	public int getTotalActiveSessions() {
-		
-		return totalActiveSessions;
-	}
+
 	/**
 	 * @return Returns the activeSessions.
 	 */
@@ -79,4 +69,15 @@ public class SessionTracker implements HttpSessionListener {
 	public static void setAppplicationRunning(boolean appplicationRunning) {
 		SessionTracker.appplicationRunning = appplicationRunning;
 	}
+	/**
+	 * @ToDo
+	 * Create a new method here that will serialize the active sessionIds
+	 * to disk when the context is killed, so that we can later check to see
+	 * if they are still active when the context is brought back up again.  This
+	 * is important because in the instance that the context is bounced there
+	 * will still be active sessions when the context comes alive again.  It is
+	 * very possible that losing track of sessions could cause a memory leak in
+	 * the cache and in other places.
+	 * 
+	 */
 }

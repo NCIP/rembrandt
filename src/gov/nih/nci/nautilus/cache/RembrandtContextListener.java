@@ -19,11 +19,10 @@ public class RembrandtContextListener implements ServletContextListener {
 	 * this method is fired whenever application server loads the context
 	 * that this listener is added to in the web.xml
 	 */
-	public void contextInitialized(ServletContextEvent arg0) {
-		ServletContext context = arg0.getServletContext();
+	public void contextInitialized(ServletContextEvent contextEvent) {
+		ServletContext context = contextEvent.getServletContext();
 		contextPath = context.getRealPath("/");
 		SessionTracker.setAppplicationRunning(true);
-
 	}
 
 	/**
