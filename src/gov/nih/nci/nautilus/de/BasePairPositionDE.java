@@ -1,5 +1,4 @@
 package gov.nih.nci.nautilus.de;
-
 import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
@@ -15,32 +14,32 @@ abstract public class BasePairPositionDE extends DomainElement {
    public final static String END_POSITION = "StartPosition";
 
    public final static class StartPosition extends BasePairPositionDE {
-        public StartPosition(Integer startPosition) {
-            super(START_POSITION, startPosition);
+     public StartPosition(Integer startPosition) {
+     super(START_POSITION, startPosition);
         }
     }
-    public final static class EndPosition extends BasePairPositionDE {
-        public EndPosition(Integer endPosition) {
-            super(END_POSITION, endPosition);
+   public final static class EndPosition extends BasePairPositionDE {
+      public EndPosition(Integer endPosition) {
+      super(END_POSITION, endPosition);
         }
     }
 
-    private BasePairPositionDE(String positionType, Integer value) {
-        super(value);
-        this.positionType = positionType;
+   private BasePairPositionDE(String positionType, Integer value) {
+      super(value);
+      this.positionType = positionType;
     }
 
     public String getRegulationTypeType() {
-        return positionType;
+      return positionType;
     }
 
     public Object getValue() {
-        return value;
+      return value;
     }
 
     public void setValue(Object obj) throws Exception {
-         if (! (obj instanceof Integer) )
-            throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
+      if (! (obj instanceof Integer) )
+       throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
          setValueObject((Integer)obj);
     }
 
