@@ -2,8 +2,6 @@ package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
@@ -15,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.Factory;
 import org.apache.commons.collections.list.LazyList;
 import org.apache.log4j.Logger;

@@ -1,9 +1,5 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
@@ -29,16 +25,20 @@ import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.LookupDispatchAction;
 
 public class ComparativeGenomicAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(ComparativeGenomicAction.class);

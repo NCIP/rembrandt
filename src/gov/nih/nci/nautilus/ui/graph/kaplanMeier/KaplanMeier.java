@@ -5,7 +5,9 @@
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
 package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import weka.core.Statistics;
 /**

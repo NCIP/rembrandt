@@ -1,10 +1,10 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.io.Serializable;
-
 import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
+
+import java.io.Serializable;
 
 /**
  * @author BhattarR, BauerD

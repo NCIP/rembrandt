@@ -1,8 +1,8 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.io.Serializable;
-
 import gov.nih.nci.nautilus.de.GenderDE;
+
+import java.io.Serializable;
 
 /**
  * This class encapsulates GenderDE criteria. It contains a collection of

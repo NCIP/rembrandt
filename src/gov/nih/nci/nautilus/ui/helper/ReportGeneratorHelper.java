@@ -1,27 +1,5 @@
 package gov.nih.nci.nautilus.ui.helper;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
-
-import org.apache.log4j.Logger;
-import org.dom4j.Document;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-
-import javax.naming.OperationNotSupportedException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspWriter;
-
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.cache.RembrandtContextListener;
@@ -37,7 +15,6 @@ import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
-
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
@@ -46,6 +23,28 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 import gov.nih.nci.nautilus.util.MoreStringUtils;
 import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.Viewable;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
+
+import javax.naming.OperationNotSupportedException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspWriter;
+
+import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 
 /**
  * The ReportGeneratorHelper was written to act as a Report Generation manager

@@ -1,5 +1,5 @@
 package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
-import java.util.*;
+import java.util.Comparator;
 public class KMSampleComparator implements Comparator {
 	public int compare(Object o1, Object o2) throws ClassCastException {
 		int val;

@@ -53,18 +53,11 @@ import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
-import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
-import gov.nih.nci.nautilus.resultset.Resultant;
-import gov.nih.nci.nautilus.resultset.ResultsContainer;
-import gov.nih.nci.nautilus.resultset.ResultsetManager;
-import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
-import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMDrawingPoint;
-import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KaplanMeier;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 

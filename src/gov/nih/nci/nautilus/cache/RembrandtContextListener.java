@@ -1,7 +1,7 @@
 package gov.nih.nci.nautilus.cache;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent; 
+import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 /**
  * This listener has one purpose and that is to notify the

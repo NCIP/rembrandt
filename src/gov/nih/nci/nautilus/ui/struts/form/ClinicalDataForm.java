@@ -8,9 +8,9 @@ import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.GenderCriteria;
 import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
 import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
 import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
-import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE;
 import gov.nih.nci.nautilus.de.ChemoAgentDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
@@ -18,10 +18,9 @@ import gov.nih.nci.nautilus.de.GenderDE;
 import gov.nih.nci.nautilus.de.GradeDE;
 import gov.nih.nci.nautilus.de.OccurrenceDE;
 import gov.nih.nci.nautilus.de.RadiationTherapyDE;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.de.SurgeryTypeDE;
 import gov.nih.nci.nautilus.de.SurvivalDE;
-import gov.nih.nci.nautilus.de.SampleIDDE;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;

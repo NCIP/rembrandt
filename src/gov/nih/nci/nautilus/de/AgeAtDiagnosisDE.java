@@ -2,8 +2,6 @@ package gov.nih.nci.nautilus.de;
 
 import java.io.Serializable;
 
-import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
-
 /**
  * This class encapsulates the properties of an caintergator AgeAtDiagnosisDE
  * object.

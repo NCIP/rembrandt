@@ -1,8 +1,5 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;

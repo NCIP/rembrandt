@@ -1,9 +1,8 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.io.Serializable;
-
-import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
+
+import java.io.Serializable;
 
 /**
  * This class encapsulates AssayPlatform criteria. It contains a collection of

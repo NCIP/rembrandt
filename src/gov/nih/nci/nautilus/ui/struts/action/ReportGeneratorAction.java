@@ -3,15 +3,12 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import java.util.Collection;
-import java.util.Map;
-
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
-import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
+import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
@@ -20,11 +17,13 @@ import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.ui.struts.form.ReportGeneratorForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.resultset.*;
-import gov.nih.nci.nautilus.query.OperatorType;
+
+import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;

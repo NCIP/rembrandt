@@ -6,12 +6,12 @@
  */
 package gov.nih.nci.nautilus.ui.helper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator;
 import gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Himanso

@@ -6,7 +6,6 @@
  */
 package gov.nih.nci.nautilus.test;
 
-import gov.nih.nci.nautilus.data.AllGeneAlias;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.lookup.AllGeneAliasLookup;

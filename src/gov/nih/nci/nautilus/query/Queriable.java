@@ -3,9 +3,9 @@
  */
 package gov.nih.nci.nautilus.query;
 
-import java.io.Serializable;
-
 import gov.nih.nci.nautilus.view.Viewable;
+
+import java.io.Serializable;
 
 /**
  * @author SahniH

@@ -4,7 +4,6 @@ import gov.nih.nci.nautilus.queryprocessing.CompoundQueryProcessor;
 import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
 import gov.nih.nci.nautilus.resultset.CompoundResultSet;
 import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.resultset.Resultant;
 
 /**
  * @author BhattarR

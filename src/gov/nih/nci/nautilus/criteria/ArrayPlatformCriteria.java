@@ -1,8 +1,8 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.io.Serializable;
-
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+
+import java.io.Serializable;
 
 /**
  * @author BhattarR, BauerD

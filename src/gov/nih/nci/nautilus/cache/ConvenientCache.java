@@ -1,12 +1,12 @@
 package gov.nih.nci.nautilus.cache;
 
-import java.io.Serializable;
-import java.util.Collection;
-
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.view.View;
+
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * This interface was written to hide the implementation of the cache

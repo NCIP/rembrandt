@@ -1,9 +1,9 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
-import java.util.HashMap;
-
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
+
+import java.util.HashMap;
 
 /**
  * @author bauerd

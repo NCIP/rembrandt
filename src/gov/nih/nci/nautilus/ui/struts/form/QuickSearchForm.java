@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.ui.struts.form;
 import gov.nih.nci.nautilus.lookup.AllGeneAliasLookup;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 

@@ -8,11 +8,11 @@
  */
 package gov.nih.nci.nautilus.ui.report;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+
 import java.io.Serializable;
 
 import org.apache.log4j.Logger;
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 /**
  * @author David

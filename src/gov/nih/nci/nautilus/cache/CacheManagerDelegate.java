@@ -7,24 +7,23 @@ import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
-import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.View;
-import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.view.Viewable;
 import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
+
+import org.apache.log4j.Logger;
 /**
  * The CacheManagerDelegate is intended to act as the initializer for the 
  * application CacheManager and a factory for the session cache.  It is an 

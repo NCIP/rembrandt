@@ -1,8 +1,8 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.io.Serializable;
-
 import gov.nih.nci.nautilus.de.ChemoAgentDE;
+
+import java.io.Serializable;
 
 /**
  * This class encapsulates ChemoAgentDE criteria. It contains a collection of

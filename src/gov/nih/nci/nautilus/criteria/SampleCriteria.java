@@ -1,6 +1,5 @@
 package gov.nih.nci.nautilus.criteria;
 
-import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.de.SampleIDDE;
 
 import java.io.Serializable;

@@ -1,7 +1,7 @@
 package gov.nih.nci.nautilus.ui.bean;
 
 import java.util.ArrayList;
-import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.util.LabelValueBean;
 

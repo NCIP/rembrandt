@@ -2,7 +2,6 @@ package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GradeDE;
-import gov.nih.nci.nautilus.de.OccurrenceDE;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,16 +1,10 @@
 package gov.nih.nci.nautilus.ui.bean;
 
+import gov.nih.nci.nautilus.resultset.Resultant;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
-import gov.nih.nci.nautilus.resultset.Resultant;
-import gov.nih.nci.nautilus.resultset.ResultsContainer;
-import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberResultsContainer;
-import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
-import gov.nih.nci.nautilus.resultset.geneExpressionPlot.GeneExprDiseasePlotContainer;
-import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 
 import org.dom4j.Document;
 

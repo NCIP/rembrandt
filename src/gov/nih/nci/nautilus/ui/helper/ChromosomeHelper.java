@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.ui.helper;
 import gov.nih.nci.nautilus.lookup.CytobandLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,25 +1,21 @@
 package gov.nih.nci.nautilus.ui.report;
 
-import gov.nih.nci.nautilus.ui.bean.ReportBean;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
- 
-import javax.xml.transform.Result;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.dom4j.Document;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
-import org.dom4j.Document;
  
 /**
  * This class transforms an XML document to HTML

@@ -7,15 +7,12 @@
 package gov.nih.nci.nautilus.resultset.copynumber;
 
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
-import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;

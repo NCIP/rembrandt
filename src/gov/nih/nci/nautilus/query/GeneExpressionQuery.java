@@ -1,7 +1,16 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
+import gov.nih.nci.nautilus.criteria.PathwayCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;

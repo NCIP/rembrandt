@@ -49,8 +49,6 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
-import org.apache.log4j.Logger;
-
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
@@ -58,7 +56,6 @@ import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.criteria.SNPCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
-import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE.SNPProbeSet;
@@ -72,6 +69,8 @@ import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author SahniH Date: Mar 19, 2005

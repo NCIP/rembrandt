@@ -1,8 +1,8 @@
 package gov.nih.nci.nautilus.ui.report;
 
-import java.util.Map;
-
 import gov.nih.nci.nautilus.resultset.Resultant;
+
+import java.util.Map;
 
 import org.dom4j.Document;
 

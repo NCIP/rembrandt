@@ -1,8 +1,8 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.io.Serializable;
-
 import gov.nih.nci.nautilus.de.SurvivalDE;
+
+import java.io.Serializable;
 
 /**
  * This class encapsulates the properties of an caintergator SurvivalCriteria

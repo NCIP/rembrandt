@@ -1,8 +1,8 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.io.Serializable;
-
 import gov.nih.nci.nautilus.de.SurgeryTypeDE;
+
+import java.io.Serializable;
 
 /**
  * This class encapsulates SurgeryTypeDE criteria. It contains a collection of

@@ -1,7 +1,6 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.PathwayDE;
-import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
