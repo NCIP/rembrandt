@@ -10,12 +10,12 @@ import gov.nih.nci.nautilus.query.Query;
  * To change this template use Options | File Templates.
  */
 public class ViewFactory {
-    public static View newView(ViewType viewType) {
+    public static ViewType newView(ViewType viewType) {
         if (viewType instanceof ViewType.GeneCentricView) {
-            return new GeneCentricView();
+            return ViewType.GENE_VIEW_TYPE;
         }
         if (viewType instanceof ViewType.SampleCentricView) {
-            return new SampleCentricView();
+            return ViewType.SAMPLE_VIEW_TYPE;
         }
         return null;
     }
