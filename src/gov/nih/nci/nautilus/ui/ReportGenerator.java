@@ -168,17 +168,22 @@ public class ReportGenerator  {
 					"<td>"+sampleResultset.getGenderCode().getValue()+ "</td>" +
 					"<td>"+sampleResultset.getSurvivalLengthRange().getValue()+ "</td>" +
 					"<Td>"+sampleResultset.getDisease().getValue() + "</td>");
-	   			if(gLinks)	{
+	   			if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)	{
 	   				sb.append("<td><a href=\"report.do?s="+sampleName+"_gene&report=gene\">G</a></td>");
 	   				request.getSession(true).setAttribute( sampleName+"_gene", sampleResultset.getGeneExprSingleViewResultsContainer() );
 	   				
 	   			}
-		   		
+		   		else if (gLinks){
+		   			sb.append("<td>&nbsp;</td>"); //empty cell
+		   		}
 	   			//	sb.append("<td><a href=\"report.do?s="+ sampleResultset.getBiospecimen().getValue().toString() +"\">G</a></td>");
-	   			if(cLinks)	{
+	   			if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)	{
 					request.getSession(true).setAttribute( sampleName+"_copy", sampleResultset.getCopyNumberSingleViewResultsContainer() );
 	   				sb.append("<Td><a href=\"report.do?s="+sampleName +"_copy&report=copy\">C</a></td>");
 	   			}
+	   			else if (cLinks){
+		   			sb.append("<td>&nbsp;</td>"); //empty cell
+		   		}
 
 	   			sb.append("</tr>\n");
     		}
