@@ -201,9 +201,9 @@ public class ResultsetViewTest extends TestCase {
     public void testGeneExprSingleView(){
 		System.out.println("Testing Single Gene Query for entire Query >>>>>>>>>>>>>>>>>>>>>>>");
         GeneExprSingleViewResultsContainer geneViewContainer = resultsetProc.getGeneViewResultsContainer();
-        displayGeneExprSingleView(geneViewContainer);
+        displayGeneExprSingleView(geneViewContainer, false);
     }
-	public void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer){
+	public void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, boolean isSingleSample){
 		final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
     	Collection genes = geneViewContainer.getGeneResultsets();
     	Collection labels = geneViewContainer.getGroupsLabels();
@@ -273,7 +273,14 @@ public class ResultsetViewTest extends TestCase {
                        		SampleFoldChangeValuesResultset sampleResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);//geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName,label,sampleId);
                        		if(sampleResultset != null){
                        			Double ratio = (Double)sampleResultset.getFoldChangeRatioValue().getValue();
-                       			stringBuffer.append(resultFormat.format(ratio)+"\t");                                 
+                       			stringBuffer.append(resultFormat.format(ratio)+"\t");  
+                       			if(isSingleSample){
+                        			Double sampleIntensity = (Double)sampleResultset.getFoldChangeSampleIntensity().getValue();
+                        			Double normalIntensity = (Double)sampleResultset.getFoldChangeNormalIntensity().getValue();
+                        			if(sampleIntensity != null && normalIntensity != null){
+                        				stringBuffer.append(resultFormat.format(sampleIntensity)+"/"+resultFormat.format(normalIntensity));
+                        			}
+                       			}
                        		}
                        		else 
                        		{
@@ -317,7 +324,7 @@ public class ResultsetViewTest extends TestCase {
 	       SampleViewResultsContainer sampleViewContainer = resultsetProc.getSampleViewResultsContainer();
 	       SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getBioSpecimenResultset(sampleID);
 	       GeneExprSingleViewResultsContainer geneViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
-	       displayGeneExprSingleView(geneViewContainer);	       
+	       displayGeneExprSingleView(geneViewContainer, true);	       
 	}
     private void changeQueryView(Query query,ViewType view){
     	if(query !=null){
