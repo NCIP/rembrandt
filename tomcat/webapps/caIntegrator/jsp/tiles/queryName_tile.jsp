@@ -67,9 +67,11 @@ function checkQueryName(){
 		}
 		if (found) {
 			  if (confirm("Query Name exists  in system.  This action will overwrite existing query")) {
-		  		document.forms[0].submit();
+		  		return true;
 			  }
-	 	}else {document.forms[0].submit();}
-	 	}else {document.forms[0].submit();}
+	 	}else {return true;}
+	 }
+	 	
+	 	return false;
  }
 </SCRIPT>

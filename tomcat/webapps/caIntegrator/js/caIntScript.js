@@ -8,7 +8,6 @@ function checkNull(text)
 		return false;
 	}
 	else	{
-alert("here");
 		return checkQueryName();
 	}
 }
