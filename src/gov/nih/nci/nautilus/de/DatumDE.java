@@ -16,7 +16,7 @@ public class DatumDE extends DomainElement{
     /**
 	* Ration's PValue
     */
-    public final static String RATIO_PVAL =  "GroupRatioPValue";
+    public final static String FOLD_CHANGE_RATIO_PVAL =  "GroupRatioPValue";
     /**
 	* FoldChangeRatio
     */
@@ -31,9 +31,21 @@ public class DatumDE extends DomainElement{
     */
     public final static String FOLD_CHANGE_NORMAL_INTENSITY =  "FoldChangeNormalIntensity";
   /**
-	* CopyNumberRatio
+	* CopyNumber
     */
-    public final static String COPY_NUMBER_RATIO =  "CopyNumberRatio";
+    public final static String COPY_NUMBER=  "CopyNumber";
+    /**
+	* CopyNumber
+    */
+    public final static String COPY_NUMBER_CHANNEL_RATIO=  "CopyNumberChannelRatio";
+    /**
+	* CopyNumber
+    */
+    public final static String COPY_NUMBER_RATIO_PVAL=  "CopyNumberRatioPval";
+    /**
+	* CopyNumber
+    */
+    public final static String COPY_NUMBER_LOH=  "CopyNumberLOH";
 
   /**
 	* CLONE_ID

@@ -50,12 +50,19 @@
 package gov.nih.nci.nautilus.test;
 
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.SNPCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.AssayPlatformDE;
+import gov.nih.nci.nautilus.de.CopyNumberDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.SNPIdentifierDE;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.Query;
@@ -64,6 +71,9 @@ import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.copynumber.CytobandResultset;
+import gov.nih.nci.nautilus.resultset.copynumber.SampleCopyNumberValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.DiseaseGroupResultset;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSampleViewContainer;
@@ -74,7 +84,6 @@ import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
@@ -99,8 +108,11 @@ public class ResultsetViewTest extends TestCase {
     ArrayPlatformCriteria allPlatformCrit;
     GeneIDCriteria geneCrit;
     FoldChangeCriteria foldCrit;
+    SNPCriteria snpCrit;
+    CopyNumberCriteria copyNumberCrit;
     GeneExpressionQuery geneQuery1;
     GeneExpressionQuery geneQuery2;
+    ComparativeGenomicQuery	snpQuery;
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -109,6 +121,8 @@ public class ResultsetViewTest extends TestCase {
         buildPlatformCrit();
         buildFoldChangeCrit();
         buildGeneIDCrit();
+        buildSNPCrit();
+        buildCopyChangeCrit();
 	}
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
@@ -176,6 +190,55 @@ public class ResultsetViewTest extends TestCase {
         geneQuery2.setArrayPlatformCrit(allPlatformCrit);
         geneQuery2.setFoldChgCrit(foldCrit);
     }
+    private void buildSNPCrit() {
+        ArrayList inputIDs = new ArrayList();
+        // build DBSNPs
+        SNPIdentifierDE.DBSNP snp1 = new SNPIdentifierDE.DBSNP("rs1396904");
+        SNPIdentifierDE.DBSNP snp2 = new SNPIdentifierDE.DBSNP("rs10489139");
+        SNPIdentifierDE.DBSNP snp3 = new SNPIdentifierDE.DBSNP("rs4475768");
+        SNPIdentifierDE.DBSNP snp4 = new SNPIdentifierDE.DBSNP("rs10492941");
+        SNPIdentifierDE.DBSNP snp5 = new SNPIdentifierDE.DBSNP("rs966366");
+
+
+        // build SNPProbesets
+        /*SNPIdentifierDE.SNPProbeSet snp1 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1676650");
+        SNPIdentifierDE.SNPProbeSet snp2 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1748913");
+        SNPIdentifierDE.SNPProbeSet snp3 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1667950");
+        SNPIdentifierDE.SNPProbeSet snp4 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1642581");
+        SNPIdentifierDE.SNPProbeSet snp5 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1657367");
+        */
+
+        inputIDs.add(snp1 ); inputIDs.add(snp2);  inputIDs.add(snp3);
+         inputIDs.add(snp4);  inputIDs.add(snp5);
+        snpCrit = new SNPCriteria();
+        snpCrit.setSNPIdentifiers(inputIDs);
+    }
+    private void buildCopyChangeCrit() {
+        Float amplification = new Float(2.0);
+        Float deletion = new Float(0.8);
+        CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
+        CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
+        CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
+        CopyNumberDE.UnChangedCopyNumberDownLimit  downCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberDownLimit(deletion);
+
+        copyNumberCrit = new CopyNumberCriteria();
+        Collection objs = new ArrayList(4);
+        objs.add(ampObj);
+        //objs.add(deletionObj);
+        //objs.add(upCopyNumberObj); objs.add(downCopyNumberObj);
+        copyNumberCrit.setCopyNumbers(objs);
+    }
+    private void buildComparativeGenomicQuery(){
+        snpQuery = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
+        snpQuery.setQueryName("SNPSampleQuery");
+        snpQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+        //snpQuery.setGeneIDCrit(geneCrit);
+        snpQuery.setSNPCrit(snpCrit);
+        AssayPlatformCriteria assayPlatformCrit = new AssayPlatformCriteria();
+        assayPlatformCrit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
+        snpQuery.setAssayPlatformCrit(assayPlatformCrit);
+        snpQuery.setCopyNumberCrit(copyNumberCrit);
+    }
     public void testGeneExprSampleView(){
 		//test Single Query
 		try {
@@ -232,10 +295,124 @@ public class ResultsetViewTest extends TestCase {
 			}			
 
     }
+	    public void testCopyNumberSampleView(){
+			//test Single Query
+			try {
+				buildComparativeGenomicQuery();
+				System.out.println("Building SNP Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
+				CompoundQuery myCompoundQuery = new CompoundQuery(snpQuery);
+				Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+				System.out.println("SNPQuery:\n"+ myCompoundQuery.toString());
+				assertNotNull(resultant.getResultsContainer());
+				if(resultant != null){
+					System.out.println("Testing SNP Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
+					System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
+					ResultsContainer resultsContainer = resultant.getResultsContainer();
+					System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
+					if (resultsContainer instanceof CopyNumberSingleViewResultsContainer){
+						CopyNumberSingleViewResultsContainer copyNumberContainer = (CopyNumberSingleViewResultsContainer) resultsContainer;
+				        displayCopyNumberSingleView(copyNumberContainer);
+
+					}
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+
+    }
+	/**
+		 * @param copyNumberContainer
+		 */
+		private void displayCopyNumberSingleView(CopyNumberSingleViewResultsContainer copyNumberContainer) {
+			final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
+	    	Collection cytobands = copyNumberContainer.getCytobandResultsets();
+	    	Collection labels = copyNumberContainer.getGroupsLabels();
+	    	Collection sampleIds = null;
+	    	StringBuffer header = new StringBuffer();
+	    	StringBuffer sampleNames = new StringBuffer();
+	        StringBuffer stringBuffer = new StringBuffer();
+	    	//get group size (as Disease or Agegroup )from label.size
+	        
+	        System.out.println("GroupSize= "+labels.size());
+	        for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+	        	String label = (String) labelIterator.next();
+	        	System.out.println(label);
+	        	sampleIds = copyNumberContainer.getBiospecimenLabels(label); 
+	        	//For each group get the number of samples in it from sampleIds.size()
+	            System.out.println("SampleSize= "+sampleIds.size());
+	           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+	           		System.out.println(sampleIdIterator.next()); 
+	           	}
+	           	 
+	    	}
+	    	
+	        //set up the header for the table
+	    	header.append("Cytoband\tReporter\t");
+	    	sampleNames.append("Name\tName\t\t");
+		   
+	    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+	        	String label = (String) labelIterator.next();
+	        	header.append("|"+label.substring(0,3)+"\t"); //remove this for table
+	        	sampleIds = copyNumberContainer.getBiospecimenLabels(label);        	
+		           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+		            	sampleNames.append(sampleIdIterator.next()+"\t"); 
+		            	header.append("\t");
+		           	}
+	           	header.deleteCharAt(header.lastIndexOf("\t"));
+	    	}
+	    	header.append("|"); 
+
+	    	//System.out.println("Cytoband Count: "+cytobands.size());
+			System.out.println(header.toString());
+			System.out.println(sampleNames.toString());
+	    	for (Iterator cytobandIterator = cytobands.iterator(); cytobandIterator.hasNext();) {
+	    		CytobandResultset cytobandResultset = (CytobandResultset)cytobandIterator.next();
+	    		String cytoband = cytobandResultset.getCytoband().getValue().toString();
+	    		Collection reporters = copyNumberContainer.getRepoterResultsets(cytoband); //geneResultset.getReporterResultsets();
+	        	//System.out.println("Repoter Count: "+reporters.size());
+	    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+	        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+	        		String reporterName = reporterResultset.getReporter().getValue().toString();
+	        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); //reporterResultset.getGroupResultsets();
+	        		stringBuffer = new StringBuffer();
+	            	//System.out.println("Group Count: "+groupTypes.size());
+	        		if(reporterName.length()< 10){ //Remove this from table
+	        			reporterName= reporterName+"        ";
+	        			reporterName = reporterName.substring(0,10);
+	        		}
+	        		//get the gene name, and reported Name
+	        		
+	        		stringBuffer.append(cytoband+"\t"+
+	    					reporterName+"\t");
+	        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
+	        			ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
+	        			String label = groupResultset.getType().getValue().toString();
+	        			sampleIds = copyNumberContainer.getBiospecimenLabels(label);
+	                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+	                       		String sampleId = (String) sampleIdIterator.next();
+	                       		SampleCopyNumberValuesResultset sampleResultset = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);//geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName,label,sampleId);
+	                       		if(sampleResultset != null){
+	                       			Double ratio = (Double)sampleResultset.getCopyNumber().getValue();
+	                       			stringBuffer.append(resultFormat.format(ratio)+"\t");  
+	                       			}
+	                       		else 
+	                       		{
+	                       			stringBuffer.append("\t");
+	                       		}
+	                       	}
+	         		}
+	        		System.out.println(stringBuffer.toString());
+	    		}
+
+	    	}
+		
+			
+		}
 	/**
 		 * @param geneExprDiseaseContainer
 		 */
-		public void displayGeneExprDiseaseView(GeneExprResultsContainer geneExprDiseaseContainer) {
+		private void displayGeneExprDiseaseView(GeneExprResultsContainer geneExprDiseaseContainer) {
 			System.out.println("inside display diease");
 			final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
 	    	Collection genes = geneExprDiseaseContainer.getGeneResultsets();
@@ -298,7 +475,7 @@ public class ResultsetViewTest extends TestCase {
 	    	}
 			
 		}
-	public void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer){
+	private void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer){
 		final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
     	Collection genes = geneViewContainer.getGeneResultsets();
     	Collection labels = geneViewContainer.getGroupsLabels();
@@ -382,7 +559,7 @@ public class ResultsetViewTest extends TestCase {
     	}
 	
 	}
-	public void displaySampleView(SampleViewResultsContainer sampleViewContainer){
+	private void displaySampleView(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Testing Sample View for entire Query >>>>>>>>>>>>>>>>>>>>>>>");
 	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
  		   System.out.println("SAMPLE\tAGE\tGENDER\tSURVIVAL\tDISEASE");
@@ -397,7 +574,7 @@ public class ResultsetViewTest extends TestCase {
 					"\t"+sampleResultset.getDisease().getValue());
     		}
 	}
-	public void doGeneViewForEverySample(SampleViewResultsContainer sampleViewContainer){
+	private void doGeneViewForEverySample(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Testing Sample View for Every Gene >>>>>>>>>>>>>>>>>>>>>>>");
 	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
 		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
