@@ -50,6 +50,7 @@
 package gov.nih.nci.nautilus.resultset;
 
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
+import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
@@ -57,6 +58,8 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.nautilus.resultset.copynumber.SampleCopyNumberValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
@@ -65,6 +68,10 @@ import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.view.CopyNumberSampleView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 
 import java.util.ArrayList;
@@ -86,7 +93,7 @@ public class ShowAllValuesHandler {
 	}
 	private CompoundQuery handleQuery() throws Exception{
 		CompoundQuery  compoundQuery = null;
-		if (this.resultant != null){
+		if (this.resultant != null && this.resultant.getResultsContainer() != null){
 			compoundQuery = (CompoundQuery) resultant.getAssociatedQuery();
 			Viewable view = compoundQuery.getAssociatedView();
 			ResultsContainer resultsContainer = this.resultant.getResultsContainer();
@@ -178,115 +185,166 @@ public class ShowAllValuesHandler {
 			CompoundQuery showQuery = handleQuery();
 			Resultant showAllResultant = ResultsetManager.executeCompoundQuery(showQuery);
 			
-			GeneExprSingleViewResultsContainer geneViewContainer = null;
-			GeneExprSingleViewResultsContainer showAllGeneViewContainer = null;
+
 			int recordCount = 0;
 			int totalSamples = 0;
 			
 			if( resultsContainer instanceof DimensionalViewContainer)	{
-				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+				DimensionalViewContainer originalViewContainer = (DimensionalViewContainer) resultsContainer;
 				DimensionalViewContainer showallDimensionalViewContainer = (DimensionalViewContainer) showAllResultant.getResultsContainer();				
-				if(dimensionalViewContainer != null)	{
-					geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
-					showAllGeneViewContainer = showallDimensionalViewContainer.getGeneExprSingleViewContainer();
+				if(originalViewContainer != null && showallDimensionalViewContainer != null)	{					
+					if(( resultant.getAssociatedView() instanceof GeneExprSampleView )&& originalViewContainer.getGeneExprSingleViewContainer() != null){
+						GeneExprSingleViewResultsContainer showAllGeneViewContainer = showallDimensionalViewContainer.getGeneExprSingleViewContainer();
+						GeneExprSingleViewResultsContainer originalGeneViewContainer = originalViewContainer.getGeneExprSingleViewContainer();
+						showAllGeneViewContainer = handleGeneExprContainer( originalGeneViewContainer,showAllGeneViewContainer);
+						showallDimensionalViewContainer.setGeneExprSingleViewContainer(showAllGeneViewContainer);
+					}
+					else if((resultant.getAssociatedView()instanceof CopyNumberSampleView)&& originalViewContainer.getCopyNumberSingleViewContainer() != null){
+						CopyNumberSingleViewResultsContainer showAllCopyNumberContainer = showallDimensionalViewContainer.getCopyNumberSingleViewContainer();
+						CopyNumberSingleViewResultsContainer originalCopyNumberContainer = originalViewContainer.getCopyNumberSingleViewContainer();
+						showAllCopyNumberContainer = handleCopyNumberContainer( originalCopyNumberContainer,showAllCopyNumberContainer);
+						showallDimensionalViewContainer.setCopyNumberSingleViewContainer(showAllCopyNumberContainer);
+					}
 				}
 			}
-			if(showAllGeneViewContainer != null)	{
-		    	Collection genes = showAllGeneViewContainer.getGeneResultsets();				   
-		    	Collection labels = showAllGeneViewContainer.getGroupsLabels();
-	    		Collection sampleIds = null;
-	    		
-		    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
-		    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
-		    		Collection reporters = geneResultset.getReporterResultsets();
+			return showAllResultant;
+	}
+	private GeneExprSingleViewResultsContainer handleGeneExprContainer(GeneExprSingleViewResultsContainer geneViewContainer,GeneExprSingleViewResultsContainer showAllGeneViewContainer){
 
-		    		
-		    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
-		        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-		        		String reporterName = reporterResultset.getReporter().getValue().toString();
-		        		GeneSymbol gene = geneResultset.getGeneSymbol();
-		        		String geneSymbol = null;
-		        		if( gene != null){
-		        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
-		        		}
-		        		Collection groupTypes = reporterResultset.getGroupByResultsets();
-		        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
-		        			String label = (String) labelIterator.next();
-		        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
-		             			sampleIds = geneViewContainer.getBiospecimenLabels(label);
-			        			if(groupResultset != null)
-		        				{
-			                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-			                       		String sampleId = (String) sampleIdIterator.next();
-			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleFoldChangeValuesResultset){
-				                       		SampleFoldChangeValuesResultset showAllBiospecimenResultset  = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
-				                       		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = (SampleFoldChangeValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
-				                       		//this gets only the common samples, we actually want the ones that are in the ALLrs and not the regular RS
-				                       		//if(showAllBiospecimenResultset != null && sampleFoldChangeValuesResultset != null){
-				                       			Double ratio = null;
-				                       				try {
-														ratio = (Double)sampleFoldChangeValuesResultset.getFoldChangeRatioValue().getValue();
-													} catch (Exception e) {
-														ratio = null;
-													}
-				                       			Double showAllRatio = null;
-				                       				try {
-														showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
-													} catch (Exception e1) {
-														showAllRatio = null;
-													}
-				                       			if(ratio != null && ratio.equals(showAllRatio)){
-				                       				showAllBiospecimenResultset.setHighlighted(false);  
-				                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
-				                       			}
-                                                else{
-                                                    showAllBiospecimenResultset.setHighlighted(true);  
-                                                    groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
 
-                                                }
-					                       //	}
-			                     		}
-			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
-			                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
-			                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
-				                       		//if(showAllBiospecimenResultset != null && sampleResultset2 != null){
-			                       			Double ratio = null;
+    	Collection genes = showAllGeneViewContainer.getGeneResultsets();				   
+    	Collection labels = showAllGeneViewContainer.getGroupsLabels();
+		Collection sampleIds = null;
+		
+    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
+    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+    		Collection reporters = geneResultset.getReporterResultsets();
+
+    		
+    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+        		String reporterName = reporterResultset.getReporter().getValue().toString();
+        		GeneSymbol gene = geneResultset.getGeneSymbol();
+        		String geneSymbol = null;
+        		if( gene != null){
+        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
+        		}
+        		Collection groupTypes = reporterResultset.getGroupByResultsets();
+        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+        			String label = (String) labelIterator.next();
+        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
+             			sampleIds = geneViewContainer.getBiospecimenLabels(label);
+	        			if(groupResultset != null)
+        				{
+	                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+	                       		String sampleId = (String) sampleIdIterator.next();
+	                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleFoldChangeValuesResultset){
+		                       		SampleFoldChangeValuesResultset showAllBiospecimenResultset  = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+		                       		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = (SampleFoldChangeValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
+		                       		//this gets only the common samples, we actually want the ones that are in the ALLrs and not the regular RS
+		                       		//if(showAllBiospecimenResultset != null && sampleFoldChangeValuesResultset != null){
+		                       			Double ratio = null;
 		                       				try {
-		                       					ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+												ratio = (Double)sampleFoldChangeValuesResultset.getFoldChangeRatioValue().getValue();
 											} catch (Exception e) {
 												ratio = null;
 											}
-											
-											Double showAllRatio = null;
+		                       			Double showAllRatio = null;
 		                       				try {
-		                       					showAllRatio = (Double)sampleResultset2.getCopyNumber().getValue();
+												showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
 											} catch (Exception e1) {
 												showAllRatio = null;
 											}
-											/*
-												Double ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
-				                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
-				                       		*/
-				                       			if(ratio != null && ratio.equals(showAllRatio)){
-				                       				showAllBiospecimenResultset.setHighlighted(false);  
-				                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
-				                       			}
-				                       			else{
-                                                    showAllBiospecimenResultset.setHighlighted(true);  
-                                                    groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
-                                                }
-					                      // 	}
-			                     		}			                       		
-			                       	}
-		                       }
-			        			reporterResultset.addGroupByResultset(groupResultset);		                       	
-		         		}		        		
-           				geneResultset.addReporterResultset(reporterResultset);
-		    		}
-       				showAllGeneViewContainer.addGeneResultset(geneResultset);
-		    	}
-		    	showAllResultant.setResultsContainer(showAllGeneViewContainer);
-			}
-			return showAllResultant;
+		                       			if(ratio != null && ratio.equals(showAllRatio)){
+		                       				showAllBiospecimenResultset.setHighlighted(false);  
+		                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
+		                       			}
+                                        else{
+                                            showAllBiospecimenResultset.setHighlighted(true);  
+                                            groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
+
+                                        }
+			                       //	}
+	                     		}
+                       		
+	                       	}
+                       }
+	        			reporterResultset.addGroupByResultset(groupResultset);		                       	
+         		}		        		
+   				geneResultset.addReporterResultset(reporterResultset);
+    		}
+				showAllGeneViewContainer.addGeneResultset(geneResultset);
+    	}
+    	return showAllGeneViewContainer;
+	}
+	private CopyNumberSingleViewResultsContainer handleCopyNumberContainer(CopyNumberSingleViewResultsContainer copyNumberViewContainer,CopyNumberSingleViewResultsContainer showAllCopyNumberViewContainer){
+
+
+    	Collection cytobands = showAllCopyNumberViewContainer.getCytobandResultsets();				   
+    	Collection labels = showAllCopyNumberViewContainer.getGroupsLabels();
+		Collection sampleIds = null;
+		
+    	for (Iterator geneIterator = cytobands.iterator(); geneIterator.hasNext();) {
+    		CytobandResultset cytobandResultset = (CytobandResultset)geneIterator.next();
+    		Collection reporters = cytobandResultset.getReporterResultsets();
+
+    		
+    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+        		String reporterName = reporterResultset.getReporter().getValue().toString();
+        		CytobandDE cytoband = cytobandResultset.getCytoband();
+        		String cytobandName = " ";
+        		if( cytoband != null){
+        			cytobandName = cytobandResultset.getCytoband().getValueObject().toString();
+        		}
+        		Collection groupTypes = reporterResultset.getGroupByResultsets();
+        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+        			String label = (String) labelIterator.next();
+        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
+             			sampleIds = copyNumberViewContainer.getBiospecimenLabels(label);
+	        			if(groupResultset != null)
+        				{
+	                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+	                       		String sampleId = (String) sampleIdIterator.next();
+	                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
+	                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+	                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) copyNumberViewContainer.getBioSpecimentResultset(cytobandName,reporterName, label, sampleId);
+		                       		//if(showAllBiospecimenResultset != null && sampleResultset2 != null){
+	                       			Double ratio = null;
+                       				try {
+                       					ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+									} catch (Exception e) {
+										ratio = null;
+									}
+									
+									Double showAllRatio = null;
+                       				try {
+                       					showAllRatio = (Double)sampleResultset2.getCopyNumber().getValue();
+									} catch (Exception e1) {
+										showAllRatio = null;
+									}
+									/*
+										Double ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+		                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+		                       		*/
+		                       			if(ratio != null && ratio.equals(showAllRatio)){
+		                       				showAllBiospecimenResultset.setHighlighted(false);  
+		                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
+		                       			}
+		                       			else{
+                                            showAllBiospecimenResultset.setHighlighted(true);  
+                                            groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
+                                        }
+			                      // 	}
+	                     		}			                       		
+	                       	}
+                       }
+	        			reporterResultset.addGroupByResultset(groupResultset);		                       	
+         		}		        		
+   				cytobandResultset.addReporterResultset(reporterResultset);
+    		}
+				showAllCopyNumberViewContainer.addCytobandResultset(cytobandResultset);
+    	}
+    	return showAllCopyNumberViewContainer;
 	}
 }
