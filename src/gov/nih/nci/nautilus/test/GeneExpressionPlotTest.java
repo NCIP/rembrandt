@@ -108,20 +108,23 @@ public class GeneExpressionPlotTest extends TestCase {
 	public void testGeneExprDiseaseView(){
 		//test Single Query
 		try {
-			buildGeneExprDiseasePlotQuery();
-			System.out.println("Building  Gene Expression Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
-			Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
-			//System.out.println("DiseaseQuery:\n"+ geneQuery.toString());
-			//assertNotNull(resultant);
-			if(resultant != null){
-				System.out.println("Testing Disease Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
-				//System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
-				ResultsContainer resultsContainer = resultant.getResultsContainer();
-				System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
-				if (resultsContainer instanceof GeneExprDiseasePlotContainer){
-					GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = (GeneExprDiseasePlotContainer) resultsContainer;
-			        displayGeneExprPlotData(geneExprDiseasePlotContainer);
-
+				for(int i = 0; i < 2000; i++){
+					System.out.println("Count:"+i);
+				buildGeneExprDiseasePlotQuery();
+				System.out.println("Building  Gene Expression Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
+				Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
+				//System.out.println("DiseaseQuery:\n"+ geneQuery.toString());
+				//assertNotNull(resultant);
+				if(resultant != null){
+					System.out.println("Testing Disease Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
+					//System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
+					ResultsContainer resultsContainer = resultant.getResultsContainer();
+					System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
+					if (resultsContainer instanceof GeneExprDiseasePlotContainer){
+						GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = (GeneExprDiseasePlotContainer) resultsContainer;
+				        displayGeneExprPlotData(geneExprDiseasePlotContainer);
+	
+					}
 				}
 			}
 		} catch (Exception e) {
