@@ -468,11 +468,19 @@ public class ReportGeneratorHelper {
 		try {
 			transformer = new Transformer(styleSheet, (HashMap)request.getAttribute(NautilusConstants.FILTER_PARAM_MAP));
 	     	Document transformedDoc = transformer.transform(reportXML);
-	        OutputFormat format = OutputFormat.createPrettyPrint();
-	        XMLWriter writer;
-	       	writer = new XMLWriter( out, format );
-			writer.write( transformedDoc );
-			writer.close();
+	        //put this filenamein the constants
+	     	if(!xsltFilename.equals("csv.xsl")){
+	            OutputFormat format = OutputFormat.createPrettyPrint();
+	            XMLWriter writer;
+	            writer = new XMLWriter( out, format );
+	            writer.write( transformedDoc );
+	            writer.close();
+	        }
+	        else	{
+	            String csv = transformedDoc.getStringValue();
+	            csv.trim();
+	            out.println(csv);
+	        }
 		}catch (UnsupportedEncodingException uee) {
 			logger.error("UnsupportedEncodingException");
 			logger.error(uee);

@@ -178,5 +178,10 @@ function checkElement(id)	{
 		}
 		else
 			return true;
+}
 
+function stupidXSLEscape(qname)	{
+	var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&csv=true";
+	alert(dest);
+	location.href = dest;
 }
