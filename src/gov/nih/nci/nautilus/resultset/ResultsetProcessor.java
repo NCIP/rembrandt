@@ -113,6 +113,7 @@ public class ResultsetProcessor {
               	GeneExpr.GeneExprGroup exprObj = (GeneExpr.GeneExprGroup) obj;
                	//Propulate the GeneExprSingleResultsContainer
               	geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleGeneExprDiseaseView(geneExprDiseasePlotContainer,exprObj);
+              	geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleNoramlAsDisease(geneExprDiseasePlotContainer,exprObj);
               	resultsContainer = geneExprDiseasePlotContainer;
               }
     		}
