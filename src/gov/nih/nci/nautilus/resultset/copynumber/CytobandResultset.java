@@ -58,7 +58,7 @@ public class CytobandResultset {
 	 * @param reporterResultset Adds reporterResultset to this CytobandResulset object.
 	 */
 	public void addReporterResultset(ReporterResultset reporterResultset){
-		if(reporterResultset != null && reporterResultset.getStartPhysicalLocation() != null && reporterResultset.getReporter() != null){
+		if(reporterResultset != null && reporterResultset.getStartPhysicalLocation() != null && reporterResultset.getStartPhysicalLocation().getValue() != null && reporterResultset.getReporter() != null){
 			reporters.put(reporterResultset.getStartPhysicalLocation().getValue().toString(), reporterResultset);
 			reporterNameToPositionMap.put(reporterResultset.getReporter().getValue().toString(),reporterResultset.getStartPhysicalLocation().getValue().toString());
 			
