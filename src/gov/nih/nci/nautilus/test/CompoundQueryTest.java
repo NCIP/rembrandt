@@ -6,13 +6,18 @@
  */
 package gov.nih.nci.nautilus.test;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
+import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
@@ -39,6 +44,7 @@ public class CompoundQueryTest extends TestCase {
     CloneOrProbeIDCriteria cloneCrit;
     CloneOrProbeIDCriteria probeCrit;
     GeneIDCriteria geneCrit;
+    FoldChangeCriteria foldCrit;
     GeneExpressionQuery probeQuery;
     GeneExpressionQuery cloneQuery;
     GeneExpressionQuery geneQuery;
@@ -48,6 +54,7 @@ public class CompoundQueryTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
         buildPlatformCrit();
+        buildFoldChangeCrit();
         buildCloneCrit();
         buildProbeCrit();
         buildGeneIDCrit();
@@ -118,12 +125,28 @@ public class CompoundQueryTest extends TestCase {
         geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("EGFR"));
 
     }
+    private void buildFoldChangeCrit() {
+        Float upRegExpected = new Float(2.0);
+        Float downRegExpected = new Float(1.0);
+        ExprFoldChangeDE.UpRegulation upRegObj = new ExprFoldChangeDE.UpRegulation(upRegExpected );
+        ExprFoldChangeDE.DownRegulation downRegObj = new ExprFoldChangeDE.DownRegulation(downRegExpected );
+        //ExprFoldChangeDE.UnChangedRegulationUpperLimit upUnChangedObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(upperUnchangedExpected );
+        //ExprFoldChangeDE.UnChangedRegulationDownLimit downUnChangedRegObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(downUnChangedExpected );
+
+        foldCrit = new FoldChangeCriteria();
+        Collection objs = new ArrayList(4);
+        objs.add(upRegObj);
+        objs.add(downRegObj);
+        //objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
+        foldCrit.setFoldChangeObjects(objs);
+    }
     private void buildGeneExprProbeSetSingleViewQuery(){
         probeQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
         probeQuery.setQueryName("ProbeSetQuery");
         probeQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         probeQuery.setCloneOrProbeIDCrit(probeCrit);
         probeQuery.setArrayPlatformCrit(affyOligoPlatformCrit);
+        probeQuery.setFoldChgCrit(foldCrit);
     }
     private void buildGeneExprCloneSingleViewQuery(){
         cloneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
@@ -131,6 +154,7 @@ public class CompoundQueryTest extends TestCase {
         cloneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         cloneQuery.setCloneOrProbeIDCrit(cloneCrit);
         cloneQuery.setArrayPlatformCrit(cdnaPlatformCrit);
+        cloneQuery.setFoldChgCrit(foldCrit);
     }
     private void buildGeneExprGeneSingleViewQuery(){
         geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
@@ -138,6 +162,7 @@ public class CompoundQueryTest extends TestCase {
         geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         geneQuery.setGeneIDCrit(geneCrit);
         geneQuery.setArrayPlatformCrit(allPlatformCrit);
+        geneQuery.setFoldChgCrit(foldCrit);
     }
     private void buildPlatformCrit() {
         allPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.ALL_PLATFROM));
