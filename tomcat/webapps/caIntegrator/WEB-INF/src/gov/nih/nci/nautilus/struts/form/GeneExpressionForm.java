@@ -6,7 +6,6 @@ package gov.nih.nci.nautilus.struts.form;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.util.LabelValueBean;
@@ -18,6 +17,7 @@ import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 
 
+
 /**
  * GeneExpressionForm.java created by EasyStruts - XsltGen.
  * http://easystruts.sf.net
@@ -26,7 +26,7 @@ import gov.nih.nci.nautilus.de.*;
  * XDoclet definition:
  * @struts:form name="geneExpressionForm"
  */
-public class GeneExpressionForm extends ActionForm {
+public class GeneExpressionForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance Variables
 
@@ -124,8 +124,8 @@ public class GeneExpressionForm extends ActionForm {
 	private String basePairStart;
 
 	// Collections used for Lookup values.
-	private ArrayList diseaseType;
-	private ArrayList geneTypeColl;
+	//private ArrayList diseaseType;// moved this to the upperclass: BaseForm.java
+	//private ArrayList geneTypeColl;// move this to the upperclass: BaseForm.java
 	private ArrayList cloneTypeColl;
 	private ArrayList arrayPlatformTypeColl;
 
@@ -163,6 +163,7 @@ public class GeneExpressionForm extends ActionForm {
 	public GeneExpressionForm(){
 
 		// Create Lookups for Gene Expression screens
+		super();
 		setGeneExpressionLookup();
 
 	}
@@ -494,6 +495,9 @@ public class GeneExpressionForm extends ActionForm {
 			}
 
 	}
+	
+	/*
+	** moved to the upper class: BaseForm.java
 	private boolean isBasePairValid(String basePairStart, String basePairEnd) {
 
 		int intBasePairStart;
@@ -511,16 +515,19 @@ public class GeneExpressionForm extends ActionForm {
 		if (intBasePairStart >= intBasePairEnd) return false;
 		return true;
 	}
-
+*/
 	public void setGeneExpressionLookup() {
 
-		diseaseType = new ArrayList();
-		geneTypeColl = new ArrayList();
+		//diseaseType = new ArrayList();// moved to the upper class: BaseForm.java
+		//geneTypeColl = new ArrayList();// moved to the upper class: BaseForm.java
 		cloneTypeColl = new ArrayList();
 		arrayPlatformTypeColl = new ArrayList();
 
 
 		// These are hardcoded but will come from DB
+		/*
+		**moved to the upperclass:: BaseForm.java
+		
 		diseaseType.add( new LabelValueBean( "Astrocytic", "astro" ) );
 		diseaseType.add( new LabelValueBean( "Oligodendroglial", "oligo" ) );
 		diseaseType.add( new LabelValueBean( "Ependymal cell", "Ependymal cell" ) );
@@ -531,12 +538,13 @@ public class GeneExpressionForm extends ActionForm {
 		diseaseType.add( new LabelValueBean( "Pineal Parenchyma", "Pineal Parenchyma" ));
 		diseaseType.add( new LabelValueBean( "Embryonal", "Embryonal" ));
 		diseaseType.add( new LabelValueBean( "Glioblastoma", "Glioblastoma" ));
+		*/
 
 
-		geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" ) );
-		geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" ) );
-		geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );
-		geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );
+		//geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" ) );//moved to the upperclass:: BaseForm.java
+		//geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" ) );//moved to the upperclass:: BaseForm.java
+		//geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );//moved to the upperclass:: BaseForm.java
+		//geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );//moved to the upperclass:: BaseForm.java
 
 		cloneTypeColl.add( new LabelValueBean( "IMAGE Id", "imageId" ) );
 		cloneTypeColl.add( new LabelValueBean( "BAC Id", "BACId" ) );
@@ -1257,12 +1265,21 @@ public class GeneExpressionForm extends ActionForm {
 			regionDomainMap.put(this.basePairStart, BasePairPositionDE.StartPosition.class.getName());
 
 	}
-// Getter methods for Gene Expression Lookup
-	public ArrayList getDiseaseType()
+	
+	
+    // Getter methods for Gene Expression Lookup
+  
+	/*
+	** moved this method to the upper class:BaseForm.java
+	public ArrayList getDiseaseType() 
 	{ return diseaseType; }
+	*/
 
+	/*
+	** moved this method to the upper class: BaseForm.java
 	public ArrayList getGeneTypeColl()
 	{ return geneTypeColl; }
+	*/
 	
 	public ArrayList getCloneTypeColl(){
 	   return cloneTypeColl; 	   

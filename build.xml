@@ -56,6 +56,10 @@
   <include name="struts-legacy.jar"/>
  </patternset>
  
+ <patternset id="caintergrator.jars">
+ <include name="caintergrator.jar"/>
+ </patternset>
+ 
  <property file="build.properties"/>
  
  <path id="cp.compile">
@@ -64,10 +68,11 @@
      <patternset refid="db.platform.jars"/>
      <patternset refid="xml.jars"/>       
      <patternset refid="other.jars"/>
-     <patternset refid="test.jars"/>
+     <patternset refid="test.jars"/>	
     </fileset>
 	 <fileset dir="${build.struts.lib.dir}">
-     <patternset refid="struts.jars"/>    
+     <patternset refid="struts.jars"/>    	
+	 <patternset refid="caintergrator.jars"/>
     </fileset>
  </path>
  
@@ -92,7 +97,7 @@
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>     
-	   	 <javac srcdir="${source.struts.dir}" destdir="${build.classes.dir}">	
+	   	 <javac srcdir="${source.struts.dir}" destdir="${build.struts.classes.dir}">	
 		 <exclude name="**/form/ClinicalDataForm.java" /> 		
          <exclude name="**/action/ClinicalDataAction.java" />			
         <classpath refid="cp.compile"/>
@@ -100,13 +105,13 @@
     </target>	
 	
 	<target name="jar-caintergrator" depends="compile">
-	    <delete dir="${jar.dir}"/>  
-		<mkdir dir="${jar.dir}"/>      
+	    <delete file="${jar.dir}/${app.jar.name}.jar"/>  		 
 		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
             <fileset dir="${build.classes.dir}">
                 <include name="**/*"/>
             </fileset>
         </jar>		
+		<delete dir="${build.classes.dir}"/>
 	</target>
 	
 	

@@ -28,7 +28,7 @@ import gov.nih.nci.nautilus.de.*;
  * XDoclet definition:
  * @struts:form name="comparitivegenomicForm"
  */
-public class ComparativeGenomicForm extends ActionForm {
+public class ComparativeGenomicForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance Variables
 
@@ -131,8 +131,11 @@ public class ComparativeGenomicForm extends ActionForm {
 	
 	// Collections used for Lookup values.
 	
+/*	
+ ** moved to the upper class: BaseForm.java
   private ArrayList diseaseTypes;
-  private ArrayList geneSelectionTypes;
+  private ArrayList geneTypeColl;
+  */
   private ArrayList cloneTypes;
   private ArrayList snpTypes;
   private ArrayList alleleTypes;
@@ -164,20 +167,26 @@ public class ComparativeGenomicForm extends ActionForm {
   //----------------------------constuctor()
   
    public ComparativeGenomicForm(){
+     super();
      startComparativeGemomicLookup();
 	}
   
 	// --------------------------------------------------------- Methods
 	
-	private void startComparativeGemomicLookup(){    
+	private void startComparativeGemomicLookup(){
+	  /*  
+	   ** moved to the upper class: BaseForm.java  
       diseaseTypes = new ArrayList();
-	  geneSelectionTypes = new ArrayList();
+	  geneTypeColl = new ArrayList();
+	  */
 	  cloneTypes = new ArrayList();
 	  snpTypes = new ArrayList();
 	  alleleTypes = new ArrayList();
 	  assayTypes = new ArrayList();
 	  
 	 // These are hardcoded but will come from DB
+	 /*
+	  ** moved to the upper class:BaseForm.java
 	  diseaseTypes.add( new LabelValueBean( "Astrocytic", "astro" ) );
 	  diseaseTypes.add( new LabelValueBean( "Oligodendroglial", "oligo" ) );
 	  diseaseTypes.add( new LabelValueBean( "Ependymal cell", "Ependymal cell" ) );
@@ -189,10 +198,11 @@ public class ComparativeGenomicForm extends ActionForm {
 	  diseaseTypes.add( new LabelValueBean( "Embryonal", "Embryonal" ));
 	  diseaseTypes.add( new LabelValueBean( "Glioblastoma", "Glioblastoma" ));
 	  
-	  geneSelectionTypes.add( new LabelValueBean( "All Genes","allgenes" ));
-	  geneSelectionTypes.add( new LabelValueBean( "Name/Symbol","genesymbol" ));
-	  geneSelectionTypes.add( new LabelValueBean( "Locus Link Id","locusLinkId" ));
-	  geneSelectionTypes.add( new LabelValueBean( "GenBank AccNo.","genBankAccNo" ));		  
+	  geneTypeColl.add( new LabelValueBean( "All Genes","allgenes" ));
+	  geneTypeColl.add( new LabelValueBean( "Name/Symbol","genesymbol" ));
+	  geneTypeColl.add( new LabelValueBean( "Locus Link Id","locusLinkId" ));
+	  geneTypeColl.add( new LabelValueBean( "GenBank AccNo.","genBankAccNo" ));		
+	  */  
 	  
 	  cloneTypes.add(new LabelValueBean("IMAGE Id","imageId"));
 	  cloneTypes.add(new LabelValueBean("BAC Id","BACId"));
@@ -517,6 +527,8 @@ private void createAssayPlatformCriteriaObject(){
     }// end of if
  }
  
+ /*
+ ** moved to the upperclass: BaseForm.java
  private boolean isBasePairValid(String basePairStart, String basePairEnd){
    if(basePairStart != null && basePairEnd != null){   
      try{
@@ -540,26 +552,8 @@ private void createAssayPlatformCriteriaObject(){
       }	 
    return false;	  
   }
-	/*old isBasePairValid() method
 	
-	private boolean isBasePairValid(String basePairStart, String basePairEnd) {
-
-		int intBasePairStart;
-		int intBasePairEnd;
-		
-		try {
-			intBasePairStart = Integer.parseInt(basePairStart);
-			intBasePairEnd = Integer.parseInt(basePairEnd);
-			
-		}
-		catch (NumberFormatException e) {
-			return false;
-		}
-		
-		if (intBasePairStart >= intBasePairEnd) return false;
-		return true;
-	}
-*/
+*/	
 	/** 
 	 * Method reset
 	 * @param ActionMapping mapping
