@@ -218,14 +218,14 @@ public class ResultsetManager {
         return CopyNumberFilter.filterCopyNumber(resultant, consecutiveNocalls, percentNoCall, operator);
     }
 	
-	public Resultant filterCopyNumber(Resultant resultant, Integer consecutiveNocalls, Integer percentNoCall, OperatorType operator) throws Exception{
+	public static Resultant filterCopyNumber(Resultant resultant, Integer consecutiveNocalls, Integer percentNoCall, OperatorType operator) throws Exception{
         Collection sampleCollection = getSampleIdsforCopyNumberFilter(resultant, consecutiveNocalls, percentNoCall, operator);
         if(sampleCollection!= null  && sampleCollection.size() > 0){
         	String[] sampleIds = (String[]) sampleCollection.toArray(new String[sampleCollection.size()]);
         	if(resultant.getAssociatedQuery() instanceof CompoundQuery){
         	CompoundQuery compoundQuery = (CompoundQuery) resultant.getAssociatedQuery();
-        	//CompoundQuery newCompoundQuery = (CompoundQuery) CompoundQuery.clone();
-        	//return executeCompound(newCompoundQuery,sampleIds);
+        	CompoundQuery newCompoundQuery =  (CompoundQuery) compoundQuery.clone();
+        	return executeCompoundQuery(newCompoundQuery,sampleIds);
         	}
         	
         
