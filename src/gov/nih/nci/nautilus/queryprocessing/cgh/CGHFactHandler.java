@@ -6,6 +6,7 @@ import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+import gov.nih.nci.nautilus.queryprocessing.AllGenesCritValidator;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.util.ThreadPool;
 
@@ -137,6 +138,7 @@ abstract public class CGHFactHandler {
         throws Exception {
             //logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
             //executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
+            AllGenesCritValidator.validateSampleIDCrit(cghQuery);
 
             PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
             final Criteria sampleCrit = new Criteria();

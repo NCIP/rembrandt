@@ -7,12 +7,10 @@ import gov.nih.nci.nautilus.data.GeneOntology;
 import gov.nih.nci.nautilus.data.GenePathway;
 import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
-import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
-import gov.nih.nci.nautilus.queryprocessing.DBEvent;
-import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+import gov.nih.nci.nautilus.queryprocessing.*;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.util.ThreadPool;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -304,8 +302,11 @@ abstract public class GEFactHandler {
     public final static class SingleGEFactHandler extends GEFactHandler {
         ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery geQuery)
         throws Exception {
+            AllGenesCritValidator.validateSampleIDCrit(geQuery);
+
             PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
             final Criteria sampleCrit = new Criteria();
+
             addGEFactCriteriaForAllGenes(geQuery, DifferentialExpressionSfact.class, _BROKER, sampleCrit);
             org.apache.ojb.broker.query.Query sampleQuery =
                     QueryFactory.newQuery(DifferentialExpressionSfact.class,sampleCrit, false);
