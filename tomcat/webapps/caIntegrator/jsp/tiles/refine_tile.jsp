@@ -1,8 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
 
 
 <!-- <html:form action="validatequery.do">-->
 
+<b>Step 1: Please refine your result set by grouping it</b><br><br>
 
 <div class="queryRows">
 			<table border="1" width="100%" cellpadding="2" cellspacing="2" id="rosso">
@@ -102,16 +106,21 @@
 					<Td>&nbsp;
 					</td>
 				</tr>
+				<tr>
+					<Td align="center" colspan="5"><br><input type="reset" value="reset query" class="sbutton">
+					</td>
+				</tr>
 			</table>
 			<b class="message">[add more rows]</b>
 		</div>
 <!--Display buttons here -->		
+		<b>Step 2:Validate your query</b><br>
 		<div>
 			<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
 				<tr>
-					<Td align="center"><input type="reset" value="reset query" class="sbutton">
-					&nbsp;&nbsp;<input type="submit" class="sbutton" value="validate query" onmouseover="return overlib('Based on your selections above, your query will appear in the box below.  Please verify its accuracy.  Click \'Reset\' to clear the query.', CAPTION, 'Help');" onmouseout="return nd();">
-					&nbsp;&nbsp;<input type="button" class="sbutton" value="Save Query As...">
+					<td align="center">
+						<html:button property="validatebutton" styleClass="xbutton" value="Validate Query" 
+							onclick="JavaScript:setDispMethod('validate')"/> 
 					</td>
 				</tr>
 				<tr>
@@ -119,14 +128,52 @@
 						<html:textarea property="queryText" style="width:700px; height:75px;"></html:textarea>
 					</td>
 				</tr>
-				<tr align="center">
-					<td>
-					<input type="button" class="xbutton" value="back" onclick="javascript:history.back();">&nbsp;&nbsp;
-					<input type="button" class="xbutton" value="continue" onclick="javascript:location.href='compoundcheck.do';">&nbsp;&nbsp;
+			</table>
+		</div>
+		<div>
+			<table width="100%" align="centeR" cellpadding="0" cellspacing="0">
+				<tr><td>
+						<br>
+						<b>Step 3:Please select a View</b>&nbsp;&nbsp;
+						<html:select property="compoundView" onchange="">
+						    <html:optionsCollection property="compoundViewColl" />
+						</html:select>
 					</td>
 				</tr>
 			</table>
 		</div>
+	
+		<div>
+			<table width="100%" align="centeR" cellpadding="0" cellspacing="0">
+				<tr><td>
+						<br>
+						<b>Step 4:Please name your resultset</b>&nbsp;&nbsp;
+						<html:text property="resultsetName" onchange="">
+						</html:text>&nbsp;&nbsp;&nbsp;
+						<input type="button" class="sbutton" value="Save Query As...">
+					</td>
+				</tr>
+			</table>
+		</div>
+		<br>
+		<b>Step 5:To Select Report Parameters press Continue button</b><br><br>
+		<div>
+			<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
+				<tr align="center">
+					<td>
+
+					<html:button property="backbutton" styleClass="xbutton" value="back" 
+						onclick="javascript:history.back();"/>&nbsp;&nbsp
+					<html:button property="continuebutton" styleClass="xbutton" value="continue" 
+						onclick="JavaScript:setDispMethod('displayresult')"/> 
+
+					</td>
+				</tr>
+			</table>
+		</div>
+
+<html:hidden property="method" />
+
 <!-- </html:form> -->
 </form>
 		
