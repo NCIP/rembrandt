@@ -66,8 +66,9 @@ public class CompoundResultSet {
 	/**
 	 * @param results
 	 */
-	public CompoundResultSet(Collection results) {
+	public CompoundResultSet(Collection results,Set sampleIds) {
 		setResults(results);
+		setSampleIds(sampleIds);
 	}
 	/**
 	 * @return Returns the sampleIds.
