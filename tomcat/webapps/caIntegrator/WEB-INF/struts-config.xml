@@ -92,7 +92,23 @@
             <form-property name="ageUpper" type="java.lang.String" />
             <form-property name="genderType" type="java.lang.String" />  			       
         </form-bean>
-        
+
+	  	<form-bean name="refineQueryForm" type="gov.nih.nci.nautilus.struts.form.RefineQueryForm">
+            <form-property name="queryName1" type="java.lang.String" />
+            <form-property name="leftParen1" type="java.lang.String" />
+            <form-property name="rightParen1" type="java.lang.String" />
+            <form-property name="operatorType1" type="java.lang.String" />
+            <form-property name="queryName2" type="java.lang.String" />
+            <form-property name="leftParen2" type="java.lang.String" />
+            <form-property name="rightParen2" type="java.lang.String" />
+            <form-property name="operatorType2" type="java.lang.String" />
+            <form-property name="queryName3" type="java.lang.String" />
+            <form-property name="leftParen3" type="java.lang.String" />
+            <form-property name="rightParen3" type="java.lang.String" />
+            <form-property name="operatorType3" type="java.lang.String" />
+            <form-property name="queryText" type="java.lang.String" />
+        </form-bean>
+
             <!-- Logon form bean -->
                 <form-bean      name="loginForm"
                     type="nautilus.login.LoginForm"/>
@@ -172,6 +188,32 @@
 		type="DoFirst">
 		<forward name="success" path="nautilus.home" />
 	</action>
+
+   <action path="/refinecheck"
+	       type="gov.nih.nci.nautilus.struts.action.RefineCheckAction">
+         <forward name="success" path="/refine.do" />
+         <forward name="failure" path="/menu.do" />
+   </action>
+
+   <action    path="/refine"
+              forward="nautilus.refine" />
+
+	<action path="/validatequery"
+            input="nautilus.refine"
+            name="refineQueryForm"
+            type="gov.nih.nci.nautilus.struts.action.RefineQueryAction"
+            scope="request"
+            validate="true">
+         <forward name="displayQuery" path="nautilus.refine" />
+	</action>
+
+   <action path="/compoundcheck"
+	       type="gov.nih.nci.nautilus.struts.action.CompoundCheckAction"
+           scope="request">
+         <forward name="success" path="/finalPage.do" />
+         <forward name="failure" path="/refine.do" />
+   </action>
+
     </action-mappings>
     
     <!-- ========== Controller Configuration ================================ -->
