@@ -49,6 +49,22 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
+import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
+import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.nautilus.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
+import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.view.GroupType;
+
 /**
  * @author Himanso
  *
@@ -56,5 +72,8 @@ package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class KaplanMeierPlotHandler {
+	public static KaplanMeierPlotContainer handleKaplanMeierPlot(KaplanMeierPlotContainer kaplanMeierPlotContainer,GeneExpr.GeneExprSingle[] geneExprObjects){
 
+		return kaplanMeierPlotContainer;
+	}
 }

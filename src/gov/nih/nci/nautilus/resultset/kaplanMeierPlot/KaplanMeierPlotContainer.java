@@ -49,11 +49,9 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.resultset.ResultsContainer;
-
-import java.util.HashMap;
-import java.util.Map;
+import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 
 /**
  * @author Himanso
@@ -61,7 +59,32 @@ import java.util.Map;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class KaplanMeierPlotContainer implements ResultsContainer {
+public class KaplanMeierPlotContainer extends SampleViewResultsContainer{
 	private GeneIdentifierDE.GeneSymbol geneSymbol;
-	private Map samples = new HashMap(); 
+	private ExprFoldChangeDE averageFoldChange;
+
+	/**
+	 * @return Returns the geneSymbol.
+	 */
+	public GeneIdentifierDE.GeneSymbol getGeneSymbol() {
+		return this.geneSymbol;
+	}
+	/**
+	 * @param geneSymbol The geneSymbol to set.
+	 */
+	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
+		this.geneSymbol = geneSymbol;
+	}
+	/**
+	 * @return Returns the averageFoldChange.
+	 */
+	public ExprFoldChangeDE getAverageFoldChange() {
+		return this.averageFoldChange;
+	}
+	/**
+	 * @param averageFoldChange The averageFoldChange to set.
+	 */
+	public void setAverageFoldChange(ExprFoldChangeDE averageFoldChange) {
+		this.averageFoldChange = averageFoldChange;
+	}
 }
