@@ -3,7 +3,7 @@
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 <xsl:template match="/">
  
-3.  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   	<head>
 	<title>My Report</title>
 	<script language="JavaScript" type="text/javascript" src="js/overlib.js">return false;
