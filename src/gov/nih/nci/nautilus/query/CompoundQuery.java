@@ -49,6 +49,7 @@
  */
 package gov.nih.nci.nautilus.query;
 
+
 import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.ViewType;
 
@@ -65,6 +66,13 @@ public class CompoundQuery implements Queriable{
 	/* 
 	 * @see gov.nih.nci.nautilus.query.Queriable#getAssociatedView()
 	 */
+
+	public CompoundQuery(OperatorType node, Queriable leftQuery, Queriable rightQuery) {
+		this.operatorType = node;
+		this.leftQuery = leftQuery;
+		this.rightQuery = rightQuery;
+	}
+
 	public ViewType getAssociatedView() {
 		return associatedView;
 	}
@@ -112,5 +120,44 @@ public class CompoundQuery implements Queriable{
 		if (rightQuery != null && rightQuery.getAssociatedView()!= null){
 			setAssociatedView(rightQuery.getAssociatedView());
 		}
+	}
+	
+	/**
+	 * toString() method to generate Compound query for display - pcs
+	 */
+	public String toString(){
+		Queriable leftQuery = this.getLeftQuery();
+		Queriable rightQuery = this.getRightQuery();
+		OperatorType operator = this.getOperatorType();
+		String leftString = "";
+		String rightString = "";
+		String outString = "";
+		
+		try {
+			if (leftQuery != null) {
+				if (leftQuery instanceof CompoundQuery) {
+					leftString += ((CompoundQuery) leftQuery).toString();}
+				else if (leftQuery instanceof Query){
+					leftString += ((Query) leftQuery).getQueryName();			
+				}
+			}
+			
+			if (rightQuery != null) {
+				if (rightQuery instanceof CompoundQuery) {
+					rightString += ((CompoundQuery) rightQuery).toString();}
+				else if (rightQuery instanceof Query){
+					rightString += ((Query) rightQuery).getQueryName();					
+				}
+			}
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Error "+ex.getMessage());
+		}
+		
+		if (operator != null) {
+			outString += "( "+leftString+" "+operator.getOperatorType()+" "+rightString+" )";
+		}
+
+		return outString;
 	}
 }
