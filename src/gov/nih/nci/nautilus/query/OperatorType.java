@@ -62,7 +62,7 @@ public class OperatorType {
     public final static Negation NOT = new Negation ();
     public final static ProjectResultsBy PROJECT_RESULTS_BY = new ProjectResultsBy ();
     
-    public OperatorType(String operatorType) {
+    private OperatorType(String operatorType) {
         this.operatorType = operatorType;
     }
     public final static class Conjunction extends OperatorType {

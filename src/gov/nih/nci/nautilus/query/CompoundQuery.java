@@ -57,9 +57,9 @@ import gov.nih.nci.nautilus.view.View;
  * 
  */
 public class CompoundQuery implements Queriable{
-	Queriable leftQuery = null;
-	Queriable rightQuery = null;
-	OperatorType operatorType = null;
+	private Queriable leftQuery = null;
+	private Queriable rightQuery = null;
+	private OperatorType operatorType = null;
     private View associatedView = null;
 	/* 
 	 * @see gov.nih.nci.nautilus.query.Queriable#getAssociatedView()
@@ -67,9 +67,7 @@ public class CompoundQuery implements Queriable{
 	public View getAssociatedView() {
 		return associatedView;
 	}
-	/* 
-	 * @see gov.nih.nci.nautilus.query.Queriable#setAssociatedView(gov.nih.nci.nautilus.view.View)
-	 */
+	
 	private void setAssociatedView(View associatedViewObj) {
 		associatedView = associatedViewObj;
 	}
