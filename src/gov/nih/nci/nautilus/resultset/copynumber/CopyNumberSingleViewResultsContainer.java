@@ -9,7 +9,9 @@ import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 /**
@@ -45,8 +47,8 @@ public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsConta
 	 */
     public Collection getBioSpecimentResultsets(String cytoband,String reporterName, String groupType){
     	if(cytoband != null && reporterName != null && groupType != null){
-    		CytobandResultset geneResultset = (CytobandResultset) cytobands.get(cytoband);
-    		ReporterResultset reporterResultset = (ReporterResultset) geneResultset.getRepoterResultset(reporterName);
+    		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(cytoband);
+    		ReporterResultset reporterResultset = (ReporterResultset) cytobandResultset.getRepoterResultset(reporterName);
 			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
 			return groupResultset.getBioSpecimenResultsets();
 		}
@@ -58,11 +60,23 @@ public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsConta
 	 */
     public BioSpecimenResultset getBioSpecimentResultset(String cytoband,String reporterName, String groupType, String bioSpecimenID){
     	if(cytoband != null && reporterName != null && groupType != null  && bioSpecimenID != null){
-    		CytobandResultset geneResultset = (CytobandResultset) cytobands.get(cytoband);
-    		ReporterResultset reporterResultset = (ReporterResultset) geneResultset.getRepoterResultset(reporterName);
+    		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(cytoband);
+    		ReporterResultset reporterResultset = (ReporterResultset) cytobandResultset.getRepoterResultset(reporterName);
 			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
 			return groupResultset.getBioSpecimenResultset(bioSpecimenID);
 		}
     		return null;
     }
+    
+    public List getCytobandNames(){  
+    	List list = new ArrayList();
+    	list.addAll(cytobands.keySet());
+    	return list;
+    }
+    public List getReporters(){
+    	List list = new ArrayList();
+    	return list;
+    }
+    
+    
 }
