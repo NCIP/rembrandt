@@ -11,7 +11,7 @@ import gov.nih.nci.nautilus.de.AssayPlatformDE;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler;
-import gov.nih.nci.nautilus.data.SNPProbesetDim;
+import gov.nih.nci.nautilus.data.SnpProbesetDim;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
@@ -59,16 +59,16 @@ public class CGHQueryHandler extends QueryHandler {
         ChrRegionCriteriaHandler.StartEndPosition posObj = ChrRegionCriteriaHandler.getPositionObject(regionCrit, pb);
 
 
-        String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SNPProbesetDim.class.getName(), SNPProbesetDim.SNP_PROBESET_ID);
-        String positionCol = QueryHandler.getColumnNameForBean(pb, SNPProbesetDim.class.getName(), SNPProbesetDim.PHYSICAL_POSITION);
-        String chrCol = QueryHandler.getColumnNameForBean(pb, SNPProbesetDim.class.getName(), SNPProbesetDim.CHROMOSOME);
+        String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.SNP_PROBESET_ID);
+        String positionCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.PHYSICAL_POSITION);
+        String chrCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.CHROMOSOME);
 
         Criteria c = new Criteria();
         c.addColumnEqualTo(chrCol, posObj.getChrNumber().getValueObject());
         c.addGreaterOrEqualThan(positionCol, new Long(posObj.getStartPosition().getValueObject().longValue()));
         c.addLessOrEqualThan(positionCol, new Long(posObj.getEndPosition().getValueObject().longValue()));
 
-        ReportQueryByCriteria snpProbeIDQuery = QueryFactory.newReportQuery(SNPProbesetDim.class, new String[] {snpProbeIDCol}, c, true );
+        ReportQueryByCriteria snpProbeIDQuery = QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, c, true );
 
         return null;
 

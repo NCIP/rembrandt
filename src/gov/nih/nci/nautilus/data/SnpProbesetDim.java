@@ -3,7 +3,7 @@
 
 package gov.nih.nci.nautilus.data;
 
-public class SNPProbesetDim
+public class SnpProbesetDim
 {
   public final static String PHYSICAL_POSITION = "physicalPosition";
   public final static String SNP_PROBESET_ID = "snpProbesetId";
