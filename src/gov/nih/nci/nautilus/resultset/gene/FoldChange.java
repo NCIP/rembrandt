@@ -58,15 +58,15 @@ import gov.nih.nci.nautilus.de.DatumDE;
  */
 public interface FoldChange {
 	/**
-	 * @return Returns the foldChangeNormalIntensity.
+	 * @return Returns the foldChangeNonTumorIntensity.
 	 */
-	public abstract DatumDE getFoldChangeNormalIntensity();
+	public abstract DatumDE getFoldChangeNonTumorIntensity();
 
 	/**
-	 * @param foldChangeNormalIntensity The foldChangeNormalIntensity to set.
+	 * @param foldChangeNonTumorIntensity The foldChangeNonTumorIntensity to set.
 	 */
-	public abstract void setFoldChangeNormalIntensity(
-			DatumDE foldChangeNormalIntensity);
+	public abstract void setFoldChangeNonTumorIntensity(
+			DatumDE foldChangeNonTumorIntensity);
 
 	/**
 	 * @return Returns the foldChangeRatioValue.
@@ -81,12 +81,12 @@ public interface FoldChange {
 	/**
 	 * @return Returns the foldChangeSampleIntensity.
 	 */
-	public abstract DatumDE getFoldChangeSampleIntensity();
+	public abstract DatumDE getFoldChangeIntensity();
 
 	/**
 	 * @param foldChangeSampleIntensity The foldChangeSampleIntensity to set.
 	 */
-	public abstract void setFoldChangeSampleIntensity(
+	public abstract void setFoldChangeIntensity(
 			DatumDE foldChangeSampleIntensity);
 
 	/**

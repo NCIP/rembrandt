@@ -59,33 +59,10 @@ import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
  */
 public class SampleFoldChangeValuesResultset extends BioSpecimenResultset implements FoldChange{
 	private DatumDE foldChangeRatioValue = null;
-	private DatumDE foldChangeSampleIntensity = null;
-	private DatumDE foldChangeNormalIntensity = null;
+	private DatumDE foldChangeIntensity = null;
+	private DatumDE foldChangeNonTumorIntensity = null;
 	private DatumDE ratioPval = null;
-	/**
-	 * @return Returns the foldChangeNormalIntensity.
-	 */
-	public DatumDE getFoldChangeNormalIntensity() {
-		return this.foldChangeNormalIntensity;
-	}
-	/**
-	 * @param foldChangeNormalIntensity The foldChangeNormalIntensity to set.
-	 */
-	public void setFoldChangeNormalIntensity(DatumDE foldChangeNormalIntensity) {
-		this.foldChangeNormalIntensity = foldChangeNormalIntensity;
-	}
-	/**
-	 * @return Returns the foldChangeSampleIntensity.
-	 */
-	public DatumDE getFoldChangeSampleIntensity() {
-		return this.foldChangeSampleIntensity;
-	}
-	/**
-	 * @param foldChangeSampleIntensity The foldChangeSampleIntensity to set.
-	 */
-	public void setFoldChangeSampleIntensity(DatumDE foldChangeSampleIntensity) {
-		this.foldChangeSampleIntensity = foldChangeSampleIntensity;
-	}
+
 	/**
 	 * @return Returns the foldChangeRatioValue.
 	 */
@@ -110,5 +87,30 @@ public class SampleFoldChangeValuesResultset extends BioSpecimenResultset implem
 	 */
 	public void setRatioPval(DatumDE ratioPval) {
 		this.ratioPval = ratioPval;
+	}
+	/**
+	 * @return Returns the foldChangeIntensity.
+	 */
+	public DatumDE getFoldChangeIntensity() {
+		return foldChangeIntensity;
+	}
+	/**
+	 * @param foldChangeIntensity The foldChangeIntensity to set.
+	 */
+	public void setFoldChangeIntensity(DatumDE foldChangeIntensity) {
+		this.foldChangeIntensity = foldChangeIntensity;
+	}
+	/**
+	 * @return Returns the foldChangeNonTumorIntensity.
+	 */
+	public DatumDE getFoldChangeNonTumorIntensity() {
+		return foldChangeNonTumorIntensity;
+	}
+	/**
+	 * @param foldChangeNonTumorIntensity The foldChangeNonTumorIntensity to set.
+	 */
+	public void setFoldChangeNonTumorIntensity(
+			DatumDE foldChangeNonTumorIntensity) {
+		this.foldChangeNonTumorIntensity = foldChangeNonTumorIntensity;
 	}
 }

@@ -63,8 +63,8 @@ import gov.nih.nci.nautilus.de.DomainElement;
 public class DiseaseGroupResultset implements Groupable, FoldChange{
 	private DiseaseNameDE diseaseType = null;
 	private DatumDE foldChangeRatioValue = null;
-	private DatumDE foldChangeSampleIntensity = null;
-	private DatumDE foldChangeNormalIntensity = null;
+	private DatumDE foldChangeIntensity = null;
+	private DatumDE foldChangeNonTumorIntensity = null;
 	private DatumDE ratioPval = null;
 	/**
 	 * @return Returns the diseaseType.
@@ -84,18 +84,7 @@ public class DiseaseGroupResultset implements Groupable, FoldChange{
 	public DiseaseGroupResultset(DiseaseNameDE diseaseType) {		
 		setDiseaseType(diseaseType);
 	}
-	/**
-	 * @return Returns the foldChangeNormalIntensity.
-	 */
-	public DatumDE getFoldChangeNormalIntensity() {
-		return this.foldChangeNormalIntensity;
-	}
-	/**
-	 * @param foldChangeNormalIntensity The foldChangeNormalIntensity to set.
-	 */
-	public void setFoldChangeNormalIntensity(DatumDE foldChangeNormalIntensity) {
-		this.foldChangeNormalIntensity = foldChangeNormalIntensity;
-	}
+
 	/**
 	 * @return Returns the foldChangeRatioValue.
 	 */
@@ -107,18 +96,6 @@ public class DiseaseGroupResultset implements Groupable, FoldChange{
 	 */
 	public void setFoldChangeRatioValue(DatumDE foldChangeRatioValue) {
 		this.foldChangeRatioValue = foldChangeRatioValue;
-	}
-	/**
-	 * @return Returns the foldChangeSampleIntensity.
-	 */
-	public DatumDE getFoldChangeSampleIntensity() {
-		return this.foldChangeSampleIntensity;
-	}
-	/**
-	 * @param foldChangeSampleIntensity The foldChangeSampleIntensity to set.
-	 */
-	public void setFoldChangeSampleIntensity(DatumDE foldChangeSampleIntensity) {
-		this.foldChangeSampleIntensity = foldChangeSampleIntensity;
 	}
 	/**
 	 * @return Returns the ratioPval.
@@ -148,4 +125,29 @@ public class DiseaseGroupResultset implements Groupable, FoldChange{
 	}
 
 
+	/**
+	 * @return Returns the foldChangeIntensity.
+	 */
+	public DatumDE getFoldChangeIntensity() {
+		return foldChangeIntensity;
+	}
+	/**
+	 * @param foldChangeIntensity The foldChangeIntensity to set.
+	 */
+	public void setFoldChangeIntensity(DatumDE foldChangeIntensity) {
+		this.foldChangeIntensity = foldChangeIntensity;
+	}
+	/**
+	 * @return Returns the foldChangeNonTumorIntensity.
+	 */
+	public DatumDE getFoldChangeNonTumorIntensity() {
+		return foldChangeNonTumorIntensity;
+	}
+	/**
+	 * @param foldChangeNonTumorIntensity The foldChangeNonTumorIntensity to set.
+	 */
+	public void setFoldChangeNonTumorIntensity(
+			DatumDE foldChangeNonTumorIntensity) {
+		this.foldChangeNonTumorIntensity = foldChangeNonTumorIntensity;
+	}
 }
