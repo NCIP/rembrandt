@@ -113,8 +113,8 @@ public class ReportGeneratorHelper {
 			String oldQueryName = ((CompoundQuery)(resultant.getAssociatedQuery())).getQueryName();
 			//check the sessionId that it isn't null or empty and set _sessionId in _cQuery
 			checkSessionId(sessionId);
-			//check that we have an old QueryName and set the class variable _queryName
-			//and add that it is a all values report
+			//check that we have an old QueryName and set the class variable _queryName,
+			//adding that it is a all values report
 			checkQueryName( oldQueryName +" show all values report");
 			//store the annotated query in the resultant
 			showAllResults.setAssociatedQuery(_cQuery);
@@ -135,6 +135,7 @@ public class ReportGeneratorHelper {
 			logger.error("Exception when trying to generate a Show All Values Report");
 			logger.error(e);
 		}
+		//All done...
 	}
 	
 	/**

@@ -10,6 +10,7 @@ public class SelectedQueryBean {
     private String rightParen;
     private String queryName;
     private String operand;
+    private boolean allGeneQuery = false;
 
 	/**
 	 * @return Returns the leftParen.
@@ -58,5 +59,17 @@ public class SelectedQueryBean {
 	 */
 	public void setRightParen(String rightParen) {
 		this.rightParen = rightParen;
+	}
+	/**
+	 * @return Returns the allGeneQuery.
+	 */
+	public boolean isAllGeneQuery() {
+		return allGeneQuery;
+	}
+	/**
+	 * @param allGeneQuery The allGeneQuery to set.
+	 */
+	public void setAllGeneQuery(boolean allGeneQuery) {
+		this.allGeneQuery = allGeneQuery;
 	}
 }

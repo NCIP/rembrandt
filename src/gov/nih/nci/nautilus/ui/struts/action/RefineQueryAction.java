@@ -15,7 +15,6 @@ import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,15 +64,14 @@ public class RefineQueryAction extends LookupDispatchAction {
         RefineQueryForm refineQueryForm = (RefineQueryForm) form;
 		ActionErrors errors = new ActionErrors();
         SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
-        refineQueryForm = UIRefineQueryValidator.processCompoundQuery(form, request, queryBag);
+        UIRefineQueryValidator myValidator = new UIRefineQueryValidator();
+        refineQueryForm = myValidator.processCompoundQuery(form, request);
         if(refineQueryForm.getErrors()!=null&&!refineQueryForm.getErrors().isEmpty()) {
             //Processing returned some errors
         	saveErrors(request, refineQueryForm.getErrors());
             return (new ActionForward(mapping.getInput()));
          } 
-        Collection names = queryBag.getResultsetQueryNames();
-        refineQueryForm.setResultSets(names);
-        return mapping.findForward("displayQuery");
+         return mapping.findForward("displayQuery");
        
      }
 	/**
@@ -92,35 +90,30 @@ public class RefineQueryAction extends LookupDispatchAction {
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
-		
+		//Get the sessionId
 		String sessionId = request.getSession().getId();
         ActionErrors errors = new ActionErrors();
         ActionForward thisForward = null;
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
+		//Get the SessionQueryBag for this request and session
 		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
 		// Get the viewType array from session 
 		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(NautilusConstants.VALID_QUERY_TYPES_KEY);
+		//Make sure that we have a validated CompoundQuery to use
 		if (queryBag.hasCompoundQuery()) {
-		   //Create compound query to execute
-           CompoundQuery cQuery = queryBag.getCompoundQuery();
-           if(!refineQueryForm.getResultSetName().equals("")) {
-					
-			}
-            ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
+			//Create compound query to execute
+			CompoundQuery cQuery = queryBag.getCompoundQuery();
+			ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
 			cQuery.setAssociatedView(ViewFactory.newView(selectView));
-            String resultSetName = refineQueryForm.getResultSetName();
-            
-           //Set the name of the compound query
-            if(!"".equals(resultSetName)) {
-            	cQuery.setQueryName(resultSetName);
-            }
-            
-            ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
-            ReportBean reportBean = rgHelper.getReportBean();
-            request.setAttribute("queryName", reportBean.getResultantCacheKey());
-            //Send to the appropriate view as per selection!!
-    		thisForward = new ActionForward();
-    		thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
+           	//ReportGeneratorHelper will execute the query if necesary, or will
+			//retrieve from cache.  It will then generate the XML for the report
+			//and store in a reportBean in the cache for later retrieval
+			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
+			ReportBean reportBean = rgHelper.getReportBean();
+			request.setAttribute("queryName", reportBean.getResultantCacheKey());
+			//Send to the appropriate view as per selection!!
+			thisForward = new ActionForward();
+			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
 		}else {
 			logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
@@ -144,51 +137,6 @@ public class RefineQueryAction extends LookupDispatchAction {
 			}
 		}
 	}
-    /**
-     * This is method executed when a user presses the store results button,
-     * thus signifying that the user would like to store the results, by the
-     * name supplied, for later use in PRB or View Results page. 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward storeResults(
-            ActionMapping mapping,
-            ActionForm form,
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws Exception {
-    	String sessionId = request.getSession().getId();
-        RefineQueryForm refineQueryForm = (RefineQueryForm)form;
-        SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
-        CompoundQuery cquery = queryBag.getCompoundQuery();
-        ActionErrors errors = new ActionErrors();
-        //check that the compound query exists
-        if(cquery==null) {
-        	ActionError noCompoundQuery = new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.missing.compoundquery");
-        	errors.add("missingCompoundQuery", noCompoundQuery);
-        	 this.saveErrors(request, errors);
-             return (new ActionForward(mapping.getInput()));
-        }
-        
-        refineQueryForm.setCompoundViewColl(UIRefineQueryValidator.setRefineQueryView(cquery, request));
-        //Validation for the refined query
-        String resultSetName = refineQueryForm.getResultSetName();
-        if(resultSetName!=null && !resultSetName.equals("")) {
-        	cquery.setQueryName(refineQueryForm.getResultSetName());
-        	queryBag.putResultsetQuery(cquery);
-        	return mapping.findForward("advanceSearchMenu");
-        	
-        }else {
-        	ActionError emptyResultSetNameError = new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.missing.resultsetname");
-            errors.add("badSetName", emptyResultSetNameError);
-            this.saveErrors(request, errors);
-            return (new ActionForward(mapping.getInput()));
-        }
-    }
     /**
      * Method called whenever there is change in the operands in the refine 
      * query page.  Currently it modifies the selected querries based on some

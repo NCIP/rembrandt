@@ -319,7 +319,16 @@ public class RefineQueryForm extends BaseForm implements Factory {
 
 		return errors;
 	}
-	
+	/**
+	 * This method is essential in maintaining the drop down menus of the 
+	 * refineQueryPage. It currently grabs the SessionQueryBag from the 
+	 * sessionCache and retrieves a map to the current list of all gene queries
+	 * and non all gene queries, converting them to Collections for use by the
+	 * refine_tile.jsp.  It also grabs and stores the current list of all the
+	 * result sets that are stored in the cache.
+	 * 
+	 * @param request
+	 */
 	private void setRefineQueryLookups(HttpServletRequest request) {
 		//Retrieve the session query bag from the cacheManager
 		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(request.getSession().getId());
@@ -343,7 +352,8 @@ public class RefineQueryForm extends BaseForm implements Factory {
 					allGenesQueries.add(queries.get(iter.next()));
 				}
 			}
-			
+			//Now setup all of the current result sets
+			resultSets = queryBag.getResultSetNames();
 		} else {
 			logger.debug("No Query Collection Object in Session");
 		}

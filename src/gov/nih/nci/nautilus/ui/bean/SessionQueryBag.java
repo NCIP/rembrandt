@@ -56,22 +56,41 @@ import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.Query;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * @author SahniH Date: Sep 24, 2004
- * 
+ * @author SahniH, BauerD 
  */
 public class SessionQueryBag implements Serializable {
+	/*
+	 * queryMap is the current map of all queries the user has created, these
+	 * are not the compoundQueries and resultants that are stored in the cache.
+	 * These are the queries that the user creates and later "Refines" with 
+	 * other queries to generate a result set.  I know that this is confusing. 
+	 * Each query is stored where key=queryName and value=some Queriable object
+	 * that was created by the user in the build query pages.
+	 */
 	private Map queryMap = new TreeMap();
+	//this map is generated from the queryMap, storing only the allGenesQueries
 	private Map allGenesQueries = new HashMap();
+	//this map is generated from the queryMap, storing only the non-allGenesQueries
 	private Map nonAllGeneQueries = new HashMap();
-	private Map resultsetQueryMap = new TreeMap();
+	/*
+	 * This list is the current list of resultSets that are stored in the
+	 * sessionCache
+	 */
+	private List resultSetNames = new ArrayList();
+	/*
+	 * This is the current compound query that has been validated and is ready
+	 * to run...
+	 */
 	private CompoundQuery compoundQuery = null;
 
 	public void putQuery(Query query) {
@@ -105,38 +124,6 @@ public class SessionQueryBag implements Serializable {
 		queryMap.clear();
 	}
 
-	public void putResultsetQuery(CompoundQuery resultsetQuery) {
-		if (resultsetQuery != null && resultsetQuery.getQueryName() != null) {
-			resultsetQueryMap
-					.put(resultsetQuery.getQueryName(), resultsetQuery);
-		}
-	}
-
-	public Collection getResultsetQueries() {
-		return resultsetQueryMap.values();
-	}
-
-	public Collection getResultsetQueryNames() {
-		return resultsetQueryMap.keySet();
-	}
-
-	public void removeResultsetQuery(String resultsetQueryName) {
-		if (resultsetQueryName != null) {
-			resultsetQueryMap.remove(resultsetQueryName);
-		}
-	}
-
-	public CompoundQuery getResultsetQuery(String resultsetQueryName) {
-		if (resultsetQueryName != null) {
-			return (CompoundQuery) resultsetQueryMap.get(resultsetQueryName);
-		}
-		return null;
-	}
-
-	public void removeAllResultsetQueries() {
-		resultsetQueryMap.clear();
-	}
-
 	/**
 	 * @return Returns the compoundQuery.
 	 */
@@ -160,10 +147,6 @@ public class SessionQueryBag implements Serializable {
 
 	public boolean hasQuery() {
 		return (!this.getQueryNames().isEmpty());
-	}
-
-	public boolean hasResultsetQuery() {
-		return (!this.getResultsetQueryNames().isEmpty());
 	}
 	
 	/**
@@ -224,5 +207,14 @@ public class SessionQueryBag implements Serializable {
 		}
 		return nonAllGeneQueries;
 		
+	}
+	public void removeResultSetName(String resultSetName) {
+		resultSetNames.remove(resultSetName);
+	}
+	public void addResultSetName(String resultSetName) {
+		resultSetNames.add(resultSetName);
+	}
+	public List getResultSetNames() {
+		return resultSetNames;
 	}
 }
