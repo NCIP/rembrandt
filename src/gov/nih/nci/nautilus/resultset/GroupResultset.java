@@ -96,6 +96,16 @@ public abstract class GroupResultset {
     public Collection getBioSpecimenResultsets(){
     		return samples.values();
     }
+    /**
+     * @param bioSpecimenId
+	 * @return bioSpecimenResultset Returns reporterResultset for this GeneResultset.
+	 */
+    public BioSpecimenResultset getBioSpecimenResultset(String bioSpecimenId){
+    	if(bioSpecimenId != null){
+			return (BioSpecimenResultset) samples.get(bioSpecimenId);
+		}
+    		return null;
+    }
 	/**
 	 * @param none Removes all bioSpecimenResultset in this DiseaseResultset object.
 	 */

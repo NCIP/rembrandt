@@ -78,16 +78,19 @@ public class GeneSingleViewHandler {
       			diseaseResultset = handleDiseaseResultset(reporterResultset,exprObj);
       			diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupResultset(diseaseResultset);
+          		geneViewContainer.addBiospecimensToGroups(exprObj.getDiseaseType(),exprObj.getBiospecimenId().toString());
       		}
       		else if(groupType.getGroupType().equals(GroupType.AGE_GROUP)){
       			ageGroupResultset = handleAgeGroupResultset(reporterResultset,exprObj);
       			ageGroupResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupResultset(ageGroupResultset);
+          		geneViewContainer.addBiospecimensToGroups(exprObj.getAgeGroup(),exprObj.getBiospecimenId().toString());
       		}
       		else if(groupType.getGroupType().equals(GroupType.SURVIVAL_RANGE_GROUP)){
       			survivalRangeResultset = handleSurvivalRangeResultset(reporterResultset,exprObj);
       			survivalRangeResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupResultset(survivalRangeResultset);
+          		geneViewContainer.addBiospecimensToGroups(exprObj.getSurvivalLengthRange(),exprObj.getBiospecimenId().toString());
       		}
       		
       		geneResultset.addReporterResultset(reporterResultset);
