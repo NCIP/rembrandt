@@ -75,9 +75,9 @@ public class CompoundQuery implements Queriable{
 		setRightQuery(rightQuery);
 	}
 	public CompoundQuery( Queriable rightQuery) throws Exception{
+		setRightQuery(rightQuery);
 		setOperatorType( null);
 		setLeftQuery(null);
-		setRightQuery(rightQuery);
 	}
 
 	public ViewType getAssociatedView() {
