@@ -165,6 +165,9 @@
 	<xsl:variable name="helpLink" select="@reportType" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
+	
+	<xsl:if test="recordCount > 0">
+	
 	<xsl:variable name="qName" select="@queryName" />
 	<xsl:variable name="rType" select="@reportType" />
 	
@@ -315,7 +318,7 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
 		<xsl:text>&#160;</xsl:text>
-		<input type="button" name="filter_submit" value="Hide Missing Values" onclick="javascript:showAllValues('{$qName}', false);" />
+		<input type="button" name="filter_submit" value="View Previous Report" onclick="javascript:showAllValues('{$qName}', false);" />
 		<xsl:text>&#160;</xsl:text>
 		
 		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Clicking on this button lets you view the gene expression fold changes or copy number values (depending on the type of report) for all the reporters in the report. This allows you to see those values that did not match your query criteria.');" onmouseout="return nd();">[?]</a></b>
@@ -538,6 +541,10 @@
 		</xsl:for-each>
 	</form>
   	</table>
+  	</xsl:if><!-- no records -->
+  	<xsl:if test="$recordCount = 0">
+  		<h3 style="text-align:center; margin-top:200px;">There was an error generating your report.  Please try again later. <br/><a href="javascript:window.close()">Close</a></h3>
+  	</xsl:if>
   </xsl:for-each>
  <script language="javascript">
  <![CDATA[hideLoadingMessage();]]>
