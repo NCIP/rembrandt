@@ -69,6 +69,7 @@ response.setHeader("Location",newLocn);
 		 About this application	
 		 <br /><span style="font-size:.7em;text-align:right;">Release 0.5</span>
 		 </p>
+		 
 	
 		 <p style="padding:0px 5px 0px 5px ; font-size:.9em;">REpository for Molecular BRAin 
 		 Neoplasia DaTa (REMBRANDT) is a robust bioinformatics
@@ -118,12 +119,22 @@ response.setHeader("Location",newLocn);
 	          <span style="margin: 0px 0px 0px 85px">&nbsp;<html:submit/>&nbsp;&nbsp;<html:reset/></span>
 	       </html:form>
 	       <!--end login form-->
-		 <!--end login section-->
+	       
+
+	      
+	      <div style="width:80%;margin-left:40px;">
+	      
+	      <ul>
+	      <li><a style="font-size:.9em;" href="mailto:ncicb@pop.nci.nih.gov?subject=REMBRANDT: Request username/password">request username/password</a></li>
+	      <li><span style="font-size:.9em;">provide us your <a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a></li>
+		  <ul>
+		 </div>
 		 
-       </td>
+	      <!--end login section-->
+	   </td>
 	   <!--end login cell-->
 	  </tr>
-    </table>
+	 </table>
 	<!--end content table-->
 	
 </div>
