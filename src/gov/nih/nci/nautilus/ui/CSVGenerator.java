@@ -27,6 +27,7 @@ import gov.nih.nci.nautilus.view.Viewable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -228,6 +229,11 @@ public class CSVGenerator  {
 	public static String copyNumberSampleView(ResultsContainer resultsContainer)	{
 		
 				StringBuffer sb = new StringBuffer();
+		    	StringBuffer header = new StringBuffer();
+		    	StringBuffer sampleNames = new StringBuffer();
+		        StringBuffer stringBuffer = new StringBuffer();
+		        StringBuffer theLabels = new StringBuffer();
+		        
 				int recordCount = 0;
 				
 				CopyNumberSingleViewResultsContainer copyNumberContainer = null;
@@ -247,12 +253,10 @@ public class CSVGenerator  {
 				    	Collection labels = copyNumberContainer.getGroupsLabels();
 				    	Collection sampleIds = null;
 				    	
-				    	
-				    	StringBuffer header = new StringBuffer();
-				    	StringBuffer sampleNames = new StringBuffer();
-				        StringBuffer stringBuffer = new StringBuffer();
+				    	header = new StringBuffer();
+				    	sampleNames = new StringBuffer();
+				        stringBuffer = new StringBuffer();
 				        			        
-
 				    	sampleNames.append(" , ");
 				    	
 				    	header.append("Cytoband,Reporter");
@@ -264,15 +268,19 @@ public class CSVGenerator  {
 
 					           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 					            	sampleNames.append("," + sampleIdIterator.next().toString().substring(2)); 
-						        	header.append(","+label); 
+						        	theLabels.append(","+label); 
 					           	}
 				    	}
-				    	header.append("\n"); 
-				    	sampleNames.append("\n");
+				    	//header.append("\n"); 
+				    	theLabels.append("\n");
 				    	
-						sb.append(header.toString());
-						sb.append(sampleNames.toString());
+						//sb.append(header.toString());
+						//sb.append(sampleNames.toString());
 						
+			    		boolean showLL = true;
+			    		boolean showAcc = true;
+			    		boolean showGenes = true;
+			    		
 				    	for (Iterator cytobandIterator = cytobands.iterator(); cytobandIterator.hasNext();) {
 				    		CytobandResultset cytobandResultset = (CytobandResultset)cytobandIterator.next();
 				    		String cytoband = cytobandResultset.getCytoband().getValue().toString();
@@ -284,12 +292,74 @@ public class CSVGenerator  {
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
 				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 
-				        		sb.append(cytoband+","+reporterName);
-				        		/*
-				        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
-				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
-				        			String label = groupResultset.getType().getValue().toString();
-				        		*/
+				        		stringBuffer.append(cytoband+","+reporterName);
+				        		
+				        		//show 3 annotations
+				        	//	HashSet geneSymbols = new HashSet(reporterResultset.getAssiciatedGeneSymbols());
+				        		Collection geneSymbols = reporterResultset.getAssiciatedGeneSymbols();
+				        		if(geneSymbols != null){
+				        			String genes = "";
+
+				        			for(Iterator geneIterator = geneSymbols.iterator(); geneIterator.hasNext();)
+				        			{
+				        				Object geneObj = geneIterator.next();
+				        				if(geneObj != null){
+					        				genes += geneObj.toString();
+					        				genes += " | ";
+				        				}
+				        			}
+				        			if(showGenes)	{
+				        				header.append(",Gene Symbols");
+				        				sampleNames.append(",");
+				        				showGenes = false;
+				        			}
+				        			stringBuffer.append(","+genes);
+				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        		}
+				        		
+				        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
+				        		if(locusLinkIds != null){
+				        			String ll = "";
+				        			
+				        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
+				        			{
+				        				Object llObj = LLIterator.next();
+				        				if(llObj!=null){
+				        					ll += llObj.toString();
+				        					ll += " | ";
+				        				}
+				        			}
+				        			if(showLL)	{
+				        				header.append(",Locus Link");
+				        				sampleNames.append(",");
+				        				showLL = false;
+				        			}
+				        			stringBuffer.append(","+ll);
+				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        			
+				        		}
+				        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
+				        		if(accNumbers!=null)	{
+				        			String acc = "";
+				        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
+				        			{
+				        				Object accObj = accIterator.next();
+				        				if(accObj!=null){
+				        					acc += accObj.toString();
+				        					acc += " | ";
+				        				}
+				        			}
+				        			if(showAcc){
+				        				header.append(",Acc.No.");
+				        				sampleNames.append(",");
+				        				showAcc = false;
+				        			}
+				        			stringBuffer.append(", "+acc);
+				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        		}
+
+				        		//sampleNames.append("\n");
+
 				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 				        			String label = (String) labelIterator.next();
 				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
@@ -303,22 +373,22 @@ public class CSVGenerator  {
 				                       		if(sampleResultset2 != null){
 				                       			Double ratio = (Double)sampleResultset2.getCopyNumber().getValue();
 				                       			if(ratio != null)
-				                       				sb.append(","+resultFormat.format(ratio));
+				                       				stringBuffer.append(","+resultFormat.format(ratio));
 				                       			else 
-				                       				sb.append(",-");
+				                       				stringBuffer.append(",-");
 				                       		}
 				                       		else 
 				                       		{
-				                       			sb.append(",-");
+				                       			stringBuffer.append(",-");
 				                       		}
 				                       	}
 				        			}
 				        			else	{
 				                    	for(int s=0;s<sampleIds.size();s++) 
-				                    		sb.append(",-");       
+				                    		stringBuffer.append(",-");       
 				                    }
 				         		}
-				        		sb.append("\n");
+				        		stringBuffer.append("\n");
 				    		}
 				        	//append the extra row here
 				        	//sb.append("\n");
@@ -330,6 +400,10 @@ public class CSVGenerator  {
 				sb.append("Copy Number container is empty");
 			}	
 				
+				sb.append(header.toString() + theLabels.toString()); // add header
+				sb.append(sampleNames.toString() + "\n"); // add sample rows
+				sb.append(stringBuffer.toString()); // add data
+				
 			return sb.toString();
 				
 	}
@@ -338,6 +412,11 @@ public class CSVGenerator  {
 	public static String geneExprSampleView(ResultsContainer resultsContainer)	{
 		
 				StringBuffer sb = new StringBuffer();
+		    	StringBuffer header = new StringBuffer();
+		    	StringBuffer sampleNames = new StringBuffer();
+		        StringBuffer stringBuffer = new StringBuffer();
+		        StringBuffer theLabels = new StringBuffer();
+		        
 				int recordCount = 0;
 				GeneExprSingleViewResultsContainer geneViewContainer = null;
 				if(resultsContainer instanceof DimensionalViewContainer)	{
@@ -355,14 +434,16 @@ public class CSVGenerator  {
 			    	Collection labels = geneViewContainer.getGroupsLabels();
 			    	Collection sampleIds = null;
 		
-			    	StringBuffer header = new StringBuffer();
+			    	header = new StringBuffer();
 			    	
-			    	StringBuffer sampleNames = new StringBuffer();
-			        StringBuffer stringBuffer = new StringBuffer();
+			    	sampleNames = new StringBuffer();
+			        stringBuffer = new StringBuffer();
 			    	
 			    	header.append("Gene,Reporter");
 			    	sampleNames.append(" , "); 
 				   
+			    	theLabels = new StringBuffer();
+			    	
 			    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 			        	String label = (String) labelIterator.next();
 			        	sampleIds = geneViewContainer.getBiospecimenLabels(label);    	
@@ -370,16 +451,19 @@ public class CSVGenerator  {
 
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 				            	sampleNames.append(","+sampleIdIterator.next().toString().substring(2)); 
-				            	header.append(","+label);
+				            	theLabels.append(","+label);
 				           	}
 			           	//header.deleteCharAt(header.lastIndexOf("\t"));
 			    	}
-			    	sampleNames.append("\n");
-			    	header.append("\n"); 
+			    	//sampleNames.append("\n");
+			    	theLabels.append("\n"); 
 			    	
-			    	sb.append(header.toString());
-					sb.append(sampleNames.toString());
+			    	//sb.append(header.toString());
+					//sb.append(sampleNames.toString());
 		
+		    		boolean showLL = true;
+		    		boolean showAcc = true;
+		    		
 			    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 			    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 			    		Collection reporters = geneResultset.getReporterResultsets();
@@ -391,8 +475,52 @@ public class CSVGenerator  {
 			        		Collection groupTypes = reporterResultset.getGroupByResultsets();
 			        		String reporterName = reporterResultset.getReporter().getValue().toString();
 
-			        		sb.append(geneResultset.getGeneSymbol().getValueObject().toString()+","+
-			    					reporterName);
+			        		stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+","+reporterName);
+			        		
+			        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
+			        		if(locusLinkIds != null){
+			        			String ll = "";
+			        			
+			        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
+			        			{
+			        				Object llObj = LLIterator.next();
+			        				if(llObj!=null){
+			        					ll += llObj.toString();
+			        					ll += " | ";
+			        				}
+			        			}
+			        			if(showLL)	{
+			        				header.append(",Locus Link");
+			        				sampleNames.append(",");
+			        				showLL = false;
+			        			}
+			        			stringBuffer.append(","+ll);
+			        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+			        			
+			        		}
+			        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
+			        		if(accNumbers!=null)	{
+			        			String acc = "";
+			        			System.out.println("Acc nos for "+reporterName+": "+accNumbers.size());
+			        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
+			        			{
+			        				Object accObj = accIterator.next();
+			        				if(accObj!=null){
+			        					acc += accObj.toString();
+			        					acc += " | ";
+			        				}
+			        			}
+			        			if(showAcc){
+			        				header.append(",Acc.No.");
+			        				sampleNames.append(",");
+			        				showAcc = false;
+			        			}
+			        			stringBuffer.append(", "+acc);
+			        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+			        		}
+			        		
+			        		//sampleNames.append("\n");
+			        		
 			        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 			        			String label = (String) labelIterator.next();
 			        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
@@ -406,33 +534,36 @@ public class CSVGenerator  {
 				                       		if(biospecimenResultset != null){
 				                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
 				                       			if(ratio != null)
-					                       			sb.append(","+resultFormat.format(ratio));                                 
+				                       				stringBuffer.append(","+resultFormat.format(ratio));                                 
 					                       		else
-					                      			sb.append(",-");
+					                       			stringBuffer.append(",-");
 				                       		}
 				                       		else 
 				                       		{
-				                       			sb.append(",-");
+				                       			stringBuffer.append(",-");
 				                       		}
 				                       	}
 			                       }
 			                       else	{
 			                       for(int s=0;s<sampleIds.size();s++) 
-			                        	sb.append(",-");                      
+			                       	stringBuffer.append(",-");                      
 			                       }
 			
 			         		}
 			         		
-			        		sb.append("\n");
+			        		stringBuffer.append("\n");
 			    		}
 			    		// add the line between genes
 			    		// sb.append("\n");
 			    	}
 				}
 				else {
-					sb.append("Gene Container is empty<br>");
+					stringBuffer.append("Gene Container is empty<br>");
 				}
-			    
+				sb.append(header.toString() + theLabels.toString()); // add header
+				sb.append(sampleNames.toString() + "\n"); // add sample rows
+				sb.append(stringBuffer.toString()); // add data
+				
 			    return sb.toString();
 	
 		
