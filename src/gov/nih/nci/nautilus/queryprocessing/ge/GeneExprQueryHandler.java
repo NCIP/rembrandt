@@ -51,7 +51,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         assert(platObj != null);
         populateProbeAndCloneIncludeFlags(platObj);
 
-        if (geQuery.getAllGenes().isAllGenes() ) {
+        if (geQuery.getAllGenesCrit().isAllGenes() ) {
 
             if (! (factHandler instanceof GEFactHandler.SingleGEFactHandler))
             throw new Exception("AllGenes criteria is not allowed for Disease view");
