@@ -69,7 +69,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
             KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
             
             //All Sample Series
-			//KMDataSeries[] allSamples = getDataSeries(kmPlotContainer, ALLSAMPLES, "All Samples");
+			KMDataSeries[] allSamples = getDataSeries(kmPlotContainer, ALLSAMPLES, "All Samples");
 			//UpRegulated Samples Series 
 			KMDataSeries[] upSamples = getDataSeries(kmPlotContainer,UPREGULATED, geneSymbol+" Upregulated "+upFold+"X");
 			// Down Regulation Series
@@ -79,12 +79,12 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
             if(((Boolean)(hashMap.get("censusPlot"))).booleanValue()) {
             	//store and return the Census Data Series
                 dataset.addSeries(upSamples[1]);
-                //dataset.addSeries(allSamples[1]);
+                dataset.addSeries(allSamples[1]);
                 dataset.addSeries(downSamples[1]);
             }else {
                 //store and return the Step Line Data Series
             	dataset.addSeries(upSamples[0]);
-            	//dataset.addSeries(allSamples[0]);
+            	dataset.addSeries(allSamples[0]);
             	dataset.addSeries(downSamples[0]);
             }
 		}else {

@@ -92,6 +92,8 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	public Collection getSampleKaplanMeierPlotResultsets(
 			ExprFoldChangeDE foldChange) {
 		//this.averageFoldChange = foldChange;
+        //Clear the Previous collection
+        geneExprSamples = new Vector();
 		Collection samples = getBioSpecimenResultsets();
 		for (Iterator sampleIterator = samples.iterator(); sampleIterator
 				.hasNext();) {
@@ -122,8 +124,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 					ExprFoldChangeDE.DOWN_REGULATION)) { 
 				if (geneExprAverage <= (1/foldChange.getValueObject()
 						.doubleValue())) {
-					//logger.debug("What the hell!");
-                    geneExprSamples.add(sample);
+					geneExprSamples.add(sample);
                 }
             }
 			
