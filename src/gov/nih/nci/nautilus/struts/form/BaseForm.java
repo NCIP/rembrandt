@@ -61,16 +61,18 @@ public class BaseForm extends ActionForm {
 		geneTypeColl = new ArrayList();
 	
 		// These are hardcoded but will come from DB
+		diseaseType.add( new LabelValueBean( "All", "ALL" ) );
 		diseaseType.add( new LabelValueBean( "Astrocytic", "ASTROCYTOMA" ) );
 		diseaseType.add( new LabelValueBean( "Oligodendroglial", "OLIG" ) );
-		//diseaseType.add( new LabelValueBean( "Ependymal cell", "Ependymal cell" ) );
 		diseaseType.add( new LabelValueBean( "Mixed gliomas", "MIXED" ) );
+		diseaseType.add( new LabelValueBean( "Glioblastoma", "GBM" ));
+
+		//diseaseType.add( new LabelValueBean( "Ependymal cell", "Ependymal cell" ) );
 		//diseaseType.add( new LabelValueBean( "Neuroepithelial", "Neuroepithelial" ) );
 		//diseaseType.add( new LabelValueBean( "Choroid Plexus", "Choroid Plexus" ) );
 		//diseaseType.add( new LabelValueBean( "Neuronal and mixed neuronal-glial", "neuronal-glial" ) );
 		//diseaseType.add( new LabelValueBean( "Pineal Parenchyma", "Pineal Parenchyma" ));
 		//diseaseType.add( new LabelValueBean( "Embryonal", "Embryonal" ));
-		diseaseType.add( new LabelValueBean( "Glioblastoma", "GBM" ));
 
 		
 		//geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" ) );

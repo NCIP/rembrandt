@@ -919,8 +919,23 @@ public class GeneExpressionForm extends BaseForm {
 	 * @param tumorType The tumorType to set
 	 */
 	public void setTumorType(String tumorType) {
+
 		this.tumorType = tumorType;
-		diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
+		if (this.tumorType.equalsIgnoreCase("ALL")) {
+			ArrayList allDiseases = this.getDiseaseType();
+			for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter.hasNext();) {
+				LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter.next();
+				String thisDiseaseType = thisLabelBean.getValue();
+				// stuff this in our DomainMap for later use !!
+				if (!thisDiseaseType.equalsIgnoreCase("ALL")){
+					diseaseDomainMap.put(thisDiseaseType, DiseaseNameDE.class.getName());
+				}
+			}		 
+		}else{ 
+			diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
+		}
+		
+		
 	}
 
 	/**

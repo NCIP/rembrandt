@@ -208,10 +208,10 @@ public class ComparativeGenomicForm extends BaseForm {
 	  cloneTypeColl.add(new LabelValueBean("IMAGE Id","imageId"));
 	  cloneTypeColl.add(new LabelValueBean("BAC Id","BACId"));
 	  
+	  
+	  snpTypes.add(new LabelValueBean("TSC Id","TSCId"));
 	  snpTypes.add(new LabelValueBean("dBSNP Id","dBSNPId"));
 	  snpTypes.add(new LabelValueBean("Probe Set Id","probeSetId"));
-	  snpTypes.add(new LabelValueBean("TSC Id","TSCId"));
-	  
 	  
 	  alleleTypes.add(new LabelValueBean("ALL","ALL"));
 	  alleleTypes.add(new LabelValueBean("CENTRAL ASIA","CENTRAL ASIA"));
@@ -246,7 +246,7 @@ public class ComparativeGenomicForm extends BaseForm {
 		HttpServletRequest request) {
 
 			ActionErrors errors = new ActionErrors();
-			
+			System.out.println("------------------I am in the cgh validata method()");
 		
 			// Query Name cannot be blank
 			if ((queryName == null || queryName.length() < 1))
@@ -698,9 +698,6 @@ private void createAssayPlatformCriteriaObject(){
 		return this.alleleFrequencyCriteria;
 	}
 	
-	public AssayPlatformCriteria getAssayPlatformCriteria(){
-	   return assayPlatformCriteria;	
-	}
 	/** 
 	 * Returns the tumorGrade.
 	 * @return String
@@ -839,7 +836,21 @@ private void createAssayPlatformCriteriaObject(){
 	 */
 	public void setTumorType(String tumorType) {
 		this.tumorType = tumorType;
-		diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());			
+
+		if (this.tumorType.equalsIgnoreCase("ALL")) {
+			ArrayList allDiseases = this.getDiseaseType();
+			for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter.hasNext();) {
+				LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter.next();
+				String thisDiseaseType = thisLabelBean.getValue();
+				// stuff this in our DomainMap for later use !!
+				if (!thisDiseaseType.equalsIgnoreCase("ALL")){
+					diseaseDomainMap.put(thisDiseaseType, DiseaseNameDE.class.getName());
+				}
+			}		 
+		}else{ 
+			diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
+		}
+			
 	}
 
 	/** 
