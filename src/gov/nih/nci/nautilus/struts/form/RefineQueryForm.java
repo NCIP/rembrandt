@@ -43,9 +43,14 @@ public class RefineQueryForm extends BaseForm {
 	private String operatorType3;
 	
 	private String queryText;
+	private String compoundView;
+	private String resultsetName;
+	
+	private String method;
 
 	// Collections used for Lookup values.
 	private ArrayList queryNameColl;
+	private ArrayList compoundViewColl;
 	
 
 
@@ -158,9 +163,15 @@ public class RefineQueryForm extends BaseForm {
 		leftParen3="";
 		rightParen3="";
 		queryText="";
+		compoundView="";
+		resultsetName="";
+
 
 		
 		setRefineQueryLookups(request);
+		compoundViewColl = new ArrayList();
+		compoundViewColl.add( new LabelValueBean( " ", " " ));
+
 
 	}
 
@@ -363,28 +374,82 @@ public class RefineQueryForm extends BaseForm {
 
   }
 
+  /**
+  * Returns the queryName1.
+  * @return String
+  */
+ public String getQueryText() {
+
+	 return queryText;
+ }
+
+ /**
+  * Set the queryName1.
+  * @param queryName1 The queryName to set
+  */
+ public void setQueryText(String queryText) {
+	 this.queryText = queryText;
+
+ }
+
   
    /**
-   * Returns the queryName1.
+   * Returns the compoundView.
    * @return String
    */
-  public String getQueryText() {
+  public String getCompoundView() {
 
-	  return queryText;
+	  return compoundView;
   }
 
   /**
-   * Set the queryName1.
-   * @param queryName1 The queryName to set
+   * Set the compoundView.
+   * @param compoundView The compoundView to set
    */
-  public void setQueryText(String queryText) {
-	  this.queryText = queryText;
+  public void setCompoundView(String compoundView) {
+	  this.compoundView = compoundView;
 
   }
 
+  /**
+  * Returns the resultsetName.
+  * @return String
+  */
+ public String getResultsetName() {
+
+	 return resultsetName;
+ }
+
+ /**
+  * Set the resultsetName.
+  * @param resultsetName The resultsetName to set
+  */
+ public void setResultsetName(String resultsetName) {
+	 this.resultsetName = resultsetName;
+
+ }
+
+ public String getMethod() {
+
+	 return "";
+ }
+
+ public void setMethod(String method) {
+
+	 this.method = method;
+ }
 
 	public ArrayList getQueryNameColl(){
 	   return queryNameColl;
 	   }
 
+
+	public ArrayList getCompoundViewColl(){
+	   return compoundViewColl;
+	   }
+
+	public void setCompoundViewColl(ArrayList viewColl) {
+		this.compoundViewColl = viewColl;
+	}
+	
 }
