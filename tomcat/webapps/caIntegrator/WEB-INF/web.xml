@@ -17,6 +17,17 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  
+  <!-- Setup Servlet -->  
+  <servlet>
+    <servlet-name>setup</servlet-name>
+    <servlet-class>gov.nih.nci.nautilus.util.SetupServlet</servlet-class>   
+    <init-param>
+      <param-name>logfile</param-name>
+      <param-value>log|log.txt</param-value>    
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>  
 
 
   <!-- Action Servlet Mapping -->
