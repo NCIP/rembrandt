@@ -3,7 +3,10 @@
 
 package gov.nih.nci.nautilus.data;
 
-public class CytobandPosition
+import gov.nih.nci.nautilus.lookup.CytobandLookup;
+
+
+public class CytobandPosition implements CytobandLookup 
 {
     public final static String CYTOBAND = "cytoband";
     public final static String CB_START= "cbStart";

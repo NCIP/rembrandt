@@ -3,7 +3,9 @@
 
 package gov.nih.nci.nautilus.data;
 
-public class ExpPlatformDim
+import gov.nih.nci.nautilus.lookup.ExpPlatformLookup;
+
+public class ExpPlatformDim implements ExpPlatformLookup
 {
   private String expPlatformDesc;
 
