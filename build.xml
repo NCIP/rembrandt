@@ -1,8 +1,9 @@
-<project name="caintergrator" default="compile">
+<project name="caintergrator" default="build-all" basedir=".">
 
  <property name="props-file" value="build.properties"/>
  <property file="${props-file}"/>
-
+ <property name="cvsRoot" value="caintegrator" />
+ <property name="cvsModule" value="${cvsLogin}:pserver:${cvsLogin}@cbiocvs2.nci.nih.gov:/share/content/cvsroot/" />
  <patternset id="test.jars">
   <include name="junit.jar"/>  
  </patternset>	
@@ -89,16 +90,19 @@
  </path>
  
 
-    <target name="compile" > 
+   <target name="compile" > 
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
-        <javac srcdir="${source.java.dir}" destdir="${build.struts.classes.dir}">		
-        	<exclude name="**/test/*.java" /> 
-        	<exclude name="**/de/PBTest.java" />	
-			<classpath refid="cp.compile"/>
-			<!--<exclude name="**/query/ComparativeGenomicQuery.java" />-->				   
+        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">
+        	<!-- <exclude name="**/test/*.java" /> -->
+        	<exclude name="**/de/PBTest.java" /> 
+        	<classpath refid="cp.compile"/>
         </javac>
+	  <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">
+        	<include name="**/de/PBTest.java" /> 
+        	<classpath refid="cp.compile"/>
+      </javac>
     </target>	
 	
 	<target name="compile_struts"> 
@@ -110,10 +114,13 @@
          <!--<exclude name="**/action/ClinicalDataAction.java" />-->		
         <classpath refid="cp.compile"/>
         </javac>
-    </target>	
-	
-	<target name="jar-caintergrator" depends="compile">
-	    <delete file="${jar.dir}/${app.jar.name}.jar"/>  		 
+
+
+  </target>	
+  <target name="build-jar" depends="compile">
+	    <delete dir="${jar.dir}"/>  
+		<mkdir dir="${jar.dir}"/>      
+
 		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
             <fileset dir="${build.classes.dir}">
                 <include name="**/*"/>
@@ -122,8 +129,61 @@
 		<!--<delete dir="${build.classes.dir}"/>-->
 	</target>
 	
-	
- <target name="junit-caintergrator" depends="compile">
+<target name="build-war" depends="build-jar, compile">
+  <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
+   <fileset dir="${webapp.dir}/">
+            <exclude name="web.xml"/>
+   </fileset>
+   <fileset dir="${webapp.dir}/css"/>
+   <fileset dir="${webapp.dir}/html"/>
+   <fileset dir="${webapp.dir}/images"/>
+   <fileset dir="${webapp.dir}/js"/>
+   <fileset dir="${webapp.dir}/jsp"/>
+   
+   <lib dir="${build.lib.dir}">
+ <!--- "ojb.rt.jars" -->
+   	<include name="${jar.dir}/${app.jar.name}.jar"/>
+   	<include name="btree.jar"/>
+   	<include name="commons-beanutils.jar"/>
+   	<include name="commons-collections-2.1.1.jar"/>
+	<include name="commons-dbcp-1.1.jar"/>
+   	<include name="commons-lang-2.0.jar"/>
+  	<include name="commons-pool-1.1.jar"/>
+  	<include name="db-ojb-1.0.rc7.jar"/>
+  	<include name="j2ee.jar"/>
+  	<include name="jcs.jar"/>
+  	<include name="jdo.jar"/>
+  	<include name="jdori.jar"/>
+  	<include name="jta-1.0.1.jar"/>
+  	<include name="log4j-1.2.8.jar"/>
+  	<include name="p6spy.jar"/>
+  	<include name="xercesImpl.jar"/>
+  	<include name="xml-apis.jar"/>
+ <!-- "xml.jars" -->
+ 	<include name="jdom-1.0b8.jar"/>
+ 	<include name="jaxen-1.0-FCS-full.jar"/>
+ 	<include name="saxpath-1.0-FCS.jar"/>
+ 	<include name="xercesImpl-2.4.0.jar"/>
+ 	<include name="xmi-apis-2.0.2.jar"/>
+<!--- "db.platform.jars" -->
+  <include name="oracle.jar"/>
+<!--- "other.jars"> -->
+  <include name="jxmldiff.jar"/>
+ </lib>
+  </war>
+</target>
+
+ <!--
+    | Deploys the war file by copying it to the tomcat webapp directory.
+    -->
+    <target name="deploy-webapp" depends="build-war">
+	  <delete dir="${tomcat.dir}/webapps/${app.war.name}"/>
+	  <delete dir="${tomcat.dir}/work"/>
+        <copy file="${build.dir}/${app.war.name}.war" todir="${tomcat.dir}/webapps"/>
+    </target>
+
+    <target name="build-all" depends="clean, cvs-login,cvs-update, deploy-webapp"/>
+ <target name="run_junit" depends="compile">
 
     <delete dir="${junit.report.dir}"/>
     <mkdir dir="${junit.report.dir}"/>
@@ -143,7 +203,32 @@
 	      outfile="${junit.report.dir}/PBTest"/> 
   	</junit> 	  	
  </target>
+  <!-- cvsLogin target -->
+ <target name="cvs-login">
+      <input message="Please enter CVS user login name:" addproperty="cvsLogin" />
+	<condition property="noLogin"> 
+		<equals arg1="" arg2="${cvsLogin}" /> 
+	</condition> 
+	<fail if="noLogin">You didn't enter a CVS user login name.</fail>
+
+	<input message="Please enter CVS password:" addproperty="cvsPassword" /> 
+	<condition property="noCVSPassword"> 
+		<equals arg1="" arg2="${cvsPassword}" /> 
+	</condition> 
     
+	<fail if="noCVSPassword">You did not enter your CVS password.</fail>
+		 <cvspass cvsRoot="${cvsRoot}" password="${cvsLogin}" /> 
+</target>
+
+<!-- cvsUpdate target --> 
+ <target name="cvs-update" depends="cvs-login">
+	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}" command="update -d " />
+ </target>
+
+ <target name="tagcode">
+	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="tag -R ${tag}"/>
+ </target>
+
  <target name="clean">       
         <delete dir="${build.dir}" quiet="true"/>
  </target> 
