@@ -5,7 +5,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
-<%@ page import="java.util.*, java.lang.*, java.io.* " %>
+<%@ page import="java.util.*, java.lang.*, java.io.*, java.net.URLEncoder " %>
 
 
 <tr class="report">
@@ -26,6 +26,8 @@
 		    <td class="message">Type</th>
             <td class="message">Resultant Name</th>
             <td class="message">Compound Query</th>
+         
+            
             
           </tr>
           <nested:iterate name="viewResultsForm" 
@@ -39,7 +41,9 @@
                 <nested:equal property="isSampleSetQuery" value="false">
                  <td style="font-size:.9em">results</td>
                 </nested:equal>
-	            <td><a href="#" style="font-size:.9em"><nested:write property="resultantCacheKey"/></a></td>
+	            <td>
+	              <a href="runReport.do?method=runGeneViewReport&queryName=<nested:write property='encodedResultantCacheKey'/>&showSampleSelect=false" style="font-size:.9em" target="_blank">
+	              <nested:write property="resultantCacheKey"/></a></td>
 	            <td><nested:write property="beanText"/></td>
 	            
               </tr>

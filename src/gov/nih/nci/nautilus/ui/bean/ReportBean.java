@@ -4,8 +4,10 @@ import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.net.URLEncoder;
 
 import org.dom4j.Document;
  
@@ -20,6 +22,7 @@ import org.dom4j.Document;
 public class ReportBean implements Serializable{
 	private Resultant resultant;
     private String resultantCacheKey;
+    private String encodedResultantCacheKey;
 	private Document reportXML;
 	private Map filterParams = new HashMap();
 	private boolean isSampleSetQuery = false;
@@ -45,8 +48,10 @@ public class ReportBean implements Serializable{
 	 */
 	public void setResultantCacheKey(String reportCacheKey) {
 		this.resultantCacheKey = reportCacheKey;
+        setEncodedResultantCacheKey(resultantCacheKey);        
 	}
-	/**
+	
+    /**
 	 * @param reportXML The reportXML to set.
 	 */
 	public void setReportXML(Document reportTemplate) {
@@ -73,6 +78,21 @@ public class ReportBean implements Serializable{
 	public String getBeanText(){
 	    return this.beanText;
 	}
+	/**
+     * @param encodedResultantCacheKey
+	 * @throws UnsupportedEncodingException
+     */
+    public void setEncodedResultantCacheKey(String resultantCacheKey){
+         this.encodedResultantCacheKey = URLEncoder.encode(resultantCacheKey);
+     }
+    
+    /**
+     * @param encodedResultantCacheKey
+     */
+    public String getEncodedResultantCacheKey() {
+        return this.encodedResultantCacheKey;
+     }
+
 		
 	/**
 	 * @return Returns the filterParams.
