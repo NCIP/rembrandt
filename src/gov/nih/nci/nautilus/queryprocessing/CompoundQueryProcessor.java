@@ -49,6 +49,7 @@
  */
 package gov.nih.nci.nautilus.queryprocessing;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
@@ -71,6 +72,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 
 
 /**
@@ -79,6 +82,7 @@ import java.util.Vector;
  * 
  */
 public class CompoundQueryProcessor {
+	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	public static CompoundResultSet execute(CompoundQuery compoundQuery) throws Exception{
 		ResultSet[] resultSets = null;
 		CompoundResultSet compoundResultet= null;
@@ -120,22 +124,6 @@ public class CompoundQueryProcessor {
 				}
 	
 			if (operator != null) {
-				/*if(isGroupResultsets(leftResultSets, rightResultSets)){ //to deal with disease group
-					if(operator.equals(OperatorType.AND)){
-						sampleIds.addAll(resultSetGroupInterSection(leftResultSets,rightResultSets));
-					}
-					else if(operator.equals(OperatorType.OR)){
-						sampleIds.addAll(resultSetGroupUnion(leftResultSets,rightResultSets));
-					}
-					else if(operator.equals(OperatorType.NOT)){
-						sampleIds.addAll(resultSetGroupDifference(leftResultSets,rightResultSets));
-					}
-					else if(operator.equals(OperatorType.PROJECT_RESULTS_BY)){
-						sampleIds.addAll(resultSetGroupProjectResultsBy(leftResultSets,rightResultSets));
-					}	
-				}
-				else{
-				*/
 					if(operator.equals(OperatorType.AND)){
 						sampleIds.addAll(resultSetInterSection(leftResultSets,rightResultSets));
 					}
@@ -148,7 +136,6 @@ public class CompoundQueryProcessor {
 					else if(operator.equals(OperatorType.PROJECT_RESULTS_BY)){
 						sampleIds.addAll(resultSetProjectResultsBy(leftResultSets,rightResultSets));
 					}
-				//}
 				compoundResultet = processCompoundQuery(results,sampleIds);					
 			}else{ //then its the right query				
 				compoundResultet = processCompoundQuery(results,rightResultSets.getSampleIds());	//rightResultSets;	
@@ -192,35 +179,7 @@ public class CompoundQueryProcessor {
 		for (Iterator resultsIterator = results.iterator(); resultsIterator.hasNext();) {
 			Object resultObj = resultsIterator.next();
 			if(resultObj instanceof ResultSet[]){
-				if(resultObj instanceof  GeneExpr.GeneExprSingle[]){
-					resultSetCollection.addAll(Arrays.asList((GeneExpr.GeneExprSingle[])resultObj));
-	    		}
-	    		else if(resultObj instanceof  CopyNumber[]){
-	    			resultSetCollection.addAll(Arrays.asList((CopyNumber[])resultObj));
-	    	    }
-	    		else if(resultObj instanceof  PatientData[]){
-	    			resultSetCollection.addAll(Arrays.asList((PatientData[])resultObj));
-	    		}
-	    		else if(resultObj instanceof  GeneExpr.GeneExprGroup[]){
-	    			resultSetCollection.addAll(Arrays.asList((GeneExpr.GeneExprGroup[])resultObj));	    		}
-				}else if(resultObj instanceof Object[]){
-				Object[] objArray = (Object[]) resultObj;
-				for(int i = 0; i < objArray.length;i++){
-					if(objArray[i] instanceof ResultSet[]){
-						if(resultObj instanceof  GeneExpr.GeneExprSingle[]){
-							resultSetCollection.addAll(Arrays.asList((GeneExpr.GeneExprSingle[])resultObj));
-			    		}
-			    		else if(resultObj instanceof  CopyNumber[]){
-			    			resultSetCollection.addAll(Arrays.asList((CopyNumber[])resultObj));
-			    	    }
-			    		else if(resultObj instanceof  PatientData[]){
-			    			resultSetCollection.addAll(Arrays.asList((PatientData[])resultObj));
-			    		}
-			    		else if(resultObj instanceof  GeneExpr.GeneExprGroup[]){
-			    			resultSetCollection.addAll(Arrays.asList((GeneExpr.GeneExprGroup[])resultObj));	    		}
-						
-					}
-				}
+				resultSetCollection.add(resultObj);
 			}
 		}
 		return resultSetCollection;
@@ -270,15 +229,6 @@ public class CompoundQueryProcessor {
 		    			finalResultsets.add(resultset.toArray(new GeneExpr.GeneExprGroup[1]));
 		    	}
 			}
-/**			else if (obj instanceof Object[]){
-				Object[] objArray = (Object[])obj;
-				for(int i = 0;i < objArray.length;i++){
-					CompoundResultSet compoundResultset = processCompoundQuery((Collection) objArray[i],sampleIds);
-					finalResultsets.add(compoundResultset.getResults());
-				}
-				
-			}
-			**/
 		}
 		return new CompoundResultSet(finalResultsets,sampleIds);
 	}
@@ -316,21 +266,11 @@ public class CompoundQueryProcessor {
 				rightResults.add(groupResultSet.getDiseaseTypeId());
 			}
 			//the removeAll operation effectively modifies this set so that its value is the asymmetric set difference of the two sets.
-			System.err.println("L:"+leftResults.size());			
-			System.err.println("R:"+rightResults.size());
+			logger.debug("L:"+leftResults.size());			
+			logger.debug("R:"+rightResults.size());
 			diffset = new HashSet(leftResults);
 			diffset.removeAll(rightResults);
-			/**System.err.println("Diff:"+diffset.size());	
-			for (Iterator iterator = diffset.iterator(); iterator.hasNext();) {
-	    		Long id = (Long)iterator.next();
-	    		for(int i =0;i < leftResultSets.length;i++){
-	    			ClinicalResultSet clinicalResultset = (ClinicalResultSet) leftResultSets[i];
-		    		if(clinicalResultset.getBiospecimenId().equals(id)){
-		    			finalResults.add(clinicalResultset);
-		    		}
-	    		}
-	    	}	
-	    	**/	
+			
 		}
 		return diffset;
 	}
@@ -360,27 +300,11 @@ public class CompoundQueryProcessor {
 			}
 			//the addAll operation effectively modifies this set so that its value is the union of the two sets.
 			unionSet = new HashSet(leftResults);
-			System.err.println("L:"+leftResults.size());
-			System.err.println("R:"+rightResults.size());
+			logger.debug("L:"+leftResults.size());
+			logger.debug("R:"+rightResults.size());
 			unionSet.addAll(rightResults);
-			System.err.println("Union:"+unionSet.size());	
-			//Get the corresponding objects out of the left and right resultsets
-			/*for (Iterator iterator = unionSet.iterator(); iterator.hasNext();) {
-	    		Long id = (Long)iterator.next();
-	    		for(int i =0;i < leftResultSets.length;i++){
-		    		ClinicalResultSet clinicalResultSet = (ClinicalResultSet) leftResultSets[i];
-		    		if(clinicalResultSet.getBiospecimenId().equals(id)){
-		    			finalResults.add(clinicalResultSet);
-		    		}
-	    		}
-	    		for(int i =0;i < rightResultSets.length;i++){
-		    		ClinicalResultSet clinicalResultSet = (ClinicalResultSet) rightResultSets[i];
-		    		if(clinicalResultSet.getBiospecimenId().equals(id)){
-		    			finalResults.add(clinicalResultSet);
-		    		}
-	    		}
-	    	}	
-	    	*/
+			logger.debug("Union:"+unionSet.size());	
+			
 		}
 		return unionSet;
 	}
@@ -409,21 +333,10 @@ public class CompoundQueryProcessor {
 			}
 			//this operation effectively modifies this set so that its value is the intersection of the two sets.
 			interSectSet = new HashSet(leftResults);
-			System.err.println("L:"+leftResults.size());
-			System.err.println("R:"+rightResults.size());
+			logger.debug("L:"+leftResults.size());
+			logger.debug("R:"+rightResults.size());
 			interSectSet.retainAll(rightResults);
-			//System.err.println("InterSect:"+interSectSet.size());	
-			//Get the corresponding objects out of the left and right resultsets
-			/*if(leftResults.getClass().equals(rightResults.getClass()))
-			for (Iterator iterator = interSectSet.iterator(); iterator.hasNext();) {
-	    		Long id = (Long)iterator.next();
-	    		for(int i =0;i < leftResultSets.length;i++){
-		    		ClinicalResultSet clinicalResultSet = (ClinicalResultSet) leftResultSets[i];
-		    		if(clinicalResultSet.getBiospecimenId().equals(id)){
-		    			finalResults.add(clinicalResultSet);
-		    		}
-	    		}
-	    	}*/
+			
 	    	
 		}
 		return interSectSet; //(ResultSet[])finalResults.toArray(new ResultSet[1]);
@@ -453,8 +366,8 @@ public class CompoundQueryProcessor {
 		rightResults.addAll(rightResultSets.getSampleIds());
 
 		//the removeAll operation effectively modifies this set so that its value is the asymmetric set difference of the two sets.
-		System.err.println("L:"+leftResults.size());			
-		System.err.println("R:"+rightResults.size());
+		logger.debug("L:"+leftResults.size());			
+		logger.debug("R:"+rightResults.size());
 		diffset = new HashSet(leftResults);
 		diffset.removeAll(rightResults);
 			
@@ -477,10 +390,10 @@ public class CompoundQueryProcessor {
 		
 		//the addAll operation effectively modifies this set so that its value is the union of the two sets.
 		unionSet = new HashSet(leftResults);
-		System.err.println("L:"+leftResults.size());
-		System.err.println("R:"+rightResults.size());
+		logger.debug("L:"+leftResults.size());
+		logger.debug("R:"+rightResults.size());
 		unionSet.addAll(rightResults);
-		System.err.println("Union:"+unionSet.size());	
+		logger.debug("Union:"+unionSet.size());	
 		return unionSet;
 	}
 	/**
@@ -499,10 +412,10 @@ public class CompoundQueryProcessor {
 		
 		//this operation effectively modifies this set so that its value is the intersection of the two sets.
 		interSectSet = new HashSet(leftResults);
-		System.err.println("L:"+leftResults.size());
-		System.err.println("R:"+rightResults.size());
+		logger.debug("L:"+leftResults.size());
+		logger.debug("R:"+rightResults.size());
 		interSectSet.retainAll(rightResults);
-		System.err.println("InterSect:"+interSectSet.size());	
+		logger.debug("InterSect:"+interSectSet.size());	
 		return interSectSet; 
 	}
 }
