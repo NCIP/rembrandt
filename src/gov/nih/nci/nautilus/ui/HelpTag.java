@@ -9,6 +9,7 @@ public class HelpTag implements Tag, Serializable {
 	private PageContext pc = null;
 	private Tag parent = null;
 	private String help = null;
+	private String label = null;
 
 	public void setPageContext(PageContext p) {
 		pc = p;
@@ -30,11 +31,24 @@ public class HelpTag implements Tag, Serializable {
 		return help;
 	}
 
+	public void setLabel(String s) {
+		label = s;
+	}
+	
+	public String getLabel() {
+		return label;
+	}
+	
 	public int doStartTag() throws JspException {
 		try {
 
 		if(help != null) {
-			pc.getOut().write("<a href=\"javascript:void(0);\" onmouseover=\"return overlib('"+help+"', CAPTION, 'Help');\" onmouseout=\"return nd();\">[?]</a>");
+			if(label != null)	{
+				pc.getOut().write("<a href=\"javascript:void(0);\" onmouseover=\"return overlib('"+help+"', CAPTION, 'Help');\" onmouseout=\"return nd();\">"+label+"</a>");	
+			}
+			else	{
+				pc.getOut().write("<a href=\"javascript:void(0);\" onmouseover=\"return overlib('"+help+"', CAPTION, 'Help');\" onmouseout=\"return nd();\">[?]</a>");
+			}
 		} else {
 			pc.getOut().write("");
 		}

@@ -43,7 +43,7 @@ response.setHeader("Location",newLocn);
 
 <!--navigation bar-->
 <div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left">
-<a style="font-size:.8em" href="#">home</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">support</a>&nbsp;&nbsp;&nbsp;
 </div>
@@ -129,7 +129,7 @@ response.setHeader("Location",newLocn);
 
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
-    <a href="#">HOME</a>  |  <a href="#">CONTACT</a>  |  <a href="javascript:spawn('help.jsp', 350, 500);">SUPPORT</a>  |  <a href="#">NCICB HOME</a>
+    <a href="menu.do">HOME</a>  |  <a href="#">CONTACT</a>  |  <a href="javascript:spawn('help.jsp', 350, 500);">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
 </div>
 <!--end footer-->
 

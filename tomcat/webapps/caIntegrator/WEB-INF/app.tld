@@ -39,6 +39,10 @@
 			<name>help</name>
 			<required>false</required>
 		</attribute>
+		<attribute>
+			<name>label</name>
+			<required>false</required>
+		</attribute>
 	</tag> 
 
 
