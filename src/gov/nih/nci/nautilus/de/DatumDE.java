@@ -64,6 +64,14 @@ public class DatumDE extends DomainElement{
 	* SurvivalLengthRange
     */
     public final static String SURVIVAL_LENGTH_RANGE =  "SurvivalLengthRange";
+    /**
+	* SurvivalLength
+    */
+    public final static String SURVIVAL_LENGTH =  "SurvivalLength";
+    /**
+	* Censor
+    */
+    public final static String CENSOR =  "Censor";
 
 // ****************************************************
 //                   CONSTRUCTOR(S)
