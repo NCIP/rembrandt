@@ -1611,7 +1611,7 @@ public class GeneExpressionForm extends BaseForm {
 						if(regionCriteria == null){
 							regionCriteria = new RegionCriteria();
 						}
-						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Integer(this.basePairEnd));
+						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Long(this.basePairEnd));
 						regionCriteria.setEnd(basePairEndDE);
 					}
 				}
@@ -1998,7 +1998,7 @@ public class GeneExpressionForm extends BaseForm {
 						if(regionCriteria == null){
 							regionCriteria = new RegionCriteria();
 						}
-						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Integer(this.basePairStart));
+						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Long(this.basePairStart));
 						regionCriteria.setStart(basePairStartDE);
 					}
 				}
