@@ -5,14 +5,18 @@ import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.criteria.SNPCriteria;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
+import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.AssayPlatformDE;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
@@ -323,6 +327,22 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         if (!assayPlatformCriteria.isEmpty()) {
             cghQuery.setAssayPlatformCrit(assayPlatformCriteria);
         }
+	    else {
+			/*
+			 * This logic is required for an all genes query.  There
+			 * must be an AssayPlatformDE specified for the all gene's
+			 * query, and there was not one being created.  This is 
+			 * probably a hack as we may later allow the user to select
+			 * from the a list of platforms, and all could be the default.
+			 * --Dave
+			 */
+	    	assayPlatformCriteria = new AssayPlatformCriteria();
+	    	assayPlatformCriteria.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
+	    	cghQuery.setAssayPlatformCrit(assayPlatformCriteria);
+		}
+        
+        
+        
         return cghQuery;
     }
     

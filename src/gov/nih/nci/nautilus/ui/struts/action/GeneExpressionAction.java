@@ -6,6 +6,7 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
@@ -302,7 +303,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			 * --Dave
 			 */
 			arrayPlatformCriteria = new ArrayPlatformCriteria();
-			arrayPlatformCriteria.setPlatform(new ArrayPlatformDE("all"));
+			arrayPlatformCriteria.setPlatform(new ArrayPlatformDE(Constants.ALL_PLATFROM));
 			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
 		}
 	    return geneExpQuery;
