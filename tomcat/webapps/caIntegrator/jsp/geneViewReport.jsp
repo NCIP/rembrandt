@@ -72,7 +72,7 @@ try	{
  		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
  		System.out.println("HERE");
  		if(resultsContainer != null)	{
-	 		%><a href="jsp/geneViewReportCSV.jsp">[Download this report for Excel]</a> | <a href="menu.do">[Back to Menu]</a><br><%
+	 		%><a href="jsp/geneViewReportCSV.jsp" onclick="javascript:return false;">[Download this report for Excel]</a> | <a href="menu.do">[Back to Menu]</a><br><%
 	
 	 		Viewable view = resultant.getAssociatedView(); 
 	 		
@@ -330,7 +330,7 @@ try	{
 	
 			else if (view instanceof GeneExprDiseaseView){
 				// do disease view here
-			 	GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
+			 		GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
 					if(geneExprDiseaseContainer != null)	{
 				    	Collection genes = geneExprDiseaseContainer.getGeneResultsets();
 				    	Collection labels = geneExprDiseaseContainer.getGroupsLabels();
@@ -381,13 +381,14 @@ try	{
 				    	        	if(diseaseResultset != null){
 			                   			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
 			                   			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
-			                   			stringBuffer.append("<td>"+resultFormat.format(ratio)+" ("+resultFormat.format(pvalue)+")"+"</td></tr>");  
+			                   			stringBuffer.append("<td>"+resultFormat.format(ratio)+" ("+resultFormat.format(pvalue)+")"+"</td>");  
 			                   			}
 			                   		else 
 			                   		{
-			                   			stringBuffer.append("<Td>-</td></tr>");
+			                   			stringBuffer.append("<Td>-</td>");
 			                   		}
 				    	    	}
+	   	                   		stringBuffer.append("</tr>");
 				        		out.println(stringBuffer.toString());
 				    		}
 				    	}
@@ -398,7 +399,24 @@ try	{
 			}
 		}
 		else if(view instanceof ClinicalSampleView)	{
-			out.println("HERE IS THE CLINICAL VIEW");
+			System.out.println("HERE IS THE CLINICAL VIEW");
+			DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+			CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+			System.out.println("hello");
+			out.println("<table>\n");
+			SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+ 		   	out.println("<Tr><Td>SAMPLE</td><td>AGE</td><td>GENDER</td><td>SURVIVAL</td><td>DISEASE</td></tr>");
+			StringBuffer stringBuffer = new StringBuffer();
+   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
+	   			out.println("<tr><td>"+sampleResultset.getBiospecimen().getValue()+ "</td>" +
+   					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
+					"<td>"+sampleResultset.getGenderCode().getValue()+ "</td>" +
+					"<td>"+sampleResultset.getSurvivalLengthRange().getValue()+ "</td>" +
+					"<Td>"+sampleResultset.getDisease().getValue() + "</td></tr>");
+    		}
+    		out.println("</table>\n<br>");
 		}
 		else	{
 			out.println("error with view<Br><Br>");
