@@ -69,23 +69,20 @@ public class GeneexpressionAction extends Action {
 		
 		// Set gene criteria
 		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
-		
-		if (!geneIDCrit.isEmpty()) 
-			geneExpQuery.setGeneIDCrit(geneIDCrit);
+		geneExpQuery.setGeneIDCrit(geneIDCrit);
 		
 		FoldChangeCriteria foldChangeCrit = geneExpressionForm.getFoldChangeCriteria();
-		if (!foldChangeCrit.isEmpty()) 
-			geneExpQuery.setFoldChgCrit(foldChangeCrit);
+		geneExpQuery.setFoldChgCrit(foldChangeCrit);
 		
 		RegionCriteria regionCrit = geneExpressionForm.getRegionCriteria();
-		if (!regionCrit.isEmpty())
-			geneExpQuery.setRegionCrit(regionCrit);
+		geneExpQuery.setRegionCrit(regionCrit);
 		
 		//Set query in Session.
 		if (! geneExpQuery.isEmpty()) {
 			// Get Hashmap from session if available
 			HashMap queryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
 			if (queryMap == null) {
+				System.out.println("Query Map in Session is empty");
 				queryMap = new HashMap();
 			}
 			queryMap.put(geneExpQuery.getQueryName(), geneExpQuery);
@@ -100,12 +97,15 @@ public class GeneexpressionAction extends Action {
 		
 		
 		//Test display of query from Hashmap !!
-/*		HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
+		HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
 		Query thisQuery = (Query) thisQueryMap.get(geneExpQuery.getQueryName());
+		System.out.println("I am in gene expression action ");
 
 		if (thisQuery.getQueryType().equals(QueryType.GENE_EXPR_QUERY_TYPE)) {
 			System.out.println(thisQuery.toString());
-		}*/
+		}
+		
+		
 		
 		
 
