@@ -10,7 +10,10 @@
 
 %>
 	<!-- <html:form action="<%=act%>" > -->
-
+	
+<html:errors property="copyNumberAllGenesAmp"/></br>
+<html:errors property="copyNumberAllGenesDel"/></br>
+	
 <html:radio property="copyNumber" value="amplified" styleClass="radio"/> Amplified &ge;
 				<html:text property="cnAmplified" onfocus="javascript:radioFold(this);" />&nbsp;copies</br>
 

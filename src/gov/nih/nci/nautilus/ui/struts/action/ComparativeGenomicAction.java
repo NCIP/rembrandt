@@ -120,7 +120,12 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		
 		ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
         //set all Genes query and give copyNumber default value
-		comparativeGenomicForm.setCnAmplified("2");
+		comparativeGenomicForm.setGeneGroup("");
+		comparativeGenomicForm.setCopyNumber("amplified");
+		comparativeGenomicForm.setCnAmplified(NautilusConstants.ALL_GENES_COPY_NUMBER_REGULATION);
+		comparativeGenomicForm.setCnADAmplified(NautilusConstants.ALL_GENES_COPY_NUMBER_REGULATION);
+		comparativeGenomicForm.setCnADDeleted("1");
+		comparativeGenomicForm.setCnDeleted("1");
          
 		logger.debug("This is an All Genes cgh Submital");
 		return mapping.findForward("showAllGenes");
@@ -153,6 +158,9 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		////set standard query and clear copyNumber default value
 		comparativeGenomicForm.setCopyNumber("");
 		comparativeGenomicForm.setCnAmplified("");
+		comparativeGenomicForm.setCnADAmplified("");
+		comparativeGenomicForm.setCnADDeleted("");
+		comparativeGenomicForm.setCnDeleted("");
 		
 		logger.debug("This is an Standard cgh Submital");
 		return mapping.findForward("backToCGH");
@@ -182,6 +190,48 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         request.getSession().removeAttribute("currentPage2");
         String sessionId = request.getSession().getId();
         ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
+        
+        /*The following 15 lines of code/logic will eventually need to be moved/re-organized. All Genes queries should have their own actions, forms, etc. For
+   	  * now, in order to properly validate an all genes query and STILL be able to forward back to
+   	  * the appropriate query page (tile order), this logic has been placed in the action itself, so
+   	  * that there can be proper forwarding when errors are generated from an all genes submission.
+   	  * This logic checks if the query is an all genes query and then if the copy number value is
+   	  * less than 10 for amplified and greater than 1 for deletion. If it is less than 10 for amp and greater than 1 for deleted,
+   	  * an error is created and sent with the request to the forward.
+   	  * BEGINS HERE!!
+   	  */
+   		   if (comparativeGenomicForm.getIsAllGenes()){
+   		       try{
+   		        int intCnAmplified = Integer.parseInt(comparativeGenomicForm.getCnAmplified());
+   		        float floatCnDeleted = Float.parseFloat(comparativeGenomicForm.getCnDeleted());
+   		        int intCnADAmplified = Integer.parseInt(comparativeGenomicForm.getCnADAmplified());
+   		        float floatCnADDeleted = Float.parseFloat(comparativeGenomicForm.getCnADDeleted());
+   			        if((intCnAmplified < 10 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("amplified")) || 
+   			             (intCnADAmplified < 10 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("ampdel"))){
+   			            ActionErrors errors = new ActionErrors();
+			            errors.add("copyNumberAllGenesAmp", new ActionError(
+						"gov.nih.nci.nautilus.ui.struts.form.copyNumberAmp.allGenes.error")); 
+			            this.saveErrors(request, errors);
+					    return mapping.findForward("showAllGenes"); 
+   			        }
+   			        if((floatCnDeleted > 1 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("deleted")) ||
+   			             (floatCnADDeleted > 1 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("ampdel"))){
+   			            ActionErrors errors = new ActionErrors();
+   			            errors.add("copyNumberAllGenesDel", new ActionError(
+   						"gov.nih.nci.nautilus.ui.struts.form.copyNumberDel.allGenes.error")); 
+   			            this.saveErrors(request, errors);
+   					    return mapping.findForward("showAllGenes"); 
+   			        }
+   		     } catch (NumberFormatException ex) {
+   		           ActionErrors errors = new ActionErrors();
+		            errors.add("copyNumberAllGenesDel", new ActionError(
+					"gov.nih.nci.nautilus.ui.struts.form.copyNumberDel.allGenes.error")); 
+		            this.saveErrors(request, errors);
+				    return mapping.findForward("showAllGenes");    
+  		    }
+        }
+   		  //All Genes validation ENDS HERE  
+   		
         
         logger.debug("This is a Comparative Genomic Submittal");
         //Create Query Objects

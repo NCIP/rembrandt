@@ -273,7 +273,7 @@ public class GeneExpressionForm extends BaseForm {
 		// if the method of the button is "submit" or "run report", validate
 		if (this.getMethod().equalsIgnoreCase("submit")
 				|| this.getMethod().equalsIgnoreCase("preview")) {
-
+            		    
 			// Query Name cannot be blank
 			errors = UIFormValidator.validateQueryName(queryName, errors);
 			// Chromosomal region validations
@@ -945,7 +945,6 @@ public class GeneExpressionForm extends BaseForm {
 			if (thisGeneOption != null
 					&& thisGeneOption.equalsIgnoreCase("allgenes")) {
 				isAllGenes = true;
-				regulationStatus = "up";
 			}
 		}
 	}
@@ -2044,6 +2043,10 @@ public class GeneExpressionForm extends BaseForm {
 
 	public void setPathwayName(String[] pathwayName) {
 		this.pathwayName = pathwayName;
+	}
+	
+	public boolean getIsAllGenes(){
+	    return this.isAllGenes;
 	}
 
 	public GeneExpressionForm cloneMe() {

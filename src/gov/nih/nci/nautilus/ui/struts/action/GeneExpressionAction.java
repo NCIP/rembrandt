@@ -104,6 +104,11 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
          
 		geneExpressionForm.setGeneGroup("");
+		geneExpressionForm.setRegulationStatus("up");
+		geneExpressionForm.setFoldChangeValueUp(NautilusConstants.ALL_GENES_GENE_EXP_REGULATION);
+		geneExpressionForm.setFoldChangeValueUDUp(NautilusConstants.ALL_GENES_GENE_EXP_REGULATION);
+		geneExpressionForm.setFoldChangeValueDown(NautilusConstants.ALL_GENES_GENE_EXP_REGULATION);
+		geneExpressionForm.setFoldChangeValueUDDown(NautilusConstants.ALL_GENES_GENE_EXP_REGULATION);
 		logger.debug("set former gene values to null");
 		logger.debug("This is an All Genes Gene Expression Submital");
 		return mapping.findForward("showAllGenes");
@@ -135,6 +140,10 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
 		// set form back to standard state and clear default value
 		geneExpressionForm.setRegulationStatus("");
+		geneExpressionForm.setFoldChangeValueUp(NautilusConstants.STANDARD_GENE_EXP_REGULATION);
+		geneExpressionForm.setFoldChangeValueUDUp(NautilusConstants.STANDARD_GENE_EXP_REGULATION);
+		geneExpressionForm.setFoldChangeValueDown(NautilusConstants.STANDARD_GENE_EXP_REGULATION);
+		geneExpressionForm.setFoldChangeValueUDDown(NautilusConstants.STANDARD_GENE_EXP_REGULATION);
 		
 		logger.debug("This is an Standard Gene Expression Submital");
 		return mapping.findForward("backToGeneExp");
@@ -163,7 +172,42 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		request.getSession().removeAttribute("currentPage2");
 		String sessionId = request.getSession().getId();
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
-
+ 
+	 /*The following 15 lines of code/logic will eventually need to be moved/re-organized. All Genes queries should have their own actions, forms, etc. For
+	  * now, in order to properly validate an all genes query and STILL be able to forward back to
+	  * the appropriate query page (tile order), this logic has been placed in the action itself, so
+	  * that there can be proper forwarding when errors are generated from an all genes submission.
+	  * This logic checks if the query is an all genes query and then if the fold change value is
+	  * less than 4 with a corresponding regulation status uplon submission. If it is less than 4,
+	  * an error is created and sent with the request to the forward.
+	  */
+		   if (geneExpressionForm.getIsAllGenes()){
+		      try{
+		        int intFoldChangeValueUp = Integer.parseInt(geneExpressionForm.getFoldChangeValueUp());
+		        int intFoldChangeValueDown = Integer.parseInt(geneExpressionForm.getFoldChangeValueDown());
+		        int intFoldChangeValueUDUp = Integer.parseInt(geneExpressionForm.getFoldChangeValueUDUp());
+		        int intFoldChangeValueUDDown = Integer.parseInt(geneExpressionForm.getFoldChangeValueUDDown());
+			        if((intFoldChangeValueUp < 4 && geneExpressionForm.getRegulationStatus().equalsIgnoreCase("up")) || 
+			                (intFoldChangeValueDown < 4 && geneExpressionForm.getRegulationStatus().equalsIgnoreCase("down")) ||
+			                (intFoldChangeValueUDUp < 4 && geneExpressionForm.getRegulationStatus().equalsIgnoreCase("updown")) || 
+			                (intFoldChangeValueUDDown < 4 && geneExpressionForm.getRegulationStatus().equalsIgnoreCase("updown"))){
+			            ActionErrors errors = new ActionErrors();
+			            errors.add("regulationStatusAllGenes", new ActionError(
+						"gov.nih.nci.nautilus.ui.struts.form.regulationStatus.allGenes.error")); 
+			            this.saveErrors(request, errors);
+					    return mapping.findForward("showAllGenes"); 
+			        }
+		      }catch (NumberFormatException ex) {
+		           ActionErrors errors = new ActionErrors();
+		            errors.add("regulationStatusAllGenes", new ActionError(
+					"gov.nih.nci.nautilus.ui.struts.form.regulationStatus.allGenes.error")); 
+		            this.saveErrors(request, errors);
+				    return mapping.findForward("showAllGenes");    
+	  		    }
+		    }
+		   //All Genes validation ENDS HERE 
+		   
+		
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
 	    logger.debug("This is a Gene Expression Submital");

@@ -935,8 +935,7 @@ public class ComparativeGenomicForm extends BaseForm {
 	                && thisGeneOption.equalsIgnoreCase("allgenes")){
 	            //set all Genes query and give copyNumber default value
 	            isAllGenes = true;
-	            copyNumber = "amplified";
-	        }
+	            }
 	    }
 	}
 	
@@ -2144,6 +2143,9 @@ public class ComparativeGenomicForm extends BaseForm {
 	 */
 	public void setCytobands(List cytobands) {
 		this.cytobands = cytobands;
+	}
+	public boolean getIsAllGenes(){
+	    return this.isAllGenes;
 	}
 
     public ComparativeGenomicForm cloneMe() {
