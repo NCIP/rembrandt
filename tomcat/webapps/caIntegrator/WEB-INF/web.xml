@@ -5,7 +5,7 @@
   "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
 
 <web-app>
-	<display-name>Struts Example Application</display-name>
+  <display-name>Struts Example Application</display-name>
 
   <!-- Action Servlet Configuration -->
   <servlet>
@@ -28,14 +28,23 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>  
+  
+  <!-- Cewolf Graph Rendering Servlet and Servlet Mapping -->
+  <servlet>
+      <servlet-name>CewolfServlet</servlet-name>
+      <servlet-class>de.laures.cewolf.CewolfRenderer</servlet-class>
+  </servlet>
 
+  <servlet-mapping>
+      <servlet-name>CewolfServlet</servlet-name>
+      <url-pattern>/cewolf/*</url-pattern>
+  </servlet-mapping>
 
   <!-- Action Servlet Mapping -->
   <servlet-mapping>
     <servlet-name>action</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
-
 
   <!-- The Welcome File List -->
   <welcome-file-list>
