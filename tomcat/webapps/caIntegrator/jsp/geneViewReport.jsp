@@ -99,7 +99,7 @@ if(mode == null)	{
   System.out.println("do a regular report");
   QueryCollection queryCollection = null;
   if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
-	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";	
+	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";	
     queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
   }
   else	{
