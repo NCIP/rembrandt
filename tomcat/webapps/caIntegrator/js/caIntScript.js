@@ -614,14 +614,14 @@ function showQueryDetail(selectName){
 		  document.forms[0].geneType.disabled = false;
 		  document.forms[0].geneFile.value = "";
 		  document.forms[0].geneFile.disabled = true;
-		
+		  document.forms[0].geneList.focus();
 		  }
 	      if (i == 1) {
 	      
 	      document.forms[0].geneList.value = "";
 	      document.forms[0].geneList.disabled = true;
 		  document.forms[0].geneFile.disabled = false;
-	
+		  document.forms[0].geneFile.focus();
 	      }
 	   }
 	   
@@ -631,7 +631,7 @@ function showQueryDetail(selectName){
 		  document.forms[0].cloneList.disabled = false;	
 		  document.forms[0].cloneListFile.value = "";	
 		  document.forms[0].cloneListFile.disabled = true;
-		 
+ 		  document.forms[0].cloneListSpecify.focus();
 		
 		  }
 	      if (i == 1) {
@@ -639,13 +639,14 @@ function showQueryDetail(selectName){
 	      document.forms[0].cloneListSpecify.value = "";
 		  document.forms[0].cloneListSpecify.disabled = true;	    
 		  document.forms[0].cloneListFile.disabled = false;
-	
+	      document.forms[0].cloneListFile.focus();
 	      }
 	   }
 	   if(element == "snpId"){
 	      if (i == 0){		  
 	        document.forms[0].snpListSpecify.disabled = false;			
 	        document.forms[0].snpList.disabled = false;
+			document.forms[0].snpListSpecify.focus();
 			document.forms[0].snpListFile.value = "";	
 	        document.forms[0].snpListFile.disabled = true;
 	      }
@@ -653,6 +654,7 @@ function showQueryDetail(selectName){
 	        document.forms[0].snpListSpecify.value = "";			
 	        document.forms[0].snpListSpecify.disabled = true;	        
 	        document.forms[0].snpListFile.disabled = false;
+			document.forms[0].snpListFile.focus();
 	      }
 	   }
 	   
