@@ -45,10 +45,14 @@ public class GeneOntologyHandler {
                 String symbol = (String) objs[0];
                 geneSymbols.add(new GeneIdentifierDE.GeneSymbol(symbol));
             }
-            GeneIDCriteria geneIDCrit = new GeneIDCriteria();
-            geneIDCrit.setGeneIdentifiers(geneSymbols);
+            if (geneSymbols.size() > 0) {
+                GeneIDCriteria geneIDCrit = new GeneIDCriteria();
+                geneIDCrit.setGeneIdentifiers(geneSymbols);
 
-            // executeQuery ProbesetID and CloneIDs for GeneSymbols
-            return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes, pb);
+                // executeQuery ProbesetID and CloneIDs for GeneSymbols
+                return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes, pb);
+            }
+            // means no data
+            return new GEReporterIDCriteria();
     }
 }

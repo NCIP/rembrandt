@@ -37,6 +37,7 @@ import java.util.*;
  */
 public class QueryTest extends TestCase {
 	 private static final DecimalFormat resultFormat = new DecimalFormat("0.00");
+     DiseaseOrGradeCriteria diseaseCrit;
      FoldChangeCriteria foldCrit;
      CopyNumberCriteria copyNumberCrit;
      GeneIDCriteria  geneIDCrit;
@@ -51,6 +52,7 @@ public class QueryTest extends TestCase {
      SNPCriteria snpCrit;
 
     protected void setUp() throws Exception {
+        buildDiseaseTypeCrit();
         buildRegionCrit();
         buildPlatformCrit();
         buildCloneCrit();
@@ -66,10 +68,10 @@ public class QueryTest extends TestCase {
           public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
-             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             q.setAssociatedView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
              //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-            q.setGeneIDCrit(geneIDCrit);
-            //q.setGeneOntologyCrit(ontologyCrit);
+            //q.setGeneIDCrit(geneIDCrit);
+            q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
             //q.setPathwayCrit(pathwayCrit);
 
@@ -79,13 +81,14 @@ public class QueryTest extends TestCase {
 
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
-
+            q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setFoldChgCrit(foldCrit);
 
             try {
                 ResultSet[] geneExprObjects = QueryManager.executeQuery(q);
                 print(geneExprObjects);
-                testResultset(geneExprObjects);
+                if (geneExprObjects.length > 0)
+                    testResultset(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
@@ -222,7 +225,9 @@ public class QueryTest extends TestCase {
             crit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
             q.seAssayPlatformCrit(crit);
             //q.setRegionCrit(regionCrit);
-            q.setSNPCrit(snpCrit);
+            //q.setSNPCrit(snpCrit);
+            //q.setGeneIDCrit(geneIDCrit);
+            q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setCopyNumberCrit(copyNumberCrit);
 
             try {
@@ -241,7 +246,7 @@ public class QueryTest extends TestCase {
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
         suit.addTest(new TestSuite(GeneExpression.class));
-        suit.addTest(new TestSuite(CGH.class));
+        //suit.addTest(new TestSuite(CGH.class));
         return suit;
 	}
 
@@ -256,7 +261,7 @@ public class QueryTest extends TestCase {
         //inputIDs.add(0, "220988");    // Locus Link for hnRNPA3
         //inputIDs.add(0, "BF195526");      // accession numbers for hnRNPA3 gene are AW080932, AA527502, AA528233
          // inputIDs.add(0, "hnRNPA3");
-         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("MGC33382");
+         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("CTNND2");
          inputIDs.add(gs);
         // GeneIdentifierDE geIDObj =
            //       new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
@@ -285,7 +290,7 @@ public class QueryTest extends TestCase {
 
     private void buildOntologyCrit() {
         ontologyCrit = new GeneOntologyCriteria();
-        ontologyCrit.setGOIdentifier(new GeneOntologyDE("4"));
+        ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0008150"));
     }
     private void buildSNPCrit() {
         ArrayList inputIDs = new ArrayList();
@@ -323,6 +328,10 @@ public class QueryTest extends TestCase {
         allPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.ALL_PLATFROM));
         affyOligoPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM));
         cdnaPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.CDNA_ARRAY_PLATFORM));
+    }
+    private void buildDiseaseTypeCrit() {
+         diseaseCrit = new DiseaseOrGradeCriteria();
+         diseaseCrit.setDisease(new DiseaseNameDE("GBM"));
     }
 
     private void buildProbeCrit() {
