@@ -43,8 +43,10 @@ public class RegionCriteria extends Criteria {
      }
 
     public void setCttoband(CytobandDE cytoband) {
-       assert(cytoband != null);
-       this.cytoband = cytoband;
+       //assert(cytoband != null);
+	   if(cytoband != null){
+         this.cytoband = cytoband;
+		 }
     }
 
     public BasePairPositionDE.StartPosition getStart() {
