@@ -136,7 +136,7 @@ abstract class PropertyLoader
     private PropertyLoader () {} // this class is not extentible
     
     
-    private static final boolean THROW_ON_LOAD_FAILURE = true;
+    private static final boolean THROW_ON_LOAD_FAILURE = false;
     private static final boolean LOAD_AS_RESOURCE_BUNDLE = false;
     private static final String SUFFIX = ".properties";
 
