@@ -250,10 +250,10 @@ public class CompoundQueryTest extends TestCase {
 	public void testShowAllValuesHandler() {
 		
 		try {
-			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
-			CompoundQuery myCompoundQuery2 = new CompoundQuery(OperatorType.OR,myCompoundQuery1,geneQuery);
+			//CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
+			CompoundQuery myCompoundQuery2 = new CompoundQuery(genomicQuery);
 
-			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			myCompoundQuery2.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery2);
 			System.out.println("Printing Query Output>>>>>>>>>>>>>>>>>>>>>>>");
 			print(resultant);
@@ -436,7 +436,7 @@ public class CompoundQueryTest extends TestCase {
     private void buildGeneIDCrit() {
         geneCrit = new GeneIDCriteria();
         //Both IMAGE:2014733 and 1555146_at should be subsets of ATF2
-        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("EGFR"));
+        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("BRCA2"));
 
     }
     private void buildPathwayCrit() {
@@ -483,17 +483,17 @@ public class CompoundQueryTest extends TestCase {
       
     }
     private void buildCopyChangeCrit() {
-        //Float amplification = new Float(4.0);
+        Float amplification = new Float(2.0);
         Float deletion = new Float(1.0);
-        //CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
+        CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
         CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
         //CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
         //CopyNumberDE.UnChangedCopyNumberDownLimit  downCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberDownLimit(deletion);
 
         copyNumberCrit = new CopyNumberCriteria();
         Collection objs = new ArrayList(4);
-        objs.add(deletionObj);
-        //objs.add(upCopyNumberObj);
+        //objs.add(deletionObj);
+        objs.add(ampObj);
         //objs.add(downCopyNumberObj);
         copyNumberCrit.setCopyNumbers(objs);
     }
@@ -529,9 +529,9 @@ public class CompoundQueryTest extends TestCase {
     private void buildCopyNumberSingleViewQuery(){
         genomicQuery = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
         genomicQuery.setQueryName("CopyNumberQuery");
-        //genomicQuery.setGeneIDCrit(geneCrit);
+        genomicQuery.setGeneIDCrit(geneCrit);
         genomicQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
-        genomicQuery.setRegionCrit(regionCrit);
+        //genomicQuery.setRegionCrit(regionCrit);
         genomicQuery.setAssayPlatformCrit(snpPlatformCrit);
         genomicQuery.setCopyNumberCrit(copyNumberCrit);
     }

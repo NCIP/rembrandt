@@ -61,9 +61,15 @@ public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsConta
     public BioSpecimenResultset getBioSpecimentResultset(String cytoband,String reporterName, String groupType, String bioSpecimenID){
     	if(cytoband != null && reporterName != null && groupType != null  && bioSpecimenID != null){
     		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(cytoband);
-    		ReporterResultset reporterResultset = (ReporterResultset) cytobandResultset.getRepoterResultset(reporterName);
-			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
-			return groupResultset.getBioSpecimenResultset(bioSpecimenID);
+    		if(cytobandResultset != null){
+    			ReporterResultset reporterResultset = (ReporterResultset) cytobandResultset.getRepoterResultset(reporterName);
+    			if(reporterResultset != null){
+    				ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
+    				if(groupResultset != null){
+    					return groupResultset.getBioSpecimenResultset(bioSpecimenID);
+    				}
+    			}
+    		}
 		}
     		return null;
     }
