@@ -214,7 +214,7 @@ public class UIFormValidator {
 			    bean.setAllGeneAlias(allGeneAlias);
 				for(int i =0; i < allGeneAlias.length ; i++){
 					AllGeneAliasLookup alias = allGeneAlias[i];
-					System.out.println(alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()+"\n");
+					logger.debug(alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()+"\n");
 					errors
 					   .add(
 							ActionErrors.GLOBAL_ERROR,
@@ -225,7 +225,7 @@ public class UIFormValidator {
 			}
 			// if there are no aliases, we don't have record, so show noRecord error message
 			else{
-			    System.out.println("no aliases found! \n");
+			    logger.debug("no aliases found \n");
 			    errors
 				   .add(
 						ActionErrors.GLOBAL_ERROR,
@@ -236,7 +236,7 @@ public class UIFormValidator {
 		}
 	    //if gene Symbol can be found , execute query
 		else{
-		System.out.println(gene+" found! \n");
+		    logger.debug(gene+" found! \n");
       }
 	    return errors;
     }

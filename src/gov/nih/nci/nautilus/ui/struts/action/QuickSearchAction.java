@@ -170,12 +170,12 @@ public class QuickSearchAction extends DispatchAction {
 		chartType = qsForm.getPlot();
 		
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
-			    System.out.println("wants GE kapMai w/ genesymbol");
+			    logger.debug("user requested geneExp kapMai w/ genesymbol");
 				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
 				request.setAttribute("plotType", NautilusConstants.GENE_EXP_KMPLOT);
 				return mapping.findForward("kmplot");
 			}if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
-			    System.out.println("wants CP kapMaiPlotCN");
+			    logger.debug("user rquested SNP kapMaiPlotCN");
 			    request.setAttribute("quickSearchType",qsForm.getQuickSearchType());
 				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
 				request.setAttribute("plotType", NautilusConstants.COPY_NUMBER_KMPLOT);
@@ -184,7 +184,7 @@ public class QuickSearchAction extends DispatchAction {
 			
 			else if (chartType.equalsIgnoreCase("geneExpPlot")) {
 				try {
-				    System.out.println("wants gePlot w/ genesymbol");
+				    logger.debug("user has requested geneExpPlot");
 					return doGeneExpPlot(mapping, qsForm, request, response);
 				} catch (Exception e) {
 					logger.error("Gene Expression Plot Flopped");
