@@ -1,5 +1,4 @@
 <project name="caintergrator" default="build-all" basedir=".">
-
 	<property name="props-file" value="build.properties" />
 	<property file="${props-file}" />
 	<property environment="env" />
@@ -126,7 +125,6 @@
 			<include name="junit.jar" />
 			<include name="log4j-1.2.8.jar" />
 			<include name="db-ojb-1.0.rc7.jar" />
-			<include name="dom4j-1.5.2.jar" />
             <patternset refid="cache.jars"/>         
 		</fileset>
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
@@ -226,12 +224,12 @@
 				<include name="ApplicationResources.properties" />
 			</fileset>
 		</copy>
-		<jar index="true" jarfile="${build.webapp.lib.dir}/${app.jar.name}.jar">
+        <jar index="true" jarfile="${build.webapp.lib.dir}/${app.jar.name}.jar">
 			<fileset dir="${build.classes.dir}">
 				<include name="**/*" />
 			</fileset>
 		</jar>
-        </target>
+    </target>
 
     <target name="build-war" depends="build-jar">
 		<delete file="${build.dir}/${app.war.name}.war" />
@@ -241,6 +239,7 @@
 			<zipfileset dir="${webapp.dir}/images" prefix="images" />
 			<zipfileset dir="${webapp.dir}/js" prefix="js" />
 			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp" />
+            <zipfileset dir="${webapp.dir}/XSL" prefix="XSL" />         
 			<webinf dir="${webapp.dir}/WEB-INF">
 				<include name="*.xml" />
 				<include name="*.properties" />
