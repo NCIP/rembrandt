@@ -39,10 +39,9 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
 	public Document getReportXML(Resultant resultant, Map filterMapParams) {
-		// TODO Auto-generated method stub
 		
 		//	have setter or put in props file
-		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
+		//String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
 		Document document = DocumentHelper.createDocument();

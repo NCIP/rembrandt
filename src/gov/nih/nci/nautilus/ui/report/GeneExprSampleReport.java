@@ -181,7 +181,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 		    		/*  hard code filter for now */
 	        		String the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
 		    		//if(!the_gene.equalsIgnoreCase(filter_string))	{
-	        		if(this.checkFilter(filter_element, "gene", the_gene, filter_type, filter_string))	{
+	        		if(FilterHelper.checkFilter(filter_element, "gene", the_gene, filter_type, filter_string))	{
 	        		//if(!filter_element.equals("gene") || (filter_element.equals("gene") && !filter_string.contains(the_gene)))	{
 			    		recordCount+=reporters.size();
 
@@ -191,8 +191,8 @@ public class GeneExprSampleReport implements ReportGenerator{
 			        		String reporterName = reporterResultset.getReporter().getValue().toString();
 			        		
 			        		/* test filtration by reporter */
-			        		if(!filter_element.equals("reporter") || (filter_element.equals("reporter") && !filter_string.contains(reporterName)))	{		
-						        	
+			        		//if(!filter_element.equals("reporter") || (filter_element.equals("reporter") && !filter_string.contains(reporterName)))	{		
+			        		if(FilterHelper.checkFilter(filter_element, "reporter", reporterName, filter_type, filter_string))	{   	
 				        		GeneSymbol gene = geneResultset.getGeneSymbol();
 				        		//String geneSymbol = "&#160;";
 				        		String geneSymbol = "-";
@@ -277,7 +277,7 @@ public class GeneExprSampleReport implements ReportGenerator{
  
 		    return document;
 	}
-	
+/*
 	public boolean checkFilter(String filter_element, String f_element, String name, String filter_type, ArrayList filter_string)	{
 		if(filter_type.equals("hide") && (!filter_element.equals(f_element) || (filter_element.equals(f_element) && !filter_string.contains(name)))) 
 			return true;
@@ -288,5 +288,5 @@ public class GeneExprSampleReport implements ReportGenerator{
 		else
 			return false;
 	}
-
+*/
 }

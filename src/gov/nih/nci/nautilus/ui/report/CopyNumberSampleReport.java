@@ -171,7 +171,8 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
 				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 				        		
-				        		if(!filter_element.equals("reporter") || (filter_element.equals("reporter") && !filter_string.contains(reporterName)))	{		
+				        		if(FilterHelper.checkFilter(filter_element, "reporter", reporterName, filter_type, filter_string))	{   	
+				        		//if(!filter_element.equals("reporter") || (filter_element.equals("reporter") && !filter_string.contains(reporterName)))	{		
 					        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
