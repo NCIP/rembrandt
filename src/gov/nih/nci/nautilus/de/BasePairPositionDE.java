@@ -47,7 +47,7 @@ abstract public class BasePairPositionDE extends DomainElement {
   /**
 	* private parent constructor utilized in the two nested/childe classes
     */
-   private BasePairPositionDE(String positionType, Integer value) {
+   private BasePairPositionDE(String positionType, Long value) {
       super(value);
       this.positionType = positionType;
     }
@@ -56,7 +56,7 @@ abstract public class BasePairPositionDE extends DomainElement {
 	* nested child class: StartPosition
     */
    public final static class StartPosition extends BasePairPositionDE {
-     public StartPosition(Integer startPosition) {
+     public StartPosition(Long startPosition) {
         super(START_POSITION, startPosition);
         }
 	
@@ -66,7 +66,7 @@ abstract public class BasePairPositionDE extends DomainElement {
 	* nested child class: EndPosition
     */
    public final static class EndPosition extends BasePairPositionDE {
-      public EndPosition(Integer endPosition) {
+      public EndPosition(Long endPosition) {
         super(END_POSITION, endPosition);
         }
 	 
@@ -88,22 +88,22 @@ abstract public class BasePairPositionDE extends DomainElement {
     public void setValue(Object obj) throws Exception {
       if (! (obj instanceof Integer) )
        throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
-         setValueObject((Integer)obj);
+         setValueObject((Long)obj);
     }
 
   /**
     * Returns the basePairPosition for this BasePairPositionDE obect.
     * @return the basePairPosition for this <code>BasePairPositionDE</code> object
     */	
-    public Integer getValueObject() {
-        return (Integer) getValue();
+    public Long getValueObject() {
+        return (Long) getValue();
     }
 
 	/**
     * Sets the basePairPosition for this <code>BasePairPositionDE</code> object
     * @param basePairPosition the basePairPosition    
 	*/ 
-    public void setValueObject(Integer basePairPosition) {
+    public void setValueObject(Long basePairPosition) {
         if(basePairPosition != null){
            this.value = basePairPosition;
 		}
