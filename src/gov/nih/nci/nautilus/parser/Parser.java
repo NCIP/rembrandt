@@ -196,7 +196,7 @@ public class Parser {
      * x as the left child, and z as the right child.
      * 
      */
-    private void buildCompoundQuery(int rootIndex, int leftIndex, int rightIndex) {
+    private void buildCompoundQuery(int rootIndex, int leftIndex, int rightIndex) throws Exception{
                
         OperatorType rootValue = (OperatorType) getStackItem(rootIndex);
         Queriable leftChild = (Queriable) getStackItem(leftIndex);
