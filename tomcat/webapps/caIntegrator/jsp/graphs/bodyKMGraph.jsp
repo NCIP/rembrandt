@@ -3,6 +3,18 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@taglib uri='/WEB-INF/cewolf.tld' prefix='cewolf' %>
+
+<%
+ String helpLink = "<a href=\"javascript: spawn('help.jsp";
+ String helpLinkClose = "', 350, 500);\">"+
+				"<img align=\"right\" src=\"images/helpIcon.jpg\" border=\"0\" "+
+				"onmouseover=\"return overlib('Click here for additional information about this report.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
+				"</a><br clear=\"all\">";
+%>
+<div>
+<%=helpLink%>?sect=kmplot<%=helpLinkClose%>
+</div>
+
 <html:form action="/kmGraph.do?method=redrawKMPlot">
   <html:hidden property="geneSymbol"/>
   <div>
