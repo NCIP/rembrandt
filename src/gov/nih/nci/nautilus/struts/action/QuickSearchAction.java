@@ -23,10 +23,13 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionError;
 
 import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.lookup.DiseaseTypeLookup;
+import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.view.*;
 //import gov.nih.nci.nautilus.constants.Constants;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.criteria.Constants;
 
@@ -67,6 +70,8 @@ public class QuickSearchAction extends DispatchAction {
 
 		String[] groups;
 		
+		String geneSymbol;
+		
 		String[] probeSets = new String[0];
 		
 		double[] intensityValues = new double[0];
@@ -74,6 +79,8 @@ public class QuickSearchAction extends DispatchAction {
 
 		ArrayList pValues = new ArrayList();
 		HashMap plotData = new HashMap();
+		
+		HashMap xLegend = new HashMap();
 		
 	   QuickSearchForm qsForm = (QuickSearchForm) form;	
 	   String gene = qsForm.getQuickSearchName();
@@ -111,6 +118,8 @@ public class QuickSearchAction extends DispatchAction {
 			final DecimalFormat resultFormat = new DecimalFormat("0.00");	
 			final DecimalFormat pValueFormat = new DecimalFormat("0.0000");
 			System.out.println("Gene:"+geneExprDiseasePlotContainer.getGeneSymbol());
+			geneSymbol = geneExprDiseasePlotContainer.getGeneSymbol().getValue().toString();
+			
 	    	Collection diseases = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultsets();
 	    	StringBuffer header = new StringBuffer();
 	        StringBuffer stringBuffer = new StringBuffer();
@@ -132,28 +141,33 @@ public class QuickSearchAction extends DispatchAction {
 	    		probeSetSize=reporters.size();
 			}
 			
-    		// i am redeclaring this each time = bad news
-    		intValuesArray = new double[probeSetSize][diseaseSize];
-    		System.out.println("set intValuesArray: ["+probeSetSize+"]["+diseaseSize+"]");
     		
     		int icounter = 0;
-	    	for (Iterator diseasesIterator = diseases.iterator(); diseasesIterator.hasNext();) {
-	    		DiseaseGeneExprPlotResultset diseaseResultset = (DiseaseGeneExprPlotResultset)diseasesIterator.next();
+    		DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
+    		
+    		intValuesArray = new double[probeSetSize][diseaseTypes.length];
+    		System.out.println("set intValuesArray: ["+probeSetSize+"]["+diseaseTypes.length+"]");
+    		
+    		
+	    	for (int i = 0; i< diseaseTypes.length ; i++) {
+	    		
+	    		System.out.println("id :"+diseaseTypes[i].getDiseaseTypeId()+"\tType: "+diseaseTypes[i].getDiseaseType()+"\tDesc :"+diseaseTypes[i].getDiseaseDesc() );
+	    		
+	    		xLegend.put(diseaseTypes[i].getDiseaseType(), diseaseTypes[i].getDiseaseDesc());
+	    		
+	    		DiseaseNameDE disease = new DiseaseNameDE(diseaseTypes[i].toString());
+	    		//DiseaseGeneExprPlotResultset diseaseResultset = (DiseaseGeneExprPlotResultset)diseasesIterator.next();
+	    		DiseaseGeneExprPlotResultset diseaseResultset = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(diseaseTypes[i].getDiseaseType().toString());
+	    		
 	    		String diseaseName = diseaseResultset.getType().getValue().toString();
 	    		stringBuffer.append(diseaseName+"\n");
-	    		//groups.add(diseaseName); // add the string to the array list
-	    		if(diseaseName.equals(gov.nih.nci.nautilus.constants.Constants.NORMAL))
-	    		{
-	    			groups[icounter] = diseaseName.substring(1); //snip the z off
-	    		}
-	    		else	{
-		    		if(diseaseName.length() > 6)	{
+	
+		    		if(diseaseName.equalsIgnoreCase("ASTROCYTOMA"))	{
 		    			groups[icounter] = diseaseName.substring(0,6);
 		    		}
 		    		else	{
 		    			groups[icounter] = diseaseName;
 		    		}	
-	    		}
 	    		
 	    		Collection reporters = diseaseResultset.getReporterFoldChangeValuesResultsets(); //geneResultset.getReporterResultsets();
 
@@ -196,7 +210,7 @@ public class QuickSearchAction extends DispatchAction {
 		       	String[] xAxisLabels = groups;
 		       	String xAxisTitle= "Groups";
 		       	String yAxisTitle= "Mean Expression Intensity";
-		       	String title= "Gene Expression Plot ("+gene+")";
+		       	String title= "Gene Expression Plot ("+geneSymbol+")";
 		       	DataSeries dataSeries = new DataSeries( xAxisLabels, xAxisTitle, yAxisTitle, title );
 	
 		       	//double[][] data= new double[][]{ { 250, 45, 36, 66, 22 }, { 150, 15, 6, 62, 21 }, { 20, 145, 36, 6, 33 }, { 250, 45, 36, 66, 57 }, { 150, 15, 6, 62, 12 }, { 20, 145, 36, 6, 29 } };
@@ -246,6 +260,8 @@ public class QuickSearchAction extends DispatchAction {
 		       	System.out.println("No chart to put in session");
 		       	axisChart.renderWithImageMap();
 		       	ImageMap imageMap= axisChart.getImageMap();
+		       	
+		       	request.setAttribute( "xLegend", xLegend );
 		       	
 		       	request.setAttribute( "pValues", pValues );
 		       	request.setAttribute( "map", imageMap );
