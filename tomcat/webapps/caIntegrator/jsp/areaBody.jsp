@@ -13,15 +13,15 @@ String act = request.getParameter("area").toLowerCase();
 %>
 
 <%
-FileInputStream props = 
+Properties  props = new Properties ();
 try {
 props.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+request.getParameter("area")+".properties"));
 } 
 catch (IOException e) {
 out.println("cant read props");
 }
-FileReader reader = new FileReader(props);
-out.print("<div>")
+//FileReader reader = new FileReader(props);
+out.print("<div>");
 out.print(props);
-out.print("</div>")
+out.print("</div>");
 %>
