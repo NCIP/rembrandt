@@ -1,19 +1,14 @@
 package gov.nih.nci.nautilus.queryprocessing.clinical;
 
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
+import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.math.BigDecimal;
 
-import gov.nih.nci.nautilus.queryprocessing.ge.*;
-import gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria;
-import gov.nih.nci.nautilus.queryprocessing.DBEvent;
-import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
  * Created by IntelliJ IDEA.

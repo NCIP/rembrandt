@@ -1,7 +1,7 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

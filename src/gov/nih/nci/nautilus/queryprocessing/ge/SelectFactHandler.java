@@ -1,19 +1,17 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
-import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryFactory;
 
 /**
  * Created by IntelliJ IDEA.

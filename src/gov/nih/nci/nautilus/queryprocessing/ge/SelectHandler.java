@@ -1,18 +1,20 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
-import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-
-import java.util.*;
-import java.math.BigDecimal;
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.queryprocessing.ge.*;
-import gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
  * Created by IntelliJ IDEA.

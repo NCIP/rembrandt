@@ -1,24 +1,24 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.data.GeneClone;
+import gov.nih.nci.nautilus.data.GeneSnp;
+import gov.nih.nci.nautilus.data.LlSnp;
+import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.de.BasePairPositionDE;
-import gov.nih.nci.nautilus.data.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.Query;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
-
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.math.BigDecimal;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
  * Created by IntelliJ IDEA.

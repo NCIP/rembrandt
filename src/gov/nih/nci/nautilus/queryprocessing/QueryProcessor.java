@@ -3,8 +3,6 @@ package gov.nih.nci.nautilus.queryprocessing;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
-import java.util.Map;
-
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR

@@ -1,21 +1,21 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
-import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.de.GeneOntologyDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
 import gov.nih.nci.nautilus.data.GeneOntology;
-import gov.nih.nci.nautilus.queryprocessing.ge.*;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.GeneOntologyDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.Iterator;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
  * Created by IntelliJ IDEA.

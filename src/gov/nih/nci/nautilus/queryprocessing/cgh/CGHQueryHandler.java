@@ -1,38 +1,31 @@
 package gov.nih.nci.nautilus.queryprocessing.cgh;
 
-import gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
-
-
-import gov.nih.nci.nautilus.criteria.*;
-
-
+import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.criteria.SNPCriteria;
+import gov.nih.nci.nautilus.data.SnpProbesetDim;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
-import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
+import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler;
-import gov.nih.nci.nautilus.queryprocessing.ge.CloneProbePlatfromHandler;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler;
-import gov.nih.nci.nautilus.data.SnpProbesetDim;
-import gov.nih.nci.nautilus.data.ProbesetDim;
-import gov.nih.nci.nautilus.data.CloneDim;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.ManageableCollection;
-import org.apache.ojb.broker.accesslayer.OJBIterator;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-
-import java.util.*;
-import java.math.BigDecimal;
 
 /**
  * Created by IntelliJ IDEA.

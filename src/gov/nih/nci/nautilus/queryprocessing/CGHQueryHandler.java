@@ -1,24 +1,16 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
-import gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
-
-
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.SNPCriteria;
 import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
-
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.criteria.SNPCriteria;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
+import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.ResultSet;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.

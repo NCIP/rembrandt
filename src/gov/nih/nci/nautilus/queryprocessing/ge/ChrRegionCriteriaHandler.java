@@ -1,20 +1,24 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
+import gov.nih.nci.nautilus.data.CytobandPosition;
+import gov.nih.nci.nautilus.data.GeneClone;
+import gov.nih.nci.nautilus.data.ProbesetDim;
+import gov.nih.nci.nautilus.data.SnpProbesetDim;
 import gov.nih.nci.nautilus.de.BasePairPositionDE;
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
-import gov.nih.nci.nautilus.data.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
+
+import java.math.BigDecimal;
+import java.util.Iterator;
+
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-
-import java.util.Iterator;
-import java.math.BigDecimal;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
  * Created by IntelliJ IDEA.

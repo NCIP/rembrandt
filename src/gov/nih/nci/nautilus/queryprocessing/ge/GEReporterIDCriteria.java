@@ -1,10 +1,8 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.apache.ojb.broker.query.Criteria;
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
-
 import java.util.ArrayList;
+
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
  * Created by IntelliJ IDEA.

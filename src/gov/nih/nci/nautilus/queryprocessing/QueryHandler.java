@@ -1,13 +1,11 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;

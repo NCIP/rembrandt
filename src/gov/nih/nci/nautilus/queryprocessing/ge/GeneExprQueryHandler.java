@@ -1,33 +1,22 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.de.*;
-
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
-import gov.nih.nci.nautilus.data.ReporterAll;
-import gov.nih.nci.nautilus.data.GeneOntology;
-import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
+import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.view.ClinicalSampleView;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
-import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.queryprocessing.ge.*;
-import gov.nih.nci.nautilus.queryprocessing.ge.CloneProbePlatfromHandler;
-import gov.nih.nci.nautilus.queryprocessing.ge.GEFactHandler;
-import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.DBEvent;
-import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 
-import java.util.*;
-
-
-import org.apache.ojb.broker.query.*;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

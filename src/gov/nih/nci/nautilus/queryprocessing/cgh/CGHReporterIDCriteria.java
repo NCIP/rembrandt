@@ -1,8 +1,6 @@
 package gov.nih.nci.nautilus.queryprocessing.cgh;
 
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.apache.ojb.broker.query.Criteria;
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,29 +1,23 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
-import gov.nih.nci.nautilus.query.GeneExpressionQuery;
-import gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.data.CloneAccession;
+import gov.nih.nci.nautilus.data.CloneDim;
+import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.data.ProbesetDim;
-import gov.nih.nci.nautilus.data.CloneDim;
-import gov.nih.nci.nautilus.data.ReporterAll;
-import gov.nih.nci.nautilus.data.CloneAccession;
 
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.math.BigDecimal;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQuery;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
  * Created by IntelliJ IDEA.
