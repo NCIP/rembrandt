@@ -19,11 +19,29 @@ gov.nih.nci.nautilus.ui.CSVGenerator" %>
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
 
-
 //	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
 
+if(session.getAttribute("csv") != null)	{
+	// request came from a transitional report
+	ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute("csv");
+	String mode =  (String) session.getAttribute("mode");
+	
+	if(mode.equals("gene"))
+		out.println(CSVGenerator.geneExprSampleView(resultsContainer));
+	else if( mode.equals("copy"))
+		out.println(CSVGenerator.copyNumberSampleView(resultsContainer));
+	else
+		out.println("Error somewhere");
+		
+	session.removeAttribute("csv");
+	session.removeAttribute("mode");
+}
+else	{
+System.out.println("no resultscontainer in request");
+	//go the query Collection route
 	QueryCollection queryCollection = null;
 	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null){
+		System.out.println("queryCollection is not in request");
     	queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
   	}else{
     	queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
@@ -36,5 +54,5 @@ gov.nih.nci.nautilus.ui.CSVGenerator" %>
 	}
 	else
 		out.println("QueryCollection is NULL");
-	
+}	
 %>
