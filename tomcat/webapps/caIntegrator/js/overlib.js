@@ -14,7 +14,7 @@
 //\  license agreement at the link above. Please give credit on sites that
 //\  use overLIB and submit changes of the script so other people can use
 //\  them as well.
-//   $Revision: 1.2 $                $Date: 2004-11-22 21:52:14 $
+//   $Revision: 1.3 $                $Date: 2004-11-22 21:54:33 $
 //\/////
 //\mini
 
@@ -76,7 +76,7 @@ if (typeof ol_capicon=='undefined') var ol_capicon="";
 if (typeof ol_frame=='undefined') var ol_frame=self;
 if (typeof ol_timeout=='undefined') var ol_timeout=0;
 if (typeof ol_function=='undefined') var ol_function=null;
-if (typeof ol_delay=='undefined') var ol_delay=0;
+if (typeof ol_delay=='undefined') var ol_delay=350;
 if (typeof ol_hauto=='undefined') var ol_hauto=0;
 if (typeof ol_vauto=='undefined') var ol_vauto=0;
 if (typeof ol_closeclick=='undefined') var ol_closeclick=0;
