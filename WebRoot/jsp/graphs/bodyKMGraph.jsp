@@ -116,10 +116,10 @@
 	<tr><td colspan="2"><hr width="100%" size="1" color="black" /></td>
 	</tr>
 	
-	<logic:greaterThan name="kmDataSetForm" property="upVsIntPvalue" value="-100">
 	<tr>
 	   <td id="reportBold" colspan="3">Log-rank p-value(for significance of difference of survival between group of samples)</td>
 	</tr>
+	<logic:greaterThan name="kmDataSetForm" property="upVsIntPvalue" value="-100">
 	    <td><bean:write name="kmDataSetForm" property="upOrAmplified" /> vs. Intermediate: </td>
         <td><bean:write name="kmDataSetForm" property="upVsIntPvalue" /></td>
     </tr>

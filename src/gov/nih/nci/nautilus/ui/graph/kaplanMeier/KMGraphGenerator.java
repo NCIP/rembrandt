@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -369,7 +370,7 @@ public class KMGraphGenerator {
 
 
     public Double getUpVsDownPvalue() {
-            return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples(),kaplanMeier.getDownSamples()));
+           return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples(),kaplanMeier.getDownSamples()));
     }
     
 

@@ -3,8 +3,9 @@
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
-<%@ page import="java.util.*, java.lang.*, java.io.*" %>
+<%@ page import="java.util.*, java.lang.*, java.io.* " %>
 
 
 <tr class="report">
@@ -18,29 +19,43 @@
           View Results
         </legend>
         
+        <logic:notEmpty name="viewResultsForm" property="reportBeans">
+        
         <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		  <tr>
-            <td class="message">Resultant</th>
+		    <td class="message">Type</th>
+            <td class="message">Resultant Name</th>
             <td class="message">Compound Query</th>
-            <td class="message">View</th>
+            
           </tr>
-          <tr style="background-color:#f2f2f2;font-size:.9em">
-	            <td><a href="#" style="font-size:.9em">Resultset name1</a></td>
-	            <td style="font-size:.9em">(test5 AND test6)</td>
-	            <td style="font-size:.9em">Gene Expression Data per sample view</td>
-          </tr>
-          <tr style="background-color:#f2f2f2;font-size:.9em">
-		         <td><a href="#" style="font-size:.9em">Resultset name2</a></td>
-		         <td style="font-size:.9em">(egfrQuery OR vegf5) AND test5</td>
-		         <td style="font-size:.9em">Clinical View</td>
-          </tr>
-          <tr style="background-color:#f2f2f2;font-size:.9em">
-		        <td><a href="#" style="font-size:.9em">Resultset name3</a></td>
-		        <td style="font-size:.9em">(egfrQuery OR vegf5) OR p53</td>
-		        <td style="font-size:.9em">Gene Expression Data per disease view</td>
-         </tr>
+          <nested:iterate name="viewResultsForm" 
+				property="reportBeans" 
+				id="reportBean"  
+				indexId="index">
+              <tr style="background-color:#f2f2f2;font-size:.9em">
+                <nested:equal property="isSampleSetQuery" value="true">
+                 <td style="font-size:.9em">sample</td>
+                </nested:equal>
+                <nested:equal property="isSampleSetQuery" value="false">
+                 <td style="font-size:.9em">results</td>
+                </nested:equal>
+	            <td><a href="#" style="font-size:.9em"><nested:write property="resultantCacheKey"/></a></td>
+	            <td><nested:write property="beanText"/></td>
+	            
+              </tr>
+          </nested:iterate>
          </table>
          
+     
+     </logic:notEmpty>
+     
+     <logic:empty name="viewResultsForm" property="reportBeans">
+     <strong>There are no results to view at this time.</strong>
+     <br /><br />
+     </logic:empty>
+     
+     
      </fieldset>
      <br /><br />
      <form>
+     

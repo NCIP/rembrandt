@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.bean;
 
+import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
 
 import java.io.Serializable;
@@ -22,6 +23,8 @@ public class ReportBean implements Serializable{
 	private Document reportXML;
 	private Map filterParams = new HashMap();
 	private boolean isSampleSetQuery = false;
+	private String beanText;	
+	
     
 	public ReportBean() {}
 
@@ -60,7 +63,17 @@ public class ReportBean implements Serializable{
 	 */
 	public void setResultant(Resultant resultant) {
 		this.resultant = resultant;
+        //now grab the compound query text using resultant
+		setBeanText(resultant);
 	}
+	public void setBeanText(Resultant resultant){
+	    Resultant myResultant = resultant;
+	    this.beanText = ((String) myResultant.getAssociatedQuery().toString());
+	}
+	public String getBeanText(){
+	    return this.beanText;
+	}
+		
 	/**
 	 * @return Returns the filterParams.
 	 */
@@ -84,5 +97,8 @@ public class ReportBean implements Serializable{
 	 */
 	public void setSampleSetQuery(boolean isSampleSetQuery) {
 		this.isSampleSetQuery = isSampleSetQuery;
+	}
+	public boolean getIsSampleSetQuery() {
+	    return this.isSampleSetQuery;
 	}
 }

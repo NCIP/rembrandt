@@ -17,6 +17,7 @@
         <form-bean name="loginForm" type="gov.nih.nci.nautilus.login.LoginForm"/>
    		<form-bean name="kmDataSetForm" type="gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm"/>
    		<form-bean name="reportActionForm" type="gov.nih.nci.nautilus.ui.struts.form.BaseForm"/>
+   		<form-bean name="viewResultsForm" type="gov.nih.nci.nautilus.ui.struts.form.ViewResultsForm"/>
   </form-beans>
   <!-- ========== Global Exception Definitions ============================ -->
   <global-exceptions />
@@ -143,12 +144,6 @@
 		<forward name="success" path="nautilus.menu" />
 	</action>
 	
-	<action path="/viewResults"
-		type="gov.nih.nci.nautilus.ui.struts.action.DoFirst"
-		name="noForm">
-		<forward name="success" path="nautilus.viewResults" />
-	</action>
-
 	<action path="/homeAdvanced"
 		type="gov.nih.nci.nautilus.ui.struts.action.DoFirst"
 		name="noForm">
@@ -209,7 +204,16 @@
          <forward name="displayQuery" path="nautilus.refine" />
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="failure" path="/refine.do" />
+	</action>	
+	
+	<action path="/viewResults"
+	    input="nautilus.viewResults"
+		type="gov.nih.nci.nautilus.ui.struts.action.ViewResultsAction"
+		name="viewResultsForm"
+		scope="request">
+		<forward name="success" path="nautilus.viewResults" />
 	</action>
+	
 	<action path="/runReport"
            name="reportGeneratorForm"
 	       type="gov.nih.nci.nautilus.ui.struts.action.ReportGeneratorAction"
