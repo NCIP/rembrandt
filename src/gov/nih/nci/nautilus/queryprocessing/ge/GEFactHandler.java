@@ -175,7 +175,7 @@ abstract public class GEFactHandler {
                ).start();
             }
     }
-    final static class SingleGEFactHandler extends GEFactHandler {
+    public final static class SingleGEFactHandler extends GEFactHandler {
         ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
         throws Exception {
             System.out.println("Total Number Of Probes:" + allProbeIDs.size());
@@ -213,7 +213,7 @@ abstract public class GEFactHandler {
                 exprObj = null;
             }
         }
-        private void copyTo(GeneExpr.GeneExprSingle singleExprObj, DifferentialExpressionSfact exprObj) {
+        public static void copyTo(GeneExpr.GeneExprSingle singleExprObj, DifferentialExpressionSfact exprObj) {
             singleExprObj.setDesId(exprObj.getDesId());
             singleExprObj.setAgeGroup(exprObj.getAgeGroup());
             singleExprObj.setAgentId(exprObj.getAgentId());

@@ -498,11 +498,7 @@
                jdbc-type="BIGINT"
                primarykey="true"
           />
-        <field-descriptor
-             name="geneSymbol"
-             column="UP_GENE_SYMBOL"
-             jdbc-type="VARCHAR"
-        />
+
         <field-descriptor
              name="cloneName"
              column="clone_name"

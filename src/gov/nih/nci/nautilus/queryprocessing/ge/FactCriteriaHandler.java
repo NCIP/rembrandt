@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class FactCriteriaHandler {
 
-    static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
+    public static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
         ArrayList diseasesTypes = new ArrayList();
         for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();)
