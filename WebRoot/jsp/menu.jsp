@@ -66,10 +66,9 @@ QueryCollection queryCollection = (QueryCollection) request.getSession().getAttr
 	  else{%>
 		<strong> I am satisfied with my query and would like to finalize:</strong><br/>
 		<blockquote>
-			<input type='button' class='xbutton' value='Finalize query' onclick='location.href=\"refinecheck.do\"'>
-		</blockquote>");
-	 <% }
-	%>
+			<input type="button" class="xbutton" value="Finalize query" onclick="location.href='refinecheck.do'">
+		</blockquote>
+	 <%}%>
 	</td></tr>
 	<tr><td>
 		&nbsp;
