@@ -38,7 +38,7 @@ public class RegionCriteria extends Criteria {
         return true;
     }
 
-    public CytobandDE getCttoband() {
+    public CytobandDE getCytoband() {
            return cytoband;
      }
 

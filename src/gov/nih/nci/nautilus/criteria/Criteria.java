@@ -13,6 +13,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 abstract public class Criteria {
     abstract public boolean isValid();
+
+    //TODO: fix the following methos
     public static boolean isEmpty(Criteria critObj) {
         try {
             String className = critObj.getClass().getName();

@@ -33,8 +33,9 @@ abstract public class CloneIdentifierDE extends DomainElement {
 	* IMAGEClone
     */
     public static final String IMAGE_CLONE= "IMAGEClone";
-	
-	
+    public static final String PROBE_SET= "ProbesetClone";
+
+
 
    // ****************************************************
    //                   CONSTRUCTOR(S)
@@ -79,6 +80,12 @@ abstract public class CloneIdentifierDE extends DomainElement {
        }
     }
 
+    public final static class ProbesetID extends CloneIdentifierDE {
+       public ProbesetID(String imageCloneID) {
+            super(PROBE_SET, imageCloneID);
+
+       }
+    }
 
   /**
     * Returns the cloneIDType for this CloneIdentifierDE obect.

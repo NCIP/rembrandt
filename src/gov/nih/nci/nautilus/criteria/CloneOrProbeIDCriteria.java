@@ -23,15 +23,15 @@ public class CloneOrProbeIDCriteria extends Criteria {
         for (Iterator iterator = cloneIdentifiersObjs.iterator(); iterator.hasNext();) {
             Object obj = iterator.next();
             if (obj instanceof CloneIdentifierDE) {
-                getCloneIdentifiers().add(obj);
+                getCloneIdentifiersMember().add(obj);
             }
         }
     }
 
     public void setGeneIdentifier(CloneIdentifierDE cloneIdentifier) {
-        getGeneIdentifiersMember().add(cloneIdentifier);
+        getCloneIdentifiersMember().add(cloneIdentifier);
     }
-    private Collection getGeneIdentifiersMember() {
+    private Collection getCloneIdentifiersMember() {
         if (cloneIdentifiers == null)
             cloneIdentifiers  = new ArrayList();
         return cloneIdentifiers ;
