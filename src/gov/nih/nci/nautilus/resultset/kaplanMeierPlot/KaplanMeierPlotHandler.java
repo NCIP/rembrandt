@@ -49,21 +49,19 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
+import gov.nih.nci.nautilus.de.DatumDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.lookup.LookupManager;
+import gov.nih.nci.nautilus.lookup.PatientDataLookup;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
+
 import java.util.Collection;
 import java.util.Iterator;
-
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
-import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
-import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
-import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
-import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
-import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
-import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
-import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
-import gov.nih.nci.nautilus.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
-import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
-import gov.nih.nci.nautilus.view.GroupType;
+import java.util.Map;
 
 /**
  * @author Himanso
@@ -72,8 +70,92 @@ import gov.nih.nci.nautilus.view.GroupType;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class KaplanMeierPlotHandler {
-	public static KaplanMeierPlotContainer handleKaplanMeierPlot(KaplanMeierPlotContainer kaplanMeierPlotContainer,GeneExpr.GeneExprSingle[] geneExprObjects){
+	/**
+	 * @param geneExpr
+	 * @return KaplanMeierPlotContainer
+	 * @throws Exception
+	 */
+	public static KaplanMeierPlotContainer handleKaplanMeierPlotContainer(GeneExpr.GeneExprSingle[] geneExprObjects) throws Exception{
+ 		KaplanMeierPlotContainer kaplanMeierPlotContainer = new KaplanMeierPlotContainer();
+ 		if(geneExprObjects != null){
+ 			for (int i = 0; i < geneExprObjects.length; i++) {
+ 				if(geneExprObjects[i] != null) {
+ 					ResultSet obj = geneExprObjects[i];
+ 					if (obj instanceof GeneExpr.GeneExprSingle)  {
+ 						//Propulate the KaplanMeierPlotContainer
+ 						GeneExprSingle  exprObj = (GeneExpr.GeneExprSingle) obj;
+ 						kaplanMeierPlotContainer = handleKaplanMeierPlotContainer(kaplanMeierPlotContainer,exprObj);
+ 					}
+ 				}
+          	}//for
+ 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
+ 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+	    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getBiospecimen().getValue().toString());
+	    		sample.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
+	    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));    		
+	    	}
 
+ 		}
+        return kaplanMeierPlotContainer;
+
+	}
+	/**
+	 * @param kaplanMeierPlotContainer
+	 * @param exprObj
+	 * @return KaplanMeierPlotContainer
+	 */
+	private static KaplanMeierPlotContainer handleKaplanMeierPlotContainer(KaplanMeierPlotContainer kaplanMeierPlotContainer,GeneExpr.GeneExprSingle exprObj){
+		SampleKaplanMeierPlotResultset sampleResultset = null;
+		ReporterFoldChangeValuesResultset reporterResultset = null;
+      	if (kaplanMeierPlotContainer != null && exprObj != null){
+      		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol (exprObj.getGeneSymbol()));
+      		sampleResultset = handleSampleKaplanMeierPlotResultset(kaplanMeierPlotContainer, exprObj);
+      		reporterResultset = handleReporterFoldChangeValuesResultset(sampleResultset,exprObj);
+      		sampleResultset.addReporterFoldChangeValuesResultset(reporterResultset);
+      		kaplanMeierPlotContainer.addBioSpecimenResultset(sampleResultset); 
+      	}
 		return kaplanMeierPlotContainer;
+	}
+	/**
+	 * @param sampleResultset
+	 * @param exprObj
+	 * @return
+	 */
+	private static ReporterFoldChangeValuesResultset handleReporterFoldChangeValuesResultset(SampleKaplanMeierPlotResultset sampleResultset, GeneExprSingle exprObj) {
+  		// find out if it has a probeset or a clone associated with it
+  		//populate ReporterResultset with the approciate one
+		ReporterFoldChangeValuesResultset reporterResultset = null;
+		if(sampleResultset != null && exprObj != null){
+	    	if(exprObj.getProbesetName() != null){
+	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,exprObj.getProbesetName());
+	       		reporterResultset = sampleResultset.getReporterFoldChangeValuesResultset(exprObj.getProbesetName().toString());
+	      		if(reporterResultset == null){
+	      		 	reporterResultset = new ReporterFoldChangeValuesResultset(reporter);
+	      			}
+	      		reporterResultset.setFoldChangeRatioValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
+	    		}	  		
+		}
+        return reporterResultset;
+	}
+
+	/**
+	 * @param kaplanMeierPlotContainer
+	 * @param exprObj
+	 * @return
+	 */
+	private static SampleKaplanMeierPlotResultset handleSampleKaplanMeierPlotResultset(KaplanMeierPlotContainer kaplanMeierPlotContainer, GeneExprSingle exprObj) {
+//		find out the sample associated with the exprObj
+  		//populate the SampleKaplanMeierPlotResultset
+		SampleKaplanMeierPlotResultset sampleResultset = null;
+  		if(kaplanMeierPlotContainer != null && exprObj != null &&  exprObj.getBiospecimenId() != null){
+  			BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(exprObj.getBiospecimenId().toString());
+  			sampleResultset = (SampleKaplanMeierPlotResultset) kaplanMeierPlotContainer.getBioSpecimenResultset(exprObj.getBiospecimenId().toString());
+  		    if (sampleResultset == null){
+  		    	sampleResultset= new SampleKaplanMeierPlotResultset(biospecimenID);
+  		    }
+      	}
+  		return sampleResultset;
 	}
 }

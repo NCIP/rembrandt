@@ -52,6 +52,7 @@ package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -62,11 +63,17 @@ import java.util.Map;
  * Date: Nov 11, 2004
  * 
  */
-public class SampleKaplanMeierPlotResultset {
-	private DatumDE survivalLength;
-	private DatumDE censor;
+public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
+	private DatumDE survivalLength = null;
+	private DatumDE censor = null;
 	private BioSpecimenIdentifierDE sampleID;
 	private Map reporters = new HashMap();
+	/**
+	 * @param biospecimenID
+	 */
+	public SampleKaplanMeierPlotResultset(BioSpecimenIdentifierDE biospecimenID) {		
+		setBiospecimen(biospecimenID);
+	}
 	/**
 	 * @return Returns the censor.
 	 */
@@ -141,4 +148,17 @@ public class SampleKaplanMeierPlotResultset {
     public void removeAllReporterFoldChangeValuesResultsets(){
     	reporters.clear();
     }
+
+	/**
+	 * @return Returns the reporters.
+	 */
+	public Map getReporters() {
+		return reporters;
+	}
+	/**
+	 * @param reporters The reporters to set.
+	 */
+	public void setReporters(Map reporters) {
+		this.reporters = reporters;
+	}
 }
