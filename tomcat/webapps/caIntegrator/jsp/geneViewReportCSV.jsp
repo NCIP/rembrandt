@@ -30,6 +30,8 @@ if(session.getAttribute("csv") != null)	{
 		out.println(CSVGenerator.geneExprSampleView(resultsContainer));
 	else if( mode.equals("copy"))
 		out.println(CSVGenerator.copyNumberSampleView(resultsContainer));
+	else if(mode.equals("ss"))
+		out.println(CSVGenerator.clinicalSampleView(resultsContainer));
 	else
 		out.println("Error somewhere");
 		
