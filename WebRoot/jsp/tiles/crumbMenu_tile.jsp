@@ -8,14 +8,18 @@
 	*
 	*/
 %>
+
 <div class="crumb">
+<!--
   <a class="possible" href="home.do">
     Search
   </a>
   <a class="possible" href="menu.do">
     Build Query
   </a>
+-->
   <%
+  /*
   Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
   if(queryCollection == null){
@@ -28,7 +32,7 @@
   }
   %>
   <!--select presentation to be implemented post-nautilus-->
-  <!--<%
+  <%
   if(queryCollection != null){
       if(queryCollection.hasCompoundQuery()){
       logger.debug("has compound query");
@@ -43,8 +47,10 @@
           out.println("<A class='notPossible'>Select Presentation</A>");
           logger.debug("has no compound query");
   }
-  %>-->
-  <span style="text-align:right;font-size:.85em;margin-left:280px;">
+  */
+  %>
+ 
+  <span style="text-align:right;font-size:.85em;">
     Welcome, &nbsp;
     <% out.println(session.getAttribute("name")); %>
     &nbsp;|&nbsp;

@@ -1,13 +1,13 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*" %> 
-
 <fieldset class="sidebar" style="border-width: 2px">
+<!--
 <legend style="background-color:#ffffff">Advanced Search Areas</legend>
 <table cellspacing="0" cellpadding="4" border="0">
   <tr valign="top">
  <td><strong>Gene Expression Analysis</strong><br />
- <!--read from Gene Expression Analysis text file-->
+
   <% 
   Properties props1 = new Properties();
     try {
@@ -26,7 +26,6 @@
  </td>
 	<td>
 	<strong>Comparative Genomic Analysis</strong><br />
-	<!--read from Comparative Genomic Analysis text file-->
 	<% 
 	  Properties props2 = new Properties();
 	    try {
@@ -46,7 +45,6 @@
 	<tr>
 	<td>
 	<strong>Clinical Study Analysis</strong><br />
-	<!--read from Clinical Study Analysis text file-->
 	<% 
 	  Properties props3 = new Properties();
 	    try {
@@ -65,4 +63,5 @@
 	<td>&nbsp;</td>
   </tr>
 </table>
+-->
 </fieldset>

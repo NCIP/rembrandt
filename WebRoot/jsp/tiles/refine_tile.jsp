@@ -24,9 +24,9 @@
 		<!-- BEGIN  Selected Queries -->
 		<nested:nest>
 				<!-- Begin looping over SelectedQueries -->
-				<nested:iterate name="refineQueryForm"
+				<nested:iterate name="refineQueryForm" 
 								property="selectedQueries" 
-								id="selectedQuery" 
+								id="selectedQuery"  
 								indexId="index" 
 								type="gov.nih.nci.nautilus.ui.helper.SelectedQuery">
 				  <%@ include file="/jsp/selectQueryRow.jsp" %>

@@ -41,8 +41,11 @@
 					<Table cellpadding="4" cellspacing="2" border="0" width="100%"> 
 						<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   
 						<tr><td>
+						<tiles:insert attribute="tabs"/>
+						<div id="main">
 							<%-- include the main form --%>
 							<tiles:insert attribute="mainForm"/> 
+						</div>
 						</td></tr>	
 						<tr><td align="left" width="100%">
 							<%-- include required message note --%>

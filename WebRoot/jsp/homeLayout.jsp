@@ -19,12 +19,16 @@
 		<tiles:insert attribute="crumbMenu"/> <%-- include crumb menu --%>
 		<table cellspacing="0" cellpadding="0" border="0">
 			<tr>
-			<td width="500"> 
-
+			<td width="575"> 
+				<tiles:insert attribute="tabs"/>
+				<div id="main">
 				<Table cellpadding="0" cellspacing="0" border="0" width="100%"> 
+				<tr><td>
 					<!--<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>-->   
 					<tiles:insert attribute="mainForm"/> <%-- include the main form --%>
+				</td></tr>
 				</table>
+				</div>
 			</td>
 			<td valign="top" class="sideBar">
 			    <tiles:insert attribute="sideBar"/> <%-- include sidebar --%>

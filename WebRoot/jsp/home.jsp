@@ -35,6 +35,7 @@
       </fieldset>
     </html:form>
     <br>
+    <!--
     <form action="menu.do" method="POST">
       <fieldset>
         <legend>
@@ -72,7 +73,6 @@
                 <option>
                   GMDI
                 </option>
-                <!--<option>I-SPY</option>-->
                 <option>
                   Other
                 </option>
@@ -109,12 +109,19 @@
             </td>
           </tr>
         </table>
+        
         <div class="message">
           Note: Please move your mouse over the
           <app:help help="Help messages will appear here."/>
           links for help throughout the application.
         </div>
       </fieldset>
+      -->
     </form>
+    <div class="message">
+          Note: Please move your mouse over the
+          <app:help help="Help messages will appear here."/>
+          links for help throughout the application.
+     </div><Br><br>
   </td>
 </tr>

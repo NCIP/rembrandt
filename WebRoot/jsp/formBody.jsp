@@ -48,11 +48,10 @@ String act = request.getParameter("s").toLowerCase();
   	for (int t=1; t<props.size()+1; t++)	{
   		strIncFile = "/jsp/tiles/"+props.getProperty(String.valueOf(t))+"_tile.jsp?act="+act;
  	%>
-  <tr class="report">
-    <td>
+  <div class="report" style="padding:3px">
+
       <tiles:insert page="<%= strIncFile %>" flush="false" />
-    </td>
-  </tr>
+	</div>
   <%
   }
   %>
