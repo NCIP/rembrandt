@@ -5,6 +5,7 @@ package gov.nih.nci.nautilus.data;
 
 public class Pathway
 {
+  public final static String PATHWAY_ID = "pathwayId";
   private String dataSource;
 
   private Object pathwayDesc;

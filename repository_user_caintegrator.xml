@@ -518,7 +518,7 @@
     <field-descriptor
        name="ratioPval"
        column="RATIO_PVAL"
-       jdbc-type="FLOAT"
+       jdbc-type="DOUBLE"
    />
 
 </class-descriptor>

@@ -7,8 +7,8 @@ public class DifferentialExpressionGfact
 {
 
     //public final static String DEG_ID = "degId";
-    //public final static String CLONE_ID = "cloneId";
-    //public final static String PROBESET_ID= "probesetId";
+    public final static String CLONE_ID = "cloneId";
+    public final static String PROBESET_ID= "probesetId";
     //public final static String CLONE_NAME = "cloneName";
     //public final static String PROBE_NAME = "probesetName";
     //public final static String GENE_SYMBOL = "geneSymbol";
@@ -18,14 +18,14 @@ public class DifferentialExpressionGfact
   private Long datasetId;
   private Long degId;
  private Long diseaseTypeId;
-  private Float expressionRatio;
+  private Double expressionRatio;
   private Long expPlatformId;
 
  private String geneSymbol;
   private Long institutionId;
-  private Object normalIntensity;
+  private Double normalIntensity;
   private Long probesetId;
- private Float ratioPval;
+ private Double ratioPval;
   private Double sampleIntensity;
 
   private Long timecourseId;
@@ -96,11 +96,11 @@ public class DifferentialExpressionGfact
   }
 
 
-  public Float getExpressionRatio()
+  public Double getExpressionRatio()
   {
      return this.expressionRatio;
   }
-  public void setExpressionRatio(Float param)
+  public void setExpressionRatio(Double param)
   {
     this.expressionRatio = param;
   }
@@ -128,11 +128,11 @@ public class DifferentialExpressionGfact
   }
 
 
-  public Object getNormalIntensity()
+  public Double getNormalIntensity()
   {
      return this.normalIntensity;
   }
-  public void setNormalIntensity(Object param)
+  public void setNormalIntensity(Double param)
   {
     this.normalIntensity = param;
   }
@@ -148,11 +148,11 @@ public class DifferentialExpressionGfact
   }
 
 
-  public Float getRatioPval()
+  public Double getRatioPval()
   {
      return this.ratioPval;
   }
-  public void setRatioPval(Float param)
+  public void setRatioPval(Double param)
   {
     this.ratioPval = param;
   }

@@ -10,6 +10,7 @@ public class ProbesetDim
     public final static String GENE_SYMBOL = "geneSymbol";
     public final static String CYTOBAND = "cytoband";
     public final static String ACCESSION_NUMBER = "accessionNumber";
+     public final static String CHROMOSOME= "chromosome";
     private Long probesetId;
  private String probesetName;
 
@@ -96,7 +97,7 @@ public class ProbesetDim
 
   private String llId;
 
-  private String ominId;
+  private String omimId;
 
   private String unigeneId;
 
@@ -196,13 +197,13 @@ public class ProbesetDim
   }
 
 
-  public String getOminId()
+  public String getOmimId()
   {
-     return this.ominId;
+     return this.omimId;
   }
-  public void setOminId(String param)
+  public void setOmimId(String param)
   {
-    this.ominId = param;
+    this.omimId = param;
   }
 
 

@@ -9,6 +9,7 @@ public class CloneDim
   public final static String CLONE_ID = "cloneId";
   public final static String GENE_SYMBOL = "geneSymbol";
   public final static String CYTOBAND = "cytoband";
+  public final static String ACCESSION_NUMBER = "accessionNumber";
 
   private String accessionNumber;
 

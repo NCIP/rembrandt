@@ -6,6 +6,8 @@ package gov.nih.nci.nautilus.data;
 public class GeneClone
 {
   public final static String CLONE_ID =   "cloneId";
+  public final static String CHROMOSOME= "chromosome";
+
   private String accessionNumber;
 
   private Long accEnd;
@@ -18,6 +20,15 @@ public class GeneClone
 
   private String geneCloneId;
 
+    public String getChromosome() {
+        return chromosome;
+    }
+
+    public void setChromosome(String chromosome) {
+        this.chromosome = chromosome;
+    }
+
+    private String chromosome;
   private String geneSymbol;
 
   private String geneTitle;
