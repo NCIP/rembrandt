@@ -11,6 +11,10 @@
 	<listener>
 		<listener-class>gov.nih.nci.nautilus.cache.SessionTracker</listener-class>
 	</listener>
+	<!-- Register ContextListener
+	 	 notifies the SessionListener whenever the context is loaded or
+	 	 unloaded in the ApplicationServer
+	-->
 	<listener>
 		<listener-class>gov.nih.nci.nautilus.cache.RembrandtContextListener</listener-class>
 	</listener>

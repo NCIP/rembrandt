@@ -202,7 +202,7 @@
             scope="request"
             parameter="method"
             validate="true">
-         <!--<forward name="success" path="/" />-->
+         <forward name="success" path="/jsp/geneViewReport.jsp"/>
          <forward name="displayQuery" path="nautilus.refine" />
          <forward name="failure" path="/refine.do" />
 	</action>
