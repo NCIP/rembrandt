@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 
-<xsl:param name="filter_value"></xsl:param>
+<xsl:param name="filter_value1">000</xsl:param>
 <xsl:param name="filter_type">greater</xsl:param>
 
 <xsl:template match="/">
@@ -97,15 +97,14 @@
   <xsl:for-each select="Report">
     <h2 class="title"><xsl:value-of select="@reportType" /></h2> 
     <h2 class="title">Query Name:<xsl:value-of select="@queryName" /></h2>
-    <h3>test: <xsl:value-of select="$filter_value"/></h3>
+    <h3>Test: <xsl:value-of select="$filter_value1"/></h3>
 	<xsl:variable name="helpLink" select="@reportType" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 
 <xsl:variable name="qName" select="@queryName" />
 	<div class="filterForm">
 	<form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
-	Filter: highlight values greater than <input type="text" name="filter_value" size="4" />
-	<input type="hidden" name="action" value="filter" />
+	Filter: highlight values greater than <input type="text" name="filter_value1" size="4" />
 	<input type="hidden" name="queryName" value="{$qName}"/>
 	<input type="submit" name="filter_submit" value="Filter" />
 	</form>
@@ -153,7 +152,16 @@
 					<tr>
 		  				<xsl:for-each select="Cell">
 		  	  			<xsl:variable name="class" select="@group" />
-		      			<td class="{$class}"><xsl:value-of select="Data" disable-output-escaping="yes" /></td>
+		      			<td class="{$class}">
+		      			<xsl:choose>
+		      			<xsl:when test="$filter_value1 != 000 and Data > $filter_value1">
+		      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+		      			</xsl:when>
+		      			<xsl:otherwise>
+		      				<xsl:value-of select="Data" disable-output-escaping="yes" />
+		      			</xsl:otherwise>
+		      			</xsl:choose>
+		      			</td>
 		    			</xsl:for-each>
 		    		</tr>
 
