@@ -11,7 +11,7 @@ gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr,
 gov.nih.nci.nautilus.resultset.ResultsetProcessor,
 gov.nih.nci.nautilus.resultset.*,
 java.text.DecimalFormat,
-java.util.*,
+java.util.*
 %>
 <%!
 
