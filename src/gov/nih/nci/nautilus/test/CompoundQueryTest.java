@@ -14,13 +14,20 @@ import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
+import gov.nih.nci.nautilus.criteria.PathwayCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.CopyNumberDE;
+import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.GeneOntologyDE;
+import gov.nih.nci.nautilus.de.PathwayDE;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
@@ -66,6 +73,8 @@ public class CompoundQueryTest extends TestCase {
     AssayPlatformCriteria snpPlatformCrit;
     CloneOrProbeIDCriteria cloneCrit;
     CloneOrProbeIDCriteria probeCrit;
+    GeneOntologyCriteria ontologyCrit;
+    PathwayCriteria pathwayCrit;
     GeneIDCriteria geneCrit;
     FoldChangeCriteria foldCrit;
     GeneExpressionQuery probeQuery;
@@ -74,6 +83,7 @@ public class CompoundQueryTest extends TestCase {
     ComparativeGenomicQuery genomicQuery;
 	CopyNumberCriteria copyNumberCrit;
 	DiseaseOrGradeCriteria diseaseCrit;
+	RegionCriteria regionCrit;
 	/**
 	 * @param string
 	 */
@@ -92,6 +102,9 @@ public class CompoundQueryTest extends TestCase {
         buildProbeCrit();
         buildGeneIDCrit();
         buildDiseaseTypeCrit();
+        buildOntologyCrit();
+        buildPathwayCrit();
+        buildRegionCrit();
         buildGeneExprCloneSingleViewQuery();
         buildGeneExprProbeSetSingleViewQuery();
         buildGeneExprGeneSingleViewQuery();
@@ -108,10 +121,13 @@ public class CompoundQueryTest extends TestCase {
 
 	public void testSingleQueryInCompoundQueryProcessor() {
 		try {
-			//test Single Query
+			CompoundQuery myCompoundQuery;
+			Resultant resultant;
+			for(int i =0; i < 5; i++){//test Single Query
+			
 			System.out.println("Testing Single Gene Query>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery);
-			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
+			myCompoundQuery = new CompoundQuery(geneQuery);
+			resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
 			
@@ -122,6 +138,7 @@ public class CompoundQueryTest extends TestCase {
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
 			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			}
@@ -165,6 +182,7 @@ public class CompoundQueryTest extends TestCase {
 	public void testGeneExprANDCopyNumberQuery() {
 		try {
 			//test CompoundQuery Query
+			for(int i = 0; i < 5; i++){
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
 			QueryCollection queryCollection = new QueryCollection();
@@ -175,6 +193,7 @@ public class CompoundQueryTest extends TestCase {
 			//String theColors[] = {"0073E6","FFFF61"};
 			//System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
 			print(resultant);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -182,10 +201,11 @@ public class CompoundQueryTest extends TestCase {
 	public void testGeneExprANDCopyNumberQueryORProbeQuery() {
 		try {
 			//test CompoundQuery Query
+			for(int i= 0; i < 10; i++){
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery OR Probe Query>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
 			
-			CompoundQuery myCompoundQuery2 = new CompoundQuery(OperatorType.OR,myCompoundQuery1,probeQuery);
+			CompoundQuery myCompoundQuery2 = new CompoundQuery(OperatorType.OR,myCompoundQuery1,geneQuery);
 
 			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery2);
@@ -194,6 +214,8 @@ public class CompoundQueryTest extends TestCase {
 			//String theColors[] = {"0073E6","FFFF61"};
 			//System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
 			print(resultant);
+			System.out.println("Count= "+i);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -326,8 +348,17 @@ public class CompoundQueryTest extends TestCase {
         geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("EGFR"));
 
     }
+    private void buildPathwayCrit() {
+        pathwayCrit = new PathwayCriteria();
+        PathwayDE obj1 = new PathwayDE("Lis1Pathway");
+        PathwayDE obj2 = new PathwayDE("TPOPathway");
+  		PathwayDE obj3 = new PathwayDE("Ccr5Pathway");
+        Collection pathways = new ArrayList();
+        pathways.add(obj1); pathways.add(obj2);pathways.add(obj3);
+        pathwayCrit.setPathwayNames(pathways);
+    }
     private void buildFoldChangeCrit() {
-        Float upRegExpected = new Float(3.0);
+        Float upRegExpected = new Float(2.0);
         Float downRegExpected = new Float(2.0);
         ExprFoldChangeDE.UpRegulation upRegObj = new ExprFoldChangeDE.UpRegulation(upRegExpected );
         ExprFoldChangeDE.DownRegulation downRegObj = new ExprFoldChangeDE.DownRegulation(downRegExpected );
@@ -336,23 +367,40 @@ public class CompoundQueryTest extends TestCase {
 
         foldCrit = new FoldChangeCriteria();
         Collection objs = new ArrayList(4);
-        //objs.add(upRegObj);
-        objs.add(downRegObj);
+        objs.add(upRegObj);
+        //objs.add(downRegObj);
         //objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
         foldCrit.setFoldChangeObjects(objs);
     }
+    private void buildOntologyCrit() {
+        ontologyCrit = new GeneOntologyCriteria();
+        ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0050794"));
+    }
+    private void buildRegionCrit() {
+        regionCrit = new RegionCriteria();
+
+        // cytoband and start & end positions are mutually exclusive
+      regionCrit.setCytoband(new CytobandDE("p11.2"));
+       //regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
+       // regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
+
+        // Chromosome Number is mandatory
+      regionCrit.setChromNumber(new ChromosomeNumberDE(new String("7")));
+      
+    }
     private void buildCopyChangeCrit() {
-        Float amplification = new Float(2.0);
-        Float deletion = new Float(4.0);
+        Float amplification = new Float(4.0);
+        //Float deletion = new Float(4.0);
         //CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
         //CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
         CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
-        CopyNumberDE.UnChangedCopyNumberDownLimit  downCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberDownLimit(deletion);
+        //CopyNumberDE.UnChangedCopyNumberDownLimit  downCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberDownLimit(deletion);
 
         copyNumberCrit = new CopyNumberCriteria();
         Collection objs = new ArrayList(4);
         //objs.add(deletionObj);
-        objs.add(upCopyNumberObj); objs.add(downCopyNumberObj);
+        objs.add(upCopyNumberObj);
+        //objs.add(downCopyNumberObj);
         copyNumberCrit.setCopyNumbers(objs);
     }
     private void buildGeneExprProbeSetSingleViewQuery(){
@@ -378,16 +426,17 @@ public class CompoundQueryTest extends TestCase {
         geneQuery.setQueryName("GeneQuery");
         geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         geneQuery.setGeneIDCrit(geneCrit);
+        geneQuery.setPathwayCrit(pathwayCrit);
+        geneQuery.setGeneOntologyCrit(ontologyCrit);
         geneQuery.setArrayPlatformCrit(allPlatformCrit);
         geneQuery.setFoldChgCrit(foldCrit);
-        geneQuery.setDiseaseOrGradeCrit(diseaseCrit);
     }
     private void buildCopyNumberSingleViewQuery(){
         genomicQuery = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
         genomicQuery.setQueryName("CopyNumberQuery");
+        //genomicQuery.setGeneIDCrit(geneCrit);
         genomicQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
-        genomicQuery.setDiseaseOrGradeCrit(diseaseCrit);
-        genomicQuery.setGeneIDCrit(geneCrit);
+        genomicQuery.setRegionCrit(regionCrit);
         genomicQuery.setAssayPlatformCrit(snpPlatformCrit);
         genomicQuery.setCopyNumberCrit(copyNumberCrit);
     }
