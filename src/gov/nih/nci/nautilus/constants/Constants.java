@@ -6,5 +6,6 @@ public final class Constants {
 	public static final String RESULTSET_KEY = "geneViewResultSet";
 	public static final String VALID_QUERY_TYPES_KEY = "nautilus.request.validQuerytypes";
 	public static final String NORMAL ="NON_TUMOR";
+	public static final String ASTRO ="ASTROCYTOMA";
 	//TODO: fix Z hack
 		}
