@@ -127,6 +127,18 @@ public class GeneExpressionQueryTest extends TestCase {
     	resultsetProc.handleGeneView(geneExprObjects, GroupType.AGE_GROUP);
     	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
     	Collection genes = geneViewContainer.getGeneResultsets();
+    	Collection labels = geneViewContainer.getGroupsLabels();
+    	Collection sampleIds = null;
+    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+        	String label = (String) labelIterator.next();
+        	System.out.println("label: "+label);
+        	sampleIds = geneViewContainer.getBiospecimenLabels(label);
+           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+            	System.out.println("sampleIds: "+sampleIdIterator.next());   		
+           	}
+           	 
+    	}
+
     	System.out.println("Gene Count: "+genes.size());
     	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
     		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
@@ -138,20 +150,30 @@ public class GeneExpressionQueryTest extends TestCase {
             	System.out.println("Group Count: "+groupTypes.size());
         		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
         			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
-            		Collection biospecimens = groupResultset.getBioSpecimenResultsets();
-                	System.out.println("Biospecimen Count: "+biospecimens.size());
-            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
-            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
-                	            System.out.println(	"GeneSymbol: "+geneResultset.getGeneSymbol().getValueObject().toString()+
-                	            					"| ReporterName: "+ reporterResultset.getReporter().getValue().toString()+
-													"| GroupType : "+groupResultset.getType().getValue().toString()+
-													"| BioSpecimenId: "+ biospecimenResultset.getBiospecimen().getValue().toString()+
-													"| FoldChangeRatioValue: "+ biospecimenResultset.getFoldChangeRatioValue().getValue().toString());
-            		}
+        			String label = groupResultset.getType().getValue().toString();
+        			sampleIds = geneViewContainer.getBiospecimenLabels(label);
+//        			Collection biospecimens = groupResultset.getBioSpecimenResultsets();
+//                	System.out.println("Biospecimen Count: "+biospecimens.size());
+//            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
+//            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
+        			            StringBuffer stringBuffer = new StringBuffer();
+                	            stringBuffer.append(	"GeneSymbol: "+geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
+                	            					"| ReporterName: "+ reporterResultset.getReporter().getValue().toString()+"\t"+
+													"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
+                               	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+                               		String sampleId = (String) sampleIdIterator.next();
+                               		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
+                               		if(biospecimenResultset != null){
+                               			stringBuffer.append(biospecimenResultset.getFoldChangeRatioValue().getValue().toString()+"\t");
+                               		}
+                               		System.out.println(stringBuffer.toString());
+                               	}
+		      	            
+//            		}
         		}
     		}
     	}
-    	
+	
     }
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
