@@ -1,6 +1,3 @@
-// Created by Xslt generator for Eclipse.
-// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
-// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
 package gov.nih.nci.nautilus.ui.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +21,6 @@ import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.query.QueryCollection;
 
 
-/**
- * GeneExpressionForm.java created by EasyStruts - XsltGen.
- * http://easystruts.sf.net created on 08-11-2004
- * 
- * XDoclet definition:
- * 
- * @struts:form name="geneExpressionForm"
- */
 public class GeneExpressionForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance
@@ -134,9 +123,9 @@ public class GeneExpressionForm extends BaseForm {
 	// BaseForm.java
 	//private ArrayList geneTypeColl;// move this to the upperclass:
 	// BaseForm.java
-	private ArrayList cloneTypeColl;
+	private ArrayList cloneTypeColl = new ArrayList();
 
-	private ArrayList arrayPlatformTypeColl;
+	private ArrayList arrayPlatformTypeColl = new ArrayList();
 
 	private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
 
@@ -160,23 +149,23 @@ public class GeneExpressionForm extends BaseForm {
 	private UntranslatedRegionCriteria untranslatedRegionCriteria;
 
 	// Hashmap to store Domain elements
-	private HashMap diseaseDomainMap;
+	private HashMap diseaseDomainMap = new HashMap();
 
-	private HashMap geneDomainMap;
+	private HashMap geneDomainMap = new HashMap();
 
-	private HashMap foldUpDomainMap;
+	private HashMap foldUpDomainMap = new HashMap();
 
-	private HashMap foldDownDomainMap;
+	private HashMap foldDownDomainMap = new HashMap();
 
-	private HashMap regionDomainMap;
+	private HashMap regionDomainMap = new HashMap();
 
-	private HashMap cloneDomainMap;
+	private HashMap cloneDomainMap = new HashMap();
 
-	private HashMap geneOntologyDomainMap;
+	private HashMap geneOntologyDomainMap = new HashMap();
 
-	private HashMap pathwayDomainMap;
+	private HashMap pathwayDomainMap = new HashMap();
 
-	private HashMap arrayPlatformDomainMap;
+	private HashMap arrayPlatformDomainMap = new HashMap();
 
 	private HttpServletRequest thisRequest;
 
@@ -206,81 +195,22 @@ public class GeneExpressionForm extends BaseForm {
 			HttpServletRequest request) {
 
 		ActionErrors errors = new ActionErrors();
-
 		// Query Name cannot be blank
-		if ((queryName == null || queryName.length() < 1))
-			errors.add("queryName", new ActionError(
-					"gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
-
+		errors = UIFormValidator.validateQueryName(queryName, errors);
 		// Chromosomal region validations
-		if (this.getChrosomeNumber().trim().length() > 0) {
-			if (this.getRegion().trim().length() < 1)
-				errors.add("chrosomeNumber", new ActionError(
-						"gov.nih.nci.nautilus.ui.struts.form.region.no.error"));
-			else {
-				if (this.getRegion().trim().equalsIgnoreCase("cytoband")) {
-					if (this.getCytobandRegion().trim().length() < 1)
-						errors
-								.add(
-										"cytobandRegion",
-										new ActionError(
-												"gov.nih.nci.nautilus.ui.struts.form.cytobandregion.no.error"));
-				}
-				if (this.getRegion().trim()
-						.equalsIgnoreCase("basePairPosition")) {
-					if ((this.getBasePairStart().trim().length() < 1)
-							|| (this.getBasePairEnd().trim().length() < 1)) {
-						errors
-								.add(
-										"basePairEnd",
-										new ActionError(
-												"gov.nih.nci.nautilus.ui.struts.form.basePair.no.error"));
-					} else {
-						if (!isBasePairValid(this.getBasePairStart(), this
-								.getBasePairEnd()))
-							errors
-									.add(
-											"basePairEnd",
-											new ActionError(
-													"gov.nih.nci.nautilus.ui.struts.form.basePair.incorrect.error"));
-					}
-				}
-
-			}
-
-		}
-
-		if (this.getGoClassification() != null  && this.getGoClassification().trim().length() > 0) {
-			String goClassification = this.getGoClassification().trim();
-			if (goClassification.startsWith("GO:")) {
-				String numberValue = goClassification.substring(goClassification.indexOf(":")+1);
-				if (goClassification.length() == 10){
-					try {
-						int n = Integer.parseInt(numberValue);
-					} catch (NumberFormatException ne){
-						errors
-								.add(
-										"goClassification",
-										new ActionError(
-												"gov.nih.nci.nautilus.ui.struts.form.go.numeric.error"));
-					}
-				}else {
-					errors
-							.add(
-									"goClassification",
-									new ActionError(
-											"gov.nih.nci.nautilus.ui.struts.form.go.length.error"));
-				}
-			}else {
-				errors
-						.add(
-								"goClassification",
-								new ActionError(
-										"gov.nih.nci.nautilus.ui.struts.form.go.startswith.error"));
-			}
-		}
-		
-		// Validate minimum criteria's for GE Query 
+		errors = UIFormValidator.validateChromosomalRegion(chrosomeNumber, region, cytobandRegion, basePairStart,basePairEnd, errors);
+        //Validate Go Classification
+        errors = UIFormValidator.validateGOClassification(goClassification, errors);
+		//Validate Gene List, Gene File and Gene Group
+        errors = UIFormValidator.validate(geneGroup, geneList, geneFile, errors);
+        //Make sure the cloneListFile uploaded is of type txt and MIME type is text/plain
+        errors = UIFormValidator.validateTextFileType(cloneListFile, "cloneId", errors);
+        //Make sure the geneGroup uploaded file is of type txt and MIME type is text/plain
+        errors = UIFormValidator.validateTextFileType(geneFile, "geneGroup", errors);
+		//Validate CloneId
+        errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
+                
+        // Validate minimum criteria's for GE Query 
 		if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
 		   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
 		   		(this.getCloneId() == null || this.getCloneId().trim().length() < 1) &&
@@ -295,48 +225,8 @@ public class GeneExpressionForm extends BaseForm {
 								"gov.nih.nci.nautilus.ui.struts.form.ge.minimum.error"));
 			}
 		}
-
-		if (this.getGeneGroup() != null && this.getGeneGroup().trim().length() >= 1){
-			if (this.getGeneList().trim().length() < 1 && this.getGeneFile()== null){
-				errors
-				.add(
-						"geneGroup",
-						new ActionError(
-								"gov.nih.nci.nautilus.ui.struts.form.geneGroup.no.error"));
-			}
-			
-		}
-		//Make sure the uploaded File is of type txt and MIME type is text/plain
-		if(this.getGeneFile() != null  &&
-		  (!(this.getGeneFile().getFileName().endsWith(".txt"))) &&
-		  (!(this.getGeneFile().getContentType().equals("text/plain")))){
-			errors
-			.add(
-					"geneGroup",
-					new ActionError(
-							"gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error"));
-		}
-		if (this.getCloneId() != null && this.getCloneId().trim().length() >= 1){
-			if (this.getCloneListSpecify().trim().length() < 1 && this.getCloneListFile()== null){
-				errors
-				.add(
-						"cloneId",
-						new ActionError(
-								"gov.nih.nci.nautilus.ui.struts.form.cloneid.no.error"));
-			}
-			
-		}
-		//Make sure the uploaded File is of type txt and MIME type is text/plain
-		if(this.getCloneListFile() != null  &&
-		  (!(this.getCloneListFile().getFileName().endsWith(".txt"))) &&
-		  (!(this.getCloneListFile().getContentType().equals("text/plain")))){
-			errors
-			.add(
-					"cloneId",
-					new ActionError(
-							"gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error"));
-		}		
-		if (errors.isEmpty()) {
+		
+        if (errors.isEmpty()) {
 			createDiseaseCriteriaObject();
 			createGeneCriteriaObject();
 			createFoldChangeCriteriaObject();
@@ -904,7 +794,7 @@ public class GeneExpressionForm extends BaseForm {
 					
 					int count = 0;
 					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
-						if(isAscii(inputLine)){ //make sure all data is ASCII
+						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
 								count++;
 								if (thisGeneType.equalsIgnoreCase("genesymbol")) {
 									geneDomainMap.put(inputLine,
@@ -1308,7 +1198,7 @@ public class GeneExpressionForm extends BaseForm {
 			String thisCloneList = (String) thisRequest.getParameter("cloneList");
 			
 			//
-	//		retrieve the file name & size
+	        //retrieve the file name & size
 	 		String fileName= cloneListFile.getFileName();
 	 		int fileSize = cloneListFile.getFileSize();
 	
@@ -1324,7 +1214,7 @@ public class GeneExpressionForm extends BaseForm {
 						BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
 						int count = 0;
 						while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
-							if(isAscii(inputLine)){ //make sure all data is ASCII
+							if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
 								count ++; //increment
 								if (thisCloneList.equalsIgnoreCase("IMAGEId")) {
 									cloneDomainMap.put(inputLine,

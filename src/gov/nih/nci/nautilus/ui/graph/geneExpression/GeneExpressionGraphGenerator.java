@@ -50,10 +50,6 @@ import org.krysalis.jcharts.properties.LegendProperties;
 import org.krysalis.jcharts.properties.util.ChartFont;
 import org.krysalis.jcharts.types.ChartType;
 
-/**
- * @author bauerd Dec 16, 2004
- *  
- */
 public class GeneExpressionGraphGenerator {
 
 	private Logger logger = Logger.getLogger(this.getClass());

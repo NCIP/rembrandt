@@ -1,9 +1,3 @@
-/*
- * Created on Oct 12, 2004
- *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
 package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;

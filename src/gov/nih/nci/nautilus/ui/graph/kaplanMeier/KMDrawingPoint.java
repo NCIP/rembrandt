@@ -28,7 +28,7 @@ public class KMDrawingPoint extends XYDataPair {
 	}
 
     /**
-	 * @return Returns the isChecked.
+	 * @return Returns the isCensus
 	 */
 	public boolean isCensus() {
 		return census;

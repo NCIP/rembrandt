@@ -19,6 +19,7 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 public class ComparativeGenomicAction extends Action {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    
     /**
      * Method execute
      * 

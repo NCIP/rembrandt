@@ -3,28 +3,9 @@ package gov.nih.nci.nautilus.ui.struts.form;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
 
-import org.apache.struts.action.ActionError;
-import org.apache.struts.util.LabelValueBean;
 
-import java.util.*;
-import java.lang.reflect.*;
-import java.io.*;
-
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.de.*;
-
-/**
- * DeleteQueryForm.java created by EasyStruts - XsltGen.
- * http://easystruts.sf.net created on 09-12-2004
- * 
- * XDoclet definition:
- * 
- * @struts:form name="DeleteQueryForm"
- */
 public class QuickSearchForm extends BaseForm {
 	private String plot = null;
 
@@ -49,7 +30,7 @@ public class QuickSearchForm extends BaseForm {
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
 	    ActionErrors errors = new ActionErrors();
-	    Validator.validateGeneSymbol(quickSearchName, errors);
+	    UIFormValidator.validateGeneSymbol(quickSearchName, errors);
 		return errors;
 
 	}

@@ -1,6 +1,4 @@
-// Created by Xslt generator for Eclipse.
-// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
-// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
+
 package gov.nih.nci.nautilus.ui.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionError;
 import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
@@ -17,11 +14,7 @@ import gov.nih.nci.nautilus.constants.*;
 import gov.nih.nci.nautilus.view.*;
 import gov.nih.nci.nautilus.de.*;
 
-/**
- * selectPresentationForm.java created on 10-05-2004
- * 
- * @struts:form name="selectPresentationForm"
- */
+
 public class SelectPresentationForm extends BaseForm {
 
 	private static Logger logger = Logger

@@ -18,8 +18,7 @@ import org.apache.struts.action.ActionError;
 
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.view.*;
+
 
 
 

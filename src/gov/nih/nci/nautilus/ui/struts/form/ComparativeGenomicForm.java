@@ -244,89 +244,24 @@ public class ComparativeGenomicForm extends BaseForm {
             HttpServletRequest request) {
 
         ActionErrors errors = new ActionErrors();
-        logger.debug("I am in the cgh validata method()");
-
-        // Query Name cannot be blank
-        if ((queryName == null || queryName.length() < 1))
-            errors.add("queryName", new ActionError(
-                    "gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
-
-        if (this.getChrosomeNumber().trim().length() > 0) {
-            if (this.getRegion().trim().length() < 1)
-                errors.add("chrosomeNumber", new ActionError(
-                        "gov.nih.nci.nautilus.ui.struts.form.region.no.error"));
-            else {
-                if (this.getRegion().trim().equalsIgnoreCase("cytoband")) {
-                    if (this.getCytobandRegion().trim().length() < 1)
-                        errors
-                                .add(
-                                        "cytobandRegion",
-                                        new ActionError(
-                                                "gov.nih.nci.nautilus.ui.struts.form.cytobandregion.no.error"));
-                }
-                if (this.getRegion().trim()
-                        .equalsIgnoreCase("basePairPosition")) {
-                    if ((this.getBasePairStart().trim().length() < 1)
-                            || (this.getBasePairEnd().trim().length() < 1)) {
-                        errors
-                                .add(
-                                        "basePairEnd",
-                                        new ActionError(
-                                                "gov.nih.nci.nautilus.ui.struts.form.basePair.no.error"));
-                    } else {
-                        if (!isBasePairValid(this.getBasePairStart(), this
-                                .getBasePairEnd()))
-                            errors
-                                    .add(
-                                            "basePairEnd",
-                                            new ActionError(
-                                                    "gov.nih.nci.nautilus.ui.struts.form.basePair.incorrect.error"));
-                    }
-                }
-
-            }
-
-        }
-        if (this.getSnpId() != null && this.getSnpId().trim().length() >= 1) {
-            if (this.getSnpList().trim().length() < 1
-                    && this.getSnpListFile() == null) {
-                errors.add("snpId", new ActionError(
-                        "gov.nih.nci.nautilus.ui.struts.form.snpid.no.error"));
-            }
-
-        }
-        if (this.getGeneGroup() != null
-                && this.getGeneGroup().trim().length() >= 1) {
-            if (this.getGeneList().trim().length() < 1
-                    && this.getGeneFile() == null) {
-                errors
-                        .add(
-                                "geneGroup",
-                                new ActionError(
-                                        "gov.nih.nci.nautilus.ui.struts.form.geneGroup.no.error"));
-            }
-
-        }
-        //Make sure the uploaded File is of type txt and MIME type is
-        // text/plain
-        if (this.getGeneFile() != null
-                && (!(this.getGeneFile().getFileName().endsWith(".txt")))
-                && (!(this.getGeneFile().getContentType().equals("text/plain")))) {
-            errors.add("geneGroup", new ActionError(
-                    "gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error"));
-        }
-
-        //Make sure the uploaded File is of type txt and MIME type is
-        // text/plain
-        if (this.getSnpListFile() != null
-                && (!(this.getSnpListFile().getFileName().endsWith(".txt")))
-                && (!(this.getSnpListFile().getContentType()
-                        .equals("text/plain")))) {
-            errors.add("snpId", new ActionError(
-                    "gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error"));
-        }
-
-        // Validate minimum criteria's for GE Query
+        logger.debug("Validating Form");
+        
+        //Query Name cannot be blank
+        errors = UIFormValidator.validateQueryName(queryName, errors);
+        // Chromosomal region validations
+        errors = UIFormValidator.validateChromosomalRegion(chrosomeNumber, region, cytobandRegion, basePairStart,basePairEnd, errors);
+        //Validate Gene List, Gene File and Gene Group
+        errors = UIFormValidator.validate(geneGroup, geneList, geneFile, errors);
+        //Make sure the snpListFile uploaded is of type txt and MIME type is text/plain
+        errors = UIFormValidator.validateTextFileType(snpListFile, "snpId", errors);
+        //Make sure the geneGroup uploaded file is of type txt and MIME type is text/plain
+        errors = UIFormValidator.validateTextFileType(geneFile, "geneGroup", errors);
+        //Validate CloneId
+        //errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
+        //Validate snpId
+        errors = UIFormValidator.validateSnpId(snpId, snpList, snpListFile, errors);
+        
+        // Validate minimum criteria's for CGH Query
         if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
             if ((this.getGeneGroup() == null || this.getGeneGroup().trim()
                     .length() < 1)
@@ -1269,7 +1204,7 @@ public class ComparativeGenomicForm extends BaseForm {
                     int count = 0;
                     while ((inputLine = inFile.readLine()) != null
                             && count < NautilusConstants.MAX_FILEFORM_COUNT) {
-                        if (isAscii(inputLine)) { //make sure all data is ASCII
+                        if (UIFormValidator.isAscii(inputLine)) { //make sure all data is ASCII
                             count++; //increment
                             if (thisSNPList.equalsIgnoreCase("TSCId")) {
                                 snpDomainMap.put(inputLine,
@@ -1589,7 +1524,7 @@ public class ComparativeGenomicForm extends BaseForm {
                     int count = 0;
                     while ((inputLine = inFile.readLine()) != null
                             && count < NautilusConstants.MAX_FILEFORM_COUNT) {
-                        if (isAscii(inputLine)) { //make sure all data is ASCII
+                        if(UIFormValidator.isAscii(inputLine)) { //make sure all data is ASCII
                             count++;
                             if (thisGeneType.equalsIgnoreCase("genesymbol")) {
                                 geneDomainMap.put(inputLine,
