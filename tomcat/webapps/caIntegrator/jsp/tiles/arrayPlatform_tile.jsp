@@ -7,7 +7,7 @@
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <br>	
-<html:select property="arrayPlatform">
+&nbsp;&nbsp;<html:select property="arrayPlatform">
 					<html:option value="all">All</html:option>
 					<html:option value="oligo">Oligo (Affymetrix)</html:option>
 					<html:option value="cDNA">cDNA</html:option>

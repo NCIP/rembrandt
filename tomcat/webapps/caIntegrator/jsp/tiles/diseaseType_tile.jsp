@@ -7,8 +7,8 @@
 	System.out.println(act);
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
-<html:select property="tumorType">
-	<html:optionsCollection property="diseaseType" />
+	 &nbsp;&nbsp;&nbsp;<html:select property="tumorType">
+   <html:optionsCollection property="diseaseType" />
 </html:select><html:errors property="tumorType"/>
 
 &nbsp;
@@ -25,6 +25,6 @@ Grade:&nbsp;
 
 
 <br>
-<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
+&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
 </fieldset>
 					

@@ -60,13 +60,17 @@ QueryCollection queryCollection = (QueryCollection) request.getSession().getAttr
 		</fieldset>
 	</td>
 	</tr>
-	<tr>
-		<td><strong>I am satisfied with my query and would like to finalize:</strong><br />
-			<blockquote>
-				<input type="button" class="xbutton" value="Finalize query" onclick="location.href='refinecheck.do'">
-			</blockquote>
-		</td>
-	</tr>
+	
+	<tr><td>
+	<%
+	if(queryCollection == null){
+	    out.println("&nbsp");
+	    }
+	  else{
+		out.println("<strong>I am satisfied with my query and would like to finalize:</strong><br /><blockquote><input type='button' class='xbutton' value='Finalize query' onclick='location.href=\"refinecheck.do\"'></blockquote>");
+	  }
+	%>
+	</td></tr>
 				
 	<tr>
 		<td>&nbsp;</td>

@@ -7,7 +7,7 @@
 	System.out.println(act);
 %>
 	<!-- <html:form action="<%=act%>" > -->
-	Chromosome Number&nbsp;
+<br />	&nbsp;&nbsp;Chromosome Number&nbsp;
 	<select name="chrosomeNumber" onchange="javascript:changeList(this);">
 	 <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
 	 <option>1</option>

@@ -530,4 +530,82 @@ function showQueryDetail(selectName){
 	}
   }
  
+ function onRadio(formElement,i){
+   
+   
+   //selected index of the selected
+	var element = formElement.name;
+		
+		
+	  if(element == "geneGroup"){	
+	      if (i == 0){
+	      
+		  document.forms[0].geneList.disabled = false;
+		  document.forms[0].geneType.disabled = false;
+		  document.forms[0].geneFile.value = "";
+		  document.forms[0].geneFile.disabled = true;
+		
+		  }
+	      if (i == 1) {
+	      
+	      document.forms[0].geneList.value = "";
+	      document.forms[0].geneList.disabled = true;
+		  document.forms[0].geneType.disabled = true;
+		  document.forms[0].geneFile.disabled = false;
+	
+	      }
+	   }
+	   
+	   if(element == "cloneId"){	
+	      if (i == 0){
+	      
+		  document.forms[0].cloneList.disabled = false;
+		  document.forms[0].cloneListSpecify.disabled = false;
+		  document.forms[0].cloneListFile.disabled = true;
+		
+		  }
+	      if (i == 1) {
+	      
+	      document.forms[0].cloneListSpecify.value = "";
+	      document.forms[0].cloneList.disabled = true;
+		  document.forms[0].cloneListSpecify.disabled = true;
+		  document.forms[0].cloneListFile.disabled = false;
+	
+	      }
+	   }
+	   
+	   
+  }
+	  
+ function radioFold(formElement){
+       var element = formElement.name;
+		
+   if (element == "foldChangeValueUp"){ 
+	      document.forms[0].regulationStatus[0].checked = true;
+	      document.forms[0].regulationStatus[1].checked = false;
+	      document.forms[0].regulationStatus[2].checked = false;
+	      document.forms[0].regulationStatus[3].checked = false;
+	      }
+    if (element == "foldChangeValueDown"){
+	      document.forms[0].regulationStatus[0].checked = false;
+	      document.forms[0].regulationStatus[1].checked = true;
+	      document.forms[0].regulationStatus[2].checked = false;
+	      document.forms[0].regulationStatus[3].checked = false;
+	      }
+    if ((element == "foldChangeValueUDUp") || (element == "foldChangeValueUDDown")){
+	      document.forms[0].regulationStatus[0].checked = false;
+	      document.forms[0].regulationStatus[1].checked = false;
+	      document.forms[0].regulationStatus[2].checked = true;
+	      document.forms[0].regulationStatus[3].checked = false;
+	      }
+	if ((element == "foldChangeValueUnchangeFrom") || (element == "foldChangeValueUnchangeTo")){      
+	      document.forms[0].regulationStatus[0].checked = false;
+	      document.forms[0].regulationStatus[1].checked = false;
+	      document.forms[0].regulationStatus[2].checked = false;
+	      document.forms[0].regulationStatus[3].checked = true;
+	      }
+	    
+ }
+ 
+ 
   

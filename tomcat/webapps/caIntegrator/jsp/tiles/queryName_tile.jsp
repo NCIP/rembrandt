@@ -12,6 +12,6 @@ String act = request.getParameter("act");
 <br>
 	<!-- <html:form action="<%=act%>"> -->
 <html:text property="queryName" size="50" /> (should be unique)
-<html:errors property="queryName"/>
+<br /><html:errors property="queryName"/>
 	<!-- </html:form> -->
 </fieldset>

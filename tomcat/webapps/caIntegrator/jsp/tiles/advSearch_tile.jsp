@@ -4,7 +4,7 @@
 
 <fieldset class="sidebar" style="border-width: 2px">
 <legend style="background-color:#ffffff">Advanced Search Areas</legend>
-<table cellspacing="0" cellpadding="4">
+<table cellspacing="0" cellpadding="4" border="0">
   <tr valign="top">
  <td><strong>Gene Expression Analysis</strong><br />
  <!--read from Gene Expression Analysis text file-->
@@ -44,7 +44,7 @@
 	</td>
 	</tr>
 	<tr>
-	<td colspan="2">
+	<td>
 	<strong>Clinical Study Analysis</strong><br />
 	<!--read from Clinical Study Analysis text file-->
 	<% 
@@ -58,10 +58,11 @@
 		for (int t=1; t<props3.size()+1; t++){
 			String Props = props3.getProperty(String.valueOf(t));
 			out.print(Props);
-			out.print(", ");
+			out.print("<br />");
 		}   
 	 %>
 	</td>
+	<td>&nbsp;</td>
   </tr>
 </table>
 </fieldset>
