@@ -215,7 +215,7 @@ public class CompoundQueryTest extends TestCase {
 			//System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
 			print(resultant);
 			System.err.println("Count= "+i);
-			Thread.sleep( 10 );
+			//Thread.sleep( 10 );
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
