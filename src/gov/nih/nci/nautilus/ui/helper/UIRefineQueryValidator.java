@@ -4,6 +4,7 @@ import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
@@ -175,7 +176,10 @@ public class UIRefineQueryValidator {
 	    		 * and extract it's sampleCriteria to apply to the compoundQuery
 	    		 */
 	    		Queriable query1 = resultSetCompoundQuery.getAssociatiedQueries()[0];
-	    		SampleCriteria sampleCrit = ((GeneExpressionQuery)query1).getSampleIDCrit();
+	    		SampleCriteria sampleCrit = null;
+	    		if(query1 instanceof Query){
+	    			sampleCrit = ((Query)query1).getSampleIDCrit();
+	    		}
 	        	//drop the sample criteria into the compound query, clone it here
 	    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
 	    		
