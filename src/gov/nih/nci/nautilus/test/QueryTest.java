@@ -1,34 +1,8 @@
 package gov.nih.nci.nautilus.test;
 
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.Constants;
-import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
-import gov.nih.nci.nautilus.criteria.PathwayCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.SNPCriteria;
-import gov.nih.nci.nautilus.de.ArrayPlatformDE;
-import gov.nih.nci.nautilus.de.AssayPlatformDE;
-import gov.nih.nci.nautilus.de.BasePairPositionDE;
-import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
-import gov.nih.nci.nautilus.de.CloneIdentifierDE;
-import gov.nih.nci.nautilus.de.CopyNumberDE;
-import gov.nih.nci.nautilus.de.DiseaseNameDE;
-import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.de.GeneOntologyDE;
-import gov.nih.nci.nautilus.de.PathwayDE;
-import gov.nih.nci.nautilus.de.SNPIdentifierDE;
-import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
-import gov.nih.nci.nautilus.query.CompoundQuery;
-import gov.nih.nci.nautilus.query.GeneExpressionQuery;
-import gov.nih.nci.nautilus.query.QueryManager;
-import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
@@ -76,9 +50,11 @@ public class QueryTest extends TestCase {
      ArrayPlatformCriteria affyOligoPlatformCrit;
      ArrayPlatformCriteria cdnaPlatformCrit;
      SNPCriteria snpCrit;
+     SurvivalCriteria survivalCrit;
 
     protected void setUp() throws Exception {
         buildDiseaseTypeCrit();
+        buildSurvivalCrit();
         buildRegionCrit();
         buildPlatformCrit();
         buildCloneCrit();
@@ -97,13 +73,13 @@ public class QueryTest extends TestCase {
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             //q.setGeneIDCrit(geneIDCrit);
 
-            //q.setGeneOntologyCrit(ontologyCrit);
+             q.setGeneOntologyCrit(ontologyCrit);
             q.setRegionCrit(regionCrit);
-            //q.setPathwayCrit(pathwayCrit);
+            q.setPathwayCrit(pathwayCrit);
 
             //q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
-            q.setPathwayCrit(pathwayCrit);
+            //q.setPathwayCrit(pathwayCrit);
 
 
             q.setArrayPlatformCrit(allPlatformCrit);
@@ -112,20 +88,24 @@ public class QueryTest extends TestCase {
 
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
-            q.setDiseaseOrGradeCrit(diseaseCrit);
+            //q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setFoldChgCrit(foldCrit);
 
             try {
             	CompoundQuery myCompoundQuery = new CompoundQuery(q);
                 ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+                System.out.println("NUMBER OF RECORDS: " + geneExprObjects.length);
+
                 print(geneExprObjects);
                 if (geneExprObjects.length > 0)
                     testResultset(geneExprObjects);
+
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
 
     }
+
       private void print(ResultSet[] geneExprObjects) {
             int count = 0;
             HashSet probeIDS = new HashSet();
@@ -198,9 +178,9 @@ public class QueryTest extends TestCase {
 	            	sampleNames.append(sampleIdIterator.next()+"\t");
 	            	header.append("\t");
 	           	}
-	
+
 	    	}
-	
+
 	    	//System.out.println("Gene Count: "+genes.size());
 			System.out.println(header.toString());
 			System.out.println(sampleNames.toString());
@@ -235,9 +215,9 @@ public class QueryTest extends TestCase {
 	//            		}
 	                               	System.out.println(stringBuffer.toString());
 	        		}
-	
+
 	    		}
-	
+
 	    	}
 		  }
         }
@@ -272,13 +252,29 @@ public class QueryTest extends TestCase {
 
         }
     }
+     public static class Clinical extends QueryTest {
+       public void testCGHExprQuery() {
+        ClinicalDataQuery q = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+            q.setQueryName("Test Clinical Query");
+            q.setSurvivalCrit(survivalCrit);
+            q.setDiseaseOrGradeCrit(diseaseCrit);
+            try {
+                ResultSet[] cghObjects = QueryManager.executeQuery(q);
+                //print(geneExprObjects);
+                //testResultset(geneExprObjects);
+            } catch(Throwable t ) {
+                t.printStackTrace();
+            }
 
+        }
+    }
 
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
         suit.addTest(new TestSuite(GeneExpression.class));
         //suit.addTest(new TestSuite(CGH.class));
+         //suit.addTest(new TestSuite(Clinical.class));
         return suit;
 	}
 
@@ -301,7 +297,7 @@ public class QueryTest extends TestCase {
                   new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
          GeneIdentifierDE llObj2 =
                   new GeneIdentifierDE.LocusLink((String)inputIDs.get(1));
-         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("CTNND2");
+         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("VEGF");
 
          inputIDs.add(gs);
         // GeneIdentifierDE geIDObj =
@@ -312,8 +308,8 @@ public class QueryTest extends TestCase {
           //              new GeneIdentifierDE.GeneSymbol((String)inputIDs.get(0));
         ArrayList geneIDentifiers = new ArrayList();
 
-        geneIDentifiers.add(llObj1);
-        geneIDentifiers.add(llObj2);
+        geneIDentifiers.add(gs);
+        //geneIDentifiers.add(llObj2);
         geneIDCrit = new GeneIDCriteria();
         geneIDCrit.setGeneIdentifiers(geneIDentifiers);
     }
@@ -322,18 +318,18 @@ public class QueryTest extends TestCase {
         regionCrit = new RegionCriteria();
 
         // cytoband and start & end positions are mutually exclusive
-        //regionCrit.setCttoband(new CytobandDE("p36.23"));
-       // regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
+       regionCrit.setCytoband(new CytobandDE("p21.32"));
+       //regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
        // regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
 
         // Chromosome Number is mandatory
-        regionCrit.setChromNumber(new ChromosomeNumberDE(new String("1")));
+        regionCrit.setChromNumber(new ChromosomeNumberDE(new String("6")));
     }
 
     private void buildOntologyCrit() {
         ontologyCrit = new GeneOntologyCriteria();
-
-        ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0008150"));
+        //ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0016021"));
+        ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0005634"));
     }
     private void buildSNPCrit() {
         ArrayList inputIDs = new ArrayList();
@@ -374,9 +370,16 @@ public class QueryTest extends TestCase {
     }
     private void buildDiseaseTypeCrit() {
          diseaseCrit = new DiseaseOrGradeCriteria();
-         diseaseCrit.setDisease(new DiseaseNameDE("GBM"));
+         diseaseCrit.setDisease(new DiseaseNameDE("MIXED"));
     }
+     private void buildSurvivalCrit() {
+         survivalCrit  = new SurvivalCriteria();
+         survivalCrit.setLowerSurvivalRange(
+                 new SurvivalDE.LowerSurvivalRange(new Integer("20")));
+         survivalCrit.setUpperSurvivalRange(
+                 new SurvivalDE.UpperSurvivalRange(new Integer("40")));
 
+    }
     private void buildProbeCrit() {
         probeCrit = new CloneOrProbeIDCriteria();
         //probeCrit.setCloneIdentifier(new CloneIdentifierDE.ProbesetID("204655_at"));
@@ -396,7 +399,7 @@ public class QueryTest extends TestCase {
 
 
     private void buildFoldChangeCrit() {
-        Float upRegExpected = new Float(1.2);
+        Float upRegExpected = new Float(2.0);
         Float downRegExpected = new Float(0.8);
         ExprFoldChangeDE.UpRegulation upRegObj = new ExprFoldChangeDE.UpRegulation(upRegExpected );
         ExprFoldChangeDE.DownRegulation downRegObj = new ExprFoldChangeDE.DownRegulation(downRegExpected );
@@ -407,7 +410,7 @@ public class QueryTest extends TestCase {
         Collection objs = new ArrayList(4);
         //objs.add(upRegObj);
         //objs.add(downRegObj);
-        objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
+        objs.add(upRegObj); //objs.add(downUnChangedRegObj);
         foldCrit.setFoldChangeObjects(objs);
     }
 
