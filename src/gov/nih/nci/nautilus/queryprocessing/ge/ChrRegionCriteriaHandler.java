@@ -191,8 +191,8 @@ final public class ChrRegionCriteriaHandler {
         }
 
         StartEndPosition posObj = null;
-        BasePairPositionDE startPosition = new BasePairPositionDE.StartPosition(new Integer(cbStartPos.intValue()));
-        BasePairPositionDE endPosition = new BasePairPositionDE.EndPosition(new Integer(cbEndPos.intValue()));
+        BasePairPositionDE startPosition = new BasePairPositionDE.StartPosition(new Long(cbStartPos.intValue()));
+        BasePairPositionDE endPosition = new BasePairPositionDE.EndPosition(new Long(cbEndPos.intValue()));
         posObj = new StartEndPosition(startPosition, endPosition,  chrNumber);
 
         return posObj;

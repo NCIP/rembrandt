@@ -39,8 +39,8 @@ public class CriteriaTest extends TestCase {
         protected void setUp() {
             regionCrit = new RegionCriteria();
             regionCrit.setChromNumber(new ChromosomeNumberDE("chr17"));
-            regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer("34344251")));
-            regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer("34344297")));
+            regionCrit.setStart(new BasePairPositionDE.StartPosition(new Long("34344251")));
+            regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Long("34344297")));
             regionCrit.setCytoband(new CytobandDE("17q11.2-q12"));
         }
         public RegionCriteriaTest () {

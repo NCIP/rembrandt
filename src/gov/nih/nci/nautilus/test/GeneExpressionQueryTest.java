@@ -260,8 +260,8 @@ public class GeneExpressionQueryTest extends TestCase {
 
         // cytoband and start & end positions are mutually exclusive
         //regionCrit.setCttoband(new CytobandDE("p36.23"));
-        regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
-        regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
+        regionCrit.setStart(new BasePairPositionDE.StartPosition(new Long(6900000)));
+        regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Long(8800000)));
 
         // Chromosome Number is mandatory
         regionCrit.setChromNumber(new ChromosomeNumberDE(new String("chr1")));
