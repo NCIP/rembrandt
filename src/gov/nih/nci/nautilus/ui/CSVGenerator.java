@@ -297,70 +297,112 @@ public class CSVGenerator  {
 
 				        		stringBuffer.append(cytoband+","+reporterName);
 				        		
-				        		//show 3 annotations
-				        	//	HashSet geneSymbols = new HashSet(reporterResultset.getAssiciatedGeneSymbols());
-				        		Collection geneSymbols = reporterResultset.getAssiciatedGeneSymbols();
-				        		if(geneSymbols != null){
-				        			String genes = "";
-
-				        			for(Iterator geneIterator = geneSymbols.iterator(); geneIterator.hasNext();)
-				        			{
-				        				Object geneObj = geneIterator.next();
-				        				if(geneObj != null){
-					        				genes += geneObj.toString();
-					        				genes += " | ";
-				        				}
-				        			}
-				        			if(showGenes)	{
-				        				header.append(",Gene Symbols");
-				        				sampleNames.append(", ");
-				        				showGenes = false;
-				        			}
-				        			stringBuffer.append(","+genes);
-				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
-				        		}
+				        		if(showGenes)	{
+			        				header.append(",Gene Symbols");
+			        				sampleNames.append(", ");
+			        				showGenes = false;
+			        			}
+				        		if(showLL)	{
+			        				header.append(",Locus Link");
+			        				sampleNames.append(", ");
+			        				showLL = false;
+			        			}
+				        		if(showAcc){
+			        				header.append(",Acc.No.");
+			        				sampleNames.append(", ");
+			        				showAcc = false;
+			        			}
 				        		
-				        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
-				        		if(locusLinkIds != null){
-				        			String ll = "";
-				        			
-				        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
-				        			{
-				        				Object llObj = LLIterator.next();
-				        				if(llObj!=null){
-				        					ll += llObj.toString();
-				        					ll += " | ";
-				        				}
-				        			}
-				        			if(showLL)	{
-				        				header.append(",Locus Link");
-				        				sampleNames.append(", ");
-				        				showLL = false;
-				        			}
-				        			stringBuffer.append(","+ll);
-				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
-				        			
-				        		}
-				        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
-				        		if(accNumbers!=null)	{
-				        			String acc = "";
-				        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
-				        			{
-				        				Object accObj = accIterator.next();
-				        				if(accObj!=null){
-				        					acc += accObj.toString();
-				        					acc += " | ";
-				        				}
-				        			}
-				        			if(showAcc){
-				        				header.append(",Acc.No.");
-				        				sampleNames.append(", ");
-				        				showAcc = false;
-				        			}
-				        			stringBuffer.append(", "+acc);
+				        		//show 3 annotations
+			        			String genes = "";
+			        			try	{
+					        		HashSet geneSymbols = new HashSet(reporterResultset.getAssiciatedGeneSymbols());
+					        		// Collection geneSymbols = reporterResultset.getAssiciatedGeneSymbols();
+					        		if(geneSymbols != null){
+	
+					        			for(Iterator geneIterator = geneSymbols.iterator(); geneIterator.hasNext();)
+					        			{
+					        				try	{
+						        				Object geneObj = geneIterator.next();
+						        				if(geneObj != null){
+							        				genes += geneObj.toString();
+							        				genes += " | ";
+						        				}
+					        				}
+					        				catch(Exception e)	{ }
+					        			}
+					        		}
+					        		else	{
+					        			genes = "xx";
+					        		}
+			        			}
+			        			catch(Exception e)	{
+			        				genes = "xxx";	
+			        			}
+			        			stringBuffer.append(","+genes);
+				        		try	{
 				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
 				        		}
+				        		catch(Exception e) { }
 
+			        			String ll = "";
+			        			try	{
+					        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
+					        		if(locusLinkIds != null){
+					        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
+					        			{
+					        				try	{
+						        				Object llObj = LLIterator.next();
+						        				if(llObj!=null){
+						        					ll += llObj.toString();
+						        					ll += " | ";
+						        				}
+					        				}
+					        				catch(Exception e) { }
+					        			}	
+					        		}
+					        		else	{
+					        			ll = "xx";
+					        		}
+			        			}
+			        			catch(Exception e){
+			        				ll = "xxx";
+			        			}
+				        		
+				        		stringBuffer.append(","+ll);
+				        		try	{
+				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        		}
+				        		catch(Exception e){ }
+
+			        			String acc = "";
+			        			try	{
+					        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
+					        		if(accNumbers!=null)	{
+					        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
+					        			{
+					        				try	{
+						        				Object accObj = accIterator.next();
+						        				if(accObj!=null){
+						        					acc += accObj.toString();
+						        					acc += " | ";
+						        				}	
+					        				}
+					        				catch(Exception e){	}
+					        			}
+	
+					        		}
+					        		else	{
+					        			acc = "xx";
+					        		}
+			        			}
+			        			catch(Exception e){	}
+
+				        		stringBuffer.append(", "+acc);
+				        		try	{
+				        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        		}
+				        		catch(Exception e) { }
 				        		//sampleNames.append("\n");
 
 				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
