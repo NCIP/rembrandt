@@ -43,30 +43,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
     boolean includeClones;
     boolean includeProbes;
 
-    static class CloneAnnotaions {
-        ArrayList locusLinks;
-        ArrayList accessions;
-        Long cloneID;
 
-        public CloneAnnotaions(ArrayList locusLinks, ArrayList accessions, Long cloneID) {
-            this.locusLinks = locusLinks;
-            this.accessions = accessions;
-            this.cloneID = cloneID;
-        }
-
-    }
-    static class ProbeAnnotaions {
-        ArrayList locusLinks;
-        ArrayList accessions;
-        Long probeID;
-
-        public ProbeAnnotaions(ArrayList locusLinks, ArrayList accessions, Long probeID) {
-            this.locusLinks = locusLinks;
-            this.accessions = accessions;
-            this.probeID = probeID;
-        }
-
-    }
 
     private Collection allProbeIDS = Collections.synchronizedCollection(new HashSet());
     private Collection allCloneIDS = Collections.synchronizedCollection(new HashSet());
