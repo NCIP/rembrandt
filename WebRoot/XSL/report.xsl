@@ -103,7 +103,7 @@
 
 <xsl:variable name="qName" select="@queryName" />
 	<div class="filterForm">
-	<form action="/c2/refineQuery.do" method="post" name="filter_form">
+	<form action="/runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 	Filter: highlight values greater than <input type="text" name="filter_value" size="4" />
 	<input type="hidden" name="action" value="filter" />
 	<input type="hidden" name="queryName" value="{$qName}"/>
