@@ -9,12 +9,12 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  * Time: 3:07:53 PM
  * To change this template use Options | File Templates.
  */
-public class ChromosomeNumberDE extends DomainElement{
-    private String value;
-    public static String LABEL = (String) ApplicationContext.getLabelProperties().get("ChromosomeNumber");
+public class Cytoband extends DomainElement{
+    private String chromsomeNumber;
+    public static String LABEL = (String) ApplicationContext.getLabelProperties().get("Cytoband");
 
     public Object getValue() {
-        return value;
+        return chromsomeNumber;
     }
 
     public void setValue(Object obj) throws Exception {
@@ -23,12 +23,12 @@ public class ChromosomeNumberDE extends DomainElement{
         setValueObject((String)obj);
     }
 
-    public String getValueObject() {
-        return (String) getValue();
+    public Long getValueObject() {
+        return (Long) getValue();
     }
 
     public void setValueObject(String obj) {
-        value = obj;
+        chromsomeNumber = obj;
     }
 
 }
