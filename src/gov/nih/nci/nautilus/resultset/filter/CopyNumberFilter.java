@@ -9,7 +9,6 @@ import gov.nih.nci.nautilus.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.nautilus.resultset.copynumber.SampleCopyNumberValuesResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.nautilus.ui.struts.action.QuickSearchAction;
 
 import java.util.ArrayList;
 import java.util.Collection;

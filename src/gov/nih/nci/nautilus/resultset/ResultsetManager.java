@@ -213,7 +213,7 @@ public class ResultsetManager {
 	
 	return resultant;
 	}
-	public static Resultant filterCopyNumber(Resultant resultant, Integer consecutiveNocalls, Integer percentNoCall, OperatorType operator){
+	public static Collection filterCopyNumber(Resultant resultant, Integer consecutiveNocalls, Integer percentNoCall, OperatorType operator){
         
         return CopyNumberFilter.filterCopyNumber(resultant, consecutiveNocalls, percentNoCall, operator);
     }

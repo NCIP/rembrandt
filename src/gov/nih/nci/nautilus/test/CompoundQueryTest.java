@@ -98,6 +98,7 @@ public class CompoundQueryTest extends TestCase {
 		super.setUp();
         buildPlatformCrit();
         buildFoldChangeCrit();
+        buildCopyChangeCrit();
         buildCloneCrit();
         buildProbeCrit();
         buildGeneIDCrit();
@@ -302,6 +303,40 @@ public class CompoundQueryTest extends TestCase {
 		}
 		
 	}
+	public void testCopyNumberFilter() {
+		
+		try {
+			CompoundQuery myCompoundQuery1 = new CompoundQuery(genomicQuery);
+			List sampleIDList = new ArrayList();
+			sampleIDList.add("HF1139");
+			sampleIDList.add("HF1297");
+			sampleIDList.add("HF1223");
+			sampleIDList.add("HF118");
+			sampleIDList.add("HF1057");
+			sampleIDList.add("HF1397");
+			sampleIDList.add("HF1409");
+			String[] sampleIDs = (String[])sampleIDList.toArray(new String[sampleIDList.size()]);
+			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+			
+
+			System.out.println("Now Constraint it by the following samples only");
+			for (int i = 0; i < sampleIDs.length;i++){
+				System.out.println(i+") "+ sampleIDs[i]);
+			}
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery1); //,sampleIDs);
+			print(resultant);
+			Collection newSampleIDs = ResultsetManager.filterCopyNumber(resultant,new Integer(2),new Integer(20),OperatorType.OR);
+			//DEBUG
+			for (Iterator sampleIDsIterator = newSampleIDs.iterator(); sampleIDsIterator.hasNext();) {
+				String sampleID = (String) sampleIDsIterator.next();
+				System.out.println(sampleID);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	private void displaySampleView(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Printing Sample View for the Query >>>>>>>>>>>>>>>>>>>>>>>");
 	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
@@ -441,26 +476,26 @@ public class CompoundQueryTest extends TestCase {
         regionCrit = new RegionCriteria();
 
         // cytoband and start & end positions are mutually exclusive
-      regionCrit.setCytoband(new CytobandDE("p11.2"));
+      regionCrit.setCytoband(new CytobandDE("p21.3"));
        //regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
        // regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
 
         // Chromosome Number is mandatory
-      regionCrit.setChromNumber(new ChromosomeNumberDE(new String("7")));
+      regionCrit.setChromNumber(new ChromosomeNumberDE(new String("9")));
       
     }
     private void buildCopyChangeCrit() {
-        Float amplification = new Float(4.0);
-        //Float deletion = new Float(4.0);
+        //Float amplification = new Float(4.0);
+        Float deletion = new Float(1.0);
         //CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
-        //CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
-        CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
+        CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
+        //CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
         //CopyNumberDE.UnChangedCopyNumberDownLimit  downCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberDownLimit(deletion);
 
         copyNumberCrit = new CopyNumberCriteria();
         Collection objs = new ArrayList(4);
-        //objs.add(deletionObj);
-        objs.add(upCopyNumberObj);
+        objs.add(deletionObj);
+        //objs.add(upCopyNumberObj);
         //objs.add(downCopyNumberObj);
         copyNumberCrit.setCopyNumbers(objs);
     }
