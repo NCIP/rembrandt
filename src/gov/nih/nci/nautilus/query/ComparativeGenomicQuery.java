@@ -17,16 +17,9 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-/**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 12, 2004
- * Time: 6:46:14 PM
- * To change this template use Options | File Templates.
- */
 public class ComparativeGenomicQuery extends Query {
     
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(ComparativeGenomicQuery.class);
     private GeneIDCriteria geneIDCriteria;
     private CopyNumberCriteria copyNumberCriteria;
 	private RegionCriteria regionCriteria;	
@@ -54,7 +47,7 @@ public class ComparativeGenomicQuery extends Query {
 
 	try {
 
-		labels = ResourceBundle.getBundle("gov.nih.nci.nautilus.struts.ApplicationResources", Locale.US);
+	    labels = ResourceBundle.getBundle(NautilusConstants.APPLICATION_RESOURCES, Locale.US);
 	  
 	    // starting DiseaseOrGradeCriteria
 		DiseaseOrGradeCriteria thisDiseaseCrit = this.getDiseaseOrGradeCriteria();	

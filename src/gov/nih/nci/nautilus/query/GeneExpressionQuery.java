@@ -18,16 +18,9 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-/**
- * Created by IntelliJ IDEA.
- * User: BhattarR 
- * Date: Aug 12, 2004
- * Time: 6:46:14 PM
- * To change this template use Options | File Templates.
- */
 public class GeneExpressionQuery extends Query {
     
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(GeneExpressionQuery.class);
     private GeneIDCriteria geneIDCrit;
     private RegionCriteria regionCrit;
     private FoldChangeCriteria foldChgCrit;
@@ -55,7 +48,7 @@ public class GeneExpressionQuery extends Query {
 
 	try {
 
-		labels = ResourceBundle.getBundle("gov.nih.nci.nautilus.struts.ApplicationResources", Locale.US);
+	    labels = ResourceBundle.getBundle(NautilusConstants.APPLICATION_RESOURCES, Locale.US);
 	
 		FoldChangeCriteria thisFoldChangeCrit = this.getFoldChgCrit();
 			
@@ -73,27 +66,23 @@ public class GeneExpressionQuery extends Query {
 		else {
 		 logger.debug("Fold Change Criteria is empty or Application Resources file is missing");
 		}
-
-
-			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCrit();
-			if ((thisGeneIDCrit != null) && !thisGeneIDCrit.isEmpty() && labels != null) { 
-				String thisCriteria = thisGeneIDCrit.getClass().getName();
-				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
-				int count = 0;
-				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext() && count < 5;) {
-					count++;
-					DomainElement de = (DomainElement) iter.next();
-					String thisDomainElement = de.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
-				}
-				if(geneIDObjects != null && geneIDObjects.size()> 5){
-				OutStr +="<BR>&nbsp;&nbsp;...";
-				}
+		GeneIDCriteria thisGeneIDCrit = this.getGeneIDCrit();
+		if ((thisGeneIDCrit != null) && !thisGeneIDCrit.isEmpty() && labels != null) { 
+			String thisCriteria = thisGeneIDCrit.getClass().getName();
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
+			int count = 0;
+			for (Iterator iter = geneIDObjects.iterator(); iter.hasNext() && count < 5;) {
+				count++;
+				DomainElement de = (DomainElement) iter.next();
+				String thisDomainElement = de.getClass().getName();
+				OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
 			}
-			else logger.debug("Gene ID Criteria is empty or Application Resources file is missing");
-
-			
+			if(geneIDObjects != null && geneIDObjects.size()> 5){
+			OutStr +="<BR>&nbsp;&nbsp;...";
+			}
+		}
+		else logger.debug("Gene ID Criteria is empty or Application Resources file is missing");
 			RegionCriteria thisRegionCrit = this.getRegionCrit();
 			if ((thisRegionCrit != null) && !thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
