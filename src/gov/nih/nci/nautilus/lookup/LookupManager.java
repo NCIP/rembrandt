@@ -12,7 +12,9 @@ import gov.nih.nci.nautilus.data.ExpPlatformDim;
 import gov.nih.nci.nautilus.data.PatientData;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -76,6 +78,23 @@ public class LookupManager{
 			patientData = (PatientDataLookup[])(executeQuery(PatientData.class).toArray(new PatientDataLookup[1]));
 		}
 		return patientData;
+	}
+	/**
+	 * @return Returns the patientDataMap.
+	 * @throws Exception
+	 * BiospecimenId is the key & PatientDataLookup is the returned object
+	 */
+	public static Map getPatientDataMap() throws Exception{
+		PatientDataLookup[] patients = getPatientData();
+		Map patientDataMap = new HashMap();
+		if(patients != null){
+			for (int i = 0;i < patients.length;i++){
+				Long key = patients[i].getBiospecimenId();
+				patientDataMap.put(key,patients[i]);				
+			}
+		}
+		return patientDataMap;
+		
 	}
 	/**
 	 * @return Returns the expPlatforms.
