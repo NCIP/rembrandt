@@ -645,16 +645,15 @@ function showQueryDetail(selectName){
 		
 	  if(element == "plot"){
 	  document.forms[0].quickSearchType.options.length = 1;
-	  document.forms[0].quickSearchType.options[0].text = "Gene Symbol";
 	     if (i == 2){
-	     var data = new Array("Cytoband", "SNP Probe set ID");
-	   
-		for(var i=0; i<data.length; i++)	{
-			myOption = new Option();
-			myOption.text = data[i];
-			myOption.value = data[i];
-			document.forms[0].quickSearchType.options[document.forms[0].quickSearchType.options.length] = myOption;
-		    }	
+	      myOption = new Option();
+		  myOption.text = "SNP Probe set ID";
+	      document.forms[0].quickSearchType.options[0] = myOption;
+		  }	
+	     else if(i != 2){
+	      myOption = new Option();
+		  myOption.text = "Gene Symbol";
+	      document.forms[0].quickSearchType.options[0] = myOption;
 	     }
 	   }	
 		
@@ -663,7 +662,6 @@ function showQueryDetail(selectName){
 	      
 		  document.forms[0].geneList.disabled = false;
 		  document.forms[0].geneType.disabled = false;
-		  document.forms[0].geneFile.value = "";
 		  document.forms[0].geneFile.disabled = true;
 		  document.forms[0].geneList.focus();
 		  }
@@ -680,7 +678,6 @@ function showQueryDetail(selectName){
 	      if (i == 0){
 	      document.forms[0].cloneListSpecify.disabled = false;
 		  document.forms[0].cloneList.disabled = false;	
-		  document.forms[0].cloneListFile.value = "";	
 		  document.forms[0].cloneListFile.disabled = true;
  		  document.forms[0].cloneListSpecify.focus();
 		

@@ -21,11 +21,9 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		plot = str;
 	}
 
-	public void setQuickSearchName(String str) {
-	    System.out.println(str);
+	public void setQuickSearchName(String str) {	    
 	    String[] quickSearchNameStrings = str.split(":");
 	    str = quickSearchNameStrings[0];
-	    System.out.println(str);
 		this.quickSearchName = str;
 	}
 

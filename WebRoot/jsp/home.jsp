@@ -26,21 +26,21 @@
 	        </strong>    
 	        <br />
 	        
+	        <h5>Gene Expression Graph</h5>
 	        <input type="radio" name="plot" class="radio" value="geneExpPlot" checked="true" onclick="javascript:onRadio(this,0);">
 	        Gene Expression plot&nbsp;<br />
 	        
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);">
 	        Kaplan-Meier survival plot for Gene Expression Data&nbsp;<br />
 	        
+	        <h5>Copy Number Graph</h5>
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);">
 	        Kaplan-Meier survival plot for Copy Number Data&nbsp;
 	                
 	        <br />
 	        <br>
 	        
-	         <strong>
-	          Enter a gene symbol
-	        </strong> 
+	         <hr width=100% color="#002185" size="1px" />
 	        
 	        <br />
 	        <select name="quickSearchType">

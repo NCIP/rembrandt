@@ -115,7 +115,8 @@ response.setHeader("Location",newLocn);
 	            <tr><td><html:text property="userName" /></td></tr>
 	            <tr><Td>Password:</td></tr>
 	            <tr><td><html:password property="password" /></td></tr>
-	            <tr><td>
+	            <!--take out GI and data set until later date?
+	             <tr><td>
 	              Study Data Set
 	              <br>
 	              <select style="font-size:8pt" name="dataSet" onchange="javascript:changeList(this);">
@@ -148,9 +149,9 @@ response.setHeader("Location",newLocn);
 	                </option>
 	              </select>
 	            </td>
-	           </tr>
+	           </tr>-->
 			  </table>
-	          <span style="margin: 0px 0px 0px 85px">&nbsp;<html:submit/>&nbsp;&nbsp;<html:reset/></span>
+	          <span style="margin: 0px 0px 0px 65px">&nbsp;<html:submit/>&nbsp;&nbsp;<html:reset/></span>
 	       </html:form>
 	       <!--end login form-->
 	       
