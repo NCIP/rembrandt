@@ -20,7 +20,7 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 <head>
 	<title>Generated Report</title>
 	<style>
-	body { font-family:arial; font-size: 11px;}
+	body { font-family:arial; font-size: 11px; margin-top: 0px}
 	Td {
 		font-size: 12px;
 		background: #F2F2F2;
@@ -53,6 +53,8 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	</style>
 </head>
 <body>
+<div style="background-color: #ffffff"><img src="images/smallHead.jpg"></div>
+<Br>
 <a name="top"></a>
 <%
 
