@@ -234,7 +234,6 @@ abstract public class GEFactHandler {
                       }
                    }
                );
-               System.out.println("BEGIN (from GEFactHandler.executeGenePathwayAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
                t.start();
             }
     }
@@ -283,7 +282,6 @@ abstract public class GEFactHandler {
                       }
                    }
                );
-               System.out.println("BEGIN (from GEFactHandler.executeGeneOntologyAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
                t.start();
             }
     }
@@ -334,8 +332,6 @@ abstract public class GEFactHandler {
                 }
                 if (obj.getGeneSymbol() != null  && obj.getAnnotation() != null) {
                     obj.getAnnotation().setGeneAnnotation((GeneExpr.GeneAnnotation)geneAnnotations.get(obj.getGeneSymbol()));
-                    System.out.println("*****************************Annotations: ****************************");
-                    System.out.println(obj.getAnnotation());
                 }
                 results[i] = obj;
             }

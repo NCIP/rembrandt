@@ -17,9 +17,8 @@ public class ReportGeneratorForm extends BaseForm {
     private CompoundQuery requestQuery;
     private String resultSetName = "";
     private String xsltFileName = "";
-   
-   
-    //General Filter values to be used by the XSLT
+    //General Filter values to be used by the XSLT for pagenation and other
+    //general XSL functions for the report
     private HashMap filterParams = new HashMap();
     private String filter_value1 = "";
     private String filter_value2 = "";
@@ -27,9 +26,18 @@ public class ReportGeneratorForm extends BaseForm {
     private String filter_value4 = "";
     private String filter_value5 = "";
     private String filter_value6 = "";
+    //this is used to specify the particular element that we will be filtering on
+    private String filter_element = "";
+    //this is the type of filter that will be applied
+    private String filter_type = "";
+    //this is the string of values that will be used by the filter_type
+    //it needs to be parsed so that it can be later used by the filter
+    private String filter_string = "";
+    //this is the list of sampleIds that the user can select from the report page
     private String[] samples;
-       
+           
 	/**
+	 * 
 	 * @return Returns the query.
 	 */
 	public CompoundQuery getRequestQuery() {
