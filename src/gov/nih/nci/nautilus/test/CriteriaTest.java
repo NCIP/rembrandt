@@ -39,10 +39,10 @@ public class CriteriaTest extends TestCase {
     public static class RegionCriteriaTest extends CriteriaTest {
         protected void setUp() {
             regionCrit = new RegionCriteria();
-            regionCrit.setChromNumber(new ChromosomeNumberDE("7"));
-            regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer("300")));
-            regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer("600")));
-            regionCrit.setCttoband(new CytobandDE("7q.12.34.56"));
+            regionCrit.setChromNumber(new ChromosomeNumberDE("chr17"));
+            regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer("34344251")));
+            regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer("34344297")));
+            regionCrit.setCttoband(new CytobandDE("17q11.2-q12"));
         }
         public RegionCriteriaTest () {
         }
@@ -52,20 +52,22 @@ public class CriteriaTest extends TestCase {
         }
     }
     public static class FoldChangeCriteriaTest extends CriteriaTest {
-        Float upRegExpected = new Float(2.5);
-        Float downRegExpected = new Float(1.1);
-        Float upperUnchangedExpected = new Float(4.0);
-        Float downUnChangedExpected = new Float(2.0);
+        Float upRegExpected = new Float(2.0);
+        Float downRegExpected = new Float(1.0);
+        //Float upperUnchangedExpected = new Float(4.0);
+        //Float downUnChangedExpected = new Float(2.0);
 
         protected void setUp() {
             ExprFoldChangeDE.UpRegulation upRegObj = new ExprFoldChangeDE.UpRegulation(upRegExpected );
-            ExprFoldChangeDE.UpRegulation downRegObj = new ExprFoldChangeDE.UpRegulation(downRegExpected );
-            ExprFoldChangeDE.UpRegulation upUnChangedObj = new ExprFoldChangeDE.UpRegulation(upperUnchangedExpected );
-            ExprFoldChangeDE.UpRegulation downUnChangedRegObj = new ExprFoldChangeDE.UpRegulation(downUnChangedExpected );
+            ExprFoldChangeDE.DownRegulation downRegObj = new ExprFoldChangeDE.DownRegulation(downRegExpected );
+            //ExprFoldChangeDE.UnChangedRegulationUpperLimit upUnChangedObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(upperUnchangedExpected );
+            //ExprFoldChangeDE.UnChangedRegulationDownLimit downUnChangedRegObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(downUnChangedExpected );
 
             foldCrit = new FoldChangeCriteria();
             Collection objs = new ArrayList(4);
-            objs.add(upRegObj); objs.add(downRegObj); objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
+            objs.add(upRegObj);
+            objs.add(downRegObj);
+            //objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
             foldCrit.setFoldChangeObjects(objs);
         }
         public void testFoldChangeCriteria() {
@@ -82,8 +84,8 @@ public class CriteriaTest extends TestCase {
     public static class GeneIDCriteriaTest extends CriteriaTest {
         ArrayList inputIDs = new ArrayList();
 	    protected void setUp() {
-            inputIDs.add(0, "locus123");
-            inputIDs.add(1, "genBank567");
+            inputIDs.add(0, "6352");
+            inputIDs.add(1, "187011");
             GeneIdentifierDE.LocusLink geLocusObj =
                     new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
             GeneIdentifierDE.GenBankAccessionNumber geGenBankObj =
@@ -114,7 +116,6 @@ public class CriteriaTest extends TestCase {
         }
 
         protected void setUp() {
-
             GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
             q.setQueryName("Test Gene Query");
             q.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
