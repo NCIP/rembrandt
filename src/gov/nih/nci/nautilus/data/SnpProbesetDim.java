@@ -3,7 +3,7 @@
 
 package gov.nih.nci.nautilus.data;
 
-public class SnpProbesetDim
+public class SNPProbesetDim
 {
   private String alleleFrequencyAf;
 
