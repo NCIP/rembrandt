@@ -20,7 +20,14 @@ String act = request.getParameter("s").toLowerCase();
 %>
 <Br>
 <span id="popup" name="popup"></span>
-
+<%
+	String preview = (String) request.getAttribute("preview");
+	if(preview != null && preview.equals("yes"))
+	{ %>
+<%@ include file="popup.jsp" %>
+<%
+	}
+%>
 <div class="setQuery">
 <html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 </div>
