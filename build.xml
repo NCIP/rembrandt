@@ -101,8 +101,8 @@
      <patternset refid="xml.jars"/>       
      <patternset refid="other.jars"/>
      <patternset refid="test.jars"/>
-     <patternset refid="struts.jars"/>  
-    </fileset>
+     <patternset refid="struts.jars"/>
+   </fileset>
  </path>
  
  <path id="cp.run">
@@ -200,6 +200,7 @@
 	        <patternset refid="ojb.client.jars"/>
 			<patternset refid="db.platform.jars"/>
 			<patternset refid="cabio.jars"/>
+	     	<patternset refid="jfreechart.jars"/>
 	     	<include name="xercesImpl.jar"/>
 	     	<include name="xml-apis.jar"/>			
        </fileset>	    
@@ -250,7 +251,7 @@
 	
 <target name="build-war" depends="build-jar, compile">
 	<delete file="${build.dir}/${app.war.name}.war"/>
-   <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
+    <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
    	<fileset file="${webapp.dir}/*.jsp"/>
     <zipfileset  dir="${webapp.dir}/log" prefix="log"/>
     <zipfileset  dir="${webapp.dir}/css" prefix="css"/>
