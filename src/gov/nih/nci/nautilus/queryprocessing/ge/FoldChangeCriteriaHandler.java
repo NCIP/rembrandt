@@ -65,12 +65,12 @@ public class FoldChangeCriteriaHandler {
         Double lowerLimit;
 
         if (type1.equals(ExprFoldChangeDE.UNCHANGED_REGULATION_DOWN_LIMIT)) {
-            upperLimit = new Double(((ExprFoldChangeDE) foldObjs[0]).getValueObject().floatValue());
-            lowerLimit = new Double(((ExprFoldChangeDE)foldObjs[1]).getValueObject().floatValue());
+            upperLimit = new Double(((ExprFoldChangeDE) foldObjs[1]).getValueObject().floatValue());
+            lowerLimit = new Double(((ExprFoldChangeDE)foldObjs[0]).getValueObject().floatValue());
         }
         else {
-            upperLimit = new Double(((ExprFoldChangeDE)foldObjs[1]).getValueObject().floatValue());
-            lowerLimit = new Double(((ExprFoldChangeDE)foldObjs[0]).getValueObject().floatValue());
+            upperLimit = new Double(((ExprFoldChangeDE)foldObjs[0]).getValueObject().floatValue());
+            lowerLimit = new Double(((ExprFoldChangeDE)foldObjs[1]).getValueObject().floatValue());
         }
         criteria.addBetween(columnName, lowerLimit, upperLimit);
     }
