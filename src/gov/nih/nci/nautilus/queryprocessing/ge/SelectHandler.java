@@ -91,7 +91,7 @@ public abstract class SelectHandler implements Runnable {
            try {
                 ThreadController.sleepOnEvents(eventList);
            } catch (InterruptedException e) {
-               // should never happen
+               // should never happen.  If happens log it and continue
                e.printStackTrace();
            }
 

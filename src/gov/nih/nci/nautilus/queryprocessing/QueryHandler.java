@@ -47,8 +47,9 @@ abstract public class QueryHandler {
            System.out.println("Populating completed");
 
        } catch(Throwable t) {
-           //TODO: rethrow this exception with some message
+           //This is severe exception  SO exit the system
            t.printStackTrace();
+           System.exit(1);
        }
     }
     final static DEBeanAttrMapping getBeanAttrMappingFor(String deClassName) throws Exception {
