@@ -60,9 +60,8 @@ public class ContraintQueryWithSamplesHandler {
 					leftQuery = contraintQuery((CompoundQuery) leftQuery,
 							sampleCrit);
 				} else if (leftQuery instanceof Query) {
-					GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) leftQuery;
-					geneExpressionQuery.setSampleIDCrit(sampleCrit);
-					leftQuery = geneExpressionQuery;
+					Query query = (Query) leftQuery;
+					query.setSampleIDCrit(sampleCrit);
 				}
 			}
 
@@ -71,9 +70,8 @@ public class ContraintQueryWithSamplesHandler {
 					rightQuery = contraintQuery((CompoundQuery) rightQuery,
 							sampleCrit);
 				} else if (rightQuery instanceof Query) {
-					GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) rightQuery;
-					geneExpressionQuery.setSampleIDCrit(sampleCrit);
-					rightQuery = geneExpressionQuery;
+					Query query = (Query) rightQuery;
+					query.setSampleIDCrit(sampleCrit);
 				}
 			}
 			if (operator != null) {
