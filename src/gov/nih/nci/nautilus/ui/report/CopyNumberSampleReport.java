@@ -188,7 +188,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
 					        			
 					        			sampleIds = copyNumberContainer.getBiospecimenLabels(label);
-					        	
+					        			String hClass = label;
 					        			if(groupResultset != null)
 					        			{		
 					                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
@@ -197,17 +197,23 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					                       		SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 					                       		
 					                       		if(sampleResultset2 != null){
+					                       			
+					                       			if(sampleResultset2.isHighlighted())
+				                       					hClass="highlighted";
+					                       			else
+				                       					hClass = label;
+					                       			
 					                       			Double ratio = (Double) sampleResultset2.getCopyNumber().getValue();
 					                       			if(ratio != null)	{
 					                       				//sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");
-					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
 						    					        	data = null;
 						    					        cell = null;
 					                       			}
 					                       			else	{
 					                       				//sb.append("<td class='"+label+"'>-</td>");
-					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
 						    					        	data = null;
 						    					        cell = null;
@@ -216,7 +222,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					                       		else	{
 					                       			//sb.append("<td class='"+label+"'>-</td>");
 				                       				
-				                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+				                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 					    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
 					    					        	data = null;
 					    					        cell = null;
@@ -225,7 +231,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					        			}
 					                    else	{
 					                    	for(int s=0;s<sampleIds.size();s++)	{ 
-					                    		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+					                    		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
 				    					        	data = null;
 				    					        cell = null;

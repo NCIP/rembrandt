@@ -249,14 +249,33 @@ public class ShowAllValuesHandler {
 			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
 			                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 			                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
-				                       		if(showAllBiospecimenResultset != null && sampleResultset2 != null){
-				                       			Double ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+				                       		//if(showAllBiospecimenResultset != null && sampleResultset2 != null){
+			                       			Double ratio = null;
+		                       				try {
+		                       					ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+											} catch (Exception e) {
+												ratio = null;
+											}
+											
+											Double showAllRatio = null;
+		                       				try {
+		                       					showAllRatio = (Double)sampleResultset2.getCopyNumber().getValue();
+											} catch (Exception e1) {
+												showAllRatio = null;
+											}
+											/*
+												Double ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
 				                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+				                       		*/
 				                       			if(ratio != null && ratio.equals(showAllRatio)){
-				                       				showAllBiospecimenResultset.setHighlighted(true);  
+				                       				showAllBiospecimenResultset.setHighlighted(false);  
 				                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
 				                       			}
-					                       	}
+				                       			else{
+                                                    showAllBiospecimenResultset.setHighlighted(true);  
+                                                    groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
+                                                }
+					                      // 	}
 			                     		}			                       		
 			                       	}
 		                       }

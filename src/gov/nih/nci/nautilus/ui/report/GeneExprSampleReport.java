@@ -219,12 +219,15 @@ public class GeneExprSampleReport implements ReportGenerator{
 					        			String hClass = label;
 					        			if(groupResultset != null)	{
 					                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+					                     	
 					                       		String sampleId = (String) sampleIdIterator.next();
 					                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 					                       		if(biospecimenResultset != null){
 					                       			
 					                       			if(biospecimenResultset.isHighlighted())
 					                       					hClass="highlighted";
+					                       			else
+					                       					hClass = label;
 					                       			
 					                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
 					                       			if(ratio != null)	{
