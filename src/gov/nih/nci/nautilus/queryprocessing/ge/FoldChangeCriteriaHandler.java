@@ -100,18 +100,20 @@ public class FoldChangeCriteriaHandler {
 
     }
      private static void validateFoldChangeForAllGenes(FoldChangeCriteria foldChgCrit) throws Exception {
-        ExprFoldChangeDE c = (ExprFoldChangeDE)foldChgCrit.getFoldChangeObjects().toArray()[0];
-        String type = c.getRegulationType();
-        if (type.equals(ExprFoldChangeDE.UP_REGULATION)) {
-            if (c.getValueObject().compareTo(ALL_GENES_REGULATION_LIMIT) < 0) {
-                throw new Exception("Fold Change must be at greater than or equal to " + ALL_GENES_REGULATION_LIMIT);
+         if(foldChgCrit != null){
+            ExprFoldChangeDE c = (ExprFoldChangeDE)foldChgCrit.getFoldChangeObjects().toArray()[0];
+            String type = c.getRegulationType();
+            if (type.equals(ExprFoldChangeDE.UP_REGULATION)) {
+                if (c.getValueObject().compareTo(ALL_GENES_REGULATION_LIMIT) < 0) {
+                    throw new Exception("Fold Change must be at greater than or equal to " + ALL_GENES_REGULATION_LIMIT);
+                }
+            }
+    
+            else if(type.equals(ExprFoldChangeDE.DOWN_REGULATION)) {
+                 if (c.getValueObject().compareTo(ALL_GENES_REGULATION_LIMIT) > 0) {
+                    throw new Exception("Fold Change must be at less than or equal to " + ALL_GENES_REGULATION_LIMIT);
+                }
             }
         }
-
-        else if(type.equals(ExprFoldChangeDE.DOWN_REGULATION)) {
-             if (c.getValueObject().compareTo(ALL_GENES_REGULATION_LIMIT) > 0) {
-                throw new Exception("Fold Change must be at less than or equal to " + ALL_GENES_REGULATION_LIMIT);
-            }
-        }
-    }
+     }
 }
