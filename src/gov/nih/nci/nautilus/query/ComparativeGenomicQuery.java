@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
 public class ComparativeGenomicQuery extends Query {
     
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
-    private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
     private GeneIDCriteria geneIDCriteria;
     private CopyNumberCriteria copyNumberCriteria;
 	private RegionCriteria regionCriteria;	
@@ -35,16 +34,6 @@ public class ComparativeGenomicQuery extends Query {
 	private SNPCriteria snpCriteria;
 	private AlleleFrequencyCriteria alleleFrequencyCriteria;
 	private AssayPlatformCriteria assayPlatformCriteria;
-	private SampleCriteria sampleIDCrit;
-
-    public SampleCriteria getSampleIDCrit() {
-        return sampleIDCrit;
-    }
-
-    public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
-        this.sampleIDCrit = sampleIDCrit;
-    }
-
     private QueryHandler HANDLER;
 
     public QueryHandler getQueryHandler() throws Exception  {
@@ -57,11 +46,7 @@ public class ComparativeGenomicQuery extends Query {
     public ComparativeGenomicQuery() {
         super();
     }
-
- 
     public String toString(){
-    	
-
 		ResourceBundle labels = null;
 		String OutStr = "<B>Comparative Genomic Query</B>";
 		OutStr += "<BR><B class='otherBold'>Query Name: </b>" + this.getQueryName();
@@ -243,13 +228,7 @@ public class ComparativeGenomicQuery extends Query {
     	return OutStr;
     }
     
-	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
-        return diseaseOrGradeCriteria;
-    }
 
-    public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
-        this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
-    }
 		
     public GeneIDCriteria getGeneIDCriteria() {
         return geneIDCriteria;

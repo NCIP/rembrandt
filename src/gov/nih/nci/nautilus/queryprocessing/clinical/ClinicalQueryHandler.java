@@ -1,9 +1,6 @@
 package gov.nih.nci.nautilus.queryprocessing.clinical;
 
-import gov.nih.nci.nautilus.criteria.AgeCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.GenderCriteria;
-import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
 import gov.nih.nci.nautilus.query.Query;
@@ -37,91 +34,38 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
  * To change this template use File | Settings | File Templates.
  */
 public class ClinicalQueryHandler extends QueryHandler {
-    private Collection allBIOSpecimenIDs = Collections.synchronizedCollection(new HashSet());
-    private Collection bioSpecimenLists = Collections.synchronizedCollection(new Vector());
-    private List eventList = Collections.synchronizedList(new ArrayList());
+
     protected ResultSet[] handle(Query query) throws Exception {
-        ClinicalDataQuery cghQuery = (ClinicalDataQuery) query;
-        
-        if (cghQuery.getSurvivalCriteria() != null) {
-            BIOSpecimenIDCriteria survivalCrit = buildSurvivalRangeCrit(cghQuery);
-            assert(survivalCrit!= null);
-            Collection bioSpecimenIDs = new HashSet();
-            SelectHandler handler = new SelectHandler.SurivalRangeSelectHandler(survivalCrit, bioSpecimenIDs);            
-            eventList.add(handler.getDbEvent());
-            new Thread(handler).start();   
-            	bioSpecimenLists.add(bioSpecimenIDs);
-        }
+        ClinicalDataQuery clinicalQuery = (ClinicalDataQuery) query;
+        Criteria allCriteria = new Criteria();
 
-        if (cghQuery.getAgeCriteria() != null) {
-            BIOSpecimenIDCriteria ageCrit = buildAgeRangeCrit(cghQuery);
-            assert(ageCrit != null);
-            Collection bioSpecimenIDs = new HashSet();
-            SelectHandler handler = new SelectHandler.AgeRangeSelectHandler(ageCrit, bioSpecimenIDs);
-            eventList.add(handler.getDbEvent());
-            new Thread(handler).start();           
-            	bioSpecimenLists.add(bioSpecimenIDs);
-        }
+        buildSurvivalRangeCrit(clinicalQuery, allCriteria);
+        buildAgeRangeCrit(clinicalQuery, allCriteria);
+        buildGenderCrit(clinicalQuery, allCriteria);
 
-         if (cghQuery.getGenderCriteria() != null) {
-            BIOSpecimenIDCriteria genderCrit = buildGenderCrit(cghQuery);
-            assert(genderCrit != null);
-            Collection bioSpecimenIDs = new HashSet();
-            SelectHandler handler = new SelectHandler.GenderSelectHandler(genderCrit, bioSpecimenIDs);
-            eventList.add(handler.getDbEvent());
-            new Thread(handler).start();
-            	bioSpecimenLists.add(bioSpecimenIDs);
-        }
-        ThreadController.sleepOnEvents(eventList);
-        allBIOSpecimenIDs = ensureDistinctBioSpenimenIds();
-        PatientData[] results = executeQuery(cghQuery);
-        //return null;
+        PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+        Class targetFactClass = PatientData.class;
+        CommonFactHandler.addDiseaseCriteria(clinicalQuery, targetFactClass, _BROKER, allCriteria);
+        CommonFactHandler.addSampleIDCriteria(clinicalQuery, targetFactClass, allCriteria);
+        _BROKER.close();
+
+        PatientData[] results = executeQuery(allCriteria);
         return results;
     }
 
-    /**
-	 * @return
-	 */
-	private Collection ensureDistinctBioSpenimenIds() {
-		Set sampleIds =  new HashSet();
-		for(Iterator iterator = bioSpecimenLists.iterator(); iterator.hasNext();){
-			Collection  bioSpecimenIDCollection = (Collection) iterator.next();
-			if(sampleIds.isEmpty()){
-				sampleIds.addAll(bioSpecimenIDCollection);
-			}
-			sampleIds.retainAll(bioSpecimenIDCollection);
-		}
-		//	in place to ensure that if none of the conditions are met
-		//  then no records are selected as no records will ever have the -1 id
-		if(sampleIds.isEmpty() && bioSpecimenLists.size() > 0){  
-			Long ldpID = new Long(-1);
-			sampleIds.add(ldpID);
-		}
-		return sampleIds;
-	}
-
-	private PatientData[] executeQuery(ClinicalDataQuery cghQuery) throws Exception {
+	private PatientData[] executeQuery(Criteria allCriteria) throws Exception {
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-        pb.clearCache();
-        final Criteria sampleCrit = new Criteria();
-        DiseaseOrGradeCriteria diseaseCrit = cghQuery.getDiseaseOrGradeCriteria();
-        if(allBIOSpecimenIDs.size() > 0){
-        	sampleCrit.addIn(PatientData.BIOSPECIMEN_ID, allBIOSpecimenIDs);
-        }
-        if (diseaseCrit != null)
-        CommonFactHandler.addDiseaseCriteria(diseaseCrit, PatientData.class, pb, sampleCrit);
-        ReportQueryByCriteria sampleQuery = QueryFactory.newReportQuery(PatientData.class, sampleCrit, true);
+        ReportQueryByCriteria sampleQuery = QueryFactory.newReportQuery(PatientData.class, allCriteria, true);
         sampleQuery.setAttributes(new String[] {
                         PatientData.BIOSPECIMEN_ID, PatientData.GENDER,
                         PatientData.DISEASE_TYPE, PatientData.AGE_GROUP,
                         PatientData.SAMPLE_ID,
                         PatientData.SURVIVAL_LENGTH_RANGE} );
 
-        assert(sampleQuery != null);
         Iterator patientDataObjects =  pb.getReportQueryIteratorByQuery(sampleQuery );
         ArrayList results = new ArrayList();
-
         populateResults(patientDataObjects, results);
+
         PatientData[] finalResult = new PatientData[results.size()];
         for (int i = 0; i < results.size(); i++) {
             PatientData patientData = (PatientData) results.get(i);
@@ -152,40 +96,28 @@ public class ClinicalQueryHandler extends QueryHandler {
         }
     }
 
-    private BIOSpecimenIDCriteria buildSurvivalRangeCrit(ClinicalDataQuery cghQuery) {
+    private void buildSurvivalRangeCrit(ClinicalDataQuery cghQuery, Criteria survivalCrit) {
         SurvivalCriteria crit = cghQuery.getSurvivalCriteria();
-        long lowerLmtInMons = crit.getLowerSurvivalRange().getValueObject().longValue();
-        long lowerLmtInDays  = lowerLmtInMons * 30;
-        long upperLmtInMons = crit.getUpperSurvivalRange().getValueObject().longValue();
-        long upperLmtInDays = upperLmtInMons * 30;
-        Criteria survivalCrit = new Criteria();
-        survivalCrit.addBetween(PatientData.SURVIVAL_LENGTH, new Long(lowerLmtInDays), new Long(upperLmtInDays));
-        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  survivalCrit, false );
-        bioIDQuery.setAttributes(new String[] {PatientData.BIOSPECIMEN_ID} );
-        BIOSpecimenIDCriteria bioCrit = new BIOSpecimenIDCriteria();
-        bioCrit.setBioSpecimenIDSubQuery(bioIDQuery);
-        return bioCrit;
+        if (crit != null) {
+            long lowerLmtInMons = crit.getLowerSurvivalRange().getValueObject().longValue();
+            long lowerLmtInDays  = lowerLmtInMons * 30;
+            long upperLmtInMons = crit.getUpperSurvivalRange().getValueObject().longValue();
+            long upperLmtInDays = upperLmtInMons * 30;
+            survivalCrit.addBetween(PatientData.SURVIVAL_LENGTH, new Long(lowerLmtInDays), new Long(upperLmtInDays));
+        }
     }
-    private BIOSpecimenIDCriteria buildAgeRangeCrit(ClinicalDataQuery cghQuery) {
+    private void buildAgeRangeCrit(ClinicalDataQuery cghQuery, Criteria ageCrit ) {
         AgeCriteria crit = cghQuery.getAgeCriteria();
-        long lowerLmtInYrs= crit.getLowerAgeLimit().getValueObject().longValue();
-        long upperLmtInYrs  = crit.getUpperAgeLimit().getValueObject().longValue();
-        Criteria ageCrit = new Criteria();
-        ageCrit.addBetween(PatientData.AGE, new Long(lowerLmtInYrs), new Long(upperLmtInYrs));
-        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  ageCrit , false );
-        bioIDQuery.setAttributes(new String[] {PatientData.BIOSPECIMEN_ID} );
-        BIOSpecimenIDCriteria bioCrit = new BIOSpecimenIDCriteria();
-        bioCrit.setBioSpecimenIDSubQuery(bioIDQuery);
-        return bioCrit;
+        if (crit != null) {
+            long lowerLmtInYrs= crit.getLowerAgeLimit().getValueObject().longValue();
+            long upperLmtInYrs  = crit.getUpperAgeLimit().getValueObject().longValue();
+            ageCrit.addBetween(PatientData.AGE, new Long(lowerLmtInYrs), new Long(upperLmtInYrs));
+        }
     }
-    private BIOSpecimenIDCriteria buildGenderCrit(ClinicalDataQuery cghQuery) {
-        GenderCriteria genderCrit = cghQuery.getGenderCriteria();
-        Criteria ageCrit = new Criteria();
-        ageCrit.addEqualTo(PatientData.GENDER, genderCrit.getGenderDE().getValueObject());
-        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  ageCrit, false );
-        bioIDQuery.setAttributes(new String[] {PatientData.BIOSPECIMEN_ID} );
-        BIOSpecimenIDCriteria bioCrit = new BIOSpecimenIDCriteria();
-        bioCrit.setBioSpecimenIDSubQuery(bioIDQuery);
-        return bioCrit;
+    private void buildGenderCrit(ClinicalDataQuery cghQuery, Criteria genderCrit) {
+        GenderCriteria crit = cghQuery.getGenderCriteria();
+        if (crit != null) {
+            genderCrit.addEqualTo(PatientData.GENDER, crit.getGenderDE().getValueObject());
+        }
     }
 }

@@ -283,10 +283,11 @@ public class QueryTest extends TestCase {
             
             //q.setSurvivalCrit(survivalCrit);
             q.setGenderCrit(genderCrit);
-            //q.setAgeCrit(ageCriteria);
+            q.setAgeCrit(ageCriteria);
             q.setDiseaseOrGradeCrit(diseaseCrit);
+            q.setSampleIDCrit(sampleCrit);
             try {
-                ResultSet[] patientDataObjects = QueryManager.executeQuery(q);
+                ResultSet[] patientDataObjects = QueryProcessor.execute(q);
                 print(patientDataObjects);
                 //testResultset(geneExprObjects);
             } catch(Throwable t ) {
@@ -314,9 +315,9 @@ public class QueryTest extends TestCase {
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        //suit.addTest(new TestSuite(GeneExpression.class));
-        suit.addTest(new TestSuite(CGH.class));
-        // suit.addTest(new TestSuite(Clinical.class));
+        suit.addTest(new TestSuite(GeneExpression.class));
+        //suit.addTest(new TestSuite(CGH.class));
+        //suit.addTest(new TestSuite(Clinical.class));
         return suit;
 	}
 
@@ -423,14 +424,20 @@ public class QueryTest extends TestCase {
         SampleIDDE s3 = new SampleIDDE("HF990");
         SampleIDDE s4 = new SampleIDDE("HF1219");
         SampleIDDE s5 = new SampleIDDE("HF1227");
-        // Few More IDs HF1325	HF1348	HF1489	HF329	HF332	HF434	HF835	HF87	HF931
+        SampleIDDE s6 = new SampleIDDE("HF1325");
+        SampleIDDE s7 = new SampleIDDE("HF1348");
+        SampleIDDE s8 = new SampleIDDE("HF1489");
+        SampleIDDE s9 = new SampleIDDE("HF329");
+        SampleIDDE s10 = new SampleIDDE("HF332");
+        SampleIDDE s11 = new SampleIDDE("HF434");
+        SampleIDDE s12 = new SampleIDDE("HF835");
+        SampleIDDE s13 = new SampleIDDE("HF87");
+        SampleIDDE s14 = new SampleIDDE("HF931");
 
-        sampleIDs.add(s0);
-        sampleIDs.add(s1);
-        sampleIDs.add(s2);
-        sampleIDs.add(s3);
-        sampleIDs.add(s4);
-        sampleIDs.add(s5);
+        sampleIDs.add(s0); sampleIDs.add(s1); sampleIDs.add(s2); sampleIDs.add(s3);
+        sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
+        //sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
+        //sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
 
         sampleCrit.setSampleIDs(sampleIDs);
 
@@ -439,17 +446,17 @@ public class QueryTest extends TestCase {
     private void buildSurvivalCrit() {
          survivalCrit  = new SurvivalCriteria();
          survivalCrit.setLowerSurvivalRange(
-                 new SurvivalDE.LowerSurvivalRange(new Integer("20")));
+                 new SurvivalDE.LowerSurvivalRange(new Integer("40")));
          survivalCrit.setUpperSurvivalRange(
-                 new SurvivalDE.UpperSurvivalRange(new Integer("40")));
+                 new SurvivalDE.UpperSurvivalRange(new Integer("60")));
 
     }
     private void buildAgeCrit() {
     	ageCriteria  = new AgeCriteria();
     	ageCriteria.setLowerAgeLimit(
-                new AgeAtDiagnosisDE.LowerAgeLimit(new Integer("00")));
+                new AgeAtDiagnosisDE.LowerAgeLimit(new Integer("40")));
     	ageCriteria.setUpperAgeLimit(
-                new UpperAgeLimit(new Integer("40")));
+                new UpperAgeLimit(new Integer("60")));
 
    }
     private void buildGenderCrit(){
@@ -492,7 +499,7 @@ public class QueryTest extends TestCase {
 
      private void buildCopyChangeCrit() {
         Float amplification = new Float(2.0);
-        Float deletion = new Float(0.8);
+        Float deletion = new Float(3.0);
         CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
         CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
         CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
@@ -500,8 +507,8 @@ public class QueryTest extends TestCase {
 
         copyNumberCrit = new CopyNumberCriteria();
         Collection objs = new ArrayList(4);
-        objs.add(ampObj);
-        //objs.add(deletionObj);
+        //objs.add(ampObj);
+        objs.add(deletionObj);
         //objs.add(upCopyNumberObj); objs.add(downCopyNumberObj);
         copyNumberCrit.setCopyNumbers(objs);
     }

@@ -48,9 +48,6 @@ abstract public class CGHFactHandler {
     throws Exception;
 
     protected void executeQuery(final String snpOrCGHAttr, Collection cghOrSNPIDs, final Class targetFactClass, ComparativeGenomicQuery cghQuery) throws Exception {
-            final CopyNumberCriteria copyCrit = cghQuery.getCopyNumberCriteria();
-            final DiseaseOrGradeCriteria diseaseCrit = cghQuery.getDiseaseOrGradeCriteria();
-            final SampleCriteria sampleIDCrit = cghQuery.getSampleIDCrit();
             ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
@@ -68,12 +65,9 @@ abstract public class CGHFactHandler {
                 _BROKER.clearCache();
 
                 final Criteria sampleCrit = new Criteria();
-                if (diseaseCrit != null)
-                   CommonFactHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
-                if (copyCrit != null)
-                   CopyNumberCriteriaHandler.addCopyNumberCriteria(copyCrit, targetFactClass, _BROKER, sampleCrit);
-                if (sampleIDCrit!= null)
-                    CommonFactHandler.addSampleIDCriteria(sampleIDCrit, targetFactClass, _BROKER, sampleCrit);
+                CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+                CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+                CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
 
                 _BROKER.close();
 

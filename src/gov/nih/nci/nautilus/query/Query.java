@@ -1,6 +1,8 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.criteria.Criteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.view.Viewable;
 
@@ -20,7 +22,22 @@ abstract public class Query implements Queriable{
     private String queryName;
     private Viewable associatedView;
     public abstract QueryHandler getQueryHandler() throws Exception;
-    
+    protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
+    protected SampleCriteria 	sampleIDCrit;
+    public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
+        return diseaseOrGradeCriteria;
+    }
+    public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
+        this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
+    }
+    public SampleCriteria getSampleIDCrit() {
+        return sampleIDCrit;
+    }
+    public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
+        this.sampleIDCrit = sampleIDCrit;
+    }
+
+
     //added by Prashant
     public abstract QueryType getQueryType() throws Exception;
     public abstract String toString();

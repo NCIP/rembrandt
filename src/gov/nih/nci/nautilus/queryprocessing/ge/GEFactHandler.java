@@ -49,12 +49,8 @@ abstract public class GEFactHandler {
      abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
      throws Exception;
 
-    protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery query ) throws Exception {
-            FoldChangeCriteria foldCrit = query.getFoldChgCrit();
-            DiseaseOrGradeCriteria diseaseCrit = query.getDiseaseOrGradeCriteria();
-            SampleCriteria sampleIDCrit = query.getSampleIDCrit();
+    protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
-
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
                 int begIndex = i;
@@ -67,16 +63,12 @@ abstract public class GEFactHandler {
 
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
+
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
-                _BROKER.clearCache();
-                
                 final Criteria sampleCrit = new Criteria();
-                if (diseaseCrit != null)
-                    CommonFactHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
-                if (foldCrit != null)
-                    FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
-                if (sampleIDCrit!= null)
-                    CommonFactHandler.addSampleIDCriteria(sampleIDCrit, targetFactClass, _BROKER, sampleCrit);
+                CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+                FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+                CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
                 _BROKER.close();
 
                 new Thread(

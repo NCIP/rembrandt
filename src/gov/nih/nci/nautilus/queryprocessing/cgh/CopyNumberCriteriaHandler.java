@@ -5,6 +5,7 @@ import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.de.CopyNumberDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,22 +24,9 @@ import org.apache.ojb.broker.query.Criteria;
  */
 public class CopyNumberCriteriaHandler {
     private static Logger logger = Logger.getLogger(CopyNumberCriteriaHandler.class);
-    /*
-    static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
-    throws Exception {
-        ArrayList diseasesTypes = new ArrayList();
-        for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();) {
-            DiseaseNameDE d = ((DiseaseNameDE) iterator.next());
-            diseasesTypes.add(d.getValueObject());
-            logger.debug("DISEASE IN CRITERIA: " + d.getValueObject());
-        }
-        String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
-        criteria.addIn(columnName, diseasesTypes);
-
-    }
-    */
-    static void addCopyNumberCriteria(CopyNumberCriteria  copyNumberCrit, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
-       if (copyNumberCrit != null) {
+    static void addCopyNumberCriteria(ComparativeGenomicQuery cghQuery, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
+        CopyNumberCriteria copyNumberCrit = cghQuery.getCopyNumberCriteria();
+        if (copyNumberCrit != null) {
                String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());
                Collection objs = copyNumberCrit.getCopyNummbers();
                Object[] copyObjs = objs.toArray();
@@ -63,7 +51,7 @@ public class CopyNumberCriteriaHandler {
                 else {
                    throw new Exception("Invalid number of Copy Numnber Criteria objects: " + copyObjs.length);
                 }
-           }
+         }
     }
 
     private static void addUpAndDownCriteria(Object[] copyObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {

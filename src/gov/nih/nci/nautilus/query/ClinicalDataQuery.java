@@ -1,14 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.AgeCriteria;
-import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.GenderCriteria;
-import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
-import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
-import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
-import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.ChemoAgentDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.DomainElement;
@@ -36,7 +29,7 @@ import org.apache.log4j.Logger;
 public class ClinicalDataQuery extends Query {
 
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
-    private DiseaseOrGradeCriteria diseaseOrGradeCriteria;	
+
 	private OccurrenceCriteria occurrenceCriteria;
 	private RadiationTherapyCriteria radiationTherapyCriteria;
 	private ChemoAgentCriteria chemoAgentCriteria;	
@@ -44,9 +37,7 @@ public class ClinicalDataQuery extends Query {
 	private SurvivalCriteria survivalCriteria;
 	private AgeCriteria ageCriteria;
 	private GenderCriteria genderCriteria;
-		
-	
-    private QueryHandler HANDLER;   
+    private QueryHandler HANDLER;
 
     public QueryHandler getQueryHandler() throws Exception  {
         return (HANDLER == null) ? new ClinicalQueryHandler() : HANDLER;
@@ -54,15 +45,10 @@ public class ClinicalDataQuery extends Query {
 	public QueryType getQueryType() throws Exception {
 		return QueryType.CLINICAL_DATA_QUERY_TYPE;
 	}
-
     public ClinicalDataQuery() {
         super();
     }
-
- 
     public String toString(){
-    	
-
 		ResourceBundle labels = null;
 		String OutStr = "<B>Clinical Data Query</B>";
 		OutStr += "<BR><B class='otherBold'>Query Name: </b>" + this.getQueryName();
@@ -217,13 +203,7 @@ public class ClinicalDataQuery extends Query {
     	return OutStr;
     }
     
-	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
-        return diseaseOrGradeCriteria;
-    }
 
-    public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
-        this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
-    }			
 	
     public void setOccurrenceCrit(OccurrenceCriteria occurrenceCriteria) {
         this.occurrenceCriteria = occurrenceCriteria;

@@ -31,23 +31,10 @@ public class GeneExpressionQuery extends Query {
     private GeneIDCriteria geneIDCrit;
     private RegionCriteria regionCrit;
     private FoldChangeCriteria foldChgCrit;
-	private DiseaseOrGradeCriteria diseaseOrGradeCriteria;		
 	private CloneOrProbeIDCriteria cloneOrProbeIDCriteria;
 	private GeneOntologyCriteria geneOntologyCriteria;
 	private PathwayCriteria pathwayCriteria;
 	private ArrayPlatformCriteria arrayPlatformCriteria;
-    private SampleCriteria sampleIDCrit;
-
-    public SampleCriteria getSampleIDCrit() {
-        return sampleIDCrit;
-    }
-
-    public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
-        this.sampleIDCrit = sampleIDCrit;
-    }
-
-
-
 
     private QueryHandler HANDLER;
 
@@ -61,11 +48,7 @@ public class GeneExpressionQuery extends Query {
     public GeneExpressionQuery() {
         super();
     }
-
- 
     public String toString(){
-    	
-
 		ResourceBundle labels = null;
 		String OutStr = "<B>Gene Expression Query</B>";
 		OutStr += "<BR><B class='otherBold'>Query Name: </b>" + this.getQueryName();
@@ -263,14 +246,6 @@ public class GeneExpressionQuery extends Query {
 
 		OutStr += "<BR><BR>";
     	return OutStr;
-    }
-
-	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
-        return diseaseOrGradeCriteria;
-    }
-
-    public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
-        this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
     }
 
     public GeneIDCriteria getGeneIDCrit() {

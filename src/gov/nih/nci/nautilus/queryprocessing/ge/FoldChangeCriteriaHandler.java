@@ -8,6 +8,7 @@ import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,8 +26,9 @@ import org.apache.ojb.broker.query.Criteria;
  */
 public class FoldChangeCriteriaHandler {
 
-    static void addFoldChangeCriteria(FoldChangeCriteria  foldChangeCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
+    static void addFoldChangeCriteria(GeneExpressionQuery geQuery, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
+       FoldChangeCriteria foldChangeCrit = geQuery.getFoldChgCrit();
        if (foldChangeCrit != null) {
                String columnName = QueryHandler.getColumnName(pb, ExprFoldChangeDE.class.getName(), beanClass.getName());
                Collection objs = foldChangeCrit.getFoldChangeObjects();
