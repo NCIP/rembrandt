@@ -9,7 +9,7 @@ gov.nih.nci.nautilus.resultset.*,
 gov.nih.nci.nautilus.resultset.copynumber.*,
 gov.nih.nci.nautilus.resultset.gene.*,
 gov.nih.nci.nautilus.resultset.sample.*,
-gov.nih.nci.nautilus.constants.Constants,
+gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
 gov.nih.nci.nautilus.ui.CSVGenerator" %>
@@ -19,7 +19,7 @@ gov.nih.nci.nautilus.ui.CSVGenerator" %>
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
 
-	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
+	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 

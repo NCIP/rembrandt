@@ -9,7 +9,7 @@ gov.nih.nci.nautilus.resultset.*,
 gov.nih.nci.nautilus.resultset.copynumber.*,
 gov.nih.nci.nautilus.resultset.gene.*,
 gov.nih.nci.nautilus.resultset.sample.*,
-gov.nih.nci.nautilus.constants.Constants,
+gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
 gov.nih.nci.nautilus.ui.ReportGenerator" %>
@@ -73,10 +73,10 @@ if(session.getAttribute(sample) == null)
 {
   System.out.println("not transitional report");	
   QueryCollection queryCollection = null;
-	if(request.getAttribute(Constants.QUERY_KEY)==null){
-    queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
+	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null){
+    queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
   }else{
-    queryCollection = (QueryCollection)(request.getAttribute(Constants.QUERY_KEY));
+    queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
   }
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();

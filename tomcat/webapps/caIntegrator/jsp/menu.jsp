@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.query.*,gov.nih.nci.nautilus.constants.Constants" %> 
+<%@ page import="java.util.*, gov.nih.nci.nautilus.query.*,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
 
 
 <%
@@ -11,7 +11,7 @@ String cpQueryString = "0";
 int cghQueryNum = 0;
 String cghQueryString = "0";
 
-QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
  if(queryCollection == null){
    System.out.println("its null");
    }

@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.query.QueryCollection,gov.nih.nci.nautilus.constants.Constants" %> 
+<%@ page import="java.util.*, gov.nih.nci.nautilus.query.QueryCollection,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
 <bean:write name="geneexpressionForm" property="getQueryCollection"/>
 
 <%
@@ -35,7 +35,7 @@
 			   String pageStr2 = (String)request.getSession().getAttribute("currentPage2");  
 			   
 			   
-			   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+			   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 			   if(queryCollection != null){
 			     
 			      Collection queryColl = queryCollection.getQueries();
@@ -68,7 +68,7 @@
 					
 			       }	
 				
-				//HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
+				//HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 				
 				/*if (thisQueryMap != null) {
 					Set keys = thisQueryMap.keySet();

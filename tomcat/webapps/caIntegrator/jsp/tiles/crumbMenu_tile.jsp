@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.query.*,gov.nih.nci.nautilus.constants.Constants" %>
+<%@ page import="java.util.*, gov.nih.nci.nautilus.query.*,NautilusConstants" %>
 <%
 	/*
 	* generates the crumb menu
@@ -15,7 +15,7 @@
     Build Query
   </a>
   <%
-  QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+  QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
   if(queryCollection == null){
     System.out.println("no query collection");
     out.println("<a class='notPossible'>Refine Query</a>");

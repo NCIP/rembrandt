@@ -50,7 +50,7 @@ while( iterator.hasNext() )
 	if(diseaseTypes != null)	{
 		for (int i = 0; i< diseaseTypes.length ; i++) {
 			String diseaseType = diseaseTypes[i].getDiseaseType();
-			if(diseaseType.equalsIgnoreCase(gov.nih.nci.nautilus.constants.Constants.ASTRO))	{
+			if(diseaseType.equalsIgnoreCase(gov.nih.nci.nautilus.constants.NautilusConstants.ASTRO))	{
 		    	diseaseType = diseaseType.substring(0,6);
 		    }	
 		 	out.println("<tr><Td>"+diseaseType+":</td><Td>"+diseaseTypes[i].getDiseaseDesc() + "</td></tr>\n" );
