@@ -7,7 +7,7 @@
 
 
 <html:errors/>
-<fieldset class="gray">
+<fieldset class="grayRefine">
 <legend class="red">Step 1: Please refine your result set by grouping it</legend>
 	
 	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
@@ -45,7 +45,7 @@
 </div>	-->
 
 
-<fieldset class="gray">
+<fieldset class="grayRefine">
 <legend class="red">Step 2: Validate your query</legend>
 	<table border="0" cellpadding="2" cellspacing="2">
 		<tr>
@@ -67,7 +67,7 @@
 </fieldset>	
 	
 	
-<fieldset class="gray">
+<fieldset class="grayRefine">
 <legend class="red">Step 3: Please select a View</legend>	
 	<table width="100%" border="0">
 		<tr><td>
@@ -81,7 +81,7 @@
 	
 </fieldset>
 
-<fieldset class="gray">
+<fieldset class="grayRefine">
 <legend class="red">Step 4: Please name your result set (Optional)</legend>
 	 <table border="0">
 		<tr>
@@ -104,7 +104,7 @@
 </fieldset>	
 	
 
-<fieldset class="gray">
+<fieldset class="grayRefine">
 <legend class="red">Step 5: Run report or return to previous screen</legend>
 			<br />
 				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
