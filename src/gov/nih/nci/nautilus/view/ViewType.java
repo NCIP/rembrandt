@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.view;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR
@@ -7,7 +9,7 @@ package gov.nih.nci.nautilus.view;
  * Time: 7:29:49 PM
  * To change this template use Options | File Templates.
  */
-abstract public class ViewType {
+abstract public class ViewType implements Serializable{
     abstract ViewType getViewType();
     public final static GeneSingleSampleView GENE_SINGLE_SAMPLE_VIEW = new GeneSingleSampleView();
     public final static GeneGroupSampleView GENE_GROUP_SAMPLE_VIEW = new GeneGroupSampleView();
