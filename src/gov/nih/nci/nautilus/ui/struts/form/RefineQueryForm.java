@@ -33,7 +33,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private List queryNameColl = new ArrayList();
 	private List compoundViewColl = new ArrayList();
     private List selectedQueries = LazyList.decorate(new ArrayList(), this);
-    private Collection resultSets;
+    private Collection resultSets = new ArrayList();
     private String selectedResultSet = null;
 	public RefineQueryForm(){
 
