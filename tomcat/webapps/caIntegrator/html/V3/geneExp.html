@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>caIntegrator: Gene Expression Data</title>
+	<LINK href="bigStyle.css" rel="stylesheet" type="text/css">
+	<script language="javascript" src="caIntScript.js"></script>
+	<script type="text/javascript" src="overlib.js"></script>
+	<script type="text/javascript" src="overlib_hideform.js"></script>
+</head>
+
+<body>
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+
+<div class="content">
+		<DIV class="crumb">	<a href="index.html">Home</A> &gt;
+	            <A href="aSearchMenu.html"><B>Build Query</B></A> &gt;
+                <A href="refine.html">Refine Query</A> &gt;
+                <A href="present.html">Select Presentation</A> &gt;
+                <A href="#">Generate Report</A>
+		</DIV>
+	<table cellspacing="0" cellpadding="0" border="0">
+		<tr>
+		<td width="75%"> 
+			<form action="#" method="get" name="geneExpData">
+		
+			<Table cellpadding="4" cellspacing="2" border="0" width="100%">
+			<tr class="report"><td><h3>Gene Expression Data</h3></td></tr>
+			<Tr class="report">
+				<Td>
+					<table border="0" width="100%" style="">
+						<tr>
+							<Td width="33%">
+							<div class="title">Disease <!--Tumor--> Type</div>
+							<select name="tumorType" onchange="javascript:moveEm(this);">
+								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<!--
+								<option>Brain</option>
+								<option>Breast</option>
+								-->
+								<option>Astrocytic</option>
+								<option>Oligodendroglial</option>
+								<option>Ependymal cell </option>
+								<option>Mixed gliomas </option>
+								<option>Neuroepithelial</option>
+								<option>Choroid Plexus </option>
+								<option>Neuronal and mixed neuronal-glial</option>
+								<option>Pineal Parenchyma </option>
+								<option>Embryonal</option>
+								<option>Some I-SPY Tumor Type</option>
+							</select>
+							<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
+							</td>
+						
+							<Td>
+							<div class="title">Study Data Set</div>
+							<select name="dataSet" onchange="javascript:moveEm(this);">
+								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<!--
+								<option>Rembrandt (GMDI)</option>
+								<option>I-SPY</option>
+								<option>Other</option>
+								-->
+							</select>
+							</td>
+						
+							<Td>
+							<div class="title">Generating Institution</div>
+							<select name="generatingInstitution">
+								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<!--
+								<option>UCSF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<option>NCI&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								-->
+							</select>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr class="report">
+					<td>
+					<div class="title">Query Name
+					<a href="javascript:void(0);" onmouseover="return overlib('Please give a title/name to this query.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+					</div>
+					<input type="text" size="50">
+					</td>
+			</tr>
+			<Tr class="report"><Td><br></td></tr>
+			<tr class="report">
+				<td>
+				<div class="title">Gene
+				<a href="javascript:void(0);" onmouseover="return overlib('Paste a comma separated Gene list, or upload file using Browse button', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+				</div>
+				<!--
+				<b class="message">(Paste comma separated Gene list, or upload file using Browse button)</b>
+				-->
+				<br>
+				<input type="radio" class="radio" name="gene" selected checked>
+				<select>
+					<option>&nbsp;</option>
+					<option>Name/Symbol</option>
+					<option>Locus Link Id</option>
+					<option>GenBank AccNo.</option>
+					<!-- <option>Unigene</option> -->
+					<!-- <option>Affy Probe Set Id</option> -->
+				</select>
+				&nbsp;
+				<input type="text">
+				&nbsp;-or-&nbsp;
+				<input type="radio" class="radio" name="gene">
+				<input type="file">
+
+				</td>
+			</tr>
+			<tr class="report">
+				<Td>
+				<div class="title">Fold Change</div>
+				<input type="radio" class="radio" name="fold" value="yes" checked selected>
+				<select>
+					<option>&nbsp;</option>
+					<option>0.5x</option>
+					<option>1.5x</option>
+					<option>2x</option>
+					<option>3x</option>
+					<option>4x</option>
+				</select>&nbsp;-or-&nbsp;
+				<input type="radio" class="radio" name="fold" value="no">&nbsp;
+				<input type="text" value="other"><Br>
+				<input type="checkbox" class="radio" name="reg">Up-regulation
+				<input type="checkbox" class="radio" name="reg">Down-regulation
+				<input type="checkbox" class="radio" name="reg" onclick="javascript:document.forms[0].uthresh.disabled=(!(document.forms[0].uthresh.disabled));">Unchanged
+				<input type="text" disabled="true" name="uthresh">&nbsp;<b class="message">(threshold)</b>
+				<!--
+				<input type="text" size="4">&nbsp;to&nbsp;<input type="Text" size="4">
+				-->
+				</td>
+			</tr>
+			<tr class="report">
+				<Td>
+				<div class="title">Confidence Level</div>
+				<input type="text">
+				</td>
+			</tr>
+			<tr class="report">
+				<Td>
+				<div class="title">Region</div>
+				Chromosome Number <!-- Name --> <br><input type="text"><br>
+				Cytoband <!-- Map --> Location <Br><input type="text">&nbsp;<input type="button" class="sbutton" value="MAP Browser..."><br>
+				Base Pair Position (kb)<br>
+				<input type="text" size="10">&nbsp;start&nbsp;&nbsp;<input type="text" size="10">&nbsp;end
+				</td>
+			</tr>
+			<tr class="report">
+				<td>
+				<div class="title">Clone Id/Probe Set Id</div>
+				<b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b>
+				<br>
+				<input type="radio" class="radio" name="cloneId" checked selected>
+				<select>
+					<option>&nbsp;</option>
+					<option>I.M.A.G.E Id</option>
+					<option>BAC Id</option>
+					<option>Probe Set Id</option>
+				</select>
+				&nbsp;
+				<input type="text">
+				&nbsp;&nbsp;
+				<input type="radio" class="radio" name="cloneId">
+				<input type="file">
+				</td>
+			</tr>
+			<tr class="report">
+				<td>
+				<div class="title">Gene Ontology (GO) Classifications</div>
+				<select size="4" multiple style="width:150px;">
+				<option>&nbsp;&nbsp;</option>
+				</select>
+				<input class="sbutton" type="button" value="GO Browser...">
+				<br>
+				<input class="radio" type="checkbox" value="">Molecular Function&nbsp;&nbsp;
+				<input class="radio" type="checkbox" value="">Biological Process&nbsp;&nbsp;
+				<input class="radio" type="checkbox" value="">Cellular Component&nbsp;&nbsp;
+				</td>
+			</tr>
+			
+			<Tr class="report">
+				<Td>
+				<div class="title">Pathways</div>
+				<select size="4" multiple style="width:150px;">
+					<option>&nbsp;&nbsp;</option>
+				</select>
+				<!-- <input type="text" size="30" readonly disabled value="all"> -->
+				&nbsp;&nbsp;
+				<input class="sbutton" type="button" style="width:150px" value="Pathway Browser...">
+				</td>
+			</tr>
+			<Tr class="report">
+				<Td>
+				<div class="title">Comparison Option</div>
+				<input class="radio" type="radio" name="comp" checked selected>Sample Pool to Normal Pool<br>
+				<input class="radio" type="radio" name="comp">Sample Pool to Single Normal<br>
+				<input class="radio" type="radio" name="comp">Single Sample to Normal Pool<br>
+				</td>
+			</tr>
+			<Tr class="report">
+				<Td>
+				<div class="title">Array Platform</div>
+				<select>
+					<option>&nbsp;</option>
+					<option>All</option>
+					<option>Oligo (Affymetrix)</option>
+					<option>cDNA</option>
+				</select>
+				</td>
+			</tr>
+			<tr class="report">
+				<Td>
+				<div class="title">Clone Location</div>
+				5' UTR <input class="radio" type="radio" name="5p" selected checked>Included&nbsp;&nbsp;
+				<input class="radio" type="radio" name="5p">Excluded<br>
+				3' UTR <input class="radio" type="radio" name="3p" selected checked>Included&nbsp;&nbsp;
+				<input class="radio" type="radio" name="3p">Excluded<br>
+				</td>
+			</tr>
+			<tr class="report">
+				<td align="center">
+					<input type="reset" value="clear" class="xbutton">&nbsp;&nbsp;
+					<input type="button" class="xbutton" value="submit" onclick="location.href = 'step1a.html';">
+					
+				</td>
+			</tr>
+			</table>
+		</td>
+	
+		<td valign="top" class="sideBar">
+		<div>
+		<h3>Queries</h3>
+			There are no queries at this time
+		</div>
+		
+		</td>
+		</tr>
+	</table>
+</div>
+</form>
+</body>
+</html>
