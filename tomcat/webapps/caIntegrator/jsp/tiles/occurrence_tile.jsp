@@ -5,9 +5,9 @@
 	System.out.println(act);
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
-<input type="checkbox" property="firstPresentation" class="radio">First Presentation
+<input type="checkbox" name="firstPresentation" class="radio">First Presentation
 &nbsp;&nbsp;
-<input type="checkbox" class="radio" 
+<input type="checkbox" name="recur" class="radio" 
 onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));">Recurrence&nbsp;&nbsp;
 	<!--- <select property="recurrence" name="rec" disabled="true">
 		<option>any</option>

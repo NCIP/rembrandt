@@ -18,7 +18,7 @@ import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 
 
-
+  
 
 /** 
  * ClinicalDataForm.java created by EasyStruts - XsltGen.
@@ -121,7 +121,7 @@ public class ClinicalDataForm extends BaseForm {
 	private HashMap surgeryDomainMap;
 	private HashMap survivalDomainMap;
 	private HashMap ageDomainMap;
-	private HashMap genderDomainMap;
+	private HashMap genderDomainMap; 
 	
 	
 	private HttpServletRequest thisRequest;
@@ -155,8 +155,9 @@ public class ClinicalDataForm extends BaseForm {
 		// survival range validations
 		if (this.survivalLower != null && this.survivalUpper != null) {
 		  try{
-		    if(Integer.parseInt(survivalLower) > Integer.parseInt(survivalUpper)){
-			   errors.add("Survival Range", new ActionError("error:gov.nih.nci.nautilus.struts.form.survivalRange.must.be.less.than.upperRange"));
+			
+		    if(Integer.parseInt(survivalLower) >= Integer.parseInt(survivalUpper)){			
+			   errors.add("survivalUpper", new ActionError("gov.nih.nci.nautilus.struts.form.survivalRange.upperRange.error"));
 			  }		  
 		  	 }
 		  catch(NumberFormatException ex){
@@ -166,8 +167,8 @@ public class ClinicalDataForm extends BaseForm {
 
 		if (this.ageLower != null && this.ageUpper != null) {
 		  try{
-		    if(Integer.parseInt(ageLower) > Integer.parseInt(ageUpper)){
-			   errors.add("Age Range", new ActionError("error:gov.nih.nci.nautilus.struts.form.ageRange.must.be.less.than.upperRange"));
+		    if(Integer.parseInt(ageLower) >=Integer.parseInt(ageUpper)){
+			   errors.add("ageUpper", new ActionError("gov.nih.nci.nautilus.struts.form.ageRange.upperRange.error"));
 			  }		  
 		  	 }
 		  catch(NumberFormatException ex){
@@ -220,9 +221,10 @@ public class ClinicalDataForm extends BaseForm {
    
 	private void createOccurrenceCriteriaObject() {
 
-
+ 
 		// Loop thru the HashMap, extract the Domain elements and create respective Criteria Objects
 		Set keys = occurrenceDomainMap.keySet();
+		System.out.println("occurrenceDomainMap.size() is :"+occurrenceDomainMap.size());
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
@@ -234,6 +236,7 @@ public class ClinicalDataForm extends BaseForm {
 				Object [] parameterObjects = {key};
 
 				OccurrenceDE occurrenceDE = (OccurrenceDE) occurrenceConstructors[0].newInstance(parameterObjects);
+				//occurrenceCriteria.setOccurrenceDE(occurrenceDE);
 				occurrenceCriteria.setOccurrence(occurrenceDE);
 				
 				System.out.println("Occurrence Domain Element Value==> "+occurrenceDE.getValueObject());
@@ -471,9 +474,9 @@ public class ClinicalDataForm extends BaseForm {
 		chemoAgentTypeColl.add( new LabelValueBean( "Any", "any" ) );
 		
 		surgeryTypeColl.add( new LabelValueBean( "Any", "any" ) );
-		surgeryTypeColl.add( new LabelValueBean( "Complete Resection(CR)", "cr" ) );
-		surgeryTypeColl.add( new LabelValueBean( "Partial Resection(PR)", "pr" ) );
-		surgeryTypeColl.add( new LabelValueBean( "Bioposy Only(BX)", "bx" ) );
+		surgeryTypeColl.add( new LabelValueBean( "Complete Resection(CR)", "Complete Resection(CR)" ) );
+		surgeryTypeColl.add( new LabelValueBean( "Partial Resection(PR)", "Partial Resection(PR)" ) );
+		surgeryTypeColl.add( new LabelValueBean( "Bioposy Only(BX)", "Bioposy Only(BX)" ) );
 		
 		
 		survivalLowerColl.add( new LabelValueBean( "0", "0" ) );
@@ -623,8 +626,14 @@ public class ClinicalDataForm extends BaseForm {
 	 * @param firstPresentation The firstPresentation to set
 	 */
      public void setFirstPresentation(String firstPresentation) {
-		this.firstPresentation = firstPresentation;
-		occurrenceDomainMap.put(this.firstPresentation, OccurrenceDE.class.getName());
+	    if(firstPresentation != null && firstPresentation.equalsIgnoreCase("on")){
+		  this.firstPresentation = "first presentation";
+		  }
+		
+		String firstPresent = (String)thisRequest.getParameter("firstPresentation");
+		if(firstPresent != null){
+		   occurrenceDomainMap.put(this.firstPresentation , OccurrenceDE.class.getName());
+		}
 	 }
 	 
 	  /** 
@@ -640,8 +649,12 @@ public class ClinicalDataForm extends BaseForm {
 	 * @param recurrence The recurrence to set
 	 */
      public void setRecurrence(String recurrence) {
-		this.recurrence = recurrence;
-		occurrenceDomainMap.put(this.recurrence, OccurrenceDE.class.getName());
+		this.recurrence = recurrence;		
+		String recurrenceStr = (String)thisRequest.getParameter("recur");
+		String recurrenceSpecify =(String)thisRequest.getParameter("recurrence");
+		if(recurrenceStr != null && recurrenceSpecify != null){
+		   occurrenceDomainMap.put(this.recurrence, OccurrenceDE.class.getName());
+		 }
 	 }
 	 
 	 /** 
@@ -674,8 +687,8 @@ public class ClinicalDataForm extends BaseForm {
 	 * @param radiation The radiation to set
 	 */
      public void setRadiation(String radiation) {
-		this.radiation = radiation;
-		radiationDomainMap.put(this.radiation, RadiationTherapyDE.class.getName());
+		this.radiation = radiation;	
+		
 	 }
 	 
    /** 
@@ -692,7 +705,16 @@ public class ClinicalDataForm extends BaseForm {
 	 */
      public void setRadiationType(String radiationType) {
 		this.radiationType = radiationType;
-		radiationDomainMap.put(this.radiationType, RadiationTherapyDE.class.getName());
+		
+	    // this is to check if radiation option is selected
+	    String thisRadiation = (String)thisRequest.getParameter("radiation");
+		
+		// this is to check the type of radiation
+		String thisRadiationType = (String)thisRequest.getParameter("radiationType");
+		
+		if(thisRadiation != null && thisRadiationType != null && !thisRadiationType.equals("")){		
+		   radiationDomainMap.put(this.radiationType, RadiationTherapyDE.class.getName());
+		   }
 	 }
 	 
 	 
@@ -705,18 +727,18 @@ public class ClinicalDataForm extends BaseForm {
 	}  
 	 
 	  /** 
-	 * Set the chemo.
+	 * Set the chemo. 
 	 * @param chemo The chemo to set
 	 */
      public void setChemo(String chemo) {
 		this.chemo = chemo;
-		chemoAgentDomainMap.put(this.chemo, ChemoAgentDE.class.getName());
+		
 	 }
 	 
 	 /** 
 	 * Returns the chemo.
 	 * @return String
-	 */
+	 */ 
 	public String getChemo() {
 		return chemo;
 	}  
@@ -727,7 +749,15 @@ public class ClinicalDataForm extends BaseForm {
 	 */
      public void setChemoType(String chemoType) {
 		this.chemoType = chemoType;
-		chemoAgentDomainMap.put(this.chemoType, ChemoAgentDE.class.getName());
+		
+		// this is to check if the chemo option is selected
+		String thisChemo = (String)thisRequest.getParameter("chemo");		
+		
+		// this is to check the chemo type
+		String thisChemoType = (String)thisRequest.getParameter("chemoType");		
+		if(thisChemo != null && thisChemoType != null && !thisChemoType.equals("")){
+		   chemoAgentDomainMap.put(this.chemoType, ChemoAgentDE.class.getName());
+		   }
 	 }
 	 
    /** 
@@ -744,7 +774,7 @@ public class ClinicalDataForm extends BaseForm {
 	 */
      public void setSurgery(String surgery) {
 		this.surgery = surgery;
-		surgeryDomainMap.put(this.surgery, SurgeryTypeDE.class.getName());
+	
 	 }
 	 
    /** 
@@ -761,7 +791,12 @@ public class ClinicalDataForm extends BaseForm {
 	 */
      public void setSurgeryType(String surgeryType) {
 		this.surgeryType = surgeryType;
+		String thisSurgery =(String)thisRequest.getParameter("sugery");
+		String thisSurgeryType = (String)thisRequest.getParameter("surgeryType");
+		
+		if(thisSurgery != null && thisSurgeryType != null && !thisSurgeryType.equals("")){
 		surgeryDomainMap.put(this.surgeryType, SurgeryTypeDE.class.getName());
+		}
 	 }
 	 
    /** 
@@ -778,7 +813,7 @@ public class ClinicalDataForm extends BaseForm {
 	 */
 	public void setSurvivalLower(String survivalLower) {
 		this.survivalLower = survivalLower;
-	    survivalDomainMap.put(this.survivalLower, SurvivalDE.class.getName());
+	    survivalDomainMap.put(this.survivalLower, SurvivalDE.LowerSurvivalRange.class.getName());
 	 }
 	 
    /** 
@@ -795,7 +830,7 @@ public class ClinicalDataForm extends BaseForm {
 	 */
 	public void setSurvivalUpper(String survivalUpper) {
 		this.survivalUpper = survivalUpper;
-	    survivalDomainMap.put(this.survivalUpper, SurvivalDE.class.getName());
+	    survivalDomainMap.put(this.survivalUpper, SurvivalDE.UpperSurvivalRange.class.getName());
 	 }
 	 
 	 
@@ -813,7 +848,7 @@ public class ClinicalDataForm extends BaseForm {
 	 */
 	public void setAgeLower(String ageLower) {
 		this.ageLower = ageLower;
-	    ageDomainMap.put(this.ageLower, AgeAtDiagnosisDE.class.getName());
+	    ageDomainMap.put(this.ageLower, AgeAtDiagnosisDE.LowerAgeLimit.class.getName());
 	 }
 	 
     /** 
@@ -823,13 +858,14 @@ public class ClinicalDataForm extends BaseForm {
 	public String getAgeLower() {
 		return ageLower;
 	} 
+	
 	  /** 
 	 * Set the ageUpper.
 	 * @param ageUpper The ageUpper to set
 	 */
 	public void setAgeUpper(String ageUpper) {
 		this.ageUpper = ageUpper;
-	    ageDomainMap.put(this.ageUpper, AgeAtDiagnosisDE.class.getName());
+	    ageDomainMap.put(this.ageUpper, AgeAtDiagnosisDE.UpperAgeLimit.class.getName());
 	 }	
 	 
 	 /** 

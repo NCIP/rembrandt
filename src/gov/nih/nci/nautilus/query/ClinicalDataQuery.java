@@ -75,149 +75,124 @@ public class ClinicalDataQuery extends Query {
 		else{
 		   System.out.println("Disease Criteria is empty or Application Resources file is missing");
 		  } //end of DiseaseOrGradeCriteria
-		
-		 
-		 
-	 /*   // starting OccurrenceCriteria.java
-		OccurrenceCriteria thisOccurrenceCrit = this.getOccurrenceCriteria();	
-		if (!thisOccurrenceCrit.isEmpty() && labels != null) { 
-		    Collection occurrenceColl = thisOccurrenceCrit.getDiseases();
-			Iterator iter = occurrenceColl.iterator();
-			while(iter.hasNext()){
-			  OccurrenceDE  occurrenceDE = (OccurrenceDE)iter.next();
-			  String occurrenceStr = occurrenceDE.getClass().getName();		      
-		      OutStr += "<BR>"+labels.getString(occurrenceStr.substring(occurrenceStr.lastIndexOf(".")+1))+": "+occurrenceDE.getValue()+"";
-		       }	 	   
-		   }
-		else{
-		   System.out.println("Occurrence Criteria is empty or Application Resources file is missing");
-		  } //end of OccurrenceCriteria.java
-		*/  
 		  
-		  
-		 // starting CopyNumberCriteria
-		OccurrenceCriteria thisOccurrenceCrit = this.getOccurrenceCriteria();	
+		   // starting  OccurrenceCriteria		  
+		  OccurrenceCriteria thisOccurrenceCriteria = this.getOccurrenceCriteria();
+		  if(!thisOccurrenceCriteria.isEmpty()&& labels != null){
+		     String thisCriteria = thisOccurrenceCriteria.getClass().getName();
+			 OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
+			
+		     Collection occurrenceColl = thisOccurrenceCriteria.getOccurrences();			
+			 Iterator iter = occurrenceColl.iterator();
+			 
+			 while(iter.hasNext()){
+			   OccurrenceDE occurrenceDE = (OccurrenceDE)iter.next();
+			   String occurrenceStr = occurrenceDE.getClass().getName();	
+			   if(occurrenceDE.getValueObject().equalsIgnoreCase("first Presentation")){	      
+		         OutStr += "<BR>&nbsp;&nbsp;"+": "+occurrenceDE.getValue()+"";
+			   }
+			   else{
+			     OutStr += "<BR>&nbsp;&nbsp;"+": "+occurrenceDE.getValue()+" (recurrence)";
+			     }
 		
-		if (!thisOccurrenceCrit.isEmpty() && labels != null) {
-		    System.out.println(" I am in the thisOccurrenceCrit");
-			String thisCriteria = thisOccurrenceCrit.getClass().getName();
+			  }
+		    } 
+		
+		 else{
+		     System.out.println("OccurrenceCriteria is empty or Application Resources file is missing.");
+			 }// end of OccurrenceCriteria
+		
+		 // starting RadiationTherapyCriteria
+		 RadiationTherapyCriteria thisRadiationTherapyCriteria = this.getRadiationTherapyCriteria();
+		 if(!thisRadiationTherapyCriteria.isEmpty() && labels != null){		   
+		       RadiationTherapyDE radiationTherapyDE = thisRadiationTherapyCriteria.getRadiationTherapyDE();				
+			   String radiationStr = radiationTherapyDE.getClass().getName();
+			   OutStr += "<BR>"+labels.getString(radiationStr.substring(radiationStr.lastIndexOf(".")+1))+": "+radiationTherapyDE.getValue()+"";
+				    
+			    }
+			else{
+			  System.out.println("RadiationTherapyCriteria is empty or Application Resources file is missing.");
+			}// end of  RadiationTherapyCriteria
+		
+		  // starting ChemoAgentCriteria
+		  ChemoAgentCriteria thisChemoAgentCriteria = this.getChemoAgentCriteria();
+		  if(!thisChemoAgentCriteria.isEmpty() && labels != null){
+		       ChemoAgentDE chemoAgentDE = thisChemoAgentCriteria.getChemoAgentDE();				
+			   String chemoStr = chemoAgentDE.getClass().getName();
+			   OutStr += "<BR>"+labels.getString(chemoStr.substring(chemoStr.lastIndexOf(".")+1))+": "+chemoAgentDE.getValue()+"";
+			  }
+		  
+		  else{
+			  System.out.println("ChemoAgentCriteria is empty or Application Resources file is missing.");
+			}// end of  ChemoAgentCriteria
+		 
+		  
+		 // starting SurgeryTypeCriteria 
+		 SurgeryTypeCriteria thisSurgeryTypeCriteria = this.getSurgeryTypeCriteria();
+		 if(!thisSurgeryTypeCriteria.isEmpty()){
+		   SurgeryTypeDE surgeryTypeDE = thisSurgeryTypeCriteria.getSurgeryTypeDE();
+		   String surgeryStr = surgeryTypeDE.getClass().getName();
+		   OutStr += "<BR>"+labels.getString(surgeryStr.substring(surgeryStr.lastIndexOf(".")+1))+": "+surgeryTypeDE.getValue()+"";
+			  }		  
+		 else{
+			  System.out.println("SurgeryTypeCriteria is empty or Application Resources file is missing.");
+			}// end of  SurgeryTypeCriteria
+		 
+		 		 
+		 SurvivalCriteria thisSurvivalCriteria = this.getSurvivalCriteria();
+		 if(!thisSurvivalCriteria.isEmpty() && labels != null){
+		      String thisCriteria = thisSurvivalCriteria.getClass().getName();
+			  OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			
+			  DomainElement survivalLowerDE = thisSurvivalCriteria.getLowerSurvivalRange();
+		      DomainElement survivalUpperDE = thisSurvivalCriteria.getUpperSurvivalRange();
+		     if(survivalLowerDE != null && survivalUpperDE != null){			     
+			     String survivalLowerStr  = survivalLowerDE.getClass().getName();
+				 String survivalUpperStr = survivalUpperDE.getClass().getName();
+				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(survivalLowerStr.substring(survivalLowerStr.lastIndexOf(".")+1)) +": "+survivalLowerDE.getValue()+" (months)";
+				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(survivalUpperStr.substring(survivalUpperStr.lastIndexOf(".")+1)) +": "+survivalUpperDE.getValue()+" (months)";
+			   	}		   
+		    }
+		  else{ 
+		     System.out.println("SurvivalCriteria is empty or Application Resources file is missing.");
+		   }// end of SurvivalCriteria
+		 
+		 // starting AgeCriteria
+		 AgeCriteria thisAgeCriteria = this.getAgeCriteria();
+		 if(!thisAgeCriteria.isEmpty() && labels != null){
+		    String thisCriteria = ageCriteria.getClass().getName();
 			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-			Collection occurrenceObjects = thisOccurrenceCrit.getOccurrences();
-			
-			for (Iterator iter = occurrenceObjects.iterator(); iter.hasNext();) {
-				DomainElement de = (DomainElement) iter.next();
-				String thisDomainElement = de.getClass().getName();
-				OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
-			}
-		}
-		else {
-		   System.out.println("Occrrence Number Criteria is empty or Application Resources file is missing");
-           }  // end of CopyNumberCriteria
-		   
-		/*   
-            // starting GeneIDCriteria
-			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCriteria();
-			if (!thisGeneIDCrit.isEmpty() && labels != null) { 
-				String thisCriteria = thisGeneIDCrit.getClass().getName();
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
-			
-				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext();) {
-					DomainElement de = (DomainElement) iter.next();
-					String thisDomainElement = de.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
-				}
-			}
-			else {
-			  System.out.println("Gene ID Criteria is empty or Application Resources file is missing");
-               }// end of GeneIDCriteria
-			   
-			   
-			// starting RegionCriteria
-			RegionCriteria thisRegionCrit = this.getRegionCriteria();
-			if (!thisRegionCrit.isEmpty() && labels != null) { 
-				String thisCriteria = thisRegionCrit.getClass().getName();
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
-				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
-
-				DomainElement chromosomeDE  = thisRegionCrit.getChromNumber();
-				DomainElement chrStartDE  = thisRegionCrit.getStart();
-				DomainElement chrEndDE  = thisRegionCrit.getEnd();
-				
-				if (cytoBandDE != null) {
-					String cytoBandStr = cytoBandDE.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
-				}
-				
-				else {
-					String chromosomeDEStr = chromosomeDE.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;"+ labels.getString(chromosomeDEStr.substring(chromosomeDEStr.lastIndexOf(".")+1)) +": "+chromosomeDE.getValue();
-
-					if (chrStartDE != null && chrEndDE != null) {
-						String chrStartDEStr = chrStartDE.getClass().getName();
-						String chrEndDEStr = chrEndDE.getClass().getName();
-						OutStr += "<BR><B>"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)</B>";
-						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1)) +": "+chrStartDE.getValue();
-						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrEndDEStr.substring(chrEndDEStr.lastIndexOf(".")+1)) +": "+chrEndDE.getValue();
-					}
-		         }
-			 }
-			else {
-			     System.out.println("Region Criteria is empty or Application Resources file is missing");
-			    }// end of RegionCriteria
-			
-		   // starting cloneorProbeCriteria
-				
-		   CloneOrProbeIDCriteria thisCloneOrProbeCriteria = this.getCloneOrProbeIDCriteria();		 
-		   if(!thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
-			  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-			    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
-			    Iterator iter = cloneColl.iterator();
-			    while(iter.hasNext()){
-				    CloneIdentifierDE cloneIdentifierDE = (CloneIdentifierDE)iter.next();
-					String cloneStr = cloneIdentifierDE.getClass().getName();
-				    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cloneStr.substring(cloneStr.lastIndexOf(".")+1))+": "+cloneIdentifierDE.getValue()+"";
-				  }			   
-			    }
-			else{
-			  System.out.println("Clone or Probe Criteria is empty or Application Resources file is missing.");
-			}// end of  cloneorProbeCriteria
-			
-						
-			 // starting snpCriteria: 				
-		   SNPCriteria thisSNPCriteria = this.getSNPCriteria();		 
-		   if(!thisSNPCriteria.isEmpty() && labels != null){	
-		        String thisCriteria = thisSNPCriteria.getClass().getName();			
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-			    Collection cloneColl = thisSNPCriteria.getIdentifiers();
-			    Iterator iter = cloneColl.iterator();
-			    while(iter.hasNext()){
-				    SNPIdentifierDE snpIdentifierDE = (SNPIdentifierDE)iter.next();
-					String snpIdStr = snpIdentifierDE.getClass().getName();
-				    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(snpIdStr.substring(snpIdStr.lastIndexOf(".")+1))+": "+snpIdentifierDE.getValue()+"";
-					 }			   
-			    }	
-		      	else{
-			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
-			}// end of  cloneorProbeCriteria
-			
-			 // starting snpCriteria: 				
-		   AlleleFrequencyCriteria thisAlleleFrequencyCriteria = this.getAlleleFrequencyCriteria();		 
-		   if(!thisAlleleFrequencyCriteria.isEmpty() && labels != null){	
-		        String thisCriteria = thisAlleleFrequencyCriteria.getClass().getName();	
-				//OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-				AlleleFrequencyDE alleleFrequencyDE = thisAlleleFrequencyCriteria.getAlleleFrequencyDE();				
-				String alleleStr = alleleFrequencyDE.getClass().getName();
-				OutStr += "<BR>"+labels.getString(alleleStr.substring(alleleStr.lastIndexOf(".")+1))+": "+alleleFrequencyDE.getValue()+"";
-				  	   
-			    }
-			else{
-			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
-			}// end of  cloneorProbeCriteria
-			*/
+		    DomainElement LowerAgeLimit = thisAgeCriteria.getLowerAgeLimit();
+		    DomainElement UpperAgeLimit = thisAgeCriteria.getUpperAgeLimit();
+			if(LowerAgeLimit != null && UpperAgeLimit != null){
+			     String ageLowerStr  = LowerAgeLimit.getClass().getName();
+				 String ageUpperStr = UpperAgeLimit.getClass().getName();
+				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(ageLowerStr.substring(ageLowerStr.lastIndexOf(".")+1)) +": "+LowerAgeLimit.getValue()+" (years)";
+				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(ageUpperStr.substring(ageUpperStr.lastIndexOf(".")+1)) +": "+UpperAgeLimit.getValue()+" (years)";
+		 	
+			 } 
+		  }
+		  else{ 
+		     System.out.println("AgeCriteria is empty or Application Resources file is missing.");
+		   }// end of AgeCriteria
+		
+		 
+		 // starting GenderCriteria 
+		   GenderCriteria thisGenderCriteria = this.getGenderCriteria();
+		   if(!thisGenderCriteria.isEmpty() && labels != null){		      
+		     GenderDE genderDE = thisGenderCriteria.getGenderDE();
+			 String genderStr = genderDE.getClass().getName();
+		     OutStr += "<BR>"+labels.getString(genderStr.substring(genderStr.lastIndexOf(".")+1))+": "+genderDE.getValue()+"";
+			 }  
+		  else{
+		    System.out.println("GenderCriteria is empty or Application Resources file is missing.");
+		   }// end of GenderCriteria
+		  
+		  
+		 
+			  
 		}// end of try
-	catch (Exception ie) {
+	catch (Exception ie) { 
 		ie.printStackTrace();
 		System.out.println("Error in ResourceBundle - " + ie.getMessage());
 	}

@@ -9,8 +9,8 @@
 	     System.out.println(act);
         %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
-<input type="checkbox" property="radiation" class="radio"
- onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
+	
+<input type="checkbox" name="radiation"  class="radio" onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
 <!--- <select property="radiationType" name="rad" disabled="true">
 	<option>any</option>
 	<option>photon</option>
@@ -21,8 +21,7 @@
 </html:select><html:errors property="radiationType"/>
 
 <br>
-<input property="chemo" type="checkbox" class="radio"
- onclick="javascript:document.forms[0].chemo.disabled=(!(document.forms[0].chemo.disabled));">Chemo&nbsp;&nbsp;
+<input name="chemo" type="checkbox" class="radio" onclick="javascript:document.forms[0].chemotherapy.disabled=(!(document.forms[0].chemotherapy.disabled));">Chemo&nbsp;&nbsp;
 - agent:&nbsp;
 <!--- <select property="chemoType" name="chemo" disabled="true">
 	<option>any</option>
@@ -34,7 +33,7 @@
 </html:select><html:errors property="chemoType"/>
 
 <Br>
-<input property="sugery" type="checkbox" class="radio"
+<input name="sugery" type="checkbox" class="radio"
  onclick="javascript:document.forms[0].surgery.disabled=(!(document.forms[0].surgery.disabled));">Surgery&nbsp;&nbsp;
 <!--- <select property="surgeryType" name="surgery" disabled="true">
 	<option>any</option>
