@@ -17,6 +17,8 @@ import org.apache.struts.action.ActionError;
 
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 
 
 
@@ -24,6 +26,18 @@ import gov.nih.nci.nautilus.constants.Constants;
  */
 public class CompoundCheckAction extends Action {
 
+	private void print(ResultSet[] geneExprObjects) {
+		if(geneExprObjects != null){
+			System.out.println("Number of Records:"+ geneExprObjects.length);
+			for (int i =0; i < geneExprObjects.length; i++) {
+				GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
+				if(expObj != null){
+				System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
+				}
+			}
+		}
+		
+	}
 
 	/**
 	 * Method execute
@@ -47,8 +61,22 @@ public class CompoundCheckAction extends Action {
 
 		if (queryCollect != null) { 
 			if (queryCollect.hasCompoundQuery()) {
-					ActionForward thisForward = mapping.findForward("success");
-					return thisForward;
+				
+					try {
+						// Execute the query and place the query in session
+						ResultSet[] queryResultSetObjects = QueryManager.executeQuery(queryCollect.getCompoundQuery());
+						print(queryResultSetObjects);
+						request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
+						
+
+						ActionForward thisForward = mapping.findForward("success");
+						return thisForward;
+					}
+					catch (Exception ex) {
+						ex.printStackTrace();
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(ex.getMessage()));
+						this.saveErrors(request, errors);
+					}
 				} 
 			else {
 				System.out.println("QueryCollection has no Compound queries to execute.  Please select a query to execute");

@@ -74,28 +74,36 @@ public class GeneexpressionAction extends Action {
 		
 		// Set gene criteria
 		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
-		geneExpQuery.setGeneIDCrit(geneIDCrit);
+		if (!geneIDCrit.isEmpty())
+			geneExpQuery.setGeneIDCrit(geneIDCrit);
 		
 		FoldChangeCriteria foldChangeCrit = geneExpressionForm.getFoldChangeCriteria();
-		geneExpQuery.setFoldChgCrit(foldChangeCrit);
+		if (!foldChangeCrit.isEmpty())
+			geneExpQuery.setFoldChgCrit(foldChangeCrit);
 		
 		RegionCriteria regionCrit = geneExpressionForm.getRegionCriteria();
-		geneExpQuery.setRegionCrit(regionCrit);
+		if (!regionCrit.isEmpty())
+			geneExpQuery.setRegionCrit(regionCrit);
 
 		DiseaseOrGradeCriteria diseaseOrGradeCriteria = geneExpressionForm.getDiseaseOrGradeCriteria();
-		geneExpQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);
+		if (!diseaseOrGradeCriteria.isEmpty())
+			geneExpQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);
 		
 		CloneOrProbeIDCriteria cloneOrProbeIDCriteria = geneExpressionForm.getCloneOrProbeIDCriteria();
-		geneExpQuery.setCloneOrProbeIDCrit(cloneOrProbeIDCriteria);
+		if (!cloneOrProbeIDCriteria.isEmpty())
+			geneExpQuery.setCloneOrProbeIDCrit(cloneOrProbeIDCriteria);
 		
 		GeneOntologyCriteria geneOntologyCriteria = geneExpressionForm.getGeneOntologyCriteria();
-		geneExpQuery.setGeneOntologyCrit(geneOntologyCriteria);
+		if (!geneOntologyCriteria.isEmpty())
+			geneExpQuery.setGeneOntologyCrit(geneOntologyCriteria);
 		
 		PathwayCriteria pathwayCriteria = geneExpressionForm.getPathwayCriteria();
-		geneExpQuery.setPathwayCrit(pathwayCriteria);
+		if (!pathwayCriteria.isEmpty())
+			geneExpQuery.setPathwayCrit(pathwayCriteria);
 		
 		ArrayPlatformCriteria arrayPlatformCriteria = geneExpressionForm.getArrayPlatformCriteria();
-		geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
+		if (!arrayPlatformCriteria.isEmpty())
+			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
 		
 		
 	
