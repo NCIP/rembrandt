@@ -528,7 +528,7 @@ public class QueryTest extends TestCase {
     private void buildSampleIDCrit() {
         sampleCrit = new SampleCriteria();
         Collection sampleIDs = new ArrayList();
-        SampleIDDE s0 = new SampleIDDE("HF608");
+        SampleIDDE s0 = new SampleIDDE("HF1057");
         SampleIDDE s1 = new SampleIDDE("HF118");
         SampleIDDE s2 = new SampleIDDE("HF305");
         SampleIDDE s3 = new SampleIDDE("HF990");
@@ -544,8 +544,10 @@ public class QueryTest extends TestCase {
         SampleIDDE s13 = new SampleIDDE("HF87");
         SampleIDDE s14 = new SampleIDDE("HF931");
 
-        sampleIDs.add(s0); sampleIDs.add(s1);
-        //sampleIDs.add(s2); sampleIDs.add(s3);
+        sampleIDs.add(s0);
+        //sampleIDs.add(s1);
+        //sampleIDs.add(s2);
+        // ampleIDs.add(s3);
        // sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
        // sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
        // sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
@@ -672,8 +674,8 @@ public class QueryTest extends TestCase {
 
         copyNumberCrit = new CopyNumberCriteria();
         Collection objs = new ArrayList(4);
-        //objs.add(ampObj);
-        objs.add(deletionObj);
+        objs.add(ampObj);
+        //objs.add(deletionObj);
         //objs.add(upCopyNumberObj); objs.add(downCopyNumberObj);
         copyNumberCrit.setCopyNumbers(objs);
     }

@@ -9,14 +9,7 @@ import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -147,10 +140,12 @@ abstract public class CGHFactHandler {
                 QueryFactory.newQuery(ArrayGenoAbnFact.class, sampleCrit, false);
             Collection exprObjects =  _BROKER.getCollectionByQuery(sampleQuery );
             addToResults(exprObjects);
+            System.out.println("Length: " + exprObjects.size());
             _BROKER.close();
 
             Collection allSNPProbeIDs = new ArrayList();
-            for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
+            Collection col = cghObjects.values();
+            for (Iterator iterator = col.iterator(); iterator.hasNext();) {
                 CopyNumber o =  (CopyNumber)iterator.next();
                 allSNPProbeIDs.add(o.getSnpProbesetId());
             }
@@ -159,14 +154,19 @@ abstract public class CGHFactHandler {
             ThreadController.sleepOnEvents(annotationEventList);
 
             // by now CopyNumberObjects and annotations would have populated
-            Object[]objs = (cghObjects.values().toArray());
-            CopyNumber[] results = new CopyNumber[objs.length];
-            for (int i = 0; i < objs.length; i++) {
-                CopyNumber obj = (CopyNumber) objs[i];
+            Collection c = cghObjects.values();
+            for (Iterator iterator = c.iterator(); iterator.hasNext();) {
+                CopyNumber obj =  (CopyNumber)iterator.next();
                 if (obj.getSnpProbesetId() != null) {
                     obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
                 }
-                results[i] = obj;
+            }
+
+            System.out.println("Annotations Retrieved");
+            Object[]objs = (cghObjects.values().toArray());
+            CopyNumber[] results = new CopyNumber[objs.length];
+            for (int j = 0; j < objs.length; j++) {
+                results[j] = (CopyNumber) objs[j];
             }
             return results;
 
@@ -200,11 +200,12 @@ abstract public class CGHFactHandler {
                 ArrayGenoAbnFact factObj = (ArrayGenoAbnFact) iterator.next();
                 CopyNumber resObj = new CopyNumber();
                 copyTo(resObj, factObj);
-                cghObjects.put(factObj.getAgaId(), resObj);
+                cghObjects.put(resObj.getAgaID(), resObj);
                 resObj = null;
             }
         }
         private void copyTo(CopyNumber resultObj, ArrayGenoAbnFact factObj) {
+            resultObj.setAgaID(factObj.getAgaId());
             resultObj.setAgeGroup(factObj.getAgeGroup());
             resultObj.setBiospecimenId(factObj.getBiospecimenId());
             resultObj.setChannelRatio(factObj.getChannelRatio());

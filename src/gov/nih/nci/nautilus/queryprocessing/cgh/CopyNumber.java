@@ -10,6 +10,15 @@ import java.util.HashSet;
 
 public class CopyNumber implements ResultSet, ClinicalResultSet
 {
+    public Long getAgaID() {
+        return agaID;
+    }
+
+    public void setAgaID(Long agaID) {
+        this.agaID = agaID;
+    }
+
+    private Long agaID;
   private String ageGroup;
   private Long biospecimenId;
   private Double channelRatio;
