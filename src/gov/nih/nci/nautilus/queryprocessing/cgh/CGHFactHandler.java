@@ -10,13 +10,15 @@ import java.math.BigDecimal;
 import gov.nih.nci.nautilus.data.*;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
-import gov.nih.nci.nautilus.queryprocessing.ge.FoldChangeCriteriaHandler;
+import gov.nih.nci.nautilus.queryprocessing.ge.FactCriteriaHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GEFactHandler;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,42 +36,66 @@ abstract public class CGHFactHandler {
     List factEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
     List annotationEventList = Collections.synchronizedList(new ArrayList());
-    abstract ResultSet[] executeSampleQuery(final Collection allSNPProbeIDs, final CopyNumberCriteria copyCrit)
+    abstract ResultSet[] executeSampleQuery(final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
     throws Exception;
 
 
-    protected void executeQuery(final String snpOrCGHAttr, Collection cghOrSNPIDs, final Class targetFactClass, final CopyNumberCriteria copyCrit) throws Exception {
-            ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
+    protected void executeQuery(final String snpOrCGHAttr, Collection cghOrSNPIDs, final Class targetFactClass, ComparativeGenomicQuery cghQuery) throws Exception {
 
-            for (int i = 0; i < arrayIDs.size();) {
-                Collection values = new ArrayList();
-                int begIndex = i;
-                i += VALUES_PER_THREAD ;
-                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
-                values.addAll(arrayIDs.subList(begIndex,  endIndex));
-                final Criteria IDs = new Criteria();
-                IDs.addIn(snpOrCGHAttr, values);
-                String threadID = "CGHFactHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
+            final CopyNumberCriteria copyCrit = cghQuery.getCopyNumberCriteria();
+            final DiseaseOrGradeCriteria diseaseCrit = cghQuery.getDiseaseOrGradeCriteria();
 
-                final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
-                factEventList.add(dbEvent);
-                PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
-                final Criteria sampleCrit = new Criteria();
-                CopyNumberCriteriaHandler.addCoyNumberCriteria(copyCrit, targetFactClass, _BROKER, sampleCrit);
-                new Thread(
-                   new Runnable() {
-                      public void run() {
-                          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-                          sampleCrit.addAndCriteria(IDs);
-                          Query sampleQuery =
-                          QueryFactory.newQuery(targetFactClass,sampleCrit, true);
-                          assert(sampleQuery != null);
-                          Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
-                          addToResults(exprObjects);
-                          dbEvent.setCompleted(true);
-                      }
-                   }
-               ).start();
+            if (cghOrSNPIDs.size() > 0) {
+                ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
+                for (int i = 0; i < arrayIDs.size();) {
+                    Collection values = new ArrayList();
+                    int begIndex = i;
+                    i += VALUES_PER_THREAD ;
+                    int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
+                    values.addAll(arrayIDs.subList(begIndex,  endIndex));
+                    final Criteria IDs = new Criteria();
+                    IDs.addIn(snpOrCGHAttr, values);
+                    String threadID = "CGHFactHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
+
+                    final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
+                    factEventList.add(dbEvent);
+                    PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+
+                    final Criteria sampleCrit = new Criteria();
+                    if (diseaseCrit != null)
+                       CopyNumberCriteriaHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
+
+                    if (copyCrit != null)
+                       CopyNumberCriteriaHandler.addCopyNumberCriteria(copyCrit, targetFactClass, _BROKER, sampleCrit);
+
+                    new Thread(
+                       new Runnable() {
+                          public void run() {
+                              final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                              sampleCrit.addAndCriteria(IDs);
+                              Query sampleQuery =
+                              QueryFactory.newQuery(targetFactClass,sampleCrit, true);
+                              assert(sampleQuery != null);
+                              Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
+                              addToResults(exprObjects);
+                              dbEvent.setCompleted(true);
+                          }
+                       }
+                   ).start();
+                }
+            }
+            else {
+                 PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                 final Criteria sampleCrit = new Criteria();
+                 if (diseaseCrit != null)
+                     CopyNumberCriteriaHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, pb, sampleCrit);
+                 if (copyCrit != null)
+                     CopyNumberCriteriaHandler.addCopyNumberCriteria(copyCrit, targetFactClass, pb, sampleCrit);
+                 
+                 Query sampleQuery = QueryFactory.newQuery(targetFactClass,sampleCrit, true);
+                  assert(sampleQuery != null);
+                  Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
+                  addToResults(exprObjects);
             }
     }
 
@@ -90,7 +116,7 @@ abstract public class CGHFactHandler {
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
-                final String assocGeneColName = QueryHandler.getColumnNameForBean(_BROKER, SnpAssociatedGene.class.getName(), SnpAssociatedGene.GENE_SYMBOL);
+                final String geneSymbolCol = QueryHandler.getColumnNameForBean(_BROKER, SnpAssociatedGene.class.getName(), SnpAssociatedGene.GENE_SYMBOL);
                 final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, SnpAssociatedGene.class.getName(), SnpAssociatedGene.ACCESSION_NUMBER);
                 final String snpProbesetColName = QueryHandler.getColumnNameForBean(_BROKER, SnpAssociatedGene.class.getName(), SnpAssociatedGene.SNP_PROBESET_ID);
 
@@ -99,7 +125,7 @@ abstract public class CGHFactHandler {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           Query annotQuery =
-                          QueryFactory.newReportQuery(SnpAssociatedGene.class,new String[] {snpProbesetColName , assocGeneColName, accessionColName }, annotCrit, true);
+                          QueryFactory.newReportQuery(SnpAssociatedGene.class,new String[] {snpProbesetColName , geneSymbolCol, accessionColName }, annotCrit, true);
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
                           while (iter.hasNext()) {
@@ -120,10 +146,10 @@ abstract public class CGHFactHandler {
             }
     }
     final static class SingleCGHFactHandler extends CGHFactHandler {
-        ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final CopyNumberCriteria copyCrit)
+        ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
         throws Exception {
             System.out.println("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
-            executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, copyCrit);
+            executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
             //sleepOnFactEvents();
             ThreadController.sleepOnEvents(factEventList);
             executeGeneAnnotationQuery(allSNPProbeIDs);

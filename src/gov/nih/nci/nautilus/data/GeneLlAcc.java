@@ -5,6 +5,12 @@ package gov.nih.nci.nautilus.data;
 
 public class GeneLlAcc
 {
+  public final static String GENE_SYMBOL = "geneSymbol";
+  public final static String START_POSITION = "cStart";
+  public final static String END_POSITION = "cEnd";
+  public final static String ACCESSION = "accession";
+  public final static String CHROMOSOME = "chromosome";
+
   private String accession;
 
   private String chromosome;

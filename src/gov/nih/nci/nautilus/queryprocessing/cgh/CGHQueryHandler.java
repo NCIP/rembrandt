@@ -93,7 +93,7 @@ public class CGHQueryHandler extends QueryHandler {
 
         ThreadController.sleepOnEvents(eventList);
 
-        return new CGHFactHandler.SingleCGHFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery.getCopyNumberCriteria());
+        return new CGHFactHandler.SingleCGHFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery);
 
     }
 

@@ -42,27 +42,6 @@ final public class ChrRegionCriteriaHandler {
             return posObj;
         }
     }
-    final static public class StartEndPosition {
-        BasePairPositionDE startPosition;
-        BasePairPositionDE endPosition;
-        ChromosomeNumberDE chrNumber;
-
-        public BasePairPositionDE getStartPosition() {
-            return startPosition;
-        }
-        public BasePairPositionDE getEndPosition() {
-            return endPosition;
-        }
-        public ChromosomeNumberDE getChrNumber() {
-            return chrNumber;
-        }
-
-        public StartEndPosition(BasePairPositionDE startPosition, BasePairPositionDE endPosition, ChromosomeNumberDE chrNumber) {
-            this.startPosition = startPosition;
-            this.endPosition = endPosition;
-            this.chrNumber = chrNumber;
-        }
-    }
 
     public static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
         assert (regionCrit != null);

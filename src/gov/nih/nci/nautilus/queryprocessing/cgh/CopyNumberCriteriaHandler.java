@@ -2,13 +2,17 @@ package gov.nih.nci.nautilus.queryprocessing.cgh;
 
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.CopyNumberDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +22,15 @@ import java.util.Collection;
  * To change this template use Options | File Templates.
  */
 public class CopyNumberCriteriaHandler {
-    static void addCoyNumberCriteria(CopyNumberCriteria  copyNumberCrit, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
+    static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
+    throws Exception {
+        ArrayList diseasesTypes = new ArrayList();
+        for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();)
+            diseasesTypes.add(((DiseaseNameDE) iterator.next()).getValueObject());
+        String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
+        criteria.addIn(columnName, diseasesTypes);
+    }
+    static void addCopyNumberCriteria(CopyNumberCriteria  copyNumberCrit, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
        if (copyNumberCrit != null) {
                String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());
                Collection objs = copyNumberCrit.getCopyNummbers();

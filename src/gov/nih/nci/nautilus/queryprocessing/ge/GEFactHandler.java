@@ -12,10 +12,12 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
 import gov.nih.nci.nautilus.data.GeneClone;
 import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,19 +28,21 @@ import gov.nih.nci.nautilus.queryprocessing.ThreadController;
  */
 abstract public class GEFactHandler {
 
-    Map geneExprObjects = Collections.synchronizedMap(new HashMap());
-    Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
-    Map probeAnnotations = Collections.synchronizedMap(new HashMap());
+     Map geneExprObjects = Collections.synchronizedMap(new HashMap());
+     Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
+     Map probeAnnotations = Collections.synchronizedMap(new HashMap());
 
     private final static int VALUES_PER_THREAD = 50;
 
     List factEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
     List annotationEventList = Collections.synchronizedList(new ArrayList());
-    abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+    abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
     throws Exception;
 
-    protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, final FoldChangeCriteria foldCrit) throws Exception {
+    protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery query ) throws Exception {
+            FoldChangeCriteria foldCrit = query.getFoldChgCrit();
+            DiseaseOrGradeCriteria diseaseCrit = query.getDiseaseOrGradeCriteria();
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
 
             for (int i = 0; i < arrayIDs.size();) {
@@ -54,8 +58,13 @@ abstract public class GEFactHandler {
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                
                 final Criteria sampleCrit = new Criteria();
-                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
+                if (diseaseCrit != null)
+                    FactCriteriaHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
+                if (foldCrit != null)
+                    FactCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
+
                 new Thread(
                    new Runnable() {
                       public void run() {
@@ -166,12 +175,13 @@ abstract public class GEFactHandler {
             }
     }
     final static class SingleGEFactHandler extends GEFactHandler {
-        ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+        ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
         throws Exception {
+            //FoldChangeCriteria foldCrit = query.getFoldChgCrit();
             //final String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
             System.out.println("Total Number Of Probes:" + allProbeIDs.size());
-            executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, foldCrit );
-            executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, foldCrit);
+            executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, query);
+            executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, query);
             //sleepOnFactEvents();
             ThreadController.sleepOnEvents(factEventList);
 
@@ -228,10 +238,11 @@ abstract public class GEFactHandler {
     }
         final static class GroupGEFactHanlder extends GEFactHandler {
 
-            ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+            ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
             throws Exception {
-                executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, foldCrit );
-                executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, foldCrit);
+                //FoldChangeCriteria foldCrit = query.getFoldChgCrit();
+                executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, query);
+                executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, query);
                 //sleepOnFactEvents();
                 ThreadController.sleepOnEvents(factEventList);
 

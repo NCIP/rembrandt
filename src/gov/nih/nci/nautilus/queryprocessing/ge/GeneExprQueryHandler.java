@@ -111,7 +111,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
 
        ThreadController.sleepOnEvents(eventList);
 
-       return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery.getFoldChgCrit());
+       return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery);
    }
 
     private void populateProbeAndCloneIncludeFlags(ArrayPlatformCriteria platObj) throws Exception {

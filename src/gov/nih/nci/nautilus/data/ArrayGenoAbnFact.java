@@ -6,6 +6,8 @@ package gov.nih.nci.nautilus.data;
 public class ArrayGenoAbnFact
 {
   public final static String SNP_PROBESET_ID = "snpProbesetId";
+    public final static String DISEASE_TYPE = "diseaseType";
+
 
   private Long agaId;
 

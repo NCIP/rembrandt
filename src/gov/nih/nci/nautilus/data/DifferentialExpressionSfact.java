@@ -15,6 +15,7 @@ public class DifferentialExpressionSfact
     public final static String GENE_SYMBOL = "geneSymbol";
     public final static String BIOSPECIMEN_ID = "biospecimenId";
     public final static String EXPRESSION_RATIO = "expressionRatio";
+    public final static String DISEASE_TYPE = "diseaseType";
 
     public String getCytoband() {
         return cytoband;
@@ -34,10 +35,7 @@ public class DifferentialExpressionSfact
         this.sampleId = sampleId;
     }
 
-    private String sampleId;
-
-
-
+  private String sampleId;
 
   private Long agentId;
 

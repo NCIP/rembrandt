@@ -9,6 +9,7 @@ public class DifferentialExpressionGfact
     //public final static String DEG_ID = "degId";
     public final static String CLONE_ID = "cloneId";
     public final static String PROBESET_ID= "probesetId";
+     public final static String DISEASE_TYPE = "diseaseType";
     //public final static String CLONE_NAME = "cloneName";
     //public final static String PROBE_NAME = "probesetName";
     //public final static String GENE_SYMBOL = "geneSymbol";
