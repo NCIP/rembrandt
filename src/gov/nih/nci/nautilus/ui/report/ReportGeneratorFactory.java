@@ -19,18 +19,15 @@ public class ReportGeneratorFactory {
 
 	public static ReportGenerator getReportGenerator(Viewable viewType) {
    
-        ReportGenerator reportGen;
+        ReportGenerator reportGen = null;
         if(viewType instanceof ClinicalSampleView) {
-           reportGen = new ClinicalSampleReport();
+           //reportGen = new ClinicalSampleReport();
         }else if(viewType instanceof CopyNumberSampleView) {
             reportGen = new CopyNumberSampleReport();
         }else if(viewType instanceof GeneExprDiseaseView) {
-            reportGen = new GeneExprDiseaseReport();
+            //reportGen = new GeneExprDiseaseReport();
         }else if(viewType instanceof GeneExprSampleView) {
-            reportGen = new GeneExprSampleReport();
-        }else {
-        	//Unsupported View Type
-            reportGen = null;
+            //reportGen = new GeneExprSampleReport();
         }
      	return reportGen;
     }

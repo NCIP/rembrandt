@@ -5,6 +5,8 @@ import net.sf.ehcache.Element;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.query.CompoundQuery;
@@ -144,8 +146,14 @@ public class ReportGeneratorHelper {
 			ReportGenerator reportGen = ReportGeneratorFactory
 					.getReportGenerator(resultant);
 			reportXML = reportGen.getReportXML(resultant);
+			OutputFormat format = OutputFormat.createPrettyPrint();
+		    try {
+			XMLWriter writer = new XMLWriter( System.out, format );
+		    writer.write( reportXML );
+		    writer.close();
+		    }catch(Exception e) {}
 			// cacheKey.equals("temp_results"+view.getClass());
-			reportBean.setReportXML(reportXML);
+			
 		}
 	}
 

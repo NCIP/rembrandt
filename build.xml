@@ -70,6 +70,8 @@
 		<include name="xdoclet-ojb-module-1.2b3-dev.jar" />
 		<include name="xml-apis.jar" />
 		<include name="xjavadoc-1.0.jar" />
+        <include name="dom4j-1.5.2.jar" />      
+        
 	</patternset>
 
 	<patternset id="db.platform.jars">
@@ -102,6 +104,7 @@
 		<include name="batik-dom.jar" />
 		<include name="batik-awt-util.jar" />
 		<include name="krysalis-jCharts-1.0.0-alpha-1.jar" />
+        <include name="dom4j-1.5.2.jar" />      
 
 	</patternset>
 
