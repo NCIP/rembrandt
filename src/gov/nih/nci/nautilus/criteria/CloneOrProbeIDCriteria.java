@@ -15,11 +15,11 @@ import java.util.Iterator;
  * To change this template use Options | File Templates.
  */
 public class CloneOrProbeIDCriteria extends Criteria {
-    private Collection cloneIdentifiers;
+    private Collection identifiers;
     public Collection getIdentifiers() {
-        return cloneIdentifiers;
+        return identifiers;
     }
-    public void setCloneIdentifiers(Collection cloneIdentifiersObjs) {
+    public void setIdentifiers(Collection cloneIdentifiersObjs) {
         for (Iterator iterator = cloneIdentifiersObjs.iterator(); iterator.hasNext();) {
             Object obj = iterator.next();
             if (obj instanceof CloneIdentifierDE) {
@@ -32,9 +32,9 @@ public class CloneOrProbeIDCriteria extends Criteria {
         getIdentifiersMember().add(cloneIdentifier);
     }
     private Collection getIdentifiersMember() {
-        if (cloneIdentifiers == null)
-            cloneIdentifiers  = new ArrayList();
-        return cloneIdentifiers ;
+        if (identifiers == null)
+            identifiers  = new ArrayList();
+        return identifiers ;
     }
 
 

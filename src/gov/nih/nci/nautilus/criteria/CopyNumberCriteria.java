@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.CopyNumberDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 
 
 import java.util.ArrayList;
@@ -17,18 +18,17 @@ public class CopyNumberCriteria extends Criteria {
 	public void setCopyNumber(CopyNumberDE copyNumberDE){
 	  if(copyNumberDE != null){
 	     getCopyNumberMembers().add(copyNumberDE);	  
-	     }	  
 	  }
+	}
 	
 	// this is to deal w/ a collection of copyNumberDE
 	public void setCopyNumbers(Collection multiCopyNumbers){
-	  if(multiCopyNumbers != null){
-	     Iterator iter = multiCopyNumbers.iterator();
-	     while(iter.hasNext()){
-	        CopyNumberDE copyNumberde = (CopyNumberDE)iter.next();		
-		    getCopyNumberMembers().add(copyNumberde);		    
-	      }	    
-	   } 
+       for (Iterator iterator = multiCopyNumbers.iterator(); iterator.hasNext();) {
+            Object obj = iterator.next();
+            if (obj instanceof CopyNumberDE ) {
+                getCopyNumberMembers().add(obj);
+            }
+        }
    }
 	
    private Collection getCopyNumberMembers(){

@@ -90,6 +90,7 @@ public class GeneExpressionQueryTest extends TestCase {
                     exprObj = (GeneExpr.GeneExprSingle) obj;
                 }
                 if (exprObj.getProbesetId() != null) {
+                    System.out.println("Disease: "+ exprObj.getDiseaseType());
                   // System.out.println("ProbesetID: " + exprObj.getProbesetId() + " :Exp Value: "
                     //            + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol() );
                     probeIDS.add(exprObj.getProbesetId());
