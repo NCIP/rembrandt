@@ -135,16 +135,11 @@ public class ReportGenerator  {
 						// Are we making hyperlinks?
 						if(dimensionalViewContainer.getGeneExprSingleViewContainer() != null)	{
 							// show the geneExprHyperlinks
-							gLinks = true;
-							//request.setAttribute( "resultsContainer", resultsContainer );
-							request.getSession(true).setAttribute( "report", new String("gene") );							
-							System.out.println("Set in session");
+							gLinks = true;						
 						}
 						if(dimensionalViewContainer.getCopyNumberSingleViewContainer() != null)	{
 							// show the copyNumberHyperlinks
 							cLinks = true;
-							request.getSession(true).setAttribute( "report", new String("copy") );
-							System.out.println("Set in session");
 						}
 
 				sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
@@ -174,15 +169,15 @@ public class ReportGenerator  {
 					"<td>"+sampleResultset.getSurvivalLengthRange().getValue()+ "</td>" +
 					"<Td>"+sampleResultset.getDisease().getValue() + "</td>");
 	   			if(gLinks)	{
-	   				sb.append("<td><a href=\"report.do?s="+sampleName+"\">G</a></td>");
-	   				request.getSession(true).setAttribute( sampleName, sampleResultset.getGeneExprSingleViewResultsContainer() );
-	   		   		
+	   				sb.append("<td><a href=\"report.do?s="+sampleName+"_gene&report=gene\">G</a></td>");
+	   				request.getSession(true).setAttribute( sampleName+"_gene", sampleResultset.getGeneExprSingleViewResultsContainer() );
+	   				
 	   			}
 		   		
 	   			//	sb.append("<td><a href=\"report.do?s="+ sampleResultset.getBiospecimen().getValue().toString() +"\">G</a></td>");
 	   			if(cLinks)	{
-					request.getSession(true).setAttribute( sampleName, sampleResultset.getCopyNumberSingleViewResultsContainer() );
-	   				sb.append("<Td><a href=\"report.do?s="+sampleName +"\">C</a></td>");
+					request.getSession(true).setAttribute( sampleName+"_copy", sampleResultset.getCopyNumberSingleViewResultsContainer() );
+	   				sb.append("<Td><a href=\"report.do?s="+sampleName +"_copy&report=copy\">C</a></td>");
 	   			}
 
 	   			sb.append("</tr>\n");
