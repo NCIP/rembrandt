@@ -58,4 +58,7 @@ public final class NautilusConstants {
     public static final String SNP_PROBESET_ID = "SNP Probe set ID";
     
     public static final  String DE_BEAN_FILE_NAME ="/deToBeanAttrMappings.xml";
+
+    // this max Sample ID count is a temp solution  This will be made more dynamic for 1.0
+    public static final int ALL_GENES_MAX_SAMPLE_COUNT = 22;
 }
