@@ -55,9 +55,13 @@ import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.SNPCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
+import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
+import gov.nih.nci.nautilus.de.SNPIdentifierDE.SNPProbeSet;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
@@ -109,22 +113,11 @@ public class KMPlotManager {
 		return resultsContainer;
 	}
 
-	public ResultsContainer performKMCopyNumberQuery(String geneSymbol)
+	public ResultsContainer performKMCopyNumberQuery(ComparativeGenomicQuery copyNumberQuery)
 			throws Exception {
 		ResultsContainer resultsContainer = null;
 		try {
-			if (geneSymbol != null) {
-				GeneIDCriteria geneCrit = new GeneIDCriteria();
-				geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(
-						geneSymbol));
-				ComparativeGenomicQuery copyNumberQuery = (ComparativeGenomicQuery) QueryManager
-						.createQuery(QueryType.CGH_QUERY_TYPE);
-				copyNumberQuery.setQueryName("KaplanMeierPlot");
-				copyNumberQuery.setAssociatedView(ViewFactory
-						.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-				copyNumberQuery.setGeneIDCrit(geneCrit);
-				copyNumberQuery.setAssayPlatformCrit(new AssayPlatformCriteria(
-						new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY)));
+			if (copyNumberQuery != null) {
 				Resultant resultant = ResultsetManager
 						.executeKaplanMeierPlotQuery(copyNumberQuery);
 				resultsContainer = resultant.getResultsContainer();
@@ -136,5 +129,41 @@ public class KMPlotManager {
 		}
 		return resultsContainer;
 	}
+
+    public ResultsContainer performKMCopyNumberQuery(GeneSymbol geneSymbolDE) throws Exception {
+        if (geneSymbolDE != null) {
+            GeneIDCriteria geneCrit = new GeneIDCriteria();
+            geneCrit.setGeneIdentifier(geneSymbolDE);
+            ComparativeGenomicQuery copyNumberQuery = (ComparativeGenomicQuery) QueryManager
+                    .createQuery(QueryType.CGH_QUERY_TYPE);
+            copyNumberQuery.setQueryName("CopyNumberKMPlot");
+            copyNumberQuery.setAssociatedView(ViewFactory
+                    .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+            copyNumberQuery.setGeneIDCrit(geneCrit);
+            copyNumberQuery.setAssayPlatformCrit(new AssayPlatformCriteria(
+                    new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY)));
+            return performKMCopyNumberQuery(copyNumberQuery);
+        }
+        
+        return null;
+    }
+
+
+    public ResultsContainer performKMCopyNumberQuery(SNPProbeSet snpDE) throws Exception {
+        if (snpDE != null) {
+            SNPCriteria snpCrit = new SNPCriteria();
+            snpCrit.setSNPIdentifier(snpDE);
+            ComparativeGenomicQuery copyNumberQuery = (ComparativeGenomicQuery) QueryManager
+                    .createQuery(QueryType.CGH_QUERY_TYPE);
+            copyNumberQuery.setQueryName("CopyNumberKMPlot");
+            copyNumberQuery.setAssociatedView(ViewFactory
+                    .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+            copyNumberQuery.setSNPCrit(snpCrit);
+            copyNumberQuery.setAssayPlatformCrit(new AssayPlatformCriteria(
+                    new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY)));
+            return performKMCopyNumberQuery(copyNumberQuery);
+        }
+        return null;
+    }
 }
 

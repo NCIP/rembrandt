@@ -255,7 +255,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	 */
 	public String getDownOrDeleted() {
 		if (getPlotType().equals(NautilusConstants.GENE_EXP_KMPLOT)) {
-			downOrDeleted = "DownRegulated";
+			downOrDeleted = "Down-Regulated";
 		}
 		if (getPlotType().equals(NautilusConstants.COPY_NUMBER_KMPLOT)) {
 			downOrDeleted = "Deleted";
@@ -268,7 +268,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	 */
 	public String getUpOrAmplified() {
 		if (getPlotType().equals(NautilusConstants.GENE_EXP_KMPLOT)) {
-			upOrAmplified = "UpRegulated";
+			upOrAmplified = "Up-Regulated";
 		}
 		if (getPlotType().equals(NautilusConstants.COPY_NUMBER_KMPLOT)) {
 			upOrAmplified = "Amplified";

@@ -3,6 +3,9 @@ package gov.nih.nci.nautilus.ui.struts.action;
 import java.util.List;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.nautilus.ui.graph.geneExpression.GeneExpressionGraphGenerator;
@@ -26,7 +29,8 @@ public class QuickSearchAction extends DispatchAction {
 	static Logger logger = Logger.getLogger(QuickSearchAction.class);
 	private KaplanMeierPlotContainer kmResultsContainer = null;
 	private String chartType;
-	private String geneSymbol;
+	private String quickSearchName;
+    private String quickSearchType;
 	private String kmplotType;
 	/**
 	 * Method execute
@@ -73,22 +77,38 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 
 		KMDataSetForm kmForm = (KMDataSetForm) form;
-		geneSymbol = (String)request.getAttribute("quickSearchName");
+        quickSearchName = (String)request.getAttribute("quickSearchName");	
+        quickSearchType = (String)request.getAttribute("quickSearchType");
 		kmplotType = (String)request.getAttribute("plotType");
 		kmForm.setPlotType(kmplotType);
-		kmForm.setGeneOrCytoband(geneSymbol );
-		setKmResultsContainer(geneSymbol);
-		kmForm.setReporters(populateReporters());
-		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
-		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-				kmForm.getDownFold(), geneSymbol, kmSampleInfos);
-		if (generator.getMyActionErrors().size() > 0) {
-			this.saveErrors(request, generator.getMyActionErrors());
-			return mapping.findForward("badgraph");
-		}
-		kmForm.setCensorDataset(generator.getCensorDataseries());
-		kmForm.setLineDataset(generator.getLineDataseries());
+		kmForm.setGeneOrCytoband(quickSearchName );
+        if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
 
+            performKMGeneExpressionQuery(quickSearchName);
+    		kmForm.setReporters(populateReporters());
+    		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
+    		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+    				kmForm.getDownFold(), quickSearchName, kmSampleInfos);
+    		if (generator.getMyActionErrors().size() > 0) {
+    			this.saveErrors(request, generator.getMyActionErrors());
+    			return mapping.findForward("badgraph");
+    		}
+    		kmForm.setCensorDataset(generator.getCensorDataseries());
+    		kmForm.setLineDataset(generator.getLineDataseries());
+        }
+        else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+            performKMCopyNumberQuery(quickSearchName, quickSearchType);
+            kmForm.setReporters(populateReporters());
+            KMSampleInfo[] kmSampleInfos = null;//stop here
+            KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+                    kmForm.getDownFold(), quickSearchName, kmSampleInfos);
+            if (generator.getMyActionErrors().size() > 0) {
+                this.saveErrors(request, generator.getMyActionErrors());
+                return mapping.findForward("badgraph");
+            }
+            kmForm.setCensorDataset(generator.getCensorDataseries());
+            kmForm.setLineDataset(generator.getLineDataseries());
+            }
 		return mapping.findForward("kmplot");
 	}
 
@@ -169,11 +189,35 @@ public class QuickSearchAction extends DispatchAction {
      * @return Returns the kmResultsContainer.
      * @throws Exception
      */
-    private void setKmResultsContainer(String geneSymbol) throws Exception {
+    private void performKMGeneExpressionQuery(String geneSymbol) throws Exception {
     		KMPlotManager kmPlotManager = new KMPlotManager();
     		this.kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager.performKMGeneExpressionQuery(geneSymbol);
     }
+    /**
+     * @return Returns the kmResultsContainer.
+     * @throws Exception
+     */
+    private void performKMCopyNumberQuery(String name, String type) throws Exception {
+        KMPlotManager kmPlotManager = new KMPlotManager();
+        if(type.equals(NautilusConstants.GENE_SYMBOL)){
+            GeneIdentifierDE.GeneSymbol genesymbolDE = new GeneIdentifierDE.GeneSymbol(name);
+            this.kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager.performKMCopyNumberQuery(genesymbolDE);
 
+        }
+        /**TODO:FOr 1.0
+         if(type.equals(NautilusConstants.CYTOBAND)){
+            CytobandDE cytobandDE = new CytobandDE(name);
+            this.kmResultsContainer = kmPlotManager.performKMCopyNumberQuery(cytobandDE);
+
+        }
+        **/
+        if(type.equals(NautilusConstants.SNP_PROBESET_ID)){
+            SNPIdentifierDE.SNPProbeSet snpDE = new SNPIdentifierDE.SNPProbeSet(name);
+            this.kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager.performKMCopyNumberQuery(snpDE);
+
+        }
+        
+    }
     /**
      * @return Returns the kmResultsContainer.
      */
