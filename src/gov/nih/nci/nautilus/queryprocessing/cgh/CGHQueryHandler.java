@@ -64,25 +64,9 @@ public class CGHQueryHandler extends QueryHandler {
         populateIncludeCGHAndSNPFlags(cghQuery.getAssayPlatformCriteria());
 
         if (cghQuery.getGeneIDCriteria() != null) {
-            Collection geneIdDEs = cghQuery.getGeneIDCriteria().getGeneIdentifiers();
-            Class deClass = GeneIDCriteriaHandler.getGeneIDClassName(cghQuery.getGeneIDCriteria());
-            ArrayList geneIDs = new ArrayList();
-            for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();)
-                geneIDs.add(((GeneIdentifierDE) iterator.next()).getValueObject());
-            if ( includeSNPs) {
-            String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpAssociatedGene.class.getName(), SnpAssociatedGene.SNP_PROBESET_ID);
-            String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), SnpAssociatedGene.class.getName());
-            Criteria c = new Criteria();
-            c.addIn(deMappingAttrName, geneIDs);
-            ReportQueryByCriteria snpProbeIDSubQuery = QueryFactory.newReportQuery(SnpAssociatedGene.class, new String[] {snpProbeIDCol}, c, true );
-            CGHReporterIDCriteria reporterIDCrit = new CGHReporterIDCriteria ();
-            reporterIDCrit.setSnpProbeIDsSubQuery(snpProbeIDSubQuery);
-        }
-
-
-            CGHReporterIDCriteria  regionCrit= gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildCGHRegionCriteria(cghQuery.getRegionCriteria(), includeSNPs, includeCGH, pb);
-            assert(regionCrit != null);
-            SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allSNPProbesetIDs);
+            CGHReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForCGHQuery(cghQuery.getGeneIDCriteria(), includeSNPs, includeCGH, pb);
+            assert(geneIDCrit != null);
+            SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allSNPProbesetIDs);
             eventList.add(handler.getDbEvent());
             new Thread(handler).start();
         }

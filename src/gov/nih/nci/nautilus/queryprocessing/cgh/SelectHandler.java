@@ -41,6 +41,11 @@ public abstract class SelectHandler implements Runnable {
            super(reporterIDCritObj, allSNPProbIDs, new DBEvent.RegionRetrieveEvent());
        }
     }
+    final static class GeneIDSelectHandler extends SelectHandler{
+       public GeneIDSelectHandler(CGHReporterIDCriteria reporterIDCritObj, Collection allSNPProbIDs) {
+           super(reporterIDCritObj, allSNPProbIDs, new DBEvent.GeneIDRetrieveEvent());
+       }
+    }
     final static class SNPSelectHandler extends SelectHandler{
        public SNPSelectHandler(CGHReporterIDCriteria reporterIDCritObj, Collection allSNPProbIDs) {
            super(reporterIDCritObj, allSNPProbIDs, new DBEvent.SNPRetrieveEvent());
