@@ -257,6 +257,36 @@ public class ComparativeGenomicForm extends BaseForm {
 				
 			}
 
+			if (this.getGeneGroup() != null && this.getGeneGroup().trim().length() >= 1){
+				if (this.getGeneList().trim().length() < 1 && this.getGeneFile().trim().length() < 1){
+					errors
+					.add(
+							"geneGroup",
+							new ActionError(
+									"gov.nih.nci.nautilus.struts.form.geneGroup.no.error"));
+				}
+			
+			}
+
+			// Validate minimum criteria's for GE Query 
+			if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
+			   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
+					(this.getChrosomeNumber() == null || this.getChrosomeNumber().trim().length() < 1)) {
+					if ((this.getSnpId() == null || this.getSnpId().trim().length() < 1) ||
+						(this.getSnpListSpecify().length() < 1 && this.getSnpListFile().length() < 1) ||
+						(this.getSnpListSpecify().length() >= 1 && (!this.getSnpList().equalsIgnoreCase("dBSNPId") && 
+						!this.getSnpList().equalsIgnoreCase("probeSetId")))){
+				
+					errors
+					.add(
+							ActionErrors.GLOBAL_ERROR,
+							new ActionError(
+									"gov.nih.nci.nautilus.struts.form.cgh.minimum.error"));
+					}
+				}
+			}
+
+
 		  if (errors.isEmpty()) {// if there are no errors, then proceed.
 		    createDiseaseCriteriaObject();
 			createGeneCriteriaObject();
