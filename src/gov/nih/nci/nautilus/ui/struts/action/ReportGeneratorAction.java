@@ -19,6 +19,7 @@ import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -237,6 +238,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		Integer nocalls = new Integer("0");
 		Integer percent = new Integer("0");
 		OperatorType operator = OperatorType.OR;
+		String filter_type = "copy_number";
 		
 		//get the data we need from the form
 		if(rgForm.getFilter_value5()!=null)
@@ -246,20 +248,45 @@ public class ReportGeneratorAction extends DispatchAction {
 		//reusing filter_value4 for this
 		if(rgForm.getFilter_value4()!=null && ((String)rgForm.getFilter_value4()).equalsIgnoreCase("and"))
 		    operator = OperatorType.AND;
+		/*
+		 * filter_type should never be anything except "copy_number" for this operation, 
+		 * which is the default value above, and the hidden param in the html form
+		 * thus, this next part is actually redundant, but will include it in case we need to 
+		 * change the filter_type on the fly for some reason in the future
+		 * 	-RCL
+		 */ 	
+		if(rgForm.getFilter_type()!=null)
+		    filter_type = (String) rgForm.getFilter_type();
 		
+		Map filterParams = new HashMap();		
+		//Map filterParams = rgForm.getFilterParams();
+		//put all params from the form in the filterparams map
+		filterParams.put( "filter_value4", operator );
+		filterParams.put( "filter_value5", nocalls );
+		filterParams.put( "filter_value6", percent );
+		filterParams.put( "filter_type", filter_type );
+		
+		/*
 		//hold our samples for exclusion
 		String[] sampleIds = null;
 		excludedSamples = ResultsetManager.getSampleIdsforCopyNumberFilter(resultant, nocalls, percent, operator);
 		if(excludedSamples!=null)
 		    sampleIds = (String[]) excludedSamples.toArray(new String[0]);
-
+		 */
+		
+		ReportBean rb = new ReportBean();
+		rb.setFilterParams(filterParams);
+		rb.setResultantCacheKey(reportBean.getResultantCacheKey() + " Copy Number Filter");
+		rb.setResultant(resultant);
+		
 		if(reportBean!=null) {
 			//This will generate get a resultant and store it in the cache
-		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds);
+		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(rb, filterParams);
 			//store the name of the query in the form so that we can later pull it out of cache
+		    //reportBean is now our new bean (aka rb, with newly populated XML, ect)
 			reportBean = rgHelper.getReportBean();
 			//add the new name so we know its a copy number filter
-			rgForm.setQueryName(reportBean.getResultantCacheKey() + " Copy Number Filter");
+			rgForm.setQueryName(reportBean.getResultantCacheKey());
 			//rgForm.setQueryName(reportBean.getResultantCacheKey());
 		     
        	}
