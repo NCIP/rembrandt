@@ -18,7 +18,7 @@ String act = request.getParameter("act");
 <br>
 	<!-- <html:form action="<%=act%>"> -->
 <!-- <html:text property="queryName" size="50" />  -->
-<input type="text" name="queryName" size="50" value="<%=act%>_query_<%=datenewformat%>"> (should be unique)
+<input type="text" name="queryName" size="50" > (should be unique)
 <br /><html:errors property="queryName"/>
 	<!-- </html:form> -->
 </fieldset>
