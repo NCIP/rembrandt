@@ -27,8 +27,8 @@
 			<tiles:useAttribute name="formAction" id="test1" classname="String" />
 			<tiles:useAttribute name="formName" id="test2" classname="String" />
 			<% System.out.println(test1 + " " +test2 ); %>
-			
 	 		<html:form method="post" action="<%=test1%>"> 
+	 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 		
 		<!--
 				<form action="<tiles:getAsString name="formAction"/>" method="post" name="<tiles:getAsString name="formName"/>">
