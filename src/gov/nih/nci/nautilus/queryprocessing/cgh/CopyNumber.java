@@ -3,12 +3,12 @@
 
 package gov.nih.nci.nautilus.queryprocessing.cgh;
 
+import gov.nih.nci.nautilus.resultset.ClinicalResultSet;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
-public class CopyNumber implements ResultSet
+public class CopyNumber implements ResultSet, ClinicalResultSet
 {
   private String ageGroup;
   private Long biospecimenId;
