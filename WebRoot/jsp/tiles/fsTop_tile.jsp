@@ -8,6 +8,7 @@ String act = request.getParameter("s").toLowerCase();
 String strIncFile = "/jsp/tiles/diseaseType_tile.jsp?act="+act;
 String strIncFile2 = "";
 String strIncFile3 = "";
+String strIncFile4 = "/jsp/tiles/sample_tile.jsp?act="+act;
 
 boolean cgh = false;
 if(act.equalsIgnoreCase("geneexpression"))	{
@@ -26,6 +27,8 @@ strIncFile3 = "/jsp/tiles/assayPlatform_tile.jsp?act="+act;
 <tiles:insert page="<%= strIncFile %>" flush="false" />
 <tiles:insert page="<%= strIncFile2 %>" flush="false" />
 <tiles:insert page="<%= strIncFile3 %>" flush="false" />
+<tiles:insert page="<%= strIncFile4 %>" flush="false" />
+
 
 <Br>
 </fieldset>

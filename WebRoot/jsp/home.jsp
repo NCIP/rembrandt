@@ -31,11 +31,11 @@
         <br />
         <select name="quickSearchType">
         <option>Gene Symbol</option>
-        <select>
+        </select>
         <input type="text" name="quickSearchName" size="40">
         &nbsp;
         <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
-        <app:help help="Enter a HUGO gene symbol (such as EGFR) to plot either a gene expression profile or a Kaplan-Meier survival plot for the gene"/>
+        <app:help help="Enter a HUGO gene symbol (such as EGFR) to plot either a gene expression profile or a Kaplan-Meier survival plot for the gene" />
         <br />
         
       </fieldset>

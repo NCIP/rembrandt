@@ -10,6 +10,7 @@ import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
 import gov.nih.nci.nautilus.criteria.PathwayCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.criteria.UntranslatedRegionCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
@@ -20,6 +21,7 @@ import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.GeneOntologyDE;
 import gov.nih.nci.nautilus.de.PathwayDE;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
 import java.io.BufferedReader;
@@ -48,6 +50,9 @@ public class GeneExpressionForm extends BaseForm {
 	// Variables
 
 	private String[] pathwayName;
+	
+	/** sampleList property */
+	private String sampleList;
 
 	/** geneList property */
 	private String geneList;
@@ -123,12 +128,18 @@ public class GeneExpressionForm extends BaseForm {
 
 	/** geneFile property */
 	private FormFile  geneFile;
+	
+	/** sampleFile property */
+	private FormFile sampleFile;
 
 	/** foldChangeValueUDDown property */
 	private String foldChangeValueUDDown = "2";
 
 	/** geneGroup property */
 	private String geneGroup;
+	
+	/** sampleGroup property */
+	private String sampleGroup;
 
 	/** cloneList property */
 	private String cloneList;
@@ -151,6 +162,8 @@ public class GeneExpressionForm extends BaseForm {
 	private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
 
 	private GeneIDCriteria geneCriteria;
+	
+	private SampleCriteria sampleCriteria;
 
 	private FoldChangeCriteria foldChangeCriteria;
 
@@ -173,6 +186,8 @@ public class GeneExpressionForm extends BaseForm {
 	private HashMap diseaseDomainMap = new HashMap();
 
 	private HashMap geneDomainMap = new HashMap();
+	
+	private HashMap sampleDomainMap = new HashMap();
 
 	private HashMap foldUpDomainMap = new HashMap();
 
@@ -223,7 +238,7 @@ public class GeneExpressionForm extends BaseForm {
         //Validate Go Classification
         errors = UIFormValidator.validateGOClassification(goClassification, errors);
 		//Validate Gene List, Gene File and Gene Group
-        errors = UIFormValidator.validate(geneGroup, geneList, geneFile, errors);
+        errors = UIFormValidator.validate(sampleGroup, sampleList, sampleFile, errors);
         //Make sure the cloneListFile uploaded is of type txt and MIME type is text/plain
         errors = UIFormValidator.validateTextFileType(cloneListFile, "cloneId", errors);
         //Make sure the geneGroup uploaded file is of type txt and MIME type is text/plain
@@ -249,6 +264,7 @@ public class GeneExpressionForm extends BaseForm {
 		
         if (errors.isEmpty()) {
 			createDiseaseCriteriaObject();
+			createSampleCriteriaObject();
 			createGeneCriteriaObject();
 			createFoldChangeCriteriaObject();
 			createRegionCriteriaObject();
@@ -327,6 +343,43 @@ public class GeneExpressionForm extends BaseForm {
 		}
 
 	}
+	
+	private void createSampleCriteriaObject() {
+
+		// Loop thru the HashMap, extract the Domain elements and create
+		// respective Criteria Objects
+		Set keys = sampleDomainMap.keySet();
+		Iterator i = keys.iterator();
+		while (i.hasNext()) {
+			Object key = i.next();
+			logger.debug(key + "=>" + sampleDomainMap.get(key));
+
+			try {
+				String strSampleDomainClass = (String) sampleDomainMap.get(key);
+				Constructor[] sampleConstructors = Class.forName(
+						strSampleDomainClass).getConstructors();
+				Object[] parameterObjects = { key };
+
+				SampleIDDE sampleIDDEObj = (SampleIDDE) sampleConstructors[0]
+						.newInstance(parameterObjects);
+				sampleCriteria.setSampleID(sampleIDDEObj);
+
+				logger.debug("Sample Domain Element Value==> "
+						+ sampleIDDEObj.getValueObject());
+			} catch (Exception ex) {
+			    logger.debug("Error in createSampleCriteriaObject  "
+						+ ex.getMessage());
+				ex.printStackTrace();
+			} catch (LinkageError le) {
+			    logger.error("Linkage Error in createSampleCriteriaObject "
+						+ le.getMessage());
+				le.printStackTrace();
+			}
+
+		}
+
+	}
+
 
 	private void createFoldChangeCriteriaObject() {
 
@@ -691,6 +744,9 @@ public class GeneExpressionForm extends BaseForm {
 		cloneList = "";
 		queryName = "";
 		basePairStart = "";
+		sampleGroup = "";
+		sampleList = "";
+		sampleFile = null;
 
 		//Set the Request Object
 		this.thisRequest = request;
@@ -707,6 +763,7 @@ public class GeneExpressionForm extends BaseForm {
 
 		diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
 		geneCriteria = new GeneIDCriteria();
+		sampleCriteria = new SampleCriteria();
 		foldChangeCriteria = new FoldChangeCriteria();
 		regionCriteria = new RegionCriteria();
 		cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
@@ -778,7 +835,47 @@ public class GeneExpressionForm extends BaseForm {
 		 */
 		}
 	}
+	
+	/**
+	 * Returns the sampleList.
+	 * 
+	 * @return String
+	 */
+	public String getSampleList() {
 
+		return sampleList;
+	}
+
+	/**
+	 * Set the sampleList.
+	 * 
+	 * @param sampleList
+	 *            The sampleList to set
+	 */
+	public void setSampleList(String sampleList) {
+		this.sampleList = sampleList;
+		if(thisRequest!=null){
+
+			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
+	
+			if ((thisSampleGroup != null)
+					&& thisSampleGroup.equalsIgnoreCase("Specify")
+					&& (this.sampleList.length() > 0)) {
+	
+				String[] splitSampleValue = this.sampleList.split("\\x2C");
+				
+	
+				for (int i = 0; i < splitSampleValue.length; i++) {
+	                sampleDomainMap.put(splitSampleValue[i].trim(),
+					SampleIDDE.class.getName());	
+				}
+			 }
+
+		}
+	}
+
+	
+	
 	/**
 	 * Returns the geneFile.
 	 * 
@@ -786,6 +883,15 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public FormFile getGeneFile() {
 		return geneFile;
+	}
+	
+	/**
+	 * Returns the sampleFile.
+	 * 
+	 * @return String
+	 */
+	public FormFile getSampleFile() {
+		return sampleFile;
 	}
 
 	/**
@@ -846,10 +952,56 @@ public class GeneExpressionForm extends BaseForm {
 			}
 		}
 	}
+	
+	/**
+	 * Set the sampleFile.
+	 * 
+	 * @param sampleFile
+	 *            The sampleFile to set
+	 */
+	public void setSampleFile(FormFile sampleFile) {
+		this.sampleFile = sampleFile;
+		if(thisRequest!=null){
+			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
+	//		retrieve the file name & size
+	 		String fileName= sampleFile.getFileName();
+	 		int fileSize = sampleFile.getFileSize();
+	
+	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
+					&& (this.sampleFile != null)
+					&& (this.sampleFile.getFileName().endsWith(".txt"))
+					&& (this.sampleFile.getContentType().equals("text/plain"))) {
+				try {
+					InputStream stream = sampleFile.getInputStream();				
+					String inputLine = null;
+					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
+					
+					int count = 0;
+					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
+						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
+								count++;
+								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
+						}
+					}// end of while
+	
+					inFile.close();
+				} catch (IOException ex) {
+				    logger.error("Errors when uploading sample file:"
+							+ ex.getMessage());
+				}
+	
+			}
+		}
+	}
+
 
 
 	public GeneIDCriteria getGeneIDCriteria() {
 		return this.geneCriteria;
+	}
+	
+	public SampleCriteria getSampleCriteria(){
+	    return this.sampleCriteria;
 	}
 
 	public FoldChangeCriteria getFoldChangeCriteria() {
@@ -1594,6 +1746,26 @@ public class GeneExpressionForm extends BaseForm {
 	public void setGeneGroup(String geneGroup) {
 		this.geneGroup = geneGroup;
 	}
+	
+	/**
+	 * Returns the geneGroup.
+	 * 
+	 * @return String
+	 */
+	public String getSampleGroup() {
+		return sampleGroup;
+	}
+	
+	/**
+	 * Set the sampleGroup.
+	 * 
+	 * @param sampleGroup
+	 *            The sampleGroup to set
+	 */
+	public void setSampleGroup(String sampleGroup) {
+		this.sampleGroup = sampleGroup;
+	}
+	
 
 	/**
 	 * Returns the cloneList.
@@ -1690,6 +1862,7 @@ public class GeneExpressionForm extends BaseForm {
 	public void setPathwayName(String[] pathwayName) {
 		this.pathwayName = pathwayName;
 	}
+	
     public GeneExpressionForm cloneMe() {
         GeneExpressionForm form = new GeneExpressionForm();
         form.setPathwayName(pathwayName);

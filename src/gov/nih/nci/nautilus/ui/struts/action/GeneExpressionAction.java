@@ -6,6 +6,7 @@ import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
 import gov.nih.nci.nautilus.criteria.PathwayCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
@@ -115,6 +116,9 @@ public class GeneExpressionAction extends Action {
 		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
 		if (!geneIDCrit.isEmpty())
 			geneExpQuery.setGeneIDCrit(geneIDCrit);
+		SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
+		if (!sampleIDCrit.isEmpty())
+			geneExpQuery.setSampleIDCrit(sampleIDCrit);
 		FoldChangeCriteria foldChangeCrit = geneExpressionForm
 				.getFoldChangeCriteria();
 		if (!foldChangeCrit.isEmpty())

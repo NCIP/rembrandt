@@ -23,6 +23,7 @@ public class GeneExpressionQuery extends Query {
     private AllGenesCriteria allGenes;
     private static Logger logger = Logger.getLogger(GeneExpressionQuery.class);
     private GeneIDCriteria geneIDCrit;
+    private SampleCriteria sampleIDCrit;
     private RegionCriteria regionCrit;
     private FoldChangeCriteria foldChgCrit;
 	private CloneOrProbeIDCriteria cloneOrProbeIDCriteria;
@@ -84,6 +85,27 @@ public class GeneExpressionQuery extends Query {
 			}
 		}
 		else logger.debug("Gene ID Criteria is empty or Application Resources file is missing");
+		
+		SampleCriteria thisSampleIDCrit = this.getSampleIDCrit();
+		
+		if ((thisSampleIDCrit != null) && !thisSampleIDCrit.isEmpty() && labels != null ) { 
+			String thisCriteria = thisSampleIDCrit.getClass().getName();
+			
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			Collection sampleIDObjects = thisSampleIDCrit.getSampleIDs();
+			int count = 0;
+			for (Iterator iter = sampleIDObjects.iterator(); iter.hasNext() && count < 5;) {
+				count++;
+				DomainElement de = (DomainElement) iter.next();
+				String thisDomainElement = de.getClass().getName();
+				OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
+			}
+			if(sampleIDObjects != null && sampleIDObjects.size()> 5){
+			OutStr +="<BR>&nbsp;&nbsp;...";
+			}
+		}
+		else logger.debug("Sample ID Criteria is empty or Application Resources file is missing");
+		
 			RegionCriteria thisRegionCrit = this.getRegionCrit();
 			if ((thisRegionCrit != null) && !thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
@@ -249,6 +271,14 @@ public class GeneExpressionQuery extends Query {
 
     public void setGeneIDCrit(GeneIDCriteria geneIDCrit) {
         this.geneIDCrit = geneIDCrit;
+    }
+    
+    public SampleCriteria getSampleIDCrit() {
+        return sampleIDCrit;
+    }
+
+    public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
+        this.sampleIDCrit = sampleIDCrit;
     }
 
     public RegionCriteria getRegionCrit() {
