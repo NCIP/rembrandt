@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
 import org.apache.struts.action.ActionError;
+import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
@@ -66,7 +67,7 @@ public class ComparativeGenomicForm extends BaseForm {
 	private String cloneListFile;
 
 	/** snpListFile property */
-	private String snpListFile;
+	private FormFile snpListFile;
 
 	/** cloneListSpecify property */
 	private String cloneListSpecify;
@@ -273,7 +274,7 @@ public class ComparativeGenomicForm extends BaseForm {
 			   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
 					(this.getChrosomeNumber() == null || this.getChrosomeNumber().trim().length() < 1)) {
 					if ((this.getSnpId() == null || this.getSnpId().trim().length() < 1) ||
-						(this.getSnpListSpecify().length() < 1 && this.getSnpListFile().length() < 1) ||
+						(this.getSnpListSpecify().length() < 1 && this.getSnpListFile()==null) ||
 						(this.getSnpListSpecify().length() >= 1 && (!this.getSnpList().equalsIgnoreCase("dBSNPId") && 
 						!this.getSnpList().equalsIgnoreCase("probeSetId")))){
 				
@@ -593,7 +594,7 @@ private void createAssayPlatformCriteriaObject(){
 		cnAmplified = "";
 		tumorType = "";
 		cloneListFile = "";
-		snpListFile = "";
+		snpListFile = null;
 		cloneListSpecify = "";
 		snpListSpecify = "";
 		cnADAmplified = "";
@@ -1012,7 +1013,7 @@ private void createAssayPlatformCriteriaObject(){
 	 * Returns the snpListFile.
 	 * @return String
 	 */
-	public String getSnpListFile() {
+	public FormFile getSnpListFile() {
 		return snpListFile;
 	}
 
@@ -1020,7 +1021,7 @@ private void createAssayPlatformCriteriaObject(){
 	 * Set the snpListFile.
 	 * @param snpListFile The snpListFile to set
 	 */
-	public void setSnpListFile(String snpListFile) {
+	public void setSnpListFile(FormFile snpListFile) {
 		this.snpListFile = snpListFile;
 	  // this is to check if the radio button is selected for the SNP category
 	   String thisSNPId = (String)thisRequest.getParameter("snpId");	
@@ -1028,7 +1029,7 @@ private void createAssayPlatformCriteriaObject(){
 	   // this is to check the type of the SNP
 	   String thisSNPList = (String)thisRequest.getParameter("snpList");
 	   logger.debug(" thisSNPList in the setSnpListFile() method is:" +thisSNPList);
-	
+	/*
 	   if(thisSNPId != null && thisSNPId.equalsIgnoreCase("upload") && thisSNPList != null && !thisSNPList.equals("")&& this.snpListFile.length()>0){
 	     
              File snpFile = new File(this.snpListFile);
@@ -1069,7 +1070,7 @@ private void createAssayPlatformCriteriaObject(){
 			     logger.error(ex);
 			  }
 	   }
-		
+		*/
 		
 	}
 	/** 
