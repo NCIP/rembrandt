@@ -860,6 +860,21 @@ function hideLoadingMessage(){
 			document.getElementById('spnLoading').style.display = "none" ;
 }
 		
- 
+
+function checkToggle(box, id)	{
+
+	if(box.value == 'standard')
+		toggleDiv(id, false);
+	else
+		toggleDiv(id, true);
+}
+
+function toggleDiv(id, state)	{
+
+		if(state)
+			document.getElementById(id).style.display = "none";
+		else
+			document.getElementById(id).style.display = "block";	
+}
  
   

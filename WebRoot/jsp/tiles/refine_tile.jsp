@@ -3,12 +3,14 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
+
 <html:form action="refineQuery.do">
 <html:errors/>
 <fieldset class="grayRefine">
 <legend class="red">Step 1: Refine your result set</legend>
 	
-    <input type="radio" name="queryOption" class="radio" value="standard" CHECKED />Please refine your results by grouping the queries<br />
+    <input type="radio" name="queryOption" class="radio" value="standard" checked="true"  onclick="javascript:checkToggle(this, 'qrows');"/>Please refine your results by grouping the queries<br />
+    <div id="qrows">
 	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		<tr>
 			<td colspan="4" class="message">
@@ -35,7 +37,8 @@
 		</nested:nest>
 		<!-- End  Selected Queries -->
 	</table><br />
-	<input type="radio" name="queryOption" class="radio" value="allgenes" />Please select an "All Genes" query
+	</div>
+	<input type="radio" name="queryOption" class="radio" value="allgenes"  onclick="javascript:checkToggle(this, 'qrows');" />Please select an "All Genes" query
     <html:select property="allGeneQuery">
      		<option/>
 		    <html:optionsCollection property="allGenesQueries" label="queryName" value="queryName" />
