@@ -601,7 +601,7 @@ public class ClinicalDataForm extends BaseForm {
 		survivalUpperColl.add( new LabelValueBean( "70", "70" ) );
 		survivalUpperColl.add( new LabelValueBean( "80", "80" ) );
 		survivalUpperColl.add( new LabelValueBean( "90", "90" ) );
-		survivalUpperColl.add( new LabelValueBean( "90+", "90+" ) );		
+	//	survivalUpperColl.add( new LabelValueBean( "90+", "90+" ) );		
 		
 		
 		ageLowerColl.add( new LabelValueBean( "", "" ) );
@@ -627,7 +627,7 @@ public class ClinicalDataForm extends BaseForm {
 		ageUpperColl.add( new LabelValueBean( "70", "70" ) );
 		ageUpperColl.add( new LabelValueBean( "80", "80" ) );
 		ageUpperColl.add( new LabelValueBean( "90", "90" ) );
-		ageUpperColl.add( new LabelValueBean( "90+", "90+" ) );	
+	//	ageUpperColl.add( new LabelValueBean( "90+", "90+" ) );	
 		
 		
 		genderTypeColl.add( new LabelValueBean( "All", "All" ) );
