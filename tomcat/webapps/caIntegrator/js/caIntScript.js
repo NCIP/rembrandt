@@ -9,6 +9,17 @@ function checkNull(text)
 	}
 }
 
+function resetVal()
+{
+	if(text.value == "")	{
+		scroll(0,0);
+		text.focus();
+		text.style.border = "2px solid red";
+		alert("Please Fill in a Unique Query Name");
+		return false;
+	}
+}
+
 function formNewTarget(windowName, winw, winh)
 {
 	if(document.forms[0].queryName.value == "")	{
@@ -589,7 +600,6 @@ function showQueryDetail(selectName){
 	      
 	      document.forms[0].geneList.value = "";
 	      document.forms[0].geneList.disabled = true;
-		  document.forms[0].geneType.disabled = true;
 		  document.forms[0].geneFile.disabled = false;
 	
 	      }
