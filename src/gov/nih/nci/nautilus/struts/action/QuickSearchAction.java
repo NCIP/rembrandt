@@ -241,7 +241,7 @@ public class QuickSearchAction extends DispatchAction {
 		       	LegendProperties legendProperties= new LegendProperties();
 		       	legendProperties.setChartFont( new ChartFont( new Font( "Georgia", Font.PLAIN, 12 ), Color.black ) );
 		       	legendProperties.setNumColumns( 3 );
-		       	AxisChart axisChart= new AxisChart( dataSeries, chartProperties, axisProperties, legendProperties, 600, 500 );
+		       	AxisChart axisChart= new AxisChart( dataSeries, chartProperties, axisProperties, legendProperties, 600, 400 );
 		       if(axisChart == null)
 		       	System.out.println("No chart to put in session");
 		       	axisChart.renderWithImageMap();

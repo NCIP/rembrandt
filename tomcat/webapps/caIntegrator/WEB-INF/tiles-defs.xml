@@ -108,7 +108,7 @@
     
     <definition name="nautilus.graph" extends="graph">
       <put name="mainForm" value="/graph.jsp" />
-	  <put name="title" value="Gene Expression Graph" />
+	  <put name="title" value="" />
     </definition>
    
     <definition name="nautilus.KMPlot" extends="graph">
