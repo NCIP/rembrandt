@@ -1,0 +1,1327 @@
+2005-01-05 19:56:36,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.52050406)  Census:false
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-05 19:56:36,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-05 19:56:36,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-05 19:56:36,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-05 19:56:36,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-05 19:56:36,328 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-05 19:56:36,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-05 19:56:36,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-05 19:56:36,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-05 19:56:36,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-05 19:56:36,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-05 19:56:36,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-05 19:56:36,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-05 19:56:36,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-05 19:56:36,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-05 19:56:36,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-05 19:56:36,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-05 19:56:36,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-05 19:56:36,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-05 19:56:36,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-05 19:56:36,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-05 19:56:36,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-05 19:56:36,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-05 19:56:36,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-05 19:56:36,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-05 19:56:36,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-05 19:56:36,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-05 19:56:36,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-05 19:56:36,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-05 19:56:36,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-05 19:56:36,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-05 19:56:36,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-05 19:56:36,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-05 19:56:36,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-05 19:56:36,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-05 19:56:36,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-05 19:56:36,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-05 19:56:36,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-05 19:56:36,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-05 19:56:36,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-05 19:56:36,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:56:36,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:59:32,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - All Samples
+2005-01-05 19:59:32,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - All Samples
+2005-01-05 19:59:32,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:59:32,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:59:32,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1.0, 1.0)  Census:true
+2005-01-05 19:59:32,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1.0, 1.0)  Census:true
+2005-01-05 19:59:32,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 1.0)  Census:false
+2005-01-05 19:59:32,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 1.0)  Census:false
+2005-01-05 19:59:32,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 0.98)  Census:false
+2005-01-05 19:59:32,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 0.98)  Census:false
+2005-01-05 19:59:32,953 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 0.98)  Census:true
+2005-01-05 19:59:32,953 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 0.98)  Census:true
+2005-01-05 19:59:32,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 98.0, 0.98)  Census:true
+2005-01-05 19:59:32,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 98.0, 0.98)  Census:true
+2005-01-05 19:59:32,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.98)  Census:false
+2005-01-05 19:59:32,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.98)  Census:false
+2005-01-05 19:59:32,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.959149)  Census:false
+2005-01-05 19:59:32,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.959149)  Census:false
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 146.0, 0.959149)  Census:true
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 146.0, 0.959149)  Census:true
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.959149)  Census:false
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.959149)  Census:false
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.9378346)  Census:false
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.9378346)  Census:false
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.9378346)  Census:false
+2005-01-05 19:59:32,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.9378346)  Census:false
+2005-01-05 19:59:33,000 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.89520574)  Census:false
+2005-01-05 19:59:33,000 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.89520574)  Census:false
+2005-01-05 19:59:33,000 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.89520574)  Census:false
+2005-01-05 19:59:33,000 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.89520574)  Census:false
+2005-01-05 19:59:33,000 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.8738913)  Census:false
+2005-01-05 19:59:33,000 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.8738913)  Census:false
+2005-01-05 19:59:33,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.8738913)  Census:false
+2005-01-05 19:59:33,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.8738913)  Census:false
+2005-01-05 19:59:33,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.85257685)  Census:false
+2005-01-05 19:59:33,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.85257685)  Census:false
+2005-01-05 19:59:33,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.85257685)  Census:false
+2005-01-05 19:59:33,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.85257685)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8312624)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8312624)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8312624)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8312624)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.80994797)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.80994797)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.80994797)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.80994797)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.76731914)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.76731914)  Census:false
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 325.0, 0.76731914)  Census:true
+2005-01-05 19:59:33,031 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 325.0, 0.76731914)  Census:true
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.76731914)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.76731914)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7453957)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7453957)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7453957)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7453957)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7234723)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7234723)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7234723)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7234723)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7015489)  Census:false
+2005-01-05 19:59:33,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7015489)  Census:false
+2005-01-05 19:59:33,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.7015489)  Census:true
+2005-01-05 19:59:33,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.7015489)  Census:true
+2005-01-05 19:59:33,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.7015489)  Census:false
+2005-01-05 19:59:33,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.7015489)  Census:false
+2005-01-05 19:59:33,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6789183)  Census:false
+2005-01-05 19:59:33,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6789183)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6789183)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6789183)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6562877)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6562877)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6562877)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6562877)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6336571)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6336571)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6336571)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6336571)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.61102647)  Census:false
+2005-01-05 19:59:33,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.61102647)  Census:false
+2005-01-05 19:59:33,125 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.61102647)  Census:false
+2005-01-05 19:59:33,125 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.61102647)  Census:false
+2005-01-05 19:59:33,125 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.58839583)  Census:false
+2005-01-05 19:59:33,125 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.58839583)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.58839583)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.58839583)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56576526)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56576526)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.56576526)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.56576526)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5431346)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5431346)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5431346)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5431346)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.52050406)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.52050406)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.52050406)  Census:false
+2005-01-05 19:59:33,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.52050406)  Census:false
+2005-01-05 19:59:33,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-05 19:59:33,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-05 19:59:33,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-05 19:59:33,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-05 19:59:33,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-05 19:59:33,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-05 19:59:33,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-05 19:59:33,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-05 19:59:33,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-05 19:59:33,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-05 19:59:33,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-05 19:59:33,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-05 19:59:33,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-05 19:59:33,203 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-05 19:59:33,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-05 19:59:33,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-05 19:59:33,250 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-05 19:59:33,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-05 19:59:33,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-05 19:59:33,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-05 19:59:33,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-05 19:59:33,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-05 19:59:33,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-05 19:59:33,375 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-05 19:59:33,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-05 19:59:33,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-05 19:59:33,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-05 19:59:33,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-05 19:59:33,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-05 19:59:33,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-05 19:59:33,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-05 19:59:33,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-05 19:59:33,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-05 19:59:33,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-05 19:59:33,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-05 19:59:33,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-05 19:59:33,437 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-05 19:59:33,453 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-05 19:59:33,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-05 19:59:33,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-05 19:59:33,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-05 19:59:33,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:59:33,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:59:33,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-05 19:59:33,500 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-05 19:59:33,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-05 19:59:33,531 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-05 19:59:33,546 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-05 19:59:33,562 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-05 19:59:33,562 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-05 19:59:33,562 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-05 19:59:33,562 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-05 19:59:33,578 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-05 19:59:33,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-05 19:59:33,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-05 19:59:33,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-05 19:59:33,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-05 19:59:33,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-05 19:59:33,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-05 19:59:33,625 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-05 19:59:33,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-05 19:59:33,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-05 19:59:33,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-05 19:59:33,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-05 19:59:33,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-05 19:59:33,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-05 19:59:33,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-05 19:59:33,671 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-05 19:59:33,671 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-05 19:59:33,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-05 19:59:33,703 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-05 19:59:33,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-05 19:59:33,750 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-05 19:59:33,750 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-05 19:59:33,750 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-05 19:59:33,750 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-05 19:59:33,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-05 19:59:33,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 11:47:17,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - All Samples
+2005-01-06 11:47:17,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - All Samples
+2005-01-06 11:47:17,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 11:47:17,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 11:47:17,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1.0, 1.0)  Census:true
+2005-01-06 11:47:17,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1.0, 1.0)  Census:true
+2005-01-06 11:47:17,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 1.0)  Census:false
+2005-01-06 11:47:17,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 1.0)  Census:false
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 0.98)  Census:false
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 0.98)  Census:false
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 0.98)  Census:true
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 0.98)  Census:true
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 98.0, 0.98)  Census:true
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 98.0, 0.98)  Census:true
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.98)  Census:false
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.98)  Census:false
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.959149)  Census:false
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.959149)  Census:false
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 146.0, 0.959149)  Census:true
+2005-01-06 11:47:17,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 146.0, 0.959149)  Census:true
+2005-01-06 11:47:17,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.959149)  Census:false
+2005-01-06 11:47:17,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.959149)  Census:false
+2005-01-06 11:47:17,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.9378346)  Census:false
+2005-01-06 11:47:17,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.9378346)  Census:false
+2005-01-06 11:47:17,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.9378346)  Census:false
+2005-01-06 11:47:17,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.9378346)  Census:false
+2005-01-06 11:47:17,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.89520574)  Census:false
+2005-01-06 11:47:17,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.89520574)  Census:false
+2005-01-06 11:47:17,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.89520574)  Census:false
+2005-01-06 11:47:17,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.89520574)  Census:false
+2005-01-06 11:47:17,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.8738913)  Census:false
+2005-01-06 11:47:17,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.8738913)  Census:false
+2005-01-06 11:47:17,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.8738913)  Census:false
+2005-01-06 11:47:17,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.8738913)  Census:false
+2005-01-06 11:47:17,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.85257685)  Census:false
+2005-01-06 11:47:17,265 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.85257685)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.85257685)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.85257685)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8312624)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8312624)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8312624)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8312624)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.80994797)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.80994797)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.80994797)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.80994797)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.76731914)  Census:false
+2005-01-06 11:47:17,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.76731914)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 325.0, 0.76731914)  Census:true
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 325.0, 0.76731914)  Census:true
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.76731914)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.76731914)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7453957)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7453957)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7453957)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7453957)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7234723)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7234723)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7234723)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7234723)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7015489)  Census:false
+2005-01-06 11:47:17,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7015489)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.7015489)  Census:true
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.7015489)  Census:true
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.7015489)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.7015489)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6789183)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6789183)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6789183)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6789183)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6562877)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6562877)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6562877)  Census:false
+2005-01-06 11:47:17,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6562877)  Census:false
+2005-01-06 11:47:17,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6336571)  Census:false
+2005-01-06 11:47:17,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6336571)  Census:false
+2005-01-06 11:47:17,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6336571)  Census:false
+2005-01-06 11:47:17,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6336571)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.61102647)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.61102647)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.61102647)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.61102647)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.58839583)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.58839583)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.58839583)  Census:false
+2005-01-06 11:47:17,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.58839583)  Census:false
+2005-01-06 11:47:17,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56576526)  Census:false
+2005-01-06 11:47:17,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56576526)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.56576526)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.56576526)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5431346)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5431346)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5431346)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5431346)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.52050406)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.52050406)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.52050406)  Census:false
+2005-01-06 11:47:17,374 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.52050406)  Census:false
+2005-01-06 11:47:17,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-06 11:47:17,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-06 11:47:17,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-06 11:47:17,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-06 11:47:17,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-06 11:47:17,390 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-06 11:47:17,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-06 11:47:17,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-06 11:47:17,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-06 11:47:17,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-06 11:47:17,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-06 11:47:17,406 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-06 11:47:17,421 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-06 11:47:17,452 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-06 11:47:17,468 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-06 11:47:17,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-06 11:47:17,484 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,499 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,515 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-06 11:47:17,562 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-06 11:47:17,562 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-06 11:47:17,577 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-06 11:47:17,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-06 11:47:17,593 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-06 11:47:17,609 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-06 11:47:17,624 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-06 11:47:17,640 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-06 11:47:17,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-06 11:47:17,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-06 11:47:17,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-06 11:47:17,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-06 11:47:17,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-06 11:47:17,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 11:47:17,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 11:47:17,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-06 11:47:17,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-06 11:47:17,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-06 11:47:17,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-06 11:47:17,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-06 11:47:17,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-06 11:47:17,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-06 11:47:17,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-06 11:47:17,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-06 11:47:17,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-06 11:47:17,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-06 11:47:17,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-06 11:47:17,781 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-06 11:47:17,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-06 11:47:17,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-06 11:47:17,827 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-06 11:47:17,827 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-06 11:47:17,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-06 11:47:17,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-06 11:47:17,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-06 11:47:17,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-06 11:47:17,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-06 11:47:17,906 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-06 11:47:17,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-06 11:47:17,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-06 11:47:17,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-06 11:47:17,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-06 11:47:17,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 11:47:17,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 12:21:04,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - All Samples
+2005-01-06 12:21:04,656 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - All Samples
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1.0, 1.0)  Census:true
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1.0, 1.0)  Census:true
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 1.0)  Census:false
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 1.0)  Census:false
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 0.98)  Census:false
+2005-01-06 12:21:04,687 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 50.0, 0.98)  Census:false
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 0.98)  Census:true
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 0.98)  Census:true
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 98.0, 0.98)  Census:true
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 98.0, 0.98)  Census:true
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.98)  Census:false
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.98)  Census:false
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.959149)  Census:false
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.959149)  Census:false
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 146.0, 0.959149)  Census:true
+2005-01-06 12:21:04,702 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 146.0, 0.959149)  Census:true
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.959149)  Census:false
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.959149)  Census:false
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.9378346)  Census:false
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 160.0, 0.9378346)  Census:false
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.9378346)  Census:false
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.9378346)  Census:false
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.89520574)  Census:false
+2005-01-06 12:21:04,718 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.89520574)  Census:false
+2005-01-06 12:21:04,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.89520574)  Census:false
+2005-01-06 12:21:04,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.89520574)  Census:false
+2005-01-06 12:21:04,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.8738913)  Census:false
+2005-01-06 12:21:04,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.8738913)  Census:false
+2005-01-06 12:21:04,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.8738913)  Census:false
+2005-01-06 12:21:04,734 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.8738913)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.85257685)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.85257685)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.85257685)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.85257685)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8312624)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8312624)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8312624)  Census:false
+2005-01-06 12:21:04,749 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8312624)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.80994797)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.80994797)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.80994797)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.80994797)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.76731914)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.76731914)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 325.0, 0.76731914)  Census:true
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 325.0, 0.76731914)  Census:true
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.76731914)  Census:false
+2005-01-06 12:21:04,765 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.76731914)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7453957)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7453957)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7453957)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7453957)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7234723)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.7234723)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7234723)  Census:false
+2005-01-06 12:21:04,796 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7234723)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7015489)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 384.0, 0.7015489)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.7015489)  Census:true
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.7015489)  Census:true
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.7015489)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.7015489)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6789183)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6789183)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6789183)  Census:false
+2005-01-06 12:21:04,812 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6789183)  Census:false
+2005-01-06 12:21:04,827 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6562877)  Census:false
+2005-01-06 12:21:04,827 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6562877)  Census:false
+2005-01-06 12:21:04,827 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6562877)  Census:false
+2005-01-06 12:21:04,827 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6562877)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6336571)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6336571)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6336571)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6336571)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.61102647)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.61102647)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.61102647)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.61102647)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.58839583)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.58839583)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.58839583)  Census:false
+2005-01-06 12:21:04,843 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.58839583)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56576526)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56576526)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.56576526)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.56576526)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5431346)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5431346)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5431346)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5431346)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.52050406)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.52050406)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.52050406)  Census:false
+2005-01-06 12:21:04,859 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.52050406)  Census:false
+2005-01-06 12:21:04,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-06 12:21:04,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.49787343)  Census:false
+2005-01-06 12:21:04,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-06 12:21:04,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.49787343)  Census:false
+2005-01-06 12:21:04,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-06 12:21:04,874 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.47524282)  Census:false
+2005-01-06 12:21:04,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-06 12:21:04,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.47524282)  Census:true
+2005-01-06 12:21:04,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-06 12:21:04,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1203.0, 0.47524282)  Census:true
+2005-01-06 12:21:04,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-06 12:21:04,890 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.47524282)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.44884047)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.44884047)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1317.0, 0.42243809)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.42243809)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-06 12:21:04,921 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3960357)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.3960357)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.36963332)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.36963332)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.34323093)  Census:false
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1726.0, 0.34323093)  Census:true
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-06 12:21:04,937 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.34323093)  Census:true
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1751.0, 0.34323093)  Census:true
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.34323093)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.30890784)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.30890784)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2051.0, 0.27458474)  Census:false
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-06 12:21:04,952 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.27458474)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.27458474)  Census:false
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.23535834)  Census:false
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2789.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2930.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,968 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3158.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-06 12:21:04,984 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.23535834)  Census:true
+2005-01-06 12:21:05,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-06 12:21:05,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated: 2
+2005-01-06 12:21:05,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-06 12:21:05,015 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 2331
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 887
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 338
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 179
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 309
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1713
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-06 12:21:05,046 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 724
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1730
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 233
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 425
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2129
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 579
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-06 12:21:05,062 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 313
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 87
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 781
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 598
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-06 12:21:05,077 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 376
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 175
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 3134
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 133
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1227
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 583
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 317
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-06 12:21:05,093 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 1082
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 468
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 5257
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1835
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1341
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 438
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-06 12:21:05,109 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 385
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 2337
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 0 Survival Length: 887
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 872
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - Census: 1 Survival Length: 1513
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-06 12:21:05,124 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Upregulated 2X
+2005-01-06 12:21:05,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 12:21:05,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 12:21:05,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-06 12:21:05,140 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 87.0, 1.0)  Census:true
+2005-01-06 12:21:05,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-06 12:21:05,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 1.0)  Census:false
+2005-01-06 12:21:05,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-06 12:21:05,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 133.0, 0.969697)  Census:false
+2005-01-06 12:21:05,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-06 12:21:05,156 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.969697)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 175.0, 0.939394)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.939394)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 179.0, 0.90909094)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.90909094)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 233.0, 0.87878793)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-06 12:21:05,171 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.87878793)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 309.0, 0.8484849)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8484849)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 313.0, 0.8181819)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.8181819)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 317.0, 0.7878788)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-06 12:21:05,187 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.7878788)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 338.0, 0.75757575)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.75757575)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 376.0, 0.72727275)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 385.0, 0.72727275)  Census:true
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.72727275)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-06 12:21:05,202 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 425.0, 0.6956522)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6956522)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 438.0, 0.6640316)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.6640316)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 468.0, 0.63241106)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-06 12:21:05,218 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.63241106)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 579.0, 0.6007905)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.6007905)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 583.0, 0.56916994)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.56916994)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 598.0, 0.5375494)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-06 12:21:05,234 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5375494)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 724.0, 0.5059288)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.5059288)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 781.0, 0.47430825)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-06 12:21:05,249 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.47430825)  Census:false
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 872.0, 0.4426877)  Census:false
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.4426877)  Census:false
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 887.0, 0.41106716)  Census:false
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-06 12:21:05,281 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1082.0, 0.41106716)  Census:true
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.41106716)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1227.0, 0.3736974)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.3736974)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1341.0, 0.33632764)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.33632764)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-06 12:21:05,296 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1513.0, 0.2989579)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2989579)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1713.0, 0.2615882)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1730.0, 0.2615882)  Census:true
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.2615882)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 1835.0, 0.21799016)  Census:false
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-06 12:21:05,312 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2129.0, 0.21799016)  Census:true
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.21799016)  Census:false
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2331.0, 0.16349262)  Census:false
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 2337.0, 0.16349262)  Census:true
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 3134.0, 0.16349262)  Census:true
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-06 12:21:05,327 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 5257.0, 0.16349262)  Census:true
+2005-01-06 12:21:05,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-06 12:21:05,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated: 2
+2005-01-06 12:21:05,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-06 12:21:05,343 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - EGFR Downregulated 2X
+2005-01-06 12:21:05,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true
+2005-01-06 12:21:05,359 DEBUG gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator - ( 0.0, 1.0)  Census:true

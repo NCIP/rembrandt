@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>caIntegrator: Refine Query</title>
+	<LINK href="bigStyle.css" rel="stylesheet" type="text/css">
+	<script language="javascript" src="caIntScript.js"></script>
+	<script type="text/javascript" src="overlib.js"></script>
+	<script type="text/javascript" src="overlib_hideform.js"></script>
+
+	<script language="javascript" type="text/javascript">
+	<!--
+	function show(which){
+		if (document.getElementById && document.createTextNode){
+			m=document.getElementById("collapse");
+			trig=m.getElementsByTagName("div").item(which).style.display;
+			if (trig=="block") trig="none";
+			else if (trig=="" || trig=="none") trig="block";
+			m.getElementsByTagName("div").item(which).style.display=trig;
+			var	highlighttext="-";
+			var	normaltext="+";
+			t=m.getElementsByTagName("h5").item(which);
+			h=t.getElementsByTagName("a").item(0).firstChild;
+			if (trig=="none"){h.nodeValue=h.nodeValue.replace(highlighttext,normaltext);}
+			else {h.nodeValue=h.nodeValue.replace(normaltext,highlighttext);}
+		}
+	} 
+	//-->
+	</script>
+	<style type="text/css">#collapse div {display:none;}</style>
+<!-- Backward compatibility hacks -->
+	<noscript>
+		<style type="text/css">#collapse div{display:block;}</style>
+	</noscript>	
+	<script language="JavaScript">
+	<!--
+
+	if (!document.getElementById && !document.createTextNode){
+		document.write('<style type="text/css">#collapse div{display:block;}</style>')
+	}
+	//-->
+	</script>
+<!-- Backward compatibility hacks end -->
+
+</head>
+
+<body>
+<form name="form1" action="#" method="get">
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<div class="content">
+
+		<DIV class="crumb">	<a href="index.html">Home</A> &gt;
+	            <A href="aSearchMenu.html">Build Query</A> &gt;
+                <A href="refine.html"><b>Refine Query</b></A> &gt;
+                <A href="present.html">Select Presentation</A> &gt;
+                <A href="#">Generate Report</A>
+		</DIV>
+	<h3>Please refine your query below</h3>
+	
+	<div id="collapse" style="background-color: silver;">
+		<h5><a href="#" onclick="show(0)" style="font-size:10px;">Optional: Advanced Users may further refine their query</a></h5>
+		<div>
+		<span class="queryRows">
+			<table border="0" width="100%" cellpadding="2" cellspacing="2">
+				<tr><td colspan="6" class="message">Query 1: Gene Expression Analysis </td></tr>
+				<tr class="setQuery" id="row1">
+					<Td>Gene Name:</td>
+					<tD>EGFR</td>
+					<td>
+					<select>
+						<option>AND</option>
+						<option>OR</option>
+					</select>
+					&nbsp;
+					</td>
+				<!--	<Td><input type="checkbox" class="radio" onclick='changeBackground(1, this)'></td> -->
+				</tr>
+				<tr class="setQuery" id="row2">
+					<Td>Fold Change:</td>
+					<td>2x</td>
+					<td>
+					<select>
+						<option>AND</option>
+						<option>OR</option>
+					</select>
+					&nbsp;</td>
+				<!--	<Td><input type="checkbox" class="radio" onclick='changeBackground(2, this)'></td> -->
+				</tr>
+				<tr class="setQuery" id="row3">
+					<Td>Data Set:</td>
+					<tD>Rembrandt (GMDI)</td>
+					<td>
+					<select>
+						<option>AND</option>
+						<option>OR</option>
+					</select>
+					&nbsp;</td>	
+					<!-- <Td><input type="checkbox" class="radio" onclick='changeBackground(3, this)'></td> -->
+				</tr>
+				<tr class="setQuery" id="row4">
+					<Td>Tumor Type:</td>
+					<tD>Brain</td>
+					<td>
+					<select>
+						<option>AND</option>
+						<option>OR</option>
+					</select>
+					&nbsp;</td>
+				<!--	<Td><input type="checkbox" class="radio" onclick='changeBackground(4, this)'></td> -->
+				</tr>
+			</table>
+		</span>
+		<span class="compound">
+			<table width="100%" align="center" cellpadding="1" cellspacing="1" border="0">
+				<tr>
+					<Td align="center">
+					<!-- <input type="radio" class="radio" name="andor" value="na" checked>N/A&nbsp;&nbsp; -->
+					<input type="radio" class="radio" name="andor" value="and" checked>WITHIN <!-- AND -->&nbsp;&nbsp;
+					<input type="radio" class="radio" name="andor" value="or">OR&nbsp;&nbsp;
+					&nbsp;&nbsp;
+					<a href="javascript:void(0);" onmouseover="return overlib('Select how you would like to join your sub-queries.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		
+					<!--
+					<input type="button" class="xbutton" value="construct query below" onclick="javascript:setQuery('GeneExpr.GENE NAME = EGFR, GeneExpr.FOLD CHANGE = 2x\n\nAND\n\nGenomic.CHROMOSOME ABER. STATUS is Amplified, Genomic.CYTOBAND = 7P11.2');">
+					-->
+					</td>
+				</tr>
+			</table>
+		</span>
+	<!-- ----------------------------------------------------------------- -->
+		<span class="queryRows">
+			<table border="0" width="100%" cellpadding="2" cellspacing="2">
+				<tr><td colspan="6" class="message">Query 2: Comparative Genomic Analysis</td></tr>
+				<tr class="setQuery" id="row21">
+					<Td>Chrom. Aber. Status:</td>
+					<tD>Amplified</td>
+					<td>
+					<select>
+						<option>AND</option>
+						<option>OR</option>
+					</select>
+					&nbsp;</td>
+				<!--	<Td><input type="checkbox" class="radio" onclick='changeBackground(21, this)'></td> -->
+				</tr>
+				<tr class="setQuery" id="row22">
+					<Td>Cytoband:</td>
+					<tD>7P11.2</td>
+					<td>
+					<select>
+						<option>AND</option>
+						<option>OR</option>
+					</select>
+					&nbsp;</td>
+				<!--	<Td><input type="checkbox" class="radio" onclick='changeBackground(22, this)'></td> -->
+				</tr>
+			</table>
+		</span>
+		<br>
+		<h5><a href="#" onclick="show(0)" style="font-size:10px;">[collapse]</a></h5>
+		
+	</div>
+	</div> <!-- close collapse --><br><br>
+	<div class="queryRows">
+			<table border="0" width="100%" cellpadding="2" cellspacing="2">
+				<tr><td colspan="6" class="message">Compound your queries</td></tr>
+				<tr>
+					<td class="message">Query</td>
+					<Td class="message">Not</td>
+					<td class="message">(</td>
+					<tD class="message">Name</td>
+					<td class="message">)</td>
+					<td class="message">and/or</td>
+				</tr>
+				<tr class="setQuery">
+					<Td>
+						<select onchange="javascript:showName(this, document.getElementById('q1'));">
+							<option>&nbsp;</option>
+							<option value="Query 1 Desc">Query 1</option>
+							<option value="Query 2 Desc">Query 2</option>
+							<option value="Query 3 Desc">Query 3</option>
+						</select>
+					</td>
+					<Td>
+						<input type="checkbox" class="radio" name="not">
+					</td>
+					<td>
+						<select class="paren">
+							<option>&nbsp;</option>
+							<option>&nbsp;(&nbsp;</option>
+						</select>
+					</td>
+					<tD id="q1">
+						&nbsp;
+					</td>
+					<td>
+						<select class="paren">
+							<option>&nbsp;</option>
+							<option>&nbsp;)&nbsp;</option>
+						</select>
+					</td>
+					<Td>
+						<select>
+							<option>&nbsp;</option>
+							<option>and</option>
+							<option>or</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="setQuery">
+					<Td>
+						<select onchange="javascript:showName(this, document.getElementById('q2'));">
+							<option>&nbsp;</option>
+							<option value="Query 1 Desc">Query 1</option>
+							<option value="Query 2 Desc">Query 2</option>
+							<option value="Query 3 Desc">Query 3</option>
+						</select>
+					</td>
+					<Td>
+						<input type="checkbox" class="radio" name="not">
+					</td>
+					<td>
+						<select class="paren">
+							<option>&nbsp;</option>
+							<option>&nbsp;(&nbsp;</option>
+						</select>
+					</td>
+					<tD id="q2">
+						&nbsp;
+					</td>
+					<td>
+						<select class="paren">
+							<option>&nbsp;</option>
+							<option>&nbsp;)&nbsp;</option>
+						</select>
+					</td>
+					<Td>
+						<select>
+							<option>&nbsp;</option>
+							<option>and</option>
+							<option>or</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="setQuery">
+					<Td>
+						<select onchange="javascript:showName(this, document.getElementById('q3'));">
+							<option>&nbsp;</option>
+							<option value="Query 1 Desc">Query 1</option>
+							<option value="Query 2 Desc">Query 2</option>
+							<option value="Query 3 Desc">Query 3</option>
+						</select>
+					</td>
+					<Td>
+						<input type="checkbox" class="radio" name="not">
+					</td>
+					<td>
+						<select class="paren">
+							<option>&nbsp;</option>
+							<option>&nbsp;(&nbsp;</option>
+						</select>
+					</td>
+					<tD id="q3">
+						&nbsp;
+					</td>
+					<td>
+						<select class="paren">
+							<option>&nbsp;</option>
+							<option>&nbsp;)&nbsp;</option>
+						</select>
+					</td>
+					<Td>
+						<select>
+							<option>&nbsp;</option>
+							<option>and</option>
+							<option>or</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<a href="#"><b class="message">[add more rows]</b></a>
+		</div>
+	<div>
+		<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
+			<Tr>
+				<Td align="center"><input type="reset" value="reset query" class="xbutton">
+				&nbsp;&nbsp;<input type="button" class="xbutton" value="validate query" onclick="javascript:setQuery('Query:\n(Query 1 and Query 2) or Query 3\n\nValidation Results:\nThis is a valid query!');" onmouseover="return overlib('Based on your selections above, your query will appear in the box below.  Please verify its accuracy.  Click \'Reset\' to clear the query.', CAPTION, 'Help');" onmouseout="return nd();">
+				</td></tr>
+			<tr>
+				<td align="center">
+					<textarea style="width:700px; height:75px;" name="query"></textarea>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+				<input type="button" class="xbutton" value="back" onclick="javascript:history.back();">&nbsp;&nbsp;
+				<input type="button" class="xbutton" value="save and continue" onclick="javascript:location.href='present.html';">
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+</div>
+</body>
+</html>
