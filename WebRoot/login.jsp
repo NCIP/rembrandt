@@ -110,11 +110,45 @@ response.setHeader("Location",newLocn);
 	       %>
 	       <!--login form/table begins--> 
 	       <html:form action="login.do">  
-		   <table border="0" style="margin: 17px 0px 0px 85px">
-	            <tr><Td>User Name:</td></tr>
-	            <tr><td><html:text property="userName" /></td><td rowspan="3"><img src="images/remLogo_10.gif" alt="REMBRANDT logo" /></td></tr>
+		   <table border="0" style="margin: 0px 0px 0px 60px;font-size:8pt">
+	            <tr><Td>User Name:</td><td rowspan="5"><br /><img src="images/remLogo_10.gif" alt="REMBRANDT logo" /></td></tr>
+	            <tr><td><html:text property="userName" /></td></tr>
 	            <tr><Td>Password:</td></tr>
 	            <tr><td><html:password property="password" /></td></tr>
+	            <tr><td>
+	              Study Data Set
+	              <br>
+	              <select style="font-size:8pt" name="dataSet" onchange="javascript:changeList(this);">
+	                <option>
+	                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                </option>
+	                <option>
+	                  GMDI
+	                </option>
+	                <option>
+	                  Other
+	                </option>
+	               </select>
+	              </td></tr>
+	            <tr><td colspan="2">
+	              Generating Institution
+	              <br>
+	              <select style="font-size:8pt" name="generatingInstitution">
+	                <option>
+	                  All
+	                </option>
+	                <option>
+	                  NCI
+	                </option>
+	                <option>
+	                  Johns Hopkins University
+	                </option>
+	                <option>
+	                  UCSF
+	                </option>
+	              </select>
+	            </td>
+	           </tr>
 			  </table>
 	          <span style="margin: 0px 0px 0px 85px">&nbsp;<html:submit/>&nbsp;&nbsp;<html:reset/></span>
 	       </html:form>

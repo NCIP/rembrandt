@@ -5,8 +5,8 @@
 	String viewResults = "";
 	String secondary = "";
 	String advSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"homeAdvanced.do\">Advanced Search Home</a></li>\n" +
-							"<li><a href=\"menu.do\">Build Query</a></li>\n" +
+							"<li><a href=\"menu.do\">Advanced Search Home</a></li>\n" +
+							//"<li><a href=\"menu.do\">Build Query</a></li>\n" +
 							"<li><a href=\"refinecheck.do\">Refine Query</a></li>\n" +
 							"</ul>\n";
 							
@@ -21,7 +21,7 @@
 			case 1:
 				//1 is simple search
 				simple = "<span>Simple Search</span>\n" + simpleSecondary;
-				adv = "<a href=\"homeAdvanced.do\">Advanced Search</a>";
+				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a href=\"#\">View Results&nbsp;&nbsp;</a>";
 				break;
 			case 2:
@@ -33,7 +33,7 @@
 			case 3:
 				//3 is view results
 				simple = "<a href=\"home.do\">Simple Search</a>";
-				adv = "<a href=\"homeAdvanced.do\">Advanced Search</a>";
+				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<span>View Results&nbsp;&nbsp;</span>";
 				break;
 			default:

@@ -8,8 +8,11 @@
 
 <html:errors/>
 <fieldset class="grayRefine">
-<legend class="red">Step 1: Please refine your result set by grouping it</legend>
+<legend class="red">Step 1: Refine your result set</legend>
 	
+    <input type="radio" name="queryOption" class="radio" value="standard" CHECKED />Please refine your results by grouping the queries<br />
+
+    
 	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		<tr>
 			<td colspan="4" class="message">
@@ -35,7 +38,15 @@
 				<!-- END looping over SelectedQueries -->
 		</nested:nest>
 		<!-- End  Selected Queries -->
-	</table>
+	</table><br />
+	
+	<input type="radio" name="queryOption" class="radio" value="allgenes" />Please select an "All Genes" query
+      <select>
+        <option></option>  
+        <option>All Genes Query 1</option>
+        <option>All Genes Query 2</option>
+        <option>All Genes Query 3</option>
+      </select>
 
 </fieldset>
 <!--Display buttons here to add later-->			
@@ -66,9 +77,19 @@
 		
 </fieldset>	
 	
-	
 <fieldset class="grayRefine">
-<legend class="red">Step 3: Please select a View</legend>	
+<legend class="red">Step 3 (optional): Select Result set</legend>
+&nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:
+    <select>
+    <option></option>  
+    <option>Result set 1</option>
+    <option>Result set 2</option>
+    <option>Result set 3</option>
+  </select>
+</fieldset>
+
+<fieldset class="grayRefine">
+<legend class="red">Step 4: Please select a View</legend>	
 	<table width="100%" border="0">
 		<tr><td>
 				<html:select property="compoundView" onchange="">
@@ -82,7 +103,7 @@
 </fieldset>
 
 <fieldset class="grayRefine">
-<legend class="red">Step 4: Please name your result set (Optional)</legend>
+<legend class="red">Step 5: Please name your result set (Optional)</legend>
 	 <table border="0">
 		<tr>
 			<td>
@@ -105,7 +126,7 @@
 	
 
 <fieldset class="grayRefine">
-<legend class="red">Step 5: Run report or return to previous screen</legend>
+<legend class="red">Step 6: Run report or return to previous screen</legend>
 			<br />
 				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 					onclick="javascript:history.back();"/>&nbsp;&nbsp

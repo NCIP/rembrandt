@@ -26,7 +26,7 @@
     
     <definition name="nautilus.comparitiveGenomic" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic" />
-	  <put name="title" value="Comparative Genomic Data" />
+	  <put name="title" value="Copy Number Data" />
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
 	  <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
