@@ -102,7 +102,6 @@ abstract public class UntranslatedRegionDE extends DomainElement {
 	*/ 
 	
     public void setValueObject(Boolean utr) {
-        assert(utr != null);
         this.value = utr;
     }	
   /**
@@ -110,7 +109,6 @@ abstract public class UntranslatedRegionDE extends DomainElement {
     * @param UTRID the regulation    
 	*/ 
     public void setURTID(String UTRID) {
-        assert(UTRID != null);
         value = UTRID;
     }
 }

@@ -102,7 +102,6 @@ abstract public class CloneIdentifierDE extends DomainElement {
 	*/ 
 	
     public void setValueObject(String cloneName) {
-        assert(cloneName != null);
         this.value = cloneName;
     }
 	
@@ -111,7 +110,6 @@ abstract public class CloneIdentifierDE extends DomainElement {
     * @param cloneID the cloneID    
 	*/ 
     public void setCloneID(String cloneID) {
-        assert(cloneID != null);
         value = cloneID;
     }
 }

@@ -4,10 +4,10 @@ package gov.nih.nci.nautilus.de;
 import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
- * This abstract class encapsulates the properties of an caintergator 
+ * This abstract class encapsulates the properties of an caintergator
  * ExprFoldChangeDE object.
  * It contains three child/nested classes:UpRegulation, DownRegulation & UnChangedRegulation
- *  
+ *
  * Created by IntelliJ IDEA.
  * User: BhattarR
  * Date: Jul 12, 2004
@@ -15,33 +15,33 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  * To change this template use Options | File Templates.
  */
 abstract public class ExprFoldChangeDE extends DomainElement {
- 
-    
+
+
    // ****************************************************
    //                     ATTRIBUTES
-   // ****************************************************	
-   
+   // ****************************************************
+
   /**
 	* type of regulation
     */
     private String regulationType;
-	
+
   /**
 	* UpRegulation
     */
     public final static String UP_REGULATION =  "UpRegulation";
-	
+
   /**
 	* DownRegulation
     */
     public final static String DOWN_REGULATION =  "DownRegulation";
-	
+
   /**
 	* UnchangedRegulation
     */
     public final static String UNCHANGED_REGULATION =  "UnchangedRegulation";
-	
-  
+
+
    // ****************************************************
    //                   CONSTRUCTOR(S)
    // *****************************************************
@@ -54,7 +54,7 @@ abstract public class ExprFoldChangeDE extends DomainElement {
         this.regulationType = regulationType;
     }
 
-	
+
   /**
 	* nested child class: UpRegulation
     */
@@ -63,7 +63,7 @@ abstract public class ExprFoldChangeDE extends DomainElement {
             super(UP_REGULATION, upRegValue);
        }
     }
-	
+
   /**
 	* nested child class: DownRegulation
     */
@@ -76,7 +76,7 @@ abstract public class ExprFoldChangeDE extends DomainElement {
 
   /**
 	* nested child class: UnChangedRegulation
-    */	
+    */
     public final static class UnChangedRegulation extends ExprFoldChangeDE {
       public static String LABEL = (String) ApplicationContext.getLabelProperties().get("UnChangedRegulation");
       public UnChangedRegulation(Float unChangedRegValue) {
@@ -84,19 +84,19 @@ abstract public class ExprFoldChangeDE extends DomainElement {
       }
     }
 
-  
+
   /**
     * Returns the regulationType for this ExprFoldChangeDE obect.
     * @return the regulationType for this <code>ExprFoldChangeDE</code> object
-    */	
+    */
     public String getRegulationType() {
         return regulationType;
     }
 
  /**
     * Sets the value for this <code>ExprFoldChangeDE</code> object
-    * @param object the value    
-	*/   
+    * @param object the value
+	*/
     public void setValue(Object obj) throws Exception {
          if (! (obj instanceof Float) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
@@ -106,17 +106,16 @@ abstract public class ExprFoldChangeDE extends DomainElement {
   /**
     * Returns the regulationType for this ExprFoldChangeDE obect.
     * @return the regulationType for this <code>ExprFoldChangeDE</code> object
-    */	
+    */
     public Float getValueObject() {
         return (Float) getValue();
     }
 
   /**
     * Sets the regulation for this <code>ExprFoldChangeDE</code> object
-    * @param regulation the regulation    
-	*/ 
+    * @param regulation the regulation
+	*/
     public void setValueObject(Float regulation) {
-        assert (regulation != null);
         value = regulation;
     }
 }
