@@ -30,7 +30,10 @@ abstract public class CloneIdentifierDE extends DomainElement {
 
 
 
-   private CloneIdentifierDE(String cloneIDType, String value) {
+    /**
+	* private parent constructor utilized in the two nested/childe classes
+    */
+    private CloneIdentifierDE(String cloneIDType, String value) {
         super(value);
         this.cloneIDType = cloneIDType;
     }
@@ -53,7 +56,6 @@ abstract public class CloneIdentifierDE extends DomainElement {
             super(IMAGE_CLONE, imageCloneID);
        }
     }
-
 
 
     public final static class ProbesetID extends CloneIdentifierDE {

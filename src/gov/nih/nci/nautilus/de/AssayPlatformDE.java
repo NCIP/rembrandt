@@ -6,29 +6,30 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * OccaranceDE object.
+ * AssayPlatformDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class OccaranceDE extends DomainElement{
+public class AssayPlatformDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-
+    
+   
    /**
-    * Initializes a newly created <code>OccaranceDE</code> object so that it represents an OccaranceDE.
+    * Initializes a newly created <code>AssayPlatformDE</code> object so that it represents an AssayPlatformDE.
     */
-    public OccaranceDE(String occarance) {
-        super(occarance);
+    public AssayPlatformDE(String assayName) {
+        super(assayName);
     }
    
 
   /**
-    * Sets the value for this <code>OccaranceDE</code> object
+    * Sets the value for this <code>AssayPlatformDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -38,20 +39,20 @@ public class OccaranceDE extends DomainElement{
     }
 
   /**
-    * Returns the occarance for this OccaranceDE obect.
-    * @return the occarance for this <code>OccaranceDE</code> object
+    * Returns the assayName for this AssayPlatformDE obect.
+    * @return the assayName for this <code>AssayPlatformDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the occarance for this <code>OccaranceDE</code> object
-    * @param occarance the occarance    
+    * Sets the assayName for this <code>AssayPlatformDE</code> object
+    * @param assayName the assayName    
 	*/ 
-    public void setValueObject(String occarance) {
-	   if(occarance != null){
-         value = occarance;
-		 }
+    public void setValueObject(String assayName) {
+	  if(assayName != null){
+        value = assayName;
+		} 
     }
 }

@@ -42,7 +42,7 @@ public class RegionCriteria extends Criteria {
            return cytoband;
      }
 
-    public void setCttoband(CytobandDE cytoband) {
+    public void setCytoband(CytobandDE cytoband) {
        //assert(cytoband != null);
 	   if(cytoband != null){
          this.cytoband = cytoband;
