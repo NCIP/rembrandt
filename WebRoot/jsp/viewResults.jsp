@@ -25,19 +25,19 @@
             <td class="message">View</th>
           </tr>
           <tr style="background-color:#f2f2f2;font-size:.9em">
-	            <td><a href="#">Resultset name1</a></td>
-	            <td>(test5 AND test6)</td>
-	            <td>Gene Expression Data per sample view</td>
+	            <td><a href="#" style="font-size:.9em">Resultset name1</a></td>
+	            <td style="font-size:.9em">(test5 AND test6)</td>
+	            <td style="font-size:.9em">Gene Expression Data per sample view</td>
           </tr>
           <tr style="background-color:#f2f2f2;font-size:.9em">
-		         <td><a href="#">Resultset name2</a></td>
-		         <td>(egfrQuery OR vegf5) AND test5</td>
-		         <td>Clinical View</td>
+		         <td><a href="#" style="font-size:.9em">Resultset name2</a></td>
+		         <td style="font-size:.9em">(egfrQuery OR vegf5) AND test5</td>
+		         <td style="font-size:.9em">Clinical View</td>
           </tr>
           <tr style="background-color:#f2f2f2;font-size:.9em">
-		        <td><a href="#">Resultset name3</a></td>
-		        <td>(egfrQuery OR vegf5) OR p53</td>
-		        <td>ene Expression Data per disease view</td>
+		        <td><a href="#" style="font-size:.9em">Resultset name3</a></td>
+		        <td style="font-size:.9em">(egfrQuery OR vegf5) OR p53</td>
+		        <td style="font-size:.9em">Gene Expression Data per disease view</td>
          </tr>
          </table>
          
