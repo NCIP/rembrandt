@@ -20,7 +20,10 @@ public class ReportGeneratorForm extends BaseForm {
     private String filter_value1;
     private String filter_value2;
     private String filter_value3;
-    
+ 
+    private String filter_value4;
+    private String filter_value5;
+    private String filter_value6;
        
 	/**
 	 * @return Returns the query.
@@ -125,6 +128,48 @@ public class ReportGeneratorForm extends BaseForm {
 	public void setFilter_value3(String filter_value3) {
 		this.filter_value3 = filter_value3;
 		filterParams.put("filter_value3",filter_value3);
+	}
+	/**
+	 * @return Returns the filter_value4.
+	 */
+	public String getFilter_value4() {
+		return filter_value4;
+	}
+	/**
+	 * @param filter_value4 The filter_value4 to set.
+	 */
+	public void setFilter_value4(String filter_value4) {
+		this.filter_value4 = filter_value4;
+		filterParams.put("filter_value4",filter_value4);
+		
+	}
+	/**
+	 * @return Returns the filter_value5.
+	 */
+	public String getFilter_value5() {
+		return filter_value5;
+	}
+	/**
+	 * @param filter_value5 The filter_value5 to set.
+	 */
+	public void setFilter_value5(String filter_value5) {
+		this.filter_value5 = filter_value5;
+		filterParams.put("filter_value5",filter_value5);
+		
+	}
+	/**
+	 * @return Returns the filter_value6.
+	 */
+	public String getFilter_value6() {
+		return filter_value6;
+	}
+	/**
+	 * @param filter_value6 The filter_value6 to set.
+	 */
+	public void setFilter_value6(String filter_value6) {
+		this.filter_value6 = filter_value6;
+		filterParams.put("filter_value6",filter_value6);
+		
 	}
 	/**
 	 * @return Returns the filterParams.
