@@ -118,7 +118,7 @@ if(mode == null)	{
 	else
 		out.println("QueryCollection is NULL");
 		
-    out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
+ //   out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
  
 
 /*
