@@ -146,10 +146,16 @@ public class CompoundQuery implements Queriable{
 		//PROJECTS results by make sure the two views are different
 		if((operatorType!= null && operatorType.equals(OperatorType.PROJECT_RESULTS_BY))&&
 			(getRightQuery()!= null && getLeftQuery()!= null)){
-			if((getRightQuery().getAssociatedView() != null && getLeftQuery().getAssociatedView() != null)&&
-				(getRightQuery().getAssociatedView().equals(getLeftQuery().getAssociatedView()))){
+			if((getRightQuery().getAssociatedView() != null && getLeftQuery().getAssociatedView() != null)){
+				if((getRightQuery().getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW) ||
+					getRightQuery().getAssociatedView().equals(ViewType.GENE_SINGLE_SAMPLE_VIEW)) &&
+					(!getLeftQuery().getAssociatedView().equals(ViewType.CLINICAL_VIEW)) ||
+					((getLeftQuery().getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW) ||
+					getLeftQuery().getAssociatedView().equals(ViewType.GENE_SINGLE_SAMPLE_VIEW)) &&
+					(!getRightQuery().getAssociatedView().equals(ViewType.CLINICAL_VIEW))))	{
 					return false;
 				}
+			}
 		}
 		return true;
 	}
