@@ -16,4 +16,6 @@ gov.nih.nci.nautilus.constants.NautilusConstants"
 response.flushBuffer();
 	ReportBean reportBean = (ReportBean)request.getAttribute(NautilusConstants.REPORT_BEAN);
 	ReportGeneratorHelper.renderReport(reportBean,null,out);
+//if spnLoading is still visible at this point, an error has occured i think, show it
 %>
+

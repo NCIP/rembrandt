@@ -137,7 +137,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 					<tr>
 		  				<xsl:for-each select="Cell">
 		  	  			<xsl:variable name="class" select="@group" />
-		      			<td class="{$class}"><xsl:value-of select="Data" /></td>
+		      			<td class="{$class}"><xsl:value-of select="Data" disable-output-escaping="yes" /></td>
 		    			</xsl:for-each>
 		    		</tr>
 
