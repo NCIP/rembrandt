@@ -1,8 +1,5 @@
 <%@ page language="java" %>
 <%@ page import="
-junit.framework.TestCase,
-junit.framework.Test,
-junit.framework.TestSuite,
 gov.nih.nci.nautilus.criteria.*,
 gov.nih.nci.nautilus.de.*,
 gov.nih.nci.nautilus.query.GeneExpressionQuery,
@@ -14,8 +11,7 @@ gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr,
 gov.nih.nci.nautilus.resultset.ResultsetProcessor,
 gov.nih.nci.nautilus.resultset.*,
 java.text.DecimalFormat,
-java.util.*,
-junit.framework.Assert" %>
+java.util.* %>
 
 
 <%!
@@ -65,8 +61,8 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
 		System.out.println("GeneExprObjs: " + geneExprObjects.length);
 
     	gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
-    	Assert.assertNotNull(geneExprObjects);
-        Assert.assertTrue(geneExprObjects.length > 0);
+    	//Assert.assertNotNull(geneExprObjects);
+        //Assert.assertTrue(geneExprObjects.length > 0);
     	resultsetProc.handleGeneView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
     	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
     	Collection genes = geneViewContainer.getGeneResultsets();
