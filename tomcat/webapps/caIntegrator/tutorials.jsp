@@ -10,6 +10,14 @@
       	"screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
       	",scrollbars=yes,resizable=yes, fullscreen=yes");
 	}
+	
+	function spawnm(url)	{
+		var winh = screen.height;
+		var winw = screen.width; 
+		var w = window.open(url, "_blank",
+      	"screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
+      	",scrollbars=yes,resizable=yes,screenX=0,screenY=0,left=0,top=0");
+	}
 </script>
 </head>
 <body>
@@ -49,16 +57,15 @@
 <fieldset>
  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">1. Gene Expression Plot</legend>
 <br>
-	<a href="javascript:spawnf('gplot.html', 850, 710);">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) or 
+	<a href="javascript:spawnm('gplot.html');">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) or 
 	<a href="gplot.exe">download</a> the tutorial for offline viewing.
 </fieldset>
  <Br><br>
  <fieldset>
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">2. Kaplan-Meier Survival Plot</legend>
   <br>
-	<a href="javascript:spawnf('kmplot.html', 850, 710);">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) or 
-	<a href="kmplot.exe">download</a> the tutorial for offline viewing.
-  
+	<a href="javascript:spawnm('kmplot.html');">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) 
+	or <a href="kmplot.exe">download</a> the tutorial for offline viewing.
  </fieldset>
  <br><br>
   <fieldset>
