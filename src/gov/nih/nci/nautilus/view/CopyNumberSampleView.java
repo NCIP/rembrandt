@@ -67,7 +67,7 @@ public class CopyNumberSampleView extends View {
               };
     }
 
-    DomainElementClass[] getValidElements() {
+    public DomainElementClass[] getValidElements() {
         return validDEs;
     }
 

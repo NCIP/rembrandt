@@ -67,7 +67,7 @@ public class GeneSingleDiseaseView extends View {
               };
     }
 
-    DomainElementClass[] getValidElements() {
+    public DomainElementClass[] getValidElements() {
         return validDEs;
     }
 }

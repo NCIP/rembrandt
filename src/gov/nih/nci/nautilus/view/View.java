@@ -20,5 +20,5 @@ abstract public class View implements Viewable{
    public void setSelectedElements(Collection selectedElems) {
           selectedDomainElements = selectedElems;
    }
-   abstract DomainElementClass[] getValidElements();
+   public abstract DomainElementClass[] getValidElements();
 }
