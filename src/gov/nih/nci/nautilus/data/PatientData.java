@@ -7,7 +7,9 @@ public class PatientData
 {
   public final static String BIOSPECIMEN_ID = "biospecimenId";
   public final static String SURVIVAL_LENGTH = "survivalLength";
-    
+  public final static String AGE = "age";
+  public final static String GENDER = "gender";    
+
   private Long age;
 
   private Long biospecimenId;
@@ -21,6 +23,16 @@ public class PatientData
   private String sampleId;
 
   private Long survivalLength;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    private String gender;
 
   public Long getAge()
   {

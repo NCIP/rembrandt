@@ -37,10 +37,19 @@ public abstract class SelectHandler implements Runnable {
 
     final static class SurivalRangeSelectHandler extends SelectHandler{
        public SurivalRangeSelectHandler(BIOSpecimenIDCriteria bioIDCritObj, Collection allBioIDs) {
-           super(bioIDCritObj, allBioIDs, new DBEvent.BIOSpecimenRetrieveEvent());
+           super(bioIDCritObj, allBioIDs, new DBEvent.SurvivalRangeRetrieveEvent());
        }
     }
-
+    final static class AgeRangeSelectHandler extends SelectHandler{
+       public AgeRangeSelectHandler (BIOSpecimenIDCriteria bioIDCritObj, Collection allBioIDs) {
+           super(bioIDCritObj, allBioIDs, new DBEvent.AgeRangeRetrieveEvent());
+       }
+    }
+    final static class GenderSelectHandler extends SelectHandler{
+       public GenderSelectHandler (BIOSpecimenIDCriteria bioIDCritObj, Collection allBioIDs) {
+           super(bioIDCritObj, allBioIDs, new DBEvent.GenderRetrieveEvent());
+       }
+    }
     public SelectHandler(BIOSpecimenIDCriteria bioIDCritObj, Collection allBioIDs,  DBEvent event) {
         this.bioSpecimenIDCritObj = bioIDCritObj;
         allBioSPecimenIDS = allBioIDs;
