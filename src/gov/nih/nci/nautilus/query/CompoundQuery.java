@@ -51,9 +51,12 @@ package gov.nih.nci.nautilus.query;
 
 
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 import java.util.*;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author SahniH
@@ -61,7 +64,8 @@ import java.util.*;
  * 
  */
 public class CompoundQuery implements Queriable{
-	private Queriable leftQuery = null;
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private Queriable leftQuery = null;
 	private Queriable rightQuery = null;
 	private OperatorType operatorType = null;
     private Viewable associatedView = null;
@@ -189,8 +193,7 @@ public class CompoundQuery implements Queriable{
 				}
 			}
 		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("Error "+ex.getMessage());
+			logger.error(ex);
 		}
 		
 		if (operator != null) {

@@ -9,9 +9,12 @@
 			org.krysalis.jcharts.encoders.*,
 			org.krysalis.jcharts.properties.util.ChartFont,
 			org.krysalis.jcharts.imageMap.*,
-			org.krysalis.jcharts.encoders.ServletEncoderHelper"%>
+			org.krysalis.jcharts.encoders.ServletEncoderHelper,
+			gov.nih.nci.nautilus.constants.NautilusConstants,
+	 		org.apache.log4j.Logger"%>
 <%
 
+Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 Chart chart= (Chart) session.getAttribute( "chart" );
 
 if(chart!=null)
@@ -19,7 +22,7 @@ if(chart!=null)
 	ServletEncoderHelper.encodePNG(chart, response);
 }
 else
-	System.out.println("No chart in session");
+	logger.debug("No chart in session");
 	
     session.removeAttribute( "chart" );
 %>

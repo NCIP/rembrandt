@@ -14,7 +14,9 @@ import org.apache.struts.util.LabelValueBean;
 import java.util.*;
 import java.lang.reflect.*;
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 
@@ -32,7 +34,7 @@ import gov.nih.nci.nautilus.de.*;
 public class ClinicalDataForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance Variables               
-          
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);      
 	
 	/** queryName property */
 	private String queryName;	
@@ -239,7 +241,7 @@ public class ClinicalDataForm extends BaseForm {
  
 		// Loop thru the HashMap, extract the Domain elements and create respective Criteria Objects
 		Set keys = occurrenceDomainMap.keySet();
-		System.out.println("occurrenceDomainMap.size() is :"+occurrenceDomainMap.size());
+		logger.debug("occurrenceDomainMap.size() is :"+occurrenceDomainMap.size());
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
@@ -417,7 +419,7 @@ public class ClinicalDataForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + survivalDomainMap.get(key));
+			logger.debug(key + "=>" + survivalDomainMap.get(key));
 			
 			try {
 				String strSurvivalDomainClass = (String) survivalDomainMap.get(key);

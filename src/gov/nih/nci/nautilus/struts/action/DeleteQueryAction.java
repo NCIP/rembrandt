@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
@@ -37,7 +38,7 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
  * @struts:action-forward name="/jsp/queryPreview.jsp" path="/jsp/queryPreview.jsp"
  */
 public class DeleteQueryAction extends DispatchAction {
-   
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 
 	// --------------------------------------------------------- Instance Variables
 
@@ -60,13 +61,13 @@ public class DeleteQueryAction extends DispatchAction {
 		throws Exception {
 		   DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
 		   String page = (String)request.getSession().getAttribute("currentPage");
-		   System.out.println("the current page is :"+page);
+		   logger.debug("the current page is :"+page);
 		    
 		   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		   if(queryCollection != null){			     
 			  Collection queryColl = queryCollection.getQueries();	
 			  String queryKey = deleteQueryForm.getQueryKey();
-			  System.out.println("	queryKey is ************:"+queryKey);		  
+			  logger.debug("queryKey is ************:"+queryKey);		  
 			  queryColl.remove(queryCollection.getQuery(queryKey));	 
 			}  	 	
 		 

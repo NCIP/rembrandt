@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -23,7 +24,7 @@ import gov.nih.nci.nautilus.view.*;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 public class GeneexpressionAction extends Action {
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	// --------------------------------------------------------- Instance
 	// Variables
 
@@ -103,8 +104,7 @@ public class GeneexpressionAction extends Action {
 				QueryCollection queryCollection = (QueryCollection) request
 						.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 				if (queryCollection == null) {
-					System.out
-							.println("QueryCollection class in Session is empty");
+				    logger.debug("QueryCollection class in Session is empty");
 					queryCollection = new QueryCollection();
 				}
 				queryCollection.putQuery(geneExpQuery);

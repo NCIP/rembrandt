@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.DescriptorRepository;
@@ -30,6 +32,7 @@ import org.xml.sax.InputSource;
  * To change this template use Options | File Templates.
  */
 abstract public class QueryHandler {
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     private static HashMap deBeanMappings = new HashMap();
     private final static String FILE_NAME ="/deToBeanAttrMappings.xml";
     private static Document doc;
@@ -44,7 +47,7 @@ abstract public class QueryHandler {
            doc = p.getDocument();
            assert(doc != null);
            new DEBeanMappingsHandler().populate();
-           System.out.println("Populating completed");
+           logger.debug("Populating completed");
 
        } catch(Throwable t) {
            //This is severe exception  SO exit the system

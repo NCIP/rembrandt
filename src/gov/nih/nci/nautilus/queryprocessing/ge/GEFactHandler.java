@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.*;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -11,6 +12,7 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
 import gov.nih.nci.nautilus.data.GeneClone;
 import gov.nih.nci.nautilus.data.ProbesetDim;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
@@ -27,7 +29,7 @@ import gov.nih.nci.nautilus.query.GeneExpressionQuery;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class GEFactHandler {
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
@@ -178,8 +180,8 @@ abstract public class GEFactHandler {
     public final static class SingleGEFactHandler extends GEFactHandler {
         ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
         throws Exception {
-            System.out.println("Total Number Of Probes:" + allProbeIDs.size());
-            System.out.println("Total Number Of Clones:" + allCloneIDs.size());
+            logger.error("Total Number Of Probes:" + allProbeIDs.size());
+            logger.error("Total Number Of Clones:" + allCloneIDs.size());
 
             executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, query);
             executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, query);

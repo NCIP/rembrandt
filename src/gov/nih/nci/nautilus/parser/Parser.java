@@ -1,6 +1,10 @@
 package gov.nih.nci.nautilus.parser;
 
 import java.util.*;
+
+import org.apache.log4j.Logger;
+
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.*;
 /**
  * @author Prashant Shah
@@ -8,6 +12,7 @@ import gov.nih.nci.nautilus.query.*;
  */
 public class Parser {
     
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     private Vector allTokens = null;
     private int currentIndex = 0;
     
@@ -139,7 +144,7 @@ public class Parser {
 			Object thisToken = allTokens.elementAt(currentIndex);
 			if (thisToken instanceof Queriable) {
 			
-				System.out.println("Query Token "+ ((Query) thisToken).getQueryName());
+			    logger.debug("Query Token "+ ((Query) thisToken).getQueryName());
 				stack.push(thisToken);
 				currentIndex += 1;
 				return true;

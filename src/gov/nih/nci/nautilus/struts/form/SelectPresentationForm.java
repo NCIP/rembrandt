@@ -5,6 +5,7 @@ package gov.nih.nci.nautilus.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionError;
@@ -27,7 +28,8 @@ import gov.nih.nci.nautilus.de.*;
  * @struts:form name="selectPresentationForm"
  */
 public class SelectPresentationForm extends BaseForm {
-
+   
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	// --------------------------------------------------------- Instance Variables
 	private String method;
 	private String currentView;
@@ -87,9 +89,9 @@ public class SelectPresentationForm extends BaseForm {
 						// Get View from Query Collection that user selected
 						thisView = queryCollect.getCompoundQuery().getAssociatedView();
 				} else
-						System.out.println("SelectPresentationForm - QueryCollection does not have a compoundQuery");
+				    logger.debug("SelectPresentationForm - QueryCollection does not have a compoundQuery");
 		} else
-				System.out.println("SelectPresentationForm - Query Collection is null");
+		    logger.debug("SelectPresentationForm - Query Collection is null");
 		return thisView;
 	}
 
@@ -108,7 +110,7 @@ public class SelectPresentationForm extends BaseForm {
 			else if (selectedView instanceof ClinicalSampleView)
 				currentView = "sample"; 
 		} catch (Exception ex){
-			System.out.println("Error "+ex.getMessage());
+		    logger.error(ex);
 			ex.printStackTrace();
 		}
 		

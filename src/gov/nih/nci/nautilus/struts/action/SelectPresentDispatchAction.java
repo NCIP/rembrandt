@@ -8,6 +8,7 @@ package gov.nih.nci.nautilus.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -33,7 +34,7 @@ import java.util.*;
  */
 public class SelectPresentDispatchAction extends DispatchAction {
 
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	/**
 	 * Method execute
 	 * @param ActionMapping mapping
@@ -84,19 +85,19 @@ public class SelectPresentDispatchAction extends DispatchAction {
 							return thisForward;
 						}
 						catch (Exception e) {
-							e.printStackTrace();
+							logger.error(e);
 							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(e.getMessage()));
 							this.saveErrors(request, errors);
 						}
 
 
 				} else {
-						System.out.println("SelectPresentationForm - QueryCollection does not have a CompoundQuery");
+				        logger.debug("SelectPresentationForm - QueryCollection does not have a CompoundQuery");
 						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.executequery.querycoll.no.error"));
 						this.saveErrors(request, errors);
 			}
 		} else {
-			System.out.println("SelectPresentationForm - Query Collection is null");
+		    logger.debug("SelectPresentationForm - Query Collection is null");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
 		}
@@ -106,7 +107,7 @@ public class SelectPresentDispatchAction extends DispatchAction {
 //		ArrayList aList = (ArrayList) ((View) thisView).getSelectedElements();
 //		for (Iterator iter = aList.iterator(); iter.hasNext();) {
 //			DomainElementClass element = (DomainElementClass) iter.next();
-//			System.out.println("Domain element ===>"+element.getName()+ " "+element.getLabel());
+//			logger.debug("Domain element ===>"+element.getName()+ " "+element.getLabel());
 //		}
 
 		ActionForward thisForward = mapping.findForward("backtopresent");
@@ -117,11 +118,11 @@ public class SelectPresentDispatchAction extends DispatchAction {
 
 	private void print(ResultSet[] geneExprObjects) {
 		if(geneExprObjects != null){
-			System.out.println("Number of Records:"+ geneExprObjects.length);
+		    logger.debug("Number of Records:"+ geneExprObjects.length);
 			for (int i =0; i < geneExprObjects.length; i++) {
 				GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
 				if(expObj != null){
-				System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
+				    logger.debug( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
 				}
 			}
 		}

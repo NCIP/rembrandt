@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.queryprocessing.cgh;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.*;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -8,6 +9,7 @@ import java.util.*;
 import java.math.BigDecimal;
 
 import gov.nih.nci.nautilus.data.*;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
@@ -23,6 +25,7 @@ import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class CGHFactHandler {
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
     private final static int VALUES_PER_THREAD = 100;
@@ -122,7 +125,7 @@ abstract public class CGHFactHandler {
     final static class SingleCGHFactHandler extends CGHFactHandler {
         ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
         throws Exception {
-            System.out.println("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
+            logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
             executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
 
             ThreadController.sleepOnEvents(factEventList);
@@ -138,7 +141,7 @@ abstract public class CGHFactHandler {
                     obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
                 }
                 results[i] = obj;
-                System.out.println("SAMPLE_ID: " + obj.getSampleId() + "    Copy Number: " + obj.getCopyNumber() +
+                logger.debug("SAMPLE_ID: " + obj.getSampleId() + "    Copy Number: " + obj.getCopyNumber() +
                                     "    DISEASE_TYPE: " + obj.getDiseaseType());
             }
             return results;

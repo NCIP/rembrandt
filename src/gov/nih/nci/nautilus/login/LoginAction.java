@@ -1,6 +1,10 @@
 package gov.nih.nci.nautilus.login;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+
 import javax.servlet.http.*;
+
+import org.apache.log4j.Logger;
 import org.apache.struts.action.*;
 import javax.servlet.http.HttpSession;
 import javax.servlet.*;
@@ -11,6 +15,7 @@ import java.net.*;
 
 public final class LoginAction extends Action
 {
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	public ActionForward perform(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
@@ -25,11 +30,11 @@ public final class LoginAction extends Action
 		ServletContext context = session.getServletContext();
 
 	    try {
-			System.out.println("loading props...");
+	        logger.debug("loading props...");
 	   		props.load(new FileInputStream(context.getRealPath("WEB-INF")+"/users.properties"));
 	
 		   
-		   	System.out.println("*********** props file length: " + props.size());
+	   		logger.debug("props file length: " + props.size());
 	
 			int accounts = Integer.parseInt(props.getProperty("accounts"));
 			String u = "";
@@ -57,7 +62,8 @@ public final class LoginAction extends Action
 			}
 		} 
 		catch (Exception e) {
-	    System.out.println("\n\n ---------------- cant read user props ----------------- \n\n");
+		    logger.error("Can't read user props");
+		    logger.error(e);
 		}
 		
 		if(valid)

@@ -6,6 +6,7 @@ package gov.nih.nci.nautilus.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -17,6 +18,7 @@ import java.util.*;
 import java.lang.reflect.*;
 import java.io.*;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 
@@ -30,7 +32,7 @@ import gov.nih.nci.nautilus.de.*;
  * @struts:form name="comparitivegenomicForm"
  */
 public class ComparativeGenomicForm extends BaseForm {
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	// --------------------------------------------------------- Instance Variables
 
 	/** geneList property */
@@ -228,7 +230,7 @@ public class ComparativeGenomicForm extends BaseForm {
 		HttpServletRequest request) {
 
 			ActionErrors errors = new ActionErrors();
-			System.out.println("------------------I am in the cgh validata method()");
+			logger.debug("I am in the cgh validata method()");
 		
 			// Query Name cannot be blank
 			if ((queryName == null || queryName.length() < 1))
@@ -287,12 +289,12 @@ private void createDiseaseCriteriaObject(){
 			diseaseOrGradeCriteria.setDisease(diseaseDE);	   
 		     } // end of try
 		catch (Exception ex) {
-				System.out.println("Error in createDiseaseCriteriaObject() method:  "+ex.getMessage());
-				ex.printStackTrace();
+		    logger.error("Error in createDiseaseCriteriaObject() method:  "+ex.getMessage());
+				logger.error(ex);
 			} 
 		catch (LinkageError le) {
-				System.out.println("Linkage Error in createDiseaseCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
+		    	logger.error("Linkage Error in createDiseaseCriteriaObject() method: "+ le.getMessage());
+				logger.error(le);
 			}	
 			
 		 }// end of while		 
@@ -317,13 +319,13 @@ private void createGeneCriteriaObject(){
 		   geneCriteria.setGeneIdentifier(geneIdentifierDE);
 		   }//end of try
 	   catch (Exception ex) {
-				System.out.println("Error in createGeneCriteriaObject() method:  "+ex.getMessage());
-				ex.printStackTrace();
-			} 
+	       	logger.error("Error in createGeneCriteriaObject() method:  "+ex.getMessage());
+			logger.error(ex);
+	   } 
 	   catch (LinkageError le) {
-				System.out.println("Linkage Error in createGeneCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
-			}	
+	       		logger.error("Linkage Error in createGeneCriteriaObject() method: "+ le.getMessage());
+				logger.error(le);
+	   }	
 						   
 		} //end of while   
     } // end of if 
@@ -347,12 +349,12 @@ private void createCopyNumberCriteriaObject(){
 		   copyNumberCriteria.setCopyNumber(copyNumberDE);
 		    }// end of try
 	   catch (Exception ex) {
-				System.out.println("Error in createCopyNumberCriteriaObject() method:  "+ex.getMessage());
-				ex.printStackTrace();
+	       logger.error("Error in createCopyNumberCriteriaObject() method:  "+ex.getMessage());
+	       logger.error(ex);
 			} 
 	   catch (LinkageError le) {
-				System.out.println("Linkage Error in createCopyNumberCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
+				logger.error("Linkage Error in createCopyNumberCriteriaObject() method: "+ le.getMessage());
+				logger.error(le);
 			}	
 						   
 		} //end of while   	
@@ -371,12 +373,12 @@ private void createCopyNumberCriteriaObject(){
 			copyNumberCriteria.setCopyNumber(copyNumberDE);
 			 }// end of try
 		catch (Exception ex) {
-				 System.out.println("Error in createCopyNumberCriteriaObject() method:  "+ex.getMessage());
-				 ex.printStackTrace();
+		    logger.error("Error in createCopyNumberCriteriaObject() method:  "+ex.getMessage());
+		    logger.error(ex);
 			 } 
 		catch (LinkageError le) {
-				 System.out.println("Linkage Error in createCopyNumberCriteriaObject() method: "+ le.getMessage());
-				 le.printStackTrace();
+		    logger.error("Linkage Error in createCopyNumberCriteriaObject() method: "+ le.getMessage());
+		    	logger.error(le);
 			 }	
 						   
 		 } //end of while   	
@@ -421,12 +423,12 @@ private void createRegionCriteriaObject(){
 		   }//end of try	
 		   
 		catch (Exception ex) {
-				System.out.println("Error in createRegionCriteriaObject() method: "+ex.getMessage());
-				ex.printStackTrace();
+		    logger.error("Error in createRegionCriteriaObject() method: "+ex.getMessage());
+		    logger.error(ex);;
 			} 
 	     catch (LinkageError le) {
-				System.out.println("Linkage Error in createRegionCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
+	         logger.error("Linkage Error in createRegionCriteriaObject() method: "+ le.getMessage());
+	         logger.error(le);;
 			}	   
 		     
 	    }// end of while
@@ -450,12 +452,12 @@ private void createCloneOrProbeCriteriaObject(){
 		   cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);
 		   }// end of try
 		catch (Exception ex) {
-				System.out.println("Error in createCloneOrProbeCriteriaObject() method:  "+ex.getMessage());
-				ex.printStackTrace();
+		    logger.error("Error in createCloneOrProbeCriteriaObject() method:  "+ex.getMessage());
+		    logger.error(ex);
 			} 
 	    catch (LinkageError le) {
-				System.out.println("Linkage Error in createCloneOrProbeCriteriaObject()method: "+ le.getMessage());
-				le.printStackTrace();
+	        logger.error("Linkage Error in createCloneOrProbeCriteriaObject()method: "+ le.getMessage());
+	        logger.error(le);
 			}	   
 		} // end of while
     } // end of if 
@@ -465,7 +467,7 @@ private void createCloneOrProbeCriteriaObject(){
   */  
 private void createSNPCriteriaObject(){
    if(snpDomainMap.size()>0){
-     System.out.println("snpDomainMap.size():"+snpDomainMap.size());
+       logger.debug("snpDomainMap.size():"+snpDomainMap.size());
      Set keys = snpDomainMap.keySet();
 	 Iterator iter = keys.iterator();
 	 while(iter.hasNext()){
@@ -478,12 +480,12 @@ private void createSNPCriteriaObject(){
 		   snpCriteria.setSNPIdentifier(snpIdentifierDE);
 		   }// end of try
 	   catch (Exception ex) {
-				System.out.println("Error in createSNPCriteriaObject() method : "+ex.getMessage());
-				ex.printStackTrace();
+	       logger.error("Error in createSNPCriteriaObject() method : "+ex.getMessage());
+	       logger.error(ex);
 			} 
 	   catch (LinkageError le) {
-				System.out.println("Linkage Error in createSNPCriteriaObject() method:  "+ le.getMessage());
-				le.printStackTrace();
+	       logger.error("Linkage Error in createSNPCriteriaObject() method:  "+ le.getMessage());
+	       logger.error(le);
 			}   
 		   
 		}// end of while   
@@ -507,12 +509,12 @@ private void createAlleleFrequencyCriteriaObject(){
 		   alleleFrequencyCriteria.setAlleleFrequencyDE(alleleFrequencyDE);
 		   }// end of try
 	   catch (Exception ex) {
-				System.out.println("Error in createAlleleFrequencyCriteriaObject() method : "+ex.getMessage());
-				ex.printStackTrace();
+	       logger.error("Error in createAlleleFrequencyCriteriaObject() method : "+ex.getMessage());
+	       logger.error(ex);
 			} 
 	   catch (LinkageError le) {
-				System.out.println("Linkage Error in createAlleleFrequencyCriteriaObject() method:  "+ le.getMessage());
-				le.printStackTrace();
+	       logger.error("Linkage Error in createAlleleFrequencyCriteriaObject() method:  "+ le.getMessage());
+	       logger.error(le);
 			}     
 		} //end of while   
     }// end of if  
@@ -534,12 +536,12 @@ private void createAssayPlatformCriteriaObject(){
 		   assayPlatformCriteria.setAssayPlatformDE(assayPlatformDE);
 		 }// end of try
 	   catch (Exception ex) {
-				System.out.println("Error in createAssayPlatformCriteriaObject() method : "+ex.getMessage());
-				ex.printStackTrace();
+	       logger.error("Error in createAssayPlatformCriteriaObject() method : "+ex.getMessage());
+	       logger.error(ex);
 			} 
 	    catch (LinkageError le) {
-				System.out.println("Linkage Error in createAssayPlatformCriteriaObject() method:  "+ le.getMessage());
-				le.printStackTrace();
+	        logger.error("Linkage Error in createAssayPlatformCriteriaObject() method:  "+ le.getMessage());
+			logger.error(le);
 			}    
 	   }// end of while
     }// end of if
@@ -892,7 +894,7 @@ private void createAssayPlatformCriteriaObject(){
 			 inFile.close();
 			  }
 			 catch(IOException ex){
-			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
+			     logger.error("Errors when uploading gene file:" + ex.getMessage());
 			  }
 	   }
 
@@ -992,10 +994,10 @@ private void createAssayPlatformCriteriaObject(){
 		this.snpListFile = snpListFile;
 	  // this is to check if the radio button is selected for the SNP category
 	   String thisSNPId = (String)thisRequest.getParameter("snpId");	
-	  System.out.println(" thisSNPId in the setSnpListFile() method is:" +thisSNPId);
+	   logger.debug(" thisSNPId in the setSnpListFile() method is:" +thisSNPId);
 	   // this is to check the type of the SNP
 	   String thisSNPList = (String)thisRequest.getParameter("snpList");
-	   System.out.println(" thisSNPList in the setSnpListFile() method is:" +thisSNPList);
+	   logger.debug(" thisSNPList in the setSnpListFile() method is:" +thisSNPList);
 	
 	   if(thisSNPId != null && thisSNPId.equalsIgnoreCase("upload") && thisSNPList != null && !thisSNPList.equals("")&& this.snpListFile.length()>0){
 	     
@@ -1009,12 +1011,12 @@ private void createAssayPlatformCriteriaObject(){
 			 
 			   while (line != null && line.length()>0) {		
 			     i ++;
-				 System.out.println("i is :"+i);		  		     
+			     logger.debug("i is :"+i);		  		     
 			      StringTokenizer st = new StringTokenizer(line);
 				  
 			      while(st.hasMoreTokens()){			   
 				      String token = st.nextToken();
-					  System.out.println("		token is :"+token);			  
+				      logger.debug("		token is :"+token);			  
 					   if(thisSNPList.equalsIgnoreCase("TSCId")){
 					    snpDomainMap.put(token,SNPIdentifierDE.TSC.class.getName());
 					   } 
@@ -1025,7 +1027,7 @@ private void createAssayPlatformCriteriaObject(){
 					    snpDomainMap.put(token,SNPIdentifierDE.SNPProbeSet.class.getName());					  
 					   }	
 					}
-				  System.out.println("	line is :"+line);
+			      logger.debug("	line is :"+line);
 				  line = inFile.readLine();  	
 				  		  
 			    }// end of while
@@ -1033,7 +1035,8 @@ private void createAssayPlatformCriteriaObject(){
 			 inFile.close();
 			  }
 			 catch(IOException ex){
-			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
+			     logger.error("Errors when uploading gene file:");
+			     logger.error(ex);
 			  }
 	   }
 		
@@ -1288,8 +1291,9 @@ private void createAssayPlatformCriteriaObject(){
 			 inFile.close();
 			  }
 			 catch(IOException ex){
-			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
-			  }
+			     logger.error("Errors when uploading gene file:");
+			     logger.error(ex);
+			 }
 		}
 	}
 
@@ -1326,7 +1330,6 @@ private void createAssayPlatformCriteriaObject(){
 			// need to make sure the parameters such as copyNumberDeleted and regulationStatus
 		// match the ones declared on the copyNumber_tile.jsp
 		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 
-		System.out.println("!!!!!!!!!!!!!");		
 		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("deleted") && (this.cnDeleted.length() > 0)){
 			copyNoDelDomainMap.put(this.cnDeleted, CopyNumberDE.Deletion.class.getName());
 			}	

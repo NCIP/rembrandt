@@ -1,9 +1,12 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
+
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 
@@ -20,6 +23,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class SelectFactHandler implements Runnable{
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
      //String fieldName;
      Criteria sampleCrit;
      Collection values;
@@ -58,7 +62,7 @@ abstract public class SelectFactHandler implements Runnable{
             DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
             if (exprObj != null)
                 geneExprObjects.put(exprObj.getDesId(), exprObj);
-                //System.out.println("BIO ID:" + exprObj.getDesId());
+            	logger.debug("BIO ID:" + exprObj.getDesId());
         }
         _BROKER.close();
         getDbEvent().setCompleted(true);

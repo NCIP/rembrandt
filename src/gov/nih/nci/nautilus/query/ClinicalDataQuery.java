@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.query;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
 import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
@@ -14,6 +15,9 @@ import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.clinical.ClinicalQueryHandler;
 
 import java.util.*;
+
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.nautilus.de.*;
 
 /**
@@ -25,6 +29,7 @@ import gov.nih.nci.nautilus.de.*;
  */
 public class ClinicalDataQuery extends Query {
 
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     private DiseaseOrGradeCriteria diseaseOrGradeCriteria;	
 	private OccurrenceCriteria occurrenceCriteria;
 	private RadiationTherapyCriteria radiationTherapyCriteria;
@@ -76,7 +81,7 @@ public class ClinicalDataQuery extends Query {
 		       }	 	   
 		   }
 		else{
-		   System.out.println("Disease Criteria is empty or Application Resources file is missing");
+		    logger.debug("Disease Criteria is empty or Application Resources file is missing");
 		  } //end of DiseaseOrGradeCriteria
 		  
 		   // starting  OccurrenceCriteria		  
@@ -102,7 +107,7 @@ public class ClinicalDataQuery extends Query {
 		    } 
 		
 		 else{
-		     System.out.println("OccurrenceCriteria is empty or Application Resources file is missing.");
+		     logger.debug("OccurrenceCriteria is empty or Application Resources file is missing.");
 			 }// end of OccurrenceCriteria
 		
 		 // starting RadiationTherapyCriteria
@@ -114,7 +119,7 @@ public class ClinicalDataQuery extends Query {
 				    
 			    }
 			else{
-			  System.out.println("RadiationTherapyCriteria is empty or Application Resources file is missing.");
+			    logger.debug("RadiationTherapyCriteria is empty or Application Resources file is missing.");
 			}// end of  RadiationTherapyCriteria
 		
 		  // starting ChemoAgentCriteria
@@ -126,7 +131,7 @@ public class ClinicalDataQuery extends Query {
 			  }
 		  
 		  else{
-			  System.out.println("ChemoAgentCriteria is empty or Application Resources file is missing.");
+		      logger.debug("ChemoAgentCriteria is empty or Application Resources file is missing.");
 			}// end of  ChemoAgentCriteria
 		 
 		  
@@ -138,7 +143,7 @@ public class ClinicalDataQuery extends Query {
 		   OutStr += "<BR>"+labels.getString(surgeryStr.substring(surgeryStr.lastIndexOf(".")+1))+": "+surgeryTypeDE.getValue()+"";
 			  }		  
 		 else{
-			  System.out.println("SurgeryTypeCriteria is empty or Application Resources file is missing.");
+		     logger.debug("SurgeryTypeCriteria is empty or Application Resources file is missing.");
 			}// end of  SurgeryTypeCriteria
 		 
 		 		 
@@ -157,7 +162,7 @@ public class ClinicalDataQuery extends Query {
 			   	}		   
 		    }
 		  else{ 
-		     System.out.println("SurvivalCriteria is empty or Application Resources file is missing.");
+		      logger.debug("SurvivalCriteria is empty or Application Resources file is missing.");
 		   }// end of SurvivalCriteria
 		 
 		 // starting AgeCriteria
@@ -176,7 +181,7 @@ public class ClinicalDataQuery extends Query {
 			 } 
 		  }
 		  else{ 
-		     System.out.println("AgeCriteria is empty or Application Resources file is missing.");
+		      logger.debug("AgeCriteria is empty or Application Resources file is missing.");
 		   }// end of AgeCriteria
 		
 		 
@@ -190,7 +195,7 @@ public class ClinicalDataQuery extends Query {
 			 OutStr += "&nbsp;&nbsp;"+((String) genderDE.getValue())+" ";
 			 }  
 		  else{
-		    System.out.println("GenderCriteria is empty or Application Resources file is missing.");
+		      logger.debug("GenderCriteria is empty or Application Resources file is missing.");
 		   }// end of GenderCriteria
 		  
 		  
@@ -198,8 +203,8 @@ public class ClinicalDataQuery extends Query {
 			  
 		}// end of try
 	catch (Exception ie) { 
-		ie.printStackTrace();
-		System.out.println("Error in ResourceBundle in clinical Data Query - " + ie.getMessage());
+		logger.error("Error in ResourceBundle in clinical Data Query - ");
+		logger.error(ie);
 	}
 
 		OutStr += "<BR><BR>";

@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.query;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
@@ -14,6 +15,9 @@ import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 
 
 import java.util.*;
+
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.nautilus.de.*;
 
 /**
@@ -24,7 +28,8 @@ import gov.nih.nci.nautilus.de.*;
  * To change this template use Options | File Templates.
  */
 public class ComparativeGenomicQuery extends Query {
-
+    
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
     private GeneIDCriteria geneIDCriteria;
     private CopyNumberCriteria copyNumberCriteria;
@@ -75,7 +80,7 @@ public class ComparativeGenomicQuery extends Query {
 			   }	 	   
 		   }
 		else{
-		   System.out.println("Disease Criteria is empty or Application Resources file is missing");
+		    logger.debug("Disease Criteria is empty or Application Resources file is missing");
 		  } //end of DiseaseOrGradeCriteria
 		
 		 
@@ -83,7 +88,7 @@ public class ComparativeGenomicQuery extends Query {
 		CopyNumberCriteria thisCopyNumberCrit = this.getCopyNumberCriteria();	
 			
 		if ((thisCopyNumberCrit != null) && !thisCopyNumberCrit.isEmpty() && labels != null) {
-		    System.out.println(" I am in the CopyNumberCriteria");
+		    logger.debug(" I am in the CopyNumberCriteria");
 			String thisCriteria = thisCopyNumberCrit.getClass().getName();
 			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			Collection copyNoObjects = thisCopyNumberCrit.getCopyNummbers();
@@ -95,7 +100,7 @@ public class ComparativeGenomicQuery extends Query {
 			}
 		}
 		else {
-		   System.out.println("Copy Number Criteria is empty or Application Resources file is missing");
+		    logger.debug("Copy Number Criteria is empty or Application Resources file is missing");
            }  // end of CopyNumberCriteria
 		   
 		   
@@ -113,7 +118,7 @@ public class ComparativeGenomicQuery extends Query {
 				}
 			}
 			else {
-			  System.out.println("Gene ID Criteria is empty or Application Resources file is missing");
+			    logger.debug("Gene ID Criteria is empty or Application Resources file is missing");
                }// end of GeneIDCriteria
 			   
 			// starting RegionCriteria
@@ -146,7 +151,7 @@ public class ComparativeGenomicQuery extends Query {
 				}
 			 }
 			else {
-			     System.out.println("Region Criteria is empty or Application Resources file is missing");
+			    logger.debug("Region Criteria is empty or Application Resources file is missing");
 			    }// end of RegionCriteria
 			
 		   // starting cloneorProbeCriteria
@@ -164,7 +169,7 @@ public class ComparativeGenomicQuery extends Query {
 				  }			   
 			    }
 			else{
-			  System.out.println("Clone or Probe Criteria is empty or Application Resources file is missing.");
+			    logger.debug("Clone or Probe Criteria is empty or Application Resources file is missing.");
 			}// end of  cloneorProbeCriteria
 			
 						
@@ -182,7 +187,7 @@ public class ComparativeGenomicQuery extends Query {
 					 }			   
 			    }	
 		      	else{
-			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
+		      	  logger.debug("SNP Criteria is empty or Application Resources file is missing.");
 			}// end of  cloneorProbeCriteria
 			
 			
@@ -198,7 +203,7 @@ public class ComparativeGenomicQuery extends Query {
 				  	   
 			    }
 			else{
-			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
+			    logger.debug("SNP Criteria is empty or Application Resources file is missing.");
 			}// end of  AlleleFrequencyCriteria
 			
 			// starting AssayPlatformCriteria
@@ -211,12 +216,12 @@ public class ComparativeGenomicQuery extends Query {
 			
 		   }
 		  else{
-		     System.out.println("AssayPlatform Criteria is empty or Application Resources file is missing.");
+		      logger.debug("AssayPlatform Criteria is empty or Application Resources file is missing.");
 		    } 
 		}// end of try
 	catch (Exception ie) {
-		ie.printStackTrace();
-		System.out.println("Error in ResourceBundle in CGH query - " + ie.getMessage());
+		logger.error("Error in ResourceBundle in CGH query - ");
+		logger.error(ie);
 	}
 
 		OutStr += "<BR><BR>";

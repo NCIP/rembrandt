@@ -8,6 +8,7 @@ package gov.nih.nci.nautilus.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -23,7 +24,7 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 /**
  */
 public class RefineCheckAction extends Action {
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 
 	/**
 	 * Method execute
@@ -65,12 +66,12 @@ public class RefineCheckAction extends Action {
 					return thisForward;
 				} 
 			else {
-				System.out.println("QueryCollection has no queries.  Please select a query to execute");
+			    logger.debug("QueryCollection has no queries.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.no.query.error"));
 				this.saveErrors(request, errors);
 			}
 		}else{
-			System.out.println("QueryCollection object missing in session!!");
+		    logger.debug("QueryCollection object missing in session!!");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
 		}

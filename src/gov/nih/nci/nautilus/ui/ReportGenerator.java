@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
@@ -31,6 +32,8 @@ import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Landyr
  * Date: Nov 3, 2004
@@ -39,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ReportGenerator  {
 	
 //	public static String theColors[] = {"0073E6","FFFF61"};
-	
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
 	public static String links = "";
@@ -129,7 +132,7 @@ public class ReportGenerator  {
 			boolean gLinks = false;
 			boolean cLinks = false;
 			StringBuffer sb = new StringBuffer();
-			System.out.println("HERE IS THE CLINICAL VIEW");
+			logger.debug("HERE IS THE CLINICAL VIEW");
 			SampleViewResultsContainer sampleViewContainer = null;
 			if(resultsContainer instanceof DimensionalViewContainer){
 				

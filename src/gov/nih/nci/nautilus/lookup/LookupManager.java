@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.nautilus.lookup;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DiseaseTypeDim;
 import gov.nih.nci.nautilus.data.ExpPlatformDim;
@@ -18,6 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
@@ -31,7 +33,8 @@ import org.apache.ojb.broker.query.QueryFactory;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LookupManager{
-	private static PatientDataLookup[] patientData;
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static PatientDataLookup[] patientData;
 	private static CytobandLookup[] cytobands;
 	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
@@ -50,7 +53,7 @@ public class LookupManager{
 			Collection resultsetObjs = null;
 	        Query exprQuery = QueryFactory.newQuery(bean, crit,true);
 	        resultsetObjs = broker.getCollectionByQuery(exprQuery);
-			System.out.println("Got " + resultsetObjs.size() + " resultsetObjs objects.");
+	        logger.debug("Got " + resultsetObjs.size() + " resultsetObjs objects.");
      
 		    return resultsetObjs;
 	}

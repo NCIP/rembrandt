@@ -5,6 +5,7 @@ package gov.nih.nci.nautilus.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionError;
@@ -25,7 +26,7 @@ import java.util.*;
  * @struts:form name="refineQueryForm"
  */
 public class RefineQueryForm extends BaseForm {
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	// --------------------------------------------------------- Instance Variables
 	private String queryName1;
 	private String leftParen1;
@@ -149,8 +150,7 @@ public class RefineQueryForm extends BaseForm {
 			
 			}		
 		}else {
-		
-			System.out.println("No Query Collection Object in Session");
+		    logger.debug("No Query Collection Object in Session");
 		}
 
 	}

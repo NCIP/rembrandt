@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.query;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
@@ -13,6 +14,9 @@ import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
 
 import java.util.*;
+
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.nautilus.de.*;
 
 /**
@@ -23,7 +27,8 @@ import gov.nih.nci.nautilus.de.*;
  * To change this template use Options | File Templates.
  */
 public class GeneExpressionQuery extends Query {
-
+    
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     private GeneIDCriteria geneIDCrit;
     private RegionCriteria regionCrit;
     private FoldChangeCriteria foldChgCrit;
@@ -74,7 +79,7 @@ public class GeneExpressionQuery extends Query {
 			}
 		}
 		else {
-		  System.out.println("Fold Change Criteria is empty or Application Resources file is missing");
+		 logger.debug("Fold Change Criteria is empty or Application Resources file is missing");
 		}
 
 
@@ -90,13 +95,13 @@ public class GeneExpressionQuery extends Query {
 					OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
 				}
 			}
-			else System.out.println("Gene ID Criteria is empty or Application Resources file is missing");
+			else logger.debug("Gene ID Criteria is empty or Application Resources file is missing");
 
 			
 			RegionCriteria thisRegionCrit = this.getRegionCrit();
 			if ((thisRegionCrit != null) && !thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
-				System.out.println("thisCriteria is :"+ thisCriteria);
+				logger.debug("thisCriteria is :"+ thisCriteria);
 				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
 
@@ -124,7 +129,7 @@ public class GeneExpressionQuery extends Query {
 				
 			}
 			else {
-			   System.out.println("Region Criteria is empty or Application Resources file is missing");
+			    logger.debug("Region Criteria is empty or Application Resources file is missing");
 			   }
 		
 		// starting DiseaseOrGradeCriteria
@@ -143,7 +148,7 @@ public class GeneExpressionQuery extends Query {
 		       }	 	   
 		   }
 		else{
-		   System.out.println("Disease Criteria is empty or Application Resources file is missing");
+		    logger.debug("Disease Criteria is empty or Application Resources file is missing");
 		  } // end of DiseaseOrGradeCriteria  
 		
 		
@@ -162,7 +167,7 @@ public class GeneExpressionQuery extends Query {
 			  }			   
 		    }
 		else{
-		  System.out.println("Clone or Probe Criteria is empty or Application Resources file is missing.");
+		    logger.debug("Clone or Probe Criteria is empty or Application Resources file is missing.");
 		}// end of  cloneorProbeCriteria
 		
 		//starting of GeneOntologyCriteria
@@ -177,7 +182,7 @@ public class GeneExpressionQuery extends Query {
 		  }	        
 	   }
 	   else {
-	      System.out.println("GeneOntolgoy Criteria is empty or Application Resources file is missing.");
+	       logger.debug("GeneOntolgoy Criteria is empty or Application Resources file is missing.");
 	       }// end of GeneOntologyCriteria
 
 		   
@@ -194,7 +199,7 @@ public class GeneExpressionQuery extends Query {
 		       }	 	   
 		   }
 		else{
-		   System.out.println("PathwayCriteria is empty or Application Resources file is missing");
+		    logger.debug("PathwayCriteria is empty or Application Resources file is missing");
 		  
          }
 		 
@@ -211,7 +216,7 @@ public class GeneExpressionQuery extends Query {
 		OutStr += "<BR>"+labels.getString(pathwayStr.substring(pathwayStr.lastIndexOf(".")+1))+": "+pathwayDE.getValue()+"";
 		   }
 		else{
-		   System.out.println("PathwayCriteria is empty or Application Resources file is missing.");
+		   logger.debug("PathwayCriteria is empty or Application Resources file is missing.");
 	  	 }  // end of PathwayCriteria
 	 */
 
@@ -225,12 +230,12 @@ public class GeneExpressionQuery extends Query {
 	   OutStr += "<BR>&nbsp;&nbsp;"+arrayPlatformDE.getValue()+" ";
 		   }
 	 else{
-		   System.out.println("ArrayPlatformCriteria is empty or Application Resources file is missing.");
+	     logger.debug("ArrayPlatformCriteria is empty or Application Resources file is missing.");
 	  	 }  // end of PathwayCriteria
 	}// end of try
 	catch (Exception ie) {
-		ie.printStackTrace();
-		System.out.println("Error in ResourceBundle - " + ie.getMessage());
+		logger.error("Error in ResourceBundle - ");
+		logger.error(ie);
 	}
 
 		OutStr += "<BR><BR>";

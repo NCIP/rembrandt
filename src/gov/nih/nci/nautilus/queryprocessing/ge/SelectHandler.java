@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -7,6 +8,7 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
 import java.util.*;
 import java.math.BigDecimal;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
@@ -20,6 +22,7 @@ import gov.nih.nci.nautilus.queryprocessing.ThreadController;
  * To change this template use Options | File Templates.
  */
 public abstract class SelectHandler implements Runnable {
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     private gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj;
     private Collection allProbeIDS;
     private Collection allCloneIDS;
@@ -111,7 +114,7 @@ public abstract class SelectHandler implements Runnable {
             String threadID = new Long(System.currentTimeMillis()).toString();
             DBEvent.SubQueryEvent event = new DBEvent.SubQueryEvent(threadID);
             eventList.add(event);
-            System.out.println("NEW THREADS: " + threadID);
+            logger.debug("NEW THREADS: " + threadID);
             new Thread(new Executor(query, probeIDS, event)).start();
 
         }

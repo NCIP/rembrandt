@@ -52,7 +52,7 @@ import org.krysalis.jcharts.encoders.ServletEncoderHelper;
 // RCL
 
 public class QuickSearchAction extends DispatchAction {
-    static Logger log = Logger.getLogger(NautilusConstants.LOGGER);
+    static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 
 	/**
 	 * Method execute
@@ -71,10 +71,7 @@ public class QuickSearchAction extends DispatchAction {
 	private ActionForward doGeneExpPlot(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-        log.warn("WARN MEssage");
-	    log.info("Info MESSAGE");
-        log.debug("Testing the Logger");
-		String[] groups;
+        String[] groups;
 		
 		String geneSymbol;
 		
@@ -92,7 +89,7 @@ public class QuickSearchAction extends DispatchAction {
 	   String gene = qsForm.getQuickSearchName();
 	   String chartType = qsForm.getPlot();
 	   
-	   System.out.println("chartType: " + chartType);
+	   logger.debug("chartType: " + chartType);
 	     
 	   GeneExpressionQuery geneQuery;
 	   GeneIDCriteria geneCrit = new GeneIDCriteria();
@@ -113,8 +110,8 @@ public class QuickSearchAction extends DispatchAction {
 			ActionError ae = new ActionError("gov.nih.nci.nautilus.struts.action.quickSearch.badgene");
 			errors.add(ActionErrors.GLOBAL_ERROR, ae);
 			this.saveErrors(request, errors);
-			System.out.println("invalid gene");
-			System.out.println(errors.size() + " errors");
+			logger.debug("invalid gene");
+			logger.debug(errors.size() + " errors");
 			return mapping.findForward("badgraph");
 		}
 			
@@ -123,7 +120,7 @@ public class QuickSearchAction extends DispatchAction {
 
 			final DecimalFormat resultFormat = new DecimalFormat("0.00");	
 			final DecimalFormat pValueFormat = new DecimalFormat("0.0000");
-			System.out.println("Gene:"+geneExprDiseasePlotContainer.getGeneSymbol());
+			logger.debug("Gene:"+geneExprDiseasePlotContainer.getGeneSymbol());
 			geneSymbol = geneExprDiseasePlotContainer.getGeneSymbol().getValue().toString();
 			
 	    	Collection diseases = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultsets();
@@ -132,7 +129,7 @@ public class QuickSearchAction extends DispatchAction {
 	        String label = null;
 	    	
 	    	header.append("Diseases\tReporter Name\tIntensity\tPvalue");
-			System.out.println(header.toString());
+	    	logger.debug(header.toString());
 			
 			groups = new String[diseases.size()];
 			
@@ -152,12 +149,12 @@ public class QuickSearchAction extends DispatchAction {
     		DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
     		
     		intValuesArray = new double[probeSetSize][diseaseTypes.length];
-    		System.out.println("set intValuesArray: ["+probeSetSize+"]["+diseaseTypes.length+"]");
+    		logger.debug("set intValuesArray: ["+probeSetSize+"]["+diseaseTypes.length+"]");
     		
     		
 	    	for (int i = 0; i< diseaseTypes.length ; i++) {
 	    		
-	    		System.out.println("id :"+diseaseTypes[i].getDiseaseTypeId()+"\tType: "+diseaseTypes[i].getDiseaseType()+"\tDesc :"+diseaseTypes[i].getDiseaseDesc() );
+	    	    logger.debug("id :"+diseaseTypes[i].getDiseaseTypeId()+"\tType: "+diseaseTypes[i].getDiseaseType()+"\tDesc :"+diseaseTypes[i].getDiseaseDesc() );
 	    		
 	    		xLegend.put(diseaseTypes[i].getDiseaseType(), diseaseTypes[i].getDiseaseDesc());
 	    		
@@ -196,13 +193,13 @@ public class QuickSearchAction extends DispatchAction {
 	       			pValues.add(pValueFormat.format(pvalue));
 	       			
 	       			intValuesArray[counter][icounter] = intensityValue.doubleValue();
-	       			System.out.println("intValuesArray["+counter+"]["+icounter+"] = "+intensityValue.doubleValue());
+	       			logger.debug("intValuesArray["+counter+"]["+icounter+"] = "+intensityValue.doubleValue());
 	       			counter ++;
 	    		}
 	    		//intValuesArray[icounter] = intensityValues;
 	    		icounter++;
 	    	}
-	    	System.out.println(stringBuffer.toString());	
+	    	logger.debug(stringBuffer.toString());	
 		
 	 
 	    	if( groups.length > 0 && probeSets.length > 0 && intValuesArray.length > 0 )	{
@@ -210,9 +207,9 @@ public class QuickSearchAction extends DispatchAction {
 	    		
 	    		//lets show the group names for fun
 	    		for(int g=0; g<groups.length; g++)
-	    			System.out.println("group"+g+": "+groups[g]);
+	    		    logger.debug("group"+g+": "+groups[g]);
 	       	try {
-	       		System.out.println("Generating the chart...");
+	       	 logger.debug("Generating the chart...");
 		       	String[] xAxisLabels = groups;
 		       	String xAxisTitle= "Groups";
 		       	String yAxisTitle= "Mean Expression Intensity";
@@ -221,11 +218,11 @@ public class QuickSearchAction extends DispatchAction {
 	
 		       	//double[][] data= new double[][]{ { 250, 45, 36, 66, 22 }, { 150, 15, 6, 62, 21 }, { 20, 145, 36, 6, 33 }, { 250, 45, 36, 66, 57 }, { 150, 15, 6, 62, 12 }, { 20, 145, 36, 6, 29 } };
 		       	double[][] data = new double[probeSets.length][groups.length];
-		       	System.out.println("creating data array size: ["+probeSets.length+"]["+groups.length+"]");
+		       	logger.debug("creating data array size: ["+probeSets.length+"]["+groups.length+"]");
        	
 		       	data = intValuesArray;
-		       	System.out.println("Data sets: " + data.length);
-		       	System.out.println("Should be: "+ probeSetSize);
+		       	logger.debug("Data sets: " + data.length);
+		       	logger.debug("Should be: "+ probeSetSize);
 		       	
 		       	String[] legendLabels = probeSets;
 		       	
@@ -239,8 +236,8 @@ public class QuickSearchAction extends DispatchAction {
 		       			paintIndex = i-paintsBigList.length;
 		       		paints[paintIndex] = paintsBigList[i];       		
 		       	}
-		       	System.out.println("there are: " + paints.length + " colors");
-		       	System.out.println("should be: "+probeSetSize);
+		       	logger.debug("there are: " + paints.length + " colors");
+		       	logger.debug("should be: "+probeSetSize);
 		       	
 		       	ClusteredBarChartProperties clusteredBarChartProperties= new ClusteredBarChartProperties();
 		       	
@@ -263,7 +260,7 @@ public class QuickSearchAction extends DispatchAction {
 		       	legendProperties.setNumColumns( 3 );
 		       	AxisChart axisChart= new AxisChart( dataSeries, chartProperties, axisProperties, legendProperties, 600, 400 );
 		       if(axisChart == null)
-		       	System.out.println("No chart to put in session");
+		           logger.debug("No chart to put in session");
 		       	axisChart.renderWithImageMap();
 		       	ImageMap imageMap= axisChart.getImageMap();
 		       	
@@ -274,18 +271,18 @@ public class QuickSearchAction extends DispatchAction {
 		       	request.getSession(true).setAttribute( "chart", axisChart );
 		   }
 		   catch(Exception e){
-			   	System.out.println("error generating graph");
+		       logger.debug("error generating graph");
 			   	e.printStackTrace();
 		       	return mapping.findForward("badgraph");
 		   }
 	       	// Good get the graph
-		   System.out.println("Going to get the image...");
+		   logger.debug("Going to get the image...");
 		   return mapping.findForward("histogram");	
        }
        else	{
        	//something went horribly wrong
        	// TODO: add some global error here
-       	System.out.println("Mismatch");
+           logger.debug("Mismatch");
        	return mapping.findForward("mismatch");
        }
 	} // instance of

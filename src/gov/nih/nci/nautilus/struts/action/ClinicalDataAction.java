@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -35,7 +36,7 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
  * @struts:action-forward name="/jsp/queryPreview.jsp" path="/jsp/queryPreview.jsp"
  */
 public class ClinicalDataAction extends Action {
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	// --------------------------------------------------------- Instance Variables
 
 	// --------------------------------------------------------- Methods
@@ -136,7 +137,7 @@ public class ClinicalDataAction extends Action {
 				// Get QueryCollection from session if available
 				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 				if(queryCollection == null){
-				    System.out.println("Query Map in Session is empty");
+				    logger.debug("Query Map in Session is empty");
 					queryCollection = new QueryCollection();
 				  }
 				queryCollection.putQuery(clinicalDataQuery);

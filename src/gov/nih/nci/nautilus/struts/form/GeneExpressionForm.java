@@ -14,7 +14,9 @@ import java.util.*;
 import java.lang.reflect.*;
 import java.io.*;
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.query.QueryCollection;
@@ -177,6 +179,8 @@ public class GeneExpressionForm extends BaseForm {
 	private HttpServletRequest thisRequest;
 
 	private QueryCollection queryCollection;
+	
+	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 
 	// --------------------------------------------------------- Methods
 	public GeneExpressionForm() {
@@ -290,12 +294,11 @@ public class GeneExpressionForm extends BaseForm {
 				diseaseOrGradeCriteria.setDisease(diseaseNameDEObj);
 
 			} catch (Exception ex) {
-				System.out.println("Error in createDiseaseCriteriaObject  "
+				logger.error("Error in createDiseaseCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out
-						.println("Linkage Error in createDiseaseCriteriaObject "
+			    logger.error("Linkage Error in createDiseaseCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -310,7 +313,7 @@ public class GeneExpressionForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + geneDomainMap.get(key));
+			logger.debug(key + "=>" + geneDomainMap.get(key));
 
 			try {
 				String strgeneDomainClass = (String) geneDomainMap.get(key);
@@ -322,14 +325,14 @@ public class GeneExpressionForm extends BaseForm {
 						.newInstance(parameterObjects);
 				geneCriteria.setGeneIdentifier(geneSymbolDEObj);
 
-				System.out.println("Gene Domain Element Value==> "
+				logger.debug("Gene Domain Element Value==> "
 						+ geneSymbolDEObj.getValueObject());
 			} catch (Exception ex) {
-				System.out.println("Error in createGeneCriteriaObject  "
+			    logger.debug("Error in createGeneCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createGeneCriteriaObject "
+			    logger.error("Linkage Error in createGeneCriteriaObject "
 						+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -345,7 +348,7 @@ public class GeneExpressionForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + foldUpDomainMap.get(key));
+			logger.debug(key + "=>" + foldUpDomainMap.get(key));
 
 			try {
 				String strFoldDomainClass = (String) foldUpDomainMap.get(key);
@@ -357,16 +360,15 @@ public class GeneExpressionForm extends BaseForm {
 						.newInstance(parameterObjects);
 				foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
 
-				System.out.println("Fold Change Domain Element Value is ==>"
+				logger.debug("Fold Change Domain Element Value is ==>"
 						+ foldChangeDEObj.getValueObject());
 
 			} catch (Exception ex) {
-				System.out.println("Error in createFoldChangeCriteriaObject  "
+			    logger.error("Error in createFoldChangeCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out
-						.println("Linkage Error in createFoldChangeCriteriaObject "
+				logger.error("Linkage Error in createFoldChangeCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -377,7 +379,7 @@ public class GeneExpressionForm extends BaseForm {
 		i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + foldDownDomainMap.get(key));
+			logger.debug(key + "=>" + foldDownDomainMap.get(key));
 
 			try {
 				String strFoldDomainClass = (String) foldDownDomainMap.get(key);
@@ -389,16 +391,15 @@ public class GeneExpressionForm extends BaseForm {
 						.newInstance(parameterObjects);
 				foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
 
-				System.out.println("Fold Change Domain Element Value is ==>"
+				logger.debug("Fold Change Domain Element Value is ==>"
 						+ foldChangeDEObj.getValueObject());
 
 			} catch (Exception ex) {
-				System.out.println("Error in createFoldChangeCriteriaObject  "
+			    logger.error("Error in createFoldChangeCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out
-						.println("Linkage Error in createFoldChangeCriteriaObject "
+			    logger.error("Linkage Error in createFoldChangeCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -412,7 +413,7 @@ public class GeneExpressionForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + regionDomainMap.get(key));
+			logger.debug(key + "=>" + regionDomainMap.get(key));
 
 			try {
 				String strRegionDomainClass = (String) regionDomainMap.get(key);
@@ -424,7 +425,7 @@ public class GeneExpressionForm extends BaseForm {
 					CytobandDE cytobandDEObj = (CytobandDE) regionConstructors[0]
 							.newInstance(parameterObjects);
 					regionCriteria.setCytoband(cytobandDEObj);
-					System.out.println("Test Cytoband Criteria"
+					logger.debug("Test Cytoband Criteria"
 							+ regionCriteria.getCytoband().getValue());
 
 				}
@@ -433,7 +434,7 @@ public class GeneExpressionForm extends BaseForm {
 					ChromosomeNumberDE chromosomeDEObj = (ChromosomeNumberDE) regionConstructors[0]
 							.newInstance(parameterObjects);
 					regionCriteria.setChromNumber(chromosomeDEObj);
-					System.out.println("Test Chromosome Criteria "
+					logger.debug("Test Chromosome Criteria "
 							+ regionCriteria.getChromNumber().getValue());
 				}
 				if (strRegionDomainClass.endsWith("StartPosition")) {
@@ -441,7 +442,7 @@ public class GeneExpressionForm extends BaseForm {
 					BasePairPositionDE.StartPosition baseStartDEObj = (BasePairPositionDE.StartPosition) regionConstructors[0]
 							.newInstance(parameterObjects);
 					regionCriteria.setStart(baseStartDEObj);
-					System.out.println("Test Start Criteria"
+					logger.debug("Test Start Criteria"
 							+ regionCriteria.getStart().getValue());
 				}
 				if (strRegionDomainClass.endsWith("EndPosition")) {
@@ -449,17 +450,16 @@ public class GeneExpressionForm extends BaseForm {
 					BasePairPositionDE.EndPosition baseEndDEObj = (BasePairPositionDE.EndPosition) regionConstructors[0]
 							.newInstance(parameterObjects);
 					regionCriteria.setEnd(baseEndDEObj);
-					System.out.println("Test End Criteria"
+					logger.debug("Test End Criteria"
 							+ regionCriteria.getEnd().getValue());
 				}
 
 			} catch (Exception ex) {
-				System.out.println("Error in createRegionCriteriaObject  "
+			    logger.error("Error in createRegionCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out
-						.println("Linkage Error in createRegionCriteriaObject "
+			    logger.error("Linkage Error in createRegionCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -476,7 +476,7 @@ public class GeneExpressionForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + cloneDomainMap.get(key));
+			logger.debug(key + "=>" + cloneDomainMap.get(key));
 
 			try {
 				String strCloneDomainClass = (String) cloneDomainMap.get(key);
@@ -488,14 +488,14 @@ public class GeneExpressionForm extends BaseForm {
 						.newInstance(parameterObjects);
 				cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentfierDEObj);
 
-				System.out.println("Clone Domain Element Value==> "
+				logger.debug("Clone Domain Element Value==> "
 						+ cloneIdentfierDEObj.getValueObject());
 			} catch (Exception ex) {
-				System.out.println("Error in createGeneCriteriaObject  "
+			    logger.error("Error in createGeneCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createGeneCriteriaObject "
+			    logger.error("Linkage Error in createGeneCriteriaObject "
 						+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -513,7 +513,7 @@ public class GeneExpressionForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + geneOntologyDomainMap.get(key));
+			logger.debug(key + "=>" + geneOntologyDomainMap.get(key));
 
 			try {
 				String strGeneOntologyDomainClass = (String) geneOntologyDomainMap
@@ -525,16 +525,14 @@ public class GeneExpressionForm extends BaseForm {
 						.newInstance(parameterObjects);
 				geneOntologyCriteria.setGOIdentifier(geneOntologyDEObj);
 
-				System.out.println("GO Domain Element Value==> "
+				logger.debug("GO Domain Element Value==> "
 						+ geneOntologyDEObj.getValueObject());
 			} catch (Exception ex) {
-				System.out
-						.println("Error in createGeneOntologyCriteriaObject  "
+			    logger.error("Error in createGeneOntologyCriteriaObject  "
 								+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out
-						.println("Linkage Error in createGeneOntologyCriteriaObject "
+			    logger.error("Linkage Error in createGeneOntologyCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -551,12 +549,12 @@ public class GeneExpressionForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + pathwayDomainMap.get(key));
+			logger.debug(key + "=>" + pathwayDomainMap.get(key));
 
 			try {
 				String strPathwayDomainClass = (String) pathwayDomainMap
 						.get(key);
-				System.out.println("strPathwayDomainClass is for pathway:"
+				logger.debug("strPathwayDomainClass is for pathway:"
 						+ strPathwayDomainClass
 						+ strPathwayDomainClass.length());
 				Constructor[] pathwayConstructors = Class.forName(
@@ -567,14 +565,14 @@ public class GeneExpressionForm extends BaseForm {
 						.newInstance(parameterObjects);
 				pathwayCriteria.setPathwayName(pathwayDEObj);
 
-				System.out.println("GO Domain Element Value==> "
+				logger.debug("GO Domain Element Value==> "
 						+ pathwayDEObj.getValueObject());
 			} catch (Exception ex) {
-				System.out.println("Error in createGeneCriteriaObject  "
+			    logger.error("Error in createGeneCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createGeneCriteriaObject "
+			    logger.error("Linkage Error in createGeneCriteriaObject "
 						+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -590,7 +588,7 @@ public class GeneExpressionForm extends BaseForm {
 		while (i.hasNext()) {
 
 			Object key = i.next();
-			System.out.println(key + "=>" + arrayPlatformDomainMap.get(key));
+			logger.debug(key + "=>" + arrayPlatformDomainMap.get(key));
 
 			try {
 				String strArrayPlatformDomainClass = (String) arrayPlatformDomainMap
@@ -602,16 +600,14 @@ public class GeneExpressionForm extends BaseForm {
 				ArrayPlatformDE arrayPlatformDEObj = (ArrayPlatformDE) arrayPlatformConstructors[0]
 						.newInstance(parameterObjects);
 				arrayPlatformCriteria.setPlatform(arrayPlatformDEObj);
-				System.out.println("GO Domain Element Value==> "
+				logger.debug("GO Domain Element Value==> "
 						+ arrayPlatformDEObj.getValueObject());
 			} catch (Exception ex) {
-				System.out
-						.println("Error in createArrayPlatformCriteriaObject  "
+			    logger.error("Error in createArrayPlatformCriteriaObject  "
 								+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out
-						.println("Linkage Error in createArrayPlatformCriteriaObject "
+			    logger.error("Linkage Error in createArrayPlatformCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -855,7 +851,7 @@ public class GeneExpressionForm extends BaseForm {
 
 				inFile.close();
 			} catch (IOException ex) {
-				System.out.println("Errors when uploading gene file:"
+			    logger.error("Errors when uploading gene file:"
 						+ ex.getMessage());
 			}
 
@@ -1049,10 +1045,10 @@ public class GeneExpressionForm extends BaseForm {
 	 *            The pathways to set
 	 */
 	public void setPathways(String pathways) {
-		System.out.println("pathways.length:" + pathways.length());
+	    logger.debug("pathways.length:" + pathways.length());
 		if (pathways != null) {
 			this.pathways = pathways.trim();
-			System.out.println("pathways.length after:"
+			logger.debug("pathways.length after:"
 					+ this.pathways.length());
 			String pathwaySelect = (String) thisRequest
 					.getParameter("pathways");
@@ -1263,7 +1259,7 @@ public class GeneExpressionForm extends BaseForm {
 
 				inFile.close();
 			} catch (IOException ex) {
-				System.out.println("Errors when uploading gene file:"
+			    logger.error("Errors when uploading gene file:"
 						+ ex.getMessage());
 			}
 		}
@@ -1457,7 +1453,7 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setFoldChangeValueUp(String foldChangeValueUp) {
 		this.foldChangeValueUp = foldChangeValueUp;
-		System.out.println("I am in the setFoldChangeValueUp() method");
+		logger.debug("I am in the setFoldChangeValueUp() method");
 		String thisRegulationStatus = this.thisRequest
 				.getParameter("regulationStatus");
 
@@ -1509,16 +1505,14 @@ public class GeneExpressionForm extends BaseForm {
 		this.foldChangeValueUDUp = foldChangeValueUDUp;
 		String thisRegulationStatus = this.thisRequest
 				.getParameter("regulationStatus");
-		System.out
-				.println("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
+		logger.debug("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
 						+ thisRegulationStatus);
 		if (thisRegulationStatus != null
 				&& thisRegulationStatus.equalsIgnoreCase("updown")
 				&& (this.foldChangeValueUDUp.length() > 0)) {
 			foldUpDomainMap.put(this.foldChangeValueUDUp,
 					ExprFoldChangeDE.UpRegulation.class.getName());
-			System.out
-					.println("foldDomainMap size in the setFoldChangeValueUDUp() method:"
+			logger.debug("foldDomainMap size in the setFoldChangeValueUDUp() method:"
 							+ foldUpDomainMap.size());
 		}
 	}
@@ -1542,7 +1536,7 @@ public class GeneExpressionForm extends BaseForm {
 		this.foldChangeValueUDDown = foldChangeValueUDDown;
 		String thisRegulationStatus = this.thisRequest
 				.getParameter("regulationStatus");
-		System.out.println("I am in the setFoldChangeValueUDDown() methid: "
+		logger.debug("I am in the setFoldChangeValueUDDown() methid: "
 				+ thisRegulationStatus);
 
 		if (thisRegulationStatus != null
@@ -1551,8 +1545,7 @@ public class GeneExpressionForm extends BaseForm {
 
 			foldDownDomainMap.put(this.foldChangeValueUDDown,
 					ExprFoldChangeDE.DownRegulation.class.getName());
-		System.out
-				.println("foldDomainMap size in the setFoldChangeValueUDDown() method:"
+		logger.debug("foldDomainMap size in the setFoldChangeValueUDDown() method:"
 						+ foldDownDomainMap.size());
 
 	}

@@ -6,6 +6,7 @@ package gov.nih.nci.nautilus.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
@@ -17,6 +18,7 @@ import java.util.*;
 import java.lang.reflect.*;
 import java.io.*;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 
@@ -30,6 +32,7 @@ import gov.nih.nci.nautilus.de.*;
  * @struts:form name="DeleteQueryForm"
  */
 public class DeleteQueryForm extends BaseForm {
+   private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
    private String method = null;
    private String queryKey = null;
    
@@ -44,7 +47,7 @@ public class DeleteQueryForm extends BaseForm {
    }
    
    public void setMethod(String method){   
-    System.out.println("the moethod is :*************"+method);
+    logger.debug("the method is :*************"+method);
     this.method = method;
 	}	
   public String getMethod(){

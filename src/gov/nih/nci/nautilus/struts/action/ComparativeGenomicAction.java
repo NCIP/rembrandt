@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -35,7 +36,7 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
  * @struts:action-forward name="nautilus.comparitiveGenomic" path="nautilus.comparitiveGenomic"
  */
 public class ComparativeGenomicAction extends Action {
-
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	// --------------------------------------------------------- Instance Variables
 
 	// --------------------------------------------------------- Methods
@@ -143,7 +144,7 @@ public class ComparativeGenomicAction extends Action {
 				
 				/*HashMap queryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
 				  if (queryMap == null) {
-				  System.out.println("Query Map in Session is empty");
+				  logger.debug("Query Map in Session is empty");
 					queryMap = new HashMap();
 				}
 				queryMap.put(cghQuery.getQueryName(), cghQuery);

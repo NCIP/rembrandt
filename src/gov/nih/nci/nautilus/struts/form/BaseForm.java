@@ -4,8 +4,11 @@
 package gov.nih.nci.nautilus.struts.form;
 
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.LabelValueBean;
+
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.lookup.*;
 
@@ -24,7 +27,8 @@ import java.util.*;
  * @struts:form name="geneExpressionForm"
  */
 public class BaseForm extends ActionForm {
-
+    
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 		
 	// Collections used for Lookup values.  
 	private ArrayList diseaseType;
@@ -44,7 +48,7 @@ public class BaseForm extends ActionForm {
 
 		int intBasePairStart;
 		int intBasePairEnd;
-		System.out.println("Start "+basePairStart+" End "+basePairEnd);
+		logger.debug("Start "+basePairStart+" End "+basePairEnd);
 		try {
 			intBasePairStart = Integer.parseInt(basePairStart);
 			intBasePairEnd = Integer.parseInt(basePairEnd);
@@ -135,7 +139,8 @@ public class BaseForm extends ActionForm {
 					returnColl.add(new LabelValueBean(idxValue, idxValue));
 				}
 			} catch (Exception e) {
-				System.out.println("Error reading Chromosome values from table "+e.getLocalizedMessage());
+			    logger.error("Error reading Chromosome values from table:");
+			    logger.error(e);
 			}
 			return returnColl;
 
@@ -160,7 +165,8 @@ public class BaseForm extends ActionForm {
 						cytobandCollections.put(thisChromosome,cytoString);
 					
 					}catch(Exception ex){
-						System.out.println("Error reading Cytobands from table"+ex.getMessage());
+					    logger.error("Error reading Cytobands from table");
+					    logger.error(ex);
 					}
 				}
 			}

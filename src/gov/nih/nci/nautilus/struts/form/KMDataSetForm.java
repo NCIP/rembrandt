@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.struts.form;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
@@ -27,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.jfree.data.XYSeriesCollection;
 
@@ -47,7 +49,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     private static final int UPREGULATED = 1;
     private static final int DOWNREGULATED = 2;
     private static final int ALLSAMPLES = 3; 
-    
+    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
   
     /**
      * This method is called by the ceWolf chart tag to create the data
@@ -220,7 +222,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
                 array = samples.toArray();
                 for(int i = array.length;i>0;i--) {
                 	SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
-                    //System.out.println(result);
+                    logger.debug(result);
                 }
                 break;
             case UPREGULATED:
@@ -229,7 +231,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
                 array = samples.toArray();
                 for(int i = array.length;i>0;i--) {
                     SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
-                    //System.out.println(result);
+                    logger.debug(result);
                 }
                 break;
             default:
