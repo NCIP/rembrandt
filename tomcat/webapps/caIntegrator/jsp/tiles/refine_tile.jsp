@@ -132,8 +132,8 @@
 		<table border="0" cellpadding="2" cellspacing="2">
 			<tr>
 					<td align="center">&nbsp;&nbsp;&nbsp;
-					<html:button property="validatebutton" styleClass="xbutton" value="Validate Query" 
-							onclick="JavaScript:setDispMethod('validate')"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<html:button property="validatebutton" styleClass="xbutton" value="Validate Query" onclick="javaScript:setDispMethod('validate')"/> 
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</td>
 				
 					<td align="right">
