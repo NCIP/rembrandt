@@ -59,18 +59,11 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 <%
 	System.out.println("sample we want: " + request.getParameter("s"));
 
-//	String theColors[] = {"5C73B7", "B1BCDD" };	
-//	String theColors[] = {"5C73B7", "B1BCDD", "DDD2B1", "8697CA", "B7A15C", "CFD4E6", "404F80", "5C71B5" };
-//	String theColors[] = {"CFD4E6", "E6DCCF", "E5E6CF", "DFCFE6" };
-//	String theColors[] = {"8E95C2", "F2F3F8", "9DA8CD", "E1E4EF", "AEB7D5", "BFC6DE", "D0D5E7"  };
-//	String theColors[] = {"BFDEFF", "608DBF", "E6F2FF", "80BCFF", "BFDEFF" };
-	
-//	String theColors[] = { "738FE6","B6C5F2","DAE1F9","8691B3","B3B9CC","6D7BA6","99A1B9" };
 	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
 String links = "";
 String sample = request.getParameter("s");
-session.setAttribute("csv", sample);
+
 //get the results container from the session with sample as key
 if(session.getAttribute(sample) == null)
 {
@@ -88,8 +81,8 @@ if(session.getAttribute(sample) == null)
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
 	if(queryCollection != null)	{
-		//out.println("<a href=\"#queryInfo\">Query Information</a><Br>\n");
 		out.println(ReportGenerator.displayReport(queryCollection, theColors, false, request, links));
+		request.setAttribute(NautilusConstants.QUERY_KEY,queryCollection);
 	}
 	else
 		out.println("QueryCollection is NULL");
@@ -140,19 +133,23 @@ if(session.getAttribute(sample) == null)
 }
 
 else	{
-System.out.println("Doing transitional");
-//process the transitional report
-ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
-String mode =  (String) request.getParameter("report");
-if(mode.equals("gene"))
-	out.println(ReportGenerator.geneExprSampleView(resultsContainer, theColors));
-else if( mode.equals("copy"))
-	out.println(ReportGenerator.copyNumberSampleView(resultsContainer, theColors));
-else
-	out.println("Error somewhere");
+	System.out.println("Doing transitional");
+	//process the transitional report
+	ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
+	String mode =  (String) request.getParameter("report");
+	if(mode.equals("gene"))
+		out.println(ReportGenerator.geneExprSampleView(resultsContainer, theColors));
+	else if( mode.equals("copy"))
+		out.println(ReportGenerator.copyNumberSampleView(resultsContainer, theColors));
+	else
+		out.println("Error somewhere");
+		
+	session.setAttribute("csv", resultsContainer);
+	session.setAttribute("mode", mode);
+	System.out.println("set things in session");
 	
-//session.removeAttribute("resultsContainer");
-session.removeAttribute("report");
+	//session.removeAttribute("resultsContainer");
+	session.removeAttribute("report");
 }
 
 
