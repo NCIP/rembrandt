@@ -41,8 +41,8 @@ public class GeneExpressionQuery extends Query {
     	
 
 		ResourceBundle labels = null;
-		String OutStr = "Gene Expression Data\n\n";
-		OutStr += "Query: " + this.getQueryName()+"\n\n";
+		String OutStr = "<B>Gene Expression Query</B>";
+		OutStr += "<BR>Query: " + this.getQueryName();
 
 
 	try {
@@ -53,13 +53,13 @@ public class GeneExpressionQuery extends Query {
 			
 		if (!thisFoldChangeCrit.isEmpty() && labels != null) {
 			String thisCriteria = thisFoldChangeCrit.getClass().getName();
-			OutStr += labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "\n";
+			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			Collection foldChangeObjects = thisFoldChangeCrit.getFoldChangeObjects();
 			
 			for (Iterator iter = foldChangeObjects.iterator(); iter.hasNext();) {
 				DomainElement de = (DomainElement) iter.next();
 				String thisDomainElement = de.getClass().getName();
-				OutStr += labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue()+"\n";
+				OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
 			}
 		}
 		else System.out.println("Fold Change Criteria is empty or Application Resources file is missing");
@@ -68,13 +68,13 @@ public class GeneExpressionQuery extends Query {
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCrit();
 			if (!thisGeneIDCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisGeneIDCrit.getClass().getName();
-				OutStr += labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "\n";
+				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
 			
 				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext();) {
 					DomainElement de = (DomainElement) iter.next();
 					String thisDomainElement = de.getClass().getName();
-					OutStr += labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue()+"\n";
+					OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
 				}
 			}
 			else System.out.println("Gene ID Criteria is empty or Application Resources file is missing");
@@ -83,7 +83,7 @@ public class GeneExpressionQuery extends Query {
 			RegionCriteria thisRegionCrit = this.getRegionCrit();
 			if (!thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
-				OutStr += labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "\n";
+				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
 
 				DomainElement chromosomeDE  = thisRegionCrit.getChromNumber();
@@ -92,17 +92,17 @@ public class GeneExpressionQuery extends Query {
 				
 				if (cytoBandDE != null) {
 					String cytoBandStr = cytoBandDE.getClass().getName();
-					OutStr += labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue()+"\n";
+					OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
 				}else {
 					String chromosomeDEStr = chromosomeDE.getClass().getName();
-					OutStr += labels.getString(chromosomeDEStr.substring(chromosomeDEStr.lastIndexOf(".")+1)) +": "+chromosomeDE.getValue()+"\n";
+					OutStr += "<BR>&nbsp;&nbsp;"+ labels.getString(chromosomeDEStr.substring(chromosomeDEStr.lastIndexOf(".")+1)) +": "+chromosomeDE.getValue();
 
 					if (chrStartDE != null && chrEndDE != null) {
 						String chrStartDEStr = chrStartDE.getClass().getName();
 						String chrEndDEStr = chrEndDE.getClass().getName();
-						OutStr += "\n"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)\n";
-						OutStr += labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1)) +": "+chrStartDE.getValue()+"\n";
-						OutStr += labels.getString(chrEndDEStr.substring(chrEndDEStr.lastIndexOf(".")+1)) +": "+chrEndDE.getValue()+"\n";
+						OutStr += "<BR><B>"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)</B>";
+						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1)) +": "+chrStartDE.getValue();
+						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrEndDEStr.substring(chrEndDEStr.lastIndexOf(".")+1)) +": "+chrEndDE.getValue();
 					}
 		}
 			}
@@ -114,7 +114,7 @@ public class GeneExpressionQuery extends Query {
 		System.out.println("Error in ResourceBundle - " + ie.getMessage());
 	}
 
-
+		OutStr += "<BR><BR>";
     	return OutStr;
     }
     
