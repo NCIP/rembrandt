@@ -345,13 +345,13 @@
 
         <field-descriptor
              name="cytoband"
-             column="cytoband"
+             column="CYTOBAND"
              jdbc-type="VARCHAR"
         />
 
         <field-descriptor
              name="cytobandPositionId"
-             column="CYTOBAND_POSTION_ID"
+             column="CYTOBAND_POSITION_ID"
              jdbc-type="BIGINT"
              primarykey="true"
         />
@@ -371,14 +371,21 @@
 
         <field-descriptor
             name="chromosome"
-            column="chromosome"
+            column="CHROMOSOME"
             jdbc-type="VARCHAR"
         />
-          <field-descriptor
+        <field-descriptor
              name="organism"
              column="ORGANISM"
              jdbc-type="VARCHAR"
         />
+         <field-descriptor
+             name="chrCytoband"
+             column="CHR_CYTOBAND"
+             jdbc-type="VARCHAR"
+             primarykey ="true"
+        />
+        
 </class-descriptor>
 
 <class-descriptor
