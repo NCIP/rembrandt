@@ -19,7 +19,7 @@ response.setHeader("Location",newLocn);
 <html>
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
-
+<script language="javascript" src="js/caIntScript.js"></script>
 </head>
 <body onload="document.forms[0].userName.focus();">
 <!--header NCI-->
@@ -42,7 +42,11 @@ response.setHeader("Location",newLocn);
 <!--end all headers-->
 
 <!--navigation bar-->
-<div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left"><a style="font-size:.8em" href="#">home</a>&nbsp;&nbsp;&nbsp;<a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;<a style="font-size:.8em" href="#">support</a>&nbsp;&nbsp;&nbsp;</div>
+<div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left">
+<a style="font-size:.8em" href="#">home</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">support</a>&nbsp;&nbsp;&nbsp;
+</div>
 <!--end nav bar-->
 
 <!--site description for readers-->
