@@ -127,7 +127,8 @@
         
          <form-bean name="deleteQueryForm" type="gov.nih.nci.nautilus.struts.form.DeleteQueryForm"/>
       
-        
+         <form-bean name="quickSearchForm" type="gov.nih.nci.nautilus.struts.form.QuickSearchForm"/>
+      
             <!-- Logon form bean -->
                 <form-bean      name="loginForm"
                     type="gov.nih.nci.nautilus.login.LoginForm"/>
@@ -160,7 +161,23 @@
 		 <forward name="cghPage" path="nautilus.comparitiveGenomic" />
 		 <forward name="clinicalPage" path="nautilus.clinical" />
 	</action>
-    
+	
+	 <action path="/quickSearch"            
+            name="quickSearchForm"
+            type="gov.nih.nci.nautilus.struts.action.QuickSearchAction"
+            scope="request"
+			input="nautilus.home"
+            validate="true">         
+		 <forward name="histogram" path="/graph.do" />
+ 		 <forward name="mismatch" path="nautilus.home" />
+  		 <forward name="badgraph" path="/home.do" />
+		 <forward name="kmplot" path="/km.jsp" />
+	</action>
+	
+   <action    path="/graph"
+              forward="nautilus.graph" />
+
+              
     <action    path="/login"
                type="gov.nih.nci.nautilus.login.LoginAction"
                name="loginForm"
