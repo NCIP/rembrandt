@@ -13,7 +13,7 @@ import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import org.javaby.jbyte.Template;
 
 /**
- * @author BauerD
+ * @author LandyR
  * Feb 8, 2005
  * 
  */
@@ -46,7 +46,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 		    Template headerCell = null;
 		    Template sampleCell = null;
 		    //	template to hold CSS string
-		    Template cssTemplate = null;
+		    //Template cssTemplate = null;
 		    //	is this a CSV report
 		    boolean csv = false;
 		    
@@ -55,6 +55,10 @@ public class ClinicalSampleReport implements ReportGenerator {
 		    	csv = true;
 		    else
 		    	csv = false;
+		    
+		    //	there is no CSS for this report, so put an empty one in
+		    report.set("css", "");
+		    
 		    
 		    /*********** orig *************/
 		    boolean gLinks = false;

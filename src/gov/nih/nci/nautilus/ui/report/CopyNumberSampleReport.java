@@ -50,7 +50,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 		    Template headerCell = null;
 		    Template sampleCell = null;
 		    //	template to hold CSS string
-		    Template cssTemplate = null;
+		    //	Template cssTemplate = null;
 		    //	is this a CSV report
 		    boolean csv = false;
 		    
@@ -133,8 +133,8 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        	if(!csv)	{
 			        		//create a new cell with colspan for every group/label and append to the row
 			        		headerCell = report.get("headerCell");
-			        		headerCell.set("headerColspan", Integer.toString(sampleIds.size()) );
-			        		headerCell.set("headerValue", label+" Samples");
+				        		headerCell.set("headerColspan", Integer.toString(sampleIds.size()) );
+				        		headerCell.set("headerValue", label+" Samples");
 			        		report.append("headerCell", headerCell);
 			        	}
 		        	
@@ -143,19 +143,19 @@ public class CopyNumberSampleReport implements ReportGenerator{
 	  		        	cssLabels.add(label);
 	  		        	   	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-				           		
-				           		sampleCell = report.get("sampleCell");
-				           		
+
 				        		if(csv)	{
 				        			//in csv, make a new header cell for each sample, since no colspan
 				        			headerCell = report.get("headerCell");
 				        			headerCell.set("headerValue", label);
+				        			headerCell.set("headerColspan", "");
 				        			report.append("headerCell", headerCell);
 				        		}
 				           		
 				        		String s = sampleIdIterator.next().toString();
-				           		sampleCell.set("sampleValue", s.substring(2));
-				           		sampleCell.set("sampleColspan", "1");
+				        		sampleCell = report.get("sampleCell");
+					           		sampleCell.set("sampleValue", s.substring(2));
+					           		sampleCell.set("sampleColspan", "1");
 				           		report.append("sampleCell", sampleCell);
 				           		//sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
 				            	theColspan += sampleIds.size();
@@ -183,10 +183,13 @@ public class CopyNumberSampleReport implements ReportGenerator{
 								css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; }\n");
 							}
 						css.append("</style>\n");
-						
+						/*
 						cssTemplate = report.get("css");
 						cssTemplate.set("css", css.toString());
 						report.append("css", cssTemplate);
+						*/
+						report.set("css", css.toString());
+						
 						//sb.append(css.toString());
 						
 			    	}
