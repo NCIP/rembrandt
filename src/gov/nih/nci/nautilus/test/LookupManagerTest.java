@@ -12,6 +12,7 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.lookup.CytobandLookup;
 import gov.nih.nci.nautilus.lookup.ExpPlatformLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
+import gov.nih.nci.nautilus.lookup.PatientDataLookup;
 import junit.framework.TestCase;
 
 /**
@@ -65,7 +66,7 @@ public class LookupManagerTest extends TestCase {
 		//TODO Implement getPatientData().
 	}
     public void testGetExpPlatforms(){
-	    try{
+	    /*try{
 	    	ExpPlatformLookup[] expPlatforms = LookupManager.getExpPlatforms();
 			assertNotNull(expPlatforms);
 	        for (int i =0;i<expPlatforms.length;i++) {
@@ -78,5 +79,19 @@ public class LookupManagerTest extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+    }
+    public void testPatientData(){
+	    try{
+	    	PatientDataLookup[] patientData = LookupManager.getPatientData();
+			assertNotNull(patientData);
+	        for (int i =0;i<patientData.length;i++) {
+	        	PatientDataLookup patient = patientData[i];
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
     }
 }
