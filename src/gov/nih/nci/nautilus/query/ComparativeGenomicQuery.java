@@ -184,20 +184,31 @@ public class ComparativeGenomicQuery extends Query {
 			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
 			}// end of  cloneorProbeCriteria
 			
-			 // starting snpCriteria: 				
+			
+			 // starting AlleleFrequencyCriteria: 
+			 				
 		   AlleleFrequencyCriteria thisAlleleFrequencyCriteria = this.getAlleleFrequencyCriteria();		 
 		   if((thisAlleleFrequencyCriteria != null ) && !thisAlleleFrequencyCriteria.isEmpty() && labels != null){	
-		        String thisCriteria = thisAlleleFrequencyCriteria.getClass().getName();	
-				//OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-				AlleleFrequencyDE alleleFrequencyDE = thisAlleleFrequencyCriteria.getAlleleFrequencyDE();				
+		      	AlleleFrequencyDE alleleFrequencyDE = thisAlleleFrequencyCriteria.getAlleleFrequencyDE();				
 				String alleleStr = alleleFrequencyDE.getClass().getName();
 				OutStr += "<BR>"+labels.getString(alleleStr.substring(alleleStr.lastIndexOf(".")+1))+": "+alleleFrequencyDE.getValue()+"";
 				  	   
 			    }
 			else{
 			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
-			}// end of  cloneorProbeCriteria
+			}// end of  AlleleFrequencyCriteria
 			
+			// starting AssayPlatformCriteria
+		   AssayPlatformCriteria thisAssayPlatformCriteria = this.getAssayPlatformCriteria();
+		    if((thisAssayPlatformCriteria != null) && !thisAssayPlatformCriteria.isEmpty() && labels != null){	
+			  AssayPlatformDE assayPlatformDE = thisAssayPlatformCriteria.getAssayPlatformDE();
+			  String assayStr = assayPlatformDE.getClass().getName();
+			  OutStr += "<BR>"+labels.getString(assayStr.substring(assayStr.lastIndexOf(".")+1))+": "+assayPlatformDE.getValue()+"";
+			
+		   }
+		  else{
+		     System.out.println("AssayPlatform Criteria is empty or Application Resources file is missing.");
+		    } 
 		}// end of try
 	catch (Exception ie) {
 		ie.printStackTrace();

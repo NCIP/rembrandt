@@ -698,6 +698,9 @@ private void createAssayPlatformCriteriaObject(){
 		return this.alleleFrequencyCriteria;
 	}
 	
+	public AssayPlatformCriteria getAssayPlatformCriteria(){
+	   return assayPlatformCriteria;	
+	}
 	/** 
 	 * Returns the tumorGrade.
 	 * @return String

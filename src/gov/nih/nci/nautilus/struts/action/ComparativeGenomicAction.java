@@ -120,6 +120,15 @@ public class ComparativeGenomicAction extends Action {
 		  cghQuery.setAlleleFrequencyCrit(alleleFrequencyCriteria);
 		  }
 		
+		System.out.println("111111111111111");
+		AssayPlatformCriteria assayPlatformCriteria = comparativeGenomicForm.getAssayPlatformCriteria();
+		System.out.println("22222222222222");  
+		  if(!assayPlatformCriteria.isEmpty()){
+		  System.out.println("33333333333333333333");
+		    cghQuery.setAssayPlatformCrit(assayPlatformCriteria);
+			System.out.println("444444444444444");
+		  }
+		
 		try{
 		
 			//Set query in Session.
