@@ -46,6 +46,7 @@ response.setHeader("Location",newLocn);
 <a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">support</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
 </div>
 <!--end nav bar-->
 
