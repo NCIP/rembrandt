@@ -19,6 +19,7 @@ import gov.nih.nci.nautilus.de.DomainElement;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
@@ -26,7 +27,7 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-public class ComparativeGenomicQuery extends Query {
+public class ComparativeGenomicQuery extends Query implements Serializable,Cloneable{
 	/**
 	 * IMPORTANT! This class requires a clone method! This requires that any new
 	 * data field that is added to this class also be cloneable and be added to

@@ -55,6 +55,6 @@ import java.io.Serializable;
  * @author Himanso
  *
  */
-public interface Viewable extends Serializable{
+public interface Viewable extends Serializable,Cloneable{
 	public Object clone();
 }

@@ -11,6 +11,7 @@ import gov.nih.nci.nautilus.de.PathwayDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
@@ -18,7 +19,7 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-public class GeneExpressionQuery extends Query {
+public class GeneExpressionQuery extends Query implements Serializable,Cloneable{
 	/**
 	 * IMPORTANT! This class requires a clone method! This requires that any new
 	 * data field that is added to this class also be cloneable and be added to

@@ -20,6 +20,7 @@ import gov.nih.nci.nautilus.de.SurgeryTypeDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.clinical.ClinicalQueryHandler;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
@@ -27,7 +28,7 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-public class ClinicalDataQuery extends Query {
+public class ClinicalDataQuery extends Query implements Serializable,Cloneable {
 	/**
 	 * IMPORTANT! This class requires a clone method! This requires that any new
 	 * data field that is added to this class also be cloneable and be added to

@@ -53,6 +53,7 @@ package gov.nih.nci.nautilus.query;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -66,7 +67,7 @@ import org.apache.log4j.Logger;
  * Date: Sep 24, 2004
  * 
  */
-public class CompoundQuery implements Queriable{
+public class CompoundQuery implements Queriable, Serializable,Cloneable{
     private static Logger logger = Logger.getLogger(CompoundQuery.class);
     private Queriable leftQuery = null;
 	private Queriable rightQuery = null;

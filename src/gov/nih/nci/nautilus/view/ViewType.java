@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author BhattarR, BauerD
  */
-abstract public class ViewType implements Serializable{
+abstract public class ViewType implements Serializable, Cloneable{
 	/**
 	 * IMPORTANT! This class requires a clone method! This requires that any new
 	 * data field that is added to this class also be cloneable and be added to
