@@ -129,46 +129,33 @@
 	</target>
 	
 <target name="build-war" depends="build-jar, compile, compile_struts">
-   <delete file="${build.dir}/${app.war.name}.war"/>
+	<delete file="${build.dir}/${app.war.name}.war"/>
    <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
-   <fileset dir="${webapp.dir}/WEB-INF">
-            <exclude name="web.xml"/>
-   </fileset>
-   <fileset dir="${webapp.dir}/css"/>
-   <fileset dir="${webapp.dir}/html"/>
-   <fileset dir="${webapp.dir}/images"/>
-   <fileset dir="${webapp.dir}/js"/>
-   <fileset dir="${webapp.dir}/jsp"/>
-   
+   	<fileset file="${webapp.dir}/*.jsp"/>
+    <zipfileset  dir="${webapp.dir}/css" prefix="css"/>
+    <zipfileset  dir="${webapp.dir}/images" prefix="images"/>
+    <zipfileset  dir="${webapp.dir}/js" prefix="js"/>
+    <zipfileset  dir="${webapp.dir}/jsp" prefix="jsp"/> 
+   	<zipfileset  dir="${webapp.dir}/WEB-INF/resources" prefix="/WEB-INF/resources"/>
+
+   	<webinf dir="${webapp.dir}/WEB-INF">
+   	   			<include name="*.xml"/>
+		   		<include name="*.properties"/>
+   	   			<include name="*.tld"/>
+   	            <exclude name="web.xml"/>   	
+   	</webinf>
+   <lib dir="${build.struts.lib.dir}">
+   	<include name="${app.jar.name}.jar"/>
+   	<patternset refid="struts.jars"/> 
+   </lib>
    <lib dir="${build.lib.dir}">
- <!--- "ojb.rt.jars" -->
-   	<include name="${jar.dir}/${app.jar.name}.jar"/>
-   	<include name="btree.jar"/>
-   	<include name="commons-beanutils.jar"/>
-   	<include name="commons-collections-2.1.1.jar"/>
-	<include name="commons-dbcp-1.1.jar"/>
-   	<include name="commons-lang-2.0.jar"/>
-  	<include name="commons-pool-1.1.jar"/>
-  	<include name="db-ojb-1.0.rc7.jar"/>
-  	<include name="jcs.jar"/>
-  	<include name="jdo.jar"/>
-  	<include name="jdori.jar"/>
-  	<include name="jta-1.0.1.jar"/>
-  	<include name="log4j-1.2.8.jar"/>
-  	<include name="p6spy.jar"/>
-  	<include name="xercesImpl.jar"/>
-  	<include name="xml-apis.jar"/>
- <!-- "xml.jars" -->
- 	<include name="jdom-1.0b8.jar"/>
- 	<include name="jaxen-1.0-FCS-full.jar"/>
- 	<include name="saxpath-1.0-FCS.jar"/>
- 	<include name="xercesImpl-2.4.0.jar"/>
- 	<include name="xmi-apis-2.0.2.jar"/>
-<!--- "db.platform.jars" -->
-  <include name="oracle.jar"/>
-<!--- "other.jars"> -->
-  <include name="jxmldiff.jar"/>
+   	<!--<patternset refid="ojb.rt.jars"/>-->
+   	<exclude name="j2ee.jar"/>
+   	<patternset refid="db.platform.jars"/>
+   	<!-- <patternset refid="xml.jars"/> 
+   	<patternset refid="other.jars"/> -->
  </lib>
+ <classes dir="${build.struts.classes.dir}"/> 
   </war>
 </target>
 
