@@ -15,16 +15,22 @@ public class DatumDE extends DomainElement{
     private String datumType;
 
   /**
-	* FoldChange
+	* FoldChangeRatio
     */
     public final static String FOLD_CHANGE_RATIO =  "FoldChangeRatio";
-    public final static String FOLD_CHANGE_SAMPLE_INTENSITY =  "FoldChangeSampleIntensity";
-    public final static String FOLD_CHANGE_NORMAL_INTENSITY =  "FoldChangeNormalIntensity";
-
-  /**
-	* CopyNumber
+    /**
+	* FoldChangeSampleIntensity
     */
-    public final static String COPY_NUMBER =  "CopyNumber";
+    public final static String FOLD_CHANGE_SAMPLE_INTENSITY =  "FoldChangeSampleIntensity";
+    
+    /**
+	* FoldChangeNormalIntensity
+    */
+    public final static String FOLD_CHANGE_NORMAL_INTENSITY =  "FoldChangeNormalIntensity";
+  /**
+	* CopyNumberRatio
+    */
+    public final static String COPY_NUMBER_RATIO =  "CopyNumberRatio";
 
   /**
 	* CLONE_ID
@@ -36,11 +42,14 @@ public class DatumDE extends DomainElement{
     */
     public final static String PROBESET_ID =  "ProbeSetID";
     /**
-	* AGE_GROUP
+	* AgeGroup
     */
-    public final static String AGE_GROUP = "AgeGroup";
-    public final static String SURVIVAL_LENGTH_RANGE = "SurvivalLengthRange";
-    
+    public final static String AGE_GROUP =  "AgeGroup";
+    /**
+	* SurvivalLengthRange
+    */
+    public final static String SURVIVAL_LENGTH_RANGE =  "SurvivalLengthRange";
+
 // ****************************************************
 //                   CONSTRUCTOR(S)
 // ****************************************************
