@@ -5,18 +5,15 @@ package gov.nih.nci.nautilus.ui.struts.action;
 
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.ui.struts.form.ReportGeneratorForm;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
-
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -111,7 +108,17 @@ public class ReportGeneratorAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+		String queryName = rgForm.getQueryName();
+		String prb_queryName = rgForm.getPrbQueryName();
+		String[] sampleIds = rgForm.getSamples();
+		String sessionId = request.getSession().getId();
+		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
+		if(cquery!=null) {
+			
+		}
 		return runGeneViewReport(mapping, form, request, response);
 	}
+	
+	
 	
 }

@@ -1,6 +1,9 @@
 package gov.nih.nci.nautilus.cache;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
@@ -35,7 +38,7 @@ import net.sf.ehcache.ObjectExistsException;
  * 
  * IMPORTANT! Any convenience methods that are added to this class, should first 
  * be added to the ConvenientCache interface.  This will make sure that any 
- * future delegates will always be comlpiant with what other classes in the
+ * future delegates will always be compliant with what other classes in the
  * application expect and will greatly minimize the work if we change out the
  * cacheing mechanism. 
  * 
@@ -242,8 +245,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}catch(IllegalStateException ise) {
 			logger.error("Getting the ReportBean from cache threw IllegalStateException");
 			logger.error(ise);
-		}
-		catch(CacheException ce) {
+		}catch(CacheException ce) {
 			logger.error("Getting the ReportBean from cache threw a new CacheException");
 			logger.error(ce);
 		}catch(ClassCastException cce) {
@@ -306,7 +308,9 @@ public class CacheManagerDelegate implements ConvenientCache{
 		return reportBean;
 	}
 	/**
-	 * 
+	 * This method will add a serializable key value pair to the given sessions
+	 * cache.
+	 *  
 	 * @param sessionId
 	 * @param key
 	 * @param value
@@ -324,7 +328,17 @@ public class CacheManagerDelegate implements ConvenientCache{
 			logger.error(iae);
 		}
 	}
-	
+	/**
+	 * This method should be used to generate unique temporary report names for
+	 * any given session with in the application.  It has a reference to a
+	 * counter (SessionTempReportCounter) that is present and unique for every
+	 * session, and tracks the number of unique temp reports.  It uses this 
+	 * counter to create a new query/report name that will be unique for the
+	 * session.
+	 * 
+	 * @param sessionId --the session that wants the report/query name
+	 * @return tempReportName --a unique name for the report/query
+	 */
 	public String getTempReportName(String sessionId) {
 		String tempReportName = null;
 		Cache sessionCache = getSessionCache(sessionId);
@@ -346,7 +360,16 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return tempReportName;
 	}
-	
+	/**
+	 * This method is intended to check the application cache for the specified
+	 * lookupType that is stored.  It really is the same as making a call to the
+	 * getFromApplicationCache(key) method, except that all lookupType objects
+	 * should implement the java.util.Collection interface.  Returns null if the
+	 * Collection is not found or if an error is thrown.
+	 * 
+	 * @param lookupType  Check the constants in the LookupManager to see what
+	 * is meant by lookupType.
+	 */
 	public Collection checkLookupCache(String lookupType) {
 		Collection results = null;
 		Cache applicationCache = getApplicationCache();
@@ -368,7 +391,12 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return results;
 	}
-
+	/**
+	 * This method takes a key value pair of serializable objects and places them
+	 * in the application cache.
+	 * @param key --This is the key that will retrieve the stored value
+	 * @param value --This is the value to be stored
+	 */
 	public void addToApplicationCache(Serializable key, Serializable value) {
 		Cache applicationCache = getApplicationCache();
 		try {
@@ -381,5 +409,32 @@ public class CacheManagerDelegate implements ConvenientCache{
 			logger.error("CacheElement was not a Collection");
 			logger.error(cce);
 		}
+	}
+	/**
+	 * This method when given a sessionId and a queryName will check the 
+	 * session cache for the stored compoundQuery.  If it is not stored or 
+	 * causes an exception it will return Null.  If you are getting Null values,
+	 * when you know that you have stored the query in the sessionCache, check
+	 * the log files as any exceptions will be written there.
+	 *   
+	 * @param sessionId --the session that should have the query stored
+	 * @param queryName --the query that is desired
+	 * @return compoundQuery
+	 */
+	public CompoundQuery getQuery(String sessionId, String queryName) {
+		
+		//Use the getReportBean(String, String) method as we will
+		//continue to use the same view as was used previously
+		ReportBean bean = getReportBean(sessionId, queryName);
+		CompoundQuery compoundQuery = null;
+		if(bean!=null) {
+			Resultant resultant = bean.getResultant();
+			Queriable queriable = resultant.getAssociatedQuery();
+			if(queriable instanceof CompoundQuery) {
+				compoundQuery = (CompoundQuery)queriable;
+			}
+		}
+		return compoundQuery;
+	
 	}
 }

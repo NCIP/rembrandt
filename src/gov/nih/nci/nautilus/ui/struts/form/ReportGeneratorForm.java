@@ -10,20 +10,24 @@ import gov.nih.nci.nautilus.ui.bean.ReportBean;
  *
  */
 public class ReportGeneratorForm extends BaseForm {
-	private String queryName;
+	
+	private String queryName = "";
+	private String prbQueryName = "";
 	private ReportBean reportBean;
     private CompoundQuery requestQuery;
-    private String resultSetName;
-    private String xsltFileName;
+    private String resultSetName = "";
+    private String xsltFileName = "";
+   
+   
     //General Filter values to be used by the XSLT
     private HashMap filterParams = new HashMap();
-    private String filter_value1;
-    private String filter_value2;
-    private String filter_value3;
- 
-    private String filter_value4;
-    private String filter_value5;
-    private String filter_value6;
+    private String filter_value1 = "";
+    private String filter_value2 = "";
+    private String filter_value3 = "";
+    private String filter_value4 = "";
+    private String filter_value5 = "";
+    private String filter_value6 = "";
+    private String[] samples;
        
 	/**
 	 * @return Returns the query.
@@ -182,5 +186,29 @@ public class ReportGeneratorForm extends BaseForm {
 	 */
 	public void setFilterParams(HashMap filterParams) {
 		this.filterParams = filterParams;
+	}
+	/**
+	 * @return Returns the samples.
+	 */
+	public String[] getSamples() {
+		return samples;
+	}
+	/**
+	 * @param samples The samples to set.
+	 */
+	public void setSamples(String[] samples) {
+		this.samples = samples;
+	}
+	/**
+	 * @return Returns the pbQueryName.
+	 */
+	public String getPrbQueryName() {
+		return prbQueryName;
+	}
+	/**
+	 * @param pbQueryName The pbQueryName to set.
+	 */
+	public void setPrbQueryName(String prbQueryName) {
+		this.prbQueryName = prbQueryName;
 	}
 }

@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.Element;
-
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
@@ -29,7 +25,6 @@ import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
-import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
 import gov.nih.nci.nautilus.ui.report.Transformer;
 import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.Viewable;
@@ -50,136 +45,69 @@ public class ReportGeneratorHelper {
 	private static Logger logger = Logger
 			.getLogger(ReportGeneratorHelper.class);
 
-	static public String REPORT_ACTION = "generatedReport.do";
-
-	private ReportBean reportBean;
-
-	private Document reportXML;
+	//This is the element that is used to store all relevant report data
+	//it sores the resultant, the sessionId, the latest reportXML
+	private ReportBean _reportBean;
 	
-	private ConvenientCache cacheManager;
+	private CompoundQuery _cQuery;
+	
+	private String _queryName = null;
+		
+	private String _sessionId = null;
+
+	private ConvenientCache _cacheManager = CacheManagerDelegate.getInstance();
+	/**
+	 * 
+	 * @param query
+	 * @param sampleIds
+	 */
+	public ReportGeneratorHelper(Queriable query, String[] sampleIds) {
+		
+		
+	}
 
 	/**
+	 * Constructor
 	 * Execute the CompoundQuery and store in the sessionCache. Create a
 	 * ReportBean and store there for later retrieval.
 	 * 
 	 * @param query
 	 */
 	public ReportGeneratorHelper(Queriable query) {
-		Resultant resultant = null;
-		String queryName = null;
-		// used to retrieve the cache associated with this session
-		String sessionId = null;
-		cacheManager = CacheManagerDelegate.getInstance();
-		if (query != null && query instanceof CompoundQuery) {
-			try {
-				CompoundQuery cQuery = (CompoundQuery) query;
-				//Get the desired view for this report
-				View view = (View)cQuery.getAssociatedView();
-				// Get the sessionId to needed to retrieve the sessionCache
-				sessionId = cQuery.getSessionId();
-				queryName = cQuery.getQueryName();
-				if (queryName == null
-						|| queryName.equals("")) {
-					/*
-					 * If the query name is empty than we can assume that
-					 * the user has no interest in storing the query for
-					 * later use. However the user may still want to use the
-					 * current query report in other ways, like changing the
-					 * view or downloading it. SO we should probably keep it
-					 * around for a little bit. We do this by giving it a
-					 * fixed temp name. This results set will be stored
-					 * until another unnamed query is run.
-					 * 
-					 */
-					queryName = cacheManager.getTempReportName(sessionId);
-					cQuery.setQueryName(queryName);
-				}
-				
-				if (sessionId != null && !sessionId.equals("")) {
-					/*
-					 * Use the sessionId to get the cache and see if 
-					 * a result set already exists for the query we have been 
-					 * given.
-					 */
-					reportBean = cacheManager.getReportBean(sessionId, queryName, view);
-					/*
-					 * If the reportBean is null then we know that we could not
-					 * find an appropriate result set in the session cache. So
-					 * lets run a query and get a result. Always run a query
-					 * if it is a preview report.
-					 * 
-					 */
-					if (reportBean == null||cQuery.getQueryName().equals(NautilusConstants.PREVIEW_RESULTS)) {
-						logger.debug("Executing Query");
-						resultant = ResultsetManager
-								.executeCompoundQuery(cQuery);
-						/*
-						 * Create the reportBean that will store everything we 
-						 * may need later when messing with the reports associated
-						 * with this result set.  This reportBean will also 
-						 * be stored in the cache.
-						 */				
-						reportBean = new ReportBean();
-						reportBean.setResultant(resultant);
-						//The cache key will always be the compound query name
-						reportBean.setResultantCacheKey(cQuery.getQueryName());
-						
-					}
-					
-					/*
-					 * Get the correct report XML generator for the desired view
-					 * of the results.
-					 * 
-					 */
-					if (reportBean != null) {
-						resultant = reportBean.getResultant();
-						Viewable oldView = resultant.getAssociatedView();
-						/*
-						 * Make sure that we change the view on the resultSet
-						 * if the user changes the desired view from already
-						 * stored view of the results
-						 */
-						if(!oldView.equals(view)||reportBean.getReportXML()==null) {
-							//we must generate a new XML document for the
-							//view they want
-							ReportGenerator reportGen = ReportGeneratorFactory
-									.getReportGenerator(view);
-							resultant.setAssociatedView(view);
-							reportXML = reportGen.getReportXML(resultant);
-							
-						}else {
-							//Old view is the current view
-							reportXML = reportBean.getReportXML();
-						}
-						reportBean.setReportXML(reportXML);
-						
-						cacheManager.addToSessionCache(sessionId,queryName,reportBean);
-					   			   
-					    	
-					}else {
-						throw new IllegalStateException("There is no resultant to create report");
-					}
-					
-					
-				} else {
-					/*
-					 * We can not store the resultSet without a unique cache to
-					 * store it in. And since we are currently implementing a
-					 * session based cache system, that unique cache id should
-					 * be the session id. If there is no session id, than we can
-					 * assume that something is really wrong so throw a new
-					 * RuntimeException
-					 */
-					logger.error("sessionId is empty for the compoundQuery");
-					throw new RuntimeException(
-							"There does not appear to be a session associated with this query");
-				}
-
-			} catch (Throwable t) {
-				logger.error("Result set manager threw unknown Exception");
-				logger.error(t);
+		try {
+			//check the query to make sure that it is a compound query
+			checkCompoundQuery(query);
+			//check to make sure that we have a sessionId
+			checkSessionId( _cQuery.getSessionId());
+			//check that we have a queryName
+			checkQueryName( _cQuery.getQueryName());
+			//check the cache for the resultant of the query
+			checkCache((View)_cQuery.getAssociatedView());
+			/*
+			 * If the _reportBean is null then we know that we could not
+			 * find an appropriate result set in the session cache. So
+			 * lets run a query and get a result. Always run a query
+			 * if it is a preview report.
+			 * 
+			 */
+			if (_reportBean == null||NautilusConstants.PREVIEW_RESULTS.equals(_queryName)) {
+				logger.debug("Executing Query");
+				executeQuery();
 			}
-		} else {
+			this.generateReportXML();
+		}catch(Exception e) {
+			logger.error("Unable to create the ReportBean");
+			logger.error(e);
+		}
+			
+		
+		
+	}
+
+	private void checkCompoundQuery(Queriable query) throws UnsupportedOperationException {
+		if (query != null && query instanceof CompoundQuery) {
+			_cQuery = (CompoundQuery)query;
+		}else {
 			/*
 			 * Some other object implementing the Queriable interface has been
 			 * passed. Currently we only support the compound query. But that is
@@ -192,9 +120,108 @@ public class ReportGeneratorHelper {
 					"You must pass a CompoundQuery at this time");
 		}
 	}
+
+	private void checkSessionId(String sessionId)throws IllegalStateException {
+		if (sessionId != null && !sessionId.equals("")) {
+			_sessionId = sessionId;
+		} else {
+			/*
+			 * We can not store the resultSet without a unique cache to
+			 * store it in. And since we are currently implementing a
+			 * session based cache system, that unique cache id should
+			 * be the session id. If there is no session id, than we can
+			 * assume that something is really wrong so throw a new
+			 * RuntimeException
+			 */
+			logger.error("sessionId is empty for the compoundQuery");
+			throw new IllegalStateException(
+					"There does not appear to be a session associated with this query");
+		}
+	}
+	
+	private void checkQueryName(String queryName) {
+		if (!"".equals(queryName)){
+			_queryName = queryName;
+		}else {
+			/*
+			 * If the query name is empty than we can assume that
+			 * the user has no interest in storing the query for
+			 * later use. However the user may still want to use the
+			 * current query report in other ways, like changing the
+			 * view or downloading it. SO we should probably keep it
+			 * around for a little bit. We do this by giving it a
+			 * fixed temp name. This results set will be stored
+			 * until another unnamed query is run.
+			 * 
+			 */
+			_queryName = _cacheManager.getTempReportName(_sessionId);
+			_cQuery.setQueryName(_queryName);
+		}
+	}
+	
+	private void checkCache(View view) {
+		/*
+		 * Use the sessionId to get the cache and see if 
+		 * a result set already exists for the queryName we have been 
+		 * given.
+		 */
+		_reportBean = _cacheManager.getReportBean(_sessionId, _queryName, view);
+	}
+	
+	private void generateReportXML() throws IllegalStateException {
+		/*
+		 * Get the correct report XML generator for the desired view
+		 * of the results.
+		 * 
+		 */
+		Document reportXML;
+		if (_reportBean != null) {
+			Resultant resultant = _reportBean.getResultant();
+			Viewable oldView = resultant.getAssociatedView();
+			Viewable newView = _cQuery.getAssociatedView();
+			/*
+			 * Make sure that we change the view on the resultSet
+			 * if the user changes the desired view from already
+			 * stored view of the results
+			 */
+			if(!oldView.equals(newView)||_reportBean.getReportXML()==null) {
+				//we must generate a new XML document for the
+				//view they want
+				ReportGenerator reportGen = ReportGeneratorFactory
+						.getReportGenerator(newView);
+				resultant.setAssociatedView(newView);
+				reportXML = reportGen.getReportXML(resultant);
+				
+			}else {
+				//Old view is the current view
+				reportXML = _reportBean.getReportXML();
+			}
+			_reportBean.setReportXML(reportXML);
+			
+			_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
+		   			   
+		    	
+		}else {
+			throw new IllegalStateException("There is no resultant to create report");
+		}
+	}
+	
+	private void executeQuery() throws Exception{
+		Resultant resultant = ResultsetManager.executeCompoundQuery(_cQuery);
+		/*
+		 * Create the _reportBean that will store everything we 
+		 * may need later when messing with the reports associated
+		 * with this result set.  This _reportBean will also 
+		 * be stored in the cache.
+		 */				
+		_reportBean = new ReportBean();
+		_reportBean.setResultant(resultant);
+		//The cache key will always be the compound query name
+		_reportBean.setResultantCacheKey(_cQuery.getQueryName());
+	}
 	
 	public ReportBean getReportBean() {
-		return reportBean;
+		return _reportBean;
 	}
 	
 	public static void renderReport(HttpServletRequest request, Document reportXML, String xsltFilename, JspWriter out) {
