@@ -111,8 +111,8 @@
 	  <put name="title" value="" />
     </definition>
    
-    <definition name="nautilus.KMPlot" extends="graph">
-      <put name="mainForm" value="/jsp/graphs/KMPlot.jsp" />
+    <definition name="nautilus.KMGraph" extends="graph">
+      <put name="mainForm" value="/jsp/graphs/bodyKMGraph.jsp" />
 	  <put name="title" value="" />
     </definition>
     

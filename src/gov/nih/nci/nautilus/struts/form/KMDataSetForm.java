@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.graph.kaplanMeier;
+package gov.nih.nci.nautilus.struts.form;
 
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
@@ -6,6 +6,8 @@ import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.graph.kaplanMeier.KMDrawingPoint;
+import gov.nih.nci.nautilus.graph.kaplanMeier.KaplanMeier;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
@@ -17,6 +19,7 @@ import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -32,10 +35,13 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 		Serializable {
 
 	private GeneExpressionQuery geneQuery;
-
+	private String method;
 	private String geneSymbol;
-
-	private int geneFolds = 0;
+	private String regulated = "Up";
+	private int fold = 3;
+    private ArrayList folds = new ArrayList();
+    private String chartHeader = null;
+                        
 
 	public Object produceDataset(Map params) throws DatasetProduceException {
 		XYSeriesCollection dataset = new XYSeriesCollection();
@@ -58,18 +64,20 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 						.getDrawingPoints();
 				XYSeries series1 = createSeries(allSamplesPoints, "All Samples");
 
-				ExprFoldChangeDE geneRegulation = new ExprFoldChangeDE.UpRegulation(
-						new Float(1.0));
-				Collection geneSamples = kaplanMeierPlotContainer
+				ExprFoldChangeDE geneRegulation;
+                if(regulated.equalsIgnoreCase("Up")) {
+                	geneRegulation = new ExprFoldChangeDE.UpRegulation(new Float(fold));
+                }else {
+                	geneRegulation = new ExprFoldChangeDE.DownRegulation(new Float(fold));
+                }
+                Collection geneSamples = kaplanMeierPlotContainer
 						.getSampleKaplanMeierPlotResultsets(geneRegulation);
 				KaplanMeier kmGeneSamples = new KaplanMeier(geneSamples);
 				KMDrawingPoint[] geneSamplePoints = kmGeneSamples
 						.getDrawingPoints();
 				XYSeries series2 = createSeries(geneSamplePoints, geneSymbol);
 				dataset.addSeries(series1);
-				dataset.addSeries(series2);
-				ExprFoldChangeDE downRegulation = new ExprFoldChangeDE.DownRegulation(
-						new Float(3.0));
+				dataset.addSeries(series2);				
 			}
 		}
 		return dataset;
@@ -125,15 +133,60 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	/**
 	 * @return Returns the geneFolds.
 	 */
-	public int getGeneFolds() {
-		return geneFolds;
+	public int getFold() {
+		return fold;
 	}
 
 	/**
 	 * @param geneFolds
 	 *            The geneFolds to set.
 	 */
-	public void setGeneFolds(int geneFolds) {
-		this.geneFolds = geneFolds;
+	public void setFold(int geneFolds) {
+		this.fold = geneFolds;
 	}
+	/**
+	 * @return Returns the method.
+	 */
+	public String getMethod() {
+		return method;
+	}
+	/**
+	 * @param method The method to set.
+	 */
+	public void setMethod(String method) {
+		this.method = method;
+	}
+	/**
+	 * @return Returns the regulated.
+	 */
+	public String getRegulated() {
+		return regulated;
+	}
+	/**
+	 * @param regulated The regulated to set.
+	 */
+	public void setRegulated(String regulated) {
+		this.regulated = regulated;
+	}
+	
+	/**
+	 * @return Returns the folds.
+	 */
+	public ArrayList getFolds() {
+		if(folds.isEmpty()) {
+            for(int i = 1;i<11;i++) {
+            	folds.add(new Integer(i));
+            }
+        }
+        return folds;
+	}
+
+	/**
+	 * @return Returns the chartHeader.
+	 */
+	public String getChartHeader() {
+        chartHeader = geneSymbol+" "+regulated+"regulated"+" "+fold+"X";
+		return chartHeader;
+	}
+	
 }

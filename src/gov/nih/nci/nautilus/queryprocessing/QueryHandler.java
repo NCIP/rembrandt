@@ -38,7 +38,7 @@ abstract public class QueryHandler {
        //TODO: complete this
        try {
            InputStream inStream = QueryHandler.class.getResourceAsStream(FILE_NAME);
-           assert(inStream != null);
+           assert true:inStream != null;
            DOMParser p = new DOMParser();
            p.parse(new InputSource(inStream));
            doc = p.getDocument();

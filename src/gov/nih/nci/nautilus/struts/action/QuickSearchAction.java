@@ -6,6 +6,7 @@ import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.GeneExprDiseasePlotContainer;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.struts.form.KMDataSetForm;
 import gov.nih.nci.nautilus.struts.form.QuickSearchForm;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,6 @@ import gov.nih.nci.nautilus.view.*;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.graph.kaplanMeier.KMDataSetForm;
 import gov.nih.nci.nautilus.criteria.Constants;
 
 import java.awt.*;
@@ -298,12 +298,18 @@ public class QuickSearchAction extends DispatchAction {
      * @return
      * @throws Exception
      */
-    private ActionForward doKMPlot(ActionMapping mapping, QuickSearchForm qsForm,
+    public ActionForward doKMPlot(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        KMDataSetForm kmProducer = new KMDataSetForm();
-        kmProducer.setGeneSymbol(qsForm.getQuickSearchName());
-        request.setAttribute("kmDataSetForm", kmProducer);
+        KMDataSetForm kmForm = (KMDataSetForm)form;
+        kmForm.setGeneSymbol((String)request.getAttribute("geneSymbol"));
+        return mapping.findForward("kmplot");
+    }
+
+    public ActionForward redrawKMPlot(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        KMDataSetForm kmForm = (KMDataSetForm)form;
         return mapping.findForward("kmplot");
     }
 
@@ -313,7 +319,8 @@ public class QuickSearchAction extends DispatchAction {
 		QuickSearchForm qsForm = (QuickSearchForm) form;
 		String chartType = qsForm.getPlot();
 		if (chartType.equalsIgnoreCase("kapMaiPlot")) {
-			return doKMPlot(mapping, qsForm, request, response);
+            request.setAttribute("geneSymbol",qsForm.getQuickSearchName());
+			return mapping.findForward("kmplot");
 		} else if (chartType.equalsIgnoreCase("geneExpPlot")) {
 			return doGeneExpPlot(mapping, qsForm, request, response);
 		} else {
