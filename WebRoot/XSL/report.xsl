@@ -138,10 +138,10 @@
 	</head>
   <body>
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
-  <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
-  
 
-  <xsl:for-each select="Report">
+  <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
+ 
+   <xsl:for-each select="Report">
     
     <!--
     <fieldset>
@@ -157,30 +157,38 @@
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
 	<xsl:variable name="qName" select="@queryName" />
 	<xsl:variable name="rType" select="@reportType" />
-
-<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
-<input type="hidden" name="queryName" value="{$qName}" />
-<input type="hidden" name="filter_value2" value="{$filter_value2}" />
-<input type="hidden" name="filter_value3" value="{$filter_value3}" />
-<input type="hidden" name="filter_value1" value="{$filter_value1}"/>
-</form>
-<div class="rptHeader">	
-	<div class="rowCount">
-	 <div style="background-color:#ffffff; margin-bottom:5px; padding-bottom:5px; border-left:1px solid black; border-right:1px solid black;">
+	
+    <span style="z-index:900; float:right;position:absolute;top:10px;right:10px;">
 	  <!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	  <a href="#" onclick="javascript:window.close();"><img align="right" src="images/close.png" border="0" onmouseover="return overlib('Close this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
 	  <a href="javascript: spawn('help.jsp?sect={$helpLink}', 350, 500);"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
 	  <a href="#" onclick="javascript:return false;"><img align="right" src="images/excel.png" border="0" alt="download for excel" onmouseover="return overlib('Download for Excel.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
 	  <a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
-<!--	  <a href="#queryInfo"><img align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a> -->
+	  <!-- <a href="#queryInfo"><img align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a> -->
 	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
+  </span>
 
+	<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
+	<input type="hidden" name="queryName" value="{$qName}" />
+	<input type="hidden" name="filter_value2" value="{$filter_value2}" />
+	<input type="hidden" name="filter_value3" value="{$filter_value3}" />
+	<input type="hidden" name="filter_value1" value="{$filter_value1}"/>
+	</form>
+	
+<div class="rptHeader">	
+	<div class="rowCount">
+	 <div style="background-color:#ffffff; margin-bottom:5px; padding-bottom:5px; border-left:1px solid black; border-right:1px solid black;">
+		<span style="float:right; top:0px;">
+			<a style="margin-left:10px" href="#" onclick="javascript:toggleDiv('hideme');return false;">[Show/Hide Form Tools]</a>
+			<xsl:text>&#160;</xsl:text><xsl:text>&#160;</xsl:text> 
+ 		</span>
 		<b class="title" style="display:block; padding:3px;">
-		<xsl:value-of select="@reportType" />		
-		<span style="font-weight:normal; font-size:12px">(Query Name:<xsl:value-of select="@queryName" />)</span>
+			<xsl:value-of select="@reportType" />		
+			<span style="font-weight:normal; font-size:12px">
+				(Query Name:<xsl:value-of select="@queryName" />)
+			</span>
 		</b>
-		<br/><a style="margin-left:10px" href="#" onclick="javascript:toggleDiv('hideme');return false;">[Show/Hide Form Tools]</a>
-		<xsl:text>&#160;</xsl:text><xsl:text>&#160;</xsl:text> 
+		
  	</div>
  	<div id="hideme">
 	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
@@ -229,6 +237,8 @@
 		<a href="#" onclick="javascript:checkAll(document.prbSamples.samples);return false;">[Check All]</a>
 		<xsl:text>&#160;</xsl:text>
 		<a href="#" onclick="javascript:uncheckAll(document.prbSamples.samples);return false;">[Uncheck All]</a>
+	 	<xsl:text>&#160;</xsl:text>
+	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('You can select the samples of interest by clicking on each individual sample or a group and saving them with a unique name. This allows you to select this sample set to apply your future queries to.');" onmouseout="return nd();">[?]</a></b>
 	  </div>
 	  
   	<div class="filterForm">
@@ -236,7 +246,7 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
 		<xsl:text>&#160;</xsl:text>
-		<a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('show all values');" onmouseout="return nd();">[?]</a>
+		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Clicking on this button lets you view the gene expression fold changes or copy number values (depending on the type of report) for all the reporters in the report. This allows you to see those values that did not match your query criteria.');" onmouseout="return nd();">[?]</a></b>
 	  </div>
 	  
 	 <div class="filterForm">
@@ -397,7 +407,7 @@
 		      				<xsl:when test="$styleclass = 'gene' and $theData != '-'">
 		      					<a href="#" onclick="javascript:spawnAnnot('gene', '{$theData}'); return false;"><xsl:value-of select="Data"/></a>
 		      				</xsl:when>
-		      				<xsl:when test="$styleclass = 'reporter' and $theData != '-'">
+		      				<xsl:when test="($styleclass = 'reporter' or $styleclass = 'cytoband') and $theData != '-'">
 		      						<a href="#" onclick="javascript:spawnAnnot('reporter','{$theData}'); return false;"><xsl:value-of select="Data"/></a>	
 		      				</xsl:when>
 			      			<xsl:when test="$class = 'sample'">

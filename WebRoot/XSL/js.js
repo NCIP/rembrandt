@@ -119,16 +119,28 @@ function showHelp(help)	{
 function spawnAnnot(type, element)	{
 	var winw = 800;
 	var winh = 550;
-	if(type == 'gene')
-		spawn('http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM='+escape(element),winw,winh);
-	else if(type == 'reporter')
-		spawn('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position='+escape(element)+'&pix=620&hgsid=40518963&Submit=submit',winw,winh);
+	var page = "";
+	if(type == 'gene')	{
+		page = 'http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM='+escape(element);
+		//spawn(page,winw,winh);
+		rbtFrame(page);
+	}
+	else if(type == 'reporter')	{
+		page = 'http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position='+escape(element)+'&pix=620&hgsid=40518963&Submit=submit';
+		//spawn(page,winw,winh);
+		rbtFrame(page);
+	}
 }
 
 function spawn(url,winw,winh) {
   var w = window.open(url, "_blank",
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
       ",scrollbars=yes,resizable=yes");
+
 }
 
-
+function rbtFrame(page)	{
+	var winw = 800;
+	var winh = 550;
+	spawn('rbtFrame.jsp?p='+page, winw, winh);
+}
