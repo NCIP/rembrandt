@@ -16,7 +16,11 @@ import gov.nih.nci.nautilus.view.Viewable;
  * 
  */
 public class ReportGeneratorFactory {
-
+	/**
+	 * Takes a view and determines which ReportGenerator is required.
+	 * @param viewType
+	 * @return
+	 */
 	public static ReportGenerator getReportGenerator(Viewable viewType) {
    
         ReportGenerator reportGen = null;
@@ -32,7 +36,9 @@ public class ReportGeneratorFactory {
      	return reportGen;
     }
     /**
-     * 
+     * A convenience method that will extract out the view from 
+     * a given resultant, and return the correct type of report
+     * generator
      * @param resultant
      * @return
      */

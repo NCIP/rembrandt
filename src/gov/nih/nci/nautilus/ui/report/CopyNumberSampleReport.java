@@ -17,7 +17,7 @@ import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.javaby.jbyte.Template;
+
 
 /**
  * @author LandyR
