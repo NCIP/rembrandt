@@ -34,7 +34,7 @@
         <html:options property="folds"/>
       </html:select>
       &nbsp;Folds
-      &nbsp;Associated Reporters
+      &nbsp;&nbsp;Reporters
       <html:select property="selectedReporter">
         <html:options property="reporters"/>
       </html:select>
