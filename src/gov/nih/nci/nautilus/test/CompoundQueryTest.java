@@ -40,6 +40,7 @@ import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
+import gov.nih.nci.nautilus.resultset.ShowAllValuesHandler;
 import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
@@ -120,7 +121,7 @@ public class CompoundQueryTest extends TestCase {
 		try {
 			CompoundQuery myCompoundQuery;
 			Resultant resultant;
-			for(int i =0; i < 5; i++){//test Single Query
+			//for(int i =0; i < 5; i++){//test Single Query
 			
 			System.out.println("Testing Single Gene Query>>>>>>>>>>>>>>>>>>>>>>>");
 			myCompoundQuery = new CompoundQuery(geneQuery);
@@ -129,13 +130,14 @@ public class CompoundQueryTest extends TestCase {
 			print(resultant);
 			
 			//test copy query
+			/**
 			System.out.println("Testing Single Copy Query>>>>>>>>>>>>>>>>>>>>>>>");
 			myCompoundQuery = new CompoundQuery(genomicQuery);
 			resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
-			
-			}
+			**/
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 			}
@@ -198,7 +200,7 @@ public class CompoundQueryTest extends TestCase {
 	public void testGeneExprANDCopyNumberQueryORGeneExpr() {
 		try {
 			//test CompoundQuery Query
-			for(int i= 0; i < 100; i++){
+			//for(int i= 0; i < 100; i++){
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery OR Probe Query>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
 			
@@ -211,9 +213,9 @@ public class CompoundQueryTest extends TestCase {
 			//String theColors[] = {"0073E6","FFFF61"};
 			//System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
 			print(resultant);
-			System.err.println("Count= "+i);
+			//System.err.println("Count= "+i);
 			Thread.sleep( 5 );
-			}
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -226,7 +228,7 @@ public class CompoundQueryTest extends TestCase {
 			ResultsContainer resultsContainer = resultant.getResultsContainer();
 			if (resultsContainer instanceof DimensionalViewContainer){
 				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-		        /*GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+		        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
 		        if (geneViewContainer != null){
 			        displayGeneExprSingleView(geneViewContainer);
 		        }
@@ -234,12 +236,34 @@ public class CompoundQueryTest extends TestCase {
 		        if (copyNumberContainer != null){
 		        	displayCopyNumberSingleView(copyNumberContainer);
 		        }
-		        */
+		        /*
 		        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 		        if (sampleViewContainer != null){
 			        displaySampleView(sampleViewContainer);	
 		        }
+		        */
 			}
+		}
+		
+	}
+	public void testShowAllValuesHandler() {
+		
+		try {
+			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
+			CompoundQuery myCompoundQuery2 = new CompoundQuery(OperatorType.OR,myCompoundQuery1,geneQuery);
+
+			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery2);
+			System.out.println("Printing Query Output>>>>>>>>>>>>>>>>>>>>>>>");
+			print(resultant);
+			ShowAllValuesHandler showAllValuesHandler = new ShowAllValuesHandler(resultant);
+			CompoundQuery showQuery = showAllValuesHandler.handleQuery();
+			Resultant resultant2 = ResultsetManager.executeCompoundQuery(showQuery);
+			System.out.println("Printing ShowAllValuesQuery Output>>>>>>>>>>>>>>>>>>>>>>>");
+			print(resultant2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
@@ -337,8 +361,9 @@ public class CompoundQueryTest extends TestCase {
     private void buildCloneCrit() {
         cloneCrit = new CloneOrProbeIDCriteria();
         //IMAGE:2014733 is a CloneID for AFT2
-        cloneCrit.setCloneIdentifier(new CloneIdentifierDE.IMAGEClone("IMAGE:2014733"));
-
+            cloneCrit.setCloneIdentifier(new CloneIdentifierDE.BACClone("IMAGE:434972"));
+            cloneCrit.setCloneIdentifier(new CloneIdentifierDE.BACClone("IMAGE:434990"));
+            cloneCrit.setCloneIdentifier(new CloneIdentifierDE.BACClone("IMAGE:434992"));
     }
     private void buildGeneIDCrit() {
         geneCrit = new GeneIDCriteria();
@@ -426,11 +451,12 @@ public class CompoundQueryTest extends TestCase {
         geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
         geneQuery.setQueryName("GeneQuery");
         geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-        geneQuery.setGeneIDCrit(geneCrit);
-        geneQuery.setPathwayCrit(pathwayCrit);
-        geneQuery.setGeneOntologyCrit(ontologyCrit);
+        geneQuery.setCloneOrProbeIDCrit(cloneCrit);
+        //geneQuery.setGeneIDCrit(geneCrit);
+        //geneQuery.setPathwayCrit(pathwayCrit);
+        //geneQuery.setGeneOntologyCrit(ontologyCrit);
         geneQuery.setArrayPlatformCrit(allPlatformCrit);
-        geneQuery.setFoldChgCrit(foldCrit);
+        //geneQuery.setFoldChgCrit(foldCrit);
     }
     private void buildCopyNumberSingleViewQuery(){
         genomicQuery = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
