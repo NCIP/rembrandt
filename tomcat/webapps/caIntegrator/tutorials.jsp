@@ -65,14 +65,14 @@
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">2. Kaplan-Meier Survival Plot</legend>
   <br>
 	<a href="javascript:spawnm('kmplot.html');">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) 
-	or <a href="kmplot.exe">download</a> the tutorial for offline viewing.
+	or <a href="kmplot.exe">download</a> the tutorial for offline viewing (.exe file).
  </fieldset>
  <br><br>
   <fieldset>
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">3. Gene Expression Query</legend>
   <br>
 	<a href="#" target="_blank" onclick="javascript:alert('coming soon...'); return false;">View</a>* the Gene Expression Query tutorial in your browser (opens in a new window) or 
-	<a href="#" onclick="javascript:alert('coming soon...'); return false;">download</a> the tutorial for offline viewing.
+	<a href="#" onclick="javascript:alert('coming soon...'); return false;">download</a> the tutorial for offline viewing (.exe file).
   
  </fieldset>
  <br><br>
