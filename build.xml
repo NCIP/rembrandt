@@ -125,6 +125,7 @@
 			<include name="junit.jar" />
 			<include name="log4j-1.2.8.jar" />
 			<include name="db-ojb-1.0.rc7.jar" />
+			<include name="dom4j-1.5.2.jar" />
             <patternset refid="cache.jars"/>         
 		</fileset>
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
