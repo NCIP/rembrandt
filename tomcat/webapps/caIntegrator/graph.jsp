@@ -44,27 +44,28 @@ while( iterator.hasNext() )
 <!-- <div style="border:1px solid black; width:300px; text-align:left; padding:3px"> -->
 <fieldset style="width:300px; text-align:left; padding:3px">
 	<legend>Abbreviations of Group Names</legend>
-		
+		<table>
 	<%
 	DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
 	if(diseaseTypes != null)	{
 		for (int i = 0; i< diseaseTypes.length ; i++) {
-		String diseaseType = diseaseTypes[i].getDiseaseType();
-				if(diseaseType.equalsIgnoreCase(gov.nih.nci.nautilus.constants.Constants.ASTRO))	{
-		    			diseaseType = diseaseType.substring(0,6);
-		    	}	
-		 	out.println(diseaseType+": "+diseaseTypes[i].getDiseaseDesc() + "<br>" );
+			String diseaseType = diseaseTypes[i].getDiseaseType();
+			if(diseaseType.equalsIgnoreCase(gov.nih.nci.nautilus.constants.Constants.ASTRO))	{
+		    	diseaseType = diseaseType.substring(0,6);
+		    }	
+		 	out.println("<tr><Td>"+diseaseType+":</td><Td>"+diseaseTypes[i].getDiseaseDesc() + "</td></tr>\n" );
 		}
+		out.println("</table>\n");
 	}
 	else	{
 	%>
 		<pre>
-		GBM:	Glioblastoma Multiforme
-		OLIG:	Oligodendroglioma
-		ASTRO:	Astrocytoma
-		MIXED:	Mixed
-		GLIOMA:	Glioma (Includes All)
-		NON-TUMOR: Normal
+			GBM:	Glioblastoma Multiforme
+			OLIG:	Oligodendroglioma
+			ASTRO:	Astrocytoma
+			MIXED:	Mixed
+			GLIOMA:	Glioma (Includes All)
+			NON-TUMOR: Normal
 		</pre>
 	<%
 	}
