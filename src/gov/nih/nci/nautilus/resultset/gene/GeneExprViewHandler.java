@@ -94,6 +94,7 @@ public abstract class GeneExprViewHandler {
 	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}
 	  			}
+            reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
 	  		if(exprObj.getAnnotation() != null){
 	  			GeneExpr.Annotaion annotation = exprObj.getAnnotation();
 	  			reporterResultset.setAssiciatedGenBankAccessionNos(exprObj.getAnnotation().getAccessions());

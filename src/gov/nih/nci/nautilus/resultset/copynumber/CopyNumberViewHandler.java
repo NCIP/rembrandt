@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.nautilus.resultset.copynumber;
 
+import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
@@ -43,14 +44,22 @@ public class CopyNumberViewHandler {
 	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpProbesetName());
 	       		reporterResultset = cytobandResultset.getRepoterResultset(copyNumberObj.getSnpProbesetName().toString());
 	      		if(reporterResultset == null){
-	      		 	reporterResultset = new ReporterResultset(reporter);
+	      		 	reporterResultset = new ReporterResultset(reporter);                    
 	      			}  	
 	    	}
+            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCopyNumber()));
+            reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getPhysicalPosition()));
 	  		if(copyNumberObj.getAnnotations() != null){
 	  			CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
-	  			reporterResultset.setAssiciatedGenBankAccessionNos(copyNumberObj.getAnnotations().getAccessionNumbers());
-	  			reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
-	  			reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
+                if(annotation.getAccessionNumbers()!= null){
+                    reporterResultset.setAssiciatedGenBankAccessionNos(annotation.getAccessionNumbers());
+                }
+                if(annotation.getLocusLinkIDs()!=null){
+                    reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
+                }
+                if(annotation.getGeneSymbols()!=null){
+                    reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
+                }
 	  			
 	  		}
 	    	

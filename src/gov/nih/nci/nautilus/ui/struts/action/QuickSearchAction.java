@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
@@ -81,33 +82,36 @@ public class QuickSearchAction extends DispatchAction {
         quickSearchType = (String)request.getAttribute("quickSearchType");
 		kmplotType = (String)request.getAttribute("plotType");
 		kmForm.setPlotType(kmplotType);
-		kmForm.setGeneOrCytoband(quickSearchName );
+		//kmForm.setGeneOrCytoband(quickSearchName );
         if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
 
             performKMGeneExpressionQuery(quickSearchName);
     		kmForm.setReporters(populateReporters());
     		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
     		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-    				kmForm.getDownFold(), quickSearchName, kmSampleInfos);
+    				kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
     		if (generator.getMyActionErrors().size() > 0) {
     			this.saveErrors(request, generator.getMyActionErrors());
     			return mapping.findForward("badgraph");
     		}
+            kmForm.setGeneOrCytoband(getKmResultsContainer().getGeneSymbol().getValue().toString() );
     		kmForm.setCensorDataset(generator.getCensorDataseries());
     		kmForm.setLineDataset(generator.getLineDataseries());
         }
         else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
             performKMCopyNumberQuery(quickSearchName, quickSearchType);
             kmForm.setReporters(populateReporters());
-            KMSampleInfo[] kmSampleInfos = null;
-            //KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-            //        kmForm.getDownFold(), quickSearchName, kmSampleInfos);
-            //if (generator.getMyActionErrors().size() > 0) {
-            //    this.saveErrors(request, generator.getMyActionErrors());
-            //    return mapping.findForward("badgraph");
-            //}
-            //kmForm.setCensorDataset(generator.getCensorDataseries());
-            //kmForm.setLineDataset(generator.getLineDataseries());
+            String cytobandGeneSymbol = getKmResultsContainer().getCytobandDE().getValue().toString();
+            kmForm.setGeneOrCytoband(quickSearchName +"("+cytobandGeneSymbol+")");
+            KMSampleInfo[] kmSampleInfos = {new KMSampleInfo(0,0,0)};
+            KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+                    kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
+            if (generator.getMyActionErrors().size() > 0) {
+                this.saveErrors(request, generator.getMyActionErrors());
+                return mapping.findForward("badgraph");
+            }
+            kmForm.setCensorDataset(generator.getCensorDataseries());
+            kmForm.setLineDataset(generator.getLineDataseries());
             }
 		return mapping.findForward("kmplot");
 	}
@@ -118,21 +122,27 @@ public class QuickSearchAction extends DispatchAction {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KMSampleInfo[] kmSampleInfos = null;
 		kmForm.setReporters(populateReporters());
-		if( getKmResultsContainer() != null && kmForm.getSelectedReporter() != null){
-
-	        if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
-				if(kmForm.getSelectedReporter().equals(NautilusConstants.GRAPH_DEFAULT)){
-					kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
-				}
-				else{
-					kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
-				}
-	        }
-	        else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
-	        		kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+		if( getKmResultsContainer() != null && 
+                kmForm.getSelectedReporter() != null){
+            if((kmForm.getSelectedReporter().trim().length() > 0)){
+    	        if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
+    				if(kmForm.getSelectedReporter().equals(NautilusConstants.GRAPH_DEFAULT)){
+    					kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+    				}
+    				else{
+    					kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+    				}
+    	        }
+    	        else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+    	        		kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 	        	}
+            }
+            else{ //empty graph
+                KMSampleInfo[] km = {new KMSampleInfo(0,0,0)};
+                kmSampleInfos = km;
+            }
 			KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-					kmForm.getDownFold(), kmForm.getGeneOrCytoband(),kmSampleInfos);
+					kmForm.getDownFold(), kmForm.getGeneOrCytoband(),kmSampleInfos,kmplotType);
 			if (generator.getMyActionErrors().size() > 0) {
 				this.saveErrors(request, generator.getMyActionErrors());
 				return mapping.findForward("badgraph");
@@ -182,12 +192,16 @@ public class QuickSearchAction extends DispatchAction {
 		return mapping.findForward("mismatch");
 	  }
 	private List populateReporters(){
-		List reporters = null;
+		List reporters = new ArrayList();
+        reporters.add("");
 		if( getKmResultsContainer() != null){
 			reporters = kmResultsContainer.getAssociatedReporters();
-			if (chartType.equalsIgnoreCase("kapMaiPlotGE")){
+			if (kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
 				reporters.add(0,NautilusConstants.GRAPH_DEFAULT);
 			}
+            if (kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+                reporters.add(0," ");
+            }
 		}
 		return reporters;
 	}

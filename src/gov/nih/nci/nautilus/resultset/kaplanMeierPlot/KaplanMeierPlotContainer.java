@@ -50,7 +50,9 @@
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
 import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMSampleInfo;
@@ -108,11 +110,12 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	    Collection samples = getBioSpecimenResultsets();
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
-			ReporterFoldChangeValuesResultset reporterFCValueResultset = sample.getReporterFoldChangeValuesResultset(reporterName);
-			if (reporterFCValueResultset != null && reporterFCValueResultset.getFoldChangeRatioValue() != null){
+			ReporterResultset reporterResultset = sample.getReporterResultset(reporterName);
+			if (reporterResultset != null && reporterResultset.getValue() != null){
 				Long time = (Long) (sample.getSurvivalLength().getValue());
 				Integer censor = new Integer((sample.getCensor().getValue().toString()));
-				Double value = (Double) reporterFCValueResultset.getFoldChangeRatioValue().getValue();
+				DatumDE datumDE = reporterResultset.getValue();
+                Double value = (Double) datumDE.getValue();
 				KMSampleInfo kmSampleInfo = new KMSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
 				kmSampleInfoArray.add(kmSampleInfo);
 			}

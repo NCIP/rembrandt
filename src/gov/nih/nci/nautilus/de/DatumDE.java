@@ -71,7 +71,9 @@ public class DatumDE extends DomainElement{
 	* Censor
     */
     public final static String CENSOR =  "Censor";
-
+    /**
+    * Censor
+    */
 // ****************************************************
 //                   CONSTRUCTOR(S)
 // ****************************************************

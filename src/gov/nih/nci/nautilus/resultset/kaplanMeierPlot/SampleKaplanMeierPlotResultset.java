@@ -51,7 +51,7 @@ package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
 import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.de.DatumDE;
-import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 
 import java.util.ArrayList;
@@ -116,7 +116,7 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	/**
 	 * @param reporterResultset Adds reporterResultset to this DiseaseGeneExprPlotResultset object.
 	 */
-	public void addReporterFoldChangeValuesResultset(ReporterFoldChangeValuesResultset reporterResultset){
+	public void addReporterResultset(ReporterResultset reporterResultset){
 		if(reporterResultset != null && reporterResultset.getReporter() != null){
 			reporters.put(reporterResultset.getReporter().getValue().toString(), reporterResultset);
 		}
@@ -124,7 +124,7 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	/**
 	 * @param reporterResultset Removes reporterResultset from this DiseaseGeneExprPlotResultset object.
 	 */
-	public void removeReporterFoldChangeValuesResultset(ReporterFoldChangeValuesResultset reporterResultset){
+	public void removeResultset(ReporterResultset reporterResultset){
 		if(reporterResultset != null && reporterResultset.getReporter() != null){
 			reporters.remove(reporterResultset.getReporter().getValue().toString());
 		}
@@ -133,16 +133,16 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
      * @param reporter
 	 * @return reporterResultset Returns reporterResultset for this DiseaseGeneExprPlotResultset.
 	 */
-    public ReporterFoldChangeValuesResultset getReporterFoldChangeValuesResultset(String reporter){
+    public ReporterResultset getReporterResultset(String reporter){
     	if(reporter != null){
-			return (ReporterFoldChangeValuesResultset) reporters.get(reporter);
+			return (ReporterResultset) reporters.get(reporter);
 		}
     		return null;
     }
 	/**
 	 * @return reporterResultset Returns reporterResultset to this DiseaseGeneExprPlotResultset object.
 	 */
-    public Collection getReporterFoldChangeValuesResultsets(){
+    public Collection getReporterResultsets(){
     		return reporters.values();
     }
 	/**
@@ -150,15 +150,13 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	 */
     public DatumDE getSummaryReporterFoldChange(){
     DatumDE foldChangeRatioValue = null;    
-	Collection reporters = getReporterFoldChangeValuesResultsets();
+	Collection reporters = getReporterResultsets();
 	int numberOfReporters = reporters.size();
 	if(numberOfReporters > 0){
 		double reporterValues = 0.0;
 		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
-			ReporterFoldChangeValuesResultset reporter = (ReporterFoldChangeValuesResultset) reporterIterator.next();
-			double foldchange = new Double(reporter
-					.getFoldChangeRatioValue().getValue().toString())
-					.doubleValue();
+			ReporterResultset reporter = (ReporterResultset) reporterIterator.next();
+			double foldchange = new Double(reporter.getValue().getValue().toString()).doubleValue();
 			reporterValues += foldchange;
 		}
 		Double geneExprAverage = new Double (reporterValues / numberOfReporters);
@@ -169,7 +167,7 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	/**
 	 * @param none Removes all reporterResultset in this DiseaseGeneExprPlotResultset object.
 	 */
-    public void removeAllReporterFoldChangeValuesResultsets(){
+    public void removeAllReporterResultsets(){
     	reporters.clear();
     }
 

@@ -5,6 +5,7 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.resultset.gene;
+import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 
 import java.util.Collection;
@@ -17,6 +18,8 @@ import java.util.TreeMap;
  */
 public class ReporterResultset {
 	private DatumDE reporter = null;
+    private DatumDE value = null;
+    private BasePairPositionDE.StartPosition startPhysicalLocation = null;
 	private SortedMap groupTypes = new TreeMap();
     private Collection assiciatedGeneSymbols = null;
     private Collection assiciatedLocusLinkIDs =  null;
@@ -123,4 +126,20 @@ public class ReporterResultset {
 	public void setAssiciatedLocusLinkIDs(Collection assiciatedLocusLinkIDs) {
 		this.assiciatedLocusLinkIDs = assiciatedLocusLinkIDs;
 	}
+    public BasePairPositionDE.StartPosition getStartPhysicalLocation() {
+        return startPhysicalLocation;
+    }
+    
+    public void setStartPhysicalLocation(BasePairPositionDE.StartPosition startPhysicalLocation) {
+        this.startPhysicalLocation = startPhysicalLocation;
+    }
+    public DatumDE getValue() {
+        return value;
+    }
+    
+    public void setValue(DatumDE value) {
+        this.value = value;
+    }
+    
+    
 }

@@ -49,6 +49,7 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.DatumDE;
@@ -61,7 +62,6 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.ClinicalResultSet;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
-import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -147,44 +147,53 @@ public class KaplanMeierPlotHandler {
 	 */
 	private static KaplanMeierPlotContainer handleKMCopyNumberPlotContainer(KaplanMeierPlotContainer kaplanMeierPlotContainer, CopyNumber copyNumberObj) {
 		SampleKaplanMeierPlotResultset sampleResultset = null;
-		ReporterFoldChangeValuesResultset reporterResultset = null;
+		ReporterResultset reporterResultset = null;
       	if (kaplanMeierPlotContainer != null && copyNumberObj != null){
       		kaplanMeierPlotContainer.setCytobandDE(new CytobandDE (copyNumberObj.getCytoband()));
       		sampleResultset = handleSampleKaplanMeierPlotResultset(kaplanMeierPlotContainer, copyNumberObj);
-      		reporterResultset = handleCopyNumberChangeValuesResultset(sampleResultset,copyNumberObj);
-      		sampleResultset.addReporterFoldChangeValuesResultset(reporterResultset);
+      		reporterResultset = handleCopyNumberReporterResultset(sampleResultset,copyNumberObj);
+      		sampleResultset.addReporterResultset(reporterResultset);
       		kaplanMeierPlotContainer.addBioSpecimenResultset(sampleResultset); 
       	}
 		return kaplanMeierPlotContainer;
 	}
-	/**
+	private static ReporterResultset handleCopyNumberReporterResultset(SampleKaplanMeierPlotResultset sampleResultset, CopyNumber copyNumberObj) {
+        // find out if it has a probeset or a clone associated with it
+        //populate ReporterResultset with the approciate one
+        ReporterResultset reporterResultset = null;
+        if(sampleResultset != null && copyNumberObj != null){
+            if(copyNumberObj.getSnpProbesetName() != null ){
+                DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpProbesetName());
+                reporterResultset = sampleResultset.getReporterResultset(copyNumberObj.getSnpProbesetName().toString());
+                if(reporterResultset == null){
+                    reporterResultset = new ReporterResultset(reporter);                    
+                    }   
+            }
+            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCopyNumber()));
+            reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getPhysicalPosition()));
+            if(copyNumberObj.getAnnotations() != null){
+                CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
+                if(annotation.getAccessionNumbers()!= null){
+                    reporterResultset.setAssiciatedGenBankAccessionNos(annotation.getAccessionNumbers());
+                }
+                if(annotation.getLocusLinkIDs()!=null){
+                    reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
+                }
+                if(annotation.getGeneSymbols()!=null){
+                    reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
+                }
+                
+            }
+            
+        }
+        return reporterResultset;
+    }
+    /**
 	 * @param sampleResultset
 	 * @param copyNumberObj
 	 * @return
 	 */
-	private static ReporterFoldChangeValuesResultset handleCopyNumberChangeValuesResultset(SampleKaplanMeierPlotResultset sampleResultset, CopyNumber copyNumberObj) {
-	/*	ReporterResultset reporterResultset = null;
-		if(sampleResultset != null && copyNumberObj != null){
-	    	if(copyNumberObj.getSnpProbesetName() != null ){
-	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpProbesetName());
-	       		reporterResultset = sampleResultset.getRepoterResultset(copyNumberObj.getSnpProbesetName().toString());
-	      		if(reporterResultset == null){
-	      		 	reporterResultset = new ReporterResultset(reporter);
-	      			}  	
-	    	}
-	  		if(copyNumberObj.getAnnotations() != null){
-	  			CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
-	  			reporterResultset.setAssiciatedGenBankAccessionNos(copyNumberObj.getAnnotations().getAccessionNumbers());
-	  			reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
-	  			reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
-	  			
-	  		}
-	    	
-		}
-        return sampleResultset;
-*/
-		return null;
-	}
+
 	/**
 	 * @param kaplanMeierPlotContainer
 	 * @param exprObj
@@ -192,12 +201,12 @@ public class KaplanMeierPlotHandler {
 	 */
 	private static KaplanMeierPlotContainer handleKMGeneExpPlotContainer(KaplanMeierPlotContainer kaplanMeierPlotContainer,GeneExpr.GeneExprSingle exprObj){
 		SampleKaplanMeierPlotResultset sampleResultset = null;
-		ReporterFoldChangeValuesResultset reporterResultset = null;
+		ReporterResultset reporterResultset = null;
       	if (kaplanMeierPlotContainer != null && exprObj != null){
       		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol (exprObj.getGeneSymbol()));
       		sampleResultset = handleSampleKaplanMeierPlotResultset(kaplanMeierPlotContainer, exprObj);
       		reporterResultset = handleReporterFoldChangeValuesResultset(sampleResultset,exprObj);
-      		sampleResultset.addReporterFoldChangeValuesResultset(reporterResultset);
+      		sampleResultset.addReporterResultset(reporterResultset);
       		kaplanMeierPlotContainer.addBioSpecimenResultset(sampleResultset); 
       	}
 		return kaplanMeierPlotContainer;
@@ -207,18 +216,18 @@ public class KaplanMeierPlotHandler {
 	 * @param exprObj
 	 * @return
 	 */
-	private static ReporterFoldChangeValuesResultset handleReporterFoldChangeValuesResultset(SampleKaplanMeierPlotResultset sampleResultset, GeneExprSingle exprObj) {
+	private static ReporterResultset handleReporterFoldChangeValuesResultset(SampleKaplanMeierPlotResultset sampleResultset, GeneExprSingle exprObj) {
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one
-		ReporterFoldChangeValuesResultset reporterResultset = null;
+		ReporterResultset reporterResultset = null;
 		if(sampleResultset != null && exprObj != null){
 	    	if(exprObj.getProbesetName() != null){
 	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,exprObj.getProbesetName());
-	       		reporterResultset = sampleResultset.getReporterFoldChangeValuesResultset(exprObj.getProbesetName().toString());
+	       		reporterResultset = sampleResultset.getReporterResultset(reporter.getValue().toString());
 	      		if(reporterResultset == null){
-	      		 	reporterResultset = new ReporterFoldChangeValuesResultset(reporter);
+	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}
-	      		reporterResultset.setFoldChangeRatioValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
+	      		reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
 	    		}	  		
 		}
         return reporterResultset;

@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 
 import java.util.ArrayList;
@@ -16,13 +17,10 @@ import org.jfree.data.XYSeriesCollection;
  * that is used by the ceWolf tags to display the data. 
  */
 public class KMGraphGenerator {
-    private String method;
     private String geneSymbol;
     private int upFold = 2;
     private int downFold = 2;
     private String chartTitle = null;
-    private ArrayList folds = new ArrayList();
-   
     private static final int UPREGULATED = 1;
     private static final int DOWNREGULATED = 2;
     private static final int ALLSAMPLES = 3;
@@ -36,21 +34,27 @@ public class KMGraphGenerator {
     private ActionErrors myActionErrors = new ActionErrors();
     private XYSeriesCollection censorDataseries = new XYSeriesCollection();
     private XYSeriesCollection lineDataseries = new XYSeriesCollection();
-    
+    private String plotType ;
     private static Logger logger = Logger.getLogger(KMGraphGenerator.class);
+    private String upLabel;
+    private String downLabel;
+    private Double upVsDownPvalue = null;
+    private Double upVsIntPvalue = null;
+    private Double downVsIntPvalue = null;
+    private Double upVsRest = null;
+    private Double downVsRest = null;
+    private Double intVsRest = null;
+    private Integer upSampleCount = new Integer(0);
+    private Integer downSampleCount = new Integer(0);
+    private Integer intSampleCount = new Integer(0);
+    private Integer allSampleCount = new Integer(0);
     
-    public KMGraphGenerator(int _upFold, int _downFold, String _geneName, KMSampleInfo[] samples) {
+    public KMGraphGenerator(int _upFold, int _downFold, String _geneName, KMSampleInfo[] samples, String _plotType) {
         setDownFold( _downFold);
         setUpFold( _upFold);
         geneSymbol = _geneName;
-       /* ResultsContainer resultsContainer = null;
-        try {
-            resultsContainer = performKaplanMeierPlotQuery();
-        } catch (Exception e) {
-            logger.error("KMDataSetForm has thrown an exception");
-            logger.error(e);
-        }
-        */
+        setPlotType(_plotType);
+
         if (samples != null) {
             
      
@@ -61,12 +65,12 @@ public class KMGraphGenerator {
            allSamples = getDataSeries(samples, ALLSAMPLES, "All Samples ");
 
            //UpRegulated Samples Series 
-           upSamples = getDataSeries(samples,UPREGULATED, geneSymbol+" Upregulated >= "+upFold+"X ");
+           upSamples = getDataSeries(samples,UPREGULATED, geneSymbol+getUpLabel()+" >= "+upFold+"X ");
             // Down Regulation Series
-           downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+" Downregulated <= "+downFold+"X ");
+           downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+getDownLabel()+" <= "+downFold+"X ");
 
            // intermediate samples
-           intSamples = getDataSeries(samples,INTRERMEDIATE, geneSymbol+" Up < "+this.getUpFold() + "X AND Down > "+ this.getDownFold()+"X ");
+           intSamples = getDataSeries(samples,INTRERMEDIATE, geneSymbol+getUpLabel()+" < "+this.getUpFold() + "X AND "+getDownLabel()+"  > "+ this.getDownFold()+"X ");
 
            
            lineDataseries.addSeries(upSamples[0]);
@@ -247,4 +251,144 @@ public class KMGraphGenerator {
     public void setUpFold(int upFold) {
         this.upFold = upFold;
     }
+
+
+    public String getPlotType() {
+        return plotType;
+    }
+    
+
+
+    public void setPlotType(String plotType) {
+        if(plotType != null &&
+                plotType.equals(NautilusConstants.GENE_EXP_KMPLOT) ||
+                plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+            this.plotType = plotType;
+        }        
+    }
+    
+
+
+    public String getDownLabel() {
+        if(plotType != null){
+            if(plotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
+                downLabel = " Down-Reg.";
+            }
+            else if(plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+                downLabel = " Deleted";
+            }
+        }
+        return downLabel;
+    }
+    
+
+
+    public String getUpLabel() {
+        if(plotType != null){
+            if(plotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
+                upLabel = " Up-Reg.";
+            }
+            else if(plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+                upLabel = " Amplified";
+            }
+        }
+        return upLabel;
+    }
+
+
+    public Integer getAllSampleCount() {
+        if(getAllSamples() != null){
+            allSampleCount = new Integer(getAllSamples().length);
+        }
+        return allSampleCount;
+    }
+    
+
+
+    public Integer getDownSampleCount() {
+        if(getDownSamples() != null){
+            downSampleCount = new Integer(getDownSamples().length);
+        }
+        return downSampleCount;
+    }
+    
+
+
+    public Double getDownVsIntPvalue() {
+        if((getDownSampleCount().intValue()) > 0 && (getIntSampleCount().intValue()>0)){
+            return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getDownSamples(),kaplanMeier.getIntSamples()));
+        }
+        return downVsIntPvalue;
+    }
+    
+
+
+    public Double getDownVsRest() {
+        if(this.getDownSampleCount().intValue() > 0 ){
+            return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getDownSamples()));
+        }
+        return downVsRest;
+    }
+    
+
+
+    public Integer getIntSampleCount() {
+        if(getIntSamples() != null){
+            intSampleCount = new Integer(getIntSamples().length);
+        }
+        return intSampleCount;
+    }
+    
+
+
+    public KMDataSeries[] getIntSamples() {
+        return intSamples;
+    }
+    
+
+
+    public Double getIntVsRest() {
+        if(this.getIntSampleCount().intValue() > 0 ){
+            return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getIntSamples()));
+        }
+        return intVsRest;
+    }
+    
+
+
+    public Integer getUpSampleCount() {
+        if(getUpSamples() != null){
+            upSampleCount = new Integer(getUpSamples().length);
+        }
+        return upSampleCount;
+    }
+    
+
+
+    public Double getUpVsDownPvalue() {
+        if((getUpSampleCount().intValue()) > 0 && (getDownSampleCount().intValue()>0)){
+            return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples(),kaplanMeier.getDownSamples()));
+        }
+        return upVsDownPvalue;
+    }
+    
+
+
+    public Double getUpVsIntPvalue() {
+        if((getUpSampleCount().intValue()) > 0 && (getIntSampleCount().intValue()>0)){
+            return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples(),kaplanMeier.getIntSamples()));
+        }
+        return upVsIntPvalue;
+    }
+    
+
+
+    public Double getUpVsRest() {
+        if(this.getUpSampleCount().intValue() > 0 ){
+            return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples()));
+        }
+        return upVsRest;
+    }
+    
+    
 }
