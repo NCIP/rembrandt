@@ -39,8 +39,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 	 */
 	public Document getReportXML(Resultant resultant, Map filterMapParams) {
 
-		//	TODO: have setter or put in props file
-		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
+		//String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
 		ArrayList filter_string = new ArrayList();	// hashmap of genes | reporters | cytobands
@@ -164,7 +163,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			    		String cytoband = cytobandResultset.getCytoband().getValue().toString();
 			    		Collection reporters = copyNumberContainer.getRepoterResultsets(cytoband); 
 			    		
-			    		if(filter_element.equals("cytoband") && !filter_string.contains(cytoband))	{
+			    		if(!filter_element.equals("cytoband") || (filter_element.equals("cytoband") && !filter_string.contains(cytoband)))	{
 				    		recordCount += reporters.size();
 				        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 				        		
@@ -172,7 +171,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
 				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 				        		
-				        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{		
+				        		if(!filter_element.equals("reporter") || (filter_element.equals("reporter") && !filter_string.contains(reporterName)))	{		
 					        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
