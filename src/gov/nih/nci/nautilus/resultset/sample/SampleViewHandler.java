@@ -49,6 +49,7 @@
  */
 package gov.nih.nci.nautilus.resultset.sample;
 
+import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
@@ -117,4 +118,18 @@ public class SampleViewHandler {
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));
   		return sampleResultset;
     }
+	/**
+	 * @param sampleViewResultsContainer
+	 * @param patientDataObj
+	 * @return
+	 */
+	public static SampleViewResultsContainer handleSampleView(SampleViewResultsContainer sampleViewResultsContainer, PatientData patientDataObj) {
+    	SampleResultset sampleResultset = null;
+    	if (sampleViewResultsContainer != null && patientDataObj != null){
+      		sampleResultset = handleBioSpecimenResultset(sampleViewResultsContainer,patientDataObj);
+           	//Populate the SampleViewResultsContainer
+      		sampleViewResultsContainer.addBioSpecimenResultset(sampleResultset);
+    	}
+    	return sampleViewResultsContainer;
+	}
 }

@@ -51,6 +51,7 @@ package gov.nih.nci.nautilus.resultset;
 import java.util.Collection;
 import java.util.Iterator;
 
+import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
@@ -58,6 +59,7 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotHandler;
+import gov.nih.nci.nautilus.view.ClinicalSampleView;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
@@ -92,7 +94,7 @@ public class ResultsetManager {
 		    		}
 		    	else if (resultsets instanceof GeneExprGroup[]){
 		    		GeneExprDiseaseView geneExprDiseaseView = (GeneExprDiseaseView) associatedView;
-					ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprDiseaseView((GeneExprGroup[]) resultsets);
+					ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprDiseaseView(resultant,(GeneExprGroup[]) resultsets);
 					resultant.setResultsContainer(resultsContainer);
 					resultant.setAssociatedQuery(queryToExecute);
 					resultant.setAssociatedView(associatedView);
@@ -104,6 +106,13 @@ public class ResultsetManager {
 		    			groupType = copyNumberView.getGroupType();
 		    		}
 					ResultsContainer resultsContainer = ResultsetProcessor.handleCopyNumberSingleView(resultant,(CopyNumber[]) resultsets, groupType);
+					resultant.setResultsContainer(resultsContainer);
+					resultant.setAssociatedQuery(queryToExecute);
+					resultant.setAssociatedView(associatedView);
+				}
+		    	else if (resultsets instanceof PatientData[]){
+		    		ClinicalSampleView clinicalView = (ClinicalSampleView) associatedView;
+					ResultsContainer resultsContainer = ResultsetProcessor.handleClinicalSampleView(resultant,(PatientData[]) resultsets);
 					resultant.setResultsContainer(resultsContainer);
 					resultant.setAssociatedQuery(queryToExecute);
 					resultant.setAssociatedView(associatedView);

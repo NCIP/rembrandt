@@ -1,21 +1,33 @@
 package gov.nih.nci.nautilus.ui;
 
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.de.*;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.resultset.*;
-import gov.nih.nci.nautilus.resultset.gene.*;
-import gov.nih.nci.nautilus.resultset.sample.*;
-import gov.nih.nci.nautilus.resultset.copynumber.*;
-import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
+import gov.nih.nci.nautilus.resultset.Resultant;
+import gov.nih.nci.nautilus.resultset.ResultsContainer;
+import gov.nih.nci.nautilus.resultset.ResultsetManager;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.copynumber.CytobandResultset;
+import gov.nih.nci.nautilus.resultset.copynumber.SampleCopyNumberValuesResultset;
+import gov.nih.nci.nautilus.resultset.gene.DiseaseGroupResultset;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
+import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
+import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.view.ClinicalSampleView;
+import gov.nih.nci.nautilus.view.CopyNumberSampleView;
+import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
+import gov.nih.nci.nautilus.view.Viewable;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-
-import java.util.Random;
 
 /**
  * @author Landyr
@@ -88,7 +100,7 @@ public class ReportGenerator  {
 					}
 			 	}
 			 	else	{
-			 		errors.append("Results Container is Null<br>\n");
+			 		errors.append("<b>No Results Found, Try a Different Query</b><br>\n");
 			 		return errors.toString();
 			 	}
 			 } //resultant != null
@@ -113,19 +125,28 @@ public class ReportGenerator  {
 			boolean cLinks = false;
 			StringBuffer sb = new StringBuffer();
 			System.out.println("HERE IS THE CLINICAL VIEW");
-			DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-		//	CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
-			// Are we making hyperlinks?
-			if(dimensionalViewContainer.getGeneExprSingleViewContainer() != null)	{
-				// show the geneExprHyperlinks
-				gLinks = true;
-			}
-			if(dimensionalViewContainer.getCopyNumberSingleViewContainer() != null)	{
-				// show the copyNumberHyperlinks
-				cLinks = true;
+			SampleViewResultsContainer sampleViewContainer = null;
+			if(resultsContainer instanceof DimensionalViewContainer){
+				
+				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+					//	CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+						// Are we making hyperlinks?
+						if(dimensionalViewContainer.getGeneExprSingleViewContainer() != null)	{
+							// show the geneExprHyperlinks
+							gLinks = true;
+						}
+						if(dimensionalViewContainer.getCopyNumberSingleViewContainer() != null)	{
+							// show the copyNumberHyperlinks
+							cLinks = true;
+						}
+				sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+				
+			}else if (resultsContainer instanceof SampleViewResultsContainer){
+				
+				sampleViewContainer = (SampleViewResultsContainer) resultsContainer;
+				
 			}
 			
-			SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
 			sb.append("<div class=\"rowCount\">"+samples.size()+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n");
 			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");

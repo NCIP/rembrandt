@@ -4,6 +4,7 @@
  */
 package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
@@ -32,7 +33,7 @@ public class ResultsetProcessor {
  		DimensionalViewContainer dimensionalViewContainer;
       	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer;
     	SampleViewResultsContainer sampleViewResultsContainer;
-  		if(resultant.getResultsContainer() instanceof DimensionalViewContainer){
+  		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
  			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
   	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
   			geneExprSingleResultsContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
@@ -65,16 +66,21 @@ public class ResultsetProcessor {
 	}
 
 	/**
+	 * @param resultant
 	 * @param resultsets
 	 * @return
 	 */
-	public static ResultsContainer handleGeneExprDiseaseView(GeneExpr.GeneExprGroup[] geneExprObjects) {
+	public static ResultsContainer handleGeneExprDiseaseView(Resultant resultant, GeneExpr.GeneExprGroup[] geneExprObjects) {
 		ResultsContainer resultsContainer = null;
+      	GeneExprResultsContainer geneExprResultsContainer = null;
  	  	SampleViewHandler sampleViewHandler = new SampleViewHandler();
-      	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
-    	SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
-    	DimensionalViewContainer dimensionalViewContainer = new DimensionalViewContainer();
-      	GeneExprResultsContainer geneExprResultsContainer = new GeneExprResultsContainer();
+ 	  	if(resultant != null && resultant.getResultsContainer() instanceof GeneExprResultsContainer){
+  			geneExprResultsContainer = (GeneExprResultsContainer) resultant.getResultsContainer();
+  		}
+		if (geneExprResultsContainer == null){
+  	    	geneExprResultsContainer = new GeneExprResultsContainer();
+  		}
+
           for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
             ResultSet obj = geneExprObjects[i];
@@ -93,7 +99,7 @@ public class ResultsetProcessor {
  		DimensionalViewContainer dimensionalViewContainer;
  		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer;
     	SampleViewResultsContainer sampleViewResultsContainer;
-  		if(resultant.getResultsContainer() instanceof DimensionalViewContainer){
+  		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
  			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
   	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
  			copyNumberSingleViewResultsContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
@@ -148,6 +154,34 @@ public class ResultsetProcessor {
     		}
         }//for
 		return resultsContainer;
+	}
+
+	/**
+	 * @param resultant
+	 * @param datas
+	 * @return
+	 */
+	public static ResultsContainer handleClinicalSampleView(Resultant resultant, PatientData[] patientDatas) {
+		ResultsContainer resultsContainer = null;
+    	SampleViewResultsContainer sampleViewResultsContainer = null;
+  		if(resultant != null && resultant.getResultsContainer() instanceof SampleViewResultsContainer){
+  			sampleViewResultsContainer = (SampleViewResultsContainer) resultant.getResultsContainer();
+  		}
+		if (sampleViewResultsContainer == null){
+  	    	sampleViewResultsContainer = new SampleViewResultsContainer();
+  		}
+          for (int i = 0; i < patientDatas.length; i++) {
+    		if(patientDatas[i] != null) {
+            ResultSet obj = patientDatas[i];
+            	if (obj instanceof PatientData)  {
+            		PatientData  patientDataObj = (PatientData) obj;
+	               	//Populate the SampleViewResultsContainer
+	               	sampleViewResultsContainer = SampleViewHandler.handleSampleView(sampleViewResultsContainer,patientDataObj);
+	               	resultsContainer = sampleViewResultsContainer;
+               }
+    		}
+        }//for
+        return resultsContainer;
 	}
 
 

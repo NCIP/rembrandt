@@ -261,21 +261,29 @@ public class QueryTest extends TestCase {
             q.setDiseaseOrGradeCrit(diseaseCrit);
             try {
                 ResultSet[] cghObjects = QueryManager.executeQuery(q);
-                //print(geneExprObjects);
+                print(cghObjects);
                 //testResultset(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
 
         }
+
+	/**
+	 * @param cghObjects
+	 */
+	private void print(ResultSet[] cghObjects) {
+		// TODO Auto-generated method stub
+		
+	}
     }
 
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        suit.addTest(new TestSuite(GeneExpression.class));
+        //suit.addTest(new TestSuite(GeneExpression.class));
         //suit.addTest(new TestSuite(CGH.class));
-         //suit.addTest(new TestSuite(Clinical.class));
+         suit.addTest(new TestSuite(Clinical.class));
         return suit;
 	}
 
