@@ -224,7 +224,7 @@ public class QueryTest extends TestCase {
 
             AssayPlatformCriteria crit = new AssayPlatformCriteria();
             crit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
-            q.seAssayPlatformCrit(crit);
+            q.setAssayPlatformCrit(crit);
             //q.setRegionCrit(regionCrit);
             //q.setSNPCrit(snpCrit);
             //q.setGeneIDCrit(geneIDCrit);
