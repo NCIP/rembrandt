@@ -50,9 +50,15 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
     public Collection getBioSpecimentResultsets(String geneSymbol,String reporterName, String groupType){
     	if(reporterName != null){
     		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
-    		ReporterResultset reporterResultset = (ReporterResultset) geneResultset.getRepoterResultset(reporterName);
-			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
-			return groupResultset.getBioSpecimenResultsets();
+            if(geneResultset != null){
+        		ReporterResultset reporterResultset = geneResultset.getRepoterResultset(reporterName);
+    			if(reporterResultset != null){
+                    ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
+                    if(groupResultset != null){
+                        return groupResultset.getBioSpecimenResultsets();
+                    }
+            }
+            }
 		}
     		return null;
     }
@@ -64,7 +70,7 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
     	if(reporterName != null){
     		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
             if(geneResultset != null){
-        		ReporterResultset reporterResultset = (ReporterResultset) geneResultset.getRepoterResultset(reporterName);
+        		ReporterResultset reporterResultset = geneResultset.getRepoterResultset(reporterName);
                 if(reporterResultset != null){
         			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
                     if(groupResultset!= null){
