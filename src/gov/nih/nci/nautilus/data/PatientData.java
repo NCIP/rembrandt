@@ -7,7 +7,7 @@ import gov.nih.nci.nautilus.lookup.PatientDataLookup;
 import gov.nih.nci.nautilus.resultset.ClinicalResultSet;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
-public class PatientData implements ResultSet, ClinicalResultSet
+public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLookup
 {
   public final static String BIOSPECIMEN_ID = "biospecimenId";
    public final static String SAMPLE_ID = "sampleId";  
