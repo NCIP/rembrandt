@@ -223,7 +223,7 @@
 	  
 	  <xsl:if test="$rType = 'Copy Number'">
 	  <div class="filterForm" id="cNumberFilter" style="display:none">
-	  <form style="margin-bottom:0;margin:0;" action="runReport.do?method=runGeneViewReport" method="post" name="cfilter_form">
+	  <form style="margin-bottom:0;margin:0;" action="runReport.do?method=runFilterCopyNumber" method="post" name="cfilter_form">
 		<b><span class="lb">Filter Options:</span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<select name="filter_value5">
@@ -253,8 +253,9 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Submit" />
+		<!--<input type="hidden" name="filter_type" value="newXML"/>-->
 		<xsl:text>&#160;</xsl:text>
-		<input type="checkbox" name="filter_value7" value="and" />And (Or by default)
+		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
 	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>
 	  </form>
 	  </div>

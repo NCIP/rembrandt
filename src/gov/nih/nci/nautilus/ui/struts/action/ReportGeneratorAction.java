@@ -241,18 +241,19 @@ public class ReportGeneratorAction extends DispatchAction {
 		
 		//get the data we need from the form
 		if(rgForm.getFilter_value5()!=null)
-		    nocalls = Integer.getInteger(rgForm.getFilter_value5());
+		    nocalls = Integer.valueOf((String) rgForm.getFilter_value5());
 		if(rgForm.getFilter_value6()!=null)
-		    percent = Integer.getInteger(rgForm.getFilter_value6());
+		    percent = Integer.valueOf((String) rgForm.getFilter_value6());
 		//reusing filter_value4 for this
-		if(rgForm.getFilter_value4()!=null && rgForm.getFilter_value4().equalsIgnoreCase("and"))
+		if(rgForm.getFilter_value4()!=null && ((String)rgForm.getFilter_value4()).equalsIgnoreCase("and"))
 		    operator = OperatorType.AND;
 		
 		//hold our samples for exclusion
 		String[] sampleIds = null;
 		excludedSamples = ResultsetManager.getSampleIdsforCopyNumberFilter(resultant, nocalls, percent, operator);
-		sampleIds = (String[]) excludedSamples.toArray();
-		
+		if(excludedSamples!=null)
+		    sampleIds = (String[]) excludedSamples.toArray(new String[0]);
+
 		if(reportBean!=null) {
 			//This will generate get a resultant and store it in the cache
 		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds);
