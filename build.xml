@@ -2,13 +2,13 @@
 
  <property name="props-file" value="build.properties"/>
  <property file="${props-file}"/>
- <property name="cvsRoot" value="caintegrator" />
- <property name="cvsModule" value="${cvsLogin}:pserver:${cvsLogin}@cbiocvs2.nci.nih.gov:/share/content/cvsroot/" />
+ <property name="cvsRoot" value="@cbiocvs2.nci.nih.gov:/share/content/cvsroot/" />
+ <property name="cvsPackage" value="caintegrator" />
  <patternset id="test.jars">
   <include name="junit.jar"/>  
  </patternset>	
  
- 
+
  <patternset id="ojb.rt.jars">
   <include name="btree.jar"/>
   <include name="commons-beanutils.jar"/>
@@ -94,12 +94,12 @@
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
-        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">
+        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}" source="1.4">
         	<!-- <exclude name="**/test/*.java" /> -->
         	<exclude name="**/de/PBTest.java" /> 
         	<classpath refid="cp.compile"/>
         </javac>
-	  <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">
+	  <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}" source="1.4">
         	<include name="**/de/PBTest.java" /> 
         	<classpath refid="cp.compile"/>
       </javac>
@@ -182,7 +182,7 @@
         <copy file="${build.dir}/${app.war.name}.war" todir="${tomcat.dir}/webapps"/>
     </target>
 
-    <target name="build-all" depends="clean, cvs-login,cvs-update, deploy-webapp"/>
+    <target name="build-all" depends="deploy-webapp"/>
  <target name="run_junit" depends="compile">
 
     <delete dir="${junit.report.dir}"/>
@@ -210,23 +210,22 @@
 		<equals arg1="" arg2="${cvsLogin}" /> 
 	</condition> 
 	<fail if="noLogin">You didn't enter a CVS user login name.</fail>
-
 	<input message="Please enter CVS password:" addproperty="cvsPassword" /> 
 	<condition property="noCVSPassword"> 
 		<equals arg1="" arg2="${cvsPassword}" /> 
 	</condition> 
-    
 	<fail if="noCVSPassword">You did not enter your CVS password.</fail>
-		 <cvspass cvsRoot="${cvsRoot}" password="${cvsLogin}" /> 
+ 	 	<cvspass cvsRoot="${cvsRoot}" password="${cvsPassword}" /> 
 </target>
 
 <!-- cvsUpdate target --> 
  <target name="cvs-update" depends="cvs-login">
-	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}" command="update -d " />
+ 	<echoproperties prefix="cvs"/>
+	<cvs cvsRoot=":pserver:${cvsLogin}${cvsRoot}" package="${cvsPackage}" dest="${basedir}" command="update -d" />
  </target>
 
  <target name="tagcode">
-	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="tag -R ${tag}"/>
+	<cvs cvsRoot=":pserver:${cvsLogin}${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="tag -R ${tag}"/>
  </target>
 
  <target name="clean">       
