@@ -4,9 +4,11 @@
 
 <tr class="report"><td>
 <br />
-<form action="#">
+<html:form action="quickSearch" >
+
 <fieldset>
 <legend>Quick Search</legend><br />
+<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/><Br>
 <strong>Enter a gene symbol</strong><br />
 <input type="text" name="quickSearchName" size="40">
 &nbsp;
@@ -17,7 +19,7 @@
 <input type="radio" name="plot" class="radio" value="geneExpPlot" checked>Gene Expression plot&nbsp;
 <input type="radio" name="plot" class="radio" value="kapMaiPlot">Kaplan-Meier survival plot
 </fieldset>
-</form>
+</html:form>
 <Br>
 
 <form action="menu.do" method="POST">
