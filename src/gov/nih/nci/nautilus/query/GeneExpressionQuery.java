@@ -1,14 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
-import gov.nih.nci.nautilus.criteria.PathwayCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
@@ -26,7 +19,8 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
 public class GeneExpressionQuery extends Query {
-    
+
+    private AllGenesCriteria allGenes;
     private static Logger logger = Logger.getLogger(GeneExpressionQuery.class);
     private GeneIDCriteria geneIDCrit;
     private RegionCriteria regionCrit;
@@ -243,6 +237,12 @@ public class GeneExpressionQuery extends Query {
     	return OutStr;
     }
 
+    public AllGenesCriteria getAllGenes() {
+        return allGenes;
+    }
+    public void setAllGenes(AllGenesCriteria allGenes) {
+        this.allGenes = allGenes;
+    }
     public GeneIDCriteria getGeneIDCrit() {
         return geneIDCrit;
     }

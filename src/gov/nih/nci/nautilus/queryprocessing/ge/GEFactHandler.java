@@ -1,9 +1,5 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
-import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
-import gov.nih.nci.nautilus.data.GeneClone;
-import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
@@ -11,15 +7,10 @@ import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.util.ThreadPool;
+import gov.nih.nci.nautilus.data.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -40,6 +31,7 @@ abstract public class GEFactHandler {
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
+     Map geneAnnotations = Collections.synchronizedMap(new HashMap());
      private final static int VALUES_PER_THREAD = 50;
      List factEventList = Collections.synchronizedList(new ArrayList());
      abstract void addToResults(Collection results);
@@ -47,59 +39,10 @@ abstract public class GEFactHandler {
      abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
      throws Exception;
 
-   /* protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
-       ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
-       DiseaseOrGradeCriteria diseaseCrit = geQuery.getDiseaseOrGradeCriteria();
-        PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-        //String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
-        //if (diseaseCrit != null) {
-            //ArrayList diseasesTypes = new ArrayList();
-            for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();) {
-                DiseaseNameDE diseaseDE = (DiseaseNameDE) iterator.next();
-                 for (int i = 0; i < arrayIDs.size();) {
-                        Collection values = new ArrayList();
-                        int begIndex = i;
-                        i += VALUES_PER_THREAD ;
-                        int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
-                        values.addAll(arrayIDs.subList(begIndex,  endIndex));
-                        final Criteria IDs = new Criteria();
-                        IDs.addIn(probeOrCloneIDAttr, values);
-                        String threadID = "GEFactHandler.ThreadID:" + probeOrCloneIDAttr + ":" +i;
+     abstract ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery query)
+     throws Exception;
 
-                        final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
-                        factEventList.add(dbEvent);
 
-                        PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
-                        final Criteria sampleCrit = new Criteria();
-                        //CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
-                        CommonFactHandler.addSingleDiseaseCriteria(diseaseDE, targetFactClass, _BROKER, sampleCrit);
-                        FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
-                        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
-                        _BROKER.close();
-
-                        ThreadPool.AppThread t = ThreadPool.newAppThread(
-                           new ThreadPool.MyRunnable() {
-                              public void codeToRun() {
-                                  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-                                  pb.clearCache();
-                                  sampleCrit.addAndCriteria(IDs);
-                                  org.apache.ojb.broker.query.Query sampleQuery =
-                                  QueryFactory.newQuery(targetFactClass,sampleCrit, false);
-                                  assert(sampleQuery != null);
-                                  Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
-                                  addToResults(exprObjects);
-                                  pb.close();
-                                  dbEvent.setCompleted(true);
-
-                              }
-                           }
-                       );
-                        System.out.println("FRESH ID: " + t.getID());
-                        t.start();
-                    }
-          }
-    }
-     */
       protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
             for (int i = 0; i < arrayIDs.size();) {
@@ -117,9 +60,7 @@ abstract public class GEFactHandler {
 
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
                 final Criteria sampleCrit = new Criteria();
-                CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
-                FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
-                CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+                addGEFactCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
                 _BROKER.close();
 
                 ThreadPool.AppThread t = ThreadPool.newAppThread(
@@ -142,7 +83,15 @@ abstract public class GEFactHandler {
                t.start();
             }
     }
-     protected void executeCloneAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
+
+    private static void addGEFactCriteria(GeneExpressionQuery geQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
+        CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+        FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+
+    }
+
+    protected void executeCloneAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
@@ -241,23 +190,168 @@ abstract public class GEFactHandler {
                t.start();
             }
     }
-    
+    protected void executeGenePathwayAnnotationQuery(Collection geneSymbols) throws Exception {
+            ArrayList arraySymbols = new ArrayList(geneSymbols);
+
+            for (int i = 0; i < arraySymbols.size();) {
+                Collection values = new ArrayList();
+                int begIndex = i;
+                i += VALUES_PER_THREAD ;
+                int endIndex = (i < arraySymbols.size()) ? endIndex = i : (arraySymbols.size());
+                values.addAll(arraySymbols.subList(begIndex,  endIndex));
+                final Criteria annotCrit = new Criteria();
+                annotCrit.addIn(GenePathway.GENE_SYMBOL, values);
+                long time = System.currentTimeMillis();
+                String threadID = "GEFactHandler.ThreadID:" +time;
+                final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
+                annotationEventList.add(dbEvent);
+                final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                _BROKER.clearCache();
+                final String pathwayColName = QueryHandler.getColumnNameForBean(_BROKER, GenePathway.class.getName(), GenePathway.PATHWAY_NAME);
+                final String geneSymbolColName = QueryHandler.getColumnNameForBean(_BROKER, GenePathway.class.getName(), GenePathway.GENE_SYMBOL);
+                //final String probeIDColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
+                _BROKER.close();
+                ThreadPool.AppThread t = ThreadPool.newAppThread(
+                       new ThreadPool.MyRunnable() {
+                            public void codeToRun()  {
+                                final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                                pb.clearCache();
+                                Query annotQuery =
+                                    QueryFactory.newReportQuery(GenePathway.class,new String[] {geneSymbolColName, pathwayColName}, annotCrit, false);
+                                Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+                                while (iter.hasNext()) {
+                                   Object[] geneAttrs = (Object[]) iter.next();
+                                   String geneSymbolName = (String)geneAttrs[0];
+                                   String pathwayName = (String)geneAttrs[1];
+                                     GeneExpr.GeneAnnotation a = (GeneExpr.GeneAnnotation)geneAnnotations.get(geneSymbolName);
+                                   if (null == a) {
+                                       a = new GeneExpr.GeneAnnotation(new ArrayList(), new ArrayList(), geneSymbolName);
+                                       geneAnnotations.put(geneSymbolName, a);
+                                   }
+                                   a.pathwayNames.add(pathwayName);
+                               }
+                               pb.close();
+                               dbEvent.setCompleted(true);
+                      }
+                   }
+               );
+               System.out.println("BEGIN (from GEFactHandler.executeGenePathwayAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
+               t.start();
+            }
+    }
+     protected void executeGeneOntologyAnnotationQuery(Collection geneSymbols) throws Exception {
+            ArrayList arraySymbols = new ArrayList(geneSymbols);
+
+            for (int i = 0; i < arraySymbols.size();) {
+                Collection values = new ArrayList();
+                int begIndex = i;
+                i += VALUES_PER_THREAD ;
+                int endIndex = (i < arraySymbols.size()) ? endIndex = i : (arraySymbols.size());
+                values.addAll(arraySymbols.subList(begIndex,  endIndex));
+                final Criteria annotCrit = new Criteria();
+                annotCrit.addIn(GeneOntology.GENE_SYMBOL, values);
+                long time = System.currentTimeMillis();
+                String threadID = "GEFactHandler.ThreadID:" +time;
+                final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
+                annotationEventList.add(dbEvent);
+                final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                _BROKER.clearCache();
+                final String goColName = QueryHandler.getColumnNameForBean(_BROKER, GeneOntology.class.getName(), GeneOntology.GO_ID);
+                final String geneSymbolColName = QueryHandler.getColumnNameForBean(_BROKER, GeneOntology.class.getName(), GeneOntology.GENE_SYMBOL);
+                //final String probeIDColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
+                _BROKER.close();
+                ThreadPool.AppThread t = ThreadPool.newAppThread(
+                       new ThreadPool.MyRunnable() {
+                            public void codeToRun()  {
+                                final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                                pb.clearCache();
+                                Query annotQuery =
+                                    QueryFactory.newReportQuery(GeneOntology.class,new String[] {geneSymbolColName, goColName}, annotCrit, false);
+                                Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+                                while (iter.hasNext()) {
+                                   Object[] geneAttrs = (Object[]) iter.next();
+                                   String geneSymbolName = (String)geneAttrs[0];
+                                   String goID = (String)geneAttrs[1];
+                                     GeneExpr.GeneAnnotation a = (GeneExpr.GeneAnnotation)geneAnnotations.get(geneSymbolName);
+                                   if (null == a) {
+                                       a = new GeneExpr.GeneAnnotation(new ArrayList(), new ArrayList(), geneSymbolName);
+                                       geneAnnotations.put(geneSymbolName, a);
+                                   }
+                                   a.goIDs.add(goID);
+                               }
+                               pb.close();
+                               dbEvent.setCompleted(true);
+                      }
+                   }
+               );
+               System.out.println("BEGIN (from GEFactHandler.executeGeneOntologyAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
+               t.start();
+            }
+    }
+
+
     public final static class SingleGEFactHandler extends GEFactHandler {
-        ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
+        ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery geQuery)
         throws Exception {
-            logger.error("Total Number Of Probes:" + allProbeIDs.size());
-            logger.error("Total Number Of Clones:" + allCloneIDs.size());
+            PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+            final Criteria sampleCrit = new Criteria();
+            addGEFactCriteria(geQuery, DifferentialExpressionSfact.class, _BROKER, sampleCrit);
+            org.apache.ojb.broker.query.Query sampleQuery =
+                    QueryFactory.newQuery(DifferentialExpressionSfact.class,sampleCrit, false);
+            Collection exprObjects =  _BROKER.getCollectionByQuery(sampleQuery );
+            addToResults(exprObjects);
+            _BROKER.close();
 
-            executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, query);
-            executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, query);
-            ThreadController.sleepOnEvents(factEventList);
+            Collection allProbeIDs = new HashSet();
+            Collection allCloneIDs = new HashSet();
 
+            Object[]objs = (geneExprObjects.values().toArray());
+            GeneExpr.GeneExprSingle[] results = new GeneExpr.GeneExprSingle[objs.length];
+            for (int i = 0; i < objs.length; i++) {
+                GeneExpr obj = (GeneExpr) objs[i];
+                if (obj.getProbesetId() != null) allProbeIDs.add(obj.getProbesetId());
+                else if (obj.getCloneId() != null) allCloneIDs.add(obj.getCloneId());
+            }
             executeCloneAnnotationQuery(allCloneIDs);
             executeProbeAnnotationQuery(allProbeIDs );
             ThreadController.sleepOnEvents(annotationEventList);
 
-            // by now geneExprObjects,  cloneAnnotations, probeAnnotations would have populated
+            for (int i = 0; i < objs.length; i++) {
+                GeneExpr.GeneExprSingle obj = (GeneExpr.GeneExprSingle) objs[i];
+                if (obj.getProbesetId() != null) {
+                    obj.setAnnotation((GeneExpr.ProbeAnnotaion)probeAnnotations.get(obj.getProbesetId()));
+                }
+                else if (obj.getCloneId() != null) {
+                    obj.setAnnotation((GeneExpr.CloneAnnotaion)cloneAnnotations.get(obj.getCloneId()));
+                }
+                results[i] = obj;
+            }
+            return results;
+        }
+
+        ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
+        throws Exception {
+            logger.debug("Total Number Of Probes:" + allProbeIDs.size());
+            logger.debug("Total Number Of Clones:" + allCloneIDs.size());
+
+            executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, query);
+            executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, query);
+            ThreadController.sleepOnEvents(factEventList);
+            HashSet geneSymbols = new HashSet();
             Object[]objs = (geneExprObjects.values().toArray());
+            for (int i = 0; i < objs.length; i++) {
+                GeneExpr.GeneExprSingle obj = (GeneExpr.GeneExprSingle) objs[i];
+                if (obj.getGeneSymbol() != null) geneSymbols.add(obj.getGeneSymbol());
+            }
+
+            executeGenePathwayAnnotationQuery(geneSymbols);
+            executeGeneOntologyAnnotationQuery(geneSymbols);
+            executeCloneAnnotationQuery(allCloneIDs);
+            executeProbeAnnotationQuery(allProbeIDs );
+
+            ThreadController.sleepOnEvents(annotationEventList);
+
+            // by now geneExprObjects,  geneAnnotations, cloneAnnotations, probeAnnotations would have populated
             GeneExpr.GeneExprSingle[] results = new GeneExpr.GeneExprSingle[objs.length];
             for (int i = 0; i < objs.length; i++) {
                 GeneExpr.GeneExprSingle obj = (GeneExpr.GeneExprSingle) objs[i];
@@ -266,6 +360,9 @@ abstract public class GEFactHandler {
                 }
                 else if (obj.getCloneId() != null) {
                     obj.setAnnotation((GeneExpr.CloneAnnotaion)cloneAnnotations.get(obj.getCloneId()));
+                }
+                if (obj.getGeneSymbol() != null) {
+                    obj.getAnnotation().setGeneAnnotation((GeneExpr.GeneAnnotation)geneAnnotations.get(obj.getGeneSymbol()));
                 }
                 results[i] = obj;
             }
@@ -303,8 +400,7 @@ abstract public class GEFactHandler {
             singleExprObj.setTimecourseId(exprObj.getTimecourseId());
         }
     }
-        final static class GroupGEFactHanlder extends GEFactHandler {
-
+    final static class GroupGEFactHanlder extends GEFactHandler {
             ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
             throws Exception {
                 //FoldChangeCriteria foldCrit = query.getFoldChgCrit();
@@ -321,6 +417,10 @@ abstract public class GEFactHandler {
                     results[i] = obj;
                 }
                 return results;
+            }
+
+            ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery query) throws Exception {
+                throw new Exception ("This method is not Supported for Disease Group");
             }
 
             void addToResults(Collection exprObjects) {
