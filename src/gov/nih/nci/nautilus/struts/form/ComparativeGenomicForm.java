@@ -252,18 +252,39 @@ public class ComparativeGenomicForm extends BaseForm {
 			if ((queryName == null || queryName.length() < 1))
 				errors.add("queryName", new ActionError("gov.nih.nci.nautilus.struts.form.queryname.no.error"));
 
-			// Chromosomal region validations
-			if (this.getRegion().equalsIgnoreCase("chnum")) {
-			
-				if (basePairStart.length() > 0 || basePairEnd.length() > 0) {
-					if (chrosomeNumber.length() < 1 || basePairStart.length() < 1 || (basePairEnd.length() < 1)) {
-						errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.no.error"));
-					} else {
-						if (!isBasePairValid(basePairStart, basePairEnd))
-							errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.incorrect.error"));
+			if (this.getChrosomeNumber().trim().length() > 0){
+				if (this.getRegion().trim().length() < 1) 
+					errors.add("chrosomeNumber", new ActionError("gov.nih.nci.nautilus.struts.form.region.no.error"));
+				else {
+					if (this.getRegion().trim().equalsIgnoreCase("cytoband")){
+						if (this.getCytobandRegion().trim().length() < 1) 
+							errors.add("cytobandRegion", new ActionError("gov.nih.nci.nautilus.struts.form.cytobandregion.no.error"));
 					}
+					if (this.getRegion().trim().equalsIgnoreCase("basePairPosition")){
+						if ((this.getBasePairStart().trim().length() < 1) || (this.getBasePairEnd().trim().length() < 1)){
+							errors.add("basePairEnd", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.no.error"));
+						}else{
+							if (!isBasePairValid(this.getBasePairStart(), this.getBasePairEnd()))
+								errors.add("basePairEnd", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.incorrect.error"));
+							}
+					}
+					
 				}
+				
 			}
+
+			// Chromosomal region validations
+//			if (this.getRegion().equalsIgnoreCase("chnum")) {
+//			
+//				if (basePairStart.length() > 0 || basePairEnd.length() > 0) {
+//					if (chrosomeNumber.length() < 1 || basePairStart.length() < 1 || (basePairEnd.length() < 1)) {
+//						errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.no.error"));
+//					} else {
+//						if (!isBasePairValid(basePairStart, basePairEnd))
+//							errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.incorrect.error"));
+//					}
+//				}
+//			}
          
 		 
 		 
@@ -766,9 +787,15 @@ private void createAssayPlatformCriteriaObject(){
 	public void setCytobandRegion(String cytobandRegion) {
 		this.cytobandRegion = cytobandRegion;
 		String thisRegion = this.thisRequest.getParameter("region"); 		
-		if (thisRegion != null && thisRegion.equalsIgnoreCase("cytoband")){
-			regionDomainMap.put(this.cytobandRegion, CytobandDE.class.getName());
-			}
+		String thisChrNumber = this.thisRequest.getParameter("chrosomeNumber");
+		
+		if (thisChrNumber != null && thisChrNumber.trim().length()>0){
+			
+			if (thisRegion != null && thisRegion.equalsIgnoreCase("cytoband") && this.cytobandRegion.trim().length() > 0){
+				regionDomainMap.put(this.cytobandRegion, CytobandDE.class.getName());
+				}
+		}
+
 	}
 
 	/** 
@@ -1104,10 +1131,18 @@ private void createAssayPlatformCriteriaObject(){
 	public void setBasePairEnd(String basePairEnd) {
 		this.basePairEnd = basePairEnd;
 		String thisRegion = this.thisRequest.getParameter("region"); 		
-		if (thisRegion != null && thisRegion.equalsIgnoreCase("chnum") && this.basePairEnd.length() > 0){
-			regionDomainMap.put(this.basePairEnd, BasePairPositionDE.EndPosition.class.getName());
-		}
+		String thisChrNumber = this.thisRequest.getParameter("chrosomeNumber");
+		String thisBasePairStart = this.thisRequest.getParameter("basePairStart");
 
+		if (thisChrNumber != null && thisChrNumber.trim().length()>0){
+			if (thisRegion != null && thisBasePairStart != null && this.basePairEnd != null) {
+				if ((thisRegion.equalsIgnoreCase("basePairPosition")) && (thisBasePairStart.trim().length() > 0) 
+					&& (this.basePairEnd.trim().length()>0)){
+
+						regionDomainMap.put(this.basePairEnd, BasePairPositionDE.EndPosition.class.getName());
+					}
+			}
+		}
 	}
 
 	/** 
@@ -1124,9 +1159,9 @@ private void createAssayPlatformCriteriaObject(){
 	 */
 	public void setChrosomeNumber(String chrosomeNumber) {
 		this.chrosomeNumber = chrosomeNumber;
-		String thisRegion = this.thisRequest.getParameter("region"); 		
-		if (thisRegion != null && thisRegion.equalsIgnoreCase("chnum")){
-			regionDomainMap.put(this.chrosomeNumber, ChromosomeNumberDE.class.getName());
+
+		if (chrosomeNumber != null && chrosomeNumber.length() > 0) {
+				regionDomainMap.put(this.chrosomeNumber, ChromosomeNumberDE.class.getName());
 			}
 
 	}
@@ -1433,11 +1468,20 @@ private void createAssayPlatformCriteriaObject(){
 	public void setBasePairStart(String basePairStart) {
 		this.basePairStart = basePairStart;
 		String thisRegion = this.thisRequest.getParameter("region"); 		
-		if (thisRegion != null && thisRegion.equalsIgnoreCase("chnum") && this.basePairStart.length() > 0){
-			regionDomainMap.put(this.basePairStart, BasePairPositionDE.StartPosition.class.getName());
-			}
+		String thisChrNumber = this.thisRequest.getParameter("chrosomeNumber");
+		String thisBasePairEnd = this.thisRequest.getParameter("basePairEnd");
 
+		if (thisChrNumber != null && thisChrNumber.trim().length()>0){
+			if (thisRegion != null && this.basePairStart != null && thisBasePairEnd != null) {
+				if ((thisRegion.equalsIgnoreCase("basePairPosition")) && (thisBasePairEnd.trim().length() > 0) 
+					&& (this.basePairStart.trim().length()>0)){
+
+						regionDomainMap.put(this.basePairStart, BasePairPositionDE.StartPosition.class.getName());
+					}
+			}
+		}
 	}
+
 	public ArrayList getCloneTypeColl(){
 	   return cloneTypeColl; 	   
 	   }
