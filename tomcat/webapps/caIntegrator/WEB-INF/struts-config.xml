@@ -65,6 +65,7 @@
             name="geneexpressionForm"
             type="gov.nih.nci.nautilus.struts.action.GeneexpressionAction"
             validate="true">
+         <forward name="advanceSearchMenu" path="nautilus.clinical" />
 	</action>
 
 	<action path="/comparitiveGenomic"
@@ -74,7 +75,7 @@
 	
 	<action path="/menu"
 		type="DoFirst">
-		<forward name="success" path="menu" />
+		<forward name="success" path="nautilus.menu" />
 	</action>
 
 	<action path="/clinical"
