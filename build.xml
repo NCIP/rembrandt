@@ -9,12 +9,12 @@
  <property name="tomcat-shutdown-win" location="${env.CATALINA_HOME}/bin/shutdown.bat"/>
 	
  <condition property="isUnix">
- 	 <or>
-	    <os name="Linux"/>
- 	    <os name="SunOS"/>
- 	 </or>
+    <os name="Linux"/>
  </condition>
-
+ <condition property="isWindows">
+	<os family="windows"/>
+ </condition>
+<echoproperties/>
 	
  <patternset id="test.jars">
   <include name="junit.jar"/>  
@@ -198,7 +198,7 @@
 	<target name="deploy-war-n-restart-tomcat" depends="tomcat-shutdown-unix,tomcat-shutdown-win,deploy-webapp,tomcat-startup-unix,tomcat-startup-win"/>
 	
 	<target name="restart-tomcat-unix" if="${isUnix}" depends="tomcat-shutdown-unix,deploy-webapp,tomcat-startup-unix"/>
-	<target name="restart-tomcat-win" unless="${isUnix}" depends="tomcat-shutdown-win,deploy-webapp,tomcat-startup-win"/>
+	<target name="restart-tomcat-win" if="${isWindows}" depends="tomcat-shutdown-win,deploy-webapp,tomcat-startup-win"/>
 
     <target name="build-all" depends="build-war"/>
  
@@ -263,10 +263,10 @@
  <target name="tomcat-startup-unix" if="${isUnix}">
 	<exec executable="${tomcat-startup-unix}" spawn="true" />
  </target>
- <target name="tomcat-shutdown-win" unless="${isUnix}">
+ <target name="tomcat-shutdown-win" if="${isWindows}">
 	<exec executable="${tomcat-shutdown-win}" spawn="true" />
  </target>
- <target name="tomcat-startup-win" unless="${isUnix}">
+ <target name="tomcat-startup-win" if="${isWindows}">
 	<exec executable="${tomcat-startup-win}"  spawn="true" />
  </target>	
 
