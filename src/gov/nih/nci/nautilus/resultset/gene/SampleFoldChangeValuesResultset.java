@@ -62,7 +62,7 @@ public class SampleFoldChangeValuesResultset extends BioSpecimenResultset implem
 	private DatumDE foldChangeIntensity = null;
 	private DatumDE foldChangeNonTumorIntensity = null;
 	private DatumDE ratioPval = null;
-
+	private boolean highlighted = false;
 	/**
 	 * @return Returns the foldChangeRatioValue.
 	 */
@@ -112,5 +112,18 @@ public class SampleFoldChangeValuesResultset extends BioSpecimenResultset implem
 	public void setFoldChangeNonTumorIntensity(
 			DatumDE foldChangeNonTumorIntensity) {
 		this.foldChangeNonTumorIntensity = foldChangeNonTumorIntensity;
+	}
+
+	/**
+	 * @return Returns the highlighted.
+	 */
+	public boolean isHighlighted() {
+		return this.highlighted;
+	}
+	/**
+	 * @param highlighted The highlighted to set.
+	 */
+	public void setHighlighted(boolean highlighted) {
+		this.highlighted = highlighted;
 	}
 }

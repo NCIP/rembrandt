@@ -53,12 +53,19 @@ import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.SampleIDDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.resultset.copynumber.SampleCopyNumberValuesResultset;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
+import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.view.Viewable;
@@ -66,6 +73,8 @@ import gov.nih.nci.nautilus.view.Viewable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
@@ -80,7 +89,7 @@ public class ShowAllValuesHandler {
 	public ShowAllValuesHandler(Resultant resultant){
 		this.resultant = resultant;
 	}
-	public CompoundQuery handleQuery() throws Exception{
+	private CompoundQuery handleQuery() throws Exception{
 		CompoundQuery  compoundQuery = null;
 		if (this.resultant != null){
 			compoundQuery = (CompoundQuery) resultant.getAssociatedQuery();
@@ -131,7 +140,7 @@ public class ShowAllValuesHandler {
 					GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) leftQuery;
 					geneExpressionQuery.setFoldChgCrit(null);
 					geneExpressionQuery.setSampleIDCrit(sampleCrit);
-					rightQuery = geneExpressionQuery;
+					leftQuery = geneExpressionQuery;
 				}
 				else if( leftQuery instanceof ComparativeGenomicQuery){
 					ComparativeGenomicQuery comparativeGenomicQuery = (ComparativeGenomicQuery) leftQuery;
@@ -142,16 +151,16 @@ public class ShowAllValuesHandler {
 			}
 			
 			if (rightQuery != null) {
-				if (leftQuery instanceof CompoundQuery) {
+				if (rightQuery instanceof CompoundQuery) {
 					rightQuery = getShowAllValuesQuery((CompoundQuery) rightQuery, sampleCrit);
 					}
-				else if( leftQuery instanceof GeneExpressionQuery){
+				else if( rightQuery instanceof GeneExpressionQuery){
 					GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) rightQuery;
 					geneExpressionQuery.setFoldChgCrit(null);
 					geneExpressionQuery.setSampleIDCrit(sampleCrit);
 					rightQuery = geneExpressionQuery;
 				}
-				else if( leftQuery instanceof ComparativeGenomicQuery){
+				else if( rightQuery instanceof ComparativeGenomicQuery){
 					ComparativeGenomicQuery comparativeGenomicQuery = (ComparativeGenomicQuery) rightQuery;
 					comparativeGenomicQuery.setCopyNumberCrit(null);
 					comparativeGenomicQuery.setSampleIDCrit(sampleCrit);
@@ -169,24 +178,85 @@ public class ShowAllValuesHandler {
 		}
 		return new CompoundQuery(OperatorType.AND,compoundQuery,showAllValuesQuery);
 	}
-	public DatumDE getFoldChangeValue(){
-		if (this.resultant != null){
-			CompoundQuery compoundQuery = (CompoundQuery) resultant.getAssociatedQuery();
-			Query[] queries = compoundQuery.getAssociatiedQueries();
-			for(int i = 0; i < queries.length; i++){
-				Queriable query = queries[i];
-				if(query instanceof GeneExpressionQuery){
-					GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) query;
-					FoldChangeCriteria foldChgCrit= geneExpressionQuery.getFoldChgCrit();
-					if (foldChgCrit != null){
-						foldChgCrit.getFoldChangeObjects();
-					}
+	public Resultant getShowAllValuesResultant() throws Exception{
+			ResultsContainer resultsContainer = this.resultant.getResultsContainer();
+			CompoundQuery showQuery = handleQuery();
+			Resultant showAllResultant = ResultsetManager.executeCompoundQuery(showQuery);
+			
+			GeneExprSingleViewResultsContainer geneViewContainer = null;
+			GeneExprSingleViewResultsContainer showAllGeneViewContainer = null;
+			int recordCount = 0;
+			int totalSamples = 0;
+			
+			if( resultsContainer instanceof DimensionalViewContainer)	{
+				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+				DimensionalViewContainer showallDimensionalViewContainer = (DimensionalViewContainer) showAllResultant.getResultsContainer();				
+				if(dimensionalViewContainer != null)	{
+					geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+					showAllGeneViewContainer = showallDimensionalViewContainer.getGeneExprSingleViewContainer();
 				}
 			}
-		}
-		return null;
-	}
-	public DatumDE getCopyNumberValue(){
-		return null;
+			if(showAllGeneViewContainer != null)	{
+		    	Collection genes = showAllGeneViewContainer.getGeneResultsets();				   
+		    	Collection labels = showAllGeneViewContainer.getGroupsLabels();
+	    		Collection sampleIds = null;
+	    		
+		    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
+		    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+		    		Collection reporters = geneResultset.getReporterResultsets();
+
+		    		
+		    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+		        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+		        		String reporterName = reporterResultset.getReporter().getValue().toString();
+		        		GeneSymbol gene = geneResultset.getGeneSymbol();
+		        		String geneSymbol = null;
+		        		if( gene != null){
+		        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
+		        		}
+		        		Collection groupTypes = reporterResultset.getGroupByResultsets();
+		        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+		        			String label = (String) labelIterator.next();
+		        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
+		             			sampleIds = geneViewContainer.getBiospecimenLabels(label);
+			        			if(groupResultset != null)
+		        				{
+			                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+			                       		String sampleId = (String) sampleIdIterator.next();
+			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleFoldChangeValuesResultset){
+				                       		SampleFoldChangeValuesResultset showAllBiospecimenResultset  = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+				                       		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = (SampleFoldChangeValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
+				                       		if(showAllBiospecimenResultset != null){
+				                       			Double ratio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
+				                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
+				                       			if(ratio != null && ratio.equals(showAllRatio)){
+				                       				showAllBiospecimenResultset.setHighlighted(true);  
+				                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
+				                       			}
+					                       	}
+			                     		}
+			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
+			                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+			                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
+				                       		if(showAllBiospecimenResultset != null){
+				                       			Double ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+				                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+				                       			if(ratio != null && ratio.equals(showAllRatio)){
+				                       				showAllBiospecimenResultset.setHighlighted(true);  
+				                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
+				                       			}
+					                       	}
+			                     		}			                       		
+			                       	}
+		                       }
+			        			reporterResultset.addGroupByResultset(groupResultset);		                       	
+		         		}		        		
+           				geneResultset.addReporterResultset(reporterResultset);
+		    		}
+       				showAllGeneViewContainer.addGeneResultset(geneResultset);
+		    	}
+		    	showAllResultant.setResultsContainer(showAllGeneViewContainer);
+			}
+			return showAllResultant;
 	}
 }

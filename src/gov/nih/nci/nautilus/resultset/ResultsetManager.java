@@ -151,6 +151,12 @@ public class ResultsetManager {
     		}
     	return resultant;
     	}
+    public static Resultant executeShowAllQuery(Resultant resultant) throws Exception{
+    	
+    	ShowAllValuesHandler showAllValuesHandler = new ShowAllValuesHandler(resultant);
+    	
+    return showAllValuesHandler.getShowAllValuesResultant();	
+    }
 
 
 }

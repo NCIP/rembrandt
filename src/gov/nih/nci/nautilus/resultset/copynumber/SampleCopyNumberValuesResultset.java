@@ -62,6 +62,7 @@ public class SampleCopyNumberValuesResultset extends BioSpecimenResultset{
 	private DatumDE channelRatioValue;
 	private DatumDE copyNumberPvalue;
 	private DatumDE loh;
+	private boolean highlighted = false;
 	/**
 	 * @return Returns the channelRatioValue.
 	 */
@@ -112,4 +113,16 @@ public class SampleCopyNumberValuesResultset extends BioSpecimenResultset{
 	}
 
 
+	/**
+	 * @return Returns the highlighted.
+	 */
+	public boolean isHighlighted() {
+		return this.highlighted;
+	}
+	/**
+	 * @param highlighted The highlighted to set.
+	 */
+	public void setHighlighted(boolean highlighted) {
+		this.highlighted = highlighted;
+	}
 }
