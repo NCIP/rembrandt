@@ -65,12 +65,14 @@
             name="geneexpressionForm"
             type="gov.nih.nci.nautilus.struts.action.GeneexpressionAction"
             validate="true">
-         <forward name="advanceSearchMenu" path="nautilus.clinical" />
+         <forward name="advanceSearchMenu" path="nautilus.menu" />
+         <forward name="backToGeneExp" path="nautilus.geneExpression" />
+         
 	</action>
 
 	<action path="/comparitiveGenomic"
 		type="DoFirst">
-		<forward name="success" path="comparitiveGenomic" />
+		<forward name="success" path="nautilus.comparitiveGenomic" />
 	</action>
 	
 	<action path="/menu"
@@ -80,12 +82,12 @@
 
 	<action path="/clinical"
 		type="DoFirst">
-		<forward name="success" path="clinical" />
+		<forward name="success" path="nautilus.clinical" />
 	</action>
 
 	<action path="/home"
 		type="DoFirst">
-		<forward name="success" path="home" />
+		<forward name="success" path="nautilus.home" />
 	</action>
 
         <action
