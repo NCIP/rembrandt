@@ -3,7 +3,8 @@
 String act = request.getParameter("act");
 %>
 	<!-- <html:form action="<%=act%>"> -->
-<div class="title">Allele Frequency</div>
+<fieldset class="gray">
+<legend class="red">Allele Frequency</legend>
 Population Type:
 
  <html:select property="alleleFrequency">
@@ -28,6 +29,6 @@ Population Type:
 	
 </html:select> --->
 <html:errors property="alleleFrequency"/>
-
+</fieldset>
 <!-- </html:form> -->
 

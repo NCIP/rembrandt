@@ -7,7 +7,8 @@
 
 <!-- <html:form action="<%=act%>" > -->
 
-<div class="title">Assay Platform</div>
+<fieldset class="gray">
+<legend class="red">Assay Platform</legend>
 <html:select property="assayPlatform">
 <!--	<option>&nbsp;</option> -->
 	<option>All</option>
@@ -15,5 +16,5 @@
 	<option>Array CGH </option> 
 </html:select>
 <html:errors property="assayPlatform"/>
-
+</fieldset>
 <!-- </html:form> -->

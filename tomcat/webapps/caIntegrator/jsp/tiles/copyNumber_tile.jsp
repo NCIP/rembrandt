@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <fieldset class="gray">
-<legend>CGH Copy Number</legend>
+<legend class="red">CGH Copy Number</legend>
 
 <%
 	String act = request.getParameter("act");
