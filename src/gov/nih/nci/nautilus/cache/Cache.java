@@ -58,53 +58,51 @@ import java.util.Collection;
  * 
  */
 public abstract class Cache implements CacheInterface {
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.nautilus.cache.CacheInterface#getKey()
+	private Serializable key;
+	private Serializable Value;
+	private Collection keys;
+	private String Name;
+
+	/**
+	 * @return Returns the key.
 	 */
 	public Serializable getKey() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.key;
 	}
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.nautilus.cache.CacheInterface#getKeys()
-	 */
-	public Collection getKeys() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.nautilus.cache.CacheInterface#getName()
-	 */
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.nautilus.cache.CacheInterface#getValue()
-	 */
-	public Serializable getValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.nautilus.cache.CacheInterface#setKey(java.io.Serializable)
+	/**
+	 * @param key The key to set.
 	 */
 	public void setKey(Serializable key) {
-		// TODO Auto-generated method stub
-
+		this.key = key;
 	}
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.nautilus.cache.CacheInterface#setName(java.lang.String)
+	/**
+	 * @return Returns the name.
+	 */
+	public String getName() {
+		return this.Name;
+	}
+	/**
+	 * @param name The name to set.
 	 */
 	public void setName(String name) {
-		// TODO Auto-generated method stub
-
+		this.Name = name;
 	}
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.nautilus.cache.CacheInterface#setValue(java.io.Serializable)
+	/**
+	 * @return Returns the value.
+	 */
+	public Serializable getValue() {
+		return this.Value;
+	}
+	/**
+	 * @param value The value to set.
 	 */
 	public void setValue(Serializable value) {
-		// TODO Auto-generated method stub
-
+		this.Value = value;
+	}
+	/**
+	 * @return Returns the keys.
+	 */
+	public Collection getKeys() {
+		return this.keys;
 	}
 }
