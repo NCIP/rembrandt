@@ -210,7 +210,7 @@
    <action path="/compoundcheck"
 	       type="gov.nih.nci.nautilus.struts.action.CompoundCheckAction"
            scope="request">
-         <forward name="success" path="/finalPage.do" />
+         <forward name="success" path="/jsp/geneViewReport.jsp" />
          <forward name="failure" path="/refine.do" />
    </action>
 
