@@ -9,6 +9,7 @@ import gov.nih.nci.nautilus.data.CloneDim;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.GeneClone;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -76,7 +77,8 @@ final public class ChrRegionCriteriaHandler {
         assert (regionCrit != null);
         StartEndPosition posObj = getPositionObject(regionCrit, pb);
 
-        return buildCGHCloneIDProbeIDCrit(posObj, includeSNPs, pb, includeCGH);
+        //return buildCGHCloneIDProbeIDCrit(posObj, includeSNPs, pb, includeCGH);
+       return null;
     }
 
     public static StartEndPosition getPositionObject(RegionCriteria regionCrit, PersistenceBroker pb) throws Exception {
@@ -106,19 +108,19 @@ final public class ChrRegionCriteriaHandler {
             }
             return cloneIDProbeIDCrit;
     }
-     private static GEReporterIDCriteria  buildCGHCloneIDProbeIDCrit(StartEndPosition posObj, boolean includeProbes, PersistenceBroker pb, boolean includeClones) throws Exception {
-            GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
+     private static CGHReporterIDCriteria  buildCGHCloneIDProbeIDCrit(StartEndPosition posObj, boolean includeSNPs, PersistenceBroker pb, boolean includeCGH) throws Exception {
+            CGHReporterIDCriteria reporterIDCrit = new CGHReporterIDCriteria ();
             if (posObj != null) {
-                if (includeProbes) {
+                if (includeSNPs) {
                     ReportQueryByCriteria probeIDSubQuery = buildProbeIDCrit(pb, posObj);
-                    cloneIDProbeIDCrit.setProbeIDsSubQuery(probeIDSubQuery);
+                    //cloneIDProbeIDCrit.setProbeIDsSubQuery(probeIDSubQuery);
                 }
-                if (includeClones) {
+                if (includeCGH) {
                    ReportQueryByCriteria colneIDSubQuery = buildCloneIDCrit(pb, posObj);
-                   cloneIDProbeIDCrit.setCloneIDsSubQuery(colneIDSubQuery);
+                   //cloneIDProbeIDCrit.setCloneIDsSubQuery(colneIDSubQuery);
                 }
             }
-            return cloneIDProbeIDCrit;
+            return reporterIDCrit;
     }
     private static ReportQueryByCriteria buildProbeIDCrit(PersistenceBroker pb, StartEndPosition posObj) throws Exception {
         String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);

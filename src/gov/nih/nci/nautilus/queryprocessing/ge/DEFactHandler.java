@@ -77,7 +77,7 @@ abstract public class DEFactHandler {
                 Collection values = new ArrayList();
                 int begIndex = i;
                 i += VALUES_PER_THREAD ;
-                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size() - 1);
+                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria IDs = new Criteria();
                 IDs.addIn(probeOrCloneIDAttr, values);
@@ -112,7 +112,7 @@ abstract public class DEFactHandler {
                 Collection values = new ArrayList();
                 int begIndex = i;
                 i += VALUES_PER_THREAD ;
-                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size() - 1);
+                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria annotCrit = new Criteria();
                 annotCrit.addIn(GeneClone.CLONE_ID, values);
@@ -158,7 +158,7 @@ abstract public class DEFactHandler {
                 Collection values = new ArrayList();
                 int begIndex = i;
                 i += VALUES_PER_THREAD ;
-                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size() - 1);
+                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria annotCrit = new Criteria();
                 annotCrit.addIn(ProbesetDim.PROBESET_ID, values);
