@@ -14,7 +14,15 @@ import org.apache.ojb.broker.query.Criteria;
  * @author BhattarR
  */
 public class FoldChangeCriteriaHandler {
+    public final static Float ALL_GENES_REGULATION_LIMIT = new Float(4.0);
+    //public final static Double ALL_GENES_DOWN_REGULATION = new Double(3.0);
 
+    public static void addFoldChangeCriteriaForAllGenes(GeneExpressionQuery geQuery, Class targetFactClass, PersistenceBroker pb, Criteria sampleCrit)
+    throws Exception {
+         FoldChangeCriteria foldChangeCrit = geQuery.getFoldChgCrit();
+         validateFoldChangeForAllGenes(foldChangeCrit);
+         addFoldChangeCriteria(geQuery, targetFactClass, pb, sampleCrit);
+    }
     public static void addFoldChangeCriteria(GeneExpressionQuery geQuery, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
        FoldChangeCriteria foldChangeCrit = geQuery.getFoldChgCrit();
@@ -90,5 +98,20 @@ public class FoldChangeCriteriaHandler {
             throw new Exception("Invalid Regulation: " + type + " Value:" + foldChange);
         }
 
+    }
+     private static void validateFoldChangeForAllGenes(FoldChangeCriteria foldChgCrit) throws Exception {
+        ExprFoldChangeDE c = (ExprFoldChangeDE)foldChgCrit.getFoldChangeObjects().toArray()[0];
+        String type = c.getRegulationType();
+        if (type.equals(ExprFoldChangeDE.UP_REGULATION)) {
+            if (c.getValueObject().compareTo(ALL_GENES_REGULATION_LIMIT) < 0) {
+                throw new Exception("Fold Change must be at greater than or equal to " + ALL_GENES_REGULATION_LIMIT);
+            }
+        }
+
+        else if(type.equals(ExprFoldChangeDE.DOWN_REGULATION)) {
+             if (c.getValueObject().compareTo(ALL_GENES_REGULATION_LIMIT) > 0) {
+                throw new Exception("Fold Change must be at less than or equal to " + ALL_GENES_REGULATION_LIMIT);
+            }
+        }
     }
 }

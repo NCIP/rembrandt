@@ -16,9 +16,7 @@ import org.apache.ojb.broker.query.Criteria;
  */
 public class CopyNumberCriteriaHandler {
 
-    public final static Float ALL_GENES_AMPLIFICATION = new Float(10.0);
-    public final static Float ALL_GENES_DELETION = new Float(10.0);
-
+    public final static Float ALL_GENES_COPY_LIMIT = new Float(10.0);
     private static Logger logger = Logger.getLogger(CopyNumberCriteriaHandler.class);
 
     static void addCopyNumberCriteriaForAllGenes(ComparativeGenomicQuery cghQuery, Class targetFactClass, PersistenceBroker pb, Criteria criteria) throws Exception {
@@ -31,14 +29,14 @@ public class CopyNumberCriteriaHandler {
         CopyNumberDE c = (CopyNumberDE)copyNumberCrit.getCopyNummbers().toArray()[0];
         String type = c.getCGHType();
         if (type.equals(CopyNumberDE.AMPLIFICATION)) {
-            if (c.getValueObject().compareTo(ALL_GENES_AMPLIFICATION) < 0) {
-                throw new Exception("Fold Change must be at greater than or equal to " + ALL_GENES_AMPLIFICATION);
+            if (c.getValueObject().compareTo(ALL_GENES_COPY_LIMIT) < 0) {
+                throw new Exception("Amplification must be at greater than or equal to " + ALL_GENES_COPY_LIMIT);
             }
         }
 
         else if(type.equals(CopyNumberDE.DELETION)) {
-             if (c.getValueObject().compareTo(ALL_GENES_DELETION) > 0) {
-                throw new Exception("Fold Change must be at less than or equal to " + ALL_GENES_DELETION);
+             if (c.getValueObject().compareTo(ALL_GENES_COPY_LIMIT) > 0) {
+                throw new Exception("Deletion must be at less than or equal to " + ALL_GENES_COPY_LIMIT);
             }
         }
     }

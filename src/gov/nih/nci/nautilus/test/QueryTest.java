@@ -129,7 +129,7 @@ public class QueryTest extends TestCase {
              //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
               q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
              //q.setGeneIDCrit(geneIDCrit);
-             //q.setAllGenesCrit(allGenesCriteria);
+             q.setAllGenesCrit(allGenesCriteria);
              //q.setGeneOntologyCrit(ontologyCrit);
 
             //q.setPathwayCrit(pathwayCrit);
@@ -143,11 +143,11 @@ public class QueryTest extends TestCase {
             //q.setArrayPlatformCrit(affyOligoPlatformCrit);
            //q.setArrayPlatformCrit(cdnaPlatformCrit);
 
-            q.setCloneOrProbeIDCrit(cloneCrit);
+            //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
             //q.setDiseaseOrGradeCrit(diseaseCrit);
-            //q.setSampleIDCrit(sampleCrit);
-            //q.setFoldChgCrit(foldCrit);
+            q.setSampleIDCrit(sampleCrit);
+            q.setFoldChgCrit(foldCrit);
 
             try {
             	//CompoundQuery myCompoundQuery = new CompoundQuery(q);
@@ -394,8 +394,8 @@ public class QueryTest extends TestCase {
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        //suit.addTest(new TestSuite(GeneExpression.class));
-        suit.addTest(new TestSuite(CGH.class));
+        suit.addTest(new TestSuite(GeneExpression.class));
+        //suit.addTest(new TestSuite(CGH.class));
         //suit.addTest(new TestSuite(Clinical.class));
 
         //suit.addTest(new TestSuite(OJBSubSelectTest.GeneExpressionSubSelect.class));
@@ -656,8 +656,8 @@ public class QueryTest extends TestCase {
 
 
     private void buildFoldChangeCrit() {
-        Float upRegExpected = new Float(2.0);
-        Float downRegExpected = new Float(0.8);
+        Float upRegExpected = new Float(4.0);
+        Float downRegExpected = new Float(3.8);
         ExprFoldChangeDE.UpRegulation upRegObj = new ExprFoldChangeDE.UpRegulation(upRegExpected );
         ExprFoldChangeDE.DownRegulation downRegObj = new ExprFoldChangeDE.DownRegulation(downRegExpected );
         ExprFoldChangeDE.UnChangedRegulationUpperLimit upUnChangedObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(upRegExpected  );
@@ -673,7 +673,7 @@ public class QueryTest extends TestCase {
 
      private void buildCopyChangeCrit() {
         Float amplification = new Float(10.0);
-        Float deletion = new Float(10.0);
+        Float deletion = new Float(1.0);
         CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
         CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
         CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);

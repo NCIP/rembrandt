@@ -143,6 +143,9 @@ abstract public class CGHFactHandler {
             addCopyNumbFactCriteria(cghQuery, ArrayGenoAbnFact.class, _BROKER, sampleCrit);
             org.apache.ojb.broker.query.Query sampleQuery =
                 QueryFactory.newQuery(ArrayGenoAbnFact.class, sampleCrit, false);
+
+
+
             Collection exprObjects =  _BROKER.getCollectionByQuery(sampleQuery );
             addToResults(exprObjects);
             System.out.println("Length: " + exprObjects.size());
