@@ -53,6 +53,7 @@ import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 /**
  * @author SahniH
  * Date: Oct 12, 2004
@@ -75,23 +76,23 @@ public abstract class ViewByGroupResultset implements Groupable{
 	 */
 	abstract public void setType(DomainElement type) throws Exception;
 	/**
-	 * @param bioSpecimenResultset Adds bioSpecimenResultset to this DiseaseTypeResultset object.
+	 * @param bioSpecimenResultset Adds bioSpecimenResultset to this ViewByGroupResultset object.
 	 */
-	public void addBioSpecimenResultset(SampleFoldChangeValuesResultset bioSpecimenResultset){
+	public void addBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
 		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
 			samples.put(bioSpecimenResultset.getBiospecimen().getValue().toString(), bioSpecimenResultset);
 		}
 	}
 	/**
-	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this DiseaseTypeResultset object.
+	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this ViewByGroupResultset object.
 	 */
-	public void removeBioSpecimenResultset(SampleFoldChangeValuesResultset bioSpecimenResultset){
+	public void removeBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
 		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
 			samples.remove(bioSpecimenResultset.getBiospecimen());
 		}
 	}
 	/**
-	 * @return bioSpecimenResultset Returns bioSpecimenResultset to this DiseaseTypeResultset object.
+	 * @return bioSpecimenResultset Returns bioSpecimenResultset to this ViewByGroupResultset object.
 	 */
     public Collection getBioSpecimenResultsets(){
     		return samples.values();
@@ -100,14 +101,14 @@ public abstract class ViewByGroupResultset implements Groupable{
      * @param sampleId
 	 * @return bioSpecimenResultset Returns reporterResultset for this GeneResultset.
 	 */
-    public SampleFoldChangeValuesResultset getBioSpecimenResultset(String sampleId){
+    public BioSpecimenResultset getBioSpecimenResultset(String sampleId){
     	if(sampleId != null){
-			return (SampleFoldChangeValuesResultset) samples.get(sampleId);
+			return (BioSpecimenResultset) samples.get(sampleId);
 		}
     		return null;
     }
 	/**
-	 * @param none Removes all bioSpecimenResultset in this DiseaseTypeResultset object.
+	 * @param none Removes all bioSpecimenResultset in this ViewByGroupResultset object.
 	 */
     public void removeAllBioSpecimenResultset(){
     	samples.clear();

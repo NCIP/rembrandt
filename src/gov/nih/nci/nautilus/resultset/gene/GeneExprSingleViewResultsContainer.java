@@ -62,12 +62,12 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
      * @param geneSymbol,reporterName,groupType,bioSpecimenID
 	 * @return bioSpecimenResultset Returns BioSpecimenResultset for this bioSpecimenID,groupType, reporterName , geneSymbol.
 	 */
-    public BioSpecimenResultset getBioSpecimentResultset(String geneSymbol,String reporterName, String groupType, String BioSpecimenID){
+    public BioSpecimenResultset getBioSpecimentResultset(String geneSymbol,String reporterName, String groupType, String bioSpecimenID){
     	if(reporterName != null){
     		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
     		ReporterResultset reporterResultset = (ReporterResultset) geneResultset.getRepoterResultset(reporterName);
 			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
-			return groupResultset.getBioSpecimenResultset(BioSpecimenID);
+			return groupResultset.getBioSpecimenResultset(bioSpecimenID);
 		}
     		return null;
     }

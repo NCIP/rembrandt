@@ -97,7 +97,7 @@ public class GeneResultset {
 	/**
 	 * @param none Removes all reporterResultset in this GeneResultset object.
 	 */
-    public void removeAllDiseaseResultset(){
+    public void removeAllReporterResultsets(){
     	reporters.clear();
     }
 
