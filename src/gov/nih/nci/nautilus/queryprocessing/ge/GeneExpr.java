@@ -1,9 +1,9 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
+import gov.nih.nci.nautilus.resultset.ClinicalResultSet;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.ArrayList;
-import java.math.BigDecimal;
 
 
 
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  * Time: 4:14:02 PM
  * To change this template use File | Settings | File Templates.
  */
-abstract public class GeneExpr implements ResultSet {
+abstract public class GeneExpr implements ResultSet{
     private Long cloneId;
     private Long diseaseTypeId;
     private String diseaseType;
@@ -144,7 +144,7 @@ abstract public class GeneExpr implements ResultSet {
         this.timecourseId = timecourseId;
     }
 
-    final public static class GeneExprSingle extends GeneExpr {
+    final public static class GeneExprSingle extends GeneExpr implements ClinicalResultSet{
         private Long agentId;
         private String ageGroup;
         private Long biospecimenId;
