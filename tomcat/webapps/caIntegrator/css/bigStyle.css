@@ -99,6 +99,8 @@ INPUT, SELECT {
 		border-width: 1px; 
 		border-color: #333366; 
 		}
+		
+SELECT { font-size: 12px; }
 	
 .hidText { border: 0px; background: #E6E6E6;}
 
