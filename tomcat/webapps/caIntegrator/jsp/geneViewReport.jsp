@@ -203,8 +203,12 @@ if(resultant != null) {
 		    	}
 					out.println("</table>");
 			}
-		out.println("<h4>No Results Available</h4>");
+		
 	}
+	
+}
+else{
+out.println("<h4>No Results Available</h4>");
 }
 // else if Sample View or DiseaseView
 	
