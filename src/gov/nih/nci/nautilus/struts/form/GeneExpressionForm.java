@@ -154,15 +154,14 @@ public class GeneExpressionForm extends BaseForm {
 
 // Hashmap to store Domain elements
     private HashMap diseaseDomainMap;
-	private HashMap gradeDomainMap;// this one may not be used for this release.
 	private HashMap geneDomainMap;
-	private HashMap foldDomainMap;
+	private HashMap foldUpDomainMap;
+	private HashMap foldDownDomainMap;
 	private HashMap regionDomainMap;
 	private HashMap cloneDomainMap;
 	private HashMap geneOntologyDomainMap;
 	private HashMap pathwayDomainMap;
 	private HashMap arrayPlatformDomainMap;
-	private HashMap untranslatedRegionDomainMap;// this one may not be used for this release.
 
 	private HttpServletRequest thisRequest;
 	
@@ -216,17 +215,6 @@ public class GeneExpressionForm extends BaseForm {
 				
 		}
 		
-//		if (this.getRegion().equalsIgnoreCase("chrosomeNumber")) {
-//
-//			if (basePairStart.length() > 0 || basePairEnd.length() > 0) {
-//				if (chrosomeNumber.length() < 1 || basePairStart.length() < 1 || (basePairEnd.length() < 1)) {
-//					errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.no.error"));
-//				} else {
-//					if (!isBasePairValid(basePairStart, basePairEnd))
-//						errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.incorrect.error"));
-//				}
-//			}
-//		}
 
 		if(this.getGoClassification()!= null){
 		  if(this.getGoMolecularFunction()== null && this.getGoCellularComp() == null && this.getGoBiologicalProcess() == null){
@@ -311,15 +299,15 @@ public class GeneExpressionForm extends BaseForm {
 
 	private void createFoldChangeCriteriaObject() {
 
-
-		Set keys = foldDomainMap.keySet();
+// For Fold Change Up
+		Set keys = foldUpDomainMap.keySet();
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + foldDomainMap.get(key));
+			System.out.println(key + "=>" + foldUpDomainMap.get(key));
 
 			try {
-				String strFoldDomainClass = (String) foldDomainMap.get(key);
+				String strFoldDomainClass = (String) foldUpDomainMap.get(key);
 				Constructor [] foldConstructors = Class.forName(strFoldDomainClass).getConstructors();
 				Object [] parameterObjects = {Float.valueOf((String) key)};
 
@@ -336,10 +324,35 @@ public class GeneExpressionForm extends BaseForm {
 				System.out.println("Linkage Error in createFoldChangeCriteriaObject "+ le.getMessage());
 				le.printStackTrace();
 			}
-
-
-
 			}
+
+//		For Fold Change Down
+		keys = foldDownDomainMap.keySet();
+		i = keys.iterator();
+		while (i.hasNext()) {
+			Object key = i.next();
+			System.out.println(key + "=>" + foldDownDomainMap.get(key));
+
+			try {
+				String strFoldDomainClass = (String) foldDownDomainMap.get(key);
+				Constructor [] foldConstructors = Class.forName(strFoldDomainClass).getConstructors();
+				Object [] parameterObjects = {Float.valueOf((String) key)};
+
+				ExprFoldChangeDE foldChangeDEObj = (ExprFoldChangeDE) foldConstructors[0].newInstance(parameterObjects);
+				foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
+
+				System.out.println("Fold Change Domain Element Value is ==>"+foldChangeDEObj.getValueObject());
+
+
+			} catch (Exception ex) {
+				System.out.println("Error in createFoldChangeCriteriaObject  "+ex.getMessage());
+				ex.printStackTrace();
+			} catch (LinkageError le) {
+				System.out.println("Linkage Error in createFoldChangeCriteriaObject "+ le.getMessage());
+				le.printStackTrace();
+			}
+			}
+
 
 	}
 
@@ -614,15 +627,14 @@ public class GeneExpressionForm extends BaseForm {
 		this.thisRequest = request;
 
 		diseaseDomainMap = new HashMap();
-		gradeDomainMap = new HashMap();// this one may not be used for this release.
 		geneDomainMap = new HashMap();
-		foldDomainMap = new HashMap();
+		foldUpDomainMap = new HashMap();
+		foldDownDomainMap = new HashMap();
 		regionDomainMap = new HashMap();
 		cloneDomainMap = new HashMap();
 		geneOntologyDomainMap = new HashMap();
 		pathwayDomainMap = new HashMap();
 		arrayPlatformDomainMap = new HashMap();
-		untranslatedRegionDomainMap = new HashMap();// this one may not be used for this release.
 
 		diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
 		geneCriteria = new GeneIDCriteria();
@@ -803,7 +815,6 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setTumorGrade(String tumorGrade) {
 		this.tumorGrade = tumorGrade;
-		gradeDomainMap.put(this.tumorGrade, GradeDE.class.getName());
 	}
 
 	/**
@@ -841,7 +852,7 @@ public class GeneExpressionForm extends BaseForm {
 
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("down") && (this.foldChangeValueDown.length() > 0))
 
-			foldDomainMap.put(this.foldChangeValueDown, ExprFoldChangeDE.DownRegulation.class.getName());
+			foldDownDomainMap.put(this.foldChangeValueDown, ExprFoldChangeDE.DownRegulation.class.getName());
 
 
 	}
@@ -1198,7 +1209,7 @@ public class GeneExpressionForm extends BaseForm {
 
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("unchange") && (this.foldChangeValueUnchangeFrom.length() > 0))
 
-			foldDomainMap.put(this.foldChangeValueUnchangeFrom, ExprFoldChangeDE.UnChangedRegulationDownLimit.class.getName());
+			foldDownDomainMap.put(this.foldChangeValueUnchangeFrom, ExprFoldChangeDE.UnChangedRegulationDownLimit.class.getName());
 	}
 
 	/**
@@ -1222,7 +1233,7 @@ public class GeneExpressionForm extends BaseForm {
 		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus");
 
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("unchange") && (this.foldChangeValueUnchangeTo.length() > 0)) {
-			foldDomainMap.put(this.foldChangeValueUnchangeTo, ExprFoldChangeDE.UnChangedRegulationUpperLimit.class.getName());
+			foldUpDomainMap.put(this.foldChangeValueUnchangeTo, ExprFoldChangeDE.UnChangedRegulationUpperLimit.class.getName());
 		}
 	}
 
@@ -1245,7 +1256,7 @@ public class GeneExpressionForm extends BaseForm {
 
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("up") && (this.foldChangeValueUp.length() > 0))
 
-			foldDomainMap.put(this.foldChangeValueUp, ExprFoldChangeDE.UpRegulation.class.getName());
+			foldUpDomainMap.put(this.foldChangeValueUp, ExprFoldChangeDE.UpRegulation.class.getName());
 
 
 	}
@@ -1285,8 +1296,8 @@ public class GeneExpressionForm extends BaseForm {
 		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus");
 		System.out.println("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"+thisRegulationStatus);
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("updown") && (this.foldChangeValueUDUp.length() > 0)){
-			foldDomainMap.put(this.foldChangeValueUDUp, ExprFoldChangeDE.UpRegulation.class.getName());
-		    System.out.println("foldDomainMap size in the setFoldChangeValueUDUp() method:"+foldDomainMap.size());
+			foldUpDomainMap.put(this.foldChangeValueUDUp, ExprFoldChangeDE.UpRegulation.class.getName());
+		    System.out.println("foldDomainMap size in the setFoldChangeValueUDUp() method:"+foldUpDomainMap.size());
 		 }
 	 }
 	 
@@ -1309,8 +1320,8 @@ public class GeneExpressionForm extends BaseForm {
 
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("updown") && (this.foldChangeValueUDDown.length() > 0))
 
-			foldDomainMap.put(this.foldChangeValueUDDown, ExprFoldChangeDE.DownRegulation.class.getName());
-	        System.out.println("foldDomainMap size in the setFoldChangeValueUDDown() method:"+foldDomainMap.size());
+			foldDownDomainMap.put(this.foldChangeValueUDDown, ExprFoldChangeDE.DownRegulation.class.getName());
+	        System.out.println("foldDomainMap size in the setFoldChangeValueUDDown() method:"+foldDownDomainMap.size());
 
 	}
 
