@@ -19,8 +19,8 @@
            driver="oracle.jdbc.driver.OracleDriver"
            protocol="jdbc"
            subprotocol="oracle"
-           dbalias="thin:@cbiodb2-d.nci.nih.gov:1521:rbtdev"
-           username="nautilusdev"
+           dbalias="thin:@cbiodb20.nci.nih.gov:1521:CBSTG"
+           username="Nautilusstg"
            password="dev!234">
            <connection-pool
                maxActive="1000"
