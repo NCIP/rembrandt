@@ -272,17 +272,17 @@ public class ReportGeneratorAction extends DispatchAction {
 		    sampleIds = (String[]) excludedSamples.toArray(new String[0]);
 		 */
 		
-		ReportBean rb = new ReportBean();
+		//ReportBean rb = new ReportBean();
 		//our newly populated map
-		rb.setFilterParams(filterParams);
+		//rb.setFilterParams(filterParams);
 		//the name from the old bean, plus the additional string
-		rb.setResultantCacheKey(reportBean.getResultantCacheKey() + " Copy Number Filter");
+		//rb.setResultantCacheKey(reportBean.getResultantCacheKey() + " Copy Number Filter");
 		//put the resultant from the old bean into the new bean
-		rb.setResultant(resultant);
+		//rb.setResultant(resultant);
 		
 		if(reportBean!=null) {
 			//This will generate get a resultant and store it in the cache
-		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(rb, filterParams);
+		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, filterParams);
 			//store the name of the query in the form so that we can later pull it out of cache
 		    //reportBean is now our new bean (a.k.a. rb, with newly populated XML, ect)
 			reportBean = rgHelper.getReportBean();
