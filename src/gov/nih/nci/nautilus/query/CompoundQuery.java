@@ -235,6 +235,20 @@ public class CompoundQuery implements Queriable{
 				ViewType.CLINICAL_VIEW
 			};
 		}
+//		Gene Expression and Clinical Only				
+			 else if (isGEQuery && !isCGHQuery && isClinical){
+				 validViewTypes = new ViewType [] {
+					ViewType.CLINICAL_VIEW,
+					ViewType.GENE_SINGLE_SAMPLE_VIEW
+				 };
+			 }
+//		Genomic and Clinical Only				
+			 else if (!isGEQuery && isCGHQuery && isClinical){
+				 validViewTypes = new ViewType [] {
+					ViewType.CLINICAL_VIEW,
+					ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW
+				 };
+			 }
 // The rest compound queries		
 		else {
 				  validViewTypes = new ViewType [] {
