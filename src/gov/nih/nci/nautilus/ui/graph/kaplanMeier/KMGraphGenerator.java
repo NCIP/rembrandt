@@ -57,7 +57,7 @@ public class KMGraphGenerator {
 
         if (samples != null) {
             
-     
+            kaplanMeier = new KaplanMeier(samples, this.getUpFold(), this.getDownFold());
             
            // KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
 
@@ -101,7 +101,6 @@ public class KMGraphGenerator {
         ExprFoldChangeDE regulation;
         Object[] array;
 
-        kaplanMeier = new KaplanMeier(KMsampleInfos, this.getUpFold(), this.getDownFold());
 
         switch(regulated) {
             
@@ -176,20 +175,20 @@ public class KMGraphGenerator {
 	/**
 	 * @return Returns the allSamples.
 	 */
-	public KMDataSeries[] getAllSamples() {
-		return allSamples;
+	public ArrayList getAllSamples() {
+		return kaplanMeier.getAllSamples();
 	}
 	/**
 	 * @return Returns the downSamples.
 	 */
-	public KMDataSeries[] getDownSamples() {
-		return downSamples;
+	public ArrayList getDownSamples() {
+		return kaplanMeier.getDownSamples();
 	}
 	/**
 	 * @return Returns the upSamples.
 	 */
-	public KMDataSeries[] getUpSamples() {
-		return upSamples;
+	public ArrayList getUpSamples() {
+		return kaplanMeier.getUpSamples();
 	}
 	/**
 	 * @return Returns the myActionErrors.
@@ -298,7 +297,7 @@ public class KMGraphGenerator {
 
     public Integer getAllSampleCount() {
         if(getAllSamples() != null){
-            allSampleCount = new Integer(getAllSamples().length);
+            allSampleCount = new Integer(getAllSamples().size());
         }
         return allSampleCount;
     }
@@ -307,7 +306,7 @@ public class KMGraphGenerator {
 
     public Integer getDownSampleCount() {
         if(getDownSamples() != null){
-            downSampleCount = new Integer(getDownSamples().length);
+            downSampleCount = new Integer(getDownSamples().size());
         }
         return downSampleCount;
     }
@@ -315,50 +314,42 @@ public class KMGraphGenerator {
 
 
     public Double getDownVsIntPvalue() {
-        if((getDownSampleCount().intValue()) > 0 && (getIntSampleCount().intValue()>0)){
             return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getDownSamples(),kaplanMeier.getIntSamples()));
-        }
-        return downVsIntPvalue;
     }
     
 
 
     public Double getDownVsRest() {
-        if(this.getDownSampleCount().intValue() > 0 ){
             return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getDownSamples()));
-        }
-        return downVsRest;
     }
     
 
 
     public Integer getIntSampleCount() {
         if(getIntSamples() != null){
-            intSampleCount = new Integer(getIntSamples().length);
+            intSampleCount = new Integer(getIntSamples().size());
         }
         return intSampleCount;
     }
     
 
 
-    public KMDataSeries[] getIntSamples() {
-        return intSamples;
+    public ArrayList getIntSamples() {
+        return kaplanMeier.getIntSamples();
     }
     
 
 
     public Double getIntVsRest() {
-        if(this.getIntSampleCount().intValue() > 0 ){
             return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getIntSamples()));
-        }
-        return intVsRest;
+
     }
     
 
 
     public Integer getUpSampleCount() {
         if(getUpSamples() != null){
-            upSampleCount = new Integer(getUpSamples().length);
+            upSampleCount = new Integer(getUpSamples().size());
         }
         return upSampleCount;
     }
@@ -366,28 +357,19 @@ public class KMGraphGenerator {
 
 
     public Double getUpVsDownPvalue() {
-        if((getUpSampleCount().intValue()) > 0 && (getDownSampleCount().intValue()>0)){
             return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples(),kaplanMeier.getDownSamples()));
-        }
-        return upVsDownPvalue;
     }
     
 
 
     public Double getUpVsIntPvalue() {
-        if((getUpSampleCount().intValue()) > 0 && (getIntSampleCount().intValue()>0)){
             return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples(),kaplanMeier.getIntSamples()));
-        }
-        return upVsIntPvalue;
     }
     
 
 
     public Double getUpVsRest() {
-        if(this.getUpSampleCount().intValue() > 0 ){
             return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples()));
-        }
-        return upVsRest;
     }
     
     
