@@ -4,7 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
 <html:form action="refineQuery.do">
-<tr class="report"><td>
+<br>
 <div class="steps">
 <html:errors/>
 <b>Step 1: Please refine your result set by grouping it</b>
@@ -124,7 +124,7 @@
 	</table>
 </div>
 </html:form>
-</td></tr>	
+	
 
 <script language="JavaScript">
 function operandChange(){
