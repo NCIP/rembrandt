@@ -90,8 +90,11 @@ public class ComparativeGenomicForm extends BaseForm {
     /** region property */
     private String region;
 
-    /** cytobandRegion property */
-    private String cytobandRegion;
+    /** cytobandRegionStart property */
+	private String cytobandRegionStart;
+	
+	/** cytobandRegionEnd property */
+	private String cytobandRegionEnd;
 
     /** snpList property */
     private String snpList;
@@ -308,7 +311,7 @@ public class ComparativeGenomicForm extends BaseForm {
         //Query Name cannot be blank
         errors = UIFormValidator.validateQueryName(queryName, errors);
         // Chromosomal region validations
-        errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber, region, cytobandRegion, basePairStart,basePairEnd, errors);
+        errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber, region, cytobandRegionStart, basePairStart,basePairEnd, errors);
         //Validate Gene List, Gene File and Gene Group
         errors = UIFormValidator.validate(geneGroup, geneList, geneFile, errors);
         //Make sure the snpListFile uploaded is of type txt and MIME type is text/plain
@@ -349,7 +352,7 @@ public class ComparativeGenomicForm extends BaseForm {
             createAllGenesCriteriaObject();
             createSampleCriteriaObject();
             createCopyNumberCriteriaObject();
-            createRegionCriteriaObject();
+            //createRegionCriteriaObject();
             createCloneOrProbeCriteriaObject();
             createSNPCriteriaObject();
             createAlleleFrequencyCriteriaObject();
@@ -760,7 +763,8 @@ public class ComparativeGenomicForm extends BaseForm {
         tumorGrade = "";
         assayPlatform = "";
         region = "";
-        cytobandRegion = "";
+        cytobandRegionStart = "";
+        cytobandRegionEnd = "";
         snpList = "";
         cloneId = "";
         cnAmplified = "";
@@ -1068,8 +1072,8 @@ public class ComparativeGenomicForm extends BaseForm {
      * 
      * @return String
      */
-    public String getCytobandRegion() {
-        return cytobandRegion;
+    public String getCytobandRegionStart() {
+        return cytobandRegionStart;
     }
 
     /**
@@ -1078,23 +1082,62 @@ public class ComparativeGenomicForm extends BaseForm {
      * @param cytobandRegion
      *            The cytobandRegion to set
      */
-    public void setCytobandRegion(String cytobandRegion) {
-        this.cytobandRegion = cytobandRegion;
-        if (thisRequest != null) {
-            String thisRegion = this.thisRequest.getParameter("region");
-            String thisChrNumber = this.thisRequest
-                    .getParameter("chrosomeNumber");
+    public void setCytobandRegionStart(String cytobandRegionStart) {
+        this.cytobandRegionStart = cytobandRegionStart;
+		if (thisRequest != null) {
+			String thisRegion = this.thisRequest.getParameter("region");
+			String thisChrNumber = this.thisRequest
+					.getParameter("chromosomeNumber");
 
-            if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
 
-                if (thisRegion != null
-                        && thisRegion.equalsIgnoreCase("cytoband")
-                        && this.cytobandRegion.trim().length() > 0) {
-                    regionDomainMap.put(this.cytobandRegion, CytobandDE.class
-                            .getName());
-                }
-            }
-        }
+				if (thisRegion != null
+						&& thisRegion.equalsIgnoreCase("cytoband")
+						&& this.cytobandRegionStart.trim().length() > 0) {
+					if(regionCriteria == null){
+						regionCriteria = new RegionCriteria();
+					}
+					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionStart);
+					regionCriteria.setStartCytoband(cytobandDE);
+					
+				}
+			}
+		}
+
+
+    }
+    
+    /**
+     * @return Returns the cytobandRegionEnd.
+     */
+    public String getCytobandRegionEnd() {
+        return cytobandRegionEnd;
+    }
+    /**
+     * @param cytobandRegionEnd The cytobandRegionEnd to set.
+     */
+    public void setCytobandRegionEnd(String cytobandRegionEnd) {
+        this.cytobandRegionEnd = cytobandRegionEnd;
+		if (thisRequest != null) {
+			String thisRegion2 = this.thisRequest.getParameter("region");
+			String thisChrNumber2 = this.thisRequest
+					.getParameter("chromosomeNumber");
+
+			if (thisChrNumber2 != null && thisChrNumber2.trim().length() > 0) {
+
+				if (thisRegion2 != null
+						&& thisRegion2.equalsIgnoreCase("cytoband")
+						&& this.cytobandRegionEnd.trim().length() > 0) {
+					if(regionCriteria == null){
+						regionCriteria = new RegionCriteria();
+					}
+					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionEnd);
+					regionCriteria.setEndCytoband(cytobandDE);
+				}
+			}
+		}
+		
+
 
     }
 
@@ -1537,15 +1580,33 @@ public class ComparativeGenomicForm extends BaseForm {
      * @param chrosomeNumber
      *            The chrosomeNumber to set
      */
-    public void setChromosomeNumber(String chromosomeNumber) {
-        this.chromosomeNumber = chromosomeNumber;
+    public void setChromosomeNumber(String chromosomeIndex) {
+		//IMPORTANT! The chromosomeNumber is actually the
+		//index into the chromosome List where the selected
+		//chromosome can be found.  It is NOT the actual chromosome
+		//number.  Chromosome numbers can actually be characters, like
+		// X and Y so we 
+		this.chromosomeNumber = chromosomeIndex;
+		if(!"".equals(chromosomeIndex)) {
+			//Get the chromosome from the Chromosome List
+			try {
+				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
+				String chromosomeName = bean.getChromosome();
+				if(regionCriteria == null){
+					regionCriteria = new RegionCriteria();
+				}
+				ChromosomeNumberDE chromosomeDE = new  ChromosomeNumberDE(chromosomeName);
+				regionCriteria.setChromNumber(chromosomeDE);
+				logger.debug("Test Chromosome Criteria "+ regionCriteria.getChromNumber().getValue());
 
-        if (chromosomeNumber != null && chromosomeNumber.length() > 0) {
-            regionDomainMap.put(this.chromosomeNumber, ChromosomeNumberDE.class
-                    .getName());
-        }
+			}catch(NumberFormatException nfe) {
+				logger.error("Expected an Integer index for chromosome, got a char or string");
+				logger.error(nfe);
+			}
+		}
 
-    }
+	}
+
 
     /**
      * Returns the cnADDeleted.
@@ -2067,7 +2128,7 @@ public class ComparativeGenomicForm extends BaseForm {
         form.setTumorType(tumorType);
         form.setAssayPlatform(assayPlatform);
         form.setRegion(region);
-        form.setCytobandRegion(cytobandRegion);
+        form.setCytobandRegionStart(cytobandRegionStart);
         form.setCloneId(cloneId);
         form.setCloneListFile(cloneListFile);
         form.setCloneListSpecify(cloneListSpecify);
