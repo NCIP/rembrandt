@@ -14,139 +14,26 @@
 
 <xsl:param name="showSampleSelect"></xsl:param>
 
+<xsl:param name="showAllValues">true</xsl:param>
 
 <xsl:template match="/">
 
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   	<head>
-	<title>My Report</title>
-	<script language="JavaScript" type="text/javascript" src="js/overlib.js">return false;
-	</script>
-	<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js">return false;
-	</script>
-	<script language="JavaScript" type="text/javascript" src="js/caIntScript.js">return false;
-	</script> 
-	<script language="JavaScript" type="text/javascript" src="XSL/js.js">return false;
-	</script> 
-	<style>
-		body { font-family:arial; font-size: 11px; margin-top: 0px}
-		TABLE	{border: 0px; padding:0px; font-size:12px;}
-		Td {
-		
-			font-size: 12px;
-			background: #F2F2F2;
-			padding: 4px; 
-			border: 1px solid white;
-			color: #000000;
-			white-space:nowrap;
-		
-			}
-		#header { font-weight: bold;
-		 			font-size: 12px;
-		 		}
-		
-		a, a:visited {color:blue}
-		
-		td.ASTROCYTOMA { background-color: #B6C5F2; }
-		td.GBM { background-color: #F2E3B5; }
-		td.MIXED { background-color: #DAE1F9; }
-		td.OLIG { background-color: #C4F2B5; }
-		
-		.sampleRow, .headerRow { font-weight: bold; }
-		.rowCount { font-size:11px; padding:2px;}
-
-		.title { font-size: 16px; font-weight: bold; padding-bottom: 10px; font-family: tahoma }
-		
-		.geneSpacerStyle { 	
-		height: 3px; 
-						font-size: 1px; 
-						border-top: 1px solid black; 
-						border-left: 2px solid black;
-						border-right: 2px solid black;
-						border-bottom: 2px solid black;  
-						padding: 0px; 
-						background-color: #ffffff;
-					}
-		
-			.fontClass { font-size: 10px; 
-				font-family: verdana;
-				color:#000000; 
-				padding:1px; 
-				border-top:0px; border-bottom:0px; border-right:0px; border-left:0px;
-				white-space:normal;
-				background-color:#e9e9e9; 
-				margin: 0px;
-				}
-  	.capfontClass { font-size: 10px; 
-  					font-family: verdana;
-  					color:#ffffff; 
-  					padding:1px; 
-  					border-top:0px; border-bottom:0px; border-right:0px; border-left:0px;
-  					white-space:normal;
-  					background-color: #AB0303; 
-  					margin: 0px;
-  					}
-  	.fgClass {font-size: 10px; 
-  			font-family: verdana;
-  			padding:1px; 
-  			border-top:1px solid #AB0303;border-bottom:1px solid #AB0303;border-left:1px solid #AB0303;border-right:1px solid #AB0303;
-  			margin: 0px;
-  			white-space:normal;
-  			background-color:;
-  			}
-  	.bgClass {font-size: 10px; 
-  			font-family: verdana;
-  			padding:1px; 
-  			border-top:0px; border-bottom:0px; border-right:0px; border-left:0px; 
-  			margin: 0px;
-  			white-space:normal;
-  			background-color:;
-  			}
-  	.pageControl, .filterForm { 
-  					/*background-color:#F2F2F2; */
-  					background-color: #ffffff;
-  					background-image: url(images/buttonbg.png);
-  					background-repeat: repeat-x;
-  					padding:3px;
-  					padding-left:8px; 
-  					border-left:1px dotted black; 
-  					border-right:1px dotted black; 
-  					height: 21px;
-  					overflow: none;
-  					margin-bottom:5px;
-  				}
-	.rptHeader	{
-		background-color:#F1F1F1;
-		/* background-color: #ffffff; */
-		padding:5px;
-		padding-bottom:1px;
-	}
-  	INPUT, SELECT { 
-		/*color: #002185;*/
-		font-family: arial; 
-		font-size:10px; 
-		padding: 1px; 
-		border-style: solid; 
-		border-width: 1px; 
-		border-color: #000000; 
-		}
-		.checkorradio	{
-			border: 0px;
-		}
-		.lb	{
-			display:block;
-			float:left;
-			width:100px;
-			text-align:left;
-		}
-		
-		.er { border: 1px solid red; }
-	</style>
+		<title>My Report</title>
+		<script language="JavaScript" type="text/javascript" src="js/overlib.js">return false;
+		</script>
+		<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js">return false;
+		</script>
+		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js">return false;
+		</script> 
+		<script language="JavaScript" type="text/javascript" src="XSL/js.js">return false;
+		</script> 
+		<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
 	</head>
   <body>
   
- <!-- <h1><xsl:value-of select="$showSampleSelect" /> asdf</h1> -->
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
   <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
@@ -179,7 +66,7 @@
 	  <a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
 	  <!-- <a href="#queryInfo"><img align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a> -->
 	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-  </span>
+  	</span>
 
 	<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
 	<input type="hidden" name="queryName" value="{$qName}" />
@@ -188,7 +75,7 @@
 	<input type="hidden" name="filter_value1" value="{$filter_value1}"/>
 	</form>
 	
-<div class="rptHeader">	
+	<div class="rptHeader">	
 	<div class="rowCount">
 	 <div style="background-color:#ffffff; margin-bottom:5px; padding-bottom:5px; border-left:1px solid black; border-right:1px solid black;">
 		<span style="float:right; top:0px;">
@@ -312,8 +199,9 @@
 	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('You can select the samples of interest by clicking on each individual sample or a group and saving them with a unique name. This allows you to select this sample set to apply your future queries to.');" onmouseout="return nd();">[?]</a></b>
 	  </div>
 	 </xsl:if>
-	  
-  	<div class="filterForm">
+	 
+	 <xsl:if test="$showAllValues != 'false'"> 
+  	 <div class="filterForm">
 		<b><span class="lb">Show all Values:</span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
@@ -323,6 +211,7 @@
 		
 		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Clicking on this button lets you view the gene expression fold changes or copy number values (depending on the type of report) for all the reporters in the report. This allows you to see those values that did not match your query criteria.');" onmouseout="return nd();">[?]</a></b>
 	  </div>
+	  </xsl:if>
 	  
 	 <div class="filterForm">
 		<b><span class="lb">Hide Diseases:</span></b> 
@@ -333,10 +222,6 @@
 						<xsl:variable name="currentGroup" select="@group" />
 						<input class="checkorradio" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
 						<xsl:value-of select="$currentGroup"/>
-						<!--
-						[<a href="#" onclick="javascript:goFilterColumn(true, '{$currentGroup}')">Hide <xsl:value-of select="$currentGroup"/></a> | 
-						<a href="#" onclick="javascript:goFilterColumn(false, '{$currentGroup}')">Show <xsl:value-of select="$currentGroup"/></a> ]
-						-->
 						<xsl:text>&#160;</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
@@ -422,11 +307,6 @@
 							<xsl:value-of select="Data" />
 							<xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical'] and $showSampleSelect != 'false'" >
 								<input id="grpcheck" class="checkorradio" type="checkbox" onclick="javascript:groupCheck(document.prbSamples.samples, '{$currentGroup}', this.checked)" />
-							<!--
-								<a href="#" onclick="javascript:checkById(document.prbSamples.samples, '{$currentGroup}');return false;">[all]</a>
-								<a href="#" onclick="javascript:uncheckById(document.prbSamples.samples, '{$currentGroup}');return false;">[none]</a>
-								<a href="#" onclick="javascript:toggleCheckById(document.prbSamples.samples, '{$currentGroup}');return false;">[toggle]</a>
-							-->
 							</xsl:if>
 						</td>
 					</xsl:otherwise>
@@ -490,7 +370,6 @@
 			      				<xsl:value-of select="Data" />
 			      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
 							</xsl:when>
-			      			<!-- <xsl:when test="$filter_value1 != 000 and Data > $filter_value1"> -->
 			      			<xsl:when test="$filter_value1 != 000 and $filter_value4 != ''">
 			      				<xsl:choose>
 			      					<xsl:when test="$filter_value4 = 'gt' and Data > $filter_value1">
@@ -534,10 +413,6 @@
 
 			</xsl:if>
 
-<!-- the pagination form -->
-<xsl:variable name="nextpage" select = "$filter_value2 + 1" />
-<xsl:variable name="prevpage" select = "$filter_value2 - 1" />
-
 		</xsl:for-each>
 	</form>
   	</table>
@@ -546,32 +421,12 @@
   		<h3 style="text-align:center; margin-top:200px;">There was an error generating your report.  Please try again later. <br/><a href="javascript:window.close()">Close</a></h3>
   	</xsl:if>
   </xsl:for-each>
- <script language="javascript">
- <![CDATA[hideLoadingMessage();]]>
- </script>
+
   <script language="javascript">
   if(document.highlight_form){
  	selectHOperand(document.highlight_form.filter_value4, '<xsl:value-of select="$filter_value4"/>');
  	}
- </script>
-<script language="javascript">
-<![CDATA[
-function goPage(p)	{
-	 	document.forms['paginate'].filter_value2.value = p;
-	 	document.forms['paginate'].submit();
-	 }
-function goPageChangeStep(p, s)	{
-	if(s != '')	{
-	 	document.forms['paginate'].filter_value2.value = 0; 
-	 	document.forms['paginate'].filter_value3.value = s; 
-	 	document.forms['paginate'].submit(); 
-	}
-	/*alert(p);
-	alert(s); */
-	 }
-	 ]]>
-</script>
-
+  </script>
   </body>
   </html>
 </xsl:template>

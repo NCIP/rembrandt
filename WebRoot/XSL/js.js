@@ -1,3 +1,5 @@
+hideLoadingMessage();
+ 
 function stupidXSL(i, cPage, total)	{
 	var str = "";
 	if(i == cPage)
@@ -212,5 +214,17 @@ function showAllValues(q, state)	{
 		//alert("'"+oldq+"'");
 		if(oldq!="")				
 			location.href='runReport.do?method=runGeneViewReport&queryName='+oldq;
+	}
+}
+
+function goPage(p)	{
+	 	document.forms['paginate'].filter_value2.value = p;
+	 	document.forms['paginate'].submit();
+}
+function goPageChangeStep(p, s)	{
+	if(s != '')	{
+	 	document.forms['paginate'].filter_value2.value = 0; 
+	 	document.forms['paginate'].filter_value3.value = s; 
+	 	document.forms['paginate'].submit(); 
 	}
 }
