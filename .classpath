@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/xjavadoc-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/caintegrator/lib/jdom-1.0b8.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
