@@ -15,8 +15,7 @@ import gov.nih.nci.nautilus.de.*;
  This class encapulates a collection of SampleResultset objects.
  */
 public class ReporterResultset {
-	private String reporterID = null;
-	private String reporterType = null;
+	private DatumDE reporter = null;
 	private SortedMap diseases = new TreeMap();
 
 	/**
@@ -50,27 +49,22 @@ public class ReporterResultset {
 	public static void main(String[] args) {
 	}
 	/**
-	 * @return Returns the reporterID.
+	 * @return Returns the reporterName.
 	 */
-	public String getReporterID() {
-		return reporterID;
+	public DatumDE getReporter() {
+		return reporter;
 	}
 	/**
 	 * @param reporterID The reporterID to set.
 	 */
-	public void setReporterID(String reporterID) {
-		this.reporterID = reporterID;
+	public void setReporter(DatumDE reporter) {
+		this.reporter = reporter;
 	}
 	/**
 	 * @return Returns the reporterType.
 	 */
 	public String getReporterType() {
-		return reporterType;
+		return reporter.getType();
 	}
-	/**
-	 * @param reporterType The reporterType to set.
-	 */
-	public void setReporterType(String reporterType) {
-		this.reporterType = reporterType;
-	}
+	
 }

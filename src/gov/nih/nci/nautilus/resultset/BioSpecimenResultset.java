@@ -13,9 +13,9 @@ import gov.nih.nci.nautilus.de.*;
  This class encapulates a sample Id and foldchange or copy number values..
  */
 public class BioSpecimenResultset {
-	private BioSpecimenDE biospecimen;
-	private Float folgChangeValue;
-	private Integer copyNumberValue;
+	private BioSpecimenIdentifierDE biospecimen = null;
+	private DatumDE folgChangeValue = null;
+	private DatumDE copyNumberValue = null;
 	/**
 	 * @return Returns the biospecimen.
 	 */
@@ -25,28 +25,28 @@ public class BioSpecimenResultset {
 	/**
 	 * @param biospecimen The biospecimen to set.
 	 */
-	public void setBiospecimen(String biospecimen) {
-		this.biospecimen.setValueObject(biospecimen);
+	public void setBiospecimen(BioSpecimenIdentifierDE biospecimen) {
+		this.biospecimen = biospecimen;
 	}
 	/**
 	 * @return Returns the folgChangeValue.
 	 */
-	public Float getFolgChangeValue() {
+	public DatumDE getFolgChangeValue() {
 		return folgChangeValue;
 	}
 	/**
 	 * @param folgChangeValue The folgChangeValue to set.
 	 */
-	public void setFolgChangeValue(Float folgChangeValue) {
+	public void setFolgChangeValue(DatumDE folgChangeValue) {
 		this.folgChangeValue = folgChangeValue;
 	}
-	public Integer getCopyNumberValue() {
+	public DatumDE getCopyNumberValue() {
 		return copyNumberValue;
 	}
 	/**
 	 * @param copyNumberValue The copyNumberValue to set.
 	 */
-	public void setCopyNumberValue(Integer copyNumberValue) {
+	public void setCopyNumberValue(DatumDE copyNumberValue) {
 		this.copyNumberValue = copyNumberValue;
 	}
 	public static void main(String[] args) {

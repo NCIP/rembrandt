@@ -19,72 +19,61 @@ public class GeneResultset {
 	  private GeneIdentifierDE.LocusLink locusLinkID = null;
 	  //private DataSetDE. dataset;
 	  private SortedMap reporters = new TreeMap();
-	  private Long geneId;
 
 	public static void main(String[] args) {
 	}
+
 	/**
 	 * @return Returns the genbankAccessionNo.
 	 */
-	public String getGenbankAccessionNo() {
-		return genbankAccessionNo.getValueObject();
+	public GeneIdentifierDE.GenBankAccessionNumber getGenbankAccessionNo() {
+		return genbankAccessionNo;
 	}
 	/**
 	 * @param genbankAccessionNo The genbankAccessionNo to set.
 	 */
-	public void setGenbankAccessionNo(String genbankAccessionNo) {
-		this.genbankAccessionNo.setValueObject(genbankAccessionNo);
-	}
-	/**
-	 * @return Returns the geneId.
-	 */
-	public Long getGeneId() {
-		return geneId;
-	}
-	/**
-	 * @param geneId The geneId to set.
-	 */
-	public void setGeneId(Long geneId) {
-		this.geneId = geneId;
+	public void setGenbankAccessionNo(
+			GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo) {
+		this.genbankAccessionNo = genbankAccessionNo;
 	}
 	/**
 	 * @return Returns the geneSymbol.
 	 */
-	public String getGeneSymbol() {
-		return geneSymbol.getValueObject();
+	public GeneIdentifierDE.GeneSymbol getGeneSymbol() {
+		return geneSymbol;
 	}
 	/**
 	 * @param geneSymbol The geneSymbol to set.
 	 */
-	public void setGeneSymbol(String geneSymbol) {
-		this.geneSymbol.setValueObject(geneSymbol);
+	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
+		this.geneSymbol = geneSymbol;
 	}
 	/**
 	 * @return Returns the locusLinkID.
 	 */
-	public String getLocusLinkID() {
-		return locusLinkID.getValueObject();
+	public GeneIdentifierDE.LocusLink getLocusLinkID() {
+		return locusLinkID;
 	}
 	/**
 	 * @param locusLinkID The locusLinkID to set.
 	 */
-	public void setLocusLinkID(String locusLinkID) {
-		this.locusLinkID.setValueObject(locusLinkID);
+	public void setLocusLinkID(GeneIdentifierDE.LocusLink locusLinkID) {
+		this.locusLinkID = locusLinkID;
 	}
 	/**
 	 * @param reporterResultset Adds reporterResultset to this GeneResultset object.
 	 */
 	public void addReporterResultset(ReporterResultset reporterResultset){
-		if(reporterResultset != null && reporterResultset.getReporterID() != null){
-			reporters.put(reporterResultset.getReporterID(), reporterResultset);
+		if(reporterResultset != null && reporterResultset.getReporter() != null){
+			reporters.put(reporterResultset.getReporter().getValue().toString(), reporterResultset);
 		}
 	}
 	/**
 	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this GeneResultset object.
 	 */
 	public void removeDiseaseResultset(ReporterResultset reporterResultset){
-		if(reporterResultset != null && reporterResultset.getReporterType() != null){
-			reporters.remove(reporterResultset.getReporterType());
+		if(reporterResultset != null && reporterResultset.getReporter() != null){
+			reporters.remove(reporterResultset.getReporter().getValue().toString());
 		}
 	}
 	/**
