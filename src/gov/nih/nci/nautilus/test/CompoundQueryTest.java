@@ -65,7 +65,7 @@ public class CompoundQueryTest extends TestCase {
 
 	public void testCompoundQueryProcessor() {
 		try {
-			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery);
+			CompoundQuery myCompoundQuery = new CompoundQuery(cloneQuery);
 			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			print(geneExprObjects);
@@ -115,7 +115,7 @@ public class CompoundQueryTest extends TestCase {
     private void buildGeneIDCrit() {
         geneCrit = new GeneIDCriteria();
         //Both IMAGE:2014733 and 1555146_at should be subsets of ATF2
-        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("ATF2"));
+        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("EGFR"));
 
     }
     private void buildGeneExprProbeSetSingleViewQuery(){
@@ -123,12 +123,14 @@ public class CompoundQueryTest extends TestCase {
         probeQuery.setQueryName("ProbeSetQuery");
         probeQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         probeQuery.setCloneOrProbeIDCrit(probeCrit);
+        probeQuery.setArrayPlatformCrit(affyOligoPlatformCrit);
     }
     private void buildGeneExprCloneSingleViewQuery(){
         cloneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
         cloneQuery.setQueryName("CloneQuery");
         cloneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         cloneQuery.setCloneOrProbeIDCrit(cloneCrit);
+        cloneQuery.setArrayPlatformCrit(cdnaPlatformCrit);
     }
     private void buildGeneExprGeneSingleViewQuery(){
         geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
