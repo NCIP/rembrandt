@@ -25,8 +25,11 @@
 </script>
 
  <a href="javascript:browseData()">	   
-	 <img src="images/btnBrowse2.gif" border="0"/>
+	 <img src="images/btnBrowse2.gif" border="0" />
  </a>
+     <br />
+    <input type="button" class="xbutton" onclick="javascript:resetVal(pathways)" value="clear text area" />
+
 
 <!-- </html:form> -->
 
