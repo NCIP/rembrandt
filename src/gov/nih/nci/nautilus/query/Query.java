@@ -92,4 +92,8 @@ abstract public class Query implements Queriable{
     public void setAssociatedView(Viewable associatedViewObj) {
         this.associatedView = associatedViewObj;
     }
+	public Query[] getAssociatiedQueries() {
+		Query[] queries = {this};
+		return queries;
+	}
 }

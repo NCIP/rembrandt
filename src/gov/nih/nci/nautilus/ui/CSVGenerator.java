@@ -62,7 +62,7 @@ public class CSVGenerator  {
 			if(resultant != null) {      
 		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
 		 		
-		 		String theQuery  =  resultant.getAssociatedQuery().toString();
+		 		String theQuery  =  resultant.getAssociatedCompoundQuery().toString();
 
 		 		if(resultsContainer != null)	{
 		 			

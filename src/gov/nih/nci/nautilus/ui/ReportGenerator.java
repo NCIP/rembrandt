@@ -2,6 +2,8 @@ package gov.nih.nci.nautilus.ui;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -74,7 +76,7 @@ public class ReportGenerator  {
 			if(resultant != null) {      
 		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
 		 		
-		 		String theQuery  =  resultant.getAssociatedQuery().toString();
+		 		//String theQuery  =  resultant.getAssociatedCompoundQuery().toString();
 
 		 		if(resultsContainer != null)	{
 		 			
@@ -83,30 +85,35 @@ public class ReportGenerator  {
 			 		//4 views here, returning the String of HTML for report
 			 		// need to add the html buffer here
 			 		
-			 		String q = resultant.getAssociatedQuery().toString();
+			 		CompoundQuery compoundQuery = resultant.getAssociatedCompoundQuery();
+			 		
 			 		
 		 			if (view instanceof GeneExprSampleView)	{ 
 		 				html.append("<div class=\"title\">Gene Expression Fold Change (Tumor/Non-tumor)</div>\n");
 		 				html.append(geneExprSampleView(resultsContainer, theColors, request));
-		 				html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
+		 				html.append(queryInformation(compoundQuery));
+		 				//html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof CopyNumberSampleView)	{ 
 		 				html.append("<div class=\"title\">Copy Number Data</div>\n");
 		 				html.append(copyNumberSampleView(resultsContainer, theColors, request));
-		 				html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
+		 				html.append(queryInformation(compoundQuery));
+		 				//html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
 		 				html.append("<div class=\"title\">Mean Gene Expression Fold Change for Tumor Sub-types</div>\n");
 		 				html.append(geneExprDiseaseView(resultsContainer, theColors));
-		 				html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
+		 				html.append(queryInformation(compoundQuery));
+		 				//html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 		 				return html.toString();
 		 			}
 	 				else if(view instanceof ClinicalSampleView){
 	 					html.append("<div class=\"title\">Sample Report</div>\n");
 	 					html.append(clinicalSampleView(resultsContainer, theColors, request));
-	 					html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
+	 					html.append(queryInformation(compoundQuery));
+	 					//html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 	 					return html.toString();
 	 				}	
 	 				else	{
@@ -642,5 +649,24 @@ public class ReportGenerator  {
 	
 		
 	}
+	public static String queryInformation(CompoundQuery compoundQuery)	{
+		StringBuffer sb = new StringBuffer();
+		if(compoundQuery != null) {			
+			String theQuery  =  compoundQuery.toString();
+	 		sb.append("<br><a name=\"queryInfo\"></a>Query: "+theQuery);
+	 		sb.append("<table>");
+	 		sb.append("<tr>");
+	 		Query[] queries = compoundQuery.getAssociatiedQueries();
+	 		for(int i = 0; i<queries.length; i++){
+	 			sb.append("<td>");
+	 			sb.append(queries[i]);
+	 			sb.append("</td>");
+	 		}
+	 		sb.append("</tr>");
+	 		sb.append("</table>");
+	 		
+		}
+		return sb.toString();
+	}	
 
 }

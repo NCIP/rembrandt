@@ -49,8 +49,7 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
-import gov.nih.nci.nautilus.query.Queriable;
-import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.view.Viewable;
 
 /**
@@ -59,22 +58,11 @@ import gov.nih.nci.nautilus.view.Viewable;
  * 
  */
 public class Resultant {
-private Queriable associatedQuery;
+private CompoundQuery associatedCompoundQuery;
 private ResultsContainer resultsContainer;
 private Viewable associatedView;
 
-/**
- * @return Returns the associatedQuery.
- */
-public Queriable getAssociatedQuery() {
-	return associatedQuery;
-}
-/**
- * @param associatedQuery The associatedQuery to set.
- */
-public void setAssociatedQuery(Queriable associatedQuery) {
-	this.associatedQuery = associatedQuery;
-}
+
 /**
  * @return Returns the associatedView.
  */
@@ -98,5 +86,17 @@ public ResultsContainer getResultsContainer() {
  */
 public void setResultsContainer(ResultsContainer resultsContainer) {
 	this.resultsContainer = resultsContainer;
+}
+/**
+ * @return Returns the associatedCompoundQuery.
+ */
+public CompoundQuery getAssociatedCompoundQuery() {
+	return associatedCompoundQuery;
+}
+/**
+ * @param associatedCompoundQuery The associatedCompoundQuery to set.
+ */
+public void setAssociatedCompoundQuery(CompoundQuery associatedCompoundQuery) {
+	this.associatedCompoundQuery = associatedCompoundQuery;
 }
 }

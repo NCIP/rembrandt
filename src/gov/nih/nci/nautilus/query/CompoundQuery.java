@@ -54,7 +54,12 @@ package gov.nih.nci.nautilus.query;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -199,7 +204,9 @@ public class CompoundQuery implements Queriable{
 		if (operator != null) {
 			outString += "( "+leftString+" "+operator.getOperatorType()+" "+rightString+" )";
 		}
-
+		else{
+			outString = rightString;
+		}
 		return outString;
 	}
 	public ViewType [] getValidViews(){
@@ -294,5 +301,22 @@ public class CompoundQuery implements Queriable{
 		
 		
 		return queryType;
+	}
+	public Query[] getAssociatiedQueries(){
+		Queriable leftQuery = this.getLeftQuery();
+		Queriable rightQuery = this.getRightQuery();
+		Collection queries = new Vector();
+		
+		try {
+			if (leftQuery != null) {
+				queries.addAll(Arrays.asList((Query[])leftQuery.getAssociatiedQueries()));
+				}
+			if (rightQuery != null) {
+				queries.addAll(Arrays.asList((Query[])rightQuery.getAssociatiedQueries()));
+			}
+		}catch (Exception ex) {
+			logger.error(ex);
+		}
+		return (Query[]) queries.toArray(new Query[queries.size()]);
 	}
 }
