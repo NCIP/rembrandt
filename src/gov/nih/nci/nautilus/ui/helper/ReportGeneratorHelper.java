@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
+import gov.nih.nci.nautilus.cache.RembrandtContextListener;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -180,7 +181,7 @@ public class ReportGeneratorHelper {
 	
 	public static void renderReport(ReportBean bean, String xsltFilename, JspWriter out) {
 		//try transformation here
-		String stylesheet = "C:\\dev\\caintegrator\\WebRoot\\XSL\\report.xsl";
+		String stylesheet = RembrandtContextListener.getContextPath()+"/XSL/report.xsl";
 		 // load the transformer using JAXP
         TransformerFactory factory = TransformerFactory.newInstance();
 		Transformer transformer;

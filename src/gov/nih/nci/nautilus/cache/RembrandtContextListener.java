@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.cache;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent; 
 import javax.servlet.ServletContextListener;
 /**
@@ -13,11 +14,14 @@ import javax.servlet.ServletContextListener;
  * 
  */
 public class RembrandtContextListener implements ServletContextListener {
+	private static String contextPath;
 	/** 
 	 * this method is fired whenever application server loads the context
 	 * that this listener is added to in the web.xml
 	 */
 	public void contextInitialized(ServletContextEvent arg0) {
+		ServletContext context = arg0.getServletContext();
+		contextPath = context.getRealPath("/");
 		SessionTracker.setAppplicationRunning(true);
 
 	}
@@ -29,6 +33,10 @@ public class RembrandtContextListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent arg0) {
 		SessionTracker.setAppplicationRunning(false);
 
+	}
+	
+	public static String getContextPath() {
+		return contextPath;
 	}
 
 }
