@@ -79,7 +79,7 @@ public class GeneExpressionForm extends BaseForm {
 	private String arrayPlatform;
 
 	/** cloneListFile property */
-	private String cloneListFile;
+	private FormFile cloneListFile;
 
 	/** cloneListSpecify property */
 	private String cloneListSpecify;
@@ -297,7 +297,7 @@ public class GeneExpressionForm extends BaseForm {
 		}
 
 		if (this.getGeneGroup() != null && this.getGeneGroup().trim().length() >= 1){
-			if (this.getGeneList().trim().length() < 1 || this.getGeneFile()!= null){
+			if (this.getGeneList().trim().length() < 1 && this.getGeneFile()== null){
 				errors
 				.add(
 						"geneGroup",
@@ -306,10 +306,18 @@ public class GeneExpressionForm extends BaseForm {
 			}
 			
 		}
-
-
+		//Make sure the uploaded File is of type txt and MIME type is text/plain
+		if(this.getGeneFile() != null  &&
+		  (!(this.getGeneFile().getFileName().endsWith(".txt"))) &&
+		  (!(this.getGeneFile().getContentType().equals("text/plain")))){
+			errors
+			.add(
+					"geneGroup",
+					new ActionError(
+							"gov.nih.nci.nautilus.struts.form.uploadFile.no.error"));
+		}
 		if (this.getCloneId() != null && this.getCloneId().trim().length() >= 1){
-			if (this.getCloneListSpecify().trim().length() < 1 && this.getCloneListFile().trim().length() < 1){
+			if (this.getCloneListSpecify().trim().length() < 1 && this.getCloneListFile()== null){
 				errors
 				.add(
 						"cloneId",
@@ -318,7 +326,16 @@ public class GeneExpressionForm extends BaseForm {
 			}
 			
 		}
-		
+		//Make sure the uploaded File is of type txt and MIME type is text/plain
+		if(this.getCloneListFile() != null  &&
+		  (!(this.getCloneListFile().getFileName().endsWith(".txt"))) &&
+		  (!(this.getCloneListFile().getContentType().equals("text/plain")))){
+			errors
+			.add(
+					"cloneId",
+					new ActionError(
+							"gov.nih.nci.nautilus.struts.form.uploadFile.no.error"));
+		}		
 		if (errors.isEmpty()) {
 			createDiseaseCriteriaObject();
 			createGeneCriteriaObject();
@@ -743,7 +760,7 @@ public class GeneExpressionForm extends BaseForm {
 		pathways = "";
 		tumorType = "";
 		arrayPlatform = "";
-		cloneListFile = "";
+		cloneListFile = null;
 		goCellularComp = "";
 		goMolecularFunction = "";
 		cloneListSpecify = "";
@@ -757,7 +774,7 @@ public class GeneExpressionForm extends BaseForm {
 		geneType = "";
 		foldChangeValueUDUp = "2";
 		resultView = "";
-		//geneFile = "";
+		geneFile = null;
 		foldChangeValueUDDown = "2";
 		geneGroup = "";
 		cloneList = "";
@@ -871,30 +888,39 @@ public class GeneExpressionForm extends BaseForm {
 //		retrieve the file name & size
  		String fileName= geneFile.getFileName();
  		int fileSize = geneFile.getFileSize();
-		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload")
-				&& (thisGeneType.length() > 0) && (fileSize > 0)) {	
+
+ 		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload")
+				&& (thisGeneType.length() > 0)
+				&& (this.geneFile != null)
+				&& (this.geneFile.getFileName().endsWith(".txt"))
+				&& (this.geneFile.getContentType().equals("text/plain"))) {
 			try {
 				InputStream stream = geneFile.getInputStream();				
 				String inputLine = null;
 				BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
-				while ((inputLine = inFile.readLine()) != null)  {
-						if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-							geneDomainMap.put(inputLine,
-											GeneIdentifierDE.GeneSymbol.class
-													.getName());
-						} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-							geneDomainMap.put(inputLine,
-									GeneIdentifierDE.LocusLink.class.getName());
-						} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-							geneDomainMap.put(
-									inputLine,
-											GeneIdentifierDE.GenBankAccessionNumber.class
-													.getName());
-						} else if (thisGeneType.equalsIgnoreCase("allgenes")) {
-							geneDomainMap.put(inputLine,
-											GeneIdentifierDE.GeneSymbol.class
-													.getName());
-						}
+				
+				int count = 0;
+				while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
+					if(isAscii(inputLine)){ //make sure all data is ASCII
+							count++;
+							if (thisGeneType.equalsIgnoreCase("genesymbol")) {
+								geneDomainMap.put(inputLine,
+												GeneIdentifierDE.GeneSymbol.class
+														.getName());
+							} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
+								geneDomainMap.put(inputLine,
+										GeneIdentifierDE.LocusLink.class.getName());
+							} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
+								geneDomainMap.put(
+										inputLine,
+												GeneIdentifierDE.GenBankAccessionNumber.class
+														.getName());
+							} else if (thisGeneType.equalsIgnoreCase("allgenes")) {
+								geneDomainMap.put(inputLine,
+												GeneIdentifierDE.GeneSymbol.class
+														.getName());
+							}
+					}
 				}// end of while
 
 				inFile.close();
@@ -1253,7 +1279,7 @@ public class GeneExpressionForm extends BaseForm {
 	 * 
 	 * @return String
 	 */
-	public String getCloneListFile() {
+	public FormFile getCloneListFile() {
 		return cloneListFile;
 	}
 
@@ -1263,49 +1289,48 @@ public class GeneExpressionForm extends BaseForm {
 	 * @param cloneListFile
 	 *            The cloneListFile to set
 	 */
-	public void setCloneListFile(String cloneListFile) {
+	public void setCloneListFile(FormFile cloneListFile) {
 		this.cloneListFile = cloneListFile;
 		// this is to check if the radio button is selected for the clone
 		// category
 		String thisCloneId = (String) thisRequest.getParameter("cloneId");
 		// this is to check the type of the clone
 		String thisCloneList = (String) thisRequest.getParameter("cloneList");
+		
+		//
+//		retrieve the file name & size
+ 		String fileName= cloneListFile.getFileName();
+ 		int fileSize = cloneListFile.getFileSize();
+
 		if ((thisCloneId != null) && thisCloneId.equalsIgnoreCase("Upload")
 				&& (thisCloneList.length() > 0)
-				&& (this.cloneListFile.length() > 0)) {
+				&& (this.cloneListFile != null)
+				&& (this.cloneListFile.getFileName().endsWith(".txt"))
+				&& (this.getCloneListFile().getContentType().equals("text/plain"))) {
 
-			File cloneFile = new File(this.cloneListFile);
-			String line = null;
-			try {
-				FileReader editfr = new FileReader(cloneFile);
-				BufferedReader inFile = new BufferedReader(editfr);
-				line = inFile.readLine();
-				int i = 0;
-
-				while (line != null && line.length() > 0) {
-					StringTokenizer st = new StringTokenizer(line);
-					while (st.hasMoreTokens()) {
-						String token = st.nextToken();
-						if (thisCloneList.equalsIgnoreCase("imageId")) {
-							cloneDomainMap.put(token,
-									CloneIdentifierDE.IMAGEClone.class
-											.getName());
-						} else if (thisCloneList.equalsIgnoreCase("BACId")) {
-							cloneDomainMap.put(token,
-									CloneIdentifierDE.BACClone.class.getName());
-						} else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
-							cloneDomainMap.put(token,
-									CloneIdentifierDE.ProbesetID.class
-											.getName());
+				try {
+					InputStream stream = cloneListFile.getInputStream();				
+					String inputLine = null;
+					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
+					int count = 0;
+					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
+						if(isAscii(inputLine)){ //make sure all data is ASCII
+							count ++; //increment
+							if (thisCloneList.equalsIgnoreCase("IMAGEId")) {
+								cloneDomainMap.put(inputLine,
+										CloneIdentifierDE.IMAGEClone.class
+												.getName());
+							} else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
+								cloneDomainMap.put(inputLine,
+										CloneIdentifierDE.ProbesetID.class
+												.getName());
+							}
 						}
-
-					}
-					line = inFile.readLine();
-				}// end of while
+					}// end of while
 
 				inFile.close();
 			} catch (IOException ex) {
-			    logger.error("Errors when uploading gene file:"
+			    logger.error("Errors when uploading clone/probeset file:"
 						+ ex.getMessage());
 			}
 		}

@@ -106,7 +106,7 @@ public class ComparativeGenomicForm extends BaseForm {
 	private String resultView;
 
 	/** geneFile property */
-	private String geneFile;
+	private FormFile geneFile;
 
 	/** snpId property */
 	private String snpId;
@@ -257,9 +257,18 @@ public class ComparativeGenomicForm extends BaseForm {
 				}
 				
 			}
-
+			if (this.getSnpId() != null && this.getSnpId().trim().length() >= 1){
+				if (this.getSnpList().trim().length() < 1 && this.getSnpListFile() == null){
+					errors
+					.add(
+							"snpId",
+							new ActionError(
+									"gov.nih.nci.nautilus.struts.form.snpid.no.error"));
+				}
+			
+			}
 			if (this.getGeneGroup() != null && this.getGeneGroup().trim().length() >= 1){
-				if (this.getGeneList().trim().length() < 1 && this.getGeneFile().trim().length() < 1){
+				if (this.getGeneList().trim().length() < 1 && this.getGeneFile() == null){
 					errors
 					.add(
 							"geneGroup",
@@ -268,7 +277,28 @@ public class ComparativeGenomicForm extends BaseForm {
 				}
 			
 			}
-
+			//Make sure the uploaded File is of type txt and MIME type is text/plain
+			if(this.getGeneFile() != null  &&
+			  (!(this.getGeneFile().getFileName().endsWith(".txt"))) &&
+			  (!(this.getGeneFile().getContentType().equals("text/plain")))){
+				errors
+				.add(
+						"geneGroup",
+						new ActionError(
+								"gov.nih.nci.nautilus.struts.form.uploadFile.no.error"));
+			}
+			/*
+			//Make sure the uploaded File is of type txt and MIME type is text/plain
+			if(this.getSnpListFile() != null  &&
+			  (!(this.getSnpListFile().getFileName().endsWith(".txt"))) &&
+			  (!(this.getSnpListFile().getContentType().equals("text/plain")))){
+				errors
+				.add(
+						"snpId",
+						new ActionError(
+								"gov.nih.nci.nautilus.struts.form.uploadFile.no.error"));
+			}	
+			*/	
 			// Validate minimum criteria's for GE Query 
 			if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
 			   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
@@ -607,7 +637,7 @@ private void createAssayPlatformCriteriaObject(){
 		geneType = "";
 		validatedSNP = "";
 		resultView = "";
-		geneFile = "";
+		geneFile = null;
 		snpId = "";
 		cnDeleted = "";
 		geneGroup = "";
@@ -1025,53 +1055,45 @@ private void createAssayPlatformCriteriaObject(){
 		this.snpListFile = snpListFile;
 	  // this is to check if the radio button is selected for the SNP category
 	   String thisSNPId = (String)thisRequest.getParameter("snpId");	
-	   logger.debug(" thisSNPId in the setSnpListFile() method is:" +thisSNPId);
 	   // this is to check the type of the SNP
 	   String thisSNPList = (String)thisRequest.getParameter("snpList");
-	   logger.debug(" thisSNPList in the setSnpListFile() method is:" +thisSNPList);
-	/*
-	   if(thisSNPId != null && thisSNPId.equalsIgnoreCase("upload") && thisSNPList != null && !thisSNPList.equals("")&& this.snpListFile.length()>0){
-	     
-             File snpFile = new File(this.snpListFile);
-			 String line = null;
-			 try{
-			   FileReader editfr = new FileReader (snpFile);
-		       BufferedReader inFile = new BufferedReader (editfr);           
-		       line = inFile.readLine();
-			   int i=0;
-			 
-			   while (line != null && line.length()>0) {		
-			     i ++;
-			     logger.debug("i is :"+i);		  		     
-			      StringTokenizer st = new StringTokenizer(line);
-				  
-			      while(st.hasMoreTokens()){			   
-				      String token = st.nextToken();
-				      logger.debug("		token is :"+token);			  
-					   if(thisSNPList.equalsIgnoreCase("TSCId")){
-					    snpDomainMap.put(token,SNPIdentifierDE.TSC.class.getName());
-					   } 
-					   else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
-					    snpDomainMap.put(token,SNPIdentifierDE.DBSNP.class.getName());					   
-					   }				              
-			           else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
-					    snpDomainMap.put(token,SNPIdentifierDE.SNPProbeSet.class.getName());					  
-					   }	
-					}
-			      logger.debug("	line is :"+line);
-				  line = inFile.readLine();  	
-				  		  
-			    }// end of while
-				
-			 inFile.close();
-			  }
-			 catch(IOException ex){
-			     logger.error("Errors when uploading gene file:");
-			     logger.error(ex);
-			  }
-	   }
-		*/
-		
+
+//		retrieve the file name & size
+ 		String fileName= snpListFile.getFileName();
+ 		int fileSize = snpListFile.getFileSize();
+
+		if ((thisSNPId != null) && thisSNPId.equalsIgnoreCase("Upload")
+				&& (thisSNPList.length() > 0)
+				&& (this.snpListFile != null)
+				&& (this.snpListFile.getFileName().endsWith(".txt"))
+				&& (this.snpListFile.getContentType().equals("text/plain"))) {
+
+				try {
+					InputStream stream = snpListFile.getInputStream();				
+					String inputLine = null;
+					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
+					int count = 0;
+					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
+						if(isAscii(inputLine)){ //make sure all data is ASCII
+							count ++; //increment
+							if(thisSNPList.equalsIgnoreCase("TSCId")){
+							    snpDomainMap.put(inputLine,SNPIdentifierDE.TSC.class.getName());
+							   } 
+							   else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
+							    snpDomainMap.put(inputLine,SNPIdentifierDE.DBSNP.class.getName());					   
+							   }				              
+					           else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
+							    snpDomainMap.put(inputLine,SNPIdentifierDE.SNPProbeSet.class.getName());					  
+							   }	
+						}
+					}// end of while
+
+				inFile.close();
+			} catch (IOException ex) {
+			    logger.error("Errors when uploading snp file:"
+						+ ex.getMessage());
+			}
+		}
 	}
 	/** 
 	 * Returns the cnADAmplified.
@@ -1274,9 +1296,9 @@ private void createAssayPlatformCriteriaObject(){
 
 	/** 
 	 * Returns the geneFile.
-	 * @return String
+	 * @return FormFile
 	 */
-	public String getGeneFile() {
+	public FormFile getGeneFile() {
 		return geneFile;
 	}
 
@@ -1284,47 +1306,55 @@ private void createAssayPlatformCriteriaObject(){
 	 * Set the geneFile.
 	 * @param geneFile The geneFile to set
 	 */
-	public void setGeneFile(String geneFile) {
+	public void setGeneFile(FormFile geneFile) {
 		this.geneFile = geneFile;
+
 		String thisGeneType = this.thisRequest.getParameter("geneType");
 		String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload") && (thisGeneType.length() >0) && (this.geneFile.length() > 0)){
-		     
-             File geneListFile = new File(this.geneFile);
-			 String line = null;
-			 try{
-			   FileReader editfr = new FileReader (geneListFile);
-		       BufferedReader inFile = new BufferedReader (editfr);           
-		       line = inFile.readLine();
-			   int i=0;
-			 
-			   while (line != null && line.length()>0) {				  		     
-			      StringTokenizer st = new StringTokenizer(line);
-			      while(st.hasMoreTokens()){			   
-				      String token = st.nextToken();
-					  if (thisGeneType.equalsIgnoreCase("genesymbol")){
-						geneDomainMap.put(token, GeneIdentifierDE.GeneSymbol.class.getName());
-					    } 
-					  else if (thisGeneType.equalsIgnoreCase("genelocus")){
-						geneDomainMap.put(token, GeneIdentifierDE.LocusLink.class.getName());
-					   } 
-					  else if (thisGeneType.equalsIgnoreCase("genbankno")){
-						geneDomainMap.put(token, GeneIdentifierDE.GenBankAccessionNumber.class.getName());
-					   }			              
-			      	 else if(thisGeneType.equalsIgnoreCase("allgenes")){
-				        geneDomainMap.put(token, GeneIdentifierDE.GeneSymbol.class.getName());
-				      }
-		
-					}
-				  line = inFile.readLine();  				  
-			    }// end of while
+//		retrieve the file name & size
+ 		String fileName= geneFile.getFileName();
+ 		int fileSize = geneFile.getFileSize();
+
+ 		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload")
+				&& (thisGeneType.length() > 0)
+				&& (this.geneFile != null)
+				&& (this.geneFile.getFileName().endsWith(".txt"))
+				&& (this.geneFile.getContentType().equals("text/plain"))) {
+			try {
+				InputStream stream = geneFile.getInputStream();				
+				String inputLine = null;
+				BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
 				
-			 inFile.close();
-			  }
-			 catch(IOException ex){
-			     logger.error("Errors when uploading gene file:");
-			     logger.error(ex);
-			 }
+				int count = 0;
+				while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
+					if(isAscii(inputLine)){ //make sure all data is ASCII
+							count++;
+							if (thisGeneType.equalsIgnoreCase("genesymbol")) {
+								geneDomainMap.put(inputLine,
+												GeneIdentifierDE.GeneSymbol.class
+														.getName());
+							} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
+								geneDomainMap.put(inputLine,
+										GeneIdentifierDE.LocusLink.class.getName());
+							} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
+								geneDomainMap.put(
+										inputLine,
+												GeneIdentifierDE.GenBankAccessionNumber.class
+														.getName());
+							} else if (thisGeneType.equalsIgnoreCase("allgenes")) {
+								geneDomainMap.put(inputLine,
+												GeneIdentifierDE.GeneSymbol.class
+														.getName());
+							}
+					}
+				}// end of while
+
+				inFile.close();
+			} catch (IOException ex) {
+			    logger.error("Errors when uploading gene file:"
+						+ ex.getMessage());
+			}
+
 		}
 	}
 

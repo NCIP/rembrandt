@@ -4,15 +4,20 @@
 package gov.nih.nci.nautilus.struts.form;
 
 
+
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
+import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.lookup.LookupManager;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.LabelValueBean;
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.de.*;
-import gov.nih.nci.nautilus.lookup.*;
-
-import java.util.*;
 
 
 
@@ -171,5 +176,23 @@ public class BaseForm extends ActionForm {
 				}
 			}
 			return cytobandCollections;
+	}
+	/**
+     * <p>Checks whether the string is ASCII 7 bit.</p>
+     *
+     * @param str  the string to check
+     * @return false if the string contains a char that is greater than 128
+     */
+	public boolean isAscii(String str){
+		boolean flag = false;
+		if(str != null){
+			for(int i = 0; i < str.length(); i++){
+				if(str.charAt(i)>128){
+				return false;
+				}					
+			}
+			flag = true;
+		}
+		return flag;
 	}
 }
