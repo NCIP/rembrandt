@@ -1,9 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 
-<Table>
-<TR>
-	<TD>
-		<DIV class="title">	Survival Range</DIV>
+	<fieldset class="gray">
+	<legend class="red">Survival Range</legend><br />
 		<%
 	     String act = request.getParameter("act");
 	     System.out.println(act);
@@ -11,7 +9,7 @@
 	<!-- <html:form action="<%=act%>" method="get"> -->
 	
 		
-		lower:&nbsp;
+	&nbsp;&nbsp;&nbsp;lower:&nbsp;
 		<!--- <select property="survivalLower">
 			<option>0</option>
 			<option>10</option>
@@ -50,10 +48,12 @@
 	    <html:optionsCollection property="survivalUpperColl" />
         </html:select><html:errors property="survivalUpper"/>
 		&nbsp;<b class="message">(months)</b>
-	<TD>
-		<DIV class="title">	Age at Dx</DIV>
+	 </fieldset>
+	 <br /><br />
+	<fieldset class="gray">
+	<legend class="red">Age at Dx</legend><br />
 		
-		lower:&nbsp;
+	&nbsp;&nbsp;&nbsp;lower:&nbsp;
 		<!--- <select property="ageLower">
 			<option>0</option>
 			<option>10</option>
@@ -90,9 +90,11 @@
 	    <html:optionsCollection property="ageUpperColl" />
         </html:select><html:errors property="ageUpper"/>
 		&nbsp;<b class="message">(years)</b>
-	</TD>
-	<TD align="left">
-		<DIV class="title">	Gender</DIV>
+		</fieldset>
+		<br /><br />
+		
+	<fieldset class="gray">
+	<legend class="red">Gender</legend><br />
 			<!--- <select property="genderType">
 				<option>all</option>
 				<option>male</option>
@@ -100,10 +102,10 @@
 				<OPTION>other</OPTION>
 			</select>&nbsp; --->
 			
-			<html:select property="genderType">
+			&nbsp;&nbsp;<html:select property="genderType">
 	        <html:optionsCollection property="genderTypeColl" />
             </html:select><html:errors property="genderType"/>
-	</TD>
-</TR>
+      </fieldset>
+      <br />
 <!-- </html:form> -->
-</table>
+

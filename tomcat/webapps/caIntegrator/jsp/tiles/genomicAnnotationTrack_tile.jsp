@@ -5,9 +5,9 @@ String act = request.getParameter("act");
 
 <!-- <html:form action="<%=act%>"> -->
 <fieldset class="gray">
-<legend class="red">Genomic Annotation Track</legend>
-<a href="javascript:void(0);" onmouseover="return overlib('Via DAS.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-</div>
+<legend class="red">Genomic Annotation Track &nbsp;<a href="javascript:void(0);" onmouseover="return overlib('Via DAS.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+</legend>
+<br />
 <html:text property="genomicTrack"/>&nbsp;<input type="button" class="sbutton" value="Genomic Browser..." style="width:150px;">
-</fieldset>
+<br /></fieldset>
 <!-- </html:form> -->

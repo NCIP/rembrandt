@@ -604,7 +604,63 @@ function showQueryDetail(selectName){
 	      document.forms[0].regulationStatus[2].checked = false;
 	      document.forms[0].regulationStatus[3].checked = true;
 	      }
-	    
+	if (element == "cnAmplified"){      
+	      document.forms[0].copyNumber[0].checked = true;
+	      document.forms[0].copyNumber[1].checked = false;
+	      document.forms[0].copyNumber[2].checked = false;
+	      document.forms[0].copyNumber[3].checked = false;
+	      }
+	if (element == "cnDeleted"){      
+	      document.forms[0].copyNumber[0].checked = false;
+	      document.forms[0].copyNumber[1].checked = true;
+	      document.forms[0].copyNumber[2].checked = false;
+	      document.forms[0].copyNumber[3].checked = false;
+	      }
+	 if ((element == "cnADAmplified") || (element == "cnADDeleted")){      
+	      document.forms[0].copyNumber[0].checked = false;
+	      document.forms[0].copyNumber[1].checked = false;
+	      document.forms[0].copyNumber[2].checked = true;
+	      document.forms[0].copyNumber[3].checked = false;
+	      }  
+	 if ((element == "cnUnchangeFrom") || (element == "cnUnchangeTo")){      
+	      document.forms[0].copyNumber[0].checked = false;
+	      document.forms[0].copyNumber[1].checked = false;
+	      document.forms[0].copyNumber[2].checked = false;
+	      document.forms[0].copyNumber[3].checked = true;
+	      }  
+ }
+ 
+ function depChange(formElement){
+    var element = formElement.name;
+    
+    if(element == "snpList"){
+      var sl = document.forms[0].snpList.selectedIndex;
+      if(sl == 2){
+      alert("Sorry, 'TSC Id' is not currently being supported");
+      document.forms[0].snpList.selectedIndex = 0;
+      }
+    }
+    if(element == "assayPlatform"){
+      var ap = document.forms[0].assayPlatform.selectedIndex;
+      if(ap == 1){
+      alert("Sorry, 'Array CGH' is not currently being supported");
+      document.forms[0].assayPlatform.selectedIndex = 0;
+      }
+      if(ap == 2){
+      alert("Sorry, 'All' is not currently being supported");
+      document.forms[0].assayPlatform.selectedIndex = 0;
+      }
+    }
+ }
+ 
+ function alertUser(){
+  
+if(confirm("Pressing cancel will eliminate all data currently entered in the form and will not add a query"))
+{
+location.href='menu.do';
+}
+
+  
  }
  
  

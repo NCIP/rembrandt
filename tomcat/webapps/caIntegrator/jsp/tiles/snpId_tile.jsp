@@ -8,12 +8,12 @@
 <fieldset class="gray">
 <legend class="red">SNP Id</legend>
 <b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>
-<br>
+<br /><br />
 
 
 
 <html:radio property="snpId" value="specify" styleClass="radio" />
- <html:select property="snpList">
+ <html:select property="snpList" onchange="javascript:depChange(this);">
    <html:optionsCollection property="snpTypes" />
     </html:select>
 
@@ -28,8 +28,8 @@
 <html:text property="snpListSpecify"/>
 &nbsp;&nbsp;
 <html:radio property="snpId" value="upload" styleClass="radio" />
-<html:file property="snpListFile"/><br>
-Validated SNPs:&nbsp;&nbsp;
+<html:file property="snpListFile"/><br /><br />
+&nbsp;&nbsp;Validated SNPs:&nbsp;&nbsp;
 
 <html:radio property="validatedSNP" value="all"  styleClass="radio"/>&nbsp;&nbsp;All
 <html:radio property="validatedSNP" value="excluded"  styleClass="radio"/>&nbsp;&nbsp;Excluded

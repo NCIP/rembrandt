@@ -1,39 +1,40 @@
 
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 
-<DIV class="title">	Prior Therapy</DIV>
 
-<DIV class="title">	Survival Range</DIV>
+
+
 		<%
 	     String act = request.getParameter("act");
 	     System.out.println(act);
         %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
-	
-<input type="checkbox" name="radiation"  class="radio" onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
+<fieldset class="gray">
+<legend class="red">Prior Therapy</legend><br />	
+<input type="checkbox" name="radiation"  class="radio" disabled="true" onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
 <!--- <select property="radiationType" name="rad" disabled="true">
 	<option>any</option>
 	<option>photon</option>
 </select> --->
 
-<html:select property="radiationType">
+<html:select property="radiationType" disabled="true">
 <html:optionsCollection property="radiationTypeColl" />
 </html:select><html:errors property="radiationType"/>
 
 <br>
-<input name="chemo" type="checkbox" class="radio" onclick="javascript:document.forms[0].chemotherapy.disabled=(!(document.forms[0].chemotherapy.disabled));">Chemo&nbsp;&nbsp;
+<input name="chemo" type="checkbox" class="radio" disabled="true" onclick="javascript:document.forms[0].chemotherapy.disabled=(!(document.forms[0].chemotherapy.disabled));">Chemo&nbsp;&nbsp;
 - agent:&nbsp;
 <!--- <select property="chemoType" name="chemo" disabled="true">
 	<option>any</option>
 	<option></option>
 </select> --->
 
-<html:select property="chemoType">
+<html:select property="chemoType" disabled="true">
 <html:optionsCollection property="chemoAgentTypeColl" />
 </html:select><html:errors property="chemoType"/>
 
 <Br>
-<input name="sugery" type="checkbox" class="radio"
+<input name="sugery" type="checkbox" class="radio" disabled="true"
  onclick="javascript:document.forms[0].surgery.disabled=(!(document.forms[0].surgery.disabled));">Surgery&nbsp;&nbsp;
 <!--- <select property="surgeryType" name="surgery" disabled="true">
 	<option>any</option>
@@ -42,8 +43,9 @@
 	<option>Biopsy Only (BX)</option>
 </select> --->
 
-<html:select property="surgeryType">
+<html:select property="surgeryType" disabled="true">
 <html:optionsCollection property="surgeryTypeColl" />
 </html:select><html:errors property="surgeryType"/>
 
 <!-- </html:form> -->
+</fieldset>

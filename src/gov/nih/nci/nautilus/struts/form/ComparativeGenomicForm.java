@@ -208,10 +208,10 @@ public class ComparativeGenomicForm extends BaseForm {
 	  cloneTypeColl.add(new LabelValueBean("IMAGE Id","imageId"));
 	  cloneTypeColl.add(new LabelValueBean("BAC Id","BACId"));
 	  
-	  
-	  snpTypes.add(new LabelValueBean("TSC Id","TSCId"));
 	  snpTypes.add(new LabelValueBean("dBSNP Id","dBSNPId"));
 	  snpTypes.add(new LabelValueBean("Probe Set Id","probeSetId"));
+	  snpTypes.add(new LabelValueBean("TSC Id","TSCId"));
+	  
 	  
 	  alleleTypes.add(new LabelValueBean("ALL","ALL"));
 	  alleleTypes.add(new LabelValueBean("CENTRAL ASIA","CENTRAL ASIA"));

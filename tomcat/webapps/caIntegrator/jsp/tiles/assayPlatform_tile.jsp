@@ -8,12 +8,12 @@
 <!-- <html:form action="<%=act%>" > -->
 
 <fieldset class="gray">
-<legend class="red">Assay Platform</legend>
-<html:select property="assayPlatform">
+<legend class="red">Assay Platform</legend><br />
+&nbsp;&nbsp;<html:select property="assayPlatform" onchange="javascript:depChange(this);">
 <!--	<option>&nbsp;</option> -->
-	<option>All</option>
-	<option value="Affymetrix 100K SNP Arrays">100K SNP Array</option>
+    <option value="Affymetrix 100K SNP Arrays">100K SNP Array</option>
 	<option>Array CGH </option> 
+	<option>All</option>
 </html:select>
 <html:errors property="assayPlatform"/>
 </fieldset>
