@@ -32,9 +32,9 @@ public class CacheCleaner extends Thread {
     
     /***************** Configurable properties *******************/
     //Time to check the sessionCacheChecker: default 5 minutes (300000 ms) 
-    private static long CHECK_CACHE_INTERVAL = 300000;
+    private static long CHECK_CACHE_INTERVAL = 3000;
     //Cache Timeout in milliseconds: default 10 minutes (600000 ms)
-    private static long CACHE_TIME_OUT = 600000;
+    private static long CACHE_TIME_OUT = 6000;
     
     /**
      * Constructor for the CacheCleaner.  Attempts to load a spcified property
@@ -85,7 +85,7 @@ public class CacheCleaner extends Thread {
 	public void run() {
 		logger.debug("Starting CacheCleaner run() method");
 		Thread myThread = Thread.currentThread();
-		while (true){
+		while (SessionTracker.isAppplicationRunning()){
 			logger.debug("CacheCleaner awake: "+System.currentTimeMillis());
 			logger.debug("Checking Session Caches");
 			HashMap caches = CacheTracker.getActiveSessionCaches();

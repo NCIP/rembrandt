@@ -26,7 +26,8 @@ public class SessionTracker implements HttpSessionListener {
 	private static CacheCleaner theCacheCleaner;
 	private static CacheTracker theCacheTracker;
 	private static Logger logger = Logger.getLogger(SessionTracker.class);
-
+	private static boolean appplicationRunning = false;
+	
 	private static int totalActiveSessions = 0;
 	
 	public SessionTracker() {
@@ -66,4 +67,16 @@ public class SessionTracker implements HttpSessionListener {
 		return activeSessions;
 	}
 
+	/**
+	 * @return Returns the appplicationRunning.
+	 */
+	public static boolean isAppplicationRunning() {
+		return appplicationRunning;
+	}
+	/**
+	 * @param appplicationRunning The appplicationRunning to set.
+	 */
+	public static void setAppplicationRunning(boolean appplicationRunning) {
+		SessionTracker.appplicationRunning = appplicationRunning;
+	}
 }
