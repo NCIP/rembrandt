@@ -3,11 +3,39 @@
  <property name="props-file" value="build.properties"/>
  <property file="${props-file}"/>
  <property environment="env"/>
+ <property name="tomcat-startup-unix" location="${env.CATALINA_HOME}/bin/./startup.sh"/>
+ <property name="tomcat-shutdown-unix" location="${env.CATALINA_HOME}/bin/./shutdown.sh"/>
+ <property name="tomcat-startup-win" location="${env.CATALINA_HOME}/bin/startup.bat"/>
+ <property name="tomcat-shutdown-win" location="${env.CATALINA_HOME}/bin/shutdown.bat"/>
+	
+ <condition property="isUnix">
+ 	 <or>
+	    <os name="Linux"/>
+ 	    <os name="SunOS"/>
+ 	 </or>
+ </condition>
 
+	
  <patternset id="test.jars">
   <include name="junit.jar"/>  
  </patternset>	
- 
+ <patternset id="ojb.client.jars">
+	  <include name="commons-beanutils.jar"/>
+	  <include name="commons-collections.jar"/>
+	  <include name="commons-dbcp.jar"/>
+	  <include name="commons-lang-2.0.jar"/>
+	  <include name="commons-logging.jar"/>  
+	  <include name="commons-pool.jar"/>
+	  <include name="db-ojb-1.0.rc4-junit.jar"/>  
+	  <include name="db-ojb-1.0.rc7.jar"/>
+	  <include name="jcs.jar"/>
+	  <include name="jdo.jar"/>
+	  <include name="jdori.jar"/>
+	  <include name="jta-1.0.1.jar"/>
+	  <include name="log4j-1.2.8.jar"/>
+
+	  
+ </patternset>
 
  <patternset id="ojb.rt.jars">
   <include name="btree.jar"/>
@@ -52,12 +80,8 @@
  </patternset>
  
  <patternset id="struts.jars">
-  <include name="commons-beanutils.jar"/>
-  <include name="commons-collections.jar"/>
   <include name="commons-digester.jar"/>
   <include name="commons-fileupload.jar"/>
-  <include name="commons-lang.jar"/>
-  <include name="commons-logging.jar"/>
   <include name="commons-validator.jar"/>
   <include name="jakarta-oro.jar"/>
   <include name="struts.jar"/>
@@ -132,12 +156,12 @@
 	<delete file="${build.dir}/${app.war.name}.war"/>
    <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
    	<fileset file="${webapp.dir}/*.jsp"/>
+   	
     <zipfileset  dir="${webapp.dir}/css" prefix="css"/>
     <zipfileset  dir="${webapp.dir}/images" prefix="images"/>
     <zipfileset  dir="${webapp.dir}/js" prefix="js"/>
     <zipfileset  dir="${webapp.dir}/jsp" prefix="jsp"/> 
    	<zipfileset  dir="${webapp.dir}/WEB-INF/resources" prefix="/WEB-INF/resources"/>
-
    	<webinf dir="${webapp.dir}/WEB-INF">
    	   			<include name="*.xml"/>
 		   		<include name="*.properties"/>
@@ -149,13 +173,16 @@
    	<patternset refid="struts.jars"/> 
    </lib>
    <lib dir="${build.lib.dir}">
-   	<!--<patternset refid="ojb.rt.jars"/>-->
-   	<exclude name="j2ee.jar"/>
+    <patternset refid="ojb.client.jars"/>
    	<patternset refid="db.platform.jars"/>
    	<!-- <patternset refid="xml.jars"/> 
    	<patternset refid="other.jars"/> -->
  </lib>
- <classes dir="${build.struts.classes.dir}"/> 
+ <classes dir="${build.struts.classes.dir}" prefix="/WEB-INF/classes"/>
+  <zipfileset file="${basedir}/repository*.*" prefix="/WEB-INF/classes"/>
+  <zipfileset file="${basedir}/OJB.properties" prefix="/WEB-INF/classes"/>
+  <zipfileset file="${webapp.dir}/WEB-INF/resources/ApplicationResources.properties" prefix="/WEB-INF/classes/gov/nih/nci/nautilus/struts"/>
+
   </war>
 </target>
 
@@ -168,8 +195,14 @@
         <copy file="${build.dir}/${app.war.name}.war" todir="${env.CATALINA_HOME}/webapps"/>
     </target>
 
-    <target name="build-all" depends="deploy-webapp"/>
- <target name="run_junit" depends="compile">
+	<target name="deploy-war-n-restart-tomcat" depends="tomcat-shutdown-unix,tomcat-shutdown-win,deploy-webapp,tomcat-startup-unix,tomcat-startup-win"/>
+	
+	<target name="restart-tomcat-unix" if="${isUnix}" depends="tomcat-shutdown-unix,deploy-webapp,tomcat-startup-unix"/>
+	<target name="restart-tomcat-win" unless="${isUnix}" depends="tomcat-shutdown-win,deploy-webapp,tomcat-startup-win"/>
+
+    <target name="build-all" depends="build-war"/>
+ 
+	<target name="run_junit" depends="compile">
 
     <delete dir="${junit.report.dir}"/>
     <mkdir dir="${junit.report.dir}"/>
@@ -223,9 +256,22 @@
  <target name="tagcode">
 	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="tag -R ${tag}" passfile="${basedir}/.cvspass"/>
  </target>
+ <!-- tomcat start-stop -->
+ <target name="tomcat-shutdown-unix" if="${isUnix}">
+	<exec executable="${tomcat-shutdown-unix}" spawn="true" />
+ </target>
+ <target name="tomcat-startup-unix" if="${isUnix}">
+	<exec executable="${tomcat-startup-unix}" spawn="true" />
+ </target>
+ <target name="tomcat-shutdown-win" unless="${isUnix}">
+	<exec executable="${tomcat-shutdown-win}" spawn="true" />
+ </target>
+ <target name="tomcat-startup-win" unless="${isUnix}">
+	<exec executable="${tomcat-startup-win}"  spawn="true" />
+ </target>	
 
  <target name="clean">       
-        <delete dir="${build.dir}" quiet="true"/>
+        <delete dir="${build.dir-win}" quiet="true"/>
  </target> 
  
 </project>
