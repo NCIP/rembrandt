@@ -22,13 +22,13 @@
 				//1 is simple search
 				simple = "<span>Simple Search</span>\n" + simpleSecondary;
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a href=\"#\">View Results&nbsp;&nbsp;</a>";
+				viewResults = "<a href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				break;
 			case 2:
 				//2 is adv
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<span>Advanced Search</span>\n" + advSecondary;
-				viewResults = "<a href=\"#\">View Results&nbsp;&nbsp;</a>";
+				viewResults = "<a href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				break;
 			case 3:
 				//3 is view results
@@ -39,7 +39,7 @@
 			default:
 				simple = "<span>Simple Search</span>\n" + simpleSecondary;
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a href=\"#\">View Results&nbsp;&nbsp;</a>";
+				viewResults = "<a href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				break;
 		}
 	}

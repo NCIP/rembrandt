@@ -58,6 +58,20 @@
 	   <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
 	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
 	</definition>
+	
+	<definition name="nautilus.viewResults" path="/jsp/homeLayout.jsp">
+		<put name="title" value="View Results" />
+		<!--  the common criteria  -->
+		<put name="htmlHead" value="/jsp/tiles/htmlHead_tile.jsp" />
+		<put name="overlib" value="/jsp/tiles/overlib_tile.jsp" />
+		<put name="header" value="/jsp/header.jsp" />
+	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
+	    <put name="sideBar" value="/jsp/tiles/blankSidebar_tile.jsp" />
+		<!-- <put name="sideBar" value="/jsp/tiles/advSearch_tile.jsp" /> -->
+		<put name="footer" value="/jsp/footer.jsp" />
+		<put name="mainForm" value="/jsp/viewResults.jsp" />
+		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />		
+    </definition>
     
     <definition name="nautilus.refine" extends="baseDef">
       <put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />

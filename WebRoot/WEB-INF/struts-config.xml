@@ -142,6 +142,12 @@
 		name="noForm">
 		<forward name="success" path="nautilus.menu" />
 	</action>
+	
+	<action path="/viewResults"
+		type="gov.nih.nci.nautilus.ui.struts.action.DoFirst"
+		name="noForm">
+		<forward name="success" path="nautilus.viewResults" />
+	</action>
 
 	<action path="/homeAdvanced"
 		type="gov.nih.nci.nautilus.ui.struts.action.DoFirst"
