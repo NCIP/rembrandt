@@ -65,11 +65,14 @@ public class ClinicalDataQuery extends Query {
 		DiseaseOrGradeCriteria thisDiseaseCrit = this.getDiseaseOrGradeCriteria();	
 		if ((thisDiseaseCrit != null)&&!thisDiseaseCrit.isEmpty() && labels != null) { 
 		    Collection diseaseColl = thisDiseaseCrit.getDiseases();
+
+			String thisCriteria = thisDiseaseCrit.getClass().getName();
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B><BR>";
+
 			Iterator iter = diseaseColl.iterator();
 			while(iter.hasNext()){
 			  DiseaseNameDE  diseaseDE = (DiseaseNameDE)iter.next();
-			  String diseaseStr = diseaseDE.getClass().getName();		      
-		      OutStr += "&nbsp;&nbsp;<BR><B class='otherBold'>"+labels.getString(diseaseStr.substring(diseaseStr.lastIndexOf(".")+1))+":</b><br>"+diseaseDE.getValue()+"";
+			  OutStr += "&nbsp;&nbsp;"+((String) diseaseDE.getValue())+" ";
 		       }	 	   
 		   }
 		else{
@@ -149,8 +152,8 @@ public class ClinicalDataQuery extends Query {
 		     if(survivalLowerDE != null && survivalUpperDE != null){			     
 			     String survivalLowerStr  = survivalLowerDE.getClass().getName();
 				 String survivalUpperStr = survivalUpperDE.getClass().getName();
-				 OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;" + labels.getString(survivalLowerStr.substring(survivalLowerStr.lastIndexOf(".")+1)) +":</b><br /> "+survivalLowerDE.getValue()+" (months)";
-				 OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;" + labels.getString(survivalUpperStr.substring(survivalUpperStr.lastIndexOf(".")+1)) +":</b><br /> "+survivalUpperDE.getValue()+" (months)";
+				 OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;" + labels.getString(survivalLowerStr.substring(survivalLowerStr.lastIndexOf(".")+1)) +":</b><br />&nbsp;&nbsp;&nbsp;"+survivalLowerDE.getValue()+" (months)";
+				 OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;" + labels.getString(survivalUpperStr.substring(survivalUpperStr.lastIndexOf(".")+1)) +":</b><br />&nbsp;&nbsp;&nbsp;"+survivalUpperDE.getValue()+" (months)";
 			   	}		   
 		    }
 		  else{ 
@@ -161,14 +164,14 @@ public class ClinicalDataQuery extends Query {
 		 AgeCriteria thisAgeCriteria = this.getAgeCriteria();
 		 if((thisAgeCriteria != null) && !thisAgeCriteria.isEmpty() && labels != null){
 		    String thisCriteria = ageCriteria.getClass().getName();
-			OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1)) + "</b>";
 		    DomainElement LowerAgeLimit = thisAgeCriteria.getLowerAgeLimit();
 		    DomainElement UpperAgeLimit = thisAgeCriteria.getUpperAgeLimit();
 			if(LowerAgeLimit != null && UpperAgeLimit != null){
 			     String ageLowerStr  = LowerAgeLimit.getClass().getName();
 				 String ageUpperStr = UpperAgeLimit.getClass().getName();
-				 OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>" + labels.getString(ageLowerStr.substring(ageLowerStr.lastIndexOf(".")+1)) +":</b><br /> "+LowerAgeLimit.getValue()+" (years)";
-				 OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>" + labels.getString(ageUpperStr.substring(ageUpperStr.lastIndexOf(".")+1)) +":</b><br /> "+UpperAgeLimit.getValue()+" (years)";
+				 OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>" + labels.getString(ageLowerStr.substring(ageLowerStr.lastIndexOf(".")+1)) +":</b><br />&nbsp;&nbsp;&nbsp;"+LowerAgeLimit.getValue()+" (years)";
+				 OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>" + labels.getString(ageUpperStr.substring(ageUpperStr.lastIndexOf(".")+1)) +":</b><br />&nbsp;&nbsp;&nbsp;"+UpperAgeLimit.getValue()+" (years)";
 		 	
 			 } 
 		  }
@@ -178,11 +181,13 @@ public class ClinicalDataQuery extends Query {
 		
 		 
 		 // starting GenderCriteria 
+		 
 		   GenderCriteria thisGenderCriteria = this.getGenderCriteria();
 		   if((thisGenderCriteria != null) && !thisGenderCriteria.isEmpty() && labels != null){		      
 		     GenderDE genderDE = thisGenderCriteria.getGenderDE();
 			 String genderStr = genderDE.getClass().getName();
-		     OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>"+labels.getString(genderStr.substring(genderStr.lastIndexOf(".")+1))+":</b><br /> "+genderDE.getValue()+"";
+		     OutStr += "<BR><B class='otherBold'>"+labels.getString(genderStr.substring(genderStr.lastIndexOf(".")+1))+":</B><BR> ";
+			 OutStr += "&nbsp;&nbsp;"+((String) genderDE.getValue())+" ";
 			 }  
 		  else{
 		    System.out.println("GenderCriteria is empty or Application Resources file is missing.");
