@@ -27,6 +27,7 @@ public class QuickSearchAction extends DispatchAction {
 	private KaplanMeierPlotContainer kmResultsContainer = null;
 	private String chartType;
 	private String geneSymbol;
+	private String kmplotType;
 	/**
 	 * Method execute
 	 * 
@@ -72,14 +73,15 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 
 		KMDataSetForm kmForm = (KMDataSetForm) form;
-		geneSymbol = (String)request.getAttribute("geneSymbol");
-		kmForm.setGeneSymbol(geneSymbol );
+		geneSymbol = (String)request.getAttribute("quickSearchName");
+		kmplotType = (String)request.getAttribute("plotType");
+		kmForm.setPlotType(kmplotType);
+		kmForm.setGeneOrCytoband(geneSymbol );
 		setKmResultsContainer(geneSymbol);
 		kmForm.setReporters(populateReporters());
 		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
 		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-				kmForm.getDownFold(), (String) request
-						.getAttribute("geneSymbol"), kmSampleInfos);
+				kmForm.getDownFold(), geneSymbol, kmSampleInfos);
 		if (generator.getMyActionErrors().size() > 0) {
 			this.saveErrors(request, generator.getMyActionErrors());
 			return mapping.findForward("badgraph");
@@ -104,7 +106,7 @@ public class QuickSearchAction extends DispatchAction {
 				kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 			}
 			KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-					kmForm.getDownFold(), kmForm.getGeneSymbol(),kmSampleInfos);
+					kmForm.getDownFold(), kmForm.getGeneOrCytoband(),kmSampleInfos);
 			if (generator.getMyActionErrors().size() > 0) {
 				this.saveErrors(request, generator.getMyActionErrors());
 				return mapping.findForward("badgraph");
@@ -126,10 +128,19 @@ public class QuickSearchAction extends DispatchAction {
 		chartType = qsForm.getPlot();
 		
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
-			    System.out.println("wants kapMai w/ genesymbol");
-				request.setAttribute("geneSymbol", qsForm.getQuickSearchName());
+			    System.out.println("wants GE kapMai w/ genesymbol");
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("plotType", NautilusConstants.GENE_EXP_KMPLOT);
 				return mapping.findForward("kmplot");
-			} else if (chartType.equalsIgnoreCase("geneExpPlot")) {
+			}if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
+			    System.out.println("wants CP kapMai");
+			    request.setAttribute("quickSearchType",qsForm.getQuickSearchType());
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("plotType", NautilusConstants.COPY_NUMBER_KMPLOT);
+				return mapping.findForward("kmplot");
+			}
+			
+			else if (chartType.equalsIgnoreCase("geneExpPlot")) {
 				try {
 				    System.out.println("wants gePlot w/ genesymbol");
 					return doGeneExpPlot(mapping, qsForm, request, response);

@@ -17,23 +17,24 @@
 </div>
 
 <html:form action="/kmGraph.do?method=redrawKMPlot">
-  <html:hidden property="geneSymbol"/>
+  <html:hidden property="geneOrCytoband"/>
+  <html:hidden property="plotType"/>
   <div>
     <b>
-      Upregulated
+      <bean:write name="kmDataSetForm" property="upOrAmplified"/> <!-- Upregulated/Amplified  -->
       &nbsp;&ge;&nbsp;
       <html:select property="upFold">
         <html:options property="folds"/>
       </html:select>
       &nbsp;
-      Folds
+      <bean:write name="kmDataSetForm" property="changeType"/> <!--Fold/Copies -->
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      Downregulated
+      <bean:write name="kmDataSetForm" property="downOrDeleted"/> <!-- Downregulated/Deleted -->
       &nbsp;&ge;&nbsp;
       <html:select property="downFold">
         <html:options property="folds"/>
       </html:select>
-      &nbsp;Folds
+      &nbsp;<bean:write name="kmDataSetForm" property="changeType"/> <!--Fold/Copies -->
       &nbsp;&nbsp;Reporters
       <html:select property="selectedReporter">
         <html:options property="reporters"/>

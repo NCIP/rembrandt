@@ -44,4 +44,8 @@ public final class NautilusConstants {
 	public static final String REPORT_COUNTER = "reportCounter";
 	
     public static final String GRAPH_DEFAULT = "Default";
+    
+    public static final String GENE_EXP_KMPLOT ="GE_KM_PLOT";
+    
+    public static final String COPY_NUMBER_KMPLOT = "COPY_NUM_KM_PLOT";
 }
