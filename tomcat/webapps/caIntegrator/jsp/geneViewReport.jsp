@@ -20,9 +20,9 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 <head>
 	<title>Generated Report</title>
 	<style>
-	body { font-family:arial; }
+	body { font-family:arial; font-size: 11px;}
 	Td {
-		font-size: 10px;
+		font-size: 12px;
 		background: #F2F2F2;
 		padding: 4px;
 		border: 1px solid white;
@@ -42,29 +42,82 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	 #header { font-weight: bold;
 	 			font-size: 12px;
 	 		}
+	 		
+	 b.otherBold	{ font-size: 11px; font-weight:normal; }
+	
+	.queriesList { width: 600px; padding: 5px; }
+	.q { width:200px; height: 200px; overflow:auto; border: 1px solid black; padding: 3px; background: #F2F2F2;}
+	.title { font-size: 16px; font-weight: bold; padding-bottom: 10px; }
+	.rowCount { font-size:11px; padding:2px;}
 	
 	</style>
 </head>
 <body>
+<a name="top"></a>
 <%
 
-//	String theColors[] = {"5C73B7", "B1BCDD" };
+//	String theColors[] = {"5C73B7", "B1BCDD" };	
+//	String theColors[] = {"5C73B7", "B1BCDD", "DDD2B1", "8697CA", "B7A15C", "CFD4E6", "404F80", "5C71B5" };
+//	String theColors[] = {"CFD4E6", "E6DCCF", "E5E6CF", "DFCFE6" };
+//	String theColors[] = {"8E95C2", "F2F3F8", "9DA8CD", "E1E4EF", "AEB7D5", "BFC6DE", "D0D5E7"  };
+//	String theColors[] = {"BFDEFF", "608DBF", "E6F2FF", "80BCFF", "BFDEFF" };
 	
-//	 String theColors[] = {"5C73B7", "B1BCDD", "DDD2B1", "8697CA", "B7A15C", "CFD4E6", "404F80", "5C71B5" };
-
-//	 String theColors[] = {"CFD4E6", "E6DCCF", "E5E6CF", "DFCFE6" };
-	 
-	 String theColors[] = {"8E95C2", "F2F3F8", "9DA8CD", "E1E4EF", "AEB7D5", "BFC6DE", "D0D5E7"  };
-	
+//	String theColors[] = { "738FE6","B6C5F2","DAE1F9","8691B3","B3B9CC","6D7BA6","99A1B9" };
+	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
 	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
 
-// out.println("Query: " + queryCollection.toString() + "<br><br>");
+	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
-	if(queryCollection != null)
+
+	if(queryCollection != null)	{
+		//out.println("<a href=\"#queryInfo\">Query Information</a><Br>\n");
 		out.println(ReportGenerator.displayReport(queryCollection, theColors, false));
+	}
 	else
 		out.println("QueryCollection is NULL");
+		
+
+    out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
+	if(!myCompoundQuery.toString().equals(""))	{
+		out.println("<B>Compound Query:</b> " + myCompoundQuery.toString() + "<br><br>");
+	}
+	else	{
+		out.println("<B>Single Query:</b> " + queryCollection.getQueryNames() + "<br><br>");
+	}
+
+ 	String  query = "";	
+	int j = 0;	
+	String queryKey = null;
+	
+	if(queryCollection != null){
+			  
+			//  out.println("<span class=\"queriesList\">\n");   
+			      Collection queryColl = queryCollection.getQueries();
+				  Collection queryKeys = queryCollection.getQueryNames();
+				  
+				  Iterator i = queryColl.iterator();
+				  
+				  out.println("<b>Queries:</b><br>\n");
+				  while (i.hasNext()) { 
+				     j++;
+				     query =i.next().toString();
+					 	
+					 Iterator iter = queryKeys.iterator();
+				     while(iter.hasNext()){
+				        queryKey = (String)iter.next();
+						String queryName = queryCollection.getQuery(queryKey).toString();
+						if(query.equalsIgnoreCase(queryName)){					   
+						   break;
+						  }
+					   }
+					   out.println("<fieldset class=\"q\">");
+					   out.println(query);
+					   out.println("</fieldset>\n");
+			       }	
+			       out.println("<Br><Br>\n");
+	}
+	out.println("<a href=\"#top\">top</a>\n");
 %>
 </body>
 </html>
