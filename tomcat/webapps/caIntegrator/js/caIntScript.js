@@ -20,6 +20,13 @@ function resetVal(formElement)
 	}
 }
 
+function formNewTargetSimple(windowName, winw, winh)
+{
+		spawnx("", winw, winh, windowName);
+		document.forms[0].target = windowName;
+		return true;
+}
+
 function formNewTarget(windowName, winw, winh)
 {
 	if(document.forms[0].queryName.value == "")	{
@@ -61,6 +68,9 @@ function setQuery(txt)	{
 function setDispMethod(txt)	{
 	
 	document.forms[0].method.value = txt;
+	if(txt == "displayresult")
+		formNewTargetSimple('_report', 770, 550);
+
     document.forms[0].submit();
 }
 
