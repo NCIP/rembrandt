@@ -8,20 +8,20 @@
   <div>
     <b>
       Upregulated
-      &nbsp&gt&nbsp
+      &nbsp;&ge;&nbsp;
       <html:select property="upFold">
         <html:options property="folds"/>
       </html:select>
-      &nbsp
+      &nbsp;
       Folds
-      &nbsp&nbsp&nbsp&nbsp&nbsp
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       Downregulated
-      &nbsp&lt=&nbsp
+      &nbsp;&le;&nbsp;
       <html:select property="downFold">
         <html:options property="folds"/>
       </html:select>
-      &nbspFolds
-      &nbsp&nbsp
+      &nbsp;Folds
+      &nbsp;&nbsp;
     </b>
     <html:submit value="Redraw Graph"/>
   </div>
