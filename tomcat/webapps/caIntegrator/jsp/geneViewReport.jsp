@@ -47,7 +47,7 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	
 	.queriesList { width: 600px; padding: 5px; }
 	.q { width:200px; height: 200px; overflow:auto; border: 1px solid black; padding: 3px; background: #F2F2F2;}
-	.title { font-size: 16px; font-weight: bold; padding-bottom: 10px; }
+	.title { font-size: 16px; font-weight: bold; padding-bottom: 10px; font-family: tahoma }
 	.rowCount { font-size:11px; padding:2px;}
 	
 	</style>
