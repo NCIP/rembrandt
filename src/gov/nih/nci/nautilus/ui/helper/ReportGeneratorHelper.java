@@ -37,7 +37,7 @@ import gov.nih.nci.nautilus.view.Viewable;
  * XML will then be stored in a ReportBean that will also contain the cache key
  * where the resultant can be called again, if needed.
  * 
- * @author BauerD Feb 8, 2005
+ * @author BauerD, LandyR Feb 8, 2005
  * 
  */
 public class ReportGeneratorHelper {
@@ -157,7 +157,7 @@ public class ReportGeneratorHelper {
 					.getReportGenerator(resultant);
 			reportXML = reportGen.getReportXML(resultant);
 			
-			//try transformation here
+			//server side transformation
 			String stylesheet = "C:\\dev\\caIntegrator2\\WebRoot\\XSL\\report.xsl";
 			 // load the transformer using JAXP
 	        TransformerFactory factory = TransformerFactory.newInstance();
