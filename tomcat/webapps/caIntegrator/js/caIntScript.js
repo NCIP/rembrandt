@@ -12,6 +12,12 @@ function checkNull(text)
 	}
 }
 
+function cRadio(field, radio)
+{
+	if(field.value == "")
+		radio.checked = false;
+}
+
 function resetVal(formElement)
 {
     var element = formElement.name;
