@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,7 +35,7 @@ public abstract class SelectHandler implements Runnable {
     }
 
     DBEvent dbEvent = null;
-    private PersistenceBroker _BROKER = null;
+    private PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
 
     final static class RegionSelectHandler extends SelectHandler{
        public RegionSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
