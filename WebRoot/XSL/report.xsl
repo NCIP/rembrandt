@@ -199,22 +199,64 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="radio" class="checkorradio" name="filter_type" value="show" />Show Only
 		<input type="radio" class="checkorradio" name="filter_type" checked="true" value="hide"/>Hide		
-		<select name="filter_element">
+		<select name="filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
 			<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
 			<option value="gene">Gene(s)</option>
 			</xsl:if>
 			<xsl:if test="$rType = 'Copy Number'">
 			<option value="cytoband">Cytoband(s)</option>
+			<option value="copy number">Copy Number</option>
 			</xsl:if>
 			<option value="reporter">Reporters</option>
 		</select>
+		<span id="fb">
 		<input type="text" name="filter_string"/>
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Filter" />
 		<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" />
+		</span>
 	  </form>
 	  </div>
 	  
+	  <xsl:if test="$rType = 'Copy Number'">
+	  <div class="filterForm" id="cNumberFilter" style="display:none">
+	  <form style="margin-bottom:0;margin:0;" action="runReport.do?method=runGeneViewReport" method="post" name="cfilter_form">
+		<b><span class="lb">Filter Options:</span></b> 
+		<xsl:text>&#160;</xsl:text>
+		<select name="filter_value5">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+		</select>
+		<select name="filter_value6">
+			<option value="10">10%</option>
+			<option value="20">20%</option>
+			<option value="30">30%</option>
+			<option value="40">40%</option>
+			<option value="50">50%</option>
+			<option value="60">60%</option>
+			<option value="70">70%</option>
+			<option value="80">80%</option>
+			<option value="90">90%</option>
+			<option value="100">100%</option>
+		</select>
+		<xsl:text>&#160;</xsl:text>
+		<input type="hidden" name="queryName" value="{$qName}"/>
+		<input type="submit" name="filter_submit" value="Submit" />
+		<xsl:text>&#160;</xsl:text>
+	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>
+	  </form>
+	  </div>
+	  </xsl:if>	  
+	  
+			
 	  <div class="filterForm">
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="highlight_form">
 		<b><span class="lb">Highlight:</span></b> 

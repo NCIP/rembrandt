@@ -112,22 +112,29 @@ function toggleDiv(id)	{
 			document.getElementById(id).style.display = "none";	
 }
 
+function displayDiv(id, dis)	{ 
+ 	document.getElementById(id).style.display = dis;
+}
+
 function showHelp(help)	{
 	return overlib(help, CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);
 }
 
 function spawnAnnot(type, element)	{
+
 	var winw = 800;
 	var winh = 550;
 	var page = "";
 	if(type == 'gene')	{
-		page = 'http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM='+escape(element);
+		page = escape('http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM=')+escape(element);
 		//spawn(page,winw,winh);
+		//alert(page);
 		rbtFrame(page);
 	}
 	else if(type == 'reporter')	{
-		page = 'http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position='+escape(element)+'&pix=620&hgsid=40518963&Submit=submit';
+		page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(element)+escape('&pix=620&hgsid=40518963&Submit=submit');
 		//spawn(page,winw,winh);
+		//alert(page);
 		rbtFrame(page);
 	}
 }
@@ -147,4 +154,17 @@ function rbtFrame(page)	{
 
 function selectHOperand(select, value)	{
 	select.value = value;
+}
+
+function showCNumberFilter(v, id)	{
+	if(v == 'copy number')	{
+		displayDiv(id, "block");
+		displayDiv('fb', "none");
+	}
+	else	{
+		if(document.getElementById(id))	{
+			displayDiv(id, "none");
+		}
+		displayDiv('fb', "inline");
+	}
 }
