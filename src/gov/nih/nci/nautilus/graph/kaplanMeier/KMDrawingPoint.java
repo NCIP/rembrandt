@@ -1,49 +1,35 @@
 /*
  * Created on Oct 12, 2004
  *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
  */
 package gov.nih.nci.nautilus.graph.kaplanMeier;
 
+import org.jfree.data.XYDataPair;
+
 /**
  * @author XiaoN
- *
- * Each of the KMDrawingPoint object has x, y co-ordinates, and a boolean value
- * (isChecked). Simply link each pair of consecutive points with a straight
- * line. If isChecked == true, draw a "+" at that point.
- * 
+ * This class extends the JFree class XYDataPair and 
+ * adds a third parameter for census. If census == true,
+ * draw a "+" at that point.
  */
-public class KMDrawingPoint {
-	private float x; //time
-	private float y; //survival
-	private boolean checked; //draw cross at the point
+public class KMDrawingPoint extends XYDataPair {
 	
-	public KMDrawingPoint(float x, float y){
-		this.x=x; 
-		this.y=y; 
+    private XYDataPair xyDataPair;
+	private boolean census; 
+	
+	public KMDrawingPoint(Number x, Number y){
+		super(x,y);
+        xyDataPair = new XYDataPair(x,y);
 	}
-	public KMDrawingPoint(float x, float y, boolean checked){
-		this.x=x; 
-		this.y=y; 
-		this.checked=checked; 
+	public KMDrawingPoint(Number x, Number y, boolean b){
+        super(x,y);
+		this.census=b; 
 	}
-	/**
+
+    /**
 	 * @return Returns the isChecked.
 	 */
-	public boolean isChecked() {
-		return checked;
-	}
-	/**
-	 * @return Returns the x.
-	 */
-	public float getX() {
-		return x;
-	}
-	/**
-	 * @return Returns the y.
-	 */
-	public float getY() {
-		return y;
+	public boolean isCensus() {
+		return census;
 	}
 }

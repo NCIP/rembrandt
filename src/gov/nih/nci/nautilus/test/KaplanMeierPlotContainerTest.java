@@ -167,7 +167,7 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 		for (int i=0; i<points.length; i++) {
 			System.out.println(points[i].getX() 
 							+ "\t" + points[i].getY()
-							+ "\t" + points[i].isChecked()); 
+							+ "\t" + points[i].isCensus()); 
 		}
 
 	}

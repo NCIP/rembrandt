@@ -18,7 +18,7 @@
     &nbsp&nbsp&nbsp&nbsp&nbsp
     Downregulated
     &nbsp
-     <html:select property="downFold">
+    <html:select property="downFold">
        <html:options property="folds"/>
     </html:select>
     &nbspFolds
@@ -28,7 +28,6 @@
 </div>
 <div>
    <cewolf:chart id="xy"	
-                  title="Kaplan-Meier Survival Plot" 
                   type="xy" 
                   xaxislabel="Days of Study" 
                   yaxislabel="Probability of Survival">
@@ -37,12 +36,15 @@
 			   </cewolf:data>
 		</cewolf:chart>
     <HR>
-    
+    <B>
+      <font size="+1">
+       <bean:write name="kmDataSetForm" property="chartTitle"/>
+      </font>
     <p>
      <cewolf:img chartid="xy" 
                   renderer="/cewolf" 
                   width="720" 
                   height="540"/>
-		<P>
+ 		<P>
 </div>
 </html:form>

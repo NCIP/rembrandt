@@ -6,6 +6,7 @@ import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.graph.kaplanMeier.KMDataSeries;
 import gov.nih.nci.nautilus.graph.kaplanMeier.KMDrawingPoint;
 import gov.nih.nci.nautilus.graph.kaplanMeier.KaplanMeier;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
@@ -25,7 +26,6 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
-import org.jfree.data.XYSeries;
 import org.jfree.data.XYSeriesCollection;
 
 import de.laures.cewolf.DatasetProduceException;
@@ -39,88 +39,60 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	private String geneSymbol;
 	private int upFold = 3;
 	private int downFold = 3;
+    private String chartTitle = null;
     private ArrayList folds = new ArrayList();
+    private Resultant resultant;
+    private static final int UPREGULATED = 1;
+    private static final int DOWNREGULATED = 2;
+    private static final int ALLSAMPLES = 3; 
+    
   
+    /**
+     * This method is called by the ceWolf chart tag to create the data
+     * for the plot.
+     */
 	public Object produceDataset(Map params) throws DatasetProduceException {
 		XYSeriesCollection dataset = new XYSeriesCollection();
-		buildKaplanMeierPlotQuery();
-		Resultant resultant = null;
+		ResultsContainer resultsContainer = null;
 		try {
-			resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
+			resultsContainer = performKaplanMeierPlotQuery();
 		} catch (Exception e) {
+            System.err.println("KMDataSetForm has thrown an exception");
+            e.printStackTrace();
 		}
-		if (resultant != null) {
-			ResultsContainer resultsContainer = resultant.getResultsContainer();
-			if (resultsContainer instanceof KaplanMeierPlotContainer) {
-
-				//All Sample Series
-			    KaplanMeierPlotContainer kaplanMeierPlotContainer = (KaplanMeierPlotContainer) resultsContainer;
-				Collection allSamples = kaplanMeierPlotContainer
-						.getBioSpecimenResultsets();
-				KaplanMeier kmAllSamples = new KaplanMeier(allSamples);
-				KMDrawingPoint[] allSamplesPoints = kmAllSamples
-						.getDrawingPoints();
-				XYSeries series1 = createSeries(allSamplesPoints, "All Samples");
-
-				//Upregulation Series
-				ExprFoldChangeDE upRegulation = new ExprFoldChangeDE.UpRegulation(new Float(upFold));
-				Collection geneSamples = kaplanMeierPlotContainer
-						.getSampleKaplanMeierPlotResultsets(upRegulation);
-				KaplanMeier kmGeneSamples = new KaplanMeier(geneSamples);
-				KMDrawingPoint[] geneSamplePoints = kmGeneSamples
-						.getDrawingPoints();
-				XYSeries series2 = createSeries(geneSamplePoints, geneSymbol+" Upregulated "+upFold+"X");
-				
-				// Down Regulation Series
-				ExprFoldChangeDE downRegulation = new ExprFoldChangeDE.DownRegulation(new Float(downFold));
-				geneSamples = kaplanMeierPlotContainer
-					.getSampleKaplanMeierPlotResultsets(downRegulation);
-				kmGeneSamples = new KaplanMeier(geneSamples);
-				geneSamplePoints = kmGeneSamples.getDrawingPoints();
-				XYSeries series3 = createSeries(geneSamplePoints, geneSymbol+" Downregulated "+downFold+"X");
-				
-				
-				dataset.addSeries(series1);
-				dataset.addSeries(series2);
-				dataset.addSeries(series3);	
-			}
-		}
-		return dataset;
+		if (resultsContainer !=null && resultsContainer instanceof KaplanMeierPlotContainer) {
+			KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
+            
+            //All Sample Series
+			KMDataSeries allSamples = getDataSeries(kmPlotContainer, ALLSAMPLES, "All Samples");
+			//UpRegulated Samples 
+			KMDataSeries upSamples = getDataSeries(kmPlotContainer,UPREGULATED, geneSymbol+" Upregulated "+upFold+"X");
+			// Down Regulation Series
+			KMDataSeries downSamples = getDataSeries(kmPlotContainer,DOWNREGULATED, geneSymbol+" Downregulated "+downFold+"X");
+			
+            //Store in DataSet
+            dataset.addSeries(upSamples);
+			dataset.addSeries(allSamples);
+			dataset.addSeries(downSamples);	
+		}else {
+			throw new DatasetProduceException("ResultsContainer is either not Kaplan-Meier or NULL");
+        }
+	    
+        return dataset;
 	}
-
-	/**
-	 * @param allSamplesPoints
+	
+	/***
+     * 
 	 */
-	private XYSeries createSeries(KMDrawingPoint[] dataPoints, String seriesName) {
-		XYSeries dataSeries = new XYSeries(seriesName);
-		for (int i = 0; i < dataPoints.length; i++) {
-			dataSeries.add(dataPoints[i].getX(), dataPoints[i].getY());
-		}
-		return dataSeries;
-	}
-
 	public boolean hasExpired(Map params, Date since) {
 		return (System.currentTimeMillis() - since.getTime()) > 5000;
 	}
-
+	
 	public String getProducerId() {
 		return "KMDataSetForm";
 	}
-
-	private void buildKaplanMeierPlotQuery() {
-		GeneIDCriteria geneCrit = new GeneIDCriteria();
-		geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(geneSymbol));
-		geneQuery = (GeneExpressionQuery) QueryManager
-				.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-		geneQuery.setQueryName("KaplanMeierPlot");
-		geneQuery.setAssociatedView(ViewFactory
-				.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-		geneQuery.setGeneIDCrit(geneCrit);
-		geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
-				new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
-	}
-
-	/**
+ 
+    /**
 	 * @return Returns the geneSymbol.
 	 */
 	public String getGeneSymbol() {
@@ -186,4 +158,77 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     public void setDownFold(int downFold) {
         this.downFold = downFold;
     }
+   
+	/**
+	 * @return Returns the chartTitle.
+	 */
+	public String getChartTitle() {
+		chartTitle = "Kaplan-Meier Survival Plot for "+geneSymbol;
+        return chartTitle;
+    }
+   
+    /***
+     * 
+     * @return
+     * @throws Exception
+     */
+    private ResultsContainer performKaplanMeierPlotQuery() throws Exception {
+        GeneIDCriteria geneCrit = new GeneIDCriteria();
+        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(geneSymbol));
+        geneQuery = (GeneExpressionQuery) QueryManager
+                .createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+        geneQuery.setQueryName("KaplanMeierPlot");
+        geneQuery.setAssociatedView(ViewFactory
+                .newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+        geneQuery.setGeneIDCrit(geneCrit);
+        geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
+                new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+        resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
+        return resultant.getResultsContainer();
+    }
+    
+    /***
+     * 
+     * @param container
+     * @param regulated
+     * @param seriesName
+     * @return
+     */
+    private KMDataSeries getDataSeries(KaplanMeierPlotContainer container, int regulated, String seriesName) {
+        Collection samples;
+        ExprFoldChangeDE regulation;
+        switch(regulated) {
+            case ALLSAMPLES:
+                samples = container.getBioSpecimenResultsets();
+                break;
+            case DOWNREGULATED:
+                regulation = new ExprFoldChangeDE.DownRegulation(new Float(downFold));
+                samples = container.getSampleKaplanMeierPlotResultsets(regulation);
+                break;
+            case UPREGULATED:
+                regulation = new ExprFoldChangeDE.UpRegulation(new Float(upFold));
+                samples = container.getSampleKaplanMeierPlotResultsets(regulation);
+                break;
+            default:
+                throw new RuntimeException("Invalid Criteria for KM Plot");
+        }
+        KaplanMeier km = new KaplanMeier(samples);
+        KMDrawingPoint[] samplePoints = km.getDrawingPoints();
+        return createSeries(samplePoints, seriesName);
+    }
+    
+    /***
+     * 
+     * @param dataPoints
+     * @param seriesName
+     * @return
+     */
+    private KMDataSeries createSeries(KMDrawingPoint[] dataPoints, String seriesName) {
+        KMDataSeries dataSeries = new KMDataSeries(seriesName,true);
+        for (int i = 0; i < dataPoints.length; i++) {
+            dataSeries.add(dataPoints[i],i);
+        }
+        return dataSeries;
+    }
+	
 }
