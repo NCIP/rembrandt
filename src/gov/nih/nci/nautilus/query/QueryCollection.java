@@ -96,4 +96,13 @@ public class QueryCollection {
 	public void setCompoundQuery(CompoundQuery compoundQuery) {
 		this.compoundQuery = compoundQuery;
 	}
+	
+	public boolean hasCompoundQuery() {
+		if (this.getCompoundQuery() != null) return true;
+		return false;
+	}
+
+	public boolean hasQuery() {
+		return (!this.getQueryNames().isEmpty());
+	}
 }
