@@ -25,10 +25,14 @@ public class CopyNumberCriteriaHandler {
     static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
         ArrayList diseasesTypes = new ArrayList();
-        for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();)
-            diseasesTypes.add(((DiseaseNameDE) iterator.next()).getValueObject());
+        for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();) {
+            DiseaseNameDE d = ((DiseaseNameDE) iterator.next());
+            diseasesTypes.add(d.getValueObject());
+            System.out.println("DISEASE IN CRITERIA: " + d.getValueObject());
+        }
         String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
         criteria.addIn(columnName, diseasesTypes);
+
     }
     static void addCopyNumberCriteria(CopyNumberCriteria  copyNumberCrit, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
        if (copyNumberCrit != null) {
@@ -62,14 +66,17 @@ public class CopyNumberCriteriaHandler {
     private static void addUpAndDownCriteria(Object[] copyObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
         String type1 = ((CopyNumberDE)copyObjs[0]).getCGHType();
         Double copyChange1 = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
-        addSingleUpORDownCriteria(copyChange1, type1, columnName, criteria, pb);
+        Criteria newCrit = new Criteria();
+        addSingleUpORDownCriteria(copyChange1, type1, columnName, newCrit, pb);
 
         String type2 = ((CopyNumberDE)copyObjs[1]).getCGHType();
         Double copyChange2 = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
         Criteria copy2Crit = new Criteria();
         addSingleUpORDownCriteria(copyChange2, type2, columnName, copy2Crit, pb);
 
-        criteria.addOrCriteria(copy2Crit);
+        newCrit.addOrCriteria(copy2Crit);
+
+        criteria.addAndCriteria(newCrit);
     }
 
     private static void addUnChangedCriteria(Object[] copyObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
