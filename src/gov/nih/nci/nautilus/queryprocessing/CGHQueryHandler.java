@@ -17,6 +17,7 @@ import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,7 +26,7 @@ import java.util.Iterator;
  * Time: 3:14:46 PM
  * To change this template use Options | File Templates.
  */
-public class CGHQueryHandler implements QueryHandler {
+public class CGHQueryHandler extends QueryHandler {
 
 	DiseaseOrGradeCriteria diseaseOrGradeCrit;
 	GeneIDCriteria geneIDCrit;
@@ -38,7 +39,7 @@ public class CGHQueryHandler implements QueryHandler {
 
 
 
-    public void handle(Query query) {
+    public Map handle(Query query) {
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) query;
 
         diseaseOrGradeCrit = cghQuery.getDiseaseOrGradeCriteria();
@@ -57,5 +58,6 @@ public class CGHQueryHandler implements QueryHandler {
                 System.out.println("LocuLink: " + o.getValueObject());
             }
         }
+		return null;//TODO fix handle
     }
 }
