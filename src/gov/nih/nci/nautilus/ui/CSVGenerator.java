@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui;
 
+import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
@@ -189,24 +190,62 @@ public class CSVGenerator  {
 					
 				    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 				    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
-				    		String geneSymbol = geneResultset.getGeneSymbol().getValue().toString();
-				    		Collection reporters = geneExprDiseaseContainer.getRepoterResultsets(geneSymbol); 
-
+				    		//String geneSymbol = geneResultset.getGeneSymbol().getValue().toString();
+				    		//Collection reporters = geneExprDiseaseContainer.getRepoterResultsets(geneSymbol); 
+				    		Collection reporters = geneResultset.getReporterResultsets();
+				    		
 				    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 				    			recordCount += reporters.size();
 				    			
 				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-				        		String reporterName = reporterResultset.getReporter().getValue().toString();
-				        		Collection groupTypes = geneExprDiseaseContainer.getGroupByResultsets(geneSymbol,reporterName); //reporterResultset.getGroupResultsets();
+
+				        		String reporterName = "-";
+				        		try	{
+				        			reporterName = reporterResultset.getReporter().getValue().toString();
+				        		}
+				        		catch(Exception e)	{
+				        			reporterName = "-";
+				        		}
+				        		System.out.println("Reporter: "+ reporterName);
+				        		
+				        		
+				        		GeneSymbol gene = geneResultset.getGeneSymbol();
+				        		String geneSymbol = "-";
+				        		if( gene != null){
+				        			try{
+				        				geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
+				        			}
+				        			catch(Exception e){
+				        				geneSymbol = "-";
+				        			}
+				        			System.out.println("Gene Symbol: "+ geneSymbol);
+				        		}
+				        		
+				        		//Collection groupTypes = reporterResultset.getGroupByResultsets();
+				        		//Collection groupTypes = geneExprDiseaseContainer.getGroupByResultsets(geneSymbol,reporterName); //reporterResultset.getGroupResultsets();
 
 				        		sb.append(geneSymbol+"," + reporterName);
 				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 				    	        	label = (String) labelIterator.next();
 				    	        	DiseaseGroupResultset diseaseResultset = (DiseaseGroupResultset) reporterResultset.getGroupByResultset(label);
 				    	        	if(diseaseResultset != null){
-			                   			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
-			                   			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
-			                   			sb.append(","+resultFormat.format(ratio)+" ("+resultFormat.format(pvalue)+")");  
+				    	        		try	{
+				    	        			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
+				    	        			sb.append(","+resultFormat.format(ratio));
+				    	        		}
+				    	        		catch(Exception e)	{
+				    	        			sb.append(",-");
+				    	        		}
+				    	        		try	{
+				    	        			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
+				    	        			sb.append(" ("+resultFormat.format(pvalue) + ")");
+				    	        		}
+				    	        		catch(Exception e){
+				    	        			sb.append(" ");
+				    	        		}
+			                   			//Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
+			                   			//Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
+			                   			//sb.append(","+resultFormat.format(ratio)+" ("+resultFormat.format(pvalue)+")");  
 			                   			}
 			                   		else	{
 			                   			sb.append(",-");
@@ -522,7 +561,14 @@ public class CSVGenerator  {
 			        		Collection groupTypes = reporterResultset.getGroupByResultsets();
 			        		String reporterName = reporterResultset.getReporter().getValue().toString();
 
-			        		stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+","+reporterName);
+			        		GeneSymbol gene = geneResultset.getGeneSymbol();
+			        		String geneSymbol = " ";
+			        		if( gene != null){
+			        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
+			        		}
+			        		stringBuffer.append(geneSymbol+","+reporterName);
+			        		
+			        		//stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+","+reporterName);
 			        		
 			        		if(showLL)	{
 		        				header.append(",Locus Link");
