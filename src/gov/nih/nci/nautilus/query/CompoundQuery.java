@@ -69,12 +69,12 @@ public class CompoundQuery implements Queriable{
 	 */
 
 
-	public CompoundQuery(OperatorType operator, Queriable leftQuery, Queriable rightQuery) {
+	public CompoundQuery(OperatorType operator, Queriable leftQuery, Queriable rightQuery) throws Exception{
 		setOperatorType(operator);
 		setLeftQuery(leftQuery);
 		setRightQuery(rightQuery);
 	}
-	public CompoundQuery( Queriable rightQuery) {
+	public CompoundQuery( Queriable rightQuery) throws Exception{
 		setOperatorType( null);
 		setLeftQuery(null);
 		setRightQuery(rightQuery);
@@ -96,8 +96,12 @@ public class CompoundQuery implements Queriable{
 	/**
 	 * @param operatorType The operatorType to set.
 	 */
-	public void setOperatorType(OperatorType operatorType) {
+	public void setOperatorType(OperatorType operatorType) throws Exception{
+		//PROJECTS results by make sure the two views are different
 		this.operatorType = operatorType;
+		if(validateProjectResultsBy()==false){//if invalide Query
+			throw new Exception ( "For ProjectResultsBy, both views need to be different");
+		}
 		
 	}
 	/**
@@ -109,8 +113,11 @@ public class CompoundQuery implements Queriable{
 	/**
 	 * @param leftQuery The leftQuery to set.
 	 */
-	public void setLeftQuery(Queriable leftQuery) {
+	public void setLeftQuery(Queriable leftQuery) throws Exception{
 		this.leftQuery = leftQuery;
+		if(validateProjectResultsBy()==false){//if invalide Query
+			throw new Exception ( "For ProjectResultsBy, both views need to be different");
+		}
 	}
 	/**
 	 * @return Returns the rightQuery.
@@ -121,14 +128,31 @@ public class CompoundQuery implements Queriable{
 	/**
 	 * @param rightQuery The rightQuery to set.
 	 */
-	public void setRightQuery(Queriable rightQuery) {
+	public void setRightQuery(Queriable rightQuery) throws Exception{
 		this.rightQuery = rightQuery;
 		// The right query's AssociatedView is always the "winning view"
 		if (rightQuery != null && rightQuery.getAssociatedView()!= null){
 			setAssociatedView(rightQuery.getAssociatedView());
 		}
+		if(validateProjectResultsBy()==false){//if invalide Query
+			throw new Exception ( "For ProjectResultsBy, both views need to be different");
+		}
 	}
-	
+	/**
+	 * @return validationStatus as true or false
+	 * 
+	 */
+	public boolean validateProjectResultsBy(){
+		//PROJECTS results by make sure the two views are different
+		if((operatorType!= null && operatorType.equals(OperatorType.PROJECT_RESULTS_BY))&&
+			(getRightQuery()!= null && getLeftQuery()!= null)){
+			if((getRightQuery().getAssociatedView() != null && getLeftQuery().getAssociatedView() != null)&&
+				(getRightQuery().getAssociatedView().equals(getLeftQuery().getAssociatedView()))){
+					return false;
+				}
+		}
+		return true;
+	}
 	/**
 	 * toString() method to generate Compound query for display - pcs
 	 */
