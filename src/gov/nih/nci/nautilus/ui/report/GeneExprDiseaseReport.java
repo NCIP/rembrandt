@@ -52,7 +52,9 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 	        report.addAttribute("reportType", "Gene Expression Disease");
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
-	        report.addAttribute("queryName", "the query name");
+	        String queryName = resultant.getAssociatedQuery().getQueryName();
+	        //set the queryName to be unique for session/cache access
+	        report.addAttribute("queryName", queryName);
 	        report.addAttribute("sessionId", "the session id");
 	        report.addAttribute("creationTime", "right now");
 		    

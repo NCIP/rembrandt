@@ -47,10 +47,14 @@ public class ClinicalSampleReport implements ReportGenerator {
 	        report.addAttribute("reportType", "Clinical");
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
-	        report.addAttribute("queryName", "the query name");
+	        String queryName = resultant.getAssociatedQuery().getQueryName();
+	        
+	        //set the queryName to be unique for session/cache access
+	        report.addAttribute("queryName", queryName);
 	        report.addAttribute("sessionId", "the session id");
 	        report.addAttribute("creationTime", "right now");
 
+	        
 		    boolean gLinks = false;
 			boolean cLinks = false;
 			StringBuffer sb = new StringBuffer();
