@@ -68,7 +68,7 @@ public class GeneExpressionQueryTest extends TestCase {
 
             try {
                 ResultSet[] geneExprObjects = QueryManager.executeQuery(q);
-                print(geneExprObjects);
+                //print(geneExprObjects);
                 testResultset(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
@@ -134,18 +134,34 @@ public class GeneExpressionQueryTest extends TestCase {
     	StringBuffer header = new StringBuffer();
     	StringBuffer sampleNames = new StringBuffer();
         StringBuffer stringBuffer = new StringBuffer();
-    	header.append("Gene\tReporter\t");
-    	sampleNames.append("Name\tName\t\tType\t");
-    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+    	//get group size (as Disease or Agegroup )from label.size
+        System.out.println("GroupSize= "+labels.size());
+        for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
         	String label = (String) labelIterator.next();
-        	header.append("Disease: "+label);
-        	sampleIds = geneViewContainer.getBiospecimenLabels(label);        	
+        	System.out.println(label);
+        	sampleIds = geneViewContainer.getBiospecimenLabels(label); 
+        	//For each group get the number of samples in it from sampleIds.size()
+            System.out.println("SampleSize= "+sampleIds.size());
            	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-            	sampleNames.append(sampleIdIterator.next()+"\t"); 
-            	header.append("\t");
+           		System.out.println(sampleIdIterator.next()); 
            	}
            	 
     	}
+        //set up the header for the table
+    	header.append("Gene\tReporter\t");
+    	sampleNames.append("Name\tName\t\t");
+	   
+    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+        	String label = (String) labelIterator.next();
+        	header.append("|"+label.substring(0,3)+"\t"); //remove this for table
+        	sampleIds = geneViewContainer.getBiospecimenLabels(label);        	
+	           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+	            	sampleNames.append(sampleIdIterator.next()+"\t"); 
+	            	header.append("\t");
+	           	}
+           	header.deleteCharAt(header.lastIndexOf("\t"));
+    	}
+    	header.append("|"); 
 
     	//System.out.println("Gene Count: "+genes.size());
 		System.out.println(header.toString());
@@ -157,31 +173,35 @@ public class GeneExpressionQueryTest extends TestCase {
     		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
         		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
         		Collection groupTypes = reporterResultset.getGroupResultsets();
+        		stringBuffer = new StringBuffer();
             	//System.out.println("Group Count: "+groupTypes.size());
+        		String reporterName = reporterResultset.getReporter().getValue().toString();
+        		if(reporterName.length()< 10){ //Remove this from table
+        			reporterName= reporterName+"        ";
+        			reporterName = reporterName.substring(0,10);
+        		}
+        		//get the gene name, and reported Name
+        		
+        		stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
+    					reporterName+"\t");
         		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
         			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
         			String label = groupResultset.getType().getValue().toString();
         			sampleIds = geneViewContainer.getBiospecimenLabels(label);
-//        			Collection biospecimens = groupResultset.getBioSpecimenResultsets();
-//                	System.out.println("Biospecimen Count: "+biospecimens.size());
-//            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
-//            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
-        			            stringBuffer = new StringBuffer();
-                	            stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
-                	            					reporterResultset.getReporter().getValue().toString()+"\t\t");
-													//"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
-                               	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-                               		String sampleId = (String) sampleIdIterator.next();
-                               		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
-                               		if(biospecimenResultset != null){
-                               			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
-                               			stringBuffer.append(resultFormat.format(ratio)+"\t");                                 
-                               		}                                    		
-                               	}
-//            		}
-                               	System.out.println(stringBuffer.toString());
-        		}
-
+                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+                       		String sampleId = (String) sampleIdIterator.next();
+                       		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
+                       		if(biospecimenResultset != null){
+                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
+                       			stringBuffer.append(resultFormat.format(ratio)+"\t");                                 
+                       		}
+                       		else 
+                       		{
+                       			stringBuffer.append("\t");
+                       		}
+                       	}
+         		}
+        		System.out.println(stringBuffer.toString());
     		}
 
     	}
