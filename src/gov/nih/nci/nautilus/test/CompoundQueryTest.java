@@ -256,9 +256,7 @@ public class CompoundQueryTest extends TestCase {
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery2);
 			System.out.println("Printing Query Output>>>>>>>>>>>>>>>>>>>>>>>");
 			print(resultant);
-			ShowAllValuesHandler showAllValuesHandler = new ShowAllValuesHandler(resultant);
-			CompoundQuery showQuery = showAllValuesHandler.handleQuery();
-			Resultant resultant2 = ResultsetManager.executeCompoundQuery(showQuery);
+			Resultant resultant2 = ResultsetManager.executeShowAllQuery(resultant);
 			System.out.println("Printing ShowAllValuesQuery Output>>>>>>>>>>>>>>>>>>>>>>>");
 			print(resultant2);
 		} catch (Exception e) {
