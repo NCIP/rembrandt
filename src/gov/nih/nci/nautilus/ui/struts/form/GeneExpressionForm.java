@@ -1867,6 +1867,7 @@ public class GeneExpressionForm extends BaseForm {
         GeneExpressionForm form = new GeneExpressionForm();
         form.setPathwayName(pathwayName);
         form.setGeneList(geneList);
+        form.setSampleList(sampleList);
         form.setGoClassification(goClassification);
         form.setGoCellularComp(goCellularComp);
         form.setGoMolecularFunction(goMolecularFunction);
@@ -1891,8 +1892,10 @@ public class GeneExpressionForm extends BaseForm {
         form.setFoldChangeValueUDUp(foldChangeValueUDUp);
         form.setResultView(resultView);
         form.setGeneFile(geneFile);
+        form.setSampleFile(sampleFile);
         form.setFoldChangeValueUDDown(foldChangeValueUDDown);
         form.setGeneGroup(geneGroup);
+        form.setSampleGroup(sampleGroup);
         form.setCloneList(cloneList);
         form.setQueryName(queryName);
         form.setBasePairStart(basePairStart);

@@ -7,6 +7,7 @@ import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.GenderCriteria;
 import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
 import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
 import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
@@ -124,6 +125,11 @@ public class ClinicalDataAction extends Action {
                     .newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             //clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_VIEW_TYPE));
         }
+        
+        // Set sample Criteria
+        SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();
+		if (!sampleIDCrit.isEmpty())
+		    clinicalDataQuery.setSampleIDCrit(sampleIDCrit);
 
         // Set disease criteria
         DiseaseOrGradeCriteria diseaseOrGradeCrit = clinicalDataForm

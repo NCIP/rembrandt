@@ -9,6 +9,7 @@ import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
 import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
 import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
 import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.ChemoAgentDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.DomainElement;
@@ -16,6 +17,7 @@ import gov.nih.nci.nautilus.de.GenderDE;
 import gov.nih.nci.nautilus.de.OccurrenceDE;
 import gov.nih.nci.nautilus.de.RadiationTherapyDE;
 import gov.nih.nci.nautilus.de.SurgeryTypeDE;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.clinical.ClinicalQueryHandler;
 
@@ -35,6 +37,7 @@ public class ClinicalDataQuery extends Query {
 	private SurgeryTypeCriteria surgeryTypeCriteria;	
 	private SurvivalCriteria survivalCriteria;
 	private AgeCriteria ageCriteria;
+	private SampleCriteria sampleIDCrit;
 	private GenderCriteria genderCriteria;
     private QueryHandler HANDLER;
 
@@ -100,6 +103,27 @@ public class ClinicalDataQuery extends Query {
 		 else{
 		     logger.debug("OccurrenceCriteria is empty or Application Resources file is missing.");
 			 }// end of OccurrenceCriteria
+		  
+		  SampleCriteria thisSampleIDCrit = this.getSampleIDCrit();
+			
+			if ((thisSampleIDCrit != null) && !thisSampleIDCrit.isEmpty() && labels != null ) { 
+				String thisCriteria = thisSampleIDCrit.getClass().getName();
+				
+				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+				Collection sampleIDObjects = thisSampleIDCrit.getSampleIDs();
+				int count = 0;
+				for (Iterator iter = sampleIDObjects.iterator(); iter.hasNext() && count < 5;) {
+					count++;
+					DomainElement de = (DomainElement) iter.next();
+					String thisDomainElement = de.getClass().getName();
+					OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
+				}
+				if(sampleIDObjects != null && sampleIDObjects.size()> 5){
+				OutStr +="<BR>&nbsp;&nbsp;...";
+				}
+			}
+			else logger.debug("Sample ID Criteria is empty or Application Resources file is missing");
+			
 		
 		 // starting RadiationTherapyCriteria
 		 RadiationTherapyCriteria thisRadiationTherapyCriteria = this.getRadiationTherapyCriteria();
@@ -228,7 +252,14 @@ public class ClinicalDataQuery extends Query {
         this.chemoAgentCriteria = chemoAgentCriteria;
     }
 
-	
+    public SampleCriteria getSampleIDCrit() {
+        return sampleIDCrit;
+    }
+
+    public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
+        this.sampleIDCrit = sampleIDCrit;
+    }
+    
 	 public SurgeryTypeCriteria  getSurgeryTypeCriteria() {
         return surgeryTypeCriteria;
     }

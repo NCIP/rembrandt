@@ -9,6 +9,7 @@ import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.criteria.SNPCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
@@ -125,6 +126,10 @@ public class ComparativeGenomicAction extends Action {
         if (!geneIDCrit.isEmpty()) {
             cghQuery.setGeneIDCrit(geneIDCrit);
         }
+        
+        SampleCriteria sampleIDCrit = comparativeGenomicForm.getSampleCriteria();
+		if (!sampleIDCrit.isEmpty())
+		    cghQuery.setSampleIDCrit(sampleIDCrit);
 
         // set copy number criteria
         CopyNumberCriteria CopyNumberCrit = comparativeGenomicForm

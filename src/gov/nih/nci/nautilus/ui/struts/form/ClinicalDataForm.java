@@ -1,6 +1,7 @@
 
 package gov.nih.nci.nautilus.ui.struts.form;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AgeCriteria;
 import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
@@ -9,6 +10,7 @@ import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
 import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
 import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
 import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE;
 import gov.nih.nci.nautilus.de.ChemoAgentDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
@@ -18,7 +20,13 @@ import gov.nih.nci.nautilus.de.OccurrenceDE;
 import gov.nih.nci.nautilus.de.RadiationTherapyDE;
 import gov.nih.nci.nautilus.de.SurgeryTypeDE;
 import gov.nih.nci.nautilus.de.SurvivalDE;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +39,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
 public class ClinicalDataForm extends BaseForm {
@@ -44,6 +53,9 @@ public class ClinicalDataForm extends BaseForm {
 
     /** tumorType property */
     private String tumorType;
+    
+    /** sampleList property */
+	private String sampleList;
 
     /** tumorGrade property */
     private String tumorGrade;
@@ -89,6 +101,12 @@ public class ClinicalDataForm extends BaseForm {
 
     /** gender property */
     private String genderType;
+    
+    /** sampleFile property */
+	private FormFile sampleFile;
+	
+	/** sampleGroup property */
+	private String sampleGroup;
 
     // Collections used for Lookup values.
     //private ArrayList diseaseType;// moved to the upper class: BaseForm.java
@@ -126,6 +144,8 @@ public class ClinicalDataForm extends BaseForm {
     private AgeCriteria ageCriteria;
 
     private GenderCriteria genderCriteria;
+    
+    private SampleCriteria sampleCriteria;
 
     // Hashmap to store Domain elements
     private HashMap diseaseDomainMap = new HashMap();
@@ -146,6 +166,8 @@ public class ClinicalDataForm extends BaseForm {
     private HashMap ageDomainMap = new HashMap();
 
     private HashMap genderDomainMap = new HashMap();
+    
+    private HashMap sampleDomainMap = new HashMap();
 
     private HttpServletRequest thisRequest;
 
@@ -434,6 +456,45 @@ public class ClinicalDataForm extends BaseForm {
         }
 
     }
+    
+    private void createSampleCriteriaObject() {
+
+		// Loop thru the HashMap, extract the Domain elements and create
+		// respective Criteria Objects
+		Set keys = sampleDomainMap.keySet();
+		Iterator i = keys.iterator();
+		while (i.hasNext()) {
+			Object key = i.next();
+			logger.debug(key + "=>" + sampleDomainMap.get(key));
+
+			try {
+				String strSampleDomainClass = (String) sampleDomainMap.get(key);
+				Constructor[] sampleConstructors = Class.forName(
+						strSampleDomainClass).getConstructors();
+				Object[] parameterObjects = { key };
+
+				SampleIDDE sampleIDDEObj = (SampleIDDE) sampleConstructors[0]
+						.newInstance(parameterObjects);
+				sampleCriteria.setSampleID(sampleIDDEObj);
+
+				logger.debug("Sample Domain Element Value==> "
+						+ sampleIDDEObj.getValueObject());
+			} catch (Exception ex) {
+			    logger.debug("Error in createSampleCriteriaObject  "
+						+ ex.getMessage());
+				ex.printStackTrace();
+			} catch (LinkageError le) {
+			    logger.error("Linkage Error in createSampleCriteriaObject "
+						+ le.getMessage());
+				le.printStackTrace();
+			}
+
+		}
+
+	}
+
+    
+    
 
     public void setClinicalDataLookup() {
 
@@ -551,6 +612,9 @@ public class ClinicalDataForm extends BaseForm {
         ageLower = "";
         ageUpper = "";
         genderType = "";
+        sampleGroup = "";
+		sampleList = "";
+		sampleFile = null;
 
         diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
         occurrenceCriteria = new OccurrenceCriteria();
@@ -560,6 +624,7 @@ public class ClinicalDataForm extends BaseForm {
         survivalCriteria = new SurvivalCriteria();
         ageCriteria = new AgeCriteria();
         genderCriteria = new GenderCriteria();
+        sampleCriteria = new SampleCriteria();
 
         diseaseDomainMap = new HashMap();
         gradeDomainMap = new HashMap();
@@ -601,6 +666,47 @@ public class ClinicalDataForm extends BaseForm {
             diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
         }
     }
+    
+    /**
+	 * Returns the sampleList.
+	 * 
+	 * @return String
+	 */
+	public String getSampleList() {
+
+		return sampleList;
+	}
+	
+	/**
+	 * Set the sampleList.
+	 * 
+	 * @param sampleList
+	 *            The sampleList to set
+	 */
+	public void setSampleList(String sampleList) {
+		this.sampleList = sampleList;
+		if(thisRequest!=null){
+
+			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
+	
+			if ((thisSampleGroup != null)
+					&& thisSampleGroup.equalsIgnoreCase("Specify")
+					&& (this.sampleList.length() > 0)) {
+	
+				String[] splitSampleValue = this.sampleList.split("\\x2C");
+				
+	
+				for (int i = 0; i < splitSampleValue.length; i++) {
+	                sampleDomainMap.put(splitSampleValue[i].trim(),
+					SampleIDDE.class.getName());	
+				}
+			 }
+
+		}
+	}
+
+	
+	
 
     /**
      * Returns the tumorGrade.
@@ -630,6 +736,57 @@ public class ClinicalDataForm extends BaseForm {
     public String getTumorType() {
         return tumorType;
     }
+    
+    /**
+	 * Returns the sampleFile.
+	 * 
+	 * @return String
+	 */
+	public FormFile getSampleFile() {
+		return sampleFile;
+	}
+	
+	/**
+	 * Set the sampleFile.
+	 * 
+	 * @param sampleFile
+	 *            The sampleFile to set
+	 */
+	public void setSampleFile(FormFile sampleFile) {
+		this.sampleFile = sampleFile;
+		if(thisRequest!=null){
+			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
+	//		retrieve the file name & size
+	 		String fileName= sampleFile.getFileName();
+	 		int fileSize = sampleFile.getFileSize();
+	
+	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
+					&& (this.sampleFile != null)
+					&& (this.sampleFile.getFileName().endsWith(".txt"))
+					&& (this.sampleFile.getContentType().equals("text/plain"))) {
+				try {
+					InputStream stream = sampleFile.getInputStream();				
+					String inputLine = null;
+					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
+					
+					int count = 0;
+					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
+						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
+								count++;
+								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
+						}
+					}// end of while
+	
+					inFile.close();
+				} catch (IOException ex) {
+				    logger.error("Errors when uploading sample file:"
+							+ ex.getMessage());
+				}
+	
+			}
+		}
+	}
+
 
     /**
      * Set the firstPresentation.
@@ -1002,10 +1159,35 @@ public class ClinicalDataForm extends BaseForm {
     public void setResultView(String resultView) {
         this.resultView = resultView;
     }
+    
+    /**
+	 * Returns the geneGroup.
+	 * 
+	 * @return String
+	 */
+	public String getSampleGroup() {
+		return sampleGroup;
+	}
+	
+	/**
+	 * Set the sampleGroup.
+	 * 
+	 * @param sampleGroup
+	 *            The sampleGroup to set
+	 */
+	public void setSampleGroup(String sampleGroup) {
+		this.sampleGroup = sampleGroup;
+	}
+	
+
 
     public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
         return this.diseaseOrGradeCriteria;
     }
+    
+    public SampleCriteria getSampleCriteria(){
+	    return this.sampleCriteria;
+	}
 
     public OccurrenceCriteria getOccurrenceCriteria() {
         return this.occurrenceCriteria;
@@ -1091,6 +1273,9 @@ public class ClinicalDataForm extends BaseForm {
         form.setAgeLower(ageLower);
         form.setAgeUpper(ageUpper);
         form.setGenderType(genderType);
+        form.setSampleList(sampleList);
+        form.setSampleFile(sampleFile);
+        form.setSampleGroup(sampleGroup);
         return form;
     }
     /**
@@ -1152,6 +1337,7 @@ public class ClinicalDataForm extends BaseForm {
             createSurvivalCriteriaObject();
             createAgeCriteriaObject();
             createGenderCriteriaObject();
+            createSampleCriteriaObject();
         }
 
         return errors;

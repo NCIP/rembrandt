@@ -13,6 +13,7 @@ import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.criteria.SNPCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.AlleleFrequencyDE;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
 import gov.nih.nci.nautilus.de.BasePairPositionDE;
@@ -23,6 +24,7 @@ import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -63,6 +65,9 @@ public class ComparativeGenomicForm extends BaseForm {
 
     /** geneList property */
     private String geneList;
+    
+    /** sampleList property */
+	private String sampleList;
 
     /** tumorGrade property */
     private String tumorGrade;
@@ -132,6 +137,9 @@ public class ComparativeGenomicForm extends BaseForm {
 
     /** geneFile property */
     private FormFile geneFile;
+    
+    /** sampleFile property */
+	private FormFile sampleFile;
 
     /** snpId property */
     private String snpId;
@@ -141,6 +149,9 @@ public class ComparativeGenomicForm extends BaseForm {
 
     /** geneGroup property */
     private String geneGroup;
+    
+    /** sampleGroup property */
+	private String sampleGroup;
 
     /** cnUnchangeFrom property */
     private String cnUnchangeFrom;
@@ -175,6 +186,8 @@ public class ComparativeGenomicForm extends BaseForm {
     private HashMap diseaseDomainMap = new HashMap();
 
     private HashMap geneDomainMap = new HashMap();
+    
+    private HashMap sampleDomainMap = new HashMap();
 
     private HashMap copyNoAmpDomainMap = new HashMap();
 
@@ -192,6 +205,8 @@ public class ComparativeGenomicForm extends BaseForm {
     private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
 
     private GeneIDCriteria geneCriteria;
+    
+    private SampleCriteria sampleCriteria;
 
     private CopyNumberCriteria copyNumberCriteria;
 
@@ -309,6 +324,7 @@ public class ComparativeGenomicForm extends BaseForm {
         if (errors.isEmpty()) {// if there are no errors, then proceed.
             createDiseaseCriteriaObject();
             createGeneCriteriaObject();
+            createSampleCriteriaObject();
             createCopyNumberCriteriaObject();
             createRegionCriteriaObject();
             createCloneOrProbeCriteriaObject();
@@ -392,6 +408,44 @@ public class ComparativeGenomicForm extends BaseForm {
             } //end of while
         } // end of if
     }
+    
+    private void createSampleCriteriaObject() {
+
+		// Loop thru the HashMap, extract the Domain elements and create
+		// respective Criteria Objects
+		Set keys = sampleDomainMap.keySet();
+		Iterator i = keys.iterator();
+		while (i.hasNext()) {
+			Object key = i.next();
+			logger.debug(key + "=>" + sampleDomainMap.get(key));
+
+			try {
+				String strSampleDomainClass = (String) sampleDomainMap.get(key);
+				Constructor[] sampleConstructors = Class.forName(
+						strSampleDomainClass).getConstructors();
+				Object[] parameterObjects = { key };
+
+				SampleIDDE sampleIDDEObj = (SampleIDDE) sampleConstructors[0]
+						.newInstance(parameterObjects);
+				sampleCriteria.setSampleID(sampleIDDEObj);
+
+				logger.debug("Sample Domain Element Value==> "
+						+ sampleIDDEObj.getValueObject());
+			} catch (Exception ex) {
+			    logger.debug("Error in createSampleCriteriaObject  "
+						+ ex.getMessage());
+				ex.printStackTrace();
+			} catch (LinkageError le) {
+			    logger.error("Linkage Error in createSampleCriteriaObject "
+						+ le.getMessage());
+				le.printStackTrace();
+			}
+
+		}
+
+	}
+
+
 
     /*
      * createCopyNumberCriteriaObject() mtethod is to look through the
@@ -717,6 +771,7 @@ public class ComparativeGenomicForm extends BaseForm {
 
         diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
         geneCriteria = new GeneIDCriteria();
+        sampleCriteria = new SampleCriteria();
         copyNumberCriteria = new CopyNumberCriteria();
         regionCriteria = new RegionCriteria();
         cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
@@ -792,6 +847,45 @@ public class ComparativeGenomicForm extends BaseForm {
             }
         }
     }
+    
+    /**
+	 * Returns the sampleList.
+	 * 
+	 * @return String
+	 */
+	public String getSampleList() {
+
+		return sampleList;
+	}
+	
+	/**
+	 * Set the sampleList.
+	 * 
+	 * @param sampleList
+	 *            The sampleList to set
+	 */
+	public void setSampleList(String sampleList) {
+		this.sampleList = sampleList;
+		if(thisRequest!=null){
+
+			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
+	
+			if ((thisSampleGroup != null)
+					&& thisSampleGroup.equalsIgnoreCase("Specify")
+					&& (this.sampleList.length() > 0)) {
+	
+				String[] splitSampleValue = this.sampleList.split("\\x2C");
+				
+	
+				for (int i = 0; i < splitSampleValue.length; i++) {
+	                sampleDomainMap.put(splitSampleValue[i].trim(),
+					SampleIDDE.class.getName());	
+				}
+			 }
+
+		}
+	}
+
 
     public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
         return this.diseaseOrGradeCriteria;
@@ -800,6 +894,10 @@ public class ComparativeGenomicForm extends BaseForm {
     public GeneIDCriteria getGeneIDCriteria() {
         return this.geneCriteria;
     }
+    
+    public SampleCriteria getSampleCriteria(){
+	    return this.sampleCriteria;
+	}
 
     public CopyNumberCriteria getCopyNumberCriteria() {
         return this.copyNumberCriteria;
@@ -1517,6 +1615,15 @@ public class ComparativeGenomicForm extends BaseForm {
     public FormFile getGeneFile() {
         return geneFile;
     }
+    
+    /**
+	 * Returns the sampleFile.
+	 * 
+	 * @return String
+	 */
+	public FormFile getSampleFile() {
+		return sampleFile;
+	}
 
     /**
      * Set the geneFile.
@@ -1583,6 +1690,48 @@ public class ComparativeGenomicForm extends BaseForm {
             }
         }
     }
+    
+    /**
+	 * Set the sampleFile.
+	 * 
+	 * @param sampleFile
+	 *            The sampleFile to set
+	 */
+	public void setSampleFile(FormFile sampleFile) {
+		this.sampleFile = sampleFile;
+		if(thisRequest!=null){
+			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
+	//		retrieve the file name & size
+	 		String fileName= sampleFile.getFileName();
+	 		int fileSize = sampleFile.getFileSize();
+	
+	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
+					&& (this.sampleFile != null)
+					&& (this.sampleFile.getFileName().endsWith(".txt"))
+					&& (this.sampleFile.getContentType().equals("text/plain"))) {
+				try {
+					InputStream stream = sampleFile.getInputStream();				
+					String inputLine = null;
+					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
+					
+					int count = 0;
+					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
+						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
+								count++;
+								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
+						}
+					}// end of while
+	
+					inFile.close();
+				} catch (IOException ex) {
+				    logger.error("Errors when uploading sample file:"
+							+ ex.getMessage());
+				}
+	
+			}
+		}
+	}
+
 
     /**
      * Returns the snpId.
@@ -1652,6 +1801,27 @@ public class ComparativeGenomicForm extends BaseForm {
     public void setGeneGroup(String geneGroup) {
         this.geneGroup = geneGroup;
     }
+    
+    /**
+	 * Returns the geneGroup.
+	 * 
+	 * @return String
+	 */
+	public String getSampleGroup() {
+		return sampleGroup;
+	}
+	
+	/**
+	 * Set the sampleGroup.
+	 * 
+	 * @param sampleGroup
+	 *            The sampleGroup to set
+	 */
+	public void setSampleGroup(String sampleGroup) {
+		this.sampleGroup = sampleGroup;
+	}
+	
+
 
     /**
      * Returns the cnUnchangeFrom.
@@ -1794,6 +1964,7 @@ public class ComparativeGenomicForm extends BaseForm {
     public ComparativeGenomicForm cloneMe() {
         ComparativeGenomicForm form = new ComparativeGenomicForm();
         form.setGeneList(geneList);
+        form.setSampleList(sampleList);
         form.setTumorGrade(tumorGrade);
         form.setTumorType(tumorType);
         form.setAssayPlatform(assayPlatform);
@@ -1807,7 +1978,9 @@ public class ComparativeGenomicForm extends BaseForm {
         form.setGeneType(geneType);
         form.setResultView(resultView);
         form.setGeneFile(geneFile);
+        form.setSampleFile(sampleFile);
         form.setGeneGroup(geneGroup);
+        form.setSampleGroup(sampleGroup);
         form.setCloneList(cloneList);
         form.setQueryName(queryName);
         form.setBasePairStart(basePairStart);
