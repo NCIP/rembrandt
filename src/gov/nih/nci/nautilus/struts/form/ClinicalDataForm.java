@@ -630,10 +630,10 @@ public class ClinicalDataForm extends BaseForm {
 		ageUpperColl.add( new LabelValueBean( "90+", "90+" ) );	
 		
 		
-		genderTypeColl.add( new LabelValueBean( "all", "all" ) );
-		genderTypeColl.add( new LabelValueBean( "Male", "male" ) );
-		genderTypeColl.add( new LabelValueBean( "Female", "female" ) );
-		genderTypeColl.add( new LabelValueBean( "Other", "other" ) );
+		genderTypeColl.add( new LabelValueBean( "All", "All" ) );
+		genderTypeColl.add( new LabelValueBean( "Male", "M" ) );
+		genderTypeColl.add( new LabelValueBean( "Female", "F" ) );
+		genderTypeColl.add( new LabelValueBean( "Other", "O" ) );
 
 	}
 	
@@ -691,14 +691,27 @@ public class ClinicalDataForm extends BaseForm {
 		
 	}
 	
-   /** 
+	/**
 	 * Set the tumorType.
 	 * @param tumorType The tumorType to set
 	 */
-     public void setTumorType(String tumorType) {
-		this.tumorType = tumorType;		
-		diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
-	 }
+	public void setTumorType(String tumorType) {
+
+		this.tumorType = tumorType;
+		if (this.tumorType.equalsIgnoreCase("ALL")) {
+			ArrayList allDiseases = this.getDiseaseType();
+			for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter.hasNext();) {
+				LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter.next();
+				String thisDiseaseType = thisLabelBean.getValue();
+				// stuff this in our DomainMap for later use !!
+				if (!thisDiseaseType.equalsIgnoreCase("ALL")){
+					diseaseDomainMap.put(thisDiseaseType, DiseaseNameDE.class.getName());
+				}
+			}		 
+		}else{ 
+			diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
+		}		
+	}
 	 
    /** 
 	 * Returns the tumorGrade.
@@ -987,9 +1000,22 @@ public class ClinicalDataForm extends BaseForm {
 	 */
 	public void setGenderType(String genderType) {
 		this.genderType = genderType;
-	    genderDomainMap.put(this.genderType, GenderDE.class.getName());
-	 }	
-	 
+		if (this.genderType.equalsIgnoreCase("ALL")) {
+			ArrayList allGenders = this.getGenderTypeColl();
+			for (Iterator genderIter = allGenders.iterator(); genderIter.hasNext();) {
+				LabelValueBean thisLabelBean = (LabelValueBean) genderIter.next();
+				String thisGenderType = thisLabelBean.getValue();
+				// stuff this in our DomainMap for later use !!
+				if (!thisGenderType.equalsIgnoreCase("ALL")){
+					genderDomainMap.put(thisGenderType, GenderDE.class.getName());
+				}
+			}		 
+		}else{ 
+			genderDomainMap.put(this.genderType, GenderDE.class.getName());
+		}
+		
+		
+	}
 	 /** 
 	 * Returns the genderType.
 	 * @return String
