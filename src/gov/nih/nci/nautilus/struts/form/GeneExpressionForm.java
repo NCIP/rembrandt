@@ -263,6 +263,7 @@ public class GeneExpressionForm extends BaseForm {
 		// Validate minimum criteria's for GE Query 
 		if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
 		   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
+		   		(this.getCloneId() == null || this.getCloneId().trim().length() < 1) &&
 		   		(this.getChrosomeNumber() == null || this.getChrosomeNumber().trim().length() < 1) && 
 		   		(this.getGoClassification() == null || this.getGoClassification().trim().length() < 1) && 
 		   		(this.getPathways() == null || this.getPathways().trim().length() < 1)) { 
@@ -282,6 +283,17 @@ public class GeneExpressionForm extends BaseForm {
 						"geneGroup",
 						new ActionError(
 								"gov.nih.nci.nautilus.struts.form.geneGroup.no.error"));
+			}
+			
+		}
+
+		if (this.getCloneId() != null && this.getCloneId().trim().length() >= 1){
+			if (this.getCloneListSpecify().trim().length() < 1 && this.getCloneListFile().trim().length() < 1){
+				errors
+				.add(
+						"cloneId",
+						new ActionError(
+								"gov.nih.nci.nautilus.struts.form.cloneid.no.error"));
 			}
 			
 		}
