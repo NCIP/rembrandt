@@ -639,6 +639,16 @@ function showQueryDetail(selectName){
    //selected index of the selected
 	var element = formElement.name;
 	
+	  if(element == "queryOption"){
+	   if(i == 0){
+	    document.forms[0].allGeneQuery.disabled = true;
+	    checkToggle(formElement, "qrows");
+	    }	   
+	   if(i == 1){
+	    document.forms[0].allGeneQuery.disabled = false;
+	    checkToggle(formElement, "qrows");
+	    }
+	   }	
 	  
 	  if(element == "sampleGroup"){
 	    if(i == 0){
@@ -859,7 +869,6 @@ function hideLoadingMessage(){
 		
 
 function checkToggle(box, id)	{
-
 	if(box.value == 'standard')
 		toggleDiv(id, false);
 	else
@@ -867,11 +876,10 @@ function checkToggle(box, id)	{
 }
 
 function toggleDiv(id, state)	{
-
 		if(state)
-			document.getElementById(id).style.display = "none";
+		    document.getElementById(id).style.display = "none";
 		else
 			document.getElementById(id).style.display = "block";	
 }
  
-  
+ 

@@ -9,7 +9,7 @@
 <fieldset class="grayRefine">
 <legend class="red">Step 1: Refine your result set</legend>
 	
-    <input type="radio" name="queryOption" class="radio" value="standard" checked="true"  onclick="javascript:checkToggle(this, 'qrows');"/>Please refine your results by grouping the queries<br />
+    <input type="radio" name="queryOption" class="radio" value="standard" checked="true"  onclick="javascript:onRadio(this, 0);"/>Please refine your results by grouping the queries<br />
     <div id="qrows">
 	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		<tr>
@@ -38,22 +38,27 @@
 		<!-- End  Selected Queries -->
 	</table><br />
 	</div>
-	<input type="radio" name="queryOption" class="radio" value="allgenes"  onclick="javascript:checkToggle(this, 'qrows');" />Please select an "All Genes" query
-    <html:select property="allGeneQuery">
+	<input type="radio" name="queryOption" class="radio" value="allgenes"  onclick="javascript:onRadio(this, 1);" />Please select an "All Genes" query
+    <html:select property="allGeneQuery" disabled="true">
      		<option/>
 		    <html:optionsCollection property="allGenesQueries" label="queryName" value="queryName" />
 	 </html:select>
 
 </fieldset>
-<!--Display buttons here to add later-->			
-<!--<div class="midButtons">
-	<b class="message">[add more rows]</b><br />
-		<br><input type="reset" value="reset query" class="sbutton">
-</div>	-->
 
-
+<!--Step 2-->
 <fieldset class="grayRefine">
-<legend class="red">Step 2: Validate your query</legend>
+<legend class="red">Step 2: Select Result set (mandatory for All Genes queries)</legend>
+&nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:
+    <html:select name="refineQueryForm" property="selectedResultSet">
+    	<option></option>  
+    		<html:options name="refineQueryForm" property="resultSets"/>
+  	</html:select>
+</fieldset>
+
+<!--Step 3-->
+<fieldset class="grayRefine">
+<legend class="red">Step 3: Validate your query</legend>
 	<table border="0" cellpadding="2" cellspacing="2">
 		<tr>
 			<td align="center">&nbsp;&nbsp;&nbsp;
@@ -69,19 +74,10 @@
 			
 		</tr>
 		
-	</table>
-		
-</fieldset>	
-	
-<fieldset class="grayRefine">
-<legend class="red">Step 3 (optional): Select Result set</legend>
-&nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:
-    <html:select name="refineQueryForm" property="selectedResultSet">
-    	<option></option>  
-    		<html:options name="refineQueryForm" property="resultSets"/>
-  	</html:select>
+	</table>		
 </fieldset>
 
+<!--Step 4-->
 <fieldset class="grayRefine">
 <legend class="red">Step 4: Please select a View</legend>	
 	<table width="100%" border="0">
@@ -95,9 +91,11 @@
 	<br>
 	
 </fieldset>
+	
 
-<fieldset class="grayRefine">
-<legend class="red">Step 5: Please name your result set (Optional)</legend>
+<!--Do not name result set here anymore-->
+<!--<fieldset class="grayRefine">
+<legend class="red">Step 4: Please name your result set (Optional)</legend>
 	 <table border="0">
 		<tr>
 			<td>
@@ -116,11 +114,11 @@
 			</td>
 		</tr>
 	</table>
-</fieldset>	
+</fieldset>-->	
 	
 
 <fieldset class="grayRefine">
-<legend class="red">Step 6: Run report or return to previous screen</legend>
+<legend class="red">Step 5: Run report or return to previous screen</legend>
 			<br />
 				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 					onclick="javascript:history.back();"/>&nbsp;&nbsp
