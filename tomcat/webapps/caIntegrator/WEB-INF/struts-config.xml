@@ -107,16 +107,21 @@
             <form-property name="rightParen3" type="java.lang.String" />
             <form-property name="operatorType3" type="java.lang.String" />
             <form-property name="queryText" type="java.lang.String" />
+            <form-property name="compoundView" type="java.lang.String" />
+            <form-property name="resultsetName" type="java.lang.String" />
+            <form-property name="method" type="java.lang.String" />
         </form-bean>
 
 	  	<form-bean name="selectPresentationForm" type="gov.nih.nci.nautilus.struts.form.SelectPresentationForm">
-            <form-property name="sampleListFrom" type="java.lang.String" />
+            <form-property name="sampleListFrom" type="java.lang.String[]" />
             <form-property name="sampleListTo" type="java.lang.String" />
             <form-property name="geneFilterBy" type="java.lang.String" />
             <form-property name="geneViewBy" type="java.lang.String" />
             <form-property name="geneListFrom" type="java.lang.String" />
             <form-property name="geneListTo" type="java.lang.String" />
             <form-property name="method" type="java.lang.String" />
+            <form-property name="listFrom" type="java.lang.String[]" />
+            <form-property name="listTo" type="java.lang.String" />
 
         </form-bean>
         
@@ -214,14 +219,18 @@
             name="refineQueryForm"
             type="gov.nih.nci.nautilus.struts.action.RefineQueryAction"
             scope="request"
+            parameter="method"
             validate="true">
+         <forward name="success" path="/presentation.do" />
          <forward name="displayQuery" path="nautilus.refine" />
+         <forward name="failure" path="/refine.do" />
+         
 	</action>
 
    <action path="/compoundcheck"
 	       type="gov.nih.nci.nautilus.struts.action.CompoundCheckAction"
            scope="request">
-         <forward name="success" path="/jsp/geneViewReport.jsp" />
+         <forward name="success" path="/presentation.do" />
          <forward name="failure" path="/refine.do" />
    </action>
 
@@ -235,7 +244,7 @@
            scope="request"
            parameter="method">
          <forward name="success" path="/jsp/geneViewReport.jsp" />
-         <forward name="failure" path="/presentation.do" />
+         <forward name="backtopresent" path="/presentation.do" />
    </action>
 
     </action-mappings>
