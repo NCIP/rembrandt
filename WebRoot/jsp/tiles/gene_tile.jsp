@@ -44,13 +44,13 @@ String act = request.getParameter("act");
 
 <script language="JavaScript">
 function submitAllGenesQuery(){
-  document.forms[0].previewButton.value="AllGenes";
-  document.forms[0].previewButton.click();
+  document.forms[0].multiUseButton.value="AllGenes";
+  document.forms[0].multiUseButton.click();
    }
 	    
 function submitStandardQuery(){
-  document.forms[0].previewButton.value="Standard";
-  document.forms[0].previewButton.click();
+  document.forms[0].multiUseButton.value="Standard";
+  document.forms[0].multiUseButton.click();
 }
 
 </script>	
