@@ -253,15 +253,23 @@ public class QueryTest extends TestCase {
             crit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
             q.setAssayPlatformCrit(crit);
             //q.setRegionCrit(regionCrit);
-            //q.setSNPCrit(snpCrit);
-            q.setGeneIDCrit(geneIDCrit);
+            q.setSNPCrit(snpCrit);
+            //q.setGeneIDCrit(geneIDCrit);
             q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setCopyNumberCrit(copyNumberCrit);
-
+            q.setSampleIDCrit(sampleCrit);
             try {
-                ResultSet[] cghObjects = QueryManager.executeQuery(q);
+                //ResultSet[] cghObjects = QueryManager.executeQuery(q);
+                ResultSet[] cghObjects = QueryProcessor.execute(q);
                 //print(geneExprObjects);
                 //testResultset(geneExprObjects);
+                System.out.println("Size: " + cghObjects.length);
+                for (int i = 0; i < cghObjects.length; i++) {
+                    gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber cghObject =
+                            (gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber) cghObjects[i];
+                    System.out.println("SampleID: " + cghObject.getSampleId() + " || Copy Number: "
+                    + cghObject.getCopyNumber() + " || SNPProbesetName: " + cghObject.getSnpProbesetName());
+                }
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
@@ -306,8 +314,8 @@ public class QueryTest extends TestCase {
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        suit.addTest(new TestSuite(GeneExpression.class));
-        //suit.addTest(new TestSuite(CGH.class));
+        //suit.addTest(new TestSuite(GeneExpression.class));
+        suit.addTest(new TestSuite(CGH.class));
         // suit.addTest(new TestSuite(Clinical.class));
         return suit;
 	}

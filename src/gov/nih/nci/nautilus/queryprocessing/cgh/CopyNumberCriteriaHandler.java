@@ -23,6 +23,7 @@ import org.apache.ojb.broker.query.Criteria;
  */
 public class CopyNumberCriteriaHandler {
     private static Logger logger = Logger.getLogger(CopyNumberCriteriaHandler.class);
+    /*
     static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
         ArrayList diseasesTypes = new ArrayList();
@@ -35,6 +36,7 @@ public class CopyNumberCriteriaHandler {
         criteria.addIn(columnName, diseasesTypes);
 
     }
+    */
     static void addCopyNumberCriteria(CopyNumberCriteria  copyNumberCrit, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
        if (copyNumberCrit != null) {
                String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());

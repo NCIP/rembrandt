@@ -9,7 +9,8 @@ import gov.nih.nci.nautilus.query.ClinicalDataQuery;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
-import gov.nih.nci.nautilus.queryprocessing.ge.FactCriteriaHandler;
+import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
+import gov.nih.nci.nautilus.queryprocessing.ge.FoldChangeCriteriaHandler;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.math.BigDecimal;
@@ -108,7 +109,7 @@ public class ClinicalQueryHandler extends QueryHandler {
         	sampleCrit.addIn(PatientData.BIOSPECIMEN_ID, allBIOSpecimenIDs);
         }
         if (diseaseCrit != null)
-        FactCriteriaHandler.addDiseaseCriteria(diseaseCrit, PatientData.class, pb, sampleCrit);
+        CommonFactHandler.addDiseaseCriteria(diseaseCrit, PatientData.class, pb, sampleCrit);
         ReportQueryByCriteria sampleQuery = QueryFactory.newReportQuery(PatientData.class, sampleCrit, true);
         sampleQuery.setAttributes(new String[] {
                         PatientData.BIOSPECIMEN_ID, PatientData.GENDER,

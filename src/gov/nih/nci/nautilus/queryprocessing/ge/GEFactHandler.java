@@ -11,6 +11,7 @@ import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.math.BigDecimal;
@@ -71,11 +72,11 @@ abstract public class GEFactHandler {
                 
                 final Criteria sampleCrit = new Criteria();
                 if (diseaseCrit != null)
-                    FactCriteriaHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
+                    CommonFactHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
                 if (foldCrit != null)
-                    FactCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
+                    FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
                 if (sampleIDCrit!= null)
-                    FactCriteriaHandler.addSampleIDCriteria(sampleIDCrit, targetFactClass, _BROKER, sampleCrit);
+                    CommonFactHandler.addSampleIDCriteria(sampleIDCrit, targetFactClass, _BROKER, sampleCrit);
                 _BROKER.close();
 
                 new Thread(

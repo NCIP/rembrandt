@@ -2,11 +2,13 @@ package gov.nih.nci.nautilus.queryprocessing.cgh;
 
 import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.data.ArrayGenoAbnFact;
 import gov.nih.nci.nautilus.data.GeneLlAccSnp;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.math.BigDecimal;
@@ -34,8 +36,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
  * Time: 3:58:42 PM
  * To change this template use File | Settings | File Templates.
  */
-abstract public class FactCriteriaHandler {
-    private static Logger logger = Logger.getLogger(FactCriteriaHandler.class);
+abstract public class CGHFactHandler {
+    private static Logger logger = Logger.getLogger(CGHFactHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
     private final static int VALUES_PER_THREAD = 100;
@@ -48,6 +50,7 @@ abstract public class FactCriteriaHandler {
     protected void executeQuery(final String snpOrCGHAttr, Collection cghOrSNPIDs, final Class targetFactClass, ComparativeGenomicQuery cghQuery) throws Exception {
             final CopyNumberCriteria copyCrit = cghQuery.getCopyNumberCriteria();
             final DiseaseOrGradeCriteria diseaseCrit = cghQuery.getDiseaseOrGradeCriteria();
+            final SampleCriteria sampleIDCrit = cghQuery.getSampleIDCrit();
             ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
@@ -57,7 +60,7 @@ abstract public class FactCriteriaHandler {
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria IDs = new Criteria();
                 IDs.addIn(snpOrCGHAttr, values);
-                String threadID = "FactCriteriaHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
+                String threadID = "FoldChangeCriteriaHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
 
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
@@ -66,10 +69,11 @@ abstract public class FactCriteriaHandler {
 
                 final Criteria sampleCrit = new Criteria();
                 if (diseaseCrit != null)
-                   CopyNumberCriteriaHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
-
+                   CommonFactHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
                 if (copyCrit != null)
                    CopyNumberCriteriaHandler.addCopyNumberCriteria(copyCrit, targetFactClass, _BROKER, sampleCrit);
+                if (sampleIDCrit!= null)
+                    CommonFactHandler.addSampleIDCriteria(sampleIDCrit, targetFactClass, _BROKER, sampleCrit);
 
                 _BROKER.close();
 
@@ -103,7 +107,7 @@ abstract public class FactCriteriaHandler {
                 final Criteria annotCrit = new Criteria();
                 annotCrit.addIn(GeneLlAccSnp.SNP_PROBESET_ID, values);
                 long time = System.currentTimeMillis();
-                String threadID = "FactCriteriaHandler.ThreadID:" + time;
+                String threadID = "FoldChangeCriteriaHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 new Thread(
@@ -134,7 +138,7 @@ abstract public class FactCriteriaHandler {
                ).start();
             }
     }
-    final static class SingleFactCriteriaHandler extends FactCriteriaHandler {
+    final static class SingleCGHFactHandler extends CGHFactHandler {
         ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
         throws Exception {
             logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());

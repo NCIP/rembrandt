@@ -23,27 +23,8 @@ import org.apache.ojb.broker.query.Criteria;
  * Time: 12:25:58 PM
  * To change this template use Options | File Templates.
  */
-public class FactCriteriaHandler {
+public class FoldChangeCriteriaHandler {
 
-    public static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
-    throws Exception {
-        ArrayList diseasesTypes = new ArrayList();
-        for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();)
-            diseasesTypes.add(((DiseaseNameDE) iterator.next()).getValueObject());
-        String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
-        criteria.addIn(columnName, diseasesTypes);
-    }
-
-    static void addSampleIDCriteria(SampleCriteria  sampleCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
-    throws Exception {
-        ArrayList sampleIDs = new ArrayList();
-        for (Iterator iterator = sampleCrit.getSampleIDs().iterator(); iterator.hasNext();)
-            sampleIDs.add(((SampleIDDE) iterator.next()).getValueObject());
-        String sampleIDAttr = QueryHandler.getAttrNameForTheDE(SampleIDDE.class.getName(), beanClass.getName());
-        Criteria c = new Criteria();
-        c.addIn(sampleIDAttr, sampleIDs);
-        criteria.addAndCriteria(c);
-    }
     static void addFoldChangeCriteria(FoldChangeCriteria  foldChangeCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
        if (foldChangeCrit != null) {
