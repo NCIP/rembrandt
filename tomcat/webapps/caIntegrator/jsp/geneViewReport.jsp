@@ -57,6 +57,7 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 <Br>
 <a name="top"></a>
 <%
+out.println("sample we want: " + request.getParameter("s"));
 
 //	String theColors[] = {"5C73B7", "B1BCDD" };	
 //	String theColors[] = {"5C73B7", "B1BCDD", "DDD2B1", "8697CA", "B7A15C", "CFD4E6", "404F80", "5C71B5" };
@@ -67,20 +68,26 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 //	String theColors[] = { "738FE6","B6C5F2","DAE1F9","8691B3","B3B9CC","6D7BA6","99A1B9" };
 	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
+
+String sample = request.getParameter("s");
+
+if(session.getAttribute(sample) == null)
+{
+System.out.println("not transitional report");
 	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
-
 	if(queryCollection != null)	{
 		//out.println("<a href=\"#queryInfo\">Query Information</a><Br>\n");
-		out.println(ReportGenerator.displayReport(queryCollection, theColors, false));
+		out.println(ReportGenerator.displayReport(queryCollection, theColors, false, request));
 	}
 	else
 		out.println("QueryCollection is NULL");
 		
 
     out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
+  /*
 	if(!myCompoundQuery.toString().equals(""))	{
 		out.println("<B>Compound Query:</b> " + myCompoundQuery.toString() + "<br><br>");
 	}
@@ -120,6 +127,26 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 			       out.println("<Br><Br>\n");
 	}
 	out.println("<a href=\"#top\">top</a>\n");
+*/
+}
+
+else	{
+System.out.println("Doing transitional");
+//process the transitional report
+ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
+String mode =  (String) session.getAttribute("report");
+if(mode.equals("gene"))
+	out.println(ReportGenerator.geneExprSampleView(resultsContainer, theColors));
+else if( mode.equals("copy"))
+	out.println(ReportGenerator.copyNumberSampleView(resultsContainer, theColors));
+else
+	out.println("Error somewhere");
+	
+//session.removeAttribute("resultsContainer");
+//session.removeAttribute("report");
+}
+
+
 %>
 </body>
 </html>
