@@ -41,10 +41,6 @@ abstract public class ExprFoldChangeDE extends DomainElement {
         return regulationType;
     }
 
-    public Object getValue() {
-        return value;
-    }
-
     public void setValue(Object obj) throws Exception {
          if (! (obj instanceof Float) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);

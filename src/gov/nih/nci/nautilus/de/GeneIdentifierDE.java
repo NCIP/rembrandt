@@ -36,9 +36,7 @@ abstract public class GeneIdentifierDE extends DomainElement {
         return geneIDType;
     }
 
-    public Object getValue() {
-        return value;
-    }
+
 
     public void setValue(Object obj) throws Exception {
          if (! (obj instanceof String) )

@@ -11,11 +11,12 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  */
 abstract public class DomainElement {
    protected Object value;
-   abstract public Object getValue();
    abstract public void setValue(Object obj) throws Exception;
-   // public static String LABEL = (String)ApplicationContext.getLabelProperties().get("ChromosomeNumber");
+   public Object getValue() {
+        return value;
+    }
 
-    public DomainElement(Object value) {
+    protected DomainElement(Object value) {
         this.value = value;
     }
 }
