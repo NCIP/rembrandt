@@ -23,7 +23,7 @@ import java.lang.reflect.Constructor;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.PBFactoryException;
-import org.jaxen.expr.Expr;
+//import org.jaxen.expr.Expr;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,7 +42,7 @@ public class CriteriaTest extends TestCase {
             regionCrit.setChromNumber(new ChromosomeNumberDE("chr17"));
             regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer("34344251")));
             regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer("34344297")));
-            regionCrit.setCttoband(new CytobandDE("17q11.2-q12"));
+            regionCrit.setCytoband(new CytobandDE("17q11.2-q12"));
         }
         public RegionCriteriaTest () {
         }
