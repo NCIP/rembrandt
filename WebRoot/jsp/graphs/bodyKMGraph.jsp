@@ -77,6 +77,38 @@
     width="720"
     height="540"/>
     <p>
-   
+    <br>
+<TABLE WIDTH="20" HEIGHT="10" CELLSPACING="2" BORDERCOLOR="#333333" BORDERCOLORLIGHT="#C0C0C0" BORDERCOLORDARK="#808080" BORDER="1" ALIGN="left">
+<TR>
+	<TH>&nbsp;pValues&nbsp;</TH>
+	<TH><bean:write name="kmDataSetForm" property="upOrAmplified"/>(<bean:write name="kmDataSetForm" property="upSampleCount"/>)</TH>
+	<TH><bean:write name="kmDataSetForm" property="downOrDeleted"/>(<bean:write name="kmDataSetForm" property="downSampleCount"/>)</TH>
+	<TH>Intermediate(<bean:write name="kmDataSetForm" property="intSampleCount"/>)</TH>
+</TR>
+<TR>
+	<TH><bean:write name="kmDataSetForm" property="upOrAmplified"/></TH>
+	<TD>&nbsp;-&nbsp;</TD>
+	<TD><bean:write name="kmDataSetForm" property="upVsDownPvalue"/> </TD>
+	<TD><bean:write name="kmDataSetForm" property="upVsIntPvalue"/></TD>
+</TR>
+<TR>
+	<TH><bean:write name="kmDataSetForm" property="downOrDeleted"/></TH>
+	<TD><bean:write name="kmDataSetForm" property="upVsDownPvalue"/></TD>
+	<TD>&nbsp;-&nbsp;</TD>
+	<TD><bean:write name="kmDataSetForm" property="downVsIntPvalue"/></TD>
+</TR>
+<TR>
+	<TH>Intermediate</TH>
+	<TD><bean:write name="kmDataSetForm" property="upVsIntPvalue"/></TD>
+	<TD><bean:write name="kmDataSetForm" property="downVsIntPvalue"/></TD>
+	<TD>&nbsp;-&nbsp;</TD>
+</TR>
+<TR>
+	<TH>Rest</TH>
+	<TD><bean:write name="kmDataSetForm" property="upVsRestPvalue"/></TD>
+	<TD><bean:write name="kmDataSetForm" property="downVsRestPvalue"/></TD>
+	<TD><bean:write name="kmDataSetForm" property="intVsRestPvalue"/></TD>
+</TR>
+</TABLE>
   </div>
 </html:form>

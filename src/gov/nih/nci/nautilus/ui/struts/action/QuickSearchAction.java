@@ -11,6 +11,7 @@ import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.nautilus.ui.graph.geneExpression.GeneExpressionGraphGenerator;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMSampleInfo;
+import gov.nih.nci.nautilus.ui.helper.KMDataSetHelper;
 import gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm;
 import gov.nih.nci.nautilus.ui.struts.form.QuickSearchForm;
 import gov.nih.nci.nautilus.ui.struts.form.UIFormValidator;
@@ -80,12 +81,12 @@ public class QuickSearchAction extends DispatchAction {
         quickSearchName = (String)request.getAttribute("quickSearchName");	
         quickSearchType = (String)request.getAttribute("quickSearchType");
 		kmplotType = (String)request.getAttribute("plotType");
-		kmForm.setPlotType(kmplotType);
+		//kmForm.setPlotType(kmplotType);
 		//kmForm.setGeneOrCytoband(quickSearchName );
         if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
 
             performKMGeneExpressionQuery(quickSearchName);
-    		kmForm.setReporters(populateReporters());
+    		//kmForm.setReporters(populateReporters());
     		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
     		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
     				kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
@@ -94,12 +95,12 @@ public class QuickSearchAction extends DispatchAction {
     			return mapping.findForward("badgraph");
     		}
             kmForm.setGeneOrCytoband(getKmResultsContainer().getGeneSymbol().getValue().toString() );
-    		kmForm.setCensorDataset(generator.getCensorDataseries());
-    		kmForm.setLineDataset(generator.getLineDataseries());
+    		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
+    		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
         }
         else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
             performKMCopyNumberQuery(quickSearchName, quickSearchType);
-            kmForm.setReporters(populateReporters());
+            //kmForm.setReporters(populateReporters());
             String cytobandGeneSymbol = getKmResultsContainer().getCytobandDE().getValue().toString();
             kmForm.setGeneOrCytoband(quickSearchName +"("+cytobandGeneSymbol+")");
             KMSampleInfo[] kmSampleInfos = {new KMSampleInfo(0,0,0)};
@@ -109,8 +110,11 @@ public class QuickSearchAction extends DispatchAction {
                 this.saveErrors(request, generator.getMyActionErrors());
                 return mapping.findForward("badgraph");
             }
-            kmForm.setCensorDataset(generator.getCensorDataseries());
-            kmForm.setLineDataset(generator.getLineDataseries());
+            //kmForm.setCensorDataset(generator.getCensorDataseries());
+            //kmForm.setLineDataset(generator.getLineDataseries());
+    		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
+    		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
+
             }
 		return mapping.findForward("kmplot");
 	}
@@ -120,7 +124,7 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KMSampleInfo[] kmSampleInfos = null;
-		kmForm.setReporters(populateReporters());
+		//kmForm.setReporters(populateReporters());
 		if( getKmResultsContainer() != null && 
                 kmForm.getSelectedReporter() != null){
             if((kmForm.getSelectedReporter().trim().length() > 0)){
@@ -146,8 +150,11 @@ public class QuickSearchAction extends DispatchAction {
 				this.saveErrors(request, generator.getMyActionErrors());
 				return mapping.findForward("badgraph");
 			}
-            kmForm.setCensorDataset(generator.getCensorDataseries());
-            kmForm.setLineDataset(generator.getLineDataseries());
+            //kmForm.setCensorDataset(generator.getCensorDataseries());
+            //kmForm.setLineDataset(generator.getLineDataseries());
+    		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
+    		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
+
 			return mapping.findForward("kmplot");
 		}
 		return mapping.findForward("badgraph");
@@ -190,7 +197,7 @@ public class QuickSearchAction extends DispatchAction {
 		this.saveErrors(request, errors);
 		return mapping.findForward("mismatch");
 	  }
-	private List populateReporters(){
+	/*private List populateReporters(){
 		List reporters = new ArrayList();
         reporters.add("");
 		if( getKmResultsContainer() != null){
@@ -203,7 +210,7 @@ public class QuickSearchAction extends DispatchAction {
             }
 		}
 		return reporters;
-	}
+	}*/
     /**
      * @return Returns the kmResultsContainer.
      * @throws Exception

@@ -20,7 +20,6 @@ import de.laures.cewolf.DatasetProducer;
 public class KMDataSetForm extends ActionForm implements DatasetProducer,
 		Serializable {
 
-    private String pValue;
 	private GeneExpressionQuery geneQuery;
 
 	private String method;
@@ -48,6 +47,17 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	private String upOrAmplified = "";
 
 	private String downOrDeleted = "";
+	
+	private String upVsDownPvalue = null;
+    private String upVsIntPvalue = null;
+    private String downVsIntPvalue = null;
+    private String upVsRestPvalue = null;
+    private String downVsRestPvalue = null;
+    private String intVsRestPvalue = null;
+    private String upSampleCount = null;
+    private String downSampleCount = null;
+    private String intSampleCount = null;
+    private String allSampleCount = null;
 
 	private ArrayList folds = new ArrayList();
 
@@ -58,11 +68,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	}
 
 	public KMDataSetForm(String _plotType) {
-		if(_plotType != null &&
-				( _plotType.equals(NautilusConstants.GENE_EXP_KMPLOT) ||
-				_plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT))){
-		this.plotType = _plotType;
-		}
+		setPlotType(_plotType);
 	}
 
 	/**
@@ -235,7 +241,11 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	 *            The plotType to set.
 	 */
 	public void setPlotType(String plotType) {
+		if(plotType != null &&
+				( plotType.equals(NautilusConstants.GENE_EXP_KMPLOT) ||
+				plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT))){
 		this.plotType = plotType;
+		}
 	}
 
 	/**
@@ -277,13 +287,132 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 		return upOrAmplified;
 	}
 
-    public String getPValue() {
-        return pValue;
-    }
-    
 
-    public void setPValue(String value) {
-        pValue = "";
-    }
     
+	/**
+	 * @return Returns the allSampleCount.
+	 */
+	public String getAllSampleCount() {
+		return allSampleCount;
+	}
+	/**
+	 * @param allSampleCount The allSampleCount to set.
+	 */
+	public void setAllSampleCount(String allSampleCount) {
+		this.allSampleCount = allSampleCount;
+	}
+	/**
+	 * @return Returns the downSampleCount.
+	 */
+	public String getDownSampleCount() {
+		return downSampleCount;
+	}
+	/**
+	 * @param downSampleCount The downSampleCount to set.
+	 */
+	public void setDownSampleCount(String downSampleCount) {
+		this.downSampleCount = downSampleCount;
+	}
+	/**
+	 * @return Returns the downVsIntPvalue.
+	 */
+	public String getDownVsIntPvalue() {
+		return downVsIntPvalue;
+	}
+	/**
+	 * @param downVsIntPvalue The downVsIntPvalue to set.
+	 */
+	public void setDownVsIntPvalue(String downVsIntPvalue) {
+		this.downVsIntPvalue = downVsIntPvalue;
+	}
+	/**
+	 * @return Returns the downVsRestPvalue.
+	 */
+	public String getDownVsRestPvalue() {
+		return downVsRestPvalue;
+	}
+	/**
+	 * @param downVsRestPvalue The downVsRestPvalue to set.
+	 */
+	public void setDownVsRestPvalue(String downVsRestPvalue) {
+		this.downVsRestPvalue = downVsRestPvalue;
+	}
+	/**
+	 * @return Returns the intSampleCount.
+	 */
+	public String getIntSampleCount() {
+		return intSampleCount;
+	}
+	/**
+	 * @param intSampleCount The intSampleCount to set.
+	 */
+	public void setIntSampleCount(String intSampleCount) {
+		this.intSampleCount = intSampleCount;
+	}
+	/**
+	 * @return Returns the intVsRestPvalue.
+	 */
+	public String getIntVsRestPvalue() {
+		return intVsRestPvalue;
+	}
+	/**
+	 * @param intVsRestPvalue The intVsRestPvalue to set.
+	 */
+	public void setIntVsRestPvalue(String intVsRestPvalue) {
+		this.intVsRestPvalue = intVsRestPvalue;
+	}
+	/**
+	 * @return Returns the upSampleCount.
+	 */
+	public String getUpSampleCount() {
+		return upSampleCount;
+	}
+	/**
+	 * @param upSampleCount The upSampleCount to set.
+	 */
+	public void setUpSampleCount(String upSampleCount) {
+		this.upSampleCount = upSampleCount;
+	}
+	/**
+	 * @return Returns the upVsDownPvalue.
+	 */
+	public String getUpVsDownPvalue() {
+		return upVsDownPvalue;
+	}
+	/**
+	 * @param upVsDownPvalue The upVsDownPvalue to set.
+	 */
+	public void setUpVsDownPvalue(String upVsDownPvalue) {
+		this.upVsDownPvalue = upVsDownPvalue;
+	}
+	/**
+	 * @return Returns the upVsIntPvalue.
+	 */
+	public String getUpVsIntPvalue() {
+		return upVsIntPvalue;
+	}
+	/**
+	 * @param upVsIntPvalue The upVsIntPvalue to set.
+	 */
+	public void setUpVsIntPvalue(String upVsIntPvalue) {
+		this.upVsIntPvalue = upVsIntPvalue;
+	}
+	/**
+	 * @return Returns the upVsRestPvalue.
+	 */
+	public String getUpVsRestPvalue() {
+		return upVsRestPvalue;
+	}
+	/**
+	 * @param upVsRestPvalue The upVsRestPvalue to set.
+	 */
+	public void setUpVsRestPvalue(String upVsRestPvalue) {
+		this.upVsRestPvalue = upVsRestPvalue;
+	}
+	/**
+	 * @param downOrDeleted The downOrDeleted to set.
+	 */
+	public void setDownOrDeleted(String downOrDeleted) {
+		this.downOrDeleted = downOrDeleted;
+	}
 }
