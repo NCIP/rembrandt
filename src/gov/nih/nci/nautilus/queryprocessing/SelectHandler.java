@@ -44,6 +44,12 @@ abstract class SelectHandler implements Runnable {
        }
     }
 
+    final static class PathwaySelectHandler extends SelectHandler{
+       public PathwaySelectHandler(ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
+           super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.PathwayRetrieveEvent(),  _BROKER);
+       }
+    }
+
     final static class ProbeCloneIDSelectHandler extends SelectHandler{
        public ProbeCloneIDSelectHandler(ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER ) {
            super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.ProbeIDCloneIDRetrieveEvent(), _BROKER);

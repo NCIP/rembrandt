@@ -36,6 +36,12 @@ abstract public class DBEvent extends EventObject {
             super(ONTOLOGY_CRIT_EVENT) ;
         }
     }
+    public final static class PathwayRetrieveEvent extends DBEvent {
+        private final static String PATHWAY_CRIT_EVENT = "PathwayRetrieveEvent";
+        public PathwayRetrieveEvent() {
+            super(PATHWAY_CRIT_EVENT) ;
+        }
+    }
     public final static class ProbeIDCloneIDRetrieveEvent extends DBEvent {
         private final static String PROBEID_CLONEID_CRIT_EVENT = "ProbeIDCloneIDRetrieveEvent";
         public ProbeIDCloneIDRetrieveEvent() {

@@ -175,19 +175,25 @@ public class GeneExpressionQuery extends Query {
 	   else {
 	      System.out.println("GeneOntolgoy Criteria is empty or Application Resources file is missing.");
 	       }// end of GeneOntologyCriteria
-		   
-		   
-	   // start of pathway criteria	
+
+
+      /* TODO: Prashant Can you please fix this commented code.  I have changed the
+        PathwayCriteria class definition So the below code needs to be readjusted
+        */
+	  /*
+        // start of pathway criteria
 	  PathwayCriteria thisPathwayCriteria = this.getPathwayCriteria();
 	  if(!thisPathwayCriteria.isEmpty() && labels != null){
-	    PathwayDE pathwayDE = thisPathwayCriteria.getPathwayDE();
+	    PathwayDE pathwayDE = thisPathwayCriteria.getPathwayNames();
 		String pathwayStr = pathwayDE.getClass().getName();
 		OutStr += "<BR>"+labels.getString(pathwayStr.substring(pathwayStr.lastIndexOf(".")+1))+": "+pathwayDE.getValue()+"";
 		   }
 		else{
 		   System.out.println("PathwayCriteria is empty or Application Resources file is missing.");
 	  	 }  // end of PathwayCriteria
-		
+	 */
+
+        
 	// start of ArrayPlatformCriteria
 	 ArrayPlatformCriteria thisArrayPlatformCriteria = this.getArrayPlatformCriteria();
 	 if(!thisArrayPlatformCriteria.isEmpty()&& labels != null){
@@ -207,7 +213,7 @@ public class GeneExpressionQuery extends Query {
 		OutStr += "<BR><BR>";
     	return OutStr;
     }
-    
+
 	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
         return diseaseOrGradeCriteria;
     }
@@ -215,7 +221,7 @@ public class GeneExpressionQuery extends Query {
     public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
         this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
     }
-	
+
     public GeneIDCriteria getGeneIDCrit() {
         return geneIDCrit;
     }
@@ -240,7 +246,7 @@ public class GeneExpressionQuery extends Query {
         this.foldChgCrit = foldChgCrit;
     }
 
-	
+
 	 public CloneOrProbeIDCriteria  getCloneOrProbeIDCriteria() {
         return cloneOrProbeIDCriteria;
     }
@@ -248,7 +254,7 @@ public class GeneExpressionQuery extends Query {
     public void setCloneOrProbeIDCrit(CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
         this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
     }
-	
+
 	public GeneOntologyCriteria  getGeneOntologyCriteria() {
         return geneOntologyCriteria;
     }
@@ -256,7 +262,7 @@ public class GeneExpressionQuery extends Query {
     public void setGeneOntologyCrit(GeneOntologyCriteria geneOntologyCriteria) {
         this.geneOntologyCriteria = geneOntologyCriteria;
     }
-	
+
 	public PathwayCriteria  getPathwayCriteria() {
         return pathwayCriteria;
     }
@@ -264,7 +270,7 @@ public class GeneExpressionQuery extends Query {
     public void setPathwayCrit(PathwayCriteria pathwayCriteria) {
         this.pathwayCriteria = pathwayCriteria;
     }
-	
+
 	public ArrayPlatformCriteria  getArrayPlatformCriteria() {
         return arrayPlatformCriteria;
     }

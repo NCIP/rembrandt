@@ -5,40 +5,46 @@ package gov.nih.nci.nautilus.data;
 
 public class GenePathway
 {
-  private Long geneId;
+     public final static String PATHWAY_NAME = "pathwayName";
+    public final static String GENE_SYMBOL = "geneSymbol";
 
-  private Long pathwayId;
+  private String geneSymbol;
 
-  private gov.nih.nci.nautilus.data.GeneDimOld aGeneDimOld;
+  private String pathwayName;
+    private String dataSource;
+    private String pathwayDesc;
 
-  public Long getGeneId()
-  {
-     return this.geneId;
-  }
-  public void setGeneId(Long param)
-  {
-    this.geneId = param;
-  }
+    public String getGeneSymbol() {
+        return geneSymbol;
+    }
 
+    public void setGeneSymbol(String geneSymbol) {
+        this.geneSymbol = geneSymbol;
+    }
 
-  public Long getPathwayId()
-  {
-     return this.pathwayId;
-  }
-  public void setPathwayId(Long param)
-  {
-    this.pathwayId = param;
-  }
+    public String getPathwayName() {
+        return pathwayName;
+    }
 
+    public void setPathwayName(String pathwayName) {
+        this.pathwayName = pathwayName;
+    }
 
-  public gov.nih.nci.nautilus.data.GeneDimOld getAGeneDimOld()
-  {
-     return this.aGeneDimOld;
-  }
-  public void setAGeneDimOld(gov.nih.nci.nautilus.data.GeneDimOld param)
-  {
-    this.aGeneDimOld = param;
-  }
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public String getPathwayDesc() {
+        return pathwayDesc;
+    }
+
+    public void setPathwayDesc(String pathwayDesc) {
+        this.pathwayDesc = pathwayDesc;
+    }
 
 
 }

@@ -38,7 +38,7 @@ final public class ChrRegionCriteriaHandler {
     }
     final private static class PositionHandler extends RegionHandler {
         StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb, boolean includeProbes, boolean includeClones) throws Exception {
-            StartEndPosition posObj = new StartEndPosition(regionCrit.getStart(), regionCrit.getEnd());
+            StartEndPosition posObj = new StartEndPosition(regionCrit.getStart(), regionCrit.getEnd(), regionCrit.getChromNumber());
             assert(posObj != null);
             return posObj;
         }
@@ -46,9 +46,11 @@ final public class ChrRegionCriteriaHandler {
     final static private class StartEndPosition {
         BasePairPositionDE startPosition;
         BasePairPositionDE endPosition;
-        public StartEndPosition(BasePairPositionDE startPosition, BasePairPositionDE endPosition) {
+        ChromosomeNumberDE chrNumber;
+        public StartEndPosition(BasePairPositionDE startPosition, BasePairPositionDE endPosition, ChromosomeNumberDE chrNumber) {
             this.startPosition = startPosition;
             this.endPosition = endPosition;
+            this.chrNumber = chrNumber;
         }
     }
 
@@ -84,7 +86,9 @@ final public class ChrRegionCriteriaHandler {
         String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
         String deMappingAttrNameForStartPos = QueryHandler.getColumnName(pb, BasePairPositionDE.StartPosition.class.getName(), ProbesetDim.class.getName());
         String deMappingAttrNameForEndPos = QueryHandler.getColumnName(pb, BasePairPositionDE.EndPosition.class.getName(), ProbesetDim.class.getName());
+        String deMappingAttrNameForChrNum = QueryHandler.getColumnName(pb, ChromosomeNumberDE.class.getName(), ProbesetDim.class.getName());
         Criteria c = new Criteria();
+        c.addColumnEqualTo(deMappingAttrNameForChrNum, posObj.chrNumber.getValueObject());
         c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
         c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
         ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, true );
@@ -94,7 +98,9 @@ final public class ChrRegionCriteriaHandler {
         String cloneIDColumn = QueryHandler.getColumnNameForBean(pb, GeneClone.class.getName(), GeneClone.CLONE_ID);
         String deMappingAttrNameForStartPos = QueryHandler.getColumnName(pb, BasePairPositionDE.StartPosition.class.getName(), GeneClone.class.getName());
         String deMappingAttrNameForEndPos = QueryHandler.getColumnName(pb, BasePairPositionDE.EndPosition.class.getName(), GeneClone.class.getName());
+        String deMappingAttrNameForChrNum = QueryHandler.getColumnName(pb, ChromosomeNumberDE.class.getName(), GeneClone.class.getName());
         Criteria c = new Criteria();
+        c.addColumnEqualTo(deMappingAttrNameForChrNum, posObj.chrNumber.getValueObject());
         c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
         c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
         ReportQueryByCriteria coleIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
@@ -121,7 +127,7 @@ final public class ChrRegionCriteriaHandler {
             BigDecimal cbEndPos = (BigDecimal)values[1];
             BasePairPositionDE startPosition = new BasePairPositionDE.StartPosition(new Integer(cbStartPos.intValue()));
             BasePairPositionDE endPosition = new BasePairPositionDE.EndPosition(new Integer(cbEndPos.intValue()));
-            posObj = new StartEndPosition(startPosition, endPosition);
+            posObj = new StartEndPosition(startPosition, endPosition,  chrNumber);
         }
         return posObj;
     }

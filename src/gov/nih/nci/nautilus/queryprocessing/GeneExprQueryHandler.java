@@ -31,6 +31,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
     ReporterIDCriteria geneIDCrit = null;
     ReporterIDCriteria regionCrit = null;
     ReporterIDCriteria ontologyCrit = null;
+    ReporterIDCriteria pathwayCrit = null;
     protected javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
 
     boolean includeClones;
@@ -115,6 +116,14 @@ final public class GeneExprQueryHandler extends QueryHandler {
             ontologyCrit = GeneOntologyHandler.buildGeneOntologyIDCriteria(geQuery.getGeneOntologyCriteria(), includeClones, includeProbes, _BROKER);
             assert(ontologyCrit != null);
             SelectHandler handler = new SelectHandler.OntologySelectHandler(ontologyCrit, allProbeIDS, allCloneIDS, _BROKER);
+            eventList.add(handler.getDbEvent());
+            new Thread(tg, handler).start();
+        }
+
+        if (geQuery.getPathwayCriteria() != null) {
+           pathwayCrit = GenePathwayHandler.buildPathwayCriteria(geQuery.getPathwayCriteria(), includeClones, includeProbes, _BROKER);
+            assert(pathwayCrit != null);
+            SelectHandler handler = new SelectHandler.PathwaySelectHandler(pathwayCrit, allProbeIDS, allCloneIDS, _BROKER);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
         }
