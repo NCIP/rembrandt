@@ -14,6 +14,7 @@ abstract public class QueryType {
     String queryType;
     public final static GeneExprQueryType GENE_EXPR_QUERY_TYPE = new GeneExprQueryType();
     public final static CGHQueryType CGH_QUERY_TYPE = new CGHQueryType ();
+	public final static ClinicalQueryType CLINICAL_DATA_QUERY_TYPE = new ClinicalQueryType ();
 
     public QueryType(String queryType) {
         this.queryType = queryType;
@@ -27,5 +28,11 @@ abstract public class QueryType {
         CGHQueryType () {
         super("CGHQueryType ");
         }
+    }
+	
+	public final static class ClinicalQueryType extends QueryType {
+         ClinicalQueryType () {
+         super("ClinicalQueryType");
+         }
     }
 }

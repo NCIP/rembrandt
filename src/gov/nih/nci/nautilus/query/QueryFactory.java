@@ -15,6 +15,9 @@ class QueryFactory {
           else if (queryType instanceof QueryType.CGHQueryType) {              
               return new ComparativeGenomicQuery();
           }
+		  else if (queryType instanceof QueryType.ClinicalQueryType) {              
+              return new ClinicalDataQuery();
+          }
         return null;
     }
 

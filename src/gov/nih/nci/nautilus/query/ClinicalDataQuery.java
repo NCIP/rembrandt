@@ -1,17 +1,17 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.SNPCriteria;
-import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
-import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
+import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
+import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
+import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
+import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.criteria.AgeCriteria;
+import gov.nih.nci.nautilus.criteria.GenderCriteria;
 
 
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.CGHQueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.ClinicalQueryHandler;
 
 import java.util.*;
 import gov.nih.nci.nautilus.de.*;
@@ -23,28 +23,28 @@ import gov.nih.nci.nautilus.de.*;
  * Time: 6:46:14 PM
  * To change this template use Options | File Templates.
  */
-public class ComparativeGenomicQuery extends Query {
+public class ClinicalDataQuery extends Query {
 
-    private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
-    private GeneIDCriteria geneIDCriteria;
-    private CopyNumberCriteria copyNumberCriteria;
-	private RegionCriteria regionCriteria;	
-	private CloneOrProbeIDCriteria cloneOrProbeIDCriteria;
-	private SNPCriteria snpCriteria;
-	private AlleleFrequencyCriteria alleleFrequencyCriteria;
-	private AssayPlatformCriteria assayPlatformCriteria;
-	
+    private DiseaseOrGradeCriteria diseaseOrGradeCriteria;	
+	private OccurrenceCriteria occurrenceCriteria;
+	private RadiationTherapyCriteria radiationTherapyCriteria;
+	private ChemoAgentCriteria chemoAgentCriteria;	
+	private SurgeryTypeCriteria surgeryTypeCriteria;	
+	private SurvivalCriteria survivalCriteria;
+	private AgeCriteria ageCriteria;
+	private GenderCriteria genderCriteria;
+		
 	
     private QueryHandler HANDLER;   
 
     public QueryHandler getQueryHandler() throws Exception  {
-        return (HANDLER == null) ? new CGHQueryHandler() : HANDLER;
+        return (HANDLER == null) ? new ClinicalQueryHandler() : HANDLER;
     }
 	public QueryType getQueryType() throws Exception {
-		return QueryType.CGH_QUERY_TYPE;
+		return QueryType.CLINICAL_DATA_QUERY_TYPE;
 	}
 
-    public ComparativeGenomicQuery() {
+    public ClinicalDataQuery() {
         super();
     }
 
@@ -77,7 +77,7 @@ public class ComparativeGenomicQuery extends Query {
 		  } //end of DiseaseOrGradeCriteria
 		
 		 
-		 // starting CopyNumberCriteria
+		/* // starting CopyNumberCriteria
 		CopyNumberCriteria thisCopyNumberCrit = this.getCopyNumberCriteria();	
 		System.out.println("thisCopyNumberCrit.isEmpty():"+thisCopyNumberCrit.isEmpty());		
 		if (!thisCopyNumberCrit.isEmpty() && labels != null) {
@@ -197,7 +197,7 @@ public class ComparativeGenomicQuery extends Query {
 			else{
 			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
 			}// end of  cloneorProbeCriteria
-			
+			*/
 		}// end of try
 	catch (Exception ie) {
 		ie.printStackTrace();
@@ -214,63 +214,63 @@ public class ComparativeGenomicQuery extends Query {
 
     public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
         this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
-    }
-		
-    public GeneIDCriteria getGeneIDCriteria() {
-        return geneIDCriteria;
-    }
-
-    public void setGeneIDCrit(GeneIDCriteria geneIDCriteria) {
-        this.geneIDCriteria = geneIDCriteria;
+    }			
+	
+    public void setOccurrenceCrit(OccurrenceCriteria occurrenceCriteria) {
+        this.occurrenceCriteria = occurrenceCriteria;
     }
 
-    public RegionCriteria getRegionCriteria() {
-        return regionCriteria;
+    public OccurrenceCriteria getOccurrenceCriteria() {
+        return occurrenceCriteria;
     }
 
-    public void setRegionCrit(RegionCriteria regionCriteria) {
-        this.regionCriteria = regionCriteria;
+    public void setRadiationTherapyCrit(RadiationTherapyCriteria radiationTherapyCriteria) {
+        this.radiationTherapyCriteria = radiationTherapyCriteria;
     }
 
-    public CopyNumberCriteria getCopyNumberCriteria() {
-        return copyNumberCriteria;
+   public RadiationTherapyCriteria getRadiationTherapyCriteria() {
+        return radiationTherapyCriteria;
+    }
+	
+    public ChemoAgentCriteria getChemoAgentCriteria() {
+        return chemoAgentCriteria;
     }
 
-    public void setCopyNumberCrit(CopyNumberCriteria copyNumberCriteria) {
-        this.copyNumberCriteria = copyNumberCriteria;
+    public void setChemoAgentCrit(ChemoAgentCriteria chemoAgentCriteria) {
+        this.chemoAgentCriteria = chemoAgentCriteria;
     }
 
 	
-	 public CloneOrProbeIDCriteria  getCloneOrProbeIDCriteria() {
-        return cloneOrProbeIDCriteria;
+	 public SurgeryTypeCriteria  getSurgeryTypeCriteria() {
+        return surgeryTypeCriteria;
     }
 
-    public void setCloneOrProbeIDCrit(CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
-        this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
+    public void setSurgeryTypeCrit(SurgeryTypeCriteria surgeryTypeCriteria) {
+        this.surgeryTypeCriteria = surgeryTypeCriteria;
     }
 	
-	public SNPCriteria  getSNPCriteria() {
-        return snpCriteria;
+	public SurvivalCriteria  getSurvivalCriteria() {
+        return survivalCriteria;
     }
 
-    public void setSNPCrit(SNPCriteria snpCriteria) {
-        this.snpCriteria = snpCriteria;
+    public void setSurvivalCrit(SurvivalCriteria survivalCriteria) {
+        this.survivalCriteria = survivalCriteria;
     }
 	
-	public AlleleFrequencyCriteria  getAlleleFrequencyCriteria() {
-        return alleleFrequencyCriteria;
+	public AgeCriteria  getAgeCriteria() {
+        return ageCriteria;
     }
 
-    public void setAlleleFrequencyCrit(AlleleFrequencyCriteria alleleFrequencyCriteria) {
-        this.alleleFrequencyCriteria = alleleFrequencyCriteria;
+    public void setAgeCrit(AgeCriteria ageCriteria) {
+        this.ageCriteria = ageCriteria;
     }
 	
-	public AssayPlatformCriteria  getAssayPlatformCriteria() {
-        return assayPlatformCriteria;
+	public GenderCriteria  getGenderCriteria() {
+        return genderCriteria;
     }
 
-    public void seAssayPlatformCrit(AssayPlatformCriteria assayPlatformCriteria) {
-        this.assayPlatformCriteria = assayPlatformCriteria;
+    public void setGenderCrit(GenderCriteria genderCriteria) {
+        this.genderCriteria = genderCriteria;
     }
     class Handler {
     }

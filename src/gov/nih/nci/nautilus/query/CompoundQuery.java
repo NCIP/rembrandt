@@ -65,13 +65,16 @@ public class CompoundQuery implements Queriable{
     private ViewType associatedView = null;
 	/* 
 	 * @see gov.nih.nci.nautilus.query.Queriable#getAssociatedView()
+	 * 
 	 */
+
 
 	public CompoundQuery(OperatorType node, Queriable leftQuery, Queriable rightQuery) {
 		this.operatorType = node;
 		this.leftQuery = leftQuery;
 		this.rightQuery = rightQuery;
 	}
+
 
 	public ViewType getAssociatedView() {
 		return associatedView;

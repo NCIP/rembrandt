@@ -106,8 +106,8 @@
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>     
 	   	 <javac srcdir="${source.struts.dir}" destdir="${build.struts.classes.dir}">	
-		 <exclude name="**/form/ClinicalDataForm.java" /> 		
-         <exclude name="**/action/ClinicalDataAction.java" />			
+		 <!--<exclude name="**/form/ClinicalDataForm.java" />-->	
+         <!--<exclude name="**/action/ClinicalDataAction.java" />-->		
         <classpath refid="cp.compile"/>
         </javac>
     </target>	
