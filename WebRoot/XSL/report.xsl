@@ -7,7 +7,7 @@
 <xsl:param name="filter_value2">0</xsl:param>
 <xsl:param name="filter_value3">25</xsl:param>
 
-<xsl:param name="filter_type">greater</xsl:param>
+<xsl:param name="filter_value4">gt</xsl:param>
 
 <xsl:template match="/">
 
@@ -219,7 +219,13 @@
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 		<b><span class="lb">Highlight:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		highlight values greater than <input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
+		highlight values 
+		<select name="filter_value4">
+			<option value="gt">&gt;</option>
+			<option value="lt">&lt;</option>
+			<option value="eq">=</option>
+		</select>
+		<input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
 		<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
@@ -415,8 +421,22 @@
 			      				<xsl:value-of select="Data" />
 			      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
 							</xsl:when>
-			      			<xsl:when test="$filter_value1 != 000 and Data > $filter_value1">
-			      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      			<!-- <xsl:when test="$filter_value1 != 000 and Data > $filter_value1"> -->
+			      			<xsl:when test="$filter_value1 != 000 and $filter_value4 != ''">
+			      				<xsl:choose>
+			      					<xsl:when test="$filter_value4 = 'gt' and Data > $filter_value1">
+					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      					</xsl:when>
+			      					<xsl:when test="$filter_value4 = 'lt' and $filter_value1 > Data">
+					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      					</xsl:when>
+			      					<xsl:when test="$filter_value4 = 'eq' and $filter_value1 = Data">
+					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      					</xsl:when>
+			      					<xsl:otherwise>
+			      						<xsl:value-of select="Data" disable-output-escaping="yes" />
+			      					</xsl:otherwise>
+			      				</xsl:choose>
 			      			</xsl:when>
 			      			<xsl:otherwise>
 			      				<xsl:if test="@class = 'highlighted'">
