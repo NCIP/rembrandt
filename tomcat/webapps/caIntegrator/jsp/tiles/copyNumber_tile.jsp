@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-
-<div class="title">CGH Copy Number</div>
+<fieldset class="gray">
+<legend>CGH Copy Number</legend>
 
 <%
 	String act = request.getParameter("act");
@@ -30,6 +30,6 @@ Deleted
 
 <html:errors property="cnerror"/></br>
 
-
+</fieldset>
 <!-- </html:form> -->
 
