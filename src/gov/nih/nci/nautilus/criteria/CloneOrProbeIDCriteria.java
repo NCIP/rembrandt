@@ -41,7 +41,7 @@ public class CloneOrProbeIDCriteria extends Criteria {
     }
 
     public boolean isValid() {
-        // TODO: see if we need any validation on GeneSymbols/LocusLinkID/GenBank etc
+        // TODO: see if we need any validation
         return true;
     }
 }
