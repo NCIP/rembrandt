@@ -328,15 +328,14 @@ public class ReportGenerator  {
 				        			catch(Exception e){
 				        				geneSymbol = " - ";
 				        			}
-				        			System.out.println("Gene Symbol: "+ geneSymbol);
+				        			logger.debug("Gene Symbol: "+ geneSymbol);
 				        		}
 				        		
 				        	//	Collection groupTypes = geneExprDiseaseContainer.getGroupByResultsets(geneSymbol,reporterName); 
 				        	//	reporterResultset.getGroupResultsets();
 				        		
 				        		sb.append("<tr><td>"+geneSymbol+"</td><td>" + reporterName + "</td>");
-				        		System.out.println("okay so far");
-				        		
+				        		      		
 				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 				    	        	label = (String) labelIterator.next();
 				    	        	DiseaseGroupResultset diseaseResultset = (DiseaseGroupResultset) reporterResultset.getGroupByResultset(label);
