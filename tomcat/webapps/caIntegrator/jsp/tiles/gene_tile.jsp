@@ -25,6 +25,8 @@ String act = request.getParameter("act");
 &nbsp;-or-&nbsp;
 			<html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
 			<html:file property="geneFile" disabled="true" />
+			<app:help help="Only files of type "*.txt" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." />
+
 			<Br>
 			<html:errors property="geneFile"/>
 			<html:errors property="geneGroup"/>

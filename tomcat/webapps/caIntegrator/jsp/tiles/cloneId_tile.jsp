@@ -28,7 +28,8 @@
 	<html:text property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"value="" />
 	&nbsp;-or-&nbsp;
 <html:radio property="cloneId" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
-			<html:file property="cloneListFile" disabled="true" /></br>
+			<html:file property="cloneListFile" disabled="true" />
+			<app:help help="Only files of type "*.txt" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." /></br>
 			<html:errors property="cloneId"/></br>
 </fieldset>
 <!-- </html:form> -->
