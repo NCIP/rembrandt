@@ -125,7 +125,6 @@ abstract public class CGHFactHandler {
                 String threadID = "CGHFactHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
-
                 new Thread(
                    new Runnable() {
                       public void run() {
