@@ -149,7 +149,7 @@ public class GeneExpressionQuery extends Query {
 		if(!thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
 		  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
 			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-		    Collection cloneColl = thisCloneOrProbeCriteria.getCloneIdentifiers();
+		    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
 		    Iterator iter = cloneColl.iterator();
 		    while(iter.hasNext()){
 			    CloneIdentifierDE cloneIdentifierDE = (CloneIdentifierDE)iter.next();
@@ -191,7 +191,7 @@ public class GeneExpressionQuery extends Query {
 	// start of ArrayPlatformCriteria
 	 ArrayPlatformCriteria thisArrayPlatformCriteria = this.getArrayPlatformCriteria();
 	 if(!thisArrayPlatformCriteria.isEmpty()&& labels != null){
-	   ArrayPlatformDE arrayPlatformDE = thisArrayPlatformCriteria.getArrayPlatformDE();
+	   ArrayPlatformDE arrayPlatformDE = thisArrayPlatformCriteria.getPlatform();
 	   String arrayPlatformStr = arrayPlatformDE.getClass().getName();
 	   OutStr += "<BR>"+labels.getString(arrayPlatformStr.substring(arrayPlatformStr.lastIndexOf(".")+1))+": "+arrayPlatformDE.getValue()+"";
 		   }

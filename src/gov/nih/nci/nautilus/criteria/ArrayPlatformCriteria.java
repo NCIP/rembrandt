@@ -1,35 +1,31 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
-import gov.nih.nci.nautilus.criteria.Criteria;
-
-import java.util.*;
 
 /**
- * This  class encapsulates ArrayPlatform criteria.
- * It contains a collection of ArrayPlatformDE.
- *  
- * Dana Zhang
- * Date: August 30, 2004 
- * Version 1.0
+ * Created by IntelliJ IDEA.
+ * User: BhattarR
+ * Date: Aug 26, 2004
+ * Time: 7:58:06 PM
+ * To change this template use Options | File Templates.
  */
+public class ArrayPlatformCriteria extends Criteria {
+    ArrayPlatformDE platform;
 
-public class ArrayPlatformCriteria extends Criteria{
-
- private ArrayPlatformDE arrayPlatformDE;
- public ArrayPlatformCriteria(){}
- 
- public void setArrayPlatform(ArrayPlatformDE arrayPlatformDE){
-  if(arrayPlatformDE != null){
-     this.arrayPlatformDE = arrayPlatformDE;
+    public ArrayPlatformDE getPlatform() {
+        return platform;
     }
-  }
 
- public ArrayPlatformDE getArrayPlatformDE(){
-   return  arrayPlatformDE;
-   }
- 
- public boolean isValid(){
-   return true;    
-   }
+    public void setPlatform(ArrayPlatformDE platform) {
+        this.platform = platform;
+    }
+
+    public ArrayPlatformCriteria(ArrayPlatformDE platform) {
+        this.platform = platform;
+    }
+
+    public boolean isValid() {
+        //TODO: check for valid platforms
+        return true;
+    }
 }
