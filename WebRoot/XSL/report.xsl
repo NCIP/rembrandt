@@ -294,7 +294,7 @@
 		  	var cPage = <xsl:value-of select="$filter_value2"/>;
 		  	<![CDATA[	
 		  		for(i=0;records!=i; i++)	{
-		  			stupidXSL(i, cPage);
+		  			stupidXSL(i, cPage, records);
 		  		}
 		  	]]>
 		  </script>

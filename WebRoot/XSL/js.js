@@ -1,9 +1,16 @@
-function stupidXSL(i, cPage)	{
+function stupidXSL(i, cPage, total)	{
+	var str = "";
 	if(i == cPage)
 		str = "["+(i+1)+"]&nbsp;"
-	else
+	else if(i < cPage+3 && i > cPage-3)
 		str = "<a href=\"javascript:goPage('"+(i)+"');\">["+(i+1)+"]</a>&nbsp;";
-	document.write(str);
+	else if(i == 0)
+		str = "<a href=\"javascript:goPage('"+(i)+"');\">[first]</a>&nbsp;...&nbsp;";
+	else if(i == total-1)
+		str = "...&nbsp;<a href=\"javascript:goPage('"+(i)+"');\">[last]</a>&nbsp;";
+	
+	if(str!="")
+		document.write(str);
 
 }
 
