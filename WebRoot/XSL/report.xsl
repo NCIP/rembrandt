@@ -38,6 +38,18 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		.sampleRow, .headerRow { font-weight: bold; }
 		.rowCount { font-size:11px; padding:2px;}
 		.title { font-size: 16px; font-weight: bold; padding-bottom: 10px; font-family: tahoma }
+		
+		.geneSpacerStyle { 	
+		height: 3px; 
+						font-size: 1px; 
+						border-top: 1px solid black; 
+						border-left: 2px solid black;
+						border-right: 2px solid black;
+						border-bottom: 2px solid black;  
+						padding: 0px; 
+						background-color: #ffffff;
+					}
+		
 			.fontClass { font-size: 10px; 
 				font-family: verdana;
 				color:#000000; 
@@ -78,17 +90,12 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
   <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
   
-  <span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
-	<br /><br />
-	<img src="images/statusBar2.gif" />
-	<br />Loading...please wait<br />
-  </span>
-  
-  
+
   <xsl:for-each select="Report">
     <h2 class="title"><xsl:value-of select="@reportType" /></h2> 
     
  <xsl:variable name="helpLink" select="@reportType" />
+<xsl:variable name="colCount" select="count(Row[@name='sampleRow']/Cell)" />
 
 	<div class="rowCount">
 	  <a href="javascript: spawn('help.jsp?sect={$helpLink}', 350, 500);"><img align="right" src="images/helpIcon.jpg" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
@@ -98,7 +105,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	  <a href="javascript:void(window.print())">[Print Report]</a> | 
 	  <a href="#queryInfo">[Query Info]</a>
 	</div>
-    <table border="1" cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0">
 		<xsl:for-each select="Row[@name='headerRow']">
 			<tr class="headerRow">
 		  	<xsl:for-each select="Cell">
@@ -112,8 +119,6 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 						<td colspan="{$colspan}" class="{$currentGroup}"><xsl:value-of select="Data" /></td>
 					</xsl:otherwise>
 			</xsl:choose>
-			
-		      
 		    </xsl:for-each>
 		    </tr>
 		</xsl:for-each>
@@ -128,18 +133,22 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		</xsl:for-each>
 		<!-- get each data row only -->
 		<xsl:for-each select="Row[@name='dataRow']">
-			<tr>
-		  	<xsl:for-each select="Cell">
-		  	  <xsl:variable name="class" select="@group" />
-		      <td class="{$class}"><xsl:value-of select="Data" /></td>
-		    </xsl:for-each>
-		    </tr>
+		
+					<tr>
+		  				<xsl:for-each select="Cell">
+		  	  			<xsl:variable name="class" select="@group" />
+		      			<td class="{$class}"><xsl:value-of select="Data" /></td>
+		    			</xsl:for-each>
+		    		</tr>
+				<xsl:if test="./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text()">
+					<tr>
+		      			<td colspan="{$colCount}" class="geneSpacerStyle">--</td>
+		    		</tr>
+				</xsl:if>
 		</xsl:for-each>
   	</table>
   </xsl:for-each>
-  <script type="text/javascript">
-	<![CDATA[hideLoadingMessage();]]>
-</script>
+ 
   </body>
   </html>
 </xsl:template>
