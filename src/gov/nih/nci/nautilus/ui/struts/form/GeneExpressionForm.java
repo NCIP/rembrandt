@@ -223,7 +223,7 @@ public class GeneExpressionForm extends BaseForm {
 	private HttpServletRequest thisRequest;
 
 	private SessionQueryBag queryCollection;
-
+	
 	private boolean isAllGenes = false;
 
 	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
@@ -310,7 +310,7 @@ public class GeneExpressionForm extends BaseForm {
 			createAllGenesCriteriaObject();
 			createGeneCriteriaObject();
 			createFoldChangeCriteriaObject();
-			createRegionCriteriaObject();
+			//createRegionCriteriaObject();
 			createCloneOrProbeCriteriaObject();
 			createGeneOntologyCriteriaObject();
 			createPathwayCriteriaObject();
@@ -1267,8 +1267,12 @@ public class GeneExpressionForm extends BaseForm {
 				if (thisRegion != null
 						&& thisRegion.equalsIgnoreCase("cytoband")
 						&& this.cytobandRegionStart.trim().length() > 0) {
-					regionDomainMap.put(this.cytobandRegionStart, CytobandDE.class
-							.getName());
+					if(regionCriteria == null){
+						regionCriteria = new RegionCriteria();
+					}
+					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionStart);
+					regionCriteria.setStartCytoband(cytobandDE);
+					
 				}
 			}
 		}
@@ -1604,9 +1608,11 @@ public class GeneExpressionForm extends BaseForm {
 					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
 							&& (thisBasePairStart.trim().length() > 0)
 							&& (this.basePairEnd.trim().length() > 0)) {
-
-						regionDomainMap.put(this.basePairEnd,
-								BasePairPositionDE.EndPosition.class.getName());
+						if(regionCriteria == null){
+							regionCriteria = new RegionCriteria();
+						}
+						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Integer(this.basePairEnd));
+						regionCriteria.setEnd(basePairEndDE);
 					}
 				}
 			}
@@ -1640,10 +1646,13 @@ public class GeneExpressionForm extends BaseForm {
 			try {
 				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
 				String chromosomeName = bean.getChromosome();
-				if (regionDomainMap != null) {
-					regionDomainMap.put(chromosomeName,
-					ChromosomeNumberDE.class.getName());
+				if(regionCriteria == null){
+					regionCriteria = new RegionCriteria();
 				}
+				ChromosomeNumberDE chromosomeDE = new  ChromosomeNumberDE(chromosomeName);
+				regionCriteria.setChromNumber(chromosomeDE);
+				logger.debug("Test Chromosome Criteria "+ regionCriteria.getChromNumber().getValue());
+
 			}catch(NumberFormatException nfe) {
 				logger.error("Expected an Integer index for chromosome, got a char or string");
 				logger.error(nfe);
@@ -1986,10 +1995,11 @@ public class GeneExpressionForm extends BaseForm {
 					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
 							&& (thisBasePairEnd.trim().length() > 0)
 							&& (this.basePairStart.trim().length() > 0)) {
-
-						regionDomainMap.put(this.basePairStart,
-								BasePairPositionDE.StartPosition.class
-										.getName());
+						if(regionCriteria == null){
+							regionCriteria = new RegionCriteria();
+						}
+						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Integer(this.basePairStart));
+						regionCriteria.setStart(basePairStartDE);
 					}
 				}
 			}
@@ -2119,8 +2129,11 @@ public class GeneExpressionForm extends BaseForm {
 				if (thisRegion2 != null
 						&& thisRegion2.equalsIgnoreCase("cytoband")
 						&& this.cytobandRegionEnd.trim().length() > 0) {
-					regionDomainMap.put(this.cytobandRegionEnd, CytobandDE.class
-							.getName());
+					if(regionCriteria == null){
+						regionCriteria = new RegionCriteria();
+					}
+					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionEnd);
+					regionCriteria.setEndCytoband(cytobandDE);
 				}
 			}
 		}
