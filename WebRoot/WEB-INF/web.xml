@@ -5,8 +5,14 @@
   "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
 
 <web-app>
-  <display-name>Struts Example Application</display-name>
-
+	<!--Register SessionListener
+		This is used by the gov.nih.nci.nautilus.cache package to 
+		watch for dead sessions and remove the caches.  For more
+		more information check the java files for comments. 
+	 -->
+	<listener>
+		<listener-class>gov.nih.nci.nautilus.cache.SessionTracker</listener-class>
+	</listener>
   <!-- Action Servlet Configuration -->
   <servlet>
     <servlet-name>action</servlet-name>
