@@ -124,17 +124,22 @@ public class GeneExpressionQueryTest extends TestCase {
     	ResultsetProcessor resultsetProc = new ResultsetProcessor();
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
-    	resultsetProc.handleGeneView(geneExprObjects, GroupType.AGE_GROUP);
+    	resultsetProc.handleGeneView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
     	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
     	Collection genes = geneViewContainer.getGeneResultsets();
     	Collection labels = geneViewContainer.getGroupsLabels();
     	Collection sampleIds = null;
+    	StringBuffer header = new StringBuffer();
+    	StringBuffer sampleNames = new StringBuffer();
+    	header.append("Gene\tReporter\t");
+    	sampleNames.append("Name\tName\t\tType\t");
     	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
         	String label = (String) labelIterator.next();
-        	System.out.println("label: "+label);
-        	sampleIds = geneViewContainer.getBiospecimenLabels(label);
+        	header.append("Disease:"+label);
+        	sampleIds = geneViewContainer.getBiospecimenLabels(label);        	
            	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-            	System.out.println("sampleIds: "+sampleIdIterator.next());   		
+            	sampleNames.append(sampleIdIterator.next()+"\t"); 
+            	header.append("\t");
            	}
            	 
     	}
@@ -156,15 +161,17 @@ public class GeneExpressionQueryTest extends TestCase {
 //                	System.out.println("Biospecimen Count: "+biospecimens.size());
 //            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
 //            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
+        						System.out.println(header.toString());
+        						System.out.println(sampleNames.toString());
         			            StringBuffer stringBuffer = new StringBuffer();
-                	            stringBuffer.append(	"GeneSymbol: "+geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
-                	            					"| ReporterName: "+ reporterResultset.getReporter().getValue().toString()+"\t"+
-													"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
+                	            stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
+                	            					reporterResultset.getReporter().getValue().toString()+"\t");
+													//"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
                                	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
                                		String sampleId = (String) sampleIdIterator.next();
                                		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
                                		if(biospecimenResultset != null){
-                               			stringBuffer.append(biospecimenResultset.getFoldChangeRatioValue().getValue().toString()+"\t");
+                               			stringBuffer.append("\t"+biospecimenResultset.getFoldChangeRatioValue().getValue().toString()+"\t");
                                		}
                                		System.out.println(stringBuffer.toString());
                                	}
