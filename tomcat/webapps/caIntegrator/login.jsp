@@ -44,8 +44,8 @@ response.setHeader("Location",newLocn);
 <!--navigation bar-->
 <div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left">
 <a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">support</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">help</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
 </div>
 <!--end nav bar-->
@@ -66,7 +66,8 @@ response.setHeader("Location",newLocn);
 	  <!--begin description cell-->
 	  <td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
          <p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
-		 About this application		 
+		 About this application	
+		 <br /><span style="font-size:.7em;text-align:right;">Release 0.5</span>
 		 </p>
 	
 		 <p style="padding:0px 5px 0px 5px ; font-size:.9em;">REpository for Molecular BRAin 
@@ -130,7 +131,7 @@ response.setHeader("Location",newLocn);
 
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
-    <a href="menu.do">HOME</a>  |  <a href="#">CONTACT</a>  |  <a href="javascript:spawn('help.jsp', 350, 500);">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
+    <a href="menu.do">HOME</a>  |  <a href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
     <br /><span style="font-size:.8em;text-align:right;">Release 0.5</span> </div>
 <!--end footer-->
 
