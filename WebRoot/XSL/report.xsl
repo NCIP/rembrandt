@@ -324,9 +324,7 @@
 		  	<xsl:for-each select="Cell">
 			  	<xsl:if test="@group!='header'">
 						<xsl:variable name="currentGroup" select="@group" />
-						<xsl:if test="$showSampleSelect != 'false'">
-							<input class="checkorradio" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
-						</xsl:if>
+						<input class="checkorradio" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
 						<xsl:value-of select="$currentGroup"/>
 						<!--
 						[<a href="#" onclick="javascript:goFilterColumn(true, '{$currentGroup}')">Hide <xsl:value-of select="$currentGroup"/></a> | 
@@ -415,7 +413,7 @@
 						<xsl:variable name="colspan" select="count(/Report/Row[@name='sampleRow']/Cell[@group=$currentGroup])"/>
 						<td colspan="{$colspan}" class="{$currentGroup}">
 							<xsl:value-of select="Data" />
-							<xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical']" >
+							<xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical'] and $showSampleSelect != 'false'" >
 								<input id="grpcheck" class="checkorradio" type="checkbox" onclick="javascript:groupCheck(document.prbSamples.samples, '{$currentGroup}', this.checked)" />
 							<!--
 								<a href="#" onclick="javascript:checkById(document.prbSamples.samples, '{$currentGroup}');return false;">[all]</a>
