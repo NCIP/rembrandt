@@ -14,7 +14,9 @@ gov.nih.nci.nautilus.resultset.sample.*,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
-gov.nih.nci.nautilus.ui.ReportGenerator" %>
+gov.nih.nci.nautilus.ui.ReportGenerator,
+org.apache.log4j.Logger"
+ %>
 
 <% /* dont need all these imports really */ %>
 
@@ -153,21 +155,21 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 -->
 <%
 response.flushBuffer();
-
+Logger logger = Logger.getLogger(NautilusConstants.JSP_LOGGER);
 boolean debug = false;
 if(debug)	{
-	System.out.println("session========================");
- 	for (Enumeration e = session.getAttributeNames() ; e.hasMoreElements() ;) {
-         System.out.println(e.nextElement());
+	logger.debug("Session:");
+	for (Enumeration e = session.getAttributeNames() ; e.hasMoreElements() ;) {
+         logger.debug(e.nextElement());
      }
-	System.out.println("request========================");
- 	for (Enumeration e = request.getAttributeNames() ; e.hasMoreElements() ;) {
-         System.out.println(e.nextElement());
+	logger.debug("Request:");
+ 	for (Enumeration e = request.getAttributeNames();e.hasMoreElements() ;) {
+         logger.debug(e.nextElement());
      }
 }
      
      
-System.out.println("sample we want: " + request.getParameter("s"));
+logger.debug("sample we want: " + request.getParameter("s"));
 
 String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
@@ -182,7 +184,7 @@ if(session.getAttribute("tmp") != null)
 
 
 if(mode == null)	{
-  System.out.println("do a regular report");
+  logger.debug("do a regular report");
   QueryCollection queryCollection = null;
   if(session.getAttribute(NautilusConstants.QUERY_KEY+"_tmp")==null)	{
 	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";	
@@ -211,7 +213,7 @@ if(mode == null)	{
 
 else	{
  
-	System.out.println("do a trans report");
+	logger.debug("do a trans report");
 	//we have a mode, process the transitional report
 	ResultsContainer scv = null;
 	DimensionalViewContainer dv = null;
@@ -222,7 +224,7 @@ else	{
 		scv = null;
 		if(dv!=null)	{
 			//get the sample ID, snip of the _gene
-			System.out.println(s.substring(0, s.length()-5));
+			logger.debug(s.substring(0, s.length()-5));
 			scv = dv.getGeneExprSingleViewResultsContainerForSample(s.substring(0, s.length()-5));
 
 			if(scv!=null)	{
