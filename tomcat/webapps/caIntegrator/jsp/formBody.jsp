@@ -21,7 +21,7 @@ String act = request.getParameter("s").toLowerCase();
 <html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 </div>
 
-<html:form action="<%=act%>" >
+<html:form action="<%=act%>" enctype="multipart/form-data">
   <%
     request.getSession().setAttribute("currentPage2", "1");
   	session.removeAttribute("currentPage");
