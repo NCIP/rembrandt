@@ -129,7 +129,10 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
 	                       		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
 	                       		if(biospecimenResultset != null){
 	                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
-	                       			stringBuffer.append(resultFormat.format(ratio)+",");                                 
+	                       			if(ratio != null)
+		                       			stringBuffer.append(resultFormat.format(ratio)+",");  
+		                       		else
+		                       			stringBuffer.append(",");                                
 	                       		}
 	                       		else 
 	                       		{

@@ -60,7 +60,7 @@ System.out.println("Here WE Go");
 //see if theres at least on RS in the array and the RS exists
 if(geneExprObjects != null && geneExprObjects.length > 0) {      
 		%>
-		<a href="geneViewReportCSV.jsp">[Download this report for Excel]</a><Br>
+		<a href="jsp/geneViewReportCSV.jsp">[Download this report for Excel]</a><Br>
 		<%
 		System.out.println("GeneExprObjs: " + geneExprObjects.length);
 
@@ -157,7 +157,10 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
 	                       		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
 	                       		if(biospecimenResultset != null){
 	                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
-	                       			stringBuffer.append("<Td class='"+label+"'>"+resultFormat.format(ratio)+" </td>");                                 
+	                       			if(ratio != null)
+		                       			stringBuffer.append("<Td class='"+label+"'>"+resultFormat.format(ratio)+" </td>");                                 
+		                       		else
+		                      			stringBuffer.append("<td class='"+label+"'>-</td>");
 	                       		}
 	                       		else 
 	                       		{
