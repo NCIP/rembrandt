@@ -19,6 +19,9 @@
 	<patternset id="test.jars">
 		<include name="junit.jar" />
 	</patternset>
+    <patternset id="cache.jars">
+        <include name="ehcache-1.1.jar" />
+    </patternset>   
 
 	<patternset id="cabio.jars">
 		<include name="caBIO21.jar" />
@@ -120,6 +123,7 @@
 			<include name="junit.jar" />
 			<include name="log4j-1.2.8.jar" />
 			<include name="db-ojb-1.0.rc7.jar" />
+            <patternset refid="cache.jars"/>         
 		</fileset>
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="servlet.jar" />
@@ -200,6 +204,7 @@
 				<patternset refid="db.platform.jars" />
 				<patternset refid="cabio.jars" />
 				<patternset refid="graphic-pkg.jars" />
+                <patternset refid="cache.jars"/>            
 				<include name="xercesImpl.jar" />
 				<include name="xml-apis.jar" />
 			</fileset>

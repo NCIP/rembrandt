@@ -156,7 +156,7 @@ public class RefineQueryAction extends LookupDispatchAction {
         }else {
         	for(int i = 0; i < selectedQuerries.size();i++) {
         		if(((SelectedQuery)selectedQuerries.get(i)).getOperand().equals("")&& i!=selectedQuerries.size()-1) {
-        			for(int j = selectedQuerries.size()-1; j==i;j--) {
+        			for(int j = selectedQuerries.size()-1; j>=i;j--) {
                        selectedQuerries.remove(j);
                     }
                     break;
