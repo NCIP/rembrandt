@@ -110,6 +110,17 @@
 
 	<path id="cp.compile">
 		<fileset dir="${build.lib.dir}">
+			<include name="cewolf.jar" />
+			<include name="krysalis-jCharts-1.0.0-alpha-1.jar" />
+			<include name="jfreechart-0.9.8.jar" />
+			<include name="struts.jar" />
+			<include name="commons-lang-2.0.jar" />
+			<include name="commons-collections.jar" />
+			<include name="xercesImpl.jar" />
+			<include name="junit.jar" />
+			<include name="log4j-1.2.8.jar" />
+			<include name="db-ojb-1.0.rc7.jar" />
+			<!--
 			<patternset refid="ojb.rt.jars" />
 			<patternset refid="db.platform.jars" />
 			<patternset refid="xml.jars" />
@@ -117,7 +128,11 @@
 			<patternset refid="test.jars" />
 			<patternset refid="struts.jars" />
 			<patternset refid="graphic-pkg.jars" />
-
+			-->
+		</fileset>
+		<fileset dir="${env.CATALINA_HOME}/common/lib">
+			<include name="servlet.jar" />
+			<include name="jasper-runtime.jar" />
 		</fileset>
 	</path>
 
@@ -180,7 +195,6 @@
 
 	<target name="compile">
 		<tstamp />
-		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.classes.dir}" />
 		<javac srcdir="${source.java.dir}" destdir="${build.classes.dir}" source="1.4" debug="true" debuglevel="lines,vars,source">
 			<exclude name="**/de/PBTest.java" />
@@ -188,8 +202,8 @@
 		</javac>
 	</target>
 	<target name="build-jar" depends="compile">
-		<delete dir="${jar.dir}" />
-		<mkdir dir="${jar.dir}" />
+		<delete dir="${build.struts.lib.dir}" />
+		<mkdir dir="${build.struts.lib.dir}" />
 		<copy todir="${build.struts.lib.dir}">
 			<fileset dir="${build.lib.dir}">
 				<patternset refid="struts.jars" />
@@ -352,6 +366,6 @@
 		<exec executable="${tomcat-startup-win}" spawn="true" />
 	</target>
 	<target name="clean">
-		<delete dir="${build.dir}" quiet="true" />
+		<delete dir="${build.classes.dir}" quiet="true" />
 	</target>
 </project>
