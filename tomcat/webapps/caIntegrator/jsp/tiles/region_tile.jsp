@@ -8,42 +8,49 @@
 %>
 	<!-- <html:form action="<%=act%>" > -->
 <br />	&nbsp;&nbsp;Chromosome Number&nbsp;
-	<select name="chrosomeNumber" onchange="javascript:changeList(this);">
-	 <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-	 <option>1</option>
-	 <option>2</option>
-	 <option>3</option>
-	 <option>4</option>
-	 <option>5</option>
-	 <option>6</option>
-	 <option>7</option>
-	 <option>8</option>
-	 <option>9</option>
-	 <option>10</option>
-	 <option>11</option>
-	 <option>12</option>
-	 <option>13</option>
-	 <option>14</option>
-	 <option>15</option>
-	 <option>16</option>
-	 <option>17</option>
-	 <option>18</option>
-	 <option>19</option>
-	 <option>20</option>
-	 <option>21</option>
-	 <option>22</option>
-	 <option>X</option>
-	 <option>Y</option>
-	</select>&nbsp;<br>
+	
+	<html:select property="chrosomeNumber" onchange="javascript:changeList(this);">
+		<html:option value="">&nbsp;</html:option>
+		<html:option value="1">1</html:option>
+		<html:option value="2">2</html:option>
+		<html:option value="3">3</html:option>
+		<html:option value="4">4</html:option>
+		<html:option value="5">5</html:option>
+		<html:option value="6">6</html:option>
+		<html:option value="7">7</html:option>
+		<html:option value="8">8</html:option>
+		<html:option value="9">9</html:option>
+		<html:option value="10">10</html:option>
+		<html:option value="11">11</html:option>
+		<html:option value="12">12</html:option>
+		<html:option value="13">13</html:option>
+		<html:option value="14">14</html:option>
+		<html:option value="15">15</html:option>
+		<html:option value="16">16</html:option>
+		<html:option value="17">17</html:option>
+		<html:option value="18">18</html:option>
+		<html:option value="19">19</html:option>
+		<html:option value="20">20</html:option>
+		<html:option value="21">21</html:option>
+		<html:option value="22">22</html:option>
+		<html:option value="X">X</html:option>
+		<html:option value="Y">Y</html:option>
+	</html:select>
+	<html:errors property="chrosomeNumber"/>
+
+	&nbsp;<br>
 	<blockquote>
 	<html:radio property="region" value="cytoband" styleClass="radio" />
-			Cytoband&nbsp; <html:select property="cytobandRegion">
-			               <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>						   
+			Cytoband&nbsp; <html:select property="cytobandRegion" >
+				               <html:option value=""></html:option>						   
                            </html:select>
 			<input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br />
+			<html:errors property="cytobandRegion"/>
+			
 	<html:radio property="region" value="basePairPosition" styleClass="radio" />
 	        Base Pair Position (kb)&nbsp; <html:text property="basePairStart"/>
  	&nbsp;-to-&nbsp;<html:text property="basePairEnd"/>
+				<html:errors property="basePairEnd"/>
 	</blockquote>	
 <!--
 <input type="radio" class="radio" name="region" value="cytoband" checked>&nbsp;
