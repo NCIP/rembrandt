@@ -2047,7 +2047,7 @@ public class ComparativeGenomicForm extends BaseForm {
 	public List getCytobands() {
 		//Check to make sure that if we have a chromosome selected
 		//that we also have it's associated cytobands
-		if(!"".equals(chromosomeNumber)&&cytobands.isEmpty()) {
+		if(!"".equals(chromosomeNumber)) {
 			cytobands = ((ChromosomeBean)(chromosomes.get(Integer.parseInt(chromosomeNumber)))).getCytobands();
 		}
 		return cytobands;
