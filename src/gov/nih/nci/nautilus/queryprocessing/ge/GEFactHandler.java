@@ -31,14 +31,12 @@ abstract public class GEFactHandler {
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
-
-    private final static int VALUES_PER_THREAD = 50;
-
-    List factEventList = Collections.synchronizedList(new ArrayList());
-    abstract void addToResults(Collection results);
-    List annotationEventList = Collections.synchronizedList(new ArrayList());
-    abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
-    throws Exception;
+     private final static int VALUES_PER_THREAD = 50;
+     List factEventList = Collections.synchronizedList(new ArrayList());
+     abstract void addToResults(Collection results);
+     List annotationEventList = Collections.synchronizedList(new ArrayList());
+     abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
+     throws Exception;
 
     protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery query ) throws Exception {
             FoldChangeCriteria foldCrit = query.getFoldChgCrit();
@@ -84,7 +82,6 @@ abstract public class GEFactHandler {
 
      protected void executeCloneAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
-
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
                 int begIndex = i;
@@ -95,7 +92,6 @@ abstract public class GEFactHandler {
                 annotCrit.addIn(GeneClone.CLONE_ID, values);
                 long time = System.currentTimeMillis();
                 String threadID = "GEFactHandler.ThreadID:" +time;
-
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
@@ -141,7 +137,6 @@ abstract public class GEFactHandler {
                 annotCrit.addIn(ProbesetDim.PROBESET_ID, values);
                 long time = System.currentTimeMillis();
                 String threadID = "GEFactHandler.ThreadID:" +time;
-
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
@@ -177,17 +172,15 @@ abstract public class GEFactHandler {
     final static class SingleGEFactHandler extends GEFactHandler {
         ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
         throws Exception {
-            //FoldChangeCriteria foldCrit = query.getFoldChgCrit();
-            //final String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
             System.out.println("Total Number Of Probes:" + allProbeIDs.size());
+            System.out.println("Total Number Of Clones:" + allCloneIDs.size());
+
             executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, query);
             executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, query);
-            //sleepOnFactEvents();
             ThreadController.sleepOnEvents(factEventList);
 
             executeCloneAnnotationQuery(allCloneIDs);
             executeProbeAnnotationQuery(allProbeIDs );
-            //sleepOnAnnotationEvents();
             ThreadController.sleepOnEvents(annotationEventList);
 
             // by now geneExprObjects,  cloneAnnotations, probeAnnotations would have populated

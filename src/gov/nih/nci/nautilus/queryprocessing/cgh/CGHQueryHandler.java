@@ -42,16 +42,6 @@ import java.math.BigDecimal;
  * To change this template use Options | File Templates.
  */
 public class CGHQueryHandler extends QueryHandler {
-
-	//DiseaseOrGradeCriteria diseaseOrGradeCrit;
-	//GeneIDCriteria geneIDCrit;
-	//CopyNumberCriteria copyNumberCrit;
-	//CGHReporterIDCriteria  regionCrit;
-    //CGHReporterIDCriteria  snpCrit;
-	//CloneOrProbeIDCriteria cloneOrProbeIDCrit;
-	//SNPCriteria snpCrit;
-	//AlleleFrequencyCriteria alleleFrequencyCrit;
-    //AssayPlatformCriteria assayPlatformCrit;
     boolean includeCGH;
     boolean includeSNPs;
     private List eventList = Collections.synchronizedList(new ArrayList());
@@ -114,13 +104,6 @@ public class CGHQueryHandler extends QueryHandler {
         }
 
         Criteria sCrit = new Criteria();
-        /*for (Iterator iterator = inputIDs.iterator(); iterator.hasNext();) {
-            String id = (String) iterator.next();
-            Criteria c1 = new Criteria();
-            c1.addLike(nameCol, id + "%");
-            sCrit.addOrCriteria(c1);
-        }*/
-
         sCrit.addColumnIn(nameCol, inputIDs);
         String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.SNP_PROBESET_ID);
 
@@ -130,7 +113,7 @@ public class CGHQueryHandler extends QueryHandler {
             reporterIDCrit.setSnpProbeIDsSubQuery(snpProbeIDsQuery);
         }
         if (includeCGH) {
-           // TODO: Post Nautilus
+           // TODO: Post Nautilus i.e when we have CGH data
         }
         return reporterIDCrit;
     }
@@ -159,7 +142,7 @@ public class CGHQueryHandler extends QueryHandler {
            */
             else throw new Exception("This Platform not currently not supported: " );
          }
-        else throw new Exception("Array Platform can not be null");
+        else throw new Exception("Assay Platform can not be null");
     }
 
 }

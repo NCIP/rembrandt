@@ -61,7 +61,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         if (query.getAssociatedView() instanceof GeneExprSampleView ||
                 query.getAssociatedView()instanceof ClinicalSampleView )
                 factHandler = new GEFactHandler.SingleGEFactHandler();
-        else if (query.getAssociatedView()instanceof GeneExprDiseaseView)
+        else if (query.getAssociatedView() instanceof GeneExprDiseaseView)
                 factHandler = new GEFactHandler.GroupGEFactHanlder();
         else throw new Exception("Illegal View.  This view is not supported in this Query:");
 
@@ -86,6 +86,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
             SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS, _BROKER);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
+
         }
 
         if (geQuery.getRegionCrit() != null) {
