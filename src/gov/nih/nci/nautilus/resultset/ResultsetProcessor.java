@@ -101,12 +101,14 @@ public class ResultsetProcessor {
 	/**
 	 * @param groups
 	 * @return
+	 * @throws Exception
 	 */
-	public static ResultsContainer handleGeneExpressPlot(GeneExprGroup[] geneExprObjects) {
+	public static ResultsContainer handleGeneExpressPlot(GeneExprGroup[] geneExprObjects) throws Exception {
 		ResultsContainer resultsContainer = null;
 		GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = new GeneExprDiseasePlotContainer();
 		DiseaseGeneExprPlotResultset normal = new DiseaseGeneExprPlotResultset( new DiseaseNameDE(Constants.NORMAL));
 		geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(normal);
+ 		geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleDiseaseGeneExprPlotResultset(geneExprDiseasePlotContainer);
 		for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
             ResultSet obj = geneExprObjects[i];

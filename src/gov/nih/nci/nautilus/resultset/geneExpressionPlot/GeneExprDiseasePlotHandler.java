@@ -53,6 +53,8 @@ import gov.nih.nci.nautilus.constants.Constants;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.lookup.DiseaseTypeLookup;
+import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
 
@@ -62,15 +64,16 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
  * 
  */
 public class GeneExprDiseasePlotHandler {
-	public static GeneExprDiseasePlotContainer handleGeneExprDiseaseView(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer, GeneExpr.GeneExprGroup exprObj){
+	public static GeneExprDiseasePlotContainer handleGeneExprDiseaseView(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer, GeneExpr.GeneExprGroup exprObj) throws Exception{
 		DiseaseGeneExprPlotResultset diseaseResultset = null;
 		ReporterFoldChangeValuesResultset reporterResultset = null;
       	if (geneExprDiseasePlotContainer != null && exprObj != null){
       		geneExprDiseasePlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol (exprObj.getGeneSymbol()));
-      		diseaseResultset = handleDiseaseGeneExprPlotResultset(geneExprDiseasePlotContainer, exprObj);
+      		//geneExprDiseasePlotContainer = handleDiseaseGeneExprPlotResultset(geneExprDiseasePlotContainer, exprObj);
+      		diseaseResultset = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(exprObj.getDiseaseType());
       		reporterResultset = handleReporterFoldChangeValuesResultset(diseaseResultset,exprObj);
-   			geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(diseaseResultset);     		
    			diseaseResultset.addReporterFoldChangeValuesResultset(reporterResultset);
+      		geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(diseaseResultset);
       	}
       	return geneExprDiseasePlotContainer;
 
@@ -132,19 +135,19 @@ public class GeneExprDiseasePlotHandler {
 	 * @param geneExprDiseasePlotContainer
 	 * @param exprObj
 	 * @return
+	 * @throws Exception
 	 */
-	private static DiseaseGeneExprPlotResultset handleDiseaseGeneExprPlotResultset(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer, GeneExprGroup exprObj) {
+	public static GeneExprDiseasePlotContainer handleDiseaseGeneExprPlotResultset(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer) throws Exception {
 		//find out the disease type associated with the exprObj
   		//populate the DiseaseTypeResultset
 		DiseaseGeneExprPlotResultset diseaseResultset = null;
-  		if(geneExprDiseasePlotContainer != null && exprObj != null &&  exprObj.getDiseaseType() != null){
-  			DiseaseNameDE disease = new DiseaseNameDE(exprObj.getDiseaseType().toString());
-  			diseaseResultset = (DiseaseGeneExprPlotResultset) geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(exprObj.getDiseaseType().toString());
-  		    if (diseaseResultset == null){
-  		    	diseaseResultset= new DiseaseGeneExprPlotResultset(disease);
-	      		}
-      	}
-  		return diseaseResultset;
+		DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
+		for(int i = 0; i< diseaseTypes.length ; i++){
+			DiseaseNameDE disease = new DiseaseNameDE(diseaseTypes[i].getDiseaseType().toString());
+		    diseaseResultset= new DiseaseGeneExprPlotResultset(disease);
+		    geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(diseaseResultset);
+		}
+  		return geneExprDiseasePlotContainer;
 	}
 
 }

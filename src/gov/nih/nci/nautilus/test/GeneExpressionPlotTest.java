@@ -53,7 +53,10 @@ import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.lookup.DiseaseTypeLookup;
+import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
@@ -129,35 +132,38 @@ public class GeneExpressionPlotTest extends TestCase {
 
 	/**
 	 * @param geneExprDiseasePlotContainer
+	 * @throws Exception
 	 */
-	private void displayGeneExprPlotData(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer) {
+	private void displayGeneExprPlotData(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer) throws Exception {
 		System.out.println("inside display diease");
-		final DecimalFormat resultFormat = new DecimalFormat("0.00");	
-		final DecimalFormat pValueFormat = new DecimalFormat("0.0000");	
+		final DecimalFormat resultFormat = new DecimalFormat("0.0000");	
 		assertNotNull(geneExprDiseasePlotContainer);
 		System.out.println("Gene:"+geneExprDiseasePlotContainer.getGeneSymbol());
+		
     	Collection diseases = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultsets();
     	StringBuffer header = new StringBuffer();
-        StringBuffer stringBuffer = new StringBuffer();
     	//get group size (as Disease or Agegroup )from label.size
         String label = null;
     	
         //set up the header for the table
     	header.append("Diseases\tReporter Name\tIntensity\tPvalue");
 		System.out.println(header.toString());
-    	for (Iterator diseasesIterator = diseases.iterator(); diseasesIterator.hasNext();) {
-    		DiseaseGeneExprPlotResultset diseaseResultset = (DiseaseGeneExprPlotResultset)diseasesIterator.next();
+		DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
+		for(int i = 0; i< diseaseTypes.length ; i++){
+			System.out.println("id :"+diseaseTypes[i].getDiseaseTypeId()+"\tType: "+diseaseTypes[i].getDiseaseType()+"\tDesc :"+diseaseTypes[i].getDiseaseDesc() );
+			DiseaseNameDE disease = new DiseaseNameDE(diseaseTypes[i].toString());
+    		DiseaseGeneExprPlotResultset diseaseResultset = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(diseaseTypes[i].getDiseaseType().toString());
     		String diseaseName = diseaseResultset.getType().getValue().toString();
-    		stringBuffer.append(diseaseName+"\n");
+    		System.out.println(diseaseName);
     		Collection reporters = diseaseResultset.getReporterFoldChangeValuesResultsets(); //geneResultset.getReporterResultsets();
     		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
     			ReporterFoldChangeValuesResultset reporterResultset = (ReporterFoldChangeValuesResultset)reporterIterator.next();
         		String reporterName = reporterResultset.getReporter().getValue().toString();
        			Double intensityValue = (Double)reporterResultset.getFoldChangeIntensity().getValue();
        			Double pvalue = (Double)reporterResultset.getRatioPval().getValue();
-       			stringBuffer.append(reporterName+"\t"+resultFormat.format(intensityValue)+"\t"+pValueFormat.format(pvalue)+"\n");  
+       			System.out.println(reporterName+"\t"+resultFormat.format(intensityValue)+"\t"+resultFormat.format(pvalue));  
     		}
-    	}
-    	System.out.println(stringBuffer.toString());		
+
+		}
 	}
 }

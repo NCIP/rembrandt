@@ -53,6 +53,8 @@ import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -63,7 +65,7 @@ import java.util.TreeMap;
  */
 public class GeneExprDiseasePlotContainer implements ResultsContainer{
 	private GeneIdentifierDE.GeneSymbol geneSymbol;
-	private SortedMap diseases = new TreeMap(); 
+	private Map diseases = new HashMap(); 
 	
 	public void addDiseaseGeneExprPlotResultset(DiseaseGeneExprPlotResultset diseaseGeneExprPlotResultset){
 		if(diseaseGeneExprPlotResultset != null && diseaseGeneExprPlotResultset.getType() != null){
