@@ -97,43 +97,45 @@ public class GeneexpressionAction extends Action {
 				.getArrayPlatformCriteria();
 		if (!arrayPlatformCriteria.isEmpty())
 			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
-		try {
-			//Set query in Session.
-			if (!geneExpQuery.isEmpty()) {
-				// Get QueryCollection from session if available
-				QueryCollection queryCollection = (QueryCollection) request
-						.getSession().getAttribute(NautilusConstants.QUERY_KEY);
-				if (queryCollection == null) {
-				    logger.debug("QueryCollection class in Session is empty");
-					queryCollection = new QueryCollection();
-				}
-				queryCollection.putQuery(geneExpQuery);
-				request.getSession().setAttribute(NautilusConstants.QUERY_KEY,
-						queryCollection);
-			} else {
-				ActionErrors errors = new ActionErrors();
-				errors
-						.add(
-								ActionErrors.GLOBAL_ERROR,
-								new ActionError(
-										"gov.nih.nci.nautilus.ui.struts.form.query.geneexp.error"));
-				this.saveErrors(request, errors);
-				return mapping.findForward("backToGeneExp");
-			}
-		}// end of try
-		catch (Exception e) {
-			System.err.println("Exception in GeneexpressionAction.java");
-			e.printStackTrace();
-		}
-
+		//If this is a Preview Report do the following
+		request.setAttribute("previewForm",geneExpressionForm.cloneMe(new GeneExpressionForm()));
 		if (geneExpressionForm.getMethod().equals("run report")) {
-            CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
+            logger.debug("This is a Preview Report");
+		    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
             compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             QueryCollection collection = new QueryCollection();
             collection.setCompoundQuery(compoundQuery);
             request.setAttribute(NautilusConstants.QUERY_KEY, collection);
 			return mapping.findForward("previewReport");
 		} else {
+		    logger.debug("This is a Gene Expression Submital");
+		    try {
+				//Set query in Session.
+				if (!geneExpQuery.isEmpty()) {
+					// Get QueryCollection from session if available
+					QueryCollection queryCollection = (QueryCollection) request
+							.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+					if (queryCollection == null) {
+					    logger.debug("QueryCollection class in Session is empty");
+						queryCollection = new QueryCollection();
+					}
+					queryCollection.putQuery(geneExpQuery);
+					
+				} else {
+					ActionErrors errors = new ActionErrors();
+					errors
+							.add(
+									ActionErrors.GLOBAL_ERROR,
+									new ActionError(
+											"gov.nih.nci.nautilus.ui.struts.form.query.geneexp.error"));
+					this.saveErrors(request, errors);
+					return mapping.findForward("backToGeneExp");
+				}
+			}// end of try
+			catch (Exception e) {
+				logger.error("Exception in GeneexpressionAction.java");
+				logger.error(e);
+			}
 			return mapping.findForward("advanceSearchMenu");
 		}
 	}

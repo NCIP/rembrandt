@@ -14,7 +14,7 @@
         <form-bean name="quickSearchForm" type="gov.nih.nci.nautilus.ui.struts.form.QuickSearchForm"/>
         <form-bean name="loginForm" type="gov.nih.nci.nautilus.login.LoginForm"/>
    		<form-bean name="kmDataSetForm" type="gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm"/>
-   		<form-bean name="reportActionForm" type="gov.nih.nci.nautilus.ui.struts.form.ReportActionForm"/>
+   		<form-bean name="reportActionForm" type="gov.nih.nci.nautilus.ui.struts.form.BaseForm"/>
   </form-beans>
     
 
@@ -79,7 +79,7 @@
     </action>
 
     <action path="/geneExpression"
-           forward="nautilus.geneExpression" />
+    		forward="nautilus.geneExpression" />
 
 	<action path="/geneexpression"
             input="nautilus.geneExpression"
@@ -88,16 +88,16 @@
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
-         <forward name="previewReport" path="/previewReport.do?method=previewReportGene"/>
+         <forward name="previewReport" path="/previewGeneReport.do?method=previewReport"/>
          <forward name="success" path="/jsp/geneViewReport.jsp" />
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
 	</action>
 	
-	<action path="/previewReport"
-            forward="/previewreport.do" />
+	<action path="/previewGeneReport"
+            forward="/previewgenereport.do" />
 
-	<action path="/previewreport"
-            name="reportActionForm"
+	<action path="/previewgenereport"
+            name="geneexpressionForm"
             type="gov.nih.nci.nautilus.ui.struts.action.ReportGeneratorAction"
             scope="request"
             parameter="method"
@@ -106,6 +106,20 @@
          <forward name="failure" path="/menu.do" /> 
          <forward name="backToClinical" path="nautilus.clinical" />
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
+         <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
+	</action>
+	<action path="/previewCGReport"
+            forward="/previewcgreport.do" />
+
+	<action path="/previewcgreport"
+            name="comparitivegenomicForm"
+            type="gov.nih.nci.nautilus.ui.struts.action.ReportGeneratorAction"
+            scope="request"
+            parameter="method"
+            validate="false">
+         <forward name="success" path="/jsp/geneViewReport.jsp" /> 
+         <forward name="failure" path="/menu.do" /> 
+         <forward name="backToClinical" path="nautilus.clinical" />
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 		
@@ -119,7 +133,7 @@
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
-         <forward name="previewReport" path="/previewReport.do?method=previewReportCGH"/>
+         <forward name="previewReport" path="/previewCGReport.do?method=previewReportCGH"/>
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 
