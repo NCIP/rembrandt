@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
@@ -48,8 +49,11 @@ public class GeneExpressionForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance
 	// Variables
-
-	private String[] pathwayName;
+    /**geneOption property */
+    
+	private String geneOption = "standard";
+    
+    private String[] pathwayName;
 	
 	/** sampleList property */
 	private String sampleList;
@@ -163,6 +167,8 @@ public class GeneExpressionForm extends BaseForm {
 
 	private GeneIDCriteria geneCriteria;
 	
+	private AllGenesCriteria allGenesCriteria;
+	
 	private SampleCriteria sampleCriteria;
 
 	private FoldChangeCriteria foldChangeCriteria;
@@ -206,8 +212,12 @@ public class GeneExpressionForm extends BaseForm {
 	private HttpServletRequest thisRequest;
 
 	private SessionQueryBag queryCollection;
-	
+
+	private boolean isAllGenes = false;
+
 	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+
+
 
 	// --------------------------------------------------------- Methods
 	public GeneExpressionForm() {
@@ -247,7 +257,7 @@ public class GeneExpressionForm extends BaseForm {
         errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
                 
         // Validate minimum criteria's for GE Query 
-		if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
+		if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
 		   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
 		   		(this.getCloneId() == null || this.getCloneId().trim().length() < 1) &&
 		   		(this.getChrosomeNumber() == null || this.getChrosomeNumber().trim().length() < 1) && 
@@ -265,6 +275,7 @@ public class GeneExpressionForm extends BaseForm {
         if (errors.isEmpty()) {
 			createDiseaseCriteriaObject();
 			createSampleCriteriaObject();
+			createAllGenesCriteriaObject();
 			createGeneCriteriaObject();
 			createFoldChangeCriteriaObject();
 			createRegionCriteriaObject();
@@ -277,7 +288,11 @@ public class GeneExpressionForm extends BaseForm {
 
 		return errors;
 	}
-
+    private void createAllGenesCriteriaObject(){        
+      allGenesCriteria = new AllGenesCriteria(isAllGenes);
+      if (allGenesCriteria.isEmpty())
+          System.out.println("its empty");
+    }
 	private void createDiseaseCriteriaObject() {
 		//look thorugh the diseaseDomainMap to extract out the domain elements
 		// and create respective Criteria Objects
@@ -713,7 +728,8 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
-		pathwayName = new String[0];
+		//geneOption = "";
+	    pathwayName = new String[0];
 		geneList = "";
 		goBiologicalProcess = "";
 		tumorGrade = "";
@@ -770,6 +786,7 @@ public class GeneExpressionForm extends BaseForm {
 		geneOntologyCriteria = new GeneOntologyCriteria();
 		pathwayCriteria = new PathwayCriteria();
 		arrayPlatformCriteria = new ArrayPlatformCriteria();
+		allGenesCriteria = new AllGenesCriteria(isAllGenes);
 
 		//arrayPlatformCriteria = new ArrayPlatformCriteria();
 
@@ -834,6 +851,31 @@ public class GeneExpressionForm extends BaseForm {
 		 * GeneIdentifierDE.GeneSymbol.class.getName()); }
 		 */
 		}
+	}
+	
+	/**
+	 * Sets the geneOption
+	 * 
+	 * @return String
+	 */
+	public void setGeneOption(String geneOption){
+	    this.geneOption = geneOption;
+	    if (thisRequest != null){
+	        String thisGeneOption = this.thisRequest.getParameter("geneOption");
+	        if (thisGeneOption != null
+	                && thisGeneOption.equalsIgnoreCase("allgenes")){
+	            isAllGenes = true;
+	        }
+	    }
+	}
+	
+	/**
+	 * Returns the geneOption.
+	 * 
+	 * @return String
+	 */	
+	public String getGeneOption(){
+	    return geneOption;
 	}
 	
 	/**
@@ -999,7 +1041,9 @@ public class GeneExpressionForm extends BaseForm {
 	public GeneIDCriteria getGeneIDCriteria() {
 		return this.geneCriteria;
 	}
-	
+    public AllGenesCriteria getAllGenesCriteria(){
+        return this.allGenesCriteria;
+    }
 	public SampleCriteria getSampleCriteria(){
 	    return this.sampleCriteria;
 	}
