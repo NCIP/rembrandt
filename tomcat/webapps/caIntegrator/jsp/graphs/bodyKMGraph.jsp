@@ -28,7 +28,7 @@
 </div>
 <div>
    <cewolf:chart id="xy"	
-                  title="Kaplan-Meier Suvival Plot" 
+                  title="Kaplan-Meier Survival Plot" 
                   type="xy" 
                   xaxislabel="Days of Study" 
                   yaxislabel="Probability of Survival">
