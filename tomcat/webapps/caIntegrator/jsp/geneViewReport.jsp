@@ -134,7 +134,7 @@ else	{
 System.out.println("Doing transitional");
 //process the transitional report
 ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
-String mode =  (String) session.getAttribute("report");
+String mode =  (String) request.getParameter("report");
 if(mode.equals("gene"))
 	out.println(ReportGenerator.geneExprSampleView(resultsContainer, theColors));
 else if( mode.equals("copy"))
@@ -143,7 +143,7 @@ else
 	out.println("Error somewhere");
 	
 //session.removeAttribute("resultsContainer");
-//session.removeAttribute("report");
+session.removeAttribute("report");
 }
 
 
