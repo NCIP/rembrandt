@@ -79,7 +79,7 @@
 	    <put name="sideBar" value="/jsp/tiles/blankSidebar_tile.jsp" />
 		<!-- <put name="sideBar" value="/jsp/tiles/advSearch_tile.jsp" /> -->
 		<put name="footer" value="/jsp/footer.jsp" />
-		<put name="mainForm" value="/jsp/home.jsp" />
+		<put name="mainForm" value="/jsp/homeAdvanced.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
 		
     </definition>

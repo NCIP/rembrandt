@@ -5,6 +5,7 @@
 	String viewResults = "";
 	String secondary = "";
 	String advSecondary = "<ul id=\"secondary\">\n" +
+							"<li><a href=\"homeAdvanced.do\">Advanced Search Home</a></li>\n" +
 							"<li><a href=\"menu.do\">Build Query</a></li>\n" +
 							"<li><a href=\"refinecheck.do\">Refine Query</a></li>\n" +
 							"</ul>\n";
