@@ -2,6 +2,8 @@ package gov.nih.nci.nautilus.util;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author BhattarR
  */
@@ -9,6 +11,7 @@ public class ThreadPool {
     static HashMap allThreads = new HashMap();
     public final static long MAX_THREADS = 120;
     public static long THREAD_COUNT = 0;
+    private static Logger logger = Logger.getLogger(ThreadPool.class);
 
     public synchronized static AppThread newAppThread(MyRunnable r) {
         while (THREAD_COUNT >= MAX_THREADS ) {
@@ -33,7 +36,7 @@ public class ThreadPool {
                 THREAD_COUNT--;
                 allThreads.remove(this.getID());
              };
-             System.out.println("END: Thread Count: " + ThreadPool.THREAD_COUNT);
+            logger.debug("END: Thread Count: " + ThreadPool.THREAD_COUNT);
         }
         private  AppThread(MyRunnable appRunnable) {
             this.ar = appRunnable;
