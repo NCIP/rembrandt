@@ -47,10 +47,12 @@ public class ReportGenerator  {
 		
 	public static String links = "";
 	public static String errorLinks = "<br><a href=\"menu.do\">[Back to Menu]</a><br><Br>";
-		
+
+	
 	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv, HttpServletRequest request, final String theLinks)	{
 		
 		links = theLinks;
+		
 		
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();
@@ -84,12 +86,12 @@ public class ReportGenerator  {
 			 		
 		 			if (view instanceof GeneExprSampleView)	{ 
 		 				html.append("<div class=\"title\">Gene Expression Fold Change (Tumor/Non-tumor)</div>\n");
-		 				html.append(geneExprSampleView(resultsContainer, theColors));
+		 				html.append(geneExprSampleView(resultsContainer, theColors, request));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof CopyNumberSampleView)	{ 
 		 				html.append("<div class=\"title\">Copy Number Data</div>\n");
-		 				html.append(copyNumberSampleView(resultsContainer, theColors));
+		 				html.append(copyNumberSampleView(resultsContainer, theColors, request));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
@@ -147,7 +149,11 @@ public class ReportGenerator  {
 							// show the copyNumberHyperlinks
 							cLinks = true;
 						}
-
+						
+				//RCL: add the DimVC to the session once here, actually the same thing		
+				request.getSession().setAttribute("_dv", dimensionalViewContainer);
+				//request.getSession().setAttribute("_gene", dimensionalViewContainer);
+				
 				sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 				
 			}else if (resultsContainer instanceof SampleViewResultsContainer){
@@ -160,14 +166,23 @@ public class ReportGenerator  {
 			sb.append("<div class=\"rowCount\">"+samples.size()+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n");
 			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 			sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
- 		   	if(gLinks)
+ 		   	/*
+			if(gLinks)
  		   		sb.append("<Td id=\"header\">GeneExp</td>");
  		   	if(cLinks)
  		   		sb.append("<td id=\"header\">CopyNumber</td>");
  		   	sb.append("</tr>\n");
+ 		   	*/
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
+   				
+   				if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)
+   	 		   		sb.append("<Td id=\"header\">GeneExp</td>");
+   	 		   	if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)
+   	 		   		sb.append("<td id=\"header\">CopyNumber</td>");
+   	 		   	sb.append("</tr>\n");
+   	 		   	
    	   			String sampleName = sampleResultset.getBiospecimen().getValue().toString();
 	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
@@ -176,15 +191,15 @@ public class ReportGenerator  {
 					"<Td>"+sampleResultset.getDisease().getValue() + "</td>");
 	   			if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)	{
 	   				sb.append("<td><a href=\"report.do?s="+sampleName+"_gene&report=gene\">G</a></td>");
-	   				request.getSession(true).setAttribute( sampleName+"_gene", sampleResultset.getGeneExprSingleViewResultsContainer() );
+	   				//request.getSession(true).setAttribute( sampleName+"_gene", sampleResultset.getGeneExprSingleViewResultsContainer() );
 	   				
 	   			}
 		   		else if (gLinks){
 		   			sb.append("<td>&nbsp;</td>"); //empty cell
 		   		}
-	   			//	sb.append("<td><a href=\"report.do?s="+ sampleResultset.getBiospecimen().getValue().toString() +"\">G</a></td>");
 	   			if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)	{
-					request.getSession(true).setAttribute( sampleName+"_copy", sampleResultset.getCopyNumberSingleViewResultsContainer() );
+	   				// RCL
+	   				//request.getSession(true).setAttribute( sampleName+"_copy", sampleResultset.getCopyNumberSingleViewResultsContainer() );
 	   				sb.append("<Td><a href=\"report.do?s="+sampleName +"_copy&report=copy\">C</a></td>");
 	   			}
 	   			else if (cLinks){
@@ -299,7 +314,7 @@ public class ReportGenerator  {
 	}
 
 
-	public static String copyNumberSampleView(ResultsContainer resultsContainer, String[] theColors)	{
+	public static String copyNumberSampleView(ResultsContainer resultsContainer, String[] theColors, HttpServletRequest request)	{
 		
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
@@ -309,6 +324,7 @@ public class ReportGenerator  {
 					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 					if(dimensionalViewContainer != null)	{
 						copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+						request.getSession(true).setAttribute("_dv", dimensionalViewContainer);
 					}
 				}
 				else if(resultsContainer instanceof CopyNumberSingleViewResultsContainer)	{ //for single
@@ -345,7 +361,9 @@ public class ReportGenerator  {
 		  		        	cssLabels.add(label);
 		  		        	   	
 					           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-					            	sampleNames.append("<td class=\""+label+"\" id=\"header\">" + sampleIdIterator.next().toString().substring(2)+"</td>"); 
+					           		String s = sampleIdIterator.next().toString();
+					        		sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
+					            	//sampleNames.append("<td class=\""+label+"\" id=\"header\">" + sampleIdIterator.next().toString().substring(2)+"</td>"); 
 					            	theColspan += sampleIds.size();
 					           	}
 				    	}
@@ -446,19 +464,26 @@ public class ReportGenerator  {
 	}
 
 
-	public static String geneExprSampleView(ResultsContainer resultsContainer, String[] theColors)	{
+	public static String geneExprSampleView(ResultsContainer resultsContainer, String[] theColors, HttpServletRequest request)	{
 				GeneExprSingleViewResultsContainer geneViewContainer = null;
 				StringBuffer sb = new StringBuffer();
+				
+				DimensionalViewContainer dimensionalViewContainer = null;
 				int recordCount = 0;
 				if(resultsContainer instanceof DimensionalViewContainer)	{
-					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+					dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 					if(dimensionalViewContainer != null)	{
 						geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+						// bind the whole thing to the session once
+						request.getSession(true).setAttribute("_dv", dimensionalViewContainer);
 					}
 				}
 				else if(resultsContainer instanceof GeneExprSingleViewResultsContainer)	{ //for single
 					geneViewContainer = (GeneExprSingleViewResultsContainer) resultsContainer;
 				}
+				
+				
+				
 				if(geneViewContainer != null)	{
 			    	Collection genes = geneViewContainer.getGeneResultsets();
 			    	Collection labels = geneViewContainer.getGroupsLabels();
@@ -486,8 +511,11 @@ public class ReportGenerator  {
 				    	cssLabels.add(label);
 				    	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-				            	sampleNames.append("<td class='"+label+"' id=\"header\">"+sampleIdIterator.next().toString().substring(2)+"</td>"); 
+				            	String s = sampleIdIterator.next().toString();
+				            	//request.getSession(true).setAttribute(s+"_ss", dimensionalViewContainer);
+				           		sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
 				            	header.append("\t");
+				 
 				           	}
 			           	header.deleteCharAt(header.lastIndexOf("\t"));
 			    	}

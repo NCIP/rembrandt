@@ -72,17 +72,31 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 <a name="top"></a>
 <%
 response.flushBuffer();
+
+boolean debug = false;
+if(debug)	{
+	System.out.println("session========================");
+ 	for (Enumeration e = session.getAttributeNames() ; e.hasMoreElements() ;) {
+         System.out.println(e.nextElement());
+     }
+	System.out.println("request========================");
+ 	for (Enumeration e = request.getAttributeNames() ; e.hasMoreElements() ;) {
+         System.out.println(e.nextElement());
+     }
+}
+     
+     
 	System.out.println("sample we want: " + request.getParameter("s"));
 
 	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
 String links = "";
-String sample = request.getParameter("s");
+//String sample = request.getParameter("s");
+String mode = request.getParameter("report");
 
 //get the results container from the session with sample as key
-if(session.getAttribute(sample) == null)
-{
-  	
+if(mode == null)	{
+  System.out.println("do a regular report");
   QueryCollection queryCollection = null;
   if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
 	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";	
@@ -102,7 +116,6 @@ if(session.getAttribute(sample) == null)
 	else
 		out.println("QueryCollection is NULL");
 		
-
     out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
   
 	if(!myCompoundQuery.toString().equals(""))	{
@@ -111,6 +124,7 @@ if(session.getAttribute(sample) == null)
 	else	{
 		out.println("<B>Single Query:</b> " + queryCollection.getQueryNames() + "<br><br>");
 	}
+
 /*
  	String  query = "";	
 	int j = 0;	
@@ -149,22 +163,72 @@ if(session.getAttribute(sample) == null)
 
 else	{
 	
-	//process the transitional report
-	ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
-	String mode =  (String) request.getParameter("report");
-	if(mode.equals("gene"))
-		out.println(ReportGenerator.geneExprSampleView(resultsContainer, theColors));
-	else if( mode.equals("copy"))
-		out.println(ReportGenerator.copyNumberSampleView(resultsContainer, theColors));
+	System.out.println("do a trans report");
+	//we have a mode, process the transitional report
+	//ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
+	ResultsContainer scv = null;
+	DimensionalViewContainer dv = null;
+	String s = (String) request.getParameter("s");
+	dv = (DimensionalViewContainer) session.getAttribute("_dv");
+
+	if(mode.equals("gene"))	{
+		scv = null;
+		if(dv!=null)	{
+			//get the sample ID, snip of the _gene
+			System.out.println(s.substring(0, s.length()-5));
+			scv = dv.getGeneExprSingleViewResultsContainerForSample(s.substring(0, s.length()-5));
+
+			if(scv!=null)	{
+				out.println(ReportGenerator.geneExprSampleView(scv, theColors, request));
+			}
+			else
+				out.println("gene scv null");
+		}
+		else
+			out.println("gene Dv null");
+	
+	//	out.println(ReportGenerator.geneExprSampleView(resultsContainer, theColors, request));
+	}
+	else if( mode.equals("copy"))	{
+		scv = null;
+		if(dv!=null)	{
+			//get the sample ID, snip of the _copy
+			scv = dv.getCopyNumberSingleViewContainerForSample(s.substring(0, s.length()-5));
+
+			if(scv!=null)	{
+				out.println(ReportGenerator.copyNumberSampleView(scv, theColors, request));
+			}
+			else
+				out.println("copy scv null");
+		}
+		else
+			out.println("copy Dv null");
+	
+		//out.println(ReportGenerator.copyNumberSampleView(resultsContainer, theColors));
+	}
+	else if(mode.equals("ss"))	{
+		scv = null;
+		if(dv!=null)	{
+			scv = dv.getSampleViewResultsContainerForSample(s);
+			if(scv!=null)	{
+				out.println(ReportGenerator.clinicalSampleView(scv, theColors, request));
+			}
+			else
+				out.println("scv null");
+		}
+		else
+			out.println("Dv null");
+	}
 	else
 		out.println("Error somewhere");
 		
-	session.setAttribute("csv", resultsContainer);
+	session.setAttribute("csv", scv);
 	session.setAttribute("mode", mode);
 	
 	
-	//session.removeAttribute("resultsContainer");
-	session.removeAttribute("report");
+//	session.removeAttribute("resultsContainer");
+//	session.removeAttribute("report");
+
 }
 
 
