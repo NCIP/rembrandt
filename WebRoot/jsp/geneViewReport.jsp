@@ -17,11 +17,10 @@ if(csv.equals("true"))	{
 	if(reportXML != null)
 		ReportGeneratorHelper.renderReport(request, reportXML,"csv.xsl",out);
 	else
-		out.println("Error Generating the report");
+		out.println("No records Available for this query");
 	}
 	catch(Exception e)	{
 		out.println("Error Generating the report");
-		e.printStackTrace(System.out);
 	}
 }
 else	{ %>
@@ -35,7 +34,23 @@ else	{ %>
 	response.flushBuffer();	
 	try	{
 		Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
-		ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME),out);
+		
+		if(reportXML!=null)
+			ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME),out);
+		else	{ 
+		//we still need to know if this is due to no records in the result, or system failure
+		//from here on down is not-good-code, will be cleaned up later
+%>
+			<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
+			<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script>
+			<script language="javascript">
+				if(document.getElementById('spnLoading') != null &&	document.getElementById('spnLoading').style.display != "none")	{
+					hideLoadingMessage();
+					document.write("<h3 style=\"text-align:center; margin-top:200px;\">No records Returned.  Please a different query. <br><a href=\"javascript:window.close()\">Close</a></h3>");
+				}
+			</script>
+<%
+		}
 	}
 	catch(Exception e)	{
 	//maybe put this in a finally?
