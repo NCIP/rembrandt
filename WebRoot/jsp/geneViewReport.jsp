@@ -15,6 +15,6 @@ org.dom4j.Document"
 <%
 	response.flushBuffer();	
 	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
-	ReportGeneratorHelper.renderReport(request, reportXML,"report.xsl",out);
+	ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME),out);
 %>
 

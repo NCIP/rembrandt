@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionMapping;
 /**
  */
 public class RefineCheckAction extends Action {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(RefineCheckAction.class);
 
 	/**
 	 * Method execute

@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionMapping;
 /**
  */
 public class CompoundCheckAction extends Action {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(CompoundCheckAction.class);
 	/**
 	 * Method execute
 	 * @param ActionMapping mapping

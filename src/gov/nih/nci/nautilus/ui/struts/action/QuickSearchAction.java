@@ -16,7 +16,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class QuickSearchAction extends DispatchAction {
-	static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+	static Logger logger = Logger.getLogger(QuickSearchAction.class);
 
 	/**
 	 * Method execute
@@ -99,7 +99,7 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 		QuickSearchForm qsForm = (QuickSearchForm) form;
 		String chartType = qsForm.getPlot();
-		if (chartType.equalsIgnoreCase("kapMaiPlot")) {
+		if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
 			request.setAttribute("geneSymbol", qsForm.getQuickSearchName());
 			return mapping.findForward("kmplot");
 		} else if (chartType.equalsIgnoreCase("geneExpPlot")) {

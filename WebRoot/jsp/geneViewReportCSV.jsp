@@ -7,8 +7,13 @@ gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 org.dom4j.Document"
 %>
-
+<span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
+	<br><Br>
+	<img src="images/statusBar2.gif">
+	<br>Loading...please wait<br>
+</span>
 <%
-	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_BEAN);
-	ReportGeneratorHelper.renderReport(reportXML,"report.xsl",out);
+	response.flushBuffer();	
+	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
+	ReportGeneratorHelper.renderReport(request, reportXML,"report.xsl",out);
 %>

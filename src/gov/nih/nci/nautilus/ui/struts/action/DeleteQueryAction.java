@@ -17,7 +17,7 @@ import org.apache.struts.actions.DispatchAction;
 
 
 public class DeleteQueryAction extends DispatchAction {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(DeleteQueryAction.class);
 
 	// --------------------------------------------------------- Instance Variables
 

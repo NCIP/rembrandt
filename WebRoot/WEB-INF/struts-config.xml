@@ -203,19 +203,7 @@
          <forward name="displayQuery" path="nautilus.refine" />
          <forward name="failure" path="/refine.do" />
 	</action>
-	 <action path="/presentation"
-           forward="nautilus.presentation" />
-
-   <action path="/present"
-           name="selectPresentationForm"
-	       type="gov.nih.nci.nautilus.ui.struts.action.SelectPresentDispatchAction"
-	       input="nautilus.presentation" 
-           scope="request"
-           parameter="method">
-         <forward name="success" path="/jsp/geneViewReport.jsp" />
-         <forward name="backtopresent" path="/presentation.do" />
-   </action>
-    <action path="/runReport"
+	<action path="/runReport"
            name="reportGeneratorForm"
 	       type="gov.nih.nci.nautilus.ui.struts.action.ReportGeneratorAction"
 	       scope="request"
