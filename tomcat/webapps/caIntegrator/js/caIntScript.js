@@ -1,8 +1,28 @@
+function checkNull(text)
+{
+	if(text.value == "")	{
+		scroll(0,0);
+		text.focus();
+		text.style.border = "2px solid red";
+		alert("Please Fill in a Unique Query Name");
+		return false;
+	}
+}
+
 function formNewTarget(windowName, winw, winh)
 {
-	spawnx("", winw, winh, windowName);
-	document.forms[0].target = windowName;
-	return true;
+	if(document.forms[0].queryName.value == "")	{
+		scroll(0,0);
+		document.forms[0].queryName.focus();
+		document.forms[0].queryName.style.border = "2px solid red";
+		alert("Please Fill in a Unique Query Name");
+		return false;
+	}
+	else	{
+		spawnx("", winw, winh, windowName);
+		document.forms[0].target = windowName;
+		return true;
+	}
 }
 
 function spawnx(url,winw,winh, name) {
