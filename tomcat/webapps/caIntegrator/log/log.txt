@@ -1,0 +1,4 @@
+DEBUG - Tue Oct 19 08:51:27 EDT 2004: 
+thisRadiation is this is a test:on
+DEBUG - Tue Oct 19 08:51:27 EDT 2004: 
+thisRadiation is this is a test:on
