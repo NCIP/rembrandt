@@ -123,9 +123,14 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 			        display(kaplanMeierPlotContainer.getBioSpecimenResultsets());
 			        displatKMDrawingPoint(kaplanMeierPlotContainer.getBioSpecimenResultsets());
 					System.out.println(">>>>Display Gene Express for UP Regulated 3 Folds");
-			        ExprFoldChangeDE exprFoldChangeDE = new ExprFoldChangeDE.UpRegulation(new Float(3.0));
-		    		display(kaplanMeierPlotContainer.getSampleKaplanMeierPlotResultsets(exprFoldChangeDE));
-			        displatKMDrawingPoint(kaplanMeierPlotContainer.getSampleKaplanMeierPlotResultsets(exprFoldChangeDE));
+			        ExprFoldChangeDE upRegulation = new ExprFoldChangeDE.UpRegulation(new Float(3.0));
+		    		display(kaplanMeierPlotContainer.getSampleKaplanMeierPlotResultsets(upRegulation));
+			        displatKMDrawingPoint(kaplanMeierPlotContainer.getSampleKaplanMeierPlotResultsets(upRegulation));
+			        System.out.println(">>>>Display Gene Express for Down Regulated 3 Folds");
+			        ExprFoldChangeDE downRegulation = new ExprFoldChangeDE.DownRegulation(new Float(3.0));
+		    		display(kaplanMeierPlotContainer.getSampleKaplanMeierPlotResultsets(downRegulation));
+			        displatKMDrawingPoint(kaplanMeierPlotContainer.getSampleKaplanMeierPlotResultsets(downRegulation));
+
 				}
 			}
 		} catch (Exception e) {

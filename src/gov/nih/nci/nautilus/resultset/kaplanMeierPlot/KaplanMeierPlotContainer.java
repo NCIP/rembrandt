@@ -97,12 +97,12 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer{
 	        	}
 	        	double geneExprAverage = reporterValues/numberOfReporters;
 	        	if(averageFoldChange instanceof ExprFoldChangeDE.UpRegulation){
-		        	if(geneExprAverage <= averageFoldChange.getValueObject().doubleValue()){
+		        	if(geneExprAverage >= averageFoldChange.getValueObject().doubleValue()){
 		        		geneExprSamples.add(sample);
 		        	}
 	        	}
 	        	if(averageFoldChange instanceof ExprFoldChangeDE.DownRegulation){
-		        	if(geneExprAverage >= 1/averageFoldChange.getValueObject().doubleValue()){
+		        	if(geneExprAverage <= averageFoldChange.getValueObject().doubleValue()){
 		        		geneExprSamples.add(sample);
 		        	}
 	        	}
