@@ -17,6 +17,10 @@
 //get if from the request, and make lower to match the struts-config
 String act = request.getParameter("s").toLowerCase();
 %>
+<div class="setQuery">
+<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+</div>
+
 <html:form action="<%=act%>" >
   <%
     request.getSession().setAttribute("currentPage2", "1");
