@@ -1,4 +1,62 @@
 <class-descriptor
+       class="gov.nih.nci.nautilus.data.SnpProbesetDim"
+       table="SNP_PROBESET_DIM">
+
+        <field-descriptor
+             name="arrayName"
+             column="ARRAY_NAME"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="probesetName"
+             column="PROBESET_NAME"
+             jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+         name="snpProbesetId"
+         column="SNP_PROBESET_ID"
+         jdbc-type="BIGINT"
+        primarykey="true"
+    />
+    <field-descriptor
+         name="dbSnpId"
+         column="DB_SNP_ID"
+         jdbc-type="VARCHAR"
+    />
+    <field-descriptor
+         name="physicalPosition"
+         column="PHYSICAL_POSITION"
+         jdbc-type="BIGINT"
+    />
+        <field-descriptor
+             name="cytobnd"
+             column="CYTOBAND"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="alleleFrequecncy"
+             column="ALLELE_FREQUENCY"
+             jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+             name="alleleFrequecncyAf"
+             column="ALLELE_FREQUENCY_AF"
+             jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+             name="alleleFrequecncyCa"
+             column="ALLELE_FREQUENCY_CA"
+             jdbc-type="VARCHAR"
+        />
+          <field-descriptor
+             name="chromosome"
+             column="CHROMOSOME"
+             jdbc-type="VARCHAR"
+        />
+</class-descriptor>
+
+
+<class-descriptor
        class="gov.nih.nci.nautilus.data.ProbesetDim"
        table="PROBESET_DIM">
 
@@ -438,7 +496,11 @@
        column="CLONE_NAME"
        jdbc-type="VARCHAR"
    />
-
+      <field-descriptor
+       name="sampleId"
+       column="SAMPLE_ID"
+       jdbc-type="VARCHAR"
+   />
 </class-descriptor>
 
 <class-descriptor

@@ -7,7 +7,9 @@ public class SnpProbesetDim
 {
   public final static String PHYSICAL_POSITION = "physicalPosition";
   public final static String SNP_PROBESET_ID = "snpProbesetId";
-  public final static String CHROMOSOME = "chr";
+  public final static String DB_SNP_ID = "dbSnpId";
+  public final static String PROBESET_NAME = "probesetName";  
+  public final static String CHROMOSOME = "chromosome";
 
 
   private String alleleFrequencyAf;
@@ -18,7 +20,7 @@ public class SnpProbesetDim
 
   private String arrayName;
 
-  private String chr;
+  private String chromosome;
 
   private String cytoband;
 
@@ -72,13 +74,13 @@ public class SnpProbesetDim
   }
 
 
-  public String getChr()
+  public String getChromosome()
   {
-     return this.chr;
+     return this.chromosome;
   }
-  public void setChr(String param)
+  public void setChromosome(String param)
   {
-    this.chr = param;
+    this.chromosome = param;
   }
 
 

@@ -67,10 +67,10 @@ abstract public class SNPIdentifierDE extends DomainElement {
     }
   
    /**
-	* nested child class: SBSNP
+	* nested child class: DBSNP
     */
-   public final static class SBSNP extends SNPIdentifierDE {
-      public SBSNP(String DBSNPId ) {
+   public final static class DBSNP extends SNPIdentifierDE {
+      public DBSNP(String DBSNPId ) {
         super(DBSNP, DBSNPId);
         }	
     }

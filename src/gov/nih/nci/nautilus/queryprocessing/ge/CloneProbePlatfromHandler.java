@@ -102,7 +102,7 @@ public class CloneProbePlatfromHandler {
 
     /*  This method converts ProbesetNames/CloneNames into thier respective IDs
     */
-    private static ReportQueryByCriteria getCloneOrProbeIDsFromNameDEs(Collection probeOrCloneDEs, String probeType, PersistenceBroker _BROKER) throws Exception {
+    public static ReportQueryByCriteria getCloneOrProbeIDsFromNameDEs(Collection probeOrCloneDEs, String probeType, PersistenceBroker _BROKER) throws Exception {
         Collection deNames = new ArrayList();
         org.apache.ojb.broker.query.ReportQueryByCriteria IDsQuery = null;
         for (Iterator iterator = probeOrCloneDEs.iterator(); iterator.hasNext();)
@@ -161,7 +161,7 @@ public class CloneProbePlatfromHandler {
         return accessionQuery;
     }
 
-    private static String getType(CloneOrProbeIDCriteria cloneProbeCrit ) {
+    public static String getType(CloneOrProbeIDCriteria cloneProbeCrit ) {
         if (cloneProbeCrit != null ) {
             Collection cloneIDorProbeIDs = cloneProbeCrit.getIdentifiers();
              if (cloneIDorProbeIDs != null && cloneIDorProbeIDs.size() > 0) {

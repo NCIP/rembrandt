@@ -246,6 +246,7 @@ abstract public class DEFactHandler {
             singleExprObj.setDiseaseType(exprObj.getDiseaseType());
             singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
             singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
+            singleExprObj.setSampleId(exprObj.getSampleId());
             if (exprObj.getProbesetId() != null ) {
                 singleExprObj.setProbesetId(exprObj.getProbesetId());
 

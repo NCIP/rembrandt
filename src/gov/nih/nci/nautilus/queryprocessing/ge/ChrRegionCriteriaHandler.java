@@ -4,10 +4,7 @@ import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
-import gov.nih.nci.nautilus.data.ProbesetDim;
-import gov.nih.nci.nautilus.data.CloneDim;
-import gov.nih.nci.nautilus.data.CytobandPosition;
-import gov.nih.nci.nautilus.data.GeneClone;
+import gov.nih.nci.nautilus.data.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -67,18 +64,16 @@ final public class ChrRegionCriteriaHandler {
         }
     }
 
-    static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+    public static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
         assert (regionCrit != null);
         StartEndPosition posObj = getPositionObject(regionCrit, pb);
 
         return buildGECloneIDProbeIDCrit(posObj, includeProbes, pb, includeClones);
     }
-    static GEReporterIDCriteria buildCGHRegionCriteria( RegionCriteria regionCrit, boolean includeSNPs, boolean includeCGH, PersistenceBroker pb) throws Exception {
+    public static CGHReporterIDCriteria  buildCGHRegionCriteria( RegionCriteria regionCrit, boolean includeSNPs, boolean includeCGH, PersistenceBroker pb) throws Exception {
         assert (regionCrit != null);
         StartEndPosition posObj = getPositionObject(regionCrit, pb);
-
-        //return buildCGHCloneIDProbeIDCrit(posObj, includeSNPs, pb, includeCGH);
-       return null;
+        return buildCGHCloneIDProbeIDCrit(posObj, includeSNPs, pb, includeCGH);
     }
 
     public static StartEndPosition getPositionObject(RegionCriteria regionCrit, PersistenceBroker pb) throws Exception {
@@ -112,16 +107,31 @@ final public class ChrRegionCriteriaHandler {
             CGHReporterIDCriteria reporterIDCrit = new CGHReporterIDCriteria ();
             if (posObj != null) {
                 if (includeSNPs) {
-                    ReportQueryByCriteria probeIDSubQuery = buildProbeIDCrit(pb, posObj);
-                    //cloneIDProbeIDCrit.setProbeIDsSubQuery(probeIDSubQuery);
+                    ReportQueryByCriteria snpProbeIDSubQuery = buildSNPProbeIDCrit(pb, posObj);
+                    reporterIDCrit.setSnpProbeIDsSubQuery(snpProbeIDSubQuery);
                 }
                 if (includeCGH) {
-                   ReportQueryByCriteria colneIDSubQuery = buildCloneIDCrit(pb, posObj);
+                    // TODO: Next release
+                   //ReportQueryByCriteria cghProbeIDSubQuery = buildCloneIDCrit(pb, posObj);
                    //cloneIDProbeIDCrit.setCloneIDsSubQuery(colneIDSubQuery);
                 }
             }
             return reporterIDCrit;
     }
+    private static ReportQueryByCriteria buildSNPProbeIDCrit(PersistenceBroker pb, StartEndPosition posObj) throws Exception {
+        String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.SNP_PROBESET_ID);
+        String positionCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.PHYSICAL_POSITION);
+        String chrCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.CHROMOSOME);
+
+        Criteria c = new Criteria();
+        c.addColumnEqualTo(chrCol, posObj.getChrNumber().getValueObject());
+        c.addGreaterOrEqualThan(positionCol, new Long(posObj.getStartPosition().getValueObject().longValue()));
+        c.addLessOrEqualThan(positionCol, new Long(posObj.getEndPosition().getValueObject().longValue()));
+
+        ReportQueryByCriteria snpProbeIDQuery = QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, c, true );
+        return snpProbeIDQuery;
+    }
+
     private static ReportQueryByCriteria buildProbeIDCrit(PersistenceBroker pb, StartEndPosition posObj) throws Exception {
         String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
         String deMappingAttrNameForStartPos = QueryHandler.getColumnName(pb, BasePairPositionDE.StartPosition.class.getName(), ProbesetDim.class.getName());

@@ -26,6 +26,16 @@ public class DifferentialExpressionSfact
 
     private String cytoband;
 
+    public String getSampleId() {
+        return sampleId;
+    }
+
+    public void setSampleId(String sampleId) {
+        this.sampleId = sampleId;
+    }
+
+    private String sampleId;
+
 
 
 

@@ -151,19 +151,24 @@ abstract public class GeneExpr implements ResultSet {
         private Long desId;
         private Long diseaseHistoryId;
         private String survivalLengthRange;
-
-        public Long getID() {
-            return getDesId();
-        }
-
+        private String sampleId;
         private Long treatmentHistoryId;
         private String cytoband;
         private String genderCode;
 
+        public String getSampleId() {
+            return sampleId;
+        }
+        public void setSampleId(String sampleId) {
+            this.sampleId = sampleId;
+        }
+        public Long getID() {
+            return getDesId();
+        }
+
         public Long getAgentId() {
             return agentId;
         }
-
         public void setAgentId(Long agentId) {
             this.agentId = agentId;
         }
