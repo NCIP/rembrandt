@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
 import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ abstract public class QueryHandler {
     private static HashMap deBeanMappings = new HashMap();
     private final static String FILE_NAME ="/deToBeanAttrMappings.xml";
     private static Document doc;
-    abstract Map handle(Query query) throws Exception;
+    abstract ResultSet[] handle(Query query) throws Exception;
     static {
        //TODO: complete this
        try {

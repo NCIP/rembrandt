@@ -26,7 +26,7 @@ abstract public class DEFactHandler {
     Map geneExprObjects = Collections.synchronizedMap(new HashMap());
     List eventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
-    abstract Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+    abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
     throws Exception;
     protected void sleep() throws InterruptedException {
         boolean sleep = true;
@@ -78,14 +78,22 @@ abstract public class DEFactHandler {
             }
      }
     final static class SingleDEFactHandler extends DEFactHandler {
-        Map executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+        ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
         throws Exception {
             //final String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
             System.out.println("Total Number Of Probes:" + allProbeIDs.size());
             executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, foldCrit );
             executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, foldCrit);
             sleep();
-            return geneExprObjects;
+            // geneExprObjects would have populated by this time Convert these in to Result objects
+            // geneExprObjects would have populated by this time Convert these in to Result objects
+            Object[]objs = (geneExprObjects.values().toArray());
+            GeneExpr.GeneExprSingle[] results = new GeneExpr.GeneExprSingle[objs.length];
+            for (int i = 0; i < objs.length; i++) {
+                GeneExpr.GeneExprSingle obj = (GeneExpr.GeneExprSingle) objs[i];
+                results[i] = obj;
+            }
+            return results;
         }
         void addToResults(Collection exprObjects) {
             for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
@@ -115,12 +123,20 @@ abstract public class DEFactHandler {
     }
         final static class GroupDEFactHanlder extends DEFactHandler {
 
-            Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+            ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
             throws Exception {
                 executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, foldCrit );
                 executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, foldCrit);
                 sleep();
-                return geneExprObjects;
+
+                // geneExprObjects would have populated by this time Convert these in to Result objects
+                Object[]objs = (geneExprObjects.values().toArray());
+                GeneExpr.GeneExprGroup[] results = new GeneExpr.GeneExprGroup[objs.length];
+                for (int i = 0; i < objs.length; i++) {
+                    GeneExpr.GeneExprGroup obj = (GeneExpr.GeneExprGroup) objs[i];
+                    results[i] = obj;
+                }
+                return results;
             }
 
             void addToResults(Collection exprObjects) {

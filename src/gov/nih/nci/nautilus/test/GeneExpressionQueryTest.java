@@ -11,6 +11,7 @@ import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.queryprocessing.GeneExpr;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.*;
 
@@ -46,8 +47,8 @@ public class GeneExpressionQueryTest extends TestCase {
     public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
-             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
             //q.setGeneIDCrit(geneIDCrit);
             //q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
@@ -63,21 +64,21 @@ public class GeneExpressionQueryTest extends TestCase {
             q.setFoldChgCrit(foldCrit);
 
             try {
-                Map geneExprObjects = QueryManager.executeQuery(q);
+                ResultSet[] geneExprObjects = QueryManager.executeQuery(q);
                 print(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
 
     }
-      private void print(Map geneExprObjects) {
+      private void print(ResultSet[] geneExprObjects) {
             int count = 0;
             HashSet probeIDS = new HashSet();
             HashSet cloneIDs = new HashSet();
-            Set keys = geneExprObjects.keySet();
-            for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
-                Long desID =  (Long) iterator.next();
-                Object obj = geneExprObjects.get(desID);
+
+
+          for (int i = 0; i < geneExprObjects.length; i++) {
+              ResultSet obj = geneExprObjects[i];
                 GeneExpr exprObj = null;
                 if (obj instanceof GeneExpr.GeneExprGroup)  {
                     exprObj = (GeneExpr.GeneExprGroup) obj;

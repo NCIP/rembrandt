@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
 import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * To change this template use Options | File Templates.
  */
 public class QueryProcessor {
-    public static Map execute(Query query ) throws Exception {
+    public static ResultSet[] execute(Query query ) throws Exception {
         /* TODO: uncomment the follwoing line.  This is validate() will make sure that for
             each criteria in query object, if criteria is not null, then it is also not empty
             by calling isEmpty() method for each of the criterias */

@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.Map;
 
@@ -16,8 +17,8 @@ public class QueryManager {
     public static Query createQuery(QueryType typeOfQuery) {
         return QueryFactory.newQuery(typeOfQuery);
     }
-    public static Map executeQuery(Query queryToExecute) throws Exception {
-        return QueryProcessor.execute(queryToExecute);
+    public static ResultSet[] executeQuery(Queriable queryToExecute) throws Exception {
+        return QueryProcessor.execute((Query) queryToExecute);
     }
 
 }

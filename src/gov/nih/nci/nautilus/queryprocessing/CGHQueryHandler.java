@@ -14,6 +14,7 @@ import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -39,7 +40,7 @@ public class CGHQueryHandler extends QueryHandler {
 
 
 
-    public Map handle(Query query) {
+    public ResultSet[] handle(Query query) {
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) query;
 
         diseaseOrGradeCrit = cghQuery.getDiseaseOrGradeCriteria();

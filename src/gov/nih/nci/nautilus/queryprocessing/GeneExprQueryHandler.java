@@ -9,6 +9,7 @@ import gov.nih.nci.nautilus.data.ReporterAll;
 import gov.nih.nci.nautilus.data.GeneOntology;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
 import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.*;
 
@@ -67,16 +68,15 @@ final public class GeneExprQueryHandler extends QueryHandler {
             }
         }
     }
-    public Map handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
+    public ResultSet[] handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
 
         if (query.getAssociatedView().equals(ViewType.GENE_SINGLE_SAMPLE_VIEW)) {
                 factHandler = new DEFactHandler.SingleDEFactHandler();
         }
-        if (query.getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW)) {
+        else if (query.getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW)) {
                 factHandler = new DEFactHandler.GroupDEFactHanlder();
         }
-
         else throw new Exception("Illegal View.  This view is not supported in this Query:");
 
         // make sure that platform (for the resulting smaples) is specified
