@@ -64,7 +64,7 @@ public class ClinicalDataQuery extends Query {
 
 	try {
 
-		labels = ResourceBundle.getBundle("gov.nih.nci.nautilus.struts.ApplicationResources", Locale.US);
+		labels = ResourceBundle.getBundle("gov.nih.nci.nautilus.ui.struts.ApplicationResources", Locale.US);
 	  
 	    // starting DiseaseOrGradeCriteria
 		DiseaseOrGradeCriteria thisDiseaseCrit = this.getDiseaseOrGradeCriteria();	

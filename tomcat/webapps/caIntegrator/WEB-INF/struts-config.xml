@@ -5,16 +5,16 @@
     <data-sources />
     <!-- ========== Form Bean Definitions ================================== -->
     <form-beans>
-        <form-bean name="geneexpressionForm" type="gov.nih.nci.nautilus.struts.form.GeneExpressionForm"/>
-        <form-bean name="comparitivegenomicForm" type="gov.nih.nci.nautilus.struts.form.ComparativeGenomicForm"/>
-        <form-bean name="clinicaldataForm" type="gov.nih.nci.nautilus.struts.form.ClinicalDataForm"/>
-    	<form-bean name="refineQueryForm" type="gov.nih.nci.nautilus.struts.form.RefineQueryForm"/>
-        <form-bean name="selectPresentationForm" type="gov.nih.nci.nautilus.struts.form.SelectPresentationForm"/>
-        <form-bean name="deleteQueryForm" type="gov.nih.nci.nautilus.struts.form.DeleteQueryForm"/>
-        <form-bean name="quickSearchForm" type="gov.nih.nci.nautilus.struts.form.QuickSearchForm"/>
+        <form-bean name="geneexpressionForm" type="gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm"/>
+        <form-bean name="comparitivegenomicForm" type="gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm"/>
+        <form-bean name="clinicaldataForm" type="gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm"/>
+    	<form-bean name="refineQueryForm" type="gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm"/>
+        <form-bean name="selectPresentationForm" type="gov.nih.nci.nautilus.ui.struts.form.SelectPresentationForm"/>
+        <form-bean name="deleteQueryForm" type="gov.nih.nci.nautilus.ui.struts.form.DeleteQueryForm"/>
+        <form-bean name="quickSearchForm" type="gov.nih.nci.nautilus.ui.struts.form.QuickSearchForm"/>
         <form-bean name="loginForm" type="gov.nih.nci.nautilus.login.LoginForm"/>
-   		<form-bean name="kmDataSetForm" type="gov.nih.nci.nautilus.struts.form.KMDataSetForm"/>
-   		<form-bean name="reportActionForm" type="gov.nih.nci.nautilus.struts.form.ReportActionForm"/>
+   		<form-bean name="kmDataSetForm" type="gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm"/>
+   		<form-bean name="reportActionForm" type="gov.nih.nci.nautilus.ui.struts.form.ReportActionForm"/>
   </form-beans>
     
 
@@ -33,7 +33,7 @@
   <action-mappings>
     <action path="/delete_Query"            
             name="deleteQueryForm"
-            type="gov.nih.nci.nautilus.struts.action.DeleteQueryAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.DeleteQueryAction"
             scope="request"
 			parameter="method"
             validate="false">         
@@ -44,7 +44,7 @@
 	
 	<action path="/quickSearch"            
             name="quickSearchForm"
-            type="gov.nih.nci.nautilus.struts.action.QuickSearchAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.QuickSearchAction"
             scope="request"
 			input="nautilus.home"
             validate="true"
@@ -57,7 +57,7 @@
 	
 	<action path="/kmGraph"            
             name="kmDataSetForm"
-            type="gov.nih.nci.nautilus.struts.action.QuickSearchAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.QuickSearchAction"
             scope="request"
 			validate="false"
             parameter="method">         
@@ -84,7 +84,7 @@
 	<action path="/geneexpression"
             input="nautilus.geneExpression"
             name="geneexpressionForm"
-            type="gov.nih.nci.nautilus.struts.action.GeneexpressionAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.GeneexpressionAction"
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
@@ -98,7 +98,7 @@
 
 	<action path="/previewreport"
             name="reportActionForm"
-            type="gov.nih.nci.nautilus.struts.action.ReportGeneratorAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.ReportGeneratorAction"
             scope="request"
             parameter="method"
             validate="false">
@@ -115,7 +115,7 @@
 	<action path="/comparitivegenomic"
             input="nautilus.comparitiveGenomic"
             name="comparitivegenomicForm"
-            type="gov.nih.nci.nautilus.struts.action.ComparativeGenomicAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.ComparativeGenomicAction"
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
@@ -124,7 +124,7 @@
 	</action>
 
 	<action path="/menu"
-		type="gov.nih.nci.nautilus.struts.action.DoFirst"
+		type="gov.nih.nci.nautilus.ui.struts.action.DoFirst"
 		name="noForm">
 		<forward name="success" path="nautilus.menu" />
 	</action>
@@ -135,7 +135,7 @@
 	<action path="/clinical"
             input="nautilus.clinical"
             name="clinicaldataForm"
-            type="gov.nih.nci.nautilus.struts.action.ClinicalDataAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.ClinicalDataAction"
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
@@ -144,13 +144,13 @@
 	</action>
 
 	<action path="/home"
-		type="gov.nih.nci.nautilus.struts.action.DoFirst"
+		type="gov.nih.nci.nautilus.ui.struts.action.DoFirst"
 		parameter="method">
 		<forward name="success" path="nautilus.home" />
 	</action>
 
    <action path="/refinecheck"
-	       type="gov.nih.nci.nautilus.struts.action.RefineCheckAction">
+	       type="gov.nih.nci.nautilus.ui.struts.action.RefineCheckAction">
          <forward name="success" path="/refine.do" />
          <forward name="failure" path="/menu.do" />
    </action>
@@ -161,7 +161,7 @@
 	<action path="/validatequery"
             input="nautilus.refine"
             name="refineQueryForm"
-            type="gov.nih.nci.nautilus.struts.action.RefineQueryAction"
+            type="gov.nih.nci.nautilus.ui.struts.action.RefineQueryAction"
             scope="request"
             parameter="method"
             validate="true">
@@ -175,7 +175,7 @@
 
    <action path="/present"
            name="selectPresentationForm"
-	       type="gov.nih.nci.nautilus.struts.action.SelectPresentDispatchAction"
+	       type="gov.nih.nci.nautilus.ui.struts.action.SelectPresentDispatchAction"
 	       input="nautilus.presentation" 
            scope="request"
            parameter="method">

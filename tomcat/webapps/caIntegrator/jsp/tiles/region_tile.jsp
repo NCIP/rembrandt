@@ -1,5 +1,5 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.struts.form.*" %> 
+<%@ page import="java.util.*, gov.nih.nci.nautilus.ui.struts.form.*" %> 
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <fieldset class="gray">
 
