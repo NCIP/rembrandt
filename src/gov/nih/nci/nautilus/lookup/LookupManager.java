@@ -89,8 +89,9 @@ public class LookupManager{
 		Map patientDataMap = new HashMap();
 		if(patients != null){
 			for (int i = 0;i < patients.length;i++){
-				Long key = patients[i].getBiospecimenId();
-				patientDataMap.put(key,patients[i]);				
+				String key = patients[i].getBiospecimenId().toString();
+				PatientDataLookup patient = patients[i];				
+				patientDataMap.put(key,patient);				
 			}
 		}
 		return patientDataMap;
