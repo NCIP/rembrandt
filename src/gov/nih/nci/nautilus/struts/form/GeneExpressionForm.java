@@ -1093,15 +1093,13 @@ public class GeneExpressionForm extends BaseForm {
 	 *            The pathways to set
 	 */
 	public void setPathways(String pathways) {
-	    logger.debug("pathways.length:" + pathways.length());
-		if (pathways != null) {
-			this.pathways = pathways.trim();
-			logger.debug("pathways.length after:"
-					+ this.pathways.length());
-			String pathwaySelect = (String) thisRequest
-					.getParameter("pathways");
-			if (pathwaySelect != null && !pathwaySelect.equals("")) {
-				pathwayDomainMap.put(this.pathways, PathwayDE.class.getName());
+
+		this.pathways = pathways.trim();
+
+		if (this.pathways != null && this.pathways.length() > 0) {
+			String[] splitValue = this.pathways.split("\\r\\n");
+			for (int i = 0; i < splitValue.length; i++) {
+				pathwayDomainMap.put(splitValue[i], PathwayDE.class.getName());
 			}
 		}
 	}
