@@ -55,7 +55,6 @@ public class ReportGenerator  {
 		 		String theQuery  =  resultant.getAssociatedQuery().toString();
 
 		 		if(resultsContainer != null)	{
-			 		// html.append("<fieldset class=\"q\">"+theQuery+"</fieldset>\n");
 		 			
 			 		Viewable view = resultant.getAssociatedView();
 			 		 
@@ -137,7 +136,7 @@ public class ReportGenerator  {
  		   	sb.append("</tr>\n");
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue()+ "</td>" +
+	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
 					"<td>"+sampleResultset.getGenderCode().getValue()+ "</td>" +
 					"<td>"+sampleResultset.getSurvivalLengthRange().getValue()+ "</td>" +
