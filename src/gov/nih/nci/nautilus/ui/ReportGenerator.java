@@ -152,7 +152,7 @@ public class ReportGenerator  {
 			boolean cLinks = false;
 			StringBuffer sb = new StringBuffer();
 			
-			String helpFul = helpLink + "#clinical" + helpLinkClose;
+			String helpFul = helpLink + "?sect=clinical" + helpLinkClose;
 			
 			logger.debug("HERE IS THE CLINICAL VIEW");
 			SampleViewResultsContainer sampleViewContainer = null;
@@ -247,7 +247,7 @@ public class ReportGenerator  {
 		
 		StringBuffer sb = new StringBuffer();
 		
-		String helpFul = helpLink + "#diseaseGroup" + helpLinkClose;
+		String helpFul = helpLink + "?sect=diseaseGroup" + helpLinkClose;
 		
 		GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
 		StringBuffer css = new StringBuffer();
@@ -353,7 +353,7 @@ public class ReportGenerator  {
 				int recordCount = 0;
 				int totalSamples = 0;
 				
-				String helpFul = helpLink + "#copyNumber" + helpLinkClose;
+				String helpFul = helpLink + "?sect=copyNumber" + helpLinkClose;
 				
 				CopyNumberSingleViewResultsContainer copyNumberContainer = null;
 
@@ -507,7 +507,7 @@ public class ReportGenerator  {
 				GeneExprSingleViewResultsContainer geneViewContainer = null;
 				StringBuffer sb = new StringBuffer();
 				
-				String helpFul = helpLink + "#sample" + helpLinkClose;
+				String helpFul = helpLink + "?sect=sample" + helpLinkClose;
 				
 				DimensionalViewContainer dimensionalViewContainer = null;
 				int recordCount = 0;

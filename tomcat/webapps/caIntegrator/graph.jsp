@@ -5,7 +5,16 @@
 
 <%
 long randomness = System.currentTimeMillis(); //prevent image caching
+
+ String helpLink = "<a href=\"javascript: spawn('help.jsp";
+ String helpLinkClose = "', 350, 500);\">"+
+				"<img align=\"right\" src=\"images/helpIcon.jpg\" border=\"0\" "+
+				"onmouseover=\"return overlib('Click here for additional information about this report.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
+				"</a><br clear=\"all\">";
 %> 
+<div>
+<%=helpLink%>?sect=gplot<%=helpLinkClose%>
+</div>
 <img src="getMap.jsp?<%=randomness%>" usemap="#chartMap" border="0">
 <br clear="all">
 Legend: Probesets<br><br><br>
