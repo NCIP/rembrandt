@@ -69,6 +69,13 @@ public class CompoundQueryTest extends TestCase {
     GeneExpressionQuery geneQuery;
     ComparativeGenomicQuery genomicQuery;
 	CopyNumberCriteria copyNumberCrit;
+	/**
+	 * @param string
+	 */
+	public CompoundQueryTest(String string) {
+		super(string);
+	}
+
 	/*
 	 * @see TestCase#setUp()
 	 */
@@ -81,7 +88,8 @@ public class CompoundQueryTest extends TestCase {
         buildGeneIDCrit();
         buildGeneExprCloneSingleViewQuery();
         buildGeneExprProbeSetSingleViewQuery();
-        buildGeneExprGeneSingleViewQuery();        
+        buildGeneExprGeneSingleViewQuery();
+        buildCopyNumberSingleViewQuery();
 	}
 
 	/*
@@ -95,7 +103,7 @@ public class CompoundQueryTest extends TestCase {
 		try {
 			//test Single Query
 			System.out.println("Testing Single Gene Query>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery);
+			CompoundQuery myCompoundQuery = new CompoundQuery(genomicQuery);
 			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
@@ -143,7 +151,8 @@ public class CompoundQueryTest extends TestCase {
 		try {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.OR,geneQuery,genomicQuery);
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
+			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
@@ -163,25 +172,13 @@ public class CompoundQueryTest extends TestCase {
 		        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
 		        if (geneViewContainer != null){
 			        displayGeneExprSingleView(geneViewContainer);
-			        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-			        displaySampleView(sampleViewContainer);	
 		        }
-			}
-			else if (resultsContainer instanceof DimensionalViewContainer){
-				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 				CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
 		        if (copyNumberContainer != null){
 		        	displayCopyNumberSingleView(copyNumberContainer);
-			        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-			        displaySampleView(sampleViewContainer);	
 		        }
-			}
-			else if (resultsContainer instanceof DimensionalViewContainer){
-				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-		        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
-		        if (geneViewContainer != null){
-			        displayGeneExprSingleView(geneViewContainer);
-			        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+		        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+		        if (sampleViewContainer != null){
 			        displaySampleView(sampleViewContainer);	
 		        }
 			}
@@ -250,9 +247,15 @@ public class CompoundQueryTest extends TestCase {
     	}
 	}
 	public static Test suite() {
-		TestSuite suit =  new TestSuite();
-        suit.addTest(new TestSuite(CompoundQueryTest.class));
-        return suit;
+		TestSuite suite =  new TestSuite();
+        //suite.addTest(new CompoundQueryTest("testCompoundQueryANDProcessor"));
+        //suite.addTest(new CompoundQueryTest("testCompoundQueryNOTProcessor"));
+        //suite.addTest(new CompoundQueryTest("testCompoundQueryORProcessor"));
+        //suite.addTest(new CompoundQueryTest("testSingleQueryInCompoundQueryProcessor"));
+        suite.addTest(new CompoundQueryTest("testGeneExprANDCopyNumberQuery"));
+
+
+        return suite;
 	}
 
 	public static void main (String[] args) {

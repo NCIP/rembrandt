@@ -54,12 +54,14 @@ import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryManager;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.resultset.ClinicalResultSet;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.view.Viewable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 
 /**
@@ -145,12 +147,12 @@ public class CompoundQueryProcessor {
 		Set finalResults = new HashSet();
 		if(leftResultSets != null && rightResultSets != null){
 			for(int i =0;i < leftResultSets.length;i++){
-				GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-				leftResults.add(geneExpr.getBiospecimenId());
+				ClinicalResultSet clinicalResultset = (ClinicalResultSet) leftResultSets[i];
+				leftResults.add(clinicalResultset.getBiospecimenId());
 			}
 			for(int i =0;i < rightResultSets.length;i++){
-				GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
-				rightResults.add(geneExpr.getBiospecimenId());
+				ClinicalResultSet clinicalResultset = (ClinicalResultSet) rightResultSets[i];
+				rightResults.add(clinicalResultset.getBiospecimenId());
 			}
 			//the removeAll operation effectively modifies this set so that its value is the asymmetric set difference of the two sets.
 			System.err.println("L:"+leftResults.size());			
@@ -161,14 +163,14 @@ public class CompoundQueryProcessor {
 			for (Iterator iterator = diffset.iterator(); iterator.hasNext();) {
 	    		Long id = (Long)iterator.next();
 	    		for(int i =0;i < leftResultSets.length;i++){
-		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-		    		if(geneExpr.getBiospecimenId().equals(id)){
-		    			finalResults.add(geneExpr);
+	    			ClinicalResultSet clinicalResultset = (ClinicalResultSet) leftResultSets[i];
+		    		if(clinicalResultset.getBiospecimenId().equals(id)){
+		    			finalResults.add(clinicalResultset);
 		    		}
 	    		}
 	    	}		
 		}
-		return (ResultSet[])finalResults.toArray(rightResultSets);
+		return (ResultSet[])finalResults.toArray(new ResultSet[1]);
 	}
 	/**
 	 * ResultSetUnion: a resultSet containing every element that is in either the leftResultSet or the rightResultSet, or both
@@ -183,12 +185,12 @@ public class CompoundQueryProcessor {
 		Set finalResults = new HashSet();
 		if(leftResultSets != null && rightResultSets != null){
 			for(int i =0;i < leftResultSets.length;i++){
-				GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-				leftResults.add(geneExpr.getBiospecimenId());
+				ClinicalResultSet clinicalResultSet = (ClinicalResultSet) leftResultSets[i];
+				leftResults.add(clinicalResultSet.getBiospecimenId());
 			}
 			for(int i =0;i < rightResultSets.length;i++){
-				GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
-				rightResults.add(geneExpr.getBiospecimenId());
+				ClinicalResultSet clinicalResultSet = (ClinicalResultSet) rightResultSets[i];
+				rightResults.add(clinicalResultSet.getBiospecimenId());
 			}
 			//the addAll operation effectively modifies this set so that its value is the union of the two sets.
 			Set unionSet = new HashSet(leftResults);
@@ -200,20 +202,20 @@ public class CompoundQueryProcessor {
 			for (Iterator iterator = unionSet.iterator(); iterator.hasNext();) {
 	    		Long id = (Long)iterator.next();
 	    		for(int i =0;i < leftResultSets.length;i++){
-		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-		    		if(geneExpr.getBiospecimenId().equals(id)){
-		    			finalResults.add(geneExpr);
+		    		ClinicalResultSet clinicalResultSet = (ClinicalResultSet) leftResultSets[i];
+		    		if(clinicalResultSet.getBiospecimenId().equals(id)){
+		    			finalResults.add(clinicalResultSet);
 		    		}
 	    		}
 	    		for(int i =0;i < rightResultSets.length;i++){
-		    		GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
-		    		if(geneExpr.getBiospecimenId().equals(id)){
-		    			finalResults.add(geneExpr);
+		    		ClinicalResultSet clinicalResultSet = (ClinicalResultSet) rightResultSets[i];
+		    		if(clinicalResultSet.getBiospecimenId().equals(id)){
+		    			finalResults.add(clinicalResultSet);
 		    		}
 	    		}
 	    	}	
 		}
-		return (ResultSet[])finalResults.toArray(rightResultSets);
+		return (ResultSet[])finalResults.toArray(new ResultSet[1]);
 	}
 	/**
 	 * ResultSetIntersection (intersect): a resultset containing every element that is in both rightResultSet and LeftResultset
@@ -227,12 +229,12 @@ public class CompoundQueryProcessor {
 		Set finalResults = new HashSet();
 		if(leftResultSets != null && rightResultSets != null){
 			for(int i =0;i < leftResultSets.length;i++){
-				GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-				leftResults.add(geneExpr.getBiospecimenId());
+				ClinicalResultSet clinicalResultSet = (ClinicalResultSet) leftResultSets[i];
+				leftResults.add(clinicalResultSet.getBiospecimenId());
 			}
 			for(int i =0;i < rightResultSets.length;i++){
-				GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
-				rightResults.add(geneExpr.getBiospecimenId());
+				ClinicalResultSet clinicalResultSet = (ClinicalResultSet) rightResultSets[i];
+				rightResults.add(clinicalResultSet.getBiospecimenId());
 			}
 			//this operation effectively modifies this set so that its value is the intersection of the two sets.
 			Set interSectSet = new HashSet(leftResults);
@@ -244,14 +246,14 @@ public class CompoundQueryProcessor {
 			for (Iterator iterator = interSectSet.iterator(); iterator.hasNext();) {
 	    		Long id = (Long)iterator.next();
 	    		for(int i =0;i < leftResultSets.length;i++){
-		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-		    		if(geneExpr.getBiospecimenId().equals(id)){
-		    			finalResults.add(geneExpr);
+		    		ClinicalResultSet clinicalResultSet = (ClinicalResultSet) leftResultSets[i];
+		    		if(clinicalResultSet.getBiospecimenId().equals(id)){
+		    			finalResults.add(clinicalResultSet);
 		    		}
 	    		}
 	    	}
 		}
-		return (ResultSet[])finalResults.toArray(rightResultSets);
+		return (ResultSet[])finalResults.toArray(new ResultSet[1]);
 	}
 
 }
