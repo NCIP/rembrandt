@@ -68,8 +68,11 @@ function setQuery(txt)	{
 function setDispMethod(txt)	{
 	
 	document.forms[0].method.value = txt;
+
 	if(txt == "displayresult")
 		formNewTargetSimple('_report', 770, 550);
+	else
+		document.forms[0].target = "_self";
 
     document.forms[0].submit();
 }

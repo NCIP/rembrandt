@@ -6,6 +6,9 @@
 <%
 long randomness = System.currentTimeMillis(); //prevent image caching
 %>
+<script language="javascript">
+document.forms[0].target = "_self";
+</script>
 
 <html:reset styleClass="xbutton" value="clear"/>&nbsp;&nbsp;
 <html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser();"/>&nbsp;&nbsp;

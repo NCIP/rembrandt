@@ -6,7 +6,7 @@
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <br>
-<b class="message">(Type GO format as 'GO:XXXXXX' where number is XXXXXXX)</b><br>
+<b class="message">(Type GO format as 'GO:XXXXXXX' where number is XXXXXXX)</b><br>
 <html:textarea property="goClassification" rows="5" cols="40" value=""></html:textarea>
 <html:errors property="goClassification"/>
 <input type="button" class="sbutton" value="GO Browser..." onclick="javascript:spawn('http://www.godatabase.org/cgi-bin/amigo/go.cgi', 780, 500);">

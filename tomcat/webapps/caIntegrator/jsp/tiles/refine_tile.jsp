@@ -5,6 +5,10 @@
 
 <html:form action="validatequery.do">
 
+<script language="javascript">
+document.forms[0].target = "_self";
+</script>
+
 <!-- <html:form action="validatequery.do">-->
 <tr class="report"><td>
 <div class="steps">
