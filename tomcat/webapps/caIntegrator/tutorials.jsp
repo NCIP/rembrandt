@@ -4,6 +4,13 @@
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
 <script language="javascript" src="js/caIntScript.js"></script>
+<script language="javascript">
+	function spawnf(url,winw,winh) {
+  		var w = window.open(url, "_blank",
+      	"screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
+      	",scrollbars=yes,resizable=yes, fullscreen=yes");
+	}
+</script>
 </head>
 <body>
 <!--header NCI-->
@@ -42,14 +49,14 @@
 <fieldset>
  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">1. Gene Expression Plot</legend>
 <br>
-	<a href="javascript:spawn('gplot.html', 850, 710);">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) or 
+	<a href="javascript:spawnf('gplot.html', 850, 710);">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) or 
 	<a href="gplot.exe">download</a> the tutorial for offline viewing.
 </fieldset>
  <Br><br>
  <fieldset>
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">2. Kaplan-Meier Survival Plot</legend>
   <br>
-	<a href="javascript:spawn('kmplot.html', 850, 710);">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) or 
+	<a href="javascript:spawnf('kmplot.html', 850, 710);">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) or 
 	<a href="kmplot.exe">download</a> the tutorial for offline viewing.
   
  </fieldset>
