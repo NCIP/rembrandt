@@ -1,4 +1,128 @@
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.ReporterAll"
+       table="REPORTER_All">
+       <field-descriptor
+             name="alignments"
+             column="alignments"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="accessionNumber"
+             column="accession_Number"
+             jdbc-type="VARCHAR"
+        />
+           <field-descriptor
+            name="chromosome"
+            column="chromosome"
+            jdbc-type="VARCHAR"
+        />
+       <field-descriptor
+            name="cloneId"
+            column="clone_Id"
+            jdbc-type="BIGINT"
+        />
+    <field-descriptor
+         name="cloneLocation"
+         column="CLONE_LOCATION"
+         jdbc-type="VARCHAR"
+     />
+    <field-descriptor
+         name="cloneType"
+         column="CLONE_TYPE"
+         jdbc-type="VARCHAR"
+     />
+        <field-descriptor
+             name="cytoband"
+             column="cytoband"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="ec"
+             column="ec"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="probesetId"
+             column="PROBESET_ID"
+             jdbc-type="BIGINT"
+             primarykey="true"
+        />
+        <field-descriptor
+             name="reporterName"
+             column="REPORTER_NAME"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="geneSymbol"
+             column="gene_symbol"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="geneTitle"
+             column="gene_title"
+             jdbc-type="VARCHAR"
+        />
+        <field-descriptor
+             name="genomeVersion"
+             column="GENOME_VERSION"
+             jdbc-type="VARCHAR"
+        />
 
+        <field-descriptor
+            name="kbEnd"
+            column="kb_End"
+            jdbc-type="BIGINT"
+        />
+
+        <field-descriptor
+            name="kbStart"
+            column="kb_Start"
+            jdbc-type="BIGINT"
+        />
+    <field-descriptor
+        name="library"
+        column="library"
+        jdbc-type="VARCHAR"
+    />
+
+        <field-descriptor
+            name="llId"
+            column="ll_ID"
+            jdbc-type="VARCHAR"
+        />
+
+        <field-descriptor
+            name="ominId"
+            column="omin_Id"
+            jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+        name="probesetId"
+        column="PROBESET_ID"
+        jdbc-type="BIGINT"
+    />
+    <field-descriptor
+         name="reporterDesc"
+         column="REPORTER_DESC"
+         jdbc-type="VARCHAR"
+     />
+    <field-descriptor
+         name="reporterName"
+         column="REPORTER_NAME"
+         jdbc-type="VARCHAR"
+     />
+        <field-descriptor
+            name="unigeneId"
+            column="unigene_Id"
+            jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+        name="unigeneLibrary"
+        column="UNIGENE_LIBRARY"
+        jdbc-type="BIGINT"
+    />
+
+</class-descriptor>
 <class-descriptor
        class="gov.nih.nci.nautilus.data.ProbesetDim"
        table="PROBESET_DIM">
@@ -10,7 +134,7 @@
         />
         <field-descriptor
              name="arrayName"
-             column="alignments"
+             column="array_name"
              jdbc-type="VARCHAR"
         />
 
@@ -28,7 +152,7 @@
              name="probesetId"
              column="PROBESET_ID"
              jdbc-type="BIGINT"
-            primarykey="true"
+             primarykey="true"
         />
         <field-descriptor
              name="probesetName"
@@ -47,7 +171,7 @@
         />
         <field-descriptor
              name="genomeVersion"
-             column="genome_Version"
+             column="GENOME_VERSION"
              jdbc-type="VARCHAR"
         />
 
@@ -74,6 +198,12 @@
             column="omin_Id"
             jdbc-type="VARCHAR"
         />
+
+        <field-descriptor
+            name="chromosome"
+            column="chromosome"
+            jdbc-type="VARCHAR"
+        />
         <field-descriptor
             name="unigeneId"
             column="unigene_Id"
@@ -84,6 +214,45 @@
              name="differentialExpressionSfact"
              element-class-ref="gov.nih.nci.nautilus.data.DifferentialExpressionSfact">
              <inverse-foreignkey field-ref="probesetId"/>
+         </collection-descriptor>
+
+
+</class-descriptor>
+
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.CloneDim"
+       table="CLONE_DIM">
+
+        <field-descriptor
+             name="cloneName"
+             column="clone_name"
+             jdbc-type="VARCHAR"
+        />
+         <field-descriptor
+             name="cloneLocation"
+             column="clone_location"
+             jdbc-type="VARCHAR"
+        />
+
+        <field-descriptor
+             name="cloneId"
+             column="CLONE_ID"
+             jdbc-type="BIGINT"
+             primarykey="true"
+        />
+
+
+
+        <field-descriptor
+            name="unigeneId"
+            column="unigene_Id"
+            jdbc-type="VARCHAR"
+        />
+    <collection-descriptor
+             auto-retrieve="false"
+             name="differentialExpressionSfact"
+             element-class-ref="gov.nih.nci.nautilus.data.DifferentialExpressionSfact">
+             <inverse-foreignkey field-ref="cloneId"/>
          </collection-descriptor>
 
 
@@ -141,7 +310,7 @@
      <field-descriptor
         name="expressionRatio"
         column="EXPRESSION_RATIO"
-        jdbc-type="DOUBLE"
+        jdbc-type="FLOAT"
     />
 
      <field-descriptor
@@ -162,7 +331,7 @@
     <field-descriptor
         name="geneSymbol"
         column="GENE_SYMBOL"
-        jdbc-type="BIGINT"
+        jdbc-type="VARCHAR"
     />
       <field-descriptor
         name="institutionId"
@@ -201,7 +370,7 @@
     />
     <reference-descriptor
         auto-retrieve="false"
-        name="geneDim"
+        name="probesetDim"
         class-ref="gov.nih.nci.nautilus.data.ProbesetDim">
         <foreignkey field-ref="probesetId"/>
     </reference-descriptor>
