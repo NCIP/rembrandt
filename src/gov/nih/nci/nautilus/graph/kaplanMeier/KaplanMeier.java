@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.nautilus.graph.kaplanMeier;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
 
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author XiaoN
@@ -32,6 +35,7 @@ public class KaplanMeier {
 	private ArrayList kmEvents;
 
 	KMDrawingPoint[] kmDrawingPoints;
+    static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 
 	public KaplanMeier(Collection samples) {
 		kmEvents = new ArrayList();
@@ -48,7 +52,6 @@ public class KaplanMeier {
 			}
 		}
 		Collections.sort(kmEvents, new KMEventComparator());
-		//System.out.println(kmEvents);
 		createDrawingPoints();
 	}
 
@@ -60,7 +63,6 @@ public class KaplanMeier {
 			kmEvents.add(new KMEvent(times[i], censors[i]));
 		}
 		Collections.sort(kmEvents, new KMEventComparator());
-		//System.out.println(kmEvents);
 		createDrawingPoints();
 	}
 
@@ -72,10 +74,10 @@ public class KaplanMeier {
 		int r = kmEvents.size();
 		int left = kmEvents.size();
 		ArrayList points = new ArrayList();
-		System.out.println("Sorted input data: ");
+		logger.debug("Sorted input data: ");
 		for (int i = 0; i < kmEvents.size(); i++) {
 			curSurvTime = ((KMEvent) kmEvents.get(i)).getTime();
-			System.out.println("Survival time: " + curSurvTime + "\tcensor:"
+			logger.debug("Survival time: " + curSurvTime + "\tcensor:"
 					+ ((KMEvent) kmEvents.get(i)).getCensor());
 			if (curSurvTime > prevSurvTime) {
 				if (d > 0) {
@@ -161,9 +163,9 @@ public class KaplanMeier {
 		int[] c = { 1, 1, 0, 1, 1, 0, 1, 1, 0, 1 };
 		KaplanMeier km = new KaplanMeier(t, c);
 		KMDrawingPoint[] points = km.getDrawingPoints();
-		System.out.println("\nOutput points: ");
+		logger.debug("\nOutput points: ");
 		for (int i = 0; i < points.length; i++) {
-			System.out.println(points[i].getX() + "\t" + points[i].getY()
+			logger.debug(points[i].getX() + "\t" + points[i].getY()
 					+ "\t" + points[i].isCensus());
 		}
 	}
