@@ -162,7 +162,7 @@ public class QuickSearchAction extends DispatchAction {
 	    		String diseaseName = diseaseResultset.getType().getValue().toString();
 	    		stringBuffer.append(diseaseName+"\n");
 	
-		    		if(diseaseName.equalsIgnoreCase("ASTROCYTOMA"))	{
+		    		if(diseaseName.equalsIgnoreCase(gov.nih.nci.nautilus.constants.Constants.ASTRO))	{
 		    			groups[icounter] = diseaseName.substring(0,6);
 		    		}
 		    		else	{
