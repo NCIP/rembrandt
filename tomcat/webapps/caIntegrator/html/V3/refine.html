@@ -147,8 +147,9 @@
 	<div>
 		<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
 			<Tr>
-				<Td align="center"><input type="reset" value="reset query" class="xbutton">
-				&nbsp;&nbsp;<input type="button" class="xbutton" value="validate query" onclick="javascript:setQuery('Query:\n(EGFR up-regulation and EGFR amplification) and Other Genes in region\n\nValidation Results:\nThis is a valid query!');" onmouseover="return overlib('Based on your selections above, your query will appear in the box below.  Please verify its accuracy.  Click \'Reset\' to clear the query.', CAPTION, 'Help');" onmouseout="return nd();">
+				<Td align="center"><input type="reset" value="reset query" class="sbutton">
+				&nbsp;&nbsp;<input type="button" class="sbutton" value="validate query" onclick="javascript:setQuery('Query:\n(EGFR up-regulation and EGFR amplification) and Other Genes in region\n\nValidation Results:\nThis is a valid query!');" onmouseover="return overlib('Based on your selections above, your query will appear in the box below.  Please verify its accuracy.  Click \'Reset\' to clear the query.', CAPTION, 'Help');" onmouseout="return nd();">
+				&nbsp;&nbsp;<input type="button" class="sbutton" value="Save Query As...">
 				</td></tr>
 			<tr>
 				<td align="center">
@@ -158,8 +159,9 @@
 			<tr align="center">
 				<td>
 				<input type="button" class="xbutton" value="back" onclick="javascript:history.back();">&nbsp;&nbsp;
-				<input type="button" class="xbutton" value="save and continue" onclick="javascript:location.href='present.html';">&nbsp;&nbsp;
-				<input type="button" class="xbutton" value="Save As..."></td>
+				<input type="button" class="xbutton" value="continue" onclick="javascript:location.href='present.html';">&nbsp;&nbsp;
+				<!-- <input type="button" class="sbutton" value="Save As..."> -->
+				</td>
 			</tr>
 		</table>
 	</div>
