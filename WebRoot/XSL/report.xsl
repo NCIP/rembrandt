@@ -3,6 +3,10 @@
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 
 <xsl:param name="filter_value1">000</xsl:param>
+
+<xsl:param name="filter_value2">0</xsl:param>
+<xsl:param name="filter_value3">5</xsl:param>
+
 <xsl:param name="filter_type">greater</xsl:param>
 
 <xsl:template match="/">
@@ -97,11 +101,20 @@
   <xsl:for-each select="Report">
     <h2 class="title"><xsl:value-of select="@reportType" /></h2> 
     <h2 class="title">Query Name:<xsl:value-of select="@queryName" /></h2>
-    <h3>Test: <xsl:value-of select="$filter_value1"/></h3>
+    
+    <fieldset>
+    <legend>DEBUG USE ONLY, PLEASE IGNORE THIS</legend>
+    <h3>Test: <xsl:value-of select="$filter_value1"/>,
+    <xsl:value-of select="$filter_value2"/>,
+    <xsl:value-of select="$filter_value3"/>
+    </h3>
+	</fieldset><br/>
+	
 	<xsl:variable name="helpLink" select="@reportType" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
+	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
+	<xsl:variable name="qName" select="@queryName" />
 
-<xsl:variable name="qName" select="@queryName" />
 	<div class="filterForm">
 	<form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 	Filter: highlight values greater than <input type="text" name="filter_value1" size="4" />
@@ -111,14 +124,44 @@
 	</div>
 	<div class="rowCount">
 	  <a href="javascript: spawn('help.jsp?sect={$helpLink}', 350, 500);"><img align="right" src="images/helpIcon.jpg" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
-	  <br clear="all" /><xsl:value-of select="count(Row[@name='dataRow'])" /> records returned. 
-	  <xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical']" >
-	  <xsl:value-of select="count(Row[@name='sampleRow']/Cell)-2" /> samples returned.
-	  </xsl:if>
-	  <a href="#" onclick="javascript:return false;">[Download this report for Excel]</a> | 
+	  <br clear="all" />
+	   <a href="#" onclick="javascript:return false;">[Download this report for Excel]</a> | 
 	  <a href="javascript:window.close()">[Close Window]</a> | 
 	  <a href="javascript:void(window.print())">[Print Report]</a> | 
 	  <a href="#queryInfo">[Query Info]</a>
+	  <br/><br/>
+	  <!-- <xsl:value-of select="$recordCount" /> records returned. -->
+	  Displaying: <xsl:value-of select="$filter_value3 * $filter_value2+1" /> - 
+	  <xsl:choose>
+	  	<xsl:when test="$recordCount > ($filter_value3 * ($filter_value2+1))">
+		  <xsl:value-of select="$filter_value3 * ($filter_value2+1)" />
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:value-of select="$recordCount" />
+		</xsl:otherwise>
+	  </xsl:choose>
+	   of <xsl:value-of select="$recordCount" /> records
+	   <!-- if theres a next show it-->
+	  <xsl:if test="$filter_value2>0">
+	  	<xsl:variable name="ppage" select="$filter_value2 - 1"/> 
+	   <a href="javascript:goPage('{$ppage}');">&lt;&lt;Prev</a>
+	  </xsl:if>
+	  <xsl:if test = "$recordCount > ($filter_value3 * ($filter_value2 +1))">
+	   <xsl:variable name="npage" select="$filter_value2 + 1" />
+	   <a href="javascript:goPage('{$npage}');">Next&gt;&gt;</a>
+	  </xsl:if>
+	  <xsl:text>&#160;</xsl:text>
+	  <xsl:text>&#160;</xsl:text>
+	  <xsl:text>&#160;</xsl:text>
+	  <xsl:text>&#160;</xsl:text>
+	  <xsl:text>&#160;</xsl:text>
+	  <xsl:text>&#160;</xsl:text>
+	  <xsl:text>&#160;</xsl:text>
+	  <xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical']" >
+	  	<xsl:value-of select="count(Row[@name='sampleRow']/Cell)-2" /> samples returned.
+	  </xsl:if>
+	  
+	 
 	</div>
     <table cellpadding="0" cellspacing="0">
 		<xsl:for-each select="Row[@name='headerRow']">
@@ -147,8 +190,8 @@
 		    </tr>
 		</xsl:for-each>
 		<!-- get each data row only -->
-		<xsl:for-each select="Row[@name='dataRow']">
-		
+		<xsl:for-each select="Row[(@name='dataRow')] ">
+			<xsl:if test="$filter_value3 + ($filter_value3 * $filter_value2)>=position() and position() > ($filter_value2 * $filter_value3)">	
 					<tr>
 		  				<xsl:for-each select="Cell">
 		  	  			<xsl:variable name="class" select="@group" />
@@ -164,19 +207,37 @@
 		      			</td>
 		    			</xsl:for-each>
 		    		</tr>
-
+			</xsl:if>
 				<xsl:if test="/Report[@reportType != 'Clinical'] and ./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text()">
 					<tr>
 		      			<td colspan="{$colCount}" class="geneSpacerStyle">--</td>
 		    		</tr>
 				</xsl:if>
+<!-- the pagination form -->
+<xsl:variable name="nextpage" select = "$filter_value2 + 1" />
+<xsl:variable name="prevpage" select = "$filter_value2 - 1" />
+
+<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
+<input type="hidden" name="queryName" value="{$qName}" />
+<input type="hidden" name="filter_value2" value="{$prevpage}" />
+<input type="hidden" name="filter_value3" value="{$filter_value3}" />
+</form>
 
 		</xsl:for-each>
   	</table>
   </xsl:for-each>
  <script language="javascript">
-	<![CDATA[ hideLoadingMessage();]]>
+ <![CDATA[hideLoadingMessage();]]>
+ </script>
+<script language="javascript">
+<![CDATA[
+function goPage(p)	{
+	 	document.forms['paginate'].filter_value2.value = p;
+	 	document.forms['paginate'].submit();
+	 }
+	 ]]>
 </script>
+
   </body>
   </html>
 </xsl:template>
