@@ -53,6 +53,7 @@ package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
+import java.util.*;
 
 /**
  * @author SahniH
@@ -85,7 +86,7 @@ public class CompoundQuery implements Queriable{
 		return associatedView;
 	}
 	
-	private void setAssociatedView(Viewable viewable) {
+	public void setAssociatedView(Viewable viewable) {
 		associatedView = viewable;
 	}
 	/**
@@ -197,5 +198,84 @@ public class CompoundQuery implements Queriable{
 		}
 
 		return outString;
+	}
+	public ViewType [] getValidViews(){
+		ViewType [] validViewTypes=null;
+		ArrayList queryTypesCollection=null; 
+		boolean isGEQuery = false;
+		boolean isCGHQuery = false;
+		boolean isClinical = false;
+		
+		queryTypesCollection = getQueryTypes(this);
+
+		for (Iterator iter = queryTypesCollection.iterator();iter.hasNext();) {
+			QueryType thisQuery = (QueryType) iter.next();
+			if (thisQuery instanceof QueryType.GeneExprQueryType) isGEQuery = true;
+			if (thisQuery instanceof QueryType.CGHQueryType) isCGHQuery = true;
+			if (thisQuery instanceof QueryType.ClinicalQueryType) isClinical = true;
+		}
+//Gene Expression Only		
+		if (isGEQuery && !isCGHQuery && !isClinical){
+			validViewTypes = new ViewType [] {
+				ViewType.GENE_SINGLE_SAMPLE_VIEW,
+				ViewType.GENE_GROUP_SAMPLE_VIEW,
+				ViewType.CLINICAL_VIEW
+			};
+		}
+//		Genomic Only		
+		else  if (!isGEQuery && isCGHQuery && !isClinical){
+				  validViewTypes = new ViewType [] {
+					  ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW,
+					  ViewType.CLINICAL_VIEW
+				  };
+			  }
+// Clinical Only				
+		else if (!isGEQuery && !isCGHQuery && isClinical){
+			validViewTypes = new ViewType [] {
+				ViewType.CLINICAL_VIEW
+			};
+		}
+// The rest compound queries		
+		else {
+				  validViewTypes = new ViewType [] {
+					  ViewType.GENE_SINGLE_SAMPLE_VIEW,
+					  ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW,
+					  ViewType.CLINICAL_VIEW
+				  };
+			  }
+
+		return validViewTypes; 
+	}
+	
+	public ArrayList getQueryTypes(CompoundQuery cQuery){
+		ArrayList queryType = new ArrayList();
+		Queriable lQuery;
+		Queriable rQuery;
+		lQuery = cQuery.getLeftQuery();
+		rQuery = cQuery.getRightQuery();
+		
+		try {
+			if (lQuery != null) {
+				if (lQuery instanceof CompoundQuery) 
+					queryType.addAll(getQueryTypes((CompoundQuery) lQuery));
+				else if (lQuery instanceof Query){
+					queryType.add(((Query) lQuery).getQueryType());
+				}
+			}
+			
+			if (rQuery != null) {
+				if (rQuery instanceof CompoundQuery) 
+					queryType.addAll(getQueryTypes((CompoundQuery) rQuery));
+				else if (rQuery instanceof Query){
+					queryType.add(((Query) rQuery).getQueryType());
+				}
+			}
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		
+		return queryType;
 	}
 }
