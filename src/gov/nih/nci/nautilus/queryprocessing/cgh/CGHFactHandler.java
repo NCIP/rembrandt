@@ -20,6 +20,8 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GEFactHandler;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 
+
+
 /**
  * Created by IntelliJ IDEA.
  * User: Ram
@@ -85,17 +87,24 @@ abstract public class CGHFactHandler {
                 }
             }
             else {
-                 PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                {
+                    System.out.println("Hello");
+                }
+
+                /*  this will retrieve everything so it will run out of memory
+                PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                  final Criteria sampleCrit = new Criteria();
                  if (diseaseCrit != null)
                      CopyNumberCriteriaHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, pb, sampleCrit);
                  if (copyCrit != null)
                      CopyNumberCriteriaHandler.addCopyNumberCriteria(copyCrit, targetFactClass, pb, sampleCrit);
-                 
+
                  Query sampleQuery = QueryFactory.newQuery(targetFactClass,sampleCrit, true);
                   assert(sampleQuery != null);
                   Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                   addToResults(exprObjects);
+
+                  */
             }
     }
 

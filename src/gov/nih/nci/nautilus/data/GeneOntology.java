@@ -9,12 +9,12 @@ public class GeneOntology
     public final static String GO_ID = "goId";
 
       private String geneSymbol;
-      private Long goId;
+      private String goId;
       private String goName;
-      public Long getGoId() {
+      public String getGoId() {
          return this.goId;
       }
-      public void setGoId(Long param)
+      public void setGoId(String param)
       {
         this.goId = param;
       }

@@ -1,31 +1,49 @@
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.SnpAssociatedGene"
-       table="SNP_ASSOCIATED_GENE">
+       class="gov.nih.nci.nautilus.data.GeneLlAcc"
+       table="GENE_LL_ACC">
    <field-descriptor
-             name="arrayName"
-             column="ARRAY_NAME"
+             name="imageId"
+             column="IMAGE_ID"
              jdbc-type="VARCHAR"
         />
     <field-descriptor
-             name="accessionNumber"
-             column="ACCESSION_NUMBER"
+             name="accession"
+             column="ACCESSION"
+             jdbc-type="VARCHAR"
+        />
+     <field-descriptor
+             name="llId"
+             column="LL_ID"
              jdbc-type="VARCHAR"
         />
     <field-descriptor
-             name="geneSymbol"
-             column="GENE_SYMBOL"
-             jdbc-type="VARCHAR"
-        />
+                 name="cytoband"
+                 column="CYTOBAND"
+                 jdbc-type="VARCHAR"
+            />
     <field-descriptor
-             name="probesetName"
-             column="PROBESET_NAME"
-             jdbc-type="VARCHAR"
-        />
+                     name="geneSymbol"
+                     column="GENE_SYMBOL"
+                     jdbc-type="VARCHAR"
+                />
+
     <field-descriptor
-             name="snpProbesetId"
-             column="SNP_PROBESET_ID"
+             name="cStart"
+             column="C_START"
              jdbc-type="BIGINT"
         />
+    <field-descriptor
+             name="cEnd"
+             column="C_END"
+             jdbc-type="BIGINT"
+        />
+    <field-descriptor
+             name="chromosome"
+             column="CHROMOSOME"
+             jdbc-type="VARCHAR"
+            />
+
+
  </class-descriptor>
 
 
@@ -316,14 +334,7 @@
              jdbc-type="VARCHAR"
         />
 
-    <collection-descriptor
-             auto-retrieve="false"
-             name="differentialExpressionSfact"
-             element-class-ref="gov.nih.nci.nautilus.data.DifferentialExpressionSfact">
-             <inverse-foreignkey field-ref="probesetId"/>
-         </collection-descriptor>
-
-
+   
 </class-descriptor>
 
 
@@ -770,7 +781,7 @@
         <field-descriptor
                name="goId"
                column="GO_ID"
-               jdbc-type="BIGINT"
+               jdbc-type="String"
 
           />
         <field-descriptor
