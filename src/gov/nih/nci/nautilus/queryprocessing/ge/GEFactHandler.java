@@ -94,11 +94,16 @@ abstract public class GEFactHandler {
 
     private static void addGEFactCriteria(GeneExpressionQuery geQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
         CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+        FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+
+    }
+    private static void addGEFactCriteriaForAllGenes(GeneExpressionQuery geQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
+        CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
         FoldChangeCriteriaHandler.addFoldChangeCriteriaForAllGenes(geQuery, targetFactClass, _BROKER, sampleCrit);
         CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
 
     }
-
     protected void executeCloneAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
             for (int i = 0; i < arrayIDs.size();) {
@@ -301,7 +306,7 @@ abstract public class GEFactHandler {
         throws Exception {
             PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
             final Criteria sampleCrit = new Criteria();
-            addGEFactCriteria(geQuery, DifferentialExpressionSfact.class, _BROKER, sampleCrit);
+            addGEFactCriteriaForAllGenes(geQuery, DifferentialExpressionSfact.class, _BROKER, sampleCrit);
             org.apache.ojb.broker.query.Query sampleQuery =
                     QueryFactory.newQuery(DifferentialExpressionSfact.class,sampleCrit, false);
             Collection exprObjects =  _BROKER.getCollectionByQuery(sampleQuery );
