@@ -76,9 +76,9 @@ public class SelectPresentDispatchAction extends DispatchAction {
 							((View) thisView).setSelectedElements(selectedDomainElems);
 							
 							// Execute the query and place the query in session
-//							ResultSet[] queryResultSetObjects = QueryManager.executeQuery(queryCollect.getCompoundQuery());
-//							print(queryResultSetObjects);
-//							request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
+							ResultSet[] queryResultSetObjects = QueryManager.executeQuery(queryCollect.getCompoundQuery());
+							print(queryResultSetObjects);
+							request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
 							
 							ActionForward thisForward = mapping.findForward("success");
 							return thisForward;

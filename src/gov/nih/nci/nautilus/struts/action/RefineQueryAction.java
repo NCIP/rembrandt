@@ -22,6 +22,10 @@ import gov.nih.nci.nautilus.parser.*;
 import org.apache.struts.util.LabelValueBean;
 import gov.nih.nci.nautilus.view.*;
 import gov.nih.nci.nautilus.util.*;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+
+
 
 
 import java.util.*;
@@ -151,7 +155,7 @@ public class RefineQueryAction extends DispatchAction {
 		}else{
 			// Query Collection is null.  Go back and display error
 			refineQueryForm.setQueryText("Error!! Query Collection is null");
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.no.error"));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.empty.error"));
 			this.saveErrors(request, errors);
 			return (new ActionForward(mapping.getInput()));
 			
@@ -218,6 +222,12 @@ public class RefineQueryAction extends DispatchAction {
 				System.out.println(selectView);
 				// Set View in compoundQuery
 				cQuery.setAssociatedView(ViewFactory.newView(selectView));
+
+				// Execute the query and place the query in session
+				ResultSet[] queryResultSetObjects = QueryManager.executeQuery(queryCollect.getCompoundQuery());
+				print(queryResultSetObjects);
+				request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
+				
 			}else {
 				System.out.println("QueryCollection has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.executequery.querycoll.no.error"));
@@ -237,5 +247,16 @@ public class RefineQueryAction extends DispatchAction {
 
 	 }
   
+	private void print(ResultSet[] geneExprObjects) {
+		if(geneExprObjects != null){
+			System.out.println("Number of Records:"+ geneExprObjects.length);
+			for (int i =0; i < geneExprObjects.length; i++) {
+				GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
+				if(expObj != null){
+				System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
+				}
+			}
+		}
+	}		
      
 }
