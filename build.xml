@@ -194,7 +194,7 @@
 	  <delete dir="${env.CATALINA_HOME}/work"/>
         <copy file="${build.dir}/${app.war.name}.war" todir="${env.CATALINA_HOME}/webapps"/>
     </target>
-
+    <target name="deploy-Nautilus" depends="cvs-checkout,deploy-war-n-restart-tomcat"/>
 	<target name="deploy-war-n-restart-tomcat" depends="tomcat-shutdown-unix,tomcat-shutdown-win,deploy-webapp,tomcat-startup-unix,tomcat-startup-win"/>
 	
 	<target name="restart-tomcat-unix" if="${isUnix}" depends="tomcat-shutdown-unix,deploy-webapp,tomcat-startup-unix"/>
