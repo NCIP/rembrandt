@@ -37,7 +37,7 @@ var stamp = "";
 stamp = d.getDate()+"-"+(d.getMonth() + 1)+"-"+d.getFullYear()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds();
 //this line enables multi view
 windowName += stamp;
-alert(windowName);
+
 		spawnx("", winw, winh, windowName);
 		document.forms[0].target = windowName;
 		return true;
