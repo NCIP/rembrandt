@@ -34,6 +34,6 @@ public class KMDrawingPoint extends XYDataPair {
 		return census;
 	}
 	public String toString(){
-	    return ("( "+xyDataPair.getX()+", "+xyDataPair.getY()+")");
+	    return ("( "+xyDataPair.getX()+", "+xyDataPair.getY()+")  Census:"+census);
 	}
 }

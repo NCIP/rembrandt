@@ -51,7 +51,7 @@ public class KMGraphGenerator {
     private XYSeriesCollection censorDataseries = new XYSeriesCollection();
     private XYSeriesCollection lineDataseries = new XYSeriesCollection();
     
-    private static Logger logger = Logger.getLogger(KMDataSetForm.class);
+    private static Logger logger = Logger.getLogger(KMGraphGenerator.class);
     
     public KMGraphGenerator(int _upFold, int _downFold, String _geneName) {
         upFold = _upFold;
