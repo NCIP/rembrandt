@@ -50,4 +50,18 @@ abstract public class DBEvent extends EventObject {
         }
     }
 
+    public final static class FactRetrieveEvent extends DBEvent {
+        private String threadID;
+        private final static String FACT_EVENT = "FactRetrieveEvent";
+
+        public String getThreadID() {
+            return threadID;
+        }
+
+        public FactRetrieveEvent(String dynamicThreadID) {
+            super(FACT_EVENT );
+            threadID = dynamicThreadID;
+        }
+    }
+
 }

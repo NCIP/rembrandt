@@ -76,7 +76,7 @@ public class GeneIDCriteriaHandler {
         }
         return cloneIDProbeIDCrit;
     }
-    private static Class getGeneIDClassName(GeneIDCriteria geneIDCrit ) {
+   static Class getGeneIDClassName(GeneIDCriteria geneIDCrit ) {
             Collection geneIDs = geneIDCrit.getGeneIdentifiers();
             GeneIdentifierDE obj =  (GeneIdentifierDE) geneIDs.iterator().next();
             return obj.getClass();

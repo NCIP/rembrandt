@@ -36,6 +36,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
     boolean includeClones;
     boolean includeProbes;
 
+
     private Collection allProbeIDS = Collections.synchronizedCollection(new HashSet());
     private Collection allCloneIDS = Collections.synchronizedCollection(new HashSet());
     private List eventList = Collections.synchronizedList(new ArrayList());
@@ -93,6 +94,8 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
 
         if (geQuery.getGeneIDCrit() != null && geQuery.getGeneIDCrit().getGeneIdentifiers().size() > 0) {
+            //String className = (GeneIDCriteriaHandler.getGeneIDClassName(geQuery.getGeneIDCrit())).getName();
+            //if (className.equals( GeneIdentifierDE.GeneSymbol.class.getName()))
             geneIDCrit = GeneIDCriteriaHandler.buildGeneIDCriteria(geQuery.getGeneIDCrit(), includeClones, includeProbes, _BROKER);
             assert(geneIDCrit != null);
             SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS, _BROKER);
@@ -116,9 +119,9 @@ final public class GeneExprQueryHandler extends QueryHandler {
             new Thread(tg, handler).start();
         }
 
-        Criteria sampleCrit= new Criteria();
-        if (geQuery.getFoldChgCrit() != null)
-            FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery.getFoldChgCrit(), _BROKER, sampleCrit);
+//        Criteria sampleCrit= new Criteria();
+//        if (geQuery.getFoldChgCrit() != null)
+  //          FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery.getFoldChgCrit(), _BROKER, sampleCrit);
 
         boolean sleep = true;
         do {
@@ -133,14 +136,14 @@ final public class GeneExprQueryHandler extends QueryHandler {
             }
         } while (sleep);
 
-        Criteria combinedIDs = getCombinedIDs();
+        /*Criteria combinedIDs = getCombinedIDs();
         if (combinedIDs != null) {
             Enumeration idEnum = combinedIDs.getElements();
             if (idEnum.hasMoreElements()) {
                 sampleCrit.addAndCriteria(combinedIDs);
             }
-        }
-        return factHandler.executeSampleQuery(sampleCrit, _BROKER);
+        }*/
+        return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery.getFoldChgCrit());
    }
 
     private Criteria getCombinedIDs() {

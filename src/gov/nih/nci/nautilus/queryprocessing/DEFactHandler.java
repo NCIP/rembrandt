@@ -2,12 +2,16 @@ package gov.nih.nci.nautilus.queryprocessing;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.ValueCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 
 import java.util.*;
 
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
+import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,38 +22,98 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
  */
 abstract public class DEFactHandler {
     Class sfactClass = DifferentialExpressionSfact.class;
+    Map geneExprObjects = Collections.synchronizedMap(new HashMap());
+    List eventList = Collections.synchronizedList(new ArrayList());
 
-    abstract Map executeSampleQuery(Criteria sampleCriteria, PersistenceBroker _BROKER);
+    abstract Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+    throws Exception;
 
-    static class SampleDEFactHandler extends DEFactHandler {
-        Map executeSampleQuery(Criteria sampleCrit, PersistenceBroker _BROKER) {
-            String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
-            sampleCrit.addOrderBy(fieldName);
-            org.apache.ojb.broker.query.Query sampleQuery = QueryFactory.newQuery(
-                DifferentialExpressionSfact.class, sampleCrit, true); //TODO: true/false
-            /*
-            sampleQuery.setAttributes(new String[] {
-                    DifferentialExpressionSfact.DES_ID,
-                    DifferentialExpressionSfact.PROBE_NAME,
-                    DifferentialExpressionSfact.CLONE_NAME,
-                    DifferentialExpressionSfact.PROBESET_ID,
-                    DifferentialExpressionSfact.tyCLONE_ID,
-                    DifferentialExpressionSfact.GENE_SYMBOL,
-                    DifferentialExpressionSfact.BIOSPECIMEN_ID,
-                    DifferentialExpressionSfact.EXPRESSION_RATIO
-            } );
-            */
-            Collection exprObjects =   _BROKER.getCollectionByQuery(sampleQuery );
-            assert(exprObjects != null);
+    final static class SampleDEFactHandler extends DEFactHandler {
+        Map executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+        throws Exception {
+            final String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
+            System.out.println("Total Number Of Probes:" + allProbeIDs.size());
+            build(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, foldCrit, fieldName);
+            build(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, foldCrit, fieldName);
+                /*
+                sampleQuery.setAttributes(new String[] {
+                        DifferentialExpressionSfact.DES_ID,
+                        DifferentialExpressionSfact.PROBE_NAME,
+                        DifferentialExpressionSfact.CLONE_NAME,
+                        DifferentialExpressionSfact.PROBESET_ID,
+                        DifferentialExpressionSfact.tyCLONE_ID,
+                        DifferentialExpressionSfact.GENE_SYMBOL,
+                        DifferentialExpressionSfact.BIOSPECIMEN_ID,
+                        DifferentialExpressionSfact.EXPRESSION_RATIO
+                } );
+                */
+            boolean sleep = true;
+            do {
+                Thread.sleep(10);
+                sleep = false;
+                for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
+                    DBEvent eventObj = (DBEvent)iterator.next();
+                    if (! eventObj.isCompleted()) {
+                        sleep = true;
+                        break;
+                    }
+                }
+            } while (sleep);
 
-            Map geneExprObjects = new HashMap();
+            print();
+            return geneExprObjects;
 
-            int count = 0;
-           HashSet probeIDS = new HashSet();
-           HashSet cloneIDs = new HashSet();
+        }
+
+        private void build(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final FoldChangeCriteria foldCrit, final String fieldName) throws Exception {
+            ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
+
+            for (int i = 0; i < arrayIDs.size();) {
+                Collection values = new ArrayList();
+                int begIndex = i;
+                i += 50;
+                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size() - 1);
+                values.addAll(arrayIDs.subList(begIndex,  endIndex));
+                final Criteria IDs = new Criteria();
+                IDs.addIn(probeOrCloneIDAttr, values);
+                String threadID = "DEFactHandler.ThreadID:" + probeOrCloneIDAttr + ":" +i;
+
+                final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
+                eventList.add(dbEvent);
+                PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                final Criteria sampleCritBasedOnProbes = new Criteria();
+                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, _BROKER, sampleCritBasedOnProbes);
+                new Thread(
+                   new Runnable() {
+                      public void run() {
+                          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                          sampleCritBasedOnProbes.addAndCriteria(IDs);
+                          org.apache.ojb.broker.query.Query sampleQuery =
+                          QueryFactory.newQuery(DifferentialExpressionSfact.class,sampleCritBasedOnProbes, true);
+                          assert(sampleQuery != null);
+                          Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
+                          addToResults(exprObjects);
+                          dbEvent.setCompleted(true);
+                      }
+                   }
+               ).start();
+            }
+        }
+
+        private void addToResults(Collection exprObjects) {
             for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
                 DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
                 geneExprObjects.put(exprObj.getDesId(), exprObj);
+            }
+        }
+        private void print() {
+            int count = 0;
+            HashSet probeIDS = new HashSet();
+            HashSet cloneIDs = new HashSet();
+            Set keys = geneExprObjects.keySet();
+            for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+                Long desID =  (Long) iterator.next();
+                DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact)geneExprObjects.get(desID);
                 if (exprObj.getProbesetId() != null) {
                   // System.out.println("ProbesetID: " + exprObj.getProbesetId() + " :Exp Value: "
                     //            + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol() );
@@ -63,28 +127,29 @@ abstract public class DEFactHandler {
 
                  ++count;
             }
-           System.out.println("Total Number Of Samples: " + count);
-           StringBuffer p = new StringBuffer();
-           for (Iterator iterator = probeIDS.iterator(); iterator.hasNext();) {
-               Long aLong = (Long) iterator.next();
-               p.append(aLong.toString() + ",");
-           }
-           System.out.println("ProbeIDs");
-           System.out.println(p.toString());
-           StringBuffer c = new StringBuffer();
-           for (Iterator iterator = cloneIDs.iterator(); iterator.hasNext();) {
-               Long aLong = (Long) iterator.next();
-               c.append(aLong.toString() + ",");
-           }
-           System.out.println("cloneIDs");
-           System.out.println(c.toString());
+            System.out.println("Total Number Of Samples: " + count);
+            StringBuffer p = new StringBuffer();
+            for (Iterator iterator = probeIDS.iterator(); iterator.hasNext();) {
+                Long aLong = (Long) iterator.next();
+                p.append(aLong.toString() + ",");
+            }
+            System.out.println("Total Probes: " + probeIDS.size());
+            System.out.println(p.toString());
+            StringBuffer c = new StringBuffer();
+            for (Iterator iterator = cloneIDs.iterator(); iterator.hasNext();) {
+                Long aLong = (Long) iterator.next();
+                c.append(aLong.toString() + ",");
+            }
+            System.out.println("Total clones: " + cloneIDs.size());
+            System.out.println(c.toString());
 
-            return geneExprObjects;
+            return ;
         }
     }
 
     static class GroupDEFactHanlder extends DEFactHandler {
-        Map executeSampleQuery(Criteria sampleCriteria,  PersistenceBroker _BROKER) {
+        Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+        throws Exception {
             //TODO:
             return null;
         }
