@@ -69,9 +69,9 @@ public class SampleViewHandler {
           	//Propulate the GeneExprSingleResultsContainer
       		GeneExprSingleViewResultsContainer geneExprSingleViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
         	if(geneExprSingleViewContainer == null){
-        		geneExprSingleViewContainer = new geneExprSingleViewcaontainer();
+        		geneExprSingleViewContainer = new GeneExprSingleViewResultsContainer();
         	}
-        	geneExprSingleViewContainer = geneExprSingleViewHandler.handleGeneSingleView(geneExprSingleViewcaontainer,exprObj, groupType);
+        	geneExprSingleViewContainer = geneExprSingleViewHandler.handleGeneSingleView(geneExprSingleViewContainer,exprObj, groupType);
       		sampleResultset.setGeneExprSingleViewResultsContainer(geneExprSingleViewContainer);
            	//Populate the SampleViewResultsContainer
       		sampleViewContainer.addBioSpecimenResultset(sampleResultset);
