@@ -24,6 +24,7 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
@@ -36,6 +37,7 @@ import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsCont
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.ui.ReportGenerator;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
@@ -104,7 +106,7 @@ public class CompoundQueryTest extends TestCase {
 			//test Single Query
 			System.out.println("Testing Single Gene Query>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(genomicQuery);
-			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
 		} catch (Exception e) {
@@ -116,7 +118,7 @@ public class CompoundQueryTest extends TestCase {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneQuery AND ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,probeQuery);
-			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
 		} catch (Exception e) {
@@ -128,7 +130,7 @@ public class CompoundQueryTest extends TestCase {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneQuery NOT ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.NOT,geneQuery,probeQuery);
-			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
 		} catch (Exception e) {
@@ -139,8 +141,8 @@ public class CompoundQueryTest extends TestCase {
 		try {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery CloneQuery OR ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.OR,cloneQuery,probeQuery);
-			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.OR,geneQuery,probeQuery);
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
 		} catch (Exception e) {
@@ -152,10 +154,14 @@ public class CompoundQueryTest extends TestCase {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
-			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
-			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+			QueryCollection queryCollection = new QueryCollection();
+			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			//Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
-			print(resultant);
+			queryCollection.setCompoundQuery(myCompoundQuery);
+			String theColors[] = {"0073E6","FFFF61"};
+			System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
+			//print(resultant);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		

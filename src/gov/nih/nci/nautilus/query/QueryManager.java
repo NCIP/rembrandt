@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.queryprocessing.CompoundQueryProcessor;
 import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
+import gov.nih.nci.nautilus.resultset.CompoundResultSet;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 /**
@@ -21,10 +22,14 @@ public class QueryManager {
     	if(queryToExecute instanceof Query){
     		resultset = QueryProcessor.execute((Query) queryToExecute);
     	}
-    	else if (queryToExecute instanceof CompoundQuery){
-    		resultset = CompoundQueryProcessor.execute((CompoundQuery) queryToExecute);
-    	}
     	return resultset;
+    }
+    public static CompoundResultSet executeCompoundQuery(Queriable queryToExecute) throws Exception {
+    	CompoundResultSet compoundResultset = null;
+    	if (queryToExecute instanceof CompoundQuery){
+    		compoundResultset = CompoundQueryProcessor.execute((CompoundQuery) queryToExecute);
+    	}
+    	return compoundResultset;
     }
 
 }

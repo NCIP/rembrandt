@@ -7,6 +7,7 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
@@ -157,7 +158,7 @@ public class QueryTest extends TestCase {
       public void testResultset(ResultSet[] geneExprObjects){
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
-        ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView((GeneExprSingle[]) geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
+        ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView(new Resultant(),(GeneExprSingle[]) geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
 		if (resultsContainer instanceof DimensionalViewContainer){
 			DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 	        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();

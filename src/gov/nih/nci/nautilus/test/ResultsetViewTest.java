@@ -247,7 +247,7 @@ public class ResultsetViewTest extends TestCase {
 			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery1);
 			GeneExprSampleView geneCentricView = new GeneExprSampleView();
 			geneCentricView.setGroupType(GroupType.DISEASE_TYPE_GROUP);			
-			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			assertNotNull(resultant.getResultsContainer());
 			if(resultant != null){
@@ -277,7 +277,7 @@ public class ResultsetViewTest extends TestCase {
 		        buildGeneExprDiseaseViewQuery();
 				System.out.println("Building Group Gene Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
 				CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery2);
-				Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+				Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 				System.out.println("DiseaseQuery:\n"+ myCompoundQuery.toString());
 				assertNotNull(resultant.getResultsContainer());
 				if(resultant != null){
@@ -303,7 +303,7 @@ public class ResultsetViewTest extends TestCase {
 				buildComparativeGenomicQuery();
 				System.out.println("Building SNP Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
 				CompoundQuery myCompoundQuery = new CompoundQuery(snpQuery);
-				Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+				Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 				System.out.println("SNPQuery:\n"+ myCompoundQuery.toString());
 				assertNotNull(resultant.getResultsContainer());
 				if(resultant != null){

@@ -42,10 +42,11 @@ public class ReportGenerator  {
 			CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
 			try	{
-				resultant = ResultsetManager.executeQuery(myCompoundQuery);
+				resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 	  		}
-	  		catch (Exception e)	{
+	  		catch (Throwable t)	{
 	  			errors.append("Error executing the query.<Br><Br>");
+	  			errors.append(t.getStackTrace().toString());
 	  			return errors.toString();
 	  		}
 
