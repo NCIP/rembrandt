@@ -33,11 +33,11 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
  */
 final public class GeneExprQueryHandler extends QueryHandler {
     DEFactHandler factHandler = null;
-    ReporterIDCriteria porbeClonePlatformCrit = null;
-    ReporterIDCriteria geneIDCrit = null;
-    ReporterIDCriteria regionCrit = null;
-    ReporterIDCriteria ontologyCrit = null;
-    ReporterIDCriteria pathwayCrit = null;
+    GEReporterIDCriteria porbeClonePlatformCrit = null;
+    GEReporterIDCriteria geneIDCrit = null;
+    GEReporterIDCriteria regionCrit = null;
+    GEReporterIDCriteria ontologyCrit = null;
+    GEReporterIDCriteria pathwayCrit = null;
     protected javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
 
     boolean includeClones;
@@ -88,7 +88,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
 
         if (geQuery.getRegionCrit() != null) {
-            regionCrit = gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildRegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes, _BROKER);
+            regionCrit = gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildGERegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes, _BROKER);
             assert(regionCrit != null);
             SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allProbeIDS, allCloneIDS, _BROKER);
             eventList.add(handler.getDbEvent());

@@ -27,27 +27,38 @@ import java.math.BigDecimal;
 final public class ChrRegionCriteriaHandler {
     private final static String CHR_NUMBER_MISSING = "Chromosome Can not be null";
     abstract private static class RegionHandler {
-        abstract StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb, boolean includeProbes, boolean includeClones)
+        abstract StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb)
         throws Exception;
     }
     final private static class CytobandHandler extends RegionHandler {
-        StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb, boolean includeProbes, boolean includeClones) throws Exception {
+        StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb) throws Exception {
             StartEndPosition posObj = getStartEndPostions(pb, regionCrit.getCytoband(), regionCrit.getChromNumber());
             assert(posObj != null);
             return posObj;
         }
     }
     final private static class PositionHandler extends RegionHandler {
-        StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb, boolean includeProbes, boolean includeClones) throws Exception {
+        StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb) throws Exception {
             StartEndPosition posObj = new StartEndPosition(regionCrit.getStart(), regionCrit.getEnd(), regionCrit.getChromNumber());
             assert(posObj != null);
             return posObj;
         }
     }
-    final static private class StartEndPosition {
+    final static public class StartEndPosition {
         BasePairPositionDE startPosition;
         BasePairPositionDE endPosition;
         ChromosomeNumberDE chrNumber;
+
+        public BasePairPositionDE getStartPosition() {
+            return startPosition;
+        }
+        public BasePairPositionDE getEndPosition() {
+            return endPosition;
+        }
+        public ChromosomeNumberDE getChrNumber() {
+            return chrNumber;
+        }
+
         public StartEndPosition(BasePairPositionDE startPosition, BasePairPositionDE endPosition, ChromosomeNumberDE chrNumber) {
             this.startPosition = startPosition;
             this.endPosition = endPosition;
@@ -55,8 +66,20 @@ final public class ChrRegionCriteriaHandler {
         }
     }
 
-    static ReporterIDCriteria buildRegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+    static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
         assert (regionCrit != null);
+        StartEndPosition posObj = getPositionObject(regionCrit, pb);
+
+        return buildGECloneIDProbeIDCrit(posObj, includeProbes, pb, includeClones);
+    }
+    static GEReporterIDCriteria buildCGHRegionCriteria( RegionCriteria regionCrit, boolean includeSNPs, boolean includeCGH, PersistenceBroker pb) throws Exception {
+        assert (regionCrit != null);
+        StartEndPosition posObj = getPositionObject(regionCrit, pb);
+
+        return buildCGHCloneIDProbeIDCrit(posObj, includeSNPs, pb, includeCGH);
+    }
+
+    public static StartEndPosition getPositionObject(RegionCriteria regionCrit, PersistenceBroker pb) throws Exception {
         if (regionCrit.getChromNumber() == null) throw new Exception(CHR_NUMBER_MISSING );
 
         RegionHandler h = null;
@@ -65,12 +88,26 @@ final public class ChrRegionCriteriaHandler {
         else if (regionCrit.getStart() != null && regionCrit.getEnd() != null)
             h = new PositionHandler();
 
-        StartEndPosition posObj = h.buildStartEndPosition(regionCrit, pb, includeProbes, includeClones);
-        return buildCloneIDProbeIDCrit(posObj, includeProbes, pb, includeClones);
+        StartEndPosition posObj = h.buildStartEndPosition(regionCrit, pb);
+        return posObj;
     }
 
-    private static ReporterIDCriteria  buildCloneIDProbeIDCrit(StartEndPosition posObj, boolean includeProbes, PersistenceBroker pb, boolean includeClones) throws Exception {
-            ReporterIDCriteria cloneIDProbeIDCrit = new ReporterIDCriteria();
+    private static GEReporterIDCriteria  buildGECloneIDProbeIDCrit(StartEndPosition posObj, boolean includeProbes, PersistenceBroker pb, boolean includeClones) throws Exception {
+            GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
+            if (posObj != null) {
+                if (includeProbes) {
+                    ReportQueryByCriteria probeIDSubQuery = buildProbeIDCrit(pb, posObj);
+                    cloneIDProbeIDCrit.setProbeIDsSubQuery(probeIDSubQuery);
+                }
+                if (includeClones) {
+                   ReportQueryByCriteria colneIDSubQuery = buildCloneIDCrit(pb, posObj);
+                   cloneIDProbeIDCrit.setCloneIDsSubQuery(colneIDSubQuery);
+                }
+            }
+            return cloneIDProbeIDCrit;
+    }
+     private static GEReporterIDCriteria  buildCGHCloneIDProbeIDCrit(StartEndPosition posObj, boolean includeProbes, PersistenceBroker pb, boolean includeClones) throws Exception {
+            GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
             if (posObj != null) {
                 if (includeProbes) {
                     ReportQueryByCriteria probeIDSubQuery = buildProbeIDCrit(pb, posObj);

@@ -11,7 +11,7 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
  * Time: 12:17:51 PM
  * To change this template use Options | File Templates.
  */
-public class ReporterIDCriteria {
+public class GEReporterIDCriteria {
     private ReportQueryByCriteria cloneIDsSubQuery;
     private ReportQueryByCriteria probeIDsSubQuery;
 

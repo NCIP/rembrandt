@@ -13,4 +13,6 @@ public interface Constants {
     String AFFY_OLIGO_PLATFORM = "Affymetrix Oligo Expression Arrays";
     String CDNA_ARRAY_PLATFORM = "cDNA arrays";
     String ALL_PLATFROM = "all";
+    String ARRAY_CGH = "ArrayCGH";
+    String  AFFY_100K_SNP_ARRAY = "Affymetrix 100K SNP Arrays";
 }

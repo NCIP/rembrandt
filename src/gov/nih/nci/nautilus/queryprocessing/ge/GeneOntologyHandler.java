@@ -24,7 +24,7 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class GeneOntologyHandler {
-    static ReporterIDCriteria  buildGeneOntologyIDCriteria( GeneOntologyCriteria ontologyCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+    static GEReporterIDCriteria  buildGeneOntologyIDCriteria( GeneOntologyCriteria ontologyCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
             Collection goIDs = ontologyCrit.getGOIdentifiers();
 
             ArrayList goIDValues = new ArrayList();

@@ -28,7 +28,7 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class GenePathwayHandler {
-    static ReporterIDCriteria  buildPathwayCriteria( PathwayCriteria pathwayCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+    static GEReporterIDCriteria  buildPathwayCriteria( PathwayCriteria pathwayCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
             Collection pathwayNames = pathwayCrit.getPathwayNames();
             ArrayList pathwayNameValues = new ArrayList();
             if (pathwayNames  != null && pathwayNames .size() > 0) {

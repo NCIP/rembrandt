@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
-import gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria;
+import gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 
 /**
@@ -21,7 +21,7 @@ import gov.nih.nci.nautilus.queryprocessing.DBEvent;
  * To change this template use Options | File Templates.
  */
 public abstract class SelectHandler implements Runnable {
-    private gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria reporterIDCritObj;
+    private gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj;
     private Collection allProbeIDS;
     private Collection allCloneIDS;
 
@@ -37,36 +37,36 @@ public abstract class SelectHandler implements Runnable {
     private PersistenceBroker _BROKER = null;
 
     final static class RegionSelectHandler extends SelectHandler{
-       public RegionSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
+       public RegionSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
            super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.RegionRetrieveEvent(),  _BROKER);
        }
     }
 
     final static class OntologySelectHandler extends SelectHandler{
-       public OntologySelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
+       public OntologySelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
            super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.OntologyRetrieveEvent(),  _BROKER);
        }
     }
 
     final static class PathwaySelectHandler extends SelectHandler{
-       public PathwaySelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
+       public PathwaySelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER) {
            super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.PathwayRetrieveEvent(),  _BROKER);
        }
     }
 
     final static class ProbeCloneIDSelectHandler extends SelectHandler{
-       public ProbeCloneIDSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER ) {
+       public ProbeCloneIDSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER ) {
            super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.ProbeIDCloneIDRetrieveEvent(), _BROKER);
        }
     }
 
     final static class GeneIDSelectHandler extends SelectHandler {
-       public GeneIDSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER ) {
+       public GeneIDSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, PersistenceBroker _BROKER ) {
            super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.GeneIDRetrieveEvent(), _BROKER);
        }
     }
 
-    public SelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.ReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, DBEvent event, PersistenceBroker pb) {
+    public SelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs, DBEvent event, PersistenceBroker pb) {
         this.reporterIDCritObj = reporterIDCritObj;
         allProbeIDS = allProbIDs;
         allCloneIDS = allClnIDs;

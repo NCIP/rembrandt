@@ -5,6 +5,11 @@ package gov.nih.nci.nautilus.data;
 
 public class SNPProbesetDim
 {
+  public final static String PHYSICAL_POSITION = "physicalPosition";
+  public final static String SNP_PROBESET_ID = "snpProbesetId";
+  public final static String CHROMOSOME = "chr";
+
+
   private String alleleFrequencyAf;
 
   private String alleleFrequencyAs;
@@ -25,7 +30,7 @@ public class SNPProbesetDim
 
   private Long snpProbesetId;
 
-  private java.util.Vector collArrayGenoAbnFact;
+
 
   public String getAlleleFrequencyAf()
   {
@@ -127,14 +132,6 @@ public class SNPProbesetDim
   }
 
 
-  public java.util.Vector getCollArrayGenoAbnFact()
-  {
-     return this.collArrayGenoAbnFact;
-  }
-  public void setCollArrayGenoAbnFact(java.util.Vector param)
-  {
-    this.collArrayGenoAbnFact = param;
-  }
 
 
 }

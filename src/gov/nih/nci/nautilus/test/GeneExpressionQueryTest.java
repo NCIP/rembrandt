@@ -123,7 +123,7 @@ public class GeneExpressionQueryTest extends TestCase {
             return ;
     }
       public void testResultset(ResultSet[] geneExprObjects){
-    	ResultsetProcessor resultsetProc = new ResultsetProcessor();
+    	gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
     	resultsetProc.handleGeneView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);

@@ -11,7 +11,7 @@ import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 
 
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.CGHQueryHandler;
+
 
 import java.util.*;
 import gov.nih.nci.nautilus.de.*;
@@ -38,7 +38,7 @@ public class ComparativeGenomicQuery extends Query {
     private QueryHandler HANDLER;   
 
     public QueryHandler getQueryHandler() throws Exception  {
-        return (HANDLER == null) ? new CGHQueryHandler() : HANDLER;
+        return (HANDLER == null) ? new gov.nih.nci.nautilus.queryprocessing.cgh.CGHQueryHandler() : HANDLER;
     }
 	public QueryType getQueryType() throws Exception {
 		return QueryType.CGH_QUERY_TYPE;
@@ -265,7 +265,7 @@ public class ComparativeGenomicQuery extends Query {
         this.alleleFrequencyCriteria = alleleFrequencyCriteria;
     }
 	
-	public AssayPlatformCriteria  getAssayPlatformCriteria() {
+	public AssayPlatformCriteria getAssayPlatformCriteria() {
         return assayPlatformCriteria;
     }
 

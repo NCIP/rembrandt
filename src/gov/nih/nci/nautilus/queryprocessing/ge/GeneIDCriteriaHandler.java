@@ -23,7 +23,7 @@ import java.util.Iterator;
  * To change this template use Options | File Templates.
  */
 public class GeneIDCriteriaHandler {
-    public static ReporterIDCriteria buildGeneIDCriteria( GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb ) throws Exception {
+    public static GEReporterIDCriteria buildGeneIDCriteria( GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb ) throws Exception {
         Collection geneIdDEs = geneIDCrit.getGeneIdentifiers();
         Class deClass = getGeneIDClassName(geneIDCrit);
         ArrayList geneIDs = new ArrayList();
@@ -56,8 +56,8 @@ public class GeneIDCriteriaHandler {
         geneSymbolSubQueryCrit.addIn(ProbesetDim.GENE_SYMBOL, geneSymbolQuery);
         return geneSymbolSubQueryCrit;
     }
-    static ReporterIDCriteria buildAllIDsQueryBasedOnGeneIDCrit(Class idDEClass, Collection geneIDs, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
-        ReporterIDCriteria cloneIDProbeIDCrit = new ReporterIDCriteria();
+    static GEReporterIDCriteria buildAllIDsQueryBasedOnGeneIDCrit(Class idDEClass, Collection geneIDs, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+        GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
 
         if ( includeProbes) {
             String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);

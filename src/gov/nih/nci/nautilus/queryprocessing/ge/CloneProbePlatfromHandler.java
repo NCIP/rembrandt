@@ -33,9 +33,9 @@ import org.apache.ojb.broker.PersistenceBroker;
  */
 public class CloneProbePlatfromHandler {
 
-    static  ReporterIDCriteria buildCloneProbePlatformCriteria(CloneOrProbeIDCriteria cloneOrProbeCrit,  ArrayPlatformCriteria platCrit, PersistenceBroker _BROKER) throws Exception{
+    static  GEReporterIDCriteria buildCloneProbePlatformCriteria(CloneOrProbeIDCriteria cloneOrProbeCrit,  ArrayPlatformCriteria platCrit, PersistenceBroker _BROKER) throws Exception{
 
-        ReporterIDCriteria idsCriteria = new ReporterIDCriteria();
+        GEReporterIDCriteria idsCriteria = new GEReporterIDCriteria();
 
         if (cloneOrProbeCrit != null ) {
             String probeType = getType(cloneOrProbeCrit);
