@@ -1,7 +1,14 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.criteria.AgeCriteria;
+import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.GenderCriteria;
+import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
+import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
+import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
+import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
 import gov.nih.nci.nautilus.de.ChemoAgentDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.DomainElement;

@@ -1,24 +1,18 @@
 package gov.nih.nci.nautilus.queryprocessing.clinical;
 
-import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.criteria.AgeCriteria;
+import gov.nih.nci.nautilus.criteria.GenderCriteria;
+import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
 import gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
-import gov.nih.nci.nautilus.queryprocessing.ge.FoldChangeCriteriaHandler;
+import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;

@@ -49,10 +49,6 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
@@ -63,6 +59,10 @@ import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.view.Viewable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * @author SahniH

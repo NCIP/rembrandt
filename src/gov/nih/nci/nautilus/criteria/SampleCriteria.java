@@ -1,11 +1,10 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.SampleIDDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.

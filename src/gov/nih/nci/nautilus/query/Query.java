@@ -1,6 +1,5 @@
 package gov.nih.nci.nautilus.query;
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.Criteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;

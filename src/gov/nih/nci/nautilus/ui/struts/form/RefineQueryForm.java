@@ -12,13 +12,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.Factory;
+import org.apache.commons.collections.list.LazyList;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
-import org.apache.commons.collections.Factory;
-import org.apache.commons.collections.list.LazyList;
 
 public class RefineQueryForm extends BaseForm implements Factory {
     private static Logger logger = Logger.getLogger(RefineQueryForm.class);

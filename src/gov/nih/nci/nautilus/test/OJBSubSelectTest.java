@@ -1,24 +1,22 @@
 package gov.nih.nci.nautilus.test;
 
+import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
+import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
-import gov.nih.nci.nautilus.view.ViewFactory;
-import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
 import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.FoldChangeCriteriaHandler;
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
-import gov.nih.nci.nautilus.data.ProbesetDim;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+
+import java.util.Collection;
+
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQuery;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-
-import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
