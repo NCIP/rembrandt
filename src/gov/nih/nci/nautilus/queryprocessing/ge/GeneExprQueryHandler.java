@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
@@ -50,8 +51,8 @@ final public class GeneExprQueryHandler extends QueryHandler {
         ArrayPlatformCriteria platObj = geQuery.getArrayPlatformCriteria();
         assert(platObj != null);
         populateProbeAndCloneIncludeFlags(platObj);
-
-        if (geQuery.getAllGenesCrit().isAllGenes() ) {
+        AllGenesCriteria allGenesCrit = geQuery.getAllGenesCrit();
+        if (allGenesCrit!=null&&allGenesCrit.isAllGenes() ) {
 
             if (! (factHandler instanceof GEFactHandler.SingleGEFactHandler))
             throw new Exception("AllGenes criteria is not allowed for Disease view");
@@ -61,7 +62,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
 
             return factHandler.executeSampleQueryForAllGenes(geQuery);
         }
-
+        
         ThreadGroup tg = new ThreadGroup("childGroup");
 
         if (geQuery.getCloneOrProbeIDCriteria() != null) {
