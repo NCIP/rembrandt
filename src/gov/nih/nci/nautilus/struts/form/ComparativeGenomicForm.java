@@ -193,7 +193,7 @@ public class ComparativeGenomicForm extends BaseForm {
 	  
 	  snpTypes.add(new LabelValueBean("TSC Id","TSCId"));
 	  snpTypes.add(new LabelValueBean("dBSNP Id","dBSNPId"));
-	  snpTypes.add(new LabelValueBean("Probe Set Id","probeSetId"));
+	  snpTypes.add(new LabelValueBean("SNP Probe Set Id","probeSetId"));
 	  
 	  alleleTypes.add(new LabelValueBean("ALL","ALL"));
 	  alleleTypes.add(new LabelValueBean("CENTRAL ASIA","CENTRAL ASIA"));
