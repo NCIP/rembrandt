@@ -4,7 +4,5 @@ Welcome&nbsp;
 <B><% out.println(session.getAttribute("name")); %></b>&nbsp;|&nbsp;
 <a href="logout.jsp">Logout</a>
 </p>
-<!--
-Header
--->
+<img src="images/tempHead.gif">
 </div>
