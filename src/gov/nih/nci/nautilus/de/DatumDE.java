@@ -9,12 +9,15 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  */
 public class DatumDE extends DomainElement{
  
-	 /**
+	/**
 	* type of datum
     */
     private String datumType;
-
-  /**
+    /**
+	* Ration's PValue
+    */
+    public final static String RATIO_PVAL =  "GroupRatioPValue";
+    /**
 	* FoldChangeRatio
     */
     public final static String FOLD_CHANGE_RATIO =  "FoldChangeRatio";
