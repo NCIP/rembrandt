@@ -67,16 +67,20 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	
 //	String theColors[] = { "738FE6","B6C5F2","DAE1F9","8691B3","B3B9CC","6D7BA6","99A1B9" };
 	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
-
-
 String sample = request.getParameter("s");
 
 if(session.getAttribute(sample) == null)
 {
-System.out.println("not transitional report");
-	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
+  System.out.println("not transitional report");	
+  QueryCollection queryCollection = null;
+	if(request.getAttribute(Constants.QUERY_KEY)==null){
+    queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
+  }else{
+    queryCollection = (QueryCollection)(request.getAttribute(Constants.QUERY_KEY));
+  }
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
+
 
 	if(queryCollection != null)	{
 		//out.println("<a href=\"#queryInfo\">Query Information</a><Br>\n");
