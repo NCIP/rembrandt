@@ -49,9 +49,14 @@
  */
 package gov.nih.nci.nautilus.resultset.gene;
 
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -134,7 +139,51 @@ public class GeneExprResultsContainer implements ResultsContainer{
 		}
     		return null;
     }
-
+    /**
+     * @param geneSymbol,reporterName
+	 * @return groupResultset Returns groupResultset for this reporterName & geneSymbol.
+	 */
+    public Collection getFilteredGroupByResultsets(String[] groupLabels, boolean isShow){
+    	Collection geneResults = new ArrayList();
+    	Collection geneCollection = (Collection)genes;
+    	if(isShow){ //get all geneResultant objects that are in the collection
+    		for (Iterator geneIterator = geneCollection.iterator(); geneIterator.hasNext();) {
+	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+	    		Collection reporters = geneResultset.getReporterResultsets();
+    		
+	    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+	        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+	        		for (int i = 0; i < groupLabels.length ; i++) {
+	    	        	String label = (String) groupLabels[i];
+	    	        	Groupable groupableResultset = reporterResultset.getGroupByResultset(label);
+	    	        	if(groupableResultset != null){
+	    	        		geneResults.add(geneResultset);
+	    	        	}
+	        		}
+	    		}
+    		}
+	    	  
+    	}
+       	else{//return everything besides the ones that are in the collection
+    		geneResults.addAll(geneCollection);
+       		for (Iterator geneIterator = geneCollection.iterator(); geneIterator.hasNext();) {
+	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+	    		Collection reporters = geneResultset.getReporterResultsets();
+    		
+	    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+	        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+	        		for (int i = 0; i < groupLabels.length ; i++) {
+	    	        	String label = (String) groupLabels[i];
+	    	        	Groupable groupableResultset = reporterResultset.getGroupByResultset(label);
+	    	        	if(groupableResultset != null){
+	    	        		geneResults.remove(geneResultset);
+	    	        	}
+	        		}
+	    		}
+    		}
+    	}
+    	return geneResults;
+    }    
 	/**
 	 * @param diseaseType
 	 */
@@ -142,5 +191,40 @@ public class GeneExprResultsContainer implements ResultsContainer{
 		groupsLabels.put(diseaseType,null);
 		
 	}
-
+	//getPaginatedGeneResultsets(int start, int count) – returns gene resultant from start to start+count
+    public Collection  getPaginatedGeneResultsets(int start, int count){
+    	Set keys = genes.keySet();
+    	String[] geneNames = (String[]) keys.toArray();
+    	Collection geneResults = new ArrayList();
+    	int size = count;
+    	if( geneNames.length < count) {
+    		size = geneNames.length;
+    	}
+    	for (int i = start; i < size; i++ ){
+    		geneResults.add(genes.get(geneNames[i]));
+    	}
+    	return geneResults;
+    }
+//  getFilteredGeneResultsets( GeneIdentifierDE.GeneSymbol[] geneSymbols, boolean isShow ) – returns gene resultant Select to show/hide genes listed
+    public Collection  getFilteredGeneResultsets( GeneIdentifierDE.GeneSymbol[] geneSymbols, boolean isShow ){
+    	Collection geneResults = new ArrayList();
+    	if(isShow){ //get all geneResultant objects that are in the collection
+	    	for (int i = 0; i < geneSymbols.length; i++ ){
+	    		String geneSymbol = geneSymbols[i].getValue().toString();
+	    		if(genes.containsKey(geneSymbol)){
+	    			geneResults.add(genes.get(geneSymbol));
+	    		}
+	    	}
+    	}
+       	else{//return everything besides the ones that are in the collection
+       		geneResults = (Collection) genes;
+	    	for (int i = 0; i < geneSymbols.length; i++ ){
+	    		String geneSymbol = geneSymbols[i].getValue().toString();
+	    		if(genes.containsKey(geneSymbol)){
+	    			geneResults.remove(genes.get(geneSymbol));
+	    		}
+	    	}
+    	}
+    	return geneResults;
+    }
 }
