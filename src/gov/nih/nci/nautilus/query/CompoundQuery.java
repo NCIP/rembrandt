@@ -353,9 +353,15 @@ public class CompoundQuery implements Queriable, Serializable,Cloneable{
 		if(associatedView != null){
 			myClone.associatedView = (Viewable)associatedView.clone();
 		}
-		myClone.leftQuery = (Queriable)leftQuery.clone();
-		myClone.rightQuery = (Queriable)rightQuery.clone();
-		myClone.operatorType = (OperatorType)operatorType.clone();
+        if(leftQuery != null){
+            myClone.leftQuery = (Queriable)leftQuery.clone();
+        }
+        if(rightQuery != null){
+            myClone.rightQuery = (Queriable)rightQuery.clone();
+        }
+        if(operatorType != null){
+            myClone.operatorType = (OperatorType)operatorType.clone();
+        }
 		return myClone;
 	}
 }

@@ -63,9 +63,9 @@ abstract public class Criteria implements Serializable, Cloneable {
 	 * @return -A minimum 2 deep copy of this object.
 	 */
 	public Object clone() {
-		AssayPlatformCriteria myClone = null;
+		Criteria myClone = null;
 		try {
-			myClone = (AssayPlatformCriteria) super.clone();
+			myClone = (Criteria) super.clone();
 		} catch (CloneNotSupportedException cns) {
 			/*
 			 * This is meaningless as it will still perform the shallow copy,

@@ -119,11 +119,21 @@ public class RegionCriteria extends Criteria implements Serializable, Cloneable 
 	public Object clone() {
 		RegionCriteria myClone = null;
 		myClone = (RegionCriteria) super.clone();
-		myClone.chromNumber = (ChromosomeNumberDE) chromNumber.clone();
-		myClone.end = (BasePairPositionDE.EndPosition) end.clone();
-		myClone.start = (BasePairPositionDE.StartPosition) start.clone();
-		myClone.endCytoband = (CytobandDE) endCytoband.clone();
-		myClone.startCytoband = (CytobandDE) startCytoband.clone();
+        if(chromNumber != null){
+            myClone.chromNumber = (ChromosomeNumberDE) chromNumber.clone();
+        }
+        if(end != null){
+            myClone.end = (BasePairPositionDE.EndPosition) end.clone();
+        }
+        if(start != null){
+            myClone.start = (BasePairPositionDE.StartPosition) start.clone();
+        }
+        if(endCytoband != null){
+            myClone.endCytoband = (CytobandDE) endCytoband.clone();
+        }
+        if(startCytoband != null){
+            myClone.startCytoband = (CytobandDE) startCytoband.clone();
+        }
 		return myClone;
 	}
 }

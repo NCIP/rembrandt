@@ -137,9 +137,15 @@ abstract public class Query implements Queriable, Serializable, Cloneable{
     	Query myClone = null;
     	try {
     		myClone = (Query)super.clone();
-    		myClone.associatedView = (Viewable)associatedView.clone();
-    		myClone.diseaseOrGradeCriteria = (DiseaseOrGradeCriteria)diseaseOrGradeCriteria.clone();
-    		myClone.sampleIDCrit = (SampleCriteria)sampleIDCrit.clone();
+            if(associatedView != null){
+                myClone.associatedView = (Viewable)associatedView.clone();
+            }
+            if(diseaseOrGradeCriteria != null){
+                myClone.diseaseOrGradeCriteria = (DiseaseOrGradeCriteria)diseaseOrGradeCriteria.clone();
+            }
+            if(sampleIDCrit != null){
+                myClone.sampleIDCrit = (SampleCriteria)sampleIDCrit.clone();
+            }
     	}catch(CloneNotSupportedException cnse) {
         		/*
         		 * This is meaningless as it will still perform

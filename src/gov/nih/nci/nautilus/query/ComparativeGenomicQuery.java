@@ -462,18 +462,30 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 	public Object clone() {
 		ComparativeGenomicQuery myClone = null;
 		myClone = (ComparativeGenomicQuery) super.clone();
-		myClone.alleleFrequencyCriteria = (AlleleFrequencyCriteria) alleleFrequencyCriteria
-				.clone();
-		myClone.allGenesCrit = (AllGenesCriteria) allGenesCrit.clone();
-		myClone.assayPlatformCriteria = (AssayPlatformCriteria) assayPlatformCriteria
-				.clone();
-		myClone.cloneOrProbeIDCriteria = (CloneOrProbeIDCriteria) cloneOrProbeIDCriteria
-				.clone();
-		myClone.copyNumberCriteria = (CopyNumberCriteria) copyNumberCriteria
-				.clone();
-		myClone.geneIDCriteria = (GeneIDCriteria) geneIDCriteria.clone();
-		myClone.regionCriteria = (RegionCriteria) regionCriteria.clone();
-		myClone.snpCriteria = (SNPCriteria) snpCriteria.clone();
+		if(alleleFrequencyCriteria != null){
+            myClone.alleleFrequencyCriteria = (AlleleFrequencyCriteria) alleleFrequencyCriteria.clone();
+        }
+		if(allGenesCrit != null){		
+            myClone.allGenesCrit = (AllGenesCriteria) allGenesCrit.clone();
+        }
+        if(assayPlatformCriteria != null){
+            myClone.assayPlatformCriteria = (AssayPlatformCriteria) assayPlatformCriteria.clone();
+        }
+        if(cloneOrProbeIDCriteria !=null){
+            myClone.cloneOrProbeIDCriteria = (CloneOrProbeIDCriteria) cloneOrProbeIDCriteria.clone();
+        }
+        if(copyNumberCriteria != null){
+            myClone.copyNumberCriteria = (CopyNumberCriteria) copyNumberCriteria.clone();
+        }
+        if(geneIDCriteria != null){
+            myClone.geneIDCriteria = (GeneIDCriteria) geneIDCriteria.clone();
+        }
+        if(regionCriteria != null){
+            myClone.regionCriteria = (RegionCriteria) regionCriteria.clone();
+        }
+        if(snpCriteria != null){
+            myClone.snpCriteria = (SNPCriteria) snpCriteria.clone();
+        }
 		return myClone;
 	}
 

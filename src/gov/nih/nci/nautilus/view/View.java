@@ -48,10 +48,14 @@ abstract public class View implements Viewable{
 		try {
 			myClone = (View)super.clone();
 			myClone.selectedDomainElements = new ArrayList();
-			for(Iterator i = selectedDomainElements.iterator();i.hasNext(); ) {
-				myClone.selectedDomainElements.add(i.next());
-			}
-			myClone.viewType = (ViewType)viewType.clone();
+            if(selectedDomainElements != null){
+    			for(Iterator i = selectedDomainElements.iterator();i.hasNext(); ) {
+    				myClone.selectedDomainElements.add(i.next());
+    			}
+            }
+            if(viewType != null){
+                myClone.viewType = (ViewType)viewType.clone();
+            }
 		} catch (CloneNotSupportedException e) {
 			//This will never happen
 		}
