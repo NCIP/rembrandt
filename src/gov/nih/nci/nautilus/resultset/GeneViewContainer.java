@@ -3,9 +3,8 @@
  *
  */
 package gov.nih.nci.nautilus.resultset;
+import java.util.*;
 
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * @author SahniH
@@ -22,7 +21,7 @@ public class GeneViewContainer {
 	 */
 	public void addGeneResultset(GeneResultset geneResultset){
 		if(geneResultset != null && geneResultset.getGenbankAccessionNo() != null){
-			genes.put(geneResultset.getGenbankAccessionNo(), geneResultset);
+			genes.put(geneResultset.getGenbankAccessionNo().toString(), geneResultset);
 		}
 	}
 	/**
@@ -36,8 +35,8 @@ public class GeneViewContainer {
 	/**
 	 * @return geneResultset Returns geneResultset to this GeneViewContainer object.
 	 */
-    public GeneResultset[] getGeneResultsets(){
-    		return (GeneResultset[]) genes.values().toArray();
+    public Collection getGeneResultsets(){
+    		return genes.values();
     }
     /**
      * @param getGenBankAccessionNo

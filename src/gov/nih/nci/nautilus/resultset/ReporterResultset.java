@@ -5,8 +5,7 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.resultset;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import gov.nih.nci.nautilus.de.*;
 /**
@@ -37,8 +36,8 @@ public class ReporterResultset {
 	/**
 	 * @return diseaseResultset Returns diseaseResultset to this DiseaseResultset object.
 	 */
-    public DiseaseResultset[] getDiseaseResultset(){
-    		return (DiseaseResultset[]) diseases.values().toArray();
+    public Collection getDiseaseResultset(){
+    		return diseases.values();
     }
 	/**
 	 * @param none Removes all diseaseResultset in this DiseaseResultset object.

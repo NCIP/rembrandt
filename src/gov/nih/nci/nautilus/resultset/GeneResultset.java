@@ -79,8 +79,8 @@ public class GeneResultset {
 	/**
 	 * @return reporterResultset Returns reporterResultset to this GeneResultset object.
 	 */
-    public ReporterResultset[] getReporterResultsets(){
-    		return (ReporterResultset[]) reporters.values().toArray();
+    public Collection getReporterResultsets(){
+    		return reporters.values();
     }
 	/**
 	 * @param none Removes all reporterResultset in this GeneResultset object.

@@ -19,8 +19,8 @@ public class BioSpecimenResultset {
 	/**
 	 * @return Returns the biospecimen.
 	 */
-	public String getBiospecimen() {
-		return biospecimen.getValueObject();
+	public BioSpecimenIdentifierDE getBiospecimen() {
+		return biospecimen;
 	}
 	/**
 	 * @param biospecimen The biospecimen to set.

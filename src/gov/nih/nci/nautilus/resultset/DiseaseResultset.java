@@ -46,8 +46,8 @@ public class DiseaseResultset {
 	/**
 	 * @return bioSpecimenResultset Returns bioSpecimenResultset to this DiseaseResultset object.
 	 */
-    public BioSpecimenResultset[] getBioSpecimenResultsets(){
-    		return (BioSpecimenResultset[]) samples.values().toArray();
+    public Collection getBioSpecimenResultsets(){
+    		return samples.values();
     }
 	/**
 	 * @param none Removes all bioSpecimenResultset in this DiseaseResultset object.
