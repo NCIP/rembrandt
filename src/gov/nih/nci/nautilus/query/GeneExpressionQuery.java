@@ -1,6 +1,14 @@
 package gov.nih.nci.nautilus.query;
 
-import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
+import gov.nih.nci.nautilus.criteria.PathwayCriteria;
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.GeneExprQueryHandler;
 
@@ -24,7 +32,8 @@ public class GeneExpressionQuery extends Query {
 	private GeneOntologyCriteria geneOntologyCriteria;
 	private PathwayCriteria pathwayCriteria;
 	private ArrayPlatformCriteria arrayPlatformCriteria;
-
+	
+	
     private QueryHandler HANDLER;
 
     public QueryHandler getQueryHandler() throws Exception  {
@@ -38,17 +47,7 @@ public class GeneExpressionQuery extends Query {
         super();
     }
 
-   public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
-        return diseaseOrGradeCriteria;
-    }
-
-    public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
-        this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
-    }
-	
-    public GeneIDCriteria getGeneIDCrit() {
-        return geneIDCrit;
-    }
+ 
     public String toString(){
     	
 
@@ -130,6 +129,17 @@ public class GeneExpressionQuery extends Query {
     	return OutStr;
     }
     
+	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
+        return diseaseOrGradeCriteria;
+    }
+
+    public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
+        this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
+    }
+	
+    public GeneIDCriteria getGeneIDCrit() {
+        return geneIDCrit;
+    }
 
     public void setGeneIDCrit(GeneIDCriteria geneIDCrit) {
         this.geneIDCrit = geneIDCrit;
@@ -152,7 +162,7 @@ public class GeneExpressionQuery extends Query {
     }
 
 	
-    public CloneOrProbeIDCriteria  getCloneOrProbeIDCriteria() {
+	 public CloneOrProbeIDCriteria  getCloneOrProbeIDCriteria() {
         return cloneOrProbeIDCriteria;
     }
 
@@ -184,6 +194,5 @@ public class GeneExpressionQuery extends Query {
         this.arrayPlatformCriteria = arrayPlatformCriteria;
     }
     class Handler {
-
     }
 }
