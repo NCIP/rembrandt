@@ -51,7 +51,8 @@ abstract public class ExprFoldChangeDE extends DomainElement {
         return (Float) getValue();
     }
 
-    public void setValueObject(Float obj) {
-        value = obj;
+    public void setValueObject(Float regulation) {
+        assert (regulation != null);
+        value = regulation;
     }
 }

@@ -49,6 +49,7 @@ abstract public class BasePairPositionDE extends DomainElement {
     }
 
     public void setValueObject(Integer value) {
+        assert(value != null);
         this.value = value;
     }
 }

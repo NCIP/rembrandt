@@ -21,7 +21,8 @@ public class Cytoband extends DomainElement{
     public String getValueObject() {
         return (String) getValue();
     }
-    public void setValueObject(String obj) {
-        value = obj;
+    public void setValueObject(String location) {
+         assert(location != null);
+         value = location;
     }
 }

@@ -17,6 +17,7 @@ abstract public class DomainElement {
     }
 
     protected DomainElement(Object value) {
+        assert(value != null);
         this.value = value;
     }
 }

@@ -35,20 +35,18 @@ abstract public class GeneIdentifierDE extends DomainElement {
     public String getGeneIDType() {
         return geneIDType;
     }
-
-
-
-    public void setValue(Object obj) throws Exception {
-         if (! (obj instanceof String) )
+    public void setValue(Object geneID) throws Exception {
+         if (! (geneID instanceof String) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
-         setValueObject((String)obj);
+         setValueObject((String)geneID);
     }
 
     public String getValueObject() {
         return (String) getValue();
     }
 
-    public void setValueObject(String obj) {
-        value = obj;
+    public void setValueObject(String geneID) {
+        assert(geneID != null);
+        value = geneID;
     }
 }
