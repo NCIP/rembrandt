@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.ui.helper;
 
 import org.javaby.jbyte.Template;
 
+import gov.nih.nci.nautilus.cache.CacheOverlord;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -45,6 +46,7 @@ public class ReportGeneratorHelper {
                  * generated.  So let's store it in the cache just in case we 
                  * need it later. 
                  */
+                CacheOverlord.getSessionCache("test");
                 
                 /*
                  * store the resultant in the cache:
