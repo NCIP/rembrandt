@@ -8,6 +8,27 @@ function setQuery(txt)	{
 	document.forms[0].query.value = txt;
 }
 
+function setDispMethod(txt)	{
+	
+	document.forms[0].method.value = txt;
+    document.forms[0].submit();
+}
+
+function selAndSubmit(txt)	{
+	// Select the values in the sampleListTo combobox
+	var numOptions = document.forms[0].listTo.options.length;
+	
+	if (numOptions > 0) {
+		for(var w=0; w<numOptions; w++)	{
+			document.forms[0].listTo.options[w].selected = true;
+		}
+		document.forms[0].method.value = txt;
+    	document.forms[0].submit();
+	}else {
+		alert("Please select at least one column that you would like to see in your report !!");
+	}
+}
+
 
 function moveEm()	{
 	 // alert(document.forms[0].category.selectedIndex);
