@@ -57,26 +57,26 @@ package gov.nih.nci.nautilus.query;
  */
 public class OperatorType {
     private String operatorType;
-    public final static Conjunction AND = new Conjunction();
-    public final static Disjunction OR = new Disjunction ();
-    public final static Negation NOT = new Negation ();
+    public final static Intersection AND = new Intersection();
+    public final static Union OR = new Union ();
+    public final static Difference NOT = new Difference ();
     public final static ProjectResultsBy PROJECT_RESULTS_BY = new ProjectResultsBy ();
     
     private OperatorType(String operatorType) {
         this.operatorType = operatorType;
     }
-    public final static class Conjunction extends OperatorType {
-    	Conjunction () {
+    public final static class Intersection extends OperatorType {
+    	Intersection () {
              super("AND");
          }
     }
-    public final static class Disjunction extends OperatorType {
-    	Disjunction () {
+    public final static class Union extends OperatorType {
+    	Union () {
             super("OR");
         }
     }
-    public final static class Negation extends OperatorType {
-    	Negation () {
+    public final static class Difference extends OperatorType {
+    	Difference () {
             super("NOT");
         }
     }
