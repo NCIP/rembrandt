@@ -25,7 +25,7 @@ public class KMGraphGenerator {
     private static final int UPREGULATED = 1;
     private static final int DOWNREGULATED = 2;
     private static final int ALLSAMPLES = 3;
-    private static final int INTRERMEDIATE = 4;
+    private static final int INTERMEDIATE = 4;
 
     private KaplanMeier kaplanMeier = null;
     private KMDataSeries[] allSamples;
@@ -69,10 +69,10 @@ public class KMGraphGenerator {
            //UpRegulated Samples Series 
            upSamples = getDataSeries(samples,UPREGULATED, geneSymbol+getUpLabel()+" >= "+upFold+"X ");
             // Down Regulation Series
-           downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+getDownLabel()+" <= "+downFold+"X ");
+           downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+getDownLabel()+" <= "+1/downFold+"X ");
 
            // intermediate samples
-           intSamples = getDataSeries(samples,INTRERMEDIATE, geneSymbol+getUpLabel()+" < "+this.getUpFold() + "X AND "+getDownLabel()+"  > "+ this.getDownFold()+"X ");
+           intSamples = getDataSeries(samples,INTERMEDIATE, geneSymbol+"Intermediate ");
 
            
            lineDataseries.addSeries(upSamples[0]);
@@ -128,7 +128,7 @@ public class KMGraphGenerator {
                 }
                 */
                 break;
-            case INTRERMEDIATE:
+            case INTERMEDIATE:
                 samples = kaplanMeier.getIntSamples();
                 array = samples.toArray();
                 logger.debug(geneSymbol+" Up: <"+this.getUpFold() + "AND Down: >"+ this.getDownFold()+" ");
