@@ -1,5 +1,8 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
+import gov.nih.nci.nautilus.lookup.AllGeneAliasLookup;
+import gov.nih.nci.nautilus.lookup.LookupManager;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -201,5 +204,41 @@ public class UIFormValidator {
 		return true;
 	}
     
+    public static ActionErrors validateGeneSymbol(GeneValidator bean, ActionErrors errors) throws Exception{
+        String gene = bean.getGeneSymbol();
+//      see if geneSymbol can't be found, if it cannot look for aliases
+	    if(!LookupManager.isGeneSymbolFound(gene)){
+			AllGeneAliasLookup[] allGeneAlias = LookupManager.getGenesForAlias(gene);
+			// if there are aliases , set the array to be displayed in the form and return the showAlias warning
+			if(allGeneAlias != null){
+			    bean.setAllGeneAlias(allGeneAlias);
+				for(int i =0; i < allGeneAlias.length ; i++){
+					AllGeneAliasLookup alias = allGeneAlias[i];
+					System.out.println(alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()+"\n");
+					errors
+					   .add(
+							ActionErrors.GLOBAL_ERROR,
+							new ActionError(
+									"gov.nih.nci.nautilus.ui.struts.form.quicksearch.showAlias",
+									gene));
+				}
+			}
+			// if there are no aliases, we don't have record, so show noRecord error message
+			else{
+			    System.out.println("no aliases found! \n");
+			    errors
+				   .add(
+						ActionErrors.GLOBAL_ERROR,
+						new ActionError(
+								"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
+								gene));
+			}
+		}
+	    //if gene Symbol can be found , execute query
+		else{
+		System.out.println(gene+" found! \n");
+      }
+	    return errors;
+    }
    
 }

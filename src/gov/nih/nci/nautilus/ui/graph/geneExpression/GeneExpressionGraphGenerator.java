@@ -93,26 +93,18 @@ public class GeneExpressionGraphGenerator {
 		geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
 				new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
 		Resultant resultant = null;
+				
 		try {
 			resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
 		} catch (Exception e) {
 			logger.error("Resultset Manager Threw an Exception");
 			logger.error(e);
 		}
-
-		if (resultant != null) {
+        if (resultant != null) {
 			ResultsContainer resultsContainer = resultant.getResultsContainer();
 
-			if (resultsContainer == null) {
-				errors
-						.add(
-								ActionErrors.GLOBAL_ERROR,
-								new ActionError(
-										"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
-										gene));
-				logger.debug("invalid gene");
-				logger.debug(errors.size() + " errors");
-			} else if (resultsContainer instanceof GeneExprDiseasePlotContainer) {
+			
+			   if (resultsContainer instanceof GeneExprDiseasePlotContainer) {
 				GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = (GeneExprDiseasePlotContainer) resultsContainer;
 				final DecimalFormat resultFormat = new DecimalFormat("0.00");
 				final DecimalFormat pValueFormat = new DecimalFormat("0.0000");
@@ -333,7 +325,9 @@ public class GeneExpressionGraphGenerator {
 				}
 			} // instance of
 		} // resultant != null
-
+      else{
+          System.out.println("resultant is null");
+      }
 	}
 
 	/**

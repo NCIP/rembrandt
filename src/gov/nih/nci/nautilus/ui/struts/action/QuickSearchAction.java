@@ -1,15 +1,16 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.graph.geneExpression.GeneExpressionGraphGenerator;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator;
 import gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm;
 import gov.nih.nci.nautilus.ui.struts.form.QuickSearchForm;
+import gov.nih.nci.nautilus.ui.struts.form.UIFormValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -98,21 +99,28 @@ public class QuickSearchAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		QuickSearchForm qsForm = (QuickSearchForm) form;
+		ActionErrors errors = new ActionErrors();
+		errors = UIFormValidator.validateGeneSymbol(qsForm, errors);
+		if(errors.isEmpty()){
 		String chartType = qsForm.getPlot();
-		if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
-			request.setAttribute("geneSymbol", qsForm.getQuickSearchName());
-			return mapping.findForward("kmplot");
-		} else if (chartType.equalsIgnoreCase("geneExpPlot")) {
-			try {
-				return doGeneExpPlot(mapping, qsForm, request, response);
-			} catch (Exception e) {
-				logger.error("Gene Expression Plot Flopped");
-				logger.error(e);
-				return mapping.findForward("error");
-			}
-		} else {
-			return mapping.findForward("error");
+			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
+			    System.out.println("wants kapMai w/ genesymbol");
+				request.setAttribute("geneSymbol", qsForm.getQuickSearchName());
+				return mapping.findForward("kmplot");
+			} else if (chartType.equalsIgnoreCase("geneExpPlot")) {
+				try {
+				    System.out.println("wants gePlot w/ genesymbol");
+					return doGeneExpPlot(mapping, qsForm, request, response);
+				} catch (Exception e) {
+					logger.error("Gene Expression Plot Flopped");
+					logger.error(e);
+					return mapping.findForward("error");
+				}
+			} 
+			
 		}
-	}
-
+		this.saveErrors(request, errors);
+		return mapping.findForward("mismatch");
+	  }
 }
+
