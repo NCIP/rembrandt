@@ -14,6 +14,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.query.*;
+import gov.nih.nci.nautilus.view.*;
+
+
+
 /** 
  * GeneexpressionAction.java created by EasyStruts - XsltGen.
  * http://easystruts.sf.net
@@ -47,6 +53,37 @@ public class GeneexpressionAction extends Action {
 		throws Exception {
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
 		
+		String thisView = geneExpressionForm.getResultView();
+		// Create Query Objects
+		GeneExpressionQuery geneExpQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+		geneExpQuery.setQueryName(geneExpressionForm.getQueryName());
+		// Change this code later to get view type directly from Form !!
+		if (thisView.equalsIgnoreCase("sample")) 
+			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
+		else if (thisView.equalsIgnoreCase("gene"))
+			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.Gene_VIEW_TYPE));
+		
+		// Set gene criteria
+		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
+		geneExpQuery.setGeneIDCrit(geneIDCrit);
+		
+		FoldChangeCriteria foldChangeCrit = geneExpressionForm.getFoldChangeCriteria();
+		geneExpQuery.setFoldChgCrit(foldChangeCrit);
+		
+		RegionCriteria regionCrit = geneExpressionForm.getRegionCriteria();
+		geneExpQuery.setRegionCrit(regionCrit);
+		
+		try {
+
+			QueryManager.executeQuery(geneExpQuery);
+
+		} catch(Throwable t ) {
+			t.printStackTrace();
+			System.out.println("Error executing Gene Expression Query" + t.getMessage());
+		}
+
+
+
 		return mapping.findForward("advanceSearchMenu");
 	}
 
