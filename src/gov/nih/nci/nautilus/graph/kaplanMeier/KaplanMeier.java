@@ -5,7 +5,13 @@
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
 package gov.nih.nci.nautilus.graph.kaplanMeier;
-import java.util.*;
+import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 /**
  * @author XiaoN
  * 
@@ -21,6 +27,22 @@ public class KaplanMeier {
 	int[] censors;
 	private ArrayList kmEvents;
 	KMDrawingPoint[] kmDrawingPoints;
+	public KaplanMeier(Collection samples) {
+		kmEvents = new ArrayList();
+		//TODO: Make this typed collection
+		if(samples != null){
+		   	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+	    		Long time = (Long)(sample.getSurvivalLength().getValue());
+	    		Integer censor = new Integer((sample.getCensor().getValue().toString()));
+	    		kmEvents.add(new KMEvent(time.floatValue(), censor.intValue()));
+		   	}
+		}
+		Collections.sort(kmEvents, new KMEventComparator()); 
+		//System.out.println(kmEvents); 
+		createDrawingPoints();
+	}
+
 	public KaplanMeier(float[] times, int[] censors) {
 		this.times = times;
 		this.censors = censors;
