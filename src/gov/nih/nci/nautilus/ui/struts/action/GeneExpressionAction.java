@@ -185,11 +185,14 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	    request.setAttribute("previewForm",geneExpressionForm.cloneMe());
         logger.debug("This is a Preview Report");
 	    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
-	    compoundQuery.setQueryName(NautilusConstants.TEMP_RESULTS);
-        compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+	    compoundQuery.setQueryName(NautilusConstants.PREVIEW_RESULTS);
+        logger.debug("Setting query name to:"+compoundQuery.getQueryName());
+	    compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+        logger.debug("Associated View for the Preview:"+compoundQuery.getAssociatedView().getClass());
+	    //Save the sessionId that this preview query is associated with
         compoundQuery.setSessionId(request.getSession().getId());
-        //Generate a report for the compound query that I can get later
-        //from the sessionCache
+        //Generate the reportXML for the preview.  It will be stored in the session
+	    //cache for later retrieval
         ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery);
         return mapping.findForward("previewReport");
 	}

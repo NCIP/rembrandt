@@ -38,4 +38,8 @@ public final class NautilusConstants {
 	public static final String XSLT_FILE_NAME ="xsltFileName";
 	
 	public static final String FILTER_PARAM_MAP ="filterParamMap";
+	
+	public static final String PREVIEW_RESULTS = "previewResults";
+	
+	public static final String REPORT_COUNTER = "reportCounter";
 }

@@ -3,10 +3,6 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
@@ -26,7 +22,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-import org.dom4j.Document;
 
 public class ReportGeneratorAction extends DispatchAction {
 
@@ -55,7 +50,6 @@ public class ReportGeneratorAction extends DispatchAction {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	//Get the sessionCache
     	Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
-    	
     	//I think I should add convenience methods to the CachManagerWrapper
     	//to avoid classes from having to know the implementation of the
     	//cache.  For instnce, if a user is looking for a specific reportXML
@@ -63,19 +57,27 @@ public class ReportGeneratorAction extends DispatchAction {
     	//and have reportXML returned.  Why should the user have to worry about
     	//cache elements and what not.  --Dave
     	Element cacheElement = sessionCache.get(rgForm.getQueryName());
-    	request.setAttribute(NautilusConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
     	if(cacheElement!=null) {
-	    	ReportBean reportBean = (ReportBean)cacheElement.getValue();
-	    	//Apply any filters
+	    	//get the report bean from the cache
+    		ReportBean reportBean = (ReportBean)cacheElement.getValue();
+	    	
 	    	if("".equals(rgForm.getXsltFileName())||rgForm.getXsltFileName()==null) {
+	    		//If no filters specified then use the default XSLT
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,NautilusConstants.DEFAULT_XSLT_FILENAME);
 	    	}else {
+	    		//Apply any filters defined in the form
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,rgForm.getXsltFileName());
 	    	}
+	    	//add the Filter Parameters from the form to the forwarding request
+	    	request.setAttribute(NautilusConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
+	    	//put the report xml in the request
 	    	request.setAttribute(NautilusConstants.REPORT_XML, reportBean.getReportXML());
     	}else {
+    		//Throw an exception because you should never call this action method
+    		//unless you have already generated the report and stored it in the cache
     		throw new IllegalStateException("Can not find the desired report in cache");
     	}
+    	//Go to the geneViewReport.jsp to render the report
     	return mapping.findForward("runGeneViewReport");
     }
     /**
@@ -106,12 +108,12 @@ public class ReportGeneratorAction extends DispatchAction {
             request.setAttribute("comparitivegenomicForm", request.getAttribute("previewForm"));
             goBack = "backToCGH";
         }
-        // We obviously have passed validation...
+        //We obviously have passed validation...
         //So now go back to the submitting page and run
         //java script to spawn the report window.
         request.removeAttribute("previewForm");
         request.setAttribute("preview", new String("yes"));
-        request.setAttribute("queryName","temp_results");
+        request.setAttribute("queryName",NautilusConstants.PREVIEW_RESULTS);
         logger.debug("back: " + goBack);
         return mapping.findForward(goBack);
 	}

@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Element;
 
 import org.apache.log4j.Logger;
@@ -27,6 +28,7 @@ import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
+import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
 import gov.nih.nci.nautilus.ui.report.Transformer;
 import gov.nih.nci.nautilus.view.Viewable;
 
@@ -75,7 +77,18 @@ public class ReportGeneratorHelper {
 				
 				if (cQuery.getQueryName()== null
 						|| cQuery.getQueryName().equals("")) {
-					cQuery.setQueryName(NautilusConstants.TEMP_RESULTS);
+					/*
+					 * If the query name is empty than we can assume that
+					 * the user has no interest in storing the query for
+					 * later use. However the user may still want to use the
+					 * current query report in other ways, like changing the
+					 * view or downloading it. SO we should probably keep it
+					 * around for a little bit. We do this by giving it a
+					 * fixed temp name. This results set will be stored
+					 * until another unnamed query is run.
+					 * 
+					 */
+					cQuery.setQueryName(getTempReportName(cQuery.getSessionId()));
 				}
 				
 				if (cacheKey != null && !cacheKey.equals("")) {
@@ -86,31 +99,23 @@ public class ReportGeneratorHelper {
 					 */
 					Cache sessionCache = CacheManagerWrapper.getSessionCache(cacheKey);
 					resultSetCacheElement = sessionCache.get(cQuery.getQueryName());
-					
-					if (resultSetCacheElement == null||cQuery.getQueryName().equals(NautilusConstants.TEMP_RESULTS)) {
-						/*
-						 * We know that we are executing a compoundQuery which
-						 * implies that this is the first time that this
-						 * resultSet will have been generated. So let's store it
-						 * in the cache just in case we need it later.
-						 */
+					/*
+					 * If there is no reportStored in the cache or this is a preview
+					 * report, always run.
+					 */
+					if (resultSetCacheElement == null||cQuery.getQueryName().equals(NautilusConstants.PREVIEW_RESULTS)) {
+						
 						resultant = ResultsetManager
 								.executeCompoundQuery(cQuery);
 						/*
-						 * If the query name is empty than we can assume that
-						 * the user has no interest in storing the query for
-						 * later use. However the user may still want to use the
-						 * current query report in other ways, like changing the
-						 * view or downloading it. SO we should probably keep it
-						 * around for a little bit. We do this by giving it a
-						 * fixed temp name. This results set will be stored
-						 * until another unnamed query is run.
-						 * 
-						 */
-						
-
+						 * Create the reportBean that will store everything we 
+						 * may need later when messing with the reports associated
+						 * with this result set.  This reportBean will also 
+						 * be stored in the cache.
+						 */				
 						reportBean = new ReportBean();
 						reportBean.setResultant(resultant);
+						//The cache key will always be the compound query name
 						reportBean.setResultantCacheKey(cQuery.getQueryName());
 						
 					}else {
@@ -128,14 +133,23 @@ public class ReportGeneratorHelper {
 					if (reportBean != null) {
 						resultant = reportBean.getResultant();
 						Viewable oldView = resultant.getAssociatedView();
+						/*
+						 * Make sure that we change the view on the resultSet
+						 * if the user changes the desired view from already
+						 * stored view of the results
+						 */
 						if(oldView!=view||reportBean.getReportXML()==null) {
+							//we must generate a new XML document for the
+							//view they want
 							ReportGenerator reportGen = ReportGeneratorFactory
 									.getReportGenerator(view);
 							reportXML = reportGen.getReportXML(resultant);
 							reportBean.getResultant().setAssociatedView(view);
 						}else {
+							//Old view is the current view
 							reportXML = reportBean.getReportXML();
 						}
+						//
 						reportBean.setReportXML(reportXML);
 					    resultSetCacheElement = new Element(reportBean.getResultantCacheKey(), reportBean);
 					    if(sessionCache!=null) {
@@ -203,5 +217,31 @@ public class ReportGeneratorHelper {
 			logger.error("IOException");
 			logger.error(ioe);
 		}
+	}
+	
+	private String getTempReportName(String sessionId) {
+		String name = "";
+		if(sessionId ==null) {
+			throw new NullPointerException("SessionId must not be null");
+		}
+		Cache sessionCache = CacheManagerWrapper.getSessionCache(sessionId);
+		if(sessionCache!=null) {
+			try {
+			Element counterElement = sessionCache.get(NautilusConstants.REPORT_COUNTER);
+			SessionTempReportCounter counter = (SessionTempReportCounter)counterElement.getValue();
+			name =  counter.getNewTempReportName();
+			sessionCache.put(new Element(NautilusConstants.REPORT_COUNTER, counter));
+			}catch(IllegalStateException ise) {
+				logger.error("Cache get threw an exception");
+				logger.error(ise);
+			}
+			catch(CacheException ce) {
+				logger.error("Cache get threw an exception");
+				logger.error(ce);
+			}
+		}else {
+			throw new RuntimeException("No Session Cache can be found for session: "+sessionId);
+		}
+		return name;
 	}
 }

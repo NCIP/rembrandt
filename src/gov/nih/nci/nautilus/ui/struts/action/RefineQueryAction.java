@@ -111,11 +111,10 @@ public class RefineQueryAction extends LookupDispatchAction {
                 String resultSetName = refineQueryForm.getResultSetName();
                 
                //Set the name of the compound query
-                if(!resultSetName.equals("")) {
+                if(!"".equals(resultSetName)) {
                 	cQuery.setQueryName(resultSetName);
-                }else {
-                	cQuery.setQueryName(NautilusConstants.TEMP_RESULTS);
                 }
+                
                 ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
                 ReportBean reportBean = rgHelper.getReportBean();
                 request.setAttribute("queryName", reportBean.getResultantCacheKey());

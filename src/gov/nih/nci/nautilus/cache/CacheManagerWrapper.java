@@ -1,5 +1,8 @@
 package gov.nih.nci.nautilus.cache;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +12,7 @@ import org.apache.log4j.Logger;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
 /**
  * The CacheManagerWrapper is intended to act as the initializer for the 
@@ -88,10 +92,12 @@ public class CacheManagerWrapper{
         if( manager!=null && !manager.cacheExists(sessionId) ) {
             sessionCache = new Cache(sessionId, 1000, true, true, 1200, 600);
             logger.debug("New SessionCache created: "+sessionId);
-            fireCacheAddEvent(sessionId);
+            Element counter = new Element(NautilusConstants.REPORT_COUNTER, new SessionTempReportCounter());
             
             try {
             	manager.addCache(sessionCache);
+            	fireCacheAddEvent(sessionId);
+            	sessionCache.put(counter);
             }catch(ObjectExistsException oee) {
                 logger.error("Attempted to create the same session cache twice.");
                 logger.error(oee);
