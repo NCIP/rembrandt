@@ -31,6 +31,7 @@ import gov.nih.nci.nautilus.view.*;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.graph.kaplanMeier.KMDataSetProducer;
 import gov.nih.nci.nautilus.criteria.Constants;
 
 import java.awt.*;
@@ -297,10 +298,12 @@ public class QuickSearchAction extends DispatchAction {
      * @return
      * @throws Exception
      */
-    private ActionForward doKMPlot(ActionMapping mapping, ActionForm form,
+    private ActionForward doKMPlot(ActionMapping mapping, QuickSearchForm qsForm,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
+        KMDataSetProducer kmProducer = new KMDataSetProducer();
+        kmProducer.setGeneSymbol(qsForm.getQuickSearchName());
+        request.setAttribute("kmData", kmProducer);
         return mapping.findForward("kmplot");
     }
 
