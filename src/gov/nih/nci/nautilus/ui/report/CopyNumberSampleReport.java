@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -36,12 +37,23 @@ public class CopyNumberSampleReport implements ReportGenerator{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public Document getReportXML(Resultant resultant) {
+	public Document getReportXML(Resultant resultant, Map filterMapParams) {
 
 		//	TODO: have setter or put in props file
 		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
+		ArrayList filter_string = new ArrayList();	// hashmap of genes | reporters | cytobands
+		String filter_type = "show"; 		// show | hide
+		String filter_element = "none"; 	// none | gene | reporter | cytoband
+
+		if(filterMapParams.containsKey("filter_string") && filterMapParams.get("filter_string") != null)
+			filter_string = (ArrayList) filterMapParams.get("filter_string");
+		if(filterMapParams.containsKey("filter_type") && filterMapParams.get("filter_type") != null)		
+			filter_type = (String) filterMapParams.get("filter_type");
+		if(filterMapParams.containsKey("filter_element") && filterMapParams.get("filter_element") != null)		
+			filter_element = (String) filterMapParams.get("filter_element");
+
 			Document document = DocumentHelper.createDocument();
 
 			Element report = document.addElement( "Report" );
@@ -151,6 +163,8 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			    		CytobandResultset cytobandResultset = (CytobandResultset)cytobandIterator.next();
 			    		String cytoband = cytobandResultset.getCytoband().getValue().toString();
 			    		Collection reporters = copyNumberContainer.getRepoterResultsets(cytoband); 
+			    		
+			    		if(filter_element.equals("cytoband") && !filter_string.contains(cytoband))	{
 			    		recordCount += reporters.size();
 			        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 			        		
@@ -158,6 +172,8 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        		String reporterName = reporterResultset.getReporter().getValue().toString();
 			        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 			        		
+			        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{
+				        		
 			        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
 					        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
@@ -219,11 +235,12 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			                    }
 			         		}
 			        		//sb.append("</tr>\n");
-			    		}
-			        	
+			    		}/* close reporter filter */	
+			        	} 
 			        	//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
 			    	}
-				//sb.append("</table><Br><br>");	
+				//sb.append("</table><Br><br>");
+			    	} /* close cyto filter */
 			}
 			
 			else	{

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
@@ -38,18 +39,35 @@ public class GeneExprSampleReport implements ReportGenerator{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public Document getReportXML(Resultant resultant) {
+	public Document getReportXML(Resultant resultant, Map filterMapParams) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
 		/* testing hardcoded vals - these will be params of this method soon */
-		HashMap filter_string = new HashMap();
-		filter_string.put("EGFR", "EGFR");
-		filter_string.put("VEGF", "VEGF");
+		/*
+		ArrayList g = new ArrayList();
+		g.add("EGFR");
+		g.add("VEGF");
+		String tmp_filter_type = "hide";
+		String tmp_filter_element = "gene";
+
+		HashMap filterMapParams = new HashMap();
+		filterMapParams.put("filter_string", g);
+		filterMapParams.put("filter_type", tmp_filter_type);
+		filterMapParams.put("filter_element", tmp_filter_element);
+		*/
 		
-		String filter_type = "hide";
-		String filter_element = "gene";
-		
+		ArrayList filter_string = new ArrayList();	// hashmap of genes | reporters | cytobands
+		String filter_type = "show"; 		// show | hide
+		String filter_element = "none"; 	// none | gene | reporter | cytoband
+
+		if(filterMapParams.containsKey("filter_string") && filterMapParams.get("filter_string") != null)
+			filter_string = (ArrayList) filterMapParams.get("filter_string");
+		if(filterMapParams.containsKey("filter_type") && filterMapParams.get("filter_type") != null)		
+			filter_type = (String) filterMapParams.get("filter_type");
+		if(filterMapParams.containsKey("filter_element") && filterMapParams.get("filter_element") != null)		
+			filter_element = (String) filterMapParams.get("filter_element");
+			
 		Document document = DocumentHelper.createDocument();
 
 			Element report = document.addElement( "Report" );
@@ -162,18 +180,19 @@ public class GeneExprSampleReport implements ReportGenerator{
 		    		/*  hard code filter for now */
 	        		String the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
 		    		//if(!the_gene.equalsIgnoreCase(filter_string))	{
-	        		if(filter_element.equals("gene") && !filter_string.containsValue(the_gene))	{
+	        		if(filter_element.equals("gene") && !filter_string.contains(the_gene))	{
 		    		recordCount+=reporters.size();
+		    		/*
 		    		HashMap mymap = new HashMap();
 		    		boolean hasit = mymap.containsValue(new String("EGFR"));
-		    		
+		    		*/
 		    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 		        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
 		        		Collection groupTypes = reporterResultset.getGroupByResultsets();
 		        		String reporterName = reporterResultset.getReporter().getValue().toString();
 		        		
 		        		/* test filtration by reporter */
-		        		if(filter_element.equals("reporter") && !filter_string.containsValue(reporterName))	{
+		        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{
 		        		GeneSymbol gene = geneResultset.getGeneSymbol();
 		        		//String geneSymbol = "&#160;";
 		        		String geneSymbol = "-";
@@ -242,9 +261,9 @@ public class GeneExprSampleReport implements ReportGenerator{
 		         		}
 		         		
 		        		//sb.append("</tr>\n");
-		    		}
+		    		}	/* end test reporter filtration */
 		    		//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
-		    		} /* end test reporter filtration */
+		    		} 
 		    	}
 					//sb.append("</table>");
 		    	} /* end hardcode filter test */

@@ -4,10 +4,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
+import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.DiseaseGroupResultset;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
@@ -35,7 +38,7 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public Document getReportXML(Resultant resultant) {
+	public Document getReportXML(Resultant resultant, Map filterMapParams) {
 		// TODO Auto-generated method stub
 		
 		//	have setter or put in props file
@@ -65,6 +68,18 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 			//String helpFul = helpLink + "?sect=diseaseGroup" + helpLinkClose;
 			
 			GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
+/*			
+			if(resultsContainer instanceof DimensionalViewContainer)	{
+				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+				if(dimensionalViewContainer != null)	{
+					geneExprDiseaseContainer = dimensionalViewContainer.;
+				}
+			}
+			else if(resultsContainer instanceof CopyNumberSingleViewResultsContainer)	{ //for single
+				geneExprDiseaseContainer = (CopyNumberSingleViewResultsContainer) resultsContainer;
+			}
+*/			
+			
 			StringBuffer css = new StringBuffer();
 			int recordCount = 0;
 						if(geneExprDiseaseContainer != null)	{

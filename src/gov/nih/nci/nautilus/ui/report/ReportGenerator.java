@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.ui.report;
 
+import java.util.Map;
+
 import gov.nih.nci.nautilus.resultset.Resultant;
 
 import org.dom4j.Document;
@@ -18,5 +20,5 @@ public interface ReportGenerator {
      * return an XML string that will be sent
      * to the reportJSP.
 	 */
-    public Document getReportXML(Resultant resultant);
+    public Document getReportXML(Resultant resultant, Map filterMapParams);
 }

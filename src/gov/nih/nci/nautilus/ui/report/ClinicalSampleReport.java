@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.ui.report;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -31,7 +32,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public Document getReportXML(Resultant resultant) {
+	public Document getReportXML(Resultant resultant, Map filterMapParams) {
 
 		//	have setter or put in props file
 		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
@@ -141,7 +142,7 @@ public class ClinicalSampleReport implements ReportGenerator {
    	   			String sampleName = sampleResultset.getBiospecimen().getValue().toString();
 				
 				dataRow = report.addElement("Row").addAttribute("name", "dataRow");
-					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "sample").addAttribute("group", "sample");
    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getBiospecimen().getValue().toString().substring(2));
    					        	data = null;
    					        cell = null;
