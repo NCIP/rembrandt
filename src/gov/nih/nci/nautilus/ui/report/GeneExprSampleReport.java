@@ -180,7 +180,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 		    		/*  hard code filter for now */
 	        		String the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
 		    		//if(!the_gene.equalsIgnoreCase(filter_string))	{
-	        		if(filter_element.equals("gene") && !filter_string.contains(the_gene))	{
+	        		if(!filter_string.contains(the_gene))	{
 			    		recordCount+=reporters.size();
 			    		/*
 			    		HashMap mymap = new HashMap();
@@ -192,7 +192,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 			        		String reporterName = reporterResultset.getReporter().getValue().toString();
 			        		
 			        		/* test filtration by reporter */
-			        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{
+			        		if(!filter_string.contains(reporterName))	{
 				        		GeneSymbol gene = geneResultset.getGeneSymbol();
 				        		//String geneSymbol = "&#160;";
 				        		String geneSymbol = "-";
