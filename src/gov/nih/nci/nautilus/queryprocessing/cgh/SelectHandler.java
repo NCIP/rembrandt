@@ -77,6 +77,7 @@ public abstract class SelectHandler implements Runnable {
                }
            }
            getDbEvent().setCompleted(true);
+           _BROKER.close();
    }
 
 }

@@ -63,6 +63,8 @@ abstract public class GEFactHandler {
                 if (foldCrit != null)
                     FactCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
 
+                _BROKER.close();
+
                 new Thread(
                    new Runnable() {
                       public void run() {
@@ -73,7 +75,9 @@ abstract public class GEFactHandler {
                           assert(sampleQuery != null);
                           Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                           addToResults(exprObjects);
+                          pb.close();
                           dbEvent.setCompleted(true);
+
                       }
                    }
                ).start();
@@ -98,7 +102,7 @@ abstract public class GEFactHandler {
                 final String locusLinkColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.LOCUS_LINK);
                 final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.ACCESSION_NUMBER);
                 final String cloneIDColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.CLONE_ID);
-
+                _BROKER.close();
                 new Thread(
                    new Runnable() {
                       public void run() {
@@ -118,6 +122,7 @@ abstract public class GEFactHandler {
                                c.locusLinks.add(cloneAttrs[1]);
                                c.accessions.add(cloneAttrs[2]);
                           }
+                          pb.close();
                           dbEvent.setCompleted(true);
                       }
                    }
@@ -143,7 +148,7 @@ abstract public class GEFactHandler {
                 final String locusLinkColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.LOCUS_LINK);
                 final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.ACCESSION_NUMBER);
                 final String probeIDColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
-
+                _BROKER.close();
                 new Thread(
                    new Runnable() {
                       public void run() {
@@ -163,6 +168,7 @@ abstract public class GEFactHandler {
                                p.locusLinks.add(probeAttrs[1]);
                                p.accessions.add(probeAttrs[2]);
                           }
+                          pb.close();
                           dbEvent.setCompleted(true);
                       }
                    }

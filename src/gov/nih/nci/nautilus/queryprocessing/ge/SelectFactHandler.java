@@ -20,19 +20,17 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class SelectFactHandler implements Runnable{
-     String fieldName;
+     //String fieldName;
      Criteria sampleCrit;
      Collection values;
      DBEvent.FactRetrieveEvent dbEvent;
-     //PersistenceBroker _BROKER;
      Map geneExprObjects;
      protected String probeOrCloneIDAttr;
 
     public DBEvent.FactRetrieveEvent getDbEvent() {
         return dbEvent;
     }
-
-
+/*
     public SelectFactHandler(String fieldName, Criteria samplCrit, Collection values, DBEvent.FactRetrieveEvent dbEvent, Map geneExprObjects) {
         this.fieldName = fieldName;
         this.sampleCrit = samplCrit;
@@ -41,10 +39,11 @@ abstract public class SelectFactHandler implements Runnable{
         this.dbEvent = dbEvent;
         this.geneExprObjects = geneExprObjects;
     }
+*/
 
      public void run() {
         //Criteria sampleCritBasedOnProbes = new Criteria();
-        sampleCrit.addOrderBy(fieldName);
+        //sampleCrit.addOrderBy(fieldName);
         Criteria IDs = new Criteria();
         IDs.addIn(probeOrCloneIDAttr, values);
         sampleCrit.addAndCriteria(IDs);
@@ -54,28 +53,31 @@ abstract public class SelectFactHandler implements Runnable{
 
         PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
         Collection exprObjects =   _BROKER.getCollectionByQuery(sampleQuery );
-
         assert(exprObjects != null);
         for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
             DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
             if (exprObj != null)
                 geneExprObjects.put(exprObj.getDesId(), exprObj);
-            //System.out.println("BIO ID:" + exprObj.getDesId());
+                //System.out.println("BIO ID:" + exprObj.getDesId());
         }
+        _BROKER.close();
         getDbEvent().setCompleted(true);
-        //System.out.println("DBEvent: " + getDbEvent().getThreadID());
     }
 
+   /*
    final static class SelectFactBasedOnProbeHandler extends SelectFactHandler {
        public SelectFactBasedOnProbeHandler(String fieldName, Criteria samplCrit, Collection values, DBEvent.FactRetrieveEvent dbEvent, Map geneExprObjects) {
            super(fieldName, samplCrit, values, dbEvent, geneExprObjects);
            probeOrCloneIDAttr = DifferentialExpressionSfact.PROBESET_ID;
        }
    }
+   */
+    /*
     final static class SelectFactBasedOnCloneHandler extends SelectFactHandler {
        public SelectFactBasedOnCloneHandler(String fieldName, Criteria samplCrit, Collection values, DBEvent.FactRetrieveEvent dbEvent, Map geneExprObjects) {
            super(fieldName, samplCrit, values, dbEvent, geneExprObjects);
            probeOrCloneIDAttr = DifferentialExpressionSfact.CLONE_ID;
        }
    }
+   */
 }

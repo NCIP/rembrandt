@@ -57,6 +57,8 @@ abstract public class CGHFactHandler {
                 if (copyCrit != null)
                    CopyNumberCriteriaHandler.addCopyNumberCriteria(copyCrit, targetFactClass, _BROKER, sampleCrit);
 
+                _BROKER.close();
+
                 new Thread(
                    new Runnable() {
                       public void run() {
@@ -67,6 +69,7 @@ abstract public class CGHFactHandler {
                           assert(sampleQuery != null);
                           Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                           addToResults(exprObjects);
+                          pb.close();
                           dbEvent.setCompleted(true);
                       }
                    }
@@ -109,6 +112,7 @@ abstract public class CGHFactHandler {
                                a.getLocusLinkIDs().add(attrs[2]);
                                a.getAccessionNumbers().add(attrs[3]);
                           }
+                          pb.close();
                           dbEvent.setCompleted(true);
                       }
                    }

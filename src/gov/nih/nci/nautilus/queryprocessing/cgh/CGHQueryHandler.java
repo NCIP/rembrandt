@@ -81,6 +81,7 @@ public class CGHQueryHandler extends QueryHandler {
             throw new Exception (" Only BACClone will be implemented post Nautilus ");
         }
 
+        pb.close();
         ThreadController.sleepOnEvents(eventList);
 
         return new CGHFactHandler.SingleCGHFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery);

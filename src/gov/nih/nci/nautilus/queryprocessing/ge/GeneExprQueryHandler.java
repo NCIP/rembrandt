@@ -37,22 +37,12 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
  */
 final public class GeneExprQueryHandler extends QueryHandler {
     GEFactHandler factHandler = null;
-    //GEReporterIDCriteria porbeClonePlatformCrit = null;
-    //GEReporterIDCriteria geneIDCrit = null;
-    //GEReporterIDCriteria regionCrit = null;
-    //GEReporterIDCriteria ontologyCrit = null;
-    //GEReporterIDCriteria pathwayCrit = null;
     protected javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
-
     boolean includeClones;
     boolean includeProbes;
-
-
-
     private Collection allProbeIDS = Collections.synchronizedCollection(new HashSet());
     private Collection allCloneIDS = Collections.synchronizedCollection(new HashSet());
     private List eventList = Collections.synchronizedList(new ArrayList());
-    InheritableThreadLocal tl = new InheritableThreadLocal();
     PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
 
     public ResultSet[] handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
@@ -113,7 +103,9 @@ final public class GeneExprQueryHandler extends QueryHandler {
             new Thread(tg, handler).start();
         }
 
-       ThreadController.sleepOnEvents(eventList);
+        _BROKER.close();
+
+        ThreadController.sleepOnEvents(eventList);
 
        return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery);
    }

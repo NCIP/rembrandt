@@ -46,7 +46,6 @@ final public class ChrRegionCriteriaHandler {
     public static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
         assert (regionCrit != null);
         StartEndPosition posObj = getPositionObject(regionCrit, pb);
-
         return buildGECloneIDProbeIDCrit(posObj, includeProbes, pb, includeClones);
     }
     public static CGHReporterIDCriteria  buildCGHRegionCriteria( RegionCriteria regionCrit, boolean includeSNPs, boolean includeCGH, PersistenceBroker pb) throws Exception {
@@ -63,7 +62,8 @@ final public class ChrRegionCriteriaHandler {
             h = new CytobandHandler();
         else if (regionCrit.getStart() != null && regionCrit.getEnd() != null)
             h = new PositionHandler();
-
+        else
+            throw new Exception("Either cytoband or Start/End Position is required");
         StartEndPosition posObj = h.buildStartEndPosition(regionCrit, pb);
         return posObj;
     }
@@ -118,8 +118,10 @@ final public class ChrRegionCriteriaHandler {
         String deMappingAttrNameForChrNum = QueryHandler.getColumnName(pb, ChromosomeNumberDE.class.getName(), ProbesetDim.class.getName());
         Criteria c = new Criteria();
         c.addColumnEqualTo(deMappingAttrNameForChrNum, posObj.chrNumber.getValueObject());
-        c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
-        c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
+        if (posObj.startPosition != null && posObj.endPosition != null) {
+            c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
+            c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
+        }
         ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, true );
         return probeIDSubQuery;
     }
@@ -130,8 +132,12 @@ final public class ChrRegionCriteriaHandler {
         String deMappingAttrNameForChrNum = QueryHandler.getColumnName(pb, ChromosomeNumberDE.class.getName(), GeneClone.class.getName());
         Criteria c = new Criteria();
         c.addColumnEqualTo(deMappingAttrNameForChrNum, posObj.chrNumber.getValueObject());
-        c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
-        c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
+
+         if (posObj.startPosition != null && posObj.endPosition != null) {
+            c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
+            c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
+         }
+
         ReportQueryByCriteria coleIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
         return coleIDSubQuery;
     }
@@ -139,7 +145,9 @@ final public class ChrRegionCriteriaHandler {
         String cytobandCol = QueryHandler.getColumnName(pb, CytobandDE.class.getName(), CytobandPosition.class.getName());
         String chrNumberCol = QueryHandler.getColumnNameForBean(pb, CytobandPosition.class.getName(), CytobandPosition.CHROMOSOME);
         Criteria cytobandCrit = new Criteria();
-        cytobandCrit.addColumnEqualTo(cytobandCol, cytoband.getValueObject());
+        if (cytoband != null && cytoband.getValueObject() != null) {
+            cytobandCrit.addColumnEqualTo(cytobandCol, cytoband.getValueObject());
+        }
         cytobandCrit.addColumnEqualTo(chrNumberCol, chrNumber.getValueObject());
 
         String cbStartCol = QueryHandler.getColumnNameForBean(pb, CytobandPosition.class.getName(), CytobandPosition.CB_START);

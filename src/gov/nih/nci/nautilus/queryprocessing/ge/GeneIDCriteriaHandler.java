@@ -26,7 +26,7 @@ import java.math.BigDecimal;
  * To change this template use Options | File Templates.
  */
 public class GeneIDCriteriaHandler {
-    private final static long SNP_KB_INTERVAL = 50;
+    
      static HashMap data = new HashMap();
         static {
             data.put(GeneIdentifierDE.GeneSymbol.class.getName(),
@@ -89,7 +89,25 @@ public class GeneIDCriteriaHandler {
         snpProbeIDCrit.setSnpProbeIDsSubQuery(snpSubQuery);
         return  snpProbeIDCrit;
     }
-
+    /*public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception
+    {
+        Collection geneIDs = geQuery.getGeneIDCrit().getGeneIdentifiers();
+                   ArrayList arrayGeneIDs = new ArrayList(geneIDs);
+                   for (int i = 0; i < arrayGeneIDs.size();) {
+                       Collection critIDS = new ArrayList();
+                       int begIndex = i;
+                       i += 100 ;
+                       int endIndex = (i < arrayGeneIDs.size()) ? endIndex = i : (arrayGeneIDs.size());
+                       critIDS.addAll(arrayGeneIDs.subList(begIndex,  endIndex));
+                       GeneIDCriteria gCrit = new GeneIDCriteria();
+                       gCrit.setGeneIdentifiers(critIDS);
+                       //final Criteria IDs = new Criteria();
+                       //IDs.addIn(probeOrCloneIDAttr, values);
+                       GEReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(gCrit, includeClones, includeProbes, _BROKER);
+                       String threadID = "GEFactHandler.ThreadID:" + probeOrCloneIDAttr + ":" +i;
+                   }
+    }
+    */
     public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
        Class deClass = getGeneIDClassName(geneIDCrit);
        ArrayList geneIDs = getGeneIDValues(geneIDCrit);
