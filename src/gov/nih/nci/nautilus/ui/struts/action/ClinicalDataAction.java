@@ -18,6 +18,7 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -115,17 +116,21 @@ public class ClinicalDataAction extends LookupDispatchAction {
         logger.debug("This is a Clinical Data Preview");
         //Create Query Objects
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
+        request.setAttribute("previewForm",clinicalDataForm.cloneMe());
+        CompoundQuery compoundQuery = new CompoundQuery(clinicalDataQuery);
+        compoundQuery.setQueryName(NautilusConstants.PREVIEW_RESULTS);
+        logger.debug("Setting query name to:"+compoundQuery.getQueryName());
+        compoundQuery.setAssociatedView(ViewFactory
+                .newView(ViewType.CLINICAL_VIEW));
+        logger.debug("Associated View for the Preview:"+compoundQuery.getAssociatedView().getClass());
+	    //Save the sessionId that this preview query is associated with
+        compoundQuery.setSessionId(request.getSession().getId());
+        //Generate the reportXML for the preview.  It will be stored in the session
+	    //cache for later retrieval
+        ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery);
+        return mapping.findForward("previewReport");
+	}
         
-            request.setAttribute("previewForm",clinicalDataForm.cloneMe());
-            CompoundQuery compoundQuery = new CompoundQuery(clinicalDataQuery);
-            compoundQuery.setAssociatedView(ViewFactory
-                    .newView(ViewType.CLINICAL_VIEW));
-            SessionQueryBag collection = new SessionQueryBag();
-            collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
-            return mapping.findForward("previewReport");
-    }
-    
     private ClinicalDataQuery createClinicalDataQuery(ClinicalDataForm clinicalDataForm){
 
         String thisView = clinicalDataForm.getResultView();

@@ -19,6 +19,7 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -185,20 +186,23 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
         ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
-        
         logger.debug("This is a Comparative Genomic Preview");
         //Create Query Objects
         ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
         //This is required as struts resets the form.  It is later added back to the request
         request.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
-       
-            CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
-            compoundQuery.setAssociatedView(ViewFactory
-                    .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
-            SessionQueryBag collection = new SessionQueryBag();
-            collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
-            return mapping.findForward("previewReport");
+        CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
+        compoundQuery.setQueryName(NautilusConstants.PREVIEW_RESULTS);
+        logger.debug("Setting query name to:"+compoundQuery.getQueryName());
+        compoundQuery.setAssociatedView(ViewFactory
+                .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+        logger.debug("Associated View for the Preview:"+compoundQuery.getAssociatedView().getClass());
+	    //Save the sessionId that this preview query is associated with
+        compoundQuery.setSessionId(request.getSession().getId());
+        //Generate the reportXML for the preview.  It will be stored in the session
+	    //cache for later retrieval
+        ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery);
+        return mapping.findForward("previewReport");
     }
             
     

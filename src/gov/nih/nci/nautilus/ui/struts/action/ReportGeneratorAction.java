@@ -65,7 +65,7 @@ public class ReportGeneratorAction extends DispatchAction {
     	}else {
     		//Throw an exception because you should never call this action method
     		//unless you have already generated the report and stored it in the cache
-    		throw new IllegalStateException("Can not find the desired report in cache");
+    		logger.error( new IllegalStateException("Can not find the desired report in cache"));
     	}
     	//Go to the geneViewReport.jsp to render the report
     	return mapping.findForward("runGeneViewReport");
