@@ -28,7 +28,7 @@ abstract public class GeneExpr implements ResultSet {
     private Long timecourseId;
     private GeneExpr.Annotaion annotation;
 
-
+    public abstract Long getID();
 
     public GeneExpr.Annotaion getAnnotation() {
         return annotation;
@@ -152,6 +152,10 @@ abstract public class GeneExpr implements ResultSet {
         private Long diseaseHistoryId;
         private String survivalLengthRange;
 
+        public Long getID() {
+            return getDesId();
+        }
+
         private Long treatmentHistoryId;
         private String cytoband;
         private String genderCode;
@@ -232,6 +236,11 @@ abstract public class GeneExpr implements ResultSet {
     final public static class GeneExprGroup extends GeneExpr {
         private Double ratioPval;
         private Long degId;
+
+        public Long getID() {
+            return getDegId();
+        }
+
         public Long getDegId() {
             return degId;
         }
