@@ -22,23 +22,23 @@ public class GeneOntologyDE extends DomainElement{
    /**
     * Initializes a newly created <code>GeneOntologyDE</code> object so that it represents an GeneOntologyDE.
     */
-    public GeneOntologyDE(Integer ontologyID) {
+    public GeneOntologyDE(String ontologyID) {
         super(ontologyID);
     }
 
 
     public void setValue(Object obj) throws Exception {
-        if (! (obj instanceof Integer) )
+        if (! (obj instanceof String) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
-        setValueObject((Integer)obj);
+        setValueObject((String)obj);
     }
 
-    public Integer getValueObject() {
-        return (Integer) getValue();
+    public String getValueObject() {
+        return (String) getValue();
     }
 
 
-    public void setValueObject(Integer ontologyID) {
+    public void setValueObject(String ontologyID) {
 	  if(ontologyID != null){
         value = ontologyID;
 		}

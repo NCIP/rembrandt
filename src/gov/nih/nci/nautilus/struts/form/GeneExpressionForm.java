@@ -13,10 +13,13 @@ import org.apache.struts.util.LabelValueBean;
 import java.util.*;
 import java.lang.reflect.*;
 import java.io.*;
+import org.apache.log4j.Level;
 
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.util.Logging;
+import gov.nih.nci.nautilus.util.LogEntry;
 
 
 
@@ -140,6 +143,7 @@ public class GeneExpressionForm extends BaseForm {
 	private GeneOntologyCriteria geneOntologyCriteria;
 	private PathwayCriteria pathwayCriteria;
 	private ArrayPlatformCriteria arrayPlatformCriteria;
+	
 
 	// UntranslatedRegionCriteria: for both 5' and 3', "included" is used as default,
 	// on the jsp, it may be commented out for now
@@ -216,12 +220,13 @@ public class GeneExpressionForm extends BaseForm {
 			createGeneOntologyCriteriaObject();
 			createPathwayCriteriaObject();
 			createArrayPlatformCriteriaObject();
+			
 		}
 
 		return errors;
 	}
 
-
+   
 	private void createDiseaseCriteriaObject(){
 	  //look thorugh the diseaseDomainMap to extract out the domain elements and create respective Criteria Objects
 	  Set keys = diseaseDomainMap.keySet();	  
@@ -411,6 +416,7 @@ public class GeneExpressionForm extends BaseForm {
 
 		// Loop thru the geneOntologyDomainMap HashMap, extract the Domain elements and create respective Criteria Objects
 		Set keys = geneOntologyDomainMap.keySet();
+		
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
@@ -420,16 +426,15 @@ public class GeneExpressionForm extends BaseForm {
 				String strGeneOntologyDomainClass = (String) geneOntologyDomainMap.get(key);
 				Constructor [] geneOntologyConstructors = Class.forName(strGeneOntologyDomainClass).getConstructors();
 				Object [] parameterObjects = {key};
-
 				GeneOntologyDE geneOntologyDEObj = (GeneOntologyDE)geneOntologyConstructors[0].newInstance(parameterObjects);
 				geneOntologyCriteria.setGOIdentifier(geneOntologyDEObj);
 
 				System.out.println("GO Domain Element Value==> "+geneOntologyDEObj.getValueObject());
 			} catch (Exception ex) {
-				System.out.println("Error in createGeneCriteriaObject  "+ex.getMessage());
+				System.out.println("Error in createGeneOntologyCriteriaObject  "+ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createGeneCriteriaObject "+ le.getMessage());
+				System.out.println("Linkage Error in createGeneOntologyCriteriaObject "+ le.getMessage());
 				le.printStackTrace();
 			}
 
