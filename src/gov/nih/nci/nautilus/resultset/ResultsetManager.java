@@ -76,6 +76,7 @@ public class ResultsetManager {
     	if(queryToExecute != null ){
     	resultant = new Resultant();
         Viewable associatedView = queryToExecute.getAssociatedView();
+        Thread.sleep( 5 );//To make sure all threads are closed
         CompoundResultSet compoundResultSet = QueryManager.executeCompoundQuery(queryToExecute);
         Collection results = compoundResultSet.getResults();
         if(results != null){
