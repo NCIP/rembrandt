@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionError;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 
 
@@ -133,12 +133,12 @@ public class ComparativeGenomicAction extends Action {
 			 
 				// Get Hashmap from session if available
 				
-				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(Constants.QUERY_KEY);
+				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		        if( queryCollection == null){				  
 				   queryCollection = new QueryCollection();
 				  }
 				queryCollection.putQuery(cghQuery);
-				request.getSession().setAttribute(Constants.QUERY_KEY, queryCollection);
+				request.getSession().setAttribute(NautilusConstants.QUERY_KEY, queryCollection);
 				
 				
 				/*HashMap queryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
@@ -169,7 +169,7 @@ public class ComparativeGenomicAction extends Action {
             compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
             QueryCollection collection = new QueryCollection();
             collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(Constants.QUERY_KEY, collection);
+            request.setAttribute(NautilusConstants.QUERY_KEY, collection);
             return mapping.findForward("previewReport");
         } else {
             return mapping.findForward("advanceSearchMenu");

@@ -18,8 +18,7 @@ import org.apache.log4j.Level;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.query.QueryCollection;
-import gov.nih.nci.nautilus.util.Logging;
-import gov.nih.nci.nautilus.util.LogEntry;
+
 
 /**
  * GeneExpressionForm.java created by EasyStruts - XsltGen.

@@ -22,7 +22,7 @@ import org.apache.struts.action.ActionError;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 
 
@@ -62,7 +62,7 @@ public class DeleteQueryAction extends DispatchAction {
 		   String page = (String)request.getSession().getAttribute("currentPage");
 		   System.out.println("the current page is :"+page);
 		    
-		   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		   if(queryCollection != null){			     
 			  Collection queryColl = queryCollection.getQueries();	
 			  String queryKey = deleteQueryForm.getQueryKey();
@@ -83,7 +83,7 @@ public class DeleteQueryAction extends DispatchAction {
 		
 		 DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;
 		 String page = (String)request.getSession().getAttribute("currentPage");
-		 QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		 QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		 if(queryCollection != null){			     
 			Collection queryColl = queryCollection.getQueries();
 			queryColl.clear();

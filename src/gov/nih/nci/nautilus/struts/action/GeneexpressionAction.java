@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionError;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 public class GeneexpressionAction extends Action {
 
@@ -101,14 +101,14 @@ public class GeneexpressionAction extends Action {
 			if (!geneExpQuery.isEmpty()) {
 				// Get QueryCollection from session if available
 				QueryCollection queryCollection = (QueryCollection) request
-						.getSession().getAttribute(Constants.QUERY_KEY);
+						.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 				if (queryCollection == null) {
 					System.out
 							.println("QueryCollection class in Session is empty");
 					queryCollection = new QueryCollection();
 				}
 				queryCollection.putQuery(geneExpQuery);
-				request.getSession().setAttribute(Constants.QUERY_KEY,
+				request.getSession().setAttribute(NautilusConstants.QUERY_KEY,
 						queryCollection);
 			} else {
 				ActionErrors errors = new ActionErrors();
@@ -131,7 +131,7 @@ public class GeneexpressionAction extends Action {
             compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             QueryCollection collection = new QueryCollection();
             collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(Constants.QUERY_KEY, collection);
+            request.setAttribute(NautilusConstants.QUERY_KEY, collection);
 			return mapping.findForward("previewReport");
 		} else {
 			return mapping.findForward("advanceSearchMenu");

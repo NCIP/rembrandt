@@ -18,23 +18,23 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
-  <!-- Setup Servlet -->  
-  <servlet>
-    <servlet-name>setup</servlet-name>
-    <servlet-class>gov.nih.nci.nautilus.util.SetupServlet</servlet-class>   
-    <init-param>
-      <param-name>logfile</param-name>
-      <param-value>log|log.txt</param-value>    
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>  
-  
   <!-- Cewolf Graph Rendering Servlet and Servlet Mapping -->
   <servlet>
       <servlet-name>CewolfServlet</servlet-name>
       <servlet-class>de.laures.cewolf.CewolfRenderer</servlet-class>
       <load-on-startup>1</load-on-startup>
   </servlet>
+  <!-- Log4J Initialization Servlet-->
+  <servlet>
+    <servlet-name>log4j-init</servlet-name>
+    <servlet-class>gov.nih.nci.nautilus.ui.logging.Log4jInit</servlet-class>
+    <init-param>
+      <param-name>log4j-init-file</param-name>
+      <param-value>WEB-INF/classes/log4j.properties</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
 
   <servlet-mapping>
       <servlet-name>CewolfServlet</servlet-name>

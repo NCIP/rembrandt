@@ -79,7 +79,7 @@ public class SelectPresentationForm extends BaseForm {
 	private Viewable getSelectedView(HttpServletRequest request){
 
 		// Set, Reset the correct currentView, default is sample view
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		Viewable thisView = ViewFactory.newView(ViewType.CLINICAL_VIEW); // Default View if no View set
 		
 		if (queryCollect != null) { 

@@ -49,7 +49,7 @@
  */
 package gov.nih.nci.nautilus.resultset.geneExpressionPlot;
 
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
@@ -116,7 +116,7 @@ public class GeneExprDiseasePlotHandler {
 		if(geneExprDiseasePlotContainer != null && exprObj != null){
 			//TODO:only Affy Probesets for now
 	    	if(exprObj.getProbesetName() != null){
-	    		normal = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(Constants.NORMAL);
+	    		normal = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(NautilusConstants.NORMAL);
 	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,exprObj.getProbesetName());
 	       		reporterResultset = normal.getReporterFoldChangeValuesResultset(exprObj.getProbesetName().toString());
 	      		if(reporterResultset == null){

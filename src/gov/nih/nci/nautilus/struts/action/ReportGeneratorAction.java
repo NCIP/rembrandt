@@ -3,7 +3,7 @@
  */
 package gov.nih.nci.nautilus.struts.action;
 
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.struts.form.GeneExpressionForm;
@@ -27,7 +27,7 @@ public class ReportGeneratorAction extends DispatchAction {
 	public ActionForward previewReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-        Object queryCollection = request.getAttribute(Constants.QUERY_KEY);
+        Object queryCollection = request.getAttribute(NautilusConstants.QUERY_KEY);
 		if(form instanceof GeneExpressionForm) {
             
         }else if(form instanceof ClinicalDataForm) {
@@ -35,7 +35,7 @@ public class ReportGeneratorAction extends DispatchAction {
         }else if(form instanceof ComparativeGenomicForm) {
             
         }
-        request.setAttribute(Constants.QUERY_KEY,queryCollection);
+        request.setAttribute(NautilusConstants.QUERY_KEY,queryCollection);
         return mapping.findForward("success");
 	}
 }

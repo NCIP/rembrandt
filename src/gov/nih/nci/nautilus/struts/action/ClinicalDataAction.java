@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionError;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 
 
@@ -134,13 +134,13 @@ public class ClinicalDataAction extends Action {
 			if (! clinicalDataQuery.isEmpty()) {
 			  		 
 				// Get QueryCollection from session if available
-				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(Constants.QUERY_KEY);
+				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 				if(queryCollection == null){
 				    System.out.println("Query Map in Session is empty");
 					queryCollection = new QueryCollection();
 				  }
 				queryCollection.putQuery(clinicalDataQuery);
-				request.getSession().setAttribute(Constants.QUERY_KEY, queryCollection);  
+				request.getSession().setAttribute(NautilusConstants.QUERY_KEY, queryCollection);  
 				
 				
 			} else {
@@ -163,7 +163,7 @@ public class ClinicalDataAction extends Action {
             compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
             QueryCollection collection = new QueryCollection();
             collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(Constants.QUERY_KEY, collection);
+            request.setAttribute(NautilusConstants.QUERY_KEY, collection);
             return mapping.findForward("previewReport");
         } else {
             return mapping.findForward("advanceSearchMenu");

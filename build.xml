@@ -220,6 +220,7 @@
 				<include name="repository_database.xml" />
 				<include name="repository_internal.xml" />
 				<include name="repository_user_caintegrator.xml" />
+				<include name="log4j.properties"/>
 			</fileset>
 		</copy>
 		<delete dir="${build.struts.classes.dir}" />
@@ -241,6 +242,7 @@
 			</fileset>
 			<fileset dir="${webapp.dir}/WEB-INF/resources">
 				<include name="ApplicationResources.properties" />
+				<include name="log4j.properties" />
 			</fileset>
 
 		</copy>
@@ -248,6 +250,7 @@
 		<copy todir="${build.struts.classes.dir}/gov/nih/nci/nautilus/struts">
 			<fileset dir="${webapp.dir}/WEB-INF/resources">
 				<include name="ApplicationResources.properties" />
+				<include name="log4j.properties" />
 			</fileset>
 		</copy>
 
@@ -288,6 +291,7 @@
 			<zipfileset file="${basedir}/repository*.*" prefix="/WEB-INF/classes" />
 			<zipfileset file="${basedir}/deToBeanAttrMappings.xml" prefix="/WEB-INF/classes" />
 			<zipfileset file="${basedir}/OJB.properties" prefix="/WEB-INF/classes" />
+			<zipfileset file="${webapp.dir}/log4j.properties" prefix="/WEB-INF/classes" />
 			<zipfileset file="${webapp.dir}/WEB-INF/resources/ApplicationResources.properties" prefix="/WEB-INF/classes/gov/nih/nci/nautilus/struts" />
 
 		</war>

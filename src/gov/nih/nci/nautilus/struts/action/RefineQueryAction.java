@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionError;
 
 import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.parser.*;
 import org.apache.struts.util.LabelValueBean;
 import gov.nih.nci.nautilus.view.*;
@@ -63,7 +63,7 @@ public class RefineQueryAction extends DispatchAction {
 		Vector vectorOfTokens = new Vector();
 		ActionErrors errors = new ActionErrors();
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 
 		if (queryCollect != null){
 			//Create a vector of search token values from FormBean
@@ -178,7 +178,7 @@ public class RefineQueryAction extends DispatchAction {
 			
 			ViewType [] availableViewTypes = cQuery.getValidViews();
 			//Set the View Types array in request to be used on return trip
-			request.getSession().setAttribute(Constants.VALID_QUERY_TYPES_KEY, availableViewTypes);
+			request.getSession().setAttribute(NautilusConstants.VALID_QUERY_TYPES_KEY, availableViewTypes);
 
 			
 			for (int viewIndex = 0; viewIndex < availableViewTypes.length; viewIndex++) {
@@ -208,9 +208,9 @@ public class RefineQueryAction extends DispatchAction {
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
 
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		// Get the viewType array from session 
-		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(Constants.VALID_QUERY_TYPES_KEY);
+		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(NautilusConstants.VALID_QUERY_TYPES_KEY);
 // 		Set ViewType array in session to null, we dont need it anymore
 //		request.getSession().setAttribute(Constants.VALID_QUERY_TYPES_KEY, null);
 		

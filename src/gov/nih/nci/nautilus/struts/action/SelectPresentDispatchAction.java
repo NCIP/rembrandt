@@ -20,7 +20,7 @@ import gov.nih.nci.nautilus.struts.form.*;
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.view.*;
 import java.util.*;
@@ -58,7 +58,7 @@ public class SelectPresentDispatchAction extends DispatchAction {
 		DomainElementClass [] allDomainElems = thisForm.getSelectedElements();
 		Collection selectedDomainElems = new ArrayList();
 		String [] selectedIndexes = thisForm.getListTo();
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		
 		for (int i = 0; i < selectedIndexes.length; i++) {
 			int selectedIndex = Integer.parseInt(selectedIndexes[i]);
@@ -78,7 +78,7 @@ public class SelectPresentDispatchAction extends DispatchAction {
 							// Execute the query and place the query in session
 							ResultSet[] queryResultSetObjects = QueryManager.executeQuery(queryCollect.getCompoundQuery());
 							print(queryResultSetObjects);
-							request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
+							request.getSession().setAttribute(NautilusConstants.RESULTSET_KEY,queryResultSetObjects);
 							
 							ActionForward thisForward = mapping.findForward("success");
 							return thisForward;

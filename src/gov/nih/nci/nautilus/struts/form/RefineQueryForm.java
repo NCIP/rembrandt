@@ -135,7 +135,7 @@ public class RefineQueryForm extends BaseForm {
 
 		// Get the Query Collection from the session
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		queryNameColl = new ArrayList();
 		queryNameColl.add( new LabelValueBean( " ", " " ));
 

@@ -16,7 +16,7 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionError;
 
 import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.view.*;
 
@@ -44,7 +44,7 @@ public class CompoundCheckAction extends Action {
 
 		ActionErrors errors = new ActionErrors();
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 		java.util.Enumeration enum = request.getAttributeNames();
 		while (enum.hasMoreElements()) {
 			String element = (String) enum.nextElement();

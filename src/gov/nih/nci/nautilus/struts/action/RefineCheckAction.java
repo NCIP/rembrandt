@@ -16,7 +16,7 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionError;
 
 import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.constants.Constants;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 
 
@@ -43,7 +43,7 @@ public class RefineCheckAction extends Action {
 
 		ActionErrors errors = new ActionErrors();
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 
 // Code used to test Finalize query page in the absense of QueryCollection coming from menu!!
 //		queryCollect = new QueryCollection();

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
@@ -23,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionError;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.lookup.DiseaseTypeLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
@@ -50,6 +52,7 @@ import org.krysalis.jcharts.encoders.ServletEncoderHelper;
 // RCL
 
 public class QuickSearchAction extends DispatchAction {
+    static Logger log = Logger.getLogger(NautilusConstants.LOGGER);
 
 	/**
 	 * Method execute
@@ -68,7 +71,7 @@ public class QuickSearchAction extends DispatchAction {
 	private ActionForward doGeneExpPlot(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
+	    log.debug("Testing the Logger");
 		String[] groups;
 		
 		String geneSymbol;
@@ -163,7 +166,7 @@ public class QuickSearchAction extends DispatchAction {
 	    		String diseaseName = diseaseResultset.getType().getValue().toString();
 	    		stringBuffer.append(diseaseName+"\n");
 	
-		    		if(diseaseName.equalsIgnoreCase(gov.nih.nci.nautilus.constants.Constants.ASTRO))	{
+		    		if(diseaseName.equalsIgnoreCase(gov.nih.nci.nautilus.constants.NautilusConstants.ASTRO))	{
 		    			groups[icounter] = diseaseName.substring(0,6);
 		    		}
 		    		else	{
