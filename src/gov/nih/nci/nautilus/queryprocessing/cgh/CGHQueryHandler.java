@@ -41,18 +41,12 @@ public class CGHQueryHandler extends QueryHandler {
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) query;
 
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-        pb.clearCache();
-
         populateIncludeCGHAndSNPFlags(cghQuery.getAssayPlatformCriteria());
 
         AllGenesCriteria allGenesCrit = cghQuery.getAllGenesCrit();
         if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
              return new CGHFactHandler.SingleCGHFactHandler().executeSampleQueryForAllGenes(cghQuery);
         }
-
-
-
-
 
         if (cghQuery.getGeneIDCriteria() != null) {
             CGHReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForCGHQuery(cghQuery.getGeneIDCriteria(), includeSNPs, includeCGH, pb);

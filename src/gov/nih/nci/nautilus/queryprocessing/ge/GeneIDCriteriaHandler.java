@@ -67,7 +67,7 @@ public class GeneIDCriteriaHandler {
     private static class  TargetClass {
         Class target;
         String attrToSearch;
-       public TargetClass(Class targetClass, String attrToSearch) {
+        public TargetClass(Class targetClass, String attrToSearch) {
             this.target = targetClass;
             this.attrToSearch = attrToSearch;
         }

@@ -38,7 +38,7 @@ abstract public class CGHFactHandler {
 
     private static void addCopyNumbFactCriteria(ComparativeGenomicQuery cghQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
             CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
-            CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+            CopyNumberCriteriaHandler.addCopyNumberCriteriaForAllGenes(cghQuery, targetFactClass, _BROKER, sampleCrit);
             CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
     }
 

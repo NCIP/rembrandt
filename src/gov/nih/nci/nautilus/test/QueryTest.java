@@ -126,9 +126,9 @@ public class QueryTest extends TestCase {
           public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
-             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-              //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-             q.setGeneIDCrit(geneIDCrit);
+             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             //q.setGeneIDCrit(geneIDCrit);
              //q.setAllGenesCrit(allGenesCriteria);
              //q.setGeneOntologyCrit(ontologyCrit);
 
@@ -143,7 +143,7 @@ public class QueryTest extends TestCase {
             //q.setArrayPlatformCrit(affyOligoPlatformCrit);
            //q.setArrayPlatformCrit(cdnaPlatformCrit);
 
-            //q.setCloneOrProbeIDCrit(cloneCrit);
+            q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
             //q.setDiseaseOrGradeCrit(diseaseCrit);
             //q.setSampleIDCrit(sampleCrit);
@@ -389,8 +389,8 @@ public class QueryTest extends TestCase {
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        //suit.addTest(new TestSuite(GeneExpression.class));
-        suit.addTest(new TestSuite(CGH.class));
+        suit.addTest(new TestSuite(GeneExpression.class));
+        //suit.addTest(new TestSuite(CGH.class));
         //suit.addTest(new TestSuite(Clinical.class));
 
         //suit.addTest(new TestSuite(OJBSubSelectTest.GeneExpressionSubSelect.class));
@@ -528,79 +528,79 @@ public class QueryTest extends TestCase {
     private void buildSampleIDCrit() {
         sampleCrit = new SampleCriteria();
         Collection sampleIDs = new ArrayList();
-        SampleIDDE s0 = new SampleIDDE("HF1057");
-        SampleIDDE s1 = new SampleIDDE("HF118");
-        SampleIDDE s2 = new SampleIDDE("HF305");
-        SampleIDDE s3 = new SampleIDDE("HF990");
-        SampleIDDE s4 = new SampleIDDE("HF1219");
-        SampleIDDE s5 = new SampleIDDE("HF1227");
-        SampleIDDE s6 = new SampleIDDE("HF1325");
-        SampleIDDE s7 = new SampleIDDE("HF1348");
-        SampleIDDE s8 = new SampleIDDE("HF1489");
-        SampleIDDE s9 = new SampleIDDE("HF329");
-        SampleIDDE s10 = new SampleIDDE("HF332");
-        SampleIDDE s11 = new SampleIDDE("HF434");
-        SampleIDDE s12 = new SampleIDDE("HF835");
-        SampleIDDE s13 = new SampleIDDE("HF87");
-        SampleIDDE s14 = new SampleIDDE("HF931");
+        SampleIDDE s0 = new SampleIDDE("1057");
+        SampleIDDE s1 = new SampleIDDE("118");
+        SampleIDDE s2 = new SampleIDDE("305");
+        SampleIDDE s3 = new SampleIDDE("990");
+        SampleIDDE s4 = new SampleIDDE("1219");
+        SampleIDDE s5 = new SampleIDDE("1227");
+        SampleIDDE s6 = new SampleIDDE("1325");
+        SampleIDDE s7 = new SampleIDDE("1348");
+        SampleIDDE s8 = new SampleIDDE("1489");
+        SampleIDDE s9 = new SampleIDDE("329");
+        SampleIDDE s10 = new SampleIDDE("332");
+        SampleIDDE s11 = new SampleIDDE("434");
+        SampleIDDE s12 = new SampleIDDE("835");
+        SampleIDDE s13 = new SampleIDDE("87");
+        SampleIDDE s14 = new SampleIDDE("931");
 
         sampleIDs.add(s0);
-        //sampleIDs.add(s1);
-        //sampleIDs.add(s2);
-        // ampleIDs.add(s3);
-       // sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
+        sampleIDs.add(s1);
+        sampleIDs.add(s2);
+         sampleIDs.add(s3);
+       sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
        // sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
        // sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
 
         String[] IDs = new String[] {
-               "HF1057", "HF1139","HF118","HF1219",
-                "HF1220",
-                "HF1223",
-                "HF1226",
-                "HF1227",
-                "HF1232",
-                "HF1269",
-                "HF1297",
-                "HF1307",
-                "HF1325",
-                "HF1326",
-                "HF1338",
-                "HF1348",
-                "HF1397",
-                "HF1409",
-                "HF1458",
-                "HF1489",
-                "HF17",
-                "HF189",
-                "HF223",
-                "HF252",
-                "HF26",
-                "HF305",
-                "HF329",
-                "HF332",
-                "HF350",
-                "HF434",
-                "HF442",
-                "HF453",
-                "HF471",
-                "HF50",
-                "HF608",
-                "HF615",
-                "HF627",
-                "HF652",
-                "HF719",
-                "HF813",
-                "HF828",
-                "HF835",
-                "HF87",
-                "HF89",
-                "HF894",
-                "HF931",
-                "HF936",
-                "HF953",
-                "HF962",
-                "HF986",
-                "HF990"
+               "1057", "1139","118","1219",
+                "1220",
+                "1223",
+                "1226",
+                "1227",
+                "1232",
+                "1269",
+                "1297",
+                "1307",
+                "1325",
+                "1326",
+                "1338",
+                "1348",
+                "1397",
+                "1409",
+                "1458",
+                "1489",
+                "17",
+                "189",
+                "223",
+                "252",
+                "26",
+                "305",
+                "329",
+                "332",
+                "350",
+                "434",
+                "442",
+                "453",
+                "471",
+                "50",
+                "608",
+                "615",
+                "627",
+                "652",
+                "719",
+                "813",
+                "828",
+                "835",
+                "87",
+                "89",
+                "894",
+                "931",
+                "936",
+                "953",
+                "962",
+                "986",
+                "990"
         };
         ArrayList all52Samples = new ArrayList(52);
         for (int i = 0; i < IDs.length; i++) {
@@ -644,7 +644,8 @@ public class QueryTest extends TestCase {
         //cloneCrit.setCloneIdentifier(new CloneIdentifierDE.BACClone("IMAGE:1287390"));
         //cloneCrit.setCloneIdentifier(new CloneIdentifierDE.BACClone("IMAGE:2709102"));
         //cloneCrit.setCloneIdentifier(new CloneIdentifierDE.BACClone("IMAGE:3303708"));
-        cloneCrit.setCloneIdentifier(new CloneIdentifierDE.IMAGEClone("1579639"));
+        //cloneCrit.setCloneIdentifier(new CloneIdentifierDE.IMAGEClone("1579639"));
+        cloneCrit.setCloneIdentifier(new CloneIdentifierDE.IMAGEClone("IMAGE:143995"));
     }
 
 
@@ -659,14 +660,14 @@ public class QueryTest extends TestCase {
         foldCrit = new FoldChangeCriteria();
         Collection objs = new ArrayList(4);
         //objs.add(upRegObj);
-        //objs.add(downRegObj);
-        objs.add(upRegObj); //objs.add(downUnChangedRegObj);
+        objs.add(downRegObj);
+        //objs.add(upRegObj); //objs.add(downUnChangedRegObj);
         foldCrit.setFoldChangeObjects(objs);
     }
 
      private void buildCopyChangeCrit() {
-        Float amplification = new Float(2.0);
-        Float deletion = new Float(3.0);
+        Float amplification = new Float(10.0);
+        Float deletion = new Float(10.0);
         CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
         CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
         CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
