@@ -1,6 +1,3 @@
-// Created by Xslt generator for Eclipse.
-// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
-// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
 package gov.nih.nci.nautilus.ui.struts.form;
 
 
@@ -20,17 +17,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.LabelValueBean;
 
 
-
-
-
-/** 
- * GeneExpressionForm.java created by EasyStruts - XsltGen.
- * http://easystruts.sf.net
- * created on 08-11-2004
- * 
- * XDoclet definition:
- * @struts:form name="geneExpressionForm"
- */
 public class BaseForm extends ActionForm {
     
     private static Logger logger = Logger.getLogger(BaseForm.class);
@@ -39,9 +25,8 @@ public class BaseForm extends ActionForm {
 	private ArrayList diseaseType;
 	private ArrayList geneTypeColl;
     private String method;
-	
 
-	// --------------------------------------------------------- Methods
+
 	public BaseForm(){
 			
 		// Create Lookups for Gene Expression screens 
@@ -49,24 +34,6 @@ public class BaseForm extends ActionForm {
 
 	}
 
-	protected boolean isBasePairValid(String basePairStart, String basePairEnd) {
-
-		int intBasePairStart;
-		int intBasePairEnd;
-		logger.debug("Start "+basePairStart+" End "+basePairEnd);
-		try {
-			intBasePairStart = Integer.parseInt(basePairStart);
-			intBasePairEnd = Integer.parseInt(basePairEnd);
-			
-		}
-		catch (NumberFormatException e) {
-			return false;
-		}
-		
-		if (intBasePairStart >= intBasePairEnd) return false;
-		return true;
-	}
-	
 	public void setLookups() {
 
 		diseaseType = new ArrayList();
@@ -94,7 +61,7 @@ public class BaseForm extends ActionForm {
 
 	}
 
-// Getter methods for Gene Expression Lookup
+    //Getter methods for Gene Expression Lookup
 	public ArrayList getDiseaseType() 
 	{ return diseaseType; }
 
@@ -176,23 +143,5 @@ public class BaseForm extends ActionForm {
 				}
 			}
 			return cytobandCollections;
-	}
-	/**
-     * <p>Checks whether the string is ASCII 7 bit.</p>
-     *
-     * @param str  the string to check
-     * @return false if the string contains a char that is greater than 128
-     */
-	public boolean isAscii(String str){
-		boolean flag = false;
-		if(str != null){
-			for(int i = 0; i < str.length(); i++){
-				if(str.charAt(i)>128){
-				return false;
-				}					
-			}
-			flag = true;
-		}
-		return flag;
 	}
 }
