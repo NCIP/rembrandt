@@ -7,7 +7,7 @@
 <fieldset class="gray">
 <legend class="red">Clone Id/Probe Set Id
 <% if(act.equalsIgnoreCase("geneexpression"))	{ %>
-<app:help help="Choose one type of Reporter identifiers either (IMAGE ID for Clones or Affymetrix Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs to be searched in the text box. Another option to load a list of IDs is to upload a file using the Browse button, file must be of type \"*.txt\" with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
+<app:help help="Choose one type of Reporter identifiers either (IMAGE ID for Clones or Affymetrix Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs to be searched in the text box. Another option to load a list of IDs is to upload a file using the Browse button, file must be of type *.txt with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
 <% } else { %>
 <app:help help="Future implementation"/>
 <% } %>

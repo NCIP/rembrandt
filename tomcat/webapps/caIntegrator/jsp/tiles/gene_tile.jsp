@@ -11,7 +11,7 @@ String act = request.getParameter("act");
 	<!-- <html:form action="<%=act%>"> -->
 <fieldset class="gray">
 <legend class="red">Gene
-<app:help help="Choose one type of Gene identifiers (Genbank ID, LocusLink ID or Gene symbol) from the pick list. Then enter the corresponding comma delimited value or IDs for the genes to be searched in the text box. Another option to load a list of genes is to upload a file using the Browse button, file must be of type \"*.txt\" with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
+<app:help help="Choose one type of Gene identifiers (Genbank ID, LocusLink ID or Gene symbol) from the pick list. Then enter the corresponding comma delimited value or IDs for the genes to be searched in the text box. Another option is to load a list of genes is to upload a file using the Browse button, file must be of type *.txt with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
 </legend>
 
 <br>
@@ -25,8 +25,6 @@ String act = request.getParameter("act");
 &nbsp;-or-&nbsp;
 			<html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
 			<html:file property="geneFile" disabled="true" />
-			<!-- <app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." />-->
-
 			<Br>
 			<html:errors property="geneFile"/>
 			<html:errors property="geneGroup"/>
