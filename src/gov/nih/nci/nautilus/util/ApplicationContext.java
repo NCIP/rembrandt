@@ -1,8 +1,7 @@
 package gov.nih.nci.nautilus.util;
 
-import java.util.Properties;
 import java.io.IOException;
-import java.io.FileInputStream;
+import java.util.Properties;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +12,7 @@ import java.io.FileInputStream;
  */
 public class ApplicationContext {
     private static Properties props = null;
-    private final static String FILE_NAME = "/label.properties";
+    private final static String FILE_NAME = "/ApplicationResources.properties";
     static {
         try {
             props = new Properties();
