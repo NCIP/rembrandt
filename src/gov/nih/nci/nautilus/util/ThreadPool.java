@@ -1,6 +1,10 @@
 package gov.nih.nci.nautilus.util;
 
+import gov.nih.nci.nautilus.ui.struts.action.RefineQueryAction;
+
 import java.util.HashMap;
+
+import org.apache.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +15,7 @@ import java.util.HashMap;
  */
 public class ThreadPool {
     static HashMap allThreads = new HashMap();
+    private static Logger logger = Logger.getLogger(ThreadPool.class);
     public final static long MAX_THREADS = 130;
     public static long THREAD_COUNT = 0;
 
@@ -37,7 +42,7 @@ public class ThreadPool {
                 THREAD_COUNT--;
                 allThreads.remove(this.getID());
              };
-             System.out.println("END: Thread Count: " + ThreadPool.THREAD_COUNT);
+             logger.debug("END: Thread Count: " + ThreadPool.THREAD_COUNT);
         }
         private  AppThread(MyRunnable appRunnable) {
             this.ar = appRunnable;
