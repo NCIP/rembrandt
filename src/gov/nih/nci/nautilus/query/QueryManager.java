@@ -1,9 +1,8 @@
 package gov.nih.nci.nautilus.query;
 
+import gov.nih.nci.nautilus.queryprocessing.CompoundQueryProcessor;
 import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
 import gov.nih.nci.nautilus.resultset.ResultSet;
-
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +17,14 @@ public class QueryManager {
         return QueryFactory.newQuery(typeOfQuery);
     }
     public static ResultSet[] executeQuery(Queriable queryToExecute) throws Exception {
-        return QueryProcessor.execute((Query) queryToExecute);
+    	ResultSet[] resultset = null;
+    	if(queryToExecute instanceof Query){
+    		resultset = QueryProcessor.execute((Query) queryToExecute);
+    	}
+    	else if (queryToExecute instanceof CompoundQuery){
+    		resultset = CompoundQueryProcessor.execute((CompoundQuery) queryToExecute);
+    	}
+    	return resultset;
     }
 
 }
