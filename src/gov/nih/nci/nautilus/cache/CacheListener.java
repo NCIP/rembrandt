@@ -1,6 +1,11 @@
 package gov.nih.nci.nautilus.cache;
 
 /**
+ * A simple interface that is used by classes that want to be notified
+ * when the CacheManagerWrapper creates or destroys a cache.  At the
+ * time of writing it was only used for the creation/destruction of
+ * session based caches
+ * 
  * @author BauerD
  * Feb 9, 2005
  * 
