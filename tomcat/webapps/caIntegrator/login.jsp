@@ -64,18 +64,29 @@ response.setHeader("Location",newLocn);
 		 About this application 
 		 </p>
 	
-		 <p style="padding:0px 5px 0px 5px">We are designing a robust bioinformatics knowledgebase framework called
-	     CaIntegrator that leverages data warehousing technology to host and
-	     integrate GMDI trial data. The knowledge framework will provide
-	     researchers with the ability to perform ad hoc querying and
-	     reporting across multiple domains.
+		 <p style="padding:0px 5px 0px 5px ; font-size:.9em;">REpository for Molecular BRAin 
+		 Neoplasia DaTa (REMBRANDT) is a robust bioinformatics
+		 knowledgebase framework that leverages data warehousing 
+		 technology to host and integrate clinical and functional
+		 genomics data from clinical trials involving patients 
+		 suffering from Gliomas. The knowledge framework will 
+		 provide researchers with the ability to perform ad hoc
+		 querying and reporting across multiple data domains,
+		 such as Gene Expression, Chromosomal aberrations and 
+		 Clinical data. 
 		 </p>
 		 
-	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px">Scientists will be able to
-	     answer basic scientific questions related to a patient or patient population
-	     and view the integrated data sets in a variety of scientific based contexts.
-	     Tools that link data to other annotations such as cellular pathways,
-	     gene ontology terms and genomic information will be embedded.</p>
+	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px;font-size:.9em;">Scientists
+	     will be able to answer basic questions related to a patient
+	     or patient population and view the integrated data sets in
+	     a variety of contexts. Tools that link data to other
+	     annotations such as cellular pathways, gene ontology
+	     terms and genomic information will be embedded.</p>
+	     
+	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">Please visit <a href="http://rembrandt.nci.nih.gov">http://rembrandt.nci.nih.gov</a>
+	         for more information.</p>
+	     
+	     
 	  </td>
 	  <!--end description cell-->
 	  
