@@ -12,12 +12,11 @@ import gov.nih.nci.nautilus.de.*;
  *
  This class encapulates a sample Id and foldchange or copy number values..
  */
-public class BioSpecimenResultset {
+public abstract class  BioSpecimenResultset {
 	private BioSpecimenIdentifierDE biospecimen = null;
-	private DatumDE foldChangeRatioValue = null;
-	private DatumDE foldChangeSampleIntensity = null;
-	private DatumDE foldChangeNormalIntensity = null;
 	private GenderDE genderCode = null;
+	private DatumDE ageGroup = null;
+	private DatumDE survivalLengthRange = null;
 	/**
 	 * @return Returns the ageGroup.
 	 */
@@ -29,30 +28,6 @@ public class BioSpecimenResultset {
 	 */
 	public void setAgeGroup(DatumDE ageGroup) {
 		this.ageGroup = ageGroup;
-	}
-	/**
-	 * @return Returns the foldChangeNormalIntensity.
-	 */
-	public DatumDE getFoldChangeNormalIntensity() {
-		return this.foldChangeNormalIntensity;
-	}
-	/**
-	 * @param foldChangeNormalIntensity The foldChangeNormalIntensity to set.
-	 */
-	public void setFoldChangeNormalIntensity(DatumDE foldChangeNormalIntensity) {
-		this.foldChangeNormalIntensity = foldChangeNormalIntensity;
-	}
-	/**
-	 * @return Returns the foldChangeSampleIntensity.
-	 */
-	public DatumDE getFoldChangeSampleIntensity() {
-		return this.foldChangeSampleIntensity;
-	}
-	/**
-	 * @param foldChangeSampleIntensity The foldChangeSampleIntensity to set.
-	 */
-	public void setFoldChangeSampleIntensity(DatumDE foldChangeSampleIntensity) {
-		this.foldChangeSampleIntensity = foldChangeSampleIntensity;
 	}
 	/**
 	 * @return Returns the genderCode.
@@ -78,9 +53,6 @@ public class BioSpecimenResultset {
 	public void setSurvivalLengthRange(DatumDE survivalLengthRange) {
 		this.survivalLengthRange = survivalLengthRange;
 	}
-	private DatumDE ageGroup = null;
-	private DatumDE survivalLengthRange = null;
-	private DatumDE copyNumberValue = null;
 	/**
 	 * @return Returns the biospecimen.
 	 */
@@ -93,30 +65,5 @@ public class BioSpecimenResultset {
 	public void setBiospecimen(BioSpecimenIdentifierDE biospecimen) {
 		this.biospecimen = biospecimen;
 	}
-	/**
-	 * @return Returns the foldChangeRatioValue.
-	 */
-	public DatumDE getFoldChangeRatioValue() {
-		return foldChangeRatioValue;
-	}
-	/**
-	 * @param foldChangeRatioValue The foldChangeRatioValue to set.
-	 */
-	public void setFoldChangeRatioValue(DatumDE foldChangeRatioValue) {
-		this.foldChangeRatioValue = foldChangeRatioValue;
-	}
-	public DatumDE getCopyNumberValue() {
-		return copyNumberValue;
-	}
-	/**
-	 * @param copyNumberValue The copyNumberValue to set.
-	 */
-	public void setCopyNumberValue(DatumDE copyNumberValue) {
-		this.copyNumberValue = copyNumberValue;
-	}
-	public static void main(String[] args) {
-	}
-	/**
-	 * @return Returns the copyNumberValue.
-	 */
+
 }

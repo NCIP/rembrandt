@@ -7,6 +7,7 @@ import gov.nih.nci.nautilus.resultset.*;
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 
 import java.util.*;
 
@@ -16,9 +17,11 @@ import java.util.*;
  * This class takes a DifferentialExpressionSfact and DifferentialExpressionGfact object and helps create a GeneCentricViewHandler or a SampleCentricViewHandler classes.
  */
 public class ResultsetProcessor {
-	private GeneViewContainer geneViewContainer = new GeneViewContainer();
-	public void handleGeneView(ResultSet[] geneExprObjects, GroupType groupType){
-
+	private GeneExprSingleViewResultsContainer geneViewResultsContainer = new GeneExprSingleViewResultsContainer();
+	private SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
+ 	public void handleGeneExprView(ResultSet[] geneExprObjects, GroupType groupType){
+ 	  	GeneExprSingleViewHandler geneExprSingleViewHandler = new GeneExprSingleViewHandler();
+ 	  	SampleViewHandler sampleViewHandler = new SampleViewHandler();
         for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
             ResultSet obj = geneExprObjects[i];
@@ -26,9 +29,11 @@ public class ResultsetProcessor {
               	GeneExpr.GeneExprGroup exprObj = (GeneExpr.GeneExprGroup) obj;
               }
                else if (obj instanceof GeneExpr.GeneExprSingle)  {
-               	gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle  exprObj = (GeneExpr.GeneExprSingle) obj;
-               	GeneSingleViewHandler geneSingleViewHandler = new GeneSingleViewHandler(geneViewContainer);
-               	geneViewContainer = geneSingleViewHandler.handleGeneSingleView(exprObj, groupType);
+               	//Propulate the GeneExprSingleResultsContainer
+               	GeneExprSingle  exprObj = (GeneExpr.GeneExprSingle) obj;
+               	geneViewResultsContainer = geneExprSingleViewHandler.handleGeneSingleView(geneViewResultsContainer,exprObj, groupType);
+               	//Populate the SampleViewResultsContainer
+               	sampleViewResultsContainer = sampleViewHandler.handleSampleView(sampleViewResultsContainer,exprObj,groupType);
                }
     		}
         }//for
@@ -37,9 +42,13 @@ public class ResultsetProcessor {
 	/**
 	 * @return Returns the geneViewContainer.
 	 */
-	public GeneViewContainer getGeneViewContainer() {
-		return geneViewContainer;
+	public GeneExprSingleViewResultsContainer getGeneViewResultsContainer() {
+		return geneViewResultsContainer;
 	}
-	public static void main(String[] args) {
+	/**
+	 * @return Returns the sampleViewResultsContainer.
+	 */
+	public SampleViewResultsContainer getSampleViewResultsContainer() {
+		return this.sampleViewResultsContainer;
 	}
 }

@@ -133,10 +133,10 @@ public class QueryTest extends TestCase {
     	gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
-    	resultsetProc.handleGeneView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
-    	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
-    	Collection genes = geneViewContainer.getGeneResultsets();
-    	Collection labels = geneViewContainer.getGroupsLabels();
+    	resultsetProc.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
+    	GeneExprSingleViewResultsContainer viewResultsContainer = resultsetProc.getGeneViewResultsContainer();
+    	Collection genes = viewResultsContainer.getGeneResultsets();
+    	Collection labels = viewResultsContainer.getGroupsLabels();
     	Collection sampleIds = null;
     	StringBuffer header = new StringBuffer();
     	StringBuffer sampleNames = new StringBuffer();
@@ -146,7 +146,7 @@ public class QueryTest extends TestCase {
     	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
         	String label = (String) labelIterator.next();
         	header.append("Disease: "+label);
-        	sampleIds = geneViewContainer.getBiospecimenLabels(label);
+        	sampleIds = viewResultsContainer.getBiospecimenLabels(label);
            	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
             	sampleNames.append(sampleIdIterator.next()+"\t");
             	header.append("\t");
@@ -168,7 +168,7 @@ public class QueryTest extends TestCase {
         		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
         			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
         			String label = groupResultset.getType().getValue().toString();
-        			sampleIds = geneViewContainer.getBiospecimenLabels(label);
+        			sampleIds = viewResultsContainer.getBiospecimenLabels(label);
 //        			Collection biospecimens = groupResultset.getBioSpecimenResultsets();
 //                	System.out.println("Biospecimen Count: "+biospecimens.size());
 //            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
@@ -179,9 +179,9 @@ public class QueryTest extends TestCase {
 													//"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
                                	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
                                		String sampleId = (String) sampleIdIterator.next();
-                               		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
-                               		if(biospecimenResultset != null){
-                               			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
+                               		SampleFoldChangeValuesResultset samplesResultset = groupResultset.getBioSpecimenResultset(sampleId);
+                               		if(samplesResultset != null){
+                               			Double ratio = (Double)samplesResultset.getFoldChangeRatioValue().getValue();
                                			stringBuffer.append(resultFormat.format(ratio)+"\t");
                                		}
                                	}

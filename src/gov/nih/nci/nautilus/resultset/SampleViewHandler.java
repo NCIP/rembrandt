@@ -1,6 +1,6 @@
 /*
  *  @author: SahniH
- *  Created on Oct 12, 2004
+ *  Created on Oct 22, 2004
  *  @version $ Revision: 1.0 $
  * 
  *	The caBIO Software License, Version 1.0
@@ -49,68 +49,43 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
-import java.util.Collection;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
+import gov.nih.nci.nautilus.de.DatumDE;
+import gov.nih.nci.nautilus.de.GenderDE;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+
 /**
  * @author SahniH
- * Date: Oct 12, 2004
+ * Date: Oct 22, 2004
  * 
  */
-public abstract class GroupResultset {
-	private SortedMap samples = new TreeMap();
-	/**
-	* the object type, it repesents generic typpe for data element
-    */
-    protected DomainElement type;
-   
-
-	/**
-	 * @return Returns the type.
-	 */
-	abstract public DomainElement getType(); 
-	/**
-	 * @param type The type to set.
-	 */
-	abstract public void setType(DomainElement type) throws Exception;
-	/**
-	 * @param bioSpecimenResultset Adds bioSpecimenResultset to this DiseaseResultset object.
-	 */
-	public void addBioSpecimenResultset(SampleFoldChangeValuesResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.put(bioSpecimenResultset.getBiospecimen().getValue().toString(), bioSpecimenResultset);
-		}
-	}
-	/**
-	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this DiseaseResultset object.
-	 */
-	public void removeBioSpecimenResultset(SampleFoldChangeValuesResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.remove(bioSpecimenResultset.getBiospecimen());
-		}
-	}
-	/**
-	 * @return bioSpecimenResultset Returns bioSpecimenResultset to this DiseaseResultset object.
-	 */
-    public Collection getBioSpecimenResultsets(){
-    		return samples.values();
+public class SampleViewHandler {
+    public SampleViewResultsContainer handleSampleView(SampleViewResultsContainer sampleViewContainer, GeneExpr.GeneExprSingle exprObj, GroupType groupType){
+    	SampleResultset sampleResultset = null;
+    	GeneExprSingleViewHandler geneExprSingleViewHandler = new GeneExprSingleViewHandler();
+      	if (sampleViewContainer != null && exprObj != null){
+      		sampleResultset = handleBioSpecimenResultset(sampleViewContainer,exprObj);
+          	//Propulate the GeneExprSingleResultsContainer
+      		sampleResultset.setGeneExprSingleViewResultsContainer(geneExprSingleViewHandler.handleGeneSingleView(new GeneExprSingleViewResultsContainer(),exprObj, groupType));
+           	//Populate the SampleViewResultsContainer
+      		sampleViewContainer.addBioSpecimenResultset(sampleResultset);
+      	}
+      	return sampleViewContainer;
     }
-    /**
-     * @param sampleId
-	 * @return bioSpecimenResultset Returns reporterResultset for this GeneResultset.
-	 */
-    public SampleFoldChangeValuesResultset getBioSpecimenResultset(String sampleId){
-    	if(sampleId != null){
-			return (SampleFoldChangeValuesResultset) samples.get(sampleId);
-		}
-    		return null;
+    public SampleResultset handleBioSpecimenResultset(SampleViewResultsContainer sampleViewContainer, GeneExpr.GeneExprSingle exprObj){
+ 		//get the gene accessesion number for this record
+  		//check if the gene exsists in the GeneExprSingleViewResultsContainer, otherwise add a new one.
+    	SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getBioSpecimenResultset(exprObj.getSampleId());
+  		if(sampleResultset == null){ // no record found
+  			sampleResultset = new SampleResultset();
+  		}
+		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
+		//populate the BiospecimenResuluset
+		BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(exprObj.getSampleId().toString());
+		sampleResultset.setBiospecimen(biospecimenID);
+		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,exprObj.getAgeGroup()));
+		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,exprObj.getSurvivalLengthRange()));
+		sampleResultset.setGenderCode(new GenderDE(exprObj.getGenderCode()));
+  		return sampleResultset;
     }
-	/**
-	 * @param none Removes all bioSpecimenResultset in this DiseaseResultset object.
-	 */
-    public void removeAllBioSpecimenResultset(){
-    	samples.clear();
-    }
-
 }

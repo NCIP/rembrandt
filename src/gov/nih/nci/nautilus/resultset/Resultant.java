@@ -1,6 +1,6 @@
 /*
  *  @author: SahniH
- *  Created on Oct 12, 2004
+ *  Created on Oct 21, 2004
  *  @version $ Revision: 1.0 $
  * 
  *	The caBIO Software License, Version 1.0
@@ -49,68 +49,18 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
-import java.util.Collection;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.view.ViewType;
+
 /**
  * @author SahniH
- * Date: Oct 12, 2004
+ * Date: Oct 21, 2004
  * 
  */
-public abstract class GroupResultset {
-	private SortedMap samples = new TreeMap();
-	/**
-	* the object type, it repesents generic typpe for data element
-    */
-    protected DomainElement type;
-   
+public class Resultant {
+private Queriable associatedQuery;
+private ViewType view;
+private ResultsContainer resultsContainer;
 
-	/**
-	 * @return Returns the type.
-	 */
-	abstract public DomainElement getType(); 
-	/**
-	 * @param type The type to set.
-	 */
-	abstract public void setType(DomainElement type) throws Exception;
-	/**
-	 * @param bioSpecimenResultset Adds bioSpecimenResultset to this DiseaseResultset object.
-	 */
-	public void addBioSpecimenResultset(SampleFoldChangeValuesResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.put(bioSpecimenResultset.getBiospecimen().getValue().toString(), bioSpecimenResultset);
-		}
-	}
-	/**
-	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this DiseaseResultset object.
-	 */
-	public void removeBioSpecimenResultset(SampleFoldChangeValuesResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.remove(bioSpecimenResultset.getBiospecimen());
-		}
-	}
-	/**
-	 * @return bioSpecimenResultset Returns bioSpecimenResultset to this DiseaseResultset object.
-	 */
-    public Collection getBioSpecimenResultsets(){
-    		return samples.values();
-    }
-    /**
-     * @param sampleId
-	 * @return bioSpecimenResultset Returns reporterResultset for this GeneResultset.
-	 */
-    public SampleFoldChangeValuesResultset getBioSpecimenResultset(String sampleId){
-    	if(sampleId != null){
-			return (SampleFoldChangeValuesResultset) samples.get(sampleId);
-		}
-    		return null;
-    }
-	/**
-	 * @param none Removes all bioSpecimenResultset in this DiseaseResultset object.
-	 */
-    public void removeAllBioSpecimenResultset(){
-    	samples.clear();
-    }
 
 }
