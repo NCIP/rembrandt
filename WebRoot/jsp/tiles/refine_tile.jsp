@@ -4,12 +4,13 @@
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
 <html:form action="refineQuery.do">
-<br>
-<div class="steps">
+
+
 <html:errors/>
-<b>Step 1: Please refine your result set by grouping it</b>
-	&nbsp;&nbsp;&nbsp;
-	<table border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
+<fieldset class="gray">
+<legend class="red">Step 1: Please refine your result set by grouping it</legend>
+	
+	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		<tr>
 			<td colspan="4" class="message">
 				Group Your Queries<BR>
@@ -35,16 +36,17 @@
 		</nested:nest>
 		<!-- End  Selected Queries -->
 	</table>
-</div>
+
+</fieldset>
 <!--Display buttons here to add later-->			
 <!--<div class="midButtons">
 	<b class="message">[add more rows]</b><br />
 		<br><input type="reset" value="reset query" class="sbutton">
 </div>	-->
-<br/><br/>
 
-<div class="steps">	
-<b>Step 2: Validate your query</b><br>
+
+<fieldset class="gray">
+<legend class="red">Step 2: Validate your query</legend>
 	<table border="0" cellpadding="2" cellspacing="2">
 		<tr>
 			<td align="center">&nbsp;&nbsp;&nbsp;
@@ -62,11 +64,11 @@
 		
 	</table>
 		
-</div>	
+</fieldset>	
 	
 	
-<div class="steps">
-<b>Step 3: Please select a View</b>&nbsp;&nbsp;	
+<fieldset class="gray">
+<legend class="red">Step 3: Please select a View</legend>	
 	<table width="100%" border="0">
 		<tr><td>
 				<html:select property="compoundView" onchange="">
@@ -77,10 +79,10 @@
 	</table>
 	<br>
 	
-</div>
+</fieldset>
 
-<div class="steps">
-	<b>Step 4: Please name your result set (Optional)</b>&nbsp;&nbsp;
+<fieldset class="gray">
+<legend class="red">Step 4: Please name your result set (Optional)</legend>
 	 <table border="0">
 		<tr>
 			<td>
@@ -99,17 +101,12 @@
 			</td>
 		</tr>
 	</table>
-</div>	
-	<br>
-<div class="steps">	
-	<table border="0" width="100%">
-		<tr>
-			<td>
-			<b>Step 5: Run report or return to previous screen</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			</td>
-		</tr>
-		<tr>
-			<td align="center"><br>
+</fieldset>	
+	
+
+<fieldset class="gray">
+<legend class="red">Step 5: Run report or return to previous screen</legend>
+			<br />
 				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 					onclick="javascript:history.back();"/>&nbsp;&nbsp
 				<!--check to see if query has been validated and the runFlag has been set on the form-->
@@ -119,10 +116,7 @@
 						<bean:message key="RefineQueryAction.runReportButton"/>
 					</html:submit>
 				</logic:equal> 
-			</td>
-		</tr>
-	</table>
-</div>
+</fieldset>
 </html:form>
 	
 
