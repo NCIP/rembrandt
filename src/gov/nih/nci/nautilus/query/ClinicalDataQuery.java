@@ -28,8 +28,7 @@ import org.apache.log4j.Logger;
  */
 public class ClinicalDataQuery extends Query {
 
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
-
+    private static Logger logger = Logger.getLogger(ClinicalDataQuery.class);
 	private OccurrenceCriteria occurrenceCriteria;
 	private RadiationTherapyCriteria radiationTherapyCriteria;
 	private ChemoAgentCriteria chemoAgentCriteria;	

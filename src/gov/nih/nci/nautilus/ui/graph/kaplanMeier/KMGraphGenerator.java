@@ -32,14 +32,13 @@ import org.jfree.data.XYSeriesCollection;
  * that is used by the ceWolf tags to display the data. 
  */
 public class KMGraphGenerator {
-    private GeneExpressionQuery geneQuery;
     private String method;
     private String geneSymbol;
-    private int upFold = 3;
-    private int downFold = 3;
+    private int upFold = 2;
+    private int downFold = 2;
     private String chartTitle = null;
     private ArrayList folds = new ArrayList();
-    private Resultant resultant;
+   
     private static final int UPREGULATED = 1;
     private static final int DOWNREGULATED = 2;
     private static final int ALLSAMPLES = 3;
@@ -95,7 +94,7 @@ public class KMGraphGenerator {
     private ResultsContainer performKaplanMeierPlotQuery() throws Exception {
         GeneIDCriteria geneCrit = new GeneIDCriteria();
         geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(geneSymbol));
-        geneQuery = (GeneExpressionQuery) QueryManager
+        GeneExpressionQuery geneQuery = (GeneExpressionQuery) QueryManager
                 .createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
         geneQuery.setQueryName("KaplanMeierPlot");
         geneQuery.setAssociatedView(ViewFactory
@@ -103,7 +102,7 @@ public class KMGraphGenerator {
         geneQuery.setGeneIDCrit(geneCrit);
         geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
                 new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
-        resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
+        Resultant resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
         return resultant.getResultsContainer();
     }
     

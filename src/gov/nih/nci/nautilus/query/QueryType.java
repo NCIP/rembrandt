@@ -11,6 +11,7 @@ package gov.nih.nci.nautilus.query;
 abstract public class QueryType {
    
     String queryType;
+    
     public final static GeneExprQueryType GENE_EXPR_QUERY_TYPE = new GeneExprQueryType();
     public final static CGHQueryType CGH_QUERY_TYPE = new CGHQueryType ();
 	public final static ClinicalQueryType CLINICAL_DATA_QUERY_TYPE = new ClinicalQueryType ();
@@ -18,6 +19,7 @@ abstract public class QueryType {
     public QueryType(String queryType) {
         this.queryType = queryType;
     }
+    
     public final static class GeneExprQueryType extends QueryType {
          GeneExprQueryType () {
          super("GeneQueryType");
@@ -28,7 +30,6 @@ abstract public class QueryType {
         super("CGHQueryType ");
         }
     }
-	
 	public final static class ClinicalQueryType extends QueryType {
          ClinicalQueryType () {
          super("ClinicalQueryType");

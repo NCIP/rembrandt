@@ -52,7 +52,7 @@ import org.krysalis.jcharts.types.ChartType;
 
 public class GeneExpressionGraphGenerator {
 
-	private Logger logger = Logger.getLogger(this.getClass());
+	private Logger logger = Logger.getLogger(GeneExpressionGraphGenerator.class);
 
 	private String[] groups;
 

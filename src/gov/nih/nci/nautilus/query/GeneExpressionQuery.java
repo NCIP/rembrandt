@@ -35,7 +35,6 @@ public class GeneExpressionQuery extends Query {
 	private GeneOntologyCriteria geneOntologyCriteria;
 	private PathwayCriteria pathwayCriteria;
 	private ArrayPlatformCriteria arrayPlatformCriteria;
-
     private QueryHandler HANDLER;
 
     public QueryHandler getQueryHandler() throws Exception  {

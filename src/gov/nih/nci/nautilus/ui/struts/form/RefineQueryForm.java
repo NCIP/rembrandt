@@ -3,10 +3,12 @@ package gov.nih.nci.nautilus.ui.struts.form;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.helper.SelectedQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,41 +17,21 @@ import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
+import org.apache.commons.collections.Factory;
+import org.apache.commons.collections.list.LazyList;
 
-public class RefineQueryForm extends BaseForm {
+public class RefineQueryForm extends BaseForm implements Factory {
     private static Logger logger = Logger.getLogger(RefineQueryForm.class);
-	
-	private String queryName1;
-	private String leftParen1;
-	private String rightParen1;
-	private String operatorType1;
-
-	private String queryName2;
-	private String leftParen2;
-	private String rightParen2;
-	private String operatorType2;
-
-	private String queryName3;
-	private String leftParen3;
-	private String rightParen3;
-	private String operatorType3;
-	
+    private ActionErrors errors = new ActionErrors();;
 	private String queryText;
 	private String compoundView;
-	private String resultsetName;
-	
+	private String resultSetName;
 	private String runFlag;
-	
 	private String method;
-
-	// Collections used for Lookup values.
+    // Collections used for Lookup values.
 	private ArrayList queryNameColl = new ArrayList();
 	private ArrayList compoundViewColl = new ArrayList();
-	
-
-
-
-	// --------------------------------------------------------- Methods
+    private List selectedQueries = LazyList.decorate(new ArrayList(), this);
 	public RefineQueryForm(){
 
 		super();
@@ -67,45 +49,11 @@ public class RefineQueryForm extends BaseForm {
 		HttpServletRequest request) {
 
 		ActionErrors errors = new ActionErrors();
-		
-		//Only one PRB in Query
-		String queryName1 = this.getQueryName1().trim();
-		String queryName2 = this.getQueryName2().trim();
-		String queryName3 = this.getQueryName3().trim();
 		String paramValue = request.getParameter(mapping.getParameter());
-		
-	 
+			 
 		//Validate Query validation
-		if (paramValue.equalsIgnoreCase("validate")) {
-			if (queryName1.length() < 1 && (queryName2.length()>0 || queryName3.length()>0)) {
-				errors.add("queryName1", new ActionError("gov.nih.nci.nautilus.ui.struts.form.query.empty"));
-			}
-		
-			if (queryName2.length() < 1 && queryName3.length()>0) {
-				errors.add("queryName2", new ActionError("gov.nih.nci.nautilus.ui.struts.form.query.empty"));
-			}
-
-			if ((this.getOperatorType1().equalsIgnoreCase("PRB")) && (this.getOperatorType2().equalsIgnoreCase("PRB"))){
-				errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.ui.struts.form.operatortype.no.prb"));
-				
-			}
-		
-			if (this.getOperatorType1().trim().length() >= 1 && (this.getQueryName2().trim().length() < 1 || this.getQueryName1().trim().length() < 1)) {
-				errors.add("operatorType1", new ActionError("gov.nih.nci.nautilus.ui.struts.form.operatortype.no.query"));
-			}
-		
-			if (this.getOperatorType1().trim().length() < 1 && this.getQueryName2().trim().length() >= 1 && this.getQueryName1().trim().length() >= 1) {
-				errors.add("operatorType1", new ActionError("gov.nih.nci.nautilus.ui.struts.form.operatortype.no.operator"));
-			}
-
-			if (this.getOperatorType2().trim().length() < 1 && this.getQueryName2().trim().length() >= 1 && this.getQueryName3().trim().length() >= 1) {
-				errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.ui.struts.form.operatortype.no.operator"));
-			}
-
-			if (this.getOperatorType2().trim().length() >= 1 && (this.getQueryName3().trim().length() < 1 || this.getQueryName2().trim().length() < 1)) {
-				errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.ui.struts.form.operatortype.no.query"));
-			}
-		}
+		if(paramValue!=null) {
+ 
 		//Run Report Validations
 		if (paramValue.equalsIgnoreCase("displayresult")) {
 			if (this.getCompoundView().trim().length() < 1){ 
@@ -118,6 +66,8 @@ public class RefineQueryForm extends BaseForm {
 				}
 			}
 		}
+        }
+        
 		return errors;
 	}
 
@@ -156,23 +106,9 @@ public class RefineQueryForm extends BaseForm {
 
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 
-
-		queryName1="";
-		leftParen1="";
-		rightParen1="";
-		operatorType1="";
-
-		queryName2="";
-		leftParen2="";
-		rightParen2="";
-		operatorType2="";
-
-		queryName3="";
-		leftParen3="";
-		rightParen3="";
-		queryText="";
+     	queryText="";
 		compoundView="";
-		resultsetName="";
+		resultSetName="";
 	
 		setRefineQueryLookups(request);
 		compoundViewColl = new ArrayList();
@@ -180,206 +116,7 @@ public class RefineQueryForm extends BaseForm {
 
 
 	}
-
 	
-	/**
-	 * Returns the queryName1.
-	 * @return String
-	 */
-	public String getQueryName1() {
-
-		return queryName1;
-	}
-
-	/**
-	 * Set the queryName1.
-	 * @param queryName1 The queryName to set
-	 */
-	public void setQueryName1(String queryName1) {
-		this.queryName1 = queryName1;
-
-	}
-	/**
-	 * Returns the leftParen1.
-	 * @return String
-	 */
-	public String getLeftParen1() {
-
-		return leftParen1;
-	}
-
-	/**
-	 * Set the leftParen1.
-	 * @param leftParen1 The leftParen to set
-	 */
-	public void setLeftParen1(String leftParen1) {
-		this.leftParen1 = leftParen1;
-
-	}
-
-	/**
-	 * Returns the rightParen1.
-	 * @return String
-	 */
-	public String getRightParen1() {
-
-		return rightParen1;
-	}
-
-	/**
-	 * Set the rightParen1.
-	 * @param rightParen1 The rightParen to set
-	 */
-	public void setRightParen1(String rightParen1) {
-		this.rightParen1 = rightParen1;
-
-	}
-
-	/**
-	 * Returns the operatorType1.
-	 * @return String
-	 */
-	public String getOperatorType1() {
-
-		return operatorType1;
-	}
-
-	/**
-	 * Set the operatorType1.
-	 * @param operatorType1 The operatorType to set
-	 */
-	public void setOperatorType1(String operatorType1) {
-		this.operatorType1 = operatorType1;
-
-	}
-
-//***************
-  /**
-   * Returns the queryName2.
-   * @return String
-   */
-  public String getQueryName2() {
-
-	  return queryName2;
-  }
-
-  /**
-   * Set the queryName2.
-   * @param queryName2 The queryName to set
-   */
-  public void setQueryName2(String queryName2) {
-	  this.queryName2 = queryName2;
-
-  }
-  /**
-   * Returns the leftParen1.
-   * @return String
-   */
-  public String getLeftParen2() {
-
-	  return leftParen2;
-  }
-
-  /**
-   * Set the leftParen1.
-   * @param leftParen1 The leftParen to set
-   */
-  public void setLeftParen2(String leftParen2) {
-	  this.leftParen2 = leftParen2;
-
-  }
-
-  /**
-   * Returns the rightParen1.
-   * @return String
-   */
-  public String getRightParen2() {
-
-	  return rightParen2;
-  }
-
-  /**
-   * Set the rightParen1.
-   * @param rightParen1 The rightParen to set
-   */
-  public void setRightParen2(String rightParen2) {
-	  this.rightParen2 = rightParen2;
-
-  }
-
-  /**
-   * Returns the operatorType1.
-   * @return String
-   */
-  public String getOperatorType2() {
-
-	  return operatorType2;
-  }
-
-  /**
-   * Set the operatorType1.
-   * @param operatorType1 The operatorType to set
-   */
-  public void setOperatorType2(String operatorType2) {
-	  this.operatorType2 = operatorType2;
-
-  }
-
-//***
-
-  /**
-   * Returns the queryName3.
-   * @return String
-   */
-  public String getQueryName3() {
-
-	  return queryName3;
-  }
-
-  /**
-   * Set the queryName1.
-   * @param queryName1 The queryName to set
-   */
-  public void setQueryName3(String queryName3) {
-	  this.queryName3 = queryName3;
-
-  }
-  /**
-   * Returns the leftParen1.
-   * @return String
-   */
-  public String getLeftParen3() {
-
-	  return leftParen3;
-  }
-
-  /**
-   * Set the leftParen1.
-   * @param leftParen1 The leftParen to set
-   */
-  public void setLeftParen3(String leftParen3) {
-	  this.leftParen3 = leftParen3;
-
-  }
-
-  /**
-   * Returns the rightParen1.
-   * @return String
-   */
-  public String getRightParen3() {
-
-	  return rightParen3;
-  }
-
-  /**
-   * Set the rightParen1.
-   * @param rightParen1 The rightParen to set
-   */
-  public void setRightParen3(String rightParen3) {
-	  this.rightParen3 = rightParen3;
-
-  }
-
   /**
   * Returns the queryName1.
   * @return String
@@ -421,17 +158,17 @@ public class RefineQueryForm extends BaseForm {
   * Returns the resultsetName.
   * @return String
   */
- public String getResultsetName() {
+ public String getResultSetName() {
 
-	 return resultsetName;
+	 return resultSetName;
  }
 
  /**
   * Set the resultsetName.
   * @param resultsetName The resultsetName to set
   */
- public void setResultsetName(String resultsetName) {
-	 this.resultsetName = resultsetName;
+ public void setResultSetName(String resultsetName) {
+	 this.resultSetName = resultsetName;
 
  }
  /**
@@ -471,4 +208,61 @@ public class RefineQueryForm extends BaseForm {
 		this.compoundViewColl = viewColl;
 	}
 	
+	/**
+	 * @return Returns the errors.
+	 */
+	public ActionErrors getErrors() {
+		return errors;
+	}
+	/**
+	 * @param errors The errors to set.
+	 */
+	public void setErrors(ActionErrors errors) {
+		this.errors = errors;
+	}
+    
+    public void addActionError(String string, ActionError error) {
+        this.errors.add(string, error);
+    }
+	/**
+	 * @return Returns the selectedQueries.
+	 */
+	public List getSelectedQueries() {
+         if(selectedQueries.isEmpty()) {
+            SelectedQuery newQuery = new SelectedQuery();
+            newQuery.setQueryName("");
+            selectedQueries.add(newQuery);
+         }
+		 return selectedQueries;
+	}
+	/**
+	 * @param selectedQueries The selectedQueries to set.
+	 */
+	public void setSelectedQueries(ArrayList selectedQueries) {
+		this.selectedQueries = selectedQueries;
+	}
+  
+    public SelectedQuery getSelectedQueries(int index) {
+        return (SelectedQuery) this.getSelectedQueries().get(index);
+    }
+
+    public SelectedQuery getSelectedQuery(int index) {
+        return (SelectedQuery) this.getSelectedQueries().get(index);
+    }
+    
+    public void addSelectedQuery() {
+    	List selectedQueries = this.getSelectedQueries();
+        SelectedQuery newQuery = new SelectedQuery();
+        newQuery.setQueryName("");
+        selectedQueries.add(newQuery);
+    }
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.collections.Factory#create()
+	 */
+	public Object create() {
+		SelectedQuery newQuery = new SelectedQuery();
+        newQuery.setQueryName("");
+        return newQuery;
+	}
 }

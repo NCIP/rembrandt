@@ -20,24 +20,22 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-
-
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR
  * Date: Aug 20, 2004
  * Time: 3:06:52 PM
- * To change this template use Options | File Templates.
  */
 abstract public class QueryHandler {
+
     private static Logger logger = Logger.getLogger(QueryHandler.class);
     private static HashMap deBeanMappings = new HashMap();
     private final static String FILE_NAME ="/deToBeanAttrMappings.xml";
     private static Document doc;
     protected abstract ResultSet[] handle(Query query) throws Exception;
+    
     static {
-       //TODO: complete this
-       try {
+      try {
            InputStream inStream = QueryHandler.class.getResourceAsStream(FILE_NAME);
            assert true:inStream != null;
            DOMParser p = new DOMParser();
@@ -49,13 +47,15 @@ abstract public class QueryHandler {
 
        } catch(Throwable t) {
            //This is severe exception  SO exit the system
-           t.printStackTrace();
-           System.exit(1);
+          logger.error(t);
+          System.exit(1);
        }
     }
+    
     final static DEBeanAttrMapping getBeanAttrMappingFor(String deClassName) throws Exception {
         return getBeanAttrMappingFor(deClassName, null);
     }
+    
     final static DEBeanAttrMapping getBeanAttrMappingFor(String deClassName, String inBeanName) throws Exception {
         ArrayList valueObjects = (ArrayList) deBeanMappings.get(deClassName);
         DEBeanAttrMapping value = null;
@@ -84,10 +84,12 @@ abstract public class QueryHandler {
         FieldDescriptor fd = cd.getFieldDescriptorByName(beanAttrName);
         return fd.getColumnName();
     }
+    
     public static String getAttrNameForTheDE(String deClassName, String inBeanName) throws Exception{
         DEBeanAttrMapping  mappingsObj = getBeanAttrMappingFor(deClassName, inBeanName);
         return mappingsObj.mappedBeanAttribute;
     }
+    
     public static String getColumnName(PersistenceBroker pb, String deClassName, String inBeanName) throws Exception {
         DescriptorRepository dr = pb.getDescriptorRepository();
         DEBeanAttrMapping mappingObj = getBeanAttrMappingFor(deClassName, inBeanName);

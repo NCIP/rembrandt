@@ -5,7 +5,6 @@ package gov.nih.nci.nautilus.query;
  * User: BhattarR
  * Date: Aug 12, 2004
  * Time: 6:39:40 PM
- * To change this template use Options | File Templates.
  */
 class QueryFactory {
     public static Query newQuery(QueryType queryType) {
