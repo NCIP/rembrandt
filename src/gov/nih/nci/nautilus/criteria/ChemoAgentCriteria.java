@@ -19,42 +19,20 @@ import java.util.Iterator;
 
 
 public class ChemoAgentCriteria extends Criteria {
-
-    private Collection chemoAgents;
+    private ChemoAgentDE chemoAgentDE;   
 	public ChemoAgentCriteria(){}
 	
-	// this is to deal with one ChemoAgentDE object entry
-	public void setRadiationTherapy(ChemoAgentDE chemoAgentDE){
-	  if(chemoAgentDE != null){
-	     getChemoAgentMembers().add(chemoAgentDE);	  
-	     }	  
-	  }
-	
-	// this is to deal w/ a collection of ChemoAgentDE
-	public void setChemoAgent(Collection multiChemoAgent){
-	  if(multiChemoAgent != null){
-	     Iterator iter = multiChemoAgent.iterator();
-	     while(iter.hasNext()){
-	        ChemoAgentDE chemoAgentde = (ChemoAgentDE)iter.next();		
-		    getChemoAgentMembers().add(chemoAgentde);		    
-	      }	    
-	   } 
-   }
-	
-   private Collection getChemoAgentMembers(){
-     if(chemoAgents == null){
-	   chemoAgents = new ArrayList();
+	public void setChemoAgentDE(ChemoAgentDE chemoAgentDE){
+	   if(chemoAgentDE != null){
+	    this.chemoAgentDE = chemoAgentDE;
 	   }
-	  return  chemoAgents;
-   }
-   
-   public Collection getChemoAgents() {
-        return chemoAgents;
-    }
- 
-   public boolean isValid() {    
-    // find out later to see if we need validate chemoAgents
-    return true;
-    }
+	 } 
 	
+	public ChemoAgentDE getChemoAgentDE(){
+	  return chemoAgentDE;
+	  }
+	 
+	public boolean isValid(){
+	  return true;
+	 }  
 }

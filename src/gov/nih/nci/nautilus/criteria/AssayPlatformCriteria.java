@@ -16,41 +16,21 @@ import java.util.*;
 
 public class AssayPlatformCriteria extends Criteria{
 
- private Collection assayPlatforms;
- 
- public AssayPlatformCriteria(){}
- 
- // this is to deal with single assay platform entry
- public void setAssayPlatform(AssayPlatformDE assayPlatformDE){
-   if(assayPlatformDE != null){
-     getAssayPlatformMembers().add(assayPlatformDE);   
-      }  
-   }
- 
- // this is to deal with a collection of AssayPlatformDE entry
-  public void setAssayPlatforms(Collection multiAssayPlatforms){
-    if(multiAssayPlatforms != null){
-	   Iterator iter = multiAssayPlatforms.iterator();
-	   while(iter.hasNext()){
-	     AssayPlatformDE assayPlatformde = (AssayPlatformDE)iter.next();		
-		 getAssayPlatformMembers().add(assayPlatformde);		    
-	      }	    
-	   } 
-   }
- 
- private Collection getAssayPlatformMembers(){
-  if(assayPlatforms == null){
-     assayPlatforms = new ArrayList();
-   }
-  return assayPlatforms;
-  }
-  
-public Collection getAssayPlatforms(){
-  return assayPlatforms;
-   }
+private AssayPlatformDE assayPlatformDE;
+public AssayPlatformCriteria(){}
 
-public boolean isValid() {
-        // TODO: see if we need any validation on ArrayPlatform
-       return true;
-   }
+public void setAssayPlatformDE(AssayPlatformDE assayPlatformDE){
+ if(assayPlatformDE != null){
+   this.assayPlatformDE = assayPlatformDE;  
+     }
+}
+
+public AssayPlatformDE getAssayPlatformDE(){
+  return assayPlatformDE;
+ }
+
+public boolean isValid(){
+  return true; 
+ }
+
 }

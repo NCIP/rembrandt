@@ -20,41 +20,21 @@ import java.util.Iterator;
 
 public class RadiationTherapyCriteria extends Criteria {
 
-    private Collection radiationTherapies;
+    private RadiationTherapyDE radiationTherapyDE;
 	public RadiationTherapyCriteria(){}
 	
-	// this is to deal with one RadiationTherapyDE object entry
-	public void setRadiationTherapy(RadiationTherapyDE radiationTherapyDE){
-	  if(radiationTherapyDE != null){
-	     getRadiationTherapyMembers().add(radiationTherapyDE);	  
-	     }	  
-	  }
-	
-	// this is to deal w/ a collection of RadiationTherapyDE
-	public void setRadiationTherapies(Collection multiRadiationTherapies){
-	  if(multiRadiationTherapies != null){
-	     Iterator iter = multiRadiationTherapies.iterator();
-	     while(iter.hasNext()){
-	        RadiationTherapyDE radiationTherapyde = (RadiationTherapyDE)iter.next();		
-		    getRadiationTherapyMembers().add(radiationTherapyde);		    
-	      }	    
-	   } 
-   }
-	
-   private Collection getRadiationTherapyMembers(){
-     if(radiationTherapies == null){
-	   radiationTherapies = new ArrayList();
+	public void setRadiationTherapyDE(RadiationTherapyDE radiationTherapyDE){
+	 if(radiationTherapyDE != null){
+	   this.radiationTherapyDE = radiationTherapyDE;
 	   }
-	  return  radiationTherapies;
-   }
-   
-   public Collection getRadiationTherapies() {
-        return radiationTherapies;
-    }
- 
-   public boolean isValid() {    
-    // find out later to see if we need validate radiationTherapies
-    return true;
-    }
+	 }
+	
+	public  RadiationTherapyDE getRadiationTherapyDE(){
+	  return radiationTherapyDE;
+	 }
+    
+	public boolean isValid(){
+	  return true;
+	 } 
 	
 }

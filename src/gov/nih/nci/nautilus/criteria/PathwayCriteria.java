@@ -16,41 +16,19 @@ import java.util.*;
 
 public class PathwayCriteria extends Criteria{
 
- private Collection pathways;
- 
- public PathwayCriteria(){}
- 
- // this is to deal with single pathway entry
- public void setPathway(PathwayDE pathwayDE){
-   if(pathwayDE != null){
-     getPathwayMembers().add(pathwayDE);   
-      }  
-   }
- 
- // this is to deal with multiple pathway entries
-  public void setPathways(Collection multiPathways){
-    if(multiPathways != null){
-	   Iterator iter = multiPathways.iterator();
-	   while(iter.hasNext()){
-	     PathwayDE pathwayde = (PathwayDE)iter.next();		
-		 getPathwayMembers().add(pathwayde);		    
-	      }	    
-	   } 
-   }
- 
- private Collection getPathwayMembers(){
-  if(pathways == null){
-     pathways = new ArrayList();
-   }
-  return pathways;
-  }
-  
-public Collection getPathways(){
-  return pathways;
-   }
+private PathwayDE pathwayDE;
+public PathwayCriteria(){}
 
-public boolean isValid() {
-        // TODO: see if we need any validation on pathway
-       return true;
+public void setPathwayDE(PathwayDE pathwayDE){
+ if(pathwayDE != null){
+  this.pathwayDE = pathwayDE;
    }
+ }
+public PathwayDE getPathwayDE(){
+  return pathwayDE;
+ }
+public boolean isValid(){
+  return true;
+ }
+ 
 }

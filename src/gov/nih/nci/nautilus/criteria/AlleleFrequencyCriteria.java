@@ -7,43 +7,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * This  class encapsulates the properties of an caintergator 
+ * AlleleFrequencyCriteria object.
+ *  
+ * Dana Zhang
+ * Date: August 12, 2004 
+ * Version 1.0
+ */
 
 public class AlleleFrequencyCriteria extends Criteria {
-
-    private Collection alleleFrequencies;
-	public AlleleFrequencyCriteria(){}
-	
-	// this is to deal with one AlleleFrequencyDE object entry
-	public void setAlleleFrequency(AlleleFrequencyDE alleleFrequencyDE){
-	  if(alleleFrequencyDE != null){
-	     getAlleleFrequencyMembers().add(alleleFrequencyDE);	  
-	     }	  
-	  }
-	
-	// this is to deal w/ a collection of alleleFrequencyDE
-	public void setAlleleFrequencies(Collection multiAlleleFrequencies){
-	  if(multiAlleleFrequencies != null){
-	     Iterator iter = multiAlleleFrequencies.iterator();
-	     while(iter.hasNext()){
-	        AlleleFrequencyDE alleleFrequencyde = (AlleleFrequencyDE)iter.next();		
-		    getAlleleFrequencyMembers().add(alleleFrequencyde);		    
-	      }	    
-	   } 
-   }
-	
-   private Collection getAlleleFrequencyMembers(){
-     if(alleleFrequencies == null){
-	   alleleFrequencies = new ArrayList();
-	   }
-	  return  alleleFrequencies;
-   }
+   private AlleleFrequencyDE alleleFrequencyDE;
+   public AlleleFrequencyCriteria(){}
    
-   public Collection getAlleleFrequencies() {
-        return alleleFrequencies;
-    }
- 
-   public boolean isValid() {    
-       return true;
-    }
-	
+   public void setAlleleFrequencyDE(AlleleFrequencyDE alleleFrequencyDE){
+      if(alleleFrequencyDE != null){
+          this.alleleFrequencyDE = alleleFrequencyDE;
+		 }
+	 }
+   public AlleleFrequencyDE getAlleleFrequencyDE(){
+     return alleleFrequencyDE;
+	}	 
+  public boolean isValid(){
+     return true;
+   } 
 }

@@ -20,41 +20,21 @@ import java.util.Iterator;
 
 public class SurgeryTypeCriteria extends Criteria {
 
-    private Collection surgeryTypes;
+    private SurgeryTypeDE surgeryTypeDE;
 	public SurgeryTypeCriteria(){}
 	
-	// this is to deal with one SurgeryTypeDE object entry
-	public void setSurgeryType(SurgeryTypeDE surgeryTypeDE){
+	public void setSurgeryTypeDE(SurgeryTypeDE surgeryTypeDE){
 	  if(surgeryTypeDE != null){
-	     getSurgeryTypeMembers().add(surgeryTypeDE);	  
-	     }	  
-	  }
-	
-	// this is to deal w/ a collection of SurgeryTypeDE
-	public void setChemoAgent(Collection multiSurgeryTypes){
-	  if(multiSurgeryTypes != null){
-	     Iterator iter = multiSurgeryTypes.iterator();
-	     while(iter.hasNext()){
-	        SurgeryTypeDE surgeryTypede = (SurgeryTypeDE)iter.next();		
-		    getSurgeryTypeMembers().add(surgeryTypede);		    
-	      }	    
-	   } 
-   }
-	
-   private Collection getSurgeryTypeMembers(){
-     if(surgeryTypes == null){
-	   surgeryTypes = new ArrayList();
+	    this.surgeryTypeDE = surgeryTypeDE; 
 	   }
-	  return  surgeryTypes;
-   }
-   
-   public Collection getSurgeryTypes() {
-        return surgeryTypes;
-    }
+	 }
+
+	public SurgeryTypeDE getSurgeryTypeDE(){
+	 return surgeryTypeDE;
+	 }  
  
    public boolean isValid() {    
     // find out later to see if we need validate SurgeryTypes
     return true;
     }
-	
 }

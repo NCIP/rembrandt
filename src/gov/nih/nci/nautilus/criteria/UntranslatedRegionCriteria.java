@@ -16,40 +16,32 @@ import java.util.*;
 
 public class UntranslatedRegionCriteria extends Criteria{
 
- private Collection untranslatedRegions;
- 
- public UntranslatedRegionCriteria(){}
- 
- // this is to deal with single UntranslatedRegion entry
- public void setUntranslatedRegion(UntranslatedRegionDE untranslatedRegionDE){
-   if(untranslatedRegionDE != null){
-     getUntranslatedRegionMembers().add(untranslatedRegionDE);   
-      }  
-   }
- 
- // this is to deal with a collection of  UntranslatedRegionDE entry
-  public void setUntranslatedRegions(Collection multiUntranslatedRegions){
-    if(multiUntranslatedRegions != null){
-	   Iterator iter = multiUntranslatedRegions.iterator();
-	   while(iter.hasNext()){
-	     UntranslatedRegionDE untranslatedRegionde = (UntranslatedRegionDE)iter.next();		
-		 getUntranslatedRegionMembers().add(untranslatedRegionde);		    
-	      }	    
-	   } 
-   }
- 
- private Collection getUntranslatedRegionMembers(){
-  if(untranslatedRegions == null){
-     untranslatedRegions = new ArrayList();
-   }
-  return untranslatedRegions;
-  }
+  private UntranslatedRegionDE.UTR_5 utr_5;
+  private UntranslatedRegionDE.UTR_3 utr_3;
   
-public Collection getUntranslatedRegions(){
-  return untranslatedRegions;
+  public UntranslatedRegionCriteria(){}
+  
+  public void setUTR_5(UntranslatedRegionDE.UTR_5 utr_5){
+    if(utr_5 != null){
+      this.utr_5 = utr_5;   
+      }   
    }
+  
+  public void setUTR_3(UntranslatedRegionDE.UTR_3 utr_3){
+    if(utr_3 != null){
+	  this.utr_3 = utr_3;
+	}
+  }
 
-public boolean isValid() {
+  public UntranslatedRegionDE.UTR_5 getUTR_5(){
+   return utr_5;
+   }
+   
+  public  UntranslatedRegionDE.UTR_3 getUTR_3(){
+   return utr_3;
+   }
+ 
+ public boolean isValid() {
         // TODO: see if we need any validation on untranslatedRegion
        return true;
    }

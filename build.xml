@@ -70,7 +70,7 @@
         	<exclude name="**/de/PBTest.java" />
         	<classpath refid="cp.compile"/>
         </javac>
-    </target>
+    </target>	
 	
 	<target name="jar-caintergrator" depends="compile">
 	    <delete dir="${jar.dir}"/>  
