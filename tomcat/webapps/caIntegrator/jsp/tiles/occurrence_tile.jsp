@@ -3,7 +3,6 @@
 <legend class="red">Occurrence</legend>
 <%
 	String act = request.getParameter("act");
-	System.out.println(act);
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <input type="checkbox" name="firstPresentation" class="radio" disabled="true" >First Presentation

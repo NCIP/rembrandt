@@ -12,7 +12,8 @@ gov.nih.nci.nautilus.resultset.sample.*,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
-gov.nih.nci.nautilus.ui.ReportGenerator" %>
+gov.nih.nci.nautilus.ui.ReportGenerator,
+org.apache.log4j.Logger" %>
 
 <% /* dont need all these imports really */ %>
 
@@ -57,7 +58,7 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 <Br>
 <a name="top"></a>
 <%
-	System.out.println("sample we want: " + request.getParameter("s"));
+	logger.debug("sample we want: " + request.getParameter("s"));
 
 	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
@@ -67,7 +68,7 @@ String sample = request.getParameter("s");
 //get the results container from the session with sample as key
 if(session.getAttribute(sample) == null)
 {
-  System.out.println("not transitional report");	
+  logger.debug("not transitional report");	
   QueryCollection queryCollection = null;
   if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
 	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";	
@@ -133,7 +134,7 @@ if(session.getAttribute(sample) == null)
 }
 
 else	{
-	System.out.println("Doing transitional");
+	logger.debug("Doing transitional");
 	//process the transitional report
 	ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
 	String mode =  (String) request.getParameter("report");
@@ -146,7 +147,7 @@ else	{
 		
 	session.setAttribute("csv", resultsContainer);
 	session.setAttribute("mode", mode);
-	System.out.println("set things in session");
+	logger.debug("set things in session");
 	
 	//session.removeAttribute("resultsContainer");
 	session.removeAttribute("report");

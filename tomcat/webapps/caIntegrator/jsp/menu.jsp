@@ -1,9 +1,13 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.query.*,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
+<%@ page import="java.util.*,
+	 gov.nih.nci.nautilus.query.*,
+	 gov.nih.nci.nautilus.constants.NautilusConstants,
+	 org.apache.log4j.Logger" %> 
 
 
 <%
+Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 int geQueryNum = 0;
 String geQueryString = "0";
 int cpQueryNum = 0;
@@ -13,7 +17,7 @@ String cghQueryString = "0";
 
 QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
  if(queryCollection == null){
-   System.out.println("its null");
+   logger.debug("its null");
    }
  else{
  	Collection queryColl = queryCollection.getQueries();
@@ -22,17 +26,17 @@ QueryCollection queryCollection = (QueryCollection) request.getSession().getAttr
  	while (i.hasNext()){
  		Query query = (Query)i.next();
  		if(query instanceof GeneExpressionQuery){
-		   System.out.println("this is a gene expression query in the collection");
+		   logger.debug("this is a gene expression query in the collection");
  		   geQueryNum++;
  		   geQueryString = Integer.toString(geQueryNum);
  		}
  		if(query instanceof ComparativeGenomicQuery){
- 		   System.out.println("this is a Comparative Genomic query in the collection");
+ 		   logger.debug("this is a Comparative Genomic query in the collection");
  	 	   cpQueryNum++;
  	 	   cpQueryString = Integer.toString(cpQueryNum);
  	 	}
  		if(query instanceof ClinicalDataQuery){
- 			System.out.println("this is a Clinical Data query in the collection");
+ 			logger.debug("this is a Clinical Data query in the collection");
  	 		cghQueryNum++;
  	 		cghQueryString = Integer.toString(cghQueryNum);
  	 		}

@@ -6,7 +6,6 @@
 <br><br />
 <%
 	String act = request.getParameter("act");
-	System.out.println(act);
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 	

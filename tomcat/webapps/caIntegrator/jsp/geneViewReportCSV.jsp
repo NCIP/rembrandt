@@ -12,9 +12,11 @@ gov.nih.nci.nautilus.resultset.sample.*,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
-gov.nih.nci.nautilus.ui.CSVGenerator" %>
+gov.nih.nci.nautilus.ui.CSVGenerator,
+org.apache.log4j.Logger" %>
 
 <%
+	Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	//generate the CSV
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
@@ -37,11 +39,11 @@ if(session.getAttribute("csv") != null)	{
 	session.removeAttribute("mode");
 }
 else	{
-System.out.println("no resultscontainer in request");
+logger.debug("no resultscontainer in request");
 	//go the query Collection route
 	QueryCollection queryCollection = null;
 	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null){
-		System.out.println("queryCollection is not in request");
+		logger.debug("queryCollection is not in request");
     	queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
   	}else{
     	queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));

@@ -1,7 +1,10 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*" %> 
-<%@ page import="gov.nih.nci.caBIO.search.*, gov.nih.nci.caBIO.bean.*" %> 
+<%@ page import="gov.nih.nci.caBIO.search.*,
+	 gov.nih.nci.caBIO.bean.*,
+	 org.apache.log4j.Logger,
+	 gov.nih.nci.nautilus.constants.NautilusConstants" %> 
 
 
  <script language="javascript">
@@ -57,6 +60,7 @@
  </p>
  
  <% 
+ Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
  try {
  
       PathwaySearchCriteria pathwaySearch = new PathwaySearchCriteria();
@@ -67,7 +71,7 @@
 	        
 		  if (result != null)	  
 		  
-		  {  System.out.println("result.getCount():"+	result.getCount());	  
+		  {  logger.debug("result.getCount():"+	result.getCount());	  
 		  %>
 	
  <div >
@@ -113,7 +117,7 @@
 		   }
 		
 		catch(Exception ex){
-		 ex.printStackTrace();
+		 logger.error(ex);
 		}%>
 	
 		

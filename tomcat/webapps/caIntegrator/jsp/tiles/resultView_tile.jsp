@@ -5,7 +5,6 @@
 </legend>
 <%
 	String act = request.getParameter("act");
-	System.out.println(act);
 %>
 <br>
 	<!-- <html:form action="<%=act%>" method="get"> -->
