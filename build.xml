@@ -187,18 +187,9 @@
 			<classpath refid="cp.compile" />
 		</javac>
 	</target>
-
-
 	<target name="build-jar" depends="compile">
 		<delete dir="${jar.dir}" />
 		<mkdir dir="${jar.dir}" />
-
-		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
-			<fileset dir="${build.classes.dir}">
-				<include name="**/*" />
-			</fileset>
-		</jar>
-
 		<copy todir="${build.struts.lib.dir}">
 			<fileset dir="${build.lib.dir}">
 				<patternset refid="struts.jars" />
@@ -210,36 +201,15 @@
 				<include name="xml-apis.jar" />
 			</fileset>
 		</copy>
-
-		<copy todir="${build.classes.dir}">
+		<copy todir="${webapp.dir}/WEB-INF/resources" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="deToBeanAttrMappings.xml" />
 			</fileset>
-			<fileset dir="${webapp.dir}/WEB-INF/resources">
-				<include name="log4j.properties" />
-				<include name="OJB.properties" />
-				<include name="repository.dtd" />
-				<include name="repository.xml" />
-				<include name="repository_database.xml" />
-				<include name="repository_internal.xml" />
-				<include name="repository_user_caintegrator.xml" />
-			</fileset>
 		</copy>
-		<delete dir="${build.struts.classes.dir}" />
-		<mkdir dir="${build.struts.classes.dir}" />
 		<filter token="LOGDIR" value="${logging.dir}" />
-		<copy todir="${build.struts.classes.dir}" filtering="true">
-			<!-- 
-	    <fileset dir="${build.classes.dir}">
-                <include name="**/*"/>
-        </fileset>	
-        -->
-			<fileset dir="${basedir}">
-				<include name="deToBeanAttrMappings.xml" />
-
-			</fileset>
+		<copy todir="${webapp.dir}/WEB-INF/classes" filtering="true" overwrite="true">
 			<fileset dir="${webapp.dir}/WEB-INF/resources">
-				<include name="ApplicationResources.properties" />
+				<include name="deToBeanAttrMappings.xml" />
 				<include name="log4j.properties" />
 				<include name="OJB.properties" />
 				<include name="repository.dtd" />
@@ -247,21 +217,17 @@
 				<include name="repository_database.xml" />
 				<include name="repository_internal.xml" />
 				<include name="repository_user_caintegrator.xml" />
-			</fileset>
-
-		</copy>
-
-		<copy todir="${build.struts.classes.dir}/gov/nih/nci/nautilus/struts">
-			<fileset dir="${webapp.dir}/WEB-INF/resources">
-				<include name="ApplicationResources.properties" />
-				<include name="log4j.properties" />
+				<include name="label.properties" />
+				<include name="ApplicationResources.properties"/>
 			</fileset>
 		</copy>
-
-
+		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
+			<fileset dir="${build.classes.dir}">
+				<include name="**/*" />
+			</fileset>
+		</jar>
 	</target>
-
-	<target name="build-war" depends="build-jar, compile,setLogDir">
+	<target name="build-war" depends="build-jar, compile">
 		<delete file="${build.dir}/${app.war.name}.war" />
 		<war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.jsp" />
@@ -387,8 +353,5 @@
 	</target>
 	<target name="clean">
 		<delete dir="${build.dir}" quiet="true" />
-	</target>
-	<target name="setLogDir">
-
 	</target>
 </project>

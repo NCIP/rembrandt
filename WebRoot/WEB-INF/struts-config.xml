@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
+	 <!-- ========== Message Resources Definitions ========================== -->
+    <message-resources parameter="ApplicationResources" />
     <!-- ========== Data Source Configuration ============================== -->
     <data-sources />
     <!-- ========== Form Bean Definitions ================================== -->
@@ -16,20 +18,15 @@
    		<form-bean name="kmDataSetForm" type="gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm"/>
    		<form-bean name="reportActionForm" type="gov.nih.nci.nautilus.ui.struts.form.BaseForm"/>
   </form-beans>
-    
-
-  <!-- ========== Global Exception Definitions ============================ -->
+   <!-- ========== Global Exception Definitions ============================ -->
   <global-exceptions />
-    
-  <!-- ========== Global Forward Definitions ============================== -->
+   <!-- ========== Global Forward Definitions ============================== -->
   <global-forwards>
     <forward name="logoff" path="/logoff.do"/>
     <forward name="logon" path="/logon.jsp"/>
     <forward name="success" path="/mainMenu.jsp"/>
   </global-forwards>
-    
-    <!-- ========== Action Mapping Definitions ============================ -->
-    
+  <!-- ========== Action Mapping Definitions ============================ -->
   <action-mappings>
     <action path="/delete_Query"            
             name="deleteQueryForm"
@@ -218,8 +215,7 @@
     <!-- ========== Controller Configuration =============================== -->
     <controller />
     
-    <!-- ========== Message Resources Definitions ========================== -->
-    <message-resources parameter="gov.nih.nci.nautilus.struts.ApplicationResources" />
+   
    
     <!-- ========== Plug Ins Configuration ================================= -->
 	 <plug-in className="org.apache.struts.tiles.TilesPlugin" >

@@ -241,11 +241,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	public void setSelectedQueries(ArrayList selectedQueries) {
 		this.selectedQueries = selectedQueries;
 	}
-  
-    public SelectedQuery getSelectedQueries(int index) {
-        return (SelectedQuery) this.getSelectedQueries().get(index);
-    }
-
+ 
     public SelectedQuery getSelectedQuery(int index) {
         return (SelectedQuery) this.getSelectedQueries().get(index);
     }
