@@ -230,6 +230,7 @@ function goPageChangeStep(p, s)	{
 }
 
 function checkForBack()	{
+
 	if(history.length > 1)	{
 		document.write("<a style=\"margin-left:10px\" href=\"#\" onclick=\"javascript:history.back();\">[Back]</a>");
 	}	

@@ -340,7 +340,7 @@
 			  </xsl:when>
 			  <xsl:otherwise>
 		      	<td class="{$currentGroup}">
-		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect != 'false'">
+		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect != 'false' and contains($qName,'previewResults') = false">
 		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
 		      	</xsl:if>
 		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
