@@ -16,6 +16,7 @@ public class DifferentialExpressionSfact
     public final static String BIOSPECIMEN_ID = "biospecimenId";
     public final static String EXPRESSION_RATIO = "expressionRatio";
     public final static String DISEASE_TYPE = "diseaseType";
+    public final static String SAMPLE_ID = "sampleId";
 
     public String getCytoband() {
         return cytoband;

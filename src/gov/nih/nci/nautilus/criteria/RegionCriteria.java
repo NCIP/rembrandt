@@ -11,18 +11,35 @@ import gov.nih.nci.nautilus.de.CytobandDE;
  * To change this template use Options | File Templates.
  */
 public class RegionCriteria extends Criteria {
-    private CytobandDE cytoband;
+    private CytobandDE startCytoband;
+    private CytobandDE endCytoband;
     private ChromosomeNumberDE chromNumber;
     private BasePairPositionDE.StartPosition start;
     private BasePairPositionDE.EndPosition end;
     private boolean empty = true;
+
+    public CytobandDE getStartCytoband() {
+        return startCytoband;
+    }
+
+    public void setStartCytoband(CytobandDE startCytoband) {
+        this.startCytoband = startCytoband;
+    }
+
+    public CytobandDE getEndCytoband() {
+        return endCytoband;
+    }
+
+    public void setEndCytoband(CytobandDE endCytoband) {
+        this.endCytoband = endCytoband;
+    }
 
     public boolean isValid() {
         //TODO:  DO we need to add any more validation here?
 
         /* if cytoband is specified, then chromosomeNumber, start and end positions
           should not be specified */
-        if (cytoband != null && (end != null || start != null) ) return false;
+        if (getCytoband() != null && (end != null || start != null) ) return false;
 
         // if specified, both start & end posistions together should be specified
         if ((end == null && start != null) || (end != null && start == null))
@@ -39,13 +56,13 @@ public class RegionCriteria extends Criteria {
     }
 
     public CytobandDE getCytoband() {
-           return cytoband;
+           return getStartCytoband();
      }
 
     public void setCytoband(CytobandDE cytoband) {
        //assert(cytoband != null);
 	   if(cytoband != null){
-         this.cytoband = cytoband;
+         setStartCytoband(cytoband);
 		 }
     }
 
