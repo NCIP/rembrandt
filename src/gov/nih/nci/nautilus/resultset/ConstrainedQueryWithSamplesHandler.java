@@ -9,7 +9,6 @@ package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.query.CompoundQuery;
-import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.Query;
@@ -30,9 +29,9 @@ import org.apache.log4j.Logger;
  * 
  */
 
-public class ContraintQueryWithSamplesHandler {
+public class ConstrainedQueryWithSamplesHandler {
 	private static Logger logger = Logger
-			.getLogger(ContraintQueryWithSamplesHandler.class);
+			.getLogger(ConstrainedQueryWithSamplesHandler.class);
 
 	public SampleCriteria createSampleCriteria(String[] sampleIDs) {
 		SampleCriteria sampleCrit = null;
@@ -47,7 +46,7 @@ public class ContraintQueryWithSamplesHandler {
 		return sampleCrit;
 	}
 
-	public CompoundQuery contraintQuery(CompoundQuery compoundQuery,
+	public CompoundQuery constrainQuery(CompoundQuery compoundQuery,
 			SampleCriteria sampleCrit) throws Exception {
 		CompoundQuery newQuery = null;
 		Queriable leftQuery = compoundQuery.getLeftQuery();
@@ -57,7 +56,7 @@ public class ContraintQueryWithSamplesHandler {
 		try {
 			if (leftQuery != null) {
 				if (leftQuery instanceof CompoundQuery) {
-					leftQuery = contraintQuery((CompoundQuery) leftQuery,
+					leftQuery = constrainQuery((CompoundQuery) leftQuery,
 							sampleCrit);
 				} else if (leftQuery instanceof Query) {
 					Query query = (Query) leftQuery;
@@ -67,7 +66,7 @@ public class ContraintQueryWithSamplesHandler {
 
 			if (rightQuery != null) {
 				if (rightQuery instanceof CompoundQuery) {
-					rightQuery = contraintQuery((CompoundQuery) rightQuery,
+					rightQuery = constrainQuery((CompoundQuery) rightQuery,
 							sampleCrit);
 				} else if (rightQuery instanceof Query) {
 					Query query = (Query) rightQuery;

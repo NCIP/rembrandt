@@ -395,7 +395,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable {
 		// Call the Query class clone method.
 		myClone = (ClinicalDataQuery) super.clone();
 		// add all the data fields of this subclass
-		myClone.ageCriteria = (AgeCriteria) ageCriteria.clone();
+		myClone.ageCriteria = (ageCriteria == null) ? (AgeCriteria) ageCriteria.clone():ageCriteria;
 		myClone.chemoAgentCriteria = (ChemoAgentCriteria) chemoAgentCriteria
 				.clone();
 		myClone.genderCriteria = (GenderCriteria) genderCriteria.clone();

@@ -204,9 +204,9 @@ public class ResultsetManager {
 	throws Exception {
 		Resultant resultant = null;
 		if (queryToExecute != null && sampleIDs != null) {
-			ContraintQueryWithSamplesHandler sampleHandler = new ContraintQueryWithSamplesHandler();
+			ConstrainedQueryWithSamplesHandler sampleHandler = new ConstrainedQueryWithSamplesHandler();
 			SampleCriteria sampleCriteria = sampleHandler.createSampleCriteria(sampleIDs);
-			CompoundQuery newCQuery = sampleHandler.contraintQuery(queryToExecute,sampleCriteria);
+			CompoundQuery newCQuery = sampleHandler.constrainQuery(queryToExecute,sampleCriteria);
 			resultant = executeCompoundQuery(newCQuery);
 		}
 
