@@ -43,6 +43,8 @@ public class RefineCheckAction extends Action {
 		throws Exception {
 
 		ActionErrors errors = new ActionErrors();
+		request.getSession().setAttribute("currentPage", "0");
+		request.getSession().removeAttribute("currentPage2");
 
 		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 
