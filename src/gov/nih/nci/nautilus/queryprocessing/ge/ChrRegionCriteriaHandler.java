@@ -73,7 +73,8 @@ final public class ChrRegionCriteriaHandler {
         else if (regionCrit.getStart() != null && regionCrit.getEnd() != null)
             h = new PositionHandler();
         else
-            throw new Exception("Either cytoband or Start/End Position is required");
+            return new StartEndPosition(null, null, regionCrit.getChromNumber());
+        //throw new Exception("Either cytoband or Start/End Position is required");
         StartEndPosition posObj = h.buildStartEndPosition(regionCrit, pb);
         return posObj;
     }
@@ -129,8 +130,8 @@ final public class ChrRegionCriteriaHandler {
         Criteria c = new Criteria();
         c.addColumnEqualTo(deMappingAttrNameForChrNum, posObj.chrNumber.getValueObject());
         if (posObj.startPosition != null && posObj.endPosition != null) {
-            c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
-            c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
+                c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
+                c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
         }
         ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, true );
         return probeIDSubQuery;
@@ -143,10 +144,12 @@ final public class ChrRegionCriteriaHandler {
         Criteria c = new Criteria();
         c.addColumnEqualTo(deMappingAttrNameForChrNum, posObj.chrNumber.getValueObject());
 
-         if (posObj.startPosition != null && posObj.endPosition != null) {
-            c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
-            c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
-         }
+        if(posObj != null)  {
+             if (posObj.startPosition != null && posObj.endPosition != null) {
+                c.addGreaterOrEqualThan(deMappingAttrNameForStartPos, new Long(posObj.startPosition.getValueObject().longValue()));
+                c.addLessOrEqualThan(deMappingAttrNameForEndPos, new Long(posObj.endPosition.getValueObject().longValue()));
+             }
+        }
 
         ReportQueryByCriteria coleIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
         return coleIDSubQuery;

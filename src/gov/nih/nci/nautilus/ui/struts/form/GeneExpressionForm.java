@@ -1384,7 +1384,7 @@ public class GeneExpressionForm extends BaseForm {
 	 * 
 	 * @param foldChangeValueUnchange
 	 *            The foldChangeValueUnchange to set
-	 */
+	 */                                                    
 	public void setFoldChangeValueUnchangeFrom(
 			String foldChangeValueUnchangeFrom) {
 		this.foldChangeValueUnchangeFrom = foldChangeValueUnchangeFrom;

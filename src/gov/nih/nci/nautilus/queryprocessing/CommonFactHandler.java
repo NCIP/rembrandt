@@ -31,6 +31,15 @@ public class CommonFactHandler {
             criteria.addIn(columnName, diseasesTypes);
         }
     }
+    public static void addSingleDiseaseCriteria(DiseaseNameDE disease, Class beanClass, PersistenceBroker pb, Criteria criteria)
+    throws Exception {
+        //DiseaseOrGradeCriteria diseaseCrit = query.getDiseaseOrGradeCriteria();
+        String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
+        if (disease != null) {
+            criteria.addEqualTo(columnName, disease.getValueObject());
+        }
+    }
+
 
     public static void addSampleIDCriteria(Query query, Class beanClass, Criteria criteria)
     throws Exception {

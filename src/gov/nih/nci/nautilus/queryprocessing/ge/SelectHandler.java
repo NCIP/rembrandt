@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
+import gov.nih.nci.nautilus.util.ThreadPool;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -110,15 +111,23 @@ public abstract class SelectHandler implements Runnable {
            tl.get() = new InheritableThreadLocal();*/
    }
 
-    private void executeSubQueries(Collection probeQueries, Collection probeIDS) {
+    private void executeSubQueries(Collection probeQueries, final Collection probeIDS) {
         for (Iterator iterator = probeQueries.iterator(); iterator.hasNext();) {
-            ReportQueryByCriteria query =  (ReportQueryByCriteria)iterator.next();
+            final ReportQueryByCriteria query =  (ReportQueryByCriteria)iterator.next();
             String threadID = new Long(System.currentTimeMillis()).toString();
-            DBEvent.SubQueryEvent event = new DBEvent.SubQueryEvent(threadID);
+            final DBEvent.SubQueryEvent event = new DBEvent.SubQueryEvent(threadID);
             eventList.add(event);
             logger.debug("NEW THREADS: " + threadID);
-            new Thread(new Executor(query, probeIDS, event)).start();
-
+            //new Thread(new Executor(query, probeIDS, event)).start();
+            ThreadPool.AppThread t = ThreadPool.newAppThread(
+                       new ThreadPool.MyRunnable() {
+                          public void codeToRun() {
+                              new Executor(query, probeIDS, event).execute();
+                          }
+                       }
+                      );
+             System.out.println("BEGIN: (from SelectHandler.executeSubQueries()) Thread Count: " + ThreadPool.THREAD_COUNT);
+             t.start();
         }
     }
 
@@ -149,7 +158,7 @@ public abstract class SelectHandler implements Runnable {
         }
         */
     }
-    private class Executor implements Runnable {
+    private class Executor {
        ReportQueryByCriteria query;
        Collection probeORCloneIDS;
        DBEvent.SubQueryEvent event;
@@ -160,7 +169,7 @@ public abstract class SelectHandler implements Runnable {
             this.event = event;
         }
 
-        public void run() {
+        public void execute() {
              executeProbeCloneIDSubQuery(query, probeORCloneIDS, event);
         }
 

@@ -13,6 +13,8 @@ import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+import gov.nih.nci.nautilus.util.ThreadPool;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,6 +28,9 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
+import org.apache.ojb.broker.accesslayer.ConnectionManagerImpl;
+import org.apache.ojb.broker.accesslayer.ConnectionFactory;
+import org.apache.ojb.broker.accesslayer.ConnectionManagerIF;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -42,14 +47,67 @@ abstract public class GEFactHandler {
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
-     private final static int VALUES_PER_THREAD = 500;
+     private final static int VALUES_PER_THREAD = 50;
      List factEventList = Collections.synchronizedList(new ArrayList());
      abstract void addToResults(Collection results);
      List annotationEventList = Collections.synchronizedList(new ArrayList());
      abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
      throws Exception;
 
-    protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
+   /* protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
+       ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
+       DiseaseOrGradeCriteria diseaseCrit = geQuery.getDiseaseOrGradeCriteria();
+        PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        //String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
+        //if (diseaseCrit != null) {
+            //ArrayList diseasesTypes = new ArrayList();
+            for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();) {
+                DiseaseNameDE diseaseDE = (DiseaseNameDE) iterator.next();
+                 for (int i = 0; i < arrayIDs.size();) {
+                        Collection values = new ArrayList();
+                        int begIndex = i;
+                        i += VALUES_PER_THREAD ;
+                        int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
+                        values.addAll(arrayIDs.subList(begIndex,  endIndex));
+                        final Criteria IDs = new Criteria();
+                        IDs.addIn(probeOrCloneIDAttr, values);
+                        String threadID = "GEFactHandler.ThreadID:" + probeOrCloneIDAttr + ":" +i;
+
+                        final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
+                        factEventList.add(dbEvent);
+
+                        PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                        final Criteria sampleCrit = new Criteria();
+                        //CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+                        CommonFactHandler.addSingleDiseaseCriteria(diseaseDE, targetFactClass, _BROKER, sampleCrit);
+                        FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+                        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+                        _BROKER.close();
+
+                        ThreadPool.AppThread t = ThreadPool.newAppThread(
+                           new ThreadPool.MyRunnable() {
+                              public void codeToRun() {
+                                  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                                  pb.clearCache();
+                                  sampleCrit.addAndCriteria(IDs);
+                                  org.apache.ojb.broker.query.Query sampleQuery =
+                                  QueryFactory.newQuery(targetFactClass,sampleCrit, false);
+                                  assert(sampleQuery != null);
+                                  Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
+                                  addToResults(exprObjects);
+                                  pb.close();
+                                  dbEvent.setCompleted(true);
+
+                              }
+                           }
+                       );
+                        System.out.println("FRESH ID: " + t.getID());
+                        t.start();
+                    }
+          }
+    }
+     */
+      protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
@@ -71,26 +129,26 @@ abstract public class GEFactHandler {
                 CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
                 _BROKER.close();
 
-                new Thread(
-                   new Runnable() {
-                      public void run() {
-                          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-                          pb.clearCache();
-                          sampleCrit.addAndCriteria(IDs);
-                          org.apache.ojb.broker.query.Query sampleQuery =
-                          QueryFactory.newQuery(targetFactClass,sampleCrit, false);
-                          assert(sampleQuery != null);
-                          Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
-                          addToResults(exprObjects);
-                          pb.close();
-                          dbEvent.setCompleted(true);
-
+                ThreadPool.AppThread t = ThreadPool.newAppThread(
+                           new ThreadPool.MyRunnable() {
+                              public void codeToRun() {
+                                  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                                  pb.clearCache();
+                                  sampleCrit.addAndCriteria(IDs);
+                                  org.apache.ojb.broker.query.Query sampleQuery =
+                                  QueryFactory.newQuery(targetFactClass,sampleCrit, false);
+                                  assert(sampleQuery != null);
+                                  Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
+                                  addToResults(exprObjects);
+                                  pb.close();
+                                  dbEvent.setCompleted(true);
                       }
                    }
-               ).start();
+               );
+               System.out.println("BEGIN: (from GEFactHandler.executeQuery()) Thread Count: " + ThreadPool.THREAD_COUNT);
+               t.start();
             }
     }
-
      protected void executeCloneAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
             for (int i = 0; i < arrayIDs.size();) {
@@ -111,31 +169,33 @@ abstract public class GEFactHandler {
                 final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.ACCESSION_NUMBER);
                 final String cloneIDColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.CLONE_ID);
                 _BROKER.close();
-                new Thread(
-                   new Runnable() {
-                      public void run() {
-                          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-                          pb.clearCache();
-                          Query annotQuery =
-                          QueryFactory.newReportQuery(GeneClone.class,new String[] {cloneIDColName, locusLinkColName, accessionColName }, annotCrit, false);
-                          assert(annotQuery != null);
-                          Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
-                          while (iter.hasNext()) {
-                               Object[] cloneAttrs = (Object[]) iter.next();
-                               Long cloneID = new Long(((BigDecimal)cloneAttrs[0]).longValue());
-                               GeneExpr.Annotaion c = (GeneExpr.CloneAnnotaion)cloneAnnotations.get(cloneID);
-                               if (c == null) {
-                                   c = new GeneExpr.CloneAnnotaion(new ArrayList(), new ArrayList(), cloneID);
-                                   cloneAnnotations.put(cloneID, c);
-                               }
-                               c.locusLinks.add(cloneAttrs[1]);
-                               c.accessions.add(cloneAttrs[2]);
+                ThreadPool.AppThread t = ThreadPool.newAppThread(
+                       new ThreadPool.MyRunnable() {
+                            public void codeToRun() {
+                              final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                              pb.clearCache();
+                              Query annotQuery =
+                              QueryFactory.newReportQuery(GeneClone.class,new String[] {cloneIDColName, locusLinkColName, accessionColName }, annotCrit, false);
+                              assert(annotQuery != null);
+                              Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+                              while (iter.hasNext()) {
+                                   Object[] cloneAttrs = (Object[]) iter.next();
+                                   Long cloneID = new Long(((BigDecimal)cloneAttrs[0]).longValue());
+                                   GeneExpr.Annotaion c = (GeneExpr.CloneAnnotaion)cloneAnnotations.get(cloneID);
+                                   if (c == null) {
+                                       c = new GeneExpr.CloneAnnotaion(new ArrayList(), new ArrayList(), cloneID);
+                                       cloneAnnotations.put(cloneID, c);
+                                   }
+                                   c.locusLinks.add(cloneAttrs[1]);
+                                   c.accessions.add(cloneAttrs[2]);
+                              }
+                              pb.close();
+                              dbEvent.setCompleted(true);
                           }
-                          pb.close();
-                          dbEvent.setCompleted(true);
-                      }
-                   }
-               ).start();
+                    }
+               );
+               System.out.println("BEGIN (from GEFactHandler.executeCloneAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
+               t.start();
             }
     }
     protected void executeProbeAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
@@ -159,9 +219,9 @@ abstract public class GEFactHandler {
                 final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.ACCESSION_NUMBER);
                 final String probeIDColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
                 _BROKER.close();
-                new Thread(
-                   new Runnable() {
-                      public void run() {
+                ThreadPool.AppThread t = ThreadPool.newAppThread(
+                       new ThreadPool.MyRunnable() {
+                            public void codeToRun()  {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           pb.clearCache();
                           Query annotQuery =
@@ -183,7 +243,9 @@ abstract public class GEFactHandler {
                           dbEvent.setCompleted(true);
                       }
                    }
-               ).start();
+               );
+               System.out.println("BEGIN (from GEFactHandler.executeProbeAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
+               t.start();
             }
     }
     

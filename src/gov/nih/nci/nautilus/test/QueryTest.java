@@ -26,12 +26,14 @@ import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.io.*;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -44,7 +46,7 @@ import junit.framework.TestSuite;
  * Time: 1:41:11 PM
  * To change this template use Options | File Templates.
  */
-public class QueryTest extends TestCase {
+public class QueryTest extends TestCase { 
 	 private static final DecimalFormat resultFormat = new DecimalFormat("0.00");
      DiseaseOrGradeCriteria diseaseCrit;
      FoldChangeCriteria foldCrit;
@@ -66,7 +68,11 @@ public class QueryTest extends TestCase {
 
     protected void setUp() throws Exception {
         buildSampleIDCrit();
+
+        // the following two are mutually exclusive
         buildDiseaseTypeCrit();
+        //buildAllDiseaseTypeCrit();
+
         buildSurvivalCrit();
         buildAgeCrit();
         buildGenderCrit();
@@ -75,7 +81,11 @@ public class QueryTest extends TestCase {
         buildCloneCrit();
         buildProbeCrit();
         buildFoldChangeCrit();
-        buildGeneIDCrit();
+
+        // the following two are mutually exclusive
+        buildGeneIDFromFileCrit();
+        //buildGeneIDCrit();
+
         buildOntologyCrit();
         buildPathwayCrit();
         buildSNPCrit();
@@ -86,14 +96,14 @@ public class QueryTest extends TestCase {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-            q.setGeneIDCrit(geneIDCrit);
+             //q.setGeneIDCrit(geneIDCrit);
 
              //q.setGeneOntologyCrit(ontologyCrit);
-            //q.setRegionCrit(regionCrit);
+
             //q.setPathwayCrit(pathwayCrit);
 
             //q.setGeneOntologyCrit(ontologyCrit);
-            //q.setRegionCrit(regionCrit);
+            q.setRegionCrit(regionCrit);
             //q.setPathwayCrit(pathwayCrit);
 
 
@@ -103,8 +113,8 @@ public class QueryTest extends TestCase {
 
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
-            //q.setDiseaseOrGradeCrit(diseaseCrit);
-              q.setSampleIDCrit(sampleCrit);
+            q.setDiseaseOrGradeCrit(diseaseCrit);
+              //q.setSampleIDCrit(sampleCrit);
               q.setFoldChgCrit(foldCrit);
 
             try {
@@ -112,21 +122,21 @@ public class QueryTest extends TestCase {
                 ResultSet[] geneExprObjects = QueryProcessor.execute(q);
                 System.out.println("NUMBER OF RECORDS: " + geneExprObjects.length);
 
-                print(geneExprObjects);
-                if (geneExprObjects.length > 0)
-                    testResultset(geneExprObjects);
+               // print(geneExprObjects);
+               //if (geneExprObjects.length > 0)
+                 //   testResultset(geneExprObjects);
 
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
-
+                                         
     }
 
       private void print(ResultSet[] geneExprObjects) {
             int count = 0;
             HashSet probeIDS = new HashSet();
             HashSet cloneIDs = new HashSet();
-
+            HashSet gs = new HashSet();
 
           for (int i = 0; i < geneExprObjects.length; i++) {
               ResultSet obj = geneExprObjects[i];
@@ -136,6 +146,9 @@ public class QueryTest extends TestCase {
                 }
                  else if (obj instanceof GeneExpr.GeneExprSingle)  {
                     exprObj = (GeneExpr.GeneExprSingle) obj;
+                }
+                if (exprObj.getGeneSymbol() != null) {
+                    gs.add(exprObj.getGeneSymbol());
                 }
                 if (exprObj.getProbesetId() != null) {
                     System.out.println("Disease: "+ exprObj.getDiseaseType());
@@ -168,6 +181,12 @@ public class QueryTest extends TestCase {
             System.out.println("Total clones: " + cloneIDs.size());
             System.out.println(c.toString());
 
+            int gsCount = 0;
+            for (Iterator iterator = gs.iterator(); iterator.hasNext();) {
+                String s = (String) iterator.next();
+                ++gsCount;
+            }
+            System.out.println("Total Number Genes: " + gsCount);
             return ;
     }
       public void testResultset(ResultSet[] geneExprObjects){
@@ -318,6 +337,8 @@ public class QueryTest extends TestCase {
         suit.addTest(new TestSuite(GeneExpression.class));
         //suit.addTest(new TestSuite(CGH.class));
         //suit.addTest(new TestSuite(Clinical.class));
+
+        //suit.addTest(new TestSuite(OJBSubSelectTest.GeneExpressionSubSelect.class));
         return suit;
 	}
 
@@ -326,7 +347,22 @@ public class QueryTest extends TestCase {
 
     }
 
-
+    private void buildGeneIDFromFileCrit() {
+        BufferedReader inFile = null;
+        String inputLine = null;
+        Collection geneSymbols = new ArrayList();
+        try {
+                inFile = new BufferedReader( new InputStreamReader(new FileInputStream("C:\\RembrandtDocs\\AllGeneSymbols.txt")));
+                while ((inputLine = inFile.readLine()) != null) {
+                    GeneIdentifierDE.GeneSymbol o = new GeneIdentifierDE.GeneSymbol(inputLine);
+                    geneSymbols.add(o);
+                }
+         } catch (IOException e) {
+                e.printStackTrace();
+         }
+         geneIDCrit = new GeneIDCriteria();
+         geneIDCrit.setGeneIdentifiers(geneSymbols);
+    }
     private void buildGeneIDCrit() {
         ArrayList inputIDs = new ArrayList();
         inputIDs.add(0, "10050");
@@ -360,13 +396,15 @@ public class QueryTest extends TestCase {
     private void buildRegionCrit() {
         regionCrit = new RegionCriteria();
 
-        // cytoband and start & end positions are mutually exclusive
-       regionCrit.setCytoband(new CytobandDE("p21.32"));
+       // cytoband and start & end positions are mutually exclusive
+       //regionCrit.setCytoband(new CytobandDE("p21.32"));
        //regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(6900000)));
-       // regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
+       //regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
 
         // Chromosome Number is mandatory
         regionCrit.setChromNumber(new ChromosomeNumberDE(new String("6")));
+        regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(1)));
+       regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(170914576)));
     }
 
     private void buildOntologyCrit() {
@@ -414,6 +452,14 @@ public class QueryTest extends TestCase {
     private void buildDiseaseTypeCrit() {
          diseaseCrit = new DiseaseOrGradeCriteria();
          diseaseCrit.setDisease(new DiseaseNameDE("OLIG"));
+    }
+    private void buildAllDiseaseTypeCrit() {
+       diseaseCrit = new DiseaseOrGradeCriteria();
+       diseaseCrit.setDisease(new DiseaseNameDE("OLIG"));
+       diseaseCrit.setDisease(new DiseaseNameDE("GBM"));
+        diseaseCrit.setDisease(new DiseaseNameDE("ASTROCYTOMA"));
+        diseaseCrit.setDisease(new DiseaseNameDE("MIXED"));
+        diseaseCrit.setDisease(new DiseaseNameDE("GLIOMA"));
     }
     private void buildSampleIDCrit() {
         sampleCrit = new SampleCriteria();

@@ -26,7 +26,7 @@ import org.apache.ojb.broker.query.Criteria;
  */
 public class FoldChangeCriteriaHandler {
 
-    static void addFoldChangeCriteria(GeneExpressionQuery geQuery, Class beanClass, PersistenceBroker pb, Criteria criteria)
+    public static void addFoldChangeCriteria(GeneExpressionQuery geQuery, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
        FoldChangeCriteria foldChangeCrit = geQuery.getFoldChgCrit();
        if (foldChangeCrit != null) {
