@@ -7,10 +7,11 @@ gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 org.dom4j.Document"
 %>
-<span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
-	<br><Br>
+<span id="spnLoading"  style="display:inline; width:500; text-align:center; width:100%" >
+	<br><p align="center" style="font: 14px arial bold">
 	<img src="images/statusBar2.gif">
 	<br>Loading...please wait<br>
+	</p>
 </span>
 <%
 	response.flushBuffer();	
