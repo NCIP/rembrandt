@@ -18,7 +18,7 @@ import java.util.Iterator;
 /**
  * @author SahniH
  * Date: September 20, 2004 
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * This junit test encapsulates the query and resultset tests
  * 
  * 
@@ -33,7 +33,6 @@ public class ResultsetTest extends TestCase{
     }
    	public static junit.framework.Test suite() {	
     	junit.framework.TestSuite suite = new junit.framework.TestSuite();
-        //suite.addTest(new ResultsetTest("createQuery"));
         suite.addTest(new ResultsetTest("testResultset"));
     	return suite;
 	}
@@ -76,7 +75,7 @@ public class ResultsetTest extends TestCase{
         
 	        for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
 	        	DifferentialExpressionSfact expObj = (DifferentialExpressionSfact) iterator.next();
-	            //System.out.println("expObj.geneSymbol: " + expObj.getGeneSymbol() + " |expObj.probesetId: " +expObj.getProbesetId()+ " |expObj.dieasesID: " +expObj.getDesId()+ " |expObj.biospecimenID: " +expObj.getBiospecimenId() );
+	            System.out.println("expObj.geneSymbol: " + expObj.getGeneSymbol() + " |expObj.probesetId: " +expObj.getProbesetId()+ " |expObj.dieasesTypeID: " +expObj.getDiseaseTypeId()+ " |expObj.biospecimenID: " +expObj.getBiospecimenId() );
 	        }
  		} catch (Exception ex) {
  			ex.printStackTrace();
