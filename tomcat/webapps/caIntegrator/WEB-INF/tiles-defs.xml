@@ -93,4 +93,22 @@
 	  <put name="title" value="Select Presentation" />
 	  <put name="reqdFieldsMsg" value="" />
     </definition>
+    
+    <definition name="graph" path="/jsp/layoutGraph.jsp">
+		<put name="title" value="caIntegrator" />
+		<!--  the common criteria  -->
+		<put name="htmlHead" value="/jsp/tiles/htmlHead_tile.jsp" />
+		<put name="overlib" value="/jsp/tiles/overlib_tile.jsp" />
+		<put name="header" value="/jsp/header.jsp" />
+		<put name="footer" value="/jsp/footer.jsp" />
+	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
+		<!--  form specific criteria  -->
+		<put name="mainForm" value="" />		<!-- main form page, read from props file -->
+    </definition>
+    
+    <definition name="nautilus.graph" extends="graph">
+      <put name="mainForm" value="/graph.jsp" />
+	  <put name="title" value="Gene Expression Graph" />
+    </definition>
+    
 </tiles-definitions>
