@@ -1,7 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.nautilus.constants.NautilusConstants" %>
-
+<%@ page import="java.util.*, java.lang.*, java.io.*" %>
 <% 	/*
 		This page receives the section identifier in the query string (s)
 		Read properties file based on this ID, then assembles the
@@ -17,16 +16,6 @@
 //below, we need to set the form action to the name cooresponding bean/action -
 //get if from the request, and make lower to match the struts-config
 String act = request.getParameter("s").toLowerCase();
-%>
-<Br>
-<span id="popup" name="popup"></span>
-<%
-	String preview = (String) request.getAttribute("preview");
-	if(preview != null && preview.equals("yes"))
-	{ %>
-<%@ include file="popup.jsp" %>
-<%
-	}
 %>
 <div class="setQuery">
 <html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>

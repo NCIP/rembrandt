@@ -34,9 +34,6 @@
 			   String pageStr = (String)request.getSession().getAttribute("currentPage");					   
 			   String pageStr2 = (String)request.getSession().getAttribute("currentPage2");  
 			   
-			
-			   
-			   
 			   
 			   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 			   if(queryCollection != null){
@@ -62,7 +59,7 @@
 					%>
 					<Table border="0" style="font-size:.9em">
 				    <tr><td><%=query%>
-					<%if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))) ){%>
+					<%if(pageStr != null && pageStr2 ==null){%>
 					     <input type="submit" class="sbutton" value="delete" onclick="setMode('deleteQuery', '<%=queryKey%>')"></td>			
 					<%}%>
 					</tr>&nbsp;&nbsp;
@@ -85,7 +82,7 @@
 
 		</Table>
 		<%if(j !=0 && j>=2){
-		   if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1")))){%>
+		  if(pageStr != null && pageStr2 ==null){%>
 		<html:submit styleClass="xbutton" value="delete all queries" onclick="setMode('deleteAll', 'all')"/>
 		    <%}
 		  }%>

@@ -121,7 +121,7 @@ String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 %>
 <p>
 For more assistance please view our <a href="tutorials.jsp">tutorials</a>, or 
-<a href="mailto:ncicb@pop.nci.nih.gov?subject=Rembrandt-0.5">email</a> NCICB Application Support.
+<a href="mailto:#">email</a> NCICB Application Support.
 </p>
 </body>
 </html>

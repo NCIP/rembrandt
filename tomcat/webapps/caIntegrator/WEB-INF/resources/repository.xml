@@ -12,10 +12,16 @@
 
 
 <descriptor-repository version="1.0" isolation-level="read-uncommitted">
+
     &database; 
 	&internal;
+    
+
     <!-- include user defined mappings here -->
+	
     &caintegrator;
+  
+
 </descriptor-repository>
 
 

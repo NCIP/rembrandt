@@ -10,7 +10,6 @@
   <!-- Action Servlet Configuration -->
   <servlet>
     <servlet-name>action</servlet-name>
-   
     <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
     <init-param>
       <param-name>config</param-name>
@@ -47,13 +46,7 @@
     <servlet-name>action</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
-  <!-- Added to avoid session timeout problems 3 hour session timeout -->
-  <session-config>
-  		<session-timeout>
-  			180 
- 		</session-timeout>
-  </session-config>	  	
-	
+
   <!-- The Welcome File List -->
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

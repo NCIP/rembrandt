@@ -17,17 +17,7 @@
 	<title><tiles:getAsString name="title"/></title>
 	<tiles:insert attribute="htmlHead"/> <%-- include html head --%>
 </head>
-<%
-	String preview = (String) request.getAttribute("preview");
-	if(preview != null && preview.equals("yes"))
-	{
-%>
-<body>
-<% 	}
-	else	{
-%>
 <body onload="javascript:checkForm();">
-<% } %>
     <tiles:insert attribute="overlib"/> <%-- include div for overlib --%>
     <tiles:insert attribute="header"/> <%-- include header --%>
 	

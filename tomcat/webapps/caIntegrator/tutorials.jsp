@@ -69,10 +69,10 @@
  </fieldset>
  <br><br>
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">3. Advanced Search</legend>
+  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">3. Gene Expression Query</legend>
   <br>
-	<a href="javascript:spawnm('advancedSearch.html');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) or 
-	<a href="advancedSearch.exe">download</a> the tutorial for offline viewing (.exe file).
+	<a href="#" target="_blank" onclick="javascript:alert('coming soon...'); return false;">View</a>* the Gene Expression Query tutorial in your browser (opens in a new window) or 
+	<a href="#" onclick="javascript:alert('coming soon...'); return false;">download</a> the tutorial for offline viewing (.exe file).
   
  </fieldset>
  <br><br>

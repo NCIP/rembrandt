@@ -25,7 +25,7 @@
 <html:text property="snpListSpecify" disabled="false" onfocus="javascript:radioFold(this);" value="" onblur="javascript:cRadio(this, document.forms[0].snpId[0]);"/>
 &nbsp;&nbsp;
 <html:radio property="snpId" value="upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
-<html:file property="snpListFile" disabled="true" onblur="javascript:cRadio(this, document.forms[0].snpId[1]);" onfocus="javascript:document.forms[0].snpId[1].checked = true;" />
+<html:file property="snpListFile" disabled="true" onblur="javascript:cRadio(this, document.forms[0].snpId[1]);" />
 <!-- <app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." />-->
 <br />
 &nbsp;&nbsp;Validated SNPs:&nbsp;&nbsp;

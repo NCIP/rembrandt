@@ -14,9 +14,7 @@ gov.nih.nci.nautilus.resultset.sample.*,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
-gov.nih.nci.nautilus.ui.ReportGenerator,
-org.apache.log4j.Logger"
- %>
+gov.nih.nci.nautilus.ui.ReportGenerator" %>
 
 <% /* dont need all these imports really */ %>
 
@@ -94,9 +92,6 @@ org.apache.log4j.Logger"
   	
 	</style>
 	<script language="javascript" >
-	
-	window.focus();
-	
 		function hideLoadingMessage(){
 			document.getElementById('spnLoading').style.display = "none" ;
 		}
@@ -136,7 +131,7 @@ org.apache.log4j.Logger"
 	<script type="text/javascript" src="js/overlib.js"></script>
 	<script type="text/javascript" src="js/overlib_hideform.js"></script>
 </head>
-<body onload="window.focus()">
+<body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <div style="background-color: #ffffff"><img src="images/smallHead.jpg"></div>
 <span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
@@ -155,21 +150,21 @@ org.apache.log4j.Logger"
 -->
 <%
 response.flushBuffer();
-Logger logger = Logger.getLogger(NautilusConstants.JSP_LOGGER);
+
 boolean debug = false;
 if(debug)	{
-	logger.debug("Session:");
-	for (Enumeration e = session.getAttributeNames() ; e.hasMoreElements() ;) {
-         logger.debug(e.nextElement());
+	System.out.println("session========================");
+ 	for (Enumeration e = session.getAttributeNames() ; e.hasMoreElements() ;) {
+         System.out.println(e.nextElement());
      }
-	logger.debug("Request:");
- 	for (Enumeration e = request.getAttributeNames();e.hasMoreElements() ;) {
-         logger.debug(e.nextElement());
+	System.out.println("request========================");
+ 	for (Enumeration e = request.getAttributeNames() ; e.hasMoreElements() ;) {
+         System.out.println(e.nextElement());
      }
 }
      
      
-logger.debug("sample we want: " + request.getParameter("s"));
+System.out.println("sample we want: " + request.getParameter("s"));
 
 String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
@@ -184,15 +179,14 @@ if(session.getAttribute("tmp") != null)
 
 
 if(mode == null)	{
-  logger.debug("do a regular report");
+  System.out.println("do a regular report");
   QueryCollection queryCollection = null;
-  if(session.getAttribute(NautilusConstants.QUERY_KEY+"_tmp")==null)	{
+  if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
 	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";	
     queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
   }
   else	{
-    queryCollection = (QueryCollection)(session.getAttribute(NautilusConstants.QUERY_KEY+"_tmp"));
-    session.removeAttribute(NautilusConstants.QUERY_KEY+"_tmp");
+    queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
     links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
     if(queryCollection != null)
 	    session.setAttribute("tmp", queryCollection);
@@ -213,7 +207,7 @@ if(mode == null)	{
 
 else	{
  
-	logger.debug("do a trans report");
+	System.out.println("do a trans report");
 	//we have a mode, process the transitional report
 	ResultsContainer scv = null;
 	DimensionalViewContainer dv = null;
@@ -224,7 +218,7 @@ else	{
 		scv = null;
 		if(dv!=null)	{
 			//get the sample ID, snip of the _gene
-			logger.debug(s.substring(0, s.length()-5));
+			System.out.println(s.substring(0, s.length()-5));
 			scv = dv.getGeneExprSingleViewResultsContainerForSample(s.substring(0, s.length()-5));
 
 			if(scv!=null)	{

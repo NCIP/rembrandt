@@ -12,7 +12,7 @@
           Quick Search
         </legend>
         <br />
-        <html:errors/>
+        <html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
         <br>
         <strong>
           Enter a gene symbol
@@ -70,7 +70,7 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </option>
                 <option>
-                  GMDI
+                  Rembrandt (GMDI)
                 </option>
                 <!--<option>I-SPY</option>-->
                 <option>

@@ -12,7 +12,6 @@
 				"</a><br clear=\"all\">";
 %>
 <div>
-<html:errors/>
 <%=helpLink%>?sect=kmplot<%=helpLinkClose%>
 </div>
 
