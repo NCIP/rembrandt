@@ -47,3 +47,13 @@ function stupidXSL(i, cPage)	{
 		//alert(document.prbSamples.prbQueryName.value);
 		document.prbSamples.submit();
 	}
+
+	function groupCheck(field, idx, ischecked)	{
+		if(ischecked)	{
+			checkById(field, idx);
+		}
+		else	{
+			uncheckById(field, idx);
+		}
+	}
+

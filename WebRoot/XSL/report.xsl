@@ -267,7 +267,7 @@
 						<td colspan="{$colspan}" class="{$currentGroup}">
 							<xsl:value-of select="Data" />
 							<xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical']" >
-								<input type="checkbox" onclick="javascript:groupCheck(document.prbSamples.samples, '{$currentGroup}', this.checked)" />
+								<input class="checkorradio" type="checkbox" onclick="javascript:groupCheck(document.prbSamples.samples, '{$currentGroup}', this.checked)" />
 							<!--
 								<a href="#" onclick="javascript:checkById(document.prbSamples.samples, '{$currentGroup}');return false;">[all]</a>
 								<a href="#" onclick="javascript:uncheckById(document.prbSamples.samples, '{$currentGroup}');return false;">[none]</a>
