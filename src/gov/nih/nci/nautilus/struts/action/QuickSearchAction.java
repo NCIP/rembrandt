@@ -332,7 +332,13 @@ public class QuickSearchAction extends DispatchAction {
             request.setAttribute("geneSymbol",qsForm.getQuickSearchName());
 			return mapping.findForward("kmplot");
 		} else if (chartType.equalsIgnoreCase("geneExpPlot")) {
-			return doGeneExpPlot(mapping, qsForm, request, response);
+			try{
+			    return doGeneExpPlot(mapping, qsForm, request, response);
+			}catch(Exception e){
+			    logger.error("Gene Expression Plot Flopped");
+			    logger.error(e);
+			    return mapping.findForward("error");
+			}
 		} else {
 			return mapping.findForward("error");
 		}
