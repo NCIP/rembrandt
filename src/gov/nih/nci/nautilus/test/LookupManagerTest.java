@@ -6,7 +6,8 @@
  */
 package gov.nih.nci.nautilus.test;
 
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.*;
 
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
@@ -36,11 +37,13 @@ public class LookupManagerTest extends TestCase {
 	public static Test suite() {
 		TestSuite suite =  new TestSuite();
         //suite.addTest(new LookupManagerTest("testGetCytobandPositions"));
-        suite.addTest(new LookupManagerTest("testgetCytobandDEs"));
+//        suite.addTest(new LookupManagerTest("testgetCytobandDEs"));
         //suite.addTest(new LookupManagerTest("testGetExpPlatforms"));
         //suite.addTest(new LookupManagerTest("testGetPathways"));
         //suite.addTest(new LookupManagerTest("testGetPatientData"));
         //suite.addTest(new LookupManagerTest("testPatientData"));
+//		suite.addTest(new LookupManagerTest("testgetChrosomeCDEs"));
+		suite.addTest(new LookupManagerTest("testgetCytobandDEstoo"));
 
 
         return suite;
@@ -151,4 +154,64 @@ public class LookupManagerTest extends TestCase {
 		}
 		
     }
+public void testgetChrosomeCDEs(){
+	ChromosomeNumberDE[] chromosomes;
+	try {
+		chromosomes = LookupManager.getChromosomeDEs();
+		TreeSet chrNum = new TreeSet();
+		TreeSet chrStr = new TreeSet();
+		Collection returnColl = new ArrayList();
+
+		if(chromosomes != null){
+			for(int i =0; i < chromosomes.length; i++){
+
+				String x =  chromosomes[i].getValueObject();
+
+				try {
+					chrNum.add(new Integer(x));
+				}catch(NumberFormatException ex){
+					chrStr.add(x);
+				}
+
+			}
+		}
+		for (Iterator iter = chrNum.iterator(); iter.hasNext();) {
+			returnColl.add(((Integer)iter.next()).toString());
+		}
+		for (Iterator iter = chrStr.iterator(); iter.hasNext();) {
+			returnColl.add(iter.next());
+		}
+		for (Iterator iter = returnColl.iterator(); iter.hasNext();) {
+			String m = (String) iter.next();
+			System.out.println(m);
+			
+		}
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+}
+
+public void testgetCytobandDEstoo(){
+	String[] chrNumber = {"1","2"};
+	System.out.println(chrNumber.toString());
+	for (int i = 0; i < chrNumber.length; i++) {
+	try {
+		CytobandDE[] cytobands = LookupManager.getCytobandDEs(new ChromosomeNumberDE(chrNumber[i]));
+		if(cytobands != null){
+			for(int k = 0; k < cytobands.length; k++){
+				System.out.println("CHR "+chrNumber[i]+" Cytos:"+ cytobands[k].getValueObject());
+			}
+		}
+					
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
+
+}
+
+
 }
