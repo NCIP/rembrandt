@@ -80,9 +80,6 @@ public class RefineQueryForm extends BaseForm {
 		String queryName3 = this.getQueryName3().trim();
 		String paramValue = request.getParameter(mapping.getParameter());
 		
-		Collection c = this.getCompoundViewColl();
-		
-		//
 //		 
 // 		Validate Query validation
 		if (paramValue.equalsIgnoreCase("validate")) {
