@@ -92,8 +92,26 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        			        
 			        ArrayList cssLabels = new ArrayList(); //create the CSS dynamically
 			        
-			        //set up the header for the table
-			        //do this in skin
+			        //	set up the header for the table
+			        //	hard code some cols
+			        headerCell = report.get("headerCell");
+				        headerCell.set("headerValue", "Cytoband");
+				        headerCell.set("headerColspan", "1");
+			        report.append("headerCell", headerCell);
+			        headerCell = report.get("headerCell");
+				        headerCell.set("headerValue", "Reporter");
+				        headerCell.set("headerColspan", "1");
+			        report.append("headerCell", headerCell);
+			        
+			        sampleCell = report.get("sampleCell");
+			        	sampleCell.set("sampleValue", "&nbsp;");
+			        	sampleCell.set("sampleColspan", "1");
+			        report.append("sampleCell", sampleCell);
+			        sampleCell = report.get("sampleCell");
+			        	sampleCell.set("sampleValue", "&nbsp;");
+			        	sampleCell.set("sampleColspan", "1");
+			        report.append("sampleCell", sampleCell);
+			        
 			        /*
 			        sampleNames.append("<Tr>");
 			    	sampleNames.append("<Td>&nbsp;</td><Td>&nbsp;</td>");
@@ -103,8 +121,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				   */
 			        
 			        //this generates the "Bar" spacer
-			    	int theColspan = 2; // the 2 <Td>'s above (now defined in the skin)
-			    	
+			    	int theColspan = 2; // start countig with the 2 cells above 
 			    	
 			    	//this nested loop generates the header row and the samples row
 			    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
@@ -138,6 +155,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				           		
 				        		String s = sampleIdIterator.next().toString();
 				           		sampleCell.set("sampleValue", s.substring(2));
+				           		sampleCell.set("sampleColspan", "1");
 				           		report.append("sampleCell", sampleCell);
 				           		//sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
 				            	theColspan += sampleIds.size();
