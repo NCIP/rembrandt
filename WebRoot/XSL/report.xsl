@@ -39,7 +39,9 @@
 		#header { font-weight: bold;
 		 			font-size: 12px;
 		 		}
-
+		
+		a, a:visited {color:blue}
+		
 		td.ASTROCYTOMA { background-color: #B6C5F2; }
 		td.GBM { background-color: #F2E3B5; }
 		td.MIXED { background-color: #DAE1F9; }
@@ -109,6 +111,9 @@
 		border-width: 1px; 
 		border-color: #333366; 
 		}
+		.checkorradio	{
+			border: 0px;
+		}
 	</style>
 	</head>
   <body>
@@ -153,8 +158,8 @@
 	  <div class="filterForm">
 		<b>Filter:</b> 
 		<xsl:text>&#160;</xsl:text>
-		<input type="radio" name="filter_value6" value="show" checked="true" />Show Only
-		<input type="radio" name="filter_value6" value="hide"/>Hide		
+		<input type="radio" class="checkorradio" name="filter_value6" value="show" checked="true" />Show Only
+		<input type="radio" class="checkorradio" name="filter_value6" value="hide"/>Hide		
 		<select name="filter_value4">
 			<option value="gene">Gene(s)</option>
 			<option value="cytobands">Cytoband(s)</option>
@@ -295,7 +300,7 @@
 			  <xsl:otherwise>
 		      	<td class="{$currentGroup}">
 		      	<xsl:if test="$sample != '' and $sample != ' '">
-		      		<input id ="{$currentGroup}" type="checkbox" name="samples" value="{$sample}"/>
+		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
 		      	</xsl:if>
 		      		<a href="#?s={$sample}"><xsl:value-of select="Data" /></a>
 		      	</td>
@@ -314,7 +319,7 @@
 		      			<td class="{$class}">
 						<xsl:if test="$class = 'sample'">
 		      				<xsl:variable name="sample" select="Data"  />
-		      				<input type="checkbox" name="samples" value="{$sample}"/>
+		      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
 						</xsl:if>
 		      			<xsl:choose>
 		      			<xsl:when test="$filter_value1 != 000 and Data > $filter_value1">
