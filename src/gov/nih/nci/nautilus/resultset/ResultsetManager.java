@@ -54,6 +54,7 @@ package gov.nih.nci.nautilus.resultset;
 
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.data.PatientData;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.Queriable;
@@ -172,7 +173,7 @@ public class ResultsetManager {
 				resultant.setResultsContainer(resultsContainer);
 				resultant.setAssociatedQuery(queryToExecute);
 				resultant.setAssociatedView(associatedView);
-			} else if (queryToExecute instanceof GeneExpressionQuery) {
+			} else if (queryToExecute instanceof ComparativeGenomicQuery) {
 				Viewable associatedView = ViewFactory
 						.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW);
 				queryToExecute.setAssociatedView(associatedView);

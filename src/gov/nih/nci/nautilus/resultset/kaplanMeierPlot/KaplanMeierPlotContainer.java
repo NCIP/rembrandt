@@ -49,6 +49,7 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
@@ -72,7 +73,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	private static Logger logger = Logger.getLogger(KaplanMeierPlotContainer.class);
 
     private GeneIdentifierDE.GeneSymbol geneSymbol;
-
+    private CytobandDE cytobandDE;
 
 	/**
 	 * @return Returns the geneSymbol.
@@ -128,5 +129,18 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
             reporterNames = sample.getReporterNames();
 	    }
 	    return reporterNames;
+	}
+
+	/**
+	 * @return Returns the cytobandDE.
+	 */
+	public CytobandDE getCytobandDE() {
+		return cytobandDE;
+	}
+	/**
+	 * @param cytobandDE The cytobandDE to set.
+	 */
+	public void setCytobandDE(CytobandDE cytobandDE) {
+		this.cytobandDE = cytobandDE;
 	}
 }

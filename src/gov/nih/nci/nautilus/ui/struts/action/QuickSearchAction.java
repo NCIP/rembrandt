@@ -99,15 +99,15 @@ public class QuickSearchAction extends DispatchAction {
         else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
             performKMCopyNumberQuery(quickSearchName, quickSearchType);
             kmForm.setReporters(populateReporters());
-            KMSampleInfo[] kmSampleInfos = null;//stop here
-            KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-                    kmForm.getDownFold(), quickSearchName, kmSampleInfos);
-            if (generator.getMyActionErrors().size() > 0) {
-                this.saveErrors(request, generator.getMyActionErrors());
-                return mapping.findForward("badgraph");
-            }
-            kmForm.setCensorDataset(generator.getCensorDataseries());
-            kmForm.setLineDataset(generator.getLineDataseries());
+            KMSampleInfo[] kmSampleInfos = null;
+            //KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+            //        kmForm.getDownFold(), quickSearchName, kmSampleInfos);
+            //if (generator.getMyActionErrors().size() > 0) {
+            //    this.saveErrors(request, generator.getMyActionErrors());
+            //    return mapping.findForward("badgraph");
+            //}
+            //kmForm.setCensorDataset(generator.getCensorDataseries());
+            //kmForm.setLineDataset(generator.getLineDataseries());
             }
 		return mapping.findForward("kmplot");
 	}
@@ -119,12 +119,18 @@ public class QuickSearchAction extends DispatchAction {
 		KMSampleInfo[] kmSampleInfos = null;
 		kmForm.setReporters(populateReporters());
 		if( getKmResultsContainer() != null && kmForm.getSelectedReporter() != null){
-			if(kmForm.getSelectedReporter().equals(NautilusConstants.GRAPH_DEFAULT)){
-				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
-			}
-			else{
-				kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
-			}
+
+	        if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
+				if(kmForm.getSelectedReporter().equals(NautilusConstants.GRAPH_DEFAULT)){
+					kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+				}
+				else{
+					kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+				}
+	        }
+	        else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+	        		kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+	        	}
 			KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
 					kmForm.getDownFold(), kmForm.getGeneOrCytoband(),kmSampleInfos);
 			if (generator.getMyActionErrors().size() > 0) {
@@ -153,7 +159,7 @@ public class QuickSearchAction extends DispatchAction {
 				request.setAttribute("plotType", NautilusConstants.GENE_EXP_KMPLOT);
 				return mapping.findForward("kmplot");
 			}if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
-			    System.out.println("wants CP kapMai");
+			    System.out.println("wants CP kapMaiPlotCN");
 			    request.setAttribute("quickSearchType",qsForm.getQuickSearchType());
 				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
 				request.setAttribute("plotType", NautilusConstants.COPY_NUMBER_KMPLOT);

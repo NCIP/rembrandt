@@ -58,15 +58,15 @@ public class KMGraphGenerator {
            // KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
 
             //All Sample Series
-           allSamples = getDataSeries(samples, ALLSAMPLES, "All Samples");
+           allSamples = getDataSeries(samples, ALLSAMPLES, "All Samples ");
 
            //UpRegulated Samples Series 
-           upSamples = getDataSeries(samples,UPREGULATED, geneSymbol+" Upregulated "+upFold+"X");
+           upSamples = getDataSeries(samples,UPREGULATED, geneSymbol+" Upregulated >= "+upFold+"X ");
             // Down Regulation Series
-           downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+" Downregulated "+downFold+"X");
+           downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+" Downregulated <= "+downFold+"X ");
 
            // intermediate samples
-           intSamples = getDataSeries(samples,INTRERMEDIATE, geneSymbol+" Intermediate (> "+downFold+"X"+" & < "+upFold+"X");
+           intSamples = getDataSeries(samples,INTRERMEDIATE, geneSymbol+" Up < "+this.getUpFold() + "X AND Down > "+ this.getDownFold()+"X ");
 
            
            lineDataseries.addSeries(upSamples[0]);
@@ -126,7 +126,7 @@ public class KMGraphGenerator {
             case INTRERMEDIATE:
                 samples = kaplanMeier.getIntSamples();
                 array = samples.toArray();
-                logger.debug(geneSymbol+" Intregulated: "+this.downFold + "AND "+ this.upFold);
+                logger.debug(geneSymbol+" Up: <"+this.getUpFold() + "AND Down: >"+ this.getDownFold()+" ");
                 /*for(int i = array.length;i>0;i--) {
                     SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
                     logger.debug(result);
@@ -154,7 +154,7 @@ public class KMGraphGenerator {
         
         //Create the DataPoint Series
         KMDataSeries dataSeries = new KMDataSeries(seriesName,true);
-        KMDataSeries censusSeries = new KMDataSeries(seriesName+" Censor Points", true);
+        KMDataSeries censusSeries = new KMDataSeries(seriesName+"Censor Points ", true);
         
         logger.debug(seriesName);
        
