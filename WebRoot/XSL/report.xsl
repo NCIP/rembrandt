@@ -255,7 +255,7 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Submit" />
-		<input type="hidden" name="filter_type" value="copy_number"/>
+		<input type="hidden" name="filter_element" value="copy_number"/>
 		<xsl:text>&#160;</xsl:text>
 		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
 	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>

@@ -262,7 +262,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		filterParams.put( "filter_value4", operator );
 		filterParams.put( "filter_value5", nocalls );
 		filterParams.put( "filter_value6", percent );
-		filterParams.put( "filter_type", filter_element );
+		filterParams.put( "filter_element", filter_element );
 		
 		/*
 		//hold our samples for exclusion
