@@ -11,8 +11,6 @@ import org.apache.struts.action.ActionError;
 import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
-import java.util.regex .*;
-
 import java.lang.reflect.*;
 import java.io.*;
 import org.apache.log4j.Level;
@@ -849,13 +847,6 @@ public class GeneExpressionForm extends BaseForm {
 
 		String thisGeneType = this.thisRequest.getParameter("geneType");
 		String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-		System.out.println("this.geneFile before:"+this.geneFile);
-		
-		//Pattern.compile("\\").matcher(this.geneFile).replaceAll(File.separator);
-		this.geneFile = this.geneFile.replaceAll("\"",File.separator);
-		System.out.println("this.geneFile :"+this.geneFile);
-		System.out.println("thisGeneType :"+thisGeneType);
-		System.out.println("thisGeneGroup8888888888888 :"+thisGeneGroup);
 		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload")
 				&& (thisGeneType.length() > 0) && (this.geneFile.length() > 0)) {
 
