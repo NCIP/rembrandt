@@ -197,11 +197,13 @@ public class CompoundQueryProcessor {
 	    		if(resultsets instanceof ClinicalResultSet[]){
 		    		for(int i = 0; i < resultsets.length; i++){
 		    			ClinicalResultSet clinicalResultset = (ClinicalResultSet) resultsets[i];
-		    			for(Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();){
-		    				Long id = (Long)sampleIdIterator.next();
-				    		if(clinicalResultset.getBiospecimenId().equals(id)){
-				    			resultset.add(clinicalResultset);
-				    		}
+		    			if(clinicalResultset != null){	    			
+			    			for(Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();){
+			    				Long id = (Long)sampleIdIterator.next();
+					    		if(clinicalResultset.getBiospecimenId().equals(id)){
+					    			resultset.add(clinicalResultset);
+					    		}
+			    			}
 		    			}
 		    		}
 		    		if(resultsets instanceof  GeneExpr.GeneExprSingle[]){
