@@ -10,6 +10,7 @@ import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
@@ -17,9 +18,11 @@ import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.CloneProbePlatfromHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler;
 import gov.nih.nci.nautilus.data.SnpProbesetDim;
 import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.data.CloneDim;
+import gov.nih.nci.nautilus.data.SnpAssociatedGene;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.ManageableCollection;
@@ -43,8 +46,8 @@ public class CGHQueryHandler extends QueryHandler {
 	//DiseaseOrGradeCriteria diseaseOrGradeCrit;
 	//GeneIDCriteria geneIDCrit;
 	//CopyNumberCriteria copyNumberCrit;
-	CGHReporterIDCriteria  regionCrit;
-    CGHReporterIDCriteria  snpCrit;
+	//CGHReporterIDCriteria  regionCrit;
+    //CGHReporterIDCriteria  snpCrit;
 	//CloneOrProbeIDCriteria cloneOrProbeIDCrit;
 	//SNPCriteria snpCrit;
 	//AlleleFrequencyCriteria alleleFrequencyCrit;
@@ -59,8 +62,32 @@ public class CGHQueryHandler extends QueryHandler {
 
         PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
         populateIncludeCGHAndSNPFlags(cghQuery.getAssayPlatformCriteria());
+
+        if (cghQuery.getGeneIDCriteria() != null) {
+            Collection geneIdDEs = cghQuery.getGeneIDCriteria().getGeneIdentifiers();
+            Class deClass = GeneIDCriteriaHandler.getGeneIDClassName(cghQuery.getGeneIDCriteria());
+            ArrayList geneIDs = new ArrayList();
+            for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();)
+                geneIDs.add(((GeneIdentifierDE) iterator.next()).getValueObject());
+            if ( includeSNPs) {
+            String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpAssociatedGene.class.getName(), SnpAssociatedGene.SNP_PROBESET_ID);
+            String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), SnpAssociatedGene.class.getName());
+            Criteria c = new Criteria();
+            c.addIn(deMappingAttrName, geneIDs);
+            ReportQueryByCriteria snpProbeIDSubQuery = QueryFactory.newReportQuery(SnpAssociatedGene.class, new String[] {snpProbeIDCol}, c, true );
+            CGHReporterIDCriteria reporterIDCrit = new CGHReporterIDCriteria ();
+            reporterIDCrit.setSnpProbeIDsSubQuery(snpProbeIDSubQuery);
+        }
+
+
+            CGHReporterIDCriteria  regionCrit= gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildCGHRegionCriteria(cghQuery.getRegionCriteria(), includeSNPs, includeCGH, pb);
+            assert(regionCrit != null);
+            SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allSNPProbesetIDs);
+            eventList.add(handler.getDbEvent());
+            new Thread(handler).start();
+        }
         if (cghQuery.getRegionCriteria() != null) {
-            regionCrit = gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildCGHRegionCriteria(cghQuery.getRegionCriteria(), includeSNPs, includeCGH, pb);
+            CGHReporterIDCriteria  regionCrit = ChrRegionCriteriaHandler.buildCGHRegionCriteria(cghQuery.getRegionCriteria(), includeSNPs, includeCGH, pb);
             assert(regionCrit != null);
             SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allSNPProbesetIDs);
             eventList.add(handler.getDbEvent());
@@ -68,7 +95,7 @@ public class CGHQueryHandler extends QueryHandler {
         }
 
         if (cghQuery.getSNPCriteria() != null) {
-            snpCrit = buildSNPCriteria(cghQuery.getSNPCriteria(), pb);
+            CGHReporterIDCriteria  snpCrit = buildSNPCriteria(cghQuery.getSNPCriteria(), pb);
             assert(snpCrit != null);
             SelectHandler handler = new SelectHandler.SNPSelectHandler(snpCrit, allSNPProbesetIDs);
             eventList.add(handler.getDbEvent());

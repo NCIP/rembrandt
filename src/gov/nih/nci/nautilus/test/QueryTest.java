@@ -228,8 +228,8 @@ public class QueryTest extends TestCase {
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        //suit.addTest(new TestSuite(GeneExpression.class));
-         suit.addTest(new TestSuite(CGH.class));
+        suit.addTest(new TestSuite(GeneExpression.class));
+        suit.addTest(new TestSuite(CGH.class));
         return suit;
 	}
 
@@ -286,12 +286,12 @@ public class QueryTest extends TestCase {
 
 
         // build SNPProbesets
-        //SNPIdentifierDE.SNPProbeSet snp1 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1676650");
-        //SNPIdentifierDE.SNPProbeSet snp2 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1748913");
-        //SNPIdentifierDE.SNPProbeSet snp3 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1667950");
-        //SNPIdentifierDE.SNPProbeSet snp4 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1642581");
-        //SNPIdentifierDE.SNPProbeSet snp5 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1657367");
-
+        /*SNPIdentifierDE.SNPProbeSet snp1 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1676650");
+        SNPIdentifierDE.SNPProbeSet snp2 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1748913");
+        SNPIdentifierDE.SNPProbeSet snp3 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1667950");
+        SNPIdentifierDE.SNPProbeSet snp4 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1642581");
+        SNPIdentifierDE.SNPProbeSet snp5 = new SNPIdentifierDE.SNPProbeSet ("SNP_A-1657367");
+        */
 
         inputIDs.add(snp1 ); inputIDs.add(snp2);  inputIDs.add(snp3);
          inputIDs.add(snp4);  inputIDs.add(snp5);

@@ -78,7 +78,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
 
         if (geQuery.getGeneIDCrit() != null && geQuery.getGeneIDCrit().getGeneIdentifiers().size() > 0) {
-            GEReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildGeneIDCriteria(geQuery.getGeneIDCrit(), includeClones, includeProbes, _BROKER);
+            GEReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geQuery.getGeneIDCrit(), includeClones, includeProbes, _BROKER);
             assert(geneIDCrit != null);
             SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS, _BROKER);
             eventList.add(handler.getDbEvent());

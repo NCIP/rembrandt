@@ -49,6 +49,6 @@ public class GeneOntologyHandler {
             geneIDCrit.setGeneIdentifiers(geneSymbols);
 
             // executeQuery ProbesetID and CloneIDs for GeneSymbols
-            return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildGeneIDCriteria(geneIDCrit, includeClones, includeProbes, pb);
+            return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes, pb);
     }
 }
