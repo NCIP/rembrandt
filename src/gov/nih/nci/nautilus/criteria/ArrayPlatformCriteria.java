@@ -1,7 +1,6 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
-import java.util.*; 
 
 
 /**

@@ -1,8 +1,6 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.CopyNumberDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-
 
 import java.util.ArrayList;
 import java.util.Collection;

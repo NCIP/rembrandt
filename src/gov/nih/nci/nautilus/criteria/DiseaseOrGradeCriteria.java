@@ -2,9 +2,10 @@ package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GradeDE;
-import gov.nih.nci.nautilus.criteria.Criteria;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This  class encapsulates both Disease and Grade criteria.

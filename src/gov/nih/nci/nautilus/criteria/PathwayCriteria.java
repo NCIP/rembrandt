@@ -2,7 +2,9 @@ package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.PathwayDE;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This  class encapsulates Pathway criteria.

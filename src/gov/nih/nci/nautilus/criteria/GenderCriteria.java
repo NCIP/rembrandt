@@ -2,11 +2,6 @@ package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.GenderDE;
 
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 /**
  * This  class encapsulates GenderDE criteria.
  * It contains a collection of GenderDE.

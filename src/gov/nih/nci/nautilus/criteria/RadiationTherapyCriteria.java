@@ -2,11 +2,6 @@ package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.RadiationTherapyDE;
 
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 /**
  * This  class encapsulates RadiationTherapyDE criteria.
  * It contains a collection of RadiationTherapyDE.

@@ -1,6 +1,5 @@
 package gov.nih.nci.nautilus.criteria;
 
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.GeneOntologyDE;
 
 import java.util.ArrayList;

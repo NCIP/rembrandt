@@ -1,9 +1,6 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
-import gov.nih.nci.nautilus.criteria.Criteria;
-
-import java.util.*;
 
 /**
  * This  class encapsulates AssayPlatform criteria.
