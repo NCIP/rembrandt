@@ -55,6 +55,12 @@ abstract public class DBEvent extends EventObject {
             super(GENE_ID_CRIT_EVENT  );
         }
     }
+    public final static class SNPRetrieveEvent extends DBEvent {
+        private final static String SNP_ID_CRIT_EVENT = "SNPIDRetrieveEvent";
+        public SNPRetrieveEvent() {
+            super(SNP_ID_CRIT_EVENT);
+        }
+    }
 
     public final static class FactRetrieveEvent extends DBEvent {
         private String threadID;

@@ -12,7 +12,7 @@ import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.CloneProbePlatfromHandler;
-import gov.nih.nci.nautilus.queryprocessing.ge.DEFactHandler;
+import gov.nih.nci.nautilus.queryprocessing.ge.GEFactHandler;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 
@@ -32,7 +32,7 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
  * To change this template use Options | File Templates.
  */
 final public class GeneExprQueryHandler extends QueryHandler {
-    DEFactHandler factHandler = null;
+    GEFactHandler factHandler = null;
     GEReporterIDCriteria porbeClonePlatformCrit = null;
     GEReporterIDCriteria geneIDCrit = null;
     GEReporterIDCriteria regionCrit = null;
@@ -55,10 +55,10 @@ final public class GeneExprQueryHandler extends QueryHandler {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
 
         if (query.getAssociatedView().equals(ViewType.GENE_SINGLE_SAMPLE_VIEW)) {
-                factHandler = new DEFactHandler.SingleDEFactHandler();
+                factHandler = new GEFactHandler.SingleGEFactHandler();
         }
         else if (query.getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW)) {
-                factHandler = new DEFactHandler.GroupDEFactHanlder();
+                factHandler = new GEFactHandler.GroupGEFactHanlder();
         }
         else throw new Exception("Illegal View.  This view is not supported in this Query:");
 
