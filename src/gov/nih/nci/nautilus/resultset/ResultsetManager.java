@@ -1,6 +1,6 @@
 /*
  *  @author: SahniH
- *  Created on Oct 21, 2004
+ *  Created on Oct 31, 2004
  *  @version $ Revision: 1.0 $
  * 
  *	The caBIO Software License, Version 1.0
@@ -48,68 +48,36 @@
  *	
  */
 package gov.nih.nci.nautilus.resultset;
-
+import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.view.GeneCentricView;
+import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 
-/**
- * @author SahniH
- * Date: Oct 21, 2004
- * 
- */
-public class Resultant {
-private Queriable associatedQuery;
-private ViewType associatedViewType;
-private ResultsContainer resultsContainer;
-private Viewable associatedView;
 
-/**
- * @return Returns the associatedQuery.
- */
-public Queriable getAssociatedQuery() {
-	return associatedQuery;
-}
-/**
- * @param associatedQuery The associatedQuery to set.
- */
-public void setAssociatedQuery(Queriable associatedQuery) {
-	this.associatedQuery = associatedQuery;
-}
-/**
- * @return Returns the associatedView.
- */
-public Viewable getAssociatedView() {
-	return associatedView;
-}
-/**
- * @param associatedView The associatedView to set.
- */
-public void setAssociatedView(Viewable associatedView) {
-	this.associatedView = associatedView;
-}
-/**
- * @return Returns the associatedViewType.
- */
-public ViewType getAssociatedViewType() {
-	return associatedViewType;
-}
-/**
- * @param associatedViewType The associatedViewType to set.
- */
-public void setAssociatedViewType(ViewType associatedViewType) {
-	this.associatedViewType = associatedViewType;
-}
-/**
- * @return Returns the resultsContainer.
- */
-public ResultsContainer getResultsContainer() {
-	return resultsContainer;
-}
-/**
- * @param resultsContainer The resultsContainer to set.
- */
-public void setResultsContainer(ResultsContainer resultsContainer) {
-	this.resultsContainer = resultsContainer;
-}
+
+public class ResultsetManager {
+    public static Resultant executeQuery(Queriable queryToExecute, Viewable associatedView) throws Exception {
+    	Resultant resultant= new Resultant();
+    	if(queryToExecute != null && associatedView != null){
+        ViewType viewType = queryToExecute.getAssociatedView();
+        ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
+    	if (associatedView instanceof GeneCentricView){
+    		    GeneCentricView geneCentricView = (GeneCentricView) associatedView;
+    			GroupType groupType = geneCentricView.getGroupType();
+    			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(resultsets,groupType);
+    			resultant.setResultsContainer(resultsContainer);
+    			resultant.setAssociatedQuery(queryToExecute);
+    			resultant.setAssociatedViewType(viewType);
+    			resultant.setAssociatedView(associatedView);
+    		}
+    	
+    	
+    	
+    	
+    	}
+        return resultant;
+    }
+
 }
