@@ -78,36 +78,56 @@ public class RefineQueryForm extends BaseForm {
 		String queryName1 = this.getQueryName1().trim();
 		String queryName2 = this.getQueryName2().trim();
 		String queryName3 = this.getQueryName3().trim();
+		String paramValue = request.getParameter(mapping.getParameter());
 		
-		// 
-		System.out.println(queryName1.length());
-		if (queryName1.length() < 1 && (queryName2.length()>0 || queryName3.length()>0)) {
-			errors.add("queryName1", new ActionError("gov.nih.nci.nautilus.struts.form.query.empty"));
-		}
+		Collection c = this.getCompoundViewColl();
 		
-		if (queryName2.length() < 1 && queryName3.length()>0) {
-			errors.add("queryName2", new ActionError("gov.nih.nci.nautilus.struts.form.query.empty"));
-		}
+		//
+//		 
+// 		Validate Query validation
+		if (paramValue.equalsIgnoreCase("validate")) {
+			if (queryName1.length() < 1 && (queryName2.length()>0 || queryName3.length()>0)) {
+				errors.add("queryName1", new ActionError("gov.nih.nci.nautilus.struts.form.query.empty"));
+			}
+		
+			if (queryName2.length() < 1 && queryName3.length()>0) {
+				errors.add("queryName2", new ActionError("gov.nih.nci.nautilus.struts.form.query.empty"));
+			}
 
-		if ((this.getOperatorType1().equalsIgnoreCase("PRB")) && (this.getOperatorType2().equalsIgnoreCase("PRB"))){
-			errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.prb"));
+			if ((this.getOperatorType1().equalsIgnoreCase("PRB")) && (this.getOperatorType2().equalsIgnoreCase("PRB"))){
+				errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.prb"));
+				
+			}
+		
+			if (this.getOperatorType1().trim().length() >= 1 && (this.getQueryName2().trim().length() < 1 || this.getQueryName1().trim().length() < 1)) {
+				errors.add("operatorType1", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.query"));
+			}
+		
+			if (this.getOperatorType1().trim().length() < 1 && this.getQueryName2().trim().length() >= 1 && this.getQueryName1().trim().length() >= 1) {
+				errors.add("operatorType1", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.operator"));
+			}
+
+			if (this.getOperatorType2().trim().length() < 1 && this.getQueryName2().trim().length() >= 1 && this.getQueryName3().trim().length() >= 1) {
+				errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.operator"));
+			}
+
+			if (this.getOperatorType2().trim().length() >= 1 && (this.getQueryName3().trim().length() < 1 || this.getQueryName2().trim().length() < 1)) {
+				errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.query"));
+			}
+		}
+// Run Report Validations
+		if (paramValue.equalsIgnoreCase("displayresult")) {
+			if (this.getCompoundView().trim().length() < 1){ 
+				if (this.getQueryText().trim().length() >= 1) {
+					this.setQueryText("");
+					errors.add("compoundView", new ActionError("gov.nih.nci.nautilus.struts.form.refinequery.no.view"));
+				}
+				if (this.getQueryText().trim().length() < 1) {
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.no.error"));
+				}
+
+			}
 			
-		}
-		
-		if (this.getOperatorType1().trim().length() >= 1 && (this.getQueryName2().trim().length() < 1 || this.getQueryName1().trim().length() < 1)) {
-			errors.add("operatorType1", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.query"));
-		}
-		
-		if (this.getOperatorType1().trim().length() < 1 && this.getQueryName2().trim().length() >= 1 && this.getQueryName1().trim().length() >= 1) {
-			errors.add("operatorType1", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.operator"));
-		}
-
-		if (this.getOperatorType2().trim().length() < 1 && this.getQueryName2().trim().length() >= 1 && this.getQueryName3().trim().length() >= 1) {
-			errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.operator"));
-		}
-
-		if (this.getOperatorType2().trim().length() >= 1 && (this.getQueryName3().trim().length() < 1 || this.getQueryName2().trim().length() < 1)) {
-			errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.struts.form.operatortype.no.query"));
 		}
 		
 		return errors;
