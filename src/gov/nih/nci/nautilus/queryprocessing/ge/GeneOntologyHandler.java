@@ -8,6 +8,7 @@ import gov.nih.nci.nautilus.data.GeneOntology;
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -24,7 +25,8 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class GeneOntologyHandler {
-    static GEReporterIDCriteria  buildGeneOntologyIDCriteria( GeneOntologyCriteria ontologyCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+    static GEReporterIDCriteria  buildGeneOntologyIDCriteria( GeneOntologyCriteria ontologyCrit, boolean includeClones, boolean includeProbes) throws Exception {
+            PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
             Collection goIDs = ontologyCrit.getGOIdentifiers();
 
             ArrayList goIDValues = new ArrayList();
@@ -50,7 +52,7 @@ public class GeneOntologyHandler {
                 geneIDCrit.setGeneIdentifiers(geneSymbols);
 
                 // executeQuery ProbesetID and CloneIDs for GeneSymbols
-                return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes, pb);
+                return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes);
             }
             // means no data
             return new GEReporterIDCriteria();

@@ -43,7 +43,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
     private Collection allProbeIDS = Collections.synchronizedCollection(new HashSet());
     private Collection allCloneIDS = Collections.synchronizedCollection(new HashSet());
     private List eventList = Collections.synchronizedList(new ArrayList());
-    PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+    //PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
 
     public ResultSet[] handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
@@ -63,17 +63,17 @@ final public class GeneExprQueryHandler extends QueryHandler {
         ThreadGroup tg = new ThreadGroup("childGroup");
 
         if (geQuery.getCloneOrProbeIDCriteria() != null) {
-            GEReporterIDCriteria porbeClonePlatformCrit = CloneProbePlatfromHandler.buildCloneProbePlatformCriteria(geQuery.getCloneOrProbeIDCriteria(), platObj, _BROKER);
+            GEReporterIDCriteria porbeClonePlatformCrit = CloneProbePlatfromHandler.buildCloneProbePlatformCriteria(geQuery.getCloneOrProbeIDCriteria(), platObj);
             assert(porbeClonePlatformCrit != null);
-            SelectHandler handler = new SelectHandler.ProbeCloneIDSelectHandler(porbeClonePlatformCrit, allProbeIDS, allCloneIDS, _BROKER);
+            SelectHandler handler = new SelectHandler.ProbeCloneIDSelectHandler(porbeClonePlatformCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
         }
 
         if (geQuery.getGeneIDCrit() != null && geQuery.getGeneIDCrit().getGeneIdentifiers().size() > 0) {
-            GEReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geQuery.getGeneIDCrit(), includeClones, includeProbes, _BROKER);
+            GEReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geQuery.getGeneIDCrit(), includeClones, includeProbes);
             assert(geneIDCrit != null);
-            SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS, _BROKER);
+            SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
 
@@ -82,7 +82,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         if (geQuery.getRegionCrit() != null) {
             GEReporterIDCriteria regionCrit = gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildGERegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes, _BROKER);
             assert(regionCrit != null);
-            SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allProbeIDS, allCloneIDS, _BROKER);
+            SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
         }
@@ -90,7 +90,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         if (geQuery.getGeneOntologyCriteria() != null) {
             GEReporterIDCriteria ontologyCrit  = GeneOntologyHandler.buildGeneOntologyIDCriteria(geQuery.getGeneOntologyCriteria(), includeClones, includeProbes, _BROKER);
             assert(ontologyCrit != null);
-            SelectHandler handler = new SelectHandler.OntologySelectHandler(ontologyCrit, allProbeIDS, allCloneIDS, _BROKER);
+            SelectHandler handler = new SelectHandler.OntologySelectHandler(ontologyCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
         }
@@ -98,12 +98,12 @@ final public class GeneExprQueryHandler extends QueryHandler {
         if (geQuery.getPathwayCriteria() != null) {
             GEReporterIDCriteria pathwayCrit = GenePathwayHandler.buildPathwayCriteria(geQuery.getPathwayCriteria(), includeClones, includeProbes, _BROKER);
             assert(pathwayCrit != null);
-            SelectHandler handler = new SelectHandler.PathwaySelectHandler(pathwayCrit, allProbeIDS, allCloneIDS, _BROKER);
+            SelectHandler handler = new SelectHandler.PathwaySelectHandler(pathwayCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
         }
 
-        _BROKER.close();
+        //_BROKER.close();
 
         ThreadController.sleepOnEvents(eventList);
 

@@ -90,12 +90,23 @@ abstract public class DBEvent extends EventObject {
     }
 
     //clinical
-    public final static class BIOSpecimenRetrieveEvent extends DBEvent {
-            private final static String BIO_ID_CRIT_EVENT = "BIOSpecimenRetrieveEvent";
-            public BIOSpecimenRetrieveEvent () {
-                super(BIO_ID_CRIT_EVENT);
+    public final static class SurvivalRangeRetrieveEvent extends DBEvent {
+            private final static String SURVIVAL_CRIT_EVENT = "SurvivalRangeRetrieveEvent ";
+            public SurvivalRangeRetrieveEvent () {
+                super(SURVIVAL_CRIT_EVENT);
             }
-        }
-
+    }
+    public final static class AgeRangeRetrieveEvent extends DBEvent {
+            private final static String AGE_CRIT_EVENT = "AgeRangeRetrieveEvent";
+            public AgeRangeRetrieveEvent () {
+                super(AGE_CRIT_EVENT);
+            }
+    }
+    public final static class GenderRetrieveEvent extends DBEvent {
+            private final static String AGE_CRIT_EVENT = "GenderRetrieveEvent";
+            public GenderRetrieveEvent () {
+                super(AGE_CRIT_EVENT);
+            }
+    }
 
 }

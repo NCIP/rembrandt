@@ -11,6 +11,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 
 import java.util.Collection;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.math.BigDecimal;
  * To change this template use Options | File Templates.
  */
 public class GeneIDCriteriaHandler {
-    
+
      static HashMap data = new HashMap();
         static {
             data.put(GeneIdentifierDE.GeneSymbol.class.getName(),
@@ -108,8 +109,9 @@ public class GeneIDCriteriaHandler {
                    }
     }
     */
-    public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
-       Class deClass = getGeneIDClassName(geneIDCrit);
+    public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes) throws Exception {
+        PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        Class deClass = getGeneIDClassName(geneIDCrit);
        ArrayList geneIDs = getGeneIDValues(geneIDCrit);
        GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
 

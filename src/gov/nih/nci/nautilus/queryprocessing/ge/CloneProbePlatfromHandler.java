@@ -23,6 +23,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQuery;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,7 +34,8 @@ import org.apache.ojb.broker.PersistenceBroker;
  */
 public class CloneProbePlatfromHandler {
 
-    static  GEReporterIDCriteria buildCloneProbePlatformCriteria(CloneOrProbeIDCriteria cloneOrProbeCrit,  ArrayPlatformCriteria platCrit, PersistenceBroker _BROKER) throws Exception{
+    static  GEReporterIDCriteria buildCloneProbePlatformCriteria(CloneOrProbeIDCriteria cloneOrProbeCrit,  ArrayPlatformCriteria platCrit) throws Exception{
+        PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
 
         GEReporterIDCriteria idsCriteria = new GEReporterIDCriteria();
 
