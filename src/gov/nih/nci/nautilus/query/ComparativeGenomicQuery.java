@@ -53,7 +53,7 @@ public class ComparativeGenomicQuery extends Query {
     	
 
 		ResourceBundle labels = null;
-		String OutStr = "<B>CGH  Query</B>";
+		String OutStr = "<B>Clinical Data Query</B>";
 		OutStr += "<BR>Query: " + this.getQueryName();
 
 

@@ -87,9 +87,10 @@
             <form-property name="surgeryType" type="java.lang.String" />			
             <form-property name="survivalLower" type="java.lang.String" />
             <form-property name="survivalUpper" type="java.lang.String" />
+			<form-property name="queryName" type="java.lang.String" /> 
             <form-property name="ageLower" type="java.lang.String" />
             <form-property name="ageUpper" type="java.lang.String" />
-            <form-property name="genderType" type="java.lang.String" />          
+            <form-property name="genderType" type="java.lang.String" />  			       
         </form-bean>
         
             <!-- Logon form bean -->
@@ -154,13 +155,13 @@
 		<forward name="success" path="nautilus.menu" />
 	</action>
 
-	 <action    path="/clinical"
+	 <action  path="/clinicalData"
               forward="nautilus.clinical" />
 
 	<action path="/clinical"
             input="nautilus.clinical"
             name="clinicaldataForm"
-            type="gov.nih.nci.nautilus.struts.action.ClinicalDataForm"
+            type="gov.nih.nci.nautilus.struts.action.ClinicalDataAction"
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />

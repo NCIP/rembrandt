@@ -77,26 +77,44 @@ public class ClinicalDataQuery extends Query {
 		  } //end of DiseaseOrGradeCriteria
 		
 		 
-		/* // starting CopyNumberCriteria
-		CopyNumberCriteria thisCopyNumberCrit = this.getCopyNumberCriteria();	
-		System.out.println("thisCopyNumberCrit.isEmpty():"+thisCopyNumberCrit.isEmpty());		
-		if (!thisCopyNumberCrit.isEmpty() && labels != null) {
-		    System.out.println(" I am in the CopyNumberCriteria");
-			String thisCriteria = thisCopyNumberCrit.getClass().getName();
+		 
+	 /*   // starting OccurrenceCriteria.java
+		OccurrenceCriteria thisOccurrenceCrit = this.getOccurrenceCriteria();	
+		if (!thisOccurrenceCrit.isEmpty() && labels != null) { 
+		    Collection occurrenceColl = thisOccurrenceCrit.getDiseases();
+			Iterator iter = occurrenceColl.iterator();
+			while(iter.hasNext()){
+			  OccurrenceDE  occurrenceDE = (OccurrenceDE)iter.next();
+			  String occurrenceStr = occurrenceDE.getClass().getName();		      
+		      OutStr += "<BR>"+labels.getString(occurrenceStr.substring(occurrenceStr.lastIndexOf(".")+1))+": "+occurrenceDE.getValue()+"";
+		       }	 	   
+		   }
+		else{
+		   System.out.println("Occurrence Criteria is empty or Application Resources file is missing");
+		  } //end of OccurrenceCriteria.java
+		*/  
+		  
+		  
+		 // starting CopyNumberCriteria
+		OccurrenceCriteria thisOccurrenceCrit = this.getOccurrenceCriteria();	
+		
+		if (!thisOccurrenceCrit.isEmpty() && labels != null) {
+		    System.out.println(" I am in the thisOccurrenceCrit");
+			String thisCriteria = thisOccurrenceCrit.getClass().getName();
 			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-			Collection copyNoObjects = thisCopyNumberCrit.getCopyNummbers();
+			Collection occurrenceObjects = thisOccurrenceCrit.getOccurrences();
 			
-			for (Iterator iter = copyNoObjects.iterator(); iter.hasNext();) {
+			for (Iterator iter = occurrenceObjects.iterator(); iter.hasNext();) {
 				DomainElement de = (DomainElement) iter.next();
 				String thisDomainElement = de.getClass().getName();
 				OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
 			}
 		}
 		else {
-		   System.out.println("Copy Number Criteria is empty or Application Resources file is missing");
+		   System.out.println("Occrrence Number Criteria is empty or Application Resources file is missing");
            }  // end of CopyNumberCriteria
 		   
-		   
+		/*   
             // starting GeneIDCriteria
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCriteria();
 			if (!thisGeneIDCrit.isEmpty() && labels != null) { 

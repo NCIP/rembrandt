@@ -148,6 +148,7 @@ public class ClinicalDataForm extends BaseForm {
 		ActionErrors errors = new ActionErrors();
 		
 		// Query Name cannot be blank
+		
 		if ((queryName == null || queryName.length() < 1))
 			errors.add("queryName", new ActionError("gov.nih.nci.nautilus.struts.form.queryname.no.error"));
 
@@ -189,31 +190,34 @@ public class ClinicalDataForm extends BaseForm {
 		return errors;
 	}
 
-	 
 	private void createDiseaseCriteriaObject(){
-	  //look thorugh the diseaseDomainMap to extract out the domain elements and create respective Criteria Objects
-	  Set keys = diseaseDomainMap.keySet();
-	  Iterator iter = keys.iterator();
-	  while(iter.hasNext()){
-	     Object key = iter.next();
-		 
-		 try{
-	        String strDiseaseDomainClass = (String)diseaseDomainMap.get(iter.next());//use key to get value
-		    Constructor[] diseaseConstructors = Class.forName(strDiseaseDomainClass).getConstructors();
-			Object [] parameterObjects = {key};
-			DiseaseNameDE diseaseNameDEObj = (DiseaseNameDE) diseaseConstructors[0].newInstance(parameterObjects);
-		    diseaseOrGradeCriteria.setDisease(diseaseNameDEObj);			
-		   } 
-		 catch (Exception ex) {
-				System.out.println("Error in createDiseaseCriteriaObject  "+ex.getMessage());
+   if(diseaseDomainMap != null){
+     Set keySet = diseaseDomainMap.keySet();
+	 Iterator iter = keySet.iterator();
+	 while(iter.hasNext()){
+	    try{
+		    String key = (String)iter.next();
+			String className = (String)diseaseDomainMap.get(key);
+			Constructor[] diseaseConstructors = Class.forName(className).getConstructors();
+			String[] initargs = {key};
+			DiseaseNameDE diseaseDE = (DiseaseNameDE)diseaseConstructors[0].newInstance(initargs);		
+			diseaseOrGradeCriteria.setDisease(diseaseDE);	
+			 
+		     } // end of try
+		catch (Exception ex) {
+				System.out.println("Error in createDiseaseCriteriaObject() method:  "+ex.getMessage());
 				ex.printStackTrace();
 			} 
-		  catch (LinkageError le) {
-				System.out.println("Linkage Error in createDiseaseCriteriaObject "+ le.getMessage());
+		catch (LinkageError le) {
+				System.out.println("Linkage Error in createDiseaseCriteriaObject() method: "+ le.getMessage());
 				le.printStackTrace();
-			}	    
-	      }
-	  }
+			}	
+			
+		 }// end of while		 
+		   
+      }// end of if
+   }
+   
 	private void createOccurrenceCriteriaObject() {
 
 
@@ -586,8 +590,25 @@ public class ClinicalDataForm extends BaseForm {
 	 * @param tumorType The tumorType to set
 	 */
      public void setTumorType(String tumorType) {
-		this.tumorType = tumorType;
+		this.tumorType = tumorType;		
 		diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
+	 }
+	 
+   /** 
+	 * Returns the tumorGrade.
+	 * @return String
+	 */
+	public String getTumorGrade() {
+		return tumorGrade;
+	}  
+	
+	/** 
+	 * Set the tumorGrade.
+	 * @param tumorType The tumorGrade to set
+	 */
+     public void setTumorGrade(String tumorGrade) {
+		this.tumorGrade = tumorGrade;		
+		gradeDomainMap.put(this.tumorGrade, GradeDE.class.getName());
 	 }
 	 
    /** 
@@ -597,7 +618,6 @@ public class ClinicalDataForm extends BaseForm {
 	public String getTumorType() {
 		return tumorType;
 	}  
-	
 	  /** 
 	 * Set the firstPresentation.
 	 * @param firstPresentation The firstPresentation to set
@@ -901,7 +921,34 @@ public class ClinicalDataForm extends BaseForm {
 	public GenderCriteria getGenderCriteria(){
 	  return this.genderCriteria;
 	  }
+	  
 	
+	public ArrayList getRecurrenceTypeColl() 
+	{ return recurrenceTypeColl; }
 	
+	public ArrayList getRadiationTypeColl() 
+	{ return radiationTypeColl; }
+	
+	public ArrayList getChemoAgentTypeColl() 
+	{ return chemoAgentTypeColl; }
+	
+	public ArrayList getSurgeryTypeColl() 
+	{ return surgeryTypeColl; }
+	
+	public ArrayList getSurvivalLowerColl() 
+	{ return survivalLowerColl; }
+	
+	public ArrayList getSurvivalUpperColl() 
+	{ return survivalUpperColl; }
+    
+	
+	public ArrayList getAgeLowerColl() 
+	{ return ageLowerColl; }
+	
+	public ArrayList getAgeUpperColl() 
+	{ return ageUpperColl; }
+	
+	public ArrayList getGenderTypeColl() 
+	{ return genderTypeColl; }
 
 }

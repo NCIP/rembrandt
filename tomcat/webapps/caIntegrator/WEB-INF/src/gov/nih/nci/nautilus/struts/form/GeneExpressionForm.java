@@ -1363,22 +1363,7 @@ public class GeneExpressionForm extends BaseForm {
 
 	}
 	
-	
-    // Getter methods for Gene Expression Lookup
-  
-	/*
-	** moved this method to the upper class:BaseForm.java
-	public ArrayList getDiseaseType() 
-	{ return diseaseType; }
-	*/
-
-	/*
-	** moved this method to the upper class: BaseForm.java
-	public ArrayList getGeneTypeColl()
-	{ return geneTypeColl; }
-	*/
-	
-	public ArrayList getCloneTypeColl(){
+   public ArrayList getCloneTypeColl(){
 	   return cloneTypeColl; 	   
 	   }
 

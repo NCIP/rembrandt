@@ -10,6 +10,5 @@ String act = request.getParameter("act");
 %>
 	<!-- <html:form action="<%=act%>"> -->
 <html:text property="queryName"/>
-
 <html:errors property="queryName"/>
 	<!-- </html:form> -->

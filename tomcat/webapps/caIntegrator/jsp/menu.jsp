@@ -9,7 +9,7 @@
 		&nbsp; <b class="message">- (0) Gene Expression Analysis Queries</b>
 		<br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
 		&nbsp; <b class="message">- (0) Comparitive Genomic Analysis Queries</b>
-		<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinical.do';">
+		<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
 		&nbsp;<b class="message">- (0) Clinical Study Analysis Queries</b>
 		<!--
 		<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="MRI Imaging Analysis" onclick="javascript:location.href='mriImage.html';">

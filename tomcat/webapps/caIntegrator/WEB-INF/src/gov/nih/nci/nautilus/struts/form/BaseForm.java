@@ -31,7 +31,7 @@ public class BaseForm extends ActionForm {
 
 	// --------------------------------------------------------- Methods
 	public BaseForm(){
-		
+			
 		// Create Lookups for Gene Expression screens 
 		setLookups();
 
