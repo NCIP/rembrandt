@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.helper;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import net.sf.ehcache.Cache;
@@ -12,6 +13,8 @@ import org.dom4j.io.XMLWriter;
 
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
+
+import javax.servlet.jsp.JspWriter;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -135,25 +138,7 @@ public class ReportGeneratorHelper {
 					    if(sessionCache!=null) {
 							sessionCache.put(resultSetCacheElement);
 						}
-//						  try transformation here
-							String stylesheet = "C:\\dev\\caintegrator\\WebRoot\\XSL\\report.xsl";
-							 // load the transformer using JAXP
-					        TransformerFactory factory = TransformerFactory.newInstance();
-					        try {
-								Transformer transformer = factory.newTransformer( new StreamSource( stylesheet ) );
-								DocumentSource source = new DocumentSource( reportXML );
-						        DocumentResult result = new DocumentResult();
-						        transformer.transform( source, result );
-
-						        // return the transformed document
-						        Document transformedDoc = result.getDocument();
-						        
-						        OutputFormat format = OutputFormat.createPrettyPrint();
-						        XMLWriter writer = new XMLWriter( System.out, format );
-							    writer.write( transformedDoc );
-							    writer.close();
-						   	
-						     }catch(Exception e) {}
+					    	
 					}
 					
 					
@@ -192,4 +177,43 @@ public class ReportGeneratorHelper {
 	public ReportBean getReportBean() {
 		return reportBean;
 	}
+	
+	public static void renderReport(ReportBean bean, String xsltFilename, JspWriter out) {
+		//try transformation here
+		String stylesheet = "C:\\dev\\caintegrator\\WebRoot\\XSL\\report.xsl";
+		 // load the transformer using JAXP
+        TransformerFactory factory = TransformerFactory.newInstance();
+		Transformer transformer;
+		try {
+			transformer = factory.newTransformer( new StreamSource( stylesheet ) );
+			DocumentSource source = new DocumentSource( bean.getReportXML() );
+	        DocumentResult result = new DocumentResult();
+	       	transformer.transform( source, result );
+			// return the transformed document
+	        Document transformedDoc = result.getDocument();
+	        OutputFormat format = OutputFormat.createPrettyPrint();
+	        XMLWriter writer;
+			writer = new XMLWriter( out, format );
+			writer.write( transformedDoc );
+			writer.close();
+		}catch(TransformerConfigurationException tce) {
+			logger.error(tce);
+		}catch (UnsupportedEncodingException uee) {
+			logger.error(uee);
+		}catch (TransformerException te) {
+			logger.error(te);
+		}catch (IOException ioe) {
+			logger.error(ioe);
+		}
+	}
+	
+	public static void renderReport(ReportBean bean) {
+		
+	}
+	
+	public static void renderReport(Document reportXML, String xsltFilename) {
+		
+	}
+	
+	
 }

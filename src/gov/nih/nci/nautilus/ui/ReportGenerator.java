@@ -75,6 +75,7 @@ public class ReportGenerator  {
 	  		catch (Throwable t)	{
 	  			errors.append("Error executing the query.<Br><Br>");
 	  			errors.append(t.getStackTrace().toString());
+	  			logger.debug(t.getStackTrace().toString());
 	  			return errors.toString();
 	  		}
 

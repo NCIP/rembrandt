@@ -1,5 +1,9 @@
 package gov.nih.nci.nautilus.ui.bean;
 
+import java.io.Serializable;
+
+import gov.nih.nci.nautilus.resultset.Resultant;
+
 import org.dom4j.Document;
 
 
@@ -10,8 +14,8 @@ import org.dom4j.Document;
  * the attributes will be used to render the final report.
  * 
  */
-public class ReportBean {
-	
+public class ReportBean implements Serializable{
+	private Resultant resultant;
     private String resultantCacheKey;
 	private Document reportXML;
     
@@ -40,5 +44,17 @@ public class ReportBean {
 	 */
 	public void setReportXML(Document reportTemplate) {
 		this.reportXML = reportTemplate;
+	}
+	/**
+	 * @return Returns the resultant.
+	 */
+	public Resultant getResultant() {
+		return resultant;
+	}
+	/**
+	 * @param resultant The resultant to set.
+	 */
+	public void setResultant(Resultant resultant) {
+		this.resultant = resultant;
 	}
 }
