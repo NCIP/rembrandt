@@ -169,7 +169,6 @@ public class RefineQueryAction extends DispatchAction {
 
 		// Get the Query Collection from the session
 		ArrayList queryViewColl = new ArrayList();
-		queryViewColl.add( new LabelValueBean( " ", " " ));
 
 		Properties props = new Properties();
 		props = ApplicationContext.getLabelProperties();
@@ -191,6 +190,7 @@ public class RefineQueryAction extends DispatchAction {
 		
 		}else {
 		
+			queryViewColl.add( new LabelValueBean( " ", " " ));
 			System.out.println("Compound Query passed is null");
 		}
 		return queryViewColl;
