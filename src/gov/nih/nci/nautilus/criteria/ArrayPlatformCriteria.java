@@ -19,7 +19,7 @@ public class ArrayPlatformCriteria extends Criteria{
  private ArrayPlatformDE arrayPlatformDE;
  public ArrayPlatformCriteria(){}
  
- public void setArrayPlatformCriteria(ArrayPlatformDE arrayPlatformDE){
+ public void setArrayPlatform(ArrayPlatformDE arrayPlatformDE){
   if(arrayPlatformDE != null){
      this.arrayPlatformDE = arrayPlatformDE;
     }

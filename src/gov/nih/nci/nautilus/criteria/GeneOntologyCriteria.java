@@ -28,8 +28,8 @@ public class GeneOntologyCriteria extends Criteria {
         }
     }
 
-    public void setGeneIdentifier(GeneIdentifierDE geneIdentifier) {
-        getGOIdentifierMember().add(geneIdentifier);
+    public void setGOIdentifier(GeneOntologyDE geneOntologyDE) {
+        getGOIdentifierMember().add(geneOntologyDE);
     }
     private Collection getGOIdentifierMember() {
         if (goIdentifiers == null)

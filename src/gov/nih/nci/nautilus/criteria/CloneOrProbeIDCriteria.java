@@ -28,7 +28,7 @@ public class CloneOrProbeIDCriteria extends Criteria {
         }
     }
 
-    public void setGeneIdentifier(CloneIdentifierDE cloneIdentifier) {
+    public void setCloneIdentifier(CloneIdentifierDE cloneIdentifier) {
         getCloneIdentifiersMember().add(cloneIdentifier);
     }
     private Collection getCloneIdentifiersMember() {
