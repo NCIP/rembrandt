@@ -15,4 +15,5 @@ public interface Constants {
     String ALL_PLATFROM = "all";
     String ARRAY_CGH = "ArrayCGH";
     String  AFFY_100K_SNP_ARRAY = "Affymetrix 100K SNP Arrays";
+    Float	KAPLAN_MEIER_DEFAULT_RATIO = new Float(3.0);
 }
