@@ -7,14 +7,14 @@
  <property name="tomcat-shutdown-unix" location="${env.CATALINA_HOME}/bin/./shutdown.sh"/>
  <property name="tomcat-startup-win" location="${env.CATALINA_HOME}/bin/startup.bat"/>
  <property name="tomcat-shutdown-win" location="${env.CATALINA_HOME}/bin/shutdown.bat"/>
-	
+ <property name="webapp.path" location="${env.CATALINA_HOME}/webapps/${app.war.name}"/>
  <condition property="isUnix">
     <os name="Linux"/>
  </condition>
  <condition property="isWindows">
 	<os family="windows"/>
  </condition>
-<echoproperties/>
+<!-- <echoproperties/> -->
 	
  <patternset id="test.jars">
   <include name="junit.jar"/>  
@@ -109,7 +109,65 @@
   <path refid="cp.compile"/>
   <pathelement location="${build.classes.dir}"/>
  </path>
- 
+ <!-- precomplie JSPs -->
+	<target name="jspc"> 
+       <delete dir="${webapp.dir}/WEB-INF/src-jsp"/>
+	    <taskdef classname="org.apache.jasper.JspC" name="jasper2" > 
+	      <classpath id="jspc.classpath"> 
+	        <pathelement location="${java.home}/../lib/tools.jar"/> 
+	        <fileset dir="${env.CATALINA_HOME}/server/lib"> 
+	          <include name="*.jar"/> 
+	        </fileset> 
+	        <fileset dir="${env.CATALINA_HOME}/common/lib"> 
+	          <include name="*.jar"/> 
+	        </fileset> 
+	      </classpath> 
+	    </taskdef> 
+
+	    <jasper2 
+	             validateXml="false" 
+	             uriroot="${webapp.dir}" 
+	             webXmlFragment="${webapp.dir}/WEB-INF/generated_web.xml" 
+	             outputDir="${webapp.dir}/WEB-INF/src-temp" /> 
+
+	  </target> 
+
+	  <target name="precompile-jsps" depends="jspc">
+
+
+	    <javac destdir="${build.classes.dir}"
+	           optimize="off"
+	           debug="on" failonerror="false"
+	           srcdir="${webapp.dir}/WEB-INF/src-temp" 
+		   excludes="**/*.smap">
+	      <classpath>
+	        <pathelement location="${webapp.path}/WEB-INF/classes"/>
+	      	<fileset dir="${build.struts.lib.dir}">
+	      	   	<include name="${app.jar.name}.jar"/>
+	      	   	<patternset refid="struts.jars"/> 
+	      	 </fileset>
+	      	 <fileset dir="${build.lib.dir}">
+	      	   	<include name="xercesImpl.jar"/>
+	      	    <patternset refid="ojb.client.jars"/>
+	      	   	<patternset refid="db.platform.jars"/>
+	      	   	<!-- <patternset refid="xml.jars"> -->
+	      	   	<!-- <patternset refid="other.jars"/> -->
+	      	 </fileset>
+	        <pathelement location="${env.CATALINA_HOME}/common/classes"/>
+	        <fileset dir="${env.CATALINA_HOME}/common/lib">
+	          <include name="*.jar"/>
+	        </fileset>
+	        <pathelement location="${env.CATALINA_HOME}/shared/classes"/>
+	        <fileset dir="${env.CATALINA_HOME}/shared/lib">
+	          <include name="*.jar"/>
+	        </fileset>
+	      </classpath>
+	      <include name="**" />
+	      <exclude name="tags/**" />
+	    </javac>
+
+	  </target>
+ <!-- end -->
 
    <target name="compile" > 
         <tstamp/>
@@ -173,7 +231,7 @@
 	 	
 	</target>
 	
-<target name="build-war" depends="build-jar, compile">
+<target name="build-war" depends="build-jar, compile, precompile-jsps">
 	<delete file="${build.dir}/${app.war.name}.war"/>
    <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
    	<fileset file="${webapp.dir}/*.jsp"/>
@@ -189,11 +247,11 @@
    	   			<include name="*.tld"/>
    	            <exclude name="web.xml"/>   	
    	</webinf>
-   <lib dir="${build.struts.lib.dir}">
+ <lib dir="${build.struts.lib.dir}">
    	<include name="${app.jar.name}.jar"/>
    	<patternset refid="struts.jars"/> 
-   </lib>
-   <lib dir="${build.lib.dir}">
+ </lib>
+ <lib dir="${build.lib.dir}">
    	<include name="xercesImpl.jar"/>
     <patternset refid="ojb.client.jars"/>
    	<patternset refid="db.platform.jars"/>
@@ -213,7 +271,7 @@
     | Deploys the war file by copying it to the tomcat webapp directory.
     -->
     <target name="deploy-webapp" depends="build-war">
-	  <delete dir="${env.CATALINA_HOME}/webapps/${app.war.name}"/>
+	  <delete dir="${webapp.path}"/>
 	  <delete dir="${env.CATALINA_HOME}/work"/>
         <copy file="${build.dir}/${app.war.name}.war" todir="${env.CATALINA_HOME}/webapps"/>
     </target>
