@@ -120,15 +120,6 @@
 			<include name="junit.jar" />
 			<include name="log4j-1.2.8.jar" />
 			<include name="db-ojb-1.0.rc7.jar" />
-			<!--
-			<patternset refid="ojb.rt.jars" />
-			<patternset refid="db.platform.jars" />
-			<patternset refid="xml.jars" />
-			<patternset refid="other.jars" />
-			<patternset refid="test.jars" />
-			<patternset refid="struts.jars" />
-			<patternset refid="graphic-pkg.jars" />
-			-->
 		</fileset>
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="servlet.jar" />
@@ -174,8 +165,6 @@
 					<patternset refid="ojb.client.jars" />
 					<patternset refid="db.platform.jars" />
 					<patternset refid="graphic-pkg.jars" />
-					<!-- <patternset refid="xml.jars"> -->
-					<!-- <patternset refid="other.jars"/> -->
 				</fileset>
 				<pathelement location="${env.CATALINA_HOME}/common/classes" />
 				<fileset dir="${env.CATALINA_HOME}/common/lib">
@@ -215,11 +204,6 @@
 				<include name="xml-apis.jar" />
 			</fileset>
 		</copy>
-		<copy todir="${webapp.dir}/WEB-INF/resources" overwrite="true">
-			<fileset dir="${basedir}">
-				<include name="deToBeanAttrMappings.xml" />
-			</fileset>
-		</copy>
 		<filter token="LOGDIR" value="${logging.dir}" />
 		<copy todir="${webapp.dir}/WEB-INF/classes" filtering="true" overwrite="true">
 			<fileset dir="${webapp.dir}/WEB-INF/resources">
@@ -232,7 +216,7 @@
 				<include name="repository_internal.xml" />
 				<include name="repository_user_caintegrator.xml" />
 				<include name="label.properties" />
-				<include name="ApplicationResources.properties"/>
+				<include name="ApplicationResources.properties" />
 			</fileset>
 		</copy>
 		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
@@ -240,8 +224,8 @@
 				<include name="**/*" />
 			</fileset>
 		</jar>
-	</target>
-	<target name="build-war" depends="build-jar, compile">
+        </target>
+	<target name="build-war" depends="build-jar">
 		<delete file="${build.dir}/${app.war.name}.war" />
 		<war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.jsp" />
