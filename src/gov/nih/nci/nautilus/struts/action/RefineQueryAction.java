@@ -63,6 +63,7 @@ public class RefineQueryAction extends DispatchAction {
 		String operatorType = "";
 		Vector vectorOfTokens = new Vector();
 		ActionErrors errors = new ActionErrors();
+		
 
 		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
 
@@ -78,6 +79,10 @@ public class RefineQueryAction extends DispatchAction {
 			if ((queryName1.trim().length() >= 1) && (queryName2.trim().length() < 1) & (queryName3.trim().length() < 1)){
 				CompoundQuery compoundQuery = new CompoundQuery(queryCollect.getQuery(queryName1));
 				refineQueryForm.setQueryText(queryName1);
+				
+				refineQueryForm.setRunFlag("yes");
+				System.out.println("set query text");
+				
 				//Stuff compoundquery in queryCollection 
 				queryCollect.setCompoundQuery(compoundQuery);
 				
@@ -146,8 +151,7 @@ public class RefineQueryAction extends DispatchAction {
 	
 			}catch (Exception e){
 				refineQueryForm.setQueryText("Error!! "+e.getMessage());
-				logger.error("Error Parsing Query and/or creating Compound Query ");
-				logger.error(e);
+				System.out.println("Error Parsing Query and/or creating Compound Query " + e.getMessage());
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.parse.error",e.getMessage()));
 
 				this.saveErrors(request, errors);
@@ -193,7 +197,7 @@ public class RefineQueryAction extends DispatchAction {
 		}else {
 		
 			queryViewColl.add( new LabelValueBean( " ", " " ));
-			logger.debug("Compound Query passed is null");
+			System.out.println("Compound Query passed is null");
 		}
 		return queryViewColl;
 	}
@@ -219,9 +223,9 @@ public class RefineQueryAction extends DispatchAction {
 		if (queryCollect != null) {
 			if (queryCollect.hasCompoundQuery()) {
 				CompoundQuery cQuery = (CompoundQuery) queryCollect.getCompoundQuery();
-				logger.debug(refineQueryForm.getCompoundView());
+				System.out.println(refineQueryForm.getCompoundView());
 				ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
-				logger.debug(selectView);
+				System.out.println(selectView);
 				// Set View in compoundQuery
 				cQuery.setAssociatedView(ViewFactory.newView(selectView));
 
@@ -231,13 +235,13 @@ public class RefineQueryAction extends DispatchAction {
 //				request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
 				
 			}else {
-			    logger.debug("QueryCollection has no Compound queries to execute.  Please select a query to execute");
+				System.out.println("QueryCollection has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.executequery.querycoll.no.error"));
 				this.saveErrors(request, errors);
 				ActionForward thisForward = mapping.findForward("failure");
 			}
 		}else{	
-		    logger.debug("QueryCollection object missing in session!!");
+			System.out.println("QueryCollection object missing in session!!");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
 			ActionForward thisForward = mapping.findForward("failure");
@@ -251,11 +255,11 @@ public class RefineQueryAction extends DispatchAction {
   
 	private void print(ResultSet[] geneExprObjects) {
 		if(geneExprObjects != null){
-		    logger.debug("Number of Records:"+ geneExprObjects.length);
+			System.out.println("Number of Records:"+ geneExprObjects.length);
 			for (int i =0; i < geneExprObjects.length; i++) {
 				GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
 				if(expObj != null){
-				    logger.debug( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
+				System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
 				}
 			}
 		}

@@ -3,16 +3,17 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 
 
+<html:form action="validatequery.do">
 
 <!-- <html:form action="validatequery.do">-->
-
+<tr class="report"><td>
 <div class="steps">
 <b>Step 1: Please refine your result set by grouping it</b>
 
 
 
 
-			<table border="0" width="100%" cellpadding="2" cellspacing="1" id="rosso">
+			&nbsp;&nbsp;&nbsp;<table border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 				<tr><td colspan="6" class="message">Group Your Queries<BR><html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 				</td></tr>
 				<tr>
@@ -49,8 +50,8 @@
 							<html:option value="">&nbsp;</html:option>
 							<html:option value="AND">and</html:option>
 							<html:option value="OR">or</html:option>
-							<html:option value="NOT">not</html:option>
-							<html:option value="PRB">project from results</html:option>
+							<!--<html:option value="NOT">not</html:option>
+							<html:option value="PRB">project from results</html:option>-->
 						</html:select><html:errors property="operatorType1"/>
 					</td>
 				</tr>
@@ -80,8 +81,8 @@
 							<html:option value="">&nbsp;</html:option>
 							<html:option value="AND">and</html:option>
 							<html:option value="OR">or</html:option>
-							<html:option value="NOT">not</html:option>
-							<html:option value="PRB">project from results</html:option>
+							<!--<html:option value="NOT">not</html:option>
+							<html:option value="PRB">project from results</html:option>-->
 						</html:select><html:errors property="operatorType2"/>
 					</td>
 				</tr>
@@ -113,16 +114,16 @@
 			
 			</div>
 			
-				<!--Display buttons here -->			
-			<div class="midButtons">
-				<!--<b class="message">[add more rows]</b><br />-->
+				<!--Display buttons here to add later-->			
+			<!--<div class="midButtons">
+				<b class="message">[add more rows]</b><br />
 					<br><input type="reset" value="reset query" class="sbutton">
-			</div>	
-			
+			</div>	-->
+			 
 			
 		
 
-
+<br /><br />
 
    <div class="steps">	
 		<b>Step 2: Validate your query</b><br>
@@ -137,7 +138,7 @@
 					</td>
 				
 					<td align="right">
-						<html:textarea property="queryText" style="width:610px; height:40px;"></html:textarea>
+						<html:textarea property="queryText" style="width:300px; height:40px;"></html:textarea>
 					</td>
 					
 				</tr>
@@ -176,8 +177,7 @@
 	</div>	
 		<br>
 		
-		
-		
+   
 		
 		<div class="steps">	
 			<table border="0">
@@ -185,17 +185,19 @@
 					<b>Step 5: Run report or return to previous screen</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 						onclick="javascript:history.back();"/>&nbsp;&nbsp
-					<html:button property="continuebutton" styleClass="xbutton" value="Run Report >>" 
-						onclick="JavaScript:setDispMethod('displayresult');"/> 
+						<!--check to see if query has been validated and the runFlag has been set on the form-->
+						<logic:equal name="refineQueryForm" property="runFlag" value="yes" ><html:button property="continuebutton" styleClass="xbutton" value="Run Report >>" 
+						onclick="JavaScript:setDispMethod('displayresult');"/></logic:equal> 
 
 					</td>
 				</tr>
 			</table>
 		</div>
+	
 
 <html:hidden property="method" />
 
 <!-- </html:form> -->
-</form>
-		
+</html:form>
+</td></tr>		
 		

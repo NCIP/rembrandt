@@ -47,6 +47,8 @@ public class RefineQueryForm extends BaseForm {
 	private String compoundView;
 	private String resultsetName;
 	
+	private String runFlag;
+	
 	private String method;
 
 	// Collections used for Lookup values.
@@ -150,7 +152,8 @@ public class RefineQueryForm extends BaseForm {
 			
 			}		
 		}else {
-		    logger.debug("No Query Collection Object in Session");
+		
+			System.out.println("No Query Collection Object in Session");
 		}
 
 	}
@@ -443,6 +446,19 @@ public class RefineQueryForm extends BaseForm {
   */
  public void setResultsetName(String resultsetName) {
 	 this.resultsetName = resultsetName;
+
+ }
+ /**
+  * Set the Run Report button flag.
+  * @param runFlag The runFlag to set
+  */
+ public void setRunFlag(String runValue) {
+	 this.runFlag = runValue;
+
+ }
+ 
+ public String getRunFlag() {
+	 return runFlag;
 
  }
 

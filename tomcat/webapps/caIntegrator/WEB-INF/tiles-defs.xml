@@ -41,6 +41,14 @@
 	  <put name="reqdFieldsMsg" value="" />
     </definition>
     
+    <definition name="nautilus.refine" extends="baseDef">
+      <put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />
+	  <put name="formName" value="refineQueryForm" /> 		<!-- form name -->
+	  <put name="formAction" value="validatequery.do" />	<!-- form action -->
+	  <put name="title" value="Refine Query" />
+	  <put name="reqdFieldsMsg" value="" />
+    </definition>
+    
     <definition name="homeDef" path="/jsp/homeLayout.jsp">
 		<put name="title" value="caIntegrator" />
 		<!--  the common criteria  -->
@@ -79,13 +87,7 @@
     </definition>
     
     
-	<definition name="nautilus.refine" extends="noSidebar">
-      <put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />
-	  <put name="formName" value="refineQueryForm" /> 		<!-- form name -->
-	  <put name="formAction" value="validatequery.do" />	<!-- form action -->
-	  <put name="title" value="Refine Query" />
-	  <put name="reqdFieldsMsg" value="" />
-    </definition>
+	
 	<definition name="nautilus.presentation" extends="noSidebar">
       <put name="mainForm" value="/jsp/tiles/presentation_tile.jsp" />
 	  <put name="formName" value="selectPresentationForm" /> 		<!-- form name -->
