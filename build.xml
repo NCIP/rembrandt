@@ -225,7 +225,8 @@
 		</copy>
 		<delete dir="${build.struts.classes.dir}" />
 		<mkdir dir="${build.struts.classes.dir}" />
-		<copy todir="${build.struts.classes.dir}">
+		<filter token="LOGDIR" value="${logging.dir}"/>
+		<copy todir="${build.struts.classes.dir}" filtering="true">
 			<!-- 
 	    <fileset dir="${build.classes.dir}">
                 <include name="**/*"/>
@@ -257,7 +258,7 @@
 
 	</target>
 
-	<target name="build-war" depends="build-jar, compile">
+	<target name="build-war" depends="build-jar, compile,setLogDir">
 		<delete file="${build.dir}/${app.war.name}.war" />
 		<war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.jsp" />
@@ -381,5 +382,7 @@
 	<target name="clean">
 		<delete dir="${build.dir}" quiet="true" />
 	</target>
-
+	<target name="setLogDir" >
+		
+	</target>
 </project>

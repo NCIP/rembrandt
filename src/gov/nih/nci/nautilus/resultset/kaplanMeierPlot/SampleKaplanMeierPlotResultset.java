@@ -161,4 +161,8 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	public void setReporters(Map reporters) {
 		this.reporters = reporters;
 	}
+    
+    public String toString() {
+    	return "Census: "+censor.getValue()+" Survival Length: "+survivalLength.getValue();
+    }
 }

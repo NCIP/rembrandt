@@ -71,7 +71,9 @@ public class QuickSearchAction extends DispatchAction {
 	private ActionForward doGeneExpPlot(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-	    log.debug("Testing the Logger");
+        log.warn("WARN MEssage");
+	    log.info("Info MESSAGE");
+        log.debug("Testing the Logger");
 		String[] groups;
 		
 		String geneSymbol;

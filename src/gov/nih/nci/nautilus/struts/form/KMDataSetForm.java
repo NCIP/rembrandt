@@ -16,6 +16,7 @@ import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
+import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
@@ -207,17 +208,29 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     private KMDataSeries[] getDataSeries(KaplanMeierPlotContainer container, int regulated, String seriesName) {
         Collection samples;
         ExprFoldChangeDE regulation;
+        Object[] array;
         switch(regulated) {
+            
             case ALLSAMPLES:
                 samples = container.getBioSpecimenResultsets();
                 break;
             case DOWNREGULATED:
                 regulation = new ExprFoldChangeDE.DownRegulation(new Float(downFold));
                 samples = container.getSampleKaplanMeierPlotResultsets(regulation);
+                array = samples.toArray();
+                for(int i = array.length;i>0;i--) {
+                	SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
+                    //System.out.println(result);
+                }
                 break;
             case UPREGULATED:
                 regulation = new ExprFoldChangeDE.UpRegulation(new Float(upFold));
                 samples = container.getSampleKaplanMeierPlotResultsets(regulation);
+                array = samples.toArray();
+                for(int i = array.length;i>0;i--) {
+                    SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
+                    //System.out.println(result);
+                }
                 break;
             default:
                 throw new RuntimeException("Invalid Criteria for KM Plot");
