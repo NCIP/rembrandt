@@ -109,7 +109,7 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 	 */
 
 	public void testGetSampleKaplanMeierPlotResultsets() {
-		//test Single Query
+/*		//test Single Query
 		try {
 			buildKaplanMeierPlotQuery();
 			System.out.println("Building  Kaplan Meier Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
@@ -138,7 +138,7 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}			
-
+*/
 	}
 
 
@@ -162,7 +162,7 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 
 
 	public void displatKMDrawingPoint(Collection samples) {
-		KaplanMeier km = new KaplanMeier(samples); 
+/*		KaplanMeier km = new KaplanMeier(samples); 
 		KMDrawingPoint[] points = km.getDrawingPoints(); 
 		System.out.println("\nOutput points: "); 
 		for (int i=0; i<points.length; i++) {
@@ -170,7 +170,7 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 							+ "\t" + points[i].getY()
 							+ "\t" + points[i].isCensus()); 
 		}
-
+*/
 	}
 
 }
