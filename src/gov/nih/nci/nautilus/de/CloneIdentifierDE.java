@@ -24,27 +24,13 @@ abstract public class CloneIdentifierDE extends DomainElement {
     */
     private String cloneIDType;
 
-  /**
-	* BACClone
-    */
     public static final String BAC_CLONE = "BACClone";
-
-  /**
-	* IMAGEClone
-    */
     public static final String IMAGE_CLONE= "IMAGEClone";
     public static final String PROBE_SET= "ProbesetClone";
 
-<<<<<<< CloneIdentifierDE.java
-   
-	
-  /**
-=======
-    /**
->>>>>>> 1.7
-	* private parent constructor utilized in the two nested/childe classes
-    */
-    private CloneIdentifierDE(String cloneIDType, String value) {
+
+
+   private CloneIdentifierDE(String cloneIDType, String value) {
         super(value);
         this.cloneIDType = cloneIDType;
     }
@@ -56,10 +42,7 @@ abstract public class CloneIdentifierDE extends DomainElement {
         public BACClone(String bacClineID) {
             super(BAC_CLONE, bacClineID);
         }
-<<<<<<< CloneIdentifierDE.java
-	
-=======
->>>>>>> 1.7
+
     }
 
  /**
@@ -71,16 +54,14 @@ abstract public class CloneIdentifierDE extends DomainElement {
        }
     }
 
-<<<<<<< CloneIdentifierDE.java
-       }
-	 
-=======
+
+
     public final static class ProbesetID extends CloneIdentifierDE {
        public ProbesetID(String imageCloneID) {
             super(PROBE_SET, imageCloneID);
 
        }
->>>>>>> 1.7
+
     }
 
   /**
