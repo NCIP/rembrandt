@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.de;
 
+import gov.nih.nci.nautilus.util.ApplicationContext;
+
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR

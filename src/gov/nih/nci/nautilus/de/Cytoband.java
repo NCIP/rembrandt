@@ -10,11 +10,11 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  * To change this template use Options | File Templates.
  */
 public class Cytoband extends DomainElement{
-    private String chromsomeNumber;
+    private String value;
     public static String LABEL = (String) ApplicationContext.getLabelProperties().get("Cytoband");
 
     public Object getValue() {
-        return chromsomeNumber;
+        return value;
     }
 
     public void setValue(Object obj) throws Exception {
@@ -23,12 +23,12 @@ public class Cytoband extends DomainElement{
         setValueObject((String)obj);
     }
 
-    public Long getValueObject() {
-        return (Long) getValue();
+    public String getValueObject() {
+        return (String) getValue();
     }
 
     public void setValueObject(String obj) {
-        chromsomeNumber = obj;
+        value = obj;
     }
 
 }

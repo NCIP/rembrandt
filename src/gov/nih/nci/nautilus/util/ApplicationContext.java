@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.de;
+package gov.nih.nci.nautilus.util;
 
 import java.util.Properties;
 import java.io.IOException;
