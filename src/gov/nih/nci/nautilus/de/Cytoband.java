@@ -10,25 +10,21 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  * To change this template use Options | File Templates.
  */
 public class Cytoband extends DomainElement{
-    private String value;
-    public static String LABEL = (String) ApplicationContext.getLabelProperties().get("Cytoband");
-
+    public Cytoband(String location) {
+        super(location);
+    }
     public Object getValue() {
         return value;
     }
-
     public void setValue(Object obj) throws Exception {
         if (! (obj instanceof String) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
         setValueObject((String)obj);
     }
-
     public String getValueObject() {
         return (String) getValue();
     }
-
     public void setValueObject(String obj) {
         value = obj;
     }
-
 }

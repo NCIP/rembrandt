@@ -11,29 +11,29 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  */
 abstract public class ExprFoldChangeDE extends DomainElement {
     private String regulationType;
-    private Float value;
+    public final static String UP_REGULATION =  "UpRegulation";
+    public final static String DOWN_REGULATION =  "DownRegulation";
+    public final static String UNCHANGED_REGULATION =  "DownRegulation";
 
-
-   public final static class UpRegulation extends ExprFoldChangeDE {
-       public static String LABEL = (String) ApplicationContext.getLabelProperties().get("UpRegulation");
-       public UpRegulation() {
-            super("UpRegulation");
+    public final static class UpRegulation extends ExprFoldChangeDE {
+       public UpRegulation(Float upRegValue) {
+            super(UP_REGULATION, upRegValue);
        }
     }
     public final static class DownRegulation extends ExprFoldChangeDE {
-      public static String LABEL = (String) ApplicationContext.getLabelProperties().get("DownRegulation");
-      public DownRegulation() {
-            super("DownRegulation");
+      public DownRegulation(Float downRegValue) {
+            super(DOWN_REGULATION, downRegValue);
       }
     }
     public final static class UnChangedRegulation extends ExprFoldChangeDE {
       public static String LABEL = (String) ApplicationContext.getLabelProperties().get("UnChangedRegulation");
-      public UnChangedRegulation() {
-            super("UnChangedRegulation");
+      public UnChangedRegulation(Float unChangedRegValue) {
+            super(UNCHANGED_REGULATION, unChangedRegValue);
       }
     }
 
-    private ExprFoldChangeDE(String regulationType) {
+    private ExprFoldChangeDE(String regulationType, Float value) {
+        super(value);
         this.regulationType = regulationType;
     }
 
@@ -51,8 +51,8 @@ abstract public class ExprFoldChangeDE extends DomainElement {
          setValueObject((Float)obj);
     }
 
-    public String getValueObject() {
-        return (String) getValue();
+    public Float getValueObject() {
+        return (Float) getValue();
     }
 
     public void setValueObject(Float obj) {

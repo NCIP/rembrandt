@@ -10,8 +10,9 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  * To change this template use Options | File Templates.
  */
 public class ChromosomeNumberDE extends DomainElement{
-    private String value;
-    public static String LABEL = (String) ApplicationContext.getLabelProperties().get("ChromosomeNumber");
+    public ChromosomeNumberDE(String chromosomeNumber) {
+        super(chromosomeNumber);
+    }
 
     public Object getValue() {
         return value;
@@ -30,5 +31,4 @@ public class ChromosomeNumberDE extends DomainElement{
     public void setValueObject(String obj) {
         value = obj;
     }
-
 }

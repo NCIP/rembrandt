@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.de;
 
+import gov.nih.nci.nautilus.util.HashCodeUtil;
+
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR
@@ -8,7 +10,6 @@ package gov.nih.nci.nautilus.de;
  * To change this template use Options | File Templates.
  */
 abstract public class DomainElementClass {
-
     public abstract String getName();
 
     public final  static DomainElementClass LOCUS_LINK = new DomainElementClass() {
@@ -29,4 +30,9 @@ abstract public class DomainElementClass {
         }
     };
 
+    public int hashCode() {
+        int result = HashCodeUtil.SEED;
+        result = HashCodeUtil.hash( result, getName());
+        return result;
+    }
 }

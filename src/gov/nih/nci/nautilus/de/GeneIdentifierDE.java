@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.de;
 
 import gov.nih.nci.nautilus.util.ApplicationContext;
+import gov.nih.nci.nautilus.util.HashCodeUtil;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,23 +12,23 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  */
 abstract public class GeneIdentifierDE extends DomainElement {
     private String geneIDType;
-    private String value;
+    public static final String LOCUS_LINK = "LocusLink";
+    public static final String GENBANK_ACCESSION_NUMBER= "GenBankAccessionNumber";
 
-
-   public final static class LocusLink extends GeneIdentifierDE {
-        public static String LABEL = (String) ApplicationContext.getLabelProperties().get("LocusLink");
-        public LocusLink() {
-            super("LocusLink");
+    public final static class LocusLink extends GeneIdentifierDE {
+        public LocusLink(String locusLinkID) {
+            super(LOCUS_LINK, locusLinkID);
         }
     }
     public final static class GenBankAccessionNumber extends GeneIdentifierDE {
-       public static String LABEL = (String) ApplicationContext.getLabelProperties().get("GenBankAccessionNumber");
-       public GenBankAccessionNumber() {
-            super("GenBankAccessionNumber");
+       public GenBankAccessionNumber(String genBankAccessionNumber) {
+            super(GENBANK_ACCESSION_NUMBER, genBankAccessionNumber);
+
        }
     }
 
-    private GeneIdentifierDE(String geneIDType) {
+    private GeneIdentifierDE(String geneIDType, String value) {
+        super(value);
         this.geneIDType = geneIDType;
     }
 

@@ -10,23 +10,23 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
  * To change this template use Options | File Templates.
  */
 abstract public class BasePairPositionDE extends DomainElement {
-    private String positionType;
-    private Integer value;
+   private String positionType;
+   public final static String START_POSITION = "StartPosition";
+   public final static String END_POSITION = "StartPosition";
 
    public final static class StartPosition extends BasePairPositionDE {
-        public static String LABEL = (String) ApplicationContext.getLabelProperties().get("StartPosition");
-        public StartPosition() {
-            super("StartPosition");
+        public StartPosition(Integer startPosition) {
+            super(START_POSITION, startPosition);
         }
     }
     public final static class EndPosition extends BasePairPositionDE {
-        public static String LABEL = (String) ApplicationContext.getLabelProperties().get("EndPosition");
-        public EndPosition() {
-            super("EndPosition");
+        public EndPosition(Integer endPosition) {
+            super(END_POSITION, endPosition);
         }
     }
 
-    private BasePairPositionDE(String positionType) {
+    private BasePairPositionDE(String positionType, Integer value) {
+        super(value);
         this.positionType = positionType;
     }
 
