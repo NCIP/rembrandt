@@ -9,6 +9,9 @@
 
 <xsl:param name="filter_value4">gt</xsl:param>
 
+<xsl:param name="filter_value5"></xsl:param>
+<xsl:param name="filter_value6"></xsl:param>
+
 <xsl:template match="/">
 
 
@@ -251,6 +254,7 @@
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Submit" />
 		<xsl:text>&#160;</xsl:text>
+		<input type="checkbox" name="filter_value7" value="and" />And (Or by default)
 	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>
 	  </form>
 	  </div>
