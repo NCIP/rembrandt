@@ -33,6 +33,7 @@ import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
 import gov.nih.nci.nautilus.ui.report.Transformer;
 import gov.nih.nci.nautilus.util.ApplicationContext;
+import gov.nih.nci.nautilus.util.MoreStringUtils;
 import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.Viewable;
 
@@ -143,25 +144,16 @@ public class ReportGeneratorHelper {
 	 * @param filterParams
 	 */
 	private Map processFilterParamMap(Map filterParams) {
+		String test = "";
 		List tokens = null;
 		String unallowableCharacters = " <>!:\"@#\\$%^&*()-+=/{}[]|?~`";
 		if(filterParams!=null && filterParams.containsKey("filter_string")) {
+			//tokenize the string
 			StringTokenizer tokenizer = new StringTokenizer((String)filterParams.get("filter_string"), ",", false);
 			tokens = new ArrayList();
 			while(tokenizer.hasMoreTokens()) {
-				String token = tokenizer.nextToken();
-				token = token.toUpperCase();
-				char[] filterString = token.toCharArray();
-				String cleanToken = token;
-				for(int i = 0; i<filterString.length;i++) {
-					if(unallowableCharacters.indexOf(filterString[i])>-1) {
-						//drop the bad character
-						cleanToken = cleanToken.substring(0,i);
-						if(i+1<filterString.length) {
-							cleanToken = cleanToken.concat(token.substring(i+1));
-						}
-					}
-				}
+				String cleanToken = MoreStringUtils.cleanString(unallowableCharacters, tokenizer.nextToken());				
+				cleanToken = cleanToken.toUpperCase();
 				tokens.add(cleanToken);
 			}
 			filterParams.put("filter_string", tokens);
