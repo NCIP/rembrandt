@@ -98,9 +98,9 @@ public class CopyNumberCriteriaHandler {
 
     private static void addSingleUpORDownCriteria(Double copyChange, String type, String colunName, Criteria subCrit, PersistenceBroker pb) throws Exception {
         if (type.equals(CopyNumberDE.AMPLIFICATION))
-            subCrit.addGreaterThan(colunName,copyChange);
+            subCrit.addGreaterOrEqualThan(colunName,copyChange);
         else if (type.equals(CopyNumberDE.DELETION))
-            subCrit.addLessThan(colunName, copyChange);
+            subCrit.addLessOrEqualThan(colunName, copyChange);
         else {
             throw new Exception("Invalid Copy Nuumber: " + type + " Value:" + copyChange);
         }
