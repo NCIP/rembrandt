@@ -14,7 +14,7 @@ public class Logging {
      SimpleLayout layout = new SimpleLayout();  
      FileAppender appender = null; 
 	 try{
-	   appender = new FileAppender(layout, SetupServlet.getLogFile(), false);	    
+	   appender = new FileAppender(layout, SetupServlet.getLogFile(), true);	    
 	   } 
 	 catch(Exception ex){
 	  ex.printStackTrace();

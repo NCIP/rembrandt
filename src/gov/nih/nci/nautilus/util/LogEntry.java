@@ -23,18 +23,18 @@ public class LogEntry {
   public LogEntry(Level logLevel, String message) {
     this.logLevel = logLevel; 	
 	this.date = new Date();	
-    this.message = (message == null) ? "" : date +(":\n") + message;    
+    this.message = (message == null) ? "" : message;
   }
   
   public LogEntry(Level logLevel, Throwable throwable) {
     this.logLevel = logLevel; 	
 	this.date = new Date();
 	this.throwable = throwable;
-    this.message = (message == null) ? "" : date +(":\n") + throwableToString(this.throwable);  
+   
   }
 
  public String getMessage(){
-   return this.message;
+   return  this.toString();  
   } 
   
  public Level getLevel(){
@@ -52,9 +52,15 @@ public class LogEntry {
   } 
   
  public String toString() {
-    StringBuffer buffer = new StringBuffer();
-    buffer.append(formatter.format(date));   
-    buffer.append(message);  
-    return(buffer.toString());
+ 
+    StringBuffer buffer = new StringBuffer();	
+    buffer.append(formatter.format(date));	
+	buffer.append("\r\n\t");
+    buffer.append(message);  	
+    if (throwable != null) {
+      buffer.append("\r\n\t" + throwableToString(throwable));
+    }
+	buffer.append("\r\n\t");
+    return(buffer.toString());	
   }
 }
