@@ -221,19 +221,30 @@ public class ShowAllValuesHandler {
 			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleFoldChangeValuesResultset){
 				                       		SampleFoldChangeValuesResultset showAllBiospecimenResultset  = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 				                       		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = (SampleFoldChangeValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
-				                       		if(showAllBiospecimenResultset != null && sampleFoldChangeValuesResultset != null){
-				                       			Double ratio = (Double)sampleFoldChangeValuesResultset.getFoldChangeRatioValue().getValue();
-				                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
+				                       		//this gets only the common samples, we actually want the ones that are in the ALLrs and not the regular RS
+				                       		//if(showAllBiospecimenResultset != null && sampleFoldChangeValuesResultset != null){
+				                       			Double ratio = null;
+				                       				try {
+														ratio = (Double)sampleFoldChangeValuesResultset.getFoldChangeRatioValue().getValue();
+													} catch (Exception e) {
+														ratio = null;
+													}
+				                       			Double showAllRatio = null;
+				                       				try {
+														showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
+													} catch (Exception e1) {
+														showAllRatio = null;
+													}
 				                       			if(ratio != null && ratio.equals(showAllRatio)){
-				                       				showAllBiospecimenResultset.setHighlighted(true);  
+				                       				showAllBiospecimenResultset.setHighlighted(false);  
 				                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
 				                       			}
                                                 else{
-                                                    showAllBiospecimenResultset.setHighlighted(false);  
+                                                    showAllBiospecimenResultset.setHighlighted(true);  
                                                     groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
 
                                                 }
-					                       	}
+					                       //	}
 			                     		}
 			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
 			                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
