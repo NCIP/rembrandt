@@ -163,8 +163,10 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			    		String cytoband = cytobandResultset.getCytoband().getValue().toString();
 			    		Collection reporters = copyNumberContainer.getRepoterResultsets(cytoband); 
 			    		
-			    		if(!filter_element.equals("cytoband") || (filter_element.equals("cytoband") && !filter_string.contains(cytoband)))	{
-				    		recordCount += reporters.size();
+			 //   		if(!filter_element.equals("cytoband") || (filter_element.equals("cytoband") && !filter_string.contains(cytoband)))	{
+			    		if(FilterHelper.checkFilter(filter_element, "cytoband", cytoband, filter_type, filter_string))	{
+			    	        	
+			    			recordCount += reporters.size();
 				        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 				        		
 				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();

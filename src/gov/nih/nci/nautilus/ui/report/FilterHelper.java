@@ -34,6 +34,8 @@ public class FilterHelper {
 	 * 			filter_string = ArrayList of all gene | reporter | cytoband to show | hide 
 	 */
 	public static boolean checkFilter(String filter_element, String f_element, String name, String filter_type, ArrayList filter_string)	{
+			
+		name = name.toUpperCase().trim();
 		if(filter_type.equals("hide") && (!filter_element.equals(f_element) || (filter_element.equals(f_element) && !filter_string.contains(name)))) 
 			return true;
 		else if(filter_type.equals("show") && (!filter_element.equals(f_element) || (filter_element.equals(f_element) && filter_string.contains(name))))
