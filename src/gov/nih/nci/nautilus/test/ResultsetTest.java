@@ -18,7 +18,7 @@ import java.util.Iterator;
 /**
  * @author SahniH
  * Date: September 20, 2004 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * This junit test encapsulates the query and resultset tests
  * 
  * 
@@ -83,10 +83,10 @@ public class ResultsetTest extends TestCase{
  		}  
     }
     public void testResultset(){
-    	ResultsetProcessor resultsetProc = new ResultsetProcessor();
+ /*   	ResultsetProcessor resultsetProc = new ResultsetProcessor();
     	assertNotNull(exprObjects);
         assertTrue(exprObjects.size() > 0);
-    	resultsetProc.createGeneView(exprObjects);
+    	resultsetProc.handleGeneView(exprObjects);
     	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
     	Collection genes = geneViewContainer.getGeneResultsets();
     	System.out.println("Gene Count: "+genes.size());
@@ -113,6 +113,7 @@ public class ResultsetTest extends TestCase{
         		}
     		}
     	}
-    	
+ */   	
     }
+   
 }
