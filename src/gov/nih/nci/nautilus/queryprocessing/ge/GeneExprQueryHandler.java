@@ -9,6 +9,7 @@ import gov.nih.nci.nautilus.data.ReporterAll;
 import gov.nih.nci.nautilus.data.GeneOntology;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
 import gov.nih.nci.nautilus.view.ClinicalSampleView;
+import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -49,7 +50,8 @@ final public class GeneExprQueryHandler extends QueryHandler {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
 
         if (query.getAssociatedView() instanceof GeneExprSampleView ||
-                query.getAssociatedView()instanceof ClinicalSampleView )
+                query.getAssociatedView()instanceof ClinicalSampleView ||
+				query.getAssociatedView()instanceof CopyNumberSampleView)
                 factHandler = new GEFactHandler.SingleGEFactHandler();
         else if (query.getAssociatedView() instanceof GeneExprDiseaseView)
                 factHandler = new GEFactHandler.GroupGEFactHanlder();
