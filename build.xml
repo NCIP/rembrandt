@@ -126,8 +126,9 @@
 
 	    <jasper2 
 	             validateXml="false" 
+		         package="gov.nih.nci.nautilus.jsp"
 	             uriroot="${webapp.dir}" 
-	             webXmlFragment="${webapp.dir}/WEB-INF/generated_web.xml" 
+	  	         webXmlFragment="${webapp.dir}/WEB-INF/generated_web.xml" 
 	             outputDir="${webapp.dir}/WEB-INF/src-temp" /> 
 
 	  </target> 
