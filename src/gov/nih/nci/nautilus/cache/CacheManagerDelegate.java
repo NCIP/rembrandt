@@ -219,10 +219,11 @@ public class CacheManagerDelegate implements ConvenientCache{
      * to retrieve an existing result set that should be there 
      * already.  It should only be called in the instance that you
      * know that the desired view of the report has not changed from
-     * when it was cached. It the view has changed, it will not check
+     * when it was cached. If the view has changed, it will not check
      * to see if the resultant is compatable with the desired view.
-     * It is possible to get a ClassCastException when using the
-     * report generators and can cause unstable behavior. 
+     * It is possible to get a ClassCastException when using this method
+     * with the report generators and can cause unpredictable application
+     * behavior. 
      * DANGER!   									DANGER!
      *	--D Bauer
      *
@@ -362,6 +363,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}catch(ClassCastException cce) {
 			logger.error("CacheElement was not a Collection");
 			logger.error(cce);
+		}catch(NullPointerException npe) {
+			logger.debug("Lookup: "+lookupType+" not found in ApplicationCache");
 		}
 		return results;
 	}
