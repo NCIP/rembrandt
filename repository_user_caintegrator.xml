@@ -856,3 +856,49 @@
         />
 
 </class-descriptor>
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.PatientData"
+       table="PATIENT_DATA">
+        <field-descriptor
+               name="age"
+               column="AGE"
+               jdbc-type="BIGINT"
+
+          />
+        <field-descriptor
+             name="biospecimenId"
+             column="BIOSPECIMEN_ID"
+             jdbc-type="BIGINT"
+        />
+    <field-descriptor
+             name="survivalLength"
+             column="SURVIVAL_LENGTH"
+             jdbc-type="BIGINT"
+        />
+         <field-descriptor
+             name="censoringStatus"
+             column="CENSORING_STATUS"
+             jdbc-type="VARCHAR"
+        />
+          <field-descriptor
+             name="patientDid"
+             column="PATIENT_DID"
+             jdbc-type="BIGINT"
+        />
+    <field-descriptor
+             name="populationTypeId"
+             column="POPULATION_TYPE_ID"
+             jdbc-type="BIGINT"
+        />
+    <field-descriptor
+             name="sampleId"
+             column="SAMPLE_ID"
+             jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+             name="gender"
+             column="GENDER"
+             jdbc-type="VARCHAR"
+        />
+</class-descriptor>
+
