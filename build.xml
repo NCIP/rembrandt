@@ -2,8 +2,6 @@
 
  <property name="props-file" value="build.properties"/>
  <property file="${props-file}"/>
- <property name="cvsRoot" value="@cbiocvs2.nci.nih.gov:/share/content/cvsroot" />
- <property name="cvsPackage" value="caintegrator" />
  <property environment="env"/>
 
  <patternset id="test.jars">
@@ -192,29 +190,34 @@
   	</junit> 	  	
  </target>
   <!-- cvsLogin target -->
- <target name="cvs-login">
+ <target name="cvs-login" unless="cvs.login.present">
+ 	<echoproperties prefix="cvs"/>
+	<available file="${basedir}/.cvspass" type="file" property="cvs.login.present"/>
+
  	<delete file="${basedir}/.cvspass"/>
-    <input message="Please enter CVS user login name:" addproperty="cvsLogin" />
+<!--    <input message="Please enter CVS user login name:" addproperty="cvsLogin" />
 	<condition property="noLogin"> 
 		<equals arg1="" arg2="${cvsLogin}" /> 
 	</condition> 
-	<fail if="noLogin">You didn't enter a CVS user login name.</fail>
-	<input message="Please enter CVS password:" addproperty="cvsPassword" /> 
+	<fail if="noLogin">You didn't enter a CVS user login name.</fail> -->
+	<input message="Please enter CVS password for user ${cvsUser}:" addproperty="cvsPassword" /> 
 	<condition property="noCVSPassword"> 
 		<equals arg1="" arg2="${cvsPassword}" /> 
 	</condition> 
 	<fail if="noCVSPassword">You did not enter your CVS password.</fail>
- 	 	<cvspass cvsRoot=":pserver:${cvsLogin}${cvsRoot}" password="${cvsPassword}" passfile="${basedir}/.cvspass"/> 
+ 	 	<cvspass cvsRoot="${cvsRoot}" password="${cvsPassword}" passfile="${basedir}/.cvspass"/> 
 </target>
-
+<target name="check-cvs-login">
+	 <available file="${basedir}/.cvspass" type="file" property="cvs.login.present"/>
+ 	<echoproperties prefix="cvs.login.present"/>
+</target>
 <!-- cvsUpdate target --> 
- <target name="cvs-update" depends="cvs-login">
- 	<echoproperties prefix="cvs"/>
-	<cvs cvsRoot=":pserver:${cvsLogin}${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="update -d" passfile="${basedir}/.cvspass"/>
+ <target name="cvs-update" depends="check-cvs-login, cvs-login">
+	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="update -d" passfile="${basedir}/.cvspass"/>
  </target>
 
  <target name="tagcode">
-	<cvs cvsRoot=":pserver:${cvsLogin}${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="tag -R ${tag}" passfile="${basedir}/.cvspass"/>
+	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="tag -R ${tag}" passfile="${basedir}/.cvspass"/>
  </target>
 
  <target name="clean">       
