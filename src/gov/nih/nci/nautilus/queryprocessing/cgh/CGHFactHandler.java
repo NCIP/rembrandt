@@ -25,7 +25,7 @@ import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 abstract public class CGHFactHandler {
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
-    private final static int VALUES_PER_THREAD = 50;
+    private final static int VALUES_PER_THREAD = 100;
     List factEventList = Collections.synchronizedList(new ArrayList());
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
