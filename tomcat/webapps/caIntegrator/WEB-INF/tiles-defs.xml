@@ -87,7 +87,9 @@
 	  <put name="reqdFieldsMsg" value="" />
     </definition>
 	<definition name="nautilus.presentation" extends="noSidebar">
-      <put name="mainForm" value="/jsp/presentation_tile.jsp" />
+      <put name="mainForm" value="/jsp/tiles/presentation_tile.jsp" />
+	  <put name="formName" value="selectPresentationForm" /> 		<!-- form name -->
+	  <put name="formAction" value="present.do" />	<!-- form action -->
 	  <put name="title" value="Select Presentation" />
 	  <put name="reqdFieldsMsg" value="" />
     </definition>
