@@ -49,12 +49,11 @@
  */
 package gov.nih.nci.nautilus.resultset.geneExpressionPlot;
 
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import gov.nih.nci.nautilus.de.DiseaseNameDE;
-import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 
 /**
  * @author SahniH
