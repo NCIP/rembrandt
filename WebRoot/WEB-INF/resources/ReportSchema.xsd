@@ -32,12 +32,11 @@
 		<xsd:attribute name="class" type="xsd:string" />
 		<xsd:attribute name="group" type="xsd:string" />
 		<xsd:data>
-			<xsd:attribute name="data" type="Data" maxOccurs="1"/>
+			<xsd:element name="data" type="Data" maxOccurs="1"/>
 		</xsd:data>
 	</xsd:complexType>
 	<xsd:simpleType name="Data">
 		<xsd:attribute name="type" type="xsd:string" />
-		<xsd:attribute name="value" type="xsd:string" />
 	</xsd:simpleType>
 </schema>
 
