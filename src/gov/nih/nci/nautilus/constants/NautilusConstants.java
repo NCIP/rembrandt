@@ -35,6 +35,8 @@ public final class NautilusConstants {
 	
 	public static final String DEFAULT_XSLT_FILENAME ="report.xsl";
 	
+	public static final String DEFAULT_XSLT_CSV_FILENAME ="csv.xsl";
+	
 	public static final String XSLT_FILE_NAME ="xsltFileName";
 	
 	public static final String FILTER_PARAM_MAP ="filterParamMap";
