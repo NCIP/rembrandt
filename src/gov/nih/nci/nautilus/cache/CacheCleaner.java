@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 /**
  * CacheCleaner checks in with the CacheTracker
- * at "check.session.cache.tracker" interval and reviews the
+ * at "check.session.cache.tracker" ms interval and reviews the
  * current SessionCaches for unused caches.  An unused
  * sessionCache is any cache that is associated with a session
  * that has been idle for longer than "session.cache.timeout"
@@ -81,7 +81,7 @@ public class CacheCleaner extends Thread {
 	 * set idle time ("session.cache.timeout") it will remove the cache.
 	 * 
 	 *  It should perform this action based on the setting of 
-	 *  "check.session.cache.tracker" in the resources file.
+	 *  "check.session.cache.tracker" ms in the resources file.
 	 * 
 	 */
 	public void run() {
@@ -92,15 +92,28 @@ public class CacheCleaner extends Thread {
 			logger.debug("Checking Session Caches");
 			HashMap caches = CacheTracker.getActiveSessionCaches();
 			SessionMap sessions = SessionTracker.getSessions();
+			/*
+			 * Only check the caches if there are any.
+			 */
 			if(caches!=null && !caches.isEmpty()) {
 				Set cacheKeys = caches.keySet();
 				for(Iterator i = cacheKeys.iterator();i.hasNext();) {
 					String sessionId = (String)i.next();
 					HttpSession session = sessions.getSession(sessionId);
+					/*
+					 * This is the check to see if the session has been idle
+					 * long enough to toss out it's associated cache, 
+					 * if it has one.  Another check that I could implement
+					 * would be to check the cache statistics and see when
+					 * any of the elements were last accessed, their size and
+					 * other considerations to determine if they should be
+					 * purged from the existing cache, rather than throwing
+					 * the whole cache out.
+					 */
 					long idleTime = System.currentTimeMillis() - session.getLastAccessedTime();
 					if(session!=null && idleTime > cacheTimeOut) {
 						logger.debug("Session "+sessionId+" idle too long. Removing cache");
-						CacheOverlord.removeSessionCache(sessionId);
+						CacheManagerWrapper.removeSessionCache(sessionId);
 					}
 				}
 			}

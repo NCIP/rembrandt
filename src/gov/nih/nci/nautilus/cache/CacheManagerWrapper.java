@@ -11,7 +11,7 @@ import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.ObjectExistsException;
 /**
- * The CacheOverlord (of darkness, as I like to call it) is intended to 
+ * The CacheManagerWrapper (of darkness, as I like to call it) is intended to 
  * act as the initializer for the application CacheManager and a factory for the
  * session cache.  It is an observable class in that it accepts CacheListeners
  * that will be notified whenever a sessionCache is created or removed. In case
@@ -27,17 +27,15 @@ import net.sf.ehcache.ObjectExistsException;
  * Feb 9, 2005
  * 
  */
-public class CacheOverlord{
+public class CacheManagerWrapper{
 	
     //This value must match the name of the cache in the configuration xml file
     static final private String REMBRANDT_CACHE = "applicationCache"; 
     static private transient List cacheListeners;
-    static Logger logger = Logger.getLogger(CacheOverlord.class);
+    static Logger logger = Logger.getLogger(CacheManagerWrapper.class);
     static private CacheManager manager = null;
     static Cache applicationCache;
-    private static CacheOverlord instance = new CacheOverlord();
-    
-    
+        
     static {
      	try {
            //Create the cacheManager and the application cache
@@ -51,7 +49,7 @@ public class CacheOverlord{
         }
     }
  
-    private CacheOverlord() {}
+    private CacheManagerWrapper() {}
     /**
      * returns the WebApplication cache. If the first time this has been called
      * it will instantiate the cache.
@@ -147,7 +145,7 @@ public class CacheOverlord{
         }
     }
     /**
-     * Adds a cache listener to the CacheOverlord
+     * Adds a cache listener to the CacheManagerWrapper
      * 
      * @param cacheListener
      */
@@ -159,7 +157,7 @@ public class CacheOverlord{
         cacheListeners.add(cacheListener);
     }
     /**
-     * removes a cache listener from the CacheOverlord
+     * removes a cache listener from the CacheManagerWrapper
      * @param cacheListener
      */
     static public void removeCacheListener(CacheListener cacheListener) {
