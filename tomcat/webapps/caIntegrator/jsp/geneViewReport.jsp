@@ -95,6 +95,37 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 		function hideLoadingMessage(){
 			document.getElementById('spnLoading').style.display = "none" ;
 		}
+		
+		
+		var message="Function Disabled!";
+		
+		///////////////////////////////////
+		function clickIE4(){
+			if (event.button==2){
+				alert(message);
+				return false;
+			}
+		}
+		
+		function clickNS4(e){
+			if (document.layers||document.getElementById&&!document.all){
+				if (e.which==2||e.which==3){
+					alert(message);
+					return false;
+				}
+			}
+		}
+		
+		if (document.layers){
+			document.captureEvents(Event.MOUSEDOWN);
+			document.onmousedown=clickNS4;
+		}
+		else if (document.all&&!document.getElementById){
+				document.onmousedown=clickIE4;
+		}
+		
+		document.oncontextmenu=new Function("alert(message);return false")
+
 	</script>
 	<script type="text/javascript" src="js/caIntScript.js"></script>
 	<script type="text/javascript" src="js/overlib.js"></script>
@@ -169,51 +200,7 @@ if(mode == null)	{
 	}
 	else
 		out.println("QueryCollection is NULL");
-		
- //   out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
- 
 
-/*
-	if(!myCompoundQuery.toString().equals(""))	{
-		out.println("<B>Compound Query:</b> " + myCompoundQuery.toString() + "<br><br>");
-	}
-	else	{
-		out.println("<B>Single Query:</b> " + queryCollection.getQueryNames() + "<br><br>");
-	}
-
- 	String  query = "";	
-	int j = 0;	
-	String queryKey = null;
-	
-	if(queryCollection != null){
-			  
-			//  out.println("<span class=\"queriesList\">\n");   
-			      Collection queryColl = queryCollection.getQueries();
-				  Collection queryKeys = queryCollection.getQueryNames();
-				  
-				  Iterator i = queryColl.iterator();
-				  
-				  out.println("<b>Queries:</b><br>\n");
-				  while (i.hasNext()) { 
-				     j++;
-				     query =i.next().toString();
-					 	
-					 Iterator iter = queryKeys.iterator();
-				     while(iter.hasNext()){
-				        queryKey = (String)iter.next();
-						String queryName = queryCollection.getQuery(queryKey).toString();
-						if(query.equalsIgnoreCase(queryName)){					   
-						   break;
-						  }
-					   }
-					   out.println("<fieldset class=\"q\">");
-					   out.println(query);
-					   out.println("</fieldset>\n");
-			       }	
-			       out.println("<Br><Br>\n");
-	}
-	out.println("<a href=\"#top\">top</a>\n");
-*/
 }
 
 else	{
