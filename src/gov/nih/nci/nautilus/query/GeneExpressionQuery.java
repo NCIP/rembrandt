@@ -1,14 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
-import gov.nih.nci.nautilus.criteria.PathwayCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
@@ -43,8 +36,18 @@ public class GeneExpressionQuery extends Query {
 	private GeneOntologyCriteria geneOntologyCriteria;
 	private PathwayCriteria pathwayCriteria;
 	private ArrayPlatformCriteria arrayPlatformCriteria;
-	
-	
+
+    public SampleCriteria getSampleIDCrit() {
+        return sampleIDCrit;
+    }
+
+    public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
+        this.sampleIDCrit = sampleIDCrit;
+    }
+
+    private SampleCriteria sampleIDCrit;
+
+
     private QueryHandler HANDLER;
 
     public QueryHandler getQueryHandler() throws Exception  {
@@ -254,6 +257,7 @@ public class GeneExpressionQuery extends Query {
 	catch (Exception ie) {
 		logger.error("Error in ResourceBundle - ");
 		logger.error(ie);
+        ie.printStackTrace();
 	}
 
 		OutStr += "<BR><BR>";

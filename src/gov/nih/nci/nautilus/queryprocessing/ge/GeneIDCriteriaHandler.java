@@ -48,7 +48,7 @@ public class GeneIDCriteriaHandler {
             if (obj.getGeneIDType().equals(GeneIdentifierDE.GENESYMBOL))
                value = obj.getValueObject().toUpperCase();
             else value = obj.getValueObject();
-            geneIDs.add(value);//no need to call next again, just set the value
+            geneIDs.add(value);
         }
         return geneIDs;
     }

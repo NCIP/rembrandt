@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.data.GeneClone;
@@ -40,7 +41,7 @@ abstract public class GEFactHandler {
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
-     private final static int VALUES_PER_THREAD = 150;
+     private final static int VALUES_PER_THREAD = 500;
      List factEventList = Collections.synchronizedList(new ArrayList());
      abstract void addToResults(Collection results);
      List annotationEventList = Collections.synchronizedList(new ArrayList());
@@ -50,6 +51,7 @@ abstract public class GEFactHandler {
     protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery query ) throws Exception {
             FoldChangeCriteria foldCrit = query.getFoldChgCrit();
             DiseaseOrGradeCriteria diseaseCrit = query.getDiseaseOrGradeCriteria();
+            SampleCriteria sampleIDCrit = query.getSampleIDCrit();
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
 
             for (int i = 0; i < arrayIDs.size();) {
@@ -72,7 +74,8 @@ abstract public class GEFactHandler {
                     FactCriteriaHandler.addDiseaseCriteria(diseaseCrit, targetFactClass, _BROKER, sampleCrit);
                 if (foldCrit != null)
                     FactCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
-
+                if (sampleIDCrit!= null)
+                    FactCriteriaHandler.addSampleIDCriteria(sampleIDCrit, targetFactClass, _BROKER, sampleCrit);
                 _BROKER.close();
 
                 new Thread(
@@ -190,6 +193,7 @@ abstract public class GEFactHandler {
                ).start();
             }
     }
+    
     public final static class SingleGEFactHandler extends GEFactHandler {
         ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
         throws Exception {

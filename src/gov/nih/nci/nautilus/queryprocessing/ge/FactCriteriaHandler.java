@@ -2,9 +2,12 @@ package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +32,17 @@ public class FactCriteriaHandler {
             diseasesTypes.add(((DiseaseNameDE) iterator.next()).getValueObject());
         String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
         criteria.addIn(columnName, diseasesTypes);
+    }
+
+    static void addSampleIDCriteria(SampleCriteria  sampleCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
+    throws Exception {
+        ArrayList sampleIDs = new ArrayList();
+        for (Iterator iterator = sampleCrit.getSampleIDs().iterator(); iterator.hasNext();)
+            sampleIDs.add(((SampleIDDE) iterator.next()).getValueObject());
+        String sampleIDAttr = QueryHandler.getAttrNameForTheDE(SampleIDDE.class.getName(), beanClass.getName());
+        Criteria c = new Criteria();
+        c.addIn(sampleIDAttr, sampleIDs);
+        criteria.addAndCriteria(c);
     }
     static void addFoldChangeCriteria(FoldChangeCriteria  foldChangeCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
@@ -58,6 +72,7 @@ public class FactCriteriaHandler {
                    throw new Exception("Invalid number of FoldChange Criteria objects: " + foldObjs.length);
                 }
            }
+
     }
 
     private static void addUpAndDownCriteria(Object[] foldObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
