@@ -201,6 +201,8 @@ if(mode == null)	{
 	else
 		out.println("QueryCollection is NULL");
 
+	session.removeAttribute("csv");
+	session.removeAttribute("mode");
 }
 
 else	{
