@@ -1,6 +1,10 @@
 package gov.nih.nci.nautilus.de;
 
 //caBIO classes
+import java.io.InputStream;
+import java.util.Properties;
+
+import gov.nih.nci.nautilus.util.ApplicationContext;
 import gov.nih.nci.nautilus.util.HashCodeUtil;
 
 /**
@@ -12,6 +16,12 @@ import gov.nih.nci.nautilus.util.HashCodeUtil;
  */
 abstract public class DomainElementClass {
     public abstract String getName();
+    public String getLabel() {
+    	Properties props = ApplicationContext.getLabelProperties();
+    	String key = getName().substring(getName().lastIndexOf(".")+1);
+    	String value = (String) props.get(key);
+    	return value;
+    }
 
    public final  static DomainElementClass PROBESET = new DomainElementClass() {
         public final String getName() {
