@@ -39,6 +39,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
+	
 	public Document getReportXML(Resultant resultant, Map filterMapParams) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
@@ -180,12 +181,10 @@ public class GeneExprSampleReport implements ReportGenerator{
 		    		/*  hard code filter for now */
 	        		String the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
 		    		//if(!the_gene.equalsIgnoreCase(filter_string))	{
-	        		if(!filter_element.equals("gene") || (filter_element.equals("gene") && !filter_string.contains(the_gene)))	{
+	        		if(this.checkFilter(filter_element, "gene", the_gene, filter_type, filter_string))	{
+	        		//if(!filter_element.equals("gene") || (filter_element.equals("gene") && !filter_string.contains(the_gene)))	{
 			    		recordCount+=reporters.size();
-			    		/*
-			    		HashMap mymap = new HashMap();
-			    		boolean hasit = mymap.containsValue(new String("EGFR"));
-			    		*/
+
 			    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 			        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
 			        		Collection groupTypes = reporterResultset.getGroupByResultsets();
@@ -277,6 +276,17 @@ public class GeneExprSampleReport implements ReportGenerator{
 		    //return "<div class=\"rowCount\">"+ helpFul +recordCount+" records returned. " + totalSamples +" samples returned. &nbsp;&nbsp;&nbsp;" + links  + "</div>\n" + sb.toString();
  
 		    return document;
+	}
+	
+	public boolean checkFilter(String filter_element, String f_element, String name, String filter_type, ArrayList filter_string)	{
+		if(filter_type.equals("hide") && (!filter_element.equals(f_element) || (filter_element.equals(f_element) && !filter_string.contains(name)))) 
+			return true;
+		else if(filter_type.equals("show") && (!filter_element.equals(f_element) || (filter_element.equals(f_element) && filter_string.contains(name))))
+			return true;	
+		else if(!filter_type.equals("show") && !filter_type.equals("hide"))
+			return true;
+		else
+			return false;
 	}
 
 }
