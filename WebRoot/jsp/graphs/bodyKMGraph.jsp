@@ -79,7 +79,7 @@
     height="540"/>
     <p>
     <br>
-    <fieldset class="gray">
+    <fieldset class="gray" style="text-align:left">
     <legend class="red">Statistical Report: </legend>
 <table class="graphTable" border="0" cellpadding="2" cellspacing="0">
     <logic:present name="kmDataSetForm" property="geneOrCytoband">
