@@ -83,22 +83,26 @@ public class Transformer {
      * @return The rendered HTML
      * @throws IOException
      */
-    public String transform(Document document) throws IOException {
+    public Document transform(Document document) throws IOException {
  
         String renderedHTML="";            
  
         javax.xml.transform.Transformer transformer;
         
+        Document transformedDoc = null;
+		
         try {
     
             transformer = m_template.newTransformer();
             assignParameters(transformer,m_params);
             DocumentSource fileSource = new DocumentSource( document );
             //Source fileSource = new StreamSource(xml);
-            Result result = new StreamResult(renderedHTML);
-            //DocumentResult result = new DocumentResult();
+            //Result result = new StreamResult(renderedHTML);
+            DocumentResult result = new DocumentResult();
             
-            transformer.transform(fileSource,result);   
+            transformer.transform(fileSource,result); 
+            
+            transformedDoc = result.getDocument();
             
         } catch (TransformerConfigurationException e) {
             throw new IOException(e.getMessage());
@@ -106,7 +110,7 @@ public class Transformer {
             throw new IOException(e.getMessage());
         }
  
-        return renderedHTML; 
+        return transformedDoc; 
     }
     
     /**
