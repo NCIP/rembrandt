@@ -173,10 +173,11 @@
    	<patternset refid="struts.jars"/> 
    </lib>
    <lib dir="${build.lib.dir}">
+   	<include name="xercesImpl.jar"/>
     <patternset refid="ojb.client.jars"/>
    	<patternset refid="db.platform.jars"/>
-   	<!-- <patternset refid="xml.jars"/> 
-   	<patternset refid="other.jars"/> -->
+   	<!-- <patternset refid="xml.jars"> -->
+   	<!-- <patternset refid="other.jars"/> -->
  </lib>
  <classes dir="${build.struts.classes.dir}" prefix="/WEB-INF/classes"/>
   <zipfileset file="${basedir}/repository*.*" prefix="/WEB-INF/classes"/>
