@@ -65,41 +65,57 @@ public class ComparativeGenomicAction extends Action {
 			cghQuery.setQueryName(comparativeGenomicForm.getQueryName());
 			
 			// Change this code later to get view type directly from Form !!
-			if (thisView.equalsIgnoreCase("sample")) 
+			if (thisView.equalsIgnoreCase("sample")) {
 				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-			else if (thisView.equalsIgnoreCase("gene"))
-
+				}
+			else if (thisView.equalsIgnoreCase("gene")){
 				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW)); 
+				}
 
-				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-				System.out.println("3333");	
+				
+				
+		
 	   // set Disease criteria
 		DiseaseOrGradeCriteria diseaseOrGradeCriteria = comparativeGenomicForm.getDiseaseOrGradeCriteria();
-		cghQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);				
+		if(!diseaseOrGradeCriteria.isEmpty()){
+		   cghQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);		
+		}		
 
 		// Set gene criteria
 		GeneIDCriteria geneIDCrit = comparativeGenomicForm.getGeneIDCriteria();
-		cghQuery.setGeneIDCrit(geneIDCrit);
+		if(!geneIDCrit.isEmpty()){
+		   cghQuery.setGeneIDCrit(geneIDCrit);
+		}
 		
 		// set copy number criteria
 		CopyNumberCriteria CopyNumberCrit = comparativeGenomicForm.getCopyNumberCriteria();
-		cghQuery.setCopyNumberCrit(CopyNumberCrit);
+		if(!CopyNumberCrit.isEmpty()){
+		   cghQuery.setCopyNumberCrit(CopyNumberCrit);
+		   }
 		
 		// set region criteria
 		RegionCriteria regionCrit = comparativeGenomicForm.getRegionCriteria();
-		cghQuery.setRegionCrit(regionCrit);
+		if(!regionCrit.isEmpty()){
+		  cghQuery.setRegionCrit(regionCrit);
+		  }
 	    
 		// set clone/probe criteria
 		CloneOrProbeIDCriteria cloneOrProbeIDCriteria = comparativeGenomicForm.getCloneOrProbeIDCriteria();
-		cghQuery.setCloneOrProbeIDCrit(cloneOrProbeIDCriteria);
+		if(!cloneOrProbeIDCriteria.isEmpty()){
+		  cghQuery.setCloneOrProbeIDCrit(cloneOrProbeIDCriteria);
+		  }
 		
 		// set snp criteria
 		SNPCriteria  snpCrit = comparativeGenomicForm.getSNPCriteria();
-		cghQuery.setSNPCrit(snpCrit);
+		if(!snpCrit.isEmpty()){
+		   cghQuery.setSNPCrit(snpCrit);
+		   }
 		
 		// set allele criteria
 		AlleleFrequencyCriteria  alleleFrequencyCriteria = comparativeGenomicForm.getAlleleFrequencyCriteria();
-		cghQuery.setAlleleFrequencyCrit(alleleFrequencyCriteria);
+		if(!alleleFrequencyCriteria.isEmpty()){
+		  cghQuery.setAlleleFrequencyCrit(alleleFrequencyCriteria);
+		  }
 		
 		try{
 		

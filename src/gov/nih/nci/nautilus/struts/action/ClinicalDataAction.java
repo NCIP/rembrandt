@@ -76,36 +76,52 @@ public class ClinicalDataAction extends Action {
  
 		// Set disease criteria	
 	    DiseaseOrGradeCriteria diseaseOrGradeCrit = clinicalDataForm.getDiseaseOrGradeCriteria();		
-		clinicalDataQuery.setDiseaseOrGradeCrit(diseaseOrGradeCrit);
+		if(!diseaseOrGradeCrit.isEmpty()){
+		   clinicalDataQuery.setDiseaseOrGradeCrit(diseaseOrGradeCrit);
+		}
 				
  
 		// Set Occurrence criteria
 		OccurrenceCriteria occurrenceCrit = clinicalDataForm.getOccurrenceCriteria();
-		clinicalDataQuery.setOccurrenceCrit(occurrenceCrit);
+		if(!occurrenceCrit.isEmpty()){
+		   clinicalDataQuery.setOccurrenceCrit(occurrenceCrit);
+		  }
 		
 		// Set RadiationTherapy criteria
 		RadiationTherapyCriteria radiationTherapyCrit = clinicalDataForm.getRadiationTherapyCriteria();
-		clinicalDataQuery.setRadiationTherapyCrit(radiationTherapyCrit);
+		if(!radiationTherapyCrit.isEmpty()){
+		   clinicalDataQuery.setRadiationTherapyCrit(radiationTherapyCrit);
+		   }
 		
 		//Set ChemoAgent Criteria
 		ChemoAgentCriteria chemoAgentCrit = clinicalDataForm.getChemoAgentCriteria();
-		clinicalDataQuery.setChemoAgentCrit(chemoAgentCrit);
+		if(!chemoAgentCrit.isEmpty()){
+		   clinicalDataQuery.setChemoAgentCrit(chemoAgentCrit);
+		   }
 		
 		// Set SurgeryType Criteria
 		SurgeryTypeCriteria surgeryTypeCrit = clinicalDataForm.getSurgeryTypeCriteria();
-		clinicalDataQuery.setSurgeryTypeCrit(surgeryTypeCrit);
+		if(!surgeryTypeCrit.isEmpty()){
+		   clinicalDataQuery.setSurgeryTypeCrit(surgeryTypeCrit);
+		   }
 		
 		// Set Survival Criteria
 		SurvivalCriteria survivalCrit = clinicalDataForm.getSurvivalCriteria();
-		clinicalDataQuery.setSurvivalCrit(survivalCrit);
+		if(!survivalCrit.isEmpty()){
+		   clinicalDataQuery.setSurvivalCrit(survivalCrit);
+		   }
 		
 		// Set Age Criteria
 		AgeCriteria ageCrit = clinicalDataForm.getAgeCriteria();
-		clinicalDataQuery.setAgeCrit(ageCrit);
+		if(!ageCrit.isEmpty()){
+		   clinicalDataQuery.setAgeCrit(ageCrit);
+		   }
 		
 		// Set gender Criteria		
 		GenderCriteria genderCrit = clinicalDataForm.getGenderCriteria();
-		clinicalDataQuery.setGenderCrit(genderCrit);		
+		if(!genderCrit.isEmpty()){
+		   clinicalDataQuery.setGenderCrit(genderCrit);		
+		   }
 		
 		
 		try{
