@@ -16,6 +16,6 @@ import gov.nih.nci.nautilus.view.Viewable;
  */
 public interface Queriable {
     public Viewable getAssociatedView();
-
+    public void setAssociatedView(Viewable view);
     
 }

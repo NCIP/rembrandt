@@ -57,6 +57,7 @@ import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.view.Viewable;
 
 import java.util.*;
 
@@ -73,23 +74,28 @@ public class CompoundQueryProcessor {
 			Queriable leftQuery = compoundQuery.getLeftQuery();
 			Queriable rightQuery = compoundQuery.getRightQuery();
 			OperatorType operator = compoundQuery.getOperatorType();
+			Viewable view = compoundQuery.getAssociatedView();
 			ResultSet[] leftResultSets = null;
 			ResultSet[] rightResultSets = null;
 			try {
 				if (leftQuery != null) {
 					if (leftQuery instanceof CompoundQuery) {
+						leftQuery.setAssociatedView(view);
 						leftResultSets = execute((CompoundQuery)leftQuery);
 						}
 					else if (leftQuery instanceof Query){
+						leftQuery.setAssociatedView(view);
 						leftResultSets = QueryManager.executeQuery((Query)leftQuery);			
 					}
 				}
 				
 				if (rightQuery != null) {
 					if (rightQuery instanceof CompoundQuery) {
+						rightQuery.setAssociatedView(view);
 						rightResultSets = execute((CompoundQuery)rightQuery);
 						}
 					else if (rightQuery instanceof Query){
+						rightQuery.setAssociatedView(view);
 						rightResultSets = QueryManager.executeQuery((Query)rightQuery);							
 					}
 				}
