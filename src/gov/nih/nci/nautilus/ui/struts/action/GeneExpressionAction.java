@@ -1,5 +1,8 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
@@ -23,31 +26,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.LookupDispatchAction;
 
-public class GeneExpressionAction extends Action {
+public class GeneExpressionAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	
-	/**
-	 * Method execute
-	 * 
-	 * @param ActionMapping
-	 *            mapping
-	 * @param ActionForm
-	 *            form
-	 * @param HttpServletRequest
-	 *            request
-	 * @param HttpServletResponse
-	 *            response
-	 * @return ActionForward
-	 * @throws Exception
-	 */
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+    /**
+     * Method submittal
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    
+    //If this is a Submittal do the following	
+	public ActionForward submittal(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
@@ -58,18 +63,7 @@ public class GeneExpressionAction extends Action {
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
 
-		//If this is a Preview Report do the following
 		
-		if (geneExpressionForm.getMethod().equals("run report")) {
-		    request.setAttribute("previewForm",geneExpressionForm.cloneMe());
-            logger.debug("This is a Preview Report");
-		    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
-            compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-            SessionQueryBag collection = new SessionQueryBag();
-            collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
-			return mapping.findForward("previewReport");
-		} else {
 		    logger.debug("This is a Gene Expression Submital");
 		    try {
 				//Set query in Session.
@@ -98,7 +92,32 @@ public class GeneExpressionAction extends Action {
 			}
 			return mapping.findForward("advanceSearchMenu");
 		}
+	
+	
+
+	//	If this is a Preview Report do the following	
+	public ActionForward preview(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		request.getSession().setAttribute("currentPage", "0");
+		request.getSession().removeAttribute("currentPage2");
+		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
+
+		logger.debug("This is a Gene Expression Preview");
+		// Create Query Objects
+		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
+	    request.setAttribute("previewForm",geneExpressionForm.cloneMe());
+        logger.debug("This is a Preview Report");
+	    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
+        compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+        SessionQueryBag collection = new SessionQueryBag();
+        collection.setCompoundQuery(compoundQuery);
+        request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
+		return mapping.findForward("previewReport");
 	}
+	
+	
 	
 	private GeneExpressionQuery createGeneExpressionQuery(GeneExpressionForm geneExpressionForm){
 	    GeneExpressionQuery geneExpQuery = (GeneExpressionQuery)QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
@@ -148,5 +167,18 @@ public class GeneExpressionAction extends Action {
 			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
 	    return geneExpQuery;
 	}
-
+	
+	protected Map getKeyMethodMap() {
+		 
+       HashMap map = new HashMap();
+       
+       //Submit Query Button using gene expression submittal method
+       map.put("submittalButton", "submittal");
+       
+       //Preview Query Button using gene expression preview method
+       map.put("previewButton", "preview");
+       
+       return map;
+       
+       }
 }

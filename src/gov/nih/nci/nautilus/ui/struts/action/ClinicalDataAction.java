@@ -1,5 +1,8 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AgeCriteria;
 import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
@@ -23,17 +26,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
+import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-public class ClinicalDataAction extends Action {
+public class ClinicalDataAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    
     /**
-     * Method execute
+     * Method submittal
      * 
      * @param ActionMapping
      *            mapping
@@ -46,7 +50,7 @@ public class ClinicalDataAction extends Action {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward execute(ActionMapping mapping, ActionForm form,
+    public ActionForward submittal(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -54,17 +58,10 @@ public class ClinicalDataAction extends Action {
         request.getSession().removeAttribute("currentPage2");
                 
         ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
+        
+        logger.debug("This is a Clinical Data Submittal");
+        //Create Query Objects
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
-        if (clinicalDataForm.getMethod().equals("run report")) {
-            request.setAttribute("previewForm",clinicalDataForm.cloneMe());
-            CompoundQuery compoundQuery = new CompoundQuery(clinicalDataQuery);
-            compoundQuery.setAssociatedView(ViewFactory
-                    .newView(ViewType.CLINICAL_VIEW));
-            SessionQueryBag collection = new SessionQueryBag();
-            collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
-            return mapping.findForward("previewReport");
-        } else {
 
             try {
 
@@ -105,6 +102,28 @@ public class ClinicalDataAction extends Action {
             return mapping.findForward("advanceSearchMenu");
         }
 
+    
+    public ActionForward preview(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        request.getSession().setAttribute("currentPage", "0");
+        request.getSession().removeAttribute("currentPage2");
+                
+        ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
+        
+        logger.debug("This is a Clinical Data Preview");
+        //Create Query Objects
+        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
+        
+            request.setAttribute("previewForm",clinicalDataForm.cloneMe());
+            CompoundQuery compoundQuery = new CompoundQuery(clinicalDataQuery);
+            compoundQuery.setAssociatedView(ViewFactory
+                    .newView(ViewType.CLINICAL_VIEW));
+            SessionQueryBag collection = new SessionQueryBag();
+            collection.setCompoundQuery(compoundQuery);
+            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
+            return mapping.findForward("previewReport");
     }
     
     private ClinicalDataQuery createClinicalDataQuery(ClinicalDataForm clinicalDataForm){
@@ -185,5 +204,19 @@ public class ClinicalDataAction extends Action {
         }
         return clinicalDataQuery;
     }
+    
+    protected Map getKeyMethodMap() {
+		 
+     HashMap map = new HashMap();
+     
+     //Submit Query Button using comparative genomic submittal method
+     map.put("submittalButton", "submittal");
+     
+     //Preview Query Button using comparative genomic preview method
+     map.put("previewButton", "preview");
+     
+     return map;
+     
+     }
 
 }

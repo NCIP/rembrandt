@@ -1,5 +1,8 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
@@ -23,18 +26,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
+import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-public class ComparativeGenomicAction extends Action {
+public class ComparativeGenomicAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
     
     /**
-     * Method execute
+     * Method submittal
      * 
      * @param ActionMapping
      *            mapping
@@ -47,24 +50,22 @@ public class ComparativeGenomicAction extends Action {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward execute(ActionMapping mapping, ActionForm form,
+    
+     //If this is a Submittal do the following
+    public ActionForward submittal(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
         ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
+        
+        logger.debug("This is a Comparative Genomic Submittal");
+        //Create Query Objects
         ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
         //This is required as struts resets the form.  It is later added back to the request
         request.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
-        if (comparativeGenomicForm.getMethod().equals("run report")) {
-            CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
-            compoundQuery.setAssociatedView(ViewFactory
-                    .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
-            SessionQueryBag collection = new SessionQueryBag();
-            collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
-            return mapping.findForward("previewReport");
-        } else {
+       
+        
             try {
                 //Set query in Session.
                 if (!cghQuery.isEmpty()) {
@@ -96,8 +97,44 @@ public class ComparativeGenomicAction extends Action {
             }
             return mapping.findForward("advanceSearchMenu");
         }
-
-    } 
+  
+    
+    /**
+     * Method preview
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward preview(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        request.getSession().setAttribute("currentPage", "0");
+        request.getSession().removeAttribute("currentPage2");
+        ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
+        
+        logger.debug("This is a Comparative Genomic Preview");
+        //Create Query Objects
+        ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
+        //This is required as struts resets the form.  It is later added back to the request
+        request.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
+       
+            CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
+            compoundQuery.setAssociatedView(ViewFactory
+                    .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+            SessionQueryBag collection = new SessionQueryBag();
+            collection.setCompoundQuery(compoundQuery);
+            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
+            return mapping.findForward("previewReport");
+    }
+            
     
     private ComparativeGenomicQuery createCGHQuery(ComparativeGenomicForm comparativeGenomicForm){
         //Create Query Objects
@@ -171,4 +208,20 @@ public class ComparativeGenomicAction extends Action {
         }
         return cghQuery;
     }
+    
+    protected Map getKeyMethodMap() {
+		 
+      HashMap map = new HashMap();
+      
+      //Submit Query Button using comparative genomic submittal method
+      map.put("submittalButton", "submittal");
+      
+      //Preview Query Button using comparative genomic preview method
+      map.put("previewButton", "preview");
+      
+      return map;
+      
+      }
+    
+    
 }

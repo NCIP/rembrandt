@@ -85,6 +85,7 @@
             name="geneexpressionForm"
             type="gov.nih.nci.nautilus.ui.struts.action.GeneExpressionAction"
             scope="request"
+            parameter="method"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="previewReport" path="/previewGeneReport.do?method=previewReport"/>
@@ -130,6 +131,7 @@
             name="comparitivegenomicForm"
             type="gov.nih.nci.nautilus.ui.struts.action.ComparativeGenomicAction"
             scope="request"
+            parameter="method"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="previewReport" path="/previewCGReport.do?method=previewReport"/>
@@ -170,6 +172,7 @@
             name="clinicaldataForm"
             type="gov.nih.nci.nautilus.ui.struts.action.ClinicalDataAction"
             scope="request"
+            parameter="method"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="previewReport" path="/previewClinicalReport.do?method=previewReport"/>
