@@ -23,7 +23,7 @@
     </patternset>   
 
 	<patternset id="cabio.jars">
-		<include name="caBIO21.jar" />
+		<include name="caBIO.jar" />
 	</patternset>
 	<patternset id="ojb.client.jars">
 		<include name="commons-beanutils.jar" />
