@@ -37,7 +37,8 @@ import gov.nih.nci.nautilus.view.Viewable;
  * XML will then be stored in a ReportBean that will also contain the cache key
  * where the resultant can be called again, if needed.
  * 
- * @author BauerD, LandyR Feb 8, 2005
+ * @author BauerD, LandyR 
+ * Feb 8, 2005
  * 
  */
 public class ReportGeneratorHelper {
@@ -52,7 +53,7 @@ public class ReportGeneratorHelper {
 
 	/**
 	 * Execute the CompoundQuery and store in the sessionCache. Create a
-	 * ReportBean and store there for later retrieval
+	 * ReportBean and store there for later retrieval.
 	 * 
 	 * @param query
 	 */
@@ -66,19 +67,19 @@ public class ReportGeneratorHelper {
 		if (query != null && query instanceof CompoundQuery) {
 			try {
 				CompoundQuery cQuery = (CompoundQuery) query;
+				//Get the desired view for this report
 				Viewable view = cQuery.getAssociatedView();
 				// Get the sessionId to needed to retrieve the sessionCache
 				cacheKey = cQuery.getSessionId();
+				
 				if (cacheKey != null && !cacheKey.equals("")) {
 					/*
 					 * Use the cacheKey to get the cache and see if 
 					 * a result set already exists for the query we have been 
 					 * given
 					 */
-					Cache sessionCache = CacheManagerWrapper
-							.getSessionCache(cacheKey);
-					resultSetCacheElement = sessionCache.get(cQuery
-							.getQueryName());
+					Cache sessionCache = CacheManagerWrapper.getSessionCache(cacheKey);
+					resultSetCacheElement = sessionCache.get(cQuery.getQueryName());
 					
 					if (resultSetCacheElement == null) {
 						/*
@@ -105,17 +106,57 @@ public class ReportGeneratorHelper {
 							cQuery.setQueryName("temp_results");
 						}
 
-						resultSetCacheElement = new Element(cQuery
-								.getQueryName(), resultant);
-
-						sessionCache.put(resultSetCacheElement);
+						reportBean = new ReportBean();
+						reportBean.setResultant(resultant);
+						reportBean.setResultantCacheKey(cQuery.getQueryName());
+						
 					}else {
 						/*
-						 * The resultant was found in the cache
+						 * The reportBean was found in the cache
 						 * so load it up.
 						 */
-						resultant = (Resultant)resultSetCacheElement.getValue();
+						reportBean = (ReportBean)resultSetCacheElement.getValue();
 					}
+					/*
+					 * Get the correct report XML generator for the desired view
+					 * of the results.
+					 * 
+					 */
+					if (reportBean != null) {
+						if(resultant.getAssociatedView()!=view||reportBean.getReportXML()==null) {
+							ReportGenerator reportGen = ReportGeneratorFactory
+									.getReportGenerator(resultant);
+							reportXML = reportGen.getReportXML(resultant);
+						}else {
+							reportXML = reportBean.getReportXML();
+						}
+						reportBean.setReportXML(reportXML);
+					    resultSetCacheElement = new Element(reportBean.getResultantCacheKey(), reportBean);
+					    if(sessionCache!=null) {
+							sessionCache.put(resultSetCacheElement);
+						}
+//						  try transformation here
+							String stylesheet = "C:\\dev\\caintegrator\\WebRoot\\XSL\\report.xsl";
+							 // load the transformer using JAXP
+					        TransformerFactory factory = TransformerFactory.newInstance();
+					        try {
+								Transformer transformer = factory.newTransformer( new StreamSource( stylesheet ) );
+								DocumentSource source = new DocumentSource( reportXML );
+						        DocumentResult result = new DocumentResult();
+						        transformer.transform( source, result );
+
+						        // return the transformed document
+						        Document transformedDoc = result.getDocument();
+						        
+						        OutputFormat format = OutputFormat.createPrettyPrint();
+						        XMLWriter writer = new XMLWriter( System.out, format );
+							    writer.write( transformedDoc );
+							    writer.close();
+						   	
+						     }catch(Exception e) {}
+					}
+					
+					
 				} else {
 					/*
 					 * We can not store the resultSet without a unique cache to
@@ -146,57 +187,8 @@ public class ReportGeneratorHelper {
 			throw new UnsupportedOperationException(
 					"You must pass a CompoundQuery at this time");
 		}
-
-		/*
-		 * Check for a null resultant. Get the correct report XML generator for
-		 * the desired view of the results.
-		 * 
-		 */
-		if (resultant != null) {
-			ReportGenerator reportGen = ReportGeneratorFactory
-					.getReportGenerator(resultant);
-			reportXML = reportGen.getReportXML(resultant);
-			
-			//server side transformation
-			String stylesheet = "C:\\dev\\caIntegrator2\\WebRoot\\XSL\\report.xsl";
-			 // load the transformer using JAXP
-	        TransformerFactory factory = TransformerFactory.newInstance();
-	        try {
-				Transformer transformer = factory.newTransformer( new StreamSource( stylesheet ) );
-				DocumentSource source = new DocumentSource( reportXML );
-		        DocumentResult result = new DocumentResult();
-		        transformer.transform( source, result );
-
-		        // return the transformed document
-		        Document transformedDoc = result.getDocument();
-		        
-		        OutputFormat format = OutputFormat.createPrettyPrint();
-		        XMLWriter writer = new XMLWriter( System.out, format );
-			    writer.write( transformedDoc );
-			    writer.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			// cacheKey.equals("temp_results"+view.getClass());
-			
-		}
 	}
-
-	/*
-	 * This constructor to use in the instance that there may be a preexisting
-	 * resultSet stored in the cache. The resultantCacheKey is currently the
-	 * name of the result set.
-	 * 
-	 */
-	public ReportGeneratorHelper(String resultantCacheKey) {
-		// Used to retrieve the resultant from the cache
-		// and if needed retrieve the associated query and
-		// rerun the query
-
-	}
-
+	
 	public ReportBean getReportBean() {
 		return reportBean;
 	}
