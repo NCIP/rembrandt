@@ -5,8 +5,8 @@
 	System.out.println(act);
 %>
 	<!-- <html:form action="<%=act%>" > -->
-
-<div class="title">SNP Id</div>
+<fieldset class="gray">
+<legend class="red">SNP Id</legend>
 <b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>
 <br>
 
@@ -37,5 +37,5 @@ Validated SNPs:&nbsp;&nbsp;
 <html:radio property="validatedSNP" value="only"  styleClass="radio"/>&nbsp;&nbsp;Only
 <br>
 <html:errors property="snpId"/>
-
+</fieldset>
 <!-- </html:form> -->
