@@ -14,6 +14,7 @@ import gov.nih.nci.nautilus.data.PatientData;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
@@ -72,7 +73,7 @@ public class LookupManager{
 	 */
 	public static PatientDataLookup[] getPatientData() throws Exception {
 		if(patientData == null){
-			patientData = (PatientDataLookup[]) executeQuery(PatientData.class).toArray();
+			patientData = (PatientDataLookup[])(executeQuery(PatientData.class).toArray(new PatientDataLookup[1]));
 		}
 		return patientData;
 	}
