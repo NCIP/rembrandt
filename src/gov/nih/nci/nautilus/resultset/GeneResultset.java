@@ -6,46 +6,22 @@
  */
 package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.de.*;
+import java.util.*;
 /**
  * @author SahniH
  *
  * This class encapulates a collection of ReporterResultset objects.
  */
 public class GeneResultset {
-	  private DiseaseNameDE diseaseName;
-	  private GeneIdentifierDE.GeneSymbol geneSymbol;
-	  private GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo;
-	  private GeneIdentifierDE.LocusLink locusLinkID;
 
-	  private Long datasetId;
-	  private Long diseaseTypeId;
+	  private GeneIdentifierDE.GeneSymbol geneSymbol = null;
+	  private GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo = null;
+	  private GeneIdentifierDE.LocusLink locusLinkID = null;
+	  //private DataSetDE. dataset;
+	  private SortedMap reporters = new TreeMap();
 	  private Long geneId;
 
 	public static void main(String[] args) {
-	}
-	/**
-	 * @return Returns the datasetId.
-	 */
-	public Long getDatasetId() {
-		return datasetId;
-	}
-	/**
-	 * @param datasetId The datasetId to set.
-	 */
-	public void setDatasetId(Long datasetId) {
-		this.datasetId = datasetId;
-	}
-	/**
-	 * @return Returns the diseaseTypeId.
-	 */
-	public Long getDiseaseTypeId() {
-		return diseaseTypeId;
-	}
-	/**
-	 * @param diseaseTypeId The diseaseTypeId to set.
-	 */
-	public void setDiseaseTypeId(Long diseaseTypeId) {
-		this.diseaseTypeId = diseaseTypeId;
 	}
 	/**
 	 * @return Returns the genbankAccessionNo.
@@ -95,4 +71,32 @@ public class GeneResultset {
 	public void setLocusLinkID(String locusLinkID) {
 		this.locusLinkID.setValueObject(locusLinkID);
 	}
+	/**
+	 * @param reporterResultset Adds reporterResultset to this GeneResultset object.
+	 */
+	public void addReporterResultset(ReporterResultset reporterResultset){
+		if(reporterResultset != null && reporterResultset.getReporterID() != null){
+			reporters.put(reporterResultset.getReporterID(), reporterResultset);
+		}
+	}
+	/**
+	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this GeneResultset object.
+	 */
+	public void removeDiseaseResultset(ReporterResultset reporterResultset){
+		if(reporterResultset != null && reporterResultset.getReporterType() != null){
+			reporters.remove(reporterResultset.getReporterType());
+		}
+	}
+	/**
+	 * @return reporterResultset Returns reporterResultset to this GeneResultset object.
+	 */
+    public ReporterResultset[] getReporterResultsets(){
+    		return (ReporterResultset[]) reporters.values().toArray();
+    }
+	/**
+	 * @param none Removes all reporterResultset in this GeneResultset object.
+	 */
+    public void removeAllDiseaseResultset(){
+    	reporters.clear();
+    }
 }
