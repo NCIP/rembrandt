@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.ui.report;
 
+import gov.nih.nci.nautilus.ui.bean.ReportBean;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,11 +16,15 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+
+import org.dom4j.io.DocumentResult;
+import org.dom4j.io.DocumentSource;
+import org.dom4j.Document;
  
 /**
  * This class transforms an XML document to HTML
  * using a style sheet
- * @author wollnyj
+ * @author wollnyj, LandyR
  * http://forum.java.sun.com/thread.jspa?threadID=579355&messageID=2921653
  */
 public class Transformer {
@@ -77,7 +83,7 @@ public class Transformer {
      * @return The rendered HTML
      * @throws IOException
      */
-    public String transform(File xml) throws IOException {
+    public String transform(Document document) throws IOException {
  
         String renderedHTML="";            
  
@@ -87,9 +93,10 @@ public class Transformer {
     
             transformer = m_template.newTransformer();
             assignParameters(transformer,m_params);
-            
-            Source fileSource = new StreamSource(xml);
+            DocumentSource fileSource = new DocumentSource( document );
+            //Source fileSource = new StreamSource(xml);
             Result result = new StreamResult(renderedHTML);
+            //DocumentResult result = new DocumentResult();
             
             transformer.transform(fileSource,result);   
             
