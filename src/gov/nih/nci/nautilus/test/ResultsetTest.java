@@ -11,14 +11,14 @@ import org.apache.ojb.broker.query.QueryFactory;
 import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.resultset.*;
-import gov.nih.nci.nautilus.queryprocessing.ResultsetProcessor;
+import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
 import java.util.Collection;
 import java.util.Iterator;
 
 /**
  * @author SahniH
  * Date: September 20, 2004 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * This junit test encapsulates the query and resultset tests
  * 
  * 
