@@ -63,9 +63,15 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
     public BioSpecimenResultset getBioSpecimentResultset(String geneSymbol,String reporterName, String groupType, String bioSpecimenID){
     	if(reporterName != null){
     		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
-    		ReporterResultset reporterResultset = (ReporterResultset) geneResultset.getRepoterResultset(reporterName);
-			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
-			return groupResultset.getBioSpecimenResultset(bioSpecimenID);
+            if(geneResultset != null){
+        		ReporterResultset reporterResultset = (ReporterResultset) geneResultset.getRepoterResultset(reporterName);
+                if(reporterResultset != null){
+        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
+                    if(groupResultset!= null){
+                        return groupResultset.getBioSpecimenResultset(bioSpecimenID);
+                    }
+                }
+            }
 		}
     		return null;
     }
