@@ -261,6 +261,8 @@ public class ReportGeneratorAction extends DispatchAction {
 			reportBean = rgHelper.getReportBean();
 			//add the new name so we know its a copy number filter
 			rgForm.setQueryName(reportBean.getResultantCacheKey() + " Copy Number Filter");
+			//rgForm.setQueryName(reportBean.getResultantCacheKey());
+		     
        	}
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
