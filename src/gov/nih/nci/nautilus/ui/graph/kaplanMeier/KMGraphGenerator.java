@@ -34,7 +34,7 @@ public class KMGraphGenerator {
     private ActionErrors myActionErrors = new ActionErrors();
     private XYSeriesCollection censorDataseries = new XYSeriesCollection();
     private XYSeriesCollection lineDataseries = new XYSeriesCollection();
-    private String plotType ;
+    private String plotType = NautilusConstants.GENE_EXP_KMPLOT;
     private static Logger logger = Logger.getLogger(KMGraphGenerator.class);
     private String upLabel;
     private String downLabel;
@@ -50,11 +50,12 @@ public class KMGraphGenerator {
     private Integer allSampleCount = new Integer(0);
     
     public KMGraphGenerator(int _upFold, int _downFold, String _geneName, KMSampleInfo[] samples, String _plotType) {
-        setDownFold( _downFold);
-        setUpFold( _upFold);
+
+
         geneSymbol = _geneName;
         setPlotType(_plotType);
-
+        setUpFold( _upFold);
+        setDownFold( _downFold);
         if (samples != null) {
             
             kaplanMeier = new KaplanMeier(samples, this.getUpFold(), this.getDownFold());
@@ -235,7 +236,16 @@ public class KMGraphGenerator {
     /**
      * @param downFold The downFold to set.
      */
-    public void setDownFold(int downFold) {
+    private void setDownFold(int downFold) {
+//      set down fold
+        if(getPlotType() != null){
+            if(getPlotType().equals(NautilusConstants.GENE_EXP_KMPLOT)) {
+                this.downFold = 1/downFold;
+            }
+            if(getPlotType().equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+                this.downFold = downFold;
+            }
+        }
         this.downFold = downFold;
     }
     /**
@@ -247,7 +257,7 @@ public class KMGraphGenerator {
     /**
      * @param upFold The upFold to set.
      */
-    public void setUpFold(int upFold) {
+    private void setUpFold(int upFold) {
         this.upFold = upFold;
     }
 

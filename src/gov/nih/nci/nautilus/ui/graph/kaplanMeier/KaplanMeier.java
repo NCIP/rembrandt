@@ -32,7 +32,7 @@ public class KaplanMeier {
 		allSamples.addAll(Arrays.asList(samples)); 
 		Collections.sort(allSamples, new KMSampleComparator());
 		this.upperThreshold = upper; 
-		this.lowerThreshold = 1/lower; 
+		this.lowerThreshold = lower; 
 		createSampleGroups(); 
 	}
 	
