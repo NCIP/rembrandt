@@ -3,6 +3,9 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
@@ -10,11 +13,15 @@ import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.dom4j.Document;
 
 public class ReportGeneratorAction extends DispatchAction {
 
@@ -30,6 +37,11 @@ public class ReportGeneratorAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
         String goBack=null;	
+        Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
+        Element element = sessionCache.get("temp_results");
+        ReportBean reportBean = (ReportBean)element.getValue();
+        Document reportXML = reportBean.getReportXML();
+        request.getSession().setAttribute(NautilusConstants.REPORT_BEAN, reportXML);
         if(form instanceof GeneExpressionForm) {
             request.setAttribute("geneexpressionForm", request.getAttribute("previewForm"));
             goBack = "backToGeneExp";

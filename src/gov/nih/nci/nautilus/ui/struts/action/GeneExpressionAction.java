@@ -18,7 +18,9 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -170,10 +172,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
         logger.debug("This is a Preview Report");
 	    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
         compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-        SessionQueryBag collection = new SessionQueryBag();
-        collection.setCompoundQuery(compoundQuery);
-        request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
-		return mapping.findForward("previewReport");
+        compoundQuery.setSessionId(request.getSession().getId());
+        ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery);
+        return mapping.findForward("previewReport");
 	}
 	
 	

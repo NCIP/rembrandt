@@ -105,8 +105,8 @@ public class ReportGeneratorHelper {
 						 * until another unnamed query is run.
 						 * 
 						 */
-						if (cQuery.getQueryName() != null
-								&& cQuery.getQueryName().equals("")) {
+						if (cQuery.getQueryName() == null
+								|| cQuery.getQueryName().equals("")) {
 							cQuery.setQueryName("temp_results");
 						}
 
@@ -179,7 +179,7 @@ public class ReportGeneratorHelper {
 		return reportBean;
 	}
 	
-	public static void renderReport(ReportBean bean, String xsltFilename, JspWriter out) {
+	public static void renderReport(Document reportXML, String xsltFilename, JspWriter out) {
 		//try transformation here
 		String stylesheet = RembrandtContextListener.getContextPath()+"/XSL/report.xsl";
 		 // load the transformer using JAXP
@@ -187,13 +187,16 @@ public class ReportGeneratorHelper {
 		Transformer transformer;
 		try {
 			transformer = factory.newTransformer( new StreamSource( stylesheet ) );
-			DocumentSource source = new DocumentSource( bean.getReportXML() );
+			DocumentSource source = new DocumentSource( reportXML );
 	        DocumentResult result = new DocumentResult();
 	       	transformer.transform( source, result );
 			// return the transformed document
 	        Document transformedDoc = result.getDocument();
 	        OutputFormat format = OutputFormat.createPrettyPrint();
 	        XMLWriter writer;
+	        writer = new XMLWriter(System.out,format);
+	        writer.write( transformedDoc );
+			writer.close();
 			writer = new XMLWriter( out, format );
 			writer.write( transformedDoc );
 			writer.close();
@@ -207,14 +210,5 @@ public class ReportGeneratorHelper {
 			logger.error(ioe);
 		}
 	}
-	
-	public static void renderReport(ReportBean bean) {
-		
-	}
-	
-	public static void renderReport(Document reportXML, String xsltFilename) {
-		
-	}
-	
-	
+
 }

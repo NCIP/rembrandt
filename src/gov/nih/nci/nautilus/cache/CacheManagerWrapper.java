@@ -86,7 +86,7 @@ public class CacheManagerWrapper{
     static public Cache getSessionCache(String sessionId) {
         Cache sessionCache = null; 
         if( manager!=null && !manager.cacheExists(sessionId) ) {
-            sessionCache = new Cache(sessionId, 1, true, false, 5, 2);
+            sessionCache = new Cache(sessionId, 1000, true, true, 1200, 600);
             logger.debug("New SessionCache created: "+sessionId);
             fireCacheAddEvent(sessionId);
             

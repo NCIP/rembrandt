@@ -3,9 +3,9 @@
 <%@ page buffer="none" %>
 <%@ page import="
 gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper,
-gov.nih.nci.nautilus.ui.bean.ReportBean,
 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
-gov.nih.nci.nautilus.constants.NautilusConstants"
+gov.nih.nci.nautilus.constants.NautilusConstants,
+org.dom4j.Document"
 %>
 <span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
 	<br><Br>
@@ -13,9 +13,12 @@ gov.nih.nci.nautilus.constants.NautilusConstants"
 	<br>Loading...please wait<br>
 </span>
 <%
-response.flushBuffer();
-	ReportBean reportBean = (ReportBean)request.getAttribute(NautilusConstants.REPORT_BEAN);
-	ReportGeneratorHelper.renderReport(reportBean,null,out);
-//if spnLoading is still visible at this point, an error has occured i think, show it
+response.flushBuffer();	
+Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_BEAN);
+	if(reportXML==null){
+		reportXML = (Document)request.getSession().getAttribute(NautilusConstants.REPORT_BEAN);
+		request.getSession().removeAttribute(NautilusConstants.REPORT_BEAN);
+	}
+	ReportGeneratorHelper.renderReport(reportXML,"report.xsl",out);
 %>
 

@@ -117,7 +117,7 @@ public class RefineQueryAction extends LookupDispatchAction {
                 }
                 ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
                 ReportBean reportBean = rgHelper.getReportBean();
-                request.setAttribute(NautilusConstants.REPORT_BEAN, reportBean);
+                request.setAttribute(NautilusConstants.REPORT_BEAN, reportBean.getReportXML());
             }else {
 				logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
