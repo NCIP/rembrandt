@@ -33,18 +33,59 @@ public class ReportGeneratorAction extends DispatchAction {
 			throws Exception {
 		return mapping.findForward("generateReport");
 	}
-    
+    /**
+     * This action method should be called when it is desired to actually render
+     * a report to a jsp.  It will grab the desired report XML to display from the cache
+     * and store it in the request so that it can be rendered.  
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward runGeneViewReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+    	//Get the sessionCache
     	Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
+    	//I think I should add convenience methods to the CachManagerWrapper
+    	//to avoid classes from having to know the implementation of the
+    	//cache.  For instnce, if a user is looking for a specific reportXML
+    	//in the cache, why not allow them to say "hey, give me this reportXML"
+    	//and have reportXML returned.  Why should the user have to worry about
+    	//cache elements and what not.  --Dave
     	Element cacheElement = sessionCache.get(rgForm.getQueryName());
-    	ReportBean reportBean = (ReportBean)cacheElement.getValue();
-    	request.setAttribute(NautilusConstants.REPORT_XML, reportBean.getReportXML());
+    	if(cacheElement!=null) {
+	    	ReportBean reportBean = (ReportBean)cacheElement.getValue();
+	    	//Apply any filters
+	    	if(rgForm.getXsltFileName()==null||rgForm.getXsltFileName().equals("")) {
+	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,NautilusConstants.DEFAULT_XSLT_FILENAME);
+	    	}else {
+	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,rgForm.getXsltFileName());
+	    	}
+	    	request.setAttribute(NautilusConstants.REPORT_XML, reportBean.getReportXML());
+    	}else {
+    		throw new IllegalStateException("Can not find the desired report in cache");
+    	}
     	return mapping.findForward("runGeneViewReport");
     }
-    
+    /**
+     * This action is used to generate a preview report.  Because the current
+     * preview is in fact a popup from the build query page this forward
+     * actually returns back to the input action.  This action method is currently
+     * called by all 3 /preview* action mappings and is necesary to allow for validation
+     * before we actually execute a query and display the results.  The previous
+     * actions will have already created and executed the preview query.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
 	public ActionForward previewReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {

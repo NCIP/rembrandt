@@ -12,15 +12,8 @@ import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
-import org.dom4j.io.DocumentResult;
-import org.dom4j.io.DocumentSource;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamSource;
 
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.cache.RembrandtContextListener;

@@ -156,7 +156,22 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	
 	
 
-	//	If this is a Preview Report do the following	
+	/**
+	 * This action is called when the user has selected the preview
+	 * button on the GeneExpression build query page.  It takes
+	 * the current values that the user has input and creates a 
+	 * GeneExpressionQuery.  It then creates a CompoundQuery with
+	 * the query and gives it a temp name. It then calls the 
+	 * ReportGeneratorHelper which will construct a report and drop
+	 * it in the sessionCache for later retrieval for rendering in a jsp.
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	public ActionForward preview(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -170,8 +185,11 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	    request.setAttribute("previewForm",geneExpressionForm.cloneMe());
         logger.debug("This is a Preview Report");
 	    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
+	    compoundQuery.setQueryName(NautilusConstants.TEMP_RESULTS);
         compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         compoundQuery.setSessionId(request.getSession().getId());
+        //Generate a report for the compound query that I can get later
+        //from the sessionCache
         ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery);
         return mapping.findForward("previewReport");
 	}

@@ -12,7 +12,8 @@ public class ReportGeneratorForm extends BaseForm {
 	private ReportBean reportBean;
     private CompoundQuery requestQuery;
     private String resultSetName;
-    
+    private String xsltFileName;
+       
 	/**
 	 * @return Returns the query.
 	 */
@@ -63,5 +64,18 @@ public class ReportGeneratorForm extends BaseForm {
 	public void setResultSetName(String resultSetName) {
 		this.resultSetName = resultSetName;
 		this.queryName = resultSetName;
+	}
+	
+	/**
+	 * @return Returns the xsltFileName.
+	 */
+	public String getXsltFileName() {
+		return xsltFileName;
+	}
+	/**
+	 * @param xsltFileName The xsltFileName to set.
+	 */
+	public void setXsltFileName(String xsltFileName) {
+		this.xsltFileName = xsltFileName;
 	}
 }
