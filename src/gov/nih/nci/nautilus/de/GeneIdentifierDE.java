@@ -13,17 +13,13 @@ abstract public class GeneIdentifierDE extends DomainElement {
 
 
    public final static class LocusLink extends GeneIdentifierDE {
-     static {
-         LABEL = (String) ApplicationContext.getLabelProperties().get("LocusLink");
-      }
-       public LocusLink() {
+        public static String LABEL = (String) ApplicationContext.getLabelProperties().get("LocusLink");
+        public LocusLink() {
             super("LocusLink");
-       }
+        }
     }
     public final static class GenBankAccessionNumber extends GeneIdentifierDE {
-      static {
-            LABEL = (String) ApplicationContext.getLabelProperties().get("GenBankAccessionNumber");
-       }
+       public static String LABEL = (String) ApplicationContext.getLabelProperties().get("GenBankAccessionNumber");
        public GenBankAccessionNumber() {
             super("GenBankAccessionNumber");
        }

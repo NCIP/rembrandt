@@ -10,6 +10,5 @@ package gov.nih.nci.nautilus.de;
 abstract public class DomainElement {
    abstract public Object getValue();
    abstract public void setValue(Object obj) throws Exception;
-   public static String LABEL = null;
 }
 

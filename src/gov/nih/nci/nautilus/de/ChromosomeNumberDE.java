@@ -9,10 +9,7 @@ package gov.nih.nci.nautilus.de;
  */
 public class ChromosomeNumberDE extends DomainElement{
     private String chromsomeNumber;
-
-    static {
-        LABEL = (String) ApplicationContext.getLabelProperties().get("ChromosomeNumber");
-    }
+    public static String LABEL = (String) ApplicationContext.getLabelProperties().get("ChromosomeNumber");
 
     public Object getValue() {
         return chromsomeNumber;

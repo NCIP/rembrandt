@@ -13,28 +13,22 @@ abstract public class ExprFoldChangeDE extends DomainElement {
 
 
    public final static class UpRegulation extends ExprFoldChangeDE {
-     static {
-         LABEL = (String) ApplicationContext.getLabelProperties().get("UpRegulation");
-      }
+       public static String LABEL = (String) ApplicationContext.getLabelProperties().get("UpRegulation");
        public UpRegulation() {
             super("UpRegulation");
        }
     }
     public final static class DownRegulation extends ExprFoldChangeDE {
-      static {
-            LABEL = (String) ApplicationContext.getLabelProperties().get("DownRegulation");
-       }
-       public DownRegulation() {
+      public static String LABEL = (String) ApplicationContext.getLabelProperties().get("DownRegulation");
+      public DownRegulation() {
             super("DownRegulation");
-       }
+      }
     }
     public final static class UnChangedRegulation extends ExprFoldChangeDE {
-      static {
-            LABEL = (String) ApplicationContext.getLabelProperties().get("UnChangedRegulation");
-       }
-       public UnChangedRegulation() {
+      public static String LABEL = (String) ApplicationContext.getLabelProperties().get("UnChangedRegulation");
+      public UnChangedRegulation() {
             super("UnChangedRegulation");
-       }
+      }
     }
 
     private ExprFoldChangeDE(String regulationType) {

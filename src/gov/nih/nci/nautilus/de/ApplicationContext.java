@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.de;
 
 import java.util.Properties;
 import java.io.IOException;
+import java.io.FileInputStream;
 
 /**
  * Created by IntelliJ IDEA.

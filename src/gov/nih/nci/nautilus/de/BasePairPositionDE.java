@@ -12,20 +12,16 @@ abstract public class BasePairPositionDE extends DomainElement {
     private Integer value;
 
    public final static class StartPosition extends BasePairPositionDE {
-     static {
-         LABEL = (String) ApplicationContext.getLabelProperties().get("StartPosition");
-      }
-       public StartPosition() {
+        public static String LABEL = (String) ApplicationContext.getLabelProperties().get("StartPosition");
+        public StartPosition() {
             super("StartPosition");
-       }
+        }
     }
     public final static class EndPosition extends BasePairPositionDE {
-      static {
-            LABEL = (String) ApplicationContext.getLabelProperties().get("EndPosition");
-       }
-       public EndPosition() {
+        public static String LABEL = (String) ApplicationContext.getLabelProperties().get("EndPosition");
+        public EndPosition() {
             super("EndPosition");
-       }
+        }
     }
 
     private BasePairPositionDE(String positionType) {
