@@ -329,8 +329,9 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 * @param request
 	 */
 	private void setRefineQueryLookups(HttpServletRequest request) {
+		String sessionId = request.getSession().getId();
 		//Retrieve the session query bag from the cacheManager
-		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(request.getSession().getId());
+		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
 		//setup the List of Queries
 		nonAllGenesQueries = new ArrayList();
 		allGenesQueries = new ArrayList();
@@ -351,8 +352,9 @@ public class RefineQueryForm extends BaseForm implements Factory {
 					allGenesQueries.add(queries.get(iter.next()));
 				}
 			}
-			//Now setup all of the current result sets
-			resultSets = queryBag.getResultSetNames();
+		//Now setup all of the current result sets
+		setResultSets(cacheManager.getResultSetNames(sessionId));
+			
 		} else {
 			logger.debug("No Query Collection Object in Session");
 		}

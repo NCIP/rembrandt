@@ -470,6 +470,26 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return theBag;
 	}
+	public List getResultSetNames(String sessionId) {
+		List names = new ArrayList();
+		Cache sessionCache = getSessionCache(sessionId);
+		try {
+			List keys = sessionCache.getKeys();
+			for(Iterator i = keys.iterator();i.hasNext();) {
+				Element element = sessionCache.get((String)i.next());
+				Object object = element.getValue();
+				if(object instanceof ReportBean) {
+					ReportBean bean = (ReportBean)object;
+					if(bean.isResultSetQuery()) {
+						names.add(bean.getResultantCacheKey());
+					}
+				}
+			}
+		}catch(CacheException ce) {
+			logger.error(ce);
+		}
+		return names;
+	}
 	
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag) {
 		this.addToSessionCache(sessionId,NautilusConstants.SESSION_QUERY_BAG_KEY, theBag );

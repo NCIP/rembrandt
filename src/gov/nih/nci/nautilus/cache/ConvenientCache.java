@@ -7,6 +7,7 @@ import gov.nih.nci.nautilus.view.View;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This interface was written to hide the implementation of the cache
@@ -33,4 +34,5 @@ public interface ConvenientCache {
 	public SessionQueryBag getSessionQueryBag(String sessionId);
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag);
 	public CompoundQuery getQuery(String sessionId, String queryName);
+	public List getResultSetNames(String sessionId);
 }

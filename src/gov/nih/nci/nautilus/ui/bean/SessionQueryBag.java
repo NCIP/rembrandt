@@ -56,11 +56,9 @@ import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.Query;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -82,13 +80,8 @@ public class SessionQueryBag implements Serializable {
 	private Map allGenesQueries = new HashMap();
 	//this map is generated from the queryMap, storing only the non-allGenesQueries
 	private Map nonAllGeneQueries = new HashMap();
-	/*
-	 * This list is the current list of resultSets that are stored in the
-	 * sessionCache
-	 */
-	private List resultSetNames = new ArrayList();
-	/*
-	 * This is the current compound query that has been validated and is ready
+	
+	/* This is the current compound query that has been validated and is ready
 	 * to run...
 	 */
 	private CompoundQuery compoundQuery = null;
@@ -208,13 +201,5 @@ public class SessionQueryBag implements Serializable {
 		return nonAllGeneQueries;
 		
 	}
-	public void removeResultSetName(String resultSetName) {
-		resultSetNames.remove(resultSetName);
-	}
-	public void addResultSetName(String resultSetName) {
-		resultSetNames.add(resultSetName);
-	}
-	public List getResultSetNames() {
-		return resultSetNames;
-	}
+
 }

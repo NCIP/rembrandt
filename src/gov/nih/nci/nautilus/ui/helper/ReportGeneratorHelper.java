@@ -16,6 +16,7 @@ import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
 import gov.nih.nci.nautilus.ui.report.Transformer;
@@ -193,6 +194,8 @@ public class ReportGeneratorHelper {
 	 * @throws Exception
 	 */
 	public ReportGeneratorHelper(Queriable query, String[] sampleIds) throws IllegalStateException {
+		//Clone the original query so that we do not modify it when we add samples to it
+		query = (CompoundQuery)query.clone();
 		//check the query to make sure that it is a compound query
 		checkCompoundQuery(query);
 		//check to make sure that we have a sessionId
@@ -202,11 +205,17 @@ public class ReportGeneratorHelper {
 		//create a new ReportBean
 		_reportBean = new ReportBean();
 		Resultant sampleIdResults = null;
+		/*
+		 * Adding back the "HF" to sampleIds here so that we can get it back
+		 * from the database. We need to do this better, by either stripping it 
+		 * off at the result set or something, maybe the query level.
+		 */
 		for(int i = 0;i< sampleIds.length;i++) {
 			sampleIds[i]="HF"+sampleIds[i];
 		}
 		try {	
 			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
+			sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());
 		}catch(Exception e) {
 			logger.error("The ResultsetManager threw some exception");
 			logger.error(e);
@@ -219,11 +228,10 @@ public class ReportGeneratorHelper {
 		}
 		//store the cache key that can be used to retrieve this bean later
 		_reportBean.setResultantCacheKey(_queryName);
+		//this is a result set
+		_reportBean.setResultSetQuery(true);
 		//generate the reportXML and store in the ReportBean
 		generateReportXML();
-		//drop this ReportBean in the session cache, use the _queryName as the 
-		//parameter
-		_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
 	}
 	
 	/**
