@@ -395,17 +395,28 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable {
 		// Call the Query class clone method.
 		myClone = (ClinicalDataQuery) super.clone();
 		// add all the data fields of this subclass
-		myClone.ageCriteria = (ageCriteria == null) ? (AgeCriteria) ageCriteria.clone():ageCriteria;
-		myClone.chemoAgentCriteria = (ChemoAgentCriteria) chemoAgentCriteria
-				.clone();
-		myClone.genderCriteria = (GenderCriteria) genderCriteria.clone();
-		myClone.occurrenceCriteria = (OccurrenceCriteria) occurrenceCriteria
-				.clone();
-		myClone.radiationTherapyCriteria = (RadiationTherapyCriteria) radiationTherapyCriteria
-				.clone();
-		myClone.surgeryTypeCriteria = (SurgeryTypeCriteria) surgeryTypeCriteria
-				.clone();
-		myClone.survivalCriteria = (SurvivalCriteria) survivalCriteria.clone();
+<<<<<<< ClinicalDataQuery.java
+        if(ageCriteria != null){
+            myClone.ageCriteria = (AgeCriteria) ageCriteria.clone();
+        }
+        if(chemoAgentCriteria != null){
+            myClone.chemoAgentCriteria = (ChemoAgentCriteria) chemoAgentCriteria.clone();
+        }
+        if(genderCriteria != null){
+            myClone.genderCriteria = (GenderCriteria) genderCriteria.clone();
+        }
+        if(occurrenceCriteria != null){
+            myClone.occurrenceCriteria = (OccurrenceCriteria) occurrenceCriteria.clone();
+        }
+        if(radiationTherapyCriteria != null){
+            myClone.radiationTherapyCriteria = (RadiationTherapyCriteria) radiationTherapyCriteria.clone();
+        }
+        if(surgeryTypeCriteria != null){
+            myClone.surgeryTypeCriteria = (SurgeryTypeCriteria) surgeryTypeCriteria.clone();
+        }
+        if(survivalCriteria != null){
+            myClone.survivalCriteria = (SurvivalCriteria) survivalCriteria.clone();
+        }
 		return myClone;
 	}
 
