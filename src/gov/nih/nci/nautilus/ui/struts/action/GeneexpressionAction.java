@@ -120,8 +120,9 @@ public class GeneexpressionAction extends Action {
 						queryCollection = new QueryCollection();
 					}
 					queryCollection.putQuery(geneExpQuery);
-					
-				} else {
+                    request.getSession().setAttribute(NautilusConstants.QUERY_KEY,queryCollection);
+                    
+             	} else {
 					ActionErrors errors = new ActionErrors();
 					errors
 							.add(
