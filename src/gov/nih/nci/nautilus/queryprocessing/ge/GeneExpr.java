@@ -269,6 +269,42 @@ abstract public class GeneExpr implements ResultSet{
             this.accessions = accessions;
             this.ID = ID;
         }
+		/**
+		 * @return Returns the accessions.
+		 */
+		public ArrayList getAccessions() {
+			return accessions;
+		}
+		/**
+		 * @param accessions The accessions to set.
+		 */
+		public void setAccessions(ArrayList accessions) {
+			this.accessions = accessions;
+		}
+		/**
+		 * @return Returns the iD.
+		 */
+		public Long getID() {
+			return ID;
+		}
+		/**
+		 * @param id The iD to set.
+		 */
+		public void setID(Long id) {
+			ID = id;
+		}
+		/**
+		 * @return Returns the locusLinks.
+		 */
+		public ArrayList getLocusLinks() {
+			return locusLinks;
+		}
+		/**
+		 * @param locusLinks The locusLinks to set.
+		 */
+		public void setLocusLinks(ArrayList locusLinks) {
+			this.locusLinks = locusLinks;
+		}
     }
 
     public static class ProbeAnnotaion extends Annotaion{
