@@ -16,13 +16,16 @@
 
 &nbsp;
 Grade:&nbsp;
-<html:select property="tumorGrade" disabled="true">
+
+<html:select property="tumorGrade" disabled="false">
 				<html:option value="all">All</html:option>
 				<html:option value="one">I</html:option>
 				<html:option value="two">II</html:option>
 				<html:option value="three">III</html:option><br>
 				<html:option value="four">IV</html:option>
-</html:select><html:errors property="tumorGrade"/>
+</html:select>
+<b><app:help help="This criteria will be implemented in the upcoming release "/></b>
+<html:errors property="tumorGrade"/>
 
 <!-- </html:form> -->
 
