@@ -2,9 +2,13 @@
 
 <div class="title">Fold Change</div>
 
-	<!-- <html:form action="/geneexpression"> -->
+<%
+	String act = request.getParameter("act");
+	System.out.println(act);
+%>
+	<!-- <html:form action="<%=act%>" method="get"> -->
 
-<html:radio property="regulationStatus" value="up"/> Up-regulation
+<html:radio property="regulationStatus" value="up" styleClass="radio" /> Up-regulation
 				<html:text property="foldChangeValueUp"/></br>
 
 <!--			
@@ -25,7 +29,7 @@
 <!--
 <input type="text" value="other" name="foldChangeValueUp"><Br>
 -->
-<html:radio property="regulationStatus" value="down"/> Down Regulation
+<html:radio property="regulationStatus" value="down" styleClass="radio" /> Down Regulation
 				<html:text property="foldChangeValueDown"/></br>
 <!--
 <input type="radio" class="radio" name="regulationStatus" value="down">Down-regulation&nbsp;
@@ -44,7 +48,7 @@
 <!--
 <input type="text" value="other" name="foldChangeValueDown"><Br>
 -->
-<html:radio property="regulationStatus" value="updown"/> Up or Down&nbsp;
+<html:radio property="regulationStatus" value="updown" styleClass="radio" /> Up or Down&nbsp;
 <!--
 <input type="radio" class="radio" name="regulationStatus" value="updown">Up OR Down&nbsp;
 -->
@@ -86,7 +90,7 @@ Down-regulation
 -->
 &nbsp;
 </blockquote>
-<html:radio property="regulationStatus" value="unchange"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<html:radio property="regulationStatus" value="unchange" styleClass="radio" />Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<html:text property="foldChangeValueUnchangeFrom"/>-to-
 				<html:text property="foldChangeValueUnchangeTo"/>
 <!--

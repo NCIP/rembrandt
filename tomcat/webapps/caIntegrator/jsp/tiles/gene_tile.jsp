@@ -2,13 +2,13 @@
 <% 
 /*
 Gene Tile -
-used in: GeneExpression form, 
+used in: GeneExpression form, CGH form
 
 */
 
-
+String act = request.getParameter("act");
 %>
-	<!-- <html:form action="/geneexpression"> -->
+	<!-- <html:form action="<%=act%>"> -->
 <div class="title">Gene
 <a href="javascript:void(0);" onmouseover="return overlib('Paste a comma separated Gene list, or upload file using Browse button', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
 </div>
@@ -20,14 +20,14 @@ used in: GeneExpression form,
 <html:text property="geneList"/>
 <a href="javascript:void(0);" onmouseover="return overlib('Selected Criteria on this form applies to all genes specified in this list.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
 &nbsp;-or-&nbsp;
-			<html:radio property="geneGroup" value="Upload"/>
+			<html:radio property="geneGroup" value="Upload" styleClass="radio" />
 			<html:file property="geneFile"/>
-			<!--
+			<Br>
 			<html:errors property="geneFile"/>
 			<html:errors property="geneGroup"/>
 			<html:errors property="geneList"/>
 			<html:errors property="geneType"/></br>
-			-->
+			
 			
 <!--
 <input type="radio" class="radio" name="geneGroup" selected checked value="Specify">

@@ -2,7 +2,11 @@
 
 <div class="title">Disease Type <b class="req">*</b></div>
 
-	<!-- <html:form action="/geneexpression"> -->
+<%
+	String act = request.getParameter("act");
+	System.out.println(act);
+%>
+	<!-- <html:form action="<%=act%>" method="get"> -->
 <html:select property="tumorType">
 	<html:optionsCollection property="diseaseType" />
 </html:select><html:errors property="tumorType"/>
@@ -21,17 +25,16 @@
 <option>Embryonal</option>
 <option>Glioblastoma</option>
 </select>
-
+-->
 &nbsp;
 Grade:&nbsp;
-<html:select property="tumorGrade">
+<html:select property="tumorGrade" disabled="true">
 				<html:option value="all">All</html:option>
 				<html:option value="one">I</html:option>
 				<html:option value="two">II</html:option>
 				<html:option value="three">III</html:option><br>
 				<html:option value="four">IV</html:option>
 </html:select><html:errors property="tumorGrade"/>
--->
 
 <!-- </html:form> -->
 

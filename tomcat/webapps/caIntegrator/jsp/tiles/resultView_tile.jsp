@@ -3,7 +3,11 @@
 <div class="title">Result View <b class="req">*</b>
 <a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
 </div>
-	<!-- <html:form action="/geneexpression"> -->
+<%
+	String act = request.getParameter("act");
+	System.out.println(act);
+%>
+	<!-- <html:form action="<%=act%>" method="get"> -->
 <html:select property="resultView">
 				<html:option value="sample">Sample Centric</html:option>
 				<html:option value="gene">Gene Centric</html:option>

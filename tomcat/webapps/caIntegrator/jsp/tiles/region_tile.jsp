@@ -2,20 +2,25 @@
 
 <div class="title">Region</div>
 
-	<!-- <html:form action="/geneexpression"> -->
-	<html:radio property="region" value="cytoband"/>
+<%
+	String act = request.getParameter("act");
+	System.out.println(act);
+%>
+	<!-- <html:form action="<%=act%>" > -->
+	
+	<html:radio property="region" value="cytoband" styleClass="radio" />
 				Cytoband&nbsp; <html:text property="cytobandRegion"/>
 <!--
 <input type="radio" class="radio" name="region" value="cytoband" checked>&nbsp;
 Cytoband &nbsp;<input type="text" name="cytobandRegion">
 -->
 &nbsp;
-<input type="button" class="sbutton" value="MAP Browser..."><br>
+<input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br>
 <br>
-<html:radio property="region" value="chnum"/>&nbsp;
-				Chromosome Number</br>
-				<blockquote>
-					<html:text property="chrosomeNumber"/>&nbsp;
+<html:radio property="region" value="chnum" styleClass="radio" />&nbsp;
+				Chromosome Number&nbsp;
+					<html:text property="chrosomeNumber"/>&nbsp;<br>
+					<blockquote>
 					Base Pair Position (kb)&nbsp; <html:text property="basePairStart"/>
 				 	&nbsp;start&nbsp;<html:text property="basePairEnd"/>
 					&nbsp;end&nbsp;
