@@ -217,16 +217,16 @@ public class CompoundQuery implements Queriable{
 //Gene Expression Only		
 		if (isGEQuery && !isCGHQuery && !isClinical){
 			validViewTypes = new ViewType [] {
+				ViewType.CLINICAL_VIEW,
 				ViewType.GENE_SINGLE_SAMPLE_VIEW,
-				ViewType.GENE_GROUP_SAMPLE_VIEW,
-				ViewType.CLINICAL_VIEW
+				ViewType.GENE_GROUP_SAMPLE_VIEW
 			};
 		}
 //		Genomic Only		
 		else  if (!isGEQuery && isCGHQuery && !isClinical){
 				  validViewTypes = new ViewType [] {
-					  ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW,
-					  ViewType.CLINICAL_VIEW
+	  				  ViewType.CLINICAL_VIEW,
+					  ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW
 				  };
 			  }
 // Clinical Only				
@@ -238,9 +238,9 @@ public class CompoundQuery implements Queriable{
 // The rest compound queries		
 		else {
 				  validViewTypes = new ViewType [] {
+	 				  ViewType.CLINICAL_VIEW,
 					  ViewType.GENE_SINGLE_SAMPLE_VIEW,
-					  ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW,
-					  ViewType.CLINICAL_VIEW
+					  ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW
 				  };
 			  }
 
