@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import java.util.Random;
+
 /**
  * @author Landyr
  * Date: Nov 3, 2004
@@ -26,12 +28,15 @@ public class ReportGenerator  {
 	// TODO: move these colors to a props file and make more colors
 	
 	
-	public static String theColors[] = {"0073E6","FFFF61"};
+//	public static String theColors[] = {"0073E6","FFFF61"};
+	
+//	public static String theColors[] = {"5C73B7", "B1BCDD", "DDD2B1", "8697CA", "B7A15C", "CFD4E6", "404F80", "5C71B5" };
+	
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 	
-	public static String geneSpacerStyle = "height:1px; font-size:0px; border-top:2px solid black; border-bottom:0px solid black; padding:0px; background-color:#000000";
+	//public static String geneSpacerStyle = "height:1px; font-size:0px; border-top:2px solid black; border-bottom:0px solid black; padding:0px; background-color:#000000";
 			
-	public static String displayReport(QueryCollection queryCollection, boolean csv)	{
+	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv)	{
 		
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();
@@ -62,19 +67,19 @@ public class ReportGenerator  {
 			 		
 		 			if (view instanceof GeneExprSampleView)	{ 
 		 				//return this.geneExprSampleView(resultsContainer);
-		 				html.append(geneExprSampleView(resultsContainer));
+		 				html.append(geneExprSampleView(resultsContainer, theColors));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof CopyNumberSampleView)	{ 
-		 				html.append(copyNumberSampleView(resultsContainer));
+		 				html.append(copyNumberSampleView(resultsContainer, theColors));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
-		 				html.append(geneExprDiseaseView(resultsContainer));
+		 				html.append(geneExprDiseaseView(resultsContainer, theColors));
 		 				return html.toString();
 		 			}
 	 				else if(view instanceof ClinicalSampleView){
-	 					html.append(clinicalSampleView(resultsContainer));
+	 					html.append(clinicalSampleView(resultsContainer, theColors));
 	 					return html.toString();
 	 				}	
 	 				else	{
@@ -102,7 +107,7 @@ public class ReportGenerator  {
 	
 	
 	
-	public static String clinicalSampleView(ResultsContainer resultsContainer)	{
+	public static String clinicalSampleView(ResultsContainer resultsContainer, String[] theColors)	{
 			
 			boolean gLinks = false;
 			boolean cLinks = false;
@@ -119,14 +124,14 @@ public class ReportGenerator  {
 				// show the copyNumberHyperlinks
 				cLinks = true;
 			}
-			sb.append("<table>\n");
+			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 			SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
- 		   	sb.append("<Tr><Td>SAMPLE</td><td>AGE at Dx</td><td>GENDER</td><td>SURVIVAL</td><td>DISEASE</td>");
+ 		   	sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL</td><td id=\"header\">DISEASE</td>");
  		   	if(gLinks)
- 		   		sb.append("<Td>GeneExp</td>");
+ 		   		sb.append("<Td id=\"header\">GeneExp</td>");
  		   	if(cLinks)
- 		   		sb.append("<td>CopyNumber</td>");
+ 		   		sb.append("<td id=\"header\">CopyNumber</td>");
  		   	sb.append("</tr>\n");
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
@@ -146,11 +151,11 @@ public class ReportGenerator  {
 	}
 	
 	
-	public static String geneExprDiseaseView(ResultsContainer resultsContainer)	{
+	public static String geneExprDiseaseView(ResultsContainer resultsContainer, String[] theColors)	{
 		
 		StringBuffer sb = new StringBuffer();
 		GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
-		
+		StringBuffer css = new StringBuffer();
 					if(geneExprDiseaseContainer != null)	{
 				    	Collection genes = geneExprDiseaseContainer.getGeneResultsets();
 				    	Collection labels = geneExprDiseaseContainer.getGroupsLabels();
@@ -165,17 +170,37 @@ public class ReportGenerator  {
 				    	//get group size (as Disease or Agegroup )from label.size
 				        String label = null;
 				    	
-				    	sb.append("<table>\n");
+				    	sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 				    	
 				        //set up the header for the table
-				    	sb.append("<tr><Td>Gene Name</td><td>Reporter Name</td>");
+				    	sb.append("<tr><Td id=\"header\">Gene</td><td id=\"header\">Reporter</td>");
 					   
+				    	ArrayList cssLabels = new ArrayList();
+				    	
 				    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 				        	label = (String) labelIterator.next();
-				        	sb.append("<Td>"+label+"</td>"); 
+				        	sb.append("<Td id=\"header\" class=\""+label+"\">"+label+"</td>");
+				        	cssLabels.add(label);
 				    	}
 			
 						sb.append("</tr>\n");
+						
+						css.append("<style>\n");
+						String color = "";
+						String font = "";
+						
+						for (int i = 0; i < cssLabels.size(); i++) {
+							int currentColor = i;
+							if(currentColor < theColors.length)	{
+								color = theColors[currentColor];	
+							}
+							else	{
+							 currentColor = i - theColors.length;
+							 color = theColors[currentColor];
+							}
+							css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; }\n");
+						}
+						css.append("</style>\n");
 						
 				    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 				    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
@@ -202,16 +227,16 @@ public class ReportGenerator  {
 				    	        	if(diseaseResultset != null){
 			                   			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
 			                   			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
-			                   			sb.append("<td>"+resultFormat.format(ratio)+" ("+resultFormat.format(pvalue)+")"+"</td>");  
+			                   			sb.append("<td class=\""+label+"\">"+resultFormat.format(ratio)+" ("+resultFormat.format(pvalue)+")"+"</td>");  
 			                   			}
 			                   		else	{
-			                   			sb.append("<Td>-</td>");
+			                   			sb.append("<Td class=\""+label+"\">-</td>");
 			                   		}
 				    	    	}
 	   	                   		sb.append("</tr>");
 				    		}
 				    		// add the line between genes
-				    		sb.append("<tr><td colspan=\""+(labels.size() + 2)+"\" style="+geneSpacerStyle+"\">&nbsp;</td></tr>\n");
+				    		sb.append("<tr><td colspan=\""+(labels.size() + 2)+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
 						    
 				    	}
 					sb.append("</table>\n\n");
@@ -220,11 +245,11 @@ public class ReportGenerator  {
 					sb.append("<Br><br>Gene Disease View container is empty");
 				}
 				
-				return sb.toString();
+				return css.toString() + sb.toString();
 	}
 
 
-	public static String copyNumberSampleView(ResultsContainer resultsContainer)	{
+	public static String copyNumberSampleView(ResultsContainer resultsContainer, String[] theColors)	{
 		
 				StringBuffer sb = new StringBuffer();
 				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
@@ -246,21 +271,24 @@ public class ReportGenerator  {
 				        ArrayList cssLabels = new ArrayList(); //create the CSS dynamically
 				        
 				        //set up the header for the table
-				        header.append("<Tr>");
-				    	header.append("<Td colspan='2'>&nbsp;</td>");
+				        sampleNames.append("<Tr>");
+				    	sampleNames.append("<Td>&nbsp;</td><Td>&nbsp;</td>");
 				    	
-				    	sampleNames.append("<tr>");
-				    	sampleNames.append("<Td>Cytoband</td><td>Reporter Name</td>");
+				    	header.append("<tr>");
+				    	header.append("<Td id=\"header\">Cytoband</td><td id=\"header\">Reporter</td>");
 					   
+				    	int theColspan = 2; // the 2 <Td>'s above
+				    	
 				    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 				        	String label = (String) labelIterator.next();
 				        	
 				        	sampleIds = copyNumberContainer.getBiospecimenLabels(label); 
-				        	header.append("<Td colspan='"+sampleIds.size()+"'>"+label+"</td>"); 
+				        	header.append("<Td colspan='"+sampleIds.size()+"' class=\""+label+"\" id=\"header\">"+label+"</td>"); 
 		  		        	cssLabels.add(label);
 		  		        	   	
 					           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-					            	sampleNames.append("<td>" + sampleIdIterator.next()+"</td>"); 
+					            	sampleNames.append("<td class=\""+label+"\" id=\"header\">" + sampleIdIterator.next()+"</td>"); 
+					            	theColspan += sampleIds.size();
 					           	}
 				    	}
 				    	header.append("</tr>\n"); 
@@ -272,26 +300,24 @@ public class ReportGenerator  {
 						String color = "";
 						String font = "";
 						for (int i = 0; i < cssLabels.size(); i++) {
-							if(i%2 == 0)
-							{
-								color = theColors[1];
-								font = theColors[0];
+								int currentColor = i;
+								if(currentColor < theColors.length)	{
+									color = theColors[currentColor];	
+								}
+								else	{
+								 currentColor = i - theColors.length;
+								 color = theColors[currentColor];
+								}
+								css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; }\n");
 							}
-							else
-							{
-								color = theColors[0];
-								font = theColors[1];
-							}
-						    css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; color: #"+font+" }\n");
-						}
 						css.append("</style>\n");
 						
 						sb.append(css.toString());
 						
-						sb.append("<table>\n");
+						sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 						sb.append(header.toString());
 						sb.append(sampleNames.toString());
-				    	
+						
 				    	for (Iterator cytobandIterator = cytobands.iterator(); cytobandIterator.hasNext();) {
 				    		CytobandResultset cytobandResultset = (CytobandResultset)cytobandIterator.next();
 				    		String cytoband = cytobandResultset.getCytoband().getValue().toString();
@@ -329,6 +355,8 @@ public class ReportGenerator  {
 				         		}
 				        		sb.append("</tr>");
 				    		}
+				        	//append the extra row here
+				        	sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
 				    	}
 					sb.append("</table><Br><br>");	
 				}
@@ -347,7 +375,7 @@ public class ReportGenerator  {
 	}
 
 
-	public static String geneExprSampleView(ResultsContainer resultsContainer)	{
+	public static String geneExprSampleView(ResultsContainer resultsContainer, String[] theColors)	{
 		
 				StringBuffer sb = new StringBuffer();
 		
@@ -358,12 +386,12 @@ public class ReportGenerator  {
 			    	Collection labels = geneViewContainer.getGroupsLabels();
 			    	Collection sampleIds = null;
 			    	StringBuffer header = new StringBuffer();
-			    	header.append("<table>\n<tr>\n");
+			    	header.append("<table cellpadding=\"0\" cellspacing=\"0\">\n<tr>\n");
 			    	StringBuffer sampleNames = new StringBuffer();
 			        StringBuffer stringBuffer = new StringBuffer();
 			    	
 			        //set up the header for the table
-			    	header.append("<Td>Gene</td>\n<td>Reporter</td>\n");
+			    	header.append("<Td id=\"header\">Gene</td>\n<td id=\"header\">Reporter</td>\n");
 			    	sampleNames.append("<tr><Td> &nbsp;</td><Td> &nbsp;</tD>"); 
 				   
 			    	int theColspan = 2; // the 2 <Td>'s above
@@ -374,11 +402,11 @@ public class ReportGenerator  {
 			        	String label = (String) labelIterator.next();
 			        	sampleIds = geneViewContainer.getBiospecimenLabels(label);    	
 				    	theColspan += sampleIds.size();
-			        	header.append("<td colspan="+sampleIds.size()+" class='"+label+"'>"+label+"</td>"); 
+			        	header.append("<td colspan="+sampleIds.size()+" class='"+label+"' id=\"header\">"+label+"</td>"); 
 				    	cssLabels.add(label);
 				    	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-				            	sampleNames.append("<td class='"+label+"'>"+sampleIdIterator.next()+"</td>"); 
+				            	sampleNames.append("<td class='"+label+"' id=\"header\">"+sampleIdIterator.next()+"</td>"); 
 				            	header.append("\t");
 				           	}
 			           	header.deleteCharAt(header.lastIndexOf("\t"));
@@ -391,7 +419,9 @@ public class ReportGenerator  {
 					css.append("<style>\n");
 					String color = "";
 					String font = "";
+					
 					for (int i = 0; i < cssLabels.size(); i++) {
+					/*
 						if(i%2 == 0)
 						{
 							color = theColors[1];
@@ -402,7 +432,23 @@ public class ReportGenerator  {
 							color = theColors[0];
 							font = theColors[1];
 						}
-					    css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; color: #"+font+" }\n");
+					
+						css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; color: #"+font+" }\n");
+					*/	
+						
+						int currentColor = i;
+						
+						if(currentColor < theColors.length)	{
+							color = theColors[currentColor];	
+						}
+						else	{
+						 currentColor = i - theColors.length;
+						 color = theColors[currentColor];
+						}
+
+						//font = "000000";
+						//css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; color: #"+font+" }\n");
+					    css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; }\n");
 					}
 					css.append("</style>\n");
 					
@@ -450,7 +496,7 @@ public class ReportGenerator  {
 			                       }
 			                       else	{
 			                       for(int s=0;s<sampleIds.size();s++) 
-			                        	sb.append("<td class='"+label+"'>+</td>");                      
+			                        	sb.append("<td class='"+label+"'>-</td>");                      
 			                       }
 			
 			         		}
@@ -458,7 +504,7 @@ public class ReportGenerator  {
 			        		sb.append("</tr>\n");
 			    		}
 			    		// add the line between genes
-			    		sb.append("<tr><td colspan=\""+theColspan+"\" style="+geneSpacerStyle+"\">&nbsp;</td></tr>\n");
+			    		sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
 			    	}
 						sb.append("</table>");
 				}
