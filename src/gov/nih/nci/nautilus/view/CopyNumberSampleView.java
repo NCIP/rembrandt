@@ -59,7 +59,19 @@ import gov.nih.nci.nautilus.de.DomainElementClass;
 public class CopyNumberSampleView extends View {
 
 	private DomainElementClass[] validDEs;
-
+	private GroupType groupType = GroupType.DISEASE_TYPE_GROUP; //always defalut to disease
+    /**
+	 * @return Returns the groupType.
+	 */
+	public GroupType getGroupType() {
+		return groupType;
+	}
+	/**
+	 * @param groupType The groupType to set.
+	 */
+	public void setGroupType(GroupType groupType) {
+		this.groupType = groupType;
+	}
 	CopyNumberSampleView() {
         validDEs = new DomainElementClass[]
               { DomainElementClass.DISEASE_NAME,
