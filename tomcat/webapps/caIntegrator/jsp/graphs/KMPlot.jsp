@@ -2,7 +2,7 @@
 <%@taglib uri='/WEB-INF/cewolf.tld' prefix='cewolf' %>
 <HTML>
 	<BODY>
-		<H1>Hey this actually works!</H1>
+		<H1>Kaplan-Meier survival plot</H1>
 		<HR>
 		<jsp:useBean id="pageViews" class="gov.nih.nci.nautilus.graph.kaplanMeier.KMDataSetProducer"/>
 		<cewolf:chart id="line"	title="Minutes Worked" type="line" xaxislabel="Day of the Week" yaxislabel="Minutes">

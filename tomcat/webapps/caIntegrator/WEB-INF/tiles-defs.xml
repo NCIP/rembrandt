@@ -19,7 +19,7 @@
 		<!--  form specific criteria  -->
 		<put name="mainForm" value="" />		<!-- main form page, read from props file -->
 	</definition>
-	
+
     <definition name="nautilus.geneExpression" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=geneExpression" />
 	<put name="title" value="Gene Expression" />	<!-- title of page -->
@@ -108,6 +108,11 @@
     
     <definition name="nautilus.graph" extends="graph">
       <put name="mainForm" value="/graph.jsp" />
+	  <put name="title" value="Gene Expression Graph" />
+    </definition>
+   
+    <definition name="nautilus.KMPlot" extends="graph">
+      <put name="mainForm" value="/graphs/KMPlot.jsp" />
 	  <put name="title" value="Gene Expression Graph" />
     </definition>
     

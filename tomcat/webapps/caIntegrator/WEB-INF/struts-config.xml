@@ -122,19 +122,12 @@
             <form-property name="method" type="java.lang.String" />
             <form-property name="listFrom" type="java.lang.String[]" />
             <form-property name="listTo" type="java.lang.String" />
-
         </form-bean>
-        
-         <form-bean name="deleteQueryForm" type="gov.nih.nci.nautilus.struts.form.DeleteQueryForm"/>
-      
-         <form-bean name="quickSearchForm" type="gov.nih.nci.nautilus.struts.form.QuickSearchForm"/>
-      
-            <!-- Logon form bean -->
-                <form-bean      name="loginForm"
-                    type="gov.nih.nci.nautilus.login.LoginForm"/>
-
-		
-    </form-beans>
+        <form-bean name="deleteQueryForm" type="gov.nih.nci.nautilus.struts.form.DeleteQueryForm"/>
+        <form-bean name="quickSearchForm" type="gov.nih.nci.nautilus.struts.form.QuickSearchForm"/>
+        <!-- Logon form bean -->
+        <form-bean name="loginForm" type="gov.nih.nci.nautilus.login.LoginForm"/>
+   </form-beans>
     
 
     <!-- ========== Global Exception Definitions ============================== -->
@@ -167,22 +160,22 @@
             type="gov.nih.nci.nautilus.struts.action.QuickSearchAction"
             scope="request"
 			input="nautilus.home"
-            validate="true">         
+            validate="true"
+            parameter="method">         
 		 <forward name="histogram" path="/graph.do" />
  		 <forward name="mismatch" path="nautilus.home" />
   		 <forward name="badgraph" path="/home.do" />
-		 <forward name="kmplot" path="/km.jsp" />
+		 <forward name="kmplot" path="/jsp/graphs/KMPlot.jsp" />
 	</action>
 	
-   <action    path="/graph"
-              forward="nautilus.graph" />
-
-              
-    <action    path="/login"
-               type="gov.nih.nci.nautilus.login.LoginAction"
-               name="loginForm"
-              scope="request"
-              input="/login.jsp">
+   <action path="/graph"
+           forward="nautilus.graph" />
+            
+   <action path="/login"
+           type="gov.nih.nci.nautilus.login.LoginAction"
+           name="loginForm"
+           scope="request"
+           input="/login.jsp">
     <forward name="success" path="/home.do"/>
     <forward name="failure" path="/error.jsp"/>
     </action>
@@ -214,7 +207,7 @@
 	</action>
 
 	<action path="/menu"
-		type="DoFirst"
+		type="gov.nih.nci.nautilus.struts.action.DoFirst"
 		name="noForm">
 		<forward name="success" path="nautilus.menu" />
 	</action>
@@ -233,7 +226,8 @@
 	</action>
 
 	<action path="/home"
-		type="DoFirst">
+		type="gov.nih.nci.nautilus.struts.action.DoFirst"
+		parameter="method">
 		<forward name="success" path="nautilus.home" />
 	</action>
 

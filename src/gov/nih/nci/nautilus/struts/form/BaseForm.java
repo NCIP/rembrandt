@@ -27,6 +27,7 @@ public class BaseForm extends ActionForm {
 	// Collections used for Lookup values.  
 	private ArrayList diseaseType;
 	private ArrayList geneTypeColl;
+    private String method;
 	
 
 	// --------------------------------------------------------- Methods
@@ -89,4 +90,16 @@ public class BaseForm extends ActionForm {
 	public ArrayList getGeneTypeColl() 
 	{ return geneTypeColl; }
 
+	/**
+	 * @return Returns the method.
+	 */
+	public String getMethod() {
+		return method;
+	}
+	/**
+	 * @param method The method to set.
+	 */
+	public void setMethod(String method) {
+		this.method = method;
+	}
 }

@@ -16,44 +16,42 @@ import java.io.*;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 
-
-/** 
-* DeleteQueryForm.java created by EasyStruts - XsltGen.
-* http://easystruts.sf.net
-* created on 09-12-2004
-* 
-* XDoclet definition:
-* @struts:form name="DeleteQueryForm"
-*/
+/**
+ * DeleteQueryForm.java created by EasyStruts - XsltGen.
+ * http://easystruts.sf.net created on 09-12-2004
+ * 
+ * XDoclet definition:
+ * 
+ * @struts:form name="DeleteQueryForm"
+ */
 public class QuickSearchForm extends BaseForm {
-private String plot = null;
-private String quickSearchName = null;
+	private String plot = null;
 
-public String getPlot()
-{
+	private String quickSearchName = null;
+
+	public String getPlot() {
 		return plot;
-}
+	}
 
-public void setPlot(String str)
-{
+	public void setPlot(String str) {
 		plot = str;
-}
+	}
 
-public void setQuickSearchName(String str){   
- this.quickSearchName = str;
-	}	
-public String getQuickSearchName(){
- return this.quickSearchName;
-}		
+	public void setQuickSearchName(String str) {
+		this.quickSearchName = str;
+	}
 
-public ActionErrors validate(
-		ActionMapping mapping,
-		HttpServletRequest request) {
+	public String getQuickSearchName() {
+		return this.quickSearchName;
+	}
 
-			ActionErrors errors = new ActionErrors();
+	public ActionErrors validate(ActionMapping mapping,
+			HttpServletRequest request) {
 
-			return errors;
+		ActionErrors errors = new ActionErrors();
 
-}
+		return errors;
+
+	}
 
 }

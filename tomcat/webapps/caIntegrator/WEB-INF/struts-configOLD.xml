@@ -166,7 +166,7 @@
 	</action>
 
 	<action path="/menu"
-		type="DoFirst"
+		type="gov.nih.nci.nautilus.struts.action.DoFirst"
 		name="noForm">
 		<forward name="success" path="nautilus.menu" />
 	</action>
@@ -185,7 +185,7 @@
 	</action>
 
 	<action path="/home"
-		type="DoFirst">
+		type="gov.nih.nci.nautilus.struts.action.DoFirst">
 		<forward name="success" path="nautilus.home" />
 	</action>
 
