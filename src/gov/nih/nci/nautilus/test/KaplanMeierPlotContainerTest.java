@@ -113,8 +113,7 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 		try {
 			buildKaplanMeierPlotQuery();
 			System.out.println("Building  Kaplan Meier Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery compoundQuery = new CompoundQuery(geneQuery);
-			Resultant resultant = ResultsetManager.executeKaplanMeierPlotQuery(compoundQuery);
+			Resultant resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
 			if(resultant != null){
 				System.out.println("Testing DbuildKaplanMeierPlotQuery Query >>>>>>>>>>>>>>>>>>>>>>>");
 				ResultsContainer resultsContainer = resultant.getResultsContainer();

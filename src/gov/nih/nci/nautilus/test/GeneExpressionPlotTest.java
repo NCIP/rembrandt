@@ -111,8 +111,7 @@ public class GeneExpressionPlotTest extends TestCase {
 		try {
 			buildGeneExprDiseasePlotQuery();
 			System.out.println("Building  Gene Expression Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery compoundQuery = new CompoundQuery(geneQuery);
-			Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(compoundQuery);
+			Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
 			//System.out.println("DiseaseQuery:\n"+ geneQuery.toString());
 			//assertNotNull(resultant);
 			if(resultant != null){

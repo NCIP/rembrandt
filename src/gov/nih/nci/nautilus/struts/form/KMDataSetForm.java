@@ -197,8 +197,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
         geneQuery.setGeneIDCrit(geneCrit);
         geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
                 new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
-        CompoundQuery compoundQuery = new CompoundQuery(geneQuery);
-        resultant = ResultsetManager.executeKaplanMeierPlotQuery(compoundQuery);
+        resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
         return resultant.getResultsContainer();
     }
     

@@ -252,7 +252,7 @@ public class ResultsetViewTest extends TestCase {
 			assertNotNull(resultant.getResultsContainer());
 			if(resultant != null){
 				System.out.println("Testing Single Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
-				System.out.println("Associated Query/n"+resultant.getAssociatedCompoundQuery());
+				System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
 				ResultsContainer resultsContainer = resultant.getResultsContainer();
 				System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
 				if (resultsContainer instanceof DimensionalViewContainer){
@@ -282,7 +282,7 @@ public class ResultsetViewTest extends TestCase {
 				assertNotNull(resultant.getResultsContainer());
 				if(resultant != null){
 					System.out.println("Testing Disease Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
-					System.out.println("Associated Query/n"+resultant.getAssociatedCompoundQuery());
+					System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
 					ResultsContainer resultsContainer = resultant.getResultsContainer();
 					System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
 					if (resultsContainer instanceof GeneExprResultsContainer){
@@ -308,7 +308,7 @@ public class ResultsetViewTest extends TestCase {
 				assertNotNull(resultant.getResultsContainer());
 				if(resultant != null){
 					System.out.println("Testing SNP Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
-					System.out.println("Associated Query/n"+resultant.getAssociatedCompoundQuery());
+					System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
 					ResultsContainer resultsContainer = resultant.getResultsContainer();
 					System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
 					if (resultsContainer instanceof DimensionalViewContainer){

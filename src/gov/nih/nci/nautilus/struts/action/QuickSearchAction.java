@@ -96,12 +96,11 @@ public class QuickSearchAction extends DispatchAction {
        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(gene));
        geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
        geneQuery.setQueryName("GeneExpressionPlot");
-       CompoundQuery compoundQuery = new CompoundQuery(geneQuery);
        geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
        geneQuery.setGeneIDCrit(geneCrit);
        geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
 
-       Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(compoundQuery);
+       Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
 
        if(resultant != null)	{
 		ResultsContainer resultsContainer = resultant.getResultsContainer();

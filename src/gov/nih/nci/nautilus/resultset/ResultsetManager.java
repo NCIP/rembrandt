@@ -48,9 +48,6 @@
  *	
  */
 package gov.nih.nci.nautilus.resultset;
-import java.util.Collection;
-import java.util.Iterator;
-
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
@@ -60,7 +57,6 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotHandler;
-import gov.nih.nci.nautilus.view.ClinicalSampleView;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
@@ -68,6 +64,9 @@ import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 
 
@@ -92,14 +91,14 @@ public class ResultsetManager {
 		    		}
 		    			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView(resultant,(GeneExprSingle[]) resultsets,groupType);
 		    			resultant.setResultsContainer(resultsContainer);
-		    			resultant.setAssociatedCompoundQuery(queryToExecute);
+		    			resultant.setAssociatedQuery(queryToExecute);
 		    			resultant.setAssociatedView(associatedView);
 		    		}
 		    	else if (resultsets instanceof GeneExprGroup[]){
 		    		GeneExprDiseaseView geneExprDiseaseView = (GeneExprDiseaseView) associatedView;
 					ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprDiseaseView(resultant,(GeneExprGroup[]) resultsets);
 					resultant.setResultsContainer(resultsContainer);
-					resultant.setAssociatedCompoundQuery(queryToExecute);
+					resultant.setAssociatedQuery(queryToExecute);
 					resultant.setAssociatedView(associatedView);
 				}
 		    	else if (resultsets instanceof CopyNumber[]){
@@ -110,13 +109,13 @@ public class ResultsetManager {
 		    		}
 					ResultsContainer resultsContainer = ResultsetProcessor.handleCopyNumberSingleView(resultant,(CopyNumber[]) resultsets, groupType);
 					resultant.setResultsContainer(resultsContainer);
-					resultant.setAssociatedCompoundQuery(queryToExecute);
+					resultant.setAssociatedQuery(queryToExecute);
 					resultant.setAssociatedView(associatedView);
 				}
 		    	else if (resultsets instanceof PatientData[]){
 					ResultsContainer resultsContainer = ResultsetProcessor.handleClinicalSampleView(resultant,(PatientData[]) resultsets);
 					resultant.setResultsContainer(resultsContainer);
-					resultant.setAssociatedCompoundQuery(queryToExecute);
+					resultant.setAssociatedQuery(queryToExecute);
 					resultant.setAssociatedView(associatedView);
 				}
 			}
@@ -125,7 +124,7 @@ public class ResultsetManager {
       }
       return resultant;
     }
-    public static Resultant executeGeneExpressPlotQuery(CompoundQuery queryToExecute) throws Exception {
+    public static Resultant executeGeneExpressPlotQuery(Queriable queryToExecute) throws Exception {
     	Resultant resultant= new Resultant();
     	if(queryToExecute != null ){
     		Viewable associatedView = ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW);
@@ -133,12 +132,12 @@ public class ResultsetManager {
     		ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
     		ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExpressPlot((GeneExprGroup[]) resultsets);
 			resultant.setResultsContainer(resultsContainer);
-			resultant.setAssociatedCompoundQuery(queryToExecute);
+			resultant.setAssociatedQuery(queryToExecute);
 			resultant.setAssociatedView(associatedView);
     		}
     	return resultant;
     	}
-    public static Resultant executeKaplanMeierPlotQuery(CompoundQuery queryToExecute) throws Exception {
+    public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute) throws Exception {
     	Resultant resultant= new Resultant();
     	if(queryToExecute != null ){
     		Viewable associatedView = ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
@@ -146,7 +145,7 @@ public class ResultsetManager {
     		ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
     		ResultsContainer resultsContainer = KaplanMeierPlotHandler.handleKaplanMeierPlotContainer((GeneExpr.GeneExprSingle[]) resultsets);
 			resultant.setResultsContainer(resultsContainer);
-			resultant.setAssociatedCompoundQuery(queryToExecute);
+			resultant.setAssociatedQuery(queryToExecute);
 			resultant.setAssociatedView(associatedView);
     		}
     	return resultant;

@@ -85,7 +85,7 @@ public class ReportGenerator  {
 			 		//4 views here, returning the String of HTML for report
 			 		// need to add the html buffer here
 			 		
-			 		CompoundQuery compoundQuery = resultant.getAssociatedCompoundQuery();
+			 		Queriable compoundQuery = resultant.getAssociatedQuery();
 			 		
 			 		
 		 			if (view instanceof GeneExprSampleView)	{ 
@@ -649,7 +649,7 @@ public class ReportGenerator  {
 	
 		
 	}
-	public static String queryInformation(CompoundQuery compoundQuery)	{
+	public static String queryInformation(Queriable compoundQuery)	{
 		StringBuffer sb = new StringBuffer();
 		if(compoundQuery != null) {			
 			String theQuery  =  compoundQuery.toString();
