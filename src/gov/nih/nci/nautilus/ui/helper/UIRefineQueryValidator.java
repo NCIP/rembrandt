@@ -32,7 +32,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.LabelValueBean;
 /**
  * This class is intended to take the selected queries from the refine query
- * page...
+ * page...comments coming
  * @author BauerD
  * Mar 23, 2005
  *
@@ -45,6 +45,7 @@ public class UIRefineQueryValidator {
 	public RefineQueryForm processCompoundQuery(ActionForm form,
                                                      HttpServletRequest request) 
                                                      throws Exception {
+		List selectedQueries = null;
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
 		//this should turn off the run report buttons in the refine query page
 		refineQueryForm.setRunFlag("no");
@@ -58,10 +59,8 @@ public class UIRefineQueryValidator {
 		queryBag.setCompoundQuery(compoundQuery);
 		ActionErrors errors = new ActionErrors();
 		boolean isAllGenesQuery = refineQueryForm.isAllGenesQuery();
-		List selectedQueries = refineQueryForm.getSelectedQueries();
 		String selectedResultSet = refineQueryForm.getSelectedResultSet();
-		//remove any incidental or incorrect selectedQueries from the List
-		selectedQueries = scrubTheLazyList(selectedQueries);
+		
 		/* CASE 1:
 		 * This is an "All Genes" query. Overwrite the selectedQueries list with
 		 * a list that only contains the selected all gene query
@@ -86,29 +85,38 @@ public class UIRefineQueryValidator {
 				 */
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery"));
 			}
+		}else {
+			//Get the selected queries from the refineQueryForm
+			selectedQueries = refineQueryForm.getSelectedQueries();
+//			remove any incidental or incorrect selectedQueries from the List
+			selectedQueries = scrubTheLazyList(selectedQueries);
 		}
         
         /* CASE 1(step 2) & CASE 2:
          * This is called in the instance there is 1 query stored in the selectedQuery list.   
          * This can be either a selected "All Gene Query", or a regular query.
          */
-        if(selectedQueries.size()==1) {
-           SelectedQueryBean queryBean = (SelectedQueryBean)selectedQueries.get(0);
-           if(!queryBean.getQueryName().equals("")&&!queryBean.getQueryName().equals(" ")) {
-           	//They have chosen a query
-           	String queryName = queryBean.getQueryName();
-           	Queriable query = queryBag.getQuery(queryName);
-		  	compoundQuery = new CompoundQuery(query);
+        if(selectedQueries!=null&&selectedQueries.size()==1) {
+           /*
+            * Don't run if we have errors... this is important to do, because in the
+            */
+        	if(errors.isEmpty()) {
+	           SelectedQueryBean queryBean = (SelectedQueryBean)selectedQueries.get(0);
+	           if(!queryBean.getQueryName().equals("")&&!queryBean.getQueryName().equals(" ")) {
+		           	//They have chosen a query
+		           	String queryName = queryBean.getQueryName();
+		           	Queriable query = queryBag.getQuery(queryName);
+				  	compoundQuery = new CompoundQuery(query);
+	           }
 		   }else {
 		     //They have not chosen a query
 		     errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query"));
 		    }
-        }else 
+        }else if(selectedQueries!=null&&selectedQueries.size()>1) {
         	/* CASE 3:
              * There is more than 1 query selected
         	 */
-        	if(selectedQueries.size()>1) {
-        	Vector vectorOfTokens = new Vector();
+           	Vector vectorOfTokens = new Vector();
             
             //Tokenize the selected queries
             for(int i = 0;i<selectedQueries.size(); i++)
@@ -167,16 +175,15 @@ public class UIRefineQueryValidator {
 	    		 * and extract it's sampleCriteria to apply to the compoundQuery
 	    		 */
 	    		Queriable query1 = resultSetCompoundQuery.getAssociatiedQueries()[0];
-	    		query1.setQueryName(selectedResultSet);
 	    		SampleCriteria sampleCrit = ((GeneExpressionQuery)query1).getSampleIDCrit();
-	        	//drop the sample criteria into the compound query
-	    		ReportGeneratorHelper.addSampleCriteriaToCompoundQuery(compoundQuery,sampleCrit);
-	    		resultSetString = "AND "+selectedResultSet;
-		    }
+	        	//drop the sample criteria into the compound query, clone it here
+	    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
+	    		
+	    	}
 			//store the sessionId that the compound query is associated with
 			compoundQuery.setSessionId(sessionId);
 			//Returned String representation of the final query
-			refineQueryForm.setQueryText(compoundQuery.toString()+resultSetString);
+			refineQueryForm.setQueryText(compoundQuery.toString());
             //We need to retrieve the list of available views
             List viewCollection = setRefineQueryView(compoundQuery, request);
             // Set collection of view types in Form
@@ -185,9 +192,8 @@ public class UIRefineQueryValidator {
             queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
             //This means show that Run Button as we have a query to run...
             refineQueryForm.setRunFlag("yes");
-        }else {
-	    	
-	    }
+        }
+		
         refineQueryForm.setErrors(errors);
         return refineQueryForm;
  	}
@@ -227,13 +233,19 @@ public class UIRefineQueryValidator {
 					bean = new SelectedQueryBean();
 					bean.setQueryName(allGeneQueryName);
 					bean.setAllGeneQuery(true);
-					queries.add(bean);
 				}else {
 					throw new IllegalStateException("There isn't an All Genes Query by the name: "+allGeneQueryName);
 				}
 			}else {
 				throw new OperationNotSupportedException("No result set specified for the All Gene Query...this is required at this time");
 			}
+			/*
+			 * It is important to add the bean here, as it will not add the
+			 * query if the method needs to throw an exception.  This is
+			 * important as we do not want later logic to think that the query
+			 * is a good query..
+			 */
+			queries.add(bean);
 		}
 		return queries;
 	}

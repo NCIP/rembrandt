@@ -520,23 +520,31 @@ public class ReportGeneratorHelper {
 		return theCriteria;
 	}
 	/**
-	 * Hopefully will recurse through the compound query adding the 
-	 * SampleCriteria to each of the associated queries.  Let's see what
-	 * happens
+	 * will recurse through the compound query adding the SampleCriteria to each
+	 * of the associated queries.
+	 *  
 	 * @param query
 	 * @param sampleCriteria
 	 */
-	public static void addSampleCriteriaToCompoundQuery(Queriable query, SampleCriteria sampleCriteria) {
+	public static Queriable addSampleCriteriaToCompoundQuery(Queriable query, SampleCriteria sampleCriteria, String resultSetName) {
 		if(query!=null) {
 			if(query instanceof CompoundQuery) {
 				CompoundQuery newQuery = (CompoundQuery)query;
-				addSampleCriteriaToCompoundQuery(newQuery.getLeftQuery(), sampleCriteria);
-				addSampleCriteriaToCompoundQuery(newQuery.getRightQuery(), sampleCriteria);
+				try {
+					newQuery.setLeftQuery(addSampleCriteriaToCompoundQuery(newQuery.getLeftQuery(), sampleCriteria, resultSetName));
+					newQuery.setRightQuery(addSampleCriteriaToCompoundQuery(newQuery.getRightQuery(), sampleCriteria, resultSetName));
+				}catch(Exception e) {
+					logger.error(e);
+				}
 			}else {
 				Query newQuery = (Query)query;
+				newQuery.setQueryName("("+newQuery.getQueryName()+" AND "+resultSetName+")");
 				newQuery.setSampleIDCrit(sampleCriteria);
+				return newQuery;
 			}
+			
 		}
+		return query;
 	}
 	/**
 	 * This is used to take the RefineQueryForm "filter_string" and create a 

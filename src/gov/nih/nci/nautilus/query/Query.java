@@ -20,10 +20,9 @@ abstract public class Query implements Queriable, Serializable, Cloneable{
 	 * the references of at least one data field when we generate a copy of this
 	 * object.This means that if the data field ever changes in one copy or the 
 	 * other it will affect both instances... this will be hell to track down if
-	 * you aren't ultra familiar with the code base, so don't make the mistake
-	 * and add those methods now! (Not necesary for primitives.)
+	 * you aren't ultra familiar with the code base, so add those methods now!
 	 * 
-	 * @author BauerD
+	 * (Not necesary for primitives.)
 	 */
 	
     private Logger logger = Logger.getLogger(Query.class);
@@ -32,6 +31,9 @@ abstract public class Query implements Queriable, Serializable, Cloneable{
     private String sessionId = null;
 
 	private String queryName;
+	//Added so that we can still distinguish where we have added a result set
+	//and that can know what result set we applied
+	private String appliedResultSet;
 
 	private Viewable associatedView;
     
@@ -62,7 +64,7 @@ abstract public class Query implements Queriable, Serializable, Cloneable{
 		this.sampleIDCrit = sampleIDCrit;
 	}
 	
-	//TODO: The followig method checks if a given Query is empty
+	//TODO: The following method checks if a given Query is empty
 	public boolean isEmpty() {
 		try {
 
@@ -149,11 +151,23 @@ abstract public class Query implements Queriable, Serializable, Cloneable{
     	}catch(CloneNotSupportedException cnse) {
         		/*
         		 * This is meaningless as it will still perform
-        		 * the shallow copy, and then let you know that
+        		 * the memcopy, and then let you know that
         		 * the object did not implement the Cloneable inteface.
         		 * Kind of a stupid implementation if you ask me...
         		 */
         	}
        	return myClone;
     }
+	/**
+	 * @return Returns the appliedResultSet.
+	 */
+	public String getAppliedResultSet() {
+		return appliedResultSet;
+	}
+	/**
+	 * @param appliedResultSet The appliedResultSet to set.
+	 */
+	public void setAppliedResultSet(String appliedResultSet) {
+		this.appliedResultSet = appliedResultSet;
+	}
 }
