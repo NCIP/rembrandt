@@ -13,7 +13,7 @@ import java.util.Iterator;
  * Time: 9:50:48 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SampleCriteria {
+public class SampleCriteria extends Criteria {
     private Collection sampleIDs;
     public Collection getSampleIDs() {
 		return sampleIDs;
@@ -39,4 +39,8 @@ public class SampleCriteria {
 
 	public SampleCriteria() {
 	}
+
+    public boolean isValid() {
+        return true;
+    }
 }
