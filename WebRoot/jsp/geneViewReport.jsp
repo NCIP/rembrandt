@@ -19,6 +19,6 @@ Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_BEA
 		reportXML = (Document)request.getSession().getAttribute(NautilusConstants.REPORT_BEAN);
 		request.getSession().removeAttribute(NautilusConstants.REPORT_BEAN);
 	}
-	ReportGeneratorHelper.renderReport(reportXML,"report.xsl",out);
+	ReportGeneratorHelper.renderReport(request, reportXML,"report.xsl",out);
 %>
 
