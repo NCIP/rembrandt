@@ -88,11 +88,15 @@ public class GeneExpressionQuery extends Query {
 				String thisCriteria = thisGeneIDCrit.getClass().getName();
 				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
-			
-				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext();) {
+				int count = 0;
+				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext() && count < 5;) {
+					count++;
 					DomainElement de = (DomainElement) iter.next();
 					String thisDomainElement = de.getClass().getName();
 					OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
+				}
+				if(geneIDObjects != null && geneIDObjects.size()> 5){
+				OutStr +="<BR>&nbsp;&nbsp;...";
 				}
 			}
 			else logger.debug("Gene ID Criteria is empty or Application Resources file is missing");
@@ -160,11 +164,16 @@ public class GeneExpressionQuery extends Query {
 			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 		    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
 		    Iterator iter = cloneColl.iterator();
-		    while(iter.hasNext()){
+		    int count = 0;
+		    while(iter.hasNext() && count < 5){
+		    	count ++;
 			    CloneIdentifierDE cloneIdentifierDE = (CloneIdentifierDE)iter.next();
 				String cloneStr = cloneIdentifierDE.getClass().getName();
 			    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cloneStr.substring(cloneStr.lastIndexOf(".")+1))+": "+cloneIdentifierDE.getValue()+"";
-			  }			   
+			  }			 
+			if(cloneColl != null && cloneColl.size()> 5){
+				OutStr +="<BR>&nbsp;&nbsp;...";
+				} 
 		    }
 		else{
 		    logger.debug("Clone or Probe Criteria is empty or Application Resources file is missing.");

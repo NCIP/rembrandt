@@ -162,11 +162,15 @@ public class ComparativeGenomicQuery extends Query {
 				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
 			    Iterator iter = cloneColl.iterator();
-			    while(iter.hasNext()){
+			    int count =0;
+			    while(iter.hasNext() && count > 5){
 				    CloneIdentifierDE cloneIdentifierDE = (CloneIdentifierDE)iter.next();
 					String cloneStr = cloneIdentifierDE.getClass().getName();
 				    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cloneStr.substring(cloneStr.lastIndexOf(".")+1))+": "+cloneIdentifierDE.getValue()+"";
-				  }			   
+				  }
+			    if(cloneColl != null && cloneColl.size()> 5){
+					OutStr +="<BR>&nbsp;and&nbsp;...";
+					} 
 			    }
 			else{
 			    logger.debug("Clone or Probe Criteria is empty or Application Resources file is missing.");
@@ -180,11 +184,16 @@ public class ComparativeGenomicQuery extends Query {
 				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			    Collection cloneColl = thisSNPCriteria.getIdentifiers();
 			    Iterator iter = cloneColl.iterator();
-			    while(iter.hasNext()){
+			    int count = 0;
+			    while(iter.hasNext() && count < 5){
+			    	count ++;
 				    SNPIdentifierDE snpIdentifierDE = (SNPIdentifierDE)iter.next();
 					String snpIdStr = snpIdentifierDE.getClass().getName();
 				    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(snpIdStr.substring(snpIdStr.lastIndexOf(".")+1))+": "+snpIdentifierDE.getValue()+"";
-					 }			   
+					 }		
+			    if(cloneColl != null && cloneColl.size()> 5){
+			    	OutStr +="<BR>&nbsp;&nbsp;...";
+					} 
 			    }	
 		      	else{
 		      	  logger.debug("SNP Criteria is empty or Application Resources file is missing.");
