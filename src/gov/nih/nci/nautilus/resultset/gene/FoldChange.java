@@ -1,6 +1,6 @@
 /*
  *  @author: SahniH
- *  Created on Oct 22, 2004
+ *  Created on Nov 9, 2004
  *  @version $ Revision: 1.0 $
  * 
  *	The caBIO Software License, Version 1.0
@@ -48,67 +48,54 @@
  *	
  */
 package gov.nih.nci.nautilus.resultset.gene;
-import gov.nih.nci.nautilus.de.DatumDE;
-import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 
+import gov.nih.nci.nautilus.de.DatumDE;
 
 /**
  * @author SahniH
- * Date: Oct 22, 2004
+ * Date: Nov 9, 2004
  * 
  */
-public class SampleFoldChangeValuesResultset extends BioSpecimenResultset implements FoldChange{
-	private DatumDE foldChangeRatioValue = null;
-	private DatumDE foldChangeSampleIntensity = null;
-	private DatumDE foldChangeNormalIntensity = null;
-	private DatumDE ratioPval = null;
+public interface FoldChange {
 	/**
 	 * @return Returns the foldChangeNormalIntensity.
 	 */
-	public DatumDE getFoldChangeNormalIntensity() {
-		return this.foldChangeNormalIntensity;
-	}
+	public abstract DatumDE getFoldChangeNormalIntensity();
+
 	/**
 	 * @param foldChangeNormalIntensity The foldChangeNormalIntensity to set.
 	 */
-	public void setFoldChangeNormalIntensity(DatumDE foldChangeNormalIntensity) {
-		this.foldChangeNormalIntensity = foldChangeNormalIntensity;
-	}
-	/**
-	 * @return Returns the foldChangeSampleIntensity.
-	 */
-	public DatumDE getFoldChangeSampleIntensity() {
-		return this.foldChangeSampleIntensity;
-	}
-	/**
-	 * @param foldChangeSampleIntensity The foldChangeSampleIntensity to set.
-	 */
-	public void setFoldChangeSampleIntensity(DatumDE foldChangeSampleIntensity) {
-		this.foldChangeSampleIntensity = foldChangeSampleIntensity;
-	}
+	public abstract void setFoldChangeNormalIntensity(
+			DatumDE foldChangeNormalIntensity);
+
 	/**
 	 * @return Returns the foldChangeRatioValue.
 	 */
-	public DatumDE getFoldChangeRatioValue() {
-		return foldChangeRatioValue;
-	}
+	public abstract DatumDE getFoldChangeRatioValue();
+
 	/**
 	 * @param foldChangeRatioValue The foldChangeRatioValue to set.
 	 */
-	public void setFoldChangeRatioValue(DatumDE foldChangeRatioValue) {
-		this.foldChangeRatioValue = foldChangeRatioValue;
-	}
+	public abstract void setFoldChangeRatioValue(DatumDE foldChangeRatioValue);
+
+	/**
+	 * @return Returns the foldChangeSampleIntensity.
+	 */
+	public abstract DatumDE getFoldChangeSampleIntensity();
+
+	/**
+	 * @param foldChangeSampleIntensity The foldChangeSampleIntensity to set.
+	 */
+	public abstract void setFoldChangeSampleIntensity(
+			DatumDE foldChangeSampleIntensity);
 
 	/**
 	 * @return Returns the ratioPval.
 	 */
-	public DatumDE getRatioPval() {
-		return this.ratioPval;
-	}
+	public abstract DatumDE getRatioPval();
+
 	/**
 	 * @param ratioPval The ratioPval to set.
 	 */
-	public void setRatioPval(DatumDE ratioPval) {
-		this.ratioPval = ratioPval;
-	}
+	public abstract void setRatioPval(DatumDE ratioPval);
 }

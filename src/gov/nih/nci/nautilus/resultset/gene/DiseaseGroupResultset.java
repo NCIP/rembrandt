@@ -60,7 +60,7 @@ import gov.nih.nci.nautilus.de.DomainElement;
  */
 
 
-public class DiseaseGroupResultset implements Groupable{
+public class DiseaseGroupResultset implements Groupable, FoldChange{
 	private DiseaseNameDE diseaseType = null;
 	private DatumDE foldChangeRatioValue = null;
 	private DatumDE foldChangeSampleIntensity = null;
