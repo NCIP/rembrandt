@@ -10,7 +10,10 @@ import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DiseaseTypeDim;
 import gov.nih.nci.nautilus.data.ExpPlatformDim;
 import gov.nih.nci.nautilus.data.PatientData;
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
+import gov.nih.nci.nautilus.de.CytobandDE;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,12 +59,47 @@ public class LookupManager{
 	/**
 	 * @return Returns the cytobands.
 	 */
-	public static CytobandLookup[] getCytobands() throws Exception{
+	public static CytobandLookup[] getCytobandPositions() throws Exception{
 		if(cytobands == null){
 			Criteria crit = new Criteria();
-			cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit).toArray();
+			crit.addOrderByAscending("chrCytoband");
+			cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit).toArray(new CytobandLookup[1]);
 		}
 		return cytobands;
+	}
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	public static ChromosomeNumberDE[] getChromosomeDEs() throws Exception {
+		Collection chromosomeDEs = new ArrayList();
+		ChromosomeNumberDE chromosomeDE ;
+		CytobandLookup[] cytobandLookups = getCytobandPositions();
+		if(cytobandLookups != null){
+			for (int i = 0;i < cytobandLookups.length;i++){
+				chromosomeDE = new ChromosomeNumberDE(cytobandLookups[i].getChromosome());
+				chromosomeDEs.add(chromosomeDE);			
+			}
+		}
+		return (ChromosomeNumberDE[]) chromosomeDEs.toArray(new ChromosomeNumberDE[1]);
+	}
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	public static CytobandDE[] getCytobandDEs(ChromosomeNumberDE chromosomeDE) throws Exception {
+		Collection cytobandDEs = new ArrayList();
+		CytobandDE cytobandDE ;
+		CytobandLookup[] cytobandLookups = getCytobandPositions();
+		if(cytobandLookups != null){
+			for (int i = 0;i < cytobandLookups.length;i++){
+				if(chromosomeDE.getValue().toString().equals(cytobandLookups[i].getChromosome())){
+					cytobandDE = new CytobandDE(cytobandLookups[i].getCytoband());
+					cytobandDEs.add(cytobandDE);	
+				}
+			}
+		}
+		return (CytobandDE[]) cytobandDEs.toArray(new CytobandDE[1]);
 	}
 	/**
 	 * @return Returns the pathways.
@@ -135,7 +173,7 @@ public class LookupManager{
 	public static ExpPlatformLookup[] getExpPlatforms() throws Exception {
 		if(expPlatforms == null){
 			Criteria crit = new Criteria();
-			expPlatforms = (ExpPlatformLookup[]) executeQuery(ExpPlatformDim.class,crit).toArray();
+			expPlatforms = (ExpPlatformLookup[]) executeQuery(ExpPlatformDim.class,crit).toArray(new ExpPlatformLookup[1]);
 		}
 		return expPlatforms;
 	}

@@ -12,7 +12,7 @@ public class CytobandPosition implements CytobandLookup
     public final static String CB_START= "cbStart";
     public final static String CB_ENDPOS= "cbEndPos";
     public final static String CHROMOSOME= "chromosome";
-
+    public final static String CHR_CYTOBAND= "chrCytoband";
 
   private Long cbEndPos;
 
@@ -25,6 +25,8 @@ public class CytobandPosition implements CytobandLookup
   private Long cytobandPositionId;
 
   private String organism;
+  
+  private String chrCytoband;
 
   public Long getCbEndPos()
   {
@@ -86,5 +88,17 @@ public class CytobandPosition implements CytobandLookup
   }
 
 
+/**
+ * @return Returns the chrCytoband.
+ */
+public String getChrCytoband() {
+	return this.chrCytoband;
+}
+/**
+ * @param chrCytoband The chrCytoband to set.
+ */
+public void setChrCytoband(String chrCytoband) {
+	this.chrCytoband = chrCytoband;
+}
 }
 

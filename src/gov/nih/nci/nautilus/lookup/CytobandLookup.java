@@ -24,4 +24,6 @@ public interface CytobandLookup extends Lookup{
 	public abstract Long getCytobandPositionId();
 
 	public abstract String getOrganism();
+	
+	public String getChrCytoband();
 }
