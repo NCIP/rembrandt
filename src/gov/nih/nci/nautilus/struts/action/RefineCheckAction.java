@@ -66,7 +66,7 @@ public class RefineCheckAction extends Action {
 				} 
 			else {
 				System.out.println("QueryCollection has no queries.  Please select a query to execute");
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.no.error"));
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.no.query.error"));
 				this.saveErrors(request, errors);
 			}
 		}else{
