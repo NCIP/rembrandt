@@ -62,7 +62,7 @@ import java.util.TreeMap;
  * 
  */
 public class SampleViewResultsContainer implements ResultsContainer{
-	private SortedMap samples = new TreeMap();
+	protected SortedMap samples = new TreeMap();
 	/**
 	* the object type, it repesents generic typpe for data element
     */
