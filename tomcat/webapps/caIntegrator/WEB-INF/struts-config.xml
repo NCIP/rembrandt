@@ -107,21 +107,27 @@
             <form-property name="rightParen3" type="java.lang.String" />
             <form-property name="operatorType3" type="java.lang.String" />
             <form-property name="queryText" type="java.lang.String" />
+            <form-property name="compoundView" type="java.lang.String" />
+            <form-property name="resultsetName" type="java.lang.String" />
+            <form-property name="method" type="java.lang.String" />
         </form-bean>
 
 	  	<form-bean name="selectPresentationForm" type="gov.nih.nci.nautilus.struts.form.SelectPresentationForm">
-            <form-property name="sampleListFrom" type="java.lang.String" />
+            <form-property name="sampleListFrom" type="java.lang.String[]" />
             <form-property name="sampleListTo" type="java.lang.String" />
             <form-property name="geneFilterBy" type="java.lang.String" />
             <form-property name="geneViewBy" type="java.lang.String" />
             <form-property name="geneListFrom" type="java.lang.String" />
             <form-property name="geneListTo" type="java.lang.String" />
             <form-property name="method" type="java.lang.String" />
+            <form-property name="listFrom" type="java.lang.String[]" />
+            <form-property name="listTo" type="java.lang.String" />
+
         </form-bean>
-		
-		 <form-bean name="deleteQueryForm" type="gov.nih.nci.nautilus.struts.form.DeleteQueryForm"/>
+        
+         <form-bean name="deleteQueryForm" type="gov.nih.nci.nautilus.struts.form.DeleteQueryForm"/>
       
-         
+        
             <!-- Logon form bean -->
                 <form-bean      name="loginForm"
                     type="gov.nih.nci.nautilus.login.LoginForm"/>
@@ -141,9 +147,10 @@
   </global-forwards>
     
     <!-- ========== Action Mapping Definitions =============================== -->
+    
     <action-mappings>
-	
-	<action path="/delete_Query"            
+    
+    <action path="/delete_Query"            
             name="deleteQueryForm"
             type="gov.nih.nci.nautilus.struts.action.DeleteQueryAction"
             scope="request"
@@ -227,18 +234,13 @@
             name="refineQueryForm"
             type="gov.nih.nci.nautilus.struts.action.RefineQueryAction"
             scope="request"
+            parameter="method"
             validate="true">
-         <forward name="displayQuery" path="nautilus.refine" />
-	</action>
-	
-	
-
-   <action path="/compoundcheck"
-	       type="gov.nih.nci.nautilus.struts.action.CompoundCheckAction"
-           scope="request">
          <forward name="success" path="/jsp/geneViewReport.jsp" />
+         <forward name="displayQuery" path="nautilus.refine" />
          <forward name="failure" path="/refine.do" />
-   </action>
+         
+	</action>
 
    <action    path="/presentation"
               forward="nautilus.presentation" />
@@ -250,7 +252,7 @@
            scope="request"
            parameter="method">
          <forward name="success" path="/jsp/geneViewReport.jsp" />
-         <forward name="failure" path="/presentation.do" />
+         <forward name="backtopresent" path="/presentation.do" />
    </action>
 
     </action-mappings>
