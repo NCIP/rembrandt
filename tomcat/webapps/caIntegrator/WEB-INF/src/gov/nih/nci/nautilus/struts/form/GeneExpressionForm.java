@@ -18,8 +18,6 @@ import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
 
 
-
-
 /**
  * GeneExpressionForm.java created by EasyStruts - XsltGen.
  * http://easystruts.sf.net
@@ -221,15 +219,15 @@ public class GeneExpressionForm extends ActionForm {
 
 	private void createDiseaseCriteriaObject(){
 	  //look thorugh the diseaseDomainMap to extract out the domain elements and create respective Criteria Objects
-	  Set keys = diseaseDomainMap.keySet();
-	  Iterator iter = keys.iterator();
+	  Set keys = diseaseDomainMap.keySet();	  
+	  Iterator iter = keys.iterator();	 
 	  while(iter.hasNext()){
 	     Object key = iter.next();
 
 		 try{
-	        String strDiseaseDomainClass = (String)diseaseDomainMap.get(iter.next());//use key to get value
-		    Constructor[] diseaseConstructors = Class.forName(strDiseaseDomainClass).getConstructors();
-			Object [] parameterObjects = {key};
+	        String strDiseaseDomainClass = (String)diseaseDomainMap.get(key);//use key to get value
+			Constructor[] diseaseConstructors = Class.forName(strDiseaseDomainClass).getConstructors();
+			Object [] parameterObjects = {key};			
 			DiseaseNameDE diseaseNameDEObj = (DiseaseNameDE) diseaseConstructors[0].newInstance(parameterObjects);
 		    diseaseOrGradeCriteria.setDisease(diseaseNameDEObj);
 
@@ -540,7 +538,7 @@ public class GeneExpressionForm extends ActionForm {
 		geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );
 		geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );
 
-		cloneTypeColl.add( new LabelValueBean( "IMAGE Id", "TSCId" ) );
+		cloneTypeColl.add( new LabelValueBean( "IMAGE Id", "imageId" ) );
 		cloneTypeColl.add( new LabelValueBean( "BAC Id", "BACId" ) );
 		cloneTypeColl.add( new LabelValueBean( "Probe Set Id", "probeSetId" ) );
 
@@ -814,7 +812,10 @@ public class GeneExpressionForm extends ActionForm {
 	 */
 	public void setPathways(String pathways) {
 		this.pathways = pathways;
-		pathwayDomainMap.put(this.pathways, PathwayDE.class.getName());
+		String pathwaySelect = (String)thisRequest.getParameter("pathways");
+		if(pathwaySelect != null && !pathwaySelect.equals("")){
+		   pathwayDomainMap.put(this.pathways, PathwayDE.class.getName());
+		}
 	}
 
 	/**
@@ -913,16 +914,16 @@ public class GeneExpressionForm extends ActionForm {
 	 */
 	public void setCloneListSpecify(String cloneListSpecify) {
 		this.cloneListSpecify = cloneListSpecify;
-		  this.cloneListSpecify = cloneListSpecify;
+		
 
-		   // this is to check if the radio button is selected for the clone category
-		   String thisCloneId = (String)thisRequest.getParameter("cloneId");
+		// this is to check if the radio button is selected for the clone category
+		String thisCloneId = (String)thisRequest.getParameter("cloneId");
 
-		   // this is to check the type of the clone
-		   String thisCloneList = (String)thisRequest.getParameter("cloneList");
+	   // this is to check the type of the clone
+	   String thisCloneList = (String)thisRequest.getParameter("cloneList");
 
-		   if(thisCloneId != null && thisCloneList != null && !thisCloneList.equals("")){
-		      if(this.cloneListSpecify != null && !cloneListSpecify.equals("")){
+	  if(thisCloneId != null && thisCloneList != null && !thisCloneList.equals("")){
+		   if(this.cloneListSpecify != null && !cloneListSpecify.equals("")){
 			    String [] cloneStr = cloneListSpecify.split("\\x2C");
 				for(int i=0; i<cloneStr.length; i++){
 				  if(thisCloneList.equalsIgnoreCase("imageId")){
@@ -955,7 +956,10 @@ public class GeneExpressionForm extends ActionForm {
 	 */
 	public void setGoClassification(String goClassification) {
 		this.goClassification = goClassification;
-		geneOntologyDomainMap.put(this.goClassification,GeneOntologyDE.class.getName());
+		String goSelect = (String)thisRequest.getParameter("goClassification");
+		if(goSelect != null && !goSelect.equals("")){		   
+		   geneOntologyDomainMap.put(this.goClassification,GeneOntologyDE.class.getName());
+		}
 
 	}
 
@@ -1259,5 +1263,9 @@ public class GeneExpressionForm extends ActionForm {
 
 	public ArrayList getGeneTypeColl()
 	{ return geneTypeColl; }
+	
+	public ArrayList getCloneTypeColl(){
+	   return cloneTypeColl; 	   
+	   }
 
 }

@@ -73,7 +73,9 @@ public class GeneExpressionQuery extends Query {
 				OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue();
 			}
 		}
-		else System.out.println("Fold Change Criteria is empty or Application Resources file is missing");
+		else {
+		  System.out.println("Fold Change Criteria is empty or Application Resources file is missing");
+		}
 
 
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCrit();
@@ -94,6 +96,7 @@ public class GeneExpressionQuery extends Query {
 			RegionCriteria thisRegionCrit = this.getRegionCrit();
 			if (!thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
+				System.out.println("thisCriteria is :"+ thisCriteria);
 				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
 
@@ -103,9 +106,11 @@ public class GeneExpressionQuery extends Query {
 				
 				if (cytoBandDE != null) {
 					String cytoBandStr = cytoBandDE.getClass().getName();
+					System.out.println("cytoBandStr is :"+cytoBandStr);
 					OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
 				}else {
 					String chromosomeDEStr = chromosomeDE.getClass().getName();
+					
 					OutStr += "<BR>&nbsp;&nbsp;"+ labels.getString(chromosomeDEStr.substring(chromosomeDEStr.lastIndexOf(".")+1)) +": "+chromosomeDE.getValue();
 
 					if (chrStartDE != null && chrEndDE != null) {
@@ -117,9 +122,83 @@ public class GeneExpressionQuery extends Query {
 					}
 		}
 			}
-			else System.out.println("Region Criteria is empty or Application Resources file is missing");
-			
-		}
+			else {
+			   System.out.println("Region Criteria is empty or Application Resources file is missing");
+			   }
+		
+		// starting DiseaseOrGradeCriteria
+		DiseaseOrGradeCriteria thisDiseaseCrit = this.getDiseaseOrGradeCriteria();
+	
+		if (!thisDiseaseCrit.isEmpty() && labels != null) { 
+		    Collection diseaseColl = thisDiseaseCrit.getDiseases();
+			Iterator iter = diseaseColl.iterator();
+			while(iter.hasNext()){
+			  DiseaseNameDE  diseaseDE = (DiseaseNameDE)iter.next();
+			  String diseaseStr = diseaseDE.getClass().getName();		      
+		      OutStr += "<BR>"+labels.getString(diseaseStr.substring(diseaseStr.lastIndexOf(".")+1))+": "+diseaseDE.getValue()+"";
+		       }	 	   
+		   }
+		else{
+		   System.out.println("Disease Criteria is empty or Application Resources file is missing");
+		  } // end of DiseaseOrGradeCriteria  
+		
+		
+		// starting cloneorProbeCriteria: come back to revist this
+				
+		CloneOrProbeIDCriteria thisCloneOrProbeCriteria = this.getCloneOrProbeIDCriteria();		 
+		if(!thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
+		  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
+			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+		    Collection cloneColl = thisCloneOrProbeCriteria.getCloneIdentifiers();
+		    Iterator iter = cloneColl.iterator();
+		    while(iter.hasNext()){
+			    CloneIdentifierDE cloneIdentifierDE = (CloneIdentifierDE)iter.next();
+				String cloneStr = cloneIdentifierDE.getClass().getName();
+			    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cloneStr.substring(cloneStr.lastIndexOf(".")+1))+": "+cloneIdentifierDE.getValue()+"";
+			  }			   
+		    }
+		else{
+		  System.out.println("Clone or Probe Criteria is empty or Application Resources file is missing.");
+		}// end of  cloneorProbeCriteria
+		
+		//starting of GeneOntologyCriteria
+	   GeneOntologyCriteria thisGeneOntologyCriteria = this.getGeneOntologyCriteria();
+	   if(!thisGeneOntologyCriteria.isEmpty() && labels != null){
+	    Collection goColl = thisGeneOntologyCriteria.getGOIdentifiers();
+		Iterator iter = goColl.iterator();
+		while(iter.hasNext()){
+		  GeneOntologyDE geneOntologyDE = (GeneOntologyDE)iter.next();
+		  String goStr = geneOntologyDE.getClass().getName();
+		  OutStr += "<BR>"+labels.getString(goStr.substring(goStr.lastIndexOf(".")+1))+": "+geneOntologyDE.getValue()+"";
+		  }	        
+	   }
+	   else {
+	      System.out.println("GeneOntolgoy Criteria is empty or Application Resources file is missing.");
+	       }// end of GeneOntologyCriteria
+		   
+		   
+	   // start of pathway criteria	
+	  PathwayCriteria thisPathwayCriteria = this.getPathwayCriteria();
+	  if(!thisPathwayCriteria.isEmpty() && labels != null){
+	    PathwayDE pathwayDE = thisPathwayCriteria.getPathwayDE();
+		String pathwayStr = pathwayDE.getClass().getName();
+		OutStr += "<BR>"+labels.getString(pathwayStr.substring(pathwayStr.lastIndexOf(".")+1))+": "+pathwayDE.getValue()+"";
+		   }
+		else{
+		   System.out.println("PathwayCriteria is empty or Application Resources file is missing.");
+	  	 }  // end of PathwayCriteria
+		
+	// start of ArrayPlatformCriteria
+	 ArrayPlatformCriteria thisArrayPlatformCriteria = this.getArrayPlatformCriteria();
+	 if(!thisArrayPlatformCriteria.isEmpty()&& labels != null){
+	   ArrayPlatformDE arrayPlatformDE = thisArrayPlatformCriteria.getArrayPlatformDE();
+	   String arrayPlatformStr = arrayPlatformDE.getClass().getName();
+	   OutStr += "<BR>"+labels.getString(arrayPlatformStr.substring(arrayPlatformStr.lastIndexOf(".")+1))+": "+arrayPlatformDE.getValue()+"";
+		   }
+	 else{
+		   System.out.println("ArrayPlatformCriteria is empty or Application Resources file is missing.");
+	  	 }  // end of PathwayCriteria
+	}// end of try
 	catch (Exception ie) {
 		ie.printStackTrace();
 		System.out.println("Error in ResourceBundle - " + ie.getMessage());
