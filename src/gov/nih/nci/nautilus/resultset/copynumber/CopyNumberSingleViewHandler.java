@@ -30,7 +30,7 @@ import gov.nih.nci.nautilus.view.GroupType;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
-	public CopyNumberSingleViewResultsContainer handleCopyNumberSingleView(CopyNumberSingleViewResultsContainer copyNumberContainer, CopyNumber copyNumberObj,GroupType groupType){
+	public static CopyNumberSingleViewResultsContainer handleCopyNumberSingleView(CopyNumberSingleViewResultsContainer copyNumberContainer, CopyNumber copyNumberObj,GroupType groupType){
 		CytobandResultset cytobandResultset = null;
 		ReporterResultset reporterResultset = null;
 		SampleCopyNumberValuesResultset biospecimenResultset = null;
@@ -67,7 +67,7 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
       	return copyNumberContainer;
     }
 
-    private SampleCopyNumberValuesResultset handleCopyNumberChangeValuesResultset(CopyNumber copyNumberObj){
+    private static SampleCopyNumberValuesResultset handleCopyNumberChangeValuesResultset(CopyNumber copyNumberObj){
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
     	SampleCopyNumberValuesResultset sampleCopyNumberValuesResultset = new SampleCopyNumberValuesResultset();

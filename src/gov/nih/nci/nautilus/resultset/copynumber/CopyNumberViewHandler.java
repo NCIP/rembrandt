@@ -18,7 +18,7 @@ import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CopyNumberViewHandler {
-    protected CytobandResultset handleCytobandResulset (CopyNumberResultsContainer copyNumberResultsContainer, CopyNumber copyNumberObj){
+    protected static CytobandResultset handleCytobandResulset (CopyNumberResultsContainer copyNumberResultsContainer, CopyNumber copyNumberObj){
   		//get the gene accessesion number for this record
   		//check if the gene exsists in the CopyNumberResultsContainer, otherwise add a new one.
 		CytobandResultset cytobandResultset = copyNumberResultsContainer.getCytobandResultset(copyNumberObj.getCytoband());
@@ -34,7 +34,7 @@ public class CopyNumberViewHandler {
   		return cytobandResultset;
 
     }
-	protected ReporterResultset handleReporterResultset(CytobandResultset cytobandResultset,CopyNumber copyNumberObj){
+	protected static ReporterResultset handleReporterResultset(CytobandResultset cytobandResultset,CopyNumber copyNumberObj){
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one
 		ReporterResultset reporterResultset = null;

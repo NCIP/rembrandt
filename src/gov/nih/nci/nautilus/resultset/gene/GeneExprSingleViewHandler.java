@@ -55,7 +55,7 @@ import gov.nih.nci.nautilus.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.nautilus.view.GroupType;
 
 public class GeneExprSingleViewHandler extends GeneExprViewHandler{
-		public GeneExprSingleViewResultsContainer handleGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, GeneExpr.GeneExprSingle exprObj,GroupType groupType){
+		public static GeneExprSingleViewResultsContainer handleGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, GeneExpr.GeneExprSingle exprObj,GroupType groupType){
 		GeneResultset geneResultset = null;
 		ReporterResultset reporterResultset = null;
 		SampleFoldChangeValuesResultset biospecimenResultset = null;
@@ -92,7 +92,7 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
       	return geneViewContainer;
     }
 
-    private SampleFoldChangeValuesResultset handleSampleFoldChangeValuesResultset(GeneExpr.GeneExprSingle exprObj){
+    private static SampleFoldChangeValuesResultset handleSampleFoldChangeValuesResultset(GeneExpr.GeneExprSingle exprObj){
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
 		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = new SampleFoldChangeValuesResultset();

@@ -59,7 +59,7 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
  * 
  */
 public class GeneExprDiseaseGroupViewHandler extends GeneExprViewHandler {
-	public GeneExprResultsContainer handleGeneExprDiseaseView(GeneExprResultsContainer geneViewContainer, GeneExpr.GeneExprGroup exprObj){
+	public static GeneExprResultsContainer handleGeneExprDiseaseView(GeneExprResultsContainer geneViewContainer, GeneExpr.GeneExprGroup exprObj){
 		GeneResultset geneResultset = null;
 		ReporterResultset reporterResultset = null;
 		DiseaseGroupResultset diseaseResultset = null;
@@ -76,7 +76,7 @@ public class GeneExprDiseaseGroupViewHandler extends GeneExprViewHandler {
       	}
       	return geneViewContainer;
     }
-	protected DiseaseGroupResultset handleDiseaseGroupResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprGroup exprObj){
+	protected static DiseaseGroupResultset handleDiseaseGroupResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprGroup exprObj){
   		//find out the disease type associated with the exprObj
   		//populate the DiseaseTypeResultset
 		DiseaseGroupResultset diseaseGroupResultset = null;

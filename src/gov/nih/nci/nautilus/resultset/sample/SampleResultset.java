@@ -50,6 +50,7 @@
 package gov.nih.nci.nautilus.resultset.sample;
 
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
 
 
@@ -63,7 +64,7 @@ public class SampleResultset extends BioSpecimenResultset {
 	private DiseaseNameDE disease = null;
 	
 	private GeneExprSingleViewResultsContainer geneExprSingleViewResultsContainer = null;
-	
+	private CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = null;
 
 	/**
 	 * @return Returns the disease.
@@ -89,5 +90,19 @@ public class SampleResultset extends BioSpecimenResultset {
 	public void setGeneExprSingleViewResultsContainer(
 			GeneExprSingleViewResultsContainer geneExprSingleViewResultsContainer) {
 		this.geneExprSingleViewResultsContainer = geneExprSingleViewResultsContainer;
+	}
+
+	/**
+	 * @return Returns the copyNumberSingleViewResultsContainer.
+	 */
+	public CopyNumberSingleViewResultsContainer getCopyNumberSingleViewResultsContainer() {
+		return copyNumberSingleViewResultsContainer;
+	}
+	/**
+	 * @param copyNumberSingleViewResultsContainer The copyNumberSingleViewResultsContainer to set.
+	 */
+	public void setCopyNumberSingleViewResultsContainer(
+			CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer) {
+		this.copyNumberSingleViewResultsContainer = copyNumberSingleViewResultsContainer;
 	}
 }

@@ -68,6 +68,7 @@ import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
@@ -76,7 +77,6 @@ import gov.nih.nci.nautilus.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.nautilus.resultset.copynumber.SampleCopyNumberValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.DiseaseGroupResultset;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
-import gov.nih.nci.nautilus.resultset.gene.GeneExprSampleViewContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
@@ -255,13 +255,15 @@ public class ResultsetViewTest extends TestCase {
 				System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
 				ResultsContainer resultsContainer = resultant.getResultsContainer();
 				System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
-				if (resultsContainer instanceof GeneExprSampleViewContainer){
-					GeneExprSampleViewContainer geneExprSampleViewContainer = (GeneExprSampleViewContainer) resultsContainer;
-			        GeneExprSingleViewResultsContainer geneViewContainer = geneExprSampleViewContainer.getGeneExprSingleViewContainer();
-			        displayGeneExprSingleView(geneViewContainer);
-			        SampleViewResultsContainer sampleViewContainer = geneExprSampleViewContainer.getSampleViewResultsContainer();
-			        displaySampleView(sampleViewContainer);	
-			        doGeneViewForEverySample(sampleViewContainer);
+				if (resultsContainer instanceof DimensionalViewContainer){
+					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+			        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+			        if (geneViewContainer != null){
+				        displayGeneExprSingleView(geneViewContainer);
+				        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+				        displaySampleView(sampleViewContainer);	
+				        doGeneViewForEverySample(sampleViewContainer);
+			        }
 				}
 			}
 		} catch (Exception e) {
@@ -309,10 +311,15 @@ public class ResultsetViewTest extends TestCase {
 					System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
 					ResultsContainer resultsContainer = resultant.getResultsContainer();
 					System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
-					if (resultsContainer instanceof CopyNumberSingleViewResultsContainer){
-						CopyNumberSingleViewResultsContainer copyNumberContainer = (CopyNumberSingleViewResultsContainer) resultsContainer;
-				        displayCopyNumberSingleView(copyNumberContainer);
-
+					if (resultsContainer instanceof DimensionalViewContainer){
+						DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+						CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+				        if (copyNumberContainer != null){
+				        	displayCopyNumberSingleView(copyNumberContainer);
+					        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+					        displaySampleView(sampleViewContainer);	
+					        doCopyNumberForEverySample(sampleViewContainer);
+				        }
 					}
 				}
 			} catch (Exception e) {
@@ -321,6 +328,22 @@ public class ResultsetViewTest extends TestCase {
 			}			
 
     }
+	/**
+		 * @param sampleViewContainer
+		 */
+		private void doCopyNumberForEverySample(SampleViewResultsContainer sampleViewContainer) {
+			   System.out.println("Testing CopyNumber View for Every Sample >>>>>>>>>>>>>>>>>>>>>>>");
+		       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
+				//String sampleId = sampleResultset.getBiospecimen().getValue().toString();
+			    CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = sampleResultset.getCopyNumberSingleViewResultsContainer();
+			    if(copyNumberSingleViewResultsContainer != null){
+			    displayCopyNumberSingleView(copyNumberSingleViewResultsContainer);
+			    }
+	 		}
+			
+		}
 	/**
 		 * @param copyNumberContainer
 		 */
@@ -575,13 +598,15 @@ public class ResultsetViewTest extends TestCase {
     		}
 	}
 	private void doGeneViewForEverySample(SampleViewResultsContainer sampleViewContainer){
-		   System.out.println("Testing Sample View for Every Gene >>>>>>>>>>>>>>>>>>>>>>>");
+		   System.out.println("Testing Gene View for Every Sample >>>>>>>>>>>>>>>>>>>>>>>");
 	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
 		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
 			//String sampleId = sampleResultset.getBiospecimen().getValue().toString();
 		    GeneExprSingleViewResultsContainer geneViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
+		    if(geneViewContainer != null){
 		    displayGeneExprSingleView(geneViewContainer);
+		    }
  		}
 	}
     private void changeQueryView(Query query,Viewable view){

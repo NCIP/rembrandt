@@ -60,7 +60,7 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
  * 
  */
 public abstract class GeneExprViewHandler {
-    protected GeneResultset handleGeneResulset (GeneExprResultsContainer geneViewResultsContainer, GeneExpr exprObj){
+    protected static GeneResultset handleGeneResulset (GeneExprResultsContainer geneViewResultsContainer, GeneExpr exprObj){
   		//get the gene accessesion number for this record
   		//check if the gene exsists in the GeneExprSingleViewResultsContainer, otherwise add a new one.
 		GeneResultset geneResultset = geneViewResultsContainer.getGeneResultset(exprObj.getGeneSymbol());
@@ -78,7 +78,7 @@ public abstract class GeneExprViewHandler {
   		return geneResultset;
 
     }
-	protected ReporterResultset handleReporterResultset(GeneResultset geneResultset,gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr exprObj){
+	protected static ReporterResultset handleReporterResultset(GeneResultset geneResultset,gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr exprObj){
   		//geneResultset.setGenbankAccessionNo(genbankAccessionNo);
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one

@@ -53,7 +53,12 @@ import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GenderDE;
+import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.resultset.ClinicalResultSet;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewHandler;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewHandler;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.nautilus.view.GroupType;
@@ -64,38 +69,52 @@ import gov.nih.nci.nautilus.view.GroupType;
  * 
  */
 public class SampleViewHandler {
-    public SampleViewResultsContainer handleSampleView(SampleViewResultsContainer sampleViewContainer, GeneExpr.GeneExprSingle exprObj, GroupType groupType){
+    public static SampleViewResultsContainer handleSampleView(SampleViewResultsContainer sampleViewContainer, ResultSet resultObj, GroupType groupType){
     	SampleResultset sampleResultset = null;
-    	GeneExprSingleViewHandler geneExprSingleViewHandler = geneExprSingleViewHandler = new GeneExprSingleViewHandler();
-      	if (sampleViewContainer != null && exprObj != null){
-      		sampleResultset = handleBioSpecimenResultset(sampleViewContainer,exprObj);
+    	if (sampleViewContainer != null && resultObj instanceof GeneExpr.GeneExprSingle){
+    		GeneExpr.GeneExprSingle geneExprObj = (GeneExpr.GeneExprSingle)resultObj;
+      		sampleResultset = handleBioSpecimenResultset(sampleViewContainer,geneExprObj);
           	//Propulate the GeneExprSingleResultsContainer
       		GeneExprSingleViewResultsContainer geneExprSingleViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
         	if(geneExprSingleViewContainer == null){
         		geneExprSingleViewContainer = new GeneExprSingleViewResultsContainer();
         	}
-        	geneExprSingleViewContainer = geneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleViewContainer,exprObj, groupType);
+        	geneExprSingleViewContainer = GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleViewContainer,geneExprObj, groupType);
       		sampleResultset.setGeneExprSingleViewResultsContainer(geneExprSingleViewContainer);
            	//Populate the SampleViewResultsContainer
       		sampleViewContainer.addBioSpecimenResultset(sampleResultset);
-      	}
+    	}
+      	else if(sampleViewContainer != null && resultObj instanceof CopyNumber){
+      		CopyNumber copyNumberObj = (CopyNumber)resultObj;
+      		sampleResultset = handleBioSpecimenResultset(sampleViewContainer,copyNumberObj);
+          	//Propulate the GeneExprSingleResultsContainer
+      		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = sampleResultset.getCopyNumberSingleViewResultsContainer();
+        	if(copyNumberSingleViewResultsContainer == null){
+        		copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
+        	}
+        	copyNumberSingleViewResultsContainer = CopyNumberSingleViewHandler.handleCopyNumberSingleView(copyNumberSingleViewResultsContainer,copyNumberObj, groupType);
+      		sampleResultset.setCopyNumberSingleViewResultsContainer(copyNumberSingleViewResultsContainer);
+           	//Populate the SampleViewResultsContainer
+      		sampleViewContainer.addBioSpecimenResultset(sampleResultset);
+    	}
+
       	return sampleViewContainer;
     }
-    public SampleResultset handleBioSpecimenResultset(SampleViewResultsContainer sampleViewContainer, GeneExpr.GeneExprSingle exprObj){
+    public static SampleResultset handleBioSpecimenResultset(SampleViewResultsContainer sampleViewContainer, ClinicalResultSet clinicalObj){
  		//get the gene accessesion number for this record
   		//check if the gene exsists in the GeneExprSingleViewResultsContainer, otherwise add a new one.
-    	SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getBioSpecimenResultset(exprObj.getSampleId());
+    	SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getBioSpecimenResultset(clinicalObj.getSampleId());
   		if(sampleResultset == null){ // no record found
   			sampleResultset = new SampleResultset();
   		}
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
-		BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(exprObj.getSampleId().toString());
+		BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(clinicalObj.getSampleId().toString());
 		sampleResultset.setBiospecimen(biospecimenID);
-		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,exprObj.getAgeGroup()));
-		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,exprObj.getSurvivalLengthRange()));
-		sampleResultset.setGenderCode(new GenderDE(exprObj.getGenderCode()));
-		sampleResultset.setDisease(new DiseaseNameDE(exprObj.getDiseaseType()));
+		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,clinicalObj.getAgeGroup()));
+		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));
+		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
+		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));
   		return sampleResultset;
     }
 }
