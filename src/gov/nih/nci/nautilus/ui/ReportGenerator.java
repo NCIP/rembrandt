@@ -29,13 +29,14 @@ public class ReportGenerator  {
 	public static String theColors[] = {"0073E6","FFFF61"};
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 	
+	public static String geneSpacerStyle = "height:1px; font-size:0px; border-top:2px solid black; border-bottom:0px solid black; padding:0px; background-color:#000000";
 			
 	public static String displayReport(QueryCollection queryCollection, boolean csv)	{
 		
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();
 		Resultant resultant;
-		errors.append("<br><a href=\"menu.do\">[Back to Menu]</a><br>");
+		errors.append("<br><a href=\"menu.do\">[Back to Menu]</a><br><Br>");
 			
 		try	{
 			
@@ -53,7 +54,7 @@ public class ReportGenerator  {
 			if(resultant != null) {      
 		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
 		 		if(resultsContainer != null)	{
-			 		html.append("<a href=\"jsp/geneViewReportCSV.jsp\" onclick=\"javascript:return false;\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a><br>\n");
+			 		html.append("<a href=\"jsp/geneViewReportCSV.jsp\" onclick=\"javascript:return false;\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a><br><br>\n");
 			 		Viewable view = resultant.getAssociatedView();
 			 		 
 			 		//4 views here, returning the String of HTML for report
@@ -121,14 +122,24 @@ public class ReportGenerator  {
 			sb.append("<table>\n");
 			SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
- 		   	sb.append("<Tr><Td>SAMPLE</td><td>AGE at Dx</td><td>GENDER</td><td>SURVIVAL</td><td>DISEASE</td></tr>");
+ 		   	sb.append("<Tr><Td>SAMPLE</td><td>AGE at Dx</td><td>GENDER</td><td>SURVIVAL</td><td>DISEASE</td>");
+ 		   	if(gLinks)
+ 		   		sb.append("<Td>GeneExp</td>");
+ 		   	if(cLinks)
+ 		   		sb.append("<td>CopyNumber</td>");
+ 		   	sb.append("</tr>\n");
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
 	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue()+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
 					"<td>"+sampleResultset.getGenderCode().getValue()+ "</td>" +
 					"<td>"+sampleResultset.getSurvivalLengthRange().getValue()+ "</td>" +
-					"<Td>"+sampleResultset.getDisease().getValue() + "</td></tr>");
+					"<Td>"+sampleResultset.getDisease().getValue() + "</td>");
+	   			if(gLinks)
+	   				sb.append("<td><a href=\"#\">G</a></td>");
+	   			if(cLinks)
+	   				sb.append("<Td><a href=\"#\">C</a></td>");
+	   			sb.append("</tr>\n");
     		}
     		sb.append("</table>\n<br>");
     		return sb.toString();
@@ -200,8 +211,8 @@ public class ReportGenerator  {
 	   	                   		sb.append("</tr>");
 				    		}
 				    		// add the line between genes
-				    		sb.append("<tr><td colspan=\"1000\" style=\"height:3px; font:3px; border-top:1px solid black\">&nbsp;</td></tr>\n");
-					    	
+				    		sb.append("<tr><td colspan=\""+(labels.size() + 2)+"\" style="+geneSpacerStyle+"\">&nbsp;</td></tr>\n");
+						    
 				    	}
 					sb.append("</table>\n\n");
 				}
@@ -312,7 +323,7 @@ public class ReportGenerator  {
 				                       			}
 				                       		else 
 				                       		{
-				                       			sb.append("<td class='"+label+"'> - </td>");
+				                       			sb.append("<td class='"+label+"'>-</td>");
 				                       		}
 				                       	}
 				         		}
@@ -355,12 +366,15 @@ public class ReportGenerator  {
 			    	header.append("<Td>Gene</td>\n<td>Reporter</td>\n");
 			    	sampleNames.append("<tr><Td> &nbsp;</td><Td> &nbsp;</tD>"); 
 				   
+			    	int theColspan = 2; // the 2 <Td>'s above
+			    	
 					ArrayList cssLabels = new ArrayList();
 				   
 			    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 			        	String label = (String) labelIterator.next();
 			        	sampleIds = geneViewContainer.getBiospecimenLabels(label);    	
-				    	header.append("<td colspan="+sampleIds.size()+" class='"+label+"'>"+label+"</td>"); 
+				    	theColspan += sampleIds.size();
+			        	header.append("<td colspan="+sampleIds.size()+" class='"+label+"'>"+label+"</td>"); 
 				    	cssLabels.add(label);
 				    	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
@@ -396,10 +410,13 @@ public class ReportGenerator  {
 					sb.append(css.toString());
 			    	sb.append(header.toString());
 					sb.append(sampleNames.toString());
-			
+		
+		    		String geneBreak = " style=\"border-bottom: 1px solid black\"";
+		    		
 			    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 			    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 			    		Collection reporters = geneResultset.getReporterResultsets();
+			    		
 			    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 			        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
 			        		Collection groupTypes = reporterResultset.getGroupByResultsets();
@@ -433,7 +450,7 @@ public class ReportGenerator  {
 			                       }
 			                       else	{
 			                       for(int s=0;s<sampleIds.size();s++) 
-			                        	sb.append("<td>+</td>");                      
+			                        	sb.append("<td class='"+label+"'>+</td>");                      
 			                       }
 			
 			         		}
@@ -441,7 +458,7 @@ public class ReportGenerator  {
 			        		sb.append("</tr>\n");
 			    		}
 			    		// add the line between genes
-			    		sb.append("<tr><td colspan=\"1000\" style=\"height:3px; font:3px; border-top:1px solid black\">&nbsp;</td></tr>\n");
+			    		sb.append("<tr><td colspan=\""+theColspan+"\" style="+geneSpacerStyle+"\">&nbsp;</td></tr>\n");
 			    	}
 						sb.append("</table>");
 				}
