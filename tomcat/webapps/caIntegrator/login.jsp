@@ -129,7 +129,7 @@ response.setHeader("Location",newLocn);
 
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
-    <a href="#">HOME</a>  |  <a href="#">CONTACT</a>  |  <a href="#">SUPPORT</a>  |  <a href="#">NCICB HOME</a>
+    <a href="#">HOME</a>  |  <a href="#">CONTACT</a>  |  <a href="javascript:spawn('help.jsp', 350, 500);">SUPPORT</a>  |  <a href="#">NCICB HOME</a>
 </div>
 <!--end footer-->
 
