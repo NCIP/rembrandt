@@ -83,7 +83,7 @@ public class ComparativeGenomicQuery extends Query {
 		if ((thisCopyNumberCrit != null) && !thisCopyNumberCrit.isEmpty() && labels != null) {
 		    System.out.println(" I am in the CopyNumberCriteria");
 			String thisCriteria = thisCopyNumberCrit.getClass().getName();
-			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 			Collection copyNoObjects = thisCopyNumberCrit.getCopyNummbers();
 			
 			for (Iterator iter = copyNoObjects.iterator(); iter.hasNext();) {
@@ -101,7 +101,7 @@ public class ComparativeGenomicQuery extends Query {
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCriteria();
 			if ((thisGeneIDCrit != null ) && !thisGeneIDCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisGeneIDCrit.getClass().getName();
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
 			
 				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext();) {
@@ -119,7 +119,7 @@ public class ComparativeGenomicQuery extends Query {
 			RegionCriteria thisRegionCrit = this.getRegionCriteria();
 			if ((thisRegionCrit != null) &&!thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
+				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
 
 				DomainElement chromosomeDE  = thisRegionCrit.getChromNumber();
@@ -138,7 +138,7 @@ public class ComparativeGenomicQuery extends Query {
 					if (chrStartDE != null && chrEndDE != null) {
 						String chrStartDEStr = chrStartDE.getClass().getName();
 						String chrEndDEStr = chrEndDE.getClass().getName();
-						OutStr += "<BR><B>"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)</B>";
+						OutStr += "<BR>"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)";
 						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1)) +": "+chrStartDE.getValue();
 						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrEndDEStr.substring(chrEndDEStr.lastIndexOf(".")+1)) +": "+chrEndDE.getValue();
 					}
@@ -153,7 +153,7 @@ public class ComparativeGenomicQuery extends Query {
 		   CloneOrProbeIDCriteria thisCloneOrProbeCriteria = this.getCloneOrProbeIDCriteria();		 
 		   if((thisCloneOrProbeCriteria != null) && !thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
 			  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 			    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
 			    Iterator iter = cloneColl.iterator();
 			    while(iter.hasNext()){
@@ -171,7 +171,7 @@ public class ComparativeGenomicQuery extends Query {
 		   SNPCriteria thisSNPCriteria = this.getSNPCriteria();		 
 		   if((thisSNPCriteria != null ) && !thisSNPCriteria.isEmpty() && labels != null){	
 		        String thisCriteria = thisSNPCriteria.getClass().getName();			
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 			    Collection cloneColl = thisSNPCriteria.getIdentifiers();
 			    Iterator iter = cloneColl.iterator();
 			    while(iter.hasNext()){

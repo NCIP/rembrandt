@@ -80,7 +80,7 @@ public class ClinicalDataQuery extends Query {
 		  OccurrenceCriteria thisOccurrenceCriteria = this.getOccurrenceCriteria();
 		  if((thisOccurrenceCriteria != null) && thisOccurrenceCriteria.isEmpty()&& labels != null){
 		     String thisCriteria = thisOccurrenceCriteria.getClass().getName();
-			 OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
+			 OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 			
 		     Collection occurrenceColl = thisOccurrenceCriteria.getOccurrences();			
 			 Iterator iter = occurrenceColl.iterator();
@@ -142,7 +142,7 @@ public class ClinicalDataQuery extends Query {
 		 SurvivalCriteria thisSurvivalCriteria = this.getSurvivalCriteria();
 		 if((thisSurvivalCriteria != null) && !thisSurvivalCriteria.isEmpty() && labels != null){
 		      String thisCriteria = thisSurvivalCriteria.getClass().getName();
-			  OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			  OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 			
 			  DomainElement survivalLowerDE = thisSurvivalCriteria.getLowerSurvivalRange();
 		      DomainElement survivalUpperDE = thisSurvivalCriteria.getUpperSurvivalRange();
@@ -161,7 +161,7 @@ public class ClinicalDataQuery extends Query {
 		 AgeCriteria thisAgeCriteria = this.getAgeCriteria();
 		 if((thisAgeCriteria != null) && !thisAgeCriteria.isEmpty() && labels != null){
 		    String thisCriteria = ageCriteria.getClass().getName();
-			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
 		    DomainElement LowerAgeLimit = thisAgeCriteria.getLowerAgeLimit();
 		    DomainElement UpperAgeLimit = thisAgeCriteria.getUpperAgeLimit();
 			if(LowerAgeLimit != null && UpperAgeLimit != null){

@@ -625,25 +625,43 @@ function showQueryDetail(selectName){
 	      document.forms[0].regulationStatus[2].checked = false;
 	      document.forms[0].regulationStatus[3].checked = true;
 	      }
-	if (element == "cnAmplified"){      
+	if (element == "cnAmplified"){ 
+	      document.forms[0].cnDeleted.value = " ";
+	      document.forms[0].cnADAmplified.value = " ";
+	      document.forms[0].cnADDeleted.value = " ";
+	      document.forms[0].cnUnchangeFrom.value = " ";
+	      document.forms[0].cnUnchangeTo.value = " ";     
 	      document.forms[0].copyNumber[0].checked = true;
 	      document.forms[0].copyNumber[1].checked = false;
 	      document.forms[0].copyNumber[2].checked = false;
 	      document.forms[0].copyNumber[3].checked = false;
 	      }
-	if (element == "cnDeleted"){      
+	if (element == "cnDeleted"){ 
+	      document.forms[0].cnAmplified.value = " ";
+	      document.forms[0].cnADAmplified.value = " ";
+	      document.forms[0].cnADDeleted.value = " ";
+	      document.forms[0].cnUnchangeFrom.value = " ";
+	      document.forms[0].cnUnchangeTo.value = " ";      
 	      document.forms[0].copyNumber[0].checked = false;
 	      document.forms[0].copyNumber[1].checked = true;
 	      document.forms[0].copyNumber[2].checked = false;
 	      document.forms[0].copyNumber[3].checked = false;
 	      }
 	 if ((element == "cnADAmplified") || (element == "cnADDeleted")){      
+	      document.forms[0].cnDeleted.value = " ";
+	      document.forms[0].cnAmplified.value = " ";
+	      document.forms[0].cnUnchangeFrom.value = " ";
+	      document.forms[0].cnUnchangeTo.value = " ";
 	      document.forms[0].copyNumber[0].checked = false;
 	      document.forms[0].copyNumber[1].checked = false;
 	      document.forms[0].copyNumber[2].checked = true;
 	      document.forms[0].copyNumber[3].checked = false;
 	      }  
 	 if ((element == "cnUnchangeFrom") || (element == "cnUnchangeTo")){      
+	      document.forms[0].cnDeleted.value = " ";
+	      document.forms[0].cnAmplified.value = " ";
+	      document.forms[0].cnADAmplified.value = " ";
+	      document.forms[0].cnADDeleted.value = " ";
 	      document.forms[0].copyNumber[0].checked = false;
 	      document.forms[0].copyNumber[1].checked = false;
 	      document.forms[0].copyNumber[2].checked = false;
