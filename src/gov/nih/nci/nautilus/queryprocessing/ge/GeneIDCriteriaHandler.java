@@ -39,7 +39,7 @@ public class GeneIDCriteriaHandler {
                             new TargetClass(GeneSnp.class, GeneSnp.SNP_PROBESET_ID));
         }
 
-    private static ArrayList getGeneIDValues(GeneIDCriteria geneIDCrit) {
+     static ArrayList getGeneIDValues(GeneIDCriteria geneIDCrit) {
         Collection geneIdDEs = geneIDCrit.getGeneIdentifiers();
         ArrayList geneIDs = new ArrayList();
         for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();) {
@@ -143,7 +143,7 @@ public class GeneIDCriteriaHandler {
     }
 
 
-   private static Class getGeneIDClassName(GeneIDCriteria geneIDCrit ) {
+    static Class getGeneIDClassName(GeneIDCriteria geneIDCrit ) {
             Collection geneIDs = geneIDCrit.getGeneIdentifiers();
             GeneIdentifierDE obj =  (GeneIdentifierDE) geneIDs.iterator().next();
             return obj.getClass();
