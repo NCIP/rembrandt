@@ -36,17 +36,16 @@ public class LookupManager{
 	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
-	private static PersistenceBroker broker;
 	
 	private  static Collection executeQuery(Class bean, Criteria crit)throws Exception{
 			   Collection resultsetObjs = null;
-	           broker = PersistenceBrokerFactory.defaultPersistenceBroker();
-	           resultsetObjs = createQuery(bean, crit);
+			   PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
+	           resultsetObjs = createQuery(bean, crit, broker);
 	           broker.close();
 	           return resultsetObjs;
 	       
 	}
-	private static Collection createQuery(Class bean, Criteria crit) throws Exception{
+	private static Collection createQuery(Class bean, Criteria crit, PersistenceBroker broker) throws Exception{
 			//Criteria crit = new Criteria();
 			Collection resultsetObjs = null;
 	        Query exprQuery = QueryFactory.newQuery(bean, crit,true);
