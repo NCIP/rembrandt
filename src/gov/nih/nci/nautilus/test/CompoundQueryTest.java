@@ -7,14 +7,19 @@
 package gov.nih.nci.nautilus.test;
 
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.AssayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
+import gov.nih.nci.nautilus.de.CopyNumberDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
@@ -22,13 +27,23 @@ import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.resultset.Resultant;
+import gov.nih.nci.nautilus.resultset.ResultsContainer;
+import gov.nih.nci.nautilus.resultset.ResultsetManager;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
+import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -44,6 +59,7 @@ public class CompoundQueryTest extends TestCase {
     ArrayPlatformCriteria allPlatformCrit;
     ArrayPlatformCriteria affyOligoPlatformCrit;
     ArrayPlatformCriteria cdnaPlatformCrit;
+    AssayPlatformCriteria snpPlatformCrit;
     CloneOrProbeIDCriteria cloneCrit;
     CloneOrProbeIDCriteria probeCrit;
     GeneIDCriteria geneCrit;
@@ -51,6 +67,8 @@ public class CompoundQueryTest extends TestCase {
     GeneExpressionQuery probeQuery;
     GeneExpressionQuery cloneQuery;
     GeneExpressionQuery geneQuery;
+    ComparativeGenomicQuery genomicQuery;
+	CopyNumberCriteria copyNumberCrit;
 	/*
 	 * @see TestCase#setUp()
 	 */
@@ -78,9 +96,9 @@ public class CompoundQueryTest extends TestCase {
 			//test Single Query
 			System.out.println("Testing Single Gene Query>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery);
-			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
-			print(geneExprObjects);
+			print(resultant);
 		} catch (Exception e) {
 			e.printStackTrace();
 			}
@@ -90,9 +108,9 @@ public class CompoundQueryTest extends TestCase {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneQuery AND ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,probeQuery);
-			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
-			print(geneExprObjects);
+			print(resultant);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -102,9 +120,9 @@ public class CompoundQueryTest extends TestCase {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneQuery NOT ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.NOT,geneQuery,probeQuery);
-			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
-			print(geneExprObjects);
+			print(resultant);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -114,29 +132,123 @@ public class CompoundQueryTest extends TestCase {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery CloneQuery OR ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.OR,cloneQuery,probeQuery);
-			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
-			print(geneExprObjects);
+			print(resultant);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
 	}
+	public void testGeneExprANDCopyNumberQuery() {
+		try {
+			//test CompoundQuery Query
+			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery>>>>>>>>>>>>>>>>>>>>>>>");
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.OR,geneQuery,genomicQuery);
+			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
+			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
+			print(resultant);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+
     /**
 	 * @param geneExprObjects
 	 */
-	private void print(ResultSet[] geneExprObjects) {
-		if(geneExprObjects != null){
-			System.out.println("Number of Records:"+ geneExprObjects.length);
-	        for (int i =0; i < geneExprObjects.length; i++) {
-	        	GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
-	        	if(expObj != null){
-	            System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
-	        	}
-	        }
+	private void print(Resultant resultant) {
+		if(resultant != null){
+			ResultsContainer resultsContainer = resultant.getResultsContainer();
+			if (resultsContainer instanceof DimensionalViewContainer){
+				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+		        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+		        if (geneViewContainer != null){
+			        displayGeneExprSingleView(geneViewContainer);
+			        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+			        displaySampleView(sampleViewContainer);	
+		        }
+			}
+			else if (resultsContainer instanceof DimensionalViewContainer){
+				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+				CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+		        if (copyNumberContainer != null){
+		        	displayCopyNumberSingleView(copyNumberContainer);
+			        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+			        displaySampleView(sampleViewContainer);	
+		        }
+			}
+			else if (resultsContainer instanceof DimensionalViewContainer){
+				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+		        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+		        if (geneViewContainer != null){
+			        displayGeneExprSingleView(geneViewContainer);
+			        SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+			        displaySampleView(sampleViewContainer);	
+		        }
+			}
 		}
 		
 	}
+	private void displaySampleView(SampleViewResultsContainer sampleViewContainer){
+		   System.out.println("Printing Sample View for the Query >>>>>>>>>>>>>>>>>>>>>>>");
+	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+		   System.out.println("SAMPLE\tAGE\tGENDER\tSURVIVAL\tDISEASE");
+		   StringBuffer stringBuffer = new StringBuffer();
+		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+			SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
 
+			System.out.println(sampleResultset.getBiospecimen().getValue()+
+					"\t"+sampleResultset.getAgeGroup().getValue()+
+					"\t"+sampleResultset.getGenderCode().getValue()+
+					"\t"+sampleResultset.getSurvivalLengthRange().getValue()+
+					"\t"+sampleResultset.getDisease().getValue());
+ 		}
+	}
+	private void displayCopyNumberSingleView(CopyNumberSingleViewResultsContainer copyNumberContainer) {
+		final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
+    	Collection cytobands = copyNumberContainer.getCytobandResultsets();
+    	Collection labels = copyNumberContainer.getGroupsLabels();
+    	Collection sampleIds = null;
+    	StringBuffer header = new StringBuffer();
+    	StringBuffer sampleNames = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
+    	//get group size (as Disease or Agegroup )from label.size
+        System.out.println("Printing Copy Number View>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("GroupSize= "+labels.size());
+        for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+        	String label = (String) labelIterator.next();
+        	System.out.println(label);
+        	sampleIds = copyNumberContainer.getBiospecimenLabels(label); 
+        	//For each group get the number of samples in it from sampleIds.size()
+            System.out.println("SampleSize= "+sampleIds.size());
+           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+           		System.out.println(sampleIdIterator.next()); 
+           	}
+           	 
+    	}
+	}
+	private void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer){
+		final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
+    	Collection genes = geneViewContainer.getGeneResultsets();
+    	Collection labels = geneViewContainer.getGroupsLabels();
+    	Collection sampleIds = null;
+    	StringBuffer header = new StringBuffer();
+    	StringBuffer sampleNames = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
+    	//get group size (as Disease or Agegroup )from label.size
+        System.out.println("Printing Gene Expr View>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("GroupSize= "+labels.size());
+        for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+        	String label = (String) labelIterator.next();
+        	System.out.println(label);
+        	sampleIds = geneViewContainer.getBiospecimenLabels(label); 
+        	//For each group get the number of samples in it from sampleIds.size()
+            System.out.println("SampleSize= "+sampleIds.size());
+           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+           		System.out.println(sampleIdIterator.next()); 
+           	}
+           	 
+    	}
+	}
 	public static Test suite() {
 		TestSuite suit =  new TestSuite();
         suit.addTest(new TestSuite(CompoundQueryTest.class));
@@ -182,6 +294,21 @@ public class CompoundQueryTest extends TestCase {
         //objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
         foldCrit.setFoldChangeObjects(objs);
     }
+    private void buildCopyChangeCrit() {
+        Float amplification = new Float(2.0);
+        Float deletion = new Float(0.8);
+        CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
+        CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
+        CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
+        CopyNumberDE.UnChangedCopyNumberDownLimit  downCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberDownLimit(deletion);
+
+        copyNumberCrit = new CopyNumberCriteria();
+        Collection objs = new ArrayList(4);
+        objs.add(ampObj);
+        //objs.add(deletionObj);
+        //objs.add(upCopyNumberObj); objs.add(downCopyNumberObj);
+        copyNumberCrit.setCopyNumbers(objs);
+    }
     private void buildGeneExprProbeSetSingleViewQuery(){
         probeQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
         probeQuery.setQueryName("ProbeSetQuery");
@@ -206,10 +333,21 @@ public class CompoundQueryTest extends TestCase {
         geneQuery.setArrayPlatformCrit(allPlatformCrit);
         geneQuery.setFoldChgCrit(foldCrit);
     }
+    private void buildCopyNumberSingleViewQuery(){
+        genomicQuery = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
+        genomicQuery.setQueryName("CopyNumberQuery");
+        genomicQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+        genomicQuery.setGeneIDCrit(geneCrit);
+        genomicQuery.setAssayPlatformCrit(snpPlatformCrit);
+        genomicQuery.setCopyNumberCrit(copyNumberCrit);
+    }
     private void buildPlatformCrit() {
         allPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.ALL_PLATFROM));
         affyOligoPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM));
         cdnaPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.CDNA_ARRAY_PLATFORM));
+        snpPlatformCrit = new AssayPlatformCriteria();
+        snpPlatformCrit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
+        
     }
     private void changeQueryView(Query query,Viewable view){
     	if(query !=null){
