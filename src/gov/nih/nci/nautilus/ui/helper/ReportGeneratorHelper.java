@@ -198,14 +198,6 @@ public class ReportGeneratorHelper {
 		//create a new ReportBean
 		_reportBean = new ReportBean();
 		Resultant sampleIdResults = null;
-		/*
-		 * Adding back the "HF" to sampleIds here so that we can get it back
-		 * from the database. We need to do this better, by either stripping it 
-		 * off at the result set or something, maybe the query level.
-		 */
-		for(int i = 0;i< sampleIds.length;i++) {
-			sampleIds[i]="HF"+sampleIds[i];
-		}
 		try {	
 			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
 			sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());

@@ -271,13 +271,13 @@ public class CompoundQueryTest extends TestCase {
 		try {
 			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
 			List sampleIDList = new ArrayList();
-			sampleIDList.add("HF608");
-			sampleIDList.add("HF118");
-			sampleIDList.add("HF305");
-			sampleIDList.add("HF990");
-			sampleIDList.add("HF1219");
-			sampleIDList.add("HF1227");
-			sampleIDList.add("HF1325");
+			sampleIDList.add("608");
+			sampleIDList.add("118");
+			sampleIDList.add("305");
+			sampleIDList.add("990");
+			sampleIDList.add("1219");
+			sampleIDList.add("1227");
+			sampleIDList.add("1325");
 			String[] sampleIDs = (String[])sampleIDList.toArray(new String[sampleIDList.size()]);
 			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 			
@@ -306,13 +306,13 @@ public class CompoundQueryTest extends TestCase {
 		try {
 			CompoundQuery myCompoundQuery1 = new CompoundQuery(genomicQuery);
 			List sampleIDList = new ArrayList();
-			sampleIDList.add("HF1139");
-			sampleIDList.add("HF1297");
-			sampleIDList.add("HF1223");
-			sampleIDList.add("HF118");
-			sampleIDList.add("HF1057");
-			sampleIDList.add("HF1397");
-			sampleIDList.add("HF1409");
+			sampleIDList.add("1139");
+			sampleIDList.add("1297");
+			sampleIDList.add("1223");
+			sampleIDList.add("118");
+			sampleIDList.add("1057");
+			sampleIDList.add("1397");
+			sampleIDList.add("1409");
 			String[] sampleIDs = (String[])sampleIDList.toArray(new String[sampleIDList.size()]);
 			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
 			
