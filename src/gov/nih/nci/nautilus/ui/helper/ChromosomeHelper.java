@@ -1,12 +1,9 @@
 package gov.nih.nci.nautilus.ui.helper;
 
-import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
-import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.lookup.CytobandLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -62,7 +59,8 @@ public class ChromosomeHelper {
 		return chromosomes;
 	}
 	/**
-	 * checks the List of Chromosomes f
+	 * checks the current list of Chromosomes and then adds the cytoband to
+	 * either the created or existing ChromosomeBean
 	 * @param cytoband
 	 * @return
 	 */

@@ -1,12 +1,7 @@
 package gov.nih.nci.nautilus.ui.bean;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 import org.apache.log4j.Logger;
-
-import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 
 /**
  * This bean is used by the UI to package Chromosome information
