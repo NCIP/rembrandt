@@ -80,9 +80,9 @@
     
     
 	<definition name="nautilus.refine" extends="noSidebar">
-      <put name="mainForm" value="/jsp/refine_tile.jsp" />
-	  <put name="formName" value="refine" /> 		<!-- form name -->
-	  <put name="formAction" value="#" />			<!-- form action -->
+      <put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />
+	  <put name="formName" value="refineQueryForm" /> 		<!-- form name -->
+	  <put name="formAction" value="validatequery.do" />	<!-- form action -->
 	  <put name="title" value="Please refine your query below" />
 	  <put name="reqdFieldsMsg" value="" />
     </definition>
