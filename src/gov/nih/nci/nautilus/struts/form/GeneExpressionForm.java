@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionError;
+import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
 import java.lang.reflect.*;
 import java.io.*;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -110,7 +112,7 @@ public class GeneExpressionForm extends BaseForm {
 	private String resultView;
 
 	/** geneFile property */
-	private String geneFile;
+	private FormFile  geneFile;
 
 	/** foldChangeValueUDDown property */
 	private String foldChangeValueUDDown = "2";
@@ -248,7 +250,7 @@ public class GeneExpressionForm extends BaseForm {
 
 		}
 
-		if (this.getGoClassification() != null) {
+		if (this.getGoClassification() != null  && this.getGoClassification().trim().length() > 0) {
 			String goClassification = this.getGoClassification().trim();
 			if (goClassification.startsWith("GO:")) {
 				String numberValue = goClassification.substring(goClassification.indexOf(":")+1);
@@ -295,7 +297,7 @@ public class GeneExpressionForm extends BaseForm {
 		}
 
 		if (this.getGeneGroup() != null && this.getGeneGroup().trim().length() >= 1){
-			if (this.getGeneList().trim().length() < 1 && this.getGeneFile().trim().length() < 1){
+			if (this.getGeneList().trim().length() < 1 || this.getGeneFile()!= null){
 				errors
 				.add(
 						"geneGroup",
@@ -304,6 +306,7 @@ public class GeneExpressionForm extends BaseForm {
 			}
 			
 		}
+
 
 		if (this.getCloneId() != null && this.getCloneId().trim().length() >= 1){
 			if (this.getCloneListSpecify().trim().length() < 1 && this.getCloneListFile().trim().length() < 1){
@@ -754,7 +757,7 @@ public class GeneExpressionForm extends BaseForm {
 		geneType = "";
 		foldChangeValueUDUp = "2";
 		resultView = "";
-		geneFile = "";
+		//geneFile = "";
 		foldChangeValueUDDown = "2";
 		geneGroup = "";
 		cloneList = "";
@@ -850,7 +853,7 @@ public class GeneExpressionForm extends BaseForm {
 	 * 
 	 * @return String
 	 */
-	public String getGeneFile() {
+	public FormFile getGeneFile() {
 		return geneFile;
 	}
 
@@ -860,49 +863,38 @@ public class GeneExpressionForm extends BaseForm {
 	 * @param geneFile
 	 *            The geneFile to set
 	 */
-	public void setGeneFile(String geneFile) {
+	public void setGeneFile(FormFile geneFile) {
 		this.geneFile = geneFile;
 
 		String thisGeneType = this.thisRequest.getParameter("geneType");
 		String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+//		retrieve the file name & size
+ 		String fileName= geneFile.getFileName();
+ 		int fileSize = geneFile.getFileSize();
 		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload")
-				&& (thisGeneType.length() > 0) && (this.geneFile.length() > 0)) {
-
-			File geneListFile = new File(this.geneFile);
-			String line = null;
+				&& (thisGeneType.length() > 0) && (fileSize > 0)) {	
 			try {
-				FileReader editfr = new FileReader(geneListFile);
-				BufferedReader inFile = new BufferedReader(editfr);
-				line = inFile.readLine();
-				int i = 0;
-
-				while (line != null && line.length() > 0) {
-					StringTokenizer st = new StringTokenizer(line);
-					while (st.hasMoreTokens()) {
-						String token = st.nextToken();
+				InputStream stream = geneFile.getInputStream();				
+				String inputLine = null;
+				BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
+				while ((inputLine = inFile.readLine()) != null)  {
 						if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-							geneDomainMap
-									.put(token,
+							geneDomainMap.put(inputLine,
 											GeneIdentifierDE.GeneSymbol.class
 													.getName());
 						} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-							geneDomainMap.put(token,
+							geneDomainMap.put(inputLine,
 									GeneIdentifierDE.LocusLink.class.getName());
 						} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-							geneDomainMap
-									.put(
-											token,
+							geneDomainMap.put(
+									inputLine,
 											GeneIdentifierDE.GenBankAccessionNumber.class
 													.getName());
 						} else if (thisGeneType.equalsIgnoreCase("allgenes")) {
-							geneDomainMap
-									.put(token,
+							geneDomainMap.put(inputLine,
 											GeneIdentifierDE.GeneSymbol.class
 													.getName());
 						}
-
-					}
-					line = inFile.readLine();
 				}// end of while
 
 				inFile.close();
@@ -912,8 +904,8 @@ public class GeneExpressionForm extends BaseForm {
 			}
 
 		}
-
 	}
+
 
 	public GeneIDCriteria getGeneIDCriteria() {
 		return this.geneCriteria;
