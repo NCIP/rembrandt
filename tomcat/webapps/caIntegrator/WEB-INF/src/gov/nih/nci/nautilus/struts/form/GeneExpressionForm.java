@@ -268,7 +268,7 @@ public class GeneExpressionForm extends ActionForm {
 				if (strRegionDomainClass.endsWith("CytobandDE")) {
 					Object [] parameterObjects = {(String) key};
 					CytobandDE cytobandDEObj = (CytobandDE) regionConstructors[0].newInstance(parameterObjects);					
-					regionCriteria.setCttoband(cytobandDEObj);
+					regionCriteria.setCytoband(cytobandDEObj);
 					System.out.println("Test Cytoband Criteria" + regionCriteria.getCytoband().getValue());
 				}
 				if (strRegionDomainClass.endsWith("ChromosomeNumberDE")) {
