@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 
-<xsl:param name="filter_value1">000</xsl:param>
+<xsl:param name="filter_value1"></xsl:param>
 
 <xsl:param name="filter_value2">0</xsl:param>
 <xsl:param name="filter_value3">25</xsl:param>
@@ -96,23 +96,38 @@
   			white-space:normal;
   			background-color:;
   			}
-  	.pageControl, .filterForm { background-color:#F2F2F2; 
-  					padding:1px;
+  	.pageControl, .filterForm { 
+  					/*background-color:#F2F2F2; */
+  					background-image: url(images/buttonbg.png);
+  					background-repeat: repeat-x;
+  					padding:3px;
   					padding-left:8px; 
   					border-left:1px dotted black; 
   					border-right:1px dotted black; 
+  					height: 21px;
+  					margin-bottom:5px;
   				}
+	.rptHeader	{
+		background-color:#F1F1F1;
+		padding:5px;
+	}
   	INPUT, SELECT { 
-		color: #002185;
+		/*color: #002185;*/
 		font-family: arial; 
 		font-size:10px; 
 		padding: 1px; 
 		border-style: solid; 
 		border-width: 1px; 
-		border-color: #333366; 
+		border-color: #000000; 
 		}
 		.checkorradio	{
 			border: 0px;
+		}
+		.lb	{
+			display:block;
+			float:left;
+			width:100px;
+			text-align:left;
 		}
 	</style>
 	</head>
@@ -122,8 +137,7 @@
   
 
   <xsl:for-each select="Report">
-    <h2 class="title"><xsl:value-of select="@reportType" />
-    (Query Name:<xsl:value-of select="@queryName" />)</h2>
+    
     <!--
     <fieldset>
     <legend>DEBUG USE ONLY, PLEASE IGNORE THIS</legend>
@@ -137,55 +151,65 @@
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
 	<xsl:variable name="qName" select="@queryName" />
+	<xsl:variable name="rType" select="@reportType" />
 
 <form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
 <input type="hidden" name="queryName" value="{$qName}" />
 <input type="hidden" name="filter_value2" value="{$filter_value2}" />
 <input type="hidden" name="filter_value3" value="{$filter_value3}" />
 </form>
-	
+<div class="rptHeader">	
 	<div class="rowCount">
-	<p align="right">
 	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	  <a href="javascript: spawn('help.jsp?sect={$helpLink}', 350, 500);"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
 	  <a href="#" onclick="javascript:return false;"><img align="right" src="images/excel.png" border="0" alt="download for excel" onmouseover="return overlib('Download for Excel.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
 	  <a href="#" onclick="javascript:window.close();"><img align="right" src="images/recycle.png" border="0" onmouseover="return overlib('Close this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
 	  <a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
 	  <a href="#queryInfo"><img align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
+	<b class="title">
+		<xsl:value-of select="@reportType" />
+	</b><xsl:text>&#160;</xsl:text><xsl:text>&#160;</xsl:text> 
+    	(Query Name:<xsl:value-of select="@queryName" />)
 		<br clear="all"/>
-	</p>
+
 	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
 	 
-	  <form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
-	  <div class="filterForm">
-		<b>Filter:</b> 
-		<xsl:text>&#160;</xsl:text>
-		<input type="radio" class="checkorradio" name="filter_value6" value="show" checked="true" />Show Only
-		<input type="radio" class="checkorradio" name="filter_value6" value="hide"/>Hide		
-		<select name="filter_value4">
-			<option value="gene">Gene(s)</option>
-			<option value="cytobands">Cytoband(s)</option>
-			<option value="reporter(s)">Reporters</option>
-		</select>
-		<input type="text" name="filter_value5"/>
-		<input type="hidden" name="queryName" value="{$qName}"/>
-		<input type="button" name="filter_submit" value="Filter" />
-		<input type="button" name="filter_submit" value="Reset (show all)" />
-	  </div>
-	  </form>
 	  
-	  <form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 	  <div class="filterForm">
-		<b>Highlight:</b> 
+	  <form action="runReport.do?method=runShowAllValuesQuery" method="post" name="filter_form">
+		<b><span class="lb">Filter</span></b> 
+		<xsl:text>&#160;</xsl:text>
+		<input type="radio" class="checkorradio" name="filter_type" value="show" checked="true" />Show Only
+		<input type="radio" class="checkorradio" name="filter_type" value="hide"/>Hide		
+		<select name="filter_element">
+			<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
+			<option value="gene">Gene(s)</option>
+			</xsl:if>
+			<xsl:if test="$rType = 'Copy Number'">
+			<option value="cytoband">Cytoband(s)</option>
+			</xsl:if>
+			<option value="reporter">Reporters</option>
+		</select>
+		<input type="text" name="filter_string"/>
+		<input type="hidden" name="queryName" value="{$qName}"/>
+		<input type="submit" name="filter_submit" value="Filter" />
+		<!--<input type="button" name="filter_submit" value="Reset (show all)" />-->
+	  </form>
+	  </div>
+	  
+	  <div class="filterForm">
+	  <form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
+		<b><span class="lb">Highlight:</span></b> 
 		<xsl:text>&#160;</xsl:text>
 		highlight values greater than <input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Highlight" />
-	  </div>
 	  </form>
+	  </div>
+	  
 	  
 	  <div class="filterForm">
-		<b>Select Samples:</b> 
+		<b><span class="lb">Select Samples:</span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<input type="text" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$qName}" />
 		<input type="button" name="filter_submit" value="Save Samples" onclick="javascript:saveSamples();" />
@@ -194,12 +218,12 @@
 		<xsl:text>&#160;</xsl:text>
 		<a href="#" onclick="javascript:uncheckAll(document.prbSamples.samples);return false;">[Uncheck All]</a>
 	  </div>
-	  <br/>
+
 	  </xsl:if>
 	  
 	  <div class="pageControl">
 	  <!-- <xsl:value-of select="$recordCount" /> records returned. -->
-	  <b>Displaying:</b> 
+	  <b><span class="lb">Displaying:</span></b> 
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:value-of select="$filter_value3 * $filter_value2+1" /> - 
 	  <xsl:choose>
@@ -255,6 +279,7 @@
 	  </div>
 	 
 	</div>
+</div>
     <table cellpadding="0" cellspacing="0">
 		<xsl:for-each select="Row[@name='headerRow']">
 			<tr class="headerRow">

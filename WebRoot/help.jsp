@@ -101,11 +101,11 @@ String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 			out.println(kmPlotHelp());
 		if(sect.equals("clinical"))
 			out.println(clinicalHelp());
-		if(sect.equals("sample"))
+		if(sect.equals("sample") || sect.equals("Gene Expression Sample"))
 			out.println(sampleHelp());
-		if(sect.equals("disease"))
+		if(sect.equals("disease") || sect.equals("Gene Expression Disease"))
 			out.println(diseaseGroupHelp());
-		if(sect.equals("copyNumber"))
+		if(sect.equals("copyNumber") || sect.equals("Copy Number"))
 			out.println(copyNumberHelp());
 	}
 	else	{

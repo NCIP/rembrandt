@@ -165,82 +165,81 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			    		Collection reporters = copyNumberContainer.getRepoterResultsets(cytoband); 
 			    		
 			    		if(filter_element.equals("cytoband") && !filter_string.contains(cytoband))	{
-			    		recordCount += reporters.size();
-			        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
-			        		
-			        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-			        		String reporterName = reporterResultset.getReporter().getValue().toString();
-			        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
-			        		
-			        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{
+				    		recordCount += reporters.size();
+				        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 				        		
-			        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
-					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
-					        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
-					        	data = null;
-					        cell = null;
-					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
-					        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
-					        	data = null;
-					        cell = null;
-			        		//sb.append("<tr><td>"+cytoband+"</td><td>"+reporterName+"</td>");
-			        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
-			        			String label = (String) labelIterator.next();
-			        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
-			        			
-			        			sampleIds = copyNumberContainer.getBiospecimenLabels(label);
-			        	
-			        			if(groupResultset != null)
-			        			{		
-			                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-			                       		String sampleId = (String) sampleIdIterator.next();
-			                       						                       		
-			                       		SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
-			                       		
-			                       		if(sampleResultset2 != null){
-			                       			Double ratio = (Double) sampleResultset2.getCopyNumber().getValue();
-			                       			if(ratio != null)	{
-			                       				//sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");
-			                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
-				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
-				    					        	data = null;
-				    					        cell = null;
-			                       			}
-			                       			else	{
-			                       				//sb.append("<td class='"+label+"'>-</td>");
-			                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+				        		String reporterName = reporterResultset.getReporter().getValue().toString();
+				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
+				        		
+				        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{		
+					        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
+							        	data = null;
+							        cell = null;
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
+							        	data = null;
+							        cell = null;
+					        		//sb.append("<tr><td>"+cytoband+"</td><td>"+reporterName+"</td>");
+					        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+					        			String label = (String) labelIterator.next();
+					        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
+					        			
+					        			sampleIds = copyNumberContainer.getBiospecimenLabels(label);
+					        	
+					        			if(groupResultset != null)
+					        			{		
+					                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+					                       		String sampleId = (String) sampleIdIterator.next();
+					                       						                       		
+					                       		SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+					                       		
+					                       		if(sampleResultset2 != null){
+					                       			Double ratio = (Double) sampleResultset2.getCopyNumber().getValue();
+					                       			if(ratio != null)	{
+					                       				//sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
+						    					        	data = null;
+						    					        cell = null;
+					                       			}
+					                       			else	{
+					                       				//sb.append("<td class='"+label+"'>-</td>");
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+						    					        	data = null;
+						    					        cell = null;
+					                       			}
+					                       		}
+					                       		else	{
+					                       			//sb.append("<td class='"+label+"'>-</td>");
+				                       				
+				                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+					    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+					    					        	data = null;
+					    					        cell = null;
+					                       		}
+					                       	}
+					        			}
+					                    else	{
+					                    	for(int s=0;s<sampleIds.size();s++)	{ 
+					                    		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
 				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
 				    					        	data = null;
 				    					        cell = null;
-			                       			}
-			                       		}
-			                       		else	{
-			                       			//sb.append("<td class='"+label+"'>-</td>");
-		                       				
-		                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
-			    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
-			    					        	data = null;
-			    					        cell = null;
-			                       		}
-			                       	}
-			        			}
-			                    else	{
-			                    	for(int s=0;s<sampleIds.size();s++)	{ 
-			                    		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
-		    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
-		    					        	data = null;
-		    					        cell = null;
-			                    		//sb.append("<td class='"+label+"'>-</td>");
-			                    	}
-			                    }
-			         		}
-			        		//sb.append("</tr>\n");
-			    		}/* close reporter filter */	
-			        	} 
-			        	//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
-			    	}
+					                    		//sb.append("<td class='"+label+"'>-</td>");
+					                    	}
+					                    }
+					         		}
+					        		//sb.append("</tr>\n");
+					    		}/* close reporter filter */	
+				        	} 
+				        	//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
+				    	}	/* close cyto filter */
 				//sb.append("</table><Br><br>");
-			    	} /* close cyto filter */
+			    	} 
 			}
 			
 			else	{

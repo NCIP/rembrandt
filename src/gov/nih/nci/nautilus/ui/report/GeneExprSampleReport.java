@@ -181,92 +181,92 @@ public class GeneExprSampleReport implements ReportGenerator{
 	        		String the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
 		    		//if(!the_gene.equalsIgnoreCase(filter_string))	{
 	        		if(filter_element.equals("gene") && !filter_string.contains(the_gene))	{
-		    		recordCount+=reporters.size();
-		    		/*
-		    		HashMap mymap = new HashMap();
-		    		boolean hasit = mymap.containsValue(new String("EGFR"));
-		    		*/
-		    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
-		        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-		        		Collection groupTypes = reporterResultset.getGroupByResultsets();
-		        		String reporterName = reporterResultset.getReporter().getValue().toString();
-		        		
-		        		/* test filtration by reporter */
-		        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{
-		        		GeneSymbol gene = geneResultset.getGeneSymbol();
-		        		//String geneSymbol = "&#160;";
-		        		String geneSymbol = "-";
-		        		if( gene != null){
-		        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
-		        		}
-		        		
-		        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
-					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
-					        	data = cell.addElement("Data").addAttribute("type", "header").addText(geneSymbol);
-					        	data = null;
-					        cell = null;
-					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
-					        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
-					        	data = null;
-					        cell = null;
-		        		//sb.append("<tr><td>"+geneSymbol+"</td><td>"+reporterName+"</td>");
-		        		
-		        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
-		        			String label = (String) labelIterator.next();
-		        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
-		        			
-			        			sampleIds = geneViewContainer.getBiospecimenLabels(label);
-			        			if(groupResultset != null)
-		        				{
-			                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-			                       		String sampleId = (String) sampleIdIterator.next();
-			                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
-			                       		if(biospecimenResultset != null){
-			                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
-			                       			if(ratio != null)	{
-			                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
-				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
-				    					        	data = null;
-				    					        cell = null;
-			                       			
-				                       			//sb.append("<Td class='"+label+"'>"+resultFormat.format(ratio)+" </td>");
-			                       			}
-				                       		else	{
-				                       			cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
-				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
-				    					        	data = null;
-				    					        cell = null;
-				                      			//sb.append("<td class='"+label+"'>-</td>");
-				                       		}
-			                       		}
-			                       		else	{
-			                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
-				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
-				    					        	data = null;
-				    					        cell = null;
-			                       			//sb.append("<td class='"+label+"'>-</td>");
-			                       		}
-			                       	}
-		                       }
-		                       else	{
-		                       	for(int s=0;s<sampleIds.size();s++)	{
-		                       		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
-				    					data = cell.addElement("Data").addAttribute("type", "data").addText("-");
-				    					data = null;
-				    				cell = null;
-		                       		//sb.append("<td class='"+label+"'>-</td>");
-		                       	}
-		                       }
-		
-		         		}
-		         		
-		        		//sb.append("</tr>\n");
-		    		}	/* end test reporter filtration */
-		    		//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
-		    		} 
-		    	}
+			    		recordCount+=reporters.size();
+			    		/*
+			    		HashMap mymap = new HashMap();
+			    		boolean hasit = mymap.containsValue(new String("EGFR"));
+			    		*/
+			    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+			        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+			        		Collection groupTypes = reporterResultset.getGroupByResultsets();
+			        		String reporterName = reporterResultset.getReporter().getValue().toString();
+			        		
+			        		/* test filtration by reporter */
+			        		if(filter_element.equals("reporter") && !filter_string.contains(reporterName))	{
+				        		GeneSymbol gene = geneResultset.getGeneSymbol();
+				        		//String geneSymbol = "&#160;";
+				        		String geneSymbol = "-";
+				        		if( gene != null){
+				        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
+				        		}
+				        		
+				        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(geneSymbol);
+							        	data = null;
+							        cell = null;
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
+							        	data = null;
+							        cell = null;
+				        		//sb.append("<tr><td>"+geneSymbol+"</td><td>"+reporterName+"</td>");
+				        		
+				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+				        			String label = (String) labelIterator.next();
+				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
+				        			
+					        			sampleIds = geneViewContainer.getBiospecimenLabels(label);
+					        			if(groupResultset != null)
+				        				{
+					                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+					                       		String sampleId = (String) sampleIdIterator.next();
+					                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+					                       		if(biospecimenResultset != null){
+					                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
+					                       			if(ratio != null)	{
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
+						    					        	data = null;
+						    					        cell = null;
+					                       			
+						                       			//sb.append("<Td class='"+label+"'>"+resultFormat.format(ratio)+" </td>");
+					                       			}
+						                       		else	{
+						                       			cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+						    					        	data = null;
+						    					        cell = null;
+						                      			//sb.append("<td class='"+label+"'>-</td>");
+						                       		}
+					                       		}
+					                       		else	{
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+						    					        	data = null;
+						    					        cell = null;
+					                       			//sb.append("<td class='"+label+"'>-</td>");
+					                       		}
+					                       	}
+				                       }
+				                       else	{
+				                       	for(int s=0;s<sampleIds.size();s++)	{
+				                       		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+						    					data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+						    					data = null;
+						    				cell = null;
+				                       		//sb.append("<td class='"+label+"'>-</td>");
+				                       	}
+				                       }
+				
+				         		}
+				         		
+				        		//sb.append("</tr>\n");
+				    		}	/* end reporter filter */
+			    		//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
+			    		} 
+			    	} /* end gene filter  */
 					//sb.append("</table>");
-		    	} /* end hardcode filter test */
+		    	} 
 			}
 			else {
 				//TODO: handle this error
