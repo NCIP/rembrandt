@@ -233,6 +233,7 @@ public class CSVGenerator  {
 		    	StringBuffer sampleNames = new StringBuffer();
 		        StringBuffer stringBuffer = new StringBuffer();
 		        StringBuffer theLabels = new StringBuffer();
+		        StringBuffer tempSampleNames = new StringBuffer();
 		        
 				int recordCount = 0;
 				
@@ -255,6 +256,7 @@ public class CSVGenerator  {
 				    	
 				    	header = new StringBuffer();
 				    	sampleNames = new StringBuffer();
+				    	tempSampleNames = new StringBuffer();
 				        stringBuffer = new StringBuffer();
 				        			        
 				    	sampleNames.append(" , ");
@@ -267,7 +269,7 @@ public class CSVGenerator  {
 				        	sampleIds = copyNumberContainer.getBiospecimenLabels(label); 
 
 					           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-					            	sampleNames.append("," + sampleIdIterator.next().toString().substring(2)); 
+					            	tempSampleNames.append("," + sampleIdIterator.next().toString().substring(2)); 
 						        	theLabels.append(","+label); 
 					           	}
 				    	}
@@ -310,7 +312,7 @@ public class CSVGenerator  {
 				        			}
 				        			if(showGenes)	{
 				        				header.append(",Gene Symbols");
-				        				sampleNames.append(",");
+				        				sampleNames.append(", ");
 				        				showGenes = false;
 				        			}
 				        			stringBuffer.append(","+genes);
@@ -331,7 +333,7 @@ public class CSVGenerator  {
 				        			}
 				        			if(showLL)	{
 				        				header.append(",Locus Link");
-				        				sampleNames.append(",");
+				        				sampleNames.append(", ");
 				        				showLL = false;
 				        			}
 				        			stringBuffer.append(","+ll);
@@ -351,7 +353,7 @@ public class CSVGenerator  {
 				        			}
 				        			if(showAcc){
 				        				header.append(",Acc.No.");
-				        				sampleNames.append(",");
+				        				sampleNames.append(", ");
 				        				showAcc = false;
 				        			}
 				        			stringBuffer.append(", "+acc);
@@ -401,7 +403,7 @@ public class CSVGenerator  {
 			}	
 				
 				sb.append(header.toString() + theLabels.toString()); // add header
-				sb.append(sampleNames.toString() + "\n"); // add sample rows
+				sb.append(sampleNames.toString() + tempSampleNames.toString() + "\n"); // add sample rows
 				sb.append(stringBuffer.toString()); // add data
 				
 			return sb.toString();
@@ -414,6 +416,7 @@ public class CSVGenerator  {
 				StringBuffer sb = new StringBuffer();
 		    	StringBuffer header = new StringBuffer();
 		    	StringBuffer sampleNames = new StringBuffer();
+		    	StringBuffer tempSampleNames = new StringBuffer();
 		        StringBuffer stringBuffer = new StringBuffer();
 		        StringBuffer theLabels = new StringBuffer();
 		        
@@ -438,6 +441,7 @@ public class CSVGenerator  {
 			    	
 			    	sampleNames = new StringBuffer();
 			        stringBuffer = new StringBuffer();
+			    	tempSampleNames = new StringBuffer();
 			    	
 			    	header.append("Gene,Reporter");
 			    	sampleNames.append(" , "); 
@@ -450,7 +454,7 @@ public class CSVGenerator  {
 			        	//header.append(","+label); 
 
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-				            	sampleNames.append(","+sampleIdIterator.next().toString().substring(2)); 
+				            	tempSampleNames.append(","+sampleIdIterator.next().toString().substring(2)); 
 				            	theLabels.append(","+label);
 				           	}
 			           	//header.deleteCharAt(header.lastIndexOf("\t"));
@@ -491,7 +495,7 @@ public class CSVGenerator  {
 			        			}
 			        			if(showLL)	{
 			        				header.append(",Locus Link");
-			        				sampleNames.append(",");
+			        				sampleNames.append(", ");
 			        				showLL = false;
 			        			}
 			        			stringBuffer.append(","+ll);
@@ -512,7 +516,7 @@ public class CSVGenerator  {
 			        			}
 			        			if(showAcc){
 			        				header.append(",Acc.No.");
-			        				sampleNames.append(",");
+			        				sampleNames.append(", ");
 			        				showAcc = false;
 			        			}
 			        			stringBuffer.append(", "+acc);
@@ -561,7 +565,7 @@ public class CSVGenerator  {
 					stringBuffer.append("Gene Container is empty<br>");
 				}
 				sb.append(header.toString() + theLabels.toString()); // add header
-				sb.append(sampleNames.toString() + "\n"); // add sample rows
+				sb.append(sampleNames.toString() + tempSampleNames.toString() + "\n"); // add sample rows
 				sb.append(stringBuffer.toString()); // add data
 				
 			    return sb.toString();
