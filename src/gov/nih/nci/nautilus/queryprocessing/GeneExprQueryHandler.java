@@ -1,22 +1,22 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
-import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.criteria.*;
+import gov.nih.nci.nautilus.de.*;
+
+import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
+import gov.nih.nci.nautilus.data.ReporterAll;
+import gov.nih.nci.nautilus.data.GeneOntology;
+import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
+import gov.nih.nci.nautilus.view.ViewType;
+
+import java.util.*;
 
 
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
-import gov.nih.nci.nautilus.criteria.PathwayCriteria;
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-
-import java.util.Collection;
-import java.util.Iterator;
+import org.apache.ojb.broker.query.*;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,34 +25,163 @@ import java.util.Iterator;
  * Time: 3:14:46 PM
  * To change this template use Options | File Templates.
  */
-public class GeneExprQueryHandler implements QueryHandler {
-    FoldChangeCriteria foldCrit;
-    GeneIDCriteria  geneIDCrit;
-    RegionCriteria regionCrit;
-	DiseaseOrGradeCriteria diseaseOrGradeCrit;
-	CloneOrProbeIDCriteria cloneOrProbeIDCrit;
-	GeneOntologyCriteria geneOntologyCrit;
-	PathwayCriteria pathwayCrit;
-	ArrayPlatformCriteria arrayPlatformCrit;
+final public class GeneExprQueryHandler extends QueryHandler {
+    DEFactHandler factHandler = null;
+    ReporterIDCriteria porbeClonePlatformCrit = null;
+    ReporterIDCriteria geneIDCrit = null;
+    ReporterIDCriteria regionCrit = null;
+    ReporterIDCriteria ontologyCrit = null;
+    protected javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
 
+    boolean includeClones;
+    boolean includeProbes;
 
-    public void handle(Query query) {
-        GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
-        foldCrit = geQuery.getFoldChgCrit();
-        geneIDCrit = geQuery.getGeneIDCrit();
-        regionCrit = geQuery.getRegionCrit();
-        diseaseOrGradeCrit = geQuery.getDiseaseOrGradeCriteria();
-        cloneOrProbeIDCrit = geQuery.getCloneOrProbeIDCriteria();
-        geneOntologyCrit = geQuery.getGeneOntologyCriteria();
-        pathwayCrit = geQuery.getPathwayCriteria();
-        arrayPlatformCrit = geQuery.getArrayPlatformCriteria();
+    private Collection allProbeIDS = Collections.synchronizedCollection(new HashSet());
+    private Collection allCloneIDS = Collections.synchronizedCollection(new HashSet());
+    private List eventList = Collections.synchronizedList(new ArrayList());
+    InheritableThreadLocal tl = new InheritableThreadLocal();
+    PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
 
-        Collection geneIdDEs = geneIDCrit.getGeneIdentifiers();
-        for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();) {
-            GeneIdentifierDE o = (GeneIdentifierDE) iterator.next();
-            if (o instanceof GeneIdentifierDE.LocusLink) {
-                System.out.println("LocuLink: " + o.getValueObject());
+    class Listner {
+        void retrieveCompleted() {
+            //boolean sleep = true;
+             for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
+                DBEvent eventObj = (DBEvent)iterator.next();
+                if (! eventObj.isCompleted()) {
+                    //sleep = true;
+                    return;
+                }
+             }
+             // means all events are done i.e status completed
+            ThreadGroup parentThreadGroup = Thread.currentThread().getThreadGroup().getParent();
+            Thread[] allParentThreads = new Thread[parentThreadGroup.activeCount()];
+            parentThreadGroup.enumerate(allParentThreads);
+            for (int i = 0; i < allParentThreads.length; i++) {
+                Thread thread = allParentThreads[i];
+                if (thread.getName().equals("Main Thread")) {
+                    thread.interrupt();
+                    return;
+                }
             }
         }
     }
+    public Map handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
+        GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
+
+        if (query.getAssociatedView().equals(ViewType.SAMPLE_VIEW_TYPE)) {
+                factHandler = new DEFactHandler.SampleDEFactHandler();
+        }
+        if (query.getAssociatedView().equals(ViewType.Gene_VIEW_TYPE)) {
+                factHandler = new DEFactHandler.GroupDEFactHanlder();
+        }
+        // make sure that platform (for the resulting smaples) is specified
+        ArrayPlatformCriteria platObj = geQuery.getPlatCriteria();
+        assert(platObj != null);
+        populateProbeAndCloneIncludeFlags(platObj);
+
+        Listner myListner = new Listner();
+        tl.set(myListner);
+        Thread.currentThread().setName("Main Thread");
+        ThreadGroup tg = new ThreadGroup("childGroup");
+
+        if (geQuery.getCloneProbeCrit() != null) {
+            porbeClonePlatformCrit = CloneProbePlatfromHandler.buildCloneProbePlatformCriteria(geQuery.getCloneProbeCrit(), platObj, _BROKER);
+            assert(porbeClonePlatformCrit != null);
+            SelectHandler handler = new SelectHandler.ProbeCloneIDSelectHandler(porbeClonePlatformCrit, allProbeIDS, allCloneIDS, _BROKER);
+            eventList.add(handler.getDbEvent());
+            new Thread(tg, handler).start();
+        }
+
+        if (geQuery.getGeneIDCrit() != null && geQuery.getGeneIDCrit().getGeneIdentifiers().size() > 0) {
+            geneIDCrit = GeneIDCriteriaHandler.buildGeneIDCriteria(geQuery.getGeneIDCrit(), includeClones, includeProbes, _BROKER);
+            assert(geneIDCrit != null);
+            SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS, _BROKER);
+            eventList.add(handler.getDbEvent());
+            new Thread(tg, handler).start();
+        }
+
+        if (geQuery.getRegionCrit() != null) {
+            regionCrit = ChrRegionCriteriaHandler.buildRegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes, _BROKER);
+            assert(regionCrit != null);
+            SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allProbeIDS, allCloneIDS, _BROKER);
+            eventList.add(handler.getDbEvent());
+            new Thread(tg, handler).start();
+        }
+
+        if (geQuery.getOntologyCrit() != null) {
+            ontologyCrit = GeneOntologyHandler.buildGeneOntologyIDCriteria(geQuery.getOntologyCrit(), includeClones, includeProbes, _BROKER);
+            assert(ontologyCrit != null);
+            SelectHandler handler = new SelectHandler.OntologySelectHandler(ontologyCrit, allProbeIDS, allCloneIDS, _BROKER);
+            eventList.add(handler.getDbEvent());
+            new Thread(tg, handler).start();
+        }
+
+        Criteria sampleCrit= new Criteria();
+        if (geQuery.getFoldChgCrit() != null)
+            FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery.getFoldChgCrit(), _BROKER, sampleCrit);
+
+        boolean sleep = true;
+        do {
+            Thread.sleep(10);
+            sleep = false;
+            for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
+                DBEvent eventObj = (DBEvent)iterator.next();
+                if (! eventObj.isCompleted()) {
+                    sleep = true;
+                    break;
+                }
+            }
+        } while (sleep);
+
+        Criteria combinedIDs = getCombinedIDs();
+        if (combinedIDs != null) {
+            Enumeration idEnum = combinedIDs.getElements();
+            if (idEnum.hasMoreElements()) {
+                sampleCrit.addAndCriteria(combinedIDs);
+            }
+        }
+        return factHandler.executeSampleQuery(sampleCrit, _BROKER);
+   }
+
+    private Criteria getCombinedIDs() {
+        Criteria combinedIDs = null;
+        Criteria cloneIDs = new Criteria();
+        if (allCloneIDS.size() > 0) {
+            cloneIDs.addIn(DifferentialExpressionSfact.CLONE_ID, allCloneIDS);
+        }
+        Criteria probeIDs = new Criteria();
+        if (allProbeIDS.size() > 0) {
+            probeIDs.addIn(DifferentialExpressionSfact.PROBESET_ID, allProbeIDS);
+        }
+
+        if (cloneIDs.getElements().hasMoreElements() && probeIDs.getElements().hasMoreElements()) {
+            cloneIDs.addOrCriteria(probeIDs);
+            combinedIDs = cloneIDs;
+        }
+        else if (cloneIDs.getElements().hasMoreElements()) combinedIDs = cloneIDs;
+        else if (probeIDs.getElements().hasMoreElements()) combinedIDs = probeIDs;
+        return combinedIDs;
+    }
+
+
+    private void populateProbeAndCloneIncludeFlags(ArrayPlatformCriteria platObj) throws Exception {
+        if ((platObj != null) && platObj.getPlatform() != null) {
+            ArrayPlatformDE platDE = platObj.getPlatform();
+            if (platDE != null) {
+                if (platDE.getValueObject().equalsIgnoreCase(Constants.ALL_PLATFROM) ) {
+                    includeProbes = true;
+                    includeClones = true;
+                }
+                else if (platDE.getValueObject().equalsIgnoreCase(Constants.AFFY_OLIGO_PLATFORM)) {
+                    includeProbes = true;
+                }
+                else if (platDE.getValueObject().equalsIgnoreCase(Constants.CDNA_ARRAY_PLATFORM)) {
+                    includeClones = true;
+                }
+            }
+        }
+        else throw new Exception("Array Platform can not be null");
+    }
+
+
 }

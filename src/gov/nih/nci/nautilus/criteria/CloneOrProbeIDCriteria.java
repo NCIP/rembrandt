@@ -16,22 +16,22 @@ import java.util.Iterator;
  */
 public class CloneOrProbeIDCriteria extends Criteria {
     private Collection cloneIdentifiers;
-    public Collection getCloneIdentifiers() {
+    public Collection getIdentifiers() {
         return cloneIdentifiers;
     }
     public void setCloneIdentifiers(Collection cloneIdentifiersObjs) {
         for (Iterator iterator = cloneIdentifiersObjs.iterator(); iterator.hasNext();) {
             Object obj = iterator.next();
             if (obj instanceof CloneIdentifierDE) {
-                getCloneIdentifiersMember().add(obj);
+                getIdentifiersMember().add(obj);
             }
         }
     }
 
-    public void setCloneIdentifier(CloneIdentifierDE cloneIdentifier) {
-        getCloneIdentifiersMember().add(cloneIdentifier);
+    public void setCloneIdentifiers(CloneIdentifierDE cloneIdentifier) {
+        getIdentifiersMember().add(cloneIdentifier);
     }
-    private Collection getCloneIdentifiersMember() {
+    private Collection getIdentifiersMember() {
         if (cloneIdentifiers == null)
             cloneIdentifiers  = new ArrayList();
         return cloneIdentifiers ;
