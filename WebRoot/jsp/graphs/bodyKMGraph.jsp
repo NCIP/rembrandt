@@ -46,6 +46,7 @@
     <html:submit value="Redraw Graph"/>
   </div>
   <div>
+  <logic:equal name="kmDataSetForm" property="plotVisible" value="true">
     <cewolf:overlaidchart id="kmChart"
         type="overlaidxy"
         xaxislabel="Days of Study"
@@ -165,8 +166,12 @@
     </logic:greaterThan>
 </table>
 </fieldset>
-
-
+</logic:equal>
+<logic:equal name="kmDataSetForm" property="plotVisible" value="false">
+<p>
+To display graph, Please select a Reporter for the Gene: <bean:write name="kmDataSetForm" property="geneOrCytoband" /> and select "Redraw Graph"
+</p>
+</logic:equal>
 
   </div>
 </html:form>

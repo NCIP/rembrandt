@@ -93,6 +93,7 @@ public class QuickSearchAction extends DispatchAction {
                 kmForm.setGeneOrCytoband(getKmResultsContainer().getGeneSymbol().getValue().toString() );
         		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
         		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
+                kmForm.setPlotVisible(true);
                 return mapping.findForward("kmplot");
             }
             return mapping.findForward("badgraph");
@@ -112,6 +113,7 @@ public class QuickSearchAction extends DispatchAction {
             }
         		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
         		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
+                kmForm.setPlotVisible(false);
             return mapping.findForward("kmplot");
             }      
         }
@@ -146,10 +148,12 @@ public class QuickSearchAction extends DispatchAction {
     	        else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
     	        		kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 	        	}
+                kmForm.setPlotVisible(true);
             }
             else{ //empty graph
                 KMSampleInfo[] km = {new KMSampleInfo(0,0,0)};
                 kmSampleInfos = km;
+                kmForm.setPlotVisible(false);
             }
 			KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
 					kmForm.getDownFold(), kmForm.getGeneOrCytoband(),kmSampleInfos,kmplotType);

@@ -58,7 +58,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     private String downSampleCount = null;
     private String intSampleCount = null;
     private String allSampleCount = null;
-
+    private boolean plotVisible = false;
 	private ArrayList folds = new ArrayList();
 
 	private static Logger logger = Logger.getLogger(KMDataSetForm.class);
@@ -415,4 +415,16 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	public void setDownOrDeleted(String downOrDeleted) {
 		this.downOrDeleted = downOrDeleted;
 	}
+
+    public boolean isPlotVisible() {
+        return plotVisible;
+    }
+    
+
+    public void setPlotVisible(boolean plotVisible) {
+        this.plotVisible = plotVisible;
+    }
+    
+
+
 }
