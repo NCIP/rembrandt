@@ -140,7 +140,7 @@ public class ReportGeneratorHelper {
 	}
 	
 	private void checkQueryName(String queryName) {
-		if (!"".equals(queryName)){
+		if (!"".equals(queryName)&& queryName != null){
 			_queryName = queryName;
 		}else {
 			/*
