@@ -36,6 +36,7 @@ public class CloneProbePlatfromHandler {
 
     static  GEReporterIDCriteria buildCloneProbePlatformCriteria(CloneOrProbeIDCriteria cloneOrProbeCrit,  ArrayPlatformCriteria platCrit) throws Exception{
         PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+        _BROKER.clearCache();
 
         GEReporterIDCriteria idsCriteria = new GEReporterIDCriteria();
 
@@ -99,6 +100,7 @@ public class CloneProbePlatfromHandler {
                 //idCrit.addOrCriteria(idsCriteria.handle());
             }
         }
+        _BROKER.close();
          return idsCriteria;
     }
 

@@ -46,9 +46,13 @@ final public class ChrRegionCriteriaHandler {
 
     public static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes) throws Exception {
         PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        pb.clearCache();
+        GEReporterIDCriteria gEReporterIDCriteria = null;
         assert (regionCrit != null);
         StartEndPosition posObj = getPositionObject(regionCrit, pb);
-        return buildGECloneIDProbeIDCrit(posObj, includeProbes, pb, includeClones);
+        gEReporterIDCriteria = buildGECloneIDProbeIDCrit(posObj, includeProbes, pb, includeClones);
+        pb.close();
+        return gEReporterIDCriteria;
     }
     public static CGHReporterIDCriteria  buildCGHRegionCriteria( RegionCriteria regionCrit, boolean includeSNPs, boolean includeCGH, PersistenceBroker pb) throws Exception {
         assert (regionCrit != null);

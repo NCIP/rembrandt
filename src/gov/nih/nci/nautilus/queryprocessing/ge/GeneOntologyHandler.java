@@ -27,6 +27,7 @@ import java.util.Iterator;
 public class GeneOntologyHandler {
     static GEReporterIDCriteria  buildGeneOntologyIDCriteria( GeneOntologyCriteria ontologyCrit, boolean includeClones, boolean includeProbes) throws Exception {
             PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+            pb.clearCache();
             Collection goIDs = ontologyCrit.getGOIdentifiers();
 
             ArrayList goIDValues = new ArrayList();
@@ -55,6 +56,7 @@ public class GeneOntologyHandler {
                 return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes);
             }
             // means no data
+            pb.close();
             return new GEReporterIDCriteria();
     }
 }

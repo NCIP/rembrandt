@@ -90,7 +90,8 @@ public class GeneIDCriteriaHandler {
     }
 
     public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes) throws Exception {
-        PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        pb.clearCache();
         Class deClass = getGeneIDClassName(geneIDCrit);
         ArrayList arrayIDs = getGeneIDValues(geneIDCrit);
         GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
@@ -137,6 +138,7 @@ public class GeneIDCriteriaHandler {
             cloneIDProbeIDCrit.setCloneIDsSubQuery(cloneIDSubQuery);
         }
         */
+       	pb.close(); // Release broker instance to the broker-pool
         return cloneIDProbeIDCrit;
     }
 

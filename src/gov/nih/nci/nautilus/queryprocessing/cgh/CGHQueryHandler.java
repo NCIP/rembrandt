@@ -50,7 +50,8 @@ public class CGHQueryHandler extends QueryHandler {
     public ResultSet[] handle(Query query) throws Exception{
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) query;
 
-        PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        pb.clearCache();
         populateIncludeCGHAndSNPFlags(cghQuery.getAssayPlatformCriteria());
 
         if (cghQuery.getGeneIDCriteria() != null) {

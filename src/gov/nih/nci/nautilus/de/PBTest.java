@@ -101,6 +101,7 @@ public class PBTest extends TestCase {
 				CopyNumberDE$UnChangedCopyNumberUpperLimit.class, new Criteria(), true);			    			
 			Collection unchange = pb.getCollectionByQuery(q);
 			System.err.println("Got " + unchange.size() + " unchange objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -114,6 +115,7 @@ public class PBTest extends TestCase {
 				CopyNumberDE$Deletion.class, new Criteria(), true);			    			
 			Collection deletion = pb.getCollectionByQuery(q);
 			System.err.println("Got " + deletion.size() + " deletion objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -127,6 +129,7 @@ public class PBTest extends TestCase {
 				CopyNumberDE$Amplification.class, new Criteria(), true);			    			
 			Collection amplification = pb.getCollectionByQuery(q);
 			System.err.println("Got " + amplification.size() + " amplification objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -140,6 +143,7 @@ public class PBTest extends TestCase {
 				SurvivalDE.class, new Criteria(), true);			    			
 			Collection survivalDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + survivalDE.size() + " survivalDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -153,6 +157,7 @@ public class PBTest extends TestCase {
 				AgeAtDiagnosisDE.class, new Criteria(), true);			    			
 			Collection ageAtDiagnosisDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + ageAtDiagnosisDE.size() + " ageAtDiagnosisDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -166,6 +171,7 @@ public class PBTest extends TestCase {
 				AlleleFrequencyDE.class, new Criteria(), true);			    			
 			Collection alleleFrequencyDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + alleleFrequencyDE.size() + " alleleFrequencyDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -179,6 +185,7 @@ public class PBTest extends TestCase {
 				 ArrayPlatformDE.class, new Criteria(), true);			    			
 			Collection arrayPlatformDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + arrayPlatformDE.size() + " arrayPlatformDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -192,6 +199,7 @@ public class PBTest extends TestCase {
 					GenderDE.class, new Criteria(), true);			    			
 			Collection genderDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + genderDE.size() + " genderDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -205,6 +213,7 @@ public class PBTest extends TestCase {
 					GeneOntologyDE.class, new Criteria(), true);			    			
 			Collection geneOntologyDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + geneOntologyDE.size() + " geneOntologyDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -218,6 +227,7 @@ public class PBTest extends TestCase {
 					SNPIdentifierDE$SNPProbeSet.class, new Criteria(), true);			    			
 			Collection sNPProbeSet = pb.getCollectionByQuery(q);
 			System.err.println("Got " + sNPProbeSet.size() + " sNPProbeSet objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -231,6 +241,7 @@ public class PBTest extends TestCase {
 					SNPIdentifierDE$DBSNP.class, new Criteria(), true);			    			
 			Collection sNPProbeSet = pb.getCollectionByQuery(q);
 			System.err.println("Got " + sNPProbeSet.size() + " sNPProbeSet objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -244,6 +255,7 @@ public class PBTest extends TestCase {
 					SNPIdentifierDE$TSC.class, new Criteria(), true);			    			
 			Collection tsc = pb.getCollectionByQuery(q);
 			System.err.println("Got " + tsc.size() + " tsc objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -258,6 +270,7 @@ public class PBTest extends TestCase {
 					ChemoAgentDE.class, new Criteria(), true);			    			
 			Collection chemoAgentDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + chemoAgentDE.size() + " chemoAgentDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -272,6 +285,7 @@ public class PBTest extends TestCase {
 					UntranslatedRegionDE$UTR_3.class, new Criteria(), true);			    			
 			Collection uTR_3 = pb.getCollectionByQuery(q);
 			System.err.println("Got " + uTR_3.size() + " uTR_3 objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -285,6 +299,7 @@ public class PBTest extends TestCase {
 					UntranslatedRegionDE$UTR_5.class, new Criteria(), true);			    			
 			Collection uTR_5 = pb.getCollectionByQuery(q);
 			System.err.println("Got " + uTR_5.size() + " uTR_5 objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -298,6 +313,7 @@ public class PBTest extends TestCase {
 					InstitutionNameDE.class, new Criteria(), true);			    			
 			Collection institutionNameDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + institutionNameDE.size() + " institutionNameDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -311,6 +327,7 @@ public class PBTest extends TestCase {
 					DiseaseNameDE.class, new Criteria(), true);			    			
 			Collection diseaseNameDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + diseaseNameDE.size() + " diseaseNameDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -325,6 +342,7 @@ public class PBTest extends TestCase {
 					ProbeSetDE.class, new Criteria(), true);			    			
 			Collection probeSetDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + probeSetDE.size() + " probeSetDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -339,6 +357,7 @@ public class PBTest extends TestCase {
 					CloneIdentifierDE$IMAGEClone.class, new Criteria(), true);			    			
 			Collection iMAGEClone = pb.getCollectionByQuery(q);
 			System.err.println("Got " + iMAGEClone.size() + " iMAGEClone objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -353,6 +372,7 @@ public class PBTest extends TestCase {
 					CloneIdentifierDE$BACClone.class, new Criteria(), true);			    			
 			Collection bACClone = pb.getCollectionByQuery(q);
 			System.err.println("Got " + bACClone.size() + " bACClone objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -367,6 +387,7 @@ public class PBTest extends TestCase {
 					ExprFoldChangeDE$UnChangedRegulationDownLimit.class, new Criteria(), true);			    			
 			Collection unChangedRegulationDownLimit = pb.getCollectionByQuery(q);
 			System.err.println("Got " + unChangedRegulationDownLimit.size() + " unChangedRegulationDownLimit objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -381,6 +402,7 @@ public class PBTest extends TestCase {
 					ExprFoldChangeDE$UnChangedRegulationUpperLimit.class, new Criteria(), true);			    			
 			Collection unChangedRegulationUpperLimit = pb.getCollectionByQuery(q);
 			System.err.println("Got " + unChangedRegulationUpperLimit.size() + " unChangedRegulationUpperLimit objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -394,6 +416,7 @@ public class PBTest extends TestCase {
 					ExprFoldChangeDE$DownRegulation.class, new Criteria(), true);			    			
 			Collection downRegulation = pb.getCollectionByQuery(q);
 			System.err.println("Got " + downRegulation.size() + " downRegulation objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -407,6 +430,7 @@ public class PBTest extends TestCase {
 					ExprFoldChangeDE$UpRegulation.class, new Criteria(), true);			    			
 			Collection upRegulation = pb.getCollectionByQuery(q);
 			System.err.println("Got " + upRegulation.size() + " upRegulation objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -421,6 +445,7 @@ public class PBTest extends TestCase {
 					BasePairPositionDE$EndPosition.class, new Criteria(), true);			    			
 			Collection endPosition = pb.getCollectionByQuery(q);
 			System.err.println("Got " + endPosition.size() + " endPosition objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -434,6 +459,7 @@ public class PBTest extends TestCase {
 					BasePairPositionDE$StartPosition.class, new Criteria(), true);			    			
 			Collection startBasePair = pb.getCollectionByQuery(q);
 			System.err.println("Got " + startBasePair.size() + " startBasePair objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -448,6 +474,7 @@ public class PBTest extends TestCase {
 					CytobandDE.class, new Criteria(), true);			    			
 			Collection cytobandDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + cytobandDE.size() + " cytobandDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -462,6 +489,7 @@ public class PBTest extends TestCase {
 					ChromosomeNumberDE.class, new Criteria(), true);			    			
 			Collection chromosomeNumberDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + chromosomeNumberDE.size() + " chromosomeNumberDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -475,6 +503,7 @@ public class PBTest extends TestCase {
 					GeneIdentifierDE$GenBankAccessionNumber.class, new Criteria(), true);			    			
 			Collection genBankAccessionNumber = pb.getCollectionByQuery(q);
 			System.err.println("Got " + genBankAccessionNumber.size() + " genBankAccessionNumber objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -489,6 +518,7 @@ public class PBTest extends TestCase {
 					GeneIdentifierDE$LocusLink.class, new Criteria(), true);			    			
 			Collection locusLink = pb.getCollectionByQuery(q);
 			System.err.println("Got " + locusLink.size() + " locusLink objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -502,6 +532,7 @@ public class PBTest extends TestCase {
 					GeneIdentifierDE$GeneSymbol.class, new Criteria(), true);			    			
 			Collection geneSymbol = pb.getCollectionByQuery(q);
 			System.err.println("Got " + geneSymbol.size() + " geneSymbol objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -515,6 +546,7 @@ public class PBTest extends TestCase {
 					GradeDE.class, new Criteria(), true);			    			
 			Collection gradeDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + gradeDE.size() + " gradeDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -529,6 +561,7 @@ public void testRetrievePathwayDE() {
 					PathwayDE.class, new Criteria(), true);			    			
 			Collection pathDE = pb.getCollectionByQuery(q);
 			System.err.println("Got " + pathDE.size() + " PathwayDE objects.");
+			pb.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail("Got " + ex.getClass().getName() + ": " + ex.getMessage());

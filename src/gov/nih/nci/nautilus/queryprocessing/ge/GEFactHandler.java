@@ -58,6 +58,7 @@ abstract public class GEFactHandler {
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                _BROKER.clearCache();
                 
                 final Criteria sampleCrit = new Criteria();
                 if (diseaseCrit != null)
@@ -71,6 +72,7 @@ abstract public class GEFactHandler {
                    new Runnable() {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                          pb.clearCache();
                           sampleCrit.addAndCriteria(IDs);
                           org.apache.ojb.broker.query.Query sampleQuery =
                           QueryFactory.newQuery(targetFactClass,sampleCrit, false);
@@ -101,6 +103,7 @@ abstract public class GEFactHandler {
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                _BROKER.clearCache();
                 final String locusLinkColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.LOCUS_LINK);
                 final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.ACCESSION_NUMBER);
                 final String cloneIDColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.CLONE_ID);
@@ -109,6 +112,7 @@ abstract public class GEFactHandler {
                    new Runnable() {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                          pb.clearCache();
                           Query annotQuery =
                           QueryFactory.newReportQuery(GeneClone.class,new String[] {cloneIDColName, locusLinkColName, accessionColName }, annotCrit, false);
                           assert(annotQuery != null);
@@ -147,6 +151,7 @@ abstract public class GEFactHandler {
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                _BROKER.clearCache();
                 final String locusLinkColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.LOCUS_LINK);
                 final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.ACCESSION_NUMBER);
                 final String probeIDColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
@@ -155,6 +160,7 @@ abstract public class GEFactHandler {
                    new Runnable() {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                          pb.clearCache();
                           Query annotQuery =
                           QueryFactory.newReportQuery(ProbesetDim.class,new String[] {probeIDColName , locusLinkColName, accessionColName }, annotCrit, false);
                           assert(annotQuery != null);

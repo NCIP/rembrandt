@@ -28,7 +28,7 @@ abstract public class CGHFactHandler {
     private static Logger logger = Logger.getLogger(CGHFactHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
-    private final static int VALUES_PER_THREAD = 200;
+    private final static int VALUES_PER_THREAD = 100;
     List factEventList = Collections.synchronizedList(new ArrayList());
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
@@ -52,6 +52,7 @@ abstract public class CGHFactHandler {
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                _BROKER.clearCache();
 
                 final Criteria sampleCrit = new Criteria();
                 if (diseaseCrit != null)
@@ -66,6 +67,7 @@ abstract public class CGHFactHandler {
                    new Runnable() {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                          pb.clearCache();
                           sampleCrit.addAndCriteria(IDs);
                           Query sampleQuery =
                           QueryFactory.newQuery(targetFactClass,sampleCrit, true);
@@ -141,8 +143,8 @@ abstract public class CGHFactHandler {
                     obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
                 }
                 results[i] = obj;
-                logger.debug("SAMPLE_ID: " + obj.getSampleId() + "    Copy Number: " + obj.getCopyNumber() +
-                                    "    DISEASE_TYPE: " + obj.getDiseaseType());
+                //logger.debug("SAMPLE_ID: " + obj.getSampleId() + "    Copy Number: " + obj.getCopyNumber() +
+                //                    "    DISEASE_TYPE: " + obj.getDiseaseType());
             }
             return results;
         }

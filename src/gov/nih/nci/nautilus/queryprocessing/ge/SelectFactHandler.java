@@ -56,6 +56,7 @@ abstract public class SelectFactHandler implements Runnable{
                 QueryFactory.newQuery(DifferentialExpressionSfact.class,sampleCrit, true);
 
         PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+        _BROKER.clearCache();
         Collection exprObjects =   _BROKER.getCollectionByQuery(sampleQuery );
         assert(exprObjects != null);
         for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {

@@ -66,6 +66,7 @@ public abstract class SelectHandler implements Runnable {
 
     public void run() {
            PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+           _BROKER.clearCache();
            ReportQueryByCriteria p = reporterIDCritObj.getSnpProbeIDsSubQuery();
            if ( p != null) {
                Iterator iter = _BROKER.getReportQueryIteratorByQuery(p);
