@@ -178,6 +178,7 @@ abstract public class CGHFactHandler {
             resultObj.setSnpProbesetName(factObj.getSnpProbesetName());
             resultObj.setSurvivalLengthRange(factObj.getSurvivalLengthRange());
             resultObj.setTimecourseId(factObj.getTimecourseId());
+            resultObj.setPhysicalPosition(factObj.getPhysicalPosition());
         }
     }
 }

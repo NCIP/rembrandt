@@ -25,6 +25,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String snpProbesetName ;
   private String survivalLengthRange;
   private Long timecourseId;
+  private Long physicalPosition;
   private SNPAnnotation annotations;
 
   public static class SNPAnnotation {
@@ -182,6 +183,14 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
 
     public void setTimecourseId(Long timecourseId) {
         this.timecourseId = timecourseId;
+    }
+
+    public Long getPhysicalPosition() {
+        return physicalPosition;
+    }
+
+    public void setPhysicalPosition(Long physicalPosition) {
+        this.physicalPosition = physicalPosition;
     }
 }
 
