@@ -25,9 +25,10 @@ strIncFile3 = "/jsp/tiles/assayPlatform_tile.jsp?act="+act;
 <fieldset style="padding:5px;">
 <legend align="right">AND</legend>
 <tiles:insert page="<%= strIncFile %>" flush="false" />
+<tiles:insert page="<%= strIncFile4 %>" flush="false" />
 <tiles:insert page="<%= strIncFile2 %>" flush="false" />
 <tiles:insert page="<%= strIncFile3 %>" flush="false" />
-<tiles:insert page="<%= strIncFile4 %>" flush="false" />
+
 
 
 <Br>

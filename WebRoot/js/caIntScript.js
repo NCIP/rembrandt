@@ -629,6 +629,18 @@ function showQueryDetail(selectName){
    
    //selected index of the selected
 	var element = formElement.name;
+	
+	  if(element == "sampleGroup"){
+	    if(i == 0){
+	    document.forms[0].sampleFile.disabled = true;
+	    document.forms[0].sampleList.disabled = false;
+	    }
+	    if(i == 1){
+	    document.forms[0].sampleList.value = "";
+	    document.forms[0].sampleList.disabled = true;
+	    document.forms[0].sampleFile.disabled = false;
+	    }
+	  }
 		
 	  if(element == "plot"){
 	  document.forms[0].quickSearchType.options.length = 1;

@@ -4,7 +4,7 @@
 
 <fieldset class="gray">
 <legend class="red">Sample Identifier
-<app:help help="Enter or Select sample" />
+<app:help help="Manually enter Sample Id(s) or Select Sample Id(s) from file using browse button" />
 </legend>
 <%
 	String act = request.getParameter("act");

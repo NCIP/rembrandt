@@ -1,5 +1,13 @@
 <%@ page language="java" %>
-  <%
+
+<%
+response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+String newLocn = "login.jsp";
+response.setHeader("Location",newLocn);
+
+%>
+
+  /* <%
   if(request.getSession().isNew() == true){
     
   //splash page goes here
@@ -90,13 +98,10 @@
    </body>
    </html>
    <!--end splash page-->
-  <%}
+  <%} %>
+  */
   
-  else{
-    response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-    String newLocn = "login.jsp";
-    response.setHeader("Location",newLocn);
-    }
-  %>
+  
+
 
 
