@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a sample metadata repository for the ObJectBridge System.
+     Use this file as a template for building your own mappings-->
+
+<!-- defining entities for include-files -->
+<!DOCTYPE descriptor-repository SYSTEM "file:/C:/dev/caIntegrator/caintegrator/repository.dtd" [
+    <!ENTITY database SYSTEM "file:/C:/dev/caIntegrator/caintegrator/repository_database.xml">
+    <!ENTITY internal SYSTEM "file:/C:/dev/caIntegrator/caintegrator/repository_internal.xml">
+    <!ENTITY caIntegrator SYSTEM "file:/C:/dev/caIntegrator/caintegrator/repository_user_caintegrator.xml">
+]>
+
+
+<descriptor-repository version="1.0" isolation-level="read-uncommitted">
+
+    &database; 
+    &internal;
+    &caIntegrator;
+
+
+</descriptor-repository>
