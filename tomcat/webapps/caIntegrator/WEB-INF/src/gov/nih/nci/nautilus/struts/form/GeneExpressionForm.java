@@ -481,7 +481,7 @@ public class GeneExpressionForm extends BaseForm {
 				Object [] parameterObjects = {key};
 
 				ArrayPlatformDE arrayPlatformDEObj = (ArrayPlatformDE)arrayPlatformConstructors[0].newInstance(parameterObjects);
-				arrayPlatformCriteria.setArrayPlatform(arrayPlatformDEObj);
+				arrayPlatformCriteria.setPlatform(arrayPlatformDEObj);
 
 				System.out.println("GO Domain Element Value==> "+arrayPlatformDEObj.getValueObject());
 			} catch (Exception ex) {
@@ -617,7 +617,9 @@ public class GeneExpressionForm extends BaseForm {
 		cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
 		geneOntologyCriteria = new GeneOntologyCriteria();
 		pathwayCriteria = new PathwayCriteria();
-		arrayPlatformCriteria = new ArrayPlatformCriteria();
+
+
+        //arrayPlatformCriteria = new ArrayPlatformCriteria();
 
 	}
 
