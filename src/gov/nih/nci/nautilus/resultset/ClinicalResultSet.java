@@ -73,13 +73,5 @@ public interface ClinicalResultSet {
 	 */
 	public abstract void setSurvivalLengthRange(String survivalLengthRange);
 
-	/**
-	 * @return Returns the timecourseId.
-	 */
-	public abstract Long getTimecourseId();
 
-	/**
-	 * @param timecourseId The timecourseId to set.
-	 */
-	public abstract void setTimecourseId(Long timecourseId);
 }
