@@ -71,7 +71,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         if (query.getAssociatedView().equals(ViewType.SAMPLE_VIEW_TYPE)) {
                 factHandler = new DEFactHandler.SampleDEFactHandler();
         }
-        if (query.getAssociatedView().equals(ViewType.Gene_VIEW_TYPE)) {
+        if (query.getAssociatedView().equals(ViewType.GENE_VIEW_TYPE)) {
                 factHandler = new DEFactHandler.GroupDEFactHanlder();
         }
         // make sure that platform (for the resulting smaples) is specified

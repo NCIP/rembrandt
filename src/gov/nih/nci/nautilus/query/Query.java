@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.view.View;
+import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.criteria.*;
 
@@ -21,7 +22,7 @@ import java.lang.reflect.Modifier;
 abstract public class Query implements Queriable{
 
     private String queryName;
-    private View associatedView;
+    private ViewType associatedView;
     public abstract QueryHandler getQueryHandler() throws Exception;
     
     //added by Prashant
@@ -83,11 +84,11 @@ abstract public class Query implements Queriable{
         this.queryName = queryName;
     }
 
-    public View getAssociatedView() {
+    public ViewType getAssociatedView() {
         return associatedView;
     }
 
-    public void setAssociatedView(View associatedViewObj) {
+    public void setAssociatedView(ViewType associatedViewObj) {
         this.associatedView = associatedViewObj;
     }
 }

@@ -7,6 +7,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.view.View;
+import gov.nih.nci.nautilus.view.ViewType;
 
 /**
  * @author SahniH
@@ -15,7 +16,7 @@ import gov.nih.nci.nautilus.view.View;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public interface Queriable {
-    public View getAssociatedView();
+    public ViewType getAssociatedView();
 
     
 }
