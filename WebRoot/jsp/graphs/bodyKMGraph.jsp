@@ -2,6 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@taglib uri='/WEB-INF/cewolf.tld' prefix='cewolf' %>
 
 <%
@@ -78,37 +79,94 @@
     height="540"/>
     <p>
     <br>
-<table class="graphTable" cellpadding="0" cellspacing="0">
-<TR>
-	<TH class="graphTable">&nbsp;pValues&nbsp;</TH>
-	<TH class="graphTable"><bean:write name="kmDataSetForm" property="upOrAmplified"/>(<bean:write name="kmDataSetForm" property="upSampleCount"/>)</TH>
-	<TH class="graphTable"><bean:write name="kmDataSetForm" property="downOrDeleted"/>(<bean:write name="kmDataSetForm" property="downSampleCount"/>)</TH>
-	<TH class="graphTable">Intermediate(<bean:write name="kmDataSetForm" property="intSampleCount"/>)</TH>
-</TR>
-<TR>
-	<TH class="graphTable"><bean:write name="kmDataSetForm" property="upOrAmplified"/></TH>
-	<TD>&nbsp;-&nbsp;</TD>
-	<TD><bean:write name="kmDataSetForm" property="upVsDownPvalue"/> </TD>
-	<TD><bean:write name="kmDataSetForm" property="upVsIntPvalue"/></TD>
-</TR>
-<TR>
-	<TH class="graphTable"><bean:write name="kmDataSetForm" property="downOrDeleted"/></TH>
-	<TD><bean:write name="kmDataSetForm" property="upVsDownPvalue"/></TD>
-	<TD>&nbsp;-&nbsp;</TD>
-	<TD><bean:write name="kmDataSetForm" property="downVsIntPvalue"/></TD>
-</TR>
-<TR>
-	<TH class="graphTable">Intermediate</TH>
-	<TD><bean:write name="kmDataSetForm" property="upVsIntPvalue"/></TD>
-	<TD><bean:write name="kmDataSetForm" property="downVsIntPvalue"/></TD>
-	<TD >&nbsp;-&nbsp;</TD>
-</TR>
-<TR>
-	<TH class="graphTable">Rest</TH>
-	<TD><bean:write name="kmDataSetForm" property="upVsRestPvalue"/></TD>
-	<TD><bean:write name="kmDataSetForm" property="downVsRestPvalue"/></TD>
-	<TD><bean:write name="kmDataSetForm" property="intVsRestPvalue"/></TD>
-</TR>
-</TABLE>
+    <fieldset class="gray">
+    <legend class="red">Statistical Report: </legend>
+<table class="graphTable" border="0" cellpadding="2" cellspacing="0">
+    <logic:present name="kmDataSetForm" property="geneOrCytoband">
+    <tr><td colspan="2" id="reportBold">Gene: <bean:write name="kmDataSetForm" property="geneOrCytoband" /></td>
+    </tr>
+    </logic:present>
+    <logic:present name="kmDataSetForm" property="selectedReporter">
+	<tr><td colspan="2" id="reportBold">Reporter: <bean:write name="kmDataSetForm" property="selectedReporter" /></td>
+	</tr>
+	</logic:present>
+    <tr><td colspan="2">&nbsp;</td></tr>
+	<tr>
+	    <td colspan="2" id="reportBold">Number of samples in group:</td>
+	</tr>
+	
+	<logic:greaterThan name="kmDataSetForm" property="upSampleCount" value="0">
+	<tr>
+	    <td><bean:write name="kmDataSetForm" property="upOrAmplified"/></td>
+	    <td><bean:write name="kmDataSetForm" property="upSampleCount" /></td>
+	</tr>
+	</logic:greaterThan>
+	<logic:greaterThan name="kmDataSetForm" property="downSampleCount" value="0">
+	<tr>
+	    <td><bean:write name="kmDataSetForm" property="downOrDeleted"/></td>
+	    <td><bean:write name="kmDataSetForm" property="downSampleCount" /></td>
+	</tr>
+	</logic:greaterThan>
+	<logic:greaterThan name="kmDataSetForm" property="intSampleCount" value="0">
+	<tr>
+	    <td>Intermediate:</td>
+	    <td><bean:write name="kmDataSetForm" property="intSampleCount"/></td>
+	</tr>
+	</logic:greaterThan>
+	<tr><td colspan="2"><hr width="100%" size="1" color="black" /></td>
+	</tr>
+	
+	<logic:greaterThan name="kmDataSetForm" property="upVsIntPvalue" value="-100">
+	<tr>
+	   <td id="reportBold" colspan="3">Log-rank p-value(for significance of difference of survival between group of samples)</td>
+	</tr>
+	    <td><bean:write name="kmDataSetForm" property="upOrAmplified" /> vs. Intermediate: </td>
+        <td><bean:write name="kmDataSetForm" property="upVsIntPvalue" /></td>
+    </tr>
+    </logic:greaterThan>
+    
+    <logic:greaterThan name="kmDataSetForm" property="upVsDownPvalue" value="-100">
+    <tr>
+	   <td><bean:write name="kmDataSetForm" property="upOrAmplified" />
+	   vs.<bean:write name="kmDataSetForm" property="downOrDeleted" /></td>
+       <td><bean:write name="kmDataSetForm" property="upVsDownPvalue" /></td>
+    </tr>
+    </logic:greaterThan>
+    
+    <logic:greaterThan name="kmDataSetForm" property="downVsIntPvalue" value="-100">
+    <tr>
+	   <td><bean:write name="kmDataSetForm" property="downOrDeleted" />
+	    vs. Intermediate: </td>
+       <td><bean:write name="kmDataSetForm" property="downVsIntPvalue"/></td>
+    </tr>
+    </logic:greaterThan>
+    
+    <tr><td colspan="2"><hr width="100%" size="1" color="black" /></td>
+	</tr>
+	<logic:greaterThan name="kmDataSetForm" property="upVsRestPvalue" value="-100">
+    <tr>
+	   <td><bean:write name="kmDataSetForm" property="upOrAmplified" />
+	   vs. all other samples: </td>
+       <td><bean:write name="kmDataSetForm" property="upVsRestPvalue" /></td>
+    </tr>
+    </logic:greaterThan>
+    <logic:greaterThan name="kmDataSetForm" property="downVsRestPvalue" value="-100">
+    <tr>
+	   <td><bean:write name="kmDataSetForm" property="downOrDeleted" />
+	   vs. all other samples: </td>
+       <td><bean:write name="kmDataSetForm" property="downVsRestPvalue" /></td>
+    </tr>
+    </logic:greaterThan>
+    <logic:greaterThan name="kmDataSetForm" property="intVsRestPvalue" value="-100">
+    <tr>
+	   <td>Intermediate vs. all other samples: </td>
+       <td><bean:write name="kmDataSetForm" property="intVsRestPvalue" /></td>
+    </tr>
+    </logic:greaterThan>
+</table>
+</fieldset>
+
+
+
   </div>
 </html:form>
