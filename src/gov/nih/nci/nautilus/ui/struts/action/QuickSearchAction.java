@@ -95,6 +95,7 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KMSampleInfo[] kmSampleInfos = null;
+		kmForm.setReporters(populateReporters());
 		if( getKmResultsContainer() != null && kmForm.getSelectedReporter() != null){
 			if(kmForm.getSelectedReporter().equals(NautilusConstants.GRAPH_DEFAULT)){
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
@@ -147,7 +148,7 @@ public class QuickSearchAction extends DispatchAction {
 		List reporters = null;
 		if( getKmResultsContainer() != null){
 			reporters = kmResultsContainer.getAssociatedReporters();
-			if (chartType.equalsIgnoreCase("geneExpPlot")){
+			if (chartType.equalsIgnoreCase("kapMaiPlotGE")){
 				reporters.add(0,NautilusConstants.GRAPH_DEFAULT);
 			}
 		}
