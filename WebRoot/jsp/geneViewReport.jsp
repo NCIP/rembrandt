@@ -20,14 +20,16 @@ org.dom4j.Document"
 	ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME),out);
 	}
 	catch(Exception e)	{
-	// add some crude error checking here, make this message better later
+	//maybe put this in a finally?
 %>
-<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
-<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script>
-<script language="javascript">
-	if(document.getElementById('spnLoading') != null &&	document.getElementById('spnLoading').style.display != "none")	{
-		hideLoadingMessage();
-		document.write("<h3 style=\"text-align:center; margin-top:200px;\">There was an error generating your report.  Please try again later. <br><a href=\"javascript:window.close()\">Close</a></h3>");
-	}
-</script>
-<% } %>
+	<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
+	<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script>
+	<script language="javascript">
+		if(document.getElementById('spnLoading') != null &&	document.getElementById('spnLoading').style.display != "none")	{
+			hideLoadingMessage();
+			document.write("<h3 style=\"text-align:center; margin-top:200px;\">There was an error generating your report.  Please try again later. <br><a href=\"javascript:window.close()\">Close</a></h3>");
+		}
+	</script>
+<% 
+	} 
+%>
