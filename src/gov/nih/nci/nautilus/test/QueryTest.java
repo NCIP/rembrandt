@@ -342,7 +342,12 @@ public class QueryTest extends TestCase {
                             (gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber) cghObjects[i];
                     System.out.println("SampleID: " + cghObject.getSampleId() + " || Copy Number: "
                     + cghObject.getCopyNumber() + " || SNPProbesetName: " + cghObject.getSnpProbesetName()
-                    + " || Chromosome: " + cghObject.getCytoband());
+                    + " || Chromosome: " + cghObject.getCytoband() );
+                    if (cghObject.getAnnotations() != null)
+                    System.out.println( "Annotation GeneSymbols: " +
+                            cghObject.getAnnotations().getGeneSymbols()+
+                       "  LocusLinks: " + cghObject.getAnnotations().getLocusLinkIDs() +
+                    "  Accessions Numbers: " + cghObject.getAnnotations().getAccessionNumbers());
                 }
             } catch(Throwable t ) {
                 t.printStackTrace();
@@ -389,8 +394,8 @@ public class QueryTest extends TestCase {
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        suit.addTest(new TestSuite(GeneExpression.class));
-        //suit.addTest(new TestSuite(CGH.class));
+        //suit.addTest(new TestSuite(GeneExpression.class));
+        suit.addTest(new TestSuite(CGH.class));
         //suit.addTest(new TestSuite(Clinical.class));
 
         //suit.addTest(new TestSuite(OJBSubSelectTest.GeneExpressionSubSelect.class));
@@ -549,7 +554,8 @@ public class QueryTest extends TestCase {
         sampleIDs.add(s2);
          sampleIDs.add(s3);
        sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
-       // sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
+       sampleIDs.add(s8); sampleIDs.add(s9);
+        // sampleIDs.add(s10); sampleIDs.add(s11);
        // sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
 
         String[] IDs = new String[] {

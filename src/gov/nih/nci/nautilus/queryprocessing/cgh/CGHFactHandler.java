@@ -112,14 +112,16 @@ abstract public class CGHFactHandler {
                           while (iter.hasNext()) {
                                Object[] attrs = (Object[]) iter.next();
                                Long snpProbID = new Long(((BigDecimal)attrs[0]).longValue());
-                               CopyNumber.SNPAnnotation a = (CopyNumber.SNPAnnotation)annotations.get(snpProbID );
-                               if (a == null) {
+                              if (snpProbID != null) { 
+                                CopyNumber.SNPAnnotation a = (CopyNumber.SNPAnnotation)annotations.get(snpProbID );
+                                 if (a == null) {
                                    a = new CopyNumber.SNPAnnotation(snpProbID, new HashSet(), new HashSet(), new HashSet());
                                    annotations.put(snpProbID, a);
-                               }
-                               a.getGeneSymbols().add(attrs[1]);
-                               a.getLocusLinkIDs().add(attrs[2]);
-                               a.getAccessionNumbers().add(attrs[3]);
+                                 }
+                                 a.getGeneSymbols().add(attrs[1]);
+                                 a.getLocusLinkIDs().add(attrs[2]);
+                                 a.getAccessionNumbers().add(attrs[3]);
+                              }
                           }
                           pb.close();
                           dbEvent.setCompleted(true);

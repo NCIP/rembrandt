@@ -45,6 +45,8 @@ public class CGHQueryHandler extends QueryHandler {
 
         AllGenesCriteria allGenesCrit = cghQuery.getAllGenesCrit();
         if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
+             if (null == cghQuery.getSampleIDCrit())
+                throw new Exception("Sample IDs are required when All Genes is specified");
              return new CGHFactHandler.SingleCGHFactHandler().executeSampleQueryForAllGenes(cghQuery);
         }
 
