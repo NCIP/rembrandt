@@ -3,6 +3,7 @@
      Use this file as a template for building your own mappings-->
 
 <!-- defining entities for include-files -->
+
 <!DOCTYPE descriptor-repository SYSTEM "repository.dtd" [
 <!ENTITY database SYSTEM "repository_database.xml">
 <!ENTITY internal SYSTEM "repository_internal.xml">
