@@ -630,7 +630,7 @@ public class ClinicalDataForm extends BaseForm {
 	//	ageUpperColl.add( new LabelValueBean( "90+", "90+" ) );	
 		
 		
-		genderTypeColl.add( new LabelValueBean( "All", "All" ) );
+		genderTypeColl.add( new LabelValueBean( "", "" ) );
 		genderTypeColl.add( new LabelValueBean( "Male", "M" ) );
 		genderTypeColl.add( new LabelValueBean( "Female", "F" ) );
 		genderTypeColl.add( new LabelValueBean( "Other", "O" ) );
@@ -1000,17 +1000,8 @@ public class ClinicalDataForm extends BaseForm {
 	 */
 	public void setGenderType(String genderType) {
 		this.genderType = genderType;
-		if (this.genderType.equalsIgnoreCase("ALL")) {
-			ArrayList allGenders = this.getGenderTypeColl();
-			for (Iterator genderIter = allGenders.iterator(); genderIter.hasNext();) {
-				LabelValueBean thisLabelBean = (LabelValueBean) genderIter.next();
-				String thisGenderType = thisLabelBean.getValue();
-				// stuff this in our DomainMap for later use !!
-				if (!thisGenderType.equalsIgnoreCase("ALL")){
-					genderDomainMap.put(thisGenderType, GenderDE.class.getName());
-				}
-			}		 
-		}else{ 
+
+		if(this.genderType != null && !this.genderType.trim().equals("")){
 			genderDomainMap.put(this.genderType, GenderDE.class.getName());
 		}
 		
