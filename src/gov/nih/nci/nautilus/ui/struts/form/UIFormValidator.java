@@ -21,7 +21,7 @@ public class UIFormValidator {
 	    if (geneGroup.equalsIgnoreCase("Upload") && geneFile != null
 	            || cloneId.equalsIgnoreCase("Upload") && cloneListFile != null
 	               || sampleGroup.equalsIgnoreCase("Upload") && sampleFile != null){
-	        errors.add("chromosomeNumber", new ActionError(
+	        errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
 							"gov.nih.nci.nautilus.ui.struts.form.region.uploadFormFiles"));
 	    }	    
 	    return errors;

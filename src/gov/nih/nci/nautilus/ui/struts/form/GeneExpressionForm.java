@@ -251,19 +251,23 @@ public class GeneExpressionForm extends BaseForm {
 		ActionErrors errors = new ActionErrors();
 
 		// if method is "getCytobands" AND they have upload formFiles, do necessary validation for uploaded files
-		if (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup().equalsIgnoreCase("Upload")
-		        || this.getMethod().equalsIgnoreCase("GetCytobands") && this.getCloneId().equalsIgnoreCase("Upload")
-		          || this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup().equalsIgnoreCase("Upload")){
+		try{
+		    if ((this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup().equalsIgnoreCase("Upload"))
+		        || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getCloneId().equalsIgnoreCase("Upload"))
+		          || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup().equalsIgnoreCase("Upload"))){
 		    errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, cloneListFile, cloneId, sampleFile, sampleGroup, errors);
 		    if(this.getGeneGroup().equalsIgnoreCase("Upload")){
-		        this.setGeneGroup(null);
+		        this.setGeneGroup("");
 		    }
 		    if(this.getCloneId().equalsIgnoreCase("Upload")){
-		        this.setCloneId(null);
+		        this.setCloneId("");
 		    }
 		    if(this.getSampleGroup().equalsIgnoreCase("Upload")){
-		        this.setSampleGroup(null);
+		        this.setSampleGroup("");
 		    }
+		  }
+		}catch(NullPointerException e){
+		    logger.debug("something was set to null");
 		}
 		
 		// if the method of the button is "submit" or "run report", validate
