@@ -57,6 +57,7 @@ import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.lookup.DiseaseTypeLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
@@ -103,13 +104,15 @@ public class GeneExpressionPlotTest extends TestCase {
         geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
         geneQuery.setGeneIDCrit(geneCrit);
         geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+        
     }
 	public void testGeneExprDiseaseView(){
 		//test Single Query
 		try {
 			buildGeneExprDiseasePlotQuery();
 			System.out.println("Building  Gene Expression Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
-			Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
+			CompoundQuery compoundQuery = new CompoundQuery(geneQuery);
+			Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(compoundQuery);
 			//System.out.println("DiseaseQuery:\n"+ geneQuery.toString());
 			//assertNotNull(resultant);
 			if(resultant != null){

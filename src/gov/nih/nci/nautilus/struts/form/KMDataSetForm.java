@@ -10,6 +10,7 @@ import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.graph.kaplanMeier.KMDataSeries;
 import gov.nih.nci.nautilus.graph.kaplanMeier.KMDrawingPoint;
 import gov.nih.nci.nautilus.graph.kaplanMeier.KaplanMeier;
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
@@ -196,7 +197,8 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
         geneQuery.setGeneIDCrit(geneCrit);
         geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
                 new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
-        resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
+        CompoundQuery compoundQuery = new CompoundQuery(geneQuery);
+        resultant = ResultsetManager.executeKaplanMeierPlotQuery(compoundQuery);
         return resultant.getResultsContainer();
     }
     

@@ -60,6 +60,7 @@ import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.graph.kaplanMeier.KMDrawingPoint;
 import gov.nih.nci.nautilus.graph.kaplanMeier.KaplanMeier;
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
@@ -112,7 +113,8 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 		try {
 			buildKaplanMeierPlotQuery();
 			System.out.println("Building  Kaplan Meier Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
-			Resultant resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
+			CompoundQuery compoundQuery = new CompoundQuery(geneQuery);
+			Resultant resultant = ResultsetManager.executeKaplanMeierPlotQuery(compoundQuery);
 			if(resultant != null){
 				System.out.println("Testing DbuildKaplanMeierPlotQuery Query >>>>>>>>>>>>>>>>>>>>>>>");
 				ResultsContainer resultsContainer = resultant.getResultsContainer();
