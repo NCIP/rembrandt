@@ -139,6 +139,10 @@ public class RefineQueryAction extends DispatchAction {
 				Queriable compoundQuery = queryParser.getCompoundQuery();
 				//Display validated query on the screen 
 				refineQueryForm.setQueryText(compoundQuery.toString());
+				
+				refineQueryForm.setRunFlag("yes");
+				System.out.println("set query text");
+				
 				// Get collection of view types
 				Collection viewCollection = setRefineQueryView((CompoundQuery) compoundQuery, request);
 				// Set collection of view types in Form
