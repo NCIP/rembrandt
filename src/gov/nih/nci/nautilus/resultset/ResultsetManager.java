@@ -57,12 +57,14 @@ import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.resultset.filter.CopyNumberFilter;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotHandler;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
@@ -211,6 +213,9 @@ public class ResultsetManager {
 	
 	return resultant;
 	}
-	
+	public static Resultant filterCopyNumber(Resultant resultant, Integer consecutiveNocalls, Integer percentNoCall, OperatorType operator){
+        
+        return CopyNumberFilter.filterCopyNumber(resultant, consecutiveNocalls, percentNoCall, operator);
+    }
 
 }
