@@ -45,7 +45,8 @@ abstract public class QueryHandler {
        } catch(Throwable t) {
            //This is severe exception  SO exit the system
           logger.error(t);
-          System.exit(1);
+          //System.exit(1);
+          throw new RuntimeException("Error parsing deToBeanAttrMappings.xml file: Exception: " + t);
        }
     }
     
