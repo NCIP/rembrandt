@@ -16,6 +16,13 @@ public class ChromosomeBean {
 	private Logger logger = Logger.getLogger(ChromosomeBean.class);
 	private String chromosome= "";
 	private List cytobands = new ArrayList();
+	
+	//Default Constructor
+	public ChromosomeBean() {}
+	
+	public ChromosomeBean(String chromosome) {
+		this.chromosome = chromosome;
+	}
 	/**
 	 * Returns a Collection of CytobandLookup Objects
 	 * @return

@@ -20,34 +20,22 @@ import org.apache.log4j.Logger;
  * Mar 14, 2005
  */
 public class ChromosomeHelper implements Factory{
-	private static Logger logger = Logger.getLogger(ChromosomeHelper.class);
+	private Logger logger = Logger.getLogger(ChromosomeHelper.class);
 	private static ChromosomeHelper instance;
-	private static List chromosomes;
+	private List chromosomes = LazyList.decorate(new ArrayList(), this);;
 	
 	
 	
 	//Create the singleton instance
 	static {
 		instance = new ChromosomeHelper();
-		chromosomes = LazyList.decorate(new ArrayList(), instance);
 	}
 	/**
 	 * Creates the ChromosomeHelper and generates the ChromosomeBean collection
 	 *
 	 */
 	private ChromosomeHelper() {
-		try {
-			
-			//Drop a place holder in the 0th position
-			CytobandLookup[] cytobandLookups = LookupManager.getCytobandPositions();
-			for(int i = 0; i<cytobandLookups.length;i++) {
-				addCytoband(cytobandLookups[i]);
-			}
-		}catch(Exception e) {
-			chromosomes = null;
-			logger.error("Unable to create ChromosomeBeans from the LookupManager");
-			logger.error(e);
-		}
+	
 	}
 	/**
 	 * Returns the SingletonInstance
@@ -61,6 +49,11 @@ public class ChromosomeHelper implements Factory{
 	 * @return
 	 */
 	public List getChromosomes() {
+		if(chromosomes!=null) {
+			if(chromosomes.isEmpty()) {
+				getCytobands();
+			}
+		}
 		return chromosomes;
 	}
 	/**
@@ -72,50 +65,52 @@ public class ChromosomeHelper implements Factory{
 	private void addCytoband(CytobandLookup cytoband) throws Exception {
 		List cytobands;
 		String chromoString = cytoband.getChromosome();
-		ChromosomeBean bean = new ChromosomeBean();
-		bean.setChromosome(chromoString);
-		//Check to see if the Chromosome has already been placed in the List
-		int test = chromosomes.indexOf(bean);
-		if(test!=-1) {
-			//It has, so get the Chromosome and it's list of Cytobands
-			bean = (ChromosomeBean)chromosomes.get(test);
-			cytobands = bean.getCytobands();
-			//add the new cytoband to the list
-			cytobands.add(cytoband);
-			//set the list back in the bean
-			bean.setCytobands(cytobands);
-		}else {
-			//It doesn't have the Chromosome already
-			//so that means this is the first cytoband for this Chromosome
-			//create the List for the cytobands
-			cytobands = new ArrayList();
-			//add the new cytoband
-			cytobands.add(cytoband);
-			//set the list into the bean
-			bean.setCytobands(cytobands);
-			//Try to set the bean in it's proper place in the list
-			int i;
-			try {
-				//Can I parse the chomosome number into an int
-				i = Integer.parseInt(chromoString);
-			}catch(NumberFormatException nfe) {
-				//No, this is a sex chromosome
-				//try to place it in the 22nd location.
-				i=22;
-				//Is the 22nd position empty?
-				if(chromosomes.get(22)!=null) {
-					//No! 22nd location is full, use 23rd
-					i = 23;
-				}
+		int i;
+		try {
+			//Can I parse the chomosome number into an int
+			i = Integer.parseInt(chromoString);
+		}catch(NumberFormatException nfe) {
+			//No, this is a sex chromosome
+			//try to place it in the 23rd location.
+			i=23;
+			//Get the ChromosomeBean at the 23rd location
+			ChromosomeBean testBean = (ChromosomeBean)chromosomes.get(i);
+			//Is it the right ChromosomeBean, in that it is the chromosome we are looking for
+			if(!testBean.equals(new ChromosomeBean(chromoString))&&!testBean.equals(new ChromosomeBean("0"))) {
+				//No! 23rd location is full, use 24th
+				i = 24;
 			}
-			//Place the Chromosome where it goes, in order in the list
-			chromosomes.add(i, bean);
+		}
+		ChromosomeBean bean = (ChromosomeBean)chromosomes.get(i);
+		bean.setChromosome(chromoString);
+		cytobands = bean.getCytobands();
+		if(cytobands == null) {
+			cytobands = new ArrayList();
+		}
+		//add the new cytoband to the list
+		cytobands.add(cytoband);
+		//set the list back in the bean
+		bean.setCytobands(cytobands);
+	}
+
+	private void getCytobands() {
+		try {
+			//Drop a place holder in the 0th position
+			CytobandLookup[] cytobandLookups = LookupManager.getCytobandPositions();
+			for(int i = 0; i<cytobandLookups.length;i++) {
+				addCytoband(cytobandLookups[i]);
+			}
+		}catch(Exception e) {
+			chromosomes = null;
+			logger.error("Unable to create ChromosomeBeans from the LookupManager");
+			logger.error(e);
 		}
 	}
     /**
      * Reqquired for the LazyList
      */
     public Object create() {
-          return new ChromosomeBean();
+       //Just a nonsense Chromosome as a place holder
+       return new ChromosomeBean("0");
     }
 }
