@@ -15,9 +15,9 @@ import java.util.Collection;
  * To change this template use Options | File Templates.
  */
 public class FoldChangeCriteriaHandler {
-    static void addFoldChangeCriteria(FoldChangeCriteria  foldChangeCrit, PersistenceBroker pb, Criteria criteria) throws Exception {
+    static void addFoldChangeCriteria(FoldChangeCriteria  foldChangeCrit, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
        if (foldChangeCrit != null) {
-               String columnName = QueryHandler.getColumnName(pb, ExprFoldChangeDE.class.getName());
+               String columnName = QueryHandler.getColumnName(pb, ExprFoldChangeDE.class.getName(), beanClass.getName());
                Collection objs = foldChangeCrit.getFoldChangeObjects();
                Object[] foldObjs = objs.toArray();
 

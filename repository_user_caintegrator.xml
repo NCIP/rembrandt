@@ -69,8 +69,8 @@
         />
 
         <field-descriptor
-            name="ominId"
-            column="omin_Id"
+            name="omimId"
+            column="omim_Id"
             jdbc-type="VARCHAR"
         />
 
@@ -336,11 +336,6 @@
         jdbc-type="BIGINT"
     />
     <field-descriptor
-        name="biospecimenId"
-        column="BIOSPECIMEN_ID"
-        jdbc-type="BIGINT"
-    />
-    <field-descriptor
         name="cloneId"
         column="CLONE_ID"
         jdbc-type="BIGINT"
@@ -369,7 +364,7 @@
      <field-descriptor
         name="expressionRatio"
         column="EXPRESSION_RATIO"
-        jdbc-type="FLOAT"
+        jdbc-type="DOUBLE"
     />
 
      <field-descriptor
@@ -382,14 +377,15 @@
         column="GENDER_CODE"
         jdbc-type="VARCHAR"
     />
-    <field-descriptor
-        name="expPlatformId"
-        column="EXP_PLATFORM_ID"
-        jdbc-type="BIGINT"
-    />
+
     <field-descriptor
         name="geneSymbol"
         column="GENE_SYMBOL"
+        jdbc-type="VARCHAR"
+    />
+      <field-descriptor
+        name="cytoband"
+        column="CYTOBAND"
         jdbc-type="VARCHAR"
     />
       <field-descriptor
@@ -440,6 +436,92 @@
 
 </class-descriptor>
 
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.DifferentialExpressionGfact"
+       table="DIFFERENTIAL_EXPRESSION_GFACT">
+
+    <field-descriptor
+        name="cloneId"
+        column="CLONE_ID"
+        jdbc-type="BIGINT"
+    />
+    <field-descriptor
+        name="datasetId"
+        column="DATASET_ID"
+        jdbc-type="BIGINT"
+    />
+    <field-descriptor
+        name="degId"
+        column="DEG_ID"
+        jdbc-type="BIGINT"
+        primarykey="true"
+    />
+
+     <field-descriptor
+        name="diseaseTypeId"
+        column="DISEASE_TYPE_ID"
+        jdbc-type="BIGINT"
+    />
+     <field-descriptor
+        name="expressionRatio"
+        column="EXPRESSION_RATIO"
+        jdbc-type="DOUBLE"
+    />
+
+     <field-descriptor
+        name="expPlatformId"
+        column="EXP_PLATFORM_ID"
+        jdbc-type="BIGINT"
+    />
+    <field-descriptor
+        name="geneSymbol"
+        column="GENE_SYMBOL"
+        jdbc-type="VARCHAR"
+    />
+     <field-descriptor
+        name="institutionId"
+        column="INSTITUTION_ID"
+        jdbc-type="BIGINT"
+    />
+     <field-descriptor
+        name="normalIntensity"
+        column="NORMAL_INTENSITY"
+        jdbc-type="DOUBLE"
+    />
+     <field-descriptor
+        name="probesetId"
+        column="PROBESET_ID"
+        jdbc-type="BIGINT"
+    />
+      <field-descriptor
+        name="sampleIntensity"
+        column="SAMPLE_INTENSITY"
+        jdbc-type="DOUBLE"
+    />
+
+    <field-descriptor
+        name="timecourseId"
+        column="TIMECOURSE_ID"
+        jdbc-type="BIGINT"
+    />
+
+    <field-descriptor
+       name="probesetName"
+       column="PROBESET_NAME"
+       jdbc-type="VARCHAR"
+   />
+    <field-descriptor
+       name="cloneName"
+       column="CLONE_NAME"
+       jdbc-type="VARCHAR"
+   />
+    <field-descriptor
+       name="ratioPval"
+       column="RATIO_PVAL"
+       jdbc-type="FLOAT"
+   />
+
+</class-descriptor>
 
 
 

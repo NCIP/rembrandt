@@ -12,6 +12,7 @@ import java.util.*;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +29,7 @@ abstract public class DEFactHandler {
     abstract Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
     throws Exception;
 
-    final static class SampleDEFactHandler extends DEFactHandler {
+    final static class SingleDEFactHandler extends DEFactHandler {
         Map executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
         throws Exception {
             final String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
@@ -82,7 +83,7 @@ abstract public class DEFactHandler {
                 eventList.add(dbEvent);
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
                 final Criteria sampleCritBasedOnProbes = new Criteria();
-                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, _BROKER, sampleCritBasedOnProbes);
+                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, DifferentialExpressionSfact.class, _BROKER, sampleCritBasedOnProbes);
                 new Thread(
                    new Runnable() {
                       public void run() {
@@ -103,9 +104,30 @@ abstract public class DEFactHandler {
         private void addToResults(Collection exprObjects) {
             for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
                 DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
-                geneExprObjects.put(exprObj.getDesId(), exprObj);
+                GeneExpr.GeneExprSingle singleExprObj = new GeneExpr.GeneExprSingle();
+                copyTo(singleExprObj, exprObj);
+                geneExprObjects.put(singleExprObj.getDesId(), singleExprObj);
+                exprObj = null;
             }
         }
+
+        private void copyTo(GeneExpr.GeneExprSingle singleExprObj, DifferentialExpressionSfact exprObj) {
+            singleExprObj.setDesId(exprObj.getDesId());
+            singleExprObj.setAgeGroup(exprObj.getAgeGroup());
+            singleExprObj.setAgentId(exprObj.getAgentId());
+            singleExprObj.setBiospecimenId(exprObj.getBiospecimenId());
+            singleExprObj.setCloneId(exprObj.getCloneId());
+            singleExprObj.setCloneName(exprObj.getCloneName());
+            singleExprObj.setCytoband(exprObj.getCytoband());
+            singleExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());
+            singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
+            singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
+            singleExprObj.setProbesetId(exprObj.getProbesetId());
+            singleExprObj.setProbesetName(exprObj.getProbesetName());
+            singleExprObj.setSurvivalLengthRange(exprObj.getSurvivalLengthRange());
+            singleExprObj.setTimecourseId(exprObj.getTimecourseId());
+        }
+
         private void print() {
             int count = 0;
             HashSet probeIDS = new HashSet();
@@ -113,7 +135,7 @@ abstract public class DEFactHandler {
             Set keys = geneExprObjects.keySet();
             for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
                 Long desID =  (Long) iterator.next();
-                DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact)geneExprObjects.get(desID);
+                GeneExpr.GeneExprSingle exprObj = (GeneExpr.GeneExprSingle)geneExprObjects.get(desID);
                 if (exprObj.getProbesetId() != null) {
                   // System.out.println("ProbesetID: " + exprObj.getProbesetId() + " :Exp Value: "
                     //            + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol() );

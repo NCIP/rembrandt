@@ -16,6 +16,17 @@ public class DifferentialExpressionSfact
     public final static String BIOSPECIMEN_ID = "biospecimenId";
     public final static String EXPRESSION_RATIO = "expressionRatio";
 
+    public String getCytoband() {
+        return cytoband;
+    }
+
+    public void setCytoband(String cytoband) {
+        this.cytoband = cytoband;
+    }
+
+    private String cytoband;
+
+
 
   private Long agentId;
 
@@ -36,21 +47,22 @@ public class DifferentialExpressionSfact
   private Double expressionRatio;
 
   private Long expPlatformId;
-
+  private String geneSymbol;
   private String genderCode;
   private String probesetName;
+  private String cloneName;
 
     public String getCloneName() {
         return cloneName;
     }
 
-    private String cloneName;
+
 
     public String getProbesetName() {
         return probesetName;
     }
 
-  private String geneSymbol;
+
 
     public String getGeneSymbol() {
         return geneSymbol;
@@ -74,35 +86,6 @@ public class DifferentialExpressionSfact
 
   private Long treatmentHistoryId;
 
-  private StudyDatasetDim aStudyDatasetDim;
-
-  private AgeGroupDx aAgeGroupDx;
-
-  private DiseaseTypeDim aDiseaseTypeDim;
-
-  private DiseaseHistory aDiseaseHistory;
-
-  private BiospecimenDim aBiospecimenDim;
-
-  private TreatmentHistory aTreatmentHistory;
-
-  private ExpPlatformDim aExpPlatformDim;
-
-  private Agent aAgent;
-
-  private ProbesetDim aProbesetDim;
-
-  private Gender aGender;
-
-  private InstitutionDim aInstitutionDim;
-
-  private StudyTimecourseDim aStudyTimecourseDim;
-
-  private SurvivalLengthRange aSurvivalLengthRange;
-
-  private ProbesetDim aGeneDim;
-
-  private CloneDim aCloneDim;
 
   public Long getAgentId()
   {
@@ -283,154 +266,6 @@ public class DifferentialExpressionSfact
   }
 
 
-  public StudyDatasetDim getAStudyDatasetDim()
-  {
-     return this.aStudyDatasetDim;
-  }
-  public void setAStudyDatasetDim(StudyDatasetDim param)
-  {
-    this.aStudyDatasetDim = param;
-  }
-
-
-  public AgeGroupDx getAAgeGroupDx()
-  {
-     return this.aAgeGroupDx;
-  }
-  public void setAAgeGroupDx(AgeGroupDx param)
-  {
-    this.aAgeGroupDx = param;
-  }
-
-
-  public DiseaseTypeDim getADiseaseTypeDim()
-  {
-     return this.aDiseaseTypeDim;
-  }
-  public void setADiseaseTypeDim(DiseaseTypeDim param)
-  {
-    this.aDiseaseTypeDim = param;
-  }
-
-
-  public DiseaseHistory getADiseaseHistory()
-  {
-     return this.aDiseaseHistory;
-  }
-  public void setADiseaseHistory(DiseaseHistory param)
-  {
-    this.aDiseaseHistory = param;
-  }
-
-
-  public BiospecimenDim getABiospecimenDim()
-  {
-     return this.aBiospecimenDim;
-  }
-  public void setABiospecimenDim(BiospecimenDim param)
-  {
-    this.aBiospecimenDim = param;
-  }
-
-
-  public TreatmentHistory getATreatmentHistory()
-  {
-     return this.aTreatmentHistory;
-  }
-  public void setATreatmentHistory(TreatmentHistory param)
-  {
-    this.aTreatmentHistory = param;
-  }
-
-
-  public ExpPlatformDim getAExpPlatformDim()
-  {
-     return this.aExpPlatformDim;
-  }
-  public void setAExpPlatformDim(ExpPlatformDim param)
-  {
-    this.aExpPlatformDim = param;
-  }
-
-
-  public Agent getAAgent()
-  {
-     return this.aAgent;
-  }
-  public void setAAgent(Agent param)
-  {
-    this.aAgent = param;
-  }
-
-
-  public ProbesetDim getAProbesetDim()
-  {
-     return this.aProbesetDim;
-  }
-  public void setAProbesetDim(ProbesetDim param)
-  {
-    this.aProbesetDim = param;
-  }
-
-
-  public Gender getAGender()
-  {
-     return this.aGender;
-  }
-  public void setAGender(Gender param)
-  {
-    this.aGender = param;
-  }
-
-
-  public InstitutionDim getAInstitutionDim()
-  {
-     return this.aInstitutionDim;
-  }
-  public void setAInstitutionDim(InstitutionDim param)
-  {
-    this.aInstitutionDim = param;
-  }
-
-
-  public StudyTimecourseDim getAStudyTimecourseDim()
-  {
-     return this.aStudyTimecourseDim;
-  }
-  public void setAStudyTimecourseDim(StudyTimecourseDim param)
-  {
-    this.aStudyTimecourseDim = param;
-  }
-
-
-  public SurvivalLengthRange getASurvivalLengthRange()
-  {
-     return this.aSurvivalLengthRange;
-  }
-  public void setASurvivalLengthRange(SurvivalLengthRange param)
-  {
-    this.aSurvivalLengthRange = param;
-  }
-
-
-  public ProbesetDim getAGeneDim()
-  {
-     return this.aGeneDim;
-  }
-  public void setAGeneDim(ProbesetDim param)
-  {
-    this.aGeneDim = param;
-  }
-
-
-  public CloneDim getACloneDim()
-  {
-     return this.aCloneDim;
-  }
-  public void setACloneDim(CloneDim param)
-  {
-    this.aCloneDim = param;
-  }
 
   public int hashCode() {
         int result = HashCodeUtil.SEED;

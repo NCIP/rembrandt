@@ -5,81 +5,56 @@ package gov.nih.nci.nautilus.data;
 
 public class DifferentialExpressionGfact
 {
-  private String ageGroup;
 
-  private Long biospecimenId;
+    //public final static String DEG_ID = "degId";
+    //public final static String CLONE_ID = "cloneId";
+    //public final static String PROBESET_ID= "probesetId";
+    //public final static String CLONE_NAME = "cloneName";
+    //public final static String PROBE_NAME = "probesetName";
+    //public final static String GENE_SYMBOL = "geneSymbol";
+    //public final static String EXPRESSION_RATIO = "expressionRatio";
 
   private Long cloneId;
-
   private Long datasetId;
-
   private Long degId;
-
-  private Long diseaseTypeId;
-
-  private Object expressionRatio;
-
+ private Long diseaseTypeId;
+  private Float expressionRatio;
   private Long expPlatformId;
 
-  private String genderCode;
-
-  private Long geneId;
-
+ private String geneSymbol;
   private Long institutionId;
-
   private Object normalIntensity;
-
   private Long probesetId;
-
-  private String ratioPval;
-
-  private Object sampleGIntensity;
-
-  private String survivalLengthRange;
+ private Float ratioPval;
+  private Double sampleIntensity;
 
   private Long timecourseId;
+    private String probesetName;
+    private String cloneName;
 
-  private gov.nih.nci.nautilus.data.StudyDatasetDim aStudyDatasetDim;
+    public String getGeneSymbol() {
+        return geneSymbol;
+    }
 
-  private gov.nih.nci.nautilus.data.AgeGroupDx aAgeGroupDx;
+    public void setGeneSymbol(String geneSymbol) {
+        this.geneSymbol = geneSymbol;
+    }
 
-  private gov.nih.nci.nautilus.data.GeneDimOld aGeneDimOld;
+    public String getProbesetName() {
+        return probesetName;
+    }
 
-  private gov.nih.nci.nautilus.data.InstitutionDim aInstitutionDim;
+    public void setProbesetName(String probesetName) {
+        this.probesetName = probesetName;
+    }
 
-  private gov.nih.nci.nautilus.data.StudyTimecourseDim aStudyTimecourseDim;
+    public String getCloneName() {
+        return cloneName;
+    }
 
-  private gov.nih.nci.nautilus.data.DiseaseTypeDim aDiseaseTypeDim;
-
-  private gov.nih.nci.nautilus.data.SurvivalLengthRange aSurvivalLengthRange;
-
-  private gov.nih.nci.nautilus.data.ExpPlatformDim aExpPlatformDim;
-
-  private gov.nih.nci.nautilus.data.ProbesetDim aProbesetDim;
-
-  private gov.nih.nci.nautilus.data.CloneDim aCloneDim;
-
-  private gov.nih.nci.nautilus.data.Gender aGender;
-
-  public String getAgeGroup()
-  {
-     return this.ageGroup;
-  }
-  public void setAgeGroup(String param)
-  {
-    this.ageGroup = param;
-  }
-
-
-  public Long getBiospecimenId()
-  {
-     return this.biospecimenId;
-  }
-  public void setBiospecimenId(Long param)
-  {
-    this.biospecimenId = param;
-  }
-
+    public void setCloneName(String cloneName) {
+        this.cloneName = cloneName;
+    }
 
   public Long getCloneId()
   {
@@ -121,11 +96,11 @@ public class DifferentialExpressionGfact
   }
 
 
-  public Object getExpressionRatio()
+  public Float getExpressionRatio()
   {
      return this.expressionRatio;
   }
-  public void setExpressionRatio(Object param)
+  public void setExpressionRatio(Float param)
   {
     this.expressionRatio = param;
   }
@@ -141,24 +116,6 @@ public class DifferentialExpressionGfact
   }
 
 
-  public String getGenderCode()
-  {
-     return this.genderCode;
-  }
-  public void setGenderCode(String param)
-  {
-    this.genderCode = param;
-  }
-
-
-  public Long getGeneId()
-  {
-     return this.geneId;
-  }
-  public void setGeneId(Long param)
-  {
-    this.geneId = param;
-  }
 
 
   public Long getInstitutionId()
@@ -191,35 +148,24 @@ public class DifferentialExpressionGfact
   }
 
 
-  public String getRatioPval()
+  public Float getRatioPval()
   {
      return this.ratioPval;
   }
-  public void setRatioPval(String param)
+  public void setRatioPval(Float param)
   {
     this.ratioPval = param;
   }
 
 
-  public Object getSampleGIntensity()
+  public Double getSampleGIntensity()
   {
-     return this.sampleGIntensity;
+     return this.sampleIntensity;
   }
-  public void setSampleGIntensity(Object param)
+  public void setSampleGIntensity(Double param)
   {
-    this.sampleGIntensity = param;
+    this.sampleIntensity = param;
   }
-
-
-  public String getSurvivalLengthRange()
-  {
-     return this.survivalLengthRange;
-  }
-  public void setSurvivalLengthRange(String param)
-  {
-    this.survivalLengthRange = param;
-  }
-
 
   public Long getTimecourseId()
   {
@@ -228,116 +174,6 @@ public class DifferentialExpressionGfact
   public void setTimecourseId(Long param)
   {
     this.timecourseId = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.StudyDatasetDim getAStudyDatasetDim()
-  {
-     return this.aStudyDatasetDim;
-  }
-  public void setAStudyDatasetDim(gov.nih.nci.nautilus.data.StudyDatasetDim param)
-  {
-    this.aStudyDatasetDim = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.AgeGroupDx getAAgeGroupDx()
-  {
-     return this.aAgeGroupDx;
-  }
-  public void setAAgeGroupDx(gov.nih.nci.nautilus.data.AgeGroupDx param)
-  {
-    this.aAgeGroupDx = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.GeneDimOld getAGeneDimOld()
-  {
-     return this.aGeneDimOld;
-  }
-  public void setAGeneDimOld(gov.nih.nci.nautilus.data.GeneDimOld param)
-  {
-    this.aGeneDimOld = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.InstitutionDim getAInstitutionDim()
-  {
-     return this.aInstitutionDim;
-  }
-  public void setAInstitutionDim(gov.nih.nci.nautilus.data.InstitutionDim param)
-  {
-    this.aInstitutionDim = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.StudyTimecourseDim getAStudyTimecourseDim()
-  {
-     return this.aStudyTimecourseDim;
-  }
-  public void setAStudyTimecourseDim(gov.nih.nci.nautilus.data.StudyTimecourseDim param)
-  {
-    this.aStudyTimecourseDim = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.DiseaseTypeDim getADiseaseTypeDim()
-  {
-     return this.aDiseaseTypeDim;
-  }
-  public void setADiseaseTypeDim(gov.nih.nci.nautilus.data.DiseaseTypeDim param)
-  {
-    this.aDiseaseTypeDim = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.SurvivalLengthRange getASurvivalLengthRange()
-  {
-     return this.aSurvivalLengthRange;
-  }
-  public void setASurvivalLengthRange(gov.nih.nci.nautilus.data.SurvivalLengthRange param)
-  {
-    this.aSurvivalLengthRange = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.ExpPlatformDim getAExpPlatformDim()
-  {
-     return this.aExpPlatformDim;
-  }
-  public void setAExpPlatformDim(gov.nih.nci.nautilus.data.ExpPlatformDim param)
-  {
-    this.aExpPlatformDim = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.ProbesetDim getAProbesetDim()
-  {
-     return this.aProbesetDim;
-  }
-  public void setAProbesetDim(gov.nih.nci.nautilus.data.ProbesetDim param)
-  {
-    this.aProbesetDim = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.CloneDim getACloneDim()
-  {
-     return this.aCloneDim;
-  }
-  public void setACloneDim(gov.nih.nci.nautilus.data.CloneDim param)
-  {
-    this.aCloneDim = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.Gender getAGender()
-  {
-     return this.aGender;
-  }
-  public void setAGender(gov.nih.nci.nautilus.data.Gender param)
-  {
-    this.aGender = param;
   }
 
 

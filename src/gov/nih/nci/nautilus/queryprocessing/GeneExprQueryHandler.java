@@ -71,7 +71,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
 
         if (query.getAssociatedView().equals(ViewType.SAMPLE_VIEW_TYPE)) {
-                factHandler = new DEFactHandler.SampleDEFactHandler();
+                factHandler = new DEFactHandler.SingleDEFactHandler();
         }
         if (query.getAssociatedView().equals(ViewType.GENE_VIEW_TYPE)) {
                 factHandler = new DEFactHandler.GroupDEFactHanlder();
