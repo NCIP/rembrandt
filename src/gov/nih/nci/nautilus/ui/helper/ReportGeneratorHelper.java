@@ -111,9 +111,9 @@ public class ReportGeneratorHelper {
 		String sessionId = ((CompoundQuery)(oldResultant.getAssociatedQuery())).getSessionId();
 		String oldQueryName = ((CompoundQuery)(oldResultant.getAssociatedQuery())).getQueryName();
 		String newQueryName = "";
-		String filter_type = (String)filterParams.get("filter_type");
+		String filter_element = (String)filterParams.get("filter_element");
 		try {
-		if("copy_number".equals(filter_type)) {
+		if("copy_number".equals(filter_element)) {
 			//execute copy number filter query
 			OperatorType operator = (OperatorType)filterParams.get("filter_value4");
 			Integer consecutiveCalls = (Integer)filterParams.get("filter_value5");

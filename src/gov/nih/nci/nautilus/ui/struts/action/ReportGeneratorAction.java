@@ -237,7 +237,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		Integer nocalls = new Integer("0");
 		Integer percent = new Integer("0");
 		OperatorType operator = OperatorType.OR;
-		String filter_type = "copy_number";
+		String filter_element = "copy_number";
 		
 		//get the data we need from the form
 		if(rgForm.getFilter_value5()!=null)
@@ -254,15 +254,15 @@ public class ReportGeneratorAction extends DispatchAction {
 		 * change the filter_type on the fly for some reason in the future
 		 * 	-RCL
 		 */ 	
-		if(rgForm.getFilter_type()!=null)
-		    filter_type = (String) rgForm.getFilter_type();
+		if(rgForm.getFilter_element()!=null)
+		    filter_element = (String) rgForm.getFilter_element();
 		
 		Map filterParams = new HashMap();		
 		//put all params from the form in the filterparams map
 		filterParams.put( "filter_value4", operator );
 		filterParams.put( "filter_value5", nocalls );
 		filterParams.put( "filter_value6", percent );
-		filterParams.put( "filter_type", filter_type );
+		filterParams.put( "filter_type", filter_element );
 		
 		/*
 		//hold our samples for exclusion
