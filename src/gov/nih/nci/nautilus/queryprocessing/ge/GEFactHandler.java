@@ -24,7 +24,6 @@ import org.apache.ojb.broker.query.QueryFactory;
  * User: Ram
  * Date: Sep 26, 2004
  * Time: 3:58:42 PM
- * To change this template use File | Settings | File Templates.
  */
 abstract public class GEFactHandler {
     private static Logger logger = Logger.getLogger(GEFactHandler.class);

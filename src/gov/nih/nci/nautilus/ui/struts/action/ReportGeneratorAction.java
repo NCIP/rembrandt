@@ -3,7 +3,7 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
@@ -48,19 +48,9 @@ public class ReportGeneratorAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
-    	//Get the sessionCache
-    	Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
-    	//I think I should add convenience methods to the CachManagerWrapper
-    	//to avoid classes from having to know the implementation of the
-    	//cache.  For instnce, if a user is looking for a specific reportXML
-    	//in the cache, why not allow them to say "hey, give me this reportXML"
-    	//and have reportXML returned.  Why should the user have to worry about
-    	//cache elements and what not.  --Dave
-    	Element cacheElement = sessionCache.get(rgForm.getQueryName());
-    	if(cacheElement!=null) {
-	    	//get the report bean from the cache
-    		ReportBean reportBean = (ReportBean)cacheElement.getValue();
-	    	
+    	String sessionId = request.getSession().getId();
+    	ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId,rgForm.getQueryName());
+    	if(reportBean!=null) {
 	    	if("".equals(rgForm.getXsltFileName())||rgForm.getXsltFileName()==null) {
 	    		//If no filters specified then use the default XSLT
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,NautilusConstants.DEFAULT_XSLT_FILENAME);

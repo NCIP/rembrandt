@@ -21,4 +21,18 @@ abstract public class View implements Viewable{
           selectedDomainElements = selectedElems;
    }
    public abstract DomainElementClass[] getValidElements();
+   /**
+    * Compares the class names to determine if the passed view is
+    * of the same type as this view
+    * @param view
+    * @return
+    */
+   public boolean equals(View view) {
+	   	if(view!=null) {
+		   	if((view.getClass()).getName().equals(this.getClass().getName())) {
+		   		return true;
+		   	}
+	   	}
+	   	return false;
+   }
 }

@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.lookup;
 
-import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.data.AllGeneAlias;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DiseaseTypeDim;
@@ -18,10 +19,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.Element;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -32,7 +29,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 /**
  * This class provide a single point for UI related classes to 
  * get lookup data (data that a user can select to mofify a query)
- * It uses that CacheManagerWrapper to determine if the data
+ * It uses that CacheManagerDelegate to determine if the data
  * has already been loaded.  If not it executes the query and
  * stores it in the ApplicationCache, else it retrives that data
  * from the Cache and returns it to the UI.
@@ -48,6 +45,7 @@ public class LookupManager{
 	private static DiseaseTypeLookup[] diseaseTypes;
     private static GeneAliasMap aliasMap = null;
     private static Set geneSymbols = null;
+    
 	
 	//Lookup Types
 	private static final String CHROMOSOME_DE = "chromosomeDE";
@@ -61,6 +59,7 @@ public class LookupManager{
 	private static final String PATIENT_DATA_MAP = "patientDataMap";
 	private static final String PATHWAYS = "pathways";
 	private static final String ALLGENEALIAS = "AllGeneAlias";
+	private static ConvenientCache cacheManagerDelegate;
 	
 	
 	/**
@@ -71,23 +70,17 @@ public class LookupManager{
 	 * @return the collection of lookup values
 	 * @throws Exception
 	 */
+	 
 	private  static Collection executeQuery(Class bean, Criteria crit, String lookupType)throws Exception{
-	Cache applicationCache = CacheManagerWrapper.getApplicationCache();	   
-	Collection resultsetObjs = checkCache(lookupType, applicationCache);
+		  
+		cacheManagerDelegate = CacheManagerDelegate.getInstance();
+		Collection resultsetObjs = cacheManagerDelegate.checkLookupCache(lookupType);
 		if(resultsetObjs == null) {
 			logger.debug("LookupType "+lookupType+" was not found in ApplicationCache");
 			PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
 			broker.clearCache();
 		    resultsetObjs = createQuery(bean, crit, broker);
-		    if(applicationCache!=null) {
-		    	try {
-		    		applicationCache.put(new Element(lookupType,(Serializable)resultsetObjs));
-		    		logger.debug("The lookup results have been stored in the ApplicationCache");
-		    	}catch(ClassCastException cce){
-		    		logger.error("The results are not Serializable, and thus can not be stored in the ApplicationCache");
-		    		logger.equals(cce);
-		    	}
-		    }
+		    cacheManagerDelegate.addToApplicationCache(lookupType,(Serializable)resultsetObjs);
 		    broker.close();
 		    
 		}else {
@@ -95,7 +88,7 @@ public class LookupManager{
 			
 		}
 	    return resultsetObjs;
-	       
+	     
 	}
 	private static Collection createQuery(Class bean, Criteria crit, PersistenceBroker broker) throws Exception{
 			//Criteria crit = new Criteria();
@@ -228,43 +221,6 @@ public class LookupManager{
 		return expPlatforms;
 	}
    
-   /**
-     * Checks the ApplicationCache for the lookupType that was specified and 
-     * gets the value if it is there.  Returns null if not found. 
-     * @param lookupType
-     * @param applicationCache
-     * @return
-     */
-    private static Collection checkCache(String lookupType, Cache applicationCache) {
-    	logger.debug("Checking the ApplicationCache for lookup type: "+lookupType);
-    	Collection results = null;
-    	
-      	if(applicationCache!=null) {
-      		try {
-       			Element element = applicationCache.get(lookupType);
-       			try {
-		   			if(element!=null) {
-		   				results = (Collection)element.getValue();
-		   			}else {
-		   				logger.debug(lookupType+" not found in ApplicationCache");
-		   			}
-       			}catch(ClassCastException cce) {
-       				logger.error("ResultsFound in ApplicationCache, but are not a collection");
-       				logger.error(cce);
-       				
-       			}
-       		}catch(IllegalStateException ise){
-      			logger.error("The cache manager threw an IllegalStateExcpetion");
-      			logger.error(ise);
-      		}catch(CacheException ce ){
-      			logger.error("The cache manager threw an CacheException");
-      			logger.error(ce);
-      		}
-     	}else {
-     		logger.error("the ApplicationCache appears to be null");
-     	}
-    	return results;
-    }
     private static void getAllGeneAlias() throws Exception{
     	if(aliasMap == null){
 	        Criteria crit = new Criteria();

@@ -17,7 +17,8 @@ import org.dom4j.io.XMLWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
-import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.cache.RembrandtContextListener;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
@@ -30,6 +31,7 @@ import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
 import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
 import gov.nih.nci.nautilus.ui.report.Transformer;
+import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.Viewable;
 
 /**
@@ -53,6 +55,8 @@ public class ReportGeneratorHelper {
 	private ReportBean reportBean;
 
 	private Document reportXML;
+	
+	private ConvenientCache cacheManager;
 
 	/**
 	 * Execute the CompoundQuery and store in the sessionCache. Create a
@@ -62,21 +66,20 @@ public class ReportGeneratorHelper {
 	 */
 	public ReportGeneratorHelper(Queriable query) {
 		Resultant resultant = null;
-		
+		String queryName = null;
 		// used to retrieve the cache associated with this session
-		String cacheKey = null;
-		Element resultSetCacheElement = null;
-
+		String sessionId = null;
+		cacheManager = CacheManagerDelegate.getInstance();
 		if (query != null && query instanceof CompoundQuery) {
 			try {
 				CompoundQuery cQuery = (CompoundQuery) query;
 				//Get the desired view for this report
-				Viewable view = cQuery.getAssociatedView();
+				View view = (View)cQuery.getAssociatedView();
 				// Get the sessionId to needed to retrieve the sessionCache
-				cacheKey = cQuery.getSessionId();
-				
-				if (cQuery.getQueryName()== null
-						|| cQuery.getQueryName().equals("")) {
+				sessionId = cQuery.getSessionId();
+				queryName = cQuery.getQueryName();
+				if (queryName == null
+						|| queryName.equals("")) {
 					/*
 					 * If the query name is empty than we can assume that
 					 * the user has no interest in storing the query for
@@ -88,23 +91,26 @@ public class ReportGeneratorHelper {
 					 * until another unnamed query is run.
 					 * 
 					 */
-					cQuery.setQueryName(getTempReportName(cQuery.getSessionId()));
+					queryName = cacheManager.getTempReportName(sessionId);
+					cQuery.setQueryName(queryName);
 				}
 				
-				if (cacheKey != null && !cacheKey.equals("")) {
+				if (sessionId != null && !sessionId.equals("")) {
 					/*
-					 * Use the cacheKey to get the cache and see if 
+					 * Use the sessionId to get the cache and see if 
 					 * a result set already exists for the query we have been 
-					 * given
+					 * given.
 					 */
-					Cache sessionCache = CacheManagerWrapper.getSessionCache(cacheKey);
-					resultSetCacheElement = sessionCache.get(cQuery.getQueryName());
+					reportBean = cacheManager.getReportBean(sessionId, queryName, view);
 					/*
-					 * If there is no reportStored in the cache or this is a preview
-					 * report, always run.
+					 * If the reportBean is null then we know that we could not
+					 * find an appropriate result set in the session cache. So
+					 * lets run a query and get a result. Always run a query
+					 * if it is a preview report.
+					 * 
 					 */
-					if (resultSetCacheElement == null||cQuery.getQueryName().equals(NautilusConstants.PREVIEW_RESULTS)) {
-						
+					if (reportBean == null||cQuery.getQueryName().equals(NautilusConstants.PREVIEW_RESULTS)) {
+						logger.debug("Executing Query");
 						resultant = ResultsetManager
 								.executeCompoundQuery(cQuery);
 						/*
@@ -118,13 +124,8 @@ public class ReportGeneratorHelper {
 						//The cache key will always be the compound query name
 						reportBean.setResultantCacheKey(cQuery.getQueryName());
 						
-					}else {
-						/*
-						 * The reportBean was found in the cache
-						 * so load it up.
-						 */
-						reportBean = (ReportBean)resultSetCacheElement.getValue();
 					}
+					
 					/*
 					 * Get the correct report XML generator for the desired view
 					 * of the results.
@@ -138,23 +139,22 @@ public class ReportGeneratorHelper {
 						 * if the user changes the desired view from already
 						 * stored view of the results
 						 */
-						if(oldView!=view||reportBean.getReportXML()==null) {
+						if(!oldView.equals(view)||reportBean.getReportXML()==null) {
 							//we must generate a new XML document for the
 							//view they want
 							ReportGenerator reportGen = ReportGeneratorFactory
 									.getReportGenerator(view);
+							resultant.setAssociatedView(view);
 							reportXML = reportGen.getReportXML(resultant);
-							reportBean.getResultant().setAssociatedView(view);
+							
 						}else {
 							//Old view is the current view
 							reportXML = reportBean.getReportXML();
 						}
-						//
 						reportBean.setReportXML(reportXML);
-					    resultSetCacheElement = new Element(reportBean.getResultantCacheKey(), reportBean);
-					    if(sessionCache!=null) {
-							sessionCache.put(resultSetCacheElement);
-						}
+						
+						cacheManager.addToSessionCache(sessionId,queryName,reportBean);
+					   			   
 					    	
 					}else {
 						throw new IllegalStateException("There is no resultant to create report");
@@ -218,30 +218,5 @@ public class ReportGeneratorHelper {
 			logger.error(ioe);
 		}
 	}
-	
-	private String getTempReportName(String sessionId) {
-		String name = "";
-		if(sessionId ==null) {
-			throw new NullPointerException("SessionId must not be null");
-		}
-		Cache sessionCache = CacheManagerWrapper.getSessionCache(sessionId);
-		if(sessionCache!=null) {
-			try {
-			Element counterElement = sessionCache.get(NautilusConstants.REPORT_COUNTER);
-			SessionTempReportCounter counter = (SessionTempReportCounter)counterElement.getValue();
-			name =  counter.getNewTempReportName();
-			sessionCache.put(new Element(NautilusConstants.REPORT_COUNTER, counter));
-			}catch(IllegalStateException ise) {
-				logger.error("Cache get threw an exception");
-				logger.error(ise);
-			}
-			catch(CacheException ce) {
-				logger.error("Cache get threw an exception");
-				logger.error(ce);
-			}
-		}else {
-			throw new RuntimeException("No Session Cache can be found for session: "+sessionId);
-		}
-		return name;
-	}
+
 }

@@ -1,6 +1,6 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
@@ -198,7 +198,6 @@ public class RefineQueryAction extends LookupDispatchAction {
         if(resultSetName!=null && !resultSetName.equals("")) {
         	cquery.setQueryName(refineQueryForm.getResultSetName());
         	queryCollect.putResultsetQuery(cquery);
-        	Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
         	return mapping.findForward("advanceSearchMenu");
         	
         }else {
