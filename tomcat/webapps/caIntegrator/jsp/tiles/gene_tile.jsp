@@ -24,13 +24,12 @@ String act = request.getParameter("act");
 <!-- <a href="javascript:void(0);" onmouseover="return overlib('Selected Criteria on this form applies to all genes specified in this list.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>-->
 &nbsp;-or-&nbsp;
 			<html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
-			<html:file property="geneFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].geneGroup[1]);" />
+			<html:file property="geneFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].geneGroup[1]);" onfocus="javascript:document.forms[0].geneGroup[1].checked = true;" />
 			<Br>
 			<html:errors property="geneFile"/>
 			<html:errors property="geneGroup"/>
 			<html:errors property="geneList"/>
 			<html:errors property="geneType"/></br>
 	</fieldset>		
-			
 
 <!-- </html:form> -->
