@@ -65,10 +65,12 @@ public class ClinicalDataAction extends Action {
 		
 		// Change this code later to get view type directly from Form !!
 		if (thisView.equalsIgnoreCase("sample")) {
-			clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
+			clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+			//clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
 			}
 		else if (thisView.equalsIgnoreCase("gene")){
-			clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_VIEW_TYPE)); 
+			clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			//clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_VIEW_TYPE)); 
 			}
  
  

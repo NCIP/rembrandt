@@ -2,6 +2,7 @@ package gov.nih.nci.nautilus.queryprocessing;
 
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
 
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
@@ -40,7 +41,7 @@ public class ClinicalQueryHandler extends QueryHandler {
 
 
     //public void handle(Query query) {
-    public Map handle(Query query) {
+    public ResultSet[] handle(Query query) {
         ClinicalDataQuery clinicalQuery = (ClinicalDataQuery) query;
 
         diseaseOrGradeCrit = clinicalQuery.getDiseaseOrGradeCriteria();
