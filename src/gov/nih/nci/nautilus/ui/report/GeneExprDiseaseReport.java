@@ -14,13 +14,16 @@ import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 
 import org.javaby.jbyte.Template;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 /**
  * @author Landyr
  * Feb 8, 2005
  * 
  */
-public class GeneExprDiseaseReport{// implements ReportGenerator{
+public class GeneExprDiseaseReport implements ReportGenerator{
 
 	/**
 	 * 
@@ -33,33 +36,26 @@ public class GeneExprDiseaseReport{// implements ReportGenerator{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public Template getReportTemplate(Resultant resultant, String skin) {
+	public Document getReportXML(Resultant resultant) {
 		// TODO Auto-generated method stub
 		
 		//	have setter or put in props file
 		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
-		try	{
-			//	main report template
-			Template report = new Template(skin);
-			
-		    //	main data row/cell
-		    Template row = null; 
-		    Template cell = null;
-		    //	header and sample cells, 1 row each
-		    Template headerCell = null;
-		    Template sampleCell = null;
-		    //	template to hold CSS string
-		    //	Template cssTemplate = null;
-		    //	is this a CSV report
-		    boolean csv = false;
-		    
-		    //are we doing a csv (assuming that the string "csv" is in the csv template name
-		    if(skin.indexOf("csv") != -1)
-		    	csv = true;
-		    else
-		    	csv = false;
+		Document document = DocumentHelper.createDocument();
+
+			Element report = document.addElement( "Report" );
+			Element cell = null;
+			Element data = null;
+			Element dataRow = null;
+			//add the atts
+	        report.addAttribute("reportType", "Copy Number");
+	        //fudge these for now
+	        report.addAttribute("groupBy", "none");
+	        report.addAttribute("queryName", "the query name");
+	        report.addAttribute("sessionId", "the session id");
+	        report.addAttribute("creationTime", "right now");
 		    
 		    ResultsContainer  resultsContainer = resultant.getResultsContainer();
 		    
@@ -81,58 +77,31 @@ public class GeneExprDiseaseReport{// implements ReportGenerator{
 					    	//sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 					    	
 					        //set up the header for the table
-					        headerCell = report.get("headerCell");
-						        headerCell.set("headerValue", "Gene");
-						        headerCell.set("headerColspan", "1");
-					        report.append("headerCell", headerCell);
-					        headerCell = report.get("headerCell");
-						        headerCell.set("headerValue", "Reporter");
-						        headerCell.set("headerColspan", "1");
-					        report.append("headerCell", headerCell);
+							Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
+					        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+						        data = cell.addElement("data").addAttribute("type", "header").addText("Gene");
+						        data = null;
+					        cell = null;
+					        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+						        data = cell.addElement("data").addAttribute("type", "header").addText("Reporter");
+						        data = null;
+					        cell = null;
 					    	//sb.append("<tr><Td id=\"header\">Gene</td><td id=\"header\">Reporter</td>");
 						   
-					    	ArrayList cssLabels = new ArrayList();
 					    	
 					    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 					        	label = (String) labelIterator.next();
 					        	
-					        	if(!csv)	{
-					        		//create a new cell with colspan for every group/label and append to the row
-					        		headerCell = report.get("headerCell");
-						        		headerCell.set("headerColspan", "1" );
-						        		headerCell.set("headerValue", label+" Samples");
-					        		report.append("headerCell", headerCell);
-					        	}
-					        	
+								cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
+					        		data = cell.addElement("Data").addAttribute("type", "header").addText(label);
+						        	data = null;
+						        cell = null;
+					     
 					        	//sb.append("<Td id=\"header\" class=\""+label+"\">"+label+"</td>");
-					        	cssLabels.add(label);
+
 					    	}
 					    	
 							//sb.append("</tr>\n");
-							
-					    	if(!csv)	{
-						    	//	generate the CSS on the fly
-								css.append("<style>\n");
-								String color = "";
-								String font = "";
-								
-								for (int i = 0; i < cssLabels.size(); i++) {
-									int currentColor = i;
-									if(currentColor < theColors.length)	{
-										color = theColors[currentColor];	
-									}
-									else	{
-									 currentColor = i - theColors.length;
-									 color = theColors[currentColor];
-									}
-									css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; }\n");
-								}
-								css.append("</style>\n");
-								report.set("css", css.toString());
-					    	}
-					    	else	{
-					    		report.set("css", ""); //or dont include {css} in csv template
-					    	}
 					    	
 					    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 					    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
@@ -165,17 +134,16 @@ public class GeneExprDiseaseReport{// implements ReportGenerator{
 					        			//logger.debug("Gene Symbol: "+ geneSymbol);
 					        		}
 					        		
-					        		//start the new row
-					        		row = report.get("row");
-					        		
-					        		cell = row.get("cell");
-						        		cell.set("value", geneSymbol);
-						        		cell.set("class", geneSymbol);
-					        		row.append("cell", cell);
-					        		cell = row.get("cell");
-						        		cell.set("value", reporterName);
-						        		cell.set("class", reporterName);
-					        		row.append("cell", cell);
+					        		//start the new data row
+									dataRow = report.addElement("Row").addAttribute("name", "dataRow");
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(geneSymbol);
+							        	data = null;
+							        cell = null;
+									cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
+							        	data = null;
+							        cell = null;
 					        		//sb.append("<tr><td>"+geneSymbol+"</td><td>" + reporterName + "</td>");
 					        		      		
 					        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
@@ -183,9 +151,9 @@ public class GeneExprDiseaseReport{// implements ReportGenerator{
 					    	        	label = (String) labelIterator.next();
 					    	        	DiseaseGroupResultset diseaseResultset = (DiseaseGroupResultset) reporterResultset.getGroupByResultset(label);
 					    	        	if(diseaseResultset != null){
-					    	        		cell = row.get("cell");
-							        			cell.set("class", label);
-						 
+					    	        		
+											cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+				    					        
 					    	        		//sb.append("<td class=\""+label+"\">");
 					    	        		try	{
 					    	        			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
@@ -201,33 +169,22 @@ public class GeneExprDiseaseReport{// implements ReportGenerator{
 					    	        		catch(Exception e){
 					    	        			sb.append("&nbsp;");
 					    	        		}
-					    	        		cell.set("value", sb.toString());
+												data = cell.addElement("Data").addAttribute("type", "data").addText(sb.toString());
+				    					        data = null;
+				    					    cell = null;
 					    	        		//sb.append("</td>");
 				                   		}
 				                   		else	{
-				                   			cell = row.get("cell");
-				                   			cell.set("class", label);
-				                   			cell.set("value", "-");
+				                   			cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+				    					    	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+				    					        data = null;
+				    					    cell = null;
 				                   			//sb.append("<Td class=\""+label+"\">-</td>");
 				                   		}
 					    	    	}
-					        		row.append("cell", cell);
 		   	                   		//sb.append("</tr>");
 					    		}
 					    		
-					    		//append the extra row here
-					        	//is !csv for loop thru and append a new blank td foreach theColspan
-					        	if(!csv)	{
-					        		row = report.get("row");
-					        		for(int i=0; i<(labels.size() + 2); i++)	{
-					        			cell = row.get("cell");
-					        				cell.set("value", "&nbsp;");
-					        				cell.set("class", "geneSpacerStyle");
-					        			row.append("cell", cell);
-					        		}
-					        		report.append("row", row);
-					        	}
-					        	
 					    		// add the line between genes
 					    		//sb.append("<tr><td colspan=\""+(labels.size() + 2)+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
 							    
@@ -241,11 +198,7 @@ public class GeneExprDiseaseReport{// implements ReportGenerator{
 		
 					//return "<div class=\"rowCount\">"+helpFul +recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + css.toString() + sb.toString();
 		    
-		    return report;
-		}
-		catch(Exception e)	{
-			return null;
-		}
+		    return document;
 	}
 
 }

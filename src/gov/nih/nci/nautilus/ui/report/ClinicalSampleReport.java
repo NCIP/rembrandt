@@ -11,13 +11,16 @@ import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 
 import org.javaby.jbyte.Template;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 /**
  * @author LandyR
  * Feb 8, 2005
  * 
  */
-public class ClinicalSampleReport{// implements ReportGenerator {
+public class ClinicalSampleReport implements ReportGenerator {
 
 	/**
 	 * 
@@ -29,48 +32,33 @@ public class ClinicalSampleReport{// implements ReportGenerator {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public Template getReportTemplate(Resultant resultant, String skin) {
+	public Document getReportXML(Resultant resultant) {
 
 		//	have setter or put in props file
 		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
-		try	{
-			//	main report template
-			Template report = new Template(skin);
-			
-		    //	main data row/cell
-		    Template row = null; 
-		    Template cell = null;
-		    //	header and sample cells, 1 row each
-		    Template headerCell = null;
-		    Template sampleCell = null;
-		    //	template to hold CSS string
-		    //Template cssTemplate = null;
-		    //	is this a CSV report
-		    boolean csv = false;
-		    
-		    //are we doing a csv (assuming that the string "csv" is in the csv template name
-		    if(skin.indexOf("csv") != -1)
-		    	csv = true;
-		    else
-		    	csv = false;
-		    
-		    //	there is no CSS for this report, so put an empty one in
-		    report.set("css", "");
-		    
-		    
-		    /*********** orig *************/
+			Document document = DocumentHelper.createDocument();
+
+			Element report = document.addElement( "Report" );
+			Element cell = null;
+			Element data = null;
+			Element dataRow = null;
+			//add the atts
+	        report.addAttribute("reportType", "Copy Number");
+	        //fudge these for now
+	        report.addAttribute("groupBy", "none");
+	        report.addAttribute("queryName", "the query name");
+	        report.addAttribute("sessionId", "the session id");
+	        report.addAttribute("creationTime", "right now");
+
 		    boolean gLinks = false;
 			boolean cLinks = false;
 			StringBuffer sb = new StringBuffer();
 			
-			//String helpFul = helpLink + "?sect=clinical" + helpLinkClose;
-	
-			//logger.debug("HERE IS THE CLINICAL VIEW");
 			ResultsContainer  resultsContainer = resultant.getResultsContainer();
 			SampleViewResultsContainer sampleViewContainer = null;
-			if(resultsContainer instanceof DimensionalViewContainer){
+			if(resultsContainer instanceof DimensionalViewContainer)	{
 				
 				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 						// Are we making hyperlinks?
@@ -82,15 +70,11 @@ public class ClinicalSampleReport{// implements ReportGenerator {
 							// show the copyNumberHyperlinks
 							cLinks = true;
 						}
-				/*		
-				// RCL : i cant remember what this does, so commenting out		
-				//RCL: add the DimVC to the session once here, actually the same thing		
-				request.getSession().setAttribute("_dv", dimensionalViewContainer);
-				//request.getSession().setAttribute("_gene", dimensionalViewContainer);
-				*/
+
 				sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 				
-			}else if (resultsContainer instanceof SampleViewResultsContainer){
+			}
+			else if (resultsContainer instanceof SampleViewResultsContainer)	{
 				
 				sampleViewContainer = (SampleViewResultsContainer) resultsContainer;
 				
@@ -102,52 +86,46 @@ public class ClinicalSampleReport{// implements ReportGenerator {
 			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 			*/
 			
-			//	set up the headers for this table
-			headerCell = report.get("headerCell");
-		        headerCell.set("headerValue", "SAMPLE");
-		        headerCell.set("headerColspan", "1");
-	        report.append("headerCell", headerCell);
-			headerCell = report.get("headerCell");
-		        headerCell.set("headerValue", "AGE at Dx (years)");
-		        headerCell.set("headerColspan", "1");
-	        report.append("headerCell", headerCell);			
-	        headerCell = report.get("headerCell");
-		        headerCell.set("headerValue", "GENDER");
-		        headerCell.set("headerColspan", "1");
-		    report.append("headerCell", headerCell);	        
-			headerCell = report.get("headerCell");
-		        headerCell.set("headerValue", "SURVIVAL (months)");
-		        headerCell.set("headerColspan", "1");
-	        report.append("headerCell", headerCell);			
-	        headerCell = report.get("headerCell");
-		        headerCell.set("headerValue", "DISEASE");
-		        headerCell.set("headerColspan", "1");
-		    report.append("headerCell", headerCell);	        
-			
+			//	set up the headers for this table 
+			Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("SAMPLE");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("AGE at Dx (years)");
+				        data = null;
+			        cell = null;
+					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("GENDER");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("SURVIVAL (months)");
+				        data = null;
+			        cell = null;
+					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("DISEASE");
+				        data = null;
+			        cell = null;
 		    //sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	
-		    //	we will not have a sample row, so insert a blank one
-		    //	or use a different template (suggested)
-		    sampleCell = report.get("sampleCell");
-		        sampleCell.set("sampleValue", "");
-		        sampleCell.set("sampleColspan", "10");
-		    report.append("sampleCell", sampleCell);
 		    
 			Iterator si = samples.iterator(); 
 			if(si.hasNext())	{
 				SampleResultset sampleResultset =  (SampleResultset)si.next();
    				if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)	{
-   					headerCell = report.get("headerCell");
-	   			        headerCell.set("headerValue", "GeneExp");
-	   			        headerCell.set("headerColspan", "1");
-	   		        report.append("headerCell", headerCell);
+					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("GeneExp");
+				        data = null;
+			        cell = null;
    					//sb.append("<Td id=\"header\">GeneExp</td>");
    				}
    	 		   	if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)	{
-	   	 		   	headerCell = report.get("headerCell");
-				        headerCell.set("headerValue", "CopyNumber");
-				        headerCell.set("headerColspan", "1");
-			        report.append("headerCell", headerCell);
+	   	 		   	cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("CopyNumber");
+				        data = null;
+			        cell = null;
    	 		   		//sb.append("<td id=\"header\">CopyNumber</td>");
    	 		   	}
    	 		   	//sb.append("</tr>\n");
@@ -158,27 +136,28 @@ public class ClinicalSampleReport{// implements ReportGenerator {
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
    				
    	   			String sampleName = sampleResultset.getBiospecimen().getValue().toString();
-   	   			row = report.get("row");
-   	   			cell = row.get("cell");
-	   	   			cell.set("value", sampleResultset.getBiospecimen().getValue().toString().substring(2));
-	   	   			cell.set("class", "");
-	   	   		row.append("cell", cell);
-		   	   	cell = row.get("cell");
-		   			cell.set("value", sampleResultset.getAgeGroup().getValue());
-		   			cell.set("class", "");
-		   		row.append("cell", cell);
-		   		cell = row.get("cell");
-		   			cell.set("value", sampleResultset.getGenderCode().getValue());
-		   			cell.set("class", "");
-		   		row.append("cell", cell);
-		   		cell = row.get("cell");
-		   			cell.set("value", sampleResultset.getSurvivalLengthRange().getValue());
-		   			cell.set("class", "");
-		   		row.append("cell", cell);
-		   		cell = row.get("cell");
-		   			cell.set("value", sampleResultset.getDisease().getValue());
-		   			cell.set("class", "");
-		   		row.append("cell", cell);
+				
+				dataRow = report.addElement("Row").addAttribute("name", "dataRow");
+					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getBiospecimen().getValue().toString().substring(2));
+   					        	data = null;
+   					        cell = null;
+							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getAgeGroup().getValue().toString());
+   					        	data = null;
+   					        cell = null;
+							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getGenderCode().getValue().toString());
+   					        	data = null;
+   					        cell = null;
+							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getGenderCode().getValue().toString());
+   					        	data = null;
+   					        cell = null;
+							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getDisease().getValue().toString());
+   					        	data = null;
+   					        cell = null;
 		   		/*
    	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
@@ -188,50 +167,41 @@ public class ClinicalSampleReport{// implements ReportGenerator {
 				*/
 	   			if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)	{
 	   				//TODO: create the links
-	   				cell = row.get("cell");
-		   				cell.set("value", "G");
-		   				cell.set("class", "");
-		   			row.append("cell", cell);
+					cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   						data = cell.addElement("Data").addAttribute("type", "data").addText("G");
+   					    data = null;
+   					cell = null;
 	   				//sb.append("<td><a href=\"report.do?s="+sampleName+"_gene&report=gene\">G</a></td>");
 	   			}
 		   		else if (gLinks){
-	   				cell = row.get("cell");
-		   				cell.set("value", "");
-		   				cell.set("class", "");
-		   			row.append("cell", cell);
+	   				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   						data = cell.addElement("Data").addAttribute("type", "data").addText(" ");
+   					    data = null;
+   					cell = null;
 		   			//sb.append("<td>&nbsp;</td>"); //empty cell
 		   		}
 	   			if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)	{
 	   				//	TODO: create the links
-	   				cell = row.get("cell");
-		   				cell.set("value", "C");
-		   				cell.set("class", "");
-		   			row.append("cell", cell);
+	   				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   						data = cell.addElement("Data").addAttribute("type", "data").addText("C");
+   					    data = null;
+   					cell = null;
 	   				//sb.append("<Td><a href=\"report.do?s="+sampleName +"_copy&report=copy\">C</a></td>");
 	   			}
 	   			else if (cLinks){
-	   				cell = row.get("cell");
-		   				cell.set("value", "");
-		   				cell.set("class", "");
-		   			row.append("cell", cell);
+	   				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   						data = cell.addElement("Data").addAttribute("type", "data").addText(" ");
+   					    data = null;
+   					cell = null;
 		   			//sb.append("<td>&nbsp;</td>"); //empty cell
 		   		}
 	   			
-	   			report.append("row", row);
+	   			//report.append("row", row);
 	   			//sb.append("</tr>\n");
     		}
     		//sb.append("</table>\n<br>");
     		//return sb.toString(); 
-		    return report;
-		    
-		   /********* end orig *************/
-		     
-		}
-		catch(Exception e){
-			//cant get template
-			return null;
-		}
-
+		    return document;		     
 	}
 
 }
