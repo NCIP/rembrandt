@@ -202,6 +202,28 @@ public class ReportGeneratorAction extends DispatchAction {
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
+
+	public ActionForward switchViews(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ActionForward thisForward = null;
+		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+		//Used to get the old resultant from cache
+		String queryName = rgForm.getQueryName();
+		String sessionId = request.getSession().getId();
+		//get the old 
+		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
+		if(cquery!=null) {
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+			//This will generate the report and store it in the cache
+			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, rgForm.getFilterParams() );
+			//store the name of the query in the form so that we can later pull it out of cache
+			ReportBean reportBean = rgHelper.getReportBean();
+			rgForm.setQueryName(reportBean.getResultantCacheKey());
+       	}
+		//now send everything that we have done to the actual method that will render the report
+		return runGeneViewReport(mapping, rgForm, request, response);
+	}
 	
 	public ActionForward runShowAllValuesQuery(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
