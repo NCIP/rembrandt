@@ -6,9 +6,9 @@
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <br>
-<html:textarea property="goClassification" rows="5" cols="40"></html:textarea>
+<html:textarea property="goClassification" rows="5" cols="40" value="type GO format as 'GO:XXXXXX' where number is XXXXXXX"></html:textarea>
 <html:errors property="goClassification"/>
-<input type="button" class="sbutton" value="GO Browser..." disabled="true" onclick="javascript:spawn('http://cgap.nci.nih.gov/Genes/GOBrowser', 780, 500);">
+<input type="button" class="sbutton" value="GO Browser..." onclick="javascript:spawn('http://www.godatabase.org/cgi-bin/amigo/go.cgi', 780, 500);">
 <br>
 <!--<html:checkbox property="goMolecularFunction" styleClass="radio" /> Molecular Function
 			<html:checkbox property="goBiologicalProcess" styleClass="radio" /> Biological Process

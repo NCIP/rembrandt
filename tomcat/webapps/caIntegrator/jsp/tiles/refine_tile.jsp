@@ -46,7 +46,7 @@
 						</html:select>
 					</td>
 					<Td>
-						<html:select property="operatorType1">
+						<html:select property="operatorType1" onchange="resetVal(this)">
 							<html:option value="">&nbsp;</html:option>
 							<html:option value="AND">and</html:option>
 							<html:option value="OR">or</html:option>
@@ -77,7 +77,7 @@
 						</html:select>
 					</td>
 					<Td>
-						<html:select property="operatorType2">
+						<html:select property="operatorType2" onchange="resetVal(this)">
 							<html:option value="">&nbsp;</html:option>
 							<html:option value="AND">and</html:option>
 							<html:option value="OR">or</html:option>
@@ -138,7 +138,7 @@
 					</td>
 				
 					<td align="right">
-						<html:textarea property="queryText" style="width:300px; height:40px;"></html:textarea>
+						<html:textarea property="queryText"  style="width:300px; height:40px;"></html:textarea>
 					</td>
 					
 				</tr>

@@ -9,14 +9,11 @@ function checkNull(text)
 	}
 }
 
-function resetVal()
+function resetVal(formElement)
 {
-	if(text.value == "")	{
-		scroll(0,0);
-		text.focus();
-		text.style.border = "2px solid red";
-		alert("Please Fill in a Unique Query Name");
-		return false;
+    var element = formElement.name;
+    if ((element == "operatorType1") || (element == "operatorType2")){
+	document.getElementById("queryText").value = "";
 	}
 }
 
