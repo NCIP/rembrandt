@@ -1,0 +1,472 @@
+
+<!--
+Automatically created by Tomcat JspC.
+Place this fragement in the web.xml before all icon, display-name,
+description, distributable, and context-param elements.
+-->
+
+	<servlet>
+		<servlet-name>error_jsp</servlet-name>
+		<servlet-class>error_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>index_jsp</servlet-name>
+		<servlet-class>index_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>login_jsp</servlet-name>
+		<servlet-class>login_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>logout_jsp</servlet-name>
+		<servlet-class>logout_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>welcome_jsp</servlet-name>
+		<servlet-class>welcome_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.areaBody_jsp</servlet-name>
+		<servlet-class>jsp.areaBody_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.footer_jsp</servlet-name>
+		<servlet-class>jsp.footer_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.formBody_jsp</servlet-name>
+		<servlet-class>jsp.formBody_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.geneViewReport_jsp</servlet-name>
+		<servlet-class>jsp.geneViewReport_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.geneViewReportCSV_jsp</servlet-name>
+		<servlet-class>jsp.geneViewReportCSV_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.header_jsp</servlet-name>
+		<servlet-class>jsp.header_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.home_jsp</servlet-name>
+		<servlet-class>jsp.home_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.homeLayout_jsp</servlet-name>
+		<servlet-class>jsp.homeLayout_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.layout_jsp</servlet-name>
+		<servlet-class>jsp.layout_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.layoutNoSidebar_jsp</servlet-name>
+		<servlet-class>jsp.layoutNoSidebar_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.menu_jsp</servlet-name>
+		<servlet-class>jsp.menu_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.advSearch_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.advSearch_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.alleleFrequency_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.alleleFrequency_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.arrayPlatform_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.arrayPlatform_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.assayPlatform_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.assayPlatform_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.buttons_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.buttons_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.cloneId_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.cloneId_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.cloneLocation_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.cloneLocation_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.copyNumber_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.copyNumber_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.crumbMenu_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.crumbMenu_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.diseaseType_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.diseaseType_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.foldChange_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.foldChange_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.gene_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.gene_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.genomicAnnotationTrack_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.genomicAnnotationTrack_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.go_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.go_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.htmlHead_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.htmlHead_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.occurrence_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.occurrence_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.outputExamples_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.outputExamples_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.overlib_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.overlib_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.pathway_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.pathway_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.presentation_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.presentation_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.priorTherapy_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.priorTherapy_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.queryName_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.queryName_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.quickSearch_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.quickSearch_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.refine_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.refine_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.region_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.region_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.reqdFieldsMsg_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.reqdFieldsMsg_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.resultView_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.resultView_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.sideBar_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.sideBar_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.snpId_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.snpId_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jsp.tiles.survivalRange_tile_jsp</servlet-name>
+		<servlet-class>jsp.tiles.survivalRange_tile_jsp</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>error_jsp</servlet-name>
+		<url-pattern>/error.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>index_jsp</servlet-name>
+		<url-pattern>/index.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>login_jsp</servlet-name>
+		<url-pattern>/login.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>logout_jsp</servlet-name>
+		<url-pattern>/logout.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>welcome_jsp</servlet-name>
+		<url-pattern>/welcome.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.areaBody_jsp</servlet-name>
+		<url-pattern>/jsp/areaBody.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.footer_jsp</servlet-name>
+		<url-pattern>/jsp/footer.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.formBody_jsp</servlet-name>
+		<url-pattern>/jsp/formBody.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.geneViewReport_jsp</servlet-name>
+		<url-pattern>/jsp/geneViewReport.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.geneViewReportCSV_jsp</servlet-name>
+		<url-pattern>/jsp/geneViewReportCSV.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.header_jsp</servlet-name>
+		<url-pattern>/jsp/header.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.home_jsp</servlet-name>
+		<url-pattern>/jsp/home.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.homeLayout_jsp</servlet-name>
+		<url-pattern>/jsp/homeLayout.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.layout_jsp</servlet-name>
+		<url-pattern>/jsp/layout.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.layoutNoSidebar_jsp</servlet-name>
+		<url-pattern>/jsp/layoutNoSidebar.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.menu_jsp</servlet-name>
+		<url-pattern>/jsp/menu.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.advSearch_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/advSearch_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.alleleFrequency_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/alleleFrequency_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.arrayPlatform_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/arrayPlatform_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.assayPlatform_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/assayPlatform_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.buttons_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/buttons_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.cloneId_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/cloneId_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.cloneLocation_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/cloneLocation_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.copyNumber_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/copyNumber_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.crumbMenu_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/crumbMenu_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.diseaseType_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/diseaseType_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.foldChange_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/foldChange_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.gene_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/gene_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.genomicAnnotationTrack_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/genomicAnnotationTrack_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.go_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/go_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.htmlHead_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/htmlHead_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.occurrence_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/occurrence_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.outputExamples_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/outputExamples_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.overlib_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/overlib_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.pathway_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/pathway_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.presentation_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/presentation_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.priorTherapy_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/priorTherapy_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.queryName_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/queryName_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.quickSearch_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/quickSearch_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.refine_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/refine_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.region_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/region_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.reqdFieldsMsg_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/reqdFieldsMsg_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.resultView_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/resultView_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.sideBar_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/sideBar_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.snpId_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/snpId_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jsp.tiles.survivalRange_tile_jsp</servlet-name>
+		<url-pattern>/jsp/tiles/survivalRange_tile.jsp</url-pattern>
+	</servlet-mapping>
+
+<!--
+All session-config, mime-mapping, welcome-file-list, error-page, taglib,
+resource-ref, security-constraint, login-config, security-role,
+env-entry, and ejb-ref elements should follow this fragment.
+-->
