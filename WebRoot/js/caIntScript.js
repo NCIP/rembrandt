@@ -827,6 +827,7 @@ location.href='menu.do';
  }
 
 function hideLoadingMessage(){
+	if(document.getElementById('spnLoading') != null)
 			document.getElementById('spnLoading').style.display = "none" ;
 }
 		
