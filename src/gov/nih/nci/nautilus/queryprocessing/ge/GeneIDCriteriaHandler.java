@@ -48,8 +48,14 @@ public class GeneIDCriteriaHandler {
     private static ArrayList getGeneIDValues(GeneIDCriteria geneIDCrit) {
         Collection geneIdDEs = geneIDCrit.getGeneIdentifiers();
         ArrayList geneIDs = new ArrayList();
-        for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();)
+        for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();) {
+            GeneIdentifierDE obj  = (GeneIdentifierDE) iterator.next();
+            String value = null;
+            if (obj.getGeneIDType().equals(GeneIdentifierDE.GENESYMBOL))
+               value = obj.getValueObject().toUpperCase();
+            else value = obj.getValueObject();
             geneIDs.add(((GeneIdentifierDE) iterator.next()).getValueObject());
+        }
         return geneIDs;
     }
 

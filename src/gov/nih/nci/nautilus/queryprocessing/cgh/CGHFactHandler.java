@@ -86,7 +86,7 @@ abstract public class CGHFactHandler {
                 int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria annotCrit = new Criteria();
-                annotCrit.addIn(GeneLlAcc.SNP_PROBESET_ID, values);
+                annotCrit.addIn(GeneLlAccSnp.SNP_PROBESET_ID, values);
                 long time = System.currentTimeMillis();
                 String threadID = "CGHFactHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
@@ -96,8 +96,8 @@ abstract public class CGHFactHandler {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           ReportQueryByCriteria annotQuery =
-                          QueryFactory.newReportQuery(GeneLlAcc.class, annotCrit, true);
-                          annotQuery.setAttributes(new String[] {GeneLlAcc.SNP_PROBESET_ID, GeneLlAcc.GENE_SYMBOL, GeneLlAcc.LOCUS_LINK_ID, GeneLlAcc.ACCESSION});
+                          QueryFactory.newReportQuery(GeneLlAccSnp.class, annotCrit, true);
+                          annotQuery.setAttributes(new String[] {GeneLlAccSnp.SNP_PROBESET_ID, GeneLlAccSnp.GENE_SYMBOL, GeneLlAccSnp.LOCUS_LINK_ID, GeneLlAccSnp.ACCESSION});
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
                           while (iter.hasNext()) {

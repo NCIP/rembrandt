@@ -18,14 +18,14 @@
           <mappedBean name="gov.nih.nci.nautilus.data.CytobandPosition" attribute="cbStart"/>
           <mappedBean name="gov.nih.nci.nautilus.data.ProbesetDim" attribute="kbStart"/>
           <mappedBean name="gov.nih.nci.nautilus.data.GeneClone" attribute="accStart"/>
-          <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAcc" attribute="cStart"/>
+          <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAccSnp" attribute="cStart"/>
     </DomainElement>
 
     <DomainElement name="gov.nih.nci.nautilus.de.BasePairPositionDE$EndPosition">
           <mappedBean name="gov.nih.nci.nautilus.data.CytobandPosition" attribute="cbEndPos"/>
           <mappedBean name="gov.nih.nci.nautilus.data.ProbesetDim" attribute="kbEnd"/>
           <mappedBean name="gov.nih.nci.nautilus.data.GeneClone" attribute="accEnd"/>
-        <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAcc" attribute="cEnd"/>
+        <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAccSnp" attribute="cEnd"/>
     </DomainElement>
 
     <DomainElement name="gov.nih.nci.nautilus.de.GeneIdentifierDE$LocusLink">
@@ -50,7 +50,7 @@
                    attribute="accessionNumber"/>
                    <mappedBean name="gov.nih.nci.nautilus.data.GeneClone"
                    attribute="accessionNumber"/>
-                   <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAcc"
+                   <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAccSnp"
                    attribute="accessionNumber"/>
     </DomainElement>
     <DomainElement name="gov.nih.nci.nautilus.de.ExprFoldChangeDE">

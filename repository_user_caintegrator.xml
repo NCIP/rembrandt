@@ -1,5 +1,5 @@
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.GeneLlAcc"
+       class="gov.nih.nci.nautilus.data.GeneLlAccSnp"
        table="GENE_LL_ACC_SNP">
    <field-descriptor
              name="imageId"
@@ -16,14 +16,10 @@
              column="LL_ID"
              jdbc-type="VARCHAR"
         />
-    <field-descriptor
-                 name="cytoband"
-                 column="CYTOBAND"
-                 jdbc-type="VARCHAR"
-            />
+
     <field-descriptor
                      name="geneSymbol"
-                     column="GENE_SYMBOL"
+                     column="UP_GENE_SYMBOL"
                      jdbc-type="VARCHAR"
                 />
 
@@ -283,7 +279,7 @@
         />
         <field-descriptor
              name="geneSymbol"
-             column="gene_symbol"
+             column="UP_GENE_SYMBOL"
              jdbc-type="VARCHAR"
         />
         <field-descriptor
@@ -390,7 +386,7 @@
        table="GENE_PATHWAY">
         <field-descriptor
              name="geneSymbol"
-             column="gene_symbol"
+             column="UP_GENE_SYMBOL"
              jdbc-type="VARCHAR"
         />
 
@@ -418,11 +414,7 @@
 <class-descriptor
        class="gov.nih.nci.nautilus.data.GeneClone"
        table="GENE_CLONE">
-
-
-
-
-         <field-descriptor
+       <field-descriptor
            name="cloneId"
             column="CLONE_ID"
             jdbc-type="BIGINT"
@@ -442,7 +434,7 @@
 
         <field-descriptor
              name="geneSymbol"
-             column="gene_symbol"
+             column="UP_GENE_SYMBOL"
              jdbc-type="VARCHAR"
         />
         <field-descriptor
@@ -508,7 +500,7 @@
           />
         <field-descriptor
              name="geneSymbol"
-             column="gene_symbol"
+             column="UP_GENE_SYMBOL"
              jdbc-type="VARCHAR"
         />
         <field-descriptor
@@ -787,7 +779,7 @@
          />
         <field-descriptor
              name="geneSymbol"
-             column="gene_symbol"
+             column="UP_GENE_SYMBOL"
              jdbc-type="VARCHAR"
         />
     <field-descriptor
@@ -824,7 +816,7 @@
           />
         <field-descriptor
              name="geneSymbol"
-             column="GENE_SYMBOL"
+             column="UP_GENE_SYMBOL"
              jdbc-type="VARCHAR"
         />
          <field-descriptor
