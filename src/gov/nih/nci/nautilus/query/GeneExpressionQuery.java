@@ -190,12 +190,15 @@ public class GeneExpressionQuery extends Query {
 		PathwayCriteria thisPathwayCriteria = this.getPathwayCriteria();
 	
 		if ((thisPathwayCriteria != null) && !thisPathwayCriteria.isEmpty() && labels != null) { 
+
+			String thisCriteria = thisPathwayCriteria.getClass().getName();			
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 		    Collection pathwayColl = thisPathwayCriteria.getPathwayNames();
 			Iterator iter = pathwayColl.iterator();
 			while(iter.hasNext()){
 			  PathwayDE  pathwayDE = (PathwayDE)iter.next();
 			  String pathwayStr = pathwayDE.getClass().getName();		      
-		      OutStr += "<BR><B class='otherBold'>"+labels.getString(pathwayStr.substring(pathwayStr.lastIndexOf(".")+1))+":</b><br />"+pathwayDE.getValue()+"";
+		      OutStr += "<BR>&nbsp;&nbsp;"+pathwayDE.getValue();
 		       }	 	   
 		   }
 		else{
