@@ -72,7 +72,7 @@ public class KMGraphGenerator {
            downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+getDownLabel()+" <= "+1/downFold+"X ");
 
            // intermediate samples
-           intSamples = getDataSeries(samples,INTERMEDIATE, geneSymbol+"Intermediate ");
+           intSamples = getDataSeries(samples,INTERMEDIATE, geneSymbol+" Intermediate ");
 
            
            lineDataseries.addSeries(upSamples[0]);
