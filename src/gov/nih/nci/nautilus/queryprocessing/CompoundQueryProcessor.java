@@ -82,7 +82,7 @@ import org.apache.log4j.Logger;
  * 
  */
 public class CompoundQueryProcessor {
-	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+	private static Logger logger = Logger.getLogger(CompoundQueryProcessor.class);
 	public static CompoundResultSet execute(CompoundQuery compoundQuery) throws Exception{
 		ResultSet[] resultSets = null;
 		CompoundResultSet compoundResultet= null;

@@ -29,7 +29,7 @@ import gov.nih.nci.nautilus.query.GeneExpressionQuery;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class GEFactHandler {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(GEFactHandler.class);
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());

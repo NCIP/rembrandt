@@ -32,7 +32,7 @@ import org.xml.sax.InputSource;
  * To change this template use Options | File Templates.
  */
 abstract public class QueryHandler {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(QueryHandler.class);
     private static HashMap deBeanMappings = new HashMap();
     private final static String FILE_NAME ="/deToBeanAttrMappings.xml";
     private static Document doc;

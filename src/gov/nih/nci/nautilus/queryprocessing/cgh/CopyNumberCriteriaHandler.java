@@ -25,7 +25,7 @@ import java.util.Iterator;
  * To change this template use Options | File Templates.
  */
 public class CopyNumberCriteriaHandler {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(CopyNumberCriteriaHandler.class);
     static void addDiseaseCriteria(DiseaseOrGradeCriteria diseaseCrit, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
         ArrayList diseasesTypes = new ArrayList();

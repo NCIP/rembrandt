@@ -25,7 +25,7 @@ import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class CGHFactHandler {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(CGHFactHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
     private final static int VALUES_PER_THREAD = 100;

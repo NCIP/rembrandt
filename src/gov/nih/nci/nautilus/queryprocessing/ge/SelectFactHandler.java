@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class SelectFactHandler implements Runnable{
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(SelectFactHandler.class);
      //String fieldName;
      Criteria sampleCrit;
      Collection values;

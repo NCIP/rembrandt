@@ -22,7 +22,7 @@ import gov.nih.nci.nautilus.queryprocessing.ThreadController;
  * To change this template use Options | File Templates.
  */
 public abstract class SelectHandler implements Runnable {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(SelectHandler.class);
     private gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj;
     private Collection allProbeIDS;
     private Collection allCloneIDS;
