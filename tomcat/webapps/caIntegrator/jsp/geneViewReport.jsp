@@ -59,7 +59,7 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
 		%>
 		<a href="jsp/geneViewReportCSV.jsp">[Download this report for Excel]</a><Br>
 		<%
-		System.out.println("GeneExprObjs: " + geneExprObjects.length);
+		
 
  ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
 		if (resultsContainer instanceof GeneExprSampleViewContainer){
