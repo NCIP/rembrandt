@@ -35,4 +35,5 @@ public interface ConvenientCache {
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag);
 	public CompoundQuery getQuery(String sessionId, String queryName);
 	public List getResultSetNames(String sessionId);
+	public Collection getAllResultSetReportBeans(String sessionId);
 }

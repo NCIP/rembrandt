@@ -490,6 +490,14 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return names;
 	}
+	public Collection getAllResultSetReportBeans(String sessionId) {
+		Collection beans = new ArrayList();
+		List beanNames = getResultSetNames(sessionId);
+		for(Iterator i = beanNames.iterator();i.hasNext();) {
+			beans.add(this.getReportBean(sessionId, (String)i.next()));
+		}
+		return beans;
+	}
 	
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag) {
 		this.addToSessionCache(sessionId,NautilusConstants.SESSION_QUERY_BAG_KEY, theBag );
