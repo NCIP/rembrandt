@@ -101,6 +101,7 @@ public class ClinicalQueryHandler extends QueryHandler {
 
 	private PatientData[] executeQuery(ClinicalDataQuery cghQuery) throws Exception {
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        pb.clearCache();
         final Criteria sampleCrit = new Criteria();
         DiseaseOrGradeCriteria diseaseCrit = cghQuery.getDiseaseOrGradeCriteria();
         if(allBIOSpecimenIDs.size() > 0){
@@ -125,7 +126,7 @@ public class ClinicalQueryHandler extends QueryHandler {
             PatientData patientData = (PatientData) results.get(i);
             finalResult[i]  = patientData ;
         }
-
+        pb.close();
         return finalResult;
     }
 

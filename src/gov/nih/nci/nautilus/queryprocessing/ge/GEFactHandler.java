@@ -33,7 +33,7 @@ abstract public class GEFactHandler {
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
-     private final static int VALUES_PER_THREAD = 200;
+     private final static int VALUES_PER_THREAD = 150;
      List factEventList = Collections.synchronizedList(new ArrayList());
      abstract void addToResults(Collection results);
      List annotationEventList = Collections.synchronizedList(new ArrayList());

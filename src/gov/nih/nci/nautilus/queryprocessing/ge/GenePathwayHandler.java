@@ -31,6 +31,7 @@ import java.util.Iterator;
 public class GenePathwayHandler {
     static GEReporterIDCriteria  buildPathwayCriteria( PathwayCriteria pathwayCrit, boolean includeClones, boolean includeProbes) throws Exception {
             PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+            pb.clearCache();
             Collection pathwayNames = pathwayCrit.getPathwayNames();
             ArrayList pathwayNameValues = new ArrayList();
             if (pathwayNames  != null && pathwayNames .size() > 0) {
@@ -53,7 +54,7 @@ public class GenePathwayHandler {
             }
             GeneIDCriteria geneIDCrit = new GeneIDCriteria();
             geneIDCrit.setGeneIdentifiers(geneSymbols);
-
+            pb.close();
             // executeQuery ProbesetID and CloneIDs for GeneSymbols
             return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes);
     }

@@ -43,6 +43,7 @@ public class LookupManager{
 	private  static Collection executeQuery(Class bean, Criteria crit)throws Exception{
 			   Collection resultsetObjs = null;
 			   PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
+			   broker.clearCache();
 	           resultsetObjs = createQuery(bean, crit, broker);
 	           broker.close();
 	           return resultsetObjs;

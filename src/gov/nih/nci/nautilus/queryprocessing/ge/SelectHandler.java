@@ -122,6 +122,7 @@ public abstract class SelectHandler implements Runnable {
 
     private void executeProbeCloneIDSubQuery(ReportQueryByCriteria query, Collection probeORCloneIDs, DBEvent.SubQueryEvent event) {
         PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+        _BROKER.clearCache();
         if ( query != null) {
             Iterator iter = _BROKER.getReportQueryIteratorByQuery(query);
             while (iter.hasNext()) {

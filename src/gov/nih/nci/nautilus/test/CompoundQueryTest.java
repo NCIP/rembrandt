@@ -201,7 +201,7 @@ public class CompoundQueryTest extends TestCase {
 	public void testGeneExprANDCopyNumberQueryORGeneExpr() {
 		try {
 			//test CompoundQuery Query
-			for(int i= 0; i < 10; i++){
+			for(int i= 0; i < 50; i++){
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery OR Probe Query>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
 			
@@ -214,7 +214,8 @@ public class CompoundQueryTest extends TestCase {
 			//String theColors[] = {"0073E6","FFFF61"};
 			//System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
 			print(resultant);
-			System.out.println("Count= "+i);
+			System.err.println("Count= "+i);
+			Thread.sleep( 10 );
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -354,7 +355,9 @@ public class CompoundQueryTest extends TestCase {
         PathwayDE obj2 = new PathwayDE("TPOPathway");
   		PathwayDE obj3 = new PathwayDE("Ccr5Pathway");
         Collection pathways = new ArrayList();
-        pathways.add(obj1); pathways.add(obj2);pathways.add(obj3);
+        pathways.add(obj1); 
+        pathways.add(obj2);
+        pathways.add(obj3);
         pathwayCrit.setPathwayNames(pathways);
     }
     private void buildFoldChangeCrit() {
@@ -374,7 +377,8 @@ public class CompoundQueryTest extends TestCase {
     }
     private void buildOntologyCrit() {
         ontologyCrit = new GeneOntologyCriteria();
-        ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0050794"));
+        ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0000004"));
+        //ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0050794"));
     }
     private void buildRegionCrit() {
         regionCrit = new RegionCriteria();
