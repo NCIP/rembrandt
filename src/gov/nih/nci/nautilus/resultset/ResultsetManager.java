@@ -48,14 +48,15 @@
  *	
  */
 package gov.nih.nci.nautilus.resultset;
-import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotHandler;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
-import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -114,5 +115,19 @@ public class ResultsetManager {
     		}
     	return resultant;
     	}
+    public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute) throws Exception {
+    	Resultant resultant= new Resultant();
+    	if(queryToExecute != null ){
+    		Viewable associatedView = ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
+    		queryToExecute.setAssociatedView(associatedView);
+    		ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
+    		ResultsContainer resultsContainer = KaplanMeierPlotHandler.handleKaplanMeierPlotContainer((GeneExpr.GeneExprSingle[]) resultsets);
+			resultant.setResultsContainer(resultsContainer);
+			resultant.setAssociatedQuery(queryToExecute);
+			resultant.setAssociatedView(associatedView);
+    		}
+    	return resultant;
+    	}
+
 
 }

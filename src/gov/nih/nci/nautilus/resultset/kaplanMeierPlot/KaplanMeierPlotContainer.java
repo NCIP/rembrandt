@@ -49,9 +49,15 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
 
 /**
  * @author Himanso
@@ -61,7 +67,8 @@ import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
  */
 public class KaplanMeierPlotContainer extends SampleViewResultsContainer{
 	private GeneIdentifierDE.GeneSymbol geneSymbol;
-	private ExprFoldChangeDE averageFoldChange;
+	private ExprFoldChangeDE averageFoldChange = new ExprFoldChangeDE.UpRegulation(Constants.KAPLAN_MEIER_DEFAULT_RATIO);//default
+	private Collection geneExprSamples = new Vector();
 
 	/**
 	 * @return Returns the geneSymbol.
@@ -75,16 +82,31 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer{
 	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
 		this.geneSymbol = geneSymbol;
 	}
-	/**
-	 * @return Returns the averageFoldChange.
-	 */
-	public ExprFoldChangeDE getAverageFoldChange() {
-		return this.averageFoldChange;
-	}
-	/**
-	 * @param averageFoldChange The averageFoldChange to set.
-	 */
-	public void setAverageFoldChange(ExprFoldChangeDE averageFoldChange) {
+	public Collection getSampleKaplanMeierPlotResultsets(ExprFoldChangeDE averageFoldChange){
 		this.averageFoldChange = averageFoldChange;
+		Collection samples = getBioSpecimenResultsets();
+    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+	    		Collection reporters = sample.getReporterFoldChangeValuesResultsets();
+	    		int numberOfReporters = reporters.size();
+	    		double reporterValues = 0.0;
+	        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+	        		ReporterFoldChangeValuesResultset reporter = (ReporterFoldChangeValuesResultset) reporterIterator.next();
+	        		double foldchange = new Double (reporter.getFoldChangeRatioValue().getValue().toString()).doubleValue();
+	        		reporterValues += foldchange;
+	        	}
+	        	double geneExprAverage = reporterValues/numberOfReporters;
+	        	if(averageFoldChange instanceof ExprFoldChangeDE.UpRegulation){
+		        	if(geneExprAverage <= averageFoldChange.getValueObject().doubleValue()){
+		        		geneExprSamples.add(sample);
+		        	}
+	        	}
+	        	if(averageFoldChange instanceof ExprFoldChangeDE.DownRegulation){
+		        	if(geneExprAverage >= averageFoldChange.getValueObject().doubleValue()){
+		        		geneExprSamples.add(sample);
+		        	}
+	        	}
+        	}
+		return geneExprSamples;
 	}
 }

@@ -88,13 +88,17 @@ public class KaplanMeierPlotHandler {
  					}
  				}
           	}//for
+ 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(geneExprObjects[0].getGeneSymbol()));
  			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
  			Map paitentDataLookup = LookupManager.getPatientDataMap();
 	    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
 	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getBiospecimen().getValue().toString());
-	    		sample.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
-	    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));    		
+	    		if(patient != null){
+		    		sample.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
+		    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
+		    		kaplanMeierPlotContainer.addBioSpecimenResultset(sample);  //update sample resultset
+	    		}
 	    	}
 
  		}
