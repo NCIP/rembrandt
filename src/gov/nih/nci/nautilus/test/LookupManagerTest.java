@@ -6,8 +6,10 @@
  */
 package gov.nih.nci.nautilus.test;
 
+import gov.nih.nci.nautilus.data.AllGeneAlias;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.lookup.AllGeneAliasLookup;
 import gov.nih.nci.nautilus.lookup.CytobandLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.lookup.PatientDataLookup;
@@ -15,6 +17,7 @@ import gov.nih.nci.nautilus.lookup.PatientDataLookup;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import junit.framework.Test;
@@ -213,6 +216,38 @@ public void testgetCytobandDEstoo(){
 	}
 
 }
+public void testGeneSymbolAlias(){
+    try{
+    	List symbols = new ArrayList();
+    	symbols.add("p53");
+    	symbols.add("tp53");
+    	symbols.add("TP53");
+    	symbols.add("NAT2");
+    	symbols.add("nat2");
+    	symbols.add("EGFR");
+		System.out.println("Entered Symbol"+"\tAccepted Symbol"+"\tGene Name");
+    	for (Iterator iter = symbols.iterator(); iter.hasNext();) {
+			String symbol = (String) iter.next();
+			System.out.print("user Input: "+symbol+"\n");
+			if(!LookupManager.isGeneSymbolFound(symbol)){
+				AllGeneAliasLookup[] allGeneAlias = LookupManager.getGenesForAlias(symbol);
+				if(allGeneAlias != null){
+					for(int i =0; i < allGeneAlias.length ; i++){
+						AllGeneAliasLookup alias = allGeneAlias[i];
+						System.out.println(alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()+"\n");	
+					}
+				}
+			}
+			else{
+			System.out.print(symbol+" found! \n");
+			}
+    	}
 
+    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
+	
 
 }

@@ -1,10 +1,10 @@
 package gov.nih.nci.nautilus.lookup;
 
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
+import gov.nih.nci.nautilus.data.AllGeneAlias;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DiseaseTypeDim;
 import gov.nih.nci.nautilus.data.ExpPlatformDim;
-import gov.nih.nci.nautilus.data.GeneClone;
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
@@ -13,7 +13,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
@@ -43,6 +46,8 @@ public class LookupManager{
 	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
+    private static GeneAliasMap aliasMap = null;
+    private static Set geneSymbols = null;
 	
 	//Lookup Types
 	private static final String CHROMOSOME_DE = "chromosomeDE";
@@ -55,6 +60,7 @@ public class LookupManager{
 	private static final String PATIENT_DATA = "patientData";
 	private static final String PATIENT_DATA_MAP = "patientDataMap";
 	private static final String PATHWAYS = "pathways";
+	private static final String ALLGENEALIAS = "AllGeneAlias";
 	
 	
 	/**
@@ -222,12 +228,7 @@ public class LookupManager{
 		return expPlatforms;
 	}
    
-    public static Collection getGeneSymbols() throws Exception{
-        Criteria crit = new Criteria();
-        Collection myresults = executeQuery(GeneClone.class, (Criteria)crit,LookupManager.GENE_SYMBOLS);
-        return myresults;
-    } 
-    /**
+   /**
      * Checks the ApplicationCache for the lookupType that was specified and 
      * gets the value if it is there.  Returns null if not found. 
      * @param lookupType
@@ -263,5 +264,40 @@ public class LookupManager{
      		logger.error("the ApplicationCache appears to be null");
      	}
     	return results;
+    }
+    private static void getAllGeneAlias() throws Exception{
+    	if(aliasMap == null){
+	        Criteria crit = new Criteria();
+	        Collection allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)crit,LookupManager.ALLGENEALIAS);
+	        aliasMap = new GeneAliasMap();
+	        geneSymbols =  new HashSet();
+	        for (Iterator iterator = allGeneAlias.iterator(); iterator.hasNext();) {
+	        	AllGeneAlias geneAlias = (AllGeneAlias) iterator.next();
+	        	aliasMap.addGenes(geneAlias);
+	        	geneSymbols.add(geneAlias.getApprovedSymbol().trim());
+	         }
+    	}
+    }
+    public static boolean isGeneSymbolFound(String geneSymbol) throws Exception{
+    	if(geneSymbols == null){
+    		getAllGeneAlias();    		
+    	}
+    	if(geneSymbol != null){
+	    	geneSymbol = geneSymbol.trim();
+	    	if(geneSymbols.equals(geneSymbol) || geneSymbols.equals(geneSymbol.toUpperCase())){
+	    		return true;
+	    	}
+    	}
+    	return false;
+    }
+    public static AllGeneAliasLookup[] getGenesForAlias(String geneSymbol) throws Exception{
+    	if(aliasMap == null){
+    		getAllGeneAlias();
+    	}
+    	if(geneSymbol != null){
+	    	geneSymbol = geneSymbol.trim();
+	    	return aliasMap.getGenes(geneSymbol);
+    	}
+    	return null;
     }
 }

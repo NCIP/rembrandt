@@ -921,3 +921,23 @@
              jdbc-type="VARCHAR"
         />
   </class-descriptor>
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.AllGeneAlias"
+       table="ALL_GENE_ALIAS">
+   <field-descriptor
+             name="alias"
+             column="ALIAS"
+             jdbc-type="VARCHAR"
+             primarykey="true"
+        />
+    <field-descriptor
+             name="approvedSymbol"
+             column="APPROVED_SYMBOL"
+             jdbc-type="VARCHAR"
+        />
+     <field-descriptor
+             name="approvedName"
+             column="APPROVED_NAME"
+             jdbc-type="VARCHAR"
+        />
+  </class-descriptor>
