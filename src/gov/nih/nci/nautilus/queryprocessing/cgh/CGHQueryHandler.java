@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.queryprocessing.cgh;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.SNPCriteria;
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.data.SnpProbesetDim;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
@@ -41,7 +42,17 @@ public class CGHQueryHandler extends QueryHandler {
 
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
         pb.clearCache();
+
         populateIncludeCGHAndSNPFlags(cghQuery.getAssayPlatformCriteria());
+
+        AllGenesCriteria allGenesCrit = cghQuery.getAllGenesCrit();
+        if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
+             return new CGHFactHandler.SingleCGHFactHandler().executeSampleQueryForAllGenes(cghQuery);
+        }
+
+
+
+
 
         if (cghQuery.getGeneIDCriteria() != null) {
             CGHReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForCGHQuery(cghQuery.getGeneIDCriteria(), includeSNPs, includeCGH, pb);

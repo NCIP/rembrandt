@@ -100,8 +100,8 @@ public class QueryTest extends TestCase {
         buildSampleIDCrit();
 
         // the following two are mutually exclusive
-        //buildDiseaseTypeCrit();
-        buildAllDiseaseTypeCrit();
+        buildDiseaseTypeCrit();
+        //buildAllDiseaseTypeCrit();
 
         buildSurvivalCrit();
         buildAgeCrit();
@@ -126,10 +126,10 @@ public class QueryTest extends TestCase {
           public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
-             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
               //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-             //q.setGeneIDCrit(geneIDCrit);
-             q.setAllGenesCrit(allGenesCriteria);
+             q.setGeneIDCrit(geneIDCrit);
+             //q.setAllGenesCrit(allGenesCriteria);
              //q.setGeneOntologyCrit(ontologyCrit);
 
             //q.setPathwayCrit(pathwayCrit);
@@ -139,15 +139,15 @@ public class QueryTest extends TestCase {
              //q.setPathwayCrit(pathwayCrit);
 
 
-            //q.setArrayPlatformCrit(allPlatformCrit);
-            q.setArrayPlatformCrit(affyOligoPlatformCrit);
+            q.setArrayPlatformCrit(allPlatformCrit);
+            //q.setArrayPlatformCrit(affyOligoPlatformCrit);
            //q.setArrayPlatformCrit(cdnaPlatformCrit);
 
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
             //q.setDiseaseOrGradeCrit(diseaseCrit);
-            q.setSampleIDCrit(sampleCrit);
-            q.setFoldChgCrit(foldCrit);
+            //q.setSampleIDCrit(sampleCrit);
+            //q.setFoldChgCrit(foldCrit);
 
             try {
             	//CompoundQuery myCompoundQuery = new CompoundQuery(q);
@@ -326,8 +326,8 @@ public class QueryTest extends TestCase {
             crit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
             q.setAssayPlatformCrit(crit);
             //q.setRegionCrit(regionCrit);
-            q.setSNPCrit(snpCrit);
-            //q.setGeneIDCrit(geneIDCrit);
+            //q.setSNPCrit(snpCrit);
+            q.setAllGenesCrit(allGenesCriteria);
             q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setCopyNumberCrit(copyNumberCrit);
             q.setSampleIDCrit(sampleCrit);
@@ -341,7 +341,8 @@ public class QueryTest extends TestCase {
                     gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber cghObject =
                             (gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber) cghObjects[i];
                     System.out.println("SampleID: " + cghObject.getSampleId() + " || Copy Number: "
-                    + cghObject.getCopyNumber() + " || SNPProbesetName: " + cghObject.getSnpProbesetName());
+                    + cghObject.getCopyNumber() + " || SNPProbesetName: " + cghObject.getSnpProbesetName()
+                    + " || Chromosome: " + cghObject.getCytoband());
                 }
             } catch(Throwable t ) {
                 t.printStackTrace();
@@ -369,27 +370,27 @@ public class QueryTest extends TestCase {
 
         }
 
-	/**
-	 * @param cghObjects
-	 */
-	private void print(ResultSet[] patientDataObjects) {
-		for(int i =0; i < patientDataObjects.length ;i++){
-			PatientData patientData = (PatientData)patientDataObjects[i];
-			System.out.println( patientData.getSampleId()+
-								"\t"+patientData.getGender()+
-								"\t"+patientData.getDiseaseType()+
-								"\t"+patientData.getSurvivalLengthRange()+
-								"\t"+patientData.getAgeGroup());
-		}
+        /**
+         * @param cghObjects
+         */
+        private void print(ResultSet[] patientDataObjects) {
+            for(int i =0; i < patientDataObjects.length ;i++){
+                PatientData patientData = (PatientData)patientDataObjects[i];
+                System.out.println( patientData.getSampleId()+
+                                    "\t"+patientData.getGender()+
+                                    "\t"+patientData.getDiseaseType()+
+                                    "\t"+patientData.getSurvivalLengthRange()+
+                                    "\t"+patientData.getAgeGroup());
+            }
 
-	}
+        }
     }
 
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        suit.addTest(new TestSuite(GeneExpression.class));
-        //suit.addTest(new TestSuite(CGH.class));
+        //suit.addTest(new TestSuite(GeneExpression.class));
+        suit.addTest(new TestSuite(CGH.class));
         //suit.addTest(new TestSuite(Clinical.class));
 
         //suit.addTest(new TestSuite(OJBSubSelectTest.GeneExpressionSubSelect.class));
@@ -430,7 +431,7 @@ public class QueryTest extends TestCase {
                   new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
          GeneIdentifierDE llObj2 =
                   new GeneIdentifierDE.LocusLink((String)inputIDs.get(1));
-         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("EGFR");
+         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("VEGF");
 
          inputIDs.add(gs);
         // GeneIdentifierDE geIDObj =
@@ -510,10 +511,11 @@ public class QueryTest extends TestCase {
     }
     private void buildAllGenesCriteria() {
         allGenesCriteria = new AllGenesCriteria(true);
+        allGenesCriteria.setAllGenes(true);
     }
     private void buildDiseaseTypeCrit() {
          diseaseCrit = new DiseaseOrGradeCriteria();
-         diseaseCrit.setDisease(new DiseaseNameDE("OLIG"));
+         diseaseCrit.setDisease(new DiseaseNameDE("GBM"));
     }
     private void buildAllDiseaseTypeCrit() {
        diseaseCrit = new DiseaseOrGradeCriteria();
@@ -542,10 +544,11 @@ public class QueryTest extends TestCase {
         SampleIDDE s13 = new SampleIDDE("HF87");
         SampleIDDE s14 = new SampleIDDE("HF931");
 
-        sampleIDs.add(s0); sampleIDs.add(s1); sampleIDs.add(s2); sampleIDs.add(s3);
-        sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
-        sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
-        sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
+        sampleIDs.add(s0); sampleIDs.add(s1);
+        //sampleIDs.add(s2); sampleIDs.add(s3);
+       // sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
+       // sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
+       // sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
 
         String[] IDs = new String[] {
                "HF1057", "HF1139","HF118","HF1219",
@@ -601,8 +604,8 @@ public class QueryTest extends TestCase {
         for (int i = 0; i < IDs.length; i++) {
             all52Samples.add(new SampleIDDE(IDs[i]));
         }
-        //sampleCrit.setSampleIDs(sampleIDs);
-        sampleCrit.setSampleIDs(all52Samples);
+        sampleCrit.setSampleIDs(sampleIDs);
+        //sampleCrit.setSampleIDs(all52Samples);
     }
 
     private void buildSurvivalCrit() {

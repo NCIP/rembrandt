@@ -51,8 +51,7 @@ abstract public class Query implements Queriable, Serializable, Cloneable{
 		return diseaseOrGradeCriteria;
 	}
 
-	public void setDiseaseOrGradeCrit(
-			DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
+	public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
 		this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
 	}
 

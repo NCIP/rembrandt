@@ -39,6 +39,14 @@ abstract public class CGHFactHandler {
     abstract void addToResults(Collection results);
     abstract ResultSet[] executeSampleQuery(final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
     throws Exception;
+    abstract ResultSet[] executeSampleQueryForAllGenes(final ComparativeGenomicQuery cghQuery)
+    throws Exception;
+
+    private static void addCopyNumbFactCriteria(ComparativeGenomicQuery cghQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
+            CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+            CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+            CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
+    }
 
     protected void executeQuery(final String snpOrCGHAttr, Collection cghOrSNPIDs, final Class targetFactClass, ComparativeGenomicQuery cghQuery) throws Exception {
             ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
@@ -94,7 +102,7 @@ abstract public class CGHFactHandler {
                 final Criteria annotCrit = new Criteria();
                 annotCrit.addIn(GeneLlAccSnp.SNP_PROBESET_ID, values);
                 long time = System.currentTimeMillis();
-                String threadID = "FoldChangeCriteriaHandler.ThreadID:" + time;
+                String threadID = "CGHHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 new Thread(
@@ -125,7 +133,46 @@ abstract public class CGHFactHandler {
                ).start();
             }
     }
+
     final static class SingleCGHFactHandler extends CGHFactHandler {
+        ResultSet[] executeSampleQueryForAllGenes(final ComparativeGenomicQuery cghQuery)
+        throws Exception {
+            //logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
+            //executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
+
+            PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+            final Criteria sampleCrit = new Criteria();
+            addCopyNumbFactCriteria(cghQuery, ArrayGenoAbnFact.class, _BROKER, sampleCrit);
+            org.apache.ojb.broker.query.Query sampleQuery =
+                QueryFactory.newQuery(ArrayGenoAbnFact.class, sampleCrit, false);
+            Collection exprObjects =  _BROKER.getCollectionByQuery(sampleQuery );
+            addToResults(exprObjects);
+            _BROKER.close();
+
+            Collection allSNPProbeIDs = new ArrayList();
+            for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
+                CopyNumber o =  (CopyNumber)iterator.next();
+                allSNPProbeIDs.add(o.getSnpProbesetId());
+            }
+
+            executeGeneAnnotationQuery(allSNPProbeIDs);
+            ThreadController.sleepOnEvents(annotationEventList);
+
+            // by now CopyNumberObjects and annotations would have populated
+            Object[]objs = (cghObjects.values().toArray());
+            CopyNumber[] results = new CopyNumber[objs.length];
+            for (int i = 0; i < objs.length; i++) {
+                CopyNumber obj = (CopyNumber) objs[i];
+                if (obj.getSnpProbesetId() != null) {
+                    obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
+                }
+                results[i] = obj;
+            }
+            return results;
+
+        }
+
+
         ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
         throws Exception {
             logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
@@ -144,8 +191,6 @@ abstract public class CGHFactHandler {
                     obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
                 }
                 results[i] = obj;
-                //logger.debug("SAMPLE_ID: " + obj.getSampleId() + "    Copy Number: " + obj.getCopyNumber() +
-                //                    "    DISEASE_TYPE: " + obj.getDiseaseType());
             }
             return results;
         }
