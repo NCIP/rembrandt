@@ -48,15 +48,15 @@ QueryCollection queryCollection = (QueryCollection) request.getSession().getAttr
 		<fieldset>
 		<legend>Add to query:</legend><br>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
-		<blockquote>
-			<br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Gene Expression Analysis" onclick="javascript:location.href='geneExpression.do';">
-			&nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b>
-			<br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
-			&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Comp. Genomic Analysis Queries</b>
-			<br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
-			&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b>
-		</blockquote>
-		<br>
+		<table border="0" cellpadding="3" cellspacing="3">
+		<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Gene Expression Analysis" onclick="javascript:location.href='geneExpression.do';">
+			&nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b></td></tr>
+		<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
+			&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Comp. Genomic Analysis Queries</b></td></tr>
+		<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
+			&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b></td></tr>
+		</table>
+		
 		</fieldset>
 	</td>
 	</tr>

@@ -8,18 +8,18 @@
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <br />
-<html:radio property="regulationStatus" value="up" styleClass="radio" /> Up-regulation
+<html:radio property="regulationStatus" value="up" styleClass="radio" /> Up-regulation &gt;=
 				<html:text property="foldChangeValueUp" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)</br>
 
-<html:radio property="regulationStatus" value="down" styleClass="radio" /> Down Regulation
+<html:radio property="regulationStatus" value="down" styleClass="radio" /> Down Regulation &lt;=
 <html:text property="foldChangeValueDown" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)</br>
 <html:radio property="regulationStatus" value="updown" styleClass="radio" /> Up or Down&nbsp;
 <blockquote>
-Up-regulation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Up-regulation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &gt;=
  <html:text property="foldChangeValueUDUp" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
 &nbsp;
 <Br>
-Down-regulation
+Down-regulation &nbsp;&nbsp; &lt;=
 <html:text property="foldChangeValueUDDown" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
 &nbsp;
 </blockquote>

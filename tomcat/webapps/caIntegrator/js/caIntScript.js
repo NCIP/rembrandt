@@ -511,11 +511,11 @@ function showQueryDetail(selectName){
 	 }
 	 
 	 if(element == "dataSet"){
-	 alert("you got here");
+	 //alert("you got here");
 	 var ds = document.forms[1].dataSet.selectedIndex;
 	 
 	 document.forms[1].generatingInstitution.options.length = 1;
-	 alert("you got here");
+	 //alert("you got here");
 	    switch(ds)	{
 			
 			case 1: var genInst = new Array("NCI", "Johns Hopkins University", "UCSF");

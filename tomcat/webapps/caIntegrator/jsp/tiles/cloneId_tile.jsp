@@ -10,16 +10,16 @@
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 	
-<html:radio property="cloneId" value="list" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
-	<html:select property="cloneList">
+<html:radio property="cloneId" value="list" styleClass="radio" disabled="true" onfocus="javascript:onRadio(this,0);" />
+	<html:select property="cloneList" disabled="true">
 	<html:optionsCollection property="cloneTypeColl" />
 	</html:select>
 				<!--- <html:select property="cloneList">
 					<html:option value="image">IMAGE Id</html:option>
 					
 				</html:select> --->
-&nbsp;<html:text property="cloneListSpecify" onfocus="javascript:radioFold(this);" />&nbsp;-or-&nbsp;
-<html:radio property="cloneId" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
+&nbsp;<html:text property="cloneListSpecify" disabled="true" onfocus="javascript:radioFold(this);" />&nbsp;-or-&nbsp;
+<html:radio property="cloneId" value="Upload" styleClass="radio" disabled="true" onfocus="javascript:onRadio(this,1);" />
 			<html:file property="cloneListFile" disabled="true" /></br>
 			<html:errors property="cloneId"/></br>
 </fieldset>

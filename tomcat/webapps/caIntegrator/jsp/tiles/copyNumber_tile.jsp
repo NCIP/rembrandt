@@ -8,18 +8,18 @@
 %>
 	<!-- <html:form action="<%=act%>" > -->
 
-<html:radio property="copyNumber" value="amplified" styleClass="radio"/> Amplified
+<html:radio property="copyNumber" value="amplified" styleClass="radio"/> Amplified &gt;=
 				<html:text property="cnAmplified" onfocus="javascript:radioFold(this);" />&nbsp;copies</br>
 
-<html:radio property="copyNumber" value="deleted" styleClass="radio"/> Deleted&nbsp;&nbsp;
+<html:radio property="copyNumber" value="deleted" styleClass="radio"/> Deleted &nbsp;&nbsp;&lt;=
 				<html:text property="cnDeleted" onfocus="javascript:radioFold(this);" />&nbsp;copies</br>
 <html:radio property="copyNumber" value="ampdel" styleClass="radio"/> Amplified or Deleted &nbsp;
 <blockquote>
-Amplified&nbsp;&nbsp;&nbsp;
+Amplified&nbsp;&nbsp;&nbsp; &gt;=
  <html:text property="cnADAmplified" onfocus="javascript:radioFold(this);" />&nbsp;copies
 &nbsp;
 <Br>
-Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;=
 <html:text property="cnADDeleted" onfocus="javascript:radioFold(this);" />&nbsp;copies
 &nbsp;
 

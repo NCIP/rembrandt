@@ -208,10 +208,9 @@ public class ComparativeGenomicForm extends BaseForm {
 	  cloneTypeColl.add(new LabelValueBean("IMAGE Id","imageId"));
 	  cloneTypeColl.add(new LabelValueBean("BAC Id","BACId"));
 	  
-	  
-	  snpTypes.add(new LabelValueBean("TSC Id","TSCId"));
-	  snpTypes.add(new LabelValueBean("dBSNP Id","dBSNPId"));
+	  snpTypes.add(new LabelValueBean("TSC Id","tSCId"));
 	  snpTypes.add(new LabelValueBean("Probe Set Id","probeSetId"));
+	  snpTypes.add(new LabelValueBean("dBSNP Id","dBSNPId"));
 	  
 	  alleleTypes.add(new LabelValueBean("ALL","ALL"));
 	  alleleTypes.add(new LabelValueBean("CENTRAL ASIA","CENTRAL ASIA"));
@@ -952,15 +951,16 @@ private void createAssayPlatformCriteriaObject(){
 	      if(this.snpListSpecify != null && !this.snpListSpecify.equals("")){
 		    String [] snpStr = this.snpListSpecify.split("\\x2C");
 			for(int i=0; i<snpStr.length; i++){
-			  if(thisSNPList.equalsIgnoreCase("TSCId")){
+			    if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
+				     snpDomainMap.put(snpStr[i],SNPIdentifierDE.SBSNP.class.getName());
+					}
+				else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
+				     snpDomainMap.put(snpStr[i],SNPIdentifierDE.SNPProbeSet.class.getName());
+					}
+			    else if(thisSNPList.equalsIgnoreCase("TSCId")){
 			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.TSC.class.getName());
 				}
-			  else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
-			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.SBSNP.class.getName());
-				}
-			  else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
-			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.SNPProbeSet.class.getName());
-				}
+			  
 			  }	 // end of for loop 
 		   }// end of  if(thisSNPId != null && thisSNPList != null && !thisSNPList.equals("")){
 	     
@@ -1005,16 +1005,17 @@ private void createAssayPlatformCriteriaObject(){
 				  
 			      while(st.hasMoreTokens()){			   
 				      String token = st.nextToken();
-					  System.out.println("		token is :"+token);			  
-					   if(thisSNPList.equalsIgnoreCase("TSCId")){
+					  System.out.println("		token is :"+token);
+					   if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
+						    snpDomainMap.put(token,SNPIdentifierDE.SBSNP.class.getName());					   
+						   }				              
+				       else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
+						    snpDomainMap.put(token,SNPIdentifierDE.SNPProbeSet.class.getName());					  
+						   }	
+					   else if(thisSNPList.equalsIgnoreCase("TSCId")){
 					    snpDomainMap.put(token,SNPIdentifierDE.TSC.class.getName());
 					   } 
-					   else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
-					    snpDomainMap.put(token,SNPIdentifierDE.SBSNP.class.getName());					   
-					   }				              
-			           else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
-					    snpDomainMap.put(token,SNPIdentifierDE.SNPProbeSet.class.getName());					  
-					   }	
+					   
 					}
 				  System.out.println("	line is :"+line);
 				  line = inFile.readLine();  	
