@@ -18,6 +18,7 @@
           <mappedBean name="gov.nih.nci.nautilus.data.CytobandPosition" attribute="cbStart"/>
           <mappedBean name="gov.nih.nci.nautilus.data.ProbesetDim" attribute="kbStart"/>
           <mappedBean name="gov.nih.nci.nautilus.data.GeneClone" attribute="accStart"/>
+            
 
     </DomainElement>
     <DomainElement name="gov.nih.nci.nautilus.de.BasePairPositionDE$EndPosition">
