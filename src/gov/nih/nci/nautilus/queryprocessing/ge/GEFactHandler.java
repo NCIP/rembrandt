@@ -145,7 +145,7 @@ abstract public class GEFactHandler {
                       }
                    }
                );
-               System.out.println("BEGIN: (from GEFactHandler.executeQuery()) Thread Count: " + ThreadPool.THREAD_COUNT);
+               logger.debug("BEGIN: (from GEFactHandler.executeQuery()) Thread Count: " + ThreadPool.THREAD_COUNT);
                t.start();
             }
     }
@@ -194,7 +194,7 @@ abstract public class GEFactHandler {
                           }
                     }
                );
-               System.out.println("BEGIN (from GEFactHandler.executeCloneAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
+               logger.debug("BEGIN (from GEFactHandler.executeCloneAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
                t.start();
             }
     }
@@ -244,7 +244,7 @@ abstract public class GEFactHandler {
                       }
                    }
                );
-               System.out.println("BEGIN (from GEFactHandler.executeProbeAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
+               logger.debug("BEGIN (from GEFactHandler.executeProbeAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
                t.start();
             }
     }

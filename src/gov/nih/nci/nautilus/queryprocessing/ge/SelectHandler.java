@@ -126,7 +126,7 @@ public abstract class SelectHandler implements Runnable {
                           }
                        }
                       );
-             System.out.println("BEGIN: (from SelectHandler.executeSubQueries()) Thread Count: " + ThreadPool.THREAD_COUNT);
+             logger.debug("BEGIN: (from SelectHandler.executeSubQueries()) Thread Count: " + ThreadPool.THREAD_COUNT);
              t.start();
         }
     }
