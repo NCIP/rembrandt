@@ -1,4 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <% 
 /*
@@ -19,23 +21,43 @@ String act = request.getParameter("act");
       &nbsp;&nbsp;<html:select property="geneType" disabled="false">
 		<html:optionsCollection property="geneTypeColl" />
 	  </html:select>
-	  <p style="margin-left:30px">
+	  
+	  
+	  <logic:present name="geneexpressionForm">
+	  <logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="standard">
+	   <p style="margin-left:30px">
         <html:radio property="geneGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
-        
           <html:text property="geneList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].geneGroup[0]);" />
           <!-- <a href="javascript:void(0);" onmouseover="return overlib('Selected Criteria on this form applies to all genes specified in this list.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>-->
-          
           &nbsp;-or-&nbsp;
-        
-	    <html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
+          <html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
 			<html:file property="geneFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].geneGroup[1]);" onfocus="javascript:document.forms[0].geneGroup[1].checked = true;" />
 			<Br>
-	</p>		
+		    </p>		
 		<html:errors property="geneFile"/>
 		<html:errors property="geneGroup"/>
 		<html:errors property="geneList"/>
-		<html:errors property="geneType"/></br>
-		
+		<html:errors property="geneType"/>
+		</logic:equal>
+		</logic:present>
+		<logic:present name="comparitivegenomicForm">
+		  <logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="standard">
+		   <p style="margin-left:30px">
+	        <html:radio property="geneGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
+	          <html:text property="geneList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].geneGroup[0]);" />
+	          <!-- <a href="javascript:void(0);" onmouseover="return overlib('Selected Criteria on this form applies to all genes specified in this list.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>-->
+	          &nbsp;-or-&nbsp;
+	          <html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
+				<html:file property="geneFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].geneGroup[1]);" onfocus="javascript:document.forms[0].geneGroup[1].checked = true;" />
+				<Br>
+		        </p>		
+			<html:errors property="geneFile"/>
+			<html:errors property="geneGroup"/>
+			<html:errors property="geneList"/>
+			<html:errors property="geneType"/>
+			</logic:equal>
+			</logic:present>
+			<br />
   <html:radio property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" />All Genes Query
 		
 	</fieldset>		

@@ -103,6 +103,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		request.getSession().removeAttribute("currentPage2");
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
          
+		geneExpressionForm.setGeneGroup("");
+		logger.debug("set former gene values to null");
 		logger.debug("This is an All Genes Gene Expression Submital");
 		return mapping.findForward("showAllGenes");
     }
