@@ -20,7 +20,7 @@
 	&nbsp;<br>
 	<blockquote>
 	<html:radio property="region" value="cytoband" styleClass="radio" />
-			Cytoband&nbsp; <html:select property="cytobandRegion" >
+			Cytoband&nbsp; <html:select property="cytobandRegion" onchange="javascript:selectCRadio();">
 				               <html:option value=""></html:option>						   
                            </html:select>
 			<input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br />
@@ -88,7 +88,13 @@ Chromosome Number
 		}
 			
 		}
+		function selectCRadio()	{
+		if(document.forms[0].cytobandRegion.selectedIndex == 0)
+			document.forms[0].region[0].checked = false;
+		else
+		document.forms[0].region[0].checked = true;
 		
+		}
 </SCRIPT>
 
 <!-- </html:form> -->
