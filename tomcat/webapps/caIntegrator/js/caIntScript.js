@@ -1,3 +1,9 @@
+function formNewTarget()
+{
+	document.forms[0].target = "_blank";
+	return true;
+}
+
 function spawn(url,winw,winh) {
   var w = window.open(url, "_blank",
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
