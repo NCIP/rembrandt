@@ -166,7 +166,7 @@
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
 	
-	<xsl:if test="recordCount > 0">
+	<xsl:if test="$recordCount > 0">
 	
 	<xsl:variable name="qName" select="@queryName" />
 	<xsl:variable name="rType" select="@reportType" />
