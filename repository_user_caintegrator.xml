@@ -882,6 +882,7 @@
              name="sampleId"
              column="SAMPLE_ID"
              jdbc-type="VARCHAR"
+             primarykey="true"
         />
     <field-descriptor
              name="gender"
