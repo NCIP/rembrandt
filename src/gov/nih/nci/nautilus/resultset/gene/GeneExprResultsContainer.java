@@ -50,7 +50,6 @@
 package gov.nih.nci.nautilus.resultset.gene;
 
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 
 import java.util.ArrayList;
