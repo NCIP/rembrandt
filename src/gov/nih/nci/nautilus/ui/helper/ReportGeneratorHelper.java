@@ -7,6 +7,7 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
@@ -88,6 +89,7 @@ public class ReportGeneratorHelper {
 		
 	}
 	/**
+	 * NEED TO EDIT THESE COMMENTS
 	 * This constructor is intended to be used by the UI when it would like to
 	 * perform a Report that would be a "Show All Values" report.  This means
 	 * that there must be a previous query that has been executed and stored in
@@ -100,38 +102,53 @@ public class ReportGeneratorHelper {
 	 * report view that the user desires
 	 */	
 	public ReportGeneratorHelper(ReportBean reportBean, Map filterParams) {
-		Resultant resultant = reportBean.getResultant();
-		Resultant showAllResults;
+		Resultant oldResultant = reportBean.getResultant();
+		Resultant newResultant;
+//		Get the sessionId and name for this resultant, this works because,
+		//at the present time there is only one type of query that is ever
+		//run, and that is a CompoundQuery if that changes than it will be
+		//necesary to modify the code here and many other places
+		String sessionId = ((CompoundQuery)(oldResultant.getAssociatedQuery())).getSessionId();
+		String oldQueryName = ((CompoundQuery)(oldResultant.getAssociatedQuery())).getQueryName();
+		String newQueryName = "";
+		String filter_type = (String)filterParams.get("filter_type");
 		try {
-			//execute the show all query
-			showAllResults = ResultsetManager.executeShowAllQuery(resultant);
+		if("copy_number".equals(filter_type)) {
+			//execute copy number filter query
+			OperatorType operator = (OperatorType)filterParams.get("filter_value4");
+			Integer consecutiveCalls = (Integer)filterParams.get("filter_value5");
+			Integer percentCalls = (Integer)filterParams.get("filter_value6");
+			newResultant = ResultsetManager.filterCopyNumber(oldResultant,consecutiveCalls,percentCalls,operator);
+			newQueryName = oldQueryName;
+		}else {
 			/*
-			 * At present the executeShowAllQuery(Resultant) method does not 
-			 * pass through the sessionId or the queryName, in the associated
-			 * Query in the showAllResults. So it is necesary to get the query
-			 * and set the sessionId and the queryName.  
+			 * This is a hack...  we need to make sure that this isn't
+			 * something other than a show all values query
 			 */
-			CompoundQuery showAllQuery = (CompoundQuery)showAllResults.getAssociatedQuery();
+			newResultant = ResultsetManager.executeShowAllQuery(oldResultant);
+			newQueryName = oldQueryName+ " show all values report";
+		}
+		/*
+		 * At present the executeShowAllQuery(Resultant) method does not 
+		 * pass through the sessionId or the queryName, in the associated
+		 * Query in the showAllResults. So it is necesary to get the query
+		 * and set the sessionId and the queryName.  
+		 */
+			CompoundQuery newQuery = (CompoundQuery)newResultant.getAssociatedQuery();
 			//check the associated query to make sure that it is a compound query
 			//also sets the _cQuery attribute
-			checkCompoundQuery(showAllQuery);
-			//Get the sessionId and name for this resultant, this works because,
-			//at the present time there is only one type of query that is ever
-			//run, and that is a CompoundQuery if that changes than it will be
-			//necesary to modify the code here and many other places
-			String sessionId = ((CompoundQuery)(resultant.getAssociatedQuery())).getSessionId();
-			String oldQueryName = ((CompoundQuery)(resultant.getAssociatedQuery())).getQueryName();
+			checkCompoundQuery(newQuery);
 			//check the sessionId that it isn't null or empty and set _sessionId in _cQuery
 			checkSessionId(sessionId);
 			//check that we have an old QueryName and set the class variable _queryName,
 			//adding that it is a all values report
-			checkQueryName( oldQueryName +" show all values report");
+			checkQueryName( newQueryName);
 			//store the annotated query in the resultant
-			showAllResults.setAssociatedQuery(_cQuery);
+			newResultant.setAssociatedQuery(_cQuery);
 			//create a new ReportBean
 			_reportBean = new ReportBean();
 			//store the results into the report bean
-			_reportBean.setResultant(showAllResults);
+			_reportBean.setResultant(newResultant);
 			//store the cache key that can be used to retrieve this bean later
 			_reportBean.setResultantCacheKey(_queryName);
 			//send the filterParamMap for processing and store in _reportBean
@@ -141,6 +158,7 @@ public class ReportGeneratorHelper {
 			//drop this ReportBean in the session cache, use the _queryName as the 
 			//parameter
 			_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
+		
 		}catch(Exception e) {
 			logger.error("Exception when trying to generate a Show All Values Report");
 			logger.error(e);
