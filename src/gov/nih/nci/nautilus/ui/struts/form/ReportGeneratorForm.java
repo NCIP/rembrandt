@@ -249,14 +249,14 @@ public class ReportGeneratorForm extends BaseForm {
 	 * @param filter_string The filter_string to set.
 	 */
 	public void setFilter_string(String filter_string) {
-		filterParams.put("filter_element",filter_string);
+		filterParams.put("filter_string",filter_string);
 		this.filter_string = filter_string;
 	}
 	/**
 	 * @param filter_type The filter_type to set.
 	 */
 	public void setFilter_type(String filter_type) {
-		filterParams.put("filter_element",filter_type);
+		filterParams.put("filter_type",filter_type);
 		this.filter_type = filter_type;
 	}
 }

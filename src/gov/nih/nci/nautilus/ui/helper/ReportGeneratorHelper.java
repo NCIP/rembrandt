@@ -81,8 +81,8 @@ public class ReportGeneratorHelper {
 	 * This constructor is intended to be used by the UI when it would like to
 	 * perform a Report that would be a "Show All Values" report.  This means
 	 * that there must be a previous query that has been executed and stored in
-	 * the cache that we can retrieve.  The ReportBean should be the bean for 
-	 * the report that was generated and the user selected to see all values.
+	 * the cache that we can retrieve.  The ReportBean given should be the bean
+	 * for the report that was generated and the user selected to see all values.
 	 * 
 	 * @param reportBean --this should be the ReportBean for the report that the 
 	 * user would like to get all the missing values for
@@ -130,6 +130,8 @@ public class ReportGeneratorHelper {
 	}
 	
 	/**
+	 * This is used to take the "filter_string" and create a list from the comma 
+	 * seperated tokens contained in the string.
 	 * @param filterParams
 	 */
 	private Map processFilterParamMap(Map filterParams) {
