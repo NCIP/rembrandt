@@ -32,14 +32,21 @@
                    <mappedBean name="gov.nih.nci.nautilus.data.GeneClone"
                    attribute="llId"/>
     </DomainElement>
-      <DomainElement name="gov.nih.nci.nautilus.de.GeneIdentifierDE$GeneSymbol">
-                   <mappedBean name="gov.nih.nci.nautilus.data.ReporterAll"
+    <DomainElement name="gov.nih.nci.nautilus.de.GeneIdentifierDE$GeneSymbol">
+                   <mappedBean name="gov.nih.nci.nautilus.data.ProbesetDim"
                    attribute="geneSymbol"/>
+                   <mappedBean name="gov.nih.nci.nautilus.data.GeneClone"
+                   attribute="geneSymbol"/>
+                    <mappedBean name="gov.nih.nci.nautilus.data.SnpAssociatedGene"
+                    attribute="geneSymbol"/>
+
     </DomainElement>
     <DomainElement name="gov.nih.nci.nautilus.de.GeneIdentifierDE$GenBankAccessionNumber">
                    <mappedBean name="gov.nih.nci.nautilus.data.ProbesetDim"
                    attribute="accessionNumber"/>
                    <mappedBean name="gov.nih.nci.nautilus.data.GeneClone"
+                   attribute="accessionNumber"/>
+                   <mappedBean name="gov.nih.nci.nautilus.data.SnpAssociatedGene"
                    attribute="accessionNumber"/>
     </DomainElement>
     <DomainElement name="gov.nih.nci.nautilus.de.ExprFoldChangeDE">
