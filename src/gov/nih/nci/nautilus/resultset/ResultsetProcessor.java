@@ -28,11 +28,24 @@ import gov.nih.nci.nautilus.view.GroupType;
  * This class takes a DifferentialExpressionSfact and DifferentialExpressionGfact object and helps create a GeneCentricViewHandler or a SampleCentricViewHandler classes.
  */
 public class ResultsetProcessor {
- 	public static ResultsContainer handleGeneExprSingleView(GeneExpr.GeneExprSingle[] geneExprObjects, GroupType groupType){
+ 	public static ResultsContainer handleGeneExprSingleView(Resultant resultant, GeneExpr.GeneExprSingle[] geneExprObjects, GroupType groupType){
+ 		DimensionalViewContainer dimensionalViewContainer;
+      	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer;
+    	SampleViewResultsContainer sampleViewResultsContainer;
+  		if(resultant.getResultsContainer() instanceof DimensionalViewContainer){
+ 			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
+  	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+  			geneExprSingleResultsContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+  			if(geneExprSingleResultsContainer == null){
+  	  			geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
+  			}
+ 		}
+  		else{
+  			dimensionalViewContainer = new DimensionalViewContainer();
+  			geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
+  	    	sampleViewResultsContainer = new SampleViewResultsContainer();
+  		}
  		ResultsContainer resultsContainer = null;
-      	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
-    	SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
-    	DimensionalViewContainer dimensionalViewContainer = new DimensionalViewContainer();
           for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
             ResultSet obj = geneExprObjects[i];
@@ -75,11 +88,24 @@ public class ResultsetProcessor {
         }//for
         return resultsContainer;
 	}
-	public static ResultsContainer handleCopyNumberSingleView(CopyNumber[] copyNumberObjects, GroupType groupType){
+	public static ResultsContainer handleCopyNumberSingleView(Resultant resultant, CopyNumber[] copyNumberObjects, GroupType groupType){
  		ResultsContainer resultsContainer = null;
-      	CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
-    	SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
-    	DimensionalViewContainer dimensionalViewContainer = new DimensionalViewContainer();
+ 		DimensionalViewContainer dimensionalViewContainer;
+ 		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer;
+    	SampleViewResultsContainer sampleViewResultsContainer;
+  		if(resultant.getResultsContainer() instanceof DimensionalViewContainer){
+ 			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
+  	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+ 			copyNumberSingleViewResultsContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+ 			if(copyNumberSingleViewResultsContainer == null){
+ 	  			copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
+ 			}
+ 		}
+  		else{
+  			dimensionalViewContainer = new DimensionalViewContainer();
+  			copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
+  	    	sampleViewResultsContainer = new SampleViewResultsContainer();
+  		}
           for (int i = 0; i < copyNumberObjects.length; i++) {
     		if(copyNumberObjects[i] != null) {
             ResultSet obj = copyNumberObjects[i];

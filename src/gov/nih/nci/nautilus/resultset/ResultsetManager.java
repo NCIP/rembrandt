@@ -48,6 +48,9 @@
  *	
  */
 package gov.nih.nci.nautilus.resultset;
+import java.util.Collection;
+import java.util.Iterator;
+
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
@@ -57,6 +60,7 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotHandler;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -65,39 +69,46 @@ import gov.nih.nci.nautilus.view.Viewable;
 
 
 public class ResultsetManager {
-    public static Resultant executeQuery(Queriable queryToExecute) throws Exception {
-    	Resultant resultant= new Resultant();
+    public static Resultant executeCompoundQuery(Queriable queryToExecute) throws Exception {
+    	Resultant resultant= null; 
     	if(queryToExecute != null ){
+    	resultant = new Resultant();
         Viewable associatedView = queryToExecute.getAssociatedView();
-        ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
-    	if (resultsets instanceof GeneExprSingle[]){
-    		GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
-    		if (associatedView instanceof CopyNumberSampleView){
-    			CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
-    			groupType = copyNumberView.getGroupType();
-    		}
-    			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView((GeneExprSingle[]) resultsets,groupType);
-    			resultant.setResultsContainer(resultsContainer);
-    			resultant.setAssociatedQuery(queryToExecute);
-    			resultant.setAssociatedView(associatedView);
-    		}
-    	else if (resultsets instanceof GeneExprGroup[]){
-    		GeneExprDiseaseView geneExprDiseaseView = (GeneExprDiseaseView) associatedView;
-			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprDiseaseView((GeneExprGroup[]) resultsets);
-			resultant.setResultsContainer(resultsContainer);
-			resultant.setAssociatedQuery(queryToExecute);
-			resultant.setAssociatedView(associatedView);
-		}
-    	else if (resultsets instanceof CopyNumber[]){
-    		GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
-    		if (associatedView instanceof CopyNumberSampleView){
-    			CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
-    			groupType = copyNumberView.getGroupType();
-    		}
-			ResultsContainer resultsContainer = ResultsetProcessor.handleCopyNumberSingleView((CopyNumber[]) resultsets, groupType);
-			resultant.setResultsContainer(resultsContainer);
-			resultant.setAssociatedQuery(queryToExecute);
-			resultant.setAssociatedView(associatedView);
+        CompoundResultSet compoundResultSet = QueryManager.executeCompoundQuery(queryToExecute);
+        Collection results = compoundResultSet.getResults();
+        if(results != null){
+        	for (Iterator resultsIterator = results.iterator(); resultsIterator.hasNext();) {
+        	ResultSet[] resultsets = 	(ResultSet[]) resultsIterator.next();
+		    	if (resultsets instanceof GeneExprSingle[]){
+		    		GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
+		    		if (associatedView instanceof GeneExprSampleView){
+		    			GeneExprSampleView geneExprSampleView = (GeneExprSampleView) associatedView;
+		    			groupType = geneExprSampleView.getGroupType();
+		    		}
+		    			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView(resultant,(GeneExprSingle[]) resultsets,groupType);
+		    			resultant.setResultsContainer(resultsContainer);
+		    			resultant.setAssociatedQuery(queryToExecute);
+		    			resultant.setAssociatedView(associatedView);
+		    		}
+		    	else if (resultsets instanceof GeneExprGroup[]){
+		    		GeneExprDiseaseView geneExprDiseaseView = (GeneExprDiseaseView) associatedView;
+					ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprDiseaseView((GeneExprGroup[]) resultsets);
+					resultant.setResultsContainer(resultsContainer);
+					resultant.setAssociatedQuery(queryToExecute);
+					resultant.setAssociatedView(associatedView);
+				}
+		    	else if (resultsets instanceof CopyNumber[]){
+		    		GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
+		    		if (associatedView instanceof CopyNumberSampleView ){
+		    			CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
+		    			groupType = copyNumberView.getGroupType();
+		    		}
+					ResultsContainer resultsContainer = ResultsetProcessor.handleCopyNumberSingleView(resultant,(CopyNumber[]) resultsets, groupType);
+					resultant.setResultsContainer(resultsContainer);
+					resultant.setAssociatedQuery(queryToExecute);
+					resultant.setAssociatedView(associatedView);
+				}
+			}
 		}
       }
       return resultant;
