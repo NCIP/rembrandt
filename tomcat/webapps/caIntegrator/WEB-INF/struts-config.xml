@@ -74,7 +74,7 @@
            name="loginForm"
            scope="request"
            input="/login.jsp">
-    <forward name="success" path="/home.do"/>
+    <forward name="success" path="/legal.jsp"/>
     <forward name="failure" path="/error.jsp"/>
     </action>
 
