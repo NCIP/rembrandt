@@ -92,6 +92,9 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
   	
 	</style>
 	<script language="javascript" >
+	
+	window.focus();
+	
 		function hideLoadingMessage(){
 			document.getElementById('spnLoading').style.display = "none" ;
 		}
@@ -131,7 +134,7 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	<script type="text/javascript" src="js/overlib.js"></script>
 	<script type="text/javascript" src="js/overlib_hideform.js"></script>
 </head>
-<body>
+<body onload="window.focus()">
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <div style="background-color: #ffffff"><img src="images/smallHead.jpg"></div>
 <span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
@@ -181,12 +184,13 @@ if(session.getAttribute("tmp") != null)
 if(mode == null)	{
   System.out.println("do a regular report");
   QueryCollection queryCollection = null;
-  if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
+  if(session.getAttribute(NautilusConstants.QUERY_KEY+"_tmp")==null)	{
 	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";	
     queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
   }
   else	{
-    queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
+    queryCollection = (QueryCollection)(session.getAttribute(NautilusConstants.QUERY_KEY+"_tmp"));
+    session.removeAttribute(NautilusConstants.QUERY_KEY+"_tmp");
     links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
     if(queryCollection != null)
 	    session.setAttribute("tmp", queryCollection);

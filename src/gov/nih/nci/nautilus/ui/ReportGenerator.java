@@ -49,8 +49,8 @@ public class ReportGenerator  {
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
 	public static String links = "";
-	public static String errorLinks = "<br><a href=\"menu.do\">[Back to Menu]</a><br><Br>";
-
+//	public static String errorLinks = "<br><a href=\"menu.do\">[Back to Menu]</a><br><Br>";
+	public static String errorLinks = "";
 	public static String helpLink = "<a href=\"javascript: spawn('help.jsp";
 	public static String helpLinkClose = "', 350, 500);\">"+
 				"<img align=\"right\" src=\"images/helpIcon.jpg\" border=\"0\" "+

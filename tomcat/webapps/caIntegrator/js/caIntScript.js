@@ -53,6 +53,7 @@ function spawnx(url,winw,winh, name) {
   var w = window.open(url, name,
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
       ",scrollbars=yes,resizable=yes");
+	w.focus();
 } 
 
 function spawn(url,winw,winh) {
