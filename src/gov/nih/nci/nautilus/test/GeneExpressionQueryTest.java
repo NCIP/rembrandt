@@ -11,9 +11,9 @@ import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
-import gov.nih.nci.nautilus.queryprocessing.ResultsetProcessor;
+import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
 import gov.nih.nci.nautilus.resultset.*;
-
+import java.text.DecimalFormat;
 
 import java.util.*;
 
@@ -25,6 +25,7 @@ import java.util.*;
  * To change this template use Options | File Templates.
  */
 public class GeneExpressionQueryTest extends TestCase {
+	 private static final DecimalFormat resultFormat = new DecimalFormat("0.00");
      FoldChangeCriteria foldCrit;
      GeneIDCriteria  geneIDCrit;
      GeneOntologyCriteria ontologyCrit;
@@ -132,11 +133,12 @@ public class GeneExpressionQueryTest extends TestCase {
     	Collection sampleIds = null;
     	StringBuffer header = new StringBuffer();
     	StringBuffer sampleNames = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
     	header.append("Gene\tReporter\t");
     	sampleNames.append("Name\tName\t\tType\t");
     	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
         	String label = (String) labelIterator.next();
-        	header.append("Disease:"+label);
+        	header.append("Disease: "+label);
         	sampleIds = geneViewContainer.getBiospecimenLabels(label);        	
            	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
             	sampleNames.append(sampleIdIterator.next()+"\t"); 
@@ -145,15 +147,17 @@ public class GeneExpressionQueryTest extends TestCase {
            	 
     	}
 
-    	System.out.println("Gene Count: "+genes.size());
+    	//System.out.println("Gene Count: "+genes.size());
+		System.out.println(header.toString());
+		System.out.println(sampleNames.toString());
     	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
     		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
     		Collection reporters = geneResultset.getReporterResultsets();
-        	System.out.println("Repoter Count: "+reporters.size());
+        	//System.out.println("Repoter Count: "+reporters.size());
     		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
         		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
         		Collection groupTypes = reporterResultset.getGroupResultsets();
-            	System.out.println("Group Count: "+groupTypes.size());
+            	//System.out.println("Group Count: "+groupTypes.size());
         		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
         			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
         			String label = groupResultset.getType().getValue().toString();
@@ -162,24 +166,24 @@ public class GeneExpressionQueryTest extends TestCase {
 //                	System.out.println("Biospecimen Count: "+biospecimens.size());
 //            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
 //            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
-        						System.out.println(header.toString());
-        						System.out.println(sampleNames.toString());
-        			            StringBuffer stringBuffer = new StringBuffer();
+        			            stringBuffer = new StringBuffer();
                 	            stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
-                	            					reporterResultset.getReporter().getValue().toString()+"\t");
+                	            					reporterResultset.getReporter().getValue().toString()+"\t\t");
 													//"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
                                	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
                                		String sampleId = (String) sampleIdIterator.next();
                                		BioSpecimenResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
                                		if(biospecimenResultset != null){
-                               			stringBuffer.append("\t"+biospecimenResultset.getFoldChangeRatioValue().getValue().toString()+"\t");
-                               		}
-                               		System.out.println(stringBuffer.toString());
+                               			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
+                               			stringBuffer.append(resultFormat.format(ratio)+"\t");                                 
+                               		}                                    		
                                	}
-		      	            
 //            		}
+                               	System.out.println(stringBuffer.toString());
         		}
+
     		}
+
     	}
 	
     }
