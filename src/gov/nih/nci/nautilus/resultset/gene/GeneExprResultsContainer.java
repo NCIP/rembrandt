@@ -55,6 +55,7 @@ import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -144,11 +145,11 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	 */
     public Collection getFilteredGroupByResultsets(String[] groupLabels, boolean isShow){
     	Collection geneResults = new ArrayList();
-    	/**
-    	Collection geneCollection = (Collection)genes;
+    	
+    	Collection geneCollection = genes.values();
     	if(isShow){ //get all geneResultant objects that are in the collection
     		for (Iterator geneIterator = geneCollection.iterator(); geneIterator.hasNext();) {
-	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+ 	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 	    		Collection reporters = geneResultset.getReporterResultsets();
     		
 	    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
@@ -167,7 +168,7 @@ public class GeneExprResultsContainer implements ResultsContainer{
        	else{//return everything besides the ones that are in the collection
     		geneResults.addAll(geneCollection);
        		for (Iterator geneIterator = geneCollection.iterator(); geneIterator.hasNext();) {
-	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+ 	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 	    		Collection reporters = geneResultset.getReporterResultsets();
     		
 	    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
@@ -181,7 +182,7 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	        		}
 	    		}
     		}
-    	}**/
+    	}
     	return geneResults;
     }    
 	/**
