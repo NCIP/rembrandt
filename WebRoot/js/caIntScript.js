@@ -487,8 +487,7 @@ function showQueryDetail(selectName){
 	var element = formElement.name;
 		//alert(element);
 	
-	
-	
+	  	
 	if(element == "chrosomeNumber")	{
 	    var cn = document.forms[0].chrosomeNumber.selectedIndex;
 	    //var cr = document.forms[0].cytobandRegion.selectedIndex;
@@ -631,6 +630,20 @@ function showQueryDetail(selectName){
    //selected index of the selected
 	var element = formElement.name;
 		
+	  if(element == "plot"){
+	  document.forms[0].quickSearchType.options.length = 1;
+	  document.forms[0].quickSearchType.options[0].text = "Gene Symbol";
+	     if (i == 2){
+	     var data = new Array("Cytoband", "SNP Probe set ID");
+	   
+		for(var i=0; i<data.length; i++)	{
+			myOption = new Option();
+			myOption.text = data[i];
+			myOption.value = data[i];
+			document.forms[0].quickSearchType.options[document.forms[0].quickSearchType.options.length] = myOption;
+		    }	
+	     }
+	   }	
 		
 	  if(element == "geneGroup"){	
 	      if (i == 0){
