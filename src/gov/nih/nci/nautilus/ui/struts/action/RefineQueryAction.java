@@ -27,20 +27,31 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.LookupDispatchAction;
-
+/**
+ * This action is associated with the refine_tile.jsp tile and is mapped
+ * for buttons on the page.  This is basicly the UI mechanism for creating
+ * and running a compound query.
+ * 
+ * @author BauerD
+ * Feb 15, 2005
+ *
+ */
 
 public class RefineQueryAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	
-    /** 
-	 * Method execute
-	 * @param ActionMapping mapping
-	 * @param ActionForm form
-	 * @param HttpServletRequest request
-	 * @param HttpServletResponse response
-	 * @return ActionForward
-	 * @throws Exception
-	 */
+   /**
+    *  Responsible for looking at the user constructed compound query from the
+    *  refine_tile.jsp.  If the Selected queries and operations are correct
+    *  than it will create a compound query that should be executed
+    * 
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    * @throws Exception
+    */
 	public ActionForward validateQuery(
 		ActionMapping mapping,
 		ActionForm form,
@@ -67,7 +78,16 @@ public class RefineQueryAction extends LookupDispatchAction {
             return mapping.findForward("displayQuery");
         }
      }
-  
+	/**
+	 * Makes the necessary calls to run a compound query, then forwards the 
+	 * request to the report rendering mechanism.
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	public ActionForward runReport(
 		ActionMapping mapping,
 		ActionForm form,
@@ -98,10 +118,8 @@ public class RefineQueryAction extends LookupDispatchAction {
                 	//Set the CompoundQueryName to temp
                     cQuery.setQueryName("temp");
                 }
-                
                 ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
                 ReportBean reportBean = rgHelper.getReportBean();
-                
                 request.setAttribute(NautilusConstants.REPORT_BEAN, reportBean);
             }else {
 				logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
@@ -120,7 +138,10 @@ public class RefineQueryAction extends LookupDispatchAction {
 		thisForward = mapping.findForward("success");
         return thisForward;
 	 }
-  
+	/**
+	 * A method used for debugging 
+	 * @param geneExprObjects
+	 */
 	private void print(ResultSet[] geneExprObjects) {
 		if(geneExprObjects != null){
 			logger.debug("Number of Records:"+ geneExprObjects.length);
@@ -132,7 +153,17 @@ public class RefineQueryAction extends LookupDispatchAction {
 			}
 		}
 	}
-    
+    /**
+     * This is method executed when a user presses the store results button,
+     * thus signifying that the user would like to store the results, by the
+     * name supplied, for later use in PRB or View Results page. 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward storeResults(
             ActionMapping mapping,
             ActionForm form,
@@ -143,8 +174,17 @@ public class RefineQueryAction extends LookupDispatchAction {
         RefineQueryForm refineQueryForm = (RefineQueryForm)form;
         SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
         CompoundQuery cquery = queryCollect.getCompoundQuery();
+        ActionErrors errors = new ActionErrors();
+        //check that the compound query exists
+        if(cquery==null) {
+        	ActionError noCompoundQuery = new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.missing.compoundquery");
+        	errors.add("missingCompoundQuery", noCompoundQuery);
+        	 this.saveErrors(request, errors);
+             return (new ActionForward(mapping.getInput()));
+        }
+        
         refineQueryForm.setCompoundViewColl(UIRefineQueryValidator.setRefineQueryView(cquery, request));
-        //Validation for the refine query
+        //Validation for the refined query
         String resultSetName = refineQueryForm.getResultSetName();
         refineQueryForm.setRunFlag("yes");
         if(resultSetName!=null && !resultSetName.equals("")) {
@@ -152,14 +192,31 @@ public class RefineQueryAction extends LookupDispatchAction {
         	return mapping.findForward("displayQuery");
         	
         }else {
-        	ActionErrors errors = new ActionErrors();
-            ActionError emptyResultSetNameError = new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.missing.resultsetname");
+        	ActionError emptyResultSetNameError = new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.missing.resultsetname");
             errors.add("badSetName", emptyResultSetNameError);
             this.saveErrors(request, errors);
             return (new ActionForward(mapping.getInput()));
         }
     }
-    
+    /**
+     * Method called whenever there is change in the operands in the refine 
+     * query page.  Currently it modifies the selected querries based on some
+     * assumptions that can be made regarding the selected operand.  For instance
+     * we can assume that if the user selects no operand for a query than any
+     * querries below it are no longer needed as this must be the last query
+     * in the compound query. Thus we remove them from the selectedQueries 
+     * collection in the refineQueryForm.  The refineQuery tile then renders
+     * the appropriate number of available rows to select from.  If the user
+     * changes a operand from no operand to OR/AND than we know that they need
+     * another row to select a query from.  
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward operandChange(
             ActionMapping mapping,
             ActionForm form,
@@ -184,6 +241,8 @@ public class RefineQueryAction extends LookupDispatchAction {
            }
         
         }
+        //Flag used by the refine_query.jsp to determine if we should show the 
+        //run_report button
         refineQueryForm.setRunFlag("no");
         return mapping.findForward("displayQuery");
     }
@@ -191,7 +250,7 @@ public class RefineQueryAction extends LookupDispatchAction {
   
 	/**
      * Creates and returns the key-value map for methods called based on which 
-     * button is used to submit the form.
+     * button is used to submit the form in the refine_tile.jsp.
      * @return key-method pairs for the RefineQueryAction
 	 */
 	protected Map getKeyMethodMap() {

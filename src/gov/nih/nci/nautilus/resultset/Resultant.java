@@ -49,6 +49,8 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
+import java.io.Serializable;
+
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.view.Viewable;
 
@@ -57,7 +59,7 @@ import gov.nih.nci.nautilus.view.Viewable;
  * Date: Oct 21, 2004
  * 
  */
-public class Resultant {
+public class Resultant implements Serializable {
 private Queriable associatedQuery;
 private ResultsContainer resultsContainer;
 private Viewable associatedView;

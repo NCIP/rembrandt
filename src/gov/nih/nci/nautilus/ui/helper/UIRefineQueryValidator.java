@@ -1,7 +1,6 @@
 package gov.nih.nci.nautilus.ui.helper;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.parser.Parser;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;

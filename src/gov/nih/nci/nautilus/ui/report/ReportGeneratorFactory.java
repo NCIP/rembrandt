@@ -8,6 +8,9 @@ import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.Viewable;
 
 /**
+ * The ReportGeneratorFactory returns the correct ReportGenerator based
+ * on the ReportView selected.  
+ * 
  * @author BauerD
  * Feb 8, 2005
  * 
@@ -31,7 +34,11 @@ public class ReportGeneratorFactory {
         }
      	return reportGen;
     }
-    
+    /**
+     * 
+     * @param resultant
+     * @return
+     */
     public static ReportGenerator getReportGenerator(Resultant resultant) {
     	return getReportGenerator(resultant.getAssociatedView());
     }

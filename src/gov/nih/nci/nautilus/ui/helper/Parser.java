@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.parser;
+package gov.nih.nci.nautilus.ui.helper;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;

@@ -49,12 +49,13 @@
  */
 package gov.nih.nci.nautilus.view;
 
+import java.io.Serializable;
+
 /**
+ * Marker interface
  * @author Himanso
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public interface Viewable {
+public interface Viewable extends Serializable{
 
 }

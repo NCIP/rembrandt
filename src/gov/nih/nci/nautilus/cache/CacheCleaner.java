@@ -12,8 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-
-
 /**
  * CacheCleaner checks in with the CacheTracker
  * at "check.session.cache.tracker" ms interval and reviews the
@@ -34,9 +32,9 @@ public class CacheCleaner extends Thread {
     
     /***************** Configurable properties *******************/
     //Time to check the sessionCacheChecker: default 5 minutes (300000 ms) 
-    private long checkCachesInterval = 300000;
+    private static long CHECK_CACHE_INTERVAL = 300000;
     //Cache Timeout in milliseconds: default 10 minutes (600000 ms)
-    private long cacheTimeOut = 600000;
+    private static long CACHE_TIME_OUT = 600000;
     
     /**
      * Constructor for the CacheCleaner.  Attempts to load a spcified property
@@ -59,16 +57,16 @@ public class CacheCleaner extends Thread {
 			logger.warn("Cache Property file: "+NautilusConstants.CACHE_PROPERTIES+" was not found, using default settings!");	
 		}
         if(intervalString!=null) {
-        	checkCachesInterval = Long.parseLong(intervalString);
+        	CHECK_CACHE_INTERVAL = Long.parseLong(intervalString);
         }else {
         	logger.warn("property \"check.session.cache.tracker\" not found");
-        	logger.warn("Using default value "+checkCachesInterval+" ms between checking caches");
+        	logger.warn("Using default value "+CHECK_CACHE_INTERVAL+" ms between checking caches");
         }
         if(idleString!=null) {
-        	cacheTimeOut = Long.parseLong(idleString);
+        	CACHE_TIME_OUT = Long.parseLong(idleString);
         }else {
         	logger.warn("property \"session.cache.timeout\" not found");
-        	logger.warn("Using default value "+cacheTimeOut+" ms for idle caches");
+        	logger.warn("Using default value "+CACHE_TIME_OUT+" ms for idle caches");
         	
         }
 	}
@@ -111,7 +109,7 @@ public class CacheCleaner extends Thread {
 					 * the whole cache out.
 					 */
 					long idleTime = System.currentTimeMillis() - session.getLastAccessedTime();
-					if(session!=null && idleTime > cacheTimeOut) {
+					if(session!=null && idleTime > CACHE_TIME_OUT) {
 						logger.debug("Session "+sessionId+" idle too long. Removing cache");
 						CacheManagerWrapper.removeSessionCache(sessionId);
 					}
@@ -120,7 +118,7 @@ public class CacheCleaner extends Thread {
 				
 	        try {
 	        	logger.debug("CacheCleaner sleeping: " +System.currentTimeMillis());
-	            Thread.sleep(checkCachesInterval);
+	            Thread.sleep(CHECK_CACHE_INTERVAL);
 	        } catch (InterruptedException e){
 		            // the VM doesn't want us to sleep anymore,
 		            // so get back to work

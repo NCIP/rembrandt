@@ -1,20 +1,16 @@
 /*
  * Created on Sep 24, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.query;
+
+import java.io.Serializable;
 
 import gov.nih.nci.nautilus.view.Viewable;
 
 /**
  * @author SahniH
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public interface Queriable {
+public interface Queriable extends Serializable {
     public Viewable getAssociatedView();
     public void setAssociatedView(Viewable view);
     public String toString();

@@ -6,12 +6,13 @@ import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.view.Viewable;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 import org.apache.log4j.Logger;
 
-abstract public class Query implements Queriable {
+abstract public class Query implements Queriable, Serializable{
     
     private Logger logger = Logger.getLogger(Query.class);
     

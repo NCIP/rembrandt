@@ -1,5 +1,8 @@
 package gov.nih.nci.nautilus.ui.helper;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
+
 import org.javaby.jbyte.Template;
 
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
@@ -19,10 +22,11 @@ import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
  * has a Query to execute or the cache key to a previously stored Resultant,
  * the necesary calls are made to generate the correct (desired) report 
  * presentation format (THis is based on what we are calling a Skin.  It is
- * really just some text file that uses required tags). It will then pass
- * the completed Template along in the form of a org.javaby.jbyte.Template
- * stored in a ReportBean that will also contain the cache key where the 
- * resultant can be called again, if needed.
+ * really just some text file that uses required tags.  See org.javaby.jbyte
+ * documentation for details). It will then pass the completed Template along
+ * in the form of a org.javaby.jbyte.Template stored in a ReportBean that will
+ * also contain the cache key where the resultant can be called again, 
+ * if needed.
  *  
  * @author BauerD Feb 8, 2005
  *  
@@ -46,8 +50,9 @@ public class ReportGeneratorHelper {
                  * generated.  So let's store it in the cache just in case we 
                  * need it later. 
                  */
-                CacheManagerWrapper.getSessionCache("test");
-                
+                Cache sessionCache = CacheManagerWrapper.getSessionCache("test");
+                Element cacheElement = new Element("test", resultant);
+                sessionCache.put(cacheElement);
                 /*
                  * store the resultant in the cache:
                  * create a key for the resultant based on name
@@ -70,7 +75,8 @@ public class ReportGeneratorHelper {
     
     /*
      * This constructor to use in the instance that there may be 
-     * a preexisting resultSet stored in the cache.
+     * a preexisting resultSet stored in the cache. The resultantCacheKey is
+     * currently the name of the result set. 
      * 
      */
    	public ReportGeneratorHelper(String resultantCacheKey) {
