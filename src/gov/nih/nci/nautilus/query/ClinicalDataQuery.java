@@ -10,9 +10,8 @@ import gov.nih.nci.nautilus.criteria.AgeCriteria;
 import gov.nih.nci.nautilus.criteria.GenderCriteria;
 
 
+import gov.nih.nci.nautilus.queryprocessing.ClinicalQueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.clinical.ClinicalQueryHandler;
-
 import java.util.*;
 import gov.nih.nci.nautilus.de.*;
 
