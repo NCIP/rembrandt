@@ -70,7 +70,7 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </option>
                 <option>
-                  Rembrandt (GMDI)
+                  GMDI
                 </option>
                 <!--<option>I-SPY</option>-->
                 <option>
