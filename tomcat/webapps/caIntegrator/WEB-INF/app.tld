@@ -29,7 +29,17 @@
   </info>
 
 
+	<tag> 
+		<name>help</name> 
+		<tagclass>gov.nih.nci.nautilus.ui.HelpTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>Shows the Overlib help</info> 
 
+		<attribute>
+			<name>help</name>
+			<required>false</required>
+		</attribute>
+	</tag> 
 
 
   <tag>
