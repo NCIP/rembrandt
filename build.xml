@@ -231,7 +231,7 @@
 	 	
 	</target>
 	
-<target name="build-war" depends="build-jar, compile, precompile-jsps">
+<target name="build-war" depends="build-jar, compile">
 	<delete file="${build.dir}/${app.war.name}.war"/>
    <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
    	<fileset file="${webapp.dir}/*.jsp"/>
