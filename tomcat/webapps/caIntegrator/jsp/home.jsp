@@ -12,7 +12,7 @@
           Quick Search
         </legend>
         <br />
-        <html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+        <html:errors/>
         <br>
         <strong>
           Enter a gene symbol

@@ -7,9 +7,11 @@
 package gov.nih.nci.nautilus.lookup;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DiseaseTypeDim;
 import gov.nih.nci.nautilus.data.ExpPlatformDim;
+import gov.nih.nci.nautilus.data.GeneClone;
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
@@ -180,4 +182,10 @@ public class LookupManager{
 		}
 		return expPlatforms;
 	}
+   
+    public static Collection getGeneSymbols() throws Exception{
+        Criteria crit = new Criteria();
+        Collection myresults = executeQuery(GeneClone.class, (Criteria)crit);
+        return myresults;
+    }
 }

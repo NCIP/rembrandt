@@ -38,7 +38,7 @@
 		//document.prev.submit();
 		</script>
 		
-		<form
+		
 		
 	<%
 	}

@@ -48,16 +48,8 @@ public class QuickSearchForm extends BaseForm {
 
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
-	    
 	    ActionErrors errors = new ActionErrors();
-		/*
-		if(plot!=null&&!plot.equals("")){
-		    if(quickSearchName!=null&&quickSearchName.equals("")){
-		        errors.add("test", new ActionMessage("Just Print Something"));
-		    }
-		}
-	    */
-
+	    Validator.validateGeneSymbol(quickSearchName, errors);
 		return errors;
 
 	}

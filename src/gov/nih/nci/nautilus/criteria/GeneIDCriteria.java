@@ -6,43 +6,43 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Jul 12, 2004
- * Time: 6:44:58 PM
+ * Created by IntelliJ IDEA. User: BhattarR Date: Jul 12, 2004 Time: 6:44:58 PM
  * To change this template use Options | File Templates.
  */
 public class GeneIDCriteria extends Criteria {
-    private Collection geneIdentifiers;
-    public Collection getGeneIdentifiers() {
-        return geneIdentifiers;
-    }
-    public void setGeneIdentifiers(Collection geneIdentifiers) {
-        for (Iterator iterator = geneIdentifiers.iterator(); iterator.hasNext();) {
-            Object obj = iterator.next();
-            if (obj instanceof GeneIdentifierDE ) {
-                getGeneIdentifiersMember().add(obj);
-            }
-        }
-    }
+	private Collection geneIdentifiers;
 
-    public void setGeneIdentifier(GeneIdentifierDE geneIdentifier) {
-       // assert(geneIdentifier != null);
-	   if(geneIdentifier != null){
-        getGeneIdentifiersMember().add(geneIdentifier);
+	public Collection getGeneIdentifiers() {
+		return geneIdentifiers;
+	}
+
+	public void setGeneIdentifiers(Collection geneIdentifiers) {
+		for (Iterator iterator = geneIdentifiers.iterator(); iterator.hasNext();) {
+			Object obj = iterator.next();
+			if (obj instanceof GeneIdentifierDE) {
+				getGeneIdentifiersMember().add(obj);
+			}
 		}
-    }
-    private Collection getGeneIdentifiersMember() {
-        if (geneIdentifiers == null)
-            geneIdentifiers = new ArrayList();
-        return geneIdentifiers;
-    }
+	}
 
-    public GeneIDCriteria() {
-    }
+	public void setGeneIdentifier(GeneIdentifierDE geneIdentifier) {
+		// assert(geneIdentifier != null);
+		if (geneIdentifier != null) {
+			getGeneIdentifiersMember().add(geneIdentifier);
+		}
+	}
 
-    public boolean isValid() {
-        // TODO: see if we need any validation on GeneSymbols/LocusLinkID/GenBank etc
-        return true;
-    }
+	private Collection getGeneIdentifiersMember() {
+		if (geneIdentifiers == null)
+			geneIdentifiers = new ArrayList();
+		return geneIdentifiers;
+	}
+
+	public GeneIDCriteria() {
+	}
+
+	public boolean isValid() {
+		//We need this finished
+		return true;
+	}
 }

@@ -8,22 +8,17 @@ import gov.nih.nci.nautilus.resultset.geneExpressionPlot.GeneExprDiseasePlotCont
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.struts.form.KMDataSetForm;
 import gov.nih.nci.nautilus.struts.form.QuickSearchForm;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.text.DecimalFormat;
 import java.util.*;
-
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionError;
-
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.lookup.DiseaseTypeLookup;
@@ -34,20 +29,16 @@ import gov.nih.nci.nautilus.view.*;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.graph.kaplanMeier.KMGraphGenerator;
 import gov.nih.nci.nautilus.criteria.Constants;
-
 import java.awt.*;
-import org.krysalis.jcharts.*;
 import org.krysalis.jcharts.chartData.*;
 import org.krysalis.jcharts.properties.*;
 import org.krysalis.jcharts.types.ChartType;
 import org.krysalis.jcharts.axisChart.*;
-import org.krysalis.jcharts.test.TestDataGenerator;
-import org.krysalis.jcharts.encoders.JPEGEncoder13;
-import org.krysalis.jcharts.encoders.*;
 import org.krysalis.jcharts.properties.util.ChartFont;
 import org.krysalis.jcharts.imageMap.*;
-import org.krysalis.jcharts.encoders.ServletEncoderHelper;
+
 
 // RCL
 
@@ -107,7 +98,7 @@ public class QuickSearchAction extends DispatchAction {
 		
 		if(resultsContainer == null)	{
 			ActionErrors errors = new ActionErrors();
-			ActionError ae = new ActionError("gov.nih.nci.nautilus.struts.action.quickSearch.badgene");
+			ActionError ae = new ActionError("gov.nih.nci.nautilus.struts.form.quicksearch.noRecord", gene);
 			errors.add(ActionErrors.GLOBAL_ERROR, ae);
 			this.saveErrors(request, errors);
 			logger.debug("invalid gene");
@@ -280,7 +271,7 @@ public class QuickSearchAction extends DispatchAction {
 		   }
 		   catch(Exception e){
 		       logger.debug("error generating graph");
-			   	e.printStackTrace();
+			   logger.error(e);
 		       	return mapping.findForward("badgraph");
 		   }
 	       	// Good get the graph
@@ -311,8 +302,17 @@ public class QuickSearchAction extends DispatchAction {
     public ActionForward doKMPlot(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        
         KMDataSetForm kmForm = (KMDataSetForm)form;
         kmForm.setGeneSymbol((String)request.getAttribute("geneSymbol"));
+        KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),kmForm.getDownFold(),(String)request.getAttribute("geneSymbol"));
+        if(generator.getMyActionErrors().size()>0) {
+           this.saveErrors(request, generator.getMyActionErrors());
+           return mapping.findForward("badgraph");
+        }
+        kmForm.setCensorDataset(generator.getCensorDataseries());
+        kmForm.setLineDataset(generator.getLineDataseries());
+        
         return mapping.findForward("kmplot");
     }
 
@@ -320,6 +320,14 @@ public class QuickSearchAction extends DispatchAction {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         KMDataSetForm kmForm = (KMDataSetForm)form;
+        KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),kmForm.getDownFold(),kmForm.getGeneSymbol());
+        if(generator.getMyActionErrors().size()>0) {
+           this.saveErrors(request, generator.getMyActionErrors());
+           return mapping.findForward("badgraph");
+        }
+        kmForm.setCensorDataset(generator.getCensorDataseries());
+        kmForm.setLineDataset(generator.getLineDataseries());
+        
         return mapping.findForward("kmplot");
     }
 
