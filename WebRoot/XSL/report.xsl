@@ -3,10 +3,16 @@
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/">
-  <html>
+ 
+3.  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   	<head>
 	<title>My Report</title>
-	
+	<script language="JavaScript" type="text/javascript" src="js/overlib.js">return false;
+	</script>
+	<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js">return false;
+	</script>
+	<script language="JavaScript" type="text/javascript" src="js/caIntScript.js">return false;
+	</script> 
 	<style>
 		body { font-family:arial; font-size: 11px; margin-top: 0px}
 		TABLE	{border: 0px; padding:0px; font-size:12px;}
@@ -28,15 +34,70 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		td.GBM { background-color: #F2E3B5; }
 		td.MIXED { background-color: #DAE1F9; }
 		td.OLIG { background-color: #C4F2B5; }
+		
 		.sampleRow, .headerRow { font-weight: bold; }
-		
-		
+		.rowCount { font-size:11px; padding:2px;}
+		.title { font-size: 16px; font-weight: bold; padding-bottom: 10px; font-family: tahoma }
+			.fontClass { font-size: 10px; 
+				font-family: verdana;
+				color:#000000; 
+				padding:1px; 
+				border-top:0px; border-bottom:0px; border-right:0px; border-left:0px;
+				white-space:normal;
+				background-color:#e9e9e9; 
+				margin: 0px;
+				}
+  	.capfontClass { font-size: 10px; 
+  					font-family: verdana;
+  					color:#ffffff; 
+  					padding:1px; 
+  					border-top:0px; border-bottom:0px; border-right:0px; border-left:0px;
+  					white-space:normal;
+  					background-color: #AB0303; 
+  					margin: 0px;
+  					}
+  	.fgClass {font-size: 10px; 
+  			font-family: verdana;
+  			padding:1px; 
+  			border-top:1px solid #AB0303;border-bottom:1px solid #AB0303;border-left:1px solid #AB0303;border-right:1px solid #AB0303;
+  			margin: 0px;
+  			white-space:normal;
+  			background-color:;
+  			}
+  	.bgClass {font-size: 10px; 
+  			font-family: verdana;
+  			padding:1px; 
+  			border-top:0px; border-bottom:0px; border-right:0px; border-left:0px; 
+  			margin: 0px;
+  			white-space:normal;
+  			background-color:;
+  			}
 	</style>
 	</head>
   <body>
+  <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
+  <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
+  
+  <span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
+	<br /><br />
+	<img src="images/statusBar2.gif" />
+	<br />Loading...please wait<br />
+  </span>
+  
+  
   <xsl:for-each select="Report">
-    <h2><xsl:value-of select="@reportType" /></h2> 
+    <h2 class="title"><xsl:value-of select="@reportType" /></h2> 
+    
+ <xsl:variable name="helpLink" select="@reportType" />
 
+	<div class="rowCount">
+	  <a href="javascript: spawn('help.jsp?sect={$helpLink}', 350, 500);"><img align="right" src="images/helpIcon.jpg" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
+	  <br clear="all" /><xsl:value-of select="count(Row[@name='dataRow'])" /> records returned. <xsl:value-of select="count(Row[@name='sampleRow']/Cell)-2" /> samples returned.
+	  <a href="#" onclick="javascript:return false;">[Download this report for Excel]</a> | 
+	  <a href="javascript:window.close()">[Close Window]</a> | 
+	  <a href="javascript:void(window.print())">[Print Report]</a> | 
+	  <a href="#queryInfo">[Query Info]</a>
+	</div>
     <table border="1" cellpadding="0" cellspacing="0">
 		<xsl:for-each select="Row[@name='headerRow']">
 			<tr class="headerRow">
@@ -76,6 +137,9 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		</xsl:for-each>
   	</table>
   </xsl:for-each>
+  <script type="text/javascript">
+	<![CDATA[hideLoadingMessage();]]>
+</script>
   </body>
   </html>
 </xsl:template>
