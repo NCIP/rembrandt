@@ -213,13 +213,13 @@ public class ResultsetManager {
 	
 	return resultant;
 	}
-	public static Collection getSampleIdsforCopyNumberFilter(Resultant resultant, Integer consecutiveNocalls, Integer percentNoCall, OperatorType operator){
+	public static Collection getSampleIdsforCopyNumberFilter(Resultant resultant, Integer consecutiveCalls, Integer percentCalls, OperatorType operator){
         
-        return CopyNumberFilter.filterCopyNumber(resultant, consecutiveNocalls, percentNoCall, operator);
+        return CopyNumberFilter.filterCopyNumber(resultant, consecutiveCalls, percentCalls, operator);
     }
 	
-	public static Resultant filterCopyNumber(Resultant resultant, Integer consecutiveNocalls, Integer percentNoCall, OperatorType operator) throws Exception{
-        Collection sampleCollection = getSampleIdsforCopyNumberFilter(resultant, consecutiveNocalls, percentNoCall, operator);
+	public static Resultant filterCopyNumber(Resultant resultant, Integer consecutiveCalls, Integer percentCalls, OperatorType operator) throws Exception{
+        Collection sampleCollection = getSampleIdsforCopyNumberFilter(resultant, consecutiveCalls, percentCalls, operator);
         if(sampleCollection!= null  && sampleCollection.size() > 0){
         	String[] sampleIds = (String[]) sampleCollection.toArray(new String[sampleCollection.size()]);
         	if(resultant.getAssociatedQuery() instanceof CompoundQuery){
