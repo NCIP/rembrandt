@@ -58,6 +58,7 @@ import java.util.TreeMap;
  */
 public class QueryCollection {
 	private Map queryMap = new TreeMap();
+	private Map resultsetQueryMap = new TreeMap();
 	private CompoundQuery compoundQuery = null;
 	
 	public void putQuery(Query query){
@@ -85,7 +86,31 @@ public class QueryCollection {
 	public void removeAllQueries(){
 		queryMap.clear();
 	}
-	
+	public void putResultsetQuery(CompoundQuery resultsetQuery){
+		if(resultsetQuery != null && resultsetQuery.getQueryName() != null){
+			resultsetQueryMap.put(resultsetQuery.getQueryName(),resultsetQuery);
+		}
+	}
+	public Collection getResultsetQueries(){
+		return resultsetQueryMap.values();
+	}
+	public Collection getResultsetQueryNames(){
+		return resultsetQueryMap.keySet();
+	}
+	public void removeResultsetQuery(String resultsetQueryName){
+		if(resultsetQueryName != null){
+			resultsetQueryMap.remove(resultsetQueryName);
+		}
+	}
+	public CompoundQuery getResultsetQuery(String resultsetQueryName){
+		if( resultsetQueryName != null){
+			return (CompoundQuery) resultsetQueryMap.get(resultsetQueryName);
+		}
+		return null;
+	}
+	public void removeAllResultsetQueries(){
+		resultsetQueryMap.clear();
+	}
 	/**
 	 * @return Returns the compoundQuery.
 	 */
@@ -106,5 +131,8 @@ public class QueryCollection {
 
 	public boolean hasQuery() {
 		return (!this.getQueryNames().isEmpty());
+	}
+	public boolean hasResultsetQuery() {
+		return (!this.getResultsetQueryNames().isEmpty());
 	}
 }

@@ -18,8 +18,7 @@ public interface Queriable {
     public Viewable getAssociatedView();
     public void setAssociatedView(Viewable view);
     public String toString();
-	/**
-	 * @return
-	 */
+    public String getQueryName();
+    public void setQueryName(String queryName);
 	public Query[] getAssociatiedQueries();
 }

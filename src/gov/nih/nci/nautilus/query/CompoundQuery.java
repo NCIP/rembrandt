@@ -74,6 +74,7 @@ public class CompoundQuery implements Queriable{
 	private Queriable rightQuery = null;
 	private OperatorType operatorType = null;
     private Viewable associatedView = null;
+	private String queryName;
 	/* 
 	 * @see gov.nih.nci.nautilus.query.Queriable#getAssociatedView()
 	 * 
@@ -319,4 +320,18 @@ public class CompoundQuery implements Queriable{
 		}
 		return (Query[]) queries.toArray(new Query[queries.size()]);
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.nautilus.query.Queriable#getQueryName()
+	 */
+    public String getQueryName() {
+        return queryName;
+    }
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.nautilus.query.Queriable#setQueryName(java.lang.String)
+	 */
+
+    public void setQueryName(String queryName) {
+        this.queryName = queryName;
+    }
 }
