@@ -2,8 +2,10 @@ package gov.nih.nci.nautilus.ui.helper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
@@ -26,6 +28,7 @@ import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
 import gov.nih.nci.nautilus.ui.report.Transformer;
+import gov.nih.nci.nautilus.util.ApplicationContext;
 import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.Viewable;
 
@@ -44,24 +47,44 @@ import gov.nih.nci.nautilus.view.Viewable;
 public class ReportGeneratorHelper {
 	private static Logger logger = Logger
 			.getLogger(ReportGeneratorHelper.class);
+	private static Logger xmlLogger = Logger.getLogger("XML_LOGGER");
 
 	//This is the element that is used to store all relevant report data
 	//it sores the resultant, the sessionId, the latest reportXML
 	private ReportBean _reportBean;
-	
 	private CompoundQuery _cQuery;
-	
 	private String _queryName = null;
-		
 	private String _sessionId = null;
-
+	private static Properties applicationResources = applicationResources = ApplicationContext.getLabelProperties();
 	private ConvenientCache _cacheManager = CacheManagerDelegate.getInstance();
+	private static boolean xmlLogging;
+	static {
+		String property = (String)applicationResources.get("nautilus.xml_logging");
+		if("true".equals(property)){
+			xmlLogging = true;
+		}else {
+			xmlLogging = false;
+		}
+		
+	}
+		
+	
 	/**
+	 * This is intended to be used to generate a ReportBean when you have a
+	 * query and want to reduce the result set by limiting the results to 
+	 * sample ids listed in the String[] sampleIds. 
 	 * 
-	 * @param query
-	 * @param sampleIds
+	 * @param query --This is the CompundQuery that you are selected sample ids from
+	 * @param sampleIds --this is the array of sample ids that you would like to
+	 * contstrain
 	 */
 	public ReportGeneratorHelper(Queriable query, String[] sampleIds) {
+		//check the query to make sure that it is a compound query
+		checkCompoundQuery(query);
+		//check to make sure that we have a sessionId
+		checkSessionId( _cQuery.getSessionId());
+		//check that we have a queryName
+		checkQueryName( _cQuery.getQueryName());
 		
 		
 	}
@@ -196,8 +219,22 @@ public class ReportGeneratorHelper {
 				//Old view is the current view
 				reportXML = _reportBean.getReportXML();
 			}
-			_reportBean.setReportXML(reportXML);
 			
+			//XML Report Logging
+			if(xmlLogging) {
+				try {
+					StringWriter out = new StringWriter();
+					OutputFormat outformat = OutputFormat.createPrettyPrint();
+					XMLWriter writer = new XMLWriter(out, outformat);
+					writer.write(reportXML);
+					writer.flush();
+					xmlLogger.debug(out.getBuffer());
+				}catch(IOException ioe) {
+					logger.error("There was an error writing the XML to log");
+					logger.error(ioe);
+				}
+			}
+			_reportBean.setReportXML(reportXML);
 			_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
 		   			   
 		    	
