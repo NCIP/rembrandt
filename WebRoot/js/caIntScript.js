@@ -32,15 +32,16 @@ function resetVal(formElement)
 
 function formNewTargetSimple(windowName, winw, winh)
 {
-var d = new Date();
-var stamp = "";
-stamp = d.getDate()+"-"+(d.getMonth() + 1)+"-"+d.getFullYear()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds();
-//this line enables multi view
-windowName += stamp;
+	var d = new Date();
+	var stamp = "";
+	stamp = d.getDate().toString()+(d.getMonth()+1).toString()+d.getFullYear().toString()+d.getHours().toString()+d.getMinutes().toString()+d.getSeconds().toString();
 
-		spawnx("", winw, winh, windowName);
-		document.forms[0].target = windowName;
-		return true;
+	//this line enables multi view
+	windowName += stamp;
+
+	spawnx("", winw, winh, windowName);
+	document.forms[0].target = windowName;
+	return true;
 }
 
 function formNewTarget(windowName, winw, winh)
@@ -60,6 +61,7 @@ function formNewTarget(windowName, winw, winh)
 }
 
 function spawnx(url,winw,winh, name) {
+
   var w = window.open(url, name,
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
       ",scrollbars=yes,resizable=yes");
