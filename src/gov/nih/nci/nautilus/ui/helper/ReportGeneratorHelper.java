@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.ui.helper;
 
+import java.io.UnsupportedEncodingException;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
@@ -7,6 +9,14 @@ import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+
+import org.dom4j.io.DocumentResult;
+import org.dom4j.io.DocumentSource;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamSource;
 
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.query.CompoundQuery;
@@ -146,12 +156,29 @@ public class ReportGeneratorHelper {
 			ReportGenerator reportGen = ReportGeneratorFactory
 					.getReportGenerator(resultant);
 			reportXML = reportGen.getReportXML(resultant);
-			OutputFormat format = OutputFormat.createPrettyPrint();
-		    try {
-			XMLWriter writer = new XMLWriter( System.out, format );
-		    writer.write( reportXML );
-		    writer.close();
-		    }catch(Exception e) {}
+			
+			//try transformation here
+			String stylesheet = "C:\\dev\\caIntegrator2\\WebRoot\\XSL\\report.xsl";
+			 // load the transformer using JAXP
+	        TransformerFactory factory = TransformerFactory.newInstance();
+	        try {
+				Transformer transformer = factory.newTransformer( new StreamSource( stylesheet ) );
+				DocumentSource source = new DocumentSource( reportXML );
+		        DocumentResult result = new DocumentResult();
+		        transformer.transform( source, result );
+
+		        // return the transformed document
+		        Document transformedDoc = result.getDocument();
+		        
+		        OutputFormat format = OutputFormat.createPrettyPrint();
+		        XMLWriter writer = new XMLWriter( System.out, format );
+			    writer.write( transformedDoc );
+			    writer.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			// cacheKey.equals("temp_results"+view.getClass());
 			
 		}
