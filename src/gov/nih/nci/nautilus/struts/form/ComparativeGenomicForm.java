@@ -264,7 +264,9 @@ public class ComparativeGenomicForm extends BaseForm {
 					}
 				}
 			}
-
+         
+		 
+		 
 		  if (errors.isEmpty()) {// if there are no errors, then proceed.
 		    createDiseaseCriteriaObject();
 			createGeneCriteriaObject();
