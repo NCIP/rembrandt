@@ -216,15 +216,19 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
 				        			
 					        			sampleIds = geneViewContainer.getBiospecimenLabels(label);
-					        			if(groupResultset != null)
-				        				{
+					        			String hClass = label;
+					        			if(groupResultset != null)	{
 					                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 					                       		String sampleId = (String) sampleIdIterator.next();
 					                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 					                       		if(biospecimenResultset != null){
+					                       			
+					                       			if(biospecimenResultset.isHighlighted())
+					                       					hClass="highlighted";
+					                       			
 					                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
 					                       			if(ratio != null)	{
-					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
 						    					        	data = null;
 						    					        cell = null;
@@ -232,7 +236,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 						                       			//sb.append("<Td class='"+label+"'>"+resultFormat.format(ratio)+" </td>");
 					                       			}
 						                       		else	{
-						                       			cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+						                       			cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
 						    					        	data = null;
 						    					        cell = null;
@@ -240,7 +244,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 						                       		}
 					                       		}
 					                       		else	{
-					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
 						    					        	data = null;
 						    					        cell = null;
@@ -250,7 +254,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 				                       }
 				                       else	{
 				                       	for(int s=0;s<sampleIds.size();s++)	{
-				                       		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+				                       		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 						    					data = cell.addElement("Data").addAttribute("type", "data").addText("-");
 						    					data = null;
 						    				cell = null;
