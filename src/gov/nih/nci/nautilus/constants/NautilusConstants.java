@@ -65,4 +65,10 @@ public final class NautilusConstants {
     public static final String FILTER_REPORT_SUFFIX = " filter report";
     
     public static final String SHOW_ALL_VALUES_SUFFIX = " show all values report";
+    
+    public static final String STANDARD_GENE_EXP_REGULATION = "2";
+    
+    public static final String ALL_GENES_COPY_NUMBER_REGULATION = "10";
+    
+    public static final String ALL_GENES_GENE_EXP_REGULATION = "4";
 }
