@@ -156,7 +156,7 @@
 	<delete file="${build.dir}/${app.war.name}.war"/>
    <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
    	<fileset file="${webapp.dir}/*.jsp"/>
-   	
+    <zipfileset  dir="${webapp.dir}/log" prefix="log"/>
     <zipfileset  dir="${webapp.dir}/css" prefix="css"/>
     <zipfileset  dir="${webapp.dir}/images" prefix="images"/>
     <zipfileset  dir="${webapp.dir}/js" prefix="js"/>
