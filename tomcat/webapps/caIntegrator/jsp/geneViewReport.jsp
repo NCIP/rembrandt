@@ -174,7 +174,7 @@ if(resultant != null) {
 	        				{
 		                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 		                       		String sampleId = (String) sampleIdIterator.next();
-		                       		SampleFoldChangeValuesResultset biospecimenResultset = groupResultset.getBioSpecimenResultset(sampleId);
+		                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 		                       		if(biospecimenResultset != null){
 		                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
 		                       			if(ratio != null)
