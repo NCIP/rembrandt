@@ -11,7 +11,7 @@ import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.view.SampleCentricView;
+import gov.nih.nci.nautilus.view.ClinicalSampleView;
 import gov.nih.nci.nautilus.view.ViewFactory;
 
 import java.util.ArrayList;

@@ -76,7 +76,7 @@ import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.nautilus.view.GeneCentricView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -182,7 +182,7 @@ public class ResultsetViewTest extends TestCase {
 		try {
 			System.out.println("Building Single Gene Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery1);
-			GeneCentricView geneCentricView = new GeneCentricView();
+			GeneExprSampleView geneCentricView = new GeneExprSampleView();
 			geneCentricView.setGroupType(GroupType.DISEASE_TYPE_GROUP);			
 			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery,geneCentricView);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
@@ -211,7 +211,7 @@ public class ResultsetViewTest extends TestCase {
 			try {
 				System.out.println("Building Group Gene Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
 				CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery2);
-				GeneCentricView geneCentricView = new GeneCentricView();
+				GeneExprSampleView geneCentricView = new GeneExprSampleView();
 				geneCentricView.setGroupType(GroupType.DISEASE_TYPE_GROUP);			
 				Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery,geneCentricView);
 				System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());

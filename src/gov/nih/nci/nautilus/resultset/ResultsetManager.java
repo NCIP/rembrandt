@@ -50,7 +50,7 @@
 package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.Queriable;
-import gov.nih.nci.nautilus.view.GeneCentricView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
@@ -63,9 +63,9 @@ public class ResultsetManager {
     	if(queryToExecute != null && associatedView != null){
         ViewType viewType = queryToExecute.getAssociatedView();
         ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
-    	if (associatedView instanceof GeneCentricView){
-    		    GeneCentricView geneCentricView = (GeneCentricView) associatedView;
-    			GroupType groupType = geneCentricView.getGroupType();
+    	if (associatedView instanceof GeneExprSampleView){
+    		    GeneExprSampleView geneExprSampleView = (GeneExprSampleView) associatedView;
+    			GroupType groupType = geneExprSampleView.getGroupType();
     			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(resultsets,groupType);
     			resultant.setResultsContainer(resultsContainer);
     			resultant.setAssociatedQuery(queryToExecute);
