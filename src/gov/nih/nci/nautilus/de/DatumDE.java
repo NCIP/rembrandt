@@ -17,7 +17,9 @@ public class DatumDE extends DomainElement{
   /**
 	* FoldChange
     */
-    public final static String FOLD_CHANGE =  "FoldChange";
+    public final static String FOLD_CHANGE_RATIO =  "FoldChangeRatio";
+    public final static String FOLD_CHANGE_SAMPLE_INTENSITY =  "FoldChangeSampleIntensity";
+    public final static String FOLD_CHANGE_NORMAL_INTENSITY =  "FoldChangeNormalIntensity";
 
   /**
 	* CopyNumber
@@ -33,7 +35,12 @@ public class DatumDE extends DomainElement{
 	* PROBESET_ID
     */
     public final static String PROBESET_ID =  "ProbeSetID";
-   
+    /**
+	* AGE_GROUP
+    */
+    public final static String AGE_GROUP = "AgeGroup";
+    public final static String SURVIVAL_LENGTH_RANGE = "SurvivalLengthRange";
+    
 // ****************************************************
 //                   CONSTRUCTOR(S)
 // ****************************************************
