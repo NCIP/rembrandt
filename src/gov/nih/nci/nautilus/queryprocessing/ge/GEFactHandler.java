@@ -31,7 +31,7 @@ abstract public class GEFactHandler {
      Map geneExprObjects = Collections.synchronizedMap(new HashMap());
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
-     private final static int VALUES_PER_THREAD = 50;
+     private final static int VALUES_PER_THREAD = 150;
      List factEventList = Collections.synchronizedList(new ArrayList());
      abstract void addToResults(Collection results);
      List annotationEventList = Collections.synchronizedList(new ArrayList());
@@ -71,7 +71,7 @@ abstract public class GEFactHandler {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           sampleCrit.addAndCriteria(IDs);
                           org.apache.ojb.broker.query.Query sampleQuery =
-                          QueryFactory.newQuery(targetFactClass,sampleCrit, true);
+                          QueryFactory.newQuery(targetFactClass,sampleCrit, false);
                           assert(sampleQuery != null);
                           Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                           addToResults(exprObjects);
@@ -108,7 +108,7 @@ abstract public class GEFactHandler {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           Query annotQuery =
-                          QueryFactory.newReportQuery(GeneClone.class,new String[] {cloneIDColName, locusLinkColName, accessionColName }, annotCrit, true);
+                          QueryFactory.newReportQuery(GeneClone.class,new String[] {cloneIDColName, locusLinkColName, accessionColName }, annotCrit, false);
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
                           while (iter.hasNext()) {
@@ -154,7 +154,7 @@ abstract public class GEFactHandler {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           Query annotQuery =
-                          QueryFactory.newReportQuery(ProbesetDim.class,new String[] {probeIDColName , locusLinkColName, accessionColName }, annotCrit, true);
+                          QueryFactory.newReportQuery(ProbesetDim.class,new String[] {probeIDColName , locusLinkColName, accessionColName }, annotCrit, false);
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
                           while (iter.hasNext()) {

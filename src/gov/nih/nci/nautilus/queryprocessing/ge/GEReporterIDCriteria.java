@@ -4,6 +4,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.Criteria;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 
+import java.util.ArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR
@@ -12,22 +14,33 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
  * To change this template use Options | File Templates.
  */
 public class GEReporterIDCriteria {
-    private ReportQueryByCriteria cloneIDsSubQuery;
-    private ReportQueryByCriteria probeIDsSubQuery;
-
-    public ReportQueryByCriteria getCloneIDsSubQuery() {
-        return cloneIDsSubQuery;
+    private ArrayList multipleCloneIDsSubQueries = new ArrayList();
+    private ArrayList multipleProbeIDsSubQueries = new ArrayList();
+    public ArrayList getMultipleCloneIDsSubQueries() {
+        return multipleCloneIDsSubQueries;
     }
+
+    public void setMultipleCloneIDsSubQueries(ArrayList multipleCloneIDsSubQueries) {
+        this.multipleCloneIDsSubQueries = multipleCloneIDsSubQueries;
+    }
+
+    public ArrayList getMultipleProbeIDsSubQueries() {
+        return multipleProbeIDsSubQueries;
+    }
+
+    public void setMultipleProbeIDsSubQueries(ArrayList multipleProbeIDsSubQueries) {
+        this.multipleProbeIDsSubQueries = multipleProbeIDsSubQueries;
+    }
+
 
     public void setCloneIDsSubQuery(ReportQueryByCriteria cloneIDsSubQuery) {
-        this.cloneIDsSubQuery = cloneIDsSubQuery;
+        multipleCloneIDsSubQueries.add(cloneIDsSubQuery);
+        //this.cloneIDsSubQuery = cloneIDsSubQuery;
     }
 
-    public ReportQueryByCriteria getProbeIDsSubQuery() {
-        return probeIDsSubQuery;
-    }
 
     public void setProbeIDsSubQuery(ReportQueryByCriteria probeIDsSubQuery) {
-        this.probeIDsSubQuery = probeIDsSubQuery;
+        multipleProbeIDsSubQueries.add(probeIDsSubQuery);
+        //this.probeIDsSubQuery = probeIDsSubQuery;
     }
 }

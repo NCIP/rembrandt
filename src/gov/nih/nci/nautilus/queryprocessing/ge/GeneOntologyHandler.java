@@ -45,7 +45,7 @@ public class GeneOntologyHandler {
             while (iter.hasNext()) {
                 Object[] objs = (Object[]) iter.next();
                 String symbol = (String) objs[0];
-                geneSymbols.add(new GeneIdentifierDE.GeneSymbol(symbol));
+                geneSymbols.add(new GeneIdentifierDE.GeneSymbol(symbol.toUpperCase()));
             }
             if (geneSymbols.size() > 0) {
                 GeneIDCriteria geneIDCrit = new GeneIDCriteria();

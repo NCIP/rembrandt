@@ -4,15 +4,13 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 import java.math.BigDecimal;
 
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
+import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,6 +23,8 @@ public abstract class SelectHandler implements Runnable {
     private gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj;
     private Collection allProbeIDS;
     private Collection allCloneIDS;
+     private List eventList = Collections.synchronizedList(new ArrayList());
+
 
     public DBEvent getDbEvent() {
         return dbEvent;
@@ -76,31 +76,87 @@ public abstract class SelectHandler implements Runnable {
     }
 
     public void run() {
-           PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
-           ReportQueryByCriteria p = reporterIDCritObj.getProbeIDsSubQuery();
-           if ( p != null) {
-               Iterator iter = _BROKER.getReportQueryIteratorByQuery(p);
-               while (iter.hasNext()) {
-                   Object[] prbIDS = (Object[]) iter.next();
-                   BigDecimal bdpID = (BigDecimal)prbIDS[0];
-                   Long ldpID = new Long(bdpID.longValue());
-                   allProbeIDS.add(ldpID);
-               }
+           //PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+
+
+           //ReportQueryByCriteria c = reporterIDCritObj.getCloneIDsSubQuery();
+           Collection probeIDS = Collections.synchronizedCollection(new HashSet());
+           Collection cloneIDS = Collections.synchronizedCollection(new HashSet());
+
+           Collection probeQueries = reporterIDCritObj.getMultipleProbeIDsSubQueries();
+           executeSubQueries(probeQueries, probeIDS);
+           //ReportQueryByCriteria p = reporterIDCritObj.getProbeIDsSubQuery();
+           Collection cloneQueries = reporterIDCritObj.getMultipleCloneIDsSubQueries();
+           executeSubQueries(cloneQueries, cloneIDS);
+           try {
+                ThreadController.sleepOnEvents(eventList);
+           } catch (InterruptedException e) {
+               // should never happen
+               e.printStackTrace();
            }
-           ReportQueryByCriteria c = reporterIDCritObj.getCloneIDsSubQuery();
-           if ( c != null) {
-               Iterator iter = _BROKER.getReportQueryIteratorByQuery(c);
-               while (iter.hasNext()) {
-                   Object[] cloneIDS = (Object[]) iter.next();
-                   BigDecimal bdcID = (BigDecimal)cloneIDS[0];
-                   Long ldpID = new Long(bdcID.longValue());
-                   allCloneIDS.add(ldpID);
-               }
-           }
-           _BROKER.close();
+
+
+           //executeProbeCloneIDSubQuery(c, cloneIDS);
+           //_BROKER.close();
+           allProbeIDS.addAll(probeIDS);
+           allCloneIDS.addAll(cloneIDS);
            getDbEvent().setCompleted(true);
            /*InheritableThreadLocal tl;
            tl.get() = new InheritableThreadLocal();*/
    }
 
+    private void executeSubQueries(Collection probeQueries, Collection probeIDS) {
+        for (Iterator iterator = probeQueries.iterator(); iterator.hasNext();) {
+            ReportQueryByCriteria query =  (ReportQueryByCriteria)iterator.next();
+            String threadID = new Long(System.currentTimeMillis()).toString();
+            DBEvent.SubQueryEvent event = new DBEvent.SubQueryEvent(threadID);
+            eventList.add(event);
+            System.out.println("NEW THREADS: " + threadID);
+            new Thread(new Executor(query, probeIDS, event)).start();
+
+        }
+    }
+
+    private void executeProbeCloneIDSubQuery(ReportQueryByCriteria query, Collection probeORCloneIDs, DBEvent.SubQueryEvent event) {
+        PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+        if ( query != null) {
+            Iterator iter = _BROKER.getReportQueryIteratorByQuery(query);
+            while (iter.hasNext()) {
+                Object[] prbIDS = (Object[]) iter.next();
+                BigDecimal bdpID = (BigDecimal)prbIDS[0];
+                Long ldpID = new Long(bdpID.longValue());
+                probeORCloneIDs.add(ldpID);
+            }
+        }
+        _BROKER.close();
+        event.setCompleted(true);
+        //ReportQueryByCriteria c = reporterIDCritObj.getCloneIDsSubQuery();
+        /*
+        if ( c != null) {
+            Iterator iter = _BROKER.getReportQueryIteratorByQuery(c);
+            while (iter.hasNext()) {
+                Object[] cloneIDS = (Object[]) iter.next();
+                BigDecimal bdcID = (BigDecimal)cloneIDS[0];
+                Long ldpID = new Long(bdcID.longValue());
+                allCloneIDS.add(ldpID);
+            }
+        }
+        */
+    }
+    private class Executor implements Runnable {
+       ReportQueryByCriteria query;
+       Collection probeORCloneIDS;
+       DBEvent.SubQueryEvent event;
+
+        private Executor(ReportQueryByCriteria query, Collection probeORCloneIDS, DBEvent.SubQueryEvent event) {
+            this.query = query;
+            this.probeORCloneIDS = probeORCloneIDS;
+            this.event = event;
+        }
+
+        public void run() {
+             executeProbeCloneIDSubQuery(query, probeORCloneIDS, event);
+        }
+
+    }
 }

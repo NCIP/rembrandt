@@ -5,6 +5,7 @@ import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.data.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -27,7 +28,7 @@ import java.math.BigDecimal;
  * To change this template use Options | File Templates.
  */
 public class GeneIDCriteriaHandler {
-
+     private final static int VALUES_PER_THREAD = 100;
      static HashMap data = new HashMap();
         static {
             data.put(GeneIdentifierDE.GeneSymbol.class.getName(),
@@ -37,13 +38,6 @@ public class GeneIDCriteriaHandler {
             data.put(GeneIdentifierDE.GenBankAccessionNumber.class.getName(),
                             new TargetClass(GeneSnp.class, GeneSnp.SNP_PROBESET_ID));
         }
-    /*public static GEReporterIDCriteria buildGeneIDCriteria( GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb ) throws Exception {
-
-        Class deClass = getGeneIDClassName(geneIDCrit);
-        ArrayList geneIDs = getGeneIDValues(geneIDCrit);
-
-        return buildReporterIDCritForGEQuery(deClass,geneIDs, includeClones, includeProbes, pb);
-     }*/
 
     private static ArrayList getGeneIDValues(GeneIDCriteria geneIDCrit) {
         Collection geneIdDEs = geneIDCrit.getGeneIdentifiers();
@@ -77,9 +71,7 @@ public class GeneIDCriteriaHandler {
     private static class  TargetClass {
         Class target;
         String attrToSearch;
-
-
-        public TargetClass(Class targetClass, String attrToSearch) {
+       public TargetClass(Class targetClass, String attrToSearch) {
             this.target = targetClass;
             this.attrToSearch = attrToSearch;
         }
@@ -96,31 +88,38 @@ public class GeneIDCriteriaHandler {
         snpProbeIDCrit.setSnpProbeIDsSubQuery(snpSubQuery);
         return  snpProbeIDCrit;
     }
-    /*public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception
-    {
-        Collection geneIDs = geQuery.getGeneIDCrit().getGeneIdentifiers();
-                   ArrayList arrayGeneIDs = new ArrayList(geneIDs);
-                   for (int i = 0; i < arrayGeneIDs.size();) {
-                       Collection critIDS = new ArrayList();
-                       int begIndex = i;
-                       i += 100 ;
-                       int endIndex = (i < arrayGeneIDs.size()) ? endIndex = i : (arrayGeneIDs.size());
-                       critIDS.addAll(arrayGeneIDs.subList(begIndex,  endIndex));
-                       GeneIDCriteria gCrit = new GeneIDCriteria();
-                       gCrit.setGeneIdentifiers(critIDS);
-                       //final Criteria IDs = new Criteria();
-                       //IDs.addIn(probeOrCloneIDAttr, values);
-                       GEReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(gCrit, includeClones, includeProbes, _BROKER);
-                       String threadID = "GEFactHandler.ThreadID:" + probeOrCloneIDAttr + ":" +i;
-                   }
-    }
-    */
+
     public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes) throws Exception {
         PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
         Class deClass = getGeneIDClassName(geneIDCrit);
-       ArrayList geneIDs = getGeneIDValues(geneIDCrit);
-       GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
+        ArrayList arrayIDs = getGeneIDValues(geneIDCrit);
+        GEReporterIDCriteria cloneIDProbeIDCrit = new GEReporterIDCriteria();
 
+         for (int i = 0; i < arrayIDs.size();) {
+                Collection geneIDValues = new ArrayList();
+                int begIndex = i;
+                i += VALUES_PER_THREAD ;
+                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
+                geneIDValues.addAll(arrayIDs.subList(begIndex,  endIndex));
+                if ( includeProbes) {
+                    String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
+                    String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), ProbesetDim.class.getName());
+                    Criteria c = new Criteria();
+                    c.addIn(deMappingAttrName, geneIDValues);
+                    ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, true );
+                    cloneIDProbeIDCrit.getMultipleProbeIDsSubQueries().add(probeIDSubQuery);
+                }
+                if (includeClones) {
+                     String cloneIDColumn = QueryHandler.getColumnNameForBean(pb, GeneClone.class.getName(), GeneClone.CLONE_ID);
+                     String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), GeneClone.class.getName());
+                     Criteria c = new Criteria();
+                     c.addIn(deMappingAttrName, geneIDValues);
+                     ReportQueryByCriteria cloneIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
+                     cloneIDProbeIDCrit.getMultipleCloneIDsSubQueries().add(cloneIDSubQuery);
+                }
+        }
+
+        /*  BEFORE MULITTHREADING
         if ( includeProbes) {
             String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
             String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), ProbesetDim.class.getName());
@@ -137,6 +136,7 @@ public class GeneIDCriteriaHandler {
             ReportQueryByCriteria cloneIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
             cloneIDProbeIDCrit.setCloneIDsSubQuery(cloneIDSubQuery);
         }
+        */
         return cloneIDProbeIDCrit;
     }
 
@@ -146,16 +146,4 @@ public class GeneIDCriteriaHandler {
             GeneIdentifierDE obj =  (GeneIdentifierDE) geneIDs.iterator().next();
             return obj.getClass();
     }
-    private static class AccStartEndPosition {
-        Long start;
-        Long end;
-        String chromosome;
-
-        public AccStartEndPosition(Long start, Long end, String chromosome) {
-            this.start = start;
-            this.end = end;
-            this.chromosome = chromosome;
-        }
-    }
-
 }
