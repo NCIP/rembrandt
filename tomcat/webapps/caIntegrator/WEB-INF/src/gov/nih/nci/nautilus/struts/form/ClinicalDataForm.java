@@ -163,9 +163,11 @@ public class ClinicalDataForm extends BaseForm {
 			   errors.add("survivalUpper", new ActionError("gov.nih.nci.nautilus.struts.form.survivalRange.upperRange.error"));
 			  }		  
 		  	 }
-		  catch(NumberFormatException ex){
-		    
-		    ex.printStackTrace();
+		  catch(NumberFormatException ex){		 
+		   
+		     LogEntry logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		     Logging.add(logEntry);		   
+		     
 		   }	 
 		 }  
 
@@ -176,7 +178,9 @@ public class ClinicalDataForm extends BaseForm {
 			  }		  
 		  	 }
 		  catch(NumberFormatException ex){
-		    ex.printStackTrace();
+		     LogEntry logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		     Logging.add(logEntry);			  
+		  
 		   }	 
 		 }  
 		
@@ -210,12 +214,21 @@ public class ClinicalDataForm extends BaseForm {
 			 
 		     } // end of try
 		catch (Exception ex) {
-				System.out.println("Error in createDiseaseCriteriaObject() method:  "+ex.getMessage());
-				ex.printStackTrace();
-			} 
+		       
+			    LogEntry logEntry = new LogEntry(Level.ERROR,"Error in createDiseaseCriteriaObject() method:  "+ex.getMessage());
+		        Logging.add(logEntry);		
+				
+			    logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		        Logging.add(logEntry);		
+				     
+		  			} 
 		catch (LinkageError le) {
-				System.out.println("Linkage Error in createDiseaseCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
+		
+		        LogEntry logEntry = new LogEntry(Level.ERROR,"Linkage Error in createDiseaseCriteriaObject() method: "+ le.getMessage());
+		        Logging.add(logEntry);		
+				
+			    logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		        Logging.add(logEntry);		
 			}	
 			
 		 }// end of while		 
@@ -232,25 +245,38 @@ public class ClinicalDataForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + occurrenceDomainMap.get(key));
-			
+			LogEntry logEntry = new LogEntry(Level.DEBUG,key + "=>" + occurrenceDomainMap.get(key));
+	        Logging.add(logEntry);		
+		
+				
 			try {
 				String strOccurenceClass = (String) occurrenceDomainMap.get(key);
 				Constructor [] occurrenceConstructors = Class.forName(strOccurenceClass).getConstructors();
 				Object [] parameterObjects = {key};
 
 				OccurrenceDE occurrenceDE = (OccurrenceDE) occurrenceConstructors[0].newInstance(parameterObjects);
-				//occurrenceCriteria.setOccurrenceDE(occurrenceDE);
+				
 				occurrenceCriteria.setOccurrence(occurrenceDE);
 				
-				System.out.println("Occurrence Domain Element Value==> "+occurrenceDE.getValueObject());
+				logEntry = new LogEntry(Level.DEBUG,"Occurrence Domain Element Value==> "+occurrenceDE.getValueObject());
+		        Logging.add(logEntry);		
+				
 			} catch (Exception ex) {
-				System.out.println("Error in createOccurrenceCriteriaObject() method:  "+ex.getMessage());
-				ex.printStackTrace();
+			
+			    logEntry = new LogEntry(Level.ERROR,"Error in createOccurrenceCriteriaObject() method:  "+ex.getMessage());
+		        Logging.add(logEntry);		
+			
+                logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		        Logging.add(logEntry);		
+			
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createOccurrenceCriteriaObject() method "+ le.getMessage());
-				le.printStackTrace();
-			}
+			
+			    logEntry = new LogEntry(Level.ERROR,"Linkage Error in createOccurrenceCriteriaObject() method "+ le.getMessage());
+		        Logging.add(logEntry);		
+			
+                logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		        Logging.add(logEntry);		
+			  }
 					
 			}
 		}
@@ -261,7 +287,8 @@ public class ClinicalDataForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + radiationDomainMap.get(key));
+			LogEntry logEntry = new LogEntry(Level.ERROR,key + "=>" + radiationDomainMap.get(key));
+		    Logging.add(logEntry);					
 			
 			try {
 				String strRadiationClass = (String) radiationDomainMap.get(key);
@@ -270,17 +297,28 @@ public class ClinicalDataForm extends BaseForm {
 
 				RadiationTherapyDE radiationTherapyDE = (RadiationTherapyDE) radiationConstructors[0].newInstance(parameterObjects);					
 				radiationTherapyCriteria.setRadiationTherapyDE(radiationTherapyDE);
-
-				System.out.println("Radiation Domain Element Value is ==>"+radiationTherapyDE.getValueObject());
 				
+				logEntry = new LogEntry(Level.DEBUG,"Radiation Domain Element Value is ==>"+radiationTherapyDE.getValueObject());
+		        Logging.add(logEntry);					
+			
 				
 			} catch (Exception ex) {
-				System.out.println("Error in createRadiationTherapyCriteriaObject() mehtod :"+ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createRadiationTherapyCriteriaObject() method :"+ le.getMessage());
-				le.printStackTrace();
-			}
+			
+			    
+                logEntry = new LogEntry(Level.ERROR,"Error in createRadiationTherapyCriteriaObject() mehtod :"+ex.getMessage());
+		        Logging.add(logEntry);		
+			    
+				logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		        Logging.add(logEntry);		
+			  } catch (LinkageError le) {			   
+			   
+			      logEntry = new LogEntry(Level.ERROR,"Linkage Error in createRadiationTherapyCriteriaObject() method :"+ le.getMessage());
+		          Logging.add(logEntry);		
+			    
+				  logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		          Logging.add(logEntry);		
+			
+				}
 								
 			}			
 	}
@@ -291,7 +329,9 @@ public class ClinicalDataForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + chemoAgentDomainMap.get(key));
+			LogEntry logEntry = new LogEntry(Level.DEBUG,key + "=>" + chemoAgentDomainMap.get(key));
+	        Logging.add(logEntry);		
+			
 			
 			try {
 				String strChemoDomainClass = (String) chemoAgentDomainMap.get(key);
@@ -300,17 +340,26 @@ public class ClinicalDataForm extends BaseForm {
 
 				ChemoAgentDE chemoAgentDE = (ChemoAgentDE) chemoConstructors[0].newInstance(parameterObjects);					
 				chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
-
-				System.out.println("Chemo Agent Domain Element Value is ==>"+chemoAgentDE.getValueObject());
-			
+				
+				logEntry = new LogEntry(Level.DEBUG,"Chemo Agent Domain Element Value is ==>"+chemoAgentDE.getValueObject());
+		        Logging.add(logEntry);				
 						
 			} catch (Exception ex) {
-				System.out.println("Error in createChemoAgentCriteriaObject() method: "+ex.getMessage());
-				ex.printStackTrace();
+			   
+			   	logEntry = new LogEntry(Level.ERROR,"Error in createChemoAgentCriteriaObject() method: "+ex.getMessage());
+		        Logging.add(logEntry);				
+			
+				logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		         Logging.add(logEntry);				
+			
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createChemoAgentCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
-			}
+			
+			     logEntry = new LogEntry(Level.ERROR,"Linkage Error in createChemoAgentCriteriaObject() method: "+ le.getMessage());
+		         Logging.add(logEntry);				
+			
+				 logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		         Logging.add(logEntry);				
+				}
 			
 				
 					
@@ -327,7 +376,9 @@ public class ClinicalDataForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + surgeryDomainMap.get(key));
+			
+		    LogEntry logEntry = new LogEntry(Level.DEBUG,key + "=>" + surgeryDomainMap.get(key));
+		    Logging.add(logEntry);			
 			
 			try {
 				String strSurgeryDomainClass = (String) surgeryDomainMap.get(key);
@@ -337,13 +388,23 @@ public class ClinicalDataForm extends BaseForm {
 				SurgeryTypeDE surgeryTypeDE = (SurgeryTypeDE) surgeryConstructors[0].newInstance(parameterObjects);
 				surgeryTypeCriteria.setSurgeryTypeDE(surgeryTypeDE);
 				
-				System.out.println("Surgery Domain Element Value==> "+surgeryTypeDE.getValueObject());
+				logEntry = new LogEntry(Level.DEBUG,"Surgery Domain Element Value==> "+surgeryTypeDE.getValueObject());
+		        Logging.add(logEntry);				
+				
 			} catch (Exception ex) {
-				System.out.println("Error in createSurgeryTypeCriteriaObject() method: "+ex.getMessage());
-				ex.printStackTrace();
+			
+			    logEntry = new LogEntry(Level.ERROR,"Error in createSurgeryTypeCriteriaObject() method: "+ex.getMessage());
+		        Logging.add(logEntry);	
+				
+				logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		        Logging.add(logEntry);		
+			
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createSurgeryTypeCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
+			    logEntry = new LogEntry(Level.ERROR,"Linkage Error in createSurgeryTypeCriteriaObject() method: "+ le.getMessage());
+		        Logging.add(logEntry);	
+				
+				logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		        Logging.add(logEntry);		
 			}				
 					
 			}		
@@ -375,12 +436,20 @@ public class ClinicalDataForm extends BaseForm {
 				  survivalCriteria.setUpperSurvivalRange(upperSurvivalRange);			
 			   }		
 			} catch (Exception ex) {
-				System.out.println("Error in createSurvivalCriteriaObject() method: "+ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createSurvivalCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
-			}							
+			
+			    LogEntry logEntry = new LogEntry(Level.ERROR,"Error in createSurvivalCriteriaObject() method: "+ ex.getMessage());
+		        Logging.add(logEntry);	
+				
+			    logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		        Logging.add(logEntry);			
+			   
+				} catch (LinkageError le) {
+			    LogEntry logEntry = new LogEntry(Level.ERROR,"Linkage Error in createSurvivalCriteriaObject() method: "+ le.getMessage());
+		        Logging.add(logEntry);	
+				
+				logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		        Logging.add(logEntry);		
+				}							
 					
 			}		
 		}
@@ -392,7 +461,10 @@ public class ClinicalDataForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + ageDomainMap.get(key));
+			
+			LogEntry logEntry = new LogEntry(Level.DEBUG,key + "=>" + ageDomainMap.get(key));
+		    Logging.add(logEntry);	
+				
 			
 			try {
 			    String strAgeDomainClass = (String) ageDomainMap.get(key);
@@ -409,12 +481,23 @@ public class ClinicalDataForm extends BaseForm {
 				  ageCriteria.setUpperAgeLimit(upperAgeLimit);			
 			   }		
 				} catch (Exception ex) {
-				System.out.println("Error in createGeneCriteriaObject  "+ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createGeneCriteriaObject "+ le.getMessage());
-				le.printStackTrace();
-			}			
+				
+				   logEntry = new LogEntry(Level.ERROR,"Error in createGeneCriteriaObject: "+ ex.getMessage());
+		           Logging.add(logEntry);	
+				
+				   logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		           Logging.add(logEntry);		
+		
+				  
+				} catch (LinkageError le) {
+			
+			    logEntry = new LogEntry(Level.ERROR,"Linkage Error in createAgeCriteriaObject() method: "+ le.getMessage());
+		        Logging.add(logEntry);	
+				
+				logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		        Logging.add(logEntry);		
+		
+				}			
 					
 			}	
 	}
@@ -428,7 +511,8 @@ public class ClinicalDataForm extends BaseForm {
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			System.out.println(key + "=>" + genderDomainMap.get(key));
+			LogEntry logEntry = new LogEntry(Level.ERROR,key + "=>" + genderDomainMap.get(key));
+		    Logging.add(logEntry);		
 			
 			try {
 				String strGenderDomainClass = (String) genderDomainMap.get(key);
@@ -438,14 +522,25 @@ public class ClinicalDataForm extends BaseForm {
 				GenderDE genderDE = (GenderDE)genderConstructors[0].newInstance(parameterObjects);
 				genderCriteria.setGenderDE(genderDE);
 				
-				System.out.println("Gender Domain Element Value==> "+genderDE.getValueObject());
-			} catch (Exception ex) {
-				System.out.println("Error in createGenderCriteriaObject() method:  "+ex.getMessage());
-				ex.printStackTrace();
+				logEntry = new LogEntry(Level.DEBUG,"Gender Domain Element Value==> "+genderDE.getValueObject());
+		        Logging.add(logEntry);	
+				
+		    } catch (Exception ex) {
+			
+			    logEntry = new LogEntry(Level.ERROR,"Error in createGenderCriteriaObject() method:  "+ex.getMessage());
+		        Logging.add(logEntry);	
+				
+				logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
+		        Logging.add(logEntry);		
+			
 			} catch (LinkageError le) {
-				System.out.println("Linkage Error in createGenderCriteriaObject() method: "+ le.getMessage());
-				le.printStackTrace();
-			}
+			
+			    logEntry = new LogEntry(Level.ERROR,"Linkage Error in createGenderCriteriaObject() method: "+ le.getMessage());
+		        Logging.add(logEntry);	
+				
+				logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
+		        Logging.add(logEntry);		
+				}
 								
 			}	
 

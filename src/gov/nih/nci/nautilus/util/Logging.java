@@ -19,7 +19,7 @@ public class Logging {
 	 catch(Exception ex){
 	  ex.printStackTrace();
 	 }
-	 
+	   
      logger.addAppender(appender);
 	 logger.setLevel(logEntry.getLevel());
 	 if(logEntry.getLevel().equals(Level.INFO)){
