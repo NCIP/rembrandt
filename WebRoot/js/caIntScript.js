@@ -654,14 +654,17 @@ function showQueryDetail(selectName){
 		
 	  if(element == "plot"){
 	  document.forms[0].quickSearchType.options.length = 1;
+	  
 	     if (i == 2){
 	      myOption = new Option();
+	      myOption2 = new Option();
+	      myOption3 = new Option();
 	      myOption.text = "Gene Symbol";
 		  myOption2.text = "SNP Probe set ID";
 		  myOption3.text = "Cytoband";
 	      document.forms[0].quickSearchType.options[0] = myOption;
 	      document.forms[0].quickSearchType.options[1] = myOption2;
-	      document.forms[0].quickSearchType.options[3] = myOption3;
+	      document.forms[0].quickSearchType.options[2] = myOption3;
 		  }	
 	     else if(i != 2){
 	      myOption = new Option();
