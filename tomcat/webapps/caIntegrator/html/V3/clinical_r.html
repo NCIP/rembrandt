@@ -61,8 +61,9 @@
 								<TR class="report">
 									<TD colspan="3">
 										<DIV class="title">Recurrence</DIV>
-										<input type="checkbox" class="radio" checked selected>Recurrence&nbsp;&nbsp;
-											<select>
+										<input type="checkbox" class="radio" checked selected 
+										onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));">Recurrence&nbsp;&nbsp;
+											<select name="rec">
 												<option>any</option>
 												<option>1</option>
 												<option>2</option>
@@ -76,21 +77,24 @@
 								<TR class="report">
 									<TD colspan="3">
 										<DIV class="title">	Prior Therapy</DIV>
-										<input type="checkbox" class="radio" checked selected>Radiation&nbsp;&nbsp;
-										<select>
+										<input type="checkbox" class="radio" checked selected
+										 onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
+										<select name="rad">
 											<option>any</option>
 											<option>photon</option>
 										</select>
 										<br>
-										<input type="checkbox" class="radio" checked selected>Chemo&nbsp;&nbsp;
+										<input type="checkbox" class="radio" checked selected
+										 onclick="javascript:document.forms[0].chemo.disabled=(!(document.forms[0].chemo.disabled));">Chemo&nbsp;&nbsp;
 										- agent:&nbsp;
-										<select>
+										<select name="chemo">
 											<option>any</option>
 											<option></option>
 										</select>
 										<Br>
-										<input type="checkbox" class="radio" checked selected>Surgery&nbsp;&nbsp;
-										<select>
+										<input type="checkbox" class="radio" checked selected
+										 onclick="javascript:document.forms[0].surgery.disabled=(!(document.forms[0].surgery.disabled));">Surgery&nbsp;&nbsp;
+										<select name="surgery">
 											<option>any</option>
 											<option>Complete Resection (CR)</option>
 											<option>Partial Resection (PR)</option>
