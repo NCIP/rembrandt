@@ -54,6 +54,12 @@
     	<option></option>  
     		<html:options name="refineQueryForm" property="resultSets"/>
   	</html:select>
+  	<!--
+  	<html:submit styleId="validateButton" styleClass="xbutton"  property="method" onclick="javascript:document.forms[0].target = '_self';">
+				<bean:message key="RefineQueryAction.validateButton"/>
+	</html:submit>
+	-->
+	<input type="button" value="refresh" onclick="javascript:location.href='refinecheck.do'">
 </fieldset>
 
 <!--Step 3-->
@@ -99,7 +105,7 @@
 				<!--check to see if query has been validated and the runFlag has been set on the form-->
 				<logic:equal name="refineQueryForm" property="runFlag" value="yes" >
 					<!-- JavaScript here is to create a popup for the ReportResults -->
-					<html:submit styleClass="xbutton" styleId="runReportButton" property="method" onclick="javascript:return formNewTargetSimple('_report', 770, 550); window.location.reload( true );">
+					<html:submit styleClass="xbutton" styleId="runReportButton" property="method" onclick="javascript:return formNewTargetSimple('_report', 770, 550);">
 						<bean:message key="RefineQueryAction.runReportButton"/>
 					</html:submit>
 				</logic:equal> 
