@@ -140,11 +140,13 @@
 			width:100px;
 			text-align:left;
 		}
+		
+		.er { border: 1px solid red; }
 	</style>
 	</head>
   <body>
   
-<!--  <h1><xsl:value-of select="$showSampleSelect" /> asdf</h1> -->
+ <!-- <h1><xsl:value-of select="$showSampleSelect" /> asdf</h1> -->
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
   <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
@@ -220,7 +222,7 @@
 		<span id="fb">
 		<input type="text" name="filter_string"/>
 		<input type="hidden" name="queryName" value="{$qName}"/>
-		<input type="submit" name="filter_submit" value="Filter" />
+		<input type="submit" name="filter_submit" value="Filter" onclick="javascript:return checkElement(filter_form.filter_string);"/>
 		<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" />
 		</span>
 	  </form>
@@ -231,6 +233,7 @@
 	  <form style="margin-bottom:0;margin:0;" action="runReport.do?method=runFilterCopyNumber" method="post" name="cfilter_form">
 		<b><span class="lb">Filter Options:</span></b> 
 		<xsl:text>&#160;</xsl:text>
+		No. of Consecutive SNPs:
 		<select name="filter_value5">
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -243,7 +246,12 @@
 			<option value="9">9</option>
 			<option value="10">10</option>
 		</select>
+		<xsl:text>&#160;</xsl:text>
+		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
+		<xsl:text>&#160;</xsl:text>
+		% SNPs that match criteria
 		<select name="filter_value6">
+			<option value="0"></option>
 			<option value="10">10%</option>
 			<option value="20">20%</option>
 			<option value="30">30%</option>
@@ -260,8 +268,7 @@
 		<input type="submit" name="filter_submit" value="Submit" />
 		<input type="hidden" name="filter_element" value="copy_number"/>
 		<xsl:text>&#160;</xsl:text>
-		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
-	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>
+		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>
 	  </form>
 	  </div>
 	  </xsl:if>	  

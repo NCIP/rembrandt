@@ -168,3 +168,15 @@ function showCNumberFilter(v, id)	{
 		displayDiv('fb', "inline");
 	}
 }
+
+function checkElement(id)	{
+	
+		if(id.value == '')	{
+			alert("You must enter text in the filter field");
+			id.className = "er";
+			return false;
+		}
+		else
+			return true;
+
+}
