@@ -16,6 +16,14 @@ public class AssayPlatformCriteria extends Criteria{
 private AssayPlatformDE assayPlatformDE;
 public AssayPlatformCriteria(){}
 
+/**
+ * @param platformDE
+ */
+public AssayPlatformCriteria(AssayPlatformDE platformDE) {
+	
+	setAssayPlatformDE(platformDE);
+}
+
 public void setAssayPlatformDE(AssayPlatformDE assayPlatformDE){
  if(assayPlatformDE != null){
    this.assayPlatformDE = assayPlatformDE;  
