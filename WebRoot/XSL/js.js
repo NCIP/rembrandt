@@ -10,6 +10,14 @@ function stupidXSL(i, cPage)	{
 	function checkAll(field)	{
 		for (i = 0; i < field.length; i++)
 			field[i].checked = true ;
+			
+			var c;
+			c = document.getElementsByTagName("input");
+			for(i=0; i<c.length; i++)	{
+				if(c[i].type == 'checkbox' && c[i].id == 'grpcheck')
+					c[i].checked = true;
+			}
+
 	}
 		
 	function uncheckAll(field)	{
@@ -19,7 +27,7 @@ function stupidXSL(i, cPage)	{
 			var c;
 			c = document.getElementsByTagName("input");
 			for(i=0; i<c.length; i++)	{
-				if(c[i].type == 'checkbox')
+				if(c[i].type == 'checkbox' && c[i].id == 'grpcheck')
 					c[i].checked = false;
 			}
 	}

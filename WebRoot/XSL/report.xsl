@@ -271,8 +271,8 @@
 							<!--
 								<a href="#" onclick="javascript:checkById(document.prbSamples.samples, '{$currentGroup}');return false;">[all]</a>
 								<a href="#" onclick="javascript:uncheckById(document.prbSamples.samples, '{$currentGroup}');return false;">[none]</a>
-							-->
 								<a href="#" onclick="javascript:toggleCheckById(document.prbSamples.samples, '{$currentGroup}');return false;">[toggle]</a>
+							-->
 							</xsl:if>
 						</td>
 					</xsl:otherwise>
