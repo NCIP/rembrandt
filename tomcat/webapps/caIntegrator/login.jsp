@@ -21,7 +21,7 @@ response.setHeader("Location",newLocn);
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
 
 </head>
-<body>
+<body onload="document.forms[0].userName.focus();">
 <!--header NCI-->
 <table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
 <tr bgcolor="#A90101">

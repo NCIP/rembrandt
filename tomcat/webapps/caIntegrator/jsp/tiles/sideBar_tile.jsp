@@ -24,7 +24,7 @@
    document.deleteQueryForm.queryKey.value = queryKey;  
    }
 </script>
-		<Table border="0">
+		
 		 
 			<%
 			   String  query = "";	
@@ -57,6 +57,7 @@
 					   }
 				     				 
 					%>
+					<Table border="0" style="font-size:.9em">
 				    <tr><td><%=query%>
 					<%if(pageStr != null && pageStr2 ==null){%>
 					     <input type="submit" class="sbutton" value="delete" onclick="setMode('deleteQuery', '<%=queryKey%>')"></td>			

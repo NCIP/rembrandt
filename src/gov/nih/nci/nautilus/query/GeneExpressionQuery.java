@@ -53,7 +53,7 @@ public class GeneExpressionQuery extends Query {
 
 		ResourceBundle labels = null;
 		String OutStr = "<B>Gene Expression Query</B>";
-		OutStr += "<BR>Query: " + this.getQueryName();
+		OutStr += "<BR><B class='otherBold'>Query Name:</b>" + this.getQueryName();
 
 
 	try {
@@ -64,7 +64,7 @@ public class GeneExpressionQuery extends Query {
 			
 		if ((thisFoldChangeCrit != null) && !thisFoldChangeCrit.isEmpty() && labels != null) {
 			String thisCriteria = thisFoldChangeCrit.getClass().getName();
-			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			Collection foldChangeObjects = thisFoldChangeCrit.getFoldChangeObjects();		
 			
 			for (Iterator iter = foldChangeObjects.iterator(); iter.hasNext();) {
@@ -81,7 +81,7 @@ public class GeneExpressionQuery extends Query {
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCrit();
 			if ((thisGeneIDCrit != null) && !thisGeneIDCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisGeneIDCrit.getClass().getName();
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
 			
 				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext();) {
@@ -97,7 +97,7 @@ public class GeneExpressionQuery extends Query {
 			if ((thisRegionCrit != null) && !thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
 				System.out.println("thisCriteria is :"+ thisCriteria);
-				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
+				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
 
 				DomainElement chromosomeDE  = thisRegionCrit.getChromNumber();
@@ -134,7 +134,7 @@ public class GeneExpressionQuery extends Query {
 		    Collection diseaseColl = thisDiseaseCrit.getDiseases();
 
 			String thisCriteria = thisDiseaseCrit.getClass().getName();
-			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B><BR>";
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B><BR>";
 
 			Iterator iter = diseaseColl.iterator();
 			while(iter.hasNext()){
@@ -152,7 +152,7 @@ public class GeneExpressionQuery extends Query {
 		CloneOrProbeIDCriteria thisCloneOrProbeCriteria = this.getCloneOrProbeIDCriteria();		 
 		if((thisCloneOrProbeCriteria != null) && !thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
 		  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
-			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
+			OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 		    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
 		    Iterator iter = cloneColl.iterator();
 		    while(iter.hasNext()){
@@ -221,7 +221,7 @@ public class GeneExpressionQuery extends Query {
 	 if((thisArrayPlatformCriteria != null) && !thisArrayPlatformCriteria.isEmpty()&& labels != null){
 	   ArrayPlatformDE arrayPlatformDE = thisArrayPlatformCriteria.getPlatform();
 	   String arrayPlatformStr = arrayPlatformDE.getClass().getName();
-	   OutStr += "<BR><B>"+labels.getString(arrayPlatformStr.substring(arrayPlatformStr.lastIndexOf(".")+1))+"</B>";
+	   OutStr += "<BR><B class='otherBold'>"+labels.getString(arrayPlatformStr.substring(arrayPlatformStr.lastIndexOf(".")+1))+"</B>";
 	   OutStr += "<BR>&nbsp;&nbsp;"+arrayPlatformDE.getValue()+" ";
 		   }
 	 else{

@@ -54,7 +54,7 @@ public class ClinicalDataQuery extends Query {
 
 		ResourceBundle labels = null;
 		String OutStr = "<B>Clinical Data Query</B>";
-		OutStr += "<BR>Query: " + this.getQueryName();
+		OutStr += "<BR><B class='otherBold'>Query Name:</b>" + this.getQueryName();
 
 
 	try {
@@ -69,7 +69,7 @@ public class ClinicalDataQuery extends Query {
 			while(iter.hasNext()){
 			  DiseaseNameDE  diseaseDE = (DiseaseNameDE)iter.next();
 			  String diseaseStr = diseaseDE.getClass().getName();		      
-		      OutStr += "<BR>"+labels.getString(diseaseStr.substring(diseaseStr.lastIndexOf(".")+1))+": "+diseaseDE.getValue()+"";
+		      OutStr += "&nbsp;&nbsp;<BR><B class='otherBold'>"+labels.getString(diseaseStr.substring(diseaseStr.lastIndexOf(".")+1))+":</b><br>"+diseaseDE.getValue()+"";
 		       }	 	   
 		   }
 		else{
@@ -142,15 +142,15 @@ public class ClinicalDataQuery extends Query {
 		 SurvivalCriteria thisSurvivalCriteria = this.getSurvivalCriteria();
 		 if((thisSurvivalCriteria != null) && !thisSurvivalCriteria.isEmpty() && labels != null){
 		      String thisCriteria = thisSurvivalCriteria.getClass().getName();
-			  OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
+			  OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1)) + "</b>";
 			
 			  DomainElement survivalLowerDE = thisSurvivalCriteria.getLowerSurvivalRange();
 		      DomainElement survivalUpperDE = thisSurvivalCriteria.getUpperSurvivalRange();
 		     if(survivalLowerDE != null && survivalUpperDE != null){			     
 			     String survivalLowerStr  = survivalLowerDE.getClass().getName();
 				 String survivalUpperStr = survivalUpperDE.getClass().getName();
-				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(survivalLowerStr.substring(survivalLowerStr.lastIndexOf(".")+1)) +": "+survivalLowerDE.getValue()+" (months)";
-				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(survivalUpperStr.substring(survivalUpperStr.lastIndexOf(".")+1)) +": "+survivalUpperDE.getValue()+" (months)";
+				 OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;" + labels.getString(survivalLowerStr.substring(survivalLowerStr.lastIndexOf(".")+1)) +":</b><br /> "+survivalLowerDE.getValue()+" (months)";
+				 OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;" + labels.getString(survivalUpperStr.substring(survivalUpperStr.lastIndexOf(".")+1)) +":</b><br /> "+survivalUpperDE.getValue()+" (months)";
 			   	}		   
 		    }
 		  else{ 
@@ -167,8 +167,8 @@ public class ClinicalDataQuery extends Query {
 			if(LowerAgeLimit != null && UpperAgeLimit != null){
 			     String ageLowerStr  = LowerAgeLimit.getClass().getName();
 				 String ageUpperStr = UpperAgeLimit.getClass().getName();
-				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(ageLowerStr.substring(ageLowerStr.lastIndexOf(".")+1)) +": "+LowerAgeLimit.getValue()+" (years)";
-				 OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(ageUpperStr.substring(ageUpperStr.lastIndexOf(".")+1)) +": "+UpperAgeLimit.getValue()+" (years)";
+				 OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>" + labels.getString(ageLowerStr.substring(ageLowerStr.lastIndexOf(".")+1)) +":</b><br /> "+LowerAgeLimit.getValue()+" (years)";
+				 OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>" + labels.getString(ageUpperStr.substring(ageUpperStr.lastIndexOf(".")+1)) +":</b><br /> "+UpperAgeLimit.getValue()+" (years)";
 		 	
 			 } 
 		  }
@@ -182,7 +182,7 @@ public class ClinicalDataQuery extends Query {
 		   if((thisGenderCriteria != null) && !thisGenderCriteria.isEmpty() && labels != null){		      
 		     GenderDE genderDE = thisGenderCriteria.getGenderDE();
 			 String genderStr = genderDE.getClass().getName();
-		     OutStr += "<BR>"+labels.getString(genderStr.substring(genderStr.lastIndexOf(".")+1))+": "+genderDE.getValue()+"";
+		     OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>"+labels.getString(genderStr.substring(genderStr.lastIndexOf(".")+1))+":</b><br /> "+genderDE.getValue()+"";
 			 }  
 		  else{
 		    System.out.println("GenderCriteria is empty or Application Resources file is missing.");
