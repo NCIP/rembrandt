@@ -107,8 +107,7 @@
 	
 	<target name="compile_struts"> 
         <tstamp/>
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.classes.dir}"/>     
+         <mkdir dir="${build.struts.classes.dir}"/>     
 	   	 <javac srcdir="${source.struts.dir}" destdir="${build.struts.classes.dir}">	
 		 <!--<exclude name="**/form/ClinicalDataForm.java" />-->	
          <!--<exclude name="**/action/ClinicalDataAction.java" />-->		
@@ -118,7 +117,7 @@
 
   </target>	
   <target name="build-jar" depends="compile">
-	    <delete dir="${jar.dir}"/>  
+	    <delete file="${jar.dir}/${app.jar.name}.jar"/>  
 		<mkdir dir="${jar.dir}"/>      
 
 		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
@@ -129,9 +128,10 @@
 		<!--<delete dir="${build.classes.dir}"/>-->
 	</target>
 	
-<target name="build-war" depends="build-jar, compile">
-  <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
-   <fileset dir="${webapp.dir}/">
+<target name="build-war" depends="build-jar, compile, compile_struts">
+   <delete file="${build.dir}/${app.war.name}.war"/>
+   <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
+   <fileset dir="${webapp.dir}/WEB-INF">
             <exclude name="web.xml"/>
    </fileset>
    <fileset dir="${webapp.dir}/css"/>
@@ -150,7 +150,6 @@
    	<include name="commons-lang-2.0.jar"/>
   	<include name="commons-pool-1.1.jar"/>
   	<include name="db-ojb-1.0.rc7.jar"/>
-  	<include name="j2ee.jar"/>
   	<include name="jcs.jar"/>
   	<include name="jdo.jar"/>
   	<include name="jdori.jar"/>
