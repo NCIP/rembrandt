@@ -10,20 +10,16 @@
 <br /><br />
 
 
-
-<html:radio property="snpId" value="specify" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
  <html:select property="snpList" onchange="javascript:depChange(this);">
    <html:optionsCollection property="snpTypes" />
     </html:select>
 
-<!--- <html:select property="snpList">
-	<option>&nbsp;</option>
-	<option>TSC Id</option>
-	<option>dBSNP Id</option>
-	<option>Probe Set Id</option>
-</html:select> --->
+
 
 &nbsp;
+
+<html:radio property="snpId" value="specify" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
+
 <html:text property="snpListSpecify" onfocus="javascript:radioFold(this);" />
 &nbsp;&nbsp;
 <html:radio property="snpId" value="upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />

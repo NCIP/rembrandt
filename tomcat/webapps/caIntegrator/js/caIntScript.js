@@ -607,31 +607,31 @@ function showQueryDetail(selectName){
 	   
 	   if(element == "cloneId"){	
 	      if (i == 0){
-	      
-		  document.forms[0].cloneList.disabled = false;
-		  document.forms[0].cloneListSpecify.disabled = false;
-		  document.forms[0].cloneListFile.disabled = true;
+	      document.forms[0].cloneListSpecify.disabled = false;
+		  document.forms[0].cloneList.disabled = false;	
+		  document.forms[0].cloneListFile.value = "";	
+		  document.forms[0].cloneListFile.disabled = false;
+		 
 		
 		  }
 	      if (i == 1) {
 	      
 	      document.forms[0].cloneListSpecify.value = "";
-	      document.forms[0].cloneList.disabled = true;
-		  document.forms[0].cloneListSpecify.disabled = true;
+		  document.forms[0].cloneListSpecify.disabled = true;	    
 		  document.forms[0].cloneListFile.disabled = false;
 	
 	      }
 	   }
 	   if(element == "snpId"){
-	      if (i == 0){
-	        document.forms[0].snpListSpecify.disabled = false;
+	      if (i == 0){		  
+	        document.forms[0].snpListSpecify.disabled = false;			
 	        document.forms[0].snpList.disabled = false;
+			document.forms[0].snpListFile.value = "";	
 	        document.forms[0].snpListFile.disabled = true;
 	      }
 	      if (i == 1){
-	        document.forms[0].snpListSpecify.value = "";
-	        document.forms[0].snpListSpecify.disabled = true;
-	        document.forms[0].snpList.disabled = true;
+	        document.forms[0].snpListSpecify.value = "";			
+	        document.forms[0].snpListSpecify.disabled = true;	        
 	        document.forms[0].snpListFile.disabled = false;
 	      }
 	   }
