@@ -340,6 +340,8 @@ public class ReportGenerator  {
 		
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
+				int totalSamples = 0;
+				
 				CopyNumberSingleViewResultsContainer copyNumberContainer = null;
 
 				if(resultsContainer instanceof DimensionalViewContainer)	{
@@ -379,7 +381,9 @@ public class ReportGenerator  {
 				        	String label = (String) labelIterator.next();
 				        	
 				        	sampleIds = copyNumberContainer.getBiospecimenLabels(label); 
-				        	header.append("<Td colspan='"+sampleIds.size()+"' class=\""+label+"\" id=\"header\">"+label+"</td>"); 
+				        	totalSamples += sampleIds.size();
+				        	
+				        	header.append("<Td colspan='"+sampleIds.size()+"' class=\""+label+"\" id=\"header\">"+label+" Samples</td>"); 
 		  		        	cssLabels.add(label);
 		  		        	   	
 					           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
@@ -481,7 +485,7 @@ public class ReportGenerator  {
 				sb.append("<br><br>Copy Number container is empty");
 			}	
 				
-			return "<div class=\"rowCount\">"+recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
+			return "<div class=\"rowCount\">"+recordCount+" records returned. "+ totalSamples + " samples returned. &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
 				
 	}
 
@@ -492,6 +496,8 @@ public class ReportGenerator  {
 				
 				DimensionalViewContainer dimensionalViewContainer = null;
 				int recordCount = 0;
+				int totalSamples = 0;
+				
 				if(resultsContainer instanceof DimensionalViewContainer)	{
 					dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 					if(dimensionalViewContainer != null)	{
@@ -529,7 +535,9 @@ public class ReportGenerator  {
 			        	String label = (String) labelIterator.next();
 			        	sampleIds = geneViewContainer.getBiospecimenLabels(label);    	
 				    	theColspan += sampleIds.size();
-			        	header.append("<td colspan="+sampleIds.size()+" class='"+label+"' id=\"header\">"+label+"</td>"); 
+				    	totalSamples += sampleIds.size();
+				    	
+			        	header.append("<td colspan="+sampleIds.size()+" class='"+label+"' id=\"header\">"+label+" Samples</td>"); 
 				    	cssLabels.add(label);
 				    	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
@@ -645,7 +653,7 @@ public class ReportGenerator  {
 					sb.append("<br><Br>Gene Container is empty<br>");
 				}
 			    
-			    return "<div class=\"rowCount\">"+recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
+			    return "<div class=\"rowCount\">"+recordCount+" records returned. " + totalSamples +" samples returned. &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
 	
 		
 	}
