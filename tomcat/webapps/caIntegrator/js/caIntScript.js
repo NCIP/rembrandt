@@ -624,7 +624,7 @@ function showQueryDetail(selectName){
 	      document.forms[0].cloneListSpecify.disabled = false;
 		  document.forms[0].cloneList.disabled = false;	
 		  document.forms[0].cloneListFile.value = "";	
-		  document.forms[0].cloneListFile.disabled = false;
+		  document.forms[0].cloneListFile.disabled = true;
 		 
 		
 		  }
