@@ -112,8 +112,8 @@
     </definition>
    
     <definition name="nautilus.KMPlot" extends="graph">
-      <put name="mainForm" value="/graphs/KMPlot.jsp" />
-	  <put name="title" value="Gene Expression Graph" />
+      <put name="mainForm" value="/jsp/graphs/KMPlot.jsp" />
+	  <put name="title" value="" />
     </definition>
     
 </tiles-definitions>
