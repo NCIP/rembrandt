@@ -16,7 +16,7 @@
 	</html:select>
 				<!--- <html:select property="cloneList">
 					<html:option value="image">IMAGE Id</html:option>
-					<html:option value="bac">BAC Id</html:option>
+					
 				</html:select> --->
 &nbsp;<html:text property="cloneListSpecify" onclick="javascript:radioFold(this);" />&nbsp;-or-&nbsp;
 <html:radio property="cloneId" value="Upload" styleClass="radio" onclick="javascript:onRadio(this,1);" />

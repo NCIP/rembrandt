@@ -24,7 +24,7 @@
    document.deleteQueryForm.queryKey.value = queryKey;  
    }
 </script>
-		<Table>
+		<Table border="0">
 		 
 			<%
 			   String  query = "";	

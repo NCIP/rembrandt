@@ -559,7 +559,7 @@ public class GeneExpressionForm extends BaseForm {
 		//geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );//moved to the upperclass:: BaseForm.java
 
 		cloneTypeColl.add( new LabelValueBean( "IMAGE Id", "imageId" ) );
-		cloneTypeColl.add( new LabelValueBean( "BAC Id", "BACId" ) );
+		//cloneTypeColl.add( new LabelValueBean( "BAC Id", "BACId" ) );
 		cloneTypeColl.add( new LabelValueBean( "Probe Set Id", "probeSetId" ) );
 
 		arrayPlatformTypeColl.add( new LabelValueBean( "all", "all" ) );

@@ -24,7 +24,8 @@
 	            out.println("<A class='possible' href='refinecheck.do'>Refine Query</A>");
 	            }
 	            %>
-	           <%
+	          <!--select presentation to be implemented post-nautilus-->  
+	           <!--<%
 	           if(queryCollection != null){
 	               if(queryCollection.hasCompoundQuery()){		              
 		              System.out.println("has compound query");
@@ -39,9 +40,9 @@
 	                   out.println("<A class='notPossible'>Select Presentation</A>");
 	                   System.out.println("has no compound query");
 	           } 
-				%>
+				%>-->
                 
-				<span style="text-align:right;font-size:.85em;margin-left:140px;">Welcome, &nbsp;
+				<span style="text-align:right;font-size:.85em;margin-left:280px;">Welcome, &nbsp;
 				<% out.println(session.getAttribute("name")); %>&nbsp;|&nbsp;
 				<a style="font-size:.85em;" href="logout.jsp">Logout</a></span>			
                 

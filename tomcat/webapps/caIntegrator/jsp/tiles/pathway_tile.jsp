@@ -7,7 +7,7 @@
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <Br>
-<html:textarea property="pathways">
+<html:textarea property="pathways" rows="5" cols="40" disabled="true">
 			</html:textarea>
 			<html:errors property="pathways"/>
 
