@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 
 /**
- * SessionCacheTracker watches the CacheOverlord for the addition and removal
+ * CacheTracker watches the CacheOverlord for the addition and removal
  * of sessionCaches so that it knows at given moment how many sessionCaches 
  * currently exist, the max number of simultaneous sessionCaches created, and
  * when the currently existing sessionCaches were created.
@@ -14,14 +14,23 @@ import org.apache.log4j.Logger;
  * Feb 9, 2005
  * 
  */
-public class SessionCacheTracker implements CacheListener {
-    private static Logger logger = Logger.getLogger(SessionCacheTracker.class);
+public class CacheTracker implements CacheListener {
+    //Class Logger
+	private static Logger logger = Logger.getLogger(CacheTracker.class);
+	//All current sessionCaches
 	static private transient HashMap activeSessionCaches;
-    static private int maxSessionCacheCount = 0;
-	public SessionCacheTracker() {}
-
+    //max number of active sessions since reboot
+	static private int maxSessionCacheCount = 0;
+	
+	public CacheTracker() {}
+	/**
+	 * Is fired whenever a new sessionCache is created and creates and stores a
+	 * CacheData object to track creation time and cacheId.
+	 * 
+	 * @param cacheId
+	 */
 	public void cacheCreated(String cacheId) {
-		CacheInformation cacheInfo = new CacheInformation(System.currentTimeMillis(), cacheId);
+		CacheData cacheInfo = new CacheData(System.currentTimeMillis(), cacheId);
         logger.debug("New CacheInfo registered for sessionCacheId: "+cacheId);
         if(activeSessionCaches==null) {
         	activeSessionCaches = new HashMap();
@@ -32,7 +41,10 @@ public class SessionCacheTracker implements CacheListener {
         	maxSessionCacheCount = activeSessionCaches.size();
         }
 	}
-
+	/**
+	 * Is fired whenever a sessionCache is removed. It removes any reference
+	 * to the sessionCache from the active session caches
+	 */
 	public void cacheRemoved(String cacheId) {
         activeSessionCaches.remove(cacheId);
         logger.debug("Removing registery for sessionCacheId: "+cacheId);
@@ -53,12 +65,17 @@ public class SessionCacheTracker implements CacheListener {
     public static HashMap getActiveSessionCaches() {
         return activeSessionCaches;
     }
-    
-    private class CacheInformation{
+    /**
+     * Inner class to track creation time of caches.
+     * @author BauerD
+     * Feb 10, 2005
+     * CacheTracker
+     */
+    private class CacheData{
         private long creationTime;
         private String cacheKey;
         
-       CacheInformation(long creationTime, String cacheKey){
+       CacheData(long creationTime, String cacheKey){
             this.creationTime = creationTime;
             this.cacheKey = cacheKey;
         }

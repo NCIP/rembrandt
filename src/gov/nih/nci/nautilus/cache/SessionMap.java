@@ -5,13 +5,20 @@ import javax.servlet.http.HttpSession;
 
 
 /**
+ * A simple decorator to avoid casting to HttpSession
+ * 
  * @author BauerD
  * Feb 9, 2005
  * 
  */
 public class SessionMap extends HashMap{
 	
-    public SessionMap() {
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public SessionMap() {
     	super();
     }
   
