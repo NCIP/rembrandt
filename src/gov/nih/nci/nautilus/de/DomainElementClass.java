@@ -1,11 +1,10 @@
 package gov.nih.nci.nautilus.de;
 
 //caBIO classes
-import java.io.InputStream;
-import java.util.Properties;
-
 import gov.nih.nci.nautilus.util.ApplicationContext;
 import gov.nih.nci.nautilus.util.HashCodeUtil;
+
+import java.util.Properties;
 
 /**
  * Created by IntelliJ IDEA.

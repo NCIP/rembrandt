@@ -1,6 +1,5 @@
 package gov.nih.nci.nautilus.de;
 //caintergator classes
-import gov.nih.nci.nautilus.util.ApplicationContext;
 /**
  * @author SahniH
  *

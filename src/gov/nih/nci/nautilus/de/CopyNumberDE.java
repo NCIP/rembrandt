@@ -1,8 +1,6 @@
 package gov.nih.nci.nautilus.de;
 
 //caintergator classes
-import gov.nih.nci.nautilus.util.ApplicationContext;
-import gov.nih.nci.nautilus.util.HashCodeUtil;
 
 /**
  * This abstract class encapsulates the properties of an caintergator
