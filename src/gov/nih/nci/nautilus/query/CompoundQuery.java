@@ -69,12 +69,16 @@ public class CompoundQuery implements Queriable{
 	 */
 
 
-	public CompoundQuery(OperatorType node, Queriable leftQuery, Queriable rightQuery) {
-		this.operatorType = node;
-		this.leftQuery = leftQuery;
-		this.rightQuery = rightQuery;
+	public CompoundQuery(OperatorType operator, Queriable leftQuery, Queriable rightQuery) {
+		setOperatorType( operatorType);
+		setLeftQuery(leftQuery);
+		setRightQuery(rightQuery);
 	}
-
+	public CompoundQuery( Queriable rightQuery) {
+		setOperatorType( null);
+		setLeftQuery(null);
+		setRightQuery(rightQuery);
+	}
 
 	public ViewType getAssociatedView() {
 		return associatedView;
