@@ -1,13 +1,8 @@
 package gov.nih.nci.nautilus.query;
 
-import gov.nih.nci.nautilus.view.View;
-import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.view.Viewable;
+import gov.nih.nci.nautilus.criteria.Criteria;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.criteria.*;
-
-import java.util.Collection;
-import java.util.ArrayList;
+import gov.nih.nci.nautilus.view.Viewable;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

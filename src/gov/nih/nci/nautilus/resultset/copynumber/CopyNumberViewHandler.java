@@ -9,7 +9,6 @@ package gov.nih.nci.nautilus.resultset.copynumber;
 import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 
 /**

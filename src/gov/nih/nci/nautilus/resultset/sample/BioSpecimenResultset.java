@@ -5,7 +5,9 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.resultset.sample;
-import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
+import gov.nih.nci.nautilus.de.DatumDE;
+import gov.nih.nci.nautilus.de.GenderDE;
 
 /**
  * @author SahniH

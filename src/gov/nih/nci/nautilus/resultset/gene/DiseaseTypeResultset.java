@@ -5,7 +5,8 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.resultset.gene;
-import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+import gov.nih.nci.nautilus.de.DomainElement;
 /**
  * @author SahniH
  *

@@ -49,16 +49,12 @@
  */
 package gov.nih.nci.nautilus.test;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
@@ -71,6 +67,10 @@ import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMDrawingPoint;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KaplanMeier;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
+
+import java.util.Collection;
+import java.util.Iterator;
+
 import junit.framework.TestCase;
 
 /**

@@ -6,11 +6,18 @@
  */
 package gov.nih.nci.nautilus.test;
 
+import gov.nih.nci.nautilus.query.ClinicalDataQuery;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
+import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.view.ViewType;
+
+import java.util.Vector;
+
 import junit.framework.TestCase;
-import java.util.*;
-import gov.nih.nci.nautilus.parser.*;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.view.*;
 
 /**
  * Add one sentence class summary here

@@ -4,24 +4,47 @@
 
 package gov.nih.nci.nautilus.ui.struts.form;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
+import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.criteria.SNPCriteria;
+import gov.nih.nci.nautilus.de.AlleleFrequencyDE;
+import gov.nih.nci.nautilus.de.AssayPlatformDE;
+import gov.nih.nci.nautilus.de.BasePairPositionDE;
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
+import gov.nih.nci.nautilus.de.CloneIdentifierDE;
+import gov.nih.nci.nautilus.de.CopyNumberDE;
+import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.SNPIdentifierDE;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.StringTokenizer;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
-
 import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
-
-import java.util.*;
-import java.lang.reflect.*;
-import java.io.*;
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.de.*;
 
 /**
  * ComparitivegenomicForm.java created by EasyStruts - XsltGen.

@@ -6,9 +6,7 @@ package gov.nih.nci.nautilus.resultset.gene;
 import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 
 import java.util.Collection;
-import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 

@@ -1,6 +1,5 @@
 package gov.nih.nci.nautilus.query;
 
-import gov.nih.nci.nautilus.view.ViewType;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,17 +1,17 @@
 package gov.nih.nci.nautilus.test;
 
+import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
+import gov.nih.nci.nautilus.data.ProbesetDim;
+import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import junit.framework.Test;
-import org.apache.ojb.broker.*;
+
+import org.apache.ojb.broker.PBFactoryException;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import gov.nih.nci.nautilus.data.ProbesetDim;
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
-
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.

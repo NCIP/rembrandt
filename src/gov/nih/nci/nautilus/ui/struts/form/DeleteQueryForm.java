@@ -4,23 +4,7 @@
 
 package gov.nih.nci.nautilus.ui.struts.form;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
-
-import org.apache.struts.action.ActionError;
-import org.apache.struts.util.LabelValueBean;
-
-import java.util.*;
-import java.lang.reflect.*;
-import java.io.*;
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.de.*;
 
 
 /** 

@@ -1,17 +1,20 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.query.QueryCollection;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionError;
 import org.apache.struts.util.LabelValueBean;
-
-import gov.nih.nci.nautilus.constants.*;
-import gov.nih.nci.nautilus.query.*;
-
-import java.util.*;
 
 public class RefineQueryForm extends BaseForm {
     private static Logger logger = Logger.getLogger(RefineQueryForm.class);

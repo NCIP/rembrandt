@@ -7,7 +7,6 @@
 package gov.nih.nci.nautilus.resultset.copynumber;
 
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
-import gov.nih.nci.nautilus.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 
 import java.util.Collection;

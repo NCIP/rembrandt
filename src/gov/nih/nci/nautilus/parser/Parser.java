@@ -1,11 +1,15 @@
 package gov.nih.nci.nautilus.parser;
 
-import java.util.*;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
+import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.Query;
+
+import java.util.Stack;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.query.*;
 /**
  * @author Prashant Shah
  * @version Sept 26, 2004

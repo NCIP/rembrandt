@@ -1,12 +1,12 @@
 package gov.nih.nci.nautilus.login;
 
 import java.io.IOException;
-import javax.servlet.ServletContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
+
 import org.apache.struts.config.ModuleConfig;
 
 public final class CheckLogin extends TagSupport

@@ -6,11 +6,8 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
-import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
-import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
-import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 

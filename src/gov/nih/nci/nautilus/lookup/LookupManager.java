@@ -7,7 +7,6 @@
 package gov.nih.nci.nautilus.lookup;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DiseaseTypeDim;
 import gov.nih.nci.nautilus.data.ExpPlatformDim;

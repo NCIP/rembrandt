@@ -5,13 +5,13 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.resultset.copynumber;
-import java.util.Collection;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
+
+import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
 /**
  * @author Himanso
  *

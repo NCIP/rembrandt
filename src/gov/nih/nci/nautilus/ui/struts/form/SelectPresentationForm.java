@@ -1,5 +1,18 @@
-
 package gov.nih.nci.nautilus.ui.struts.form;
+
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.de.DomainElementClass;
+import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.view.ClinicalSampleView;
+import gov.nih.nci.nautilus.view.CopyNumberSampleView;
+import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
+import gov.nih.nci.nautilus.view.View;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.view.Viewable;
+
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,12 +20,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
-
-import java.util.*;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.constants.*;
-import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.de.*;
 
 
 public class SelectPresentationForm extends BaseForm {

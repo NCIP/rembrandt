@@ -1,21 +1,33 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AgeCriteria;
+import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.GenderCriteria;
+import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
+import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
+import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
+import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.query.ClinicalDataQuery;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionError;
-
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
-import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 public class ClinicalDataAction extends Action {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);

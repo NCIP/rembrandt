@@ -48,7 +48,9 @@
  *	
  */
 package gov.nih.nci.nautilus.query;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 /**
  * @author SahniH
  * Date: Sep 24, 2004

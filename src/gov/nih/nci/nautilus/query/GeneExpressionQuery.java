@@ -1,23 +1,29 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
 import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
 import gov.nih.nci.nautilus.criteria.PathwayCriteria;
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.CloneIdentifierDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+import gov.nih.nci.nautilus.de.DomainElement;
+import gov.nih.nci.nautilus.de.GeneOntologyDE;
+import gov.nih.nci.nautilus.de.PathwayDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
-
-import gov.nih.nci.nautilus.de.*;
 
 /**
  * Created by IntelliJ IDEA.

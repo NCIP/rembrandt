@@ -49,11 +49,12 @@
  */
 package gov.nih.nci.nautilus.resultset.gene;
 
+import gov.nih.nci.nautilus.de.DomainElement;
+import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
+
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import gov.nih.nci.nautilus.de.*;
-import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 /**
  * @author SahniH
  * Date: Oct 12, 2004

@@ -1,31 +1,35 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.parser.Parser;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
+import gov.nih.nci.nautilus.util.ApplicationContext;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Properties;
+import java.util.Vector;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionError;
-
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.parser.*;
+import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.LabelValueBean;
-import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
-import gov.nih.nci.nautilus.util.*;
-import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
-
-
-
-
-import java.util.*;
 
 
 public class RefineQueryAction extends DispatchAction {

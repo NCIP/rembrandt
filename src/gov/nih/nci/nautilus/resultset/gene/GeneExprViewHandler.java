@@ -49,8 +49,6 @@
  */
 package gov.nih.nci.nautilus.resultset.gene;
 
-import java.text.Annotation;
-
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;

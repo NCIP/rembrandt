@@ -1,21 +1,33 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
+import gov.nih.nci.nautilus.criteria.PathwayCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionError;
-
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
-import gov.nih.nci.nautilus.view.*;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 public class GeneExpressionAction extends Action {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);

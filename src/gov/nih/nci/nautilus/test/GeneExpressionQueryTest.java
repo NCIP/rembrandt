@@ -1,28 +1,39 @@
 package gov.nih.nci.nautilus.test;
 
-import junit.framework.TestCase;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
+import gov.nih.nci.nautilus.criteria.PathwayCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.BasePairPositionDE;
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
+import gov.nih.nci.nautilus.de.CloneIdentifierDE;
+import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.de.GeneOntologyDE;
+import gov.nih.nci.nautilus.de.PathwayDE;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
-import gov.nih.nci.nautilus.view.GroupType;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
-import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
-import gov.nih.nci.nautilus.resultset.*;
-import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
-import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
-import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
-import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
-import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Vector;
 
-import java.util.*;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Created by IntelliJ IDEA.

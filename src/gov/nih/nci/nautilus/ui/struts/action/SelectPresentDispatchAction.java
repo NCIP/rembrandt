@@ -5,24 +5,29 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.de.DomainElementClass;
+import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.ui.struts.form.SelectPresentationForm;
+import gov.nih.nci.nautilus.view.View;
+import gov.nih.nci.nautilus.view.Viewable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionError;
-import gov.nih.nci.nautilus.de.*;
-import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
-import gov.nih.nci.nautilus.ui.struts.form.SelectPresentationForm;
-import gov.nih.nci.nautilus.view.*;
-import java.util.*;
+import org.apache.struts.actions.DispatchAction;
 
 
 

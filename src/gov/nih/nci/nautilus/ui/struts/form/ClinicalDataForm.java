@@ -1,16 +1,37 @@
 
 package gov.nih.nci.nautilus.ui.struts.form;
 
+import gov.nih.nci.nautilus.criteria.AgeCriteria;
+import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
+import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.GenderCriteria;
+import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
+import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
+import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
+import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE;
+import gov.nih.nci.nautilus.de.ChemoAgentDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+import gov.nih.nci.nautilus.de.GenderDE;
+import gov.nih.nci.nautilus.de.GradeDE;
+import gov.nih.nci.nautilus.de.OccurrenceDE;
+import gov.nih.nci.nautilus.de.RadiationTherapyDE;
+import gov.nih.nci.nautilus.de.SurgeryTypeDE;
+import gov.nih.nci.nautilus.de.SurvivalDE;
+
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionError;
 import org.apache.struts.util.LabelValueBean;
-import java.util.*;
-import java.lang.reflect.*;
-import org.apache.log4j.Logger;
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.de.*;
 
 public class ClinicalDataForm extends BaseForm {
 

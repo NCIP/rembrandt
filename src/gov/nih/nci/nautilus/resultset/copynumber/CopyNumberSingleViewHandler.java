@@ -10,14 +10,10 @@ import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.GenderDE;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
-import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.nautilus.resultset.gene.AgeGroupResultset;
 import gov.nih.nci.nautilus.resultset.gene.DiseaseTypeResultset;
-import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
-import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
-import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.SurvivalRangeResultset;
 import gov.nih.nci.nautilus.view.GroupType;
 

@@ -6,16 +6,17 @@
  */
 package gov.nih.nci.nautilus.test;
 
-import java.util.Arrays;
-import java.util.*;
-
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.lookup.CytobandLookup;
-import gov.nih.nci.nautilus.lookup.ExpPlatformLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.lookup.PatientDataLookup;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.TreeSet;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

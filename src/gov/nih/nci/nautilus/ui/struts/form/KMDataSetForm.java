@@ -1,14 +1,17 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.jfree.data.XYSeriesCollection;
+
 import de.laures.cewolf.DatasetProduceException;
 import de.laures.cewolf.DatasetProducer;
 

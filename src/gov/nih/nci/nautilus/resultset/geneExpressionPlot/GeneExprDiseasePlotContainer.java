@@ -55,8 +55,6 @@ import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * @author SahniH

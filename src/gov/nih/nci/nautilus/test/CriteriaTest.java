@@ -1,28 +1,27 @@
 package gov.nih.nci.nautilus.test;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
-import gov.nih.nci.nautilus.de.*;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.Criteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.data.ProbesetDim;
-import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.view.ClinicalSampleView;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.de.BasePairPositionDE;
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
+import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
 
 import java.util.ArrayList;
-import java.util.Vector;
 import java.util.Collection;
 import java.util.Iterator;
-import java.lang.reflect.Constructor;
+import java.util.Vector;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.PBFactoryException;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 
 /**

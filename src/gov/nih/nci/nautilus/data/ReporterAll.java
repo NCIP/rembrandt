@@ -3,7 +3,6 @@
 
 package gov.nih.nci.nautilus.data;
 
-import java.math.BigDecimal;
 
 public class ReporterAll
 {

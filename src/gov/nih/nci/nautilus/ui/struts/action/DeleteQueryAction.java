@@ -1,18 +1,19 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.struts.form.DeleteQueryForm;
+
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
 import org.apache.log4j.Logger;
-
-import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.ui.struts.form.DeleteQueryForm;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
+import org.apache.struts.actions.DispatchAction;
 
 
 public class DeleteQueryAction extends DispatchAction {

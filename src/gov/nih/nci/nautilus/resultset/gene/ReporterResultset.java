@@ -5,9 +5,11 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.resultset.gene;
-import java.util.*;
+import gov.nih.nci.nautilus.de.DatumDE;
 
-import gov.nih.nci.nautilus.de.*;
+import java.util.Collection;
+import java.util.SortedMap;
+import java.util.TreeMap;
 /**
  * @author SahniH
  *

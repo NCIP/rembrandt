@@ -49,7 +49,9 @@
  */
 package gov.nih.nci.nautilus.resultset.gene;
 
-import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
+import gov.nih.nci.nautilus.de.DatumDE;
+import gov.nih.nci.nautilus.de.GenderDE;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.nautilus.view.GroupType;

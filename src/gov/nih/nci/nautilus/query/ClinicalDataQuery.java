@@ -1,24 +1,30 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AgeCriteria;
+import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
+import gov.nih.nci.nautilus.criteria.GenderCriteria;
 import gov.nih.nci.nautilus.criteria.OccurrenceCriteria;
 import gov.nih.nci.nautilus.criteria.RadiationTherapyCriteria;
-import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
 import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
 import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
-import gov.nih.nci.nautilus.criteria.AgeCriteria;
-import gov.nih.nci.nautilus.criteria.GenderCriteria;
-
-
+import gov.nih.nci.nautilus.de.ChemoAgentDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+import gov.nih.nci.nautilus.de.DomainElement;
+import gov.nih.nci.nautilus.de.GenderDE;
+import gov.nih.nci.nautilus.de.OccurrenceDE;
+import gov.nih.nci.nautilus.de.RadiationTherapyDE;
+import gov.nih.nci.nautilus.de.SurgeryTypeDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.clinical.ClinicalQueryHandler;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
-
-import gov.nih.nci.nautilus.de.*;
 
 /**
  * Created by IntelliJ IDEA.
