@@ -1,1 +1,0 @@
-my $net_affx_gene = "cyclinD";
