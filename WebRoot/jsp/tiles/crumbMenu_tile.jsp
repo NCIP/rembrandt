@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.query.*,gov.nih.nci.nautilus.constants.NautilusConstants" %>
+<%@ page import="java.util.*,
+				 gov.nih.nci.nautilus.query.*,
+				 gov.nih.nci.nautilus.ui.helper.SessionQueryBag,
+				 gov.nih.nci.nautilus.constants.NautilusConstants" %>
 <%@ page import="org.apache.log4j.Logger;" %>
 <%
 	/*
@@ -21,7 +24,7 @@
   <%
   /*
   Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
-  QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+  SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
   if(queryCollection == null){
     logger.debug("no query collection");
     out.println("<a class='notPossible'>Refine Query</a>");

@@ -11,9 +11,9 @@ import gov.nih.nci.nautilus.criteria.PathwayCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
-import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -64,24 +64,24 @@ public class GeneExpressionAction extends Action {
             logger.debug("This is a Preview Report");
 		    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
             compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-            QueryCollection collection = new QueryCollection();
+            SessionQueryBag collection = new SessionQueryBag();
             collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.QUERY_KEY, collection);
+            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
 			return mapping.findForward("previewReport");
 		} else {
 		    logger.debug("This is a Gene Expression Submital");
 		    try {
 				//Set query in Session.
 				if (!geneExpQuery.isEmpty()) {
-					// Get QueryCollection from session if available
-					QueryCollection queryCollection = (QueryCollection) request
-							.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+					// Get SessionQueryBag from session if available
+					SessionQueryBag queryCollection = (SessionQueryBag) request
+							.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 					if (queryCollection == null) {
-					    logger.debug("QueryCollection class in Session is empty");
-						queryCollection = new QueryCollection();
+					    logger.debug("SessionQueryBag class in Session is empty");
+						queryCollection = new SessionQueryBag();
 					}
 					queryCollection.putQuery(geneExpQuery);
-                    request.getSession().setAttribute(NautilusConstants.QUERY_KEY,queryCollection);
+                    request.getSession().setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY,queryCollection);
                     
              	} else {
 					ActionErrors errors = new ActionErrors();

@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.util;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+
 import java.io.IOException;
 import java.util.Properties;
 
@@ -12,7 +14,7 @@ import java.util.Properties;
  */
 public class ApplicationContext {
     private static Properties props = null;
-    private final static String FILE_NAME = "/ApplicationResources.properties";
+    private final static String FILE_NAME = "/"+NautilusConstants.APPLICATION_RESOURCES+".properties";
     static {
         try {
             props = new Properties();

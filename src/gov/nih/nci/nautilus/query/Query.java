@@ -11,13 +11,12 @@ import java.lang.reflect.Modifier;
 
 import org.apache.log4j.Logger;
 
-/**
- * Created by IntelliJ IDEA. User: BhattarR Date: Aug 12, 2004 Time: 6:19:55 PM
- * To change this template use Options | File Templates.
- */
 abstract public class Query implements Queriable {
     
     private Logger logger = Logger.getLogger(Query.class);
+    
+    //This attribute required for caching mechanism
+    private String sessionId = null;
 
 	private String queryName;
 
@@ -32,8 +31,8 @@ abstract public class Query implements Queriable {
     public abstract QueryType getQueryType() throws Exception;
 
     public abstract String toString();
-
-	public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
+    
+    public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
 		return diseaseOrGradeCriteria;
 	}
 
@@ -113,4 +112,12 @@ abstract public class Query implements Queriable {
 		Query[] queries = { this };
 		return queries;
 	}
+    
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
 }

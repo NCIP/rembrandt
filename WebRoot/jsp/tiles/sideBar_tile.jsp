@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.query.QueryCollection,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
+<%@ page import="java.util.*, gov.nih.nci.nautilus.ui.helper.SessionQueryBag,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
 <div width="100%">
 <h3>Queries</h3>
 <html:form action ="delete_Query.do">
@@ -22,11 +22,7 @@
 			   String pageStr = (String)request.getSession().getAttribute("currentPage");					   
 			   String pageStr2 = (String)request.getSession().getAttribute("currentPage2");  
 			   
-			
-			   
-			   
-			   
-			   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+			   SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 			   if(queryCollection != null){
 			     
 			      Collection queryColl = queryCollection.getQueries();
@@ -55,22 +51,8 @@
 					<%}%>
 					</tr>&nbsp;&nbsp;
 				    <%}		
-					
-					
 			       }	
-				
-				//HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
-				
-				/*if (thisQueryMap != null) {
-					Set keys = thisQueryMap.keySet();
-					Iterator i = keys.iterator();
-					while (i.hasNext()) {
-						Object key = i.next();*/
-			%><tr><td><%//=thisQueryMap.get(key).toString()%></td></tr>
-			<%		//}
-				//}
-			%>
-
+				%>
 		</Table>
 		<%if(j !=0 && j>=2){
 		   if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1")))){%>

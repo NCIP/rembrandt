@@ -6,7 +6,7 @@ package gov.nih.nci.nautilus.ui.struts.action;
 
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +44,7 @@ public class CompoundCheckAction extends Action {
 
 		ActionErrors errors = new ActionErrors();
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+		SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 		java.util.Enumeration enum = request.getAttributeNames();
 		while (enum.hasMoreElements()) {
 			String element = (String) enum.nextElement();
@@ -52,13 +52,13 @@ public class CompoundCheckAction extends Action {
 		}
 
 		if (queryCollect == null) {
-		    logger.debug("QueryCollection object missing in session!!");
+		    logger.debug("SessionQueryBag object missing in session!!");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
 			ActionForward thisForward = mapping.findForward("failure");
 		}else{	
 			if (!queryCollect.hasCompoundQuery()) {
-			    logger.debug("QueryCollection has no Compound queries to execute.  Please select a query to execute");
+			    logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
 				this.saveErrors(request, errors);
 				ActionForward thisForward = mapping.findForward("failure");

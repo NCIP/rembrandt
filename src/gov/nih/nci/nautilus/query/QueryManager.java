@@ -29,7 +29,8 @@ public class QueryManager {
     	if (queryToExecute instanceof CompoundQuery){
     		compoundResultset = CompoundQueryProcessor.execute((CompoundQuery) queryToExecute);
     	}
-    	return compoundResultset;
+    	
+        return compoundResultset;
     }
 
 }

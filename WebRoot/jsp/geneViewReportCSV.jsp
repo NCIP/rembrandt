@@ -12,16 +12,14 @@ gov.nih.nci.nautilus.resultset.sample.*,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
-gov.nih.nci.nautilus.ui.CSVGenerator" %>
+gov.nih.nci.nautilus.ui.CSVGenerator,
+ gov.nih.nci.nautilus.ui.helper.SessionQueryBag" %>
 
 <%	
 	//generate the CSV
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
-
-//	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
-
-if(session.getAttribute("csv") != null)	{
+	if(session.getAttribute("csv") != null)	{
 	// request came from a transitional report
 	ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute("csv");
 	String mode =  (String) session.getAttribute("mode");
@@ -41,18 +39,18 @@ if(session.getAttribute("csv") != null)	{
 else	{
 
 	//go the query Collection route
-	QueryCollection queryCollection = null;
-	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
+	SessionQueryBag queryCollection = null;
+	if(request.getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY)==null)	{
 		if(session.getAttribute("tmp") != null)	{
-  			queryCollection = (QueryCollection)(session.getAttribute("tmp"));
+  			queryCollection = (SessionQueryBag)(session.getAttribute("tmp"));
 			session.removeAttribute("tmp");
   		}
   		else	{
-    		queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
+    		queryCollection = (SessionQueryBag) (session.getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY));
     	}
   	}
   	else	{
-	    queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
+	    queryCollection = (SessionQueryBag)(request.getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY));
 	}
  
 //	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();

@@ -11,9 +11,9 @@ import gov.nih.nci.nautilus.criteria.SurgeryTypeCriteria;
 import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
-import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -59,9 +59,9 @@ public class ClinicalDataAction extends Action {
             CompoundQuery compoundQuery = new CompoundQuery(clinicalDataQuery);
             compoundQuery.setAssociatedView(ViewFactory
                     .newView(ViewType.CLINICAL_VIEW));
-            QueryCollection collection = new QueryCollection();
+            SessionQueryBag collection = new SessionQueryBag();
             collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.QUERY_KEY, collection);
+            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
             return mapping.findForward("previewReport");
         } else {
 
@@ -70,17 +70,17 @@ public class ClinicalDataAction extends Action {
                 //Set query in Session.
                 if (!clinicalDataQuery.isEmpty()) {
 
-                    // Get QueryCollection from session if available
-                    QueryCollection queryCollection = (QueryCollection) request
+                    // Get SessionQueryBag from session if available
+                    SessionQueryBag queryCollection = (SessionQueryBag) request
                             .getSession().getAttribute(
-                                    NautilusConstants.QUERY_KEY);
+                                    NautilusConstants.SESSION_QUERY_BAG_KEY);
                     if (queryCollection == null) {
                         logger.debug("Query Map in Session is empty");
-                        queryCollection = new QueryCollection();
+                        queryCollection = new SessionQueryBag();
                     }
                     queryCollection.putQuery(clinicalDataQuery);
                     request.getSession().setAttribute(
-                            NautilusConstants.QUERY_KEY, queryCollection);
+                            NautilusConstants.SESSION_QUERY_BAG_KEY, queryCollection);
 
                 } else {
 

@@ -2,7 +2,7 @@ package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.helper.SelectedQuery;
 
 import java.util.ArrayList;
@@ -26,11 +26,11 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private String queryText;
 	private String compoundView;
 	private String resultSetName;
-	private String runFlag;
+	private String runFlag = "no";
 	private String method;
     // Collections used for Lookup values.
-	private ArrayList queryNameColl = new ArrayList();
-	private ArrayList compoundViewColl = new ArrayList();
+	private List queryNameColl = new ArrayList();
+	private List compoundViewColl = new ArrayList();
     private List selectedQueries = LazyList.decorate(new ArrayList(), this);
 	public RefineQueryForm(){
 
@@ -76,7 +76,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 
 		// Get the Query Collection from the session
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+		SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 		queryNameColl = new ArrayList();
 		queryNameColl.add( new LabelValueBean( " ", " " ));
 
@@ -195,16 +195,16 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 this.method = method;
  }
 
-	public ArrayList getQueryNameColl(){
+	public List getQueryNameColl(){
 	   return queryNameColl;
 	   }
 
 
-	public ArrayList getCompoundViewColl(){
+	public List getCompoundViewColl(){
 	   return compoundViewColl;
 	   }
 
-	public void setCompoundViewColl(ArrayList viewColl) {
+	public void setCompoundViewColl(List viewColl) {
 		this.compoundViewColl = viewColl;
 	}
 	

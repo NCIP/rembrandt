@@ -4,7 +4,6 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.parser.Parser;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
-import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
 import gov.nih.nci.nautilus.util.ApplicationContext;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -29,7 +28,7 @@ public class UIRefineQueryValidator {
 
 	public static RefineQueryForm processCompoundQuery(ActionForm form,
                                                      HttpServletRequest request,
-                                                     QueryCollection queryCollect) 
+                                                     SessionQueryBag queryCollect) 
                                                      throws Exception {
 		Queriable compoundQuery = null;
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
@@ -82,17 +81,17 @@ public class UIRefineQueryValidator {
             //Returned String representation of the final query
             refineQueryForm.setQueryText(compoundQuery.toString());
             // Get collection of view types
-            Collection viewCollection = setRefineQueryView((CompoundQuery) compoundQuery, request);
+            List viewCollection = setRefineQueryView((CompoundQuery) compoundQuery, request);
             // Set collection of view types in Form
-            refineQueryForm.setCompoundViewColl((ArrayList) viewCollection);
-             //Stuff compoundquery in queryCollection
+            refineQueryForm.setCompoundViewColl(viewCollection);
+            //Stuff compoundquery in queryCollection
             queryCollect.setCompoundQuery((CompoundQuery) compoundQuery);
             refineQueryForm.setRunFlag("yes");
         }
         return refineQueryForm;
  	}
 
-	private static Collection setRefineQueryView(CompoundQuery cQuery,
+	public static List setRefineQueryView(CompoundQuery cQuery,
 			HttpServletRequest request) {
 		ArrayList queryViewColl = new ArrayList();
 		Properties props = new Properties();
@@ -102,17 +101,12 @@ public class UIRefineQueryValidator {
 
 			ViewType[] availableViewTypes = cQuery.getValidViews();
 			//Set the View Types array in request to be used on return trip
-			request.getSession()
-					.setAttribute(NautilusConstants.VALID_QUERY_TYPES_KEY,
-							availableViewTypes);
+			request.getSession().setAttribute(NautilusConstants.VALID_QUERY_TYPES_KEY, availableViewTypes);
 
 			for (int viewIndex = 0; viewIndex < availableViewTypes.length; viewIndex++) {
 				ViewType thisViewType = (ViewType) availableViewTypes[viewIndex];
-				String viewText = (String) props.get(thisViewType.getClass()
-						.getName());
-
-				queryViewColl.add(new LabelValueBean(viewText, Integer
-						.toString(viewIndex)));
+				String viewText = (String) props.get(thisViewType.getClass().getName());
+				queryViewColl.add(new LabelValueBean(viewText, Integer.toString(viewIndex)));
 			}
 		} else {
 			queryViewColl.add(new LabelValueBean(" ", " "));
@@ -120,4 +114,6 @@ public class UIRefineQueryValidator {
 		}
 		return queryViewColl;
 	}
+    
+  
 }

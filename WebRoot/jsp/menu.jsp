@@ -3,7 +3,8 @@
 <%@ page import="java.util.*,
 	 gov.nih.nci.nautilus.query.*,
 	 gov.nih.nci.nautilus.constants.NautilusConstants,
-	 org.apache.log4j.Logger" %> 
+	 org.apache.log4j.Logger,
+	  gov.nih.nci.nautilus.ui.helper.SessionQueryBag" %> 
 
 
 <%
@@ -15,7 +16,7 @@ String cpQueryString = "0";
 int cghQueryNum = 0;
 String cghQueryString = "0";
 
-QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+ SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
  if(queryCollection == null){
    logger.debug("its null");
    }

@@ -2,7 +2,6 @@ package gov.nih.nci.nautilus.ui;
 
 import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.query.CompoundQuery;
-import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
@@ -19,6 +18,7 @@ import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.view.ClinicalSampleView;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
@@ -38,7 +38,7 @@ public class CSVGenerator  {
 
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 	private static Logger logger = Logger.getLogger(CSVGenerator.class);			
-	public static String displayReport(QueryCollection queryCollection, boolean csv)	{
+	public static String displayReport(SessionQueryBag queryCollection, boolean csv)	{
 		
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();

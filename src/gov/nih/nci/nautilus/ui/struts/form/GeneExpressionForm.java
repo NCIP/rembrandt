@@ -20,7 +20,7 @@ import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.GeneOntologyDE;
 import gov.nih.nci.nautilus.de.PathwayDE;
-import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -190,7 +190,7 @@ public class GeneExpressionForm extends BaseForm {
 
 	private HttpServletRequest thisRequest;
 
-	private QueryCollection queryCollection;
+	private SessionQueryBag queryCollection;
 	
 	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 
@@ -1675,11 +1675,11 @@ public class GeneExpressionForm extends BaseForm {
 		return cloneTypeColl;
 	}
 
-	public void setQueryCollection(QueryCollection queryCollection) {
+	public void setQueryCollection(SessionQueryBag queryCollection) {
 		this.queryCollection = queryCollection;
 	}
 
-	public QueryCollection getQueryCollection() {
+	public SessionQueryBag getQueryCollection() {
 		return this.queryCollection;
 	}
 

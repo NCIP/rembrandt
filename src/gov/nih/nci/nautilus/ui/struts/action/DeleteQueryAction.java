@@ -1,7 +1,7 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.DeleteQueryForm;
 
 import java.util.Collection;
@@ -42,7 +42,7 @@ public class DeleteQueryAction extends DispatchAction {
 		   String page = (String)request.getSession().getAttribute("currentPage");
 		   logger.debug("the current page is :"+page);
 		    
-		   QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+		   SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 		   if(queryCollection != null){			     
 			  Collection queryColl = queryCollection.getQueries();	
 			  String queryKey = deleteQueryForm.getQueryKey();
@@ -63,7 +63,7 @@ public class DeleteQueryAction extends DispatchAction {
 		
 		 DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;
 		 String page = (String)request.getSession().getAttribute("currentPage");
-		 QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+		 SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 		 if(queryCollection != null){			     
 			Collection queryColl = queryCollection.getQueries();
 			queryColl.clear();

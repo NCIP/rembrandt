@@ -9,7 +9,7 @@ public final class NautilusConstants {
  	//log4j.properties
  	public static final String LOGGING_PROPERTIES = "log4j.properties";
 
-	public static final String QUERY_KEY = "nautilus.queryMap";
+	public static final String SESSION_QUERY_BAG_KEY = "nautilus.queryMap";
 
 	public static final String RESULTSET_KEY = "geneViewResultSet";
 

@@ -33,7 +33,6 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
@@ -44,6 +43,7 @@ import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsCont
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
@@ -183,7 +183,7 @@ public class CompoundQueryTest extends TestCase {
 			for(int i = 0; i < 5; i++){
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
-			QueryCollection queryCollection = new QueryCollection();
+			SessionQueryBag queryCollection = new SessionQueryBag();
 			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 			//System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());

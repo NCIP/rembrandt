@@ -11,9 +11,9 @@ import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.criteria.SNPCriteria;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
-import gov.nih.nci.nautilus.query.QueryCollection;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -59,24 +59,24 @@ public class ComparativeGenomicAction extends Action {
             CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
             compoundQuery.setAssociatedView(ViewFactory
                     .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
-            QueryCollection collection = new QueryCollection();
+            SessionQueryBag collection = new SessionQueryBag();
             collection.setCompoundQuery(compoundQuery);
-            request.setAttribute(NautilusConstants.QUERY_KEY, collection);
+            request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY, collection);
             return mapping.findForward("previewReport");
         } else {
             try {
                 //Set query in Session.
                 if (!cghQuery.isEmpty()) {
                     // Get Hashmap from session if available
-                    QueryCollection queryCollection = (QueryCollection) request
+                    SessionQueryBag queryCollection = (SessionQueryBag) request
                             .getSession().getAttribute(
-                                    NautilusConstants.QUERY_KEY);
+                                    NautilusConstants.SESSION_QUERY_BAG_KEY);
                     if (queryCollection == null) {
-                        queryCollection = new QueryCollection();
+                        queryCollection = new SessionQueryBag();
                     }
                     queryCollection.putQuery(cghQuery);
                     request.getSession().setAttribute(
-                            NautilusConstants.QUERY_KEY, queryCollection);
+                            NautilusConstants.SESSION_QUERY_BAG_KEY, queryCollection);
 
                 } else {
 

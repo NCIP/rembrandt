@@ -2,7 +2,7 @@ package gov.nih.nci.nautilus.ui.struts.action;
 
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +42,7 @@ public class RefineCheckAction extends Action {
 		request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
 
-		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+		SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 
 		if (queryCollect != null) { 
 			if (queryCollect.hasQuery()) {
@@ -50,12 +50,12 @@ public class RefineCheckAction extends Action {
 					return thisForward;
 				} 
 			else {
-			    logger.debug("QueryCollection has no queries.  Please select a query to execute");
+			    logger.debug("SessionQueryBag has no queries.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.no.query.error"));
 				this.saveErrors(request, errors);
 			}
 		}else{
-		    logger.debug("QueryCollection object missing in session!!");
+		    logger.debug("SessionQueryBag object missing in session!!");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
 		}

@@ -15,8 +15,9 @@ gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
 gov.nih.nci.nautilus.ui.ReportGenerator,
-org.apache.log4j.Logger"
- %>
+org.apache.log4j.Logger,
+gov.nih.nci.nautilus.ui.helper.SessionQueryBag"
+%>
 
 <% /* dont need all these imports really */ %>
 
@@ -185,14 +186,14 @@ if(session.getAttribute("tmp") != null)
 
 if(mode == null)	{
   logger.debug("do a regular report");
-  QueryCollection queryCollection = null;
-  if(session.getAttribute(NautilusConstants.QUERY_KEY+"_tmp")==null)	{
+  SessionQueryBag queryCollection = null;
+  if(session.getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY+"_tmp")==null)	{
 	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";	
-    queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
+    queryCollection = (SessionQueryBag) (session.getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY));
   }
   else	{
-    queryCollection = (QueryCollection)(session.getAttribute(NautilusConstants.QUERY_KEY+"_tmp"));
-    session.removeAttribute(NautilusConstants.QUERY_KEY+"_tmp");
+    queryCollection = (SessionQueryBag)(session.getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY+"_tmp"));
+    session.removeAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY+"_tmp");
     links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
     if(queryCollection != null)
 	    session.setAttribute("tmp", queryCollection);
@@ -202,7 +203,7 @@ if(mode == null)	{
 
 	if(queryCollection != null)	{
 		out.println(ReportGenerator.displayReport(queryCollection, theColors, false, request, links));
-		request.setAttribute(NautilusConstants.QUERY_KEY,queryCollection);
+		request.setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY,queryCollection);
 	}
 	else
 		out.println("QueryCollection is NULL");
@@ -269,11 +270,6 @@ else	{
 		
 	session.setAttribute("csv", scv);
 	session.setAttribute("mode", mode);
-	
-	
-//	session.removeAttribute("resultsContainer");
-//	session.removeAttribute("report");
-
 }
 
 

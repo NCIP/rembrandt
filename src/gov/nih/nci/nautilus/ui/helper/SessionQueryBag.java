@@ -47,7 +47,10 @@
  *	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *	
  */
-package gov.nih.nci.nautilus.query;
+package gov.nih.nci.nautilus.ui.helper;
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.Query;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -56,7 +59,7 @@ import java.util.TreeMap;
  * Date: Sep 24, 2004
  * 
  */
-public class QueryCollection {
+public class SessionQueryBag {
 	private Map queryMap = new TreeMap();
 	private Map resultsetQueryMap = new TreeMap();
 	private CompoundQuery compoundQuery = null;

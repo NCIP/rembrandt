@@ -86,9 +86,16 @@
 			<td>
 				<html:text property="resultSetName" size="66" onchange="">
 				</html:text>&nbsp;&nbsp;&nbsp;
-				<html:submit styleClass="xbutton"  styleId="storeResultsButton"property="method" onclick="javascript:document.forms[0].target = '_self';">
-					<bean:message key="RefineQueryAction.storeResultsButton"/>
-				</html:submit>
+				<logic:equal name="refineQueryForm" property="runFlag" value="yes">
+					<html:submit styleClass="xbutton"  styleId="storeResultsButton"property="method" onclick="javascript:document.forms[0].target = '_self';">
+						<bean:message key="RefineQueryAction.storeResultsButton"/>
+					</html:submit>
+				</logic:equal>
+				<logic:notEqual name="refineQueryForm" property="runFlag" value="yes">
+					<html:button styleClass="xbutton" property="method" disabled="true">
+						<bean:message key="RefineQueryAction.storeResultsButton"/>
+					</html:button>
+				</logic:notEqual>
 			</td>
 		</tr>
 	</table>

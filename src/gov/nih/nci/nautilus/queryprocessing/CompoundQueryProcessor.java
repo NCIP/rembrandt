@@ -80,7 +80,8 @@ import org.apache.log4j.Logger;
  */
 public class CompoundQueryProcessor {
 	private static Logger logger = Logger.getLogger(CompoundQueryProcessor.class);
-	public static CompoundResultSet execute(CompoundQuery compoundQuery) throws Exception{
+	
+    public static CompoundResultSet execute(CompoundQuery compoundQuery) throws Exception{
 		ResultSet[] resultSets = null;
 		CompoundResultSet compoundResultet= null;
 		Set sampleIds = new HashSet();
@@ -97,8 +98,7 @@ public class CompoundQueryProcessor {
 						leftQuery.setAssociatedView(view);
 						leftResultSets = execute((CompoundQuery)leftQuery);
 						results.addAll(retriveResultSetsFromCompoundResultset(leftResultSets));
-						}
-					else if (leftQuery instanceof Query){
+					}else if (leftQuery instanceof Query){
 						leftQuery.setAssociatedView(view);						
 						leftResultSets = createCompoundResultset((ResultSet[])QueryManager.executeQuery((Query)leftQuery));
 						results.add(leftResultSets.getResults().toArray());

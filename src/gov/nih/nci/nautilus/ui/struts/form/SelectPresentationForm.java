@@ -2,7 +2,7 @@ package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.de.DomainElementClass;
-import gov.nih.nci.nautilus.query.QueryCollection;
+import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
 import gov.nih.nci.nautilus.view.ClinicalSampleView;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
@@ -84,8 +84,8 @@ public class SelectPresentationForm extends BaseForm {
 	private Viewable getSelectedView(HttpServletRequest request) {
 
 		// Set, Reset the correct currentView, default is sample view
-		QueryCollection queryCollect = (QueryCollection) request.getSession()
-				.getAttribute(NautilusConstants.QUERY_KEY);
+		SessionQueryBag queryCollect = (SessionQueryBag) request.getSession()
+				.getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 		Viewable thisView = ViewFactory.newView(ViewType.CLINICAL_VIEW); // Default
 																		 // View
 																		 // if
@@ -99,7 +99,7 @@ public class SelectPresentationForm extends BaseForm {
 				thisView = queryCollect.getCompoundQuery().getAssociatedView();
 			} else
 				logger
-						.debug("SelectPresentationForm - QueryCollection does not have a compoundQuery");
+						.debug("SelectPresentationForm - SessionQueryBag does not have a compoundQuery");
 		} else
 			logger.debug("SelectPresentationForm - Query Collection is null");
 		return thisView;
