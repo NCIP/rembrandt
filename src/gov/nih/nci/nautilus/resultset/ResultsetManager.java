@@ -111,7 +111,6 @@ public class ResultsetManager {
 					resultant.setAssociatedView(associatedView);
 				}
 		    	else if (resultsets instanceof PatientData[]){
-		    		ClinicalSampleView clinicalView = (ClinicalSampleView) associatedView;
 					ResultsContainer resultsContainer = ResultsetProcessor.handleClinicalSampleView(resultant,(PatientData[]) resultsets);
 					resultant.setResultsContainer(resultsContainer);
 					resultant.setAssociatedQuery(queryToExecute);

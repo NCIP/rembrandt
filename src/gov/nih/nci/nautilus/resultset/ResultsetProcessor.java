@@ -163,13 +163,20 @@ public class ResultsetProcessor {
 	 */
 	public static ResultsContainer handleClinicalSampleView(Resultant resultant, PatientData[] patientDatas) {
 		ResultsContainer resultsContainer = null;
-    	SampleViewResultsContainer sampleViewResultsContainer = null;
-  		if(resultant != null && resultant.getResultsContainer() instanceof SampleViewResultsContainer){
-  			sampleViewResultsContainer = (SampleViewResultsContainer) resultant.getResultsContainer();
+ 		DimensionalViewContainer dimensionalViewContainer;
+    	SampleViewResultsContainer sampleViewResultsContainer;
+  		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
+ 			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
+  	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+  	    	if (sampleViewResultsContainer == null){
+  	  	    	sampleViewResultsContainer = new SampleViewResultsContainer();
+  	  		}
+ 		}
+  		else{
+  			dimensionalViewContainer = new DimensionalViewContainer();
+   	    	sampleViewResultsContainer = new SampleViewResultsContainer();
   		}
-		if (sampleViewResultsContainer == null){
-  	    	sampleViewResultsContainer = new SampleViewResultsContainer();
-  		}
+	
           for (int i = 0; i < patientDatas.length; i++) {
     		if(patientDatas[i] != null) {
             ResultSet obj = patientDatas[i];
@@ -177,7 +184,8 @@ public class ResultsetProcessor {
             		PatientData  patientDataObj = (PatientData) obj;
 	               	//Populate the SampleViewResultsContainer
 	               	sampleViewResultsContainer = SampleViewHandler.handleSampleView(sampleViewResultsContainer,patientDataObj);
-	               	resultsContainer = sampleViewResultsContainer;
+	               	dimensionalViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
+	               	resultsContainer = dimensionalViewContainer;
                }
     		}
         }//for
