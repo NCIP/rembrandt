@@ -172,16 +172,26 @@ public class ReportGenerator  {
  		   		sb.append("<td id=\"header\">CopyNumber</td>");
  		   	sb.append("</tr>\n");
  		   	*/
-   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
-
-   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-   				
+			Iterator si = samples.iterator(); 
+			if(si.hasNext())	{
+				SampleResultset sampleResultset =  (SampleResultset)si.next();
    				if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)
    	 		   		sb.append("<Td id=\"header\">GeneExp</td>");
    	 		   	if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)
    	 		   		sb.append("<td id=\"header\">CopyNumber</td>");
    	 		   	sb.append("</tr>\n");
-   	 		   	
+			}
+			
+   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+
+   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
+   				/*
+   				if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)
+   	 		   		sb.append("<Td id=\"header\">GeneExp</td>");
+   	 		   	if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)
+   	 		   		sb.append("<td id=\"header\">CopyNumber</td>");
+   	 		   	sb.append("</tr>\n");
+   	 		   	*/
    	   			String sampleName = sampleResultset.getBiospecimen().getValue().toString();
 	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +

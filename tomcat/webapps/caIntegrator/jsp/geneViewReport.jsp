@@ -105,6 +105,8 @@ if(mode == null)	{
   else	{
     queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
     links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
+    if(queryCollection != null)
+	    session.setAttribute(NautilusConstants.QUERY_KEY, queryCollection);
   }
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
@@ -118,6 +120,7 @@ if(mode == null)	{
 		
     out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
  
+
 /*
 	if(!myCompoundQuery.toString().equals(""))	{
 		out.println("<B>Compound Query:</b> " + myCompoundQuery.toString() + "<br><br>");

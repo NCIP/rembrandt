@@ -47,8 +47,7 @@ else	{
   	}else{
     	queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
   	}
-	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
-
+//	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
 	if(queryCollection != null)	{
 		out.println(CSVGenerator.displayReport(queryCollection, false));
