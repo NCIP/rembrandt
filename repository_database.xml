@@ -21,7 +21,7 @@
         subprotocol="oracle"
         dbalias="thin:@ncicbora1.nci.nih.gov:1521:lpgdev"
         username="nautilusdev"
-        password="dev!234">
+        password="lpgnautilus">
         <connection-pool
             maxActive="5"
             maxIdle="2"
