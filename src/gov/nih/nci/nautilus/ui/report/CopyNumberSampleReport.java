@@ -145,7 +145,8 @@ public class CopyNumberSampleReport implements ReportGenerator{
         		
 				        		String s = sampleIdIterator.next().toString();
 				           		cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
-						        	data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
+						        	//data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
+						        	data = cell.addElement("Data").addAttribute("type", "header").addText(s);
 						        	data = null;
 						        cell = null;
 				           		

@@ -159,7 +159,8 @@ public class GeneExprSampleReport implements ReportGenerator{
 
 			            	String s = sampleIdIterator.next().toString();
 							cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
-						        data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
+						        //data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
+						        data = cell.addElement("Data").addAttribute("type", "header").addText(s);
 						    	data = null;
 						    cell = null;
 			            	//sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 

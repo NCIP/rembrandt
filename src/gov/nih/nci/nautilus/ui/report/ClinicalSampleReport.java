@@ -142,7 +142,8 @@ public class ClinicalSampleReport implements ReportGenerator {
 				
 				dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "sample").addAttribute("group", "sample");
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getBiospecimen().getValue().toString().substring(2));
+   					        	//data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getBiospecimen().getValue().toString().substring(2));
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getBiospecimen().getValue().toString());
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
