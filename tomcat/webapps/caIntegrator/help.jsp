@@ -105,7 +105,7 @@ String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 			out.println(sampleHelp());
 		if(sect.equals("disease"))
 			out.println(diseaseGroupHelp());
-		if(sect.equals("copy"))
+		if(sect.equals("copyNumber"))
 			out.println(copyNumberHelp());
 	}
 	else	{
