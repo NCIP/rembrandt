@@ -1,47 +1,36 @@
 package gov.nih.nci.nautilus.struts.action;
 
+import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
+import gov.nih.nci.nautilus.criteria.Constants;
+import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
+import gov.nih.nci.nautilus.de.ArrayPlatformDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.GeneExprDiseasePlotContainer;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
-import gov.nih.nci.nautilus.struts.form.DeleteQueryForm;
+import gov.nih.nci.nautilus.struts.form.QuickSearchForm;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.text.DecimalFormat;
-import java.util.*;
-
-import org.apache.struts.action.Action;
-import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionError;
-
-import gov.nih.nci.nautilus.criteria.*;
-import gov.nih.nci.nautilus.query.*;
-import gov.nih.nci.nautilus.view.*;
-//import gov.nih.nci.nautilus.constants.Constants;
-import gov.nih.nci.nautilus.de.ArrayPlatformDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.criteria.Constants;
-
-import java.awt.*;
-import org.krysalis.jcharts.*;
-import org.krysalis.jcharts.chartData.*;
-import org.krysalis.jcharts.properties.*;
-import org.krysalis.jcharts.types.ChartType;
-import org.krysalis.jcharts.axisChart.*;
-import org.krysalis.jcharts.test.TestDataGenerator;
-import org.krysalis.jcharts.encoders.JPEGEncoder13;
-import org.krysalis.jcharts.encoders.*;
-import org.krysalis.jcharts.properties.util.ChartFont;
-import org.krysalis.jcharts.imageMap.*;
-import org.krysalis.jcharts.encoders.ServletEncoderHelper;
+import org.apache.struts.actions.DispatchAction;
 
 
 public class QuickSearchAction extends DispatchAction {
