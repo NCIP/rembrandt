@@ -1,7 +1,7 @@
 /*
  * Created on Nov 21, 2004
  */
-package gov.nih.nci.nautilus.ui.logging;
+package gov.nih.nci.nautilus.logging;
 
 /**
  * @author David C Bauer
