@@ -38,6 +38,30 @@ final public class GeneExprQueryHandler extends QueryHandler {
     boolean includeClones;
     boolean includeProbes;
 
+    static class CloneAnnotaions {
+        ArrayList locusLinks;
+        ArrayList accessions;
+        Long cloneID;
+
+        public CloneAnnotaions(ArrayList locusLinks, ArrayList accessions, Long cloneID) {
+            this.locusLinks = locusLinks;
+            this.accessions = accessions;
+            this.cloneID = cloneID;
+        }
+
+    }
+    static class ProbeAnnotaions {
+        ArrayList locusLinks;
+        ArrayList accessions;
+        Long probeID;
+
+        public ProbeAnnotaions(ArrayList locusLinks, ArrayList accessions, Long probeID) {
+            this.locusLinks = locusLinks;
+            this.accessions = accessions;
+            this.probeID = probeID;
+        }
+
+    }
 
     private Collection allProbeIDS = Collections.synchronizedCollection(new HashSet());
     private Collection allCloneIDS = Collections.synchronizedCollection(new HashSet());
@@ -45,29 +69,6 @@ final public class GeneExprQueryHandler extends QueryHandler {
     InheritableThreadLocal tl = new InheritableThreadLocal();
     PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
 
-    class Listner {
-        void retrieveCompleted() {
-            //boolean sleep = true;
-             for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
-                DBEvent eventObj = (DBEvent)iterator.next();
-                if (! eventObj.isCompleted()) {
-                    //sleep = true;
-                    return;
-                }
-             }
-             // means all events are done i.e status completed
-            ThreadGroup parentThreadGroup = Thread.currentThread().getThreadGroup().getParent();
-            Thread[] allParentThreads = new Thread[parentThreadGroup.activeCount()];
-            parentThreadGroup.enumerate(allParentThreads);
-            for (int i = 0; i < allParentThreads.length; i++) {
-                Thread thread = allParentThreads[i];
-                if (thread.getName().equals("Main Thread")) {
-                    thread.interrupt();
-                    return;
-                }
-            }
-        }
-    }
     public ResultSet[] handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
 
@@ -84,9 +85,6 @@ final public class GeneExprQueryHandler extends QueryHandler {
         assert(platObj != null);
         populateProbeAndCloneIncludeFlags(platObj);
 
-        Listner myListner = new Listner();
-        tl.set(myListner);
-        Thread.currentThread().setName("Main Thread");
         ThreadGroup tg = new ThreadGroup("childGroup");
 
         if (geQuery.getCloneOrProbeIDCriteria() != null) {

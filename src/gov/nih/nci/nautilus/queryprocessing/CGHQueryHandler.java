@@ -38,8 +38,6 @@ public class CGHQueryHandler extends QueryHandler {
 	AlleleFrequencyCriteria alleleFrequencyCrit;
     AssayPlatformCriteria assayPlatformCrit;
 
-
-
     public ResultSet[] handle(Query query) {
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) query;
 
@@ -52,13 +50,16 @@ public class CGHQueryHandler extends QueryHandler {
         alleleFrequencyCrit = cghQuery.getAlleleFrequencyCriteria();
         assayPlatformCrit = cghQuery.getAssayPlatformCriteria();
 
-        Collection geneIdDEs = geneIDCrit.getGeneIdentifiers();
-        for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();) {
-            GeneIdentifierDE o = (GeneIdentifierDE) iterator.next();
-            if (o instanceof GeneIdentifierDE.LocusLink) {
-                System.out.println("LocuLink: " + o.getValueObject());
-            }
+/*
+        if (cghQuery.getGeneIDCriteria() != null && cghQuery.getGeneIDCriteria().getGeneIdentifiers().size() > 0) {
+            geneIDCrit = GeneIDCriteriaHandler.buildGeneIDCriteria(cghQuery.getGeneIDCriteria());
+            assert(geneIDCrit != null);
+            SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS, _BROKER);
+            factEventList.add(handler.getDbEvent());
+            new Thread(tg, handler).start();
         }
-		return null;//TODO fix handle
+
+*/      //if (cghQuery.get)
+        return null;
     }
 }

@@ -2,6 +2,11 @@ package gov.nih.nci.nautilus.queryprocessing;
 
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
+import java.util.ArrayList;
+import java.math.BigDecimal;
+
+
+
 /**
  * Created by IntelliJ IDEA.
  * User: Ram
@@ -21,6 +26,27 @@ abstract public class GeneExpr implements ResultSet {
     private Double sampleIntensity;
     private Long probesetId;
     private Long timecourseId;
+    private GeneExpr.Annotaion annotation;
+
+
+
+    public GeneExpr.Annotaion getAnnotation() {
+        return annotation;
+    }
+
+    public void setAnnotation(GeneExpr.Annotaion annotation) {
+        this.annotation= annotation;
+    }
+
+    public String getLocusLink() {
+        return locusLink;
+    }
+
+    public void setLocusLink(String locusLink) {
+        this.locusLink = locusLink;
+    }
+
+    private String locusLink;
 
     public Long getCloneId() {
         return cloneId;
@@ -217,6 +243,28 @@ abstract public class GeneExpr implements ResultSet {
         }
         public void setRatioPval(Double ratioPval) {
             this.ratioPval = ratioPval;
+        }
+    }
+    public abstract static class Annotaion {
+        ArrayList locusLinks;
+        ArrayList accessions;
+        Long ID;
+        protected Annotaion() { }
+        public Annotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
+            this.locusLinks = locusLinks;
+            this.accessions = accessions;
+            this.ID = ID;
+        }
+    }
+
+    public static class ProbeAnnotaion extends Annotaion{
+        public ProbeAnnotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
+            super(locusLinks, accessions, ID);
+        }
+    }
+    public static class CloneAnnotaion extends Annotaion{
+        public CloneAnnotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
+            super(locusLinks, accessions, ID);
         }
     }
 }

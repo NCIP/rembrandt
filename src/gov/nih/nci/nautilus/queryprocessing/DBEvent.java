@@ -69,5 +69,18 @@ abstract public class DBEvent extends EventObject {
             threadID = dynamicThreadID;
         }
     }
+    public final static class AnnotationRetrieveEvent extends DBEvent {
+        private String threadID;
+        private final static String ANNOTATION_EVENT = "AnnotationRetrieveEvent";
+
+        public String getThreadID() {
+            return threadID;
+        }
+
+        public AnnotationRetrieveEvent (String dynamicThreadID) {
+            super(ANNOTATION_EVENT);
+            threadID = dynamicThreadID;
+        }
+    }
 
 }

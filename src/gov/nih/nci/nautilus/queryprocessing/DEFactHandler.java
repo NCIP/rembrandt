@@ -1,16 +1,16 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.ValueCriteria;
+import org.apache.ojb.broker.query.*;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 
 import java.util.*;
+import java.math.BigDecimal;
 
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
+import gov.nih.nci.nautilus.data.GeneClone;
+import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
@@ -22,18 +22,43 @@ import gov.nih.nci.nautilus.resultset.ResultSet;
  * To change this template use File | Settings | File Templates.
  */
 abstract public class DEFactHandler {
-    Class sfactClass = DifferentialExpressionSfact.class;
+
+    //Map geneAnnotations = Collections.synchronizedMap(new HashMap());
     Map geneExprObjects = Collections.synchronizedMap(new HashMap());
-    List eventList = Collections.synchronizedList(new ArrayList());
+    Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
+    Map probeAnnotations = Collections.synchronizedMap(new HashMap());
+    private final static long SLEEP_TIME= 10;
+    private final static int VALUES_PER_THREAD = 50;
+
+    List factEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
+    List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
     throws Exception;
-    protected void sleep() throws InterruptedException {
+
+
+
+    protected void sleepOnFactEvents() throws InterruptedException {
         boolean sleep = true;
         do {
-            Thread.sleep(10);
+            Thread.sleep(SLEEP_TIME);
             sleep = false;
-            for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = factEventList.iterator(); iterator.hasNext();) {
+                DBEvent eventObj = (DBEvent)iterator.next();
+                if (! eventObj.isCompleted()) {
+                    sleep = true;
+                    break;
+                }
+            }
+        } while (sleep);
+        return;
+    }
+    protected void sleepOnAnnotationEvents() throws InterruptedException {
+        boolean sleep = true;
+        do {
+            Thread.sleep(SLEEP_TIME);
+            sleep = false;
+            for (Iterator iterator = annotationEventList.iterator(); iterator.hasNext();) {
                 DBEvent eventObj = (DBEvent)iterator.next();
                 if (! eventObj.isCompleted()) {
                     sleep = true;
@@ -49,7 +74,7 @@ abstract public class DEFactHandler {
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
                 int begIndex = i;
-                i += 50;
+                i += VALUES_PER_THREAD ;
                 int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size() - 1);
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria IDs = new Criteria();
@@ -57,7 +82,7 @@ abstract public class DEFactHandler {
                 String threadID = "DEFactHandler.ThreadID:" + probeOrCloneIDAttr + ":" +i;
 
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
-                eventList.add(dbEvent);
+                factEventList.add(dbEvent);
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
                 final Criteria sampleCritBasedOnProbes = new Criteria();
                 FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCritBasedOnProbes);
@@ -76,7 +101,100 @@ abstract public class DEFactHandler {
                    }
                ).start();
             }
-     }
+    }
+
+     protected void executeCloneAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
+            ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
+
+            for (int i = 0; i < arrayIDs.size();) {
+                Collection values = new ArrayList();
+                int begIndex = i;
+                i += VALUES_PER_THREAD ;
+                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size() - 1);
+                values.addAll(arrayIDs.subList(begIndex,  endIndex));
+                final Criteria annotCrit = new Criteria();
+                annotCrit.addIn(GeneClone.CLONE_ID, values);
+                long time = System.currentTimeMillis();
+                String threadID = "DEFactHandler.ThreadID:" +time;
+
+                final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
+                annotationEventList.add(dbEvent);
+                final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                final String locusLinkColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.LOCUS_LINK);
+                final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.ACCESSION_NUMBER);
+                final String cloneIDColName = QueryHandler.getColumnNameForBean(_BROKER, GeneClone.class.getName(), GeneClone.CLONE_ID);
+
+                new Thread(
+                   new Runnable() {
+                      public void run() {
+                          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                          Query annotQuery =
+                          QueryFactory.newReportQuery(GeneClone.class,new String[] {cloneIDColName, locusLinkColName, accessionColName }, annotCrit, true);
+                          assert(annotQuery != null);
+                          Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+                          while (iter.hasNext()) {
+                               Object[] cloneAttrs = (Object[]) iter.next();
+                               Long cloneID = new Long(((BigDecimal)cloneAttrs[0]).longValue());
+                               GeneExpr.Annotaion c = (GeneExpr.CloneAnnotaion)cloneAnnotations.get(cloneID);
+                               if (c == null) {
+                                   c = new GeneExpr.CloneAnnotaion(new ArrayList(), new ArrayList(), cloneID);
+                                   cloneAnnotations.put(cloneID, c);
+                               }
+                               c.locusLinks.add(cloneAttrs[1]);
+                               c.accessions.add(cloneAttrs[2]);
+                          }
+                          dbEvent.setCompleted(true);
+                      }
+                   }
+               ).start();
+            }
+    }
+    protected void executeProbeAnnotationQuery(Collection probeOrCloneIDs) throws Exception {
+            ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
+
+            for (int i = 0; i < arrayIDs.size();) {
+                Collection values = new ArrayList();
+                int begIndex = i;
+                i += VALUES_PER_THREAD ;
+                int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size() - 1);
+                values.addAll(arrayIDs.subList(begIndex,  endIndex));
+                final Criteria annotCrit = new Criteria();
+                annotCrit.addIn(ProbesetDim.PROBESET_ID, values);
+                long time = System.currentTimeMillis();
+                String threadID = "DEFactHandler.ThreadID:" +time;
+
+                final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
+                annotationEventList.add(dbEvent);
+                final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+                final String locusLinkColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.LOCUS_LINK);
+                final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.ACCESSION_NUMBER);
+                final String probeIDColName = QueryHandler.getColumnNameForBean(_BROKER, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
+
+                new Thread(
+                   new Runnable() {
+                      public void run() {
+                          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                          Query annotQuery =
+                          QueryFactory.newReportQuery(ProbesetDim.class,new String[] {probeIDColName , locusLinkColName, accessionColName }, annotCrit, true);
+                          assert(annotQuery != null);
+                          Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+                          while (iter.hasNext()) {
+                               Object[] probeAttrs = (Object[]) iter.next();
+                               Long probeID = new Long(((BigDecimal)probeAttrs[0]).longValue());
+                               GeneExpr.Annotaion p = (GeneExpr.ProbeAnnotaion)probeAnnotations.get(probeID );
+                               if (p == null) {
+                                   p = new GeneExpr.ProbeAnnotaion(new ArrayList(), new ArrayList(), probeID );
+                                   probeAnnotations.put(probeID , p);
+                               }
+                               p.locusLinks.add(probeAttrs[1]);
+                               p.accessions.add(probeAttrs[2]);
+                          }
+                          dbEvent.setCompleted(true);
+                      }
+                   }
+               ).start();
+            }
+    }
     final static class SingleDEFactHandler extends DEFactHandler {
         ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
         throws Exception {
@@ -84,13 +202,23 @@ abstract public class DEFactHandler {
             System.out.println("Total Number Of Probes:" + allProbeIDs.size());
             executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, foldCrit );
             executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, foldCrit);
-            sleep();
-            // geneExprObjects would have populated by this time Convert these in to Result objects
-            // geneExprObjects would have populated by this time Convert these in to Result objects
+            sleepOnFactEvents();
+
+            executeCloneAnnotationQuery(allCloneIDs);
+            executeProbeAnnotationQuery(allProbeIDs );
+            sleepOnAnnotationEvents();
+
+            // by now geneExprObjects,  cloneAnnotations, probeAnnotations would have populated
             Object[]objs = (geneExprObjects.values().toArray());
             GeneExpr.GeneExprSingle[] results = new GeneExpr.GeneExprSingle[objs.length];
             for (int i = 0; i < objs.length; i++) {
                 GeneExpr.GeneExprSingle obj = (GeneExpr.GeneExprSingle) objs[i];
+                if (obj.getProbesetId() != null) {
+                    obj.setAnnotation((GeneExpr.ProbeAnnotaion)probeAnnotations.get(obj.getProbesetId()));
+                }
+                else if (obj.getCloneId() != null) {
+                    obj.setAnnotation((GeneExpr.CloneAnnotaion)cloneAnnotations.get(obj.getCloneId()));
+                }
                 results[i] = obj;
             }
             return results;
@@ -116,7 +244,10 @@ abstract public class DEFactHandler {
             singleExprObj.setDiseaseType(exprObj.getDiseaseType());
             singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
             singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
-            singleExprObj.setProbesetId(exprObj.getProbesetId());
+            if (exprObj.getProbesetId() != null ) {
+                singleExprObj.setProbesetId(exprObj.getProbesetId());
+
+            }
             singleExprObj.setProbesetName(exprObj.getProbesetName());
             singleExprObj.setSurvivalLengthRange(exprObj.getSurvivalLengthRange());
             singleExprObj.setTimecourseId(exprObj.getTimecourseId());
@@ -128,7 +259,7 @@ abstract public class DEFactHandler {
             throws Exception {
                 executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, foldCrit );
                 executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, foldCrit);
-                sleep();
+                sleepOnFactEvents();
 
                 // geneExprObjects would have populated by this time Convert these in to Result objects
                 Object[]objs = (geneExprObjects.values().toArray());
