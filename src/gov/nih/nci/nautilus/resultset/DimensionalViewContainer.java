@@ -6,8 +6,12 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
+import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
+import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 
 /**
@@ -20,7 +24,31 @@ public class DimensionalViewContainer implements ResultsContainer {
 	private GeneExprSingleViewResultsContainer geneExprSingleViewContainer = null;
 	private CopyNumberSingleViewResultsContainer copyNumberSingleViewContainer = null;
 	private SampleViewResultsContainer sampleViewResultsContainer = null;
-
+	/**
+	 * @param sampleID
+	 * @return
+	 */
+	public CopyNumberSingleViewResultsContainer getCopyNumberSingleViewContainerForSample(String sampleID){
+		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getBioSpecimenResultset(sampleID);
+		return sampleResultset.getCopyNumberSingleViewResultsContainer();
+	}
+	/**
+	 * @param sampleID
+	 * @return
+	 */
+	public GeneExprSingleViewResultsContainer getGeneExprSingleViewResultsContainerForSample(String sampleID){
+		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getBioSpecimenResultset(sampleID);
+		return sampleResultset.getGeneExprSingleViewResultsContainer();
+	}
+	/**
+	 * @param sampleID
+	 * @return
+	 */
+	public SampleViewResultsContainer getSampleViewResultsContainerForSample(String sampleID){
+		SampleViewResultsContainer sampleContainer = new SampleViewResultsContainer();
+		sampleContainer.addBioSpecimenResultset(getSampleViewResultsContainer().getBioSpecimenResultset(sampleID));
+		return sampleContainer;
+	}
 	/**
 	 * @return Returns the copyNumberSingleViewContainer.
 	 */
