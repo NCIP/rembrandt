@@ -52,50 +52,50 @@ public class UIRefineQueryValidator {
 		//clears out the old compound query, in case something bombs
 		queryBag.setCompoundQuery(compoundQuery);
 		ActionErrors errors = new ActionErrors();
-		
+		boolean isAllGenesQuery = refineQueryForm.isAllGenesQuery();
 		List selectedQueries = refineQueryForm.getSelectedQueries();
+		String selectedResultSet = refineQueryForm.getResultSetName();
 		//remove any incidental or incorrect selectedQueries from the List
 		selectedQueries = scrubTheLazyList(selectedQueries);
-		//Now process the AllGenesQuery Selected will return null if there
-		//was no AllGeneQuerySelected
-		try {
-			selectedQueries = getAllGenesQuery(selectedQueries, refineQueryForm.getAllGeneQuery(),sessionId );
-		}catch(IllegalStateException ise) {
-			/*
-			 * This is thrown in the instance that the QueryBag gets hosed up.
-			 * Not really sure what to do in this case... so for now just log it
-			 */
-			logger.error(ise);
-			
-		}catch(OperationNotSupportedException onse) {
-			/*
-			 * This should get thrown in the instance that there is only an 
-			 * all genes query selected in the RefineQueryPage.  This is not
-			 * an acceptable query at this time.
-			 */
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery"));
+		/* CASE 1:
+		 * This is an "All Genes" query. Overwrite the selectedQueries list with
+		 * a list that only contains the selected all gene query
+		 */
+		if(isAllGenesQuery) {
+			try {
+				selectedQueries = getAllGenesQuery(refineQueryForm.getAllGeneQuery(), sessionId, selectedResultSet);
+			}catch(IllegalStateException ise) {
+				/*
+				 * This is thrown in the instance that the QueryBag gets hosed up.
+				 * Not really sure what to do in this case... so for now just log it
+				 */
+				logger.error(ise);
+				
+			}catch(OperationNotSupportedException onse) {
+				/*
+				 * This should get thrown in the instance that there is only an 
+				 * all genes query selected in the RefineQueryPage. There must also be
+				 * a result set specified... 
+				 */
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery"));
+			}
 		}
         
-        /* CASE 1:
-         * There is only one selected query to execute and it is not an AllGenes
-         * query.
+        /* CASE 1(step 2) & CASE 2:
+         * This is called in the instance there is 1 query stored in the selectedQuery list.   
+         * This can be either a selected "All Gene Query", or a regular query.
          */
         if(selectedQueries.size()==1) {
            SelectedQueryBean query = (SelectedQueryBean)selectedQueries.get(0);
-           //double check that an all genes query ins't the only thing in the list
-           if(!query.isAllGeneQuery()) {
-		       if(!query.getQueryName().equals("")&&!query.getQueryName().equals(" ")) {
-		        //They have chosen a query
-		       	compoundQuery = new CompoundQuery(queryBag.getQuery(query.getQueryName()));
-		       }else {
-		       	    //They have not chosen a query
-		       	    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query"));
-		       }
+           if(!query.getQueryName().equals("")&&!query.getQueryName().equals(" ")) {
+           	//They have chosen a query
+		  	compoundQuery = new CompoundQuery(queryBag.getQuery(query.getQueryName()));
 		   }else {
-		   		errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery"));
-		   }
+		     //They have not chosen a query
+		     errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query"));
+		    }
         }else if(selectedQueries.size()>1) {
-        	/*CASE 2:
+        	/*CASE 3:
              * There is more than 1 query selected
         	 */
             Vector vectorOfTokens = new Vector();
@@ -131,7 +131,15 @@ public class UIRefineQueryValidator {
     			logger.error(e);
     		}
         }
+           
 		if(compoundQuery!=null) {
+			//apply the selected result set if one was chosen
+	        if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
+	        	/*
+	        	 * APPLY THE RESULT SET TO THE COMPOUND QUERY!
+	        	 * HOW I DON"T KNOW JUST YET... tomorrow!
+	        	 */
+	        }
 			//store the sessionId that the compound query is associated with
 			compoundQuery.setSessionId(sessionId);
             //Returned String representation of the final query
@@ -143,6 +151,8 @@ public class UIRefineQueryValidator {
             //Stuff compoundquery in queryCollection
             queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
             refineQueryForm.setRunFlag("yes");
+        }else if(isAllGenesQuery){
+        	
         }
         refineQueryForm.setErrors(errors);
         return refineQueryForm;
@@ -172,27 +182,26 @@ public class UIRefineQueryValidator {
 		return queryViewColl;
 	}
 		
-	private List getAllGenesQuery(List queryList, String queryName, String sessionId)throws IllegalStateException, OperationNotSupportedException {
+	private List getAllGenesQuery(String allGeneQueryName, String sessionId, String selectedResultSet)throws IllegalStateException, OperationNotSupportedException {
 		SelectedQueryBean bean = null;
-		if(queryName!=null&&!queryName.equals("")) {
+		List queries = new ArrayList();
+		if(allGeneQueryName!=null&&!allGeneQueryName.equals("")) {
 			SessionQueryBag bag = cacheManager.getSessionQueryBag(sessionId);
 			Map allGenesQueries = bag.getAllGenesQueries();
-			if(allGenesQueries!=null&&allGenesQueries.containsKey(queryName)) {
-				int numOfQueries = queryList.size();
-				if(numOfQueries > 0) {
+			if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
+				if(allGenesQueries!=null&&allGenesQueries.containsKey(allGeneQueryName)) {
 					bean = new SelectedQueryBean();
-					bean.setQueryName(queryName);
+					bean.setQueryName(allGeneQueryName);
 					bean.setAllGeneQuery(true);
-					((SelectedQueryBean)queryList.get(numOfQueries-1)).setOperand("AND");
-					queryList.add(bean);
+					queries.add(bean);
 				}else {
-					throw new OperationNotSupportedException("User has selected only an All Gene Query");
+					throw new IllegalStateException("There isn't an All Genes Query by the name: "+allGeneQueryName);
 				}
 			}else {
-				throw new IllegalStateException("There isn't an All Genes Query by the name: "+queryName);
+				throw new OperationNotSupportedException("No result set specified for the All Gene Query...this is required at this time");
 			}
 		}
-		return queryList;
+		return queries;
 	}
 	
 	private List scrubTheLazyList(List selectedQueries) {

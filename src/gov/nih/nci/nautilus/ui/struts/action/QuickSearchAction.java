@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KMPlotManager;

@@ -9,7 +9,7 @@ import org.dom4j.Document;
 /**
  * This interface defines the operations needed to generate a
  * report 
- * @author BauerD
+ * @author BauerD,LandyR
  * Feb 8, 2005
  * 
  */

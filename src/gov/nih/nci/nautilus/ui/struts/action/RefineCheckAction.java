@@ -3,7 +3,6 @@ package gov.nih.nci.nautilus.ui.struts.action;
 
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
 

@@ -31,7 +31,7 @@ public final class NautilusConstants {
 	
 	public static final String REPORT_XML = "reportXML";
 	
-	public static final String TEMP_RESULTS = "temp_results";
+	public static final String TEMP_RESULTS = "Rembrandt_results ";
 	
 	public static final String DEFAULT_XSLT_FILENAME ="report.xsl";
 	

@@ -1,6 +1,5 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +17,7 @@ import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
 import gov.nih.nci.nautilus.criteria.PathwayCriteria;
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
+import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
@@ -33,7 +33,6 @@ import gov.nih.nci.nautilus.view.ViewType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.list.LazyList;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -291,8 +290,21 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			geneExpQuery.setPathwayCrit(pathwayCriteria);
 		ArrayPlatformCriteria arrayPlatformCriteria = geneExpressionForm
 				.getArrayPlatformCriteria();
-		if (!arrayPlatformCriteria.isEmpty())
+		if (!arrayPlatformCriteria.isEmpty()) {
 			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
+		}else {
+			/*
+			 * This logic is required for an all genes query.  There
+			 * must be an ArrayPlatformDE specified for the all gene's
+			 * query, and there was not one being created.  This is 
+			 * probably a hack as we may later allow the user to select
+			 * from the a list of platforms, and all could be the default.
+			 * --Dave
+			 */
+			arrayPlatformCriteria = new ArrayPlatformCriteria();
+			arrayPlatformCriteria.setPlatform(new ArrayPlatformDE("all"));
+			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
+		}
 	    return geneExpQuery;
 	}
 	

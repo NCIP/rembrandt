@@ -639,7 +639,7 @@ function showQueryDetail(selectName){
    //selected index of the selected
 	var element = formElement.name;
 	
-	  if(element == "queryOption"){
+	  if(element == "isAllGenesQuery"){
 	   if(i == 0){
 	    document.forms[0].allGeneQuery.disabled = true;
 	    checkToggle(formElement, "qrows");
@@ -869,7 +869,7 @@ function hideLoadingMessage(){
 		
 
 function checkToggle(box, id)	{
-	if(box.value == 'standard')
+	if(box.value == 'false')
 		toggleDiv(id, false);
 	else
 		toggleDiv(id, true);

@@ -55,7 +55,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	
 	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
 	
-	
+	private boolean isAllGenesQuery = false ;
  
 	public RefineQueryForm() {
 		super();
@@ -383,5 +383,17 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 */
 	public void setNonAllGenesQueries(List nonAllGenesQueries) {
 		this.nonAllGenesQueries = nonAllGenesQueries;
+	}
+	/**
+	 * @return Returns the isAllGenesQuery.
+	 */
+	public boolean isAllGenesQuery() {
+		return isAllGenesQuery;
+	}
+	/**
+	 * @param isAllGenesQuery The isAllGenesQuery to set.
+	 */
+	public void setIsAllGenesQuery(boolean isAllGenesQuery) {
+		this.isAllGenesQuery = isAllGenesQuery;
 	}
 }

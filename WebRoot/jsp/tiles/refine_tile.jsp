@@ -9,7 +9,7 @@
 <fieldset class="grayRefine">
 <legend class="red">Step 1: Refine your result set</legend>
 	
-    <input type="radio" name="queryOption" class="radio" value="standard" checked="true"  onclick="javascript:onRadio(this, 0);"/>Please refine your results by grouping the queries<br />
+    <input type="radio" name="isAllGenesQuery" class="radio" value="false" checked="true" onclick="javascript:onRadio(this, 0);"/>Please refine your results by grouping the queries<br />
     <div id="qrows">
 	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		<tr>
@@ -38,7 +38,7 @@
 		<!-- End  Selected Queries -->
 	</table><br />
 	</div>
-	<input type="radio" name="queryOption" class="radio" value="allgenes"  onclick="javascript:onRadio(this, 1);" />Please select an "All Genes" query
+	<input type="radio" name="isAllGenesQuery" class="radio" value="true"  onclick="javascript:onRadio(this, 1);" />Please select an "All Genes" query
     <html:select property="allGeneQuery" disabled="true">
      		<option/>
 		    <html:optionsCollection property="allGenesQueries" label="queryName" value="queryName" />
@@ -48,7 +48,7 @@
 
 <!--Step 2-->
 <fieldset class="grayRefine">
-<legend class="red">Step 2: Select Result set (mandatory for All Genes queries)</legend>
+<legend class="red">Step 2: Select Result set (mandatory for "All Genes" queries)</legend>
 &nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:
     <html:select name="refineQueryForm" property="selectedResultSet">
     	<option></option>  

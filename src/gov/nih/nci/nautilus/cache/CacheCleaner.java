@@ -98,20 +98,22 @@ public class CacheCleaner extends Thread {
 				for(Iterator i = cacheKeys.iterator();i.hasNext();) {
 					String sessionId = (String)i.next();
 					HttpSession session = sessions.getSession(sessionId);
-					/*
-					 * This is the check to see if the session has been idle
-					 * long enough to toss out it's associated cache, 
-					 * if it has one.  Another check that I could implement
-					 * would be to check the cache statistics and see when
-					 * any of the elements were last accessed, their size and
-					 * other considerations to determine if they should be
-					 * purged from the existing cache, rather than throwing
-					 * the whole cache out.
-					 */
-					long idleTime = System.currentTimeMillis() - session.getLastAccessedTime();
-					if(session!=null && idleTime > CACHE_TIME_OUT) {
-						logger.debug("Session "+sessionId+" idle too long. Removing cache");
-						CacheManagerDelegate.getInstance().removeSessionCache(sessionId);
+					if(session!=null) {
+						/*
+						 * This is the check to see if the session has been idle
+						 * long enough to toss out it's associated cache, 
+						 * if it has one.  Another check that I could implement
+						 * would be to check the cache statistics and see when
+						 * any of the elements were last accessed, their size and
+						 * other considerations to determine if they should be
+						 * purged from the existing cache, rather than throwing
+						 * the whole cache out.
+						 */
+						long idleTime = System.currentTimeMillis() - session.getLastAccessedTime();
+						if(idleTime > CACHE_TIME_OUT) {
+							logger.debug("Session "+sessionId+" idle too long. Removing cache");
+							CacheManagerDelegate.getInstance().removeSessionCache(sessionId);
+						}
 					}
 				}
 			}
