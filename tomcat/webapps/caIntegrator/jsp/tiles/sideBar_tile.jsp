@@ -59,7 +59,7 @@
 					%>
 				    <tr><td><%=query%>
 					<%if(pageStr != null && pageStr2 ==null){%>
-					     <input type="submit" class="button" value="delete" onclick="setMode('deleteQuery', '<%=queryKey%>')"></td>			
+					     <input type="submit" class="sbutton" value="delete" onclick="setMode('deleteQuery', '<%=queryKey%>')"></td>			
 					<%}%>
 					</tr>&nbsp;&nbsp;
 				    <%}		

@@ -8,6 +8,26 @@
    window.close();
  }
  </script>
+ 
+ <!--header NCI-->
+ <table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
+ <tr bgcolor="#A90101">
+ 		<td width="283" height="37" align="left"><a href="http://www.cancer.gov"><img src="../images/logotype.gif" width="283" height="37" border="0"></a></td>
+ 		<td>&nbsp;</td>
+ 		<td width="295" height="37" align="right"><a href="http://www.cancer.gov"><img src="../images/tagline.gif" width="295" height="37" border="0"></a></td>
+
+ </tr>
+ </table>
+ <!--header REMBRANDT image map-->
+ <div align="center" width="765px">
+ <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
+ <map name="headerMap">
+ <area alt="REMBRANDT website" coords="7,8,272,50" href="http://rembrandt.nci.nih.gov">
+ </map>
+ <img src="../images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
+ </div>
+ <!--end all headers-->
+
 	
   <%
  try {
@@ -36,7 +56,7 @@
 	</tr>	
 	</table>		
 		  
-		    <table align="center" width="85%" cellpadding="5" cellspacing="5" border="1"> 
+		    <table align="center" width="85%" cellpadding="5" cellspacing="0" border="1"> 
 		    
 		 
 		  <% myPathways = (Pathway[]) pathwayResult.getResultSet();	 
@@ -49,7 +69,7 @@
 				      }
 				%>
 				  <tr>
-			        <td class="label"><b>Pathway Description for "<%=pathwayName%>"</b> </td>
+			        <td style="background-color:#D5E0E9"><b>Pathway Description for "<%=pathwayName%>"</b> </td>
 			      </tr>
 				  <tr>
 				     <TD><%=myPathways[i].getDescription()%></TD>
@@ -71,11 +91,11 @@
 	     Your search returned <b><%=result.getCount()%> </b> genes. 
 		 <br>
 		 <br>
-		  <table align="center" width="85%" cellpadding="5" cellspacing="5" border="1">
+		  <table align="center" width="85%" cellpadding="5" cellspacing="0" border="1">
 	 
 	 <tr>	 
-	  <td class="label"><b>Gene Symbol</b></td>
-	  <td class="label"><b>Gene Name</b></td>	 
+	  <td style="background-color:#D5E0E9"><b>Gene Symbol</b></td>
+	  <td style="background-color:#D5E0E9"><b>Gene Name</b></td>	 
 	  </tr>
 		<%  myGenes = (Gene[]) result.getResultSet();	  		           
 		  for (int i = 0; i < myGenes.length; i++) { 		

@@ -27,6 +27,24 @@
    
   }
 </script>
+<!--header NCI-->
+<table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
+<tr bgcolor="#A90101">
+		<td width="283" height="37" align="left"><a href="http://www.cancer.gov"><img src="../images/logotype.gif" width="283" height="37" border="0"></a></td>
+		<td>&nbsp;</td>
+		<td width="295" height="37" align="right"><a href="http://www.cancer.gov"><img src="../images/tagline.gif" width="295" height="37" border="0"></a></td>
+
+</tr>
+</table>
+<!--header REMBRANDT image map-->
+<div align="center" width="765px">
+<div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
+<map name="headerMap">
+<area alt="REMBRANDT website" coords="7,8,272,50" href="http://rembrandt.nci.nih.gov">
+</map>
+<img src="../images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
+</div>
+<!--end all headers-->
 
  
  <div><b>Browse Pathway - Name</b></div>
@@ -55,15 +73,16 @@
  <div >
   Your search returned <b><%=result.getCount()%> </b> pathways.   
 
- </div>	  
-   <br>
-	 <table align="center" width="85%" cellpadding="5" cellspacing="5" border="1">
+ </div>	
+ <div style="width:700px;height:400px;overflow:auto">
+ 
+	 <table border="1" cellpadding="5" cellspacing="0" style="border">
 	 
-	 <tr>
-	  <td class="label"><b>No</b></td>
-	  <td class="label"><b>Pathway Name</b></td>
-	  <td class="label"><b>Pathway Title</b></td>	  
-	  <td class="label"><b>Genes & Pathway Description </b> </td>
+	 <tr style="background-color:#D5E0E9">
+	  <td><b>No</b></td>
+	  <td><b>Pathway Name</b></td>
+	  <td><b>Pathway Title</b></td>	  
+	  <!--<td><b>Genes & Pathway Description </b> </td>-->
 	  </tr>
 
 	
@@ -85,9 +104,9 @@
 					%>
 				<tr>
 		          <TD><%=k%></TD>
-		          <TD><html:checkbox property="pathwayName" value="<%=pathwayName%>"/> <%=pathwayName%></TD>
+		          <TD><html:checkbox property="pathwayName" value="<%=pathwayName%>"/> <a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"><%=pathwayName%></a></TD>
 		          <TD><%=myPathways[i].getDisplayValue()%></TD>				
-				  <TD><a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"> Genes & Pathway Description</a></TD>
+				  <!--<TD><a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"> Genes & Pathway Description</a></TD>-->
 				</tr>
 					<%}
 		      }
@@ -99,6 +118,7 @@
 	
 		
  </table>
+ </div>
  <p>
   <div></div><input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;
   

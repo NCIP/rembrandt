@@ -9,24 +9,24 @@
 	<!-- <html:form action="<%=act%>" > -->
 
 <html:radio property="copyNumber" value="amplified" styleClass="radio"/> Amplified
-				<html:text property="cnAmplified" onclick="javascript:radioFold(this);" />&nbsp;copies</br>
+				<html:text property="cnAmplified" onfocus="javascript:radioFold(this);" />&nbsp;copies</br>
 
 <html:radio property="copyNumber" value="deleted" styleClass="radio"/> Deleted&nbsp;&nbsp;
-				<html:text property="cnDeleted" onclick="javascript:radioFold(this);" />&nbsp;copies</br>
+				<html:text property="cnDeleted" onfocus="javascript:radioFold(this);" />&nbsp;copies</br>
 <html:radio property="copyNumber" value="ampdel" styleClass="radio"/> Amplified or Deleted &nbsp;
 <blockquote>
 Amplified&nbsp;&nbsp;&nbsp;
- <html:text property="cnADAmplified" onclick="javascript:radioFold(this);" />&nbsp;copies
+ <html:text property="cnADAmplified" onfocus="javascript:radioFold(this);" />&nbsp;copies
 &nbsp;
 <Br>
 Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<html:text property="cnADDeleted" onclick="javascript:radioFold(this);" />&nbsp;copies
+<html:text property="cnADDeleted" onfocus="javascript:radioFold(this);" />&nbsp;copies
 &nbsp;
 
 </blockquote>
 <html:radio property="copyNumber" value="unchange" styleClass="radio"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<html:text property="cnUnchangeFrom" onclick="javascript:radioFold(this);" />-to-
-				<html:text property="cnUnchangeTo" onclick="javascript:radioFold(this);" />&nbsp;copies
+				<html:text property="cnUnchangeFrom" onfocus="javascript:radioFold(this);" />-to-
+				<html:text property="cnUnchangeTo" onfocus="javascript:radioFold(this);" />&nbsp;copies
 
 <html:errors property="cnerror"/></br>
 

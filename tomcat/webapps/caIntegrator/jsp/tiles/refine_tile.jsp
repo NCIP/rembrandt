@@ -186,7 +186,7 @@
 					<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 						onclick="javascript:history.back();"/>&nbsp;&nbsp
 					<html:button property="continuebutton" styleClass="xbutton" value="Run Report >>" 
-						onclick="JavaScript:setDispMethod('displayresult')"/> 
+						onclick="JavaScript:setDispMethod('displayresult');"/> 
 
 					</td>
 				</tr>

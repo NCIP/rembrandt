@@ -9,23 +9,23 @@
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <br />
 <html:radio property="regulationStatus" value="up" styleClass="radio" /> Up-regulation
-				<html:text property="foldChangeValueUp" size="3" onclick="javascript:radioFold(this);" />&nbsp;fold(s)</br>
+				<html:text property="foldChangeValueUp" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)</br>
 
 <html:radio property="regulationStatus" value="down" styleClass="radio" /> Down Regulation
-<html:text property="foldChangeValueDown" size="3" onclick="javascript:radioFold(this);" />&nbsp;fold(s)</br>
+<html:text property="foldChangeValueDown" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)</br>
 <html:radio property="regulationStatus" value="updown" styleClass="radio" /> Up or Down&nbsp;
 <blockquote>
 Up-regulation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- <html:text property="foldChangeValueUDUp" size="3" onclick="javascript:radioFold(this);" />&nbsp;fold(s)
+ <html:text property="foldChangeValueUDUp" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
 &nbsp;
 <Br>
 Down-regulation
-<html:text property="foldChangeValueUDDown" size="3" onclick="javascript:radioFold(this);" />&nbsp;fold(s)
+<html:text property="foldChangeValueUDDown" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
 &nbsp;
 </blockquote>
 <html:radio property="regulationStatus" value="unchange" styleClass="radio" />Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<html:text property="foldChangeValueUnchangeFrom" size="3" onclick="javascript:radioFold(this);" />-to-
-				<html:text property="foldChangeValueUnchangeTo" size="3" onclick="javascript:radioFold(this);" />&nbsp;fold(s)
+				<html:text property="foldChangeValueUnchangeFrom" size="3" onfocus="javascript:radioFold(this);" />-to-
+				<html:text property="foldChangeValueUnchangeTo" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
 <html:errors property="foldChangeValueUnchange"/>
 <html:errors property="regulationStatus"/>
 <html:errors property="foldChangeValueUp"/>

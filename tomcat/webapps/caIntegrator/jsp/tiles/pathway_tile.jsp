@@ -17,12 +17,12 @@
 <script language="javascript">
 
  function browseData(){
-     window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,dependent,scrollbars,width=700,height=500,screenX=100,screenY=100' );
+     window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,dependent,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
    }
 </script>
 
  <a href="javascript:browseData()">	   
-	 <img src="images/btnBrowse.gif" border="0"/>
+	 <img src="images/btnBrowse2.gif" border="0"/>
  </a>
 
 <!-- </html:form> -->
