@@ -224,9 +224,9 @@ public class RefineQueryAction extends DispatchAction {
 				cQuery.setAssociatedView(ViewFactory.newView(selectView));
 
 				// Execute the query and place the query in session
-				ResultSet[] queryResultSetObjects = QueryManager.executeQuery(queryCollect.getCompoundQuery());
-				print(queryResultSetObjects);
-				request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
+//				ResultSet[] queryResultSetObjects = QueryManager.executeQuery(queryCollect.getCompoundQuery());
+//				print(queryResultSetObjects);
+//				request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
 				
 			}else {
 				System.out.println("QueryCollection has no Compound queries to execute.  Please select a query to execute");
