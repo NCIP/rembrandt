@@ -1,4 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+
+
 <%
 /*
  *		this is the main tiles template for the form based pages
@@ -20,13 +23,23 @@
 		<table cellspacing="0" cellpadding="0" border="0">
 			<tr>
 			<td width="75%"> 
+
+			<tiles:useAttribute name="formAction" id="test1" classname="String" />
+			<tiles:useAttribute name="formName" id="test2" classname="String" />
+			<% System.out.println(test1 + " " +test2 ); %>
+			
+	 		<html:form method="post" action="<%=test1%>"> 
+		
+		<!--
 				<form action="<tiles:getAsString name="formAction"/>" method="post" name="<tiles:getAsString name="formName"/>">
+		-->
 				<Table cellpadding="4" cellspacing="2" border="0" width="100%"> 
 					<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   
 					<tiles:insert attribute="mainForm"/> <%-- include the main form --%>
 				</table>
 			</td>
-			</form>
+			<!-- </form> -->
+			</html:form>
 			<td valign="top" class="sideBar">
 			    <tiles:insert attribute="sideBar"/> <%-- include sidebar --%>
 			</td>
