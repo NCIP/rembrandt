@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 
 public class GeneExpressionQuery extends Query {
 
-    private AllGenesCriteria allGenes;
+    private AllGenesCriteria allGenesCrit;
     private static Logger logger = Logger.getLogger(GeneExpressionQuery.class);
     private GeneIDCriteria geneIDCrit;
     private SampleCriteria sampleIDCrit;
@@ -68,6 +68,12 @@ public class GeneExpressionQuery extends Query {
 		else {
 		 logger.debug("Fold Change Criteria is empty or Application Resources file is missing");
 		}
+		AllGenesCriteria thisAllGenesCrit = this.getAllGenesCrit();
+		if(thisAllGenesCrit != null && !thisAllGenesCrit.isEmpty()){
+		    OutStr += "<br /><b class='otherbold'>Gene</b><br />&nbsp;&nbsp;&nbsp;All Genes";
+		}
+		else logger.debug("This is not an All Genes Query");
+		    
 		GeneIDCriteria thisGeneIDCrit = this.getGeneIDCrit();
 		if ((thisGeneIDCrit != null) && !thisGeneIDCrit.isEmpty() && labels != null) { 
 			String thisCriteria = thisGeneIDCrit.getClass().getName();
@@ -259,11 +265,11 @@ public class GeneExpressionQuery extends Query {
     	return OutStr;
     }
 
-    public AllGenesCriteria getAllGenes() {
-        return allGenes;
+    public AllGenesCriteria getAllGenesCrit() {
+        return allGenesCrit;
     }
-    public void setAllGenes(AllGenesCriteria allGenes) {
-        this.allGenes = allGenes;
+    public void setAllGenesCrit(AllGenesCriteria allGenes) {
+        this.allGenesCrit = allGenes;
     }
     public GeneIDCriteria getGeneIDCrit() {
         return geneIDCrit;

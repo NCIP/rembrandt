@@ -8,13 +8,20 @@ package gov.nih.nci.nautilus.criteria;
  * To change this template use File | Settings | File Templates.
  */
 public class AllGenesCriteria extends Criteria {
+    /**
+     * @param allGenes
+     */
+    public AllGenesCriteria(boolean allGenes) {
+        super();
+        setAllGenes(allGenes);
+    }
     public boolean isAllGenes() {
         return allGenes;
     }
 
     public void setAllGenes(boolean allGenes) {
         this.allGenes = allGenes;
-    }
+       }
 
     boolean allGenes = false;
 
@@ -24,6 +31,9 @@ public class AllGenesCriteria extends Criteria {
 
     //TODO: The followig method checks if a given Criteria is empty
     public boolean isEmpty() {
-        return false;
+        if (allGenes)
+           return false;
+        else
+           return true;
     }
 }
