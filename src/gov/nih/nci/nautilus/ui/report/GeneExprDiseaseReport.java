@@ -79,11 +79,11 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 					        //set up the header for the table
 							Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 					        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-						        data = cell.addElement("data").addAttribute("type", "header").addText("Gene");
+						        data = cell.addElement("Data").addAttribute("type", "header").addText("Gene");
 						        data = null;
 					        cell = null;
 					        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-						        data = cell.addElement("data").addAttribute("type", "header").addText("Reporter");
+						        data = cell.addElement("Data").addAttribute("type", "header").addText("Reporter");
 						        data = null;
 					        cell = null;
 					    	//sb.append("<tr><Td id=\"header\">Gene</td><td id=\"header\">Reporter</td>");

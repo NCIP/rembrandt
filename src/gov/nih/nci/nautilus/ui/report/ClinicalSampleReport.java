@@ -89,23 +89,23 @@ public class ClinicalSampleReport implements ReportGenerator {
 			//	set up the headers for this table 
 			Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("data").addAttribute("type", "header").addText("SAMPLE");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("SAMPLE");
 				        data = null;
 			        cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("data").addAttribute("type", "header").addText("AGE at Dx (years)");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("AGE at Dx (years)");
 				        data = null;
 			        cell = null;
 					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("data").addAttribute("type", "header").addText("GENDER");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("GENDER");
 				        data = null;
 			        cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("data").addAttribute("type", "header").addText("SURVIVAL (months)");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("SURVIVAL (months)");
 				        data = null;
 			        cell = null;
 					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("data").addAttribute("type", "header").addText("DISEASE");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("DISEASE");
 				        data = null;
 			        cell = null;
 		    //sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
@@ -116,14 +116,14 @@ public class ClinicalSampleReport implements ReportGenerator {
 				SampleResultset sampleResultset =  (SampleResultset)si.next();
    				if(sampleResultset.getGeneExprSingleViewResultsContainer() != null)	{
 					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("data").addAttribute("type", "header").addText("GeneExp");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("GeneExp");
 				        data = null;
 			        cell = null;
    					//sb.append("<Td id=\"header\">GeneExp</td>");
    				}
    	 		   	if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)	{
 	   	 		   	cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("data").addAttribute("type", "header").addText("CopyNumber");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("CopyNumber");
 				        data = null;
 			        cell = null;
    	 		   		//sb.append("<td id=\"header\">CopyNumber</td>");
