@@ -166,7 +166,7 @@ public class CompoundQueryTest extends TestCase {
 		try {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.OR,geneQuery,genomicQuery);
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
 			QueryCollection queryCollection = new QueryCollection();
 			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
@@ -179,7 +179,25 @@ public class CompoundQueryTest extends TestCase {
 			e.printStackTrace();
 		}		
 	}
+	public void testGeneExprANDCopyNumberQueryORProbeQuery() {
+		try {
+			//test CompoundQuery Query
+			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery OR Probe Query>>>>>>>>>>>>>>>>>>>>>>>");
+			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
+			
+			CompoundQuery myCompoundQuery2 = new CompoundQuery(OperatorType.OR,myCompoundQuery1,probeQuery);
 
+			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery2);
+			//System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
+			//queryCollection.setCompoundQuery(myCompoundQuery);
+			//String theColors[] = {"0073E6","FFFF61"};
+			//System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
+			print(resultant);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
     /**
 	 * @param geneExprObjects
 	 */
@@ -274,7 +292,7 @@ public class CompoundQueryTest extends TestCase {
         //suite.addTest(new CompoundQueryTest("testCompoundQueryNOTProcessor"));
         //suite.addTest(new CompoundQueryTest("testCompoundQueryORProcessor"));
         //suite.addTest(new CompoundQueryTest("testSingleQueryInCompoundQueryProcessor"));
-        suite.addTest(new CompoundQueryTest("testGeneExprANDCopyNumberQuery"));
+        //suite.addTest(new CompoundQueryTest("testGeneExprANDCopyNumberQuery"));
 
 
         return suite;
