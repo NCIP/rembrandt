@@ -70,6 +70,7 @@ public abstract class SelectHandler implements Runnable {
     final static class GeneIDSelectHandler extends SelectHandler {
        public GeneIDSelectHandler(gov.nih.nci.nautilus.queryprocessing.ge.GEReporterIDCriteria reporterIDCritObj, Collection allProbIDs, Collection allClnIDs ) {
            super(reporterIDCritObj, allProbIDs, allClnIDs, new DBEvent.GeneIDRetrieveEvent());
+
        }
     }
 

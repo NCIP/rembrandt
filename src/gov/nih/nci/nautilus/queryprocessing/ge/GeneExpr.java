@@ -263,13 +263,21 @@ abstract public class GeneExpr implements ResultSet{
         ArrayList locusLinks;
         ArrayList accessions;
         Long ID;
+        GeneAnnotation geneAnnotation;
         protected Annotaion() { }
         public Annotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
             this.locusLinks = locusLinks;
             this.accessions = accessions;
             this.ID = ID;
         }
-		/**
+        public GeneAnnotation getGeneAnnotation() {
+             return geneAnnotation;
+        }
+        public void setGeneAnnotation(GeneAnnotation geneAnnotation) {
+            this.geneAnnotation = geneAnnotation;
+        }
+
+        /**
 		 * @return Returns the accessions.
 		 */
 		public ArrayList getAccessions() {
@@ -315,6 +323,41 @@ abstract public class GeneExpr implements ResultSet{
     public static class CloneAnnotaion extends Annotaion{
         public CloneAnnotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
             super(locusLinks, accessions, ID);
+        }
+    }
+    public static class GeneAnnotation {
+        ArrayList pathwayNames;
+        ArrayList goIDs;
+        String geneSymbol;
+
+        public GeneAnnotation(ArrayList pathwayNames, ArrayList goIDs, String geneSymbol) {
+            this.pathwayNames = pathwayNames;
+            this.goIDs = goIDs;
+            this.geneSymbol = geneSymbol;
+        }
+
+        public ArrayList getPathwayNames() {
+            return pathwayNames;
+        }
+
+        public void setPathwayNames(ArrayList pathwayNames) {
+            this.pathwayNames = pathwayNames;
+        }
+
+        public ArrayList getGoIDs() {
+            return goIDs;
+        }
+
+        public void setGoIDs(ArrayList goIDs) {
+            this.goIDs = goIDs;
+        }
+
+        public String getGeneSymbol() {
+            return geneSymbol;
+        }
+
+        public void setGeneSymbol(String geneSymbol) {
+            this.geneSymbol = geneSymbol;
         }
     }
 }
