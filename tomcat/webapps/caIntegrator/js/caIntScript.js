@@ -579,7 +579,10 @@ function showQueryDetail(selectName){
 	  
  function radioFold(formElement){
        var element = formElement.name;
-		
+	
+   if (element == "geneList"){ 
+	      document.forms[0].geneGroup[0].checked = true;
+	      }	
    if (element == "foldChangeValueUp"){ 
 	      document.forms[0].regulationStatus[0].checked = true;
 	      document.forms[0].regulationStatus[1].checked = false;

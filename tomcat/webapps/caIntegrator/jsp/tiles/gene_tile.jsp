@@ -18,7 +18,7 @@ String act = request.getParameter("act");
 			<html:select property="geneType" disabled="false">
 			    <html:optionsCollection property="geneTypeColl" />
 			</html:select>
-<html:text property="geneList" disabled="false" value=""/>
+<html:text property="geneList" disabled="false" onclick="javascript:radioFold(this);" value=""/>
 <a href="javascript:void(0);" onmouseover="return overlib('Selected Criteria on this form applies to all genes specified in this list.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
 &nbsp;-or-&nbsp;
 			<html:radio property="geneGroup" value="Upload" styleClass="radio" onclick="javascript:onRadio(this,1);"/>
