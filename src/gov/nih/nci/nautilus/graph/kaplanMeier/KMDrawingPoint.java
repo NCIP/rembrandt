@@ -15,7 +15,7 @@ import org.jfree.data.XYDataPair;
 public class KMDrawingPoint extends XYDataPair {
 	
     private XYDataPair xyDataPair;
-	private boolean census; 
+	private boolean census = false; 
 	
 	public KMDrawingPoint(Number x, Number y){
 		super(x,y);
@@ -23,6 +23,7 @@ public class KMDrawingPoint extends XYDataPair {
 	}
 	public KMDrawingPoint(Number x, Number y, boolean b){
         super(x,y);
+        xyDataPair = new XYDataPair(x,y);
 		this.census=b; 
 	}
 

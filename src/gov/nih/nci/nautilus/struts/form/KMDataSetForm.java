@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
@@ -53,7 +54,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
      */
 	public Object produceDataset(Map params) throws DatasetProduceException {
 		XYSeriesCollection dataset = new XYSeriesCollection();
-		ResultsContainer resultsContainer = null;
+        ResultsContainer resultsContainer = null;
 		try {
 			resultsContainer = performKaplanMeierPlotQuery();
 		} catch (Exception e) {
@@ -61,19 +62,28 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
             e.printStackTrace();
 		}
 		if (resultsContainer !=null && resultsContainer instanceof KaplanMeierPlotContainer) {
-			KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
+			
+            KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
             
             //All Sample Series
-			KMDataSeries allSamples = getDataSeries(kmPlotContainer, ALLSAMPLES, "All Samples");
-			//UpRegulated Samples 
-			KMDataSeries upSamples = getDataSeries(kmPlotContainer,UPREGULATED, geneSymbol+" Upregulated "+upFold+"X");
+			//KMDataSeries[] allSamples = getDataSeries(kmPlotContainer, ALLSAMPLES, "All Samples");
+			//UpRegulated Samples Series 
+			KMDataSeries[] upSamples = getDataSeries(kmPlotContainer,UPREGULATED, geneSymbol+" Upregulated "+upFold+"X");
 			// Down Regulation Series
-			KMDataSeries downSamples = getDataSeries(kmPlotContainer,DOWNREGULATED, geneSymbol+" Downregulated "+downFold+"X");
-			
+			KMDataSeries[] downSamples = getDataSeries(kmPlotContainer,DOWNREGULATED, geneSymbol+" Downregulated "+downFold+"X");
+			HashMap hashMap = (HashMap)params;
             //Store in DataSet
-            dataset.addSeries(upSamples);
-			dataset.addSeries(allSamples);
-			dataset.addSeries(downSamples);	
+            if(((Boolean)(hashMap.get("censusPlot"))).booleanValue()) {
+            	//store and return the Census Data Series
+                dataset.addSeries(upSamples[1]);
+                //dataset.addSeries(allSamples[1]);
+                dataset.addSeries(downSamples[1]);
+            }else {
+                //store and return the Step Line Data Series
+            	dataset.addSeries(upSamples[0]);
+            	//dataset.addSeries(allSamples[0]);
+            	dataset.addSeries(downSamples[0]);
+            }
 		}else {
 			throw new DatasetProduceException("ResultsContainer is either not Kaplan-Meier or NULL");
         }
@@ -163,8 +173,8 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	 * @return Returns the chartTitle.
 	 */
 	public String getChartTitle() {
-		chartTitle = "Kaplan-Meier Survival Plot for "+geneSymbol;
-        return chartTitle;
+        chartTitle = "Kaplan-Meier Survival Plot for Samples with Differential "+geneSymbol+" Gene Expression";
+		return chartTitle;
     }
    
     /***
@@ -194,7 +204,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
      * @param seriesName
      * @return
      */
-    private KMDataSeries getDataSeries(KaplanMeierPlotContainer container, int regulated, String seriesName) {
+    private KMDataSeries[] getDataSeries(KaplanMeierPlotContainer container, int regulated, String seriesName) {
         Collection samples;
         ExprFoldChangeDE regulation;
         switch(regulated) {
@@ -218,17 +228,30 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     }
     
     /***
-     * 
+     * Creates two data series.  One of all data points used to create the
+     * step graph, dataSeries. The second contains the census data that will be overlaid
+     * onto the previous step graph to complete the KM Graph, censusSeries.
      * @param dataPoints
      * @param seriesName
      * @return
      */
-    private KMDataSeries createSeries(KMDrawingPoint[] dataPoints, String seriesName) {
+    private KMDataSeries[] createSeries(KMDrawingPoint[] dataPoints, String seriesName) {
+        
+        //Create the DataPoint Series
         KMDataSeries dataSeries = new KMDataSeries(seriesName,true);
         for (int i = 0; i < dataPoints.length; i++) {
             dataSeries.add(dataPoints[i],i);
         }
-        return dataSeries;
+        
+        //Create the Census Series
+        KMDataSeries censusSeries = new KMDataSeries(seriesName+" Census Points", true);
+        for (int i = 0; i < dataPoints.length; i++) {
+        	if(dataPoints[i].isCensus()) {
+        		censusSeries.add(dataPoints[i]);
+            }
+        }
+        KMDataSeries[] results = {dataSeries, censusSeries};
+        return results;
     }
-	
+
 }

@@ -102,7 +102,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer{
 		        	}
 	        	}
 	        	if(averageFoldChange instanceof ExprFoldChangeDE.DownRegulation){
-		        	if(geneExprAverage <= averageFoldChange.getValueObject().doubleValue()){
+		        	if(geneExprAverage < averageFoldChange.getValueObject().doubleValue()){
 		        		geneExprSamples.add(sample);
 		        	}
 	        	}
