@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.ui.report;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
@@ -40,6 +41,14 @@ public class GeneExprSampleReport implements ReportGenerator{
 	public Document getReportXML(Resultant resultant) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
+		
+		/* testing hardcoded vals - these will be params of this method soon */
+		HashMap filter_string = new HashMap();
+		filter_string.put("EGFR", "EGFR");
+		filter_string.put("VEGF", "VEGF");
+		
+		String filter_type = "hide";
+		String filter_element = "gene";
 		
 		Document document = DocumentHelper.createDocument();
 
@@ -150,12 +159,21 @@ public class GeneExprSampleReport implements ReportGenerator{
 		    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 		    		Collection reporters = geneResultset.getReporterResultsets();
 		    		
+		    		/*  hard code filter for now */
+	        		String the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
+		    		//if(!the_gene.equalsIgnoreCase(filter_string))	{
+	        		if(filter_element.equals("gene") && !filter_string.containsValue(the_gene))	{
 		    		recordCount+=reporters.size();
+		    		HashMap mymap = new HashMap();
+		    		boolean hasit = mymap.containsValue(new String("EGFR"));
 		    		
 		    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 		        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
 		        		Collection groupTypes = reporterResultset.getGroupByResultsets();
 		        		String reporterName = reporterResultset.getReporter().getValue().toString();
+		        		
+		        		/* test filtration by reporter */
+		        		if(filter_element.equals("reporter") && !filter_string.containsValue(reporterName))	{
 		        		GeneSymbol gene = geneResultset.getGeneSymbol();
 		        		//String geneSymbol = "&#160;";
 		        		String geneSymbol = "-";
@@ -226,8 +244,10 @@ public class GeneExprSampleReport implements ReportGenerator{
 		        		//sb.append("</tr>\n");
 		    		}
 		    		//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
+		    		} /* end test reporter filtration */
 		    	}
 					//sb.append("</table>");
+		    	} /* end hardcode filter test */
 			}
 			else {
 				//TODO: handle this error
