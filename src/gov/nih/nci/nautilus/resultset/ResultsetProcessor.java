@@ -3,6 +3,7 @@
  *
  */
 package gov.nih.nci.nautilus.resultset;
+import gov.nih.nci.nautilus.constants.Constants;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
@@ -104,7 +105,7 @@ public class ResultsetProcessor {
 	public static ResultsContainer handleGeneExpressPlot(GeneExprGroup[] geneExprObjects) {
 		ResultsContainer resultsContainer = null;
 		GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = new GeneExprDiseasePlotContainer();
-		DiseaseGeneExprPlotResultset normal = new DiseaseGeneExprPlotResultset( new DiseaseNameDE("NORMAL"));
+		DiseaseGeneExprPlotResultset normal = new DiseaseGeneExprPlotResultset( new DiseaseNameDE(Constants.NORMAL));
 		geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(normal);
 		for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
