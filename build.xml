@@ -86,10 +86,10 @@
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
-        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">		
+        <javac srcdir="${source.java.dir}" destdir="${build.struts.classes.dir}">		
         	<exclude name="**/test/*.java" /> 
         	<exclude name="**/de/PBTest.java" />	
-			<exclude name="**/query/ComparativeGenomicQuery.java" />				   
+			<!--<exclude name="**/query/ComparativeGenomicQuery.java" />-->				   
         </javac>
     </target>	
 	
@@ -111,7 +111,7 @@
                 <include name="**/*"/>
             </fileset>
         </jar>		
-		<delete dir="${build.classes.dir}"/>
+		<!--<delete dir="${build.classes.dir}"/>-->
 	</target>
 	
 	

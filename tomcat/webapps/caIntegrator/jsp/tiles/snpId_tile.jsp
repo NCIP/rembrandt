@@ -11,14 +11,18 @@
 <br>
 
 
-<html:radio property="snpId" value="specify" styleClass="radio" />
 
-<html:select property="snpList">
+<html:radio property="snpId" value="specify" styleClass="radio" />
+ <html:select property="snpList">
+   <html:optionsCollection property="snpTypes" />
+    </html:select>
+
+<!--- <html:select property="snpList">
 	<option>&nbsp;</option>
 	<option>TSC Id</option>
 	<option>dBSNP Id</option>
 	<option>Probe Set Id</option>
-</html:select>
+</html:select> --->
 
 &nbsp;
 <html:text property="snpListSpecify"/>

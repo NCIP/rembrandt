@@ -39,7 +39,7 @@
             <form-property name="basePairStart" type="java.lang.String" />
         </form-bean>
         
-        <form-bean name="comparitivegenomicForm" type="gov.nih.nci.nautilus.struts.form.ComparitivegenomicForm">
+        <form-bean name="comparitivegenomicForm" type="gov.nih.nci.nautilus.struts.form.ComparativeGenomicForm">
             <form-property name="geneList" type="java.lang.String" />
             <form-property name="tumorGrade" type="java.lang.String" />
             <form-property name="assayPlatform" type="java.lang.String" />
@@ -123,7 +123,7 @@
 	<action path="/comparitivegenomic"
             input="nautilus.comparitiveGenomic"
             name="comparitivegenomicForm"
-            type="gov.nih.nci.nautilus.struts.action.ComparitivegenomicAction"
+            type="gov.nih.nci.nautilus.struts.action.ComparativeGenomicAction"
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />

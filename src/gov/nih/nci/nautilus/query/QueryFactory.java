@@ -12,9 +12,8 @@ class QueryFactory {
           if (queryType instanceof QueryType.GeneExprQueryType) {
               return new GeneExpressionQuery();
           }
-          else if (queryType instanceof QueryType.CGHQueryType) {
-              // TODO
-              //return new CGHQuery();
+          else if (queryType instanceof QueryType.CGHQueryType) {              
+              return new ComparativeGenomicQuery();
           }
         return null;
     }

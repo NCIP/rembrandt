@@ -37,6 +37,7 @@ public class GeneOntologyCriteria extends Criteria {
         return goIdentifiers;
     }
 
+  
     public GeneOntologyCriteria() {
     }
 

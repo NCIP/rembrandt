@@ -5,8 +5,13 @@ String act = request.getParameter("act");
 	<!-- <html:form action="<%=act%>"> -->
 <div class="title">Allele Frequency</div>
 Population Type:
-<html:select property="alleleFrequency"/>
-<!--	<option>&nbsp;</option>
+
+ <html:select property="alleleFrequency">
+   <html:optionsCollection property="alleleTypes" />
+    </html:select>
+	
+<!--- <html:select property="alleleFrequency"/>
+<option>&nbsp;</option>
 	<option selected> ALL </option>
 	<option> CENTRAL ASIA </option>
 	<option> CENTRAL/SOUTH AFRICA </option>
@@ -19,8 +24,10 @@ Population Type:
 	<option> NOT SPECIFIED </option>
 	<option> PACIFIC </option>
 	<option> UNKNOWN </option>
-	<option> WEST AFRICA </option> -->
-</html:select>
+	<option> WEST AFRICA </option> 
+	
+</html:select> --->
 <html:errors property="alleleFrequency"/>
 
 <!-- </html:form> -->
+

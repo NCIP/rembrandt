@@ -1,13 +1,14 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.AlleleFrequencyDE;
+import gov.nih.nci.nautilus.criteria.Criteria; 
 
 
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.Iterator;
 
-/**
+/** 
  * This  class encapsulates the properties of an caintergator 
  * AlleleFrequencyCriteria object.
  *  
@@ -15,7 +16,7 @@ import java.util.Iterator;
  * Date: August 12, 2004 
  * Version 1.0
  */
-
+ 
 public class AlleleFrequencyCriteria extends Criteria {
    private AlleleFrequencyDE alleleFrequencyDE;
    public AlleleFrequencyCriteria(){}

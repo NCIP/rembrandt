@@ -136,7 +136,7 @@ public class ComparativeGenomicForm extends BaseForm {
   private ArrayList diseaseTypes;
   private ArrayList geneTypeColl;
   */
-  private ArrayList cloneTypes;
+  private ArrayList cloneTypeColl;
   private ArrayList snpTypes;
   private ArrayList alleleTypes;
   private ArrayList assayTypes;  
@@ -179,7 +179,7 @@ public class ComparativeGenomicForm extends BaseForm {
       diseaseTypes = new ArrayList();
 	  geneTypeColl = new ArrayList();
 	  */
-	  cloneTypes = new ArrayList();
+	  cloneTypeColl = new ArrayList();
 	  snpTypes = new ArrayList();
 	  alleleTypes = new ArrayList();
 	  assayTypes = new ArrayList();
@@ -204,8 +204,8 @@ public class ComparativeGenomicForm extends BaseForm {
 	  geneTypeColl.add( new LabelValueBean( "GenBank AccNo.","genBankAccNo" ));		
 	  */  
 	  
-	  cloneTypes.add(new LabelValueBean("IMAGE Id","imageId"));
-	  cloneTypes.add(new LabelValueBean("BAC Id","BACId"));
+	  cloneTypeColl.add(new LabelValueBean("IMAGE Id","imageId"));
+	  cloneTypeColl.add(new LabelValueBean("BAC Id","BACId"));
 	  
 	  
 	  snpTypes.add(new LabelValueBean("TSC Id","TSCId"));
@@ -349,7 +349,8 @@ private void createCopyNumberCriteriaObject(){
 		   String key = (String)iter.next();
 		   String className = (String)copyNoDomainMap.get(key);
 		   Constructor[] copyNoConstructors = Class.forName(className).getConstructors();
-		   String [] initargs = {key};
+		   
+		   Object [] initargs = {Float.valueOf((String) key)};		  
 		   CopyNumberDE copyNumberDE = (CopyNumberDE)copyNoConstructors[0].newInstance(initargs);
 		   copyNumberCriteria.setCopyNumber(copyNumberDE);
 		    }// end of try
@@ -662,6 +663,36 @@ private void createAssayPlatformCriteriaObject(){
 			   }
 		   }
        }
+	   
+	   
+	
+	public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
+		return this.diseaseOrGradeCriteria;
+	}
+	   
+    public GeneIDCriteria getGeneIDCriteria() {
+		return this.geneCriteria;
+	}
+	
+	public CopyNumberCriteria getCopyNumberCriteria() {
+		return this.copyNumberCriteria;
+	}
+	public RegionCriteria getRegionCriteria() {
+		return this.regionCriteria;
+	}
+
+	
+	public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria() {
+		return this.cloneOrProbeIDCriteria;
+	}
+	public SNPCriteria getSNPCriteria() {
+		return this.snpCriteria;
+	}
+
+	public AlleleFrequencyCriteria getAlleleFrequencyCriteria() {
+		return this.alleleFrequencyCriteria;
+	}
+	
 	/** 
 	 * Returns the tumorGrade.
 	 * @return String
@@ -780,8 +811,8 @@ private void createAssayPlatformCriteriaObject(){
 		this.cnAmplified = cnAmplified;
 		// need to make sure the parameters such as copyNumberAmplified and regulationStatus
 		// match the ones declared on the copyNumber_tile.jsp
-		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus"); 		
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("amplified") && (this.cnAmplified.length() > 0)){
+		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 		
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("amplified") && (this.cnAmplified.length() > 0)){
 			copyNoDomainMap.put(this.cnAmplified, CopyNumberDE.Amplification.class.getName());	
 			}
 	}
@@ -926,9 +957,9 @@ private void createAssayPlatformCriteriaObject(){
 		this.cnADAmplified = cnADAmplified;
 		// need to make sure the parameters such as copyNumberADAmplified and regulationStatus
 		// match the ones declared on the copyNumber_tile.jsp
-		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus"); 
+		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 
 		
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("amplified_deleted") && (this.cnADAmplified.length() > 0)){
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("amplified_deleted") && (this.cnADAmplified.length() > 0)){
 			copyNoDomainMap.put(this.cnADAmplified, CopyNumberDE.Amplification.class.getName());
 			}
 	
@@ -1008,9 +1039,9 @@ private void createAssayPlatformCriteriaObject(){
 		this.cnADDeleted = cnADDeleted;
 		// need to make sure the parameters such as copyNumberADDeleted and regulationStatus
 		// match the ones declared on the copyNumber_tile.jsp
-		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus"); 
+		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 
 		
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("deleted") && (this.cnADDeleted.length() > 0)){
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("deleted") && (this.cnADDeleted.length() > 0)){
 			copyNoDomainMap.put(this.cnADDeleted, CopyNumberDE.Deletion.class.getName());
 			}	
 	 }
@@ -1029,8 +1060,8 @@ private void createAssayPlatformCriteriaObject(){
 	 */
 	public void setCnUnchangeTo(String cnUnchangeTo) {
 		this.cnUnchangeTo = cnUnchangeTo;
-		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus"); 		
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("unchange") && (this.cnUnchangeTo.length() > 0)) {
+		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 		
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("unchange") && (this.cnUnchangeTo.length() > 0)) {
 			copyNoDomainMap.put(this.cnUnchangeTo, CopyNumberDE.UnChangedCopyNumberUpperLimit.class.getName());
 		}
 
@@ -1149,8 +1180,9 @@ private void createAssayPlatformCriteriaObject(){
 		this.cnDeleted = cnDeleted;
 			// need to make sure the parameters such as copyNumberDeleted and regulationStatus
 		// match the ones declared on the copyNumber_tile.jsp
-		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus"); 		
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("deleted") && (this.cnDeleted.length() > 0)){
+		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 
+		System.out.println("!!!!!!!!!!!!!");		
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("deleted") && (this.cnDeleted.length() > 0)){
 			copyNoDomainMap.put(this.cnDeleted, CopyNumberDE.Deletion.class.getName());
 			}	
 	 }
@@ -1185,8 +1217,8 @@ private void createAssayPlatformCriteriaObject(){
 	 */
 	public void setCnUnchangeFrom(String cnUnchangeFrom) {
 		this.cnUnchangeFrom = cnUnchangeFrom;
-		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus"); 		
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("unchange") && (this.cnUnchangeFrom.length() > 0)){
+		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 		
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("unchange") && (this.cnUnchangeFrom.length() > 0)){
 			copyNoDomainMap.put(this.cnUnchangeFrom, CopyNumberDE.UnChangedCopyNumberDownLimit.class.getName());
 			}	
 	}
@@ -1259,5 +1291,14 @@ private void createAssayPlatformCriteriaObject(){
 			}
 
 	}
+	public ArrayList getCloneTypeColl(){
+	   return cloneTypeColl; 	   
+	   }
 
+   public ArrayList getSnpTypes(){
+	   return snpTypes; 	   
+	   }
+   public ArrayList getAlleleTypes(){
+	   return alleleTypes; 	   
+	   }
 }

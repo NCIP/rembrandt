@@ -143,7 +143,7 @@ public class GeneExpressionQuery extends Query {
 		  } // end of DiseaseOrGradeCriteria  
 		
 		
-		// starting cloneorProbeCriteria: come back to revist this
+		// starting cloneorProbeCriteria
 				
 		CloneOrProbeIDCriteria thisCloneOrProbeCriteria = this.getCloneOrProbeIDCriteria();		 
 		if(!thisCloneOrProbeCriteria.isEmpty() && labels != null){		   

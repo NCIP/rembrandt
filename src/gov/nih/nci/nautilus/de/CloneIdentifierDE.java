@@ -48,7 +48,7 @@ abstract public class CloneIdentifierDE extends DomainElement {
 
     }
 
- /**
+  /**
 	* nested child class: IMAGEClone
     */
     public final static class IMAGEClone extends CloneIdentifierDE {

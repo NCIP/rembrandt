@@ -3,17 +3,18 @@ package gov.nih.nci.nautilus.criteria;
 import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE;
 
 
+
 /**
  * This  class encapsulates the properties of an caintergator 
  * AgeCriteria object.
  *  
  * Dana Zhang
- * Date: August 12, 2004 
+ * Date: August 12, 2004  
  * Version 1.0
  */
 
 
-public class AgeCriteria{
+public class AgeCriteria extends Criteria{
 
 // make sure later if Collection needs to be used in the class
 

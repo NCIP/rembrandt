@@ -10,6 +10,7 @@ import gov.nih.nci.nautilus.view.ViewType;
  * To change this template use Options | File Templates.
  */
 abstract public class QueryType {
+   
     String queryType;
     public final static GeneExprQueryType GENE_EXPR_QUERY_TYPE = new GeneExprQueryType();
     public final static CGHQueryType CGH_QUERY_TYPE = new CGHQueryType ();
@@ -19,12 +20,12 @@ abstract public class QueryType {
     }
     public final static class GeneExprQueryType extends QueryType {
          GeneExprQueryType () {
-             super("GeneQueryType");
+         super("GeneQueryType");
          }
     }
     public final static class CGHQueryType extends QueryType {
         CGHQueryType () {
-            super("CGHQueryType ");
+        super("CGHQueryType ");
         }
     }
 }

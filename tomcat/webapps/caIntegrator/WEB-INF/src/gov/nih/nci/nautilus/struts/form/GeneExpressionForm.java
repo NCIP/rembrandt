@@ -1095,6 +1095,7 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setFoldChangeValueUp(String foldChangeValueUp) {
 		this.foldChangeValueUp = foldChangeValueUp;
+		System.out.println("I am in the setFoldChangeValueUp() method");
 		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus");
 
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("up") && (this.foldChangeValueUp.length() > 0))

@@ -56,13 +56,13 @@ public class GeneexpressionAction extends Action {
 		HttpServletResponse response)
 		throws Exception {
 		
-		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
-		
+		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;		
 		String thisView = geneExpressionForm.getResultView();
+		
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
 		geneExpQuery.setQueryName(geneExpressionForm.getQueryName());
-		System.out.println("thisView is :"+thisView);
+		
 		// Change this code later to get view type directly from Form !!
 		if (thisView.equalsIgnoreCase("sample")) {
 			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
