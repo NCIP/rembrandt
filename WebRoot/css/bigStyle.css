@@ -10,7 +10,7 @@ B, Strong {text-decoration: none; color:#AB0303; }
 A {color: #002185; text-decoration: underline; font-size:12px}
 /* TR {color: #000000;} */
 
-.err { color:#ff0000; background-color:yellow; padding:1px; font-weight: bold; text-align:center; margin:10px;}
+.err { color:#ff0000; height:30px; background-color:yellow; padding:1px; font-weight: bold; text-align:center; margin:10px;}
 b.otherBold {font-weight:bold;color:#000000;}
 
 fieldset {border: 1px solid #000000; margin-bottom:0px; margin-left:10px; margin-right:10px; padding:8px; background-color:#ffffff;}
