@@ -168,8 +168,9 @@ public class ReportGeneratorHelper {
 	 * but for now... well it is just going to have to be the way it is.
 	 * @param sampleIds --this is the array of sample ids that you would like to
 	 * contstrain
+	 * @throws Exception
 	 */
-	public ReportGeneratorHelper(Queriable query, String[] sampleIds) {
+	public ReportGeneratorHelper(Queriable query, String[] sampleIds) throws Exception {
 		//check the query to make sure that it is a compound query
 		checkCompoundQuery(query);
 		//check to make sure that we have a sessionId
@@ -179,7 +180,7 @@ public class ReportGeneratorHelper {
 		//create a new ReportBean
 		_reportBean = new ReportBean();
 		//execute the sample id sub select query
-		Resultant sampleIdResults = QueryManager.runReportSampleIdSelection(_cQuery, sampleIds);
+		Resultant sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
 		//store the results into the report bean
 		_reportBean.setResultant(sampleIdResults);
 		//store the cache key that can be used to retrieve this bean later
