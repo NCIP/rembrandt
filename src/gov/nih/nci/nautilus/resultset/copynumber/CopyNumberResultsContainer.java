@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.nautilus.resultset.copynumber;
 
+import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 
@@ -19,7 +20,7 @@ import java.util.TreeMap;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class CopyNumberResultsContainer {
+public class CopyNumberResultsContainer implements ResultsContainer{
 	protected SortedMap cytobands = new TreeMap();
 	protected SortedMap groupsLabels = new TreeMap();
 	/**
@@ -52,22 +53,22 @@ public class CopyNumberResultsContainer {
     		return cytobands.values();
     }
     /**
-     * @param geneSymbol
-	 * @return cytobandResultset Returns cytobandResultset to this geneSymbol.
+     * @param cytoband
+	 * @return cytobandResultset Returns cytobandResultset to this cytoband.
 	 */
-    public CytobandResultset getCytobandResultset(String geneSymbol){
-    	if(geneSymbol != null){
-			return (CytobandResultset) cytobands.get(geneSymbol);
+    public CytobandResultset getCytobandResultset(String cytoband){
+    	if(cytoband != null){
+			return (CytobandResultset) cytobands.get(cytoband);
 		}
     		return null;
     }
     /**
-     * @param geneSymbol
-	 * @return reporterResultset Returns reporterResultset for this geneSymbol.
+     * @param cytoband
+	 * @return reporterResultset Returns reporterResultset for this cytoband.
 	 */
-    public Collection getRepoterResultsets(String geneSymbol){
-    	if(geneSymbol != null){
-    		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(geneSymbol);
+    public Collection getRepoterResultsets(String cytoband){
+    	if(cytoband != null){
+    		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(cytoband);
 			return cytobandResultset.getReporterResultsets();
 		}
     		return null;
@@ -79,12 +80,12 @@ public class CopyNumberResultsContainer {
     	cytobands.clear();
     }
     /**
-     * @param geneSymbol,reporterName
-	 * @return groupResultset Returns groupResultset for this reporterName & geneSymbol.
+     * @param cytoband,reporterName
+	 * @return groupResultset Returns groupResultset for this reporterName & cytoband.
 	 */
-    public Collection getGroupByResultsets(String geneSymbol,String reporterName){
-    	if(geneSymbol!= null && reporterName != null){
-    		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(geneSymbol);
+    public Collection getGroupByResultsets(String cytoband,String reporterName){
+    	if(cytoband!= null && reporterName != null){
+    		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(cytoband);
     		ReporterResultset reporterResultset = (ReporterResultset) cytobandResultset.getRepoterResultset(reporterName);
 			return reporterResultset.getGroupByResultsets();
 		}

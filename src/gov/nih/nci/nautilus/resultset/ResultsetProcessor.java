@@ -3,8 +3,11 @@
  *
  */
 package gov.nih.nci.nautilus.resultset;
+import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewHandler;
+import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprDiseaseGroupViewHandler;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSampleViewContainer;
@@ -23,7 +26,6 @@ public class ResultsetProcessor {
  	public static ResultsContainer handleGeneExprSingleView(GeneExpr.GeneExprSingle[] geneExprObjects, GroupType groupType){
  		ResultsContainer resultsContainer = null;
  	  	GeneExprSingleViewHandler geneExprSingleViewHandler = new GeneExprSingleViewHandler();
- 	  	GeneExprDiseaseGroupViewHandler geneExprDiseaseViewHandler = new GeneExprDiseaseGroupViewHandler();
  	  	SampleViewHandler sampleViewHandler = new SampleViewHandler();
       	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
     	SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
@@ -73,6 +75,31 @@ public class ResultsetProcessor {
         }//for
         return resultsContainer;
 	}
-
+	public static ResultsContainer handleCopyNumberSingleView(CopyNumber[] copyNumberObjects, GroupType groupType){
+ 		ResultsContainer resultsContainer = null;
+ 	  	CopyNumberSingleViewHandler  copyNumberSingleViewHandler = new  CopyNumberSingleViewHandler();
+ 	  	SampleViewHandler sampleViewHandler = new SampleViewHandler();
+      	CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
+    	//SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
+    	//GeneExprSampleViewContainer geneExprSampleViewContainer = new GeneExprSampleViewContainer();
+      	//GeneExprResultsContainer geneExprResultsContainer = new GeneExprResultsContainer();
+          for (int i = 0; i < copyNumberObjects.length; i++) {
+    		if(copyNumberObjects[i] != null) {
+            ResultSet obj = copyNumberObjects[i];
+            	if (obj instanceof CopyNumber)  {
+	              	//Propulate the GeneExprSingleResultsContainer
+            		CopyNumber  copyNumberObj = (CopyNumber) obj;
+            		copyNumberSingleViewResultsContainer = copyNumberSingleViewHandler.handleCopyNumberSingleView(copyNumberSingleViewResultsContainer,copyNumberObj, groupType);
+	               	//geneExprSampleViewContainer.setGeneExprSingleViewContainer(geneExprSingleResultsContainer);
+	               	//Populate the SampleViewResultsContainer
+	               	//sampleViewResultsContainer = sampleViewHandler.handleSampleView(sampleViewResultsContainer,copyNumberObj,groupType);
+	               	//geneExprSampleViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
+	               	//geneExprSampleViewContainer.setGeneExprSingleViewContainer(geneExprSingleResultsContainer);
+	               	resultsContainer = copyNumberSingleViewResultsContainer;
+               }
+    		}
+        }//for
+        return resultsContainer;
+	}
 
 }

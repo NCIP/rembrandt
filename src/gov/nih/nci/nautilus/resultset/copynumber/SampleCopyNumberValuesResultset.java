@@ -47,7 +47,7 @@
  *	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *	
  */
-package gov.nih.nci.nautilus.resultset.gene;
+package gov.nih.nci.nautilus.resultset.copynumber;
 
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
@@ -58,17 +58,58 @@ import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
  * 
  */
 public class SampleCopyNumberValuesResultset extends BioSpecimenResultset{
-	private DatumDE copyNumberValue = null;
+	private DatumDE copyNumber = null;
+	private DatumDE channelRatioValue;
+	private DatumDE copyNumberPvalue;
+	private DatumDE loh;
 	/**
-	 * @return Returns the copyNumberValue.
+	 * @return Returns the channelRatioValue.
 	 */
-	public DatumDE getCopyNumberValue() {
-		return this.copyNumberValue;
+	public DatumDE getChannelRatioValue() {
+		return channelRatioValue;
 	}
 	/**
-	 * @param copyNumberValue The copyNumberValue to set.
+	 * @param channelRatioValue The channelRatioValue to set.
 	 */
-	public void setCopyNumberValue(DatumDE copyNumberValue) {
-		this.copyNumberValue = copyNumberValue;
+	public void setChannelRatioValue(DatumDE channelRatioValue) {
+		this.channelRatioValue = channelRatioValue;
 	}
+	/**
+	 * @return Returns the copyNumber.
+	 */
+	public DatumDE getCopyNumber() {
+		return copyNumber;
+	}
+	/**
+	 * @param copyNumber The copyNumber to set.
+	 */
+	public void setCopyNumber(DatumDE copyNumber) {
+		this.copyNumber = copyNumber;
+	}
+	/**
+	 * @return Returns the copyNumberPvalue.
+	 */
+	public DatumDE getCopyNumberPvalue() {
+		return copyNumberPvalue;
+	}
+	/**
+	 * @param copyNumberPvalue The copyNumberPvalue to set.
+	 */
+	public void setCopyNumberPvalue(DatumDE copyNumberPvalue) {
+		this.copyNumberPvalue = copyNumberPvalue;
+	}
+	/**
+	 * @return Returns the loh.
+	 */
+	public DatumDE getLOH() {
+		return loh;
+	}
+	/**
+	 * @param loh The lOH to set.
+	 */
+	public void setLOH(DatumDE loh) {
+		this.loh = loh;
+	}
+
+
 }

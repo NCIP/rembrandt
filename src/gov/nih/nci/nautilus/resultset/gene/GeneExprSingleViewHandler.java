@@ -51,6 +51,7 @@ package gov.nih.nci.nautilus.resultset.gene;
 
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.nautilus.view.GroupType;
 
 public class GeneExprSingleViewHandler extends GeneExprViewHandler{
@@ -63,22 +64,22 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		SurvivalRangeResultset survivalRangeResultset = null;
       	if (exprObj != null){
       		geneResultset = handleGeneResulset(geneViewContainer, exprObj);
-      		biospecimenResultset = handleBioSpecimenResultset(exprObj);
+      		biospecimenResultset = handleSampleFoldChangeValuesResultset(exprObj);
       		reporterResultset = handleReporterResultset(geneResultset,exprObj);
       		if(groupType.getGroupType().equals(GroupType.DISEASE_TYPE_GROUP)){
-      			diseaseResultset = handleDiseaseTypeResultset(reporterResultset,exprObj);
+      			diseaseResultset = ViewByGroupResultsetHandler.handleDiseaseTypeResultset(reporterResultset,exprObj);
       			diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(diseaseResultset);
           		geneViewContainer.addBiospecimensToGroups(exprObj.getDiseaseType(),exprObj.getSampleId().toString());
       		}
       		else if(groupType.getGroupType().equals(GroupType.AGE_GROUP)){
-      			ageGroupResultset = handleAgeGroupResultset(reporterResultset,exprObj);
+      			ageGroupResultset = ViewByGroupResultsetHandler.handleAgeGroupResultset(reporterResultset,exprObj);
       			ageGroupResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(ageGroupResultset);
           		geneViewContainer.addBiospecimensToGroups(exprObj.getAgeGroup(),exprObj.getSampleId().toString());
       		}
       		else if(groupType.getGroupType().equals(GroupType.SURVIVAL_RANGE_GROUP)){
-      			survivalRangeResultset = handleSurvivalRangeResultset(reporterResultset,exprObj);
+      			survivalRangeResultset = ViewByGroupResultsetHandler.handleSurvivalRangeResultset(reporterResultset,exprObj);
       			survivalRangeResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(survivalRangeResultset);
           		geneViewContainer.addBiospecimensToGroups(exprObj.getSurvivalLengthRange(),exprObj.getSampleId().toString());
@@ -91,7 +92,7 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
       	return geneViewContainer;
     }
 
-    private SampleFoldChangeValuesResultset handleBioSpecimenResultset(GeneExpr.GeneExprSingle exprObj){
+    private SampleFoldChangeValuesResultset handleSampleFoldChangeValuesResultset(GeneExpr.GeneExprSingle exprObj){
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
 		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = new SampleFoldChangeValuesResultset();
@@ -106,44 +107,6 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
   		return sampleFoldChangeValuesResultset;
     }
 
-    private AgeGroupResultset handleAgeGroupResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprSingle exprObj){
-  		//find out the age group associated with the exprObj
-  		//populate the AgeGroupResultset
-		AgeGroupResultset ageGroupResultset = null;
-  		if(reporterResultset != null && exprObj != null &&  exprObj.getAgeGroup() != null){
-  			DatumDE ageGroup = new DatumDE(DatumDE.AGE_GROUP,exprObj.getAgeGroup().toString());
-  			ageGroupResultset = (AgeGroupResultset) reporterResultset.getGroupByResultset(exprObj.getAgeGroup().toString());
-  		    if (ageGroupResultset == null){
-  		    	ageGroupResultset= new AgeGroupResultset(ageGroup);
-	      		}
-      	}
-  		return ageGroupResultset;
-    }
-    private SurvivalRangeResultset handleSurvivalRangeResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprSingle exprObj){
-  		//find out the age group associated with the exprObj
-  		//populate the SurvivalRangeResultset
-		SurvivalRangeResultset survivalRangeResultset = null;
-  		if(reporterResultset != null && exprObj != null &&  exprObj.getSurvivalLengthRange() != null){
-  			DatumDE survivalRange = new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,exprObj.getSurvivalLengthRange().toString());
-  			survivalRangeResultset = (SurvivalRangeResultset) reporterResultset.getGroupByResultset(exprObj.getSurvivalLengthRange().toString());
-  		    if (survivalRangeResultset == null){
-  		    	survivalRangeResultset= new SurvivalRangeResultset(survivalRange);
-	      		}
-      	}
-  		return survivalRangeResultset;
-    }
-    private DiseaseTypeResultset handleDiseaseTypeResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprSingle exprObj){
-  		//find out the disease type associated with the exprObj
-  		//populate the DiseaseTypeResultset
-		DiseaseTypeResultset diseaseResultset = null;
-  		if(reporterResultset != null && exprObj != null &&  exprObj.getDiseaseType() != null){
-  			DiseaseNameDE disease = new DiseaseNameDE(exprObj.getDiseaseType().toString());
-  			diseaseResultset = (DiseaseTypeResultset) reporterResultset.getGroupByResultset(exprObj.getDiseaseType().toString());
-  		    if (diseaseResultset == null){
-  		    	diseaseResultset= new DiseaseTypeResultset(disease);
-	      		}
-      	}
-  		return diseaseResultset;
-    }
+
 
 }

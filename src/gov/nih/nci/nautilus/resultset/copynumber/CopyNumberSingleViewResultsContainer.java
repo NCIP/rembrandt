@@ -5,23 +5,20 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.nautilus.resultset.copynumber;
-
-
-import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
-import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
-import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
-
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
+import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 /**
  * @author Himanso
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class CopyNumberSaingleViewHandler extends CopyNumberResultsContainer{
+public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsContainer{
 	/**
 	 * @return Returns the biospecimenLabels.
 	 */
@@ -68,5 +65,4 @@ public class CopyNumberSaingleViewHandler extends CopyNumberResultsContainer{
 		}
     		return null;
     }
-
 }

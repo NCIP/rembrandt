@@ -50,8 +50,10 @@
 package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
@@ -77,6 +79,14 @@ public class ResultsetManager {
     	else if (resultsets instanceof GeneExprGroup[]){
     		GeneExprDiseaseView geneExprDiseaseView = (GeneExprDiseaseView) associatedView;
 			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprDiseaseView((GeneExprGroup[]) resultsets);
+			resultant.setResultsContainer(resultsContainer);
+			resultant.setAssociatedQuery(queryToExecute);
+			resultant.setAssociatedView(associatedView);
+		}
+    	else if (resultsets instanceof CopyNumber[]){
+    		CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
+    		GroupType groupType = copyNumberView.getGroupType();
+			ResultsContainer resultsContainer = ResultsetProcessor.handleCopyNumberSingleView((CopyNumber[]) resultsets, groupType);
 			resultant.setResultsContainer(resultsContainer);
 			resultant.setAssociatedQuery(queryToExecute);
 			resultant.setAssociatedView(associatedView);
