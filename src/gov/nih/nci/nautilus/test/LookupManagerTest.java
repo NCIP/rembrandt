@@ -240,7 +240,7 @@ public void testGeneSymbolAlias(){
 				}
 			}
 			else{
-			System.out.print(symbol+" found! \n");
+			System.out.println(symbol+" found! \n");
 			}
     	}
 

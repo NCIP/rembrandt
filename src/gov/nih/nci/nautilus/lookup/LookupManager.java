@@ -284,7 +284,7 @@ public class LookupManager{
     	}
     	if(geneSymbol != null){
 	    	geneSymbol = geneSymbol.trim();
-	    	if(geneSymbols.equals(geneSymbol) || geneSymbols.equals(geneSymbol.toUpperCase())){
+	    	if(geneSymbols.contains(geneSymbol) || geneSymbols.contains(geneSymbol.toUpperCase())){
 	    		return true;
 	    	}
     	}
