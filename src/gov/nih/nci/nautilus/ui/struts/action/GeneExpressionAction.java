@@ -1,6 +1,6 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
-import gov.nih.nci.nautilus.ui.bean.ReportBean;
+import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.helper.ChromosomeHelper;
 import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
@@ -64,14 +64,14 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
-		
-		//set the chromsomes list in the form 
-		logger.debug("Setup the chromosome values for the form");
-		
-		Collection test = ChromosomeHelper.getInstance().getChromosomes();
-		geneExpressionForm.setChromosomes(test);
-        		
-		return mapping.findForward("backToGeneExp");
+		//Since Chromosomes is a static variable there is no need to set it twice.
+		//It is only a lookup option collection
+		if(geneExpressionForm.getChromosomes()==null||geneExpressionForm.getChromosomes().isEmpty()) {
+			//set the chromsomes list in the form 
+			logger.debug("Setup the chromosome values for the form");
+			geneExpressionForm.setChromosomes((ArrayList)(ChromosomeHelper.getInstance().getChromosomes()));
+		}
+ 		return mapping.findForward("backToGeneExp");
     }
     
     
@@ -234,6 +234,21 @@ public class GeneExpressionAction extends LookupDispatchAction {
         return mapping.findForward("previewReport");
 	}
 	
+	public ActionForward getCytobands(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+			GeneExpressionForm geForm = (GeneExpressionForm)form;
+			List chromosomes = geForm.getChromosomes();
+			int index = chromosomes.indexOf(new ChromosomeBean(geForm.getChromosomeNumber()));
+			if(index!=-1) {
+				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(index);
+				geForm.setCytobands(bean.getCytobands());
+				
+			}
+			return mapping.findForward("backToGeneExp");
+		}
+			
+			
 	
 	
 	private GeneExpressionQuery createGeneExpressionQuery(GeneExpressionForm geneExpressionForm){
@@ -305,6 +320,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
        
        //Submit Standard Button using gene expression submitStandard method
        map.put("buttons_tile.submitStandard", "submitStandard");
+       
+       //Submit to get the cytobands of the selected chromosome
+       map.put("GeneExpressionAction.getCytobands", "getCytobands");
        
        return map;
        

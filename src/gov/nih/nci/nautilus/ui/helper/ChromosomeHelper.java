@@ -90,7 +90,7 @@ public class ChromosomeHelper implements Factory{
 		//add the new cytoband to the list
 		cytobands.add(cytoband);
 		//set the list back in the bean
-		bean.setCytobands(cytobands);
+		bean.setCytobands((ArrayList)cytobands);
 	}
 
 	private void getCytobands() {
@@ -107,7 +107,7 @@ public class ChromosomeHelper implements Factory{
 		}
 	}
     /**
-     * Reqquired for the LazyList
+     * Required for the LazyList
      */
     public Object create() {
        //Just a nonsense Chromosome as a place holder

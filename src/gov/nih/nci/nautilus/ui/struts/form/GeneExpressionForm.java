@@ -46,23 +46,22 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
-
-
-
 public class GeneExpressionForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance
 	// Variables
-    
-    /**chromosomes property */
-    private Collection chromosomes;
-    
-    /**geneOption property */    
+	/** selected chromosomes cytobands **/
+	private ArrayList cytobands = new ArrayList();
+		
+	/** chromosomes property */
+	private static ArrayList chromosomes;
+
+	/** geneOption property */
 	private String geneOption = "standard";
-    
-    /**pathwayName property */
+
+	/** pathwayName property */
 	private String[] pathwayName;
-	
+
 	/** sampleList property */
 	private String sampleList;
 
@@ -114,8 +113,8 @@ public class GeneExpressionForm extends BaseForm {
 	/** basePairEnd property */
 	private String basePairEnd;
 
-	/** chrosomeNumber property */
-	private String chrosomeNumber;
+	/** chromosomeNumber property */
+	private String chromosomeNumber;
 
 	/** regulationStatus property */
 	private String regulationStatus;
@@ -139,8 +138,8 @@ public class GeneExpressionForm extends BaseForm {
 	private String resultView;
 
 	/** geneFile property */
-	private FormFile  geneFile;
-	
+	private FormFile geneFile;
+
 	/** sampleFile property */
 	private FormFile sampleFile;
 
@@ -149,7 +148,7 @@ public class GeneExpressionForm extends BaseForm {
 
 	/** geneGroup property */
 	private String geneGroup;
-	
+
 	/** sampleGroup property */
 	private String sampleGroup;
 
@@ -163,9 +162,9 @@ public class GeneExpressionForm extends BaseForm {
 	private String basePairStart;
 
 	// Collections used for Lookup values.
-	//private ArrayList diseaseType;// moved this to the upperclass:
+	// private ArrayList diseaseType;// moved this to the upperclass:
 	// BaseForm.java
-	//private ArrayList geneTypeColl;// move this to the upperclass:
+	// private ArrayList geneTypeColl;// move this to the upperclass:
 	// BaseForm.java
 	private ArrayList cloneTypeColl = new ArrayList();
 
@@ -174,9 +173,9 @@ public class GeneExpressionForm extends BaseForm {
 	private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
 
 	private GeneIDCriteria geneCriteria;
-	
+
 	private AllGenesCriteria allGenesCriteria;
-	
+
 	private SampleCriteria sampleCriteria;
 
 	private FoldChangeCriteria foldChangeCriteria;
@@ -200,7 +199,7 @@ public class GeneExpressionForm extends BaseForm {
 	private HashMap diseaseDomainMap = new HashMap();
 
 	private HashMap geneDomainMap = new HashMap();
-	
+
 	private HashMap sampleDomainMap = new HashMap();
 
 	private HashMap foldUpDomainMap = new HashMap();
@@ -225,8 +224,6 @@ public class GeneExpressionForm extends BaseForm {
 
 	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 
-
-
 	// --------------------------------------------------------- Methods
 	public GeneExpressionForm() {
 
@@ -247,46 +244,63 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
-        
-	    
+
 		ActionErrors errors = new ActionErrors();
-		
-       //if the method of the button is "submit" or "run report", validate
-		if(this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview")){
-		    
-		// Query Name cannot be blank
-		errors = UIFormValidator.validateQueryName(queryName, errors);
-		// Chromosomal region validations
-		errors = UIFormValidator.validateChromosomalRegion(chrosomeNumber, region, cytobandRegion, basePairStart,basePairEnd, errors);
-        //Validate Go Classification
-        errors = UIFormValidator.validateGOClassification(goClassification, errors);
-		//Validate Gene List, Gene File and Gene Group
-        errors = UIFormValidator.validate(sampleGroup, sampleList, sampleFile, errors);
-        //Make sure the cloneListFile uploaded is of type txt and MIME type is text/plain
-        errors = UIFormValidator.validateTextFileType(cloneListFile, "cloneId", errors);
-        //Make sure the geneGroup uploaded file is of type txt and MIME type is text/plain
-        errors = UIFormValidator.validateTextFileType(geneFile, "geneGroup", errors);
-		//Validate CloneId
-        errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
-		       
-        // Validate minimum criteria's for GE Query 
-		if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
-		   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
-		   		(this.getCloneId() == null || this.getCloneId().trim().length() < 1) &&
-		   		(this.getChrosomeNumber() == null || this.getChrosomeNumber().trim().length() < 1) && 
-		   		(this.getGoClassification() == null || this.getGoClassification().trim().length() < 1) && 
-		   		(this.getPathways() == null || this.getPathways().trim().length() < 1)) { 
-				
-				errors
-				.add(
-						ActionErrors.GLOBAL_ERROR,
-						new ActionError(
-								"gov.nih.nci.nautilus.ui.struts.form.ge.minimum.error"));
+
+		// if the method of the button is "submit" or "run report", validate
+		if (this.getMethod().equalsIgnoreCase("submit")
+				|| this.getMethod().equalsIgnoreCase("preview")) {
+
+			// Query Name cannot be blank
+			errors = UIFormValidator.validateQueryName(queryName, errors);
+			// Chromosomal region validations
+			errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber,
+					region, cytobandRegion, basePairStart, basePairEnd, errors);
+			// Validate Go Classification
+			errors = UIFormValidator.validateGOClassification(goClassification,
+					errors);
+			// Validate Gene List, Gene File and Gene Group
+			errors = UIFormValidator.validate(sampleGroup, sampleList,
+					sampleFile, errors);
+			// Make sure the cloneListFile uploaded is of type txt and MIME type
+			// is text/plain
+			errors = UIFormValidator.validateTextFileType(cloneListFile,
+					"cloneId", errors);
+			// Make sure the geneGroup uploaded file is of type txt and MIME
+			// type is text/plain
+			errors = UIFormValidator.validateTextFileType(geneFile,
+					"geneGroup", errors);
+			// Validate CloneId
+			errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify,
+					cloneListFile, errors);
+
+			// Validate minimum criteria's for GE Query
+			if (this.getQueryName() != null
+					&& this.getQueryName().length() >= 1
+					&& this.getGeneOption().equalsIgnoreCase("standard")) {
+				if ((this.getGeneGroup() == null || this.getGeneGroup().trim()
+						.length() < 1)
+						&& (this.getCloneId() == null || this.getCloneId()
+								.trim().length() < 1)
+						&& (this.getChromosomeNumber() == null || this
+								.getChromosomeNumber().trim().length() < 1)
+						&& (this.getGoClassification() == null || this
+								.getGoClassification().trim().length() < 1)
+						&& (this.getPathways() == null || this.getPathways()
+								.trim().length() < 1)) {
+
+					errors
+							.add(
+									ActionErrors.GLOBAL_ERROR,
+									new ActionError(
+											"gov.nih.nci.nautilus.ui.struts.form.ge.minimum.error"));
+				}
 			}
-		  }
+		}else {
+			logger.debug("This isn't submit or preview report");
 		}
-		
-        if (errors.isEmpty()) {
+
+		if (errors.isEmpty()) {
 			createDiseaseCriteriaObject();
 			createSampleCriteriaObject();
 			createAllGenesCriteriaObject();
@@ -298,19 +312,17 @@ public class GeneExpressionForm extends BaseForm {
 			createPathwayCriteriaObject();
 			createArrayPlatformCriteriaObject();
 
-		 
-	    }
-		else
-		    logger.debug("This isn't submit or preview report"); 
+		} 
 		return errors;
-	    
+
 	}
-    private void createAllGenesCriteriaObject(){        
-      allGenesCriteria = new AllGenesCriteria(isAllGenes);
-    }
-    
+
+	private void createAllGenesCriteriaObject() {
+		allGenesCriteria = new AllGenesCriteria(isAllGenes);
+	}
+
 	private void createDiseaseCriteriaObject() {
-		//look thorugh the diseaseDomainMap to extract out the domain elements
+		// look thorugh the diseaseDomainMap to extract out the domain elements
 		// and create respective Criteria Objects
 		Set keys = diseaseDomainMap.keySet();
 		Iterator iter = keys.iterator();
@@ -319,7 +331,7 @@ public class GeneExpressionForm extends BaseForm {
 
 			try {
 				String strDiseaseDomainClass = (String) diseaseDomainMap
-						.get(key);//use key to get value
+						.get(key);// use key to get value
 				Constructor[] diseaseConstructors = Class.forName(
 						strDiseaseDomainClass).getConstructors();
 				Object[] parameterObjects = { key };
@@ -332,8 +344,8 @@ public class GeneExpressionForm extends BaseForm {
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createDiseaseCriteriaObject "
-								+ le.getMessage());
+				logger.error("Linkage Error in createDiseaseCriteriaObject "
+						+ le.getMessage());
 				le.printStackTrace();
 			}
 		}
@@ -362,11 +374,11 @@ public class GeneExpressionForm extends BaseForm {
 				logger.debug("Gene Domain Element Value==> "
 						+ geneSymbolDEObj.getValueObject());
 			} catch (Exception ex) {
-			    logger.debug("Error in createGeneCriteriaObject  "
+				logger.debug("Error in createGeneCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createGeneCriteriaObject "
+				logger.error("Linkage Error in createGeneCriteriaObject "
 						+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -374,7 +386,7 @@ public class GeneExpressionForm extends BaseForm {
 		}
 
 	}
-	
+
 	private void createSampleCriteriaObject() {
 
 		// Loop thru the HashMap, extract the Domain elements and create
@@ -398,11 +410,11 @@ public class GeneExpressionForm extends BaseForm {
 				logger.debug("Sample Domain Element Value==> "
 						+ sampleIDDEObj.getValueObject());
 			} catch (Exception ex) {
-			    logger.debug("Error in createSampleCriteriaObject  "
+				logger.debug("Error in createSampleCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createSampleCriteriaObject "
+				logger.error("Linkage Error in createSampleCriteriaObject "
 						+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -410,7 +422,6 @@ public class GeneExpressionForm extends BaseForm {
 		}
 
 	}
-
 
 	private void createFoldChangeCriteriaObject() {
 
@@ -435,17 +446,17 @@ public class GeneExpressionForm extends BaseForm {
 						+ foldChangeDEObj.getValueObject());
 
 			} catch (Exception ex) {
-			    logger.error("Error in createFoldChangeCriteriaObject  "
+				logger.error("Error in createFoldChangeCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
 				logger.error("Linkage Error in createFoldChangeCriteriaObject "
-								+ le.getMessage());
+						+ le.getMessage());
 				le.printStackTrace();
 			}
 		}
 
-		//		For Fold Change Down
+		// For Fold Change Down
 		keys = foldDownDomainMap.keySet();
 		i = keys.iterator();
 		while (i.hasNext()) {
@@ -466,12 +477,12 @@ public class GeneExpressionForm extends BaseForm {
 						+ foldChangeDEObj.getValueObject());
 
 			} catch (Exception ex) {
-			    logger.error("Error in createFoldChangeCriteriaObject  "
+				logger.error("Error in createFoldChangeCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createFoldChangeCriteriaObject "
-								+ le.getMessage());
+				logger.error("Linkage Error in createFoldChangeCriteriaObject "
+						+ le.getMessage());
 				le.printStackTrace();
 			}
 		}
@@ -526,12 +537,12 @@ public class GeneExpressionForm extends BaseForm {
 				}
 
 			} catch (Exception ex) {
-			    logger.error("Error in createRegionCriteriaObject  "
+				logger.error("Error in createRegionCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createRegionCriteriaObject "
-								+ le.getMessage());
+				logger.error("Linkage Error in createRegionCriteriaObject "
+						+ le.getMessage());
 				le.printStackTrace();
 			}
 
@@ -562,11 +573,11 @@ public class GeneExpressionForm extends BaseForm {
 				logger.debug("Clone Domain Element Value==> "
 						+ cloneIdentfierDEObj.getValueObject());
 			} catch (Exception ex) {
-			    logger.error("Error in createGeneCriteriaObject  "
+				logger.error("Error in createGeneCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createGeneCriteriaObject "
+				logger.error("Linkage Error in createGeneCriteriaObject "
 						+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -599,11 +610,12 @@ public class GeneExpressionForm extends BaseForm {
 				logger.debug("GO Domain Element Value==> "
 						+ geneOntologyDEObj.getValueObject());
 			} catch (Exception ex) {
-			    logger.error("Error in createGeneOntologyCriteriaObject  "
-								+ ex.getMessage());
+				logger.error("Error in createGeneOntologyCriteriaObject  "
+						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createGeneOntologyCriteriaObject "
+				logger
+						.error("Linkage Error in createGeneOntologyCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -639,11 +651,11 @@ public class GeneExpressionForm extends BaseForm {
 				logger.debug("GO Domain Element Value==> "
 						+ pathwayDEObj.getValueObject());
 			} catch (Exception ex) {
-			    logger.error("Error in createGeneCriteriaObject  "
+				logger.error("Error in createGeneCriteriaObject  "
 						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createGeneCriteriaObject "
+				logger.error("Linkage Error in createGeneCriteriaObject "
 						+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -674,11 +686,12 @@ public class GeneExpressionForm extends BaseForm {
 				logger.debug("GO Domain Element Value==> "
 						+ arrayPlatformDEObj.getValueObject());
 			} catch (Exception ex) {
-			    logger.error("Error in createArrayPlatformCriteriaObject  "
-								+ ex.getMessage());
+				logger.error("Error in createArrayPlatformCriteriaObject  "
+						+ ex.getMessage());
 				ex.printStackTrace();
 			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createArrayPlatformCriteriaObject "
+				logger
+						.error("Linkage Error in createArrayPlatformCriteriaObject "
 								+ le.getMessage());
 				le.printStackTrace();
 			}
@@ -689,9 +702,9 @@ public class GeneExpressionForm extends BaseForm {
 
 	public void setGeneExpressionLookup() {
 
-		//diseaseType = new ArrayList();// moved to the upper class:
+		// diseaseType = new ArrayList();// moved to the upper class:
 		// BaseForm.java
-		//geneTypeColl = new ArrayList();// moved to the upper class:
+		// geneTypeColl = new ArrayList();// moved to the upper class:
 		// BaseForm.java
 		cloneTypeColl = new ArrayList();
 		arrayPlatformTypeColl = new ArrayList();
@@ -715,16 +728,16 @@ public class GeneExpressionForm extends BaseForm {
 		 * ));
 		 */
 
-		//geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" )
+		// geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" )
 		// );//moved to the upperclass:: BaseForm.java
-		//geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" )
+		// geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" )
 		// );//moved to the upperclass:: BaseForm.java
-		//geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" )
+		// geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" )
 		// );//moved to the upperclass:: BaseForm.java
-		//geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" )
+		// geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" )
 		// );//moved to the upperclass:: BaseForm.java
 		cloneTypeColl.add(new LabelValueBean("IMAGE Id", "imageId"));
-		//cloneTypeColl.add( new LabelValueBean( "BAC Id", "BACId" ) );
+		// cloneTypeColl.add( new LabelValueBean( "BAC Id", "BACId" ) );
 		cloneTypeColl.add(new LabelValueBean("Probe Set Id", "probeSetId"));
 
 		arrayPlatformTypeColl.add(new LabelValueBean("all", "all"));
@@ -744,8 +757,8 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
-		//geneOption = "";
-	    pathwayName = new String[0];
+		// geneOption = "";
+		pathwayName = new String[0];
 		geneList = "";
 		goBiologicalProcess = "";
 		tumorGrade = "";
@@ -762,7 +775,7 @@ public class GeneExpressionForm extends BaseForm {
 		cloneListSpecify = "";
 		goClassification = "";
 		basePairEnd = "";
-		chrosomeNumber = "";
+		chromosomeNumber = "";
 		regulationStatus = "";
 		foldChangeValueUnchangeFrom = "0.8";
 		foldChangeValueUnchangeTo = "1.2";
@@ -780,7 +793,7 @@ public class GeneExpressionForm extends BaseForm {
 		sampleList = "";
 		sampleFile = null;
 
-		//Set the Request Object
+		// Set the Request Object
 		this.thisRequest = request;
 
 		diseaseDomainMap = new HashMap();
@@ -804,7 +817,7 @@ public class GeneExpressionForm extends BaseForm {
 		arrayPlatformCriteria = new ArrayPlatformCriteria();
 		allGenesCriteria = new AllGenesCriteria(isAllGenes);
 
-		//arrayPlatformCriteria = new ArrayPlatformCriteria();
+		// arrayPlatformCriteria = new ArrayPlatformCriteria();
 
 	}
 
@@ -817,21 +830,23 @@ public class GeneExpressionForm extends BaseForm {
 
 		return geneList;
 	}
-	
-	/**Set the chromosomes Collection
+
+	/**
+	 * Set the chromosomes Collection
 	 * 
 	 * @param chromosomes
 	 */
-	public void setChromosomes(Collection chromosomes){
-	    this.chromosomes = chromosomes;
+	public void setChromosomes(ArrayList chromosomes) {
+		GeneExpressionForm.chromosomes = chromosomes;
 	}
-	
-	/**Return the chromosomes List
+
+	/**
+	 * Return the chromosomes List
 	 * 
 	 * @param chromosomes
 	 */
-	public Collection getChromosomes(){
-	    return this.chromosomes;
+	public ArrayList getChromosomes() {
+		return GeneExpressionForm.chromosomes;
 	}
 
 	/**
@@ -842,20 +857,20 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setGeneList(String geneList) {
 		this.geneList = geneList;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 
 			String thisGeneType = this.thisRequest.getParameter("geneType");
 			String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-	
+
 			if ((thisGeneGroup != null)
 					&& thisGeneGroup.equalsIgnoreCase("Specify")
-					&& (thisGeneType.length() > 0) && (this.geneList.length() > 0)) {
-	
+					&& (thisGeneType.length() > 0)
+					&& (this.geneList.length() > 0)) {
+
 				String[] splitValue = this.geneList.split("\\x2C");
-				
-	
+
 				for (int i = 0; i < splitValue.length; i++) {
-	                
+
 					if (thisGeneType.equalsIgnoreCase("genesymbol")) {
 						geneDomainMap.put(splitValue[i].trim(),
 								GeneIdentifierDE.GeneSymbol.class.getName());
@@ -870,47 +885,47 @@ public class GeneExpressionForm extends BaseForm {
 						geneDomainMap.put(splitValue[i].trim(),
 								GeneIdentifierDE.GeneSymbol.class.getName());
 					}
-	
+
 				}
 			}
 
-		// Set for all genes
-		/*
-		 * if (thisGeneGroup != null &&
-		 * thisGeneGroup.equalsIgnoreCase("Specify") &&
-		 * (thisGeneType.equalsIgnoreCase("allgenes"))){
-		 * geneDomainMap.put("allgenes",
-		 * GeneIdentifierDE.GeneSymbol.class.getName()); }
-		 */
+			// Set for all genes
+			/*
+			 * if (thisGeneGroup != null &&
+			 * thisGeneGroup.equalsIgnoreCase("Specify") &&
+			 * (thisGeneType.equalsIgnoreCase("allgenes"))){
+			 * geneDomainMap.put("allgenes",
+			 * GeneIdentifierDE.GeneSymbol.class.getName()); }
+			 */
 		}
 	}
-	
+
 	/**
 	 * Sets the geneOption
 	 * 
 	 * @return String
 	 */
-	public void setGeneOption(String geneOption){
-	    this.geneOption = geneOption;
-	    if (thisRequest != null){
-	        String thisGeneOption = this.thisRequest.getParameter("geneOption");
-	        if (thisGeneOption != null
-	                && thisGeneOption.equalsIgnoreCase("allgenes")){
-	            isAllGenes = true;
-	            regulationStatus = "up";
-	        }
-	    }
+	public void setGeneOption(String geneOption) {
+		this.geneOption = geneOption;
+		if (thisRequest != null) {
+			String thisGeneOption = this.thisRequest.getParameter("geneOption");
+			if (thisGeneOption != null
+					&& thisGeneOption.equalsIgnoreCase("allgenes")) {
+				isAllGenes = true;
+				regulationStatus = "up";
+			}
+		}
 	}
-	
+
 	/**
 	 * Returns the geneOption.
 	 * 
 	 * @return String
-	 */	
-	public String getGeneOption(){
-	    return geneOption;
+	 */
+	public String getGeneOption() {
+		return geneOption;
 	}
-	
+
 	/**
 	 * Returns the sampleList.
 	 * 
@@ -929,28 +944,26 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setSampleList(String sampleList) {
 		this.sampleList = sampleList;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 
-			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
-	
+			String thisSampleGroup = this.thisRequest
+					.getParameter("sampleGroup");
+
 			if ((thisSampleGroup != null)
 					&& thisSampleGroup.equalsIgnoreCase("Specify")
 					&& (this.sampleList.length() > 0)) {
-	
+
 				String[] splitSampleValue = this.sampleList.split("\\x2C");
-				
-	
+
 				for (int i = 0; i < splitSampleValue.length; i++) {
-	                sampleDomainMap.put(splitSampleValue[i].trim(),
-					SampleIDDE.class.getName());	
+					sampleDomainMap.put(splitSampleValue[i].trim(),
+							SampleIDDE.class.getName());
 				}
-			 }
+			}
 
 		}
 	}
 
-	
-	
 	/**
 	 * Returns the geneFile.
 	 * 
@@ -959,7 +972,7 @@ public class GeneExpressionForm extends BaseForm {
 	public FormFile getGeneFile() {
 		return geneFile;
 	}
-	
+
 	/**
 	 * Returns the sampleFile.
 	 * 
@@ -977,57 +990,66 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setGeneFile(FormFile geneFile) {
 		this.geneFile = geneFile;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisGeneType = this.thisRequest.getParameter("geneType");
 			String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-	//		retrieve the file name & size
-	 		String fileName= geneFile.getFileName();
-	 		int fileSize = geneFile.getFileSize();
-	
-	 		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload")
-					&& (thisGeneType.length() > 0)
-					&& (this.geneFile != null)
+			// retrieve the file name & size
+			String fileName = geneFile.getFileName();
+			int fileSize = geneFile.getFileSize();
+
+			if ((thisGeneGroup != null)
+					&& thisGeneGroup.equalsIgnoreCase("Upload")
+					&& (thisGeneType.length() > 0) && (this.geneFile != null)
 					&& (this.geneFile.getFileName().endsWith(".txt"))
 					&& (this.geneFile.getContentType().equals("text/plain"))) {
 				try {
-					InputStream stream = geneFile.getInputStream();				
+					InputStream stream = geneFile.getInputStream();
 					String inputLine = null;
-					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
-					
+					BufferedReader inFile = new BufferedReader(
+							new InputStreamReader(stream));
+
 					int count = 0;
-					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
-						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
-								count++;
-								if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-									geneDomainMap.put(inputLine,
-													GeneIdentifierDE.GeneSymbol.class
-															.getName());
-								} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-									geneDomainMap.put(inputLine,
-											GeneIdentifierDE.LocusLink.class.getName());
-								} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-									geneDomainMap.put(
-											inputLine,
-													GeneIdentifierDE.GenBankAccessionNumber.class
-															.getName());
-								} else if (thisGeneType.equalsIgnoreCase("allgenes")) {
-									geneDomainMap.put(inputLine,
-													GeneIdentifierDE.GeneSymbol.class
-															.getName());
-								}
+					while ((inputLine = inFile.readLine()) != null
+							&& count < NautilusConstants.MAX_FILEFORM_COUNT) {
+						if (UIFormValidator.isAscii(inputLine)) { // make sure
+																	// all data
+																	// is ASCII
+							count++;
+							if (thisGeneType.equalsIgnoreCase("genesymbol")) {
+								geneDomainMap.put(inputLine,
+										GeneIdentifierDE.GeneSymbol.class
+												.getName());
+							} else if (thisGeneType
+									.equalsIgnoreCase("genelocus")) {
+								geneDomainMap.put(inputLine,
+										GeneIdentifierDE.LocusLink.class
+												.getName());
+							} else if (thisGeneType
+									.equalsIgnoreCase("genbankno")) {
+								geneDomainMap
+										.put(
+												inputLine,
+												GeneIdentifierDE.GenBankAccessionNumber.class
+														.getName());
+							} else if (thisGeneType
+									.equalsIgnoreCase("allgenes")) {
+								geneDomainMap.put(inputLine,
+										GeneIdentifierDE.GeneSymbol.class
+												.getName());
+							}
 						}
 					}// end of while
-	
+
 					inFile.close();
 				} catch (IOException ex) {
-				    logger.error("Errors when uploading gene file:"
+					logger.error("Errors when uploading gene file:"
 							+ ex.getMessage());
 				}
-	
+
 			}
 		}
 	}
-	
+
 	/**
 	 * Set the sampleFile.
 	 * 
@@ -1036,49 +1058,56 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setSampleFile(FormFile sampleFile) {
 		this.sampleFile = sampleFile;
-		if(thisRequest!=null){
-			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
-	//		retrieve the file name & size
-	 		String fileName= sampleFile.getFileName();
-	 		int fileSize = sampleFile.getFileSize();
-	
-	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
+		if (thisRequest != null) {
+			String thisSampleGroup = this.thisRequest
+					.getParameter("sampleGroup");
+			// retrieve the file name & size
+			String fileName = sampleFile.getFileName();
+			int fileSize = sampleFile.getFileSize();
+
+			if ((thisSampleGroup != null)
+					&& thisSampleGroup.equalsIgnoreCase("Upload")
 					&& (this.sampleFile != null)
 					&& (this.sampleFile.getFileName().endsWith(".txt"))
 					&& (this.sampleFile.getContentType().equals("text/plain"))) {
 				try {
-					InputStream stream = sampleFile.getInputStream();				
+					InputStream stream = sampleFile.getInputStream();
 					String inputLine = null;
-					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
-					
+					BufferedReader inFile = new BufferedReader(
+							new InputStreamReader(stream));
+
 					int count = 0;
-					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
-						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
-								count++;
-								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
+					while ((inputLine = inFile.readLine()) != null
+							&& count < NautilusConstants.MAX_FILEFORM_COUNT) {
+						if (UIFormValidator.isAscii(inputLine)) { // make sure
+																	// all data
+																	// is ASCII
+							count++;
+							sampleDomainMap.put(inputLine, SampleIDDE.class
+									.getName());
 						}
 					}// end of while
-	
+
 					inFile.close();
 				} catch (IOException ex) {
-				    logger.error("Errors when uploading sample file:"
+					logger.error("Errors when uploading sample file:"
 							+ ex.getMessage());
 				}
-	
+
 			}
 		}
 	}
 
-
-
 	public GeneIDCriteria getGeneIDCriteria() {
 		return this.geneCriteria;
 	}
-    public AllGenesCriteria getAllGenesCriteria(){
-        return this.allGenesCriteria;
-    }
-	public SampleCriteria getSampleCriteria(){
-	    return this.sampleCriteria;
+
+	public AllGenesCriteria getAllGenesCriteria() {
+		return this.allGenesCriteria;
+	}
+
+	public SampleCriteria getSampleCriteria() {
+		return this.sampleCriteria;
 	}
 
 	public FoldChangeCriteria getFoldChangeCriteria() {
@@ -1183,14 +1212,14 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setFoldChangeValueDown(String foldChangeValueDown) {
 		this.foldChangeValueDown = foldChangeValueDown;
-			if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-	
+
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("down")
 					&& (this.foldChangeValueDown.length() > 0))
-	
+
 				foldDownDomainMap.put(this.foldChangeValueDown,
 						ExprFoldChangeDE.DownRegulation.class.getName());
 		}
@@ -1214,13 +1243,15 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setCytobandRegion(String cytobandRegion) {
 		this.cytobandRegion = cytobandRegion;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest.getParameter("chrosomeNumber");
-	
+			String thisChrNumber = this.thisRequest
+					.getParameter("chromosomeNumber");
+
 			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-	
-				if (thisRegion != null && thisRegion.equalsIgnoreCase("cytoband")
+
+				if (thisRegion != null
+						&& thisRegion.equalsIgnoreCase("cytoband")
 						&& this.cytobandRegion.trim().length() > 0) {
 					regionDomainMap.put(this.cytobandRegion, CytobandDE.class
 							.getName());
@@ -1302,7 +1333,8 @@ public class GeneExpressionForm extends BaseForm {
 						.next();
 				String thisDiseaseType = thisLabelBean.getValue();
 				// stuff this in our DomainMap for later use !!
-				if (!thisDiseaseType.equalsIgnoreCase("ALL")&&diseaseDomainMap!=null) {
+				if (!thisDiseaseType.equalsIgnoreCase("ALL")
+						&& diseaseDomainMap != null) {
 					diseaseDomainMap.put(thisDiseaseType, DiseaseNameDE.class
 							.getName());
 				}
@@ -1330,9 +1362,9 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setArrayPlatform(String arrayPlatform) {
 		this.arrayPlatform = arrayPlatform;
-		if(arrayPlatformDomainMap!=null){
-		    arrayPlatformDomainMap.put(this.arrayPlatform, ArrayPlatformDE.class
-				.getName());
+		if (arrayPlatformDomainMap != null) {
+			arrayPlatformDomainMap.put(this.arrayPlatform,
+					ArrayPlatformDE.class.getName());
 		}
 	}
 
@@ -1391,35 +1423,39 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setCloneListSpecify(String cloneListSpecify) {
 		this.cloneListSpecify = cloneListSpecify;
-		if(thisRequest!=null){
-		// this is to check if the radio button is selected for the clone
-		// category
-		String thisCloneId = (String) thisRequest.getParameter("cloneId");
+		if (thisRequest != null) {
+			// this is to check if the radio button is selected for the clone
+			// category
+			String thisCloneId = (String) thisRequest.getParameter("cloneId");
 
-		// this is to check the type of the clone
-		String thisCloneList = (String) thisRequest.getParameter("cloneList");
+			// this is to check the type of the clone
+			String thisCloneList = (String) thisRequest
+					.getParameter("cloneList");
 
-		if (thisCloneId != null && thisCloneList != null
-				&& !thisCloneList.equals("")) {
-			if (this.cloneListSpecify != null && !cloneListSpecify.equals("")) {
-				String[] cloneStr = cloneListSpecify.split("\\x2C");
-				for (int i = 0; i < cloneStr.length; i++) {
-					if (thisCloneList.equalsIgnoreCase("imageId")) {
-						cloneDomainMap.put(cloneStr[i].trim(),
-								CloneIdentifierDE.IMAGEClone.class.getName());
-					} else if (thisCloneList.equalsIgnoreCase("BACId")) {
-						cloneDomainMap.put(cloneStr[i].trim(),
-								CloneIdentifierDE.BACClone.class.getName());
-					} else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
-						cloneDomainMap.put(cloneStr[i].trim(),
-								CloneIdentifierDE.ProbesetID.class.getName());
-					}
+			if (thisCloneId != null && thisCloneList != null
+					&& !thisCloneList.equals("")) {
+				if (this.cloneListSpecify != null
+						&& !cloneListSpecify.equals("")) {
+					String[] cloneStr = cloneListSpecify.split("\\x2C");
+					for (int i = 0; i < cloneStr.length; i++) {
+						if (thisCloneList.equalsIgnoreCase("imageId")) {
+							cloneDomainMap.put(cloneStr[i].trim(),
+									CloneIdentifierDE.IMAGEClone.class
+											.getName());
+						} else if (thisCloneList.equalsIgnoreCase("BACId")) {
+							cloneDomainMap.put(cloneStr[i].trim(),
+									CloneIdentifierDE.BACClone.class.getName());
+						} else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
+							cloneDomainMap.put(cloneStr[i].trim(),
+									CloneIdentifierDE.ProbesetID.class
+											.getName());
+						}
 
-				} // end of for loop
-			}// end of if(this.cloneListSpecify != null &&
-			 // !cloneListSpecify.equals("")){
+					} // end of for loop
+				}// end of if(this.cloneListSpecify != null &&
+				// !cloneListSpecify.equals("")){
 
-		}
+			}
 		}
 	}
 
@@ -1440,47 +1476,55 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setCloneListFile(FormFile cloneListFile) {
 		this.cloneListFile = cloneListFile;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			// this is to check if the radio button is selected for the clone
 			// category
 			String thisCloneId = (String) thisRequest.getParameter("cloneId");
 			// this is to check the type of the clone
-			String thisCloneList = (String) thisRequest.getParameter("cloneList");
-			
+			String thisCloneList = (String) thisRequest
+					.getParameter("cloneList");
+
 			//
-	        //retrieve the file name & size
-	 		String fileName= cloneListFile.getFileName();
-	 		int fileSize = cloneListFile.getFileSize();
-	
-			if ((thisCloneId != null) && thisCloneId.equalsIgnoreCase("Upload")
+			// retrieve the file name & size
+			String fileName = cloneListFile.getFileName();
+			int fileSize = cloneListFile.getFileSize();
+
+			if ((thisCloneId != null)
+					&& thisCloneId.equalsIgnoreCase("Upload")
 					&& (thisCloneList.length() > 0)
 					&& (this.cloneListFile != null)
 					&& (this.cloneListFile.getFileName().endsWith(".txt"))
-					&& (this.getCloneListFile().getContentType().equals("text/plain"))) {
-	
-					try {
-						InputStream stream = cloneListFile.getInputStream();				
-						String inputLine = null;
-						BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
-						int count = 0;
-						while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
-							if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
-								count ++; //increment
-								if (thisCloneList.equalsIgnoreCase("IMAGEId")) {
-									cloneDomainMap.put(inputLine,
-											CloneIdentifierDE.IMAGEClone.class
-													.getName());
-								} else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
-									cloneDomainMap.put(inputLine,
-											CloneIdentifierDE.ProbesetID.class
-													.getName());
-								}
+					&& (this.getCloneListFile().getContentType()
+							.equals("text/plain"))) {
+
+				try {
+					InputStream stream = cloneListFile.getInputStream();
+					String inputLine = null;
+					BufferedReader inFile = new BufferedReader(
+							new InputStreamReader(stream));
+					int count = 0;
+					while ((inputLine = inFile.readLine()) != null
+							&& count < NautilusConstants.MAX_FILEFORM_COUNT) {
+						if (UIFormValidator.isAscii(inputLine)) { // make sure
+																	// all data
+																	// is ASCII
+							count++; // increment
+							if (thisCloneList.equalsIgnoreCase("IMAGEId")) {
+								cloneDomainMap.put(inputLine,
+										CloneIdentifierDE.IMAGEClone.class
+												.getName());
+							} else if (thisCloneList
+									.equalsIgnoreCase("probeSetId")) {
+								cloneDomainMap.put(inputLine,
+										CloneIdentifierDE.ProbesetID.class
+												.getName());
 							}
-						}// end of while
-	
+						}
+					}// end of while
+
 					inFile.close();
 				} catch (IOException ex) {
-				    logger.error("Errors when uploading clone/probeset file:"
+					logger.error("Errors when uploading clone/probeset file:"
 							+ ex.getMessage());
 				}
 			}
@@ -1505,8 +1549,8 @@ public class GeneExpressionForm extends BaseForm {
 	public void setGoClassification(String goClassification) {
 		this.goClassification = goClassification;
 		String goSelect = null;
-		if(thisRequest!=null){
-		    goSelect = (String) thisRequest.getParameter("goClassification");
+		if (thisRequest != null) {
+			goSelect = (String) thisRequest.getParameter("goClassification");
 		}
 		if (goSelect != null && !goSelect.equals("")) {
 			geneOntologyDomainMap.put(this.goClassification,
@@ -1532,20 +1576,21 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setBasePairEnd(String basePairEnd) {
 		this.basePairEnd = basePairEnd;
-		
-		if(thisRequest!=null){
+
+		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest.getParameter("chrosomeNumber");
+			String thisChrNumber = this.thisRequest
+					.getParameter("chromosomeNumber");
 			String thisBasePairStart = this.thisRequest
 					.getParameter("basePairStart");
-			
+
 			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
 				if (thisRegion != null && thisBasePairStart != null
 						&& this.basePairEnd != null) {
 					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
 							&& (thisBasePairStart.trim().length() > 0)
 							&& (this.basePairEnd.trim().length() > 0)) {
-	
+
 						regionDomainMap.put(this.basePairEnd,
 								BasePairPositionDE.EndPosition.class.getName());
 					}
@@ -1555,26 +1600,26 @@ public class GeneExpressionForm extends BaseForm {
 	}
 
 	/**
-	 * Returns the chrosomeNumber.
+	 * Returns the chromosomeNumber.
 	 * 
 	 * @return String
 	 */
-	public String getChrosomeNumber() {
-		return chrosomeNumber;
+	public String getChromosomeNumber() {
+		return chromosomeNumber;
 	}
 
 	/**
-	 * Set the chrosomeNumber.
+	 * Set the chromosomeNumber.
 	 * 
-	 * @param chrosomeNumber
-	 *            The chrosomeNumber to set
+	 * @param chromosomeNumber
+	 *            The chromosomeNumber to set
 	 */
-	public void setChrosomeNumber(String chrosomeNumber) {
-		this.chrosomeNumber = chrosomeNumber;
-		if(regionDomainMap!=null){
+	public void setChromosomeNumber(String chrosomeNumber) {
+		this.chromosomeNumber = chrosomeNumber;
+		if (regionDomainMap != null) {
 			if (chrosomeNumber != null && chrosomeNumber.length() > 0) {
-				regionDomainMap.put(this.chrosomeNumber, ChromosomeNumberDE.class
-						.getName());
+				regionDomainMap.put(this.chromosomeNumber,
+						ChromosomeNumberDE.class.getName());
 			}
 		}
 
@@ -1613,18 +1658,18 @@ public class GeneExpressionForm extends BaseForm {
 	 * 
 	 * @param foldChangeValueUnchange
 	 *            The foldChangeValueUnchange to set
-	 */                                                    
+	 */
 	public void setFoldChangeValueUnchangeFrom(
 			String foldChangeValueUnchangeFrom) {
 		this.foldChangeValueUnchangeFrom = foldChangeValueUnchangeFrom;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-	
+
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
 					&& (this.foldChangeValueUnchangeFrom.length() > 0))
-	
+
 				foldDownDomainMap.put(this.foldChangeValueUnchangeFrom,
 						ExprFoldChangeDE.UnChangedRegulationDownLimit.class
 								.getName());
@@ -1653,10 +1698,10 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setFoldChangeValueUnchangeTo(String foldChangeValueUnchangeTo) {
 		this.foldChangeValueUnchangeTo = foldChangeValueUnchangeTo;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-	
+
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
 					&& (this.foldChangeValueUnchangeTo.length() > 0)) {
@@ -1685,14 +1730,14 @@ public class GeneExpressionForm extends BaseForm {
 	public void setFoldChangeValueUp(String foldChangeValueUp) {
 		this.foldChangeValueUp = foldChangeValueUp;
 		logger.debug("I am in the setFoldChangeValueUp() method");
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-	
+
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("up")
 					&& (this.foldChangeValueUp.length() > 0))
-	
+
 				foldUpDomainMap.put(this.foldChangeValueUp,
 						ExprFoldChangeDE.UpRegulation.class.getName());
 		}
@@ -1735,17 +1780,19 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setFoldChangeValueUDUp(String foldChangeValueUDUp) {
 		this.foldChangeValueUDUp = foldChangeValueUDUp;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-			logger.debug("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
+			logger
+					.debug("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
 							+ thisRegulationStatus);
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
 					&& (this.foldChangeValueUDUp.length() > 0)) {
 				foldUpDomainMap.put(this.foldChangeValueUDUp,
 						ExprFoldChangeDE.UpRegulation.class.getName());
-				logger.debug("foldDomainMap size in the setFoldChangeValueUDUp() method:"
+				logger
+						.debug("foldDomainMap size in the setFoldChangeValueUDUp() method:"
 								+ foldUpDomainMap.size());
 			}
 		}
@@ -1768,19 +1815,20 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setFoldChangeValueUDDown(String foldChangeValueUDDown) {
 		this.foldChangeValueUDDown = foldChangeValueUDDown;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
 			logger.debug("I am in the setFoldChangeValueUDDown() methid: "
 					+ thisRegulationStatus);
-	
+
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
 					&& (this.foldChangeValueUDDown.length() > 0))
-	
+
 				foldDownDomainMap.put(this.foldChangeValueUDDown,
 						ExprFoldChangeDE.DownRegulation.class.getName());
-			logger.debug("foldDomainMap size in the setFoldChangeValueUDDown() method:"
+			logger
+					.debug("foldDomainMap size in the setFoldChangeValueUDDown() method:"
 							+ foldDownDomainMap.size());
 		}
 
@@ -1823,7 +1871,7 @@ public class GeneExpressionForm extends BaseForm {
 	public void setGeneGroup(String geneGroup) {
 		this.geneGroup = geneGroup;
 	}
-	
+
 	/**
 	 * Returns the geneGroup.
 	 * 
@@ -1832,7 +1880,7 @@ public class GeneExpressionForm extends BaseForm {
 	public String getSampleGroup() {
 		return sampleGroup;
 	}
-	
+
 	/**
 	 * Set the sampleGroup.
 	 * 
@@ -1842,7 +1890,6 @@ public class GeneExpressionForm extends BaseForm {
 	public void setSampleGroup(String sampleGroup) {
 		this.sampleGroup = sampleGroup;
 	}
-	
 
 	/**
 	 * Returns the cloneList.
@@ -1899,20 +1946,23 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setBasePairStart(String basePairStart) {
 		this.basePairStart = basePairStart;
-		if(thisRequest!=null){
+		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest.getParameter("chrosomeNumber");
-			String thisBasePairEnd = this.thisRequest.getParameter("basePairEnd");
-	
+			String thisChrNumber = this.thisRequest
+					.getParameter("chromosomeNumber");
+			String thisBasePairEnd = this.thisRequest
+					.getParameter("basePairEnd");
+
 			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
 				if (thisRegion != null && this.basePairStart != null
 						&& thisBasePairEnd != null) {
 					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
 							&& (thisBasePairEnd.trim().length() > 0)
 							&& (this.basePairStart.trim().length() > 0)) {
-	
+
 						regionDomainMap.put(this.basePairStart,
-								BasePairPositionDE.StartPosition.class.getName());
+								BasePairPositionDE.StartPosition.class
+										.getName());
 					}
 				}
 			}
@@ -1939,68 +1989,80 @@ public class GeneExpressionForm extends BaseForm {
 	public void setPathwayName(String[] pathwayName) {
 		this.pathwayName = pathwayName;
 	}
-	
-    public GeneExpressionForm cloneMe() {
-        GeneExpressionForm form = new GeneExpressionForm();
-        form.setPathwayName(pathwayName);
-        form.setGeneList(geneList);
-        form.setSampleList(sampleList);
-        form.setGoClassification(goClassification);
-        form.setGoCellularComp(goCellularComp);
-        form.setGoMolecularFunction(goMolecularFunction);
-        form.setGoCellularComp(goBiologicalProcess);
-        form.setTumorGrade(tumorGrade);
-        form.setRegion(region);
-        form.setFoldChangeValueDown(foldChangeValueDown);
-        form.setCytobandRegion(cytobandRegion);
-        form.setCloneId(cloneId);
-        form.setPathways(pathways);
-        form.setTumorType(tumorType);
-        form.setArrayPlatform(arrayPlatform);
-        form.setCloneListFile(cloneListFile);
-        form.setCloneListSpecify(cloneListSpecify);
-        form.setBasePairEnd(basePairEnd);
-        form.setChrosomeNumber(chrosomeNumber);
-        form.setRegulationStatus(regulationStatus);
-        form.setFoldChangeValueUnchangeFrom(foldChangeValueUnchangeFrom);
-        form.setFoldChangeValueUnchangeTo(foldChangeValueUnchangeTo);
-        form.setFoldChangeValueUp(foldChangeValueUp);
-        form.setGeneType(geneType);
-        form.setFoldChangeValueUDUp(foldChangeValueUDUp);
-        form.setResultView(resultView);
-        form.setGeneFile(geneFile);
-        form.setSampleFile(sampleFile);
-        form.setFoldChangeValueUDDown(foldChangeValueUDDown);
-        form.setGeneGroup(geneGroup);
-        form.setSampleGroup(sampleGroup);
-        form.setCloneList(cloneList);
-        form.setQueryName(queryName);
-        form.setBasePairStart(basePairStart);
-        form.setQueryCollection(queryCollection);
-        /*
-         * form.setCloneTypeColl(cloneTypeColl);
-         * form.setArrayPlatformTypeColl(arrayPlatformTypeColl);
-         * form.setDiseaseOrGradeCriteria(diseaseOrGradeCriteria);
-         * form.setGeneCriteria(geneCriteria);
-         * form.setFoldChangeCriteria(foldChangeCriteria);
-         * form.setRegionCriteria(regionCriteria);
-         * form.setCloneOrProbeIDCriteria(cloneOrProbeIDCriteria);
-         * form.setGeneOntologyCriteria(geneOntologyCriteria);
-         * form.setPathwayCriteria(pathwayCriteria);
-         * form.setArrayPlatform(arrayPlatformCriteria);
-         * form.setUntranslatedRegionCriteria(untranslatedRegionCriteria);
-         * form.setDiseaseDomainMap(diseaseDomainMap);
-         * form.setGeneDomainMap(geneDomainMap);
-         * form.setFoldUpDomainMap(foldUpDomainMap);
-         * form.setFoldDownDomainMap(foldDownDomainMap);
-         * form.setRegionDomainMap(regionDomainMap);
-         * form.setCloneDomainMap(cloneDomainMap);
-         * form.setGeneOntologyDomainMap(geneOntologyDomainMap);
-         * form.setPathwayDomainMap(pathwayDomainMap);
-         * form.setArrayPlatformDomainMap(arrayPlatformDomainMap);
-         */
 
-        return form;
-    }
+	public GeneExpressionForm cloneMe() {
+		GeneExpressionForm form = new GeneExpressionForm();
+		form.setPathwayName(pathwayName);
+		form.setGeneList(geneList);
+		form.setSampleList(sampleList);
+		form.setGoClassification(goClassification);
+		form.setGoCellularComp(goCellularComp);
+		form.setGoMolecularFunction(goMolecularFunction);
+		form.setGoCellularComp(goBiologicalProcess);
+		form.setTumorGrade(tumorGrade);
+		form.setRegion(region);
+		form.setFoldChangeValueDown(foldChangeValueDown);
+		form.setCytobandRegion(cytobandRegion);
+		form.setCloneId(cloneId);
+		form.setPathways(pathways);
+		form.setTumorType(tumorType);
+		form.setArrayPlatform(arrayPlatform);
+		form.setCloneListFile(cloneListFile);
+		form.setCloneListSpecify(cloneListSpecify);
+		form.setBasePairEnd(basePairEnd);
+		form.setChromosomeNumber(chromosomeNumber);
+		form.setRegulationStatus(regulationStatus);
+		form.setFoldChangeValueUnchangeFrom(foldChangeValueUnchangeFrom);
+		form.setFoldChangeValueUnchangeTo(foldChangeValueUnchangeTo);
+		form.setFoldChangeValueUp(foldChangeValueUp);
+		form.setGeneType(geneType);
+		form.setFoldChangeValueUDUp(foldChangeValueUDUp);
+		form.setResultView(resultView);
+		form.setGeneFile(geneFile);
+		form.setSampleFile(sampleFile);
+		form.setFoldChangeValueUDDown(foldChangeValueUDDown);
+		form.setGeneGroup(geneGroup);
+		form.setSampleGroup(sampleGroup);
+		form.setCloneList(cloneList);
+		form.setQueryName(queryName);
+		form.setBasePairStart(basePairStart);
+		form.setQueryCollection(queryCollection);
+		/*
+		 * form.setCloneTypeColl(cloneTypeColl);
+		 * form.setArrayPlatformTypeColl(arrayPlatformTypeColl);
+		 * form.setDiseaseOrGradeCriteria(diseaseOrGradeCriteria);
+		 * form.setGeneCriteria(geneCriteria);
+		 * form.setFoldChangeCriteria(foldChangeCriteria);
+		 * form.setRegionCriteria(regionCriteria);
+		 * form.setCloneOrProbeIDCriteria(cloneOrProbeIDCriteria);
+		 * form.setGeneOntologyCriteria(geneOntologyCriteria);
+		 * form.setPathwayCriteria(pathwayCriteria);
+		 * form.setArrayPlatform(arrayPlatformCriteria);
+		 * form.setUntranslatedRegionCriteria(untranslatedRegionCriteria);
+		 * form.setDiseaseDomainMap(diseaseDomainMap);
+		 * form.setGeneDomainMap(geneDomainMap);
+		 * form.setFoldUpDomainMap(foldUpDomainMap);
+		 * form.setFoldDownDomainMap(foldDownDomainMap);
+		 * form.setRegionDomainMap(regionDomainMap);
+		 * form.setCloneDomainMap(cloneDomainMap);
+		 * form.setGeneOntologyDomainMap(geneOntologyDomainMap);
+		 * form.setPathwayDomainMap(pathwayDomainMap);
+		 * form.setArrayPlatformDomainMap(arrayPlatformDomainMap);
+		 */
 
+		return form;
+	}
+
+	/**
+	 * @return Returns the cytobands.
+	 */
+	public ArrayList getCytobands() {
+		return cytobands;
+	}
+	/**
+	 * @param cytobands The cytobands to set.
+	 */
+	public void setCytobands(ArrayList cytobands) {
+		this.cytobands = cytobands;
+	}
 }

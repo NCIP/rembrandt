@@ -104,9 +104,9 @@ public class LookupManager{
 	 */
 	public static CytobandLookup[] getCytobandPositions() throws Exception{
 		
-			Criteria crit = new Criteria();
-			crit.addOrderByAscending("chrCytoband");
-			cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION).toArray(new CytobandLookup[1]);
+		Criteria crit = new Criteria();
+		crit.addOrderByAscending("chrCytoband");
+		cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION).toArray(new CytobandLookup[1]);
 		
 		return cytobands;
 	}

@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ page import="java.util.*, gov.nih.nci.nautilus.ui.struts.form.*" %> 
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <fieldset class="gray">
 
 <legend class="red">Region
@@ -13,18 +16,22 @@
 	<!-- <html:form action="<%=act%>" > -->
 	
 <br />	&nbsp;&nbsp;Chromosome Number&nbsp;
-	
-	<html:select property="chrosomeNumber">
-			    <html:optionsCollection property="chromosomes" />
-	</html:select>
-	<html:errors property="chrosomeNumber"/>
+		<nested:select name="geneexpressionForm" property="chromosomeNumber" onchange="javascript:cytobandChange()">
+		    <html:optionsCollection name="geneexpressionForm" property="chromosomes" />
+		</nested:select>	
+	<html:errors property="chromosomeNumber"/>
 
 	&nbsp;<br>
 	<blockquote>
 	<html:radio property="region" value="cytoband" styleClass="radio" />
-			Cytoband&nbsp; <html:select property="cytobandRegion" onchange="javascript:selectCRadio();">
-				               <html:option value=""></html:option>						   
-                           </html:select>
+			Cytoband&nbsp;
+			 <html:select property="cytobandRegion" onchange="javascript:selectCRadio();">
+              <logic:iterate name="geneexpressionForm" property="cytobands" id="cytoband">
+               	<option>
+              	 	<bean:write name="cytoband" property="cytoband"/>	
+              	</option>
+               </logic:iterate>		
+            </html:select>
 			<input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br />
 			<html:errors property="cytobandRegion"/>
 			
@@ -57,50 +64,12 @@ Chromosome Number
 	<input type="text" size="10" name="basePairStart">&nbsp;start&nbsp;<input type="text" size="10" name="basePairEnd">&nbsp;end
 </blockquote>
 -->
-
-<SCRIPT>
-
-  function changeCytoBand()	{	
-
-	    var cn = document.forms[0].chrosomeNumber.value;
-		document.forms[0].cytobandRegion.options.length = 1;
-		switch(cn)	{
-
-		<%
-			BaseForm thisForm = new BaseForm();
-			HashMap cytoBandMap =  thisForm.getCytoBandForChr();
-
-			if (cytoBandMap != null) {
-			
-				Set keys = cytoBandMap.keySet();
-				Iterator i = keys.iterator();
-				while (i.hasNext()) {
-					Object key = i.next();
-					out.println("\t\tcase '"+key+"':");
-					out.println("\t\t\tvar cytoRegion = new Array("+cytoBandMap.get(key).toString()+");");
-					out.println("\t\t\tbreak;");
-				}
-			}
-		%>
-			default:
-				var cytoRegion = new Array("");
-			}
-
-		for(var i=0; i<cytoRegion.length; i++)	{
-			myOption = new Option();
-			myOption.text = cytoRegion[i];
-			myOption.value = cytoRegion[i];
-			document.forms[0].cytobandRegion.options[document.forms[0].cytobandRegion.options.length] = myOption;
-		}
-			
-		}
-		function selectCRadio()	{
-		if(document.forms[0].cytobandRegion.selectedIndex == 0)
-			document.forms[0].region[0].checked = false;
-		else
-		document.forms[0].region[0].checked = true;
-		
-		}
+<SCRIPT language="Javascript">
+function cytobandChange(){
+  document.forms[0].multiUseButton.value="GetCytobands";
+  document.forms[0].multiUseButton.click();
+}
 </SCRIPT>
+
 
 <!-- </html:form> -->
