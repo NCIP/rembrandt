@@ -249,14 +249,32 @@ public class GeneExpressionForm extends BaseForm {
 		}
 
 		if (this.getGoClassification() != null) {
-			if (this.getGoMolecularFunction() == null
-					&& this.getGoCellularComp() == null
-					&& this.getGoBiologicalProcess() == null) {
+			String goClassification = this.getGoClassification().trim();
+			if (goClassification.startsWith("GO:")) {
+				String numberValue = goClassification.substring(goClassification.indexOf(":")+1);
+				if (goClassification.length() == 10){
+					try {
+						int n = Integer.parseInt(numberValue);
+					} catch (NumberFormatException ne){
+						errors
+								.add(
+										"goClassification",
+										new ActionError(
+												"gov.nih.nci.nautilus.struts.form.go.numeric.error"));
+					}
+				}else {
+					errors
+							.add(
+									"goClassification",
+									new ActionError(
+											"gov.nih.nci.nautilus.struts.form.go.length.error"));
+				}
+			}else {
 				errors
 						.add(
-								"Gene Ontology (GO) Classifications",
+								"goClassification",
 								new ActionError(
-										"error:gov.nih.nci.nautilus.struts.form.geneOntology.functions.required"));
+										"gov.nih.nci.nautilus.struts.form.go.startswith.error"));
 			}
 		}
 		
