@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.helper;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -105,8 +106,8 @@ public class ReportGeneratorHelper {
 						 * until another unnamed query is run.
 						 * 
 						 */
-						if (cQuery.getQueryName() == null
-								|| cQuery.getQueryName().equals("")) {
+						if (cQuery.getQueryName() != null
+								&& cQuery.getQueryName().equals("")) {
 							cQuery.setQueryName("temp_results");
 						}
 
@@ -179,36 +180,42 @@ public class ReportGeneratorHelper {
 		return reportBean;
 	}
 	
-	public static void renderReport(Document reportXML, String xsltFilename, JspWriter out) {
+	public static void renderReport(ReportBean bean, String xsltFilename, JspWriter out) {
 		//try transformation here
 		String stylesheet = RembrandtContextListener.getContextPath()+"/XSL/report.xsl";
 		 // load the transformer using JAXP
         TransformerFactory factory = TransformerFactory.newInstance();
 		Transformer transformer;
 		try {
+			gov.nih.nci.nautilus.ui.report.Transformer myTransformer = new gov.nih.nci.nautilus.ui.report.Transformer(new File(stylesheet));
+		/*
 			transformer = factory.newTransformer( new StreamSource( stylesheet ) );
-			DocumentSource source = new DocumentSource( reportXML );
+			DocumentSource source = new DocumentSource( bean.getReportXML() );
 	        DocumentResult result = new DocumentResult();
 	       	transformer.transform( source, result );
 			// return the transformed document
 	        Document transformedDoc = result.getDocument();
+	      */
+			Document transformedDoc = myTransformer.transform(bean.getReportXML());
 	        OutputFormat format = OutputFormat.createPrettyPrint();
 	        XMLWriter writer;
-	        writer = new XMLWriter(System.out,format);
-	        writer.write( transformedDoc );
-			writer.close();
 			writer = new XMLWriter( out, format );
 			writer.write( transformedDoc );
 			writer.close();
-		}catch(TransformerConfigurationException tce) {
-			logger.error(tce);
 		}catch (UnsupportedEncodingException uee) {
 			logger.error(uee);
-		}catch (TransformerException te) {
-			logger.error(te);
 		}catch (IOException ioe) {
 			logger.error(ioe);
 		}
 	}
-
+	
+	public static void renderReport(ReportBean bean) {
+		
+	}
+	
+	public static void renderReport(Document reportXML, String xsltFilename) {
+		
+	}
+	
+	
 }
