@@ -4,10 +4,16 @@ import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
+import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.resultset.Resultant;
+import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
 import gov.nih.nci.nautilus.util.ApplicationContext;
+import gov.nih.nci.nautilus.view.View;
+import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
 import java.util.ArrayList;
@@ -74,8 +80,8 @@ public class UIRefineQueryValidator {
 			}catch(OperationNotSupportedException onse) {
 				/*
 				 * This should get thrown in the instance that there is only an 
-				 * all genes query selected in the RefineQueryPage. There must also be
-				 * a result set specified... 
+				 * all genes query selected in the RefineQueryPage. There must
+				 * also be a result set specified... 
 				 */
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery"));
 			}
@@ -94,11 +100,12 @@ public class UIRefineQueryValidator {
 		     //They have not chosen a query
 		     errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query"));
 		    }
-        }else if(selectedQueries.size()>1) {
+        }else 
         	/*CASE 3:
              * There is more than 1 query selected
         	 */
-            Vector vectorOfTokens = new Vector();
+        	if(selectedQueries.size()>1) {
+        	Vector vectorOfTokens = new Vector();
             
             //Tokenize the selected queries
             for(int i = 0;i<selectedQueries.size(); i++)
@@ -133,26 +140,24 @@ public class UIRefineQueryValidator {
         }
            
 		if(compoundQuery!=null) {
+			//Get collection of view types
+			List viewCollection = setRefineQueryView(compoundQuery, request);
 			//apply the selected result set if one was chosen
-	        if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
-	        	/*
-	        	 * APPLY THE RESULT SET TO THE COMPOUND QUERY!
-	        	 * HOW I DON"T KNOW JUST YET... tomorrow!
-	        	 */
+		    if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
+	        	Queriable newQuery = cacheManager.getQuery(sessionId, selectedResultSet);
+	        	CompoundQuery prbQuery = new CompoundQuery(OperatorType.AND, compoundQuery, newQuery);
 	        }
 			//store the sessionId that the compound query is associated with
 			compoundQuery.setSessionId(sessionId);
             //Returned String representation of the final query
             refineQueryForm.setQueryText(compoundQuery.toString());
-            // Get collection of view types
-            List viewCollection = setRefineQueryView(compoundQuery, request);
+            
+            
             // Set collection of view types in Form
             refineQueryForm.setCompoundViewColl(viewCollection);
             //Stuff compoundquery in queryCollection
             queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
             refineQueryForm.setRunFlag("yes");
-        }else if(isAllGenesQuery){
-        	
         }
         refineQueryForm.setErrors(errors);
         return refineQueryForm;

@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -16,6 +18,7 @@ import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
@@ -23,10 +26,17 @@ import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.cache.RembrandtContextListener;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
+import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
+import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
+import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.report.ReportGenerator;
@@ -139,9 +149,10 @@ public class ReportGeneratorHelper {
 	}
 	
 	/**
-	 * This is used to take the "filter_string" and create a list from the comma 
-	 * seperated tokens contained in the string. It also removes any 
-	 * unacceptable characters and creates an acceptable string...
+	 * This is used to take the RefineQueryForm "filter_string" and create a 
+	 * list from the comma seperated tokens contained in the string. It also
+	 * removes any unacceptable characters and creates an acceptable string...
+	 * In truth it is utilizing the MoreStringUtils class to clean the strings.
 	 * @param filterParams
 	 */
 	private Map processFilterParamMap(Map filterParams) {
@@ -182,7 +193,7 @@ public class ReportGeneratorHelper {
 	 * contstrain
 	 * @throws Exception
 	 */
-	public ReportGeneratorHelper(Queriable query, String[] sampleIds) throws Exception {
+	public ReportGeneratorHelper(Queriable query, String[] sampleIds) throws IllegalStateException {
 		//check the query to make sure that it is a compound query
 		checkCompoundQuery(query);
 		//check to make sure that we have a sessionId
@@ -191,10 +202,29 @@ public class ReportGeneratorHelper {
 		checkQueryName( _cQuery.getQueryName());
 		//create a new ReportBean
 		_reportBean = new ReportBean();
-		//execute the sample id sub select query
-		Resultant sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
-		//store the results into the report bean
-		_reportBean.setResultant(sampleIdResults);
+		Resultant sampleIdResults = null;
+		try {
+			SampleCriteria sampleCriteria = new SampleCriteria();
+			Collection sampleIDDEs = new ArrayList();
+			if (sampleIds != null) {
+				for (int i = 0; i < sampleIds.length; i++) {
+					sampleIDDEs.add(new SampleIDDE(sampleIds[i]));
+				}
+				sampleCriteria.setSampleIDs(sampleIDDEs);
+			}
+			addSampleCriteriaToCompoundQuery(_cQuery, sampleCriteria);
+			//sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
+			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery);
+		}catch(Exception e) {
+			logger.error("The ResultsetManager threw some exception");
+			logger.error(e);
+		}
+		if(sampleIdResults!=null&&sampleIdResults.getResultsContainer()!=null) {
+			//store the results into the report bean
+			_reportBean.setResultant(sampleIdResults);
+		}else {
+			throw new IllegalStateException("ResultsetManager returned an empty resultant or threw an Exception");
+		}
 		//store the cache key that can be used to retrieve this bean later
 		_reportBean.setResultantCacheKey(_queryName);
 		//generate the reportXML and store in the ReportBean
@@ -205,7 +235,27 @@ public class ReportGeneratorHelper {
 	}
 	
 	/**
-	 * This contructor use a TemplateMethod pattern to perform the following
+	 * Hopefully will recurse through the compound query adding the 
+	 * SampleCriteria to each of the associated queries.  Let's see what
+	 * happens
+	 * @param query
+	 * @param sampleCriteria
+	 */
+	private void addSampleCriteriaToCompoundQuery(Queriable query, SampleCriteria sampleCriteria) {
+		if(query!=null) {
+			if(query instanceof CompoundQuery) {
+				CompoundQuery newQuery = (CompoundQuery)query;
+				addSampleCriteriaToCompoundQuery(newQuery.getLeftQuery(), sampleCriteria);
+				addSampleCriteriaToCompoundQuery(newQuery.getRightQuery(), sampleCriteria);
+			}else {
+				Query newQuery = (Query)query;
+				newQuery.setSampleIDCrit(sampleCriteria);
+			}
+		}
+	}
+
+	/**
+	 * This constructor uses a TemplateMethod pattern to perform the following
 	 * tasks (They must happen in this order, though some may be omitted if the
 	 * use case does not require it): 
 	 * 		1-Check to see if the query is a CompoundQuery and cast if is
@@ -323,7 +373,7 @@ public class ReportGeneratorHelper {
 		_cQuery.setQueryName(_queryName);
 	}
 	/**
-	 * check the cache for the results sets for the query
+	 * check the session cache for the results sets for the query
 	 * @param view
 	 */
 	private void checkCache(View view) {
@@ -459,5 +509,40 @@ public class ReportGeneratorHelper {
 			logger.error(ioe);
 		}
 	}
+	/**
+	 * 
+	 * @param container --this is the container that you want the sample ids from
+	 * @return --A SampleCriteria of all the ResultsContainer sampleIds
+	 */
+	public static SampleCriteria extractSampleIds(ResultsContainer container)throws OperationNotSupportedException{
+		SampleCriteria theCriteria = new SampleCriteria();
+		Collection sampleIds = new ArrayList();
+		SampleViewResultsContainer svrContainer = null;
+		/*
+		 * These are currently the only two results containers that we have to
+		 * worry about at this time, I believe.
+		 */
+		if(container instanceof DimensionalViewContainer) {
+			//Get the SampleViewResultsContainer from the DimensionalViewContainer
+			DimensionalViewContainer dvContainer = (DimensionalViewContainer)container;
+			svrContainer = dvContainer.getSampleViewResultsContainer();
+		}else if(container instanceof SampleViewResultsContainer) {
+			svrContainer = (SampleViewResultsContainer)container;
+		}
+		//Handle the SampleViewResultsContainers if that is what we got
+		if(svrContainer!=null) {
+			Collection bioSpecimen = svrContainer.getBioSpecimenResultsets();
+			for(Iterator i = bioSpecimen.iterator();i.hasNext();) {
+				SampleResultset sampleResultset =  (SampleResultset)i.next();
+				sampleIds.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+			}
+		}else {
+			throw new OperationNotSupportedException("We are not able to able to extract SampleIds from: "+container.getClass());
+		}
+		//Drop the sampleIds into the SampleCriteria
+		theCriteria.setSampleIDs(sampleIds);
+		return theCriteria;
+	}
+	
 
 }

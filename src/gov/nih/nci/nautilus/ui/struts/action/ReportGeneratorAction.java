@@ -175,10 +175,14 @@ public class ReportGeneratorAction extends DispatchAction {
 			throws Exception {
 		ActionForward thisForward = null;
 		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+		//Used to get the old resultant from cache
 		String queryName = rgForm.getQueryName();
+		//This is what the user wants to name the new resultSet
 		String prb_queryName = rgForm.getPrbQueryName();
+		//get this list of sample ids
 		String[] sampleIds = rgForm.getSamples();
 		String sessionId = request.getSession().getId();
+		//get the old 
 		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
 		if(cquery!=null) {
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));

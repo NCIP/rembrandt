@@ -18,10 +18,6 @@ import java.util.TreeSet;
  * 
  */
 public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer{
-
-	
-
-	
 	
 	/**
 	 * @return Returns the biospecimenLabels.

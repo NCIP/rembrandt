@@ -114,6 +114,8 @@ public class CacheCleaner extends Thread {
 							logger.debug("Session "+sessionId+" idle too long. Removing cache");
 							CacheManagerDelegate.getInstance().removeSessionCache(sessionId);
 						}
+					}else {
+						logger.error("Somehow the Sessions are not in synch with the CacheManagerDelegate");
 					}
 				}
 			}

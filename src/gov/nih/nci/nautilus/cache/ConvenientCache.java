@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.cache;
 import java.io.Serializable;
 import java.util.Collection;
 
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.view.View;
@@ -31,4 +32,5 @@ public interface ConvenientCache {
 	public void addToApplicationCache(Serializable key, Serializable value);
 	public SessionQueryBag getSessionQueryBag(String sessionId);
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag);
+	public CompoundQuery getQuery(String sessionId, String queryName);
 }
