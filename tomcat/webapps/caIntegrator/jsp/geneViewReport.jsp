@@ -13,8 +13,7 @@ gov.nih.nci.nautilus.resultset.sample.*,
 gov.nih.nci.nautilus.constants.NautilusConstants,
 java.text.DecimalFormat,
 java.util.*,
-gov.nih.nci.nautilus.ui.ReportGenerator,
-org.apache.log4j.Logger" %>
+gov.nih.nci.nautilus.ui.ReportGenerator" %>
 
 <% /* dont need all these imports really */ %>
 
@@ -83,15 +82,15 @@ String sample = request.getParameter("s");
 //get the results container from the session with sample as key
 if(session.getAttribute(sample) == null)
 {
-  logger.debug("not transitional report");	
+  	
   QueryCollection queryCollection = null;
   if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
-	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";	
+	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";	
     queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
   }
   else	{
     queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
-    links = "<a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a>\n";
+    links = "<a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
   }
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
@@ -105,14 +104,14 @@ if(session.getAttribute(sample) == null)
 		
 
     out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
-  /*
+  
 	if(!myCompoundQuery.toString().equals(""))	{
 		out.println("<B>Compound Query:</b> " + myCompoundQuery.toString() + "<br><br>");
 	}
 	else	{
 		out.println("<B>Single Query:</b> " + queryCollection.getQueryNames() + "<br><br>");
 	}
-
+/*
  	String  query = "";	
 	int j = 0;	
 	String queryKey = null;
@@ -149,7 +148,7 @@ if(session.getAttribute(sample) == null)
 }
 
 else	{
-	logger.debug("Doing transitional");
+	
 	//process the transitional report
 	ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
 	String mode =  (String) request.getParameter("report");
@@ -162,7 +161,7 @@ else	{
 		
 	session.setAttribute("csv", resultsContainer);
 	session.setAttribute("mode", mode);
-	logger.debug("set things in session");
+	
 	
 	//session.removeAttribute("resultsContainer");
 	session.removeAttribute("report");
