@@ -291,10 +291,11 @@ function showName(item, box)	{
 
 	box.value=r;
 */
+/*
 	var t = item.selectedIndex;
 	var r = item.options[t].value;
 	box.innerHTML = "<b class='message'>"+r+"</b>";
- 
+*/
 }
 
 function selectToolTip(type)	{
