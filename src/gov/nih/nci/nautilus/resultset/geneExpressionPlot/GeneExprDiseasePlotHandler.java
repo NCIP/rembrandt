@@ -122,7 +122,7 @@ public class GeneExprDiseasePlotHandler {
 	      		if(reporterResultset == null){
 	      		 	reporterResultset = new ReporterFoldChangeValuesResultset(reporter);
 	      			}
-	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,new Double("0.00")));
+	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,new Double("0.00")));//TODO: Should be changed to repecial value
 	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getNormalIntensity()));
 	    		}
    			geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(normal);     		
