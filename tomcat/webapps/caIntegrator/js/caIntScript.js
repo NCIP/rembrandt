@@ -7,6 +7,10 @@ function checkNull(text)
 		alert("Please Fill in a Unique Query Name");
 		return false;
 	}
+	else	{
+alert("here");
+		return checkQueryName();
+	}
 }
 
 function resetVal(formElement)
