@@ -69,13 +69,23 @@ public class GeneResultset {
 		}
 	}
 	/**
-	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this GeneResultset object.
+	 * @param reporterResultset Removes reporterResultset from this GeneResultset object.
 	 */
-	public void removeDiseaseResultset(ReporterResultset reporterResultset){
+	public void removeRepoterResultset(ReporterResultset reporterResultset){
 		if(reporterResultset != null && reporterResultset.getReporter() != null){
 			reporters.remove(reporterResultset.getReporter().getValue().toString());
 		}
 	}
+    /**
+     * @param reporter
+	 * @return reporterResultset Returns reporterResultset for this GeneResultset.
+	 */
+    public ReporterResultset getRepoterResultset(String reporter){
+    	if(reporter != null){
+			return (ReporterResultset) reporters.get(reporter);
+		}
+    		return null;
+    }
 	/**
 	 * @return reporterResultset Returns reporterResultset to this GeneResultset object.
 	 */

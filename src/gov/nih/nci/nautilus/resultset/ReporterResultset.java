@@ -18,29 +18,45 @@ public class ReporterResultset {
 	private SortedMap diseases = new TreeMap();
 
 	/**
-	 * @param diseaseResultset Adds diseaseResultset to this DiseaseResultset object.
+	 * 
+	 */
+	public ReporterResultset(DatumDE repoter) {
+		setReporter(repoter);
+	}
+	/**
+	 * @param diseaseResultset Adds diseaseResultset to this ReporterResultset object.
 	 */
 	public void addDiseaseResultset(DiseaseResultset diseaseResultset){
 		if(diseaseResultset != null && diseaseResultset.getDieaseType() != null){
-			diseases.put(diseaseResultset.getDieaseType(), diseaseResultset);
+			diseases.put(diseaseResultset.getDieaseType().getValue().toString(), diseaseResultset);
 		}
 	}
 	/**
-	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this DiseaseResultset object.
+	 * @param diseaseResultset Removes diseaseResultset to this ReporterResultset object.
 	 */
 	public void removeDiseaseResultset(DiseaseResultset diseaseResultset){
 		if(diseaseResultset != null && diseaseResultset.getDieaseType() != null){
 			diseases.remove(diseaseResultset.getDieaseType());
 		}
 	}
-	/**
-	 * @return diseaseResultset Returns diseaseResultset to this DiseaseResultset object.
+    /**
+     * @param disease
+	 * @return diseaseResultset Returns reporterResultset for this ReporterResultset.
 	 */
-    public Collection getDiseaseResultset(){
+    public DiseaseResultset getDiseaseResultset(String disease){
+    	if(disease != null){
+			return (DiseaseResultset) diseases.get(disease);
+		}
+    		return null;
+    }
+	/**
+	 * @return Collection Returns collection of DiseaseResultsets to this ReporterResultset object.
+	 */
+    public Collection getDiseaseResultsets(){
     		return diseases.values();
     }
 	/**
-	 * @param none Removes all diseaseResultset in this DiseaseResultset object.
+	 * @param none Removes all diseaseResultset in this ReporterResultset object.
 	 */
     public void removeAllDiseaseResultset(){
     	diseases.clear();

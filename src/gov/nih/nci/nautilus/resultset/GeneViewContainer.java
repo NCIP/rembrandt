@@ -20,16 +20,16 @@ public class GeneViewContainer {
 	 * @param geneResultset Adds geneResultset to this GeneViewContainer object.
 	 */
 	public void addGeneResultset(GeneResultset geneResultset){
-		if(geneResultset != null && geneResultset.getGenbankAccessionNo() != null){
-			genes.put(geneResultset.getGenbankAccessionNo().toString(), geneResultset);
+		if(geneResultset != null && geneResultset.getGeneSymbol() != null){
+			genes.put(geneResultset.getGeneSymbol().getValue().toString(), geneResultset);
 		}
 	}
 	/**
 	 * @param geneResultset Removes geneResultset to this GeneViewContainer object.
 	 */
 	public void removeDiseaseResultset(GeneResultset geneResultset){
-		if(geneResultset != null && geneResultset.getGenbankAccessionNo() != null){
-			genes.remove(geneResultset.getGenbankAccessionNo());
+		if(geneResultset != null && geneResultset.getGeneSymbol() != null){
+			genes.remove(geneResultset.getGeneSymbol().toString());
 		}
 	}
 	/**
@@ -39,12 +39,12 @@ public class GeneViewContainer {
     		return genes.values();
     }
     /**
-     * @param getGenBankAccessionNo
-	 * @return geneResultset Returns geneResultset to this genBankAccessionNumber.
+     * @param geneSymbol
+	 * @return geneResultset Returns geneResultset to this geneSymbol.
 	 */
-    public GeneResultset getGeneResultsets(String genBankAccessionNo){
-    	if(genBankAccessionNo != null){
-			return (GeneResultset) genes.get(genBankAccessionNo);
+    public GeneResultset getGeneResultset(String geneSymbol){
+    	if(geneSymbol != null){
+			return (GeneResultset) genes.get(geneSymbol);
 		}
     		return null;
     }

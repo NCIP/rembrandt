@@ -14,7 +14,7 @@ import gov.nih.nci.nautilus.de.*;
  */
 public class BioSpecimenResultset {
 	private BioSpecimenIdentifierDE biospecimen = null;
-	private DatumDE folgChangeValue = null;
+	private DatumDE foldChangeValue = null;
 	private DatumDE copyNumberValue = null;
 	/**
 	 * @return Returns the biospecimen.
@@ -31,14 +31,14 @@ public class BioSpecimenResultset {
 	/**
 	 * @return Returns the folgChangeValue.
 	 */
-	public DatumDE getFolgChangeValue() {
-		return folgChangeValue;
+	public DatumDE getFoldChangeValue() {
+		return foldChangeValue;
 	}
 	/**
 	 * @param folgChangeValue The folgChangeValue to set.
 	 */
-	public void setFolgChangeValue(DatumDE folgChangeValue) {
-		this.folgChangeValue = folgChangeValue;
+	public void setFoldChangeValue(DatumDE foldChangeValue) {
+		this.foldChangeValue = foldChangeValue;
 	}
 	public DatumDE getCopyNumberValue() {
 		return copyNumberValue;

@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.de.*;
+
 import java.util.*;
 /**
  * @author SahniH
@@ -15,6 +16,12 @@ import java.util.*;
 public class DiseaseResultset {
 	private DiseaseNameDE dieaseType;
 	private SortedMap samples = new TreeMap();
+	/**
+	 * @param disease
+	 */
+	public DiseaseResultset(DiseaseNameDE disease) {		
+		setDieaseType(disease);
+	}
 	/**
 	 * @return Returns the dieaseType.
 	 */
@@ -32,7 +39,7 @@ public class DiseaseResultset {
 	 */
 	public void addBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
 		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.put(bioSpecimenResultset.getBiospecimen(), bioSpecimenResultset);
+			samples.put(bioSpecimenResultset.getBiospecimen().getValue().toString(), bioSpecimenResultset);
 		}
 	}
 	/**
