@@ -31,10 +31,10 @@
 <html:file property="snpListFile"/><br /><br />
 &nbsp;&nbsp;Validated SNPs:&nbsp;&nbsp;
 
-<html:radio property="validatedSNP" value="all"  styleClass="radio"/>&nbsp;&nbsp;All
-<html:radio property="validatedSNP" value="excluded"  styleClass="radio"/>&nbsp;&nbsp;Excluded
-<html:radio property="validatedSNP" value="included"  styleClass="radio"/>&nbsp;&nbsp;Included
-<html:radio property="validatedSNP" value="only"  styleClass="radio"/>&nbsp;&nbsp;Only
+<html:radio property="validatedSNP" value="all"  disabled="true" styleClass="radio"/>&nbsp;&nbsp;All
+<html:radio property="validatedSNP" value="excluded"  disabled="true" styleClass="radio"/>&nbsp;&nbsp;Excluded
+<html:radio property="validatedSNP" value="included" disabled="true" styleClass="radio"/>&nbsp;&nbsp;Included
+<html:radio property="validatedSNP" value="only" disabled="true" styleClass="radio"/>&nbsp;&nbsp;Only
 <br>
 <html:errors property="snpId"/>
 </fieldset>

@@ -12,7 +12,7 @@
 &nbsp;&nbsp;<html:select property="assayPlatform" onchange="javascript:depChange(this);">
 <!--	<option>&nbsp;</option> -->
     <option value="Affymetrix 100K SNP Arrays">100K SNP Array</option>
-	<option>Array CGH </option> 
+	<!--<option>Array CGH </option> -->
 	<option>All</option>
 </html:select>
 <html:errors property="assayPlatform"/>

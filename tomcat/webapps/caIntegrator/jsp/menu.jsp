@@ -51,7 +51,7 @@ QueryCollection queryCollection = (QueryCollection) request.getSession().getAttr
 		<table border="0" cellpadding="3" cellspacing="3">
 		<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Gene Expression Analysis" onclick="javascript:location.href='geneExpression.do';">
 			&nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b></td></tr>
-		<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
+		<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparative Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
 			&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Comp. Genomic Analysis Queries</b></td></tr>
 		<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
 			&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b></td></tr>

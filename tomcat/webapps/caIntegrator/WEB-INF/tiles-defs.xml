@@ -27,7 +27,7 @@
     
     <definition name="nautilus.comparitiveGenomic" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic" />
-	  <put name="title" value="Comparitive Genomic Data" />
+	  <put name="title" value="Comparative Genomic Data" />
     </definition>
     
     <definition name="nautilus.clinical" extends="baseDef">

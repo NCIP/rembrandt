@@ -7,7 +7,7 @@ String act = request.getParameter("act");
 <legend class="red">Allele Frequency</legend><br />
 &nbsp;&nbsp;Population Type:
 
- <html:select property="alleleFrequency">
+ <html:select property="alleleFrequency" disabled="true">
    <html:optionsCollection property="alleleTypes" />
     </html:select><br />
 	
