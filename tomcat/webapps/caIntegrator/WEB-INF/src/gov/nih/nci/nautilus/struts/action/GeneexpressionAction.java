@@ -62,10 +62,12 @@ public class GeneexpressionAction extends Action {
 		GeneExpressionQuery geneExpQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
 		geneExpQuery.setQueryName(geneExpressionForm.getQueryName());
 		// Change this code later to get view type directly from Form !!
-		if (thisView.equalsIgnoreCase("sample")) 
+		if (thisView.equalsIgnoreCase("sample")) {
 			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
-		else if (thisView.equalsIgnoreCase("gene"))
+			}
+		else if (thisView.equalsIgnoreCase("gene")){
 			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.Gene_VIEW_TYPE));
+			}
 		
 		// Set gene criteria
 		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
@@ -76,7 +78,27 @@ public class GeneexpressionAction extends Action {
 		
 		RegionCriteria regionCrit = geneExpressionForm.getRegionCriteria();
 		geneExpQuery.setRegionCrit(regionCrit);
+
+		DiseaseOrGradeCriteria diseaseOrGradeCriteria = geneExpressionForm.getDiseaseOrGradeCriteria();
+		geneExpQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);
 		
+		CloneOrProbeIDCriteria cloneOrProbeIDCriteria = geneExpressionForm.getCloneOrProbeIDCriteria();
+		geneExpQuery.setCloneOrProbeIDCrit(cloneOrProbeIDCriteria);
+		
+		GeneOntologyCriteria geneOntologyCriteria = geneExpressionForm.getGeneOntologyCriteria();
+		geneExpQuery.setGeneOntologyCrit(geneOntologyCriteria);
+		
+		PathwayCriteria pathwayCriteria = geneExpressionForm.getPathwayCriteria();
+		geneExpQuery.setPathwayCrit(pathwayCriteria);
+		
+		ArrayPlatformCriteria arrayPlatformCriteria = geneExpressionForm.getArrayPlatformCriteria();
+		geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
+		
+		
+	
+		
+		try {
+
 		//Set query in Session.
 		if (! geneExpQuery.isEmpty()) {
 			// Get Hashmap from session if available
@@ -101,14 +123,13 @@ public class GeneexpressionAction extends Action {
 		Query thisQuery = (Query) thisQueryMap.get(geneExpQuery.getQueryName());
 		System.out.println("I am in gene expression action ");
 
+
 		if (thisQuery.getQueryType().equals(QueryType.GENE_EXPR_QUERY_TYPE)) {
 			System.out.println(thisQuery.toString());
-		}
-		
-		
-		
-		
-
+		}		
+       }// end of try
+		catch(Exception e){}
 		return mapping.findForward("advanceSearchMenu");
-		}
+		
+     }
 }
