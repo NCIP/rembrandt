@@ -32,11 +32,8 @@
 	  <include name="jdo.jar"/>
 	  <include name="jdori.jar"/>
 	  <include name="jta-1.0.1.jar"/>
-	  <include name="log4j-1.2.8.jar"/>
-
-	  
+	  <include name="log4j-1.2.8.jar"/>	  
  </patternset>
-
  <patternset id="ojb.rt.jars">
   <include name="btree.jar"/>
   <include name="commons-beanutils.jar"/>
@@ -118,8 +115,7 @@
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
-        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}" source="1.4">
-        	<!-- <exclude name="**/test/*.java" /> -->
+        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}" source="1.4">        	
         	<exclude name="**/de/PBTest.java" /> 
         	<classpath refid="cp.compile"/>
         </javac>
@@ -129,19 +125,9 @@
       </javac>
     </target>	
 	
-	<target name="compile_struts"> 
-        <tstamp/>
-         <mkdir dir="${build.struts.classes.dir}"/>     
-	   	 <javac srcdir="${source.struts.dir}" destdir="${build.struts.classes.dir}">	
-		 <!--<exclude name="**/form/ClinicalDataForm.java" />-->	
-         <!--<exclude name="**/action/ClinicalDataAction.java" />-->		
-        <classpath refid="cp.compile"/>
-        </javac>
-
-
-  </target>	
+	
   <target name="build-jar" depends="compile">
-	    <delete file="${jar.dir}/${app.jar.name}.jar"/>  
+	    <delete dir="${jar.dir}"/>  		
 		<mkdir dir="${jar.dir}"/>      
 
 		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
@@ -149,10 +135,45 @@
                 <include name="**/*"/>
             </fileset>
         </jar>		
-		<!--<delete dir="${build.classes.dir}"/>-->
+			  
+	  <copy todir="${build.struts.lib.dir}">
+	     <fileset dir="${build.lib.dir}">
+		    <patternset refid="struts.jars"/> 
+	        <patternset refid="ojb.rt.jars"/>
+			<patternset refid="db.platform.jars"/>
+			<patternset refid="xml.jars"/>
+       </fileset>	    
+	 </copy>	
+	 
+	
+	 <delete dir="${build.struts.classes.dir}"/>	
+	 <mkdir dir="${build.struts.classes.dir}"/>			
+	 <copy todir="${build.struts.classes.dir}">
+	    <fileset dir="${build.classes.dir}">
+                <include name="**/*"/>
+        </fileset>	
+		 <fileset dir="${basedir}">
+		        <include name="deToBeanAttrMappings.xml"/>
+				<include name="OJB.properties"/>
+				<include name="repository.dtd"/>
+				<include name="repository.xml"/>
+				<include name="repository_database.xml"/>
+				<include name="repository_internal.xml"/>
+				<include name="repository_user_caintegrator.xml"/>
+		  </fileset>	
+		     
+	 </copy>
+	 
+	 <copy todir="${build.struts.classes.dir}/gov/nih/nci/nautilus/struts">
+	   <fileset dir="${webapp.dir}/WEB-INF/resources">
+				<include name="ApplicationResources.properties"/>
+		</fileset>		
+	 </copy>	
+	  
+	 	
 	</target>
 	
-<target name="build-war" depends="build-jar, compile, compile_struts">
+<target name="build-war" depends="build-jar, compile">
 	<delete file="${build.dir}/${app.war.name}.war"/>
    <war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
    	<fileset file="${webapp.dir}/*.jsp"/>
