@@ -240,13 +240,12 @@ a.notPossible{
  
  span.pop { background-color: yellow; color: red; text-align: center; padding: 5px;}
  
- table.graphTable td{
- border:1px solid gray;
- }
- th.graphTable{
- background-color:silver;
+ table.graphTable{
  text-align:left;
- padding:5px;
- border:1px solid gray;
+ 
+  }
+ #reportBold{
+ font-weight:bold;
  }
+ 
  
