@@ -32,7 +32,7 @@ import gov.nih.nci.nautilus.de.*;
  * @struts:form name="DeleteQueryForm"
  */
 public class DeleteQueryForm extends BaseForm {
-   private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+   private static Logger logger = Logger.getLogger(DeleteQueryForm.class);
    private String method = null;
    private String queryKey = null;
    

@@ -28,7 +28,7 @@ import java.util.*;
  */
 public class BaseForm extends ActionForm {
     
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(BaseForm.class);
 		
 	// Collections used for Lookup values.  
 	private ArrayList diseaseType;

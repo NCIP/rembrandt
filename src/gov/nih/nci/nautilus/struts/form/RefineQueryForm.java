@@ -26,7 +26,7 @@ import java.util.*;
  * @struts:form name="refineQueryForm"
  */
 public class RefineQueryForm extends BaseForm {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(RefineQueryForm.class);
 	// --------------------------------------------------------- Instance Variables
 	private String queryName1;
 	private String leftParen1;

@@ -44,7 +44,7 @@ import org.apache.log4j.Logger;
 public class ReportGenerator  {
 	
 //	public static String theColors[] = {"0073E6","FFFF61"};
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(ReportGenerator.class);
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
 	public static String links = "";

@@ -50,7 +50,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     private static final int UPREGULATED = 1;
     private static final int DOWNREGULATED = 2;
     private static final int ALLSAMPLES = 3; 
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(KMDataSetForm.class);
   
     /**
      * This method is called by the ceWolf chart tag to create the data

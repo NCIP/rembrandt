@@ -29,7 +29,7 @@ import gov.nih.nci.nautilus.de.*;
  */
 public class SelectPresentationForm extends BaseForm {
    
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(SelectPresentationForm.class);
 	// --------------------------------------------------------- Instance Variables
 	private String method;
 	private String currentView;

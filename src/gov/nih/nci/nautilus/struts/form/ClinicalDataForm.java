@@ -34,7 +34,7 @@ import gov.nih.nci.nautilus.de.*;
 public class ClinicalDataForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance Variables               
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);      
+    private static Logger logger = Logger.getLogger(ClinicalDataForm.class);      
 	
 	/** queryName property */
 	private String queryName;	

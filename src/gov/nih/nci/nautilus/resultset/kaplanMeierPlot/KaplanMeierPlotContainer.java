@@ -69,7 +69,7 @@ import org.apache.log4j.Logger;
  * Preferences - Java - Code Style - Code Templates
  */
 public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
-	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+	private static Logger logger = Logger.getLogger(KaplanMeierPlotContainer.class);
     private GeneIdentifierDE.GeneSymbol geneSymbol;
 
 	private Collection geneExprSamples = new Vector();

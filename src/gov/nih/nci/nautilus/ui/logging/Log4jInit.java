@@ -20,9 +20,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 
 public class Log4jInit extends HttpServlet {
-
-  public
-  void init() {
+  public void init() {
     String prefix =  getServletContext().getRealPath("/");
     String file = getInitParameter("log4j-init-file");
     if(file != null) {

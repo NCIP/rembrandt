@@ -32,7 +32,7 @@ import gov.nih.nci.nautilus.de.*;
  * @struts:form name="comparitivegenomicForm"
  */
 public class ComparativeGenomicForm extends BaseForm {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(ComparativeGenomicForm.class);
 	// --------------------------------------------------------- Instance Variables
 
 	/** geneList property */
