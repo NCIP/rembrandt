@@ -406,7 +406,7 @@ try	{
 			out.println("<table>\n");
 			SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
- 		   	out.println("<Tr><Td>SAMPLE</td><td>AGE</td><td>GENDER</td><td>SURVIVAL</td><td>DISEASE</td></tr>");
+ 		   	out.println("<Tr><Td>SAMPLE</td><td>AGE at Dx</td><td>GENDER</td><td>SURVIVAL</td><td>DISEASE</td></tr>");
 			StringBuffer stringBuffer = new StringBuffer();
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
