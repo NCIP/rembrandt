@@ -69,8 +69,11 @@ public class ResultsetManager {
         Viewable associatedView = queryToExecute.getAssociatedView();
         ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
     	if (resultsets instanceof GeneExprSingle[]){
-    		    GeneExprSampleView geneExprSampleView = (GeneExprSampleView) associatedView;
-    			GroupType groupType = geneExprSampleView.getGroupType();
+    		GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
+    		if (associatedView instanceof CopyNumberSampleView){
+    			CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
+    			groupType = copyNumberView.getGroupType();
+    		}
     			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView((GeneExprSingle[]) resultsets,groupType);
     			resultant.setResultsContainer(resultsContainer);
     			resultant.setAssociatedQuery(queryToExecute);
@@ -84,8 +87,11 @@ public class ResultsetManager {
 			resultant.setAssociatedView(associatedView);
 		}
     	else if (resultsets instanceof CopyNumber[]){
-    		CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
-    		GroupType groupType = copyNumberView.getGroupType();
+    		GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
+    		if (associatedView instanceof CopyNumberSampleView){
+    			CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
+    			groupType = copyNumberView.getGroupType();
+    		}
 			ResultsContainer resultsContainer = ResultsetProcessor.handleCopyNumberSingleView((CopyNumber[]) resultsets, groupType);
 			resultant.setResultsContainer(resultsContainer);
 			resultant.setAssociatedQuery(queryToExecute);
