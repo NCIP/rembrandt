@@ -3,7 +3,9 @@
 
 package gov.nih.nci.nautilus.data;
 
-public class DiseaseTypeDim
+import gov.nih.nci.nautilus.lookup.DiseaseTypeLookup;
+
+public class DiseaseTypeDim implements DiseaseTypeLookup
 {
   private String diseaseDesc;
 
