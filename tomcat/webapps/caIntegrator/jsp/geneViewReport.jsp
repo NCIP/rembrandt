@@ -67,24 +67,29 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	
 //	String theColors[] = { "738FE6","B6C5F2","DAE1F9","8691B3","B3B9CC","6D7BA6","99A1B9" };
 	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
-String sample = request.getParameter("s");
 
+String links = "";
+String sample = request.getParameter("s");
+session.setAttribute("csv", sample);
+//get the results container from the session with sample as key
 if(session.getAttribute(sample) == null)
 {
   System.out.println("not transitional report");	
   QueryCollection queryCollection = null;
-	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null){
+  if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
+	links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";	
     queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
-  }else{
+  }
+  else	{
     queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
+    links = "<a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a>\n";
   }
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
-
 	if(queryCollection != null)	{
 		//out.println("<a href=\"#queryInfo\">Query Information</a><Br>\n");
-		out.println(ReportGenerator.displayReport(queryCollection, theColors, false, request));
+		out.println(ReportGenerator.displayReport(queryCollection, theColors, false, request, links));
 	}
 	else
 		out.println("QueryCollection is NULL");

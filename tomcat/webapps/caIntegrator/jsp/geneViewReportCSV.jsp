@@ -19,8 +19,15 @@ gov.nih.nci.nautilus.ui.CSVGenerator" %>
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
 
-	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
 
+//	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
+
+	QueryCollection queryCollection = null;
+	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null){
+    	queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
+  	}else{
+    	queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
+  	}
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
 
@@ -29,5 +36,5 @@ gov.nih.nci.nautilus.ui.CSVGenerator" %>
 	}
 	else
 		out.println("QueryCollection is NULL");
-		
+	
 %>

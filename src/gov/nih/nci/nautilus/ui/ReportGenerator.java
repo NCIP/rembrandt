@@ -42,14 +42,17 @@ public class ReportGenerator  {
 	
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
-	public static String links = "<a href=\"#queryInfo\">[Query Information]</a> | <a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";
+	public static String links = "";
+	public static String errorLinks = "<br><a href=\"menu.do\">[Back to Menu]</a><br><Br>";
 		
-	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv, HttpServletRequest request)	{
+	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv, HttpServletRequest request, final String theLinks)	{
+		
+		links = theLinks;
 		
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();
 		Resultant resultant;
-		errors.append("<br><a href=\"menu.do\">[Back to Menu]</a><br><Br>");
+		errors.append(errorLinks);
 			
 		try	{
 			
@@ -380,33 +383,45 @@ public class ReportGenerator  {
 				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
 				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
-				        		//stringBuffer = new StringBuffer();
 				        		
-								/*
-				        		if(reporterName.length()< 10){ //Remove this from table
-				        			reporterName= reporterName+"        ";
-				        			reporterName = reporterName.substring(0,10);
-				        		}
-				        		*/
 				        		sb.append("<tr><td>"+cytoband+"</td><td>"+reporterName+"</td>");
-				        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
-				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
-				        			String label = groupResultset.getType().getValue().toString();
+				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+//				        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
+				        			//ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
+				        			
+				        			//String label = groupResultset.getType().getValue().toString();
+				        			String label = (String) labelIterator.next();
+				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
+				        			
 				        			sampleIds = copyNumberContainer.getBiospecimenLabels(label);
+				        	
+				        			if(groupResultset != null)
+				        			{
+				        				
 				                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 				                       		String sampleId = (String) sampleIdIterator.next();
+				                       						                       		
 				                       		SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+				                       		
 				                       		if(sampleResultset2 != null){
-				                       			Double ratio = (Double)sampleResultset2.getCopyNumber().getValue();
-				                       			sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");  
-				                       			}
+				                       			Double ratio = (Double) sampleResultset2.getCopyNumber().getValue();
+				                       			if(ratio != null)
+				                       				sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");
+				                       			else
+				                       				sb.append("<td class='"+label+"'>-</td>");
+				                       		}
 				                       		else 
 				                       		{
 				                       			sb.append("<td class='"+label+"'>-</td>");
 				                       		}
 				                       	}
+				        			}
+				                    else	{
+				                    	for(int s=0;s<sampleIds.size();s++) 
+				                    		sb.append("<td class='"+label+"'>-</td>");       
+				                    }
 				         		}
-				        		sb.append("</tr>");
+				        		sb.append("</tr>\n");
 				    		}
 				        	//append the extra row here
 				        	sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");

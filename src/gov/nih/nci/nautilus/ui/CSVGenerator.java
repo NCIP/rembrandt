@@ -280,22 +280,38 @@ public class CSVGenerator  {
 				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 
 				        		sb.append(cytoband+","+reporterName);
+				        		/*
 				        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
 				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
 				        			String label = groupResultset.getType().getValue().toString();
+				        		*/
+				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+				        			String label = (String) labelIterator.next();
+				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
+				        			
 				        			sampleIds = copyNumberContainer.getBiospecimenLabels(label);
+				        			if(groupResultset != null)
+				        			{
 				                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 				                       		String sampleId = (String) sampleIdIterator.next();
 				                       		SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 				                       		if(sampleResultset2 != null){
 				                       			Double ratio = (Double)sampleResultset2.getCopyNumber().getValue();
-				                       			sb.append(","+resultFormat.format(ratio));  
-				                       			}
+				                       			if(ratio != null)
+				                       				sb.append(","+resultFormat.format(ratio));
+				                       			else 
+				                       				sb.append(",-");
+				                       		}
 				                       		else 
 				                       		{
 				                       			sb.append(",-");
 				                       		}
 				                       	}
+				        			}
+				        			else	{
+				                    	for(int s=0;s<sampleIds.size();s++) 
+				                    		sb.append(",-");       
+				                    }
 				         		}
 				        		sb.append("\n");
 				    		}
