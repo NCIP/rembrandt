@@ -296,7 +296,11 @@ public class LookupManager{
     	}
     	if(geneSymbol != null){
 	    	geneSymbol = geneSymbol.trim();
-	    	return aliasMap.getGenes(geneSymbol);
+	    	AllGeneAliasLookup[] geneAlias = aliasMap.getGenes(geneSymbol);
+	    	if(geneAlias == null ){
+	    	    geneAlias = aliasMap.getGenes(geneSymbol.toUpperCase());
+	    	}
+	    	return geneAlias;
     	}
     	return null;
     }

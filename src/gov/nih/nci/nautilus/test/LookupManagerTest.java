@@ -219,6 +219,7 @@ public void testgetCytobandDEstoo(){
 public void testGeneSymbolAlias(){
     try{
     	List symbols = new ArrayList();
+    	symbols.add("P53");
     	symbols.add("p53");
     	symbols.add("tp53");
     	symbols.add("TP53");
