@@ -343,6 +343,17 @@ public class GeneExpressionQuery extends Query {
     public void setArrayPlatformCrit(ArrayPlatformCriteria arrayPlatformCriteria) {
         this.arrayPlatformCriteria = arrayPlatformCriteria;
     }
+    /**
+     * Returns a boolean true if the AllGenesCriteria has been set 
+     * @return
+     */
+    public boolean isAllGenesQuery() {
+    	if(allGenesCrit!=null) {
+    		return true;
+    	}else {
+    		return false;
+    	}
+    }
     class Handler {
     }
 }

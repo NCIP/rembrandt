@@ -331,6 +331,16 @@ public class ComparativeGenomicQuery extends Query {
     public void setAssayPlatformCrit(AssayPlatformCriteria assayPlatformCriteria) {
         this.assayPlatformCriteria = assayPlatformCriteria;
     }
-    class Handler {
+    /**
+     * Returns a boolean true if the AllGenesCriteria has been set 
+     * @return
+     */
+    public boolean isAllGenesQuery() {
+    	if(allGenesCrit!=null) {
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
+    class Handler {}
 }
