@@ -273,7 +273,7 @@ public class QueryTest extends TestCase {
 
     private void buildOntologyCrit() {
         ontologyCrit = new GeneOntologyCriteria();
-        ontologyCrit.setGOIdentifier(new GeneOntologyDE(new Integer(4)));
+        ontologyCrit.setGOIdentifier(new GeneOntologyDE("4"));
     }
     private void buildSNPCrit() {
         ArrayList inputIDs = new ArrayList();
