@@ -1543,26 +1543,29 @@ public class ComparativeGenomicForm extends BaseForm {
      */
     public void setBasePairEnd(String basePairEnd) {
         this.basePairEnd = basePairEnd;
-        if (thisRequest != null) {
-            String thisRegion = this.thisRequest.getParameter("region");
-            String thisChrNumber = this.thisRequest
-                    .getParameter("chrosomeNumber");
-            String thisBasePairStart = this.thisRequest
-                    .getParameter("basePairStart");
 
-            if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-                if (thisRegion != null && thisBasePairStart != null
-                        && this.basePairEnd != null) {
-                    if ((thisRegion.equalsIgnoreCase("basePairPosition"))
-                            && (thisBasePairStart.trim().length() > 0)
-                            && (this.basePairEnd.trim().length() > 0)) {
+		if (thisRequest != null) {
+			String thisRegion = this.thisRequest.getParameter("region");
+			String thisChrNumber = this.thisRequest
+					.getParameter("chromosomeNumber");
+			String thisBasePairStart = this.thisRequest
+					.getParameter("basePairStart");
 
-                        regionDomainMap.put(this.basePairEnd,
-                                BasePairPositionDE.EndPosition.class.getName());
-                    }
-                }
-            }
-        }
+			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+				if (thisRegion != null && thisBasePairStart != null
+						&& this.basePairEnd != null) {
+					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
+							&& (thisBasePairStart.trim().length() > 0)
+							&& (this.basePairEnd.trim().length() > 0)) {
+						if(regionCriteria == null){
+							regionCriteria = new RegionCriteria();
+						}
+						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Long(this.basePairEnd));
+						regionCriteria.setEnd(basePairEndDE);
+					}
+				}
+			}
+		}
     }
 
     /**
@@ -2067,27 +2070,29 @@ public class ComparativeGenomicForm extends BaseForm {
      */
     public void setBasePairStart(String basePairStart) {
         this.basePairStart = basePairStart;
-        if (thisRequest != null) {
-            String thisRegion = this.thisRequest.getParameter("region");
-            String thisChrNumber = this.thisRequest
-                    .getParameter("chrosomeNumber");
-            String thisBasePairEnd = this.thisRequest
-                    .getParameter("basePairEnd");
+		if (thisRequest != null) {
+			String thisRegion = this.thisRequest.getParameter("region");
+			String thisChrNumber = this.thisRequest
+					.getParameter("chromosomeNumber");
+			String thisBasePairEnd = this.thisRequest
+					.getParameter("basePairEnd");
 
-            if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-                if (thisRegion != null && this.basePairStart != null
-                        && thisBasePairEnd != null) {
-                    if ((thisRegion.equalsIgnoreCase("basePairPosition"))
-                            && (thisBasePairEnd.trim().length() > 0)
-                            && (this.basePairStart.trim().length() > 0)) {
+			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+				if (thisRegion != null && this.basePairStart != null
+						&& thisBasePairEnd != null) {
+					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
+							&& (thisBasePairEnd.trim().length() > 0)
+							&& (this.basePairStart.trim().length() > 0)) {
+						if(regionCriteria == null){
+							regionCriteria = new RegionCriteria();
+						}
+						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Long(this.basePairStart));
+						regionCriteria.setStart(basePairStartDE);
+					}
+				}
+			}
+		}
 
-                        regionDomainMap.put(this.basePairStart,
-                                BasePairPositionDE.StartPosition.class
-                                        .getName());
-                    }
-                }
-            }
-        }
     }
 
     public ArrayList getCloneTypeColl() {
