@@ -63,4 +63,6 @@ public final class NautilusConstants {
     public static final int ALL_GENES_MAX_SAMPLE_COUNT = 22;
     
     public static final String FILTER_REPORT_SUFFIX = " filter report";
+    
+    public static final String SHOW_ALL_VALUES_SUFFIX = " show all values report";
 }

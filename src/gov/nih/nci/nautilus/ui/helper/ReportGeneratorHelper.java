@@ -125,7 +125,7 @@ public class ReportGeneratorHelper {
 			 * something other than a show all values query
 			 */
 			newResultant = ResultsetManager.executeShowAllQuery(oldResultant);
-			newQueryName = oldQueryName+ " show all values report";
+			newQueryName = oldQueryName+ NautilusConstants.SHOW_ALL_VALUES_SUFFIX;
 		}
 		/*
 		 * At present the executeShowAllQuery(Resultant) method does not 
