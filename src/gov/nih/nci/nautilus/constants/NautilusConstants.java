@@ -56,4 +56,6 @@ public final class NautilusConstants {
     public static final String CYTOBAND = "Cytoband";
     
     public static final String SNP_PROBESET_ID = "SNP Probe set ID";
+    
+    public static final  String DE_BEAN_FILE_NAME ="/deToBeanAttrMappings.xml";
 }

@@ -1,5 +1,8 @@
 package gov.nih.nci.nautilus.cache;
 
+import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.util.ApplicationContext;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -16,13 +19,15 @@ import javax.servlet.ServletContextListener;
 public class RembrandtContextListener implements ServletContextListener {
 	private static String contextPath;
 	/** 
-	 * this method is fired whenever application server loads the context
+	 * this method is fired whenever the application server loads the context
 	 * that this listener is added to in the web.xml
 	 */
 	public void contextInitialized(ServletContextEvent contextEvent) {
 		ServletContext context = contextEvent.getServletContext();
 		contextPath = context.getRealPath("/");
 		SessionTracker.setAppplicationRunning(true);
+		ApplicationContext.init();
+		
 	}
 
 	/**
