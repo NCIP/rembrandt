@@ -56,6 +56,7 @@ public class CSVGenerator  {
 	  		catch (Throwable t)	{
 	  			errors.append("Error executing the query.<Br><Br>");
 	  			//errors.append(t.getStackTrace().toString());
+	  			System.out.println("Error Executing the query");
 	  			return errors.toString();
 	  		}
 
@@ -483,14 +484,19 @@ public class CSVGenerator  {
 			        		
 			        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
 			        		if(locusLinkIds != null){
-			        			String ll = "";
-			        			
+			        			String ll = " ";
+			        			System.out.println("LLs "+reporterName+": "+locusLinkIds.size());
 			        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
 			        			{
-			        				Object llObj = LLIterator.next();
-			        				if(llObj!=null){
-			        					ll += llObj.toString();
-			        					ll += " | ";
+			        				try	{
+			        					Object llObj = LLIterator.next();
+			        					if(llObj!=null){
+			        						ll += llObj.toString();
+			        						ll += " | ";
+			        					}
+			        				}
+			        				catch(Exception e){
+			        					
 			        				}
 			        			}
 			        			if(showLL)	{
@@ -500,27 +506,39 @@ public class CSVGenerator  {
 			        			}
 			        			stringBuffer.append(","+ll);
 			        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
-			        			
+			        			System.out.println("done with this LL");
 			        		}
+			        		else	{
+			        			stringBuffer.append(", ");
+			        		}
+			        		
 			        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
 			        		if(accNumbers!=null)	{
-			        			String acc = "";
+			        			String acc = " ";
 			        			System.out.println("Acc nos for "+reporterName+": "+accNumbers.size());
 			        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
 			        			{
-			        				Object accObj = accIterator.next();
-			        				if(accObj!=null){
-			        					acc += accObj.toString();
-			        					acc += " | ";
+			        				try	{
+				        				Object accObj = accIterator.next();
+				        				if(accObj!=null){
+				        					acc += accObj.toString();
+				        					acc += " | ";
+				        				}
+			        				}
+			        				catch(Exception e)	{
+			        					
 			        				}
 			        			}
 			        			if(showAcc){
-			        				header.append(",Acc.No.");
+			        				header.append(",Acc No");
 			        				sampleNames.append(", ");
 			        				showAcc = false;
 			        			}
 			        			stringBuffer.append(", "+acc);
 			        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+			        		}
+			        		else	{
+			        			stringBuffer.append(", ");
 			        		}
 			        		
 			        		//sampleNames.append("\n");
@@ -537,20 +555,27 @@ public class CSVGenerator  {
 				                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 				                       		if(biospecimenResultset != null){
 				                       			Double ratio = (Double)biospecimenResultset.getFoldChangeRatioValue().getValue();
-				                       			if(ratio != null)
-				                       				stringBuffer.append(","+resultFormat.format(ratio));                                 
+				                       			if(ratio != null)	{
+				                       				try	{
+				                       					stringBuffer.append(","+resultFormat.format(ratio));
+				                       				}
+				                       				catch(Exception e){
+				                       					System.out.println("cant format result");
+				                       					stringBuffer.append(",x");
+				                       				}
+				                       			}
 					                       		else
-					                       			stringBuffer.append(",-");
+					                       			stringBuffer.append(",x ");
 				                       		}
 				                       		else 
 				                       		{
-				                       			stringBuffer.append(",-");
+				                       			stringBuffer.append(",x ");
 				                       		}
 				                       	}
 			                       }
 			                       else	{
 			                       for(int s=0;s<sampleIds.size();s++) 
-			                       	stringBuffer.append(",-");                      
+			                       		stringBuffer.append(",x ");                      
 			                       }
 			
 			         		}
