@@ -361,6 +361,11 @@
         column="DISEASE_TYPE_ID"
         jdbc-type="BIGINT"
     />
+    <field-descriptor
+        name="diseaseType"
+        column="DISEASE_TYPE"
+        jdbc-type="VARCHAR"
+    />
      <field-descriptor
         name="expressionRatio"
         column="EXPRESSION_RATIO"
@@ -461,6 +466,11 @@
         name="diseaseTypeId"
         column="DISEASE_TYPE_ID"
         jdbc-type="BIGINT"
+    />
+    <field-descriptor
+        name="diseaseType"
+        column="DISEASE_TYPE"
+        jdbc-type="VARCHAR"
     />
      <field-descriptor
         name="expressionRatio"
