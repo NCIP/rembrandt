@@ -9,14 +9,13 @@ import gov.nih.nci.nautilus.de.DomainElementClass;
  * Time: 6:53:51 PM
  * To change this template use Options | File Templates.
  */
-public class SampleCentricView extends View {
+public class ClinicalSampleView extends View {
     private DomainElementClass[] validDEs;
 
-    SampleCentricView() {
+    ClinicalSampleView() {
         validDEs = new DomainElementClass[]
-              { DomainElementClass.PROBESET,
-                DomainElementClass.EXPRFOLDCHANGE,
-                DomainElementClass.DISEASE_NAME,
+              { DomainElementClass.DISEASE_NAME,
+        		//TODO: All List here
               };
     }
 

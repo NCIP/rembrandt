@@ -1,6 +1,5 @@
 package gov.nih.nci.nautilus.view;
 
-import gov.nih.nci.nautilus.query.Query;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,15 +9,18 @@ import gov.nih.nci.nautilus.query.Query;
  * To change this template use Options | File Templates.
  */
 public class ViewFactory {
-    public static ViewType newView(ViewType viewType) {
+    public static View newView(ViewType viewType) {
         if (viewType instanceof ViewType.GeneSingleSampleView) {
-            return ViewType.GENE_SINGLE_SAMPLE_VIEW;
+            return new GeneExprSampleView();
         }
         else if (viewType instanceof ViewType.GeneGroupSampleView) {
-            return ViewType.GENE_GROUP_SAMPLE_VIEW ;
+            return new GeneSingleDiseaseView();
         }
         else if (viewType instanceof ViewType.ClinicalView) {
-            return ViewType.CLINICAL_VIEW;
+            return new ClinicalSampleView();
+        }
+        else if (viewType instanceof ViewType.CopyNumberSampleView) {
+            return new CopyNumberSampleView();
         }
         return null;
     }

@@ -9,7 +9,7 @@ import gov.nih.nci.nautilus.de.DomainElementClass;
  * Time: 6:53:51 PM
  * To change this template use Options | File Templates.
  */
-public class GeneCentricView extends View {
+public class GeneExprSampleView extends View {
 	private GroupType groupType = GroupType.DISEASE_TYPE_GROUP; //always defalut to disease
     /**
 	 * @return Returns the groupType.
