@@ -28,6 +28,7 @@ import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.GeneOntologyDE;
 import gov.nih.nci.nautilus.de.PathwayDE;
+import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
@@ -35,6 +36,7 @@ import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.resultset.ContraintQueryWithSamplesHandler;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
@@ -52,6 +54,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -258,6 +261,41 @@ public class CompoundQueryTest extends TestCase {
 			Resultant resultant2 = ResultsetManager.executeShowAllQuery(resultant);
 			System.out.println("Printing ShowAllValuesQuery Output>>>>>>>>>>>>>>>>>>>>>>>");
 			print(resultant2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void testContraintQueryWithSamplesHandler() {
+		
+		try {
+			CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
+			List sampleIDList = new ArrayList();
+			sampleIDList.add("HF608");
+			sampleIDList.add("HF118");
+			sampleIDList.add("HF305");
+			sampleIDList.add("HF990");
+			sampleIDList.add("HF1219");
+			sampleIDList.add("HF1227");
+			sampleIDList.add("HF1325");
+			String[] sampleIDs = (String[])sampleIDList.toArray(new String[sampleIDList.size()]);
+			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery1);
+			System.out.println("Printing Original Query Output>>>>>>>>>>>>>>>>>>>>>>>");
+			System.out.println("For the following samples");
+			for (int i = 0; i < sampleIDs.length;i++){
+				System.out.println(i+") "+ sampleIDs[i]);
+			}
+			
+			print(resultant);
+			System.out.println("Now Constraint it by the following samples only");
+			for (int i = 0; i < sampleIDs.length;i++){
+				System.out.println(i+") "+ sampleIDs[i]);
+			}
+			resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery1,sampleIDs);
+			print(resultant);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
