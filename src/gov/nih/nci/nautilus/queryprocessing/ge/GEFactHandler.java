@@ -226,6 +226,7 @@ abstract public class GEFactHandler {
             singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
             singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
             singleExprObj.setSampleId(exprObj.getSampleId());
+            singleExprObj.setGenderCode(exprObj.getGenderCode());
             if (exprObj.getProbesetId() != null ) {
                 singleExprObj.setProbesetId(exprObj.getProbesetId());
 
