@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.ui.bean.SessionQueryBag,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
+<%@ page import="java.util.*,
+				 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
+				 gov.nih.nci.nautilus.constants.NautilusConstants,
+				 gov.nih.nci.nautilus.cache.CacheManagerDelegate" %> 
 <div width="100%">
 <h3>Queries</h3>
 <html:form action ="delete_Query.do">
@@ -22,7 +25,8 @@
 			   String pageStr = (String)request.getSession().getAttribute("currentPage");					   
 			   String pageStr2 = (String)request.getSession().getAttribute("currentPage2");  
 			   
-			   SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
+			   String sessionId = request.getSession().getId();
+  				SessionQueryBag queryCollection = CacheManagerDelegate.getInstance().getSessionQueryBag(sessionId);
 			   if(queryCollection != null){
 			     
 			      Collection queryColl = queryCollection.getQueries();

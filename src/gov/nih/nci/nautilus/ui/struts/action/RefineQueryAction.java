@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
@@ -39,8 +41,8 @@ import org.apache.struts.actions.LookupDispatchAction;
  */
 
 public class RefineQueryAction extends LookupDispatchAction {
-    private static Logger logger = Logger.getLogger(RefineQueryAction.class);
-	
+    private Logger logger = Logger.getLogger(RefineQueryAction.class);
+	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
    /**
     *  Responsible for looking at the user constructed compound query from the
     *  refine_tile.jsp.  If the Selected queries and operations are correct
@@ -59,27 +61,20 @@ public class RefineQueryAction extends LookupDispatchAction {
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
-
+		String sessionId = request.getSession().getId();
         RefineQueryForm refineQueryForm = (RefineQueryForm) form;
 		ActionErrors errors = new ActionErrors();
-        SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
-        if (queryCollect == null) {
-            //Query Collection is null. Go back and display error
-        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.empty.error"));
-            saveErrors(request, errors);
+        SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+        refineQueryForm = UIRefineQueryValidator.processCompoundQuery(form, request, queryBag);
+        if(refineQueryForm.getErrors()!=null&&!refineQueryForm.getErrors().isEmpty()) {
+            //Processing returned some errors
+        	saveErrors(request, refineQueryForm.getErrors());
             return (new ActionForward(mapping.getInput()));
-        } else {
-            //Process the existing querries
-            refineQueryForm = UIRefineQueryValidator.processCompoundQuery(form, request, queryCollect);
-            if(refineQueryForm.getErrors()!=null&&!refineQueryForm.getErrors().isEmpty()) {
-                //Processing returned some errors
-            	saveErrors(request, refineQueryForm.getErrors());
-                return (new ActionForward(mapping.getInput()));
-            } 
-            Collection names = queryCollect.getResultsetQueryNames();
-            refineQueryForm.setResultSets(names);
-            return mapping.findForward("displayQuery");
-        }
+         } 
+        Collection names = queryBag.getResultsetQueryNames();
+        refineQueryForm.setResultSets(names);
+        return mapping.findForward("displayQuery");
+       
      }
 	/**
 	 * Makes the necessary calls to run a compound query, then forwards the 
@@ -97,51 +92,42 @@ public class RefineQueryAction extends LookupDispatchAction {
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
-
+		
+		String sessionId = request.getSession().getId();
         ActionErrors errors = new ActionErrors();
         ActionForward thisForward = null;
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
-		SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
+		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
 		// Get the viewType array from session 
 		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(NautilusConstants.VALID_QUERY_TYPES_KEY);
-		if (queryCollect != null) {
-			if (queryCollect.hasCompoundQuery()) {
-				
-                //Create compound query to execute
-                CompoundQuery cQuery = (CompoundQuery) queryCollect.getCompoundQuery();
-				if(!refineQueryForm.getResultSetName().equals("")) {
+		if (queryBag.hasCompoundQuery()) {
+		   //Create compound query to execute
+           CompoundQuery cQuery = queryBag.getCompoundQuery();
+           if(!refineQueryForm.getResultSetName().equals("")) {
 					
-				}
-                ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
-				cQuery.setAssociatedView(ViewFactory.newView(selectView));
-                String resultSetName = refineQueryForm.getResultSetName();
-                
-               //Set the name of the compound query
-                if(!"".equals(resultSetName)) {
-                	cQuery.setQueryName(resultSetName);
-                }
-                
-                ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
-                ReportBean reportBean = rgHelper.getReportBean();
-                request.setAttribute("queryName", reportBean.getResultantCacheKey());
-                //Send to the appropriate view as per selection!!
-        		thisForward = new ActionForward();
-        		thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
-			}else {
-				logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
-				this.saveErrors(request, errors);
-				thisForward = mapping.findForward("failure");
 			}
-		}else{	
-			logger.debug("SessionQueryBag object missing in session!!");
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.missing.error"));
+            ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
+			cQuery.setAssociatedView(ViewFactory.newView(selectView));
+            String resultSetName = refineQueryForm.getResultSetName();
+            
+           //Set the name of the compound query
+            if(!"".equals(resultSetName)) {
+            	cQuery.setQueryName(resultSetName);
+            }
+            
+            ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
+            ReportBean reportBean = rgHelper.getReportBean();
+            request.setAttribute("queryName", reportBean.getResultantCacheKey());
+            //Send to the appropriate view as per selection!!
+    		thisForward = new ActionForward();
+    		thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
+		}else {
+			logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
 			this.saveErrors(request, errors);
 			thisForward = mapping.findForward("failure");
 		}
-       
-       
-        return thisForward;
+	    return thisForward;
 	 }
 	/**
 	 * A method used for debugging 
@@ -175,10 +161,10 @@ public class RefineQueryAction extends LookupDispatchAction {
             HttpServletRequest request,
             HttpServletResponse response)
             throws Exception {
-   
+    	String sessionId = request.getSession().getId();
         RefineQueryForm refineQueryForm = (RefineQueryForm)form;
-        SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
-        CompoundQuery cquery = queryCollect.getCompoundQuery();
+        SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+        CompoundQuery cquery = queryBag.getCompoundQuery();
         ActionErrors errors = new ActionErrors();
         //check that the compound query exists
         if(cquery==null) {
@@ -193,7 +179,7 @@ public class RefineQueryAction extends LookupDispatchAction {
         String resultSetName = refineQueryForm.getResultSetName();
         if(resultSetName!=null && !resultSetName.equals("")) {
         	cquery.setQueryName(refineQueryForm.getResultSetName());
-        	queryCollect.putResultsetQuery(cquery);
+        	queryBag.putResultsetQuery(cquery);
         	return mapping.findForward("advanceSearchMenu");
         	
         }else {

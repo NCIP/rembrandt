@@ -2,7 +2,10 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.ui.bean.SessionQueryBag,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
+<%@ page import="java.util.*, 
+				 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
+				 gov.nih.nci.nautilus.constants.NautilusConstants,
+				 gov.nih.nci.nautilus.cache.CacheManagerDelegate" %> 
 
 <fieldset class="gray">
 <legend class="red">
@@ -29,7 +32,8 @@ String act = request.getParameter("act");
 
 <%
 
-		SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
+		String sessionId = request.getSession().getId();
+  		SessionQueryBag queryCollection = CacheManagerDelegate.getInstance().getSessionQueryBag(sessionId);
  		String returnQueryNames = "";
 		
 		if (queryCollection != null) {

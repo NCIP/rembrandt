@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
@@ -43,8 +45,8 @@ import org.apache.struts.actions.LookupDispatchAction;
 
 
 public class GeneExpressionAction extends LookupDispatchAction {
-    private static Logger logger = Logger.getLogger(GeneExpressionAction.class);
-	
+    private Logger logger = Logger.getLogger(GeneExpressionAction.class);
+	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
     /**
      * Method setup
      * 
@@ -157,42 +159,28 @@ public class GeneExpressionAction extends LookupDispatchAction {
         
 		request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
+		String sessionId = request.getSession().getId();
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
 
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
-
-		
-		    logger.debug("This is a Gene Expression Submital");
-		    try {
-				//Set query in Session.
-				if (!geneExpQuery.isEmpty()) {
-					// Get SessionQueryBag from session if available
-					SessionQueryBag queryCollection = (SessionQueryBag) request
-							.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
-					if (queryCollection == null) {
-					    logger.debug("SessionQueryBag class in Session is empty");
-						queryCollection = new SessionQueryBag();
-					}
-					queryCollection.putQuery(geneExpQuery);
-                    request.getSession().setAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY,queryCollection);
-                    
-             	} else {
-					ActionErrors errors = new ActionErrors();
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-											"gov.nih.nci.nautilus.ui.struts.form.query.geneexp.error"));
-					this.saveErrors(request, errors);
-				    return mapping.findForward("backToGeneExp"); 
-				}
-			}// end of try
-			catch (Exception e) {
-				logger.error("Exception in GeneExpressionAction.java");
-				logger.error(e);
-			}
-			return mapping.findForward("advanceSearchMenu");
+	    logger.debug("This is a Gene Expression Submital");
+	   
+		if (!geneExpQuery.isEmpty()) {
+			SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+            queryBag.putQuery(geneExpQuery);
+            cacheManager.putSessionQueryBag(sessionId, queryBag);
+            
+     	} else {
+			ActionErrors errors = new ActionErrors();
+			ActionError error = new ActionError("gov.nih.nci.nautilus.ui.struts.form.query.geneexp.error");
+			errors.add(ActionErrors.GLOBAL_ERROR, error);
+			this.saveErrors(request, errors);
+		    return mapping.findForward("backToGeneExp"); 
 		}
-	
-	
+		
+		return mapping.findForward("advanceSearchMenu");
+	}
 
 	/**
 	 * This action is called when the user has selected the preview

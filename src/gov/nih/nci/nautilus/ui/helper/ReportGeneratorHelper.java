@@ -113,7 +113,7 @@ public class ReportGeneratorHelper {
 			String oldQueryName = ((CompoundQuery)(resultant.getAssociatedQuery())).getQueryName();
 			//check the sessionId that it isn't null or empty and set _sessionId in _cQuery
 			checkSessionId(sessionId);
-			//check that we have an oldQueryNameand set the class variable _queryName
+			//check that we have an old QueryName and set the class variable _queryName
 			//and add that it is a all values report
 			checkQueryName( oldQueryName +" show all values report");
 			//store the annotated query in the resultant
@@ -214,9 +214,7 @@ public class ReportGeneratorHelper {
 	 *      to avoid running to the database if not needed.
 	 *      5-Execute the query if there is no result set to use in the cache
 	 *      6-Generate the report xml based on the desired view
-	 *      7-store the new report bean in cache with the new xml for later 
-	 *      retrieval by the UI.
-	 *        
+	 *             
 	 * @param query --the query that you want some new view (Report) of
 	 */
 	public ReportGeneratorHelper(Queriable query, Map filterParams) {
@@ -246,9 +244,6 @@ public class ReportGeneratorHelper {
 			logger.error("Unable to create the ReportBean");
 			logger.error(e);
 		}
-			
-		
-		
 	}
 	/**
 	 * Checks the Queriable object and determines if it is a CompoundQuery.  If
@@ -318,8 +313,7 @@ public class ReportGeneratorHelper {
 			 * current query report in other ways, like changing the
 			 * view or downloading it. SO we should probably keep it
 			 * around for a little bit. We do this by giving it a
-			 * fixed temp name. This results set will be stored
-			 * until another unnamed query is run.
+			 * fixed temp name to use as a session cache key.
 			 * 
 			 */
 			_queryName = _cacheManager.getTempReportName(_sessionId);

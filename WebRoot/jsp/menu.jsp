@@ -2,12 +2,12 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-
 <%@ page import="java.util.*,
 	 gov.nih.nci.nautilus.query.*,
 	 gov.nih.nci.nautilus.constants.NautilusConstants,
 	 org.apache.log4j.Logger,
-	  gov.nih.nci.nautilus.ui.bean.SessionQueryBag" %> 
+	 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
+	 gov.nih.nci.nautilus.cache.CacheManagerDelegate" %> 
 
 
 <%
@@ -18,12 +18,11 @@ int cpQueryNum = 0;
 String cpQueryString = "0";
 int cghQueryNum = 0;
 String cghQueryString = "0";
-
- SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
- if(queryCollection == null){
+String sessionId = request.getSession().getId();
+SessionQueryBag queryCollection = CacheManagerDelegate.getInstance().getSessionQueryBag(sessionId);
+if(queryCollection == null){
    logger.debug("its null");
-   }
- else{
+}else{
  	Collection queryColl = queryCollection.getQueries();
  	Iterator i = queryColl.iterator();
  	

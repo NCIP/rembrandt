@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
@@ -40,8 +42,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 public class ComparativeGenomicAction extends LookupDispatchAction {
-    private static Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
-    
+    private Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
+    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
    
     /**
      * Method setup
@@ -175,6 +177,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
             throws Exception {
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
+        String sessionId = request.getSession().getId();
         ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
         
         logger.debug("This is a Comparative Genomic Submittal");
@@ -185,27 +188,16 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
        
         
             try {
-                //Set query in Session.
+                //Store the query in the SessionQueryBag
                 if (!cghQuery.isEmpty()) {
-                    // Get Hashmap from session if available
-                    SessionQueryBag queryCollection = (SessionQueryBag) request
-                            .getSession().getAttribute(
-                                    NautilusConstants.SESSION_QUERY_BAG_KEY);
-                    if (queryCollection == null) {
-                        queryCollection = new SessionQueryBag();
-                    }
-                    queryCollection.putQuery(cghQuery);
-                    request.getSession().setAttribute(
-                            NautilusConstants.SESSION_QUERY_BAG_KEY, queryCollection);
-
+                    SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+                    queryBag.putQuery(cghQuery);
+                    cacheManager.putSessionQueryBag(sessionId, queryBag);
                 } else {
-
                     ActionErrors errors = new ActionErrors();
-                    errors
-                            .add(
-                                    ActionErrors.GLOBAL_ERROR,
-                                    new ActionError(
-                                            "gov.nih.nci.nautilus.ui.struts.form.query.cgh.error"));
+                    ActionError error =  new ActionError(
+                    		"gov.nih.nci.nautilus.ui.struts.form.query.cgh.error");
+                    errors.add(ActionErrors.GLOBAL_ERROR,error);
                     this.saveErrors(request, errors);
                     return mapping.findForward("backToCGH");
                 }

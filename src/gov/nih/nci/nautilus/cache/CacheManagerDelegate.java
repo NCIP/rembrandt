@@ -5,6 +5,7 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.View;
@@ -436,5 +437,42 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return compoundQuery;
 	
+	}
+	/**
+	 * This is a convenience method for returning the SessionQueryBag for the
+	 * the specified session.  If there is no SessionQueryBag stored in the
+	 * cache for the session, it will create one and return it.   
+	 * 
+	 * @param --the sessionId you want the bag for
+	 * @return --the SessionQueryBag for the session
+	 */
+	public SessionQueryBag getSessionQueryBag(String sessionId) {
+		Cache sessionCache =  this.getSessionCache(sessionId);
+		SessionQueryBag theBag = null;
+		try {
+			Element cacheElement = sessionCache.get(NautilusConstants.SESSION_QUERY_BAG_KEY);
+			theBag = (SessionQueryBag)cacheElement.getValue();
+		}catch(CacheException ce) {
+			logger.error("Retreiving the SessionQueryBag threw an exception for session: "+sessionId);
+			logger.error(ce);
+		}catch(ClassCastException cce) {
+			logger.error("Someone put something other than a SessionQueryBag in the cache as a SessionQueryBag");
+			logger.error(cce);
+		}catch(NullPointerException npe){
+			logger.debug("There is no query bag for session: "+sessionId);		
+		}
+		/**
+		 * There is no SessionQueryBag for this session, create one
+		 */
+		if(theBag==null) {
+			
+			logger.debug("Creating new SessionQueryBag");
+			theBag = new SessionQueryBag();
+		}
+		return theBag;
+	}
+	
+	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag) {
+		this.addToSessionCache(sessionId,NautilusConstants.SESSION_QUERY_BAG_KEY, theBag );
 	}
 }

@@ -7,7 +7,8 @@
 	</td>
 	<td>
 		<nested:select property="queryName">
-		    <html:optionsCollection property="queryNameColl" />
+		    <option/>
+		    <html:optionsCollection property="nonAllGenesQueries" label="queryName" value="queryName" />
 		</nested:select>
 	</td>
 	<td>

@@ -5,7 +5,8 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,9 @@ import org.apache.struts.action.ActionMapping;
 /**
  */
 public class CompoundCheckAction extends Action {
-    private static Logger logger = Logger.getLogger(CompoundCheckAction.class);
-	/**
+    private Logger logger = Logger.getLogger(CompoundCheckAction.class);
+	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
+    /**
 	 * Method execute
 	 * @param ActionMapping mapping
 	 * @param ActionForm form
@@ -43,30 +45,23 @@ public class CompoundCheckAction extends Action {
 		throws Exception {
 
 		ActionErrors errors = new ActionErrors();
-
-		SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
-		java.util.Enumeration enum = request.getAttributeNames();
-		while (enum.hasMoreElements()) {
-			String element = (String) enum.nextElement();
-			logger.debug(element);
-		}
-
-		if (queryCollect == null) {
+		String sessionId = request.getSession().getId();
+		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+		if (queryBag == null) {
 		    logger.debug("SessionQueryBag object missing in session!!");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
 			ActionForward thisForward = mapping.findForward("failure");
 		}else{	
-			if (!queryCollect.hasCompoundQuery()) {
+			if (!queryBag.hasCompoundQuery()) {
 			    logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
 				this.saveErrors(request, errors);
 				ActionForward thisForward = mapping.findForward("failure");
 				}
 		}
-//Send to the appropriate view as per selection!!
+		//Send to the appropriate view as per selection!!
 		ActionForward thisForward = mapping.findForward("success");
-		
 		return thisForward;
 
      }

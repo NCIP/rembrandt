@@ -3,6 +3,8 @@ package gov.nih.nci.nautilus.ui.struts.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.AgeCriteria;
 import gov.nih.nci.nautilus.criteria.ChemoAgentCriteria;
@@ -35,7 +37,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 public class ClinicalDataAction extends LookupDispatchAction {
-    private static Logger logger = Logger.getLogger(ClinicalDataAction.class);
+    private Logger logger = Logger.getLogger(ClinicalDataAction.class);
+    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
     
     /**
      * Method submittal
@@ -57,51 +60,24 @@ public class ClinicalDataAction extends LookupDispatchAction {
 
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
-                
+        String sessionId = request.getSession().getId();
         ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
-        
         logger.debug("This is a Clinical Data Submittal");
         //Create Query Objects
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
-
-            try {
-
-                //Set query in Session.
-                if (!clinicalDataQuery.isEmpty()) {
-
-                    // Get SessionQueryBag from session if available
-                    SessionQueryBag queryCollection = (SessionQueryBag) request
-                            .getSession().getAttribute(
-                                    NautilusConstants.SESSION_QUERY_BAG_KEY);
-                    if (queryCollection == null) {
-                        logger.debug("Query Map in Session is empty");
-                        queryCollection = new SessionQueryBag();
-                    }
-                    queryCollection.putQuery(clinicalDataQuery);
-                    request.getSession().setAttribute(
-                            NautilusConstants.SESSION_QUERY_BAG_KEY, queryCollection);
-
-                } else {
-
-                    ActionErrors errors = new ActionErrors();
-                    errors
-                            .add(
-                                    ActionErrors.GLOBAL_ERROR,
-                                    new ActionError(
-                                            "gov.nih.nci.nautilus.ui.struts.form.query.cgh.error"));
-                    this.saveErrors(request, errors);
-                    return mapping.findForward("backToCGHExp");
-
-                }
-
-            }
-
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return mapping.findForward("advanceSearchMenu");
+        if (!clinicalDataQuery.isEmpty()) {
+        	SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+            queryBag.putQuery(clinicalDataQuery);
+            cacheManager.putSessionQueryBag(sessionId, queryBag);
+        }else{
+            ActionErrors errors = new ActionErrors();
+            ActionError error = new ActionError("gov.nih.nci.nautilus.ui.struts.form.query.cgh.error");
+            errors.add(ActionErrors.GLOBAL_ERROR,error);
+            this.saveErrors(request, errors);
+            return mapping.findForward("backToCGHExp");
         }
+        return mapping.findForward("advanceSearchMenu");
+    }
 
     
     public ActionForward preview(ActionMapping mapping, ActionForm form,

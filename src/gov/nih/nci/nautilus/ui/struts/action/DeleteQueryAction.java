@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
+import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.DeleteQueryForm;
@@ -17,7 +19,8 @@ import org.apache.struts.actions.DispatchAction;
 
 
 public class DeleteQueryAction extends DispatchAction {
-    private static Logger logger = Logger.getLogger(DeleteQueryAction.class);
+    private Logger logger = Logger.getLogger(DeleteQueryAction.class);
+    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
 
 	// --------------------------------------------------------- Instance Variables
 
@@ -41,16 +44,14 @@ public class DeleteQueryAction extends DispatchAction {
 		   DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
 		   String page = (String)request.getSession().getAttribute("currentPage");
 		   logger.debug("the current page is :"+page);
-		    
-		   SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
-		   if(queryCollection != null){			     
-			  Collection queryColl = queryCollection.getQueries();	
+		   String sessionId = request.getSession().getId();
+		   SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+		   if(queryBag != null){			     
+			  Collection queryColl = queryBag.getQueries();	
 			  String queryKey = deleteQueryForm.getQueryKey();
 			  logger.debug("queryKey is ************:"+queryKey);		  
-			  queryColl.remove(queryCollection.getQuery(queryKey));	 
+			  queryColl.remove(queryBag.getQuery(queryKey));	 
 			}  	 	
-		 
-		 
 		   return mapping.findForward("menuPage");		
 	     }
 	
@@ -60,16 +61,17 @@ public class DeleteQueryAction extends DispatchAction {
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
-		
-		 DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;
-		 String page = (String)request.getSession().getAttribute("currentPage");
-		 SessionQueryBag queryCollection = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
-		 if(queryCollection != null){			     
-			Collection queryColl = queryCollection.getQueries();
-			queryColl.clear();
-			}			 
-		
-		return mapping.findForward("menuPage");			
+	 String sessionId = request.getSession().getId();	
+	 DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;
+	 String page = (String)request.getSession().getAttribute("currentPage");
+	 SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+	 Collection queryColl = queryBag.getQueries();
+	 /**
+	  * @todo Need to make sure this actually clearing out the Collection
+	  * 	--Dave
+	  */
+	 queryColl.clear();
+	 return mapping.findForward("menuPage");			
 	
 	}
 	

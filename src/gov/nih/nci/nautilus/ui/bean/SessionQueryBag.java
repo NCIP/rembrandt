@@ -1,4 +1,5 @@
 package gov.nih.nci.nautilus.ui.bean;
+
 /*
  *  @author: SahniH
  *  Created on Sep 24, 2004
@@ -49,97 +50,179 @@ package gov.nih.nci.nautilus.ui.bean;
  *	
  */
 
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.Query;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
 /**
- * @author SahniH
- * Date: Sep 24, 2004
+ * @author SahniH Date: Sep 24, 2004
  * 
  */
-public class SessionQueryBag {
+public class SessionQueryBag implements Serializable {
 	private Map queryMap = new TreeMap();
+	private Map allGenesQueries = new HashMap();
+	private Map nonAllGeneQueries = new HashMap();
 	private Map resultsetQueryMap = new TreeMap();
 	private CompoundQuery compoundQuery = null;
-	
-	public void putQuery(Query query){
-		if(query != null && query.getQueryName() != null){
-			queryMap.put(query.getQueryName(),query);
+
+	public void putQuery(Query query) {
+		if (query != null && query.getQueryName() != null) {
+			queryMap.put(query.getQueryName(), query);
 		}
 	}
-	public Collection getQueries(){
+
+	public Collection getQueries() {
 		return queryMap.values();
 	}
-	public Collection getQueryNames(){
+
+	public Collection getQueryNames() {
 		return queryMap.keySet();
 	}
-	public void removeQuery(String queryName){
-		if(queryName != null){
+
+	public void removeQuery(String queryName) {
+		if (queryName != null) {
 			queryMap.remove(queryName);
 		}
 	}
-	public Query getQuery(String queryName){
-		if( queryName != null){
+
+	public Query getQuery(String queryName) {
+		if (queryName != null) {
 			return (Query) queryMap.get(queryName);
 		}
 		return null;
 	}
-	public void removeAllQueries(){
+
+	public void removeAllQueries() {
 		queryMap.clear();
 	}
-	public void putResultsetQuery(CompoundQuery resultsetQuery){
-		if(resultsetQuery != null && resultsetQuery.getQueryName() != null){
-			resultsetQueryMap.put(resultsetQuery.getQueryName(),resultsetQuery);
+
+	public void putResultsetQuery(CompoundQuery resultsetQuery) {
+		if (resultsetQuery != null && resultsetQuery.getQueryName() != null) {
+			resultsetQueryMap
+					.put(resultsetQuery.getQueryName(), resultsetQuery);
 		}
 	}
-	public Collection getResultsetQueries(){
+
+	public Collection getResultsetQueries() {
 		return resultsetQueryMap.values();
 	}
-	public Collection getResultsetQueryNames(){
+
+	public Collection getResultsetQueryNames() {
 		return resultsetQueryMap.keySet();
 	}
-	public void removeResultsetQuery(String resultsetQueryName){
-		if(resultsetQueryName != null){
+
+	public void removeResultsetQuery(String resultsetQueryName) {
+		if (resultsetQueryName != null) {
 			resultsetQueryMap.remove(resultsetQueryName);
 		}
 	}
-	public CompoundQuery getResultsetQuery(String resultsetQueryName){
-		if( resultsetQueryName != null){
+
+	public CompoundQuery getResultsetQuery(String resultsetQueryName) {
+		if (resultsetQueryName != null) {
 			return (CompoundQuery) resultsetQueryMap.get(resultsetQueryName);
 		}
 		return null;
 	}
-	public void removeAllResultsetQueries(){
+
+	public void removeAllResultsetQueries() {
 		resultsetQueryMap.clear();
 	}
+
 	/**
 	 * @return Returns the compoundQuery.
 	 */
 	public CompoundQuery getCompoundQuery() {
 		return this.compoundQuery;
 	}
+
 	/**
-	 * @param compoundQuery The compoundQuery to set.
+	 * @param compoundQuery
+	 *            The compoundQuery to set.
 	 */
 	public void setCompoundQuery(CompoundQuery compoundQuery) {
 		this.compoundQuery = compoundQuery;
 	}
-	
+
 	public boolean hasCompoundQuery() {
-		if (this.getCompoundQuery() != null) return true;
+		if (this.getCompoundQuery() != null)
+			return true;
 		return false;
 	}
 
 	public boolean hasQuery() {
 		return (!this.getQueryNames().isEmpty());
 	}
+
 	public boolean hasResultsetQuery() {
 		return (!this.getResultsetQueryNames().isEmpty());
+	}
+	
+	/**
+	 * This method will return the latest group of all genes querries available.
+	 * It iterates through the current list of queries and checks for
+	 * isAllGenesQuery() and stores them in the Map if they are. There is no
+	 * setter for this property as it is only a subset of the current queries
+	 * stored in the session.
+	 * 
+	 * @return -- a current Map of all the All Genes Queries
+	 */
+	public Map getAllGenesQueries() {
+		Set keys = queryMap.keySet();
+		for(Iterator i = keys.iterator();i.hasNext();) {
+			
+			Query query = (Query)queryMap.get(i.next());
+			boolean possibleAllGeneQuery = false;
+			if(query instanceof ComparativeGenomicQuery) {
+				ComparativeGenomicQuery cgQuery = (ComparativeGenomicQuery)query;
+				if(cgQuery.isAllGenesQuery()) {
+					allGenesQueries.put(cgQuery.getQueryName(),cgQuery);
+				}
+			}else if(query instanceof GeneExpressionQuery) {
+				GeneExpressionQuery geQuery = (GeneExpressionQuery)query;
+				if(geQuery.isAllGenesQuery()) {
+					allGenesQueries.put(geQuery.getQueryName(),geQuery);
+				}
+			}
+		}
+		return allGenesQueries;
+	}
+	/**
+	 * Creates a new Map that will contain all the current queries that are not
+	 * all gene queries.  This list is created dynamicly as the list of current
+	 * queries can change at any time and we do not want a reference to a non
+	 * existing query to show up when this method is called.
+	 * 
+	 * @return  -- a current Map of all non all genes queries.
+	 */
+	public Map getNonAllGeneQueries() {
+		Set keys = queryMap.keySet();
+		for(Iterator i = keys.iterator();i.hasNext();) {
+			Query query = (Query)queryMap.get(i.next());
+			boolean possibleAllGeneQuery = false;
+			if(query instanceof ComparativeGenomicQuery) {
+				ComparativeGenomicQuery cgQuery = (ComparativeGenomicQuery)query;
+				if(!cgQuery.isAllGenesQuery()) {
+					nonAllGeneQueries.put(cgQuery.getQueryName(),cgQuery);
+				}
+			}else if(query instanceof GeneExpressionQuery) {
+				GeneExpressionQuery geQuery = (GeneExpressionQuery)query;
+				if(!geQuery.isAllGenesQuery()) {
+					nonAllGeneQueries.put(geQuery.getQueryName(),geQuery);
+				}
+			}else {
+				nonAllGeneQueries.put(query.getQueryName(), query);
+			}
+		}
+		return nonAllGeneQueries;
+		
 	}
 }

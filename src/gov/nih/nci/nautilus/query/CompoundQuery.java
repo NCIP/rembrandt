@@ -75,11 +75,6 @@ public class CompoundQuery implements Queriable{
 	private String queryName;
 	//Session that this compoundQuery is associated with
 	private String sessionId = null;
-	/* 
-	 * @see gov.nih.nci.nautilus.query.Queriable#getAssociatedView()
-	 * 
-	 */
-
 
 	public CompoundQuery(OperatorType operator, Queriable leftQuery, Queriable rightQuery) throws Exception{
 		setOperatorType(operator);

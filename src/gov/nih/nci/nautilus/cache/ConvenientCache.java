@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.view.View;
 
 /**
@@ -28,4 +29,6 @@ public interface ConvenientCache {
 	public String getTempReportName(String sessionId);
 	public Collection checkLookupCache(String lookupType);
 	public void addToApplicationCache(Serializable key, Serializable value);
+	public SessionQueryBag getSessionQueryBag(String sessionId);
+	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag);
 }
