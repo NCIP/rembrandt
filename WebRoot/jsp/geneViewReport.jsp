@@ -13,12 +13,8 @@ org.dom4j.Document"
 	<br>Loading...please wait<br>
 </span>
 <%
-response.flushBuffer();	
-Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_BEAN);
-	if(reportXML==null){
-		reportXML = (Document)request.getSession().getAttribute(NautilusConstants.REPORT_BEAN);
-		request.getSession().removeAttribute(NautilusConstants.REPORT_BEAN);
-	}
+	response.flushBuffer();	
+	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
 	ReportGeneratorHelper.renderReport(request, reportXML,"report.xsl",out);
 %>
 

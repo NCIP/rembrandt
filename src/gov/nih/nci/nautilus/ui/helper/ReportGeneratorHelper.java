@@ -129,10 +129,13 @@ public class ReportGeneratorHelper {
 					 * 
 					 */
 					if (reportBean != null) {
-						if(resultant.getAssociatedView()!=view||reportBean.getReportXML()==null) {
+						resultant = reportBean.getResultant();
+						Viewable oldView = resultant.getAssociatedView();
+						if(oldView!=view||reportBean.getReportXML()==null) {
 							ReportGenerator reportGen = ReportGeneratorFactory
-									.getReportGenerator(resultant);
+									.getReportGenerator(view);
 							reportXML = reportGen.getReportXML(resultant);
+							reportBean.getResultant().setAssociatedView(view);
 						}else {
 							reportXML = reportBean.getReportXML();
 						}
@@ -142,6 +145,8 @@ public class ReportGeneratorHelper {
 							sessionCache.put(resultSetCacheElement);
 						}
 					    	
+					}else {
+						throw new IllegalStateException("There is no resultant to create report");
 					}
 					
 					

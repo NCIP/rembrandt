@@ -9,6 +9,7 @@ import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
+import gov.nih.nci.nautilus.ui.struts.form.ReportGeneratorForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,23 +26,29 @@ import org.dom4j.Document;
 
 public class ReportGeneratorAction extends DispatchAction {
 
-    private Logger logger = Logger.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(ReportGeneratorAction.class);
 	
     public ActionForward compundReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		return mapping.findForward("generateReport");
 	}
-
+    
+    public ActionForward runGeneViewReport(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+    	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+    	Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
+    	Element cacheElement = sessionCache.get(rgForm.getQueryName());
+    	ReportBean reportBean = (ReportBean)cacheElement.getValue();
+    	request.setAttribute(NautilusConstants.REPORT_XML, reportBean.getReportXML());
+    	return mapping.findForward("runGeneViewReport");
+    }
+    
 	public ActionForward previewReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
         String goBack=null;	
-        Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
-        Element element = sessionCache.get("temp_results");
-        ReportBean reportBean = (ReportBean)element.getValue();
-        Document reportXML = reportBean.getReportXML();
-        request.getSession().setAttribute(NautilusConstants.REPORT_BEAN, reportXML);
         if(form instanceof GeneExpressionForm) {
             request.setAttribute("geneexpressionForm", request.getAttribute("previewForm"));
             goBack = "backToGeneExp";
@@ -57,6 +64,7 @@ public class ReportGeneratorAction extends DispatchAction {
         //java script to spawn the report window.
         request.removeAttribute("previewForm");
         request.setAttribute("preview", new String("yes"));
+        request.setAttribute("queryName","temp_results");
         logger.debug("back: " + goBack);
         return mapping.findForward(goBack);
 	}

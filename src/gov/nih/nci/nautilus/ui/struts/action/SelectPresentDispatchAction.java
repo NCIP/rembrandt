@@ -1,7 +1,3 @@
-// Created by Xslt generator for Eclipse.
-// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
-// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
-
 package gov.nih.nci.nautilus.ui.struts.action;
 
 
@@ -29,15 +25,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
-
-
-
-
 /**
  */
 public class SelectPresentDispatchAction extends DispatchAction {
 
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(SelectPresentDispatchAction.class);
 	/**
 	 * Method execute
 	 * @param ActionMapping mapping

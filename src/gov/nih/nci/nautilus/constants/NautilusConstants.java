@@ -27,4 +27,5 @@ public final class NautilusConstants {
 
 	public static final int MAX_FILEFORM_COUNT = 40000;
 	public static final String REPORT_BEAN = "reportBean";
+	public static final String REPORT_XML = "reportXML";
 }

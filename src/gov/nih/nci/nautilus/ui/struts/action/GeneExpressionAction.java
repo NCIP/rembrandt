@@ -37,7 +37,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.LookupDispatchAction;
 
 public class GeneExpressionAction extends LookupDispatchAction {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(GeneExpressionAction.class);
 	
     /**
      * Method submitAllGenes

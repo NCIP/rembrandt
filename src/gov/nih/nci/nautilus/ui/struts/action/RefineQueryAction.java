@@ -111,14 +111,16 @@ public class RefineQueryAction extends LookupDispatchAction {
                 String resultSetName = refineQueryForm.getResultSetName();
                 
                //Set the name of the compound query
-                if(!resultSetName.equals(" ")
-                        ||!resultSetName.equals("")) {
+                if(!resultSetName.equals("")) {
                 	cQuery.setQueryName(resultSetName);
                 }
                 ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
                 ReportBean reportBean = rgHelper.getReportBean();
-                request.setAttribute(NautilusConstants.REPORT_BEAN, reportBean.getReportXML());
-            }else {
+                request.setAttribute("queryName", reportBean.getResultantCacheKey());
+                //Send to the appropriate view as per selection!!
+        		thisForward = new ActionForward();
+        		thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
+			}else {
 				logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
 				this.saveErrors(request, errors);
@@ -131,8 +133,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 			thisForward = mapping.findForward("failure");
 		}
        
-        //Send to the appropriate view as per selection!!
-		thisForward = mapping.findForward("success");
+       
         return thisForward;
 	 }
 	/**
