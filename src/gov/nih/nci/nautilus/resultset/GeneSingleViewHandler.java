@@ -69,6 +69,7 @@ public class GeneSingleViewHandler {
 		BioSpecimenResultset biospecimenResultset = null;
 		DiseaseResultset diseaseResultset = null;
 		AgeGroupResultset ageGroupResultset = null;
+		SurvivalRangeResultset survivalRangeResultset = null;
       	if (exprObj != null){
       		geneResultset = handleGeneResulset(exprObj);
       		biospecimenResultset = handleBioSpecimenResultset(exprObj);
@@ -83,11 +84,11 @@ public class GeneSingleViewHandler {
       			ageGroupResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupResultset(ageGroupResultset);
       		}
-      		/*else if(groupType.getGroupType().equals(GroupType.SURVIVAL_RANGE_GROUP)){
+      		else if(groupType.getGroupType().equals(GroupType.SURVIVAL_RANGE_GROUP)){
       			survivalRangeResultset = handleSurvivalRangeResultset(reporterResultset,exprObj);
       			survivalRangeResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupResultset(survivalRangeResultset);
-      		}*/
+      		}
       		
       		geneResultset.addReporterResultset(reporterResultset);
       		//add the reporter to geneResultset
@@ -176,6 +177,19 @@ public class GeneSingleViewHandler {
 	      		}
       	}
   		return ageGroupResultset;
+    }
+    public SurvivalRangeResultset handleSurvivalRangeResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprSingle exprObj){
+  		//find out the age group associated with the exprObj
+  		//populate the SurvivalRangeResultset
+		SurvivalRangeResultset survivalRangeResultset = null;
+  		if(reporterResultset != null && exprObj != null &&  exprObj.getSurvivalLengthRange() != null){
+  			DatumDE survivalRange = new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,exprObj.getSurvivalLengthRange().toString());
+  			survivalRangeResultset = (SurvivalRangeResultset) reporterResultset.getGroupResultset(exprObj.getSurvivalLengthRange().toString());
+  		    if (survivalRangeResultset == null){
+  		    	survivalRangeResultset= new SurvivalRangeResultset(survivalRange);
+	      		}
+      	}
+  		return survivalRangeResultset;
     }
 
 }
