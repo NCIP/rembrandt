@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.criteria;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
@@ -11,7 +12,7 @@ import java.util.Collection;
  * Time: 6:45:33 PM
  * To change this template use Options | File Templates.
  */
-abstract public class Criteria {
+abstract public class Criteria implements Serializable {
     abstract public boolean isValid();
 
     //TODO: The followig method checks if a given Criteria is empty

@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.criteria;
 import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GradeDE;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ import java.util.Iterator;
  * Version 1.0
  */
 
-public class DiseaseOrGradeCriteria extends Criteria{
+public class DiseaseOrGradeCriteria extends Criteria implements Serializable{
 
  private Collection diseases;
  private Collection grades;
