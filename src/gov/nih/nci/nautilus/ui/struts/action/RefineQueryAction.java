@@ -90,6 +90,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 				cQuery.setAssociatedView(ViewFactory.newView(selectView));
                 String resultSetName = refineQueryForm.getResultSetName();
                 
+               //Set the name of the compound query
                 if(!resultSetName.equals(" ")
                         ||!resultSetName.equals("")) {
                 	cQuery.setQueryName(resultSetName);

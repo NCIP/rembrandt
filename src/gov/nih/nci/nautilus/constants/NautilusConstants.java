@@ -4,11 +4,13 @@ public final class NautilusConstants {
     
     //Specifies the location in the webapp classes directory
     //to find ApplicationResources.properties
-     public static final String  APPLICATION_RESOURCES = "ApplicationResources";
+    public static final String  APPLICATION_RESOURCES = "ApplicationResources";
     //Specifies where in the webapps classes directory to find
  	//log4j.properties
  	public static final String LOGGING_PROPERTIES = "log4j.properties";
-
+ 	
+    public static final String CACHE_PROPERTIES = "rembrandtCache";
+    
 	public static final String SESSION_QUERY_BAG_KEY = "nautilus.queryMap";
 
 	public static final String RESULTSET_KEY = "geneViewResultSet";

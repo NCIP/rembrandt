@@ -14,15 +14,8 @@ import java.util.Properties;
  */
 public class ApplicationContext {
     private static Properties props = null;
-    private final static String FILE_NAME = "/"+NautilusConstants.APPLICATION_RESOURCES+".properties";
     static {
-        try {
-            props = new Properties();
-            props.load(ApplicationContext.class.getResourceAsStream(FILE_NAME));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+       props = PropertyLoader.loadProperties(NautilusConstants.APPLICATION_RESOURCES);
     }
     public static Properties getLabelProperties() {
         return props;

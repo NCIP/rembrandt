@@ -26,9 +26,7 @@ public class Log4jInit extends HttpServlet {
     }
   }
 
-  public
-  void doGet(HttpServletRequest req, HttpServletResponse res) {
-  }
+  public void doGet(HttpServletRequest req, HttpServletResponse res) {}
 }
 
 

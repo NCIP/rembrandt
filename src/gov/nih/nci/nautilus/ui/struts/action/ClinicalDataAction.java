@@ -51,7 +51,7 @@ public class ClinicalDataAction extends Action {
 
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
-
+                
         ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
         if (clinicalDataForm.getMethod().equals("run report")) {
