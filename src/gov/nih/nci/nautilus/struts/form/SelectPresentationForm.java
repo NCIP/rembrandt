@@ -12,6 +12,10 @@ import org.apache.struts.util.LabelValueBean;
 
 
 import java.util.*;
+import gov.nih.nci.nautilus.query.*;
+import gov.nih.nci.nautilus.constants.*;
+import gov.nih.nci.nautilus.view.*;
+import gov.nih.nci.nautilus.de.*;
 
 
 
@@ -25,16 +29,16 @@ import java.util.*;
 public class SelectPresentationForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance Variables
-	private String sampleListFrom;
-	private String sampleListTo;
-	private String geneFilterBy;
-	private String geneViewBy;
-	private String geneListFrom;
-	private String geneListTo;
+	private String method;
+	private String currentView;
+	private String[] ListFrom;
+	private String[] ListTo;
+	private Viewable selectedView;
+	private DomainElementClass[] selectedElements;
+	
+	private ArrayList viewPresentList;
 	
 
-	// Collections used for Lookup values.
-	private ArrayList queryNameColl;
 
 	// --------------------------------------------------------- Methods
 	public SelectPresentationForm(){
@@ -65,129 +69,174 @@ public class SelectPresentationForm extends BaseForm {
 	 */
 
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
+		method="";
+		selectedView = getSelectedView(request);
+		currentView= initialView();  // Default View is sample 
+		viewPresentList = getPresentationList();
 
+	}
+	
+	private Viewable getSelectedView(HttpServletRequest request){
 
-		sampleListFrom="";
-		sampleListTo="";
-		geneFilterBy="";
-		geneViewBy="";
-		geneListFrom="";
-		geneListTo="";
+		// Set, Reset the correct currentView, default is sample view
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		Viewable thisView = ViewFactory.newView(ViewType.CLINICAL_VIEW); // Default View if no View set
+		
+		if (queryCollect != null) { 
+			if (queryCollect.hasCompoundQuery()) {
+						// Get View from Query Collection that user selected
+						thisView = queryCollect.getCompoundQuery().getAssociatedView();
+				} else
+						System.out.println("SelectPresentationForm - QueryCollection does not have a compoundQuery");
+		} else
+				System.out.println("SelectPresentationForm - Query Collection is null");
+		return thisView;
 	}
 
 
+	private String initialView(){
+
+		String currentView = "sample"; // Default View is sample
+		
+		try {
+			if (selectedView instanceof GeneExprSampleView) 
+				currentView = "geneSample";
+			if (selectedView instanceof GeneExprDiseaseView) 
+				currentView = "geneDisease";
+			else if (selectedView instanceof CopyNumberSampleView)
+				currentView = "copynumber";
+			else if (selectedView instanceof ClinicalSampleView)
+				currentView = "sample"; 
+		} catch (Exception ex){
+			System.out.println("Error "+ex.getMessage());
+			ex.printStackTrace();
+		}
+		
+		return currentView;
+		
+	}
+	
+	
+	private ArrayList getPresentationList(){
+		
+		ArrayList presentationList = new ArrayList();
+		
+		DomainElementClass[] domainElements = ((View) this.selectedView).getValidElements();
+		selectedElements = domainElements;
+		for(int i=0;i<domainElements.length;i++){
+			presentationList.add( new LabelValueBean( domainElements[i].getLabel(), String.valueOf(i) ) );
+		}
+		return presentationList;
+		
+	}
+
+//	private ArrayList getGenePresentList(){
+//		
+//		ArrayList geneList = new ArrayList();
+//		geneList.add( new LabelValueBean( "Gene Symbol", "genesymbol" ) );
+//		geneList.add( new LabelValueBean( "Gene Name/Description", "genename" ) );
+//		geneList.add( new LabelValueBean( "Accession", "accession" ) );
+//		geneList.add( new LabelValueBean( "Locuslink ID", "locuslinkid" ) );
+//		geneList.add( new LabelValueBean( "Cytoband", "cytoband" ) );
+//		geneList.add( new LabelValueBean( "Physical Chromosomal map(Start/End)", "chromosomalmap" ) );
+//		geneList.add( new LabelValueBean( "Pathway", "pathway" ) );
+//		geneList.add( new LabelValueBean( "GO ID", "goid" ) );
+//		geneList.add( new LabelValueBean( "GO Description", "godescription" ) );
+//		geneList.add( new LabelValueBean( "Reporter ID(Probeset/Image Clone ID", "reporterid" ) );
+//		
+//		return geneList;
+//		
+//	}
+//
+//	private ArrayList getCopyPresentList(){
+//		
+//		ArrayList copyList = new ArrayList();
+//		copyList.add( new LabelValueBean( "SNP Probeset ID", "snpprobeset" ) );
+//		copyList.add( new LabelValueBean( "DBSNP ID", "dbsnpid" ) );
+//		copyList.add( new LabelValueBean( "TSC ID", "tscid" ) );
+//		copyList.add( new LabelValueBean( "Allele Frequency", "allelefreq" ) );
+//		copyList.add( new LabelValueBean( "Associated gene(s)", "assocgenes" ) );
+//		copyList.add( new LabelValueBean( "Cytoband", "cytoband" ) );
+//		copyList.add( new LabelValueBean( "Physical Chromosomal position", "physicalchrpos" ) );
+//		
+//		return copyList;
+//		
+//	}
+//	
+//	private ArrayList getSamplePresentList(){
+//		
+//		ArrayList sampleList = new ArrayList();
+//		sampleList.add( new LabelValueBean( "Disease", "disease" ) );
+//		sampleList.add( new LabelValueBean( "Grade", "grade" ) );
+//		sampleList.add( new LabelValueBean( "Survival Range", "survival" ) );
+//		sampleList.add( new LabelValueBean( "Gender", "gender" ) );
+//		sampleList.add( new LabelValueBean( "Age at Diagnosis", "age" ) );
+//		sampleList.add( new LabelValueBean( "Generating Institute", "geninstitute" ) );
+//		sampleList.add( new LabelValueBean( "Occurance", "occurance" ) );
+//		sampleList.add( new LabelValueBean( "gexpdata", "gexpdata" ) );
+//		sampleList.add( new LabelValueBean( "copynumdata", "Copy Number data" ) );
+//		
+//		return sampleList;
+//		
+//	}
+
+	public String getMethod() {
+
+		return "";
+	}
+
+	public void setMethod(String method) {
+
+		this.method = method;
+	}
 	/**
 	 * Returns the sampleListFrom.
 	 * @return String
 	 */
-	public String getSampleListFrom() {
+	public String [] getListFrom() {
 
-		return sampleListFrom;
+		return ListFrom;
 	}
 
 	/**
 	 * Set the sampleListFrom.
 	 * @param sampleList The sampleList to set
 	 */
-	public void setSampleListFrom(String sampleList) {
-		this.sampleListFrom = sampleList;
+	public void setListFrom(String [] listFrom) {
+		this.ListFrom = listFrom;
 
-	}
-	public String getMethod() {
-
-		return "";
 	}
 
 	/**
-	 * Returns the sampleListTo.
+	 * Returns the sampleListFrom.
 	 * @return String
 	 */
-	public String getSampleListTo() {
+	public String [] getListTo() {
 
-		return sampleListTo;
+		return ListTo;
 	}
 
 	/**
-	 * Set the sampleListTo.
+	 * Set the sampleListFrom.
 	 * @param sampleList The sampleList to set
 	 */
-	public void setSampleListTo(String sampleList) {
-		this.sampleListTo = sampleList;
+	public void setListTo(String [] listTo) {
+		this.ListTo = listTo;
 
 	}
 
-	/**
-	 * Returns the geneFilterBy.
-	 * @return String
-	 */
-	public String getGeneFilterBy() {
 
-		return geneFilterBy;
-	}
+	public ArrayList getViewPresentList(){
+	   return viewPresentList;
+	   }
 
-	/**
-	 * Set the geneFilterBy.
-	 * @param geneFilterBy The geneFilterBy to set
-	 */
-	public void setGeneFilterBy(String geneFilterBy) {
-		this.sampleListTo = geneFilterBy;
-
-	}
-
-	/**
-	 * Returns the geneFilterBy.
-	 * @return String
-	 */
-	public String getGeneViewBy() {
-
-		return geneViewBy;
-	}
-
-	/**
-	 * Set the geneFilterBy.
-	 * @param sampleList The sampleList to set
-	 */
-	public void setGeneViewBy(String geneViewBy) {
-		this.geneViewBy = geneViewBy;
-
-	}
-	/**
-	 * Returns the geneListFrom.
-	 * @return String
-	 */
-	public String getGeneListFrom() {
-
-		return geneListFrom;
-	}
-
-	/**
-	 * Set the geneListFrom.
-	 * @param geneListFrom The geneListFrom to set
-	 */
-	public void setGeneListFrom(String geneListFrom) {
-		this.geneListFrom = geneListFrom;
-
+	   
+	public String getCurrentView() {
+		return currentView;
 	}
 	
-	/**
-	 * Returns the geneListTo.
-	 * @return String
-	 */
-	public String getGeneListTo() {
-
-		return geneListTo;
+	public DomainElementClass [] getSelectedElements() {
+		return this.selectedElements;
 	}
-
-	/**
-	 * Set the geneListTo.
-	 * @param geneListTo The geneListTo to set
-	 */
-	public void setGeneListTo(String geneListTo) {
-		this.geneListTo = geneListTo;
-
-	}
-	public ArrayList getQueryNameColl(){
-	   return queryNameColl;
-	   }
 
 }
