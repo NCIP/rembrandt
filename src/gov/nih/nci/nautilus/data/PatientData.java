@@ -4,15 +4,59 @@
 package gov.nih.nci.nautilus.data;
 
 import gov.nih.nci.nautilus.lookup.PatientDataLookup;
+import gov.nih.nci.nautilus.resultset.ClinicalResultSet;
+import gov.nih.nci.nautilus.resultset.ResultSet;
 
-public class PatientData implements PatientDataLookup
+public class PatientData implements ResultSet, ClinicalResultSet
 {
   public final static String BIOSPECIMEN_ID = "biospecimenId";
+   public final static String SAMPLE_ID = "sampleId";  
   public final static String SURVIVAL_LENGTH = "survivalLength";
   public final static String AGE = "age";
-  public final static String GENDER = "gender";    
+  public final static String GENDER = "gender";
+  public final static String AGE_GROUP = "ageGroup";
+   public final static String SURVIVAL_LENGTH_RANGE = "survivalLengthRange";
+     public final static String DISEASE_TYPE= "diseaseType";
 
   private Long age;
+    private String ageGroup;
+
+    public String getAgeGroup() {
+        return ageGroup;
+    }
+
+    public void setAgeGroup(String ageGroup) {
+        this.ageGroup = ageGroup;
+    }
+
+    public String getSurvivalLengthRange() {
+        return survivalLengthRange;
+    }
+
+    public void setSurvivalLengthRange(String survivalLengthRange) {
+        this.survivalLengthRange = survivalLengthRange;
+    }
+
+    public String getDiseaseType() {
+        return diseaseType;
+    }
+
+    public void setDiseaseType(String diseaseType) {
+        this.diseaseType = diseaseType;
+    }
+
+    public String getGenderCode() {
+        return getGender();
+    }
+
+    public void setGenderCode(String genderCode) {
+        setGender(genderCode);
+    }
+
+    private String survivalLengthRange;
+      private String diseaseType;
+
+
 
   private Long biospecimenId;
 

@@ -62,6 +62,8 @@
      <DomainElement name="gov.nih.nci.nautilus.de.DiseaseNameDE">
                    <mappedBean name="gov.nih.nci.nautilus.data.DifferentialExpressionSfact"
                    attribute="diseaseType"/>
+                   <mappedBean name="gov.nih.nci.nautilus.data.PatientData"
+                   attribute="diseaseType"/>
                    <mappedBean name="gov.nih.nci.nautilus.data.DifferentialExpressionGfact"
                    attribute="diseaseType"/>
                     <mappedBean name="gov.nih.nci.nautilus.data.ArrayGenoAbnFact"

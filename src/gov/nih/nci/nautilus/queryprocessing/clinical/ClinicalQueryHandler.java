@@ -23,6 +23,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 
 import java.util.*;
+import java.math.BigDecimal;
 
 /**
  * Created by IntelliJ IDEA.
@@ -62,38 +63,59 @@ public class ClinicalQueryHandler extends QueryHandler {
         }
 
         ThreadController.sleepOnEvents(eventList);
-        GeneExpr.GeneExprSingle[] results = executeQuery(cghQuery);
-
+        PatientData[] results = executeQuery(cghQuery);
+        //return null;
         return results;
     }
 
-    private GeneExpr.GeneExprSingle[] executeQuery(ClinicalDataQuery cghQuery) throws Exception {
+    private PatientData[] executeQuery(ClinicalDataQuery cghQuery) throws Exception {
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
         final Criteria sampleCrit = new Criteria();
         DiseaseOrGradeCriteria diseaseCrit = cghQuery.getDiseaseOrGradeCriteria();
+
+        sampleCrit.addIn(PatientData.BIOSPECIMEN_ID, allBIOSpecimenIDs);
         if (diseaseCrit != null)
-            FactCriteriaHandler.addDiseaseCriteria(diseaseCrit, DifferentialExpressionSfact.class, pb, sampleCrit);
-        sampleCrit.addIn(DifferentialExpressionSfact.BIOSPECIMEN_ID, allBIOSpecimenIDs);
-        org.apache.ojb.broker.query.Query sampleQuery =
-                          QueryFactory.newQuery(DifferentialExpressionSfact.class,sampleCrit, false);
+            FactCriteriaHandler.addDiseaseCriteria(diseaseCrit, PatientData.class, pb, sampleCrit);
+        ReportQueryByCriteria sampleQuery = QueryFactory.newReportQuery(PatientData.class, sampleCrit, true);
+        sampleQuery.setAttributes(new String[] {
+                        PatientData.BIOSPECIMEN_ID, PatientData.GENDER,
+                        PatientData.DISEASE_TYPE, PatientData.AGE_GROUP,
+                        PatientData.SAMPLE_ID,
+                        PatientData.SURVIVAL_LENGTH_RANGE} );
+
         assert(sampleQuery != null);
-        Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
-        System.out.println("Done: Size:" + exprObjects.size());
-        Map geneExprObjects = new HashMap();
-        for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
-            DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
-            GeneExpr.GeneExprSingle singleExprObj = new GeneExpr.GeneExprSingle();
-            GEFactHandler.SingleGEFactHandler.copyTo(singleExprObj, exprObj);
-            geneExprObjects.put(singleExprObj.getDesId(), singleExprObj);
-            exprObj = null;
+        Iterator patientDataObjects =  pb.getReportQueryIteratorByQuery(sampleQuery );
+        ArrayList results = new ArrayList();
+
+        populateResults(patientDataObjects, results);
+        PatientData[] finalResult = new PatientData[results.size()];
+        for (int i = 0; i < results.size(); i++) {
+            PatientData patientData = (PatientData) results.get(i);
+            finalResult[i]  = patientData ;
         }
-        Object[]objs = (geneExprObjects.values().toArray());
-        GeneExpr.GeneExprSingle[] results = new GeneExpr.GeneExprSingle[objs.length];
-        for (int i = 0; i < objs.length; i++)   {
-            results[i] = (GeneExpr.GeneExprSingle) objs[i];
-            System.out.println("Record: " + i + " :" + results[i].getBiospecimenId());
+
+        return finalResult;
+    }
+
+    private void populateResults(Iterator patientDataObjects, ArrayList results) {
+        while(patientDataObjects.hasNext()) {
+            Object[] objs = (Object[]) patientDataObjects.next();
+            Long bspID = new Long(((BigDecimal)objs[0]).longValue());
+            String gender = (String)objs[1];
+            String diseaseType = (String)objs[2];
+            String ageGroup = (String)objs[3];
+            String sampleID = (String)objs[4];
+            String survLenRange = (String)objs[5];
+            PatientData p = new PatientData();
+            p.setBiospecimenId(bspID);
+            p.setGender(gender);
+            p.setDiseaseType(diseaseType);
+            p.setAgeGroup(ageGroup);
+            p.setSampleId(sampleID);
+            p.setSurvivalLengthRange(survLenRange);
+
+            results.add(p );
         }
-        return results;
     }
 
     private BIOSpecimenIDCriteria buildSurvivalRangeCrit(ClinicalDataQuery cghQuery) {
@@ -104,7 +126,7 @@ public class ClinicalQueryHandler extends QueryHandler {
         long upperLmtInDays = upperLmtInMons * 30;
         Criteria survivalCrit = new Criteria();
         survivalCrit.addBetween(PatientData.SURVIVAL_LENGTH, new Long(lowerLmtInDays), new Long(upperLmtInDays));
-        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  survivalCrit, true );
+        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  survivalCrit, false );
         bioIDQuery.setAttributes(new String[] {PatientData.BIOSPECIMEN_ID} );
         BIOSpecimenIDCriteria bioCrit = new BIOSpecimenIDCriteria();
         bioCrit.setBioSpecimenIDSubQuery(bioIDQuery);
@@ -114,10 +136,9 @@ public class ClinicalQueryHandler extends QueryHandler {
         AgeCriteria crit = cghQuery.getAgeCriteria();
         long lowerLmtInYrs= crit.getLowerAgeLimit().getValueObject().longValue();
         long upperLmtInYrs  = crit.getUpperAgeLimit().getValueObject().longValue();
-
         Criteria ageCrit = new Criteria();
         ageCrit.addBetween(PatientData.AGE, new Long(lowerLmtInYrs), new Long(upperLmtInYrs));
-        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  ageCrit , true );
+        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  ageCrit , false );
         bioIDQuery.setAttributes(new String[] {PatientData.BIOSPECIMEN_ID} );
         BIOSpecimenIDCriteria bioCrit = new BIOSpecimenIDCriteria();
         bioCrit.setBioSpecimenIDSubQuery(bioIDQuery);
@@ -125,10 +146,9 @@ public class ClinicalQueryHandler extends QueryHandler {
     }
     private BIOSpecimenIDCriteria buildGenderCrit(ClinicalDataQuery cghQuery) {
         GenderCriteria genderCrit = cghQuery.getGenderCriteria();
-
         Criteria ageCrit = new Criteria();
         ageCrit.addEqualTo(PatientData.GENDER, genderCrit.getGenderDE().getValueObject());
-        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  ageCrit, true );
+        ReportQueryByCriteria bioIDQuery = QueryFactory.newReportQuery(PatientData.class,  ageCrit, false );
         bioIDQuery.setAttributes(new String[] {PatientData.BIOSPECIMEN_ID} );
         BIOSpecimenIDCriteria bioCrit = new BIOSpecimenIDCriteria();
         bioCrit.setBioSpecimenIDSubQuery(bioIDQuery);

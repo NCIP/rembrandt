@@ -23,7 +23,7 @@
            username="nautilusdev"
            password="dev!234">
            <connection-pool
-               maxActive="5"
+               maxActive="100"
                maxIdle="2"
                maxWait="3"
                minEvictableIdleTimeMillis="40"

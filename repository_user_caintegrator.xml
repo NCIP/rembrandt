@@ -858,7 +858,6 @@
                name="age"
                column="AGE"
                jdbc-type="BIGINT"
-
           />
         <field-descriptor
              name="biospecimenId"
@@ -870,6 +869,22 @@
              column="SURVIVAL_LENGTH"
              jdbc-type="BIGINT"
         />
+     <field-descriptor
+             name="survivalLengthRange"
+             column="SURVIV_LENGTH_RANGE"
+             jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+             name="ageGroup"
+             column="AGE_GROUP"
+             jdbc-type="VARCHAR"
+        />
+    <field-descriptor
+             name="diseaseType"
+             column="DISEASE_TYPE"
+             jdbc-type="VARCHAR"
+        />
+
          <field-descriptor
              name="censoringStatus"
              column="CENSORING_STATUS"
