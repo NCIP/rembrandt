@@ -5,7 +5,7 @@
 <xsl:param name="filter_value1">000</xsl:param>
 
 <xsl:param name="filter_value2">0</xsl:param>
-<xsl:param name="filter_value3">5</xsl:param>
+<xsl:param name="filter_value3">25</xsl:param>
 
 <xsl:param name="filter_type">greater</xsl:param>
 
@@ -100,6 +100,15 @@
   					border-left:1px dotted black; 
   					border-right:1px dotted black; 
   				}
+  	INPUT, SELECT { 
+		color: #002185;
+		font-family: arial; 
+		font-size:10px; 
+		padding: 1px; 
+		border-style: solid; 
+		border-width: 1px; 
+		border-color: #333366; 
+		}
 	</style>
 	</head>
   <body>
@@ -124,6 +133,11 @@
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
 	<xsl:variable name="qName" select="@queryName" />
 
+<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
+<input type="hidden" name="queryName" value="{$qName}" />
+<input type="hidden" name="filter_value2" value="{$filter_value2}" />
+<input type="hidden" name="filter_value3" value="{$filter_value3}" />
+</form>
 	
 	<div class="rowCount">
 	  <a href="javascript: spawn('help.jsp?sect={$helpLink}', 350, 500);"><img align="right" src="images/helpIcon.jpg" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
@@ -138,6 +152,24 @@
 	  <form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 	  <div class="filterForm">
 		<b>Filter:</b> 
+		<xsl:text>&#160;</xsl:text>
+		<input type="radio" name="filter_value6" value="show" checked="true" />Show Only
+		<input type="radio" name="filter_value6" value="hide"/>Hide		
+		<select name="filter_value4">
+			<option value="gene">Gene(s)</option>
+			<option value="cytobands">Cytoband(s)</option>
+			<option value="reporter(s)">Reporters</option>
+		</select>
+		<input type="text" name="filter_value5"/>
+		<input type="hidden" name="queryName" value="{$qName}"/>
+		<input type="button" name="filter_submit" value="Filter" />
+		<input type="button" name="filter_submit" value="Reset (show all)" />
+	  </div>
+	  </form>
+	  
+	  <form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
+	  <div class="filterForm">
+		<b>Highlight:</b> 
 		<xsl:text>&#160;</xsl:text>
 		highlight values greater than <input type="text" name="filter_value1" size="4" />
 		<input type="hidden" name="queryName" value="{$qName}"/>
@@ -220,15 +252,40 @@
 		    </xsl:for-each>
 		    </tr>
 		</xsl:for-each>
+		
+		<form action="runReport.do?method=submitSamples" method="post" name="prbSamples">
+		<input type="hidden" name="queryName" value="{$qName}"/>
 		<xsl:for-each select="Row[@name='sampleRow']">
 			<tr class="sampleRow">
 		  	<xsl:for-each select="Cell">
 			  <xsl:variable name="currentGroup" select="@group" />
 			  <xsl:variable name="sample" select="Data" />
-		      <td class="{$currentGroup}"><a href="#?s={$sample}"><xsl:value-of select="Data" /></a></td>
+			  <xsl:choose>
+			  <xsl:when test="Data = ' '">
+			  	
+			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() != ' '">
+			  	<td colspan="2">
+				  <input type="text" name="prb_queryName" value="{$qName}" size="10" />
+				  <input type="submit" name="prb_submitSamples" value="Save" style="width:40px" />
+				 </td>
+			  	</xsl:if>
+			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() = ' ' and following::Cell[1]/Data[1]/text() != ' '">
+				  
+			  	</xsl:if>
+			  </xsl:when>
+			  <xsl:otherwise>
+		      	<td class="{$currentGroup}">
+		      	<xsl:if test="$sample != '' and $sample != ' '">
+		      		<input type="checkbox" name="samples" value="{$sample}"/>
+		      	</xsl:if>
+		      		<a href="#?s={$sample}"><xsl:value-of select="Data" /></a>
+		      	</td>
+		      </xsl:otherwise>
+		      </xsl:choose>
 		    </xsl:for-each>
 		    </tr>
 		</xsl:for-each>
+		
 		<!-- get each data row only -->
 		<xsl:for-each select="Row[(@name='dataRow')] ">
 			<xsl:if test="$filter_value3 + ($filter_value3 * $filter_value2)>=position() and position() > ($filter_value2 * $filter_value3)">	
@@ -236,6 +293,10 @@
 		  				<xsl:for-each select="Cell">
 		  	  			<xsl:variable name="class" select="@group" />
 		      			<td class="{$class}">
+						<xsl:if test="$class = 'sample'">
+		      				<xsl:variable name="sample" select="Data"  />
+		      				<input type="checkbox" name="sample" value="{$sample}"/>
+						</xsl:if>
 		      			<xsl:choose>
 		      			<xsl:when test="$filter_value1 != 000 and Data > $filter_value1">
 		      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
@@ -257,13 +318,8 @@
 <xsl:variable name="nextpage" select = "$filter_value2 + 1" />
 <xsl:variable name="prevpage" select = "$filter_value2 - 1" />
 
-<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
-<input type="hidden" name="queryName" value="{$qName}" />
-<input type="hidden" name="filter_value2" value="{$filter_value2}" />
-<input type="hidden" name="filter_value3" value="{$filter_value3}" />
-</form>
-
 		</xsl:for-each>
+	</form>
   	</table>
   </xsl:for-each>
  <script language="javascript">
