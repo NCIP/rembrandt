@@ -77,15 +77,33 @@ public class ReportGeneratorHelper {
 		}
 		
 	}
+	/**
+	 * This constructor is intended to be used by the UI when it would like to
+	 * perform a Report that would be a "Show All Values" report.  This means
+	 * that there must be a previous query that has been executed and stored in
+	 * the cache that we can retrieve.  The ReportBean should be the bean for 
+	 * the report that was generated and the user selected to see all values.
+	 * 
+	 * @param reportBean --this should be the ReportBean for the report that the 
+	 * user would like to get all the missing values for
+	 * @param filterParams -- this is all the filterParam values associated with 
+	 * report view that the user desires
+	 */	
 	public ReportGeneratorHelper(ReportBean reportBean, Map filterParams) {
 		Resultant resultant = reportBean.getResultant();
 		Resultant showAllResults;
 		try {
+			//Get the sessionId for this resultant, this works because, at the present time
+			//there is only one type of query that is ever run, and that is a CompoundQuery
+			//if that changes than it will be necesary to modify the code here and many places
+			String sessionId = ((CompoundQuery)(resultant.getAssociatedQuery())).getSessionId();
 			showAllResults = ResultsetManager.executeShowAllQuery(resultant);
 			//check to make sure that we have a sessionId
 			Queriable showAllQuery = showAllResults.getAssociatedQuery();
 			//check the query to make sure that it is a compound query
 			checkCompoundQuery(showAllQuery);
+			//set the sessionId
+			_cQuery.setSessionId(sessionId);
 			//check the sessionId
 			checkSessionId(_cQuery.getSessionId());
 			//check that we have a queryName
