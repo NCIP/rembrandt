@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xsl:stylesheet version="1.0"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:output method="html" omit-xml-declaration="yes" /> 
 <xsl:template match="/">
  
 3.  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -94,12 +93,15 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:for-each select="Report">
     <h2 class="title"><xsl:value-of select="@reportType" /></h2> 
     
- <xsl:variable name="helpLink" select="@reportType" />
-<xsl:variable name="colCount" select="count(Row[@name='sampleRow']/Cell)" />
+<xsl:variable name="helpLink" select="@reportType" />
+<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 
 	<div class="rowCount">
 	  <a href="javascript: spawn('help.jsp?sect={$helpLink}', 350, 500);"><img align="right" src="images/helpIcon.jpg" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
-	  <br clear="all" /><xsl:value-of select="count(Row[@name='dataRow'])" /> records returned. <xsl:value-of select="count(Row[@name='sampleRow']/Cell)-2" /> samples returned.
+	  <br clear="all" /><xsl:value-of select="count(Row[@name='dataRow'])" /> records returned. 
+	  <xsl:if test="/Report[@reportType != 'Gene Expression Disease']" >
+	  <xsl:value-of select="count(Row[@name='sampleRow']/Cell)-2" /> samples returned.
+	  </xsl:if>
 	  <a href="#" onclick="javascript:return false;">[Download this report for Excel]</a> | 
 	  <a href="javascript:window.close()">[Close Window]</a> | 
 	  <a href="javascript:void(window.print())">[Print Report]</a> | 
