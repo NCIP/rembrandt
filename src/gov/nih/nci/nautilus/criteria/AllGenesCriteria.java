@@ -16,7 +16,7 @@ public class AllGenesCriteria extends Criteria {
         this.allGenes = allGenes;
     }
 
-    boolean allGenes;
+    boolean allGenes = false;
 
     public boolean isValid() {
         return true;
@@ -24,6 +24,6 @@ public class AllGenesCriteria extends Criteria {
 
     //TODO: The followig method checks if a given Criteria is empty
     public boolean isEmpty() {
-        return true;
+        return false;
     }
 }

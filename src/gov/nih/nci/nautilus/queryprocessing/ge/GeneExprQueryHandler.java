@@ -37,7 +37,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
 
     public ResultSet[] handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
-
+                                                      
         if (query.getAssociatedView() instanceof GeneExprSampleView ||
                 query.getAssociatedView()instanceof ClinicalSampleView ||
 				query.getAssociatedView()instanceof CopyNumberSampleView)
@@ -51,7 +51,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         assert(platObj != null);
         populateProbeAndCloneIncludeFlags(platObj);
 
-        if (geQuery.getAllGenes() != null) {
+        if (geQuery.getAllGenes().isAllGenes() ) {
 
             if (! (factHandler instanceof GEFactHandler.SingleGEFactHandler))
             throw new Exception("AllGenes criteria is not allowed for Disease view");
