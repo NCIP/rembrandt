@@ -197,21 +197,29 @@ public class CompoundQueryProcessor {
 	    		if(resultsets instanceof ClinicalResultSet[]){
 		    		for(int i = 0; i < resultsets.length; i++){
 		    			ClinicalResultSet clinicalResultset = (ClinicalResultSet) resultsets[i];
-		    			for(Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();){
-		    				Long id = (Long)sampleIdIterator.next();
-				    		if(clinicalResultset.getBiospecimenId().equals(id)){
-				    			resultset.add(clinicalResultset);
-				    		}
+		    			if(clinicalResultset != null){	    			
+			    			for(Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();){
+			    				Long id = (Long)sampleIdIterator.next();
+					    		if(clinicalResultset.getBiospecimenId().equals(id)){
+					    			resultset.add(clinicalResultset);
+					    		}
+			    			}
 		    			}
 		    		}
 		    		if(resultsets instanceof  GeneExpr.GeneExprSingle[]){
-		    			finalResultsets.add(resultset.toArray(new GeneExpr.GeneExprSingle[1]));
+		    			if(resultsets.length > 0){
+		    				finalResultsets.add(resultset.toArray(new GeneExpr.GeneExprSingle[resultsets.length]));
+		    			}
 		    		}
 		    		else if(resultsets instanceof  CopyNumber[]){
-		    			finalResultsets.add(resultset.toArray(new CopyNumber[1]));
+		    			if(resultsets.length > 0){
+		    				finalResultsets.add(resultset.toArray(new CopyNumber[resultsets.length]));
+		    			}
 		    		}
 		    		else if(resultsets instanceof  PatientData[]){
-		    			finalResultsets.add(resultset.toArray(new PatientData[1]));
+		    			if(resultsets.length > 0){
+		    				finalResultsets.add(resultset.toArray(new PatientData[resultsets.length]));
+		    			}
 		    		}
 	    		}else if(resultsets instanceof GeneExpr.GeneExprGroup[]){
 		    		for(int i = 0; i < resultsets.length; i++){
@@ -223,7 +231,9 @@ public class CompoundQueryProcessor {
 				    		}
 		    			}
 		    		}
-		    			finalResultsets.add(resultset.toArray(new GeneExpr.GeneExprGroup[1]));
+		    		if(resultsets.length > 0){
+		    			finalResultsets.add(resultset.toArray(new GeneExpr.GeneExprGroup[resultsets.length]));
+		    		}
 		    	}
 			}
 		}
