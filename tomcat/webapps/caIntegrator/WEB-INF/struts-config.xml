@@ -182,11 +182,11 @@
          <forward name="success" path="/refine.do" />
          <forward name="failure" path="/menu.do" />
    </action>
+	<!-- Tile Action Mapping-->
+   <action path="/refine"
+      	   forward="nautilus.refine" />
 
-   <action    path="/refine"
-              forward="nautilus.refine" />
-
-	<action path="/validatequery"
+	<action path="/refineQuery"
             input="nautilus.refine"
             name="refineQueryForm"
             type="gov.nih.nci.nautilus.ui.struts.action.RefineQueryAction"

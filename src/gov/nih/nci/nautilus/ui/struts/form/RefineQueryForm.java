@@ -43,8 +43,8 @@ public class RefineQueryForm extends BaseForm {
 	private String method;
 
 	// Collections used for Lookup values.
-	private ArrayList queryNameColl;
-	private ArrayList compoundViewColl;
+	private ArrayList queryNameColl = new ArrayList();
+	private ArrayList compoundViewColl = new ArrayList();
 	
 
 
@@ -122,7 +122,7 @@ public class RefineQueryForm extends BaseForm {
 	}
 
 
-	public void setRefineQueryLookups(HttpServletRequest request) {
+	private void setRefineQueryLookups(HttpServletRequest request) {
 
 		// Get the Query Collection from the session
 
@@ -173,9 +173,7 @@ public class RefineQueryForm extends BaseForm {
 		queryText="";
 		compoundView="";
 		resultsetName="";
-
-
-		
+	
 		setRefineQueryLookups(request);
 		compoundViewColl = new ArrayList();
 		compoundViewColl.add( new LabelValueBean( " ", " " ));
