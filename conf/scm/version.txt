@@ -1,1 +1,1 @@
-caintegrator x.x nightly (build 25)
+caintegrator x.x nightly (build 26)
