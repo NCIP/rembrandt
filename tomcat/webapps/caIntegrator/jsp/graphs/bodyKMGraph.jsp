@@ -7,16 +7,23 @@
 <html:form action="/kmGraph.do?method=redrawKMPlot">
 <html:hidden property="geneSymbol"/>
 <div>
-     Folds
-    <html:select property="fold">
+     <B>
+     Upregulated
+     &nbsp 
+    <html:select property="upFold">
        <html:options property="folds"/>
     </html:select>
-    <html:radio styleClass="radio" title="UPREGULATED" property="regulated" value="Up"/>
-    Upregulated
     &nbsp
-    <html:radio styleClass="radio" title="DOWNREGULATED" property="regulated" value="Down"/>
+    Folds
+    &nbsp&nbsp&nbsp&nbsp&nbsp
     Downregulated
     &nbsp
+     <html:select property="downFold">
+       <html:options property="folds"/>
+    </html:select>
+    &nbspFolds
+    &nbsp&nbsp
+    </B>
     <html:submit value="Redraw Graph"/>
 </div>
 <div>
@@ -24,13 +31,13 @@
                   title="Kaplan-Meier Suvival Plot" 
                   type="xy" 
                   xaxislabel="Days of Study" 
-                  yaxislabel="Percentage Survival">
+                  yaxislabel="Probability of Survival">
 			   <cewolf:data>
 				    <cewolf:producer id="kmDataSetForm"/>
 			   </cewolf:data>
 		</cewolf:chart>
     <HR>
-    <bean:write name="kmDataSetForm" property="chartHeader"/>
+    
     <p>
      <cewolf:img chartid="xy" 
                   renderer="/cewolf" 

@@ -37,12 +37,10 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	private GeneExpressionQuery geneQuery;
 	private String method;
 	private String geneSymbol;
-	private String regulated = "Up";
-	private int fold = 3;
+	private int upFold = 3;
+	private int downFold = 3;
     private ArrayList folds = new ArrayList();
-    private String chartHeader = null;
-                        
-
+  
 	public Object produceDataset(Map params) throws DatasetProduceException {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		buildKaplanMeierPlotQuery();
@@ -55,8 +53,8 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 			ResultsContainer resultsContainer = resultant.getResultsContainer();
 			if (resultsContainer instanceof KaplanMeierPlotContainer) {
 
-				KaplanMeierPlotContainer kaplanMeierPlotContainer = (KaplanMeierPlotContainer) resultsContainer;
-
+				//All Sample Series
+			    KaplanMeierPlotContainer kaplanMeierPlotContainer = (KaplanMeierPlotContainer) resultsContainer;
 				Collection allSamples = kaplanMeierPlotContainer
 						.getBioSpecimenResultsets();
 				KaplanMeier kmAllSamples = new KaplanMeier(allSamples);
@@ -64,20 +62,27 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 						.getDrawingPoints();
 				XYSeries series1 = createSeries(allSamplesPoints, "All Samples");
 
-				ExprFoldChangeDE geneRegulation;
-                if(regulated.equalsIgnoreCase("Up")) {
-                	geneRegulation = new ExprFoldChangeDE.UpRegulation(new Float(fold));
-                }else {
-                	geneRegulation = new ExprFoldChangeDE.DownRegulation(new Float(fold));
-                }
-                Collection geneSamples = kaplanMeierPlotContainer
-						.getSampleKaplanMeierPlotResultsets(geneRegulation);
+				//Upregulation Series
+				ExprFoldChangeDE upRegulation = new ExprFoldChangeDE.UpRegulation(new Float(upFold));
+				Collection geneSamples = kaplanMeierPlotContainer
+						.getSampleKaplanMeierPlotResultsets(upRegulation);
 				KaplanMeier kmGeneSamples = new KaplanMeier(geneSamples);
 				KMDrawingPoint[] geneSamplePoints = kmGeneSamples
 						.getDrawingPoints();
-				XYSeries series2 = createSeries(geneSamplePoints, geneSymbol);
+				XYSeries series2 = createSeries(geneSamplePoints, geneSymbol+" Upregulated "+upFold+"X");
+				
+				// Down Regulation Series
+				ExprFoldChangeDE downRegulation = new ExprFoldChangeDE.DownRegulation(new Float(downFold));
+				geneSamples = kaplanMeierPlotContainer
+					.getSampleKaplanMeierPlotResultsets(downRegulation);
+				kmGeneSamples = new KaplanMeier(geneSamples);
+				geneSamplePoints = kmGeneSamples.getDrawingPoints();
+				XYSeries series3 = createSeries(geneSamplePoints, geneSymbol+" Downregulated "+downFold+"X");
+				
+				
 				dataset.addSeries(series1);
-				dataset.addSeries(series2);				
+				dataset.addSeries(series2);
+				dataset.addSeries(series3);	
 			}
 		}
 		return dataset;
@@ -133,16 +138,16 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	/**
 	 * @return Returns the geneFolds.
 	 */
-	public int getFold() {
-		return fold;
+	public int getUpFold() {
+		return upFold;
 	}
 
 	/**
 	 * @param geneFolds
 	 *            The geneFolds to set.
 	 */
-	public void setFold(int geneFolds) {
-		this.fold = geneFolds;
+	public void setUpFold(int upFolds) {
+		this.upFold = upFolds;
 	}
 	/**
 	 * @return Returns the method.
@@ -156,19 +161,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	public void setMethod(String method) {
 		this.method = method;
 	}
-	/**
-	 * @return Returns the regulated.
-	 */
-	public String getRegulated() {
-		return regulated;
-	}
-	/**
-	 * @param regulated The regulated to set.
-	 */
-	public void setRegulated(String regulated) {
-		this.regulated = regulated;
-	}
-	
+		
 	/**
 	 * @return Returns the folds.
 	 */
@@ -180,13 +173,17 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
         }
         return folds;
 	}
-
-	/**
-	 * @return Returns the chartHeader.
-	 */
-	public String getChartHeader() {
-        chartHeader = geneSymbol+" "+regulated+"regulated"+" "+fold+"X";
-		return chartHeader;
-	}
 	
+    /**
+     * @return Returns the downFold.
+     */
+    public int getDownFold() {
+        return downFold;
+    }
+    /**
+     * @param downFold The downFold to set.
+     */
+    public void setDownFold(int downFold) {
+        this.downFold = downFold;
+    }
 }
