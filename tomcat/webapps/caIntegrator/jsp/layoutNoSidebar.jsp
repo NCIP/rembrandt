@@ -1,4 +1,5 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+
 <%
 /*
  *		this is the main tiles template for the form based pages
@@ -15,10 +16,9 @@
 <body>
     <tiles:insert attribute="overlib"/> <%-- include div for overlib --%>
     <tiles:insert attribute="header"/> <%-- include header --%>
-	
 	<div class="content">
 		<tiles:insert attribute="crumbMenu"/> <%-- include crumb menu --%>
-		<form action="<tiles:getAsString name="formAction"/>" method="get" name="<tiles:getAsString name="formName"/>">
+		<form action="<tiles:getAsString name="formAction"/>" method="post" name="<tiles:getAsString name="formName"/>">
 		<h3><tiles:getAsString name="title"/></h3>
 		<div> <tiles:insert attribute="outputExamples"/></div>
 		<tiles:insert attribute="mainForm"/>
