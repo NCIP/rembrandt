@@ -365,4 +365,124 @@ function showQueryDetail(selectName){
 	//queryNum.childNodes(3).innerHTML = "<b class='message'>"+r+"</b>";
     }
   
+  function changeList(formElement)	{	
+
+	//selected index of the selected
+	var element = formElement.name;
+		//alert(element);
+	
+	
+	
+	if(element == "chrosomeNumber")	{
+	    var cn = document.forms[0].chrosomeNumber.selectedIndex;
+	    //var cr = document.forms[0].cytobandRegion.selectedIndex;
+		//reset the dropdown for cytobandRegion	
+		document.forms[0].cytobandRegion.options.length = 1;
+		//tumor type was moved, switch on cr
+		switch(cn)	{
+			
+			case 1:
+			    
+				var cytoRegion = new Array("p36.33","p36.32","p36.31","p36.23",
+				                           "p36.22","p36.21","p36.13","p36.12",
+				                           "p36.11","p35.3","p35.2","p35.1",
+				                           "p34.3","p34.2","p34.1","p33",
+				                           "p32.3","p32.2","p32.1",
+				                           "p31.3", "p31.2","p31.1","p22.3",
+				                           "p22.2","p22.2","p22.1","p21.3",
+				                           "p21.2","p21.1","p13.3","p13.2",
+				                           "p13.1","p12","p11.2","p11.1",
+				                           "q11","q12","q21.3","q21.2",
+				                            "q21.1","q22","q23.1","q23.2",
+				                            "q23.3","q24.1","q24.2","q24.3",
+				                            "q25.1","q25.2","q25.3","q31.1",
+				                            "q31.2","q31.3","q32.1","q32.2",
+				                           "q32.3","q41","q42.11","q42.12",
+				                            "q42.13","q42.2","q42.3","q43",
+				                            "q44");
+			   break;
+			case 2:
+			    var cytoRegion = new Array("p25.3","p25.2","p25.1");
+			    break;
+			case 3:
+			    var cytoRegion = new Array("p26.3","p26.2","p26.1");
+			    break;
+			case 4:
+			    var cytoRegion = new Array("p16.3","p16.2","p16.1");
+			    break;
+			case 5:
+			    var cytoRegion = new Array("p15.33","p15.32","p15.31");
+			    break;
+			case 6:
+			    var cytoRegion = new Array("p25.3","p25.2","p25.1");
+			    break;
+			case 7:
+			    var cytoRegion = new Array("p22.3","p22.2","p22.1");
+			    break;    
+			case 8:
+			    var cytoRegion = new Array("p23.3","p23.2","p23.1");
+			    break;
+			case 9:
+			    var cytoRegion = new Array("p24.3","p24.2","p24.1");
+			    break;
+			case 10:
+			    var cytoRegion = new Array("p15.3","p15.2","p15.1");
+			    break;
+			case 11:
+			    var cytoRegion = new Array("p15.5","p15.4","p15.3");
+			    break;
+			case 12:
+			    var cytoRegion = new Array("p13.33","p13.32","p13.31");
+			    break;
+			case 13:
+			    var cytoRegion = new Array("p13","p12","p11.2");
+			    break;
+			case 14:
+			    var cytoRegion = new Array("p13","p12","p11.2");
+			    break;  
+			case 15:
+			    var cytoRegion = new Array("p13","p12","p11.2");
+			    break; 
+		    case 16:
+			    var cytoRegion = new Array("p13.13","p13.12","p13.11");
+			    break; 
+			case 17:
+			    var cytoRegion = new Array("p13.3","p13.2","p13.1");
+			    break; 
+			case 18:
+			    var cytoRegion = new Array("p11.23","p11.22","p11.21");
+			    break; 
+			case 19:
+			    var cytoRegion = new Array("p13.13","p13.12","p13.11");
+			    break; 
+			case 20:
+			    var cytoRegion = new Array("p12.3","p12.2","p12.1");
+			    break; 
+			case 21:
+			    var cytoRegion = new Array("p13","p12","p11.2");
+			    break; 			    
+			case 22:
+			    var cytoRegion = new Array("p13","p12","p11.2");
+			    break; 
+			case 23:
+			    var cytoRegion = new Array("p22.33","p22.32","p22.31");
+			    break; 
+			case 24:
+			    var cytoRegion = new Array("p11.32","p11.31","p11.2");
+			    break; 
+			    
+			default:
+				var cytoRegion = new Array("");
+		}
+		//chrosomeNumber box has changed, so update cytoband Region
+		for(var i=0; i<cytoRegion.length; i++)	{
+			myOption = new Option();
+			myOption.text = cytoRegion[i];
+			myOption.value = cytoRegion[i];
+			document.forms[0].cytobandRegion.options[document.forms[0].cytobandRegion.options.length] = myOption;
+		}
+	 }	
+		
+	}
+
   
