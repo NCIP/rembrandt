@@ -10,6 +10,7 @@ gov.nih.nci.nautilus.view.ViewType,
 gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr,
 gov.nih.nci.nautilus.resultset.ResultsetProcessor,
 gov.nih.nci.nautilus.resultset.*,
+gov.nih.nci.nautilus.constants.Constants,
 java.text.DecimalFormat,
 java.util.* "%>
 <%!
@@ -36,7 +37,7 @@ java.util.* "%>
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
 	
 	// get the ResultSet[] from the session
-    geneExprObjects = ( ResultSet[] ) (session.getAttribute("geneViewResultSet"));
+    geneExprObjects = ( ResultSet[] ) (session.getAttribute(Constants.RESULTSET_KEY));
  
 if(geneExprObjects != null && geneExprObjects.length > 0) {      
     
