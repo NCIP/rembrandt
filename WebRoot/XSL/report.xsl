@@ -157,6 +157,7 @@
 <input type="hidden" name="queryName" value="{$qName}" />
 <input type="hidden" name="filter_value2" value="{$filter_value2}" />
 <input type="hidden" name="filter_value3" value="{$filter_value3}" />
+<input type="hidden" name="filter_value1" value="{$filter_value1}"/>
 </form>
 <div class="rptHeader">	
 	<div class="rowCount">
@@ -193,7 +194,7 @@
 		<input type="text" name="filter_string"/>
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Filter" />
-		<!--<input type="button" name="filter_submit" value="Reset (show all)" />-->
+		<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" />
 	  </form>
 	  </div>
 	  
@@ -203,6 +204,8 @@
 		<xsl:text>&#160;</xsl:text>
 		highlight values greater than <input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
 		<input type="hidden" name="queryName" value="{$qName}"/>
+		<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
+		<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
 		<input type="submit" name="filter_submit" value="Highlight" />
 	  </form>
 	  </div>

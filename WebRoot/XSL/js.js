@@ -72,3 +72,8 @@ function stupidXSL(i, cPage)	{
 		}
 	}
 
+function clearFilterForm(form)	{
+	form.filter_string.value = '';
+	form.submit();
+}
+
