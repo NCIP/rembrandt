@@ -44,6 +44,9 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
 	 * @return groupResultset Returns groupResultset for this groupType, reporterName , geneSymbol.
 	 */
     public Collection getBioSpecimentResultsets(String geneSymbol,String reporterName, String groupType){
+    	if(geneSymbol== null){
+    		geneSymbol = GeneExprResultsContainer.NO_GENE_SYMBOL;
+    	}
     	if(reporterName != null){
     		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
             if(geneResultset != null){
@@ -63,6 +66,9 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
 	 * @return bioSpecimenResultset Returns BioSpecimenResultset for this bioSpecimenID,groupType, reporterName , geneSymbol.
 	 */
     public BioSpecimenResultset getBioSpecimentResultset(String geneSymbol,String reporterName, String groupType, String bioSpecimenID){
+    	if(geneSymbol== null){
+    		geneSymbol = GeneExprResultsContainer.NO_GENE_SYMBOL;
+    	}
     	if(reporterName != null){
     		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
             if(geneResultset != null){

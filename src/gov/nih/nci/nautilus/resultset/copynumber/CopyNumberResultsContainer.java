@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.nautilus.resultset.copynumber;
 
+import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
@@ -31,6 +32,7 @@ public class CopyNumberResultsContainer implements ResultsContainer {
 
 	protected SortedSet reporterNames = new TreeSet();
 
+    //TODO: protected DatumDE[] reporterDatumDEs;
 	/**
 	 * @return Returns the groupsLabels.
 	 */
@@ -161,4 +163,5 @@ public class CopyNumberResultsContainer implements ResultsContainer {
 		list.addAll(reporterNames);
 		return list;
 	}
+
 }

@@ -7,7 +7,9 @@
 package gov.nih.nci.nautilus.resultset.gene;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 /**
@@ -89,4 +91,9 @@ public class GeneResultset {
 	public boolean isAnonymousGene() {
 		return this.isAnonymousGene;
 	}
+    public List getReporterNames(){
+    	return new ArrayList(reporters.keySet());
+    }
+    
+    
 }

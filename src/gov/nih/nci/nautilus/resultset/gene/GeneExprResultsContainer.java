@@ -54,9 +54,12 @@ import gov.nih.nci.nautilus.resultset.ResultsContainer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
 
 /**
@@ -65,8 +68,10 @@ import java.util.TreeMap;
  * 
  */
 public class GeneExprResultsContainer implements ResultsContainer{
+	public static final String NO_GENE_SYMBOL = "zzzzzzzzzzzzzz";
 	protected SortedMap genes = new TreeMap();
 	protected SortedMap groupsLabels = new TreeMap();
+	protected Set allReporterNames = new HashSet();
 	/**
 	 * @return Returns the groupsLabels.
 	 */
@@ -80,9 +85,15 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	public void addGeneResultset(GeneResultset geneResultset){
 		if(geneResultset != null && geneResultset.getGeneSymbol() != null){
 			genes.put(geneResultset.getGeneSymbol().getValue().toString(), geneResultset);
+			if (geneResultset.getReporterNames() != null) {
+				allReporterNames.addAll(geneResultset.getReporterNames());
+			}
 		}
 		else if(geneResultset != null && geneResultset.isAnonymousGene() == true){
-			genes.put("zzzzzzzzzzzzzz", geneResultset);
+			genes.put(NO_GENE_SYMBOL, geneResultset);
+			if (geneResultset.getReporterNames() != null) {
+				allReporterNames.addAll(geneResultset.getReporterNames());
+			}
 		}
 	}
 	/**
@@ -91,6 +102,9 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	public void removeGeneResultset(GeneResultset geneResultset){
 		if(geneResultset != null && geneResultset.getGeneSymbol() != null){
 			genes.remove(geneResultset.getGeneSymbol().toString());
+			if (geneResultset.getReporterNames() != null) {
+				allReporterNames.removeAll(geneResultset.getReporterNames());
+			}
 		}
 	}
 	/**
@@ -125,6 +139,7 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	 */
     public void removeAllGeneResultset(){
     	genes.clear();
+    	allReporterNames.clear();
     }
     /**
      * @param geneSymbol,reporterName
@@ -233,4 +248,12 @@ public class GeneExprResultsContainer implements ResultsContainer{
     	}
     	return geneResults;
     }
+	/**
+	 * @return Returns the allReporterNames.
+	 */
+	public List getAllReporterNames() {
+		List list = new ArrayList();
+		list.addAll(allReporterNames);
+		return list;
+	}
 }

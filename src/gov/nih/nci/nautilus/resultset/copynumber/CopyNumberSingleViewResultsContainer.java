@@ -48,9 +48,13 @@ public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsConta
     public Collection getBioSpecimentResultsets(String cytoband,String reporterName, String groupType){
     	if(cytoband != null && reporterName != null && groupType != null){
     		CytobandResultset cytobandResultset = (CytobandResultset) cytobands.get(cytoband);
-    		ReporterResultset reporterResultset = (ReporterResultset) cytobandResultset.getRepoterResultset(reporterName);
-			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
-			return groupResultset.getBioSpecimenResultsets();
+    		if(cytobandResultset != null){
+    			ReporterResultset reporterResultset = (ReporterResultset) cytobandResultset.getRepoterResultset(reporterName);
+			if(reporterResultset != null){
+				ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
+					return groupResultset.getBioSpecimenResultsets();
+				}
+    		}
 		}
     		return null;
     }
@@ -79,10 +83,7 @@ public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsConta
     	list.addAll(cytobands.keySet());
     	return list;
     }
-    public List getReporters(){
-    	List list = new ArrayList();
-    	return list;
-    }
+
     
     
 }

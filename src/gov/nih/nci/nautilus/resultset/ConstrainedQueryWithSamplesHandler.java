@@ -33,7 +33,7 @@ public class ConstrainedQueryWithSamplesHandler {
 	private static Logger logger = Logger
 			.getLogger(ConstrainedQueryWithSamplesHandler.class);
 
-	public SampleCriteria createSampleCriteria(String[] sampleIDs) {
+	public static SampleCriteria createSampleCriteria(String[] sampleIDs) {
 		SampleCriteria sampleCrit = null;
 		Collection sampleIDDEs = new ArrayList();
 		if (sampleIDs != null) {
@@ -46,7 +46,7 @@ public class ConstrainedQueryWithSamplesHandler {
 		return sampleCrit;
 	}
 
-	public CompoundQuery constrainQuery(CompoundQuery compoundQuery,
+	public static CompoundQuery constrainQuery(CompoundQuery compoundQuery,
 			SampleCriteria sampleCrit) throws Exception {
 		CompoundQuery newQuery = null;
 		Queriable leftQuery = compoundQuery.getLeftQuery();

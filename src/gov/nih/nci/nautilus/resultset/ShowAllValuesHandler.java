@@ -49,8 +49,12 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
+import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
+import gov.nih.nci.nautilus.criteria.SNPCriteria;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
+import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
+import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.de.SampleIDDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
@@ -70,13 +74,12 @@ import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
-import gov.nih.nci.nautilus.view.ViewFactory;
-import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -88,22 +91,32 @@ import org.apache.log4j.Logger;
 public class ShowAllValuesHandler {
 	private static Logger logger = Logger.getLogger(ShowAllValuesHandler.class);
 	private Resultant resultant = null;
+	private CloneOrProbeIDCriteria cloneOrProbeIDCriteria = null;
+	private SNPCriteria snpCriteria = null;
+	private SampleCriteria sampleCrit = null;
+    private CompoundQuery newCompoundQuery;
+    private CompoundQuery originalQuery;
 	public ShowAllValuesHandler(Resultant resultant){
 		this.resultant = resultant;
+		originalQuery = (CompoundQuery) resultant.getAssociatedQuery();
+		if(originalQuery != null){
+			newCompoundQuery =  (CompoundQuery) originalQuery.clone();
+		}
 	}
 	private CompoundQuery handleQuery() throws Exception{
-		CompoundQuery  compoundQuery = null;
+		//CompoundQuery  compoundQuery = null;
 		if (this.resultant != null && this.resultant.getResultsContainer() != null){
-			compoundQuery = (CompoundQuery) resultant.getAssociatedQuery();
-			Viewable view = compoundQuery.getAssociatedView();
+			//compoundQuery = (CompoundQuery) resultant.getAssociatedQuery();
+			Viewable view = newCompoundQuery.getAssociatedView();
 			ResultsContainer resultsContainer = this.resultant.getResultsContainer();
-			SampleCriteria sampleCrit = null;
-	        Collection sampleIDs = new ArrayList();
+			sampleCrit = null;
+	        Collection sampleIDs = new ArrayList(); 
 			//Get the samples from the resultset object
 			if(resultsContainer!= null){
 				Collection samples = null;
 				if(resultsContainer instanceof DimensionalViewContainer){				
 					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+					///TO NEED TO RUN IT FOR NOW handleReporters(dimensionalViewContainer);
 					SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 					samples = sampleViewContainer.getBioSpecimenResultsets();
 				}else if (resultsContainer instanceof SampleViewResultsContainer){
@@ -120,15 +133,55 @@ public class ShowAllValuesHandler {
 		   			sampleCrit = new SampleCriteria();
 		   			sampleCrit.setSampleIDs(sampleIDs);
 				}
-				compoundQuery = getShowAllValuesQuery(compoundQuery,sampleCrit);
-				compoundQuery.setAssociatedView(view);
+				ConstrainedQueryWithSamplesHandler.constrainQuery(newCompoundQuery,sampleCrit);
+				newCompoundQuery = getShowAllValuesQuery(newCompoundQuery);
+				newCompoundQuery.setAssociatedView(view);
 				
 			}
 		}
-		return compoundQuery;
+		return newCompoundQuery;
 		}
-	private CompoundQuery getShowAllValuesQuery(CompoundQuery compoundQuery, SampleCriteria sampleCrit) throws Exception{
-		CompoundQuery showAllValuesQuery = null;
+	/**
+	 * @param dimensionalViewContainer
+	 */
+	private void handleReporters(DimensionalViewContainer dimensionalViewContainer) {
+		Collection geneExpressionReporters = new ArrayList();
+		Collection copyNumberReprters = new ArrayList();
+		if(dimensionalViewContainer != null){
+		CopyNumberSingleViewResultsContainer copyNumberSingleViewContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+		GeneExprSingleViewResultsContainer geneExprSingleViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+		if(copyNumberSingleViewContainer!= null){
+			List reporterNames =  copyNumberSingleViewContainer.getReporterNames();
+       		for (Iterator reporterNamesIterator = reporterNames.iterator(); reporterNamesIterator.hasNext();) {
+       			String reporterName = (String) reporterNamesIterator.next();
+       			copyNumberReprters.add(new SNPIdentifierDE.SNPProbeSet(reporterName));
+       		}
+		}
+		if(geneExprSingleViewContainer!= null){
+			List reporterNames =  geneExprSingleViewContainer.getAllReporterNames();
+       		for (Iterator reporterNamesIterator = reporterNames.iterator(); reporterNamesIterator.hasNext();) {
+       			String reporterName = (String) reporterNamesIterator.next();
+       			if(reporterName.indexOf("IMAGE")>0){
+       				geneExpressionReporters.add(new CloneIdentifierDE.IMAGEClone(reporterName));
+       			}
+       			else{
+    				geneExpressionReporters.add(new CloneIdentifierDE.ProbesetID(reporterName));
+       			}
+       		}
+		}
+		if(copyNumberReprters.size()> 0){
+			this.snpCriteria = new SNPCriteria();
+			this.snpCriteria.setSNPIdentifiers(copyNumberReprters);
+		}
+		if(geneExpressionReporters.size()> 0){
+			this.cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
+			this.cloneOrProbeIDCriteria.setIdentifiers(geneExpressionReporters);
+		}
+		}
+		
+	}
+	private CompoundQuery getShowAllValuesQuery(CompoundQuery compoundQuery) throws Exception{
+		CompoundQuery newQuery = null;
 		Queriable leftQuery = compoundQuery.getLeftQuery();
 		Queriable rightQuery = compoundQuery.getRightQuery();
 		OperatorType operator = compoundQuery.getOperatorType();
@@ -136,54 +189,73 @@ public class ShowAllValuesHandler {
 		try {
 			if (leftQuery != null) {
 				if (leftQuery instanceof CompoundQuery) {
-					leftQuery = getShowAllValuesQuery((CompoundQuery) leftQuery, sampleCrit);
+					leftQuery = getShowAllValuesQuery((CompoundQuery) leftQuery);
 					}
 				else if( leftQuery instanceof GeneExpressionQuery){
 					GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) leftQuery;
-					geneExpressionQuery.setFoldChgCrit(null);
-					geneExpressionQuery.setSampleIDCrit(sampleCrit);
-					leftQuery = geneExpressionQuery;
+                    leftQuery = populateGeneExpressionQuery(geneExpressionQuery);
 				}
 				else if( leftQuery instanceof ComparativeGenomicQuery){
 					ComparativeGenomicQuery comparativeGenomicQuery = (ComparativeGenomicQuery) leftQuery;
-					comparativeGenomicQuery.setCopyNumberCrit(null);
-					comparativeGenomicQuery.setSampleIDCrit(sampleCrit);
-					leftQuery = comparativeGenomicQuery;
+                    leftQuery = populateCGHQuery(comparativeGenomicQuery);                  
 				}
 			}
 			
 			if (rightQuery != null) {
 				if (rightQuery instanceof CompoundQuery) {
-					rightQuery = getShowAllValuesQuery((CompoundQuery) rightQuery, sampleCrit);
+					rightQuery = getShowAllValuesQuery((CompoundQuery) rightQuery);
 					}
 				else if( rightQuery instanceof GeneExpressionQuery){
 					GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) rightQuery;
-					geneExpressionQuery.setFoldChgCrit(null);
-					geneExpressionQuery.setSampleIDCrit(sampleCrit);
-					rightQuery = geneExpressionQuery;
+                    rightQuery = populateGeneExpressionQuery(geneExpressionQuery);
+                    
 				}
 				else if( rightQuery instanceof ComparativeGenomicQuery){
 					ComparativeGenomicQuery comparativeGenomicQuery = (ComparativeGenomicQuery) rightQuery;
-					comparativeGenomicQuery.setCopyNumberCrit(null);
-					comparativeGenomicQuery.setSampleIDCrit(sampleCrit);
-					rightQuery = comparativeGenomicQuery;
-				}
+                    rightQuery = populateCGHQuery(comparativeGenomicQuery);                   
+                }
 			}
 			if (operator != null) {
-				showAllValuesQuery = new CompoundQuery(operator,leftQuery,rightQuery);							
+				newQuery = new CompoundQuery(operator,leftQuery,rightQuery);							
 			}else{ //then its the right query				
-				showAllValuesQuery = new CompoundQuery(rightQuery);
+				newQuery = new CompoundQuery(rightQuery);
 			}
 			
 		}catch (Exception ex) {
 			logger.error(ex);
 		}
-		return new CompoundQuery(OperatorType.AND,compoundQuery,showAllValuesQuery);
+		return newQuery;
+	}
+	/**
+	 * @param geneExpressionQuery
+	 * @return
+	 */
+	private GeneExpressionQuery populateGeneExpressionQuery(GeneExpressionQuery geneExpressionQuery) {
+	 if(geneExpressionQuery.getFoldChgCrit() != null){
+        geneExpressionQuery.setFoldChgCrit(null);
+	 }
+	 if(cloneOrProbeIDCriteria != null){
+	 	geneExpressionQuery.setCloneOrProbeIDCrit(cloneOrProbeIDCriteria);
+	 }
+	 return geneExpressionQuery;
+	}
+	/**
+	 * @param comparativeGenomicQuery
+	 * @return
+	 */
+	private ComparativeGenomicQuery populateCGHQuery(ComparativeGenomicQuery comparativeGenomicQuery) {
+		if(comparativeGenomicQuery.getCopyNumberCriteria() != null){
+            comparativeGenomicQuery.setCopyNumberCrit(null);
+        }
+		if(snpCriteria != null){
+		 	comparativeGenomicQuery.setSNPCrit(snpCriteria);
+		 }
+		 return comparativeGenomicQuery;
 	}
 	public Resultant getShowAllValuesResultant() throws Exception{
 			ResultsContainer resultsContainer = this.resultant.getResultsContainer();
-			CompoundQuery showQuery = handleQuery();
-			Resultant showAllResultant = ResultsetManager.executeCompoundQuery(showQuery);
+			CompoundQuery newShowAllQuery = handleQuery();
+			Resultant showAllResultant = ResultsetManager.executeCompoundQuery(newShowAllQuery);
 			
 
 			int recordCount = 0;
@@ -205,6 +277,7 @@ public class ShowAllValuesHandler {
 						showAllCopyNumberContainer = handleCopyNumberContainer( originalCopyNumberContainer,showAllCopyNumberContainer);
 						showallDimensionalViewContainer.setCopyNumberSingleViewContainer(showAllCopyNumberContainer);
 					}
+					showAllResultant.setResultsContainer(showallDimensionalViewContainer);
 				}
 			}
 			return showAllResultant;
@@ -242,19 +315,15 @@ public class ShowAllValuesHandler {
 		                       		SampleFoldChangeValuesResultset showAllBiospecimenResultset  = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 		                       		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = (SampleFoldChangeValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
 		                       		//this gets only the common samples, we actually want the ones that are in the ALLrs and not the regular RS
-		                       		//if(showAllBiospecimenResultset != null && sampleFoldChangeValuesResultset != null){
+
 		                       			Double ratio = null;
-		                       				try {
-												ratio = (Double)sampleFoldChangeValuesResultset.getFoldChangeRatioValue().getValue();
-											} catch (Exception e) {
-												ratio = null;
-											}
+		                       			if(sampleFoldChangeValuesResultset != null && sampleFoldChangeValuesResultset.getFoldChangeRatioValue() != null){
+		                       				ratio = (Double)sampleFoldChangeValuesResultset.getFoldChangeRatioValue().getValue();
+		                       			}
 		                       			Double showAllRatio = null;
-		                       				try {
-												showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
-											} catch (Exception e1) {
-												showAllRatio = null;
-											}
+		                       			if(showAllBiospecimenResultset != null && showAllBiospecimenResultset.getFoldChangeRatioValue() != null){
+		                       				showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
+		                       			}		  
 		                       			if(ratio != null && ratio.equals(showAllRatio)){
 		                       				showAllBiospecimenResultset.setHighlighted(false);  
 		                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
@@ -264,7 +333,7 @@ public class ShowAllValuesHandler {
                                             groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
 
                                         }
-			                       //	}
+
 	                     		}
                        		
 	                       	}
@@ -309,24 +378,15 @@ public class ShowAllValuesHandler {
 	                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
 	                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 	                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) copyNumberViewContainer.getBioSpecimentResultset(cytobandName,reporterName, label, sampleId);
-		                       		//if(showAllBiospecimenResultset != null && sampleResultset2 != null){
+
 	                       			Double ratio = null;
-                       				try {
-                       					ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
-									} catch (Exception e) {
-										ratio = null;
-									}
-									
-									Double showAllRatio = null;
-                       				try {
-                       					showAllRatio = (Double)sampleResultset2.getCopyNumber().getValue();
-									} catch (Exception e1) {
-										showAllRatio = null;
-									}
-									/*
-										Double ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
-		                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
-		                       		*/
+	                       			if(sampleResultset2 != null && sampleResultset2.getCopyNumber() != null){
+	                       				ratio = (Double)sampleResultset2.getCopyNumber().getValue();
+	                       			}
+	                       			Double showAllRatio = null;
+	                       			if(showAllBiospecimenResultset != null && showAllBiospecimenResultset.getCopyNumber()!= null){
+	                       				showAllRatio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
+	                       			}
 		                       			if(ratio != null && ratio.equals(showAllRatio)){
 		                       				showAllBiospecimenResultset.setHighlighted(false);  
 		                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
@@ -335,7 +395,7 @@ public class ShowAllValuesHandler {
                                             showAllBiospecimenResultset.setHighlighted(true);  
                                             groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
                                         }
-			                      // 	}
+
 	                     		}			                       		
 	                       	}
                        }
