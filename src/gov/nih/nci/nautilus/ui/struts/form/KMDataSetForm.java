@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -25,7 +26,8 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	private int downFold = 2;
     private XYSeriesCollection censorDataset;
     private XYSeriesCollection lineDataset;
-    
+    private String selectedReporter;
+    private List reporters = new ArrayList();;
 	
 private String chartTitle = null;
     private ArrayList folds = new ArrayList();
@@ -143,5 +145,30 @@ private String chartTitle = null;
 	 */
 	public void setLineDataset(XYSeriesCollection lineDataset) {
 		this.lineDataset = lineDataset;
+	}
+	/**
+	 * @return Returns the reporters.
+	 */
+	public List getReporters() {
+		return reporters;
+	}
+	/**
+	 * @param reporters The reporters to set.
+	 */
+	public void setReporters(List reporters) {
+		this.reporters = reporters;
+	}
+
+	/**
+	 * @return Returns the selectedReporter.
+	 */
+	public String getSelectedReporter() {
+		return selectedReporter;
+	}
+	/**
+	 * @param selectedReporter The selectedReporter to set.
+	 */
+	public void setSelectedReporter(String selectedReporter) {
+		this.selectedReporter = selectedReporter;
 	}
 }

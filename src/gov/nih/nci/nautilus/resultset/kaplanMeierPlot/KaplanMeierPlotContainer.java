@@ -49,13 +49,15 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
-import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMSampleInfo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -68,9 +70,9 @@ import org.apache.log4j.Logger;
  */
 public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	private static Logger logger = Logger.getLogger(KaplanMeierPlotContainer.class);
+
     private GeneIdentifierDE.GeneSymbol geneSymbol;
 
-	private Collection geneExprSamples = new Vector();
 
 	/**
 	 * @return Returns the geneSymbol.
@@ -86,47 +88,45 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
 		this.geneSymbol = geneSymbol;
 	}
-
-	public Collection getSampleKaplanMeierPlotResultsets(
-			ExprFoldChangeDE foldChange) {
-		//this.averageFoldChange = foldChange;
+	public KMSampleInfo[] getSummaryKMPlotSamples() {
+	    List kmSampleInfoArray = new ArrayList(); 
+	    Collection samples = getBioSpecimenResultsets();
         //Clear the Previous collection
-        geneExprSamples = new Vector();
-		Collection samples = getBioSpecimenResultsets();
-		for (Iterator sampleIterator = samples.iterator(); sampleIterator
-				.hasNext();) {
-			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator
-					.next();
-			Collection reporters = sample
-					.getReporterFoldChangeValuesResultsets();
-			int numberOfReporters = reporters.size();
-			double reporterValues = 0.0;
-			for (Iterator reporterIterator = reporters.iterator(); reporterIterator
-					.hasNext();) {
-				ReporterFoldChangeValuesResultset reporter = (ReporterFoldChangeValuesResultset) reporterIterator
-						.next();
-				double foldchange = new Double(reporter
-						.getFoldChangeRatioValue().getValue().toString())
-						.doubleValue();
-				reporterValues += foldchange;
-			}
-			double geneExprAverage = reporterValues / numberOfReporters;
-			if (foldChange.getRegulationType().equals(
-					ExprFoldChangeDE.UP_REGULATION)) {
-				if (geneExprAverage >= foldChange.getValueObject()
-						.doubleValue()) {
-					geneExprSamples.add(sample);
-				}
-			}
-			if (foldChange.getRegulationType().equals(
-					ExprFoldChangeDE.DOWN_REGULATION)) { 
-				if (geneExprAverage <= (1/foldChange.getValueObject()
-						.doubleValue())) {
-					geneExprSamples.add(sample);
-                }
-            }
-			
+	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
+			Long time = (Long) (sample.getSurvivalLength().getValue());
+			Integer censor = new Integer((sample.getCensor().getValue().toString()));
+			Double value = (Double) sample.getSummaryReporterFoldChange().getValue();
+			KMSampleInfo kmSampleInfo = new KMSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+			kmSampleInfoArray.add(kmSampleInfo);
 		}
-		return geneExprSamples;
+		return (KMSampleInfo[]) kmSampleInfoArray.toArray(new KMSampleInfo[kmSampleInfoArray.size()]);
+	}
+	public KMSampleInfo[] getKMPlotSamplesForReporter(String reporterName){
+	    List kmSampleInfoArray = new ArrayList(); 
+	    Collection samples = getBioSpecimenResultsets();
+	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
+			ReporterFoldChangeValuesResultset reporterFCValueResultset = sample.getReporterFoldChangeValuesResultset(reporterName);
+			if (reporterFCValueResultset != null && reporterFCValueResultset.getFoldChangeRatioValue() != null){
+				Long time = (Long) (sample.getSurvivalLength().getValue());
+				Integer censor = new Integer((sample.getCensor().getValue().toString()));
+				Double value = (Double) reporterFCValueResultset.getFoldChangeRatioValue().getValue();
+				KMSampleInfo kmSampleInfo = new KMSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+				kmSampleInfoArray.add(kmSampleInfo);
+			}
+		}
+		return (KMSampleInfo[]) kmSampleInfoArray.toArray(new KMSampleInfo[kmSampleInfoArray.size()]);
+	}
+	public List getAssociatedReporters(){
+		List reporterNames = null;
+	    Collection samples = getBioSpecimenResultsets();
+	    
+	    if(!samples.isEmpty()){
+	    	Iterator sampleIterator = samples.iterator();	    	
+	    	SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
+	    	reporterNames = (List) sample.getReporterNames();
+	    }
+	    return reporterNames;
 	}
 }

@@ -34,6 +34,11 @@
         <html:options property="folds"/>
       </html:select>
       &nbsp;Folds
+      &nbsp;Associated Reporters
+      <html:select property="selectedReporter">
+        <html:options property="reporters"/>
+      </html:select>
+      &nbsp;
       &nbsp;&nbsp;
     </b>
     <html:submit value="Redraw Graph"/>

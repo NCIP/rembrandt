@@ -54,6 +54,7 @@ package gov.nih.nci.nautilus.resultset;
 
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
@@ -155,24 +156,33 @@ public class ResultsetManager {
 		return resultant;
 	}
 
-	public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute)
-			throws Exception {
+public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute)throws Exception {
 		Resultant resultant = new Resultant();
 		if (queryToExecute != null) {
-			Viewable associatedView = ViewFactory
-					.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
-			queryToExecute.setAssociatedView(associatedView);
-			ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
-			ResultsContainer resultsContainer = KaplanMeierPlotHandler
-					.handleKaplanMeierPlotContainer((GeneExpr.GeneExprSingle[]) resultsets);
-			resultant.setResultsContainer(resultsContainer);
-			resultant.setAssociatedQuery(queryToExecute);
-			resultant.setAssociatedView(associatedView);
+			if(queryToExecute instanceof GeneExpressionQuery){
+				Viewable associatedView = ViewFactory
+						.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
+				queryToExecute.setAssociatedView(associatedView);
+				ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
+				ResultsContainer resultsContainer = KaplanMeierPlotHandler
+						.handleKMGeneExprPlotContainer((GeneExpr.GeneExprSingle[]) resultsets);
+				resultant.setResultsContainer(resultsContainer);
+				resultant.setAssociatedQuery(queryToExecute);
+				resultant.setAssociatedView(associatedView);
+			}else if(queryToExecute instanceof GeneExpressionQuery){
+				Viewable associatedView = ViewFactory
+				.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW);
+				queryToExecute.setAssociatedView(associatedView);
+				ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
+				ResultsContainer resultsContainer = KaplanMeierPlotHandler
+						.handleKMCopyNumberPlotContainer((CopyNumber[]) resultsets);
+				resultant.setResultsContainer(resultsContainer);
+				resultant.setAssociatedQuery(queryToExecute);
+				resultant.setAssociatedView(associatedView);
+			}
 		}
 		return resultant;
-	}
-
-	public static Resultant executeShowAllQuery(Resultant resultant)
+	}	public static Resultant executeShowAllQuery(Resultant resultant)
 			throws Exception {
 
 		ShowAllValuesHandler showAllValuesHandler = new ShowAllValuesHandler(

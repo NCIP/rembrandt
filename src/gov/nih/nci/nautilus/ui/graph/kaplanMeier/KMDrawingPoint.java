@@ -15,7 +15,7 @@ import org.jfree.data.XYDataPair;
 public class KMDrawingPoint extends XYDataPair {
 	
     private XYDataPair xyDataPair;
-	private boolean census = false; 
+	private boolean checked = false; 
 	
 	public KMDrawingPoint(Number x, Number y){
 		super(x,y);
@@ -24,16 +24,16 @@ public class KMDrawingPoint extends XYDataPair {
 	public KMDrawingPoint(Number x, Number y, boolean b){
         super(x,y);
         xyDataPair = new XYDataPair(x,y);
-		this.census=b; 
+		this.checked = b; 
 	}
 
     /**
 	 * @return Returns the isCensus
 	 */
-	public boolean isCensus() {
-		return census;
+	public boolean isChecked() {
+		return checked;
 	}
 	public String toString(){
-	    return ("( "+xyDataPair.getX()+", "+xyDataPair.getY()+")  Census:"+census);
+	    return ("( "+xyDataPair.getX()+", "+xyDataPair.getY()+")  Census:"+checked);
 	}
 }

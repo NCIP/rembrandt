@@ -56,6 +56,7 @@ import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -143,6 +144,27 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
     		return reporters.values();
     }
 	/**
+	 * @return reporterResultset Returns reporterResultset to this DiseaseGeneExprPlotResultset object.
+	 */
+    public DatumDE getSummaryReporterFoldChange(){
+    DatumDE foldChangeRatioValue = null;    
+	Collection reporters = getReporterFoldChangeValuesResultsets();
+	int numberOfReporters = reporters.size();
+	if(numberOfReporters > 0){
+		double reporterValues = 0.0;
+		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+			ReporterFoldChangeValuesResultset reporter = (ReporterFoldChangeValuesResultset) reporterIterator.next();
+			double foldchange = new Double(reporter
+					.getFoldChangeRatioValue().getValue().toString())
+					.doubleValue();
+			reporterValues += foldchange;
+		}
+		Double geneExprAverage = new Double (reporterValues / numberOfReporters);
+		foldChangeRatioValue = new DatumDE(DatumDE.FOLD_CHANGE_RATIO,geneExprAverage);
+	}
+	return foldChangeRatioValue;
+    }
+	/**
 	 * @param none Removes all reporterResultset in this DiseaseGeneExprPlotResultset object.
 	 */
     public void removeAllReporterFoldChangeValuesResultsets(){
@@ -154,6 +176,12 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	 */
 	public Map getReporters() {
 		return reporters;
+	}
+	/**
+	 * @return Returns the reporter Names.
+	 */
+	public Collection getReporterNames() {
+		return reporters.keySet();
 	}
 	/**
 	 * @param reporters The reporters to set.

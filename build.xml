@@ -95,6 +95,7 @@
 	</patternset>
 
 	<patternset id="graphic-pkg.jars">
+		<include name="weka.jar" />
 		<include name="jfreechart-0.9.8-demo.jar" />
 		<include name="jfreechart-0.9.8.jar" />
 		<include name="jcommon-0.8.0.jar" />
@@ -105,8 +106,7 @@
 		<include name="batik-dom.jar" />
 		<include name="batik-awt-util.jar" />
 		<include name="krysalis-jCharts-1.0.0-alpha-1.jar" />
-        <include name="dom4j-1.5.2.jar" />      
-
+        <include name="dom4j-1.5.2.jar" />  
 	</patternset>
 
 	<patternset id="caintergrator.jars">
@@ -117,6 +117,7 @@
 
 	<path id="cp.compile">
 		<fileset dir="${source.lib.dir}">
+			<include name="weka.jar" />
 			<include name="cewolf.jar" />
 			<include name="krysalis-jCharts-1.0.0-alpha-1.jar" />
 			<include name="jfreechart-0.9.8.jar" />

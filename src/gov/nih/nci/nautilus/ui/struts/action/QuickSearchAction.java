@@ -1,7 +1,13 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.List;
+
+import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KMPlotManager;
+import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.nautilus.ui.graph.geneExpression.GeneExpressionGraphGenerator;
 import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator;
+import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMSampleInfo;
 import gov.nih.nci.nautilus.ui.struts.form.KMDataSetForm;
 import gov.nih.nci.nautilus.ui.struts.form.QuickSearchForm;
 import gov.nih.nci.nautilus.ui.struts.form.UIFormValidator;
@@ -18,7 +24,8 @@ import org.apache.struts.actions.DispatchAction;
 
 public class QuickSearchAction extends DispatchAction {
 	static Logger logger = Logger.getLogger(QuickSearchAction.class);
-
+	private KaplanMeierPlotContainer kmResultsContainer = null;
+	private String chartType;
 	/**
 	 * Method execute
 	 * 
@@ -66,9 +73,13 @@ public class QuickSearchAction extends DispatchAction {
 
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		kmForm.setGeneSymbol((String) request.getAttribute("geneSymbol"));
+		kmForm.setReporters(populateReporters());
+		KMPlotManager kmPlotManager = new KMPlotManager();
+		kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager.performKMGeneExpressionQuery((String) request.getAttribute("geneSymbol"));
+		KMSampleInfo[] kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
 				kmForm.getDownFold(), (String) request
-						.getAttribute("geneSymbol"));
+						.getAttribute("geneSymbol"), kmSampleInfos);
 		if (generator.getMyActionErrors().size() > 0) {
 			this.saveErrors(request, generator.getMyActionErrors());
 			return mapping.findForward("badgraph");
@@ -83,16 +94,26 @@ public class QuickSearchAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
-		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-				kmForm.getDownFold(), kmForm.getGeneSymbol());
-		if (generator.getMyActionErrors().size() > 0) {
-			this.saveErrors(request, generator.getMyActionErrors());
-			return mapping.findForward("badgraph");
-		} else {
-			kmForm.setCensorDataset(generator.getCensorDataseries());
-			kmForm.setLineDataset(generator.getLineDataseries());
+		KMSampleInfo[] kmSampleInfos = null;
+		if( kmResultsContainer != null && kmForm.getSelectedReporter() != null){
+			if(kmForm.getSelectedReporter().equals(NautilusConstants.GRAPH_DEFAULT)){
+				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+			}
+			else{
+				kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+			}
+			KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+					kmForm.getDownFold(), kmForm.getGeneSymbol(),kmSampleInfos);
+			if (generator.getMyActionErrors().size() > 0) {
+				this.saveErrors(request, generator.getMyActionErrors());
+				return mapping.findForward("badgraph");
+			} else {
+				kmForm.setCensorDataset(generator.getCensorDataseries());
+				kmForm.setLineDataset(generator.getLineDataseries());
+			}
+			return mapping.findForward("kmplot");
 		}
-		return mapping.findForward("kmplot");
+		return mapping.findForward("badgraph");
 	}
 
 	public ActionForward quickSearch(ActionMapping mapping, ActionForm form,
@@ -102,7 +123,8 @@ public class QuickSearchAction extends DispatchAction {
 		ActionErrors errors = new ActionErrors();
 		errors = UIFormValidator.validateGeneSymbol(qsForm, errors);
 		if(errors.isEmpty()){
-		String chartType = qsForm.getPlot();
+		chartType = qsForm.getPlot();
+		
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
 			    System.out.println("wants kapMai w/ genesymbol");
 				request.setAttribute("geneSymbol", qsForm.getQuickSearchName());
@@ -122,5 +144,15 @@ public class QuickSearchAction extends DispatchAction {
 		this.saveErrors(request, errors);
 		return mapping.findForward("mismatch");
 	  }
+	private List populateReporters(){
+		List reporters = null;
+		if( kmResultsContainer != null){
+			reporters = kmResultsContainer.getAssociatedReporters();
+			if (chartType.equalsIgnoreCase("geneExpPlot")){
+				reporters.add(0,NautilusConstants.GRAPH_DEFAULT);
+			}
+		}
+		return reporters;
+	}
 }
 

@@ -1,168 +1,260 @@
+/*
+ * Created on Oct 12, 2004
+ *
+ * To change the template for this generated file go to
+ * Window - Preferences - Java - Code Generation - Code and Comments
+ */
 package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
+import java.util.*;
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-
-import org.apache.log4j.Logger;
-
+import weka.core.Statistics;
 /**
  * @author XiaoN
  * 
- * Construct a KaplanMeier object, input an array of float (times) and an array
- * of int (censor) (equal length). Call the getKMDrawingPoints() method, which
- * returns an array of KMDrawingPoint object. If you have multiple series of
- * data (over-expressed samples, under-experessed samples, intermediate, etc.,
- * just repeat the above process to get multiple series of points to draw.
- *  
+ * To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Generation - Code and Comments
  */
 public class KaplanMeier {
-	private float[] times;
-	private int[] censors;
-	private ArrayList kmEvents;
+	
+	private ArrayList allSamples; 
+	private ArrayList upSamples; 
+	private ArrayList intSamples; 
+	private ArrayList downSamples; 
+	private double upperThreshold; 
+	private double lowerThreshold; 
 
-	KMDrawingPoint[] kmDrawingPoints;
-    static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
-
-	public KaplanMeier(Collection samples) {
-		kmEvents = new ArrayList();
-		//TODO: Make this typed collection
-		if (samples != null) {
-			for (Iterator sampleIterator = samples.iterator(); sampleIterator
-					.hasNext();) {
-				SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator
-						.next();
-				Long time = (Long) (sample.getSurvivalLength().getValue());
-				Integer censor = new Integer((sample.getCensor().getValue()
-						.toString()));
-				kmEvents.add(new KMEvent(time.floatValue(), censor.intValue()));
+	
+	public KaplanMeier(KMSampleInfo[] samples, double upper, double lower) {
+		allSamples = new ArrayList(); 
+		upSamples = new ArrayList(); 
+		downSamples = new ArrayList(); 
+		intSamples = new ArrayList(); 
+		allSamples.addAll(Arrays.asList(samples)); 
+		Collections.sort(allSamples, new KMSampleComparator());
+		this.upperThreshold = upper; 
+		this.lowerThreshold = 1/lower; 
+		createSampleGroups(); 
+	}
+	
+	public void createSampleGroups() {
+		upSamples.clear(); 
+		intSamples.clear(); 
+		downSamples.clear(); 
+		for (int i = 0; i<allSamples.size(); i++) {
+			KMSampleInfo s = (KMSampleInfo) allSamples.get(i); 
+			double value = s.getValue(); 
+			if (value >= upperThreshold) {
+				upSamples.add(s);
+			} else if (value <= lowerThreshold) {
+				downSamples.add(s); 
+			} else {
+				intSamples.add(s);
 			}
 		}
-		Collections.sort(kmEvents, new KMEventComparator());
-		createDrawingPoints();
 	}
 
-	public KaplanMeier(float[] times, int[] censors) {
-		this.times = times;
-		this.censors = censors;
-		kmEvents = new ArrayList();
-		for (int i = 0; i < times.length; i++) {
-			kmEvents.add(new KMEvent(times[i], censors[i]));
-		}
-		Collections.sort(kmEvents, new KMEventComparator());
-		createDrawingPoints();
-	}
-
-	private void createDrawingPoints() {
+	public void resetThresholds(double upper, double lower) {
+		this.upperThreshold = upper; 
+		this.lowerThreshold = 1/lower; 
+		createSampleGroups(); 
+	}	
+	
+	//create drawing data points for any set of sample
+	public KMDrawingPoint[] getDrawingPoints(ArrayList samples) {		
 		float surv = 1;
 		float prevSurvTime = 0;
 		float curSurvTime = 0;
 		int d = 0;
-		int r = kmEvents.size();
-		int left = kmEvents.size();
-		ArrayList points = new ArrayList();
-		logger.debug("Sorted input data: ");
-		for (int i = 0; i < kmEvents.size(); i++) {
-			curSurvTime = ((KMEvent) kmEvents.get(i)).getTime();
-			logger.debug("Survival time: " + curSurvTime + "\tcensor:"
-					+ ((KMEvent) kmEvents.get(i)).getCensor());
+		int r = samples.size();
+		int left = samples.size();
+		ArrayList points = new ArrayList();	
+		System.out.println("Sorted input data: "); 
+		for (int i = 0; i < samples.size(); i++) {
+			curSurvTime = ((KMSampleInfo) samples.get(i)).getTime();
+			System.out.println("Survival time: " + curSurvTime + "\tcensor:" + ((KMSampleInfo) samples.get(i)).getCensor()); 
 			if (curSurvTime > prevSurvTime) {
-				if (d > 0) {
-					points.add(new KMDrawingPoint(new Float(prevSurvTime),
-							new Float(surv), false));
-					surv = surv * (r - d) / r;
-				
-					points.add(new KMDrawingPoint(new Float(prevSurvTime),
-							new Float(surv), false));
-		
-					logger.debug("New Point Added, ("+prevSurvTime+", "+surv+")");
+				if (d>0) { 
+					points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(surv), false));
+					surv = surv * (r-d)/r; 
+					points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(surv), false));
 				} else {
-				  	points.add(new KMDrawingPoint(new Float(prevSurvTime),
-							new Float(surv), true));
-					logger.debug("New Point Added, ("+prevSurvTime+", "+surv+")");
+					points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(surv), true));
 				}
 				prevSurvTime = curSurvTime;
 				d = 0;
-				r = left;
+				r = left; 	
 			}
-			if (((KMEvent) kmEvents.get(i)).getCensor() == 1) {
+			if (((KMSampleInfo) samples.get(i)).getCensor() == 1) {
 				d++;
 			}
 			left--;
 		}
-		if (d > 0) {
-			points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(
-					surv), false));
-			surv = surv * (r - d) / r;
-			points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(
-					surv), false));
+		if (d>0) { 
+			points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(surv), false));
+			surv = surv * (r-d)/r; 
+			points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(surv), false));
 		} else {
-			points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(
-					surv), true));
+			points.add(new KMDrawingPoint(new Float(prevSurvTime), new Float(surv), true));
 		}
-		kmDrawingPoints = (KMDrawingPoint[]) points
-				.toArray(new KMDrawingPoint[points.size()]);
+		KMDrawingPoint[] kmDrawingPoints = (KMDrawingPoint[]) points.toArray(new KMDrawingPoint[points.size()]); 
+		return kmDrawingPoints; 
 	}
-
-	public KMDrawingPoint[] getDrawingPoints() {
-		return kmDrawingPoints;
-	}
-
-	public class KMEvent {
-		private float time;
-
-		private int censor;
-
-		public KMEvent(float time, int censor) {
-			this.censor = censor;
-			this.time = time;
-		}
-
-		/**
-		 * @return Returns the censor.
-		 */
-		public int getCensor() {
-			return censor;
-		}
-
-		/**
-		 * @return Returns the time.
-		 */
-		public float getTime() {
-			return time;
-		}
-	}
-
-	public class KMEventComparator implements Comparator {
-		public int compare(Object o1, Object o2) throws ClassCastException {
-			int val;
-			float i1 = ((KMEvent) o1).getTime();
-			float i2 = ((KMEvent) o2).getTime();
-			if (i1 > i2) {
-				val = 1;
-			} else if (i1 == i2) {
-				val = 0;
-			} else {
-				val = -1;
+	
+	//compute the p-value between two sample series
+	public double getLogRankPValue(ArrayList group1, ArrayList group2) {
+		//need to 
+		ArrayList samples = new ArrayList(); 
+		samples.addAll(group1); 
+		samples.addAll(group2);
+		Collections.sort(samples, new KMSampleComparator()); 
+		double u = 0.0; 
+		double v = 0.0; 
+		int a = 0; 
+		int b = 0; 
+		int c = group1.size(); 
+		int d = group2.size(); 
+		float t = 0; 
+		for (int i=0; i<samples.size(); i++) {
+			KMSampleInfo event = (KMSampleInfo) samples.get(i); 
+			if (event.getTime()>t) {
+				u += a - (a+b)*(a+c)/(c+d); 
+				v += (a+b)*(c+d)*(a+c)*(b+d)/((b+d-1)*(Math.pow((b+d),2)));
+				a=0; 
+				b=0; 
 			}
-			return val;
+			if (group1.contains(event)) {
+				a++; 
+				c--;
+			} else {
+				b++; 
+				d--;
+			}			
 		}
+		
+		if (v>0) {
+			return Statistics.chiSquaredProbability(Math.pow(u,2)/v, 1); 
+		} else {
+			return -100.0; 
+		}
+	}
+	
+	//compute the p-value for a sample series against the rest
+	public double getLogRankPValue(ArrayList group1) {
+		ArrayList rest = (ArrayList) allSamples.clone(); 
+		rest.removeAll(group1); 
+		return getLogRankPValue(group1, rest); 
+	}
+	
+	/**
+	 * @return Returns the downSamples.
+	 */
+	public ArrayList getDownSamples() {
+		return downSamples;
 	}
 
-	public static void main(String[] args) {
-		float[] t = { 4, 4, 4, 5, 1, 2, 3, 3, 6, 7 };
-		int[] c = { 1, 1, 0, 1, 1, 0, 1, 1, 0, 1 };
-		KaplanMeier km = new KaplanMeier(t, c);
-		KMDrawingPoint[] points = km.getDrawingPoints();
-		logger.debug("\nOutput points: ");
-		for (int i = 0; i < points.length; i++) {
-			logger.debug(points[i].getX() + "\t" + points[i].getY()
-					+ "\t" + points[i].isCensus());
-		}
+	/**
+	 * @return Returns the intSamples.
+	 */
+	public ArrayList getIntSamples() {
+		return intSamples;
 	}
+
+	/**
+	 * @return Returns the upSamples.
+	 */
+	public ArrayList getUpSamples() {
+		return upSamples;
+	}
+	
+	/**
+	 * @return Returns the allSamples.
+	 */
+	public ArrayList getAllSamples() {
+		return allSamples;
+	}
+	public static void main(String [] args) {
+		double upper = 3.0; 
+		double lower = 3.0; 
+		ArrayList kms = new ArrayList(); 
+		//create fake data
+		kms.add(new KMSampleInfo(1, 0, 0.5)); 
+		kms.add(new KMSampleInfo(2, 0, 0.1)); 
+		kms.add(new KMSampleInfo(3, 1, 0.1)); 
+		kms.add(new KMSampleInfo(3, 0, 3.5)); 
+		kms.add(new KMSampleInfo(4, 0, 1.5)); 
+		kms.add(new KMSampleInfo(4, 1, 0.5)); 
+		kms.add(new KMSampleInfo(5, 0, 0.5)); 
+		kms.add(new KMSampleInfo(6, 0, 0.5)); 
+		kms.add(new KMSampleInfo(7, 0, 3.5)); 
+		kms.add(new KMSampleInfo(8, 0, 0.5)); 
+		kms.add(new KMSampleInfo(9, 1, 8.5)); 
+		kms.add(new KMSampleInfo(10, 0, 0.5)); 
+		kms.add(new KMSampleInfo(11, 0, 0.05)); 
+		kms.add(new KMSampleInfo(12, 1, 0.5)); 
+		kms.add(new KMSampleInfo(13, 0, 0.05)); 
+		kms.add(new KMSampleInfo(21, 0, 0.5)); 
+		kms.add(new KMSampleInfo(22, 0, 0.1)); 
+		kms.add(new KMSampleInfo(23, 1, 0.1)); 
+		kms.add(new KMSampleInfo(23, 0, 3.5)); 
+		kms.add(new KMSampleInfo(24, 0, 1.5)); 
+		kms.add(new KMSampleInfo(24, 1, 0.5)); 
+		kms.add(new KMSampleInfo(25, 0, 0.5)); 
+		kms.add(new KMSampleInfo(26, 0, 0.5)); 
+		kms.add(new KMSampleInfo(27, 0, 3.5)); 
+		kms.add(new KMSampleInfo(28, 0, 0.5)); 
+		kms.add(new KMSampleInfo(29, 1, 8.5)); 
+		kms.add(new KMSampleInfo(30, 0, 0.5)); 
+		kms.add(new KMSampleInfo(31, 0, 0.05)); 
+		kms.add(new KMSampleInfo(32, 1, 0.5)); 
+		kms.add(new KMSampleInfo(33, 0, 0.05)); 
+		
+		KMSampleInfo[] samples = new KMSampleInfo[kms.size()]; 		
+		for (int j=0; j<kms.size(); j++) {
+			samples[j] = (KMSampleInfo) kms.get(j);
+			System.out.println("data" + j + ":" + samples[j].getValue());
+		}
+		
+		System.out.println("Array size = " + samples.length); 
+		KaplanMeier km = new KaplanMeier(samples, upper, lower); 
+		
+		//testing output of plotting points
+		KMDrawingPoint[] points = km.getDrawingPoints(km.getAllSamples()); 
+		System.out.println("\nAll Sample Output points: "); 
+		for (int i=0; i<points.length; i++) {
+			System.out.println(points[i].getX() 
+							+ "\t" + points[i].getY()
+							+ "\t" + points[i].isChecked()); 
+		}
+		
+		points = km.getDrawingPoints(km.getDownSamples()); 
+		System.out.println("\nDown-regulated Sample Output points: "); 
+		for (int i=0; i<points.length; i++) {
+			System.out.println(points[i].getX() 
+							+ "\t" + points[i].getY()
+							+ "\t" + points[i].isChecked()); 
+		}
+		points = km.getDrawingPoints(km.getUpSamples()); 
+		System.out.println("\nUp-regulated Sample Output points: "); 
+		for (int i=0; i<points.length; i++) {
+			System.out.println(points[i].getX() 
+							+ "\t" + points[i].getY()
+							+ "\t" + points[i].isChecked()); 
+		}
+		points = km.getDrawingPoints(km.getIntSamples()); 
+		System.out.println("\nIntermediate Sample Output points: "); 
+		for (int i=0; i<points.length; i++) {
+			System.out.println(points[i].getX() 
+							+ "\t" + points[i].getY()
+							+ "\t" + points[i].isChecked()); 
+		}
+		
+		//testing calculation of p-values
+		System.out.println("up vs down" + km.getLogRankPValue(km.getUpSamples(), km.getDownSamples())); 
+		System.out.println("up vs int" + km.getLogRankPValue(km.getUpSamples(), km.getIntSamples())); 
+		System.out.println("int vs down" + km.getLogRankPValue(km.getIntSamples(), km.getDownSamples())); 
+		System.out.println("up" + km.getLogRankPValue(km.getUpSamples())); 
+		System.out.println("int" + km.getLogRankPValue(km.getIntSamples())); 
+		System.out.println("down" + km.getLogRankPValue(km.getDownSamples())); 		
+	}
+
 }

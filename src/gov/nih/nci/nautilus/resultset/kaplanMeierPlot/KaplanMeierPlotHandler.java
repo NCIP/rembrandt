@@ -54,6 +54,7 @@ import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.lookup.PatientDataLookup;
+import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.ResultSet;
@@ -75,7 +76,7 @@ public class KaplanMeierPlotHandler {
 	 * @return KaplanMeierPlotContainer
 	 * @throws Exception
 	 */
-	public static KaplanMeierPlotContainer handleKaplanMeierPlotContainer(GeneExpr.GeneExprSingle[] geneExprObjects) throws Exception{
+	public static KaplanMeierPlotContainer handleKMGeneExprPlotContainer(GeneExpr.GeneExprSingle[] geneExprObjects) throws Exception{
  		KaplanMeierPlotContainer kaplanMeierPlotContainer = new KaplanMeierPlotContainer();
  		if(geneExprObjects != null){
  			for (int i = 0; i < geneExprObjects.length; i++) {
@@ -102,6 +103,37 @@ public class KaplanMeierPlotHandler {
 	    	}
 
  		}
+        return kaplanMeierPlotContainer;
+
+	}
+	public static KaplanMeierPlotContainer handleKMCopyNumberPlotContainer(CopyNumber[] copyNumberObjects) throws Exception{
+ 		KaplanMeierPlotContainer kaplanMeierPlotContainer = new KaplanMeierPlotContainer();
+/* 		if(copyNumberObjects != null){
+ 			for (int i = 0; i < copyNumberObjects.length; i++) {
+ 				if(copyNumberObjects[i] != null) {
+ 					ResultSet obj = copyNumberObjects[i];
+ 					if (obj instanceof CopyNumber)  {
+ 						//Propulate the KaplanMeierPlotContainer
+ 						CopyNumber  copyNumberObj = (CopyNumber) obj;
+ 						kaplanMeierPlotContainer = handleKMCopyNumberPlotContainer(kaplanMeierPlotContainer,copyNumberObj);
+ 					}
+ 				}
+          	}//for
+ 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(copyNumberObjects[0].()));//TODO NEED GeneSymbol in CopyNumber
+ 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
+ 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+	    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getBiospecimen().getValue().toString());
+	    		if(patient != null){
+		    		sample.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
+		    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
+		    		kaplanMeierPlotContainer.addBioSpecimenResultset(sample);  //update sample resultset
+	    		}
+	    	}
+
+ 		}
+ 		*/
         return kaplanMeierPlotContainer;
 
 	}

@@ -1,24 +1,8 @@
 package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
 
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.Constants;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.query.GeneExpressionQuery;
-import gov.nih.nci.nautilus.query.QueryManager;
-import gov.nih.nci.nautilus.query.QueryType;
-import gov.nih.nci.nautilus.resultset.Resultant;
-import gov.nih.nci.nautilus.resultset.ResultsContainer;
-import gov.nih.nci.nautilus.resultset.ResultsetManager;
-import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
-import gov.nih.nci.nautilus.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
-import gov.nih.nci.nautilus.view.ViewFactory;
-import gov.nih.nci.nautilus.view.ViewType;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -42,43 +26,57 @@ public class KMGraphGenerator {
     private static final int UPREGULATED = 1;
     private static final int DOWNREGULATED = 2;
     private static final int ALLSAMPLES = 3;
+    private static final int INTRERMEDIATE = 4;
+
+    private KaplanMeier kaplanMeier = null;
     private KMDataSeries[] allSamples;
     private KMDataSeries[] upSamples;
     private KMDataSeries[] downSamples;
+    private KMDataSeries[] intSamples;
     private ActionErrors myActionErrors = new ActionErrors();
     private XYSeriesCollection censorDataseries = new XYSeriesCollection();
     private XYSeriesCollection lineDataseries = new XYSeriesCollection();
     
     private static Logger logger = Logger.getLogger(KMGraphGenerator.class);
     
-    public KMGraphGenerator(int _upFold, int _downFold, String _geneName) {
-        upFold = _upFold;
-        downFold = _downFold;
+    public KMGraphGenerator(int _upFold, int _downFold, String _geneName, KMSampleInfo[] samples) {
+        setDownFold( _downFold);
+        setUpFold( _upFold);
         geneSymbol = _geneName;
-        ResultsContainer resultsContainer = null;
+       /* ResultsContainer resultsContainer = null;
         try {
             resultsContainer = performKaplanMeierPlotQuery();
         } catch (Exception e) {
             logger.error("KMDataSetForm has thrown an exception");
             logger.error(e);
         }
-        if (resultsContainer !=null && resultsContainer instanceof KaplanMeierPlotContainer) {
+        */
+        if (samples != null) {
             
-            KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
+     
             
+           // KaplanMeierPlotContainer kmPlotContainer =  (KaplanMeierPlotContainer)resultsContainer;
+
             //All Sample Series
-           allSamples = getDataSeries(kmPlotContainer, ALLSAMPLES, "All Samples");
-           
+           allSamples = getDataSeries(samples, ALLSAMPLES, "All Samples");
+
            //UpRegulated Samples Series 
-           upSamples = getDataSeries(kmPlotContainer,UPREGULATED, geneSymbol+" Upregulated "+upFold+"X");
+           upSamples = getDataSeries(samples,UPREGULATED, geneSymbol+" Upregulated "+upFold+"X");
             // Down Regulation Series
-           downSamples = getDataSeries(kmPlotContainer,DOWNREGULATED, geneSymbol+" Downregulated "+downFold+"X");
+           downSamples = getDataSeries(samples,DOWNREGULATED, geneSymbol+" Downregulated "+downFold+"X");
+
+           // intermediate samples
+           intSamples = getDataSeries(samples,INTRERMEDIATE, geneSymbol+" Intermediate (> "+downFold+"X"+" & < "+upFold+"X");
+
+           
            lineDataseries.addSeries(upSamples[0]);
            lineDataseries.addSeries(allSamples[0]);
            lineDataseries.addSeries(downSamples[0]);
+           lineDataseries.addSeries(intSamples[0]);
            censorDataseries.addSeries(upSamples[1]);
            censorDataseries.addSeries(allSamples[1]);
            censorDataseries.addSeries(downSamples[1]);
+           censorDataseries.addSeries(intSamples[1]);
           
 
         }else {
@@ -86,26 +84,7 @@ public class KMGraphGenerator {
         }
     }
     
-    /***
-     * 
-     * @return
-     * @throws Exception
-     */
-    private ResultsContainer performKaplanMeierPlotQuery() throws Exception {
-        GeneIDCriteria geneCrit = new GeneIDCriteria();
-        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(geneSymbol));
-        GeneExpressionQuery geneQuery = (GeneExpressionQuery) QueryManager
-                .createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-        geneQuery.setQueryName("KaplanMeierPlot");
-        geneQuery.setAssociatedView(ViewFactory
-                .newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-        geneQuery.setGeneIDCrit(geneCrit);
-        geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
-                new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
-        Resultant resultant = ResultsetManager.executeKaplanMeierPlotQuery(geneQuery);
-        return resultant.getResultsContainer();
-    }
-    
+   
     /***
      * 
      * @param container
@@ -113,41 +92,54 @@ public class KMGraphGenerator {
      * @param seriesName
      * @return
      */
-    private KMDataSeries[] getDataSeries(KaplanMeierPlotContainer container, int regulated, String seriesName) {
-        Collection samples;
+    private KMDataSeries[] getDataSeries(KMSampleInfo[] KMsampleInfos, int regulated, String seriesName) {
+        ArrayList samples;
         ExprFoldChangeDE regulation;
         Object[] array;
+
+        kaplanMeier = new KaplanMeier(KMsampleInfos, this.getUpFold(), this.getDownFold());
+
         switch(regulated) {
             
             case ALLSAMPLES:
-                samples = container.getBioSpecimenResultsets();
+                samples = kaplanMeier.getAllSamples();
                 break;
             case DOWNREGULATED:
-                regulation = new ExprFoldChangeDE.DownRegulation(new Float(downFold));
-                samples = container.getSampleKaplanMeierPlotResultsets(regulation);
+                samples = kaplanMeier.getDownSamples();
                 array = samples.toArray();
                 logger.debug(geneSymbol+" Downregulated: "+this.downFold);
-                for(int i = array.length;i>0;i--) {
+                /*for(int i = array.length;i>0;i--) {
                     SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
                     logger.debug(result);
-                }
+                }*/
                 break;
             case UPREGULATED:
-                regulation = new ExprFoldChangeDE.UpRegulation(new Float(upFold));
-                samples = container.getSampleKaplanMeierPlotResultsets(regulation);
+                samples = kaplanMeier.getUpSamples();
                 array = samples.toArray();
                 logger.debug(geneSymbol+" Upregulated: "+this.upFold);
-                for(int i = array.length;i>0;i--) {
+                /*for(int i = array.length;i>0;i--) {
                     SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
                     logger.debug(result);
                 }
+                */
+                break;
+            case INTRERMEDIATE:
+                samples = kaplanMeier.getIntSamples();
+                array = samples.toArray();
+                logger.debug(geneSymbol+" Intregulated: "+this.downFold + "AND "+ this.upFold);
+                /*for(int i = array.length;i>0;i--) {
+                    SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
+                    logger.debug(result);
+                }
+                */
                 break;
             default:
                 throw new RuntimeException("Invalid Criteria for KM Plot");
         }
-        KaplanMeier km = new KaplanMeier(samples);
-        KMDrawingPoint[] samplePoints = km.getDrawingPoints();
+
+        KMDrawingPoint[] samplePoints = kaplanMeier.getDrawingPoints(samples);
         return createSeries(samplePoints, seriesName);
+
     }
     
     /***
@@ -169,11 +161,12 @@ public class KMGraphGenerator {
         for (int i = 0; i < dataPoints.length; i++) {
             logger.debug(dataPoints[i]);
             dataSeries.add(dataPoints[i],i);
-            if(dataPoints[i].isCensus()) {
+            if(dataPoints[i].isChecked()) {
                 censusSeries.add(dataPoints[i]);
             }
         }
         KMDataSeries[] results = {dataSeries, censusSeries};
+        
         return results;
     }
 	/**
@@ -230,4 +223,28 @@ public class KMGraphGenerator {
 	public void setLineDataseries(XYSeriesCollection lineDataseries) {
 		this.lineDataseries = lineDataseries;
 	}
+    /**
+     * @return Returns the downFold.
+     */
+    public int getDownFold() {
+        return this.downFold;
+    }
+    /**
+     * @param downFold The downFold to set.
+     */
+    public void setDownFold(int downFold) {
+        this.downFold = downFold;
+    }
+    /**
+     * @return Returns the upFold.
+     */
+    public int getUpFold() {
+        return this.upFold;
+    }
+    /**
+     * @param upFold The upFold to set.
+     */
+    public void setUpFold(int upFold) {
+        this.upFold = upFold;
+    }
 }
