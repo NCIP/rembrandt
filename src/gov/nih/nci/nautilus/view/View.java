@@ -2,16 +2,24 @@ package gov.nih.nci.nautilus.view;
 
 import gov.nih.nci.nautilus.de.DomainElementClass;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 12, 2004
- * Time: 6:21:03 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 abstract public class View implements Viewable{
+	/**
+	 * IMPORTANT! This class requires a clone method! This requires that any new
+	 * data field that is added to this class also be cloneable and be added to
+	 * clone calls in the clone method.If you do not do this, you will not
+	 * seperate the references of at least one data field when we generate a
+	 * copy of this object.This means that if the data field ever changes in one
+	 * copy or the other it will affect both instances... this will be hell to
+	 * track down if you aren't ultra familiar with the code base, so add those
+	 * methods now! (Not necesary for primitives.)
+	 */
    Collection selectedDomainElements;
    ViewType viewType;
    public Collection getSelectedElements() {
@@ -34,5 +42,19 @@ abstract public class View implements Viewable{
 		   	}
 	   	}
 	   	return false;
+   }
+   public Object clone() {
+   		View myClone = null;
+		try {
+			myClone = (View)super.clone();
+			myClone.selectedDomainElements = new ArrayList();
+			for(Iterator i = selectedDomainElements.iterator();i.hasNext(); ) {
+				myClone.selectedDomainElements.add(i.next());
+			}
+			myClone.viewType = (ViewType)viewType.clone();
+		} catch (CloneNotSupportedException e) {
+			//This will never happen
+		}
+   		return myClone;
    }
 }

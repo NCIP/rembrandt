@@ -12,8 +12,20 @@ import java.lang.reflect.Modifier;
 
 import org.apache.log4j.Logger;
 
-abstract public class Query implements Queriable, Serializable{
-    
+abstract public class Query implements Queriable, Serializable, Cloneable{
+	/**
+	 * IMPORTANT! This class has a clone method! This requires that any new data
+	 * field that is added to this class also be cloneable and be added to clone
+	 * calls in the clone method.If you do not do this, you will not seperate 
+	 * the references of at least one data field when we generate a copy of this
+	 * object.This means that if the data field ever changes in one copy or the 
+	 * other it will affect both instances... this will be hell to track down if
+	 * you aren't ultra familiar with the code base, so don't make the mistake
+	 * and add those methods now! (Not necesary for primitives.)
+	 * 
+	 * @author BauerD
+	 */
+	
     private Logger logger = Logger.getLogger(Query.class);
     
     //This attribute required for caching mechanism
@@ -120,5 +132,22 @@ abstract public class Query implements Queriable, Serializable{
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+    public Object clone() {
+    	Query myClone = null;
+    	try {
+    		myClone = (Query)super.clone();
+    		myClone.associatedView = (Viewable)associatedView.clone();
+    		myClone.diseaseOrGradeCriteria = (DiseaseOrGradeCriteria)diseaseOrGradeCriteria.clone();
+    		myClone.sampleIDCrit = (SampleCriteria)sampleIDCrit.clone();
+    	}catch(CloneNotSupportedException cnse) {
+        		/*
+        		 * This is meaningless as it will still perform
+        		 * the shallow copy, and then let you know that
+        		 * the object did not implement the Cloneable inteface.
+        		 * Kind of a stupid implementation if you ask me...
+        		 */
+        	}
+       	return myClone;
     }
 }

@@ -13,11 +13,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Jan 10, 2005
- * Time: 2:59:27 AM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 public class CommonFactHandler {
     public static void addDiseaseCriteria(Query query, Class beanClass, PersistenceBroker pb, Criteria criteria)

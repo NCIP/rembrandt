@@ -7,11 +7,7 @@ import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.resultset.Resultant;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 20, 2004
- * Time: 2:40:15 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class QueryManager {
 

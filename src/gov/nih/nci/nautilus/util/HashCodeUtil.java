@@ -3,11 +3,7 @@ package gov.nih.nci.nautilus.util;
 import java.lang.reflect.Array;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 10, 2004
- * Time: 2:48:26 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 /*
    RAM:  The following utility class allows simple construction of an effective hashCode method.

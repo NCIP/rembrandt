@@ -1,10 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 12, 2004
- * Time: 6:39:40 PM
+ * @author BhattarR
  */
 class QueryFactory {
     public static Query newQuery(QueryType queryType) {

@@ -18,11 +18,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Sep 23, 2004
- * Time: 4:58:57 PM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 public class GeneOntologyHandler {
     static GEReporterIDCriteria  buildGeneOntologyIDCriteria( GeneOntologyCriteria ontologyCrit, boolean includeClones, boolean includeProbes) throws Exception {

@@ -20,10 +20,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Sep 26, 2004
- * Time: 3:58:42 PM
+ * @author BhattarR
  */
 abstract public class GEFactHandler {
     private static Logger logger = Logger.getLogger(GEFactHandler.class);

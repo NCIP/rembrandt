@@ -19,11 +19,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Jan 18, 2005
- * Time: 5:02:53 AM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 public class OJBSubSelectTest extends QueryTest{
     public static class GeneExpressionSubSelect extends OJBSubSelectTest {

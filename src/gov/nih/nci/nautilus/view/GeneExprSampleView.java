@@ -3,11 +3,7 @@ package gov.nih.nci.nautilus.view;
 import gov.nih.nci.nautilus.de.DomainElementClass;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 12, 2004
- * Time: 6:53:51 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class GeneExprSampleView extends View {
 	private GroupType groupType = GroupType.DISEASE_TYPE_GROUP; //always defalut to disease

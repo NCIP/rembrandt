@@ -4,11 +4,7 @@ import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 20, 2004
- * Time: 2:38:58 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class QueryProcessor {
     public static ResultSet[] execute(Query query ) throws Exception {

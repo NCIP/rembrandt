@@ -11,11 +11,7 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Sep 10, 2004
- * Time: 6:48:50 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public abstract class SelectHandler implements Runnable {
     private BIOSpecimenIDCriteria bioSpecimenIDCritObj;

@@ -14,11 +14,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Sep 29, 2004
- * Time: 6:46:04 PM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 abstract public class SelectFactHandler implements Runnable{
     private static Logger logger = Logger.getLogger(SelectFactHandler.class);

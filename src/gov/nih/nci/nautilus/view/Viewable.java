@@ -52,10 +52,9 @@ package gov.nih.nci.nautilus.view;
 import java.io.Serializable;
 
 /**
- * Marker interface
  * @author Himanso
  *
  */
 public interface Viewable extends Serializable{
-
+	public Object clone();
 }

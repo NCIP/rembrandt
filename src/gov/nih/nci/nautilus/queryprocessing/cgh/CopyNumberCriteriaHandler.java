@@ -12,11 +12,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Oct 22, 2004
- * Time: 10:55:58 AM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class CopyNumberCriteriaHandler {
     private static Logger logger = Logger.getLogger(CopyNumberCriteriaHandler.class);

@@ -8,11 +8,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Oct 6, 2004
- * Time: 4:14:02 PM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 abstract public class GeneExpr implements ResultSet{
     private Long cloneId;

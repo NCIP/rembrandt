@@ -1,11 +1,7 @@
 package gov.nih.nci.nautilus.criteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 26, 2004
- * Time: 8:02:55 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public interface Constants {
 

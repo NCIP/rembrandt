@@ -21,11 +21,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Sep 10, 2004
- * Time: 4:22:02 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class GeneIDCriteriaHandler {
      private final static int VALUES_PER_THREAD = 200;

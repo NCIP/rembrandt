@@ -3,11 +3,7 @@ package gov.nih.nci.nautilus.queryprocessing;
 import java.util.EventObject;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Sep 8, 2004
- * Time: 6:02:45 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 abstract public class DBEvent extends EventObject {
     public boolean completed ;

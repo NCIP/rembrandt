@@ -21,10 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 20, 2004
- * Time: 3:06:52 PM
+ * @author BhattarR
  */
 abstract public class QueryHandler {
 

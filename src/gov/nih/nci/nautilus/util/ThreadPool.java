@@ -3,11 +3,7 @@ package gov.nih.nci.nautilus.util;
 import java.util.HashMap;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Jan 24, 2005
- * Time: 11:04:09 AM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 public class ThreadPool {
     static HashMap allThreads = new HashMap();

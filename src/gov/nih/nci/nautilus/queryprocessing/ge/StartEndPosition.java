@@ -4,11 +4,7 @@ import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Oct 28, 2004
- * Time: 1:27:18 PM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 final public class StartEndPosition {
     BasePairPositionDE startPosition;

@@ -1,91 +1,129 @@
 package gov.nih.nci.nautilus.criteria;
 
+import java.io.Serializable;
+
 import gov.nih.nci.nautilus.de.BasePairPositionDE;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
+
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 11, 2004
- * Time: 4:30:50 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR, BauerD
  */
-public class RegionCriteria extends Criteria {
-    private CytobandDE startCytoband;
-    private CytobandDE endCytoband;
-    private ChromosomeNumberDE chromNumber;
-    private BasePairPositionDE.StartPosition start;
-    private BasePairPositionDE.EndPosition end;
-    private boolean empty = true;
+public class RegionCriteria extends Criteria implements Serializable, Cloneable {
+	/**
+	 * IMPORTANT! This class requires a clone method! This requires that any new
+	 * data field that is added to this class also be cloneable and be added to
+	 * clone calls in the clone method.If you do not do this, you will not
+	 * seperate the references of at least one data field when we generate a
+	 * copy of this object.This means that if the data field ever changes in one
+	 * copy or the other it will affect both instances... this will be hell to
+	 * track down if you aren't ultra familiar with the code base, so add those
+	 * methods now! (Not necesary for primitives.)
+	 */
+	private CytobandDE startCytoband;
 
-    public CytobandDE getStartCytoband() {
-        return startCytoband;
-    }
+	private CytobandDE endCytoband;
 
-    public void setStartCytoband(CytobandDE startCytoband) {
-        this.startCytoband = startCytoband;
-    }
+	private ChromosomeNumberDE chromNumber;
 
-    public CytobandDE getEndCytoband() {
-        return endCytoband;
-    }
+	private BasePairPositionDE.StartPosition start;
 
-    public void setEndCytoband(CytobandDE endCytoband) {
-        this.endCytoband = endCytoband;
-    }
+	private BasePairPositionDE.EndPosition end;
 
-    public boolean isValid() {
-        //TODO:  DO we need to add any more validation here?
+	private boolean empty = true;
 
-        /* if cytoband is specified, then chromosomeNumber, start and end positions
-          should not be specified */
-        if (getCytoband() != null && (end != null || start != null) ) return false;
+	public CytobandDE getStartCytoband() {
+		return startCytoband;
+	}
 
-        // if specified, both start & end posistions together should be specified
-        if ((end == null && start != null) || (end != null && start == null))
-            return false;
-        else {
-             //  Chromosome Number is not null
-             if (chromNumber == null) return false;
+	public void setStartCytoband(CytobandDE startCytoband) {
+		this.startCytoband = startCytoband;
+	}
 
-            //  Start Position should be less than End Position
-             if (end.getValueObject().intValue() <  start.getValueObject().intValue())
-                    return false;
-        }
-        return true;
-    }
+	public CytobandDE getEndCytoband() {
+		return endCytoband;
+	}
 
-    public CytobandDE getCytoband() {
-           return getStartCytoband();
-     }
+	public void setEndCytoband(CytobandDE endCytoband) {
+		this.endCytoband = endCytoband;
+	}
 
-    public void setCytoband(CytobandDE cytoband) {
-       //assert(cytoband != null);
-	   if(cytoband != null){
-         setStartCytoband(cytoband);
-		 }
-    }
+	public boolean isValid() {
+		// TODO: DO we need to add any more validation here?
 
-    public BasePairPositionDE.StartPosition getStart() {
-       return start;
-    }
+		/*
+		 * if cytoband is specified, then chromosomeNumber, start and end
+		 * positions should not be specified
+		 */
+		if (getCytoband() != null && (end != null || start != null))
+			return false;
 
-    public void setStart(BasePairPositionDE.StartPosition start) {
-       this.start = start;
-    }
+		// if specified, both start & end posistions together should be
+		// specified
+		if ((end == null && start != null) || (end != null && start == null))
+			return false;
+		else {
+			// Chromosome Number is not null
+			if (chromNumber == null)
+				return false;
 
-    public BasePairPositionDE.EndPosition getEnd() {
-       return end;
-    }
+			// Start Position should be less than End Position
+			if (end.getValueObject().intValue() < start.getValueObject()
+					.intValue())
+				return false;
+		}
+		return true;
+	}
 
-   public void setEnd(BasePairPositionDE.EndPosition end) {
-       this.end = end;
-   }
+	public CytobandDE getCytoband() {
+		return getStartCytoband();
+	}
 
-    public ChromosomeNumberDE getChromNumber() {
-        return chromNumber;
-    }
-    public void setChromNumber(ChromosomeNumberDE chromNumber) {
-        this.chromNumber = chromNumber;
-    }
+	public void setCytoband(CytobandDE cytoband) {
+		// assert(cytoband != null);
+		if (cytoband != null) {
+			setStartCytoband(cytoband);
+		}
+	}
+
+	public BasePairPositionDE.StartPosition getStart() {
+		return start;
+	}
+
+	public void setStart(BasePairPositionDE.StartPosition start) {
+		this.start = start;
+	}
+
+	public BasePairPositionDE.EndPosition getEnd() {
+		return end;
+	}
+
+	public void setEnd(BasePairPositionDE.EndPosition end) {
+		this.end = end;
+	}
+
+	public ChromosomeNumberDE getChromNumber() {
+		return chromNumber;
+	}
+
+	public void setChromNumber(ChromosomeNumberDE chromNumber) {
+		this.chromNumber = chromNumber;
+	}
+	/**
+	 * Overrides the protected Object.clone() method exposing it as public.
+	 * It performs a 2 tier copy, that is, it does a memcopy of the instance
+	 * and then sets all the non-primitive data fields to clones of themselves.
+	 * 
+	 * @return -A minimum 2 deep copy of this object.
+	 */
+	public Object clone() {
+		RegionCriteria myClone = null;
+		myClone = (RegionCriteria) super.clone();
+		myClone.chromNumber = (ChromosomeNumberDE) chromNumber.clone();
+		myClone.end = (BasePairPositionDE.EndPosition) end.clone();
+		myClone.start = (BasePairPositionDE.StartPosition) start.clone();
+		myClone.endCytoband = (CytobandDE) endCytoband.clone();
+		myClone.startCytoband = (CytobandDE) startCytoband.clone();
+		return myClone;
+	}
 }

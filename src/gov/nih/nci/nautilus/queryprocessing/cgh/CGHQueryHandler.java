@@ -28,11 +28,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 20, 2004
- * Time: 3:14:46 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class CGHQueryHandler extends QueryHandler {
     boolean includeCGH;

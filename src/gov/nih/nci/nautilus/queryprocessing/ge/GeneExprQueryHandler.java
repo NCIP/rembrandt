@@ -21,11 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 20, 2004
- * Time: 3:14:46 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 final public class GeneExprQueryHandler extends QueryHandler {
     GEFactHandler factHandler = null;

@@ -40,11 +40,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Sep 20, 2004
- * Time: 1:41:11 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class QueryTest extends TestCase {
 	 private static final DecimalFormat resultFormat = new DecimalFormat("0.00");

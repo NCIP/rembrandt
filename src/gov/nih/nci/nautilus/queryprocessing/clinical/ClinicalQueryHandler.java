@@ -21,11 +21,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Nov 4, 2004
- * Time: 12:20:17 PM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 public class ClinicalQueryHandler extends QueryHandler {
 

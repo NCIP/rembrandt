@@ -27,11 +27,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ram
- * Date: Sep 26, 2004
- * Time: 3:58:42 PM
- * To change this template use File | Settings | File Templates.
+ * @author BhattarR
  */
 abstract public class CGHFactHandler {
     private static Logger logger = Logger.getLogger(CGHFactHandler.class);

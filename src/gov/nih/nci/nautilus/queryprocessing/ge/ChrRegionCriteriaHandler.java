@@ -21,11 +21,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Sep 6, 2004
- * Time: 5:10:55 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 final public class ChrRegionCriteriaHandler {
     private final static String CHR_NUMBER_MISSING = "Chromosome Can not be null";

@@ -11,11 +11,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Sep 2, 2004
- * Time: 12:25:58 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class FoldChangeCriteriaHandler {
 

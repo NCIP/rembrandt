@@ -25,11 +25,7 @@ import junit.framework.TestSuite;
 
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 11, 2004
- * Time: 3:33:29 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class CriteriaTest extends TestCase {
       static FoldChangeCriteria foldCrit;

@@ -14,11 +14,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 
 /**
- * Created by IntelliJ IDEA.
- * User: BhattarR
- * Date: Aug 17, 2004
- * Time: 4:10:25 PM
- * To change this template use Options | File Templates.
+ * @author BhattarR
  */
 public class OJBTest extends TestCase{
     PersistenceBroker broker;
