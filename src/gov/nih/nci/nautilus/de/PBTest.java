@@ -98,7 +98,7 @@ public class PBTest extends TestCase {
 		   
 			PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();						
 			QueryByCriteria q = (QueryByCriteria) QueryFactory.newQuery(
-				CopyNumberDE$Unchange.class, new Criteria(), true);			    			
+				CopyNumberDE$UnChangedCopyNumberUpperLimit.class, new Criteria(), true);			    			
 			Collection unchange = pb.getCollectionByQuery(q);
 			System.err.println("Got " + unchange.size() + " unchange objects.");
 		} catch (Exception ex) {
