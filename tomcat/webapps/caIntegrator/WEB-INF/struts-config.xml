@@ -109,9 +109,20 @@
             <form-property name="queryText" type="java.lang.String" />
         </form-bean>
 
+	  	<form-bean name="selectPresentationForm" type="gov.nih.nci.nautilus.struts.form.SelectPresentationForm">
+            <form-property name="sampleListFrom" type="java.lang.String" />
+            <form-property name="sampleListTo" type="java.lang.String" />
+            <form-property name="geneFilterBy" type="java.lang.String" />
+            <form-property name="geneViewBy" type="java.lang.String" />
+            <form-property name="geneListFrom" type="java.lang.String" />
+            <form-property name="geneListTo" type="java.lang.String" />
+            <form-property name="method" type="java.lang.String" />
+
+        </form-bean>
+        
             <!-- Logon form bean -->
                 <form-bean      name="loginForm"
-                    type="nautilus.login.LoginForm"/>
+                    type="gov.nih.nci.nautilus.login.LoginForm"/>
 
 		
     </form-beans>
@@ -131,7 +142,7 @@
     <action-mappings>
     
     <action    path="/login"
-               type="nautilus.login.LoginAction"
+               type="gov.nih.nci.nautilus.login.LoginAction"
                name="loginForm"
               scope="request"
               input="/login.jsp">
@@ -212,6 +223,19 @@
            scope="request">
          <forward name="success" path="/jsp/geneViewReport.jsp" />
          <forward name="failure" path="/refine.do" />
+   </action>
+
+   <action    path="/presentation"
+              forward="nautilus.presentation" />
+
+   <action path="/present"
+           name="selectPresentationForm"
+	       type="gov.nih.nci.nautilus.struts.action.SelectPresentDispatchAction"
+	       input="nautilus.presentation" 
+           scope="request"
+           parameter="method">
+         <forward name="success" path="/jsp/geneViewReport.jsp" />
+         <forward name="failure" path="/presentation.do" />
    </action>
 
     </action-mappings>

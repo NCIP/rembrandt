@@ -1,4 +1,4 @@
-package nautilus.login;
+package gov.nih.nci.nautilus.login;
 
 import java.io.IOException;
 import javax.servlet.ServletContext;

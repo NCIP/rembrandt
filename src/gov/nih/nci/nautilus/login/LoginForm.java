@@ -1,4 +1,4 @@
-package nautilus.login;
+package gov.nih.nci.nautilus.login;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.*;
 

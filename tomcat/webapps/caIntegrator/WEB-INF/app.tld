@@ -86,7 +86,7 @@
 
     <name>checkLogin</name>
 
-    <tagclass>nautilus.login.CheckLogin</tagclass>
+    <tagclass>gov.nih.nci.nautilus.login.CheckLogin</tagclass>
 
     <bodycontent>empty</bodycontent>
 
