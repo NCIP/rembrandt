@@ -106,7 +106,7 @@ if(mode == null)	{
     queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
     links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
     if(queryCollection != null)
-	    session.setAttribute(NautilusConstants.QUERY_KEY, queryCollection);
+	    session.setAttribute("tmp", queryCollection);
   }
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();

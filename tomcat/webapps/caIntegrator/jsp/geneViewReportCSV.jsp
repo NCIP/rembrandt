@@ -42,11 +42,19 @@ else	{
 
 	//go the query Collection route
 	QueryCollection queryCollection = null;
-	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null){
-    	queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
-  	}else{
-    	queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
+	if(request.getAttribute(NautilusConstants.QUERY_KEY)==null)	{
+		if(session.getAttribute("tmp") != null)	{
+  			queryCollection = (QueryCollection)(session.getAttribute("tmp"));
+			session.removeAttribute("tmp");
+  		}
+  		else	{
+    		queryCollection = (QueryCollection) (session.getAttribute(NautilusConstants.QUERY_KEY));
+    	}
   	}
+  	else	{
+	    queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
+	}
+ 
 //	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
 
 	if(queryCollection != null)	{
@@ -54,5 +62,5 @@ else	{
 	}
 	else
 		out.println("QueryCollection is NULL");
-}	
+}
 %>
