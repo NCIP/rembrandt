@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class ChromosomeBean {
 	private Logger logger = Logger.getLogger(ChromosomeBean.class);
-	private int chromosomeNumber;
+	private String chromosome;
 	private List cytobands;
 	/**
 	 * Returns a Collection of CytobandLookup Objects
@@ -27,12 +27,12 @@ public class ChromosomeBean {
 		this.cytobands = cytobands;
 	}
 	
-	public void setChromosomeNumber(int chromosomeNumber) {
-		this.chromosomeNumber = chromosomeNumber;
+	public void setChromosome(String chromosome) {
+		this.chromosome = chromosome;
 	}
 	
-	public int getChromosomeNumber() {
-		return chromosomeNumber;
+	public String getChromosome() {
+		return chromosome;
 	}
 	/**
 	 * Adds a new equals method.  Compares the chromosome numbers
@@ -41,7 +41,7 @@ public class ChromosomeBean {
 	 * @return
 	 */
 	public boolean equals(ChromosomeBean bean) {
-		if(bean.getChromosomeNumber()==chromosomeNumber) {
+		if(bean.getChromosome().equals(this.chromosome)) {
 			return true;
 		}else {
 			return false;
@@ -55,7 +55,7 @@ public class ChromosomeBean {
 	 * @return
 	 */
 	public String toString() {
-		return Integer.toString(chromosomeNumber);
+		return this.chromosome;
 	}
 		
 }

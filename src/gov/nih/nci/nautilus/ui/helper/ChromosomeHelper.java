@@ -33,6 +33,7 @@ public class ChromosomeHelper {
 	private ChromosomeHelper() {
 		try {
 			chromosomes = new ArrayList();
+			//Drop a place holder in the 0th position
 			chromosomes.add(0,new ChromosomeBean());
 			CytobandLookup[] cytobandLookups = LookupManager.getCytobandPositions();
 			for(int i = 0; i<cytobandLookups.length;i++) {
@@ -66,20 +67,45 @@ public class ChromosomeHelper {
 	 */
 	private void addCytoband(CytobandLookup cytoband) throws Exception {
 		List cytobands;
-		String chromoNumString = cytoband.getChromosome();
-		int chromoNum = Integer.parseInt(chromoNumString);
+		String chromoString = cytoband.getChromosome();
 		ChromosomeBean bean = new ChromosomeBean();
+		bean.setChromosome(chromoString);
+		//Check to see if the Chromosome has already been placed in the List
 		int test = chromosomes.indexOf(bean);
 		if(test!=-1) {
+			//It has, so get the Chromosome and it's list of Cytobands
 			bean = (ChromosomeBean)chromosomes.get(test);
 			cytobands = bean.getCytobands();
+			//add the new cytoband to the list
 			cytobands.add(cytoband);
+			//set the list back in the bean
 			bean.setCytobands(cytobands);
 		}else {
+			//It doesn't have the Chromosome already
+			//so that means this is the first cytoband for this Chromosome
+			//create the List for the cytobands
 			cytobands = new ArrayList();
+			//add the new cytoband
 			cytobands.add(cytoband);
+			//set the list into the bean
 			bean.setCytobands(cytobands);
-			chromosomes.add(chromoNum, bean);
+			//Try to set the bean in it's proper place in the list
+			int i;
+			try {
+				//Can I parse the chomosome number into an int
+				i = Integer.parseInt(chromoString);
+			}catch(NumberFormatException nfe) {
+				//No, this is a sex chromosome
+				//try to place it in the 22nd location.
+				i=22;
+				//Is the 22nd position empty?
+				if(chromosomes.get(22)!=null) {
+					//No! 22nd location is full, use 23rd
+					i = 23;
+				}
+			}
+			//Place the Chromosome where it goes, in order in the list
+			chromosomes.add(i, bean);
 		}
 	}
 }
