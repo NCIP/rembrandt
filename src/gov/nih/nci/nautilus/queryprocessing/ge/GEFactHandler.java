@@ -15,6 +15,7 @@ import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,11 +26,10 @@ import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
  */
 abstract public class GEFactHandler {
 
-    //Map geneAnnotations = Collections.synchronizedMap(new HashMap());
     Map geneExprObjects = Collections.synchronizedMap(new HashMap());
     Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
     Map probeAnnotations = Collections.synchronizedMap(new HashMap());
-    private final static long SLEEP_TIME= 10;
+
     private final static int VALUES_PER_THREAD = 50;
 
     List factEventList = Collections.synchronizedList(new ArrayList());
@@ -38,38 +38,6 @@ abstract public class GEFactHandler {
     abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
     throws Exception;
 
-
-
-    protected void sleepOnFactEvents() throws InterruptedException {
-        boolean sleep = true;
-        do {
-            Thread.sleep(SLEEP_TIME);
-            sleep = false;
-            for (Iterator iterator = factEventList.iterator(); iterator.hasNext();) {
-                DBEvent eventObj = (DBEvent)iterator.next();
-                if (! eventObj.isCompleted()) {
-                    sleep = true;
-                    break;
-                }
-            }
-        } while (sleep);
-        return;
-    }
-    protected void sleepOnAnnotationEvents() throws InterruptedException {
-        boolean sleep = true;
-        do {
-            Thread.sleep(SLEEP_TIME);
-            sleep = false;
-            for (Iterator iterator = annotationEventList.iterator(); iterator.hasNext();) {
-                DBEvent eventObj = (DBEvent)iterator.next();
-                if (! eventObj.isCompleted()) {
-                    sleep = true;
-                    break;
-                }
-            }
-        } while (sleep);
-        return;
-    }
     protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, final FoldChangeCriteria foldCrit) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
 
@@ -204,11 +172,13 @@ abstract public class GEFactHandler {
             System.out.println("Total Number Of Probes:" + allProbeIDs.size());
             executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, foldCrit );
             executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, foldCrit);
-            sleepOnFactEvents();
+            //sleepOnFactEvents();
+            ThreadController.sleepOnEvents(factEventList);
 
             executeCloneAnnotationQuery(allCloneIDs);
             executeProbeAnnotationQuery(allProbeIDs );
-            sleepOnAnnotationEvents();
+            //sleepOnAnnotationEvents();
+            ThreadController.sleepOnEvents(annotationEventList);
 
             // by now geneExprObjects,  cloneAnnotations, probeAnnotations would have populated
             Object[]objs = (geneExprObjects.values().toArray());
@@ -262,7 +232,8 @@ abstract public class GEFactHandler {
             throws Exception {
                 executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, foldCrit );
                 executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, foldCrit);
-                sleepOnFactEvents();
+                //sleepOnFactEvents();
+                ThreadController.sleepOnEvents(factEventList);
 
                 // geneExprObjects would have populated by this time Convert these in to Result objects
                 Object[]objs = (geneExprObjects.values().toArray());
@@ -285,7 +256,6 @@ abstract public class GEFactHandler {
             }
             private void copyTo(GeneExpr.GeneExprGroup groupExprObj, DifferentialExpressionGfact  exprObj) {
                 groupExprObj.setDegId(exprObj.getDegId());
-
                 groupExprObj.setCloneId(exprObj.getCloneId());
                 groupExprObj.setCloneName(exprObj.getCloneName());
                 groupExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());

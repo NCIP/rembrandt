@@ -13,6 +13,7 @@ import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
+import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.CloneProbePlatfromHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
@@ -79,18 +80,7 @@ public class CGHQueryHandler extends QueryHandler {
             throw new Exception (" Only BACClone will be implemented post Nautilus ");
         }
 
-        boolean sleep = true;
-           do {
-               Thread.sleep(10);
-               sleep = false;
-               for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
-                   DBEvent eventObj = (DBEvent)iterator.next();
-                   if (! eventObj.isCompleted()) {
-                       sleep = true;
-                       break;
-                   }
-               }
-           } while (sleep);
+        ThreadController.sleepOnEvents(eventList);
 
         return new CGHFactHandler.SingleCGHFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery.getCopyNumberCriteria());
 
@@ -113,14 +103,14 @@ public class CGHQueryHandler extends QueryHandler {
         }
 
         Criteria sCrit = new Criteria();
-        for (Iterator iterator = inputIDs.iterator(); iterator.hasNext();) {
+        /*for (Iterator iterator = inputIDs.iterator(); iterator.hasNext();) {
             String id = (String) iterator.next();
             Criteria c1 = new Criteria();
             c1.addLike(nameCol, id + "%");
             sCrit.addOrCriteria(c1);
-        }
+        }*/
 
-        //sCrit.addColumnEqualTo(nameCol, (inputIDs.toArray())[0]);
+        sCrit.addColumnIn(nameCol, inputIDs);
         String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.SNP_PROBESET_ID);
 
         snpProbeIDsQuery =  QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, sCrit, true);

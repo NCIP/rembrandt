@@ -13,6 +13,7 @@ import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.queryprocessing.ge.FoldChangeCriteriaHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GEFactHandler;
@@ -36,36 +37,7 @@ abstract public class CGHFactHandler {
     abstract ResultSet[] executeSampleQuery(final Collection allSNPProbeIDs, final CopyNumberCriteria copyCrit)
     throws Exception;
 
-    protected void sleepOnFactEvents() throws InterruptedException {
-        boolean sleep = true;
-        do {
-            Thread.sleep(SLEEP_TIME);
-            sleep = false;
-            for (Iterator iterator = factEventList.iterator(); iterator.hasNext();) {
-                DBEvent eventObj = (DBEvent)iterator.next();
-                if (! eventObj.isCompleted()) {
-                    sleep = true;
-                    break;
-                }
-            }
-        } while (sleep);
-        return;
-    }
-    protected void sleepOnAnnotationEvents() throws InterruptedException {
-        boolean sleep = true;
-        do {
-            Thread.sleep(SLEEP_TIME);
-            sleep = false;
-            for (Iterator iterator = annotationEventList.iterator(); iterator.hasNext();) {
-                DBEvent eventObj = (DBEvent)iterator.next();
-                if (! eventObj.isCompleted()) {
-                    sleep = true;
-                    break;
-                }
-            }
-        } while (sleep);
-        return;
-    }
+
     protected void executeQuery(final String snpOrCGHAttr, Collection cghOrSNPIDs, final Class targetFactClass, final CopyNumberCriteria copyCrit) throws Exception {
             ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
 
@@ -152,9 +124,11 @@ abstract public class CGHFactHandler {
         throws Exception {
             System.out.println("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
             executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, copyCrit);
-            sleepOnFactEvents();
+            //sleepOnFactEvents();
+            ThreadController.sleepOnEvents(factEventList);
             executeGeneAnnotationQuery(allSNPProbeIDs);
-            sleepOnAnnotationEvents();
+            //sleepOnAnnotationEvents();
+            ThreadController.sleepOnEvents(annotationEventList);
 
             // by now CopyNumberObjects and annotations would have populated
             Object[]objs = (cghObjects.values().toArray());
