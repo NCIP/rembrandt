@@ -35,7 +35,7 @@ response.setHeader("Location",newLocn);
 <div align="center" width="765px">
 <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
 <map name="headerMap">
-<area alt="REMBRANDT website" coords="7,8,272,50" href="http://rembrandt.nci.nih.gov">
+<area alt="REMBRANDT application logo" coords="7,8,272,50" href="login.do">
 </map>
 <img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>
@@ -178,7 +178,7 @@ response.setHeader("Location",newLocn);
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
     <a href="menu.do">HOME</a>  |  <a href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
-    <br /><span style="font-size:.8em;text-align:right;">Release 0.5</span> </div>
+    <br /><span style="font-size:.8em;text-align:right;">Release 0.51</span> </div>
 <!--end footer-->
 
 <!--begin NCI footer-->
