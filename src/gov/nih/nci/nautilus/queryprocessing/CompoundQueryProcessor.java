@@ -139,24 +139,24 @@ public class CompoundQueryProcessor {
 		Set finalResults = new HashSet();
 		if(leftResultSets != null && rightResultSets != null){
 			for(int i =0;i < leftResultSets.length;i++){
-				GeneExpr geneExpr = (GeneExpr) leftResultSets[i];
-				leftResults.add(geneExpr.getID());
+				GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
+				leftResults.add(geneExpr.getBiospecimenId());
 			}
 			for(int i =0;i < rightResultSets.length;i++){
-				GeneExpr geneExpr = (GeneExpr) rightResultSets[i];
-				rightResults.add(geneExpr.getID());
+				GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
+				rightResults.add(geneExpr.getBiospecimenId());
 			}
 			//the removeAll operation effectively modifies this set so that its value is the asymmetric set difference of the two sets.
-			System.err.println("L:"+leftResults.size());
+			System.err.println("L:"+leftResults.size());			
 			System.err.println("R:"+rightResults.size());
 			Set diffset = new HashSet(leftResults);
 			diffset.removeAll(rightResults);
-			System.err.println("Diff:"+diffset.size());		
+			System.err.println("Diff:"+diffset.size());	
 			for (Iterator iterator = diffset.iterator(); iterator.hasNext();) {
 	    		Long id = (Long)iterator.next();
 	    		for(int i =0;i < leftResultSets.length;i++){
 		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-		    		if(geneExpr.getID().equals(id)){
+		    		if(geneExpr.getBiospecimenId().equals(id)){
 		    			finalResults.add(geneExpr);
 		    		}
 	    		}
@@ -177,12 +177,12 @@ public class CompoundQueryProcessor {
 		Set finalResults = new HashSet();
 		if(leftResultSets != null && rightResultSets != null){
 			for(int i =0;i < leftResultSets.length;i++){
-				GeneExpr geneExpr = (GeneExpr) leftResultSets[i];
-				leftResults.add(geneExpr.getID());
+				GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
+				leftResults.add(geneExpr.getBiospecimenId());
 			}
 			for(int i =0;i < rightResultSets.length;i++){
-				GeneExpr geneExpr = (GeneExpr) rightResultSets[i];
-				rightResults.add(geneExpr.getID());
+				GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
+				rightResults.add(geneExpr.getBiospecimenId());
 			}
 			//the addAll operation effectively modifies this set so that its value is the union of the two sets.
 			Set unionSet = new HashSet(leftResults);
@@ -195,13 +195,13 @@ public class CompoundQueryProcessor {
 	    		Long id = (Long)iterator.next();
 	    		for(int i =0;i < leftResultSets.length;i++){
 		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-		    		if(geneExpr.getID().equals(id)){
+		    		if(geneExpr.getBiospecimenId().equals(id)){
 		    			finalResults.add(geneExpr);
 		    		}
 	    		}
 	    		for(int i =0;i < rightResultSets.length;i++){
 		    		GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
-		    		if(geneExpr.getID().equals(id)){
+		    		if(geneExpr.getBiospecimenId().equals(id)){
 		    			finalResults.add(geneExpr);
 		    		}
 	    		}
@@ -221,12 +221,12 @@ public class CompoundQueryProcessor {
 		Set finalResults = new HashSet();
 		if(leftResultSets != null && rightResultSets != null){
 			for(int i =0;i < leftResultSets.length;i++){
-				GeneExpr geneExpr = (GeneExpr) leftResultSets[i];
-				leftResults.add(geneExpr.getID());
+				GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
+				leftResults.add(geneExpr.getBiospecimenId());
 			}
 			for(int i =0;i < rightResultSets.length;i++){
-				GeneExpr geneExpr = (GeneExpr) rightResultSets[i];
-				rightResults.add(geneExpr.getID());
+				GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
+				rightResults.add(geneExpr.getBiospecimenId());
 			}
 			//this operation effectively modifies this set so that its value is the intersection of the two sets.
 			Set interSectSet = new HashSet(leftResults);
@@ -239,7 +239,7 @@ public class CompoundQueryProcessor {
 	    		Long id = (Long)iterator.next();
 	    		for(int i =0;i < leftResultSets.length;i++){
 		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
-		    		if(geneExpr.getID().equals(id)){
+		    		if(geneExpr.getBiospecimenId().equals(id)){
 		    			finalResults.add(geneExpr);
 		    		}
 	    		}
