@@ -141,6 +141,11 @@ String links = "";
 
 String mode = request.getParameter("report");
 
+//clear this here
+if(session.getAttribute("tmp") != null)
+	session.removeAttribute("tmp");
+
+
 
 if(mode == null)	{
   System.out.println("do a regular report");
