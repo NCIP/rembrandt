@@ -30,19 +30,19 @@
     <definition name="nautilus.comparitiveGenomic" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic" />
 	  <put name="formName" value="genomic" /> 		<!-- form name -->
-	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="formAction" value="/geneExp" />			<!-- form action -->
 	  <put name="title" value="Comparitive Genomic Data" />
     </definition>
     <definition name="nautilus.clinical" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=clinical" />
 	  <put name="formName" value="clinical" /> 		<!-- form name -->
-	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="formAction" value="/geneExp" />			<!-- form action -->
 	  <put name="title" value="Clinical Data" />
     </definition>
 	<definition name="nautilus.menu" extends="baseDef">
       <put name="mainForm" value="/jsp/menu.jsp" />
 	  <put name="formName" value="menu" /> 		<!-- form name -->
-	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="formAction" value="/geneExp" />			<!-- form action -->
 	  <put name="title" value="Advanced Search - Build Query" />
 	  <put name="reqdFieldsMsg" value="" />
     </definition>

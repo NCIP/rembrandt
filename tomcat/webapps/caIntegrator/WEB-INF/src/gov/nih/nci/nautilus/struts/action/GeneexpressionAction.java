@@ -8,15 +8,19 @@ import gov.nih.nci.nautilus.struts.form.GeneExpressionForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionError;
 
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.view.*;
+import gov.nih.nci.nautilus.constants.Constants;
 
 
 
@@ -65,26 +69,46 @@ public class GeneexpressionAction extends Action {
 		
 		// Set gene criteria
 		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
-		geneExpQuery.setGeneIDCrit(geneIDCrit);
+		
+		if (!geneIDCrit.isEmpty()) 
+			geneExpQuery.setGeneIDCrit(geneIDCrit);
 		
 		FoldChangeCriteria foldChangeCrit = geneExpressionForm.getFoldChangeCriteria();
-		geneExpQuery.setFoldChgCrit(foldChangeCrit);
+		if (!foldChangeCrit.isEmpty()) 
+			geneExpQuery.setFoldChgCrit(foldChangeCrit);
 		
 		RegionCriteria regionCrit = geneExpressionForm.getRegionCriteria();
-		geneExpQuery.setRegionCrit(regionCrit);
+		if (!regionCrit.isEmpty())
+			geneExpQuery.setRegionCrit(regionCrit);
 		
-		try {
-
-			QueryManager.executeQuery(geneExpQuery);
-
-		} catch(Throwable t ) {
-			t.printStackTrace();
-			System.out.println("Error executing Gene Expression Query" + t.getMessage());
+		//Set query in Session.
+		if (! geneExpQuery.isEmpty()) {
+			// Get Hashmap from session if available
+			HashMap queryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
+			if (queryMap == null) {
+				queryMap = new HashMap();
+			}
+			queryMap.put(geneExpQuery.getQueryName(), geneExpQuery);
+			request.getSession().setAttribute(Constants.QUERY_KEY, queryMap);
+		} else {
+			ActionErrors errors = new ActionErrors();
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.form.query.geneexp.error"));
+			this.saveErrors(request, errors);
+			return mapping.findForward("backToGeneExp");
+			
 		}
+		
+		
+		//Test display of query from Hashmap !!
+/*		HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
+		Query thisQuery = (Query) thisQueryMap.get(geneExpQuery.getQueryName());
 
-
+		if (thisQuery.getQueryType().equals(QueryType.GENE_EXPR_QUERY_TYPE)) {
+			System.out.println(thisQuery.toString());
+		}*/
+		
+		
 
 		return mapping.findForward("advanceSearchMenu");
-	}
-
+		}
 }
