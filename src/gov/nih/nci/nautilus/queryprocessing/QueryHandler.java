@@ -1,29 +1,23 @@
 package gov.nih.nci.nautilus.queryprocessing;
 
-import
-        gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.criteria.Criteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.data.ProbesetDim;
+import gov.nih.nci.nautilus.query.Query;
 
-import java.util.*;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-//import org.xml.sax.helpers.DefaultHandler;
-//import org.xml.sax.Attributes;
-//import org.xml.sax.SAXException;
-import org.xml.sax.InputSource;
-import org.jdom.input.SAXBuilder;
-import org.apache.ojb.broker.metadata.FieldDescriptor;
-import org.apache.ojb.broker.metadata.DescriptorRepository;
-import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.metadata.ClassDescriptor;
+import org.apache.ojb.broker.metadata.DescriptorRepository;
+import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.xerces.impl.xs.dom.DOMParser;
-import org.w3c.dom.*;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 
 
