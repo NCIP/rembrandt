@@ -956,7 +956,7 @@ private void createAssayPlatformCriteriaObject(){
 			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.TSC.class.getName());
 				}
 			  else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
-			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.SBSNP.class.getName());
+			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.DBSNP.class.getName());
 				}
 			  else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
 			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.SNPProbeSet.class.getName());
@@ -1010,7 +1010,7 @@ private void createAssayPlatformCriteriaObject(){
 					    snpDomainMap.put(token,SNPIdentifierDE.TSC.class.getName());
 					   } 
 					   else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
-					    snpDomainMap.put(token,SNPIdentifierDE.SBSNP.class.getName());					   
+					    snpDomainMap.put(token,SNPIdentifierDE.DBSNP.class.getName());					   
 					   }				              
 			           else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
 					    snpDomainMap.put(token,SNPIdentifierDE.SNPProbeSet.class.getName());					  
