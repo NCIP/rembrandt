@@ -277,7 +277,7 @@ function selectToolTip(type)	{
 						"<li>Ependymoblastoma </ol>";
 				break;
 				case 10:
-					theText = "I-SPY Tumor sub-type";
+					theText = "Glioblastoma";
 				break;
 
 				default:
