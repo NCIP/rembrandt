@@ -17,7 +17,6 @@ import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
-import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.report.ReportGenerator;
 import gov.nih.nci.nautilus.ui.report.ReportGeneratorFactory;
 import gov.nih.nci.nautilus.ui.report.Transformer;
