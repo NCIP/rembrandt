@@ -230,11 +230,10 @@ public class ReportGeneratorAction extends DispatchAction {
 		String queryName = rgForm.getQueryName();
 		String sessionId = request.getSession().getId();
 		ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId, queryName);
-		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
-	    //call Hmans code to get list of samples to exclude
-		Collection excludedSamples = null;
+		//CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
 		
 		Resultant resultant = reportBean.getResultant();
+		//set the defaults in case we dont get what we need from the form
 		Integer nocalls = new Integer("0");
 		Integer percent = new Integer("0");
 		OperatorType operator = OperatorType.OR;
@@ -259,7 +258,6 @@ public class ReportGeneratorAction extends DispatchAction {
 		    filter_type = (String) rgForm.getFilter_type();
 		
 		Map filterParams = new HashMap();		
-		//Map filterParams = rgForm.getFilterParams();
 		//put all params from the form in the filterparams map
 		filterParams.put( "filter_value4", operator );
 		filterParams.put( "filter_value5", nocalls );
@@ -290,7 +288,6 @@ public class ReportGeneratorAction extends DispatchAction {
 			reportBean = rgHelper.getReportBean();
 			//add the new name so we know its a copy number filter
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
-			//rgForm.setQueryName(reportBean.getResultantCacheKey());
 		     
        	}
 		//now send everything that we have done to the actual method that will render the report
