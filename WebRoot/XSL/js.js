@@ -144,3 +144,7 @@ function rbtFrame(page)	{
 	var winh = 550;
 	spawn('rbtFrame.jsp?p='+page, winw, winh);
 }
+
+function selectHOperand(select, value)	{
+	select.value = value;
+}

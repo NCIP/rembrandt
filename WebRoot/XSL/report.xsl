@@ -216,7 +216,7 @@
 	  </div>
 	  
 	  <div class="filterForm">
-	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
+	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="highlight_form">
 		<b><span class="lb">Highlight:</span></b> 
 		<xsl:text>&#160;</xsl:text>
 		highlight values 
@@ -224,12 +224,15 @@
 			<option value="gt">&gt;</option>
 			<option value="lt">&lt;</option>
 			<option value="eq">=</option>
+			<option value="lte">&lt;=</option>
+			<option value="gte">&gt;=</option>
 		</select>
 		<input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
 		<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
 		<input type="submit" name="filter_submit" value="Highlight" />
+		<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.filter_value1.value='';" />
 	  </form>
 	  </div>
 	  
@@ -433,6 +436,12 @@
 			      					<xsl:when test="$filter_value4 = 'eq' and $filter_value1 = Data">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
+			      					<xsl:when test="$filter_value4 = 'lte' and $filter_value1 >= Data">
+					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      					</xsl:when>
+			      					<xsl:when test="$filter_value4 = 'gte' and Data >= $filter_value1">
+					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      					</xsl:when>
 			      					<xsl:otherwise>
 			      						<xsl:value-of select="Data" disable-output-escaping="yes" />
 			      					</xsl:otherwise>
@@ -469,6 +478,11 @@
   </xsl:for-each>
  <script language="javascript">
  <![CDATA[hideLoadingMessage();]]>
+ </script>
+  <script language="javascript">
+  if(document.highlight_form){
+ 	selectHOperand(document.highlight_form.filter_value4, '<xsl:value-of select="$filter_value4"/>');
+ 	}
  </script>
 <script language="javascript">
 <![CDATA[
