@@ -36,6 +36,7 @@ public class GeneExpressionQuery extends Query {
 	private GeneOntologyCriteria geneOntologyCriteria;
 	private PathwayCriteria pathwayCriteria;
 	private ArrayPlatformCriteria arrayPlatformCriteria;
+    private SampleCriteria sampleIDCrit;
 
     public SampleCriteria getSampleIDCrit() {
         return sampleIDCrit;
@@ -45,7 +46,7 @@ public class GeneExpressionQuery extends Query {
         this.sampleIDCrit = sampleIDCrit;
     }
 
-    private SampleCriteria sampleIDCrit;
+
 
 
     private QueryHandler HANDLER;

@@ -70,7 +70,6 @@ public class CGHQueryHandler extends QueryHandler {
             new Thread(handler).start();
         }
 
-
         if(cghQuery.getCloneOrProbeIDCriteria() != null) {
             throw new Exception (" Only BACClone will be implemented post Nautilus ");
         }
@@ -78,7 +77,7 @@ public class CGHQueryHandler extends QueryHandler {
         pb.close();
         ThreadController.sleepOnEvents(eventList);
 
-        return new CGHFactHandler.SingleCGHFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery);
+        return new FactHandler.SingleFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery);
 
     }
 

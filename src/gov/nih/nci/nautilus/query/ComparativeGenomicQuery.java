@@ -1,14 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
-import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.SNPCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.AlleleFrequencyDE;
 import gov.nih.nci.nautilus.de.AssayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
@@ -42,9 +35,17 @@ public class ComparativeGenomicQuery extends Query {
 	private SNPCriteria snpCriteria;
 	private AlleleFrequencyCriteria alleleFrequencyCriteria;
 	private AssayPlatformCriteria assayPlatformCriteria;
-	
-	
-    private QueryHandler HANDLER;   
+	private SampleCriteria sampleIDCrit;
+
+    public SampleCriteria getSampleIDCrit() {
+        return sampleIDCrit;
+    }
+
+    public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
+        this.sampleIDCrit = sampleIDCrit;
+    }
+
+    private QueryHandler HANDLER;
 
     public QueryHandler getQueryHandler() throws Exception  {
         return (HANDLER == null) ? new gov.nih.nci.nautilus.queryprocessing.cgh.CGHQueryHandler() : HANDLER;
