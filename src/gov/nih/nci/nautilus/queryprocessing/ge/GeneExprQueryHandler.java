@@ -20,12 +20,15 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA. 
- * User: BhattarR 
- * Date: Aug 20, 2004 Time: 3:14:46 PM
+ * Created by IntelliJ IDEA.
+ * User: BhattarR
+ * Date: Aug 20, 2004
+ * Time: 3:14:46 PM
+ * To change this template use Options | File Templates.
  */
 final public class GeneExprQueryHandler extends QueryHandler {
-    GEFactHandler factHandler;
+    GEFactHandler factHandler = null;
+    protected javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
     boolean includeClones;
     boolean includeProbes;
     private Collection allProbeIDS = Collections.synchronizedCollection(new HashSet());
@@ -59,14 +62,14 @@ final public class GeneExprQueryHandler extends QueryHandler {
             return factHandler.executeSampleQueryForAllGenes(geQuery);
         }
 
-       // ThreadGroup tg = new ThreadGroup("childGroup");
+        ThreadGroup tg = new ThreadGroup("childGroup");
 
         if (geQuery.getCloneOrProbeIDCriteria() != null) {
             GEReporterIDCriteria porbeClonePlatformCrit = CloneProbePlatfromHandler.buildCloneProbePlatformCriteria(geQuery.getCloneOrProbeIDCriteria(), platObj);
             assert(porbeClonePlatformCrit != null);
             SelectHandler handler = new SelectHandler.ProbeCloneIDSelectHandler(porbeClonePlatformCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
-            new Thread(handler).start();
+            new Thread(tg, handler).start();
         }
 
         if (geQuery.getGeneIDCrit() != null && geQuery.getGeneIDCrit().getGeneIdentifiers().size() > 0) {
@@ -74,7 +77,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
             assert(geneIDCrit != null);
             SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
-            new Thread(handler).start();
+            new Thread(tg, handler).start();
             GeneIDCriteria  geneCrit = geQuery.getGeneIDCrit();
             Class deClass = GeneIDCriteriaHandler.getGeneIDClassName(geneCrit );
             ArrayList arrayIDs = GeneIDCriteriaHandler.getGeneIDValues(geneCrit );
@@ -88,7 +91,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
             assert(regionCrit != null);
             SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
-            new Thread(handler).start();
+            new Thread(tg, handler).start();
         }
 
         if (geQuery.getGeneOntologyCriteria() != null) {
@@ -96,7 +99,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
             assert(ontologyCrit != null);
             SelectHandler handler = new SelectHandler.OntologySelectHandler(ontologyCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
-            new Thread(handler).start();
+            new Thread(tg, handler).start();
         }
 
         if (geQuery.getPathwayCriteria() != null) {
@@ -104,7 +107,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
             assert(pathwayCrit != null);
             SelectHandler handler = new SelectHandler.PathwaySelectHandler(pathwayCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
-            new Thread(handler).start();
+            new Thread(tg, handler).start();
         }
 
         //_BROKER.close();
@@ -132,5 +135,4 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
         else throw new Exception("Array Platform can not be null");
     }
-
 }
