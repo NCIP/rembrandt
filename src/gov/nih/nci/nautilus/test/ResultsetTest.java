@@ -18,7 +18,7 @@ import java.util.Iterator;
 /**
  * @author SahniH
  * Date: September 20, 2004 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * This junit test encapsulates the query and resultset tests
  * 
  * 
@@ -99,7 +99,7 @@ public class ResultsetTest extends TestCase{
         		Collection diseaseTypes = reporterResultset.getDiseaseResultsets();
             	System.out.println("Disease Count: "+diseaseTypes.size());
         		for (Iterator diseaseIterator = diseaseTypes.iterator(); diseaseIterator.hasNext();) {
-        			DiseaseResultset dieaseResultset = (DiseaseResultset)diseaseIterator.next();
+        			DiseaseTypeResultset dieaseResultset = (DiseaseTypeResultset)diseaseIterator.next();
             		Collection biospecimens = dieaseResultset.getBioSpecimenResultsets();
                 	System.out.println("Biospecimen Count: "+biospecimens.size());
             		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {

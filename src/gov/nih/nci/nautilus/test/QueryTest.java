@@ -5,15 +5,25 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
+import gov.nih.nci.nautilus.view.GeneCentricView;
+import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
 import gov.nih.nci.nautilus.resultset.*;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSampleViewContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
+import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
+import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
+
 import java.text.DecimalFormat;
 
 import java.util.*;
@@ -130,69 +140,71 @@ public class QueryTest extends TestCase {
             return ;
     }
       public void testResultset(ResultSet[] geneExprObjects){
-    	gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
-    	resultsetProc.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
-    	GeneExprSingleViewResultsContainer viewResultsContainer = resultsetProc.getGeneViewResultsContainer();
-    	Collection genes = viewResultsContainer.getGeneResultsets();
-    	Collection labels = viewResultsContainer.getGroupsLabels();
-    	Collection sampleIds = null;
-    	StringBuffer header = new StringBuffer();
-    	StringBuffer sampleNames = new StringBuffer();
-        StringBuffer stringBuffer = new StringBuffer();
-    	header.append("Gene\tReporter\t");
-    	sampleNames.append("Name\tName\t\tType\t");
-    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
-        	String label = (String) labelIterator.next();
-        	header.append("Disease: "+label);
-        	sampleIds = viewResultsContainer.getBiospecimenLabels(label);
-           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-            	sampleNames.append(sampleIdIterator.next()+"\t");
-            	header.append("\t");
-           	}
+        ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
+		if (resultsContainer instanceof GeneExprSampleViewContainer){
+			GeneExprSampleViewContainer geneExprSampleViewContainer = (GeneExprSampleViewContainer) resultsContainer;
+	        GeneExprSingleViewResultsContainer geneViewContainer = geneExprSampleViewContainer.getGeneExprSingleViewContainer();
 
-    	}
-
-    	//System.out.println("Gene Count: "+genes.size());
-		System.out.println(header.toString());
-		System.out.println(sampleNames.toString());
-    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
-    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
-    		Collection reporters = geneResultset.getReporterResultsets();
-        	//System.out.println("Repoter Count: "+reporters.size());
-    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
-        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-        		Collection groupTypes = reporterResultset.getGroupResultsets();
-            	//System.out.println("Group Count: "+groupTypes.size());
-        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
-        			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
-        			String label = groupResultset.getType().getValue().toString();
-        			sampleIds = viewResultsContainer.getBiospecimenLabels(label);
-//        			Collection biospecimens = groupResultset.getBioSpecimenResultsets();
-//                	System.out.println("Biospecimen Count: "+biospecimens.size());
-//            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
-//            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
-        			            stringBuffer = new StringBuffer();
-                	            stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
-                	            					reporterResultset.getReporter().getValue().toString()+"\t\t");
-													//"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
-                               	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-                               		String sampleId = (String) sampleIdIterator.next();
-                               		SampleFoldChangeValuesResultset samplesResultset = groupResultset.getBioSpecimenResultset(sampleId);
-                               		if(samplesResultset != null){
-                               			Double ratio = (Double)samplesResultset.getFoldChangeRatioValue().getValue();
-                               			stringBuffer.append(resultFormat.format(ratio)+"\t");
-                               		}
-                               	}
-//            		}
-                               	System.out.println(stringBuffer.toString());
-        		}
-
-    		}
-
-    	}
-
+	    	Collection genes = geneViewContainer.getGeneResultsets();
+	    	Collection labels = geneViewContainer.getGroupsLabels();
+	    	Collection sampleIds = null;
+	    	StringBuffer header = new StringBuffer();
+	    	StringBuffer sampleNames = new StringBuffer();
+	        StringBuffer stringBuffer = new StringBuffer();
+	    	header.append("Gene\tReporter\t");
+	    	sampleNames.append("Name\tName\t\tType\t");
+	    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+	        	String label = (String) labelIterator.next();
+	        	header.append("Disease: "+label);
+	        	sampleIds = geneViewContainer.getBiospecimenLabels(label);
+	           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+	            	sampleNames.append(sampleIdIterator.next()+"\t");
+	            	header.append("\t");
+	           	}
+	
+	    	}
+	
+	    	//System.out.println("Gene Count: "+genes.size());
+			System.out.println(header.toString());
+			System.out.println(sampleNames.toString());
+	    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
+	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+	    		Collection reporters = geneResultset.getReporterResultsets();
+	        	//System.out.println("Repoter Count: "+reporters.size());
+	    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+	        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+	        		Collection groupTypes = reporterResultset.getGroupByResultsets();
+	            	//System.out.println("Group Count: "+groupTypes.size());
+	        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
+	        			ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
+	        			String label = groupResultset.getType().getValue().toString();
+	        			sampleIds = geneViewContainer.getBiospecimenLabels(label);
+	//        			Collection biospecimens = groupResultset.getBioSpecimenResultsets();
+	//                	System.out.println("Biospecimen Count: "+biospecimens.size());
+	//            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
+	//            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
+	        			            stringBuffer = new StringBuffer();
+	                	            stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
+	                	            					reporterResultset.getReporter().getValue().toString()+"\t\t");
+														//"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
+	                               	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
+	                               		String sampleId = (String) sampleIdIterator.next();
+	                               		SampleFoldChangeValuesResultset samplesResultset = groupResultset.getBioSpecimenResultset(sampleId);
+	                               		if(samplesResultset != null){
+	                               			Double ratio = (Double)samplesResultset.getFoldChangeRatioValue().getValue();
+	                               			stringBuffer.append(resultFormat.format(ratio)+"\t");
+	                               		}
+	                               	}
+	//            		}
+	                               	System.out.println(stringBuffer.toString());
+	        		}
+	
+	    		}
+	
+	    	}
+		  }
         }
     }
     public static class CGH extends QueryTest {

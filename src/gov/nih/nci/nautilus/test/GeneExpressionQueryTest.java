@@ -8,11 +8,18 @@ import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
 import gov.nih.nci.nautilus.resultset.*;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
+import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
+import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
+
 import java.text.DecimalFormat;
 
 import java.util.*;
@@ -53,9 +60,9 @@ public class GeneExpressionQueryTest extends TestCase {
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
              //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
             //q.setGeneIDCrit(geneIDCrit);
-            //q.setGeneOntologyCrit(ontologyCrit);
+            q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
-            q.setPathwayCrit(pathwayCrit);
+            //q.setPathwayCrit(pathwayCrit);
 
             q.setArrayPlatformCrit(allPlatformCrit);
            //q.setPlatCriteria(affyOligoPlatformCrit);
@@ -123,7 +130,7 @@ public class GeneExpressionQueryTest extends TestCase {
             return ;
     }
       public void testResultset(ResultSet[] geneExprObjects){
-    	gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
+    	/*gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
     	resultsetProc.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
@@ -172,7 +179,7 @@ public class GeneExpressionQueryTest extends TestCase {
         	//System.out.println("Repoter Count: "+reporters.size());
     		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
         		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-        		Collection groupTypes = reporterResultset.getGroupResultsets();
+        		Collection groupTypes = reporterResultset.getGroupByResultsets();
         		stringBuffer = new StringBuffer();
             	//System.out.println("Group Count: "+groupTypes.size());
         		String reporterName = reporterResultset.getReporter().getValue().toString();
@@ -185,7 +192,7 @@ public class GeneExpressionQueryTest extends TestCase {
         		stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+"\t"+
     					reporterName+"\t");
         		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
-        			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
+        			ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
         			String label = groupResultset.getType().getValue().toString();
         			sampleIds = geneViewContainer.getBiospecimenLabels(label);
                      	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
@@ -205,7 +212,7 @@ public class GeneExpressionQueryTest extends TestCase {
     		}
 
     	}
-	
+	*/
     }
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
@@ -251,7 +258,7 @@ public class GeneExpressionQueryTest extends TestCase {
 
     private void buildOntologyCrit() {
         ontologyCrit = new GeneOntologyCriteria();
-        ontologyCrit.setGOIdentifier(new GeneOntologyDE(new Integer(4)));
+        ontologyCrit.setGOIdentifier(new GeneOntologyDE("4"));
     }
 
     private void buildPathwayCrit() {

@@ -62,16 +62,22 @@ import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
-import gov.nih.nci.nautilus.resultset.GeneExprSingleViewResultsContainer;
-import gov.nih.nci.nautilus.resultset.GeneResultset;
-import gov.nih.nci.nautilus.resultset.GroupResultset;
-import gov.nih.nci.nautilus.resultset.GroupType;
-import gov.nih.nci.nautilus.resultset.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.resultset.Resultant;
+import gov.nih.nci.nautilus.resultset.ResultsContainer;
+import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
-import gov.nih.nci.nautilus.resultset.SampleFoldChangeValuesResultset;
-import gov.nih.nci.nautilus.resultset.SampleResultset;
-import gov.nih.nci.nautilus.resultset.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSampleViewContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.gene.GeneResultset;
+import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
+import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
+import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
+import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.view.GeneCentricView;
+import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
@@ -79,7 +85,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -94,9 +99,8 @@ public class ResultsetViewTest extends TestCase {
     ArrayPlatformCriteria allPlatformCrit;
     GeneIDCriteria geneCrit;
     FoldChangeCriteria foldCrit;
-    GeneExpressionQuery geneQuery;
-	ResultsetProcessor resultsetProc = new ResultsetProcessor();
-    ResultSet[] geneExprObjects;
+    GeneExpressionQuery geneQuery1;
+    GeneExpressionQuery geneQuery2;
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -106,7 +110,6 @@ public class ResultsetViewTest extends TestCase {
         buildFoldChangeCrit();
         buildGeneIDCrit();
         buildGeneExprGeneSingleViewQuery();
-        buildSingleQueryInCompoundQueryProcessor();
 	}
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
@@ -115,23 +118,6 @@ public class ResultsetViewTest extends TestCase {
 		// TODO Auto-generated method stub
 		super.tearDown();
 	}
-
-    /**
-	 * @param geneExprObjects
-	 */
-	private void print(ResultSet[] geneExprObjects) {
-		if(geneExprObjects != null){
-			System.out.println("Number of Records:"+ geneExprObjects.length);
-	        for (int i =0; i < geneExprObjects.length; i++) {
-	        	GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
-	        	if(expObj != null){
-	            System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
-	        	}
-	        }
-		}
-		
-	}
-
 	public static Test suite() {
 		TestSuite suit =  new TestSuite();
         suit.addTest(new TestSuite(ResultsetViewTest.class));
@@ -175,33 +161,77 @@ public class ResultsetViewTest extends TestCase {
     private void buildPlatformCrit() {
         allPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.ALL_PLATFROM));
     }
-	private void buildSingleQueryInCompoundQueryProcessor() {
+    private void buildGeneExprGeneSingleViewQuery(){
+        geneQuery1 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+        geneQuery1.setQueryName("GeneSampleQuery");
+        geneQuery1.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+        geneQuery1.setGeneIDCrit(geneCrit);
+        geneQuery1.setArrayPlatformCrit(allPlatformCrit);
+        geneQuery1.setFoldChgCrit(foldCrit);
+    }
+    private void buildGeneExprDiseaseViewQuery(){
+        geneQuery2 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+        geneQuery2.setQueryName("GeneDiseaseQuery");
+        geneQuery2.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+        geneQuery2.setGeneIDCrit(geneCrit);
+        geneQuery2.setArrayPlatformCrit(allPlatformCrit);
+        geneQuery2.setFoldChgCrit(foldCrit);
+    }
+    public void testGeneExprSampleView(){
+		//test Single Query
 		try {
-			//test Single Query
 			System.out.println("Building Single Gene Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
-			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery);
-			geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery1);
+			GeneCentricView geneCentricView = new GeneCentricView();
+			geneCentricView.setGroupType(GroupType.DISEASE_TYPE_GROUP);			
+			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery,geneCentricView);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
-			print(geneExprObjects);
-	    	assertNotNull(geneExprObjects);
-	        assertTrue(geneExprObjects.length > 0);
-	    	resultsetProc.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP );
+			assertNotNull(resultant.getResultsContainer());
+			if(resultant != null){
+				System.out.println("Testing Single Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
+				System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
+				ResultsContainer resultsContainer = resultant.getResultsContainer();
+				System.out.println("Associated ViewType/n"+resultant.getAssociatedViewType());
+				if (resultsContainer instanceof GeneExprSampleViewContainer){
+					GeneExprSampleViewContainer geneExprSampleViewContainer = (GeneExprSampleViewContainer) resultsContainer;
+			        GeneExprSingleViewResultsContainer geneViewContainer = geneExprSampleViewContainer.getGeneExprSingleViewContainer();
+			        displayGeneExprSingleView(geneViewContainer);
+			        SampleViewResultsContainer sampleViewContainer = geneExprSampleViewContainer.getSampleViewResultsContainer();
+			        displaySampleView(sampleViewContainer);	
+			        doGeneViewForEverySample(sampleViewContainer);
+				}
+			}
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
 		}
-    private void buildGeneExprGeneSingleViewQuery(){
-        geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-        geneQuery.setQueryName("GeneQuery");
-        geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-        geneQuery.setGeneIDCrit(geneCrit);
-        geneQuery.setArrayPlatformCrit(allPlatformCrit);
-        geneQuery.setFoldChgCrit(foldCrit);
-    }
-    public void testGeneExprSingleView(){
-		System.out.println("Testing Single Gene Query for entire Query >>>>>>>>>>>>>>>>>>>>>>>");
-        GeneExprSingleViewResultsContainer geneViewContainer = resultsetProc.getGeneViewResultsContainer();
-        displayGeneExprSingleView(geneViewContainer);
+	    public void testGeneExprDiseaseView(){
+			//test Single Query
+			try {
+				System.out.println("Building Group Gene Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
+				CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery2);
+				GeneCentricView geneCentricView = new GeneCentricView();
+				geneCentricView.setGroupType(GroupType.DISEASE_TYPE_GROUP);			
+				Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery,geneCentricView);
+				System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
+				assertNotNull(resultant.getResultsContainer());
+				if(resultant != null){
+					System.out.println("Testing Disease Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
+					System.out.println("Associated Query/n"+resultant.getAssociatedQuery());
+					ResultsContainer resultsContainer = resultant.getResultsContainer();
+					System.out.println("Associated ViewType/n"+resultant.getAssociatedViewType());
+					if (resultsContainer instanceof GeneExprResultsContainer){
+						GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
+				        //displayGeneExprDiseaseView(geneExprDiseaseContainer);
+
+					}
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+
     }
 	public void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer){
 		final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
@@ -253,7 +283,7 @@ public class ResultsetViewTest extends TestCase {
     		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
         		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
         		String reporterName = reporterResultset.getReporter().getValue().toString();
-        		Collection groupTypes = geneViewContainer.getGroupResultsets(geneSymbol,reporterName); //reporterResultset.getGroupResultsets();
+        		Collection groupTypes = geneViewContainer.getGroupByResultsets(geneSymbol,reporterName); //reporterResultset.getGroupResultsets();
         		stringBuffer = new StringBuffer();
             	//System.out.println("Group Count: "+groupTypes.size());
         		if(reporterName.length()< 10){ //Remove this from table
@@ -265,7 +295,7 @@ public class ResultsetViewTest extends TestCase {
         		stringBuffer.append(geneSymbol+"\t"+
     					reporterName+"\t");
         		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
-        			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
+        			ViewByGroupResultset groupResultset = (ViewByGroupResultset)groupIterator.next();
         			String label = groupResultset.getType().getValue().toString();
         			sampleIds = geneViewContainer.getBiospecimenLabels(label);
                      	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
@@ -287,9 +317,8 @@ public class ResultsetViewTest extends TestCase {
     	}
 	
 	}
-	public void testSampleView(){
+	public void displaySampleView(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Testing Sample View for entire Query >>>>>>>>>>>>>>>>>>>>>>>");
-	       SampleViewResultsContainer sampleViewContainer = resultsetProc.getSampleViewResultsContainer();
 	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
  		   System.out.println("SAMPLE\tAGE\tGENDER\tSURVIVAL\tDISEASE");
   		   StringBuffer stringBuffer = new StringBuffer();
@@ -303,21 +332,15 @@ public class ResultsetViewTest extends TestCase {
 					"\t"+sampleResultset.getDisease().getValue());
     		}
 	}
-	public void testGeneViewForEverySample(){
+	public void doGeneViewForEverySample(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Testing Sample View for Every Gene >>>>>>>>>>>>>>>>>>>>>>>");
-	       SampleViewResultsContainer sampleViewContainer = resultsetProc.getSampleViewResultsContainer();
 	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
 		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-			String sampleId = sampleResultset.getBiospecimen().getValue().toString();
-			displayGeneViewForASample(sampleId);
+			//String sampleId = sampleResultset.getBiospecimen().getValue().toString();
+		    GeneExprSingleViewResultsContainer geneViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
+		    displayGeneExprSingleView(geneViewContainer);
  		}
-	}
-	private void displayGeneViewForASample(String sampleID){
-	       SampleViewResultsContainer sampleViewContainer = resultsetProc.getSampleViewResultsContainer();
-	       SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getBioSpecimenResultset(sampleID);
-	       GeneExprSingleViewResultsContainer geneViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
-	       displayGeneExprSingleView(geneViewContainer);	       
 	}
     private void changeQueryView(Query query,ViewType view){
     	if(query !=null){
