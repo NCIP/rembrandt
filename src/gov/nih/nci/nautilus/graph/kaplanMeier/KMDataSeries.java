@@ -25,10 +25,10 @@ public class KMDataSeries extends XYSeries{
         data = new ArrayList();
     }
 
-    public void add(double x, double y, int index) {
+    public void add(float x, float y, int index) {
         data.add(index, new XYDataPair(x,y));
     }
-    public void add(double x, double y) {
+    public void add(float x, float y) {
         data.add(new XYDataPair(x,y));
     }
   

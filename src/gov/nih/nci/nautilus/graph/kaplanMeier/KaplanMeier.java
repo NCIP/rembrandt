@@ -28,10 +28,8 @@ import org.apache.log4j.Logger;
  *  
  */
 public class KaplanMeier {
-	float[] times;
-
-	int[] censors;
-
+	private float[] times;
+	private int[] censors;
 	private ArrayList kmEvents;
 
 	KMDrawingPoint[] kmDrawingPoints;
@@ -83,12 +81,23 @@ public class KaplanMeier {
 				if (d > 0) {
 					points.add(new KMDrawingPoint(new Float(prevSurvTime),
 							new Float(surv), false));
+					logger.debug("survBefore"+surv);
+					logger.debug("r="+r);
+					logger.debug("d="+d);
 					surv = surv * (r - d) / r;
+					logger.debug("survAfter"+surv);
 					points.add(new KMDrawingPoint(new Float(prevSurvTime),
 							new Float(surv), false));
+		
+					logger.debug("New Point Added, ("+prevSurvTime+", "+surv+")");
 				} else {
+				    logger.debug("r="+r);
+					logger.debug("d="+d);
+				    logger.debug("prevSurvTime: "+prevSurvTime);
+					logger.debug("surv"+surv);
 					points.add(new KMDrawingPoint(new Float(prevSurvTime),
 							new Float(surv), true));
+					logger.debug("New Point Added, ("+prevSurvTime+", "+surv+")");
 				}
 				prevSurvTime = curSurvTime;
 				d = 0;

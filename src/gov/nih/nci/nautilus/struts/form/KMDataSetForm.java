@@ -61,8 +61,8 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 		try {
 			resultsContainer = performKaplanMeierPlotQuery();
 		} catch (Exception e) {
-            System.err.println("KMDataSetForm has thrown an exception");
-            e.printStackTrace();
+            logger.error("KMDataSetForm has thrown an exception");
+            logger.error(e);
 		}
 		if (resultsContainer !=null && resultsContainer instanceof KaplanMeierPlotContainer) {
 			
@@ -220,15 +220,17 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
                 regulation = new ExprFoldChangeDE.DownRegulation(new Float(downFold));
                 samples = container.getSampleKaplanMeierPlotResultsets(regulation);
                 array = samples.toArray();
+                logger.debug(geneSymbol+" Downregulated: "+this.downFold);
                 for(int i = array.length;i>0;i--) {
                 	SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
-                    logger.debug(result);
+                   	logger.debug(result);
                 }
                 break;
             case UPREGULATED:
                 regulation = new ExprFoldChangeDE.UpRegulation(new Float(upFold));
                 samples = container.getSampleKaplanMeierPlotResultsets(regulation);
                 array = samples.toArray();
+                logger.debug(geneSymbol+" Upregulated: "+this.upFold);
                 for(int i = array.length;i>0;i--) {
                     SampleKaplanMeierPlotResultset result = ((SampleKaplanMeierPlotResultset)array[i-1]);
                     logger.debug(result);
@@ -254,7 +256,9 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
         
         //Create the DataPoint Series
         KMDataSeries dataSeries = new KMDataSeries(seriesName,true);
+        logger.debug(seriesName);
         for (int i = 0; i < dataPoints.length; i++) {
+            logger.debug(dataPoints[i]);
             dataSeries.add(dataPoints[i],i);
         }
         
