@@ -18,8 +18,8 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	private GeneExpressionQuery geneQuery;
 	private String method;
 	private String geneSymbol;
-	private int upFold = 3;
-	private int downFold = 3;
+	private int upFold = 2;
+	private int downFold = 2;
     private XYSeriesCollection censorDataset;
     private XYSeriesCollection lineDataset;
     
