@@ -1,6 +1,8 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ page import="java.util.*, gov.nih.nci.nautilus.query.QueryCollection,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
+
 <fieldset class="gray">
 <legend class="red">
 <bean:message key="queryName.label"/>
@@ -22,3 +24,52 @@ String act = request.getParameter("act");
 <br /><html:errors property="queryName"/>
 	<!-- </html:form> -->
 </fieldset>
+
+<%
+
+		QueryCollection queryCollection = (QueryCollection) request.getSession().getAttribute(NautilusConstants.QUERY_KEY);
+ 		String returnQueryNames = "";
+		
+		if (queryCollection != null) {
+			
+			Collection queryKeys = queryCollection.getQueryNames();
+				  
+			   Iterator iter = queryKeys.iterator();
+			   
+			   while(iter.hasNext()){
+				  String queryKey = (String) iter.next();
+				  String queryName = queryCollection.getQuery(queryKey).getQueryName();
+
+				  if (returnQueryNames.length() > 0) returnQueryNames += ",";
+
+				  if (queryName != null && queryName.trim().length() > 0){
+					returnQueryNames += '"'+queryName+'"';
+					
+				  }
+				  
+				  
+				 }
+		}
+
+%>
+<SCRIPT>
+function checkQueryName(){
+
+	var thisQueryName = document.forms[0].queryName.value;
+	
+	<%
+			out.println("\t\t\tvar queryNameArray = new Array("+returnQueryNames+");");
+	%>
+	var found = false;
+	if (!(thisQueryName == null || thisQueryName == "")) {
+		for(var t=0;t<queryNameArray.length; t++)	{
+		  if (thisQueryName == queryNameArray[t]) found = true;
+		}
+		if (found) {
+			  if (confirm("Query Name exists  in system.  This action will overwrite existing query")) {
+		  		document.forms[0].submit();
+			  }
+	 	}else {document.forms[0].submit();}
+	 	}else {document.forms[0].submit();}
+ }
+</SCRIPT>
