@@ -75,6 +75,8 @@ public class CompoundQuery implements Queriable{
 	private OperatorType operatorType = null;
     private Viewable associatedView = null;
 	private String queryName;
+	//Session that this compoundQuery is associated with
+	private String sessionId = null;
 	/* 
 	 * @see gov.nih.nci.nautilus.query.Queriable#getAssociatedView()
 	 * 
@@ -334,4 +336,16 @@ public class CompoundQuery implements Queriable{
     public void setQueryName(String queryName) {
         this.queryName = queryName;
     }
+	/**
+	 * @return Returns the sessionId.
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
+	/**
+	 * @param sessionId The sessionId to set.
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
 }

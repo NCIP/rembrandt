@@ -31,7 +31,7 @@ public class UIRefineQueryValidator {
                                                      HttpServletRequest request,
                                                      SessionQueryBag queryCollect) 
                                                      throws Exception {
-		Queriable compoundQuery = null;
+		CompoundQuery compoundQuery = null;
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
 		List selectedQueries = refineQueryForm.getSelectedQueries();
         ActionErrors errors = new ActionErrors();
@@ -85,6 +85,8 @@ public class UIRefineQueryValidator {
     		}
         }
 		if(compoundQuery!=null) {
+			//store the sessionId that the compound query is associated with
+			compoundQuery.setSessionId(request.getSession().getId());
             //Returned String representation of the final query
             refineQueryForm.setQueryText(compoundQuery.toString());
             // Get collection of view types

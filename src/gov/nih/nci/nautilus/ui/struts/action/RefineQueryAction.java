@@ -114,9 +114,6 @@ public class RefineQueryAction extends LookupDispatchAction {
                 if(!resultSetName.equals(" ")
                         ||!resultSetName.equals("")) {
                 	cQuery.setQueryName(resultSetName);
-                }else {
-                	//Set the CompoundQueryName to temp
-                    cQuery.setQueryName("temp");
                 }
                 ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
                 ReportBean reportBean = rgHelper.getReportBean();

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ibm.com"
+	xmlns:ReportSchema="http://www.ibm.com">
+	<xsd:complexType name="Report">
+		<xsd:rows>
+			<xsd:element name="row" type="Row" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:rows>
+		<xsd:columns>
+			<xsd:element name="column" type="Column" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:columns>
+		<xsd:attribute name="reportType" type="ReportType" />
+		<xsd:attribute name="groupBy" type="xsd:string" />
+		<xsd:attribute name="queryName" type="xsd:string" />
+		<xsd:attribute name="sessionId" type="xsd:string" />
+		<xsd:attribute name="creationTime" type="xsd:long" />
+	</xsd:complexType>
+	<xsd:complexType name="Row">
+		<xsd:cells>
+			<xsd:element name="cell" type="Cell" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:cells>
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="Column">
+		<xsd:cells>
+			<xsd:element name="cell" type="Cell" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:cells>
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="Cell">
+		<xsd:attribute name="type" type="xsd:string" />
+		<xsd:attribute name="class" type="xsd:string" />
+		<xsd:attribute name="group" type="xsd:string" />
+		<xsd:data>
+			<xsd:attribute name="data" type="Data" maxOccurs="1"/>
+		</xsd:data>
+	</xsd:complexType>
+	<xsd:simpleType name="Data">
+		<xsd:attribute name="type" type="xsd:string" />
+		<xsd:attribute name="value" type="xsd:string" />
+	</xsd:simpleType>
+</schema>
+
+  

@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.bean;
 
+import org.dom4j.Document;
 import org.javaby.jbyte.Template;
 
 /**
@@ -12,7 +13,7 @@ import org.javaby.jbyte.Template;
 public class ReportBean {
 	
     private String resultantCacheKey;
-	private Template reportTemplate;
+	private Document reportXML;
     
 	public ReportBean() {}
 
@@ -23,10 +24,10 @@ public class ReportBean {
 		return resultantCacheKey;
 	}
 	/**
-	 * @return Returns the reportTemplate.
+	 * @return Returns the reportXML.
 	 */
-	public Template getReportTemplate() {
-		return reportTemplate;
+	public Document getReportXML() {
+		return reportXML;
 	}
 	/**
 	 * @param reportCacheKey The reportCacheKey to set.
@@ -35,9 +36,9 @@ public class ReportBean {
 		this.resultantCacheKey = reportCacheKey;
 	}
 	/**
-	 * @param reportTemplate The reportTemplate to set.
+	 * @param reportXML The reportXML to set.
 	 */
-	public void setReportTemplate(Template reportTemplate) {
-		this.reportTemplate = reportTemplate;
+	public void setReportXML(Document reportTemplate) {
+		this.reportXML = reportTemplate;
 	}
 }
