@@ -180,6 +180,7 @@
  </lib>
  <classes dir="${build.struts.classes.dir}" prefix="/WEB-INF/classes"/>
   <zipfileset file="${basedir}/repository*.*" prefix="/WEB-INF/classes"/>
+  <zipfileset file="${basedir}/deToBeanAttrMappings.xml" prefix="/WEB-INF/classes"/>
   <zipfileset file="${basedir}/OJB.properties" prefix="/WEB-INF/classes"/>
   <zipfileset file="${webapp.dir}/WEB-INF/resources/ApplicationResources.properties" prefix="/WEB-INF/classes/gov/nih/nci/nautilus/struts"/>
 
