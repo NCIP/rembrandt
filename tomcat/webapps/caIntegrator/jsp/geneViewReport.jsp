@@ -3,6 +3,7 @@
 gov.nih.nci.nautilus.criteria.*,
 gov.nih.nci.nautilus.de.*,
 gov.nih.nci.nautilus.query.GeneExpressionQuery,
+gov.nih.nci.nautilus.query.*,
 gov.nih.nci.nautilus.query.QueryManager,
 gov.nih.nci.nautilus.query.QueryType,
 gov.nih.nci.nautilus.view.*,
@@ -32,6 +33,7 @@ java.util.*" %>
      ArrayPlatformCriteria cdnaPlatformCrit;
  
      ResultSet[] geneExprObjects;
+     Resultant resultant;
      
 	//put the functions needed here
 
@@ -51,17 +53,39 @@ java.util.*" %>
 <%
 System.out.println("Here WE Go");
 
+/* old way using resultSet[]
 		// get the ResultSet[] from the session
         geneExprObjects = ( ResultSet[] ) (session.getAttribute(Constants.RESULTSET_KEY));
-//System.out.println("geneExprObjects"+geneExprObjects.length);
+		//System.out.println("geneExprObjects"+geneExprObjects.length);
+*/
+
+//get query collection from session
+		QueryCollection queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
+		CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
+
+		//execute the query
+		try{
+			resultant = ResultsetManager.executeQuery(myCompoundQuery);
+		}
+		catch(Exception e) {
+			System.out.println("error executing query");
+			out.println("Error with Query");
+			//redirect somewhere? back?
+			e.printStackTrace();
+		}
+		
+		
 //see if theres at least on RS in the array and the RS exists
-if(geneExprObjects != null && geneExprObjects.length > 0) {      
+//if(geneExprObjects != null && geneExprObjects.length > 0) {    
+if(resultant != null) {      
 		%>
 		<a href="jsp/geneViewReportCSV.jsp">[Download this report for Excel]</a><Br>
 		<%
 		
 
- ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
+ //ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
+ ResultsContainer resultsContainer = resultant.getResultsContainer();
+ 
 		if (resultsContainer instanceof GeneExprSampleViewContainer){
 			GeneExprSampleViewContainer geneExprSampleViewContainer = (GeneExprSampleViewContainer) resultsContainer;
 	        GeneExprSingleViewResultsContainer geneViewContainer = geneExprSampleViewContainer.getGeneExprSingleViewContainer();
@@ -112,7 +136,7 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
 					color = theColors[0];
 					font = theColors[1];
 				}
-			    css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; color: "+font+" }\n");
+			    css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; color: #"+font+" }\n");
 			}
 			css.append("</style>\n");
 			out.println(css.toString());
