@@ -11,7 +11,7 @@
 <html:radio property="regulationStatus" value="up" styleClass="radio" /> Up-regulation &ge;
 				<html:text property="foldChangeValueUp" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)</br>
 
-<html:radio property="regulationStatus" value="down" styleClass="radio" /> Down Regulation &le;
+<html:radio property="regulationStatus" value="down" styleClass="radio" /> Down Regulation &ge;
 <html:text property="foldChangeValueDown" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)</br>
 <html:radio property="regulationStatus" value="updown" styleClass="radio" /> Up or Down&nbsp;
 <blockquote>
@@ -19,7 +19,7 @@ Up-regulation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &ge;
  <html:text property="foldChangeValueUDUp" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
 &nbsp;
 <Br>
-Down-regulation &nbsp;&nbsp; &le;
+Down-regulation &nbsp;&nbsp; &ge;
 <html:text property="foldChangeValueUDDown" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
 &nbsp;
 </blockquote>
