@@ -62,7 +62,7 @@ public String copyNumberHelp()	{
 }
 
 
-String topLink = "<p class=\"tl\"><a href=\"#top\">[top]</a></p>";
+String topLink = "<p class=\"tl\"><a href=\"#top\">[top]</a> | <a href=\"javascript:window.print();\">[print]</a> | <a href=\"javascript:window.close();\">[close window]</a></p>";
 
 String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 				"<a href=\"#kmplot\">Kaplan-Meier Survival plot</a><br>\n"+

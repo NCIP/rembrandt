@@ -23,14 +23,16 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	<title>Generated Report</title>
 	<style>
 	body { font-family:arial; font-size: 11px; margin-top: 0px}
-	
+	TABLE	{border: 0px; padding:0px; font-size:12px;}
 	Td {
+	
 		font-size: 12px;
 		background: #F2F2F2;
 		padding: 4px; 
 		border: 1px solid white;
 		color: #000000;
 		white-space:nowrap;
+	
 		}
 
 	.geneSpacerStyle { 	height: 1px; 
@@ -53,10 +55,40 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 	.title { font-size: 16px; font-weight: bold; padding-bottom: 10px; font-family: tahoma }
 	.rowCount { font-size:11px; padding:2px;}
 	
-	.fontClass { color:#000000; padding:1px; border:0px; white-space:normal;background-color:#e9e9e9; margin: 0px;}
-  	.capfontClass { color:#ffffff; padding:1px; border:0px; white-space:normal;background-color: #AB0303; margin: 0px;}
-  	.fgClass {padding:1px; border-top:1px solid #AB0303;border-bottom:1px solid #AB0303;border-left:1px solid #AB0303;border-right:1px solid #AB0303;margin: 0px;white-space:normal;}
-  	.bgClass {padding:1px; border-top:0px; border-bottom:0px; border-right:0px; border-left:0px; margin: 0px;white-space:normal;}
+	.fontClass { font-size: 10px; 
+				font-family: verdana;
+				color:#000000; 
+				padding:1px; 
+				border-top:0px; border-bottom:0px; border-right:0px; border-left:0px;
+				white-space:normal;
+				background-color:#e9e9e9; 
+				margin: 0px;
+				}
+  	.capfontClass { font-size: 10px; 
+  					font-family: verdana;
+  					color:#ffffff; 
+  					padding:1px; 
+  					border-top:0px; border-bottom:0px; border-right:0px; border-left:0px;
+  					white-space:normal;
+  					background-color: #AB0303; 
+  					margin: 0px;
+  					}
+  	.fgClass {font-size: 10px; 
+  			font-family: verdana;
+  			padding:1px; 
+  			border-top:1px solid #AB0303;border-bottom:1px solid #AB0303;border-left:1px solid #AB0303;border-right:1px solid #AB0303;
+  			margin: 0px;
+  			white-space:normal;
+  			background-color:;
+  			}
+  	.bgClass {font-size: 10px; 
+  			font-family: verdana;
+  			padding:1px; 
+  			border-top:0px; border-bottom:0px; border-right:0px; border-left:0px; 
+  			margin: 0px;
+  			white-space:normal;
+  			background-color:;
+  			}
   	
 	</style>
 	<script language="javascript" >
@@ -80,10 +112,11 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 
 <Br>
 <a name="top"></a>
+<!--
 <a href="javascript: spawn('help.jsp', 350, 500);">
 <img src="images/helpIcon.jpg" align="right" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();">
 </a>
-
+-->
 <%
 response.flushBuffer();
 

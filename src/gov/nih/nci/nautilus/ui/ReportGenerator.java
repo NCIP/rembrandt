@@ -50,6 +50,11 @@ public class ReportGenerator  {
 	public static String links = "";
 	public static String errorLinks = "<br><a href=\"menu.do\">[Back to Menu]</a><br><Br>";
 
+	public static String helpLink = "<a href=\"javascript: spawn('help.jsp";
+	public static String helpLinkClose = "', 350, 500);\">"+
+				"<img align=\"right\" src=\"images/helpIcon.jpg\" border=\"0\" "+
+				"onmouseover=\"return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
+				"</a><br clear=\"all\">";
 	
 	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv, HttpServletRequest request, final String theLinks)	{
 		
@@ -146,6 +151,9 @@ public class ReportGenerator  {
 			boolean gLinks = false;
 			boolean cLinks = false;
 			StringBuffer sb = new StringBuffer();
+			
+			String helpFul = helpLink + "#clinical" + helpLinkClose;
+			
 			logger.debug("HERE IS THE CLINICAL VIEW");
 			SampleViewResultsContainer sampleViewContainer = null;
 			if(resultsContainer instanceof DimensionalViewContainer){
@@ -175,7 +183,7 @@ public class ReportGenerator  {
 			}
 			
 			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
-			sb.append("<div class=\"rowCount\">"+samples.size()+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n");
+			sb.append("<div class=\"rowCount\">"+helpFul+samples.size()+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n");
 			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 			sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	/*
@@ -238,6 +246,9 @@ public class ReportGenerator  {
 	public static String geneExprDiseaseView(ResultsContainer resultsContainer, String[] theColors)	{
 		
 		StringBuffer sb = new StringBuffer();
+		
+		String helpFul = helpLink + "#diseaseGroup" + helpLinkClose;
+		
 		GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
 		StringBuffer css = new StringBuffer();
 		int recordCount = 0;
@@ -332,7 +343,7 @@ public class ReportGenerator  {
 					sb.append("<Br><br>Gene Disease View container is empty");
 				}
 	
-				return "<div class=\"rowCount\">"+recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + css.toString() + sb.toString();
+				return "<div class=\"rowCount\">"+helpFul +recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + css.toString() + sb.toString();
 	}
 
 
@@ -341,6 +352,8 @@ public class ReportGenerator  {
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
 				int totalSamples = 0;
+				
+				String helpFul = helpLink + "#copyNumber" + helpLinkClose;
 				
 				CopyNumberSingleViewResultsContainer copyNumberContainer = null;
 
@@ -485,7 +498,7 @@ public class ReportGenerator  {
 				sb.append("<br><br>Copy Number container is empty");
 			}	
 				
-			return "<div class=\"rowCount\">"+recordCount+" records returned. "+ totalSamples + " samples returned. &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
+			return "<div class=\"rowCount\">"+ helpFul +recordCount+" records returned. "+ totalSamples + " samples returned. &nbsp;&nbsp;&nbsp;" + links +"</div>\n" + sb.toString();
 				
 	}
 
@@ -493,6 +506,8 @@ public class ReportGenerator  {
 	public static String geneExprSampleView(ResultsContainer resultsContainer, String[] theColors, HttpServletRequest request)	{
 				GeneExprSingleViewResultsContainer geneViewContainer = null;
 				StringBuffer sb = new StringBuffer();
+				
+				String helpFul = helpLink + "#sample" + helpLinkClose;
 				
 				DimensionalViewContainer dimensionalViewContainer = null;
 				int recordCount = 0;
@@ -653,7 +668,7 @@ public class ReportGenerator  {
 					sb.append("<br><Br>Gene Container is empty<br>");
 				}
 			    
-			    return "<div class=\"rowCount\">"+recordCount+" records returned. " + totalSamples +" samples returned. &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
+			    return "<div class=\"rowCount\">"+ helpFul +recordCount+" records returned. " + totalSamples +" samples returned. &nbsp;&nbsp;&nbsp;" + links  + "</div>\n" + sb.toString();
 	
 		
 	}
