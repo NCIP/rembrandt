@@ -61,4 +61,6 @@ public final class NautilusConstants {
 
     // this max Sample ID count is a temp solution  This will be made more dynamic for 1.0
     public static final int ALL_GENES_MAX_SAMPLE_COUNT = 22;
+    
+    public static final String FILTER_REPORT_SUFFIX = " filter report";
 }

@@ -87,7 +87,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		//report at present this will cause the old result in cache
     		//to be overwritten...
     		if(queryName.indexOf("filter report")<0) {
-    			queryName = queryName+" filter report";
+    			queryName = queryName + NautilusConstants.FILTER_REPORT_SUFFIX;
     		}
     		//change the name of the associated query
     		cQuery.setQueryName(queryName);
