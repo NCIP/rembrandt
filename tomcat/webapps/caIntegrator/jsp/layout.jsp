@@ -1,7 +1,9 @@
 <%@ page language="java" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 
+<app:checkLogin name="logged" page="/login.jsp" />
 
 <%
 /*
@@ -25,7 +27,6 @@
 			<tr>
 			<td width="75%"> 
 
-	 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 				<Table cellpadding="4" cellspacing="2" border="0" width="100%"> 
 					<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   
 					<tiles:insert attribute="mainForm"/> <%-- include the main form --%>
