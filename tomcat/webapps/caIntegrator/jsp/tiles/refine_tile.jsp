@@ -6,7 +6,9 @@
 
 <!-- <html:form action="validatequery.do">-->
 
+<div align="left">
 <b>Step 1: Please refine your result set by grouping it</b><br><br>
+</div>
 
 <div class="queryRows">
 			<table border="1" width="100%" cellpadding="2" cellspacing="2" id="rosso">
@@ -114,7 +116,9 @@
 			<b class="message">[add more rows]</b>
 		</div>
 <!--Display buttons here -->		
+		<div align="left">
 		<b>Step 2:Validate your query</b><br>
+		</div>
 		<div>
 			<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
 				<tr>
@@ -137,7 +141,7 @@
 						<b>Step 3:Please select a View</b>&nbsp;&nbsp;
 						<html:select property="compoundView" onchange="">
 						    <html:optionsCollection property="compoundViewColl" />
-						</html:select>
+						</html:select><html:errors property="compoundView"/>
 					</td>
 				</tr>
 			</table>
@@ -148,15 +152,17 @@
 				<tr><td>
 						<br>
 						<b>Step 4:Please name your resultset</b>&nbsp;&nbsp;
-						<html:text property="resultsetName" onchange="">
+						<html:text property="resultsetName" onchange="" disabled="true">
 						</html:text>&nbsp;&nbsp;&nbsp;
-						<input type="button" class="sbutton" value="Save Query As...">
+						<input type="button" class="sbutton" value="Save Query As..." disabled="true">
 					</td>
 				</tr>
 			</table>
 		</div>
 		<br>
+		<div align="left">
 		<b>Step 5:To Select Report Parameters press Continue button</b><br><br>
+		</div>
 		<div>
 			<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
 				<tr align="center">
@@ -164,7 +170,7 @@
 
 					<html:button property="backbutton" styleClass="xbutton" value="back" 
 						onclick="javascript:history.back();"/>&nbsp;&nbsp
-					<html:button property="continuebutton" styleClass="xbutton" value="continue" 
+					<html:button property="continuebutton" styleClass="xbutton" value="Run Report" 
 						onclick="JavaScript:setDispMethod('displayresult')"/> 
 
 					</td>
