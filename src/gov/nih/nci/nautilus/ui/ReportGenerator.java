@@ -83,24 +83,30 @@ public class ReportGenerator  {
 			 		//4 views here, returning the String of HTML for report
 			 		// need to add the html buffer here
 			 		
+			 		String q = resultant.getAssociatedQuery().toString();
+			 		
 		 			if (view instanceof GeneExprSampleView)	{ 
 		 				html.append("<div class=\"title\">Gene Expression Fold Change (Tumor/Non-tumor)</div>\n");
 		 				html.append(geneExprSampleView(resultsContainer, theColors, request));
+		 				html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof CopyNumberSampleView)	{ 
 		 				html.append("<div class=\"title\">Copy Number Data</div>\n");
 		 				html.append(copyNumberSampleView(resultsContainer, theColors, request));
+		 				html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
 		 				html.append("<div class=\"title\">Mean Gene Expression Fold Change for Tumor Sub-types</div>\n");
 		 				html.append(geneExprDiseaseView(resultsContainer, theColors));
+		 				html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 		 				return html.toString();
 		 			}
 	 				else if(view instanceof ClinicalSampleView){
 	 					html.append("<div class=\"title\">Sample Report</div>\n");
 	 					html.append(clinicalSampleView(resultsContainer, theColors, request));
+	 					html.append("<br><Br><br><a name=\"queryInfo\"></a>Query: " + q);
 	 					return html.toString();
 	 				}	
 	 				else	{
