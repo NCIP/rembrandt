@@ -7,6 +7,8 @@ public class GeneClone
 {
   public final static String CLONE_ID =   "cloneId";
   public final static String CHROMOSOME= "chromosome";
+  public final static String LOCUS_LINK = "llId";
+  public final static String ACCESSION_NUMBER= "accessionNumber";  
 
   private String accessionNumber;
 

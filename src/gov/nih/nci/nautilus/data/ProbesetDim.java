@@ -11,6 +11,7 @@ public class ProbesetDim
     public final static String CYTOBAND = "cytoband";
     public final static String ACCESSION_NUMBER = "accessionNumber";
      public final static String CHROMOSOME= "chromosome";
+    public final static String LOCUS_LINK = "llId";
     private Long probesetId;
  private String probesetName;
 
