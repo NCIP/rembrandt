@@ -76,6 +76,9 @@ final public class GeneExprQueryHandler extends QueryHandler {
         if (query.getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW)) {
                 factHandler = new DEFactHandler.GroupDEFactHanlder();
         }
+
+        else throw new Exception("Illegal View.  This view is not supported in this Query:");
+
         // make sure that platform (for the resulting smaples) is specified
         ArrayPlatformCriteria platObj = geQuery.getArrayPlatformCriteria();
         assert(platObj != null);
