@@ -15,6 +15,13 @@ function stupidXSL(i, cPage)	{
 	function uncheckAll(field)	{
 		for (i = 0; i < field.length; i++)
 			field[i].checked = false ;
+
+			var c;
+			c = document.getElementsByTagName("input");
+			for(i=0; i<c.length; i++)	{
+				if(c[i].type == 'checkbox')
+					c[i].checked = false;
+			}
 	}
 		
 	function checkById(field, idx)	{
