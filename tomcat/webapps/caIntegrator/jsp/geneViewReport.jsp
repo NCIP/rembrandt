@@ -181,7 +181,8 @@ if(geneExprObjects != null && geneExprObjects.length > 0) {
 else
 	out.println("<h4>No Results Available</h4>");
 
-session.removeAttribute("geneViewResultSet");
+// clean up the session, but not now
+//session.removeAttribute("geneViewResultSet");
 %>
 
 
