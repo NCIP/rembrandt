@@ -49,11 +49,121 @@
  */
 package gov.nih.nci.nautilus.queryprocessing;
 
+import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
+import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.Query;
+import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.resultset.ResultSet;
+
+import java.util.*;
+
+
 /**
  * @author SahniH
  * Date: Oct 15, 2004
  * 
  */
 public class CompoundQueryProcessor {
+	public static ResultSet[] execute(CompoundQuery compoundQuery){
+		ResultSet[] resultSets = null;
+		if(compoundQuery != null){
+			Queriable leftQuery = compoundQuery.getLeftQuery();
+			Queriable rightQuery = compoundQuery.getRightQuery();
+			OperatorType operator = compoundQuery.getOperatorType();
+			ResultSet[] leftResultSets = null;
+			ResultSet[] rightResultSets = null;
+			try {
+				if (leftQuery != null) {
+					if (leftQuery instanceof CompoundQuery) {
+						leftResultSets = execute((CompoundQuery)leftQuery);
+						}
+					else if (leftQuery instanceof Query){
+						leftResultSets = QueryManager.executeQuery((Query)leftQuery);			
+					}
+				}
+				
+				if (rightQuery != null) {
+					if (rightQuery instanceof CompoundQuery) {
+						rightResultSets = execute((CompoundQuery)rightQuery);
+						}
+					else if (rightQuery instanceof Query){
+						rightResultSets = QueryManager.executeQuery((Query)rightQuery);							
+					}
+				}
+			}catch (Exception ex) {
+				ex.printStackTrace();
+				System.out.println("Error "+ex.getMessage());
+			}
+			
+			if (operator != null) {
+				if(operator.equals(OperatorType.AND)){
+					resultSets = ResultSetInterSection(leftResultSets,rightResultSets);
+				}
+				else if(operator.equals(OperatorType.OR)){
+					resultSets = ResultSetUnion(leftResultSets,rightResultSets);
+				}
+				else if(operator.equals(OperatorType.NOT)){
+					resultSets = ResultSetDifference(leftResultSets,rightResultSets);
+				}
+				else if(operator.equals(OperatorType.PROJECT_RESULTS_BY)){
+					resultSets = ResultSetProjectResultsBy(leftResultSets,rightResultSets);
+				}
+			}
+		}
+		return resultSets;	
+	}
+	/**
+	 * @param leftResultSets
+	 * @param rightResultSets
+	 * @return
+	 */
+	private static ResultSet[] ResultSetProjectResultsBy(ResultSet[] leftResultSets, ResultSet[] rightResultSets) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/**
+	 * ResultSetDifference (minus): set of every element that is in the leftResultset but not in the rightResultset
+	 * @param leftResultSets
+	 * @param rightResultSets
+	 * @return resultSet[] which is set of every element that is in the leftResultset but not in the rightResultset
+	 */
+	private static ResultSet[] ResultSetDifference(ResultSet[] leftResultSets, ResultSet[] rightResultSets) {
+		Collection leftResults = Arrays.asList(leftResultSets);
+		Collection rightResults = Arrays.asList(rightResultSets);
+		//the removeAll operation effectively modifies this set so that its value is the asymmetric set difference of the two sets.
+		Set diffSet = new HashSet(leftResults);
+		diffSet.removeAll(rightResults);
+		return (ResultSet[]) diffSet.toArray();
+	}
+	/**
+	 * ResultSetUnion: a resultSet containing every element that is in either the leftResultSet or the rightResultSet, or both
+	 * (must be union-compatible: same number of objects and corresponding objects have identical )
+	 * @param leftResultSets
+	 * @param rightResultSets
+	 * @return resultSet[] containing every element that is in either the leftResultSet or the rightResultSet, or both
+	 */
+	private static ResultSet[] ResultSetUnion(ResultSet[] leftResultSets, ResultSet[] rightResultSets) {
+		Collection leftResults = Arrays.asList(leftResultSets);
+		Collection rightResults = Arrays.asList(rightResultSets);
+		Set diffSet = new HashSet(leftResults);
+		//the addAll operation effectively modifies this set so that its value is the union of the two sets.
+		diffSet.addAll(rightResults);
+		return (ResultSet[]) diffSet.toArray();
+	}
+	/**
+	 * ResultSetIntersection (intersect): a resultset containing every element that is in both rightResultSet and LeftResultset
+	 * @param leftResultSets
+	 * @param rightResultSets
+	 * @return resultSet[] containing every element that is in both rightResultSet and LeftResultset
+	 */
+	private static ResultSet[] ResultSetInterSection(ResultSet[] leftResultSets, ResultSet[] rightResultSets) {
+		Collection leftResults = Arrays.asList(leftResultSets);
+		Collection rightResults = Arrays.asList(rightResultSets);
+		//this operation effectively modifies this set so that its value is the intersection of the two sets.
+		Set diffSet = new HashSet(leftResults);
+		diffSet.retainAll(rightResults);
+		return (ResultSet[]) diffSet.toArray();
+	}
 
 }
