@@ -50,54 +50,33 @@
 package gov.nih.nci.nautilus.resultset.geneExpressionPlot;
 
 import gov.nih.nci.nautilus.de.DatumDE;
-import gov.nih.nci.nautilus.resultset.gene.FoldChange;
 
 /**
  * @author SahniH
  * Date: Nov 9, 2004
  * 
  */
-public class ReporterFoldChangeValuesResultset implements FoldChange{
+public class ReporterFoldChangeValuesResultset {
 	private DatumDE reporter = null;
-	private DatumDE foldChangeRatioValue = null;
-	private DatumDE foldChangeSampleIntensity = null;
-	private DatumDE foldChangeNormalIntensity = null;
+	private DatumDE foldChangeIntensity = null;
 	private DatumDE ratioPval = null;
 	/**
-	 * @return Returns the foldChangeNormalIntensity.
+	 * @param reporter
 	 */
-	public DatumDE getFoldChangeNormalIntensity() {
-		return this.foldChangeNormalIntensity;
+	public ReporterFoldChangeValuesResultset(DatumDE reporter) {		
+		setReporter(reporter);
 	}
 	/**
-	 * @param foldChangeNormalIntensity The foldChangeNormalIntensity to set.
+	 * @return Returns the foldChangeIntensity.
 	 */
-	public void setFoldChangeNormalIntensity(DatumDE foldChangeNormalIntensity) {
-		this.foldChangeNormalIntensity = foldChangeNormalIntensity;
+	public DatumDE getFoldChangeIntensity() {
+		return this.foldChangeIntensity;
 	}
 	/**
-	 * @return Returns the foldChangeRatioValue.
+	 * @param foldChangeIntensity The foldChangeIntensity to set.
 	 */
-	public DatumDE getFoldChangeRatioValue() {
-		return this.foldChangeRatioValue;
-	}
-	/**
-	 * @param foldChangeRatioValue The foldChangeRatioValue to set.
-	 */
-	public void setFoldChangeRatioValue(DatumDE foldChangeRatioValue) {
-		this.foldChangeRatioValue = foldChangeRatioValue;
-	}
-	/**
-	 * @return Returns the foldChangeSampleIntensity.
-	 */
-	public DatumDE getFoldChangeSampleIntensity() {
-		return this.foldChangeSampleIntensity;
-	}
-	/**
-	 * @param foldChangeSampleIntensity The foldChangeSampleIntensity to set.
-	 */
-	public void setFoldChangeSampleIntensity(DatumDE foldChangeSampleIntensity) {
-		this.foldChangeSampleIntensity = foldChangeSampleIntensity;
+	public void setFoldChangeIntensity(DatumDE foldChangeSampleIntensity) {
+		this.foldChangeIntensity = foldChangeSampleIntensity;
 	}
 	/**
 	 * @return Returns the ratioPval.
@@ -112,15 +91,15 @@ public class ReporterFoldChangeValuesResultset implements FoldChange{
 		this.ratioPval = ratioPval;
 	}
 	/**
-	 * @return Returns the reporter.
+	 * @return Returns the reporterName.
 	 */
 	public DatumDE getReporter() {
 		return this.reporter;
 	}
 	/**
-	 * @param reporter The reporter to set.
+	 * @param reporterName The reporterName to set.
 	 */
-	public void setReporter(DatumDE reporter) {
-		this.reporter = reporter;
+	public void setReporter(DatumDE reporterName) {
+		this.reporter = reporterName;
 	}
 }

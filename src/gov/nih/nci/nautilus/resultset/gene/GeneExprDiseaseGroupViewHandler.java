@@ -89,6 +89,8 @@ public class GeneExprDiseaseGroupViewHandler extends GeneExprViewHandler {
   		    diseaseGroupResultset.setDiseaseType(disease);
   		    diseaseGroupResultset.setFoldChangeRatioValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
   		    diseaseGroupResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getRatioPval()));
+  		    diseaseGroupResultset.setFoldChangeNormalIntensity(new DatumDE(DatumDE.FOLD_CHANGE_NORMAL_INTENSITY,exprObj.getNormalIntensity()));
+  		    diseaseGroupResultset.setFoldChangeSampleIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
 
       	}
   		return diseaseGroupResultset;

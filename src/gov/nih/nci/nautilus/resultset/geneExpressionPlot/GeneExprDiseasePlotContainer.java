@@ -50,6 +50,7 @@
 package gov.nih.nci.nautilus.resultset.geneExpressionPlot;
 
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
+import gov.nih.nci.nautilus.resultset.ResultsContainer;
 
 import java.util.Collection;
 import java.util.SortedMap;
@@ -60,7 +61,7 @@ import java.util.TreeMap;
  * Date: Nov 9, 2004
  * 
  */
-public class GeneExprDiseasePlotContainer {
+public class GeneExprDiseasePlotContainer implements ResultsContainer{
 	private GeneIdentifierDE.GeneSymbol geneSymbol;
 	private SortedMap diseases = new TreeMap(); 
 	

@@ -3,8 +3,10 @@
  *
  */
 package gov.nih.nci.nautilus.resultset;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewHandler;
 import gov.nih.nci.nautilus.resultset.copynumber.CopyNumberSingleViewResultsContainer;
@@ -12,6 +14,9 @@ import gov.nih.nci.nautilus.resultset.gene.GeneExprDiseaseGroupViewHandler;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewHandler;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.nautilus.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
+import gov.nih.nci.nautilus.resultset.geneExpressionPlot.GeneExprDiseasePlotContainer;
+import gov.nih.nci.nautilus.resultset.geneExpressionPlot.GeneExprDiseasePlotHandler;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewHandler;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.nautilus.view.GroupType;
@@ -91,5 +96,29 @@ public class ResultsetProcessor {
         }//for
         return resultsContainer;
 	}
+
+	/**
+	 * @param groups
+	 * @return
+	 */
+	public static ResultsContainer handleGeneExpressPlot(GeneExprGroup[] geneExprObjects) {
+		ResultsContainer resultsContainer = null;
+		GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = new GeneExprDiseasePlotContainer();
+		DiseaseGeneExprPlotResultset normal = new DiseaseGeneExprPlotResultset( new DiseaseNameDE("NORMAL"));
+		geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(normal);
+		for (int i = 0; i < geneExprObjects.length; i++) {
+    		if(geneExprObjects[i] != null) {
+            ResultSet obj = geneExprObjects[i];
+              if (obj instanceof GeneExpr.GeneExprGroup)  {
+              	GeneExpr.GeneExprGroup exprObj = (GeneExpr.GeneExprGroup) obj;
+               	//Propulate the GeneExprSingleResultsContainer
+              	geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleGeneExprDiseaseView(geneExprDiseasePlotContainer,exprObj);
+              	resultsContainer = geneExprDiseasePlotContainer;
+              }
+    		}
+        }//for
+		return resultsContainer;
+	}
+
 
 }

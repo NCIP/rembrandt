@@ -50,7 +50,6 @@
 package gov.nih.nci.nautilus.resultset.gene;
 
 import gov.nih.nci.nautilus.de.DatumDE;
-import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 
@@ -69,9 +68,7 @@ public abstract class GeneExprViewHandler {
   		}
   		if(exprObj.getGeneSymbol()!= null){
   		geneResultset.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(exprObj.getGeneSymbol()));
-//  	    GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo = new GeneIdentifierDE.GenBankAccessionNumber(); //TODO: add GenBankAccessionNumber
-//  	    GeneIdentifierDE.LocusLink locusLinkID = new GeneIdentifierDE.LocusLink(); // add GeneIdentifierDE.LocusLink
-  		}
+ 		}
   		else{
   			geneResultset.setAnonymousGene();
   		}
@@ -79,7 +76,6 @@ public abstract class GeneExprViewHandler {
 
     }
 	protected static ReporterResultset handleReporterResultset(GeneResultset geneResultset,gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr exprObj){
-  		//geneResultset.setGenbankAccessionNo(genbankAccessionNo);
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one
 		ReporterResultset reporterResultset = null;

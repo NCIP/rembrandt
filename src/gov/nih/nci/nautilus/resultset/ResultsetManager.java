@@ -57,6 +57,7 @@ import gov.nih.nci.nautilus.view.CopyNumberSampleView;
 import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
+import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 
@@ -97,12 +98,21 @@ public class ResultsetManager {
 			resultant.setAssociatedQuery(queryToExecute);
 			resultant.setAssociatedView(associatedView);
 		}
-    	
-    	
-    	
-    	
-    	}
-        return resultant;
+      }
+      return resultant;
     }
+    public static Resultant executeGeneExpressPlotQuery(Queriable queryToExecute) throws Exception {
+    	Resultant resultant= new Resultant();
+    	if(queryToExecute != null ){
+    		Viewable associatedView = ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW);
+    		queryToExecute.setAssociatedView(associatedView);
+    		ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
+    		ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExpressPlot((GeneExprGroup[]) resultsets);
+			resultant.setResultsContainer(resultsContainer);
+			resultant.setAssociatedQuery(queryToExecute);
+			resultant.setAssociatedView(associatedView);
+    		}
+    	return resultant;
+    	}
 
 }

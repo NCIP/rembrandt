@@ -49,6 +49,8 @@
  */
 package gov.nih.nci.nautilus.resultset.geneExpressionPlot;
 
+import gov.nih.nci.nautilus.de.DatumDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
@@ -62,12 +64,12 @@ public class GeneExprDiseasePlotHandler {
 	public static GeneExprDiseasePlotContainer handleGeneExprDiseaseView(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer, GeneExpr.GeneExprGroup exprObj){
 		DiseaseGeneExprPlotResultset diseaseResultset = null;
 		ReporterFoldChangeValuesResultset reporterResultset = null;
-
       	if (geneExprDiseasePlotContainer != null && exprObj != null){
       		geneExprDiseasePlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol (exprObj.getGeneSymbol()));
       		diseaseResultset = handleDiseaseGeneExprPlotResultset(geneExprDiseasePlotContainer, exprObj);
       		reporterResultset = handleReporterFoldChangeValuesResultset(diseaseResultset,exprObj);
    			geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(diseaseResultset);
+   			diseaseResultset.addReporterFoldChangeValuesResultset(reporterResultset);
       	}
       	return geneExprDiseasePlotContainer;
 
@@ -79,17 +81,65 @@ public class GeneExprDiseasePlotHandler {
 	 * @return
 	 */
 	private static ReporterFoldChangeValuesResultset handleReporterFoldChangeValuesResultset(DiseaseGeneExprPlotResultset diseaseResultset, GeneExprGroup exprObj) {
-		// TODO Auto-generated method stub
-		return null;
+  		// find out if it has a probeset or a clone associated with it
+  		//populate ReporterResultset with the approciate one
+		ReporterFoldChangeValuesResultset reporterResultset = null;
+		if(diseaseResultset != null && exprObj != null){
+			//TODO:only Affy Probesets for now
+	    	if(exprObj.getProbesetName() != null){
+	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,exprObj.getProbesetName());
+	       		reporterResultset = diseaseResultset.getReporterFoldChangeValuesResultset(exprObj.getProbesetName().toString());
+	      		if(reporterResultset == null){
+	      		 	reporterResultset = new ReporterFoldChangeValuesResultset(reporter);
+	      			}
+	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getRatioPval()));
+	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
+	    		}
+	  		
+		}
+        return reporterResultset;
 	}
-
+	/**
+	 * @param diseaseResultset
+	 * @param exprObj
+	 * @return
+	 */
+	private static ReporterFoldChangeValuesResultset handleNoramAsDisease(DiseaseGeneExprPlotResultset normal, GeneExprGroup exprObj) {
+  		// find out if it has a probeset or a clone associated with it
+  		//populate ReporterResultset with the approciate one
+		ReporterFoldChangeValuesResultset reporterResultset = null;
+		if(normal != null && exprObj != null){
+			//TODO:only Affy Probesets for now
+	    	if(exprObj.getProbesetName() != null){
+	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,exprObj.getProbesetName());
+	       		reporterResultset = normal.getReporterFoldChangeValuesResultset(exprObj.getProbesetName().toString());
+	      		if(reporterResultset == null){
+	      		 	reporterResultset = new ReporterFoldChangeValuesResultset(reporter);
+	      			}
+	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,"0.00"));
+	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getNormalIntensity()));
+	    		}
+	  		
+		}
+        return reporterResultset;
+	}
 	/**
 	 * @param geneExprDiseasePlotContainer
 	 * @param exprObj
 	 * @return
 	 */
 	private static DiseaseGeneExprPlotResultset handleDiseaseGeneExprPlotResultset(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer, GeneExprGroup exprObj) {
-		// TODO Auto-generated method stub
-		return null;
+		//find out the disease type associated with the exprObj
+  		//populate the DiseaseTypeResultset
+		DiseaseGeneExprPlotResultset diseaseResultset = null;
+  		if(geneExprDiseasePlotContainer != null && exprObj != null &&  exprObj.getDiseaseType() != null){
+  			DiseaseNameDE disease = new DiseaseNameDE(exprObj.getDiseaseType().toString());
+  			diseaseResultset = (DiseaseGeneExprPlotResultset) geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(exprObj.getDiseaseType().toString());
+  		    if (diseaseResultset == null){
+  		    	diseaseResultset= new DiseaseGeneExprPlotResultset(disease);
+	      		}
+      	}
+  		return diseaseResultset;
 	}
+
 }
