@@ -50,6 +50,9 @@
 package gov.nih.nci.nautilus.test;
 
 import gov.nih.nci.nautilus.de.DomainElementClass;
+import gov.nih.nci.nautilus.view.View;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
 import junit.framework.TestCase;
 
 /**
@@ -76,13 +79,13 @@ public class DomainElementClassTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testGetName() {
-		DomainElementClass disease = DomainElementClass.DISEASE_NAME;
-		System.out.println("Name:"+disease.getName());
-		System.out.println("Label:"+disease.getLabel());
-	}
-
 	public void testGetLabel() {
+		View geneView = ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
+		DomainElementClass[] domainElements = geneView.getValidElements();
+		System.out.println("Valid Domain Elements for GeneExprSampleView");
+		for(int i=0;i<domainElements.length;i++){
+			System.out.println("["+i+"]"+domainElements[i].getLabel());
+		}
 	}
 
 }
