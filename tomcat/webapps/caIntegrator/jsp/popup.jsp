@@ -6,7 +6,6 @@
 		Object q = (Object) request.getAttribute(NautilusConstants.QUERY_KEY);
 		if(q != null)	{
 			session.setAttribute(NautilusConstants.QUERY_KEY+"_tmp", q);
-			//System.out.println("Set prev in req");
 		}
 		else
 			request.setAttribute(NautilusConstants.QUERY_KEY, null);
