@@ -2134,6 +2134,7 @@ public class ComparativeGenomicForm extends BaseForm {
         form.setAssayPlatform(assayPlatform);
         form.setRegion(region);
         form.setCytobandRegionStart(cytobandRegionStart);
+        form.setCytobandRegionEnd(cytobandRegionEnd);
         form.setCloneId(cloneId);
         form.setCloneListFile(cloneListFile);
         form.setCloneListSpecify(cloneListSpecify);
