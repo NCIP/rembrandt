@@ -78,42 +78,44 @@ public class QuickSearchAction extends DispatchAction {
         quickSearchName = (String)request.getAttribute("quickSearchName");	
         quickSearchType = (String)request.getAttribute("quickSearchType");
 		kmplotType = (String)request.getAttribute("plotType");
-		//kmForm.setPlotType(kmplotType);
-		//kmForm.setGeneOrCytoband(quickSearchName );
-        if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
 
+        if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
             performKMGeneExpressionQuery(quickSearchName);
-    		//kmForm.setReporters(populateReporters());
-    		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
-    		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-    				kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
-    		if (generator.getMyActionErrors().size() > 0) {
-    			this.saveErrors(request, generator.getMyActionErrors());
-    			return mapping.findForward("badgraph");
-    		}
-            kmForm.setGeneOrCytoband(getKmResultsContainer().getGeneSymbol().getValue().toString() );
-    		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
-    		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
+            if(getKmResultsContainer() != null){
+        		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
+        		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+        				kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
+        		if (generator.getMyActionErrors().size() > 0) {
+        			this.saveErrors(request, generator.getMyActionErrors());
+        			return mapping.findForward("badgraph");
+        		}
+                kmForm.setGeneOrCytoband(getKmResultsContainer().getGeneSymbol().getValue().toString() );
+        		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
+        		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
+                return mapping.findForward("kmplot");
+            }
+            return mapping.findForward("badgraph");
         }
         else if(kmplotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
             performKMCopyNumberQuery(quickSearchName, quickSearchType);
             //kmForm.setReporters(populateReporters());
-            String cytobandGeneSymbol = getKmResultsContainer().getCytobandDE().getValue().toString();
-            kmForm.setGeneOrCytoband(quickSearchName +"("+cytobandGeneSymbol+")");
-            KMSampleInfo[] kmSampleInfos = {new KMSampleInfo(0,0,0)};
-            KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
-                    kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
+            if(getKmResultsContainer() != null){
+                String cytobandGeneSymbol = getKmResultsContainer().getCytobandDE().getValue().toString();
+                kmForm.setGeneOrCytoband(quickSearchName +"("+cytobandGeneSymbol+")");
+                KMSampleInfo[] kmSampleInfos = {new KMSampleInfo(0,0,0)};
+                KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+                        kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
             if (generator.getMyActionErrors().size() > 0) {
                 this.saveErrors(request, generator.getMyActionErrors());
                 return mapping.findForward("badgraph");
             }
-            //kmForm.setCensorDataset(generator.getCensorDataseries());
-            //kmForm.setLineDataset(generator.getLineDataseries());
-    		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
-    		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
-
+        		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
+        		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
+            return mapping.findForward("kmplot");
             }
-		return mapping.findForward("kmplot");
+            return mapping.findForward("badgraph");
+        }
+        return mapping.findForward("error");
 	}
 
 	public ActionForward redrawKMPlot(ActionMapping mapping, ActionForm form,
