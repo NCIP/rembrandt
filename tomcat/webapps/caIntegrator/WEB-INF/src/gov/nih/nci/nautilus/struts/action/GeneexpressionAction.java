@@ -68,7 +68,7 @@ public class GeneexpressionAction extends Action {
 			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
 			}
 		else if (thisView.equalsIgnoreCase("gene")){
-			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.Gene_VIEW_TYPE));
+			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_VIEW_TYPE));
 			}
 		
 		// Set gene criteria

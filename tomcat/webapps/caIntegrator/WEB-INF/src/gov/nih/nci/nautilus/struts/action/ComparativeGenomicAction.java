@@ -68,7 +68,7 @@ public class ComparativeGenomicAction extends Action {
 			if (thisView.equalsIgnoreCase("sample")) 
 				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
 			else if (thisView.equalsIgnoreCase("gene"))
-				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.Gene_VIEW_TYPE)); 
+				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_VIEW_TYPE)); 
 				System.out.println("3333");	
 	   // set Disease criteria
 		DiseaseOrGradeCriteria diseaseOrGradeCriteria = comparativeGenomicForm.getDiseaseOrGradeCriteria();

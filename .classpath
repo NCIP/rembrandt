@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="gov/nih/nci/nautilus/de/PBTest.java" kind="src" path="src"/>
-	<classpathentry excluding="DoFirst.java|gov/|gov/nih/nci/nautilus/struts/action/ClinicalDataAction.java|gov/nih/nci/nautilus/struts/action/ComparativeGenomicAction.java|gov/nih/nci/nautilus/struts/form/ClinicalDataForm.java|gov/nih/nci/nautilus/struts/form/ComparativeGenomicForm.java" kind="src" path="tomcat/webapps/caIntegrator/WEB-INF/src"/>
+	<classpathentry excluding="DoFirst.java|gov/|gov/nih/nci/nautilus/struts/action/ClinicalDataAction.java|gov/nih/nci/nautilus/struts/form/ClinicalDataForm.java" kind="src" path="tomcat/webapps/caIntegrator/WEB-INF/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/classes12.zip"/>
 	<classpathentry kind="lib" path="lib/commons-beanutils.jar"/>
