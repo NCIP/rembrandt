@@ -10,11 +10,11 @@ long randomness = System.currentTimeMillis(); //prevent image caching
 document.forms[0].target = "_self";
 </script>
 
-<html:reset styleClass="xbutton" value="clear"/>&nbsp;&nbsp;
+<html:reset styleClass="xbutton" value="clear" />&nbsp;&nbsp;
 <html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser();"/>&nbsp;&nbsp;
-<html:submit styleClass="xbutton" property="method">
+<html:submit styleId="previewButton" styleClass="xbutton" property="method">
      <bean:message key="buttons_tile.previewButton"/>
 </html:submit>&nbsp;&nbsp;
-<html:submit styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].queryName);">
+<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].queryName);">
      <bean:message key="buttons_tile.submittalButton"/>
 </html:submit>

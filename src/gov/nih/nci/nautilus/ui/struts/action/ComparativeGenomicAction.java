@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
@@ -35,6 +36,71 @@ import org.apache.struts.action.ActionMapping;
 
 public class ComparativeGenomicAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    
+   
+    /**
+     * Method submitAllGenes
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    
+    //If this is an All Genes submit
+    public ActionForward submitAllGenes(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+        
+        request.getSession().setAttribute("currentPage", "0");
+		request.getSession().removeAttribute("currentPage2");
+		
+		ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
+        //set all Genes query and give copyNumber default value
+		comparativeGenomicForm.setCnAmplified("2");
+         
+		logger.debug("This is an All Genes cgh Submital");
+		return mapping.findForward("showAllGenes");
+    }
+    
+    /**
+     * Method submitStandard
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    
+    //If this is a standard submit
+    public ActionForward submitStandard(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+        
+        request.getSession().setAttribute("currentPage", "0");
+		request.getSession().removeAttribute("currentPage2");
+		
+		ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
+		////set standard query and clear copyNumber default value
+		comparativeGenomicForm.setCopyNumber("");
+		comparativeGenomicForm.setCnAmplified("");
+		
+		logger.debug("This is an Standard cgh Submital");
+		return mapping.findForward("backToCGH");
+    }
+    
     
     /**
      * Method submittal
@@ -89,7 +155,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
                                     new ActionError(
                                             "gov.nih.nci.nautilus.ui.struts.form.query.cgh.error"));
                     this.saveErrors(request, errors);
-                    return mapping.findForward("backToCGHExp");
+                    return mapping.findForward("backToCGH");
                 }
             }
             catch (Exception e) {
@@ -157,12 +223,17 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         if (!diseaseOrGradeCriteria.isEmpty()) {
             cghQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);
         }
-
+       
         // Set gene criteria
         GeneIDCriteria geneIDCrit = comparativeGenomicForm.getGeneIDCriteria();
         if (!geneIDCrit.isEmpty()) {
             cghQuery.setGeneIDCrit(geneIDCrit);
         }
+        
+        // Set all genes criteria
+        AllGenesCriteria allGenesCrit = comparativeGenomicForm.getAllGenesCriteria();
+		if (!allGenesCrit.isEmpty())
+		    cghQuery.setAllGenesCrit(allGenesCrit);
         
         SampleCriteria sampleIDCrit = comparativeGenomicForm.getSampleCriteria();
 		if (!sampleIDCrit.isEmpty())
@@ -214,10 +285,16 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
       HashMap map = new HashMap();
       
       //Submit Query Button using comparative genomic submittal method
-      map.put("submittalButton", "submittal");
+      map.put("buttons_tile.submittalButton", "submittal");
       
       //Preview Query Button using comparative genomic preview method
-      map.put("previewButton", "preview");
+      map.put("buttons_tile.previewButton", "preview");
+      
+      //Submit All Genes Button using cgh submitAllGenes method
+      map.put("buttons_tile.submitAllGenes", "submitAllGenes");
+      
+      //Submit Standard Button using cgh expression submitStandard method
+      map.put("buttons_tile.submitStandard", "submitStandard");
       
       return map;
       

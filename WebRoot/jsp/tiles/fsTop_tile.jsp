@@ -4,7 +4,15 @@
 <%
 //below, we need to set the form action to the name cooresponding bean/action -
 //get if from the request, and make lower to match the struts-config
-String act = request.getParameter("s").toLowerCase();
+String actLong = request.getParameter("s").toLowerCase();
+String act ="";
+   if(actLong.indexOf(':') != -1){
+    String[] actLongStrings = actLong.split(":");
+    act = actLongStrings[0];
+   }
+   else
+    act = actLong;
+   
 String strIncFile = "/jsp/tiles/diseaseType_tile.jsp?act="+act;
 String strIncFile2 = "";
 String strIncFile3 = "";

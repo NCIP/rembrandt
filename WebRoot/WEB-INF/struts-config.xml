@@ -91,6 +91,7 @@
          <forward name="previewReport" path="/previewGeneReport.do?method=previewReport"/>
          <forward name="success" path="/jsp/geneViewReport.jsp" />
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
+         <forward name="showAllGenes" path="nautilus.allGenesGE" />
 	</action>
 	
 	<action path="/previewGeneReport"
@@ -136,6 +137,7 @@
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="previewReport" path="/previewCGReport.do?method=previewReport"/>
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
+         <forward name="showAllGenes" path="nautilus.allGenesCGH" />
 	</action>
 
 	<action path="/menu"

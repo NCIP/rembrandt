@@ -13,9 +13,11 @@ import org.apache.struts.upload.FormFile;
 public class UIFormValidator {
     private static Logger logger = Logger.getLogger(UIFormValidator.class);
     
-	public static ActionErrors validateGeneSymbol(String geneSymbol,
+	   
+    public static ActionErrors validateGeneSymbol(String geneSymbol,
 			ActionErrors errors) {
-		if (geneSymbol == null || geneSymbol.equals("")) {
+	    
+	    if (geneSymbol == null || geneSymbol.equals("")) {
 			errors
 					.add(
 							ActionErrors.GLOBAL_ERROR,

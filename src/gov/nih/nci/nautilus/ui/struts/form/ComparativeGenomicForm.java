@@ -5,6 +5,7 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
@@ -62,6 +63,9 @@ public class ComparativeGenomicForm extends BaseForm {
 
     // --------------------------------------------------------- Instance
     // Variables
+    
+    /**geneOption property */    
+	private String geneOption = "standard";
 
     /** geneList property */
     private String geneList;
@@ -167,6 +171,9 @@ public class ComparativeGenomicForm extends BaseForm {
 
     /** basePairStart property */
     private String basePairStart;
+    
+    /** isAllGenes property */
+    private boolean isAllGenes = false;
 
     // Collections used for Lookup values.
 
@@ -196,6 +203,7 @@ public class ComparativeGenomicForm extends BaseForm {
     private HashMap regionDomainMap = new HashMap();
 
     private HashMap cloneDomainMap = new HashMap();
+    
     private HashMap snpDomainMap = new HashMap();
 
     private HashMap alleleDomainMap = new HashMap();// this may be implemented this release.
@@ -205,6 +213,8 @@ public class ComparativeGenomicForm extends BaseForm {
     private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
 
     private GeneIDCriteria geneCriteria;
+    
+    private AllGenesCriteria allGenesCriteria;
     
     private SampleCriteria sampleCriteria;
 
@@ -282,6 +292,9 @@ public class ComparativeGenomicForm extends BaseForm {
             HttpServletRequest request) {
 
         ActionErrors errors = new ActionErrors();
+        
+        //if the method of the button is "submit" or "run report", validate
+        if(this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview")){
         logger.debug("Validating Form");
         
         //Query Name cannot be blank
@@ -300,7 +313,7 @@ public class ComparativeGenomicForm extends BaseForm {
         errors = UIFormValidator.validateSnpId(snpId, snpList, snpListFile, errors);
         
         // Validate minimum criteria's for CGH Query
-        if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
+        if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
             if ((this.getGeneGroup() == null || this.getGeneGroup().trim()
                     .length() < 1)
                     && (this.getChrosomeNumber() == null || this
@@ -319,11 +332,13 @@ public class ComparativeGenomicForm extends BaseForm {
                                             "gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error"));
                 }
             }
+          }
         }
         //@TODO This should be moved to the action class
         if (errors.isEmpty()) {// if there are no errors, then proceed.
             createDiseaseCriteriaObject();
             createGeneCriteriaObject();
+            createAllGenesCriteriaObject();
             createSampleCriteriaObject();
             createCopyNumberCriteriaObject();
             createRegionCriteriaObject();
@@ -332,9 +347,15 @@ public class ComparativeGenomicForm extends BaseForm {
             createAlleleFrequencyCriteriaObject();
             createAssayPlatformCriteriaObject();
         }
+        else
+		    logger.debug("This isn't submit or preview report"); 
         return errors;
 
     }
+    
+    private void createAllGenesCriteriaObject(){        
+        allGenesCriteria = new AllGenesCriteria(isAllGenes);
+      }
 
     /*
      * createDiseaseCriteriaObject() mtethod is to look through the
@@ -778,6 +799,7 @@ public class ComparativeGenomicForm extends BaseForm {
         snpCriteria = new SNPCriteria();
         alleleFrequencyCriteria = new AlleleFrequencyCriteria();
         assayPlatformCriteria = new AssayPlatformCriteria();
+        allGenesCriteria = new AllGenesCriteria(isAllGenes);
 
         // reset the request object
         thisRequest = request;
@@ -849,6 +871,33 @@ public class ComparativeGenomicForm extends BaseForm {
     }
     
     /**
+	 * Sets the geneOption
+	 * 
+	 * @return String
+	 */
+	public void setGeneOption(String geneOption){
+	    this.geneOption = geneOption;
+	    if (thisRequest != null){
+	        String thisGeneOption = this.thisRequest.getParameter("geneOption");
+	        if (thisGeneOption != null
+	                && thisGeneOption.equalsIgnoreCase("allgenes")){
+	            //set all Genes query and give copyNumber default value
+	            isAllGenes = true;
+	            copyNumber = "amplified";
+	        }
+	    }
+	}
+	
+	/**
+	 * Returns the geneOption.
+	 * 
+	 * @return String
+	 */	
+	public String getGeneOption(){
+	    return geneOption;
+	}
+    
+    /**
 	 * Returns the sampleList.
 	 * 
 	 * @return String
@@ -893,6 +942,10 @@ public class ComparativeGenomicForm extends BaseForm {
 
     public GeneIDCriteria getGeneIDCriteria() {
         return this.geneCriteria;
+    }
+    
+    public AllGenesCriteria getAllGenesCriteria(){
+        return this.allGenesCriteria;
     }
     
     public SampleCriteria getSampleCriteria(){

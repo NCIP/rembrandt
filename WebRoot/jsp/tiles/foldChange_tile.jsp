@@ -14,6 +14,8 @@
 <html:radio property="regulationStatus" value="up" styleClass="radio" /> Up-regulation &ge;
 				<html:text property="foldChangeValueUp" size="3" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].regulationStatus[0]);" />&nbsp;fold(s)</br>
 
+				<html:errors property="isAllGenes" />
+				
 <html:radio property="regulationStatus" value="down" styleClass="radio" /> Down Regulation &ge;
 <html:text property="foldChangeValueDown" size="3" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].regulationStatus[1]);" />&nbsp;fold(s)</br>
 <html:radio property="regulationStatus" value="updown" styleClass="radio" /> Up or Down&nbsp;

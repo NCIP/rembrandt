@@ -38,6 +38,20 @@
 	  <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
     
+    <definition name="nautilus.allGenesGE" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=geneExpression:allGenesGE" />
+	  <put name="title" value="Gene Expression" />	<!-- title of page -->
+      <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+      <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    </definition>
+    
+     <definition name="nautilus.allGenesCGH" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic:allGenesCGH" />
+	  <put name="title" value="Comparative Genomic Data" />	<!-- title of page -->
+      <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+      <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    </definition>
+    
 	<definition name="nautilus.menu" extends="baseDef">
       <put name="mainForm" value="/jsp/menu.jsp" />
 	  <put name="title" value="Advanced Search - Build Query" />

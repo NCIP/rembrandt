@@ -38,7 +38,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
 	
     /**
-     * Method submittal
+     * Method submitAllGenes
      * 
      * @param ActionMapping
      *            mapping
@@ -52,11 +52,69 @@ public class GeneExpressionAction extends LookupDispatchAction {
      * @throws Exception
      */
     
+    //If this is an All Genes submit
+    public ActionForward submitAllGenes(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+        
+        request.getSession().setAttribute("currentPage", "0");
+		request.getSession().removeAttribute("currentPage2");
+		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
+         
+		logger.debug("This is an All Genes Gene Expression Submital");
+		return mapping.findForward("showAllGenes");
+    }
+    
+    /**
+     * Method submitStandard
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    
+    //If this is a standard submit
+    public ActionForward submitStandard(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+        
+        request.getSession().setAttribute("currentPage", "0");
+		request.getSession().removeAttribute("currentPage2");
+		
+		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
+		// set form back to standard state and clear default value
+		geneExpressionForm.setRegulationStatus("");
+		
+		logger.debug("This is an Standard Gene Expression Submital");
+		return mapping.findForward("backToGeneExp");
+    }
+    
+    /**
+     * Method submittal
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
     //If this is a Submittal do the following	
 	public ActionForward submittal(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
+        
 		request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
@@ -84,7 +142,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
 											"gov.nih.nci.nautilus.ui.struts.form.query.geneexp.error"));
 					this.saveErrors(request, errors);
-					return mapping.findForward("backToGeneExp");
+				    return mapping.findForward("backToGeneExp"); 
 				}
 			}// end of try
 			catch (Exception e) {
@@ -181,6 +239,12 @@ public class GeneExpressionAction extends LookupDispatchAction {
        
        //Preview Query Button using gene expression preview method
        map.put("buttons_tile.previewButton", "preview");
+       
+       //Submit All Genes Button using gene expression submitAllGenes method
+       map.put("buttons_tile.submitAllGenes", "submitAllGenes");
+       
+       //Submit Standard Button using gene expression submitStandard method
+       map.put("buttons_tile.submitStandard", "submitStandard");
        
        return map;
        

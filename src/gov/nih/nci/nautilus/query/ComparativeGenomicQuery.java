@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.AlleleFrequencyCriteria;
 import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
@@ -27,6 +28,7 @@ import org.apache.log4j.Logger;
 
 public class ComparativeGenomicQuery extends Query {
     
+    private AllGenesCriteria allGenesCrit;
     private static Logger logger = Logger.getLogger(ComparativeGenomicQuery.class);
     private GeneIDCriteria geneIDCriteria;
     private SampleCriteria sampleIDCrit;
@@ -75,7 +77,13 @@ public class ComparativeGenomicQuery extends Query {
 		    logger.debug("Disease Criteria is empty or Application Resources file is missing");
 		  } //end of DiseaseOrGradeCriteria
 		
-		 
+		// start All Genes Criteria
+		AllGenesCriteria thisAllGenesCrit = this.getAllGenesCrit();
+		if(thisAllGenesCrit != null && !thisAllGenesCrit.isEmpty()){
+		    OutStr += "<br /><b class='otherbold'>Gene</b><br />&nbsp;&nbsp;&nbsp;All Genes";
+		}
+		else logger.debug("This is not an All Genes Query");
+		
 		 // starting CopyNumberCriteria
 		CopyNumberCriteria thisCopyNumberCrit = this.getCopyNumberCriteria();	
 			
@@ -258,6 +266,13 @@ public class ComparativeGenomicQuery extends Query {
 
     public void setGeneIDCrit(GeneIDCriteria geneIDCriteria) {
         this.geneIDCriteria = geneIDCriteria;
+    }
+    
+    public AllGenesCriteria getAllGenesCrit() {
+        return allGenesCrit;
+    }
+    public void setAllGenesCrit(AllGenesCriteria allGenes) {
+        this.allGenesCrit = allGenes;
     }
 
     public RegionCriteria getRegionCriteria() {

@@ -49,8 +49,8 @@ public class GeneExpressionForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance
 	// Variables
-    /**geneOption property */
     
+    /**geneOption property */    
 	private String geneOption = "standard";
     
     private String[] pathwayName;
@@ -239,8 +239,13 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
-
+        
+	    
 		ActionErrors errors = new ActionErrors();
+		
+       //if the method of the button is "submit" or "run report", validate
+		if(this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview")){
+		    
 		// Query Name cannot be blank
 		errors = UIFormValidator.validateQueryName(queryName, errors);
 		// Chromosomal region validations
@@ -255,7 +260,7 @@ public class GeneExpressionForm extends BaseForm {
         errors = UIFormValidator.validateTextFileType(geneFile, "geneGroup", errors);
 		//Validate CloneId
         errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
-                
+		       
         // Validate minimum criteria's for GE Query 
 		if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
 		   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
@@ -270,6 +275,7 @@ public class GeneExpressionForm extends BaseForm {
 						new ActionError(
 								"gov.nih.nci.nautilus.ui.struts.form.ge.minimum.error"));
 			}
+		  }
 		}
 		
         if (errors.isEmpty()) {
@@ -284,15 +290,17 @@ public class GeneExpressionForm extends BaseForm {
 			createPathwayCriteriaObject();
 			createArrayPlatformCriteriaObject();
 
-		}
-
+		 
+	    }
+		else
+		    logger.debug("This isn't submit or preview report"); 
 		return errors;
+	    
 	}
     private void createAllGenesCriteriaObject(){        
       allGenesCriteria = new AllGenesCriteria(isAllGenes);
-      if (allGenesCriteria.isEmpty())
-          System.out.println("its empty");
     }
+    
 	private void createDiseaseCriteriaObject() {
 		//look thorugh the diseaseDomainMap to extract out the domain elements
 		// and create respective Criteria Objects
@@ -865,6 +873,7 @@ public class GeneExpressionForm extends BaseForm {
 	        if (thisGeneOption != null
 	                && thisGeneOption.equalsIgnoreCase("allgenes")){
 	            isAllGenes = true;
+	            regulationStatus = "up";
 	        }
 	    }
 	}

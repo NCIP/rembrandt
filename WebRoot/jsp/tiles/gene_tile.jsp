@@ -14,7 +14,7 @@ String act = request.getParameter("act");
 </legend>
 
 <br>
-  <html:radio property="geneOption" styleClass="radio" value="standard" />
+  <html:radio property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery()" />
   
       &nbsp;&nbsp;<html:select property="geneType" disabled="false">
 		<html:optionsCollection property="geneTypeColl" />
@@ -36,8 +36,21 @@ String act = request.getParameter("act");
 		<html:errors property="geneList"/>
 		<html:errors property="geneType"/></br>
 		
-  <html:radio property="geneOption" styleClass="radio" value="allGenes" />All Genes Query
+  <html:radio property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" />All Genes Query
 		
 	</fieldset>		
 
 <!-- </html:form> -->
+
+<script language="JavaScript">
+function submitAllGenesQuery(){
+  document.forms[0].previewButton.value="AllGenes";
+  document.forms[0].previewButton.click();
+   }
+	    
+function submitStandardQuery(){
+  document.forms[0].previewButton.value="Standard";
+  document.forms[0].previewButton.click();
+}
+
+</script>	
