@@ -9,6 +9,7 @@ package gov.nih.nci.nautilus.resultset.copynumber;
 import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CopyNumber;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 
 /**
@@ -45,7 +46,15 @@ public class CopyNumberViewHandler {
 	      		if(reporterResultset == null){
 	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}  	
-	    		}
+	    	}
+	  		if(copyNumberObj.getAnnotations() != null){
+	  			CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
+	  			reporterResultset.setAssiciatedGenBankAccessionNos(copyNumberObj.getAnnotations().getAccessionNumbers());
+	  			reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
+	  			reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
+	  			
+	  		}
+	    	
 		}
         return reporterResultset;
     }

@@ -49,6 +49,8 @@
  */
 package gov.nih.nci.nautilus.resultset.gene;
 
+import java.text.Annotation;
+
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
@@ -75,7 +77,7 @@ public abstract class GeneExprViewHandler {
   		return geneResultset;
 
     }
-	protected static ReporterResultset handleReporterResultset(GeneResultset geneResultset,gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr exprObj){
+	protected static ReporterResultset handleReporterResultset(GeneResultset geneResultset,GeneExpr exprObj){
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one
 		ReporterResultset reporterResultset = null;
@@ -94,6 +96,12 @@ public abstract class GeneExprViewHandler {
 	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}
 	  			}
+	  		if(exprObj.getAnnotation() != null){
+	  			GeneExpr.Annotaion annotation = exprObj.getAnnotation();
+	  			reporterResultset.setAssiciatedGenBankAccessionNos(exprObj.getAnnotation().getAccessions());
+	  			reporterResultset.setAssiciatedLocusLinkIDs(exprObj.getAnnotation().getLocusLinks());	  			
+	  		}
+	  	
 		}
         return reporterResultset;
     }

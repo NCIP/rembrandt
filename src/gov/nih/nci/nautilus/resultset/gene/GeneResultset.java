@@ -16,8 +16,6 @@ import java.util.*;
 public class GeneResultset {
 
 	  private GeneIdentifierDE.GeneSymbol geneSymbol = null;
-	  private GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo = null;
-	  private GeneIdentifierDE.LocusLink locusLinkID = null;
 	  private boolean isAnonymousGene = false;
 	  //private DataSetDE. dataset;
 	  private SortedMap reporters = new TreeMap();
@@ -25,19 +23,6 @@ public class GeneResultset {
 	public static void main(String[] args) {
 	}
 
-	/**
-	 * @return Returns the genbankAccessionNo.
-	 */
-	public GeneIdentifierDE.GenBankAccessionNumber getGenbankAccessionNo() {
-		return genbankAccessionNo;
-	}
-	/**
-	 * @param genbankAccessionNo The genbankAccessionNo to set.
-	 */
-	public void setGenbankAccessionNo(
-			GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo) {
-		this.genbankAccessionNo = genbankAccessionNo;
-	}
 	/**
 	 * @return Returns the geneSymbol.
 	 */
@@ -49,18 +34,6 @@ public class GeneResultset {
 	 */
 	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
 		this.geneSymbol = geneSymbol;
-	}
-	/**
-	 * @return Returns the locusLinkID.
-	 */
-	public GeneIdentifierDE.LocusLink getLocusLinkID() {
-		return locusLinkID;
-	}
-	/**
-	 * @param locusLinkID The locusLinkID to set.
-	 */
-	public void setLocusLinkID(GeneIdentifierDE.LocusLink locusLinkID) {
-		this.locusLinkID = locusLinkID;
 	}
 	/**
 	 * @param reporterResultset Adds reporterResultset to this GeneResultset object.

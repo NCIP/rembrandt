@@ -16,7 +16,9 @@ import gov.nih.nci.nautilus.de.*;
 public class ReporterResultset {
 	private DatumDE reporter = null;
 	private SortedMap groupTypes = new TreeMap();
-
+    private Collection assiciatedGeneSymbols = null;
+    private Collection assiciatedLocusLinkIDs =  null;
+    private Collection assiciatedGenBankAccessionNos = null;
 	/**
 	 * 
 	 */
@@ -82,4 +84,41 @@ public class ReporterResultset {
 		return reporter.getType();
 	}
 	
+	/**
+	 * @return Returns the assiciatedGenBankAccessionNos.
+	 */
+	public Collection getAssiciatedGenBankAccessionNos() {
+		return assiciatedGenBankAccessionNos;
+	}
+	/**
+	 * @param assiciatedGenBankAccessionNos The assiciatedGenBankAccessionNos to set.
+	 */
+	public void setAssiciatedGenBankAccessionNos(
+			Collection assiciatedGenBankAccessionNos) {
+		this.assiciatedGenBankAccessionNos = assiciatedGenBankAccessionNos;
+	}
+	/**
+	 * @return Returns the assiciatedGeneSymbols.
+	 */
+	public Collection getAssiciatedGeneSymbols() {
+		return assiciatedGeneSymbols;
+	}
+	/**
+	 * @param assiciatedGeneSymbols The assiciatedGeneSymbols to set.
+	 */
+	public void setAssiciatedGeneSymbols(Collection assiciatedGeneSymbols) {
+		this.assiciatedGeneSymbols = assiciatedGeneSymbols;
+	}
+	/**
+	 * @return Returns the assiciatedLocusLinkIDs.
+	 */
+	public Collection getAssiciatedLocusLinkIDs() {
+		return assiciatedLocusLinkIDs;
+	}
+	/**
+	 * @param assiciatedLocusLinkIDs The assiciatedLocusLinkIDs to set.
+	 */
+	public void setAssiciatedLocusLinkIDs(Collection assiciatedLocusLinkIDs) {
+		this.assiciatedLocusLinkIDs = assiciatedLocusLinkIDs;
+	}
 }
