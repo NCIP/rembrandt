@@ -77,3 +77,30 @@ function clearFilterForm(form)	{
 	form.submit();
 }
 
+function goFilterColumn(status, my_class)	{
+		var st = 'block';
+		if(status) { st = 'none'; }
+		if(!status)	{ st = '';}
+		
+		c = document.getElementsByTagName("td");
+		
+		for(i=0; i<c.length; i++)	{
+				if(c[i].className == my_class)	{
+						c[i].style.display = st; 			  
+				}
+		}		
+}
+function goFilterColumnMg(box, my_class)	{
+	if(box.checked == true)
+		goFilterColumn(true, my_class);
+	else if(box.checked == false)
+		goFilterColumn(false, my_class);
+}
+
+function toggleDiv(id)	{
+	
+		if(document.getElementById(id).style.display == "none")
+			document.getElementById(id).style.display = "block";
+		else if(document.getElementById(id).style.display != "none")
+			document.getElementById(id).style.display = "none";	
+}
