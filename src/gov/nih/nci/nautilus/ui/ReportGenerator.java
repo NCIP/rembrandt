@@ -159,7 +159,7 @@ public class ReportGenerator  {
 			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
 			sb.append("<div class=\"rowCount\">"+samples.size()+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n");
 			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
-			sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL</td><td id=\"header\">DISEASE</td>");
+			sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	if(gLinks)
  		   		sb.append("<Td id=\"header\">GeneExp</td>");
  		   	if(cLinks)
