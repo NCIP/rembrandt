@@ -286,7 +286,7 @@ public class ReportGeneratorAction extends DispatchAction {
 			//This will generate get a resultant and store it in the cache
 		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(rb, filterParams);
 			//store the name of the query in the form so that we can later pull it out of cache
-		    //reportBean is now our new bean (aka rb, with newly populated XML, ect)
+		    //reportBean is now our new bean (a.k.a. rb, with newly populated XML, ect)
 			reportBean = rgHelper.getReportBean();
 			//add the new name so we know its a copy number filter
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
