@@ -14,7 +14,7 @@ public class UIFormValidator {
     private static Logger logger = Logger.getLogger(UIFormValidator.class);
     
 	   
-    public static ActionErrors validateGeneSymbol(String geneSymbol,
+    public static ActionErrors validateGeneSymbolisNotEmpty(String geneSymbol,
 			ActionErrors errors) {
 	    
 	    if (geneSymbol == null || geneSymbol.equals("")) {
@@ -24,7 +24,6 @@ public class UIFormValidator {
 							new ActionError(
 									"gov.nih.nci.nautilus.ui.struts.form.quicksearch.emptyGene"));
 		}
-
 		return errors;
 		/*
 		 * else { try { Collection results = LookupManager.getGeneSymbols();

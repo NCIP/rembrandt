@@ -30,7 +30,7 @@ public class QuickSearchForm extends BaseForm {
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
 	    ActionErrors errors = new ActionErrors();
-	    UIFormValidator.validateGeneSymbol(quickSearchName, errors);
+	    UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
 		return errors;
 
 	}
