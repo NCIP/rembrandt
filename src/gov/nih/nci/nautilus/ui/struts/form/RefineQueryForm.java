@@ -31,8 +31,6 @@ public class RefineQueryForm extends BaseForm implements Factory {
 
 	private String compoundView;
 
-	private String resultSetName;
-
 	private String runFlag = "no";
 
 	private String method;
@@ -78,7 +76,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		queryText = "";
 		compoundView = "";
-		resultSetName = "";
+		selectedResultSet = "";
 		setRefineQueryLookups(request);
 		compoundViewColl = new ArrayList();
 		compoundViewColl.add(new LabelValueBean(" ", " "));
@@ -123,27 +121,6 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 */
 	public void setCompoundView(String compoundView) {
 		this.compoundView = compoundView;
-
-	}
-
-	/**
-	 * Returns the resultsetName.
-	 * 
-	 * @return String
-	 */
-	public String getResultSetName() {
-
-		return resultSetName;
-	}
-
-	/**
-	 * Set the resultsetName.
-	 * 
-	 * @param resultsetName
-	 *            The resultsetName to set
-	 */
-	public void setResultSetName(String resultsetName) {
-		this.resultSetName = resultsetName;
 
 	}
 

@@ -148,31 +148,7 @@ public class ReportGeneratorHelper {
 		//All done...
 	}
 	
-	/**
-	 * This is used to take the RefineQueryForm "filter_string" and create a 
-	 * list from the comma seperated tokens contained in the string. It also
-	 * removes any unacceptable characters and creates an acceptable string...
-	 * In truth it is utilizing the MoreStringUtils class to clean the strings.
-	 * @param filterParams
-	 */
-	private Map processFilterParamMap(Map filterParams) {
-		String test = "";
-		List tokens = null;
-		String unallowableCharacters = " <>!:\"@#\\$%^&*()-+=/{}[]|?~`";
-		if(filterParams!=null && filterParams.containsKey("filter_string")) {
-			//tokenize the string
-			StringTokenizer tokenizer = new StringTokenizer((String)filterParams.get("filter_string"), ",", false);
-			tokens = new ArrayList();
-			while(tokenizer.hasMoreTokens()) {
-				String cleanToken = MoreStringUtils.cleanString(unallowableCharacters, tokenizer.nextToken());				
-				cleanToken = cleanToken.toUpperCase();
-				tokens.add(cleanToken);
-			}
-			filterParams.put("filter_string", tokens);
-		}
-		return filterParams;
-		
-	}
+	
 
 	/**
 	 * This is intended to be used to generate a ReportBean when you have a
@@ -234,25 +210,7 @@ public class ReportGeneratorHelper {
 		generateReportXML();
 	}
 	
-	/**
-	 * Hopefully will recurse through the compound query adding the 
-	 * SampleCriteria to each of the associated queries.  Let's see what
-	 * happens
-	 * @param query
-	 * @param sampleCriteria
-	 */
-	private void addSampleCriteriaToCompoundQuery(Queriable query, SampleCriteria sampleCriteria) {
-		if(query!=null) {
-			if(query instanceof CompoundQuery) {
-				CompoundQuery newQuery = (CompoundQuery)query;
-				addSampleCriteriaToCompoundQuery(newQuery.getLeftQuery(), sampleCriteria);
-				addSampleCriteriaToCompoundQuery(newQuery.getRightQuery(), sampleCriteria);
-			}else {
-				Query newQuery = (Query)query;
-				newQuery.setSampleIDCrit(sampleCriteria);
-			}
-		}
-	}
+	
 
 	/**
 	 * This constructor uses a TemplateMethod pattern to perform the following
@@ -542,6 +500,50 @@ public class ReportGeneratorHelper {
 		//Drop the sampleIds into the SampleCriteria
 		theCriteria.setSampleIDs(sampleIds);
 		return theCriteria;
+	}
+	/**
+	 * Hopefully will recurse through the compound query adding the 
+	 * SampleCriteria to each of the associated queries.  Let's see what
+	 * happens
+	 * @param query
+	 * @param sampleCriteria
+	 */
+	public static void addSampleCriteriaToCompoundQuery(Queriable query, SampleCriteria sampleCriteria) {
+		if(query!=null) {
+			if(query instanceof CompoundQuery) {
+				CompoundQuery newQuery = (CompoundQuery)query;
+				addSampleCriteriaToCompoundQuery(newQuery.getLeftQuery(), sampleCriteria);
+				addSampleCriteriaToCompoundQuery(newQuery.getRightQuery(), sampleCriteria);
+			}else {
+				Query newQuery = (Query)query;
+				newQuery.setSampleIDCrit(sampleCriteria);
+			}
+		}
+	}
+	/**
+	 * This is used to take the RefineQueryForm "filter_string" and create a 
+	 * list from the comma seperated tokens contained in the string. It also
+	 * removes any unacceptable characters and creates an acceptable string...
+	 * In truth it is utilizing the MoreStringUtils class to clean the strings.
+	 * @param filterParams
+	 */
+	private Map processFilterParamMap(Map filterParams) {
+		String test = "";
+		List tokens = null;
+		String unallowableCharacters = " <>!:\"@#\\$%^&*()-+=/{}[]|?~`";
+		if(filterParams!=null && filterParams.containsKey("filter_string")) {
+			//tokenize the string
+			StringTokenizer tokenizer = new StringTokenizer((String)filterParams.get("filter_string"), ",", false);
+			tokens = new ArrayList();
+			while(tokenizer.hasMoreTokens()) {
+				String cleanToken = MoreStringUtils.cleanString(unallowableCharacters, tokenizer.nextToken());				
+				cleanToken = cleanToken.toUpperCase();
+				tokens.add(cleanToken);
+			}
+			filterParams.put("filter_string", tokens);
+		}
+		return filterParams;
+		
 	}
 	
 

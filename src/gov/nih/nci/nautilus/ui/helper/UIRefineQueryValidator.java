@@ -3,9 +3,12 @@ package gov.nih.nci.nautilus.ui.helper;
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
@@ -56,7 +59,7 @@ public class UIRefineQueryValidator {
 		ActionErrors errors = new ActionErrors();
 		boolean isAllGenesQuery = refineQueryForm.isAllGenesQuery();
 		List selectedQueries = refineQueryForm.getSelectedQueries();
-		String selectedResultSet = refineQueryForm.getResultSetName();
+		String selectedResultSet = refineQueryForm.getSelectedResultSet();
 		//remove any incidental or incorrect selectedQueries from the List
 		selectedQueries = scrubTheLazyList(selectedQueries);
 		/* CASE 1:
@@ -90,16 +93,18 @@ public class UIRefineQueryValidator {
          * This can be either a selected "All Gene Query", or a regular query.
          */
         if(selectedQueries.size()==1) {
-           SelectedQueryBean query = (SelectedQueryBean)selectedQueries.get(0);
-           if(!query.getQueryName().equals("")&&!query.getQueryName().equals(" ")) {
+           SelectedQueryBean queryBean = (SelectedQueryBean)selectedQueries.get(0);
+           if(!queryBean.getQueryName().equals("")&&!queryBean.getQueryName().equals(" ")) {
            	//They have chosen a query
-		  	compoundQuery = new CompoundQuery(queryBag.getQuery(query.getQueryName()));
+           	String queryName = queryBean.getQueryName();
+           	Queriable query = queryBag.getQuery(queryName);
+		  	compoundQuery = new CompoundQuery(query);
 		   }else {
 		     //They have not chosen a query
 		     errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query"));
 		    }
         }else 
-        	/*CASE 3:
+        	/* CASE 3:
              * There is more than 1 query selected
         	 */
         	if(selectedQueries.size()>1) {
@@ -136,27 +141,53 @@ public class UIRefineQueryValidator {
     			logger.error(e);
     		}
         }
-           
+        /*
+         * At this point we should have a CompoundQuery that contains 1 of 3
+         * things. 1-A Single "AllGenesQuery" in the right child, 2-A Single
+         * Query in the Right Child. 3-A CompoundQuery full of any number of
+         * queries selected by the user in the RefineQuery page.
+         */   
 		if(compoundQuery!=null) {
-			//Get collection of view types
-			List viewCollection = setRefineQueryView(compoundQuery, request);
-			//apply the selected result set if one was chosen
-		    if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
-	        	Queriable newQuery = cacheManager.getQuery(sessionId, selectedResultSet);
-	        	CompoundQuery prbQuery = new CompoundQuery(OperatorType.AND, compoundQuery, newQuery);
-	        }
+			
+			String resultSetString = "";
+			/*
+			 * This is where we will apply a result set of sample ids to the
+			 * CompoundQuery that was just created. In the instance that it is
+			 * an "AllGenes" query a result set is mandatory.  But we checked for
+			 * that earlier in the getAllGenesQuery() method, so no need to do
+			 * it here. But we do need to check to see if the user actually
+			 * has a result set they want us to apply.
+			 */
+		    
+			if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
+	        	CompoundQuery resultSetCompoundQuery = (CompoundQuery)(cacheManager.getQuery(sessionId, selectedResultSet));
+	        	/*
+	    		 * At this time there is only a single query in any result set.
+	    		 * So let me grab that single query out of the compound query 
+	    		 * and extract it's sampleCriteria to apply to the compoundQuery
+	    		 */
+	    		Queriable query1 = resultSetCompoundQuery.getAssociatiedQueries()[0];
+	    		query1.setQueryName(selectedResultSet);
+	    		SampleCriteria sampleCrit = ((GeneExpressionQuery)query1).getSampleIDCrit();
+	        	//drop the sample criteria into the compound query
+	    		ReportGeneratorHelper.addSampleCriteriaToCompoundQuery(compoundQuery,sampleCrit);
+	    		resultSetString = "AND "+selectedResultSet;
+		    }
 			//store the sessionId that the compound query is associated with
 			compoundQuery.setSessionId(sessionId);
-            //Returned String representation of the final query
-            refineQueryForm.setQueryText(compoundQuery.toString());
-            
-            
+			//Returned String representation of the final query
+			refineQueryForm.setQueryText(compoundQuery.toString()+resultSetString);
+            //We need to retrieve the list of available views
+            List viewCollection = setRefineQueryView(compoundQuery, request);
             // Set collection of view types in Form
             refineQueryForm.setCompoundViewColl(viewCollection);
             //Stuff compoundquery in queryCollection
             queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
+            //This means show that Run Button as we have a query to run...
             refineQueryForm.setRunFlag("yes");
-        }
+        }else {
+	    	
+	    }
         refineQueryForm.setErrors(errors);
         return refineQueryForm;
  	}
