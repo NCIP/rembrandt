@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.criteria.AllGenesCriteria;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
@@ -138,6 +139,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
 		if (!sampleIDCrit.isEmpty())
 			geneExpQuery.setSampleIDCrit(sampleIDCrit);
+		AllGenesCriteria allGenesCrit = geneExpressionForm.getAllGenesCriteria();
+		if (!allGenesCrit.isEmpty())
+		    geneExpQuery.setAllGenesCrit(allGenesCrit);
 		FoldChangeCriteria foldChangeCrit = geneExpressionForm
 				.getFoldChangeCriteria();
 		if (!foldChangeCrit.isEmpty())
@@ -173,10 +177,10 @@ public class GeneExpressionAction extends LookupDispatchAction {
        HashMap map = new HashMap();
        
        //Submit Query Button using gene expression submittal method
-       map.put("submittalButton", "submittal");
+       map.put("buttons_tile.submittalButton", "submittal");
        
        //Preview Query Button using gene expression preview method
-       map.put("previewButton", "preview");
+       map.put("buttons_tile.previewButton", "preview");
        
        return map;
        
