@@ -176,7 +176,20 @@
 		<input type="submit" name="filter_submit" value="Highlight" />
 	  </div>
 	  </form>
+	  
+	  <div class="filterForm">
+		<b>Select Samples:</b> 
+		<xsl:text>&#160;</xsl:text>
+		<input type="text" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$qName}" />
+		<input type="button" name="filter_submit" value="Save Samples" onclick="javascript:saveSamples();" />
+		<xsl:text>&#160;</xsl:text>
+		<a href="#" onclick="javascript:checkAll(document.prbSamples.samples);return false;">[Check All]</a>
+		<xsl:text>&#160;</xsl:text>
+		<a href="#" onclick="javascript:uncheckAll(document.prbSamples.samples);return false;">[Uncheck All]</a>
+	  </div>
+	  <br/>
 	  </xsl:if>
+	  
 	  <div class="pageControl">
 	  <!-- <xsl:value-of select="$recordCount" /> records returned. -->
 	  <b>Displaying:</b> 
@@ -246,7 +259,13 @@
 					<xsl:otherwise>
 						<xsl:variable name="currentGroup" select="@group" />
 						<xsl:variable name="colspan" select="count(/Report/Row[@name='sampleRow']/Cell[@group=$currentGroup])"/>
-						<td colspan="{$colspan}" class="{$currentGroup}"><xsl:value-of select="Data" /></td>
+						<td colspan="{$colspan}" class="{$currentGroup}">
+							<xsl:value-of select="Data" />
+							<a href="#" onclick="javascript:checkById(document.prbSamples.samples, '{$currentGroup}');return false;">[all]</a>
+							<a href="#" onclick="javascript:uncheckById(document.prbSamples.samples, '{$currentGroup}');return false;">[none]</a>
+							<a href="#" onclick="javascript:toggleCheckById(document.prbSamples.samples, '{$currentGroup}');return false;">[toggle]</a>
+						
+						</td>
 					</xsl:otherwise>
 			</xsl:choose>
 		    </xsl:for-each>
@@ -265,8 +284,8 @@
 			  	
 			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() != ' ' and $currentGroup = 'header'">
 			  	<td colspan="2" align="center">
-				  <input type="text" name="prb_queryName" value="{$qName}" size="10" />
-				  <input type="submit" name="prb_submitSamples" value="Save" style="width:40px" />
+				  <input type="hidden" name="prbQueryName" value="{$qName}" size="10" />
+				  <!-- <input type="submit" name="prb_submitSamples" value="Save" style="width:40px" /> -->
 				 </td>
 			  	</xsl:if>
 			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() = ' ' and following::Cell[1]/Data[1]/text() != ' ' and $currentGroup = 'header'">
@@ -276,7 +295,7 @@
 			  <xsl:otherwise>
 		      	<td class="{$currentGroup}">
 		      	<xsl:if test="$sample != '' and $sample != ' '">
-		      		<input type="checkbox" name="samples" value="{$sample}"/>
+		      		<input id ="{$currentGroup}" type="checkbox" name="samples" value="{$sample}"/>
 		      	</xsl:if>
 		      		<a href="#?s={$sample}"><xsl:value-of select="Data" /></a>
 		      	</td>
@@ -295,7 +314,7 @@
 		      			<td class="{$class}">
 						<xsl:if test="$class = 'sample'">
 		      				<xsl:variable name="sample" select="Data"  />
-		      				<input type="checkbox" name="sample" value="{$sample}"/>
+		      				<input type="checkbox" name="samples" value="{$sample}"/>
 						</xsl:if>
 		      			<xsl:choose>
 		      			<xsl:when test="$filter_value1 != 000 and Data > $filter_value1">

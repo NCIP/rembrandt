@@ -6,3 +6,44 @@ function stupidXSL(i, cPage)	{
 	document.write(str);
 
 }
+
+	function checkAll(field)	{
+		for (i = 0; i < field.length; i++)
+			field[i].checked = true ;
+	}
+		
+	function uncheckAll(field)	{
+		for (i = 0; i < field.length; i++)
+			field[i].checked = false ;
+	}
+		
+	function checkById(field, idx)	{
+		for (i = 0; i < field.length; i++)	{
+			if(field[i].id == idx)	{
+				field[i].checked = true;
+				//field[i].checked = !field[i].checked;
+			}
+		}
+	}
+		
+	function uncheckById(field, idx)	{
+		for (i = 0; i < field.length; i++)	{
+			if(field[i].id == idx)
+				field[i].checked = false;
+		}
+	}
+
+	function toggleCheckById(field, idx)	{
+		for (i = 0; i < field.length; i++)	{
+			if(field[i].id == idx)	{
+				field[i].checked = !field[i].checked;
+				//field[i].checked = true;
+			}
+		}
+	}
+
+	function saveSamples()	{
+		document.prbSamples.prbQueryName.value = document.getElementById('tmp_prb_queryName').value;
+		//alert(document.prbSamples.prbQueryName.value);
+		document.prbSamples.submit();
+	}
