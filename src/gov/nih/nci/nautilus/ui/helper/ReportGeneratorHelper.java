@@ -223,7 +223,7 @@ public class ReportGeneratorHelper {
 		//store the cache key that can be used to retrieve this bean later
 		_reportBean.setResultantCacheKey(_queryName);
 		//this is a result set
-		_reportBean.setResultSetQuery(true);
+		_reportBean.setSampleSetQuery(true);
 		//generate the reportXML and store in the ReportBean
 		generateReportXML();
 	}

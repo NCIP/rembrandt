@@ -493,7 +493,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 				Object object = element.getValue();
 				if(object instanceof ReportBean) {
 					ReportBean bean = (ReportBean)object;
-					if(bean.isResultSetQuery()) {
+					if(bean.isSampleSetQuery()) {
 						names.add(bean.getResultantCacheKey());
 					}
 				}

@@ -21,7 +21,7 @@ public class ReportBean implements Serializable{
     private String resultantCacheKey;
 	private Document reportXML;
 	private Map filterParams = new HashMap();
-	private boolean isResultSetQuery = false;
+	private boolean isSampleSetQuery = false;
     
 	public ReportBean() {}
 
@@ -74,15 +74,15 @@ public class ReportBean implements Serializable{
 		this.filterParams = filterParams;
 	}
 	/**
-	 * @return Returns the isResultSetQuery.
+	 * @return Returns the isSampleSetQuery.
 	 */
-	public boolean isResultSetQuery() {
-		return isResultSetQuery;
+	public boolean isSampleSetQuery() {
+		return isSampleSetQuery;
 	}
 	/**
-	 * @param isResultSetQuery The isResultSetQuery to set.
+	 * @param isSampleSetQuery The isSampleSetQuery to set.
 	 */
-	public void setResultSetQuery(boolean isResultSetQuery) {
-		this.isResultSetQuery = isResultSetQuery;
+	public void setSampleSetQuery(boolean isSampleSetQuery) {
+		this.isSampleSetQuery = isSampleSetQuery;
 	}
 }
