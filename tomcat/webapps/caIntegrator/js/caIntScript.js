@@ -1,8 +1,15 @@
-function formNewTarget()
+function formNewTarget(windowName, winw, winh)
 {
-	document.forms[0].target = "_blank";
+	spawnx("", winw, winh, windowName);
+	document.forms[0].target = windowName;
 	return true;
 }
+
+function spawnx(url,winw,winh, name) {
+  var w = window.open(url, name,
+      "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
+      ",scrollbars=yes,resizable=yes");
+} 
 
 function spawn(url,winw,winh) {
   var w = window.open(url, "_blank",
