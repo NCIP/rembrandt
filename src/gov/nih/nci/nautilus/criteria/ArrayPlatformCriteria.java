@@ -12,7 +12,9 @@ import java.util.*;
  * To change this template use Options | File Templates.
  */
 public class ArrayPlatformCriteria extends Criteria {
+   
     ArrayPlatformDE platform;
+	public ArrayPlatformCriteria(){}
 
     public ArrayPlatformDE getPlatform() {
         return platform;

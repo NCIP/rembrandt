@@ -12,6 +12,7 @@ import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
 import java.lang.reflect.*;
+import java.io.*;
 
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
@@ -469,20 +470,20 @@ public class GeneExpressionForm extends BaseForm {
 
 
 		// Loop thru the pathwayDomainMap HashMap, extract the Domain elements and create respective Criteria Objects
-		Set keys = arrayPlatformDomainMap.keySet();
+		Set keys = arrayPlatformDomainMap.keySet();		
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
+		   
 			Object key = i.next();
 			System.out.println(key + "=>" + arrayPlatformDomainMap.get(key));
 
 			try {
-				String strArrayPlatformDomainClass = (String) arrayPlatformDomainMap.get(key);
+				String strArrayPlatformDomainClass = (String) arrayPlatformDomainMap.get(key);				
 				Constructor [] arrayPlatformConstructors = Class.forName(strArrayPlatformDomainClass).getConstructors();
-				Object [] parameterObjects = {key};
+				Object [] parameterObjects = {key};				
 
 				ArrayPlatformDE arrayPlatformDEObj = (ArrayPlatformDE)arrayPlatformConstructors[0].newInstance(parameterObjects);
 				arrayPlatformCriteria.setPlatform(arrayPlatformDEObj);
-
 				System.out.println("GO Domain Element Value==> "+arrayPlatformDEObj.getValueObject());
 			} catch (Exception ex) {
 				System.out.println("Error in createArrayPlatformCriteriaObject  "+ex.getMessage());
@@ -587,7 +588,7 @@ public class GeneExpressionForm extends BaseForm {
 		foldChangeValueUnchangeTo = "1.2";
 		foldChangeValueUp = "2";
 		geneType = "";
-		foldChangeValueUDUp = "";
+		foldChangeValueUDUp = "2";
 		resultView = "";
 		geneFile = "";
 		foldChangeValueUDDown = "2";
@@ -617,6 +618,7 @@ public class GeneExpressionForm extends BaseForm {
 		cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
 		geneOntologyCriteria = new GeneOntologyCriteria();
 		pathwayCriteria = new PathwayCriteria();
+		arrayPlatformCriteria = new ArrayPlatformCriteria();
 
 
         //arrayPlatformCriteria = new ArrayPlatformCriteria();
@@ -650,20 +652,82 @@ public class GeneExpressionForm extends BaseForm {
 
 				if (thisGeneType.equalsIgnoreCase("genesymbol")){
 					geneDomainMap.put(splitValue[i], GeneIdentifierDE.GeneSymbol.class.getName());
-				} else
-				if (thisGeneType.equalsIgnoreCase("genelocus")){
+				} 
+				else if (thisGeneType.equalsIgnoreCase("genelocus")){
 					geneDomainMap.put(splitValue[i], GeneIdentifierDE.LocusLink.class.getName());
-				} else
-				if (thisGeneType.equalsIgnoreCase("genbankno")){
+				} else if (thisGeneType.equalsIgnoreCase("genbankno")){
 					geneDomainMap.put(splitValue[i], GeneIdentifierDE.GenBankAccessionNumber.class.getName());
 				}
+				else if(thisGeneType.equalsIgnoreCase("allgenes")){
+				   geneDomainMap.put(splitValue[i], GeneIdentifierDE.GeneSymbol.class.getName());
+				}
+				
 			}
 		}
 
 		// Set for all genes
+		/*
 		if (thisGeneGroup != null && thisGeneGroup.equalsIgnoreCase("Specify") && (thisGeneType.equalsIgnoreCase("allgenes"))){
 			geneDomainMap.put("allgenes", GeneIdentifierDE.GeneSymbol.class.getName());
+		}*/
+	}
+/**
+	 * Returns the geneFile.
+	 * @return String
+	 */
+	public String getGeneFile() {
+		return geneFile;
+	}
+
+	/**
+	 * Set the geneFile.
+	 * @param geneFile The geneFile to set
+	 */
+	public void setGeneFile(String geneFile) {
+		this.geneFile = geneFile;
+		
+		String thisGeneType = this.thisRequest.getParameter("geneType");
+		String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload") && (thisGeneType.length() >0) && (this.geneFile.length() > 0)){
+		     
+             File geneListFile = new File(this.geneFile);
+			 String line = null;
+			 try{
+			   FileReader editfr = new FileReader (geneListFile);
+		       BufferedReader inFile = new BufferedReader (editfr);           
+		       line = inFile.readLine();
+			   int i=0;
+			 
+			   while (line != null && line.length()>0) {				  		     
+			      StringTokenizer st = new StringTokenizer(line);
+			      while(st.hasMoreTokens()){			   
+				      String token = st.nextToken();
+					  if (thisGeneType.equalsIgnoreCase("genesymbol")){
+						geneDomainMap.put(token, GeneIdentifierDE.GeneSymbol.class.getName());
+					    } 
+					  else if (thisGeneType.equalsIgnoreCase("genelocus")){
+						geneDomainMap.put(token, GeneIdentifierDE.LocusLink.class.getName());
+					   } 
+					  else if (thisGeneType.equalsIgnoreCase("genbankno")){
+						geneDomainMap.put(token, GeneIdentifierDE.GenBankAccessionNumber.class.getName());
+					   }			              
+			      	 else if(thisGeneType.equalsIgnoreCase("allgenes")){
+				        geneDomainMap.put(token, GeneIdentifierDE.GeneSymbol.class.getName());
+				      }
+		
+					}
+				  line = inFile.readLine();  				  
+			    }// end of while
+				
+			 inFile.close();
+			  }
+			 catch(IOException ex){
+			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
+			  }
+			 
 		}
+		
+
 	}
 
 
@@ -862,21 +926,7 @@ public class GeneExpressionForm extends BaseForm {
 		arrayPlatformDomainMap.put(this.arrayPlatform, ArrayPlatformDE.class.getName());
 	}
 
-	/**
-	 * Returns the cloneListFile.
-	 * @return String
-	 */
-	public String getCloneListFile() {
-		return cloneListFile;
-	}
-
-	/**
-	 * Set the cloneListFile.
-	 * @param cloneListFile The cloneListFile to set
-	 */
-	public void setCloneListFile(String cloneListFile) {
-		this.cloneListFile = cloneListFile;
-	}
+	
 
 	/**
 	 * Returns the goCellularComp.
@@ -952,6 +1002,60 @@ public class GeneExpressionForm extends BaseForm {
 		    }
 	}
 
+	/**
+	 * Returns the cloneListFile.
+	 * @return String
+	 */
+	public String getCloneListFile() {
+		return cloneListFile;
+	}
+
+	/**
+	 * Set the cloneListFile.
+	 * @param cloneListFile The cloneListFile to set
+	 */
+	public void setCloneListFile(String cloneListFile) {
+		this.cloneListFile = cloneListFile;		
+			// this is to check if the radio button is selected for the clone category
+		String thisCloneId = (String)thisRequest.getParameter("cloneId");
+	   // this is to check the type of the clone
+	   String thisCloneList = (String)thisRequest.getParameter("cloneList");	
+	   if ((thisCloneId != null) && thisCloneId.equalsIgnoreCase("Upload") && (thisCloneList.length() >0) && (this.cloneListFile.length() > 0)){
+		     
+             File cloneFile = new File(this.cloneListFile);
+			 String line = null;
+			 try{
+			   FileReader editfr = new FileReader (cloneFile);
+		       BufferedReader inFile = new BufferedReader (editfr);           
+		       line = inFile.readLine();
+			   int i=0;
+			 
+			   while (line != null && line.length()>0) {				  		     
+			      StringTokenizer st = new StringTokenizer(line);
+			      while(st.hasMoreTokens()){			   
+				      String token = st.nextToken();
+					  if (thisCloneList.equalsIgnoreCase("imageId")){
+					    cloneDomainMap.put(token,CloneIdentifierDE.IMAGEClone.class.getName());						
+					    } 
+					  else if (thisCloneList.equalsIgnoreCase("BACId")){
+					    cloneDomainMap.put(token,CloneIdentifierDE.BACClone.class.getName());						
+					   } 
+					  else if (thisCloneList.equalsIgnoreCase("probeSetId")){
+					    cloneDomainMap.put(token,CloneIdentifierDE.ProbesetID.class.getName());
+					   }	              
+			    
+					}
+				  line = inFile.readLine();  				  
+			    }// end of while
+				
+			 inFile.close();
+			  }
+			 catch(IOException ex){
+			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
+			  }
+	   }
+
+	}
 	/**
 	 * Returns the goClassification.
 	 * @return String
@@ -1137,14 +1241,39 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setFoldChangeValueUDUp(String foldChangeValueUDUp) {
 		this.foldChangeValueUDUp = foldChangeValueUDUp;
-
 		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus");
-
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("updown") && (this.foldChangeValueUDUp.length() > 0))
-
+		System.out.println("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"+thisRegulationStatus);
+		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("updown") && (this.foldChangeValueUDUp.length() > 0)){
 			foldDomainMap.put(this.foldChangeValueUDUp, ExprFoldChangeDE.UpRegulation.class.getName());
+		    System.out.println("foldDomainMap size in the setFoldChangeValueUDUp() method:"+foldDomainMap.size());
+		 }
+	 }
+	 
+   /**
+	 * Returns the foldChangeValueUDDown.
+	 * @return String
+	 */
+	public String getFoldChangeValueUDDown() {
+		return foldChangeValueUDDown;
 	}
 
+	/**
+	 * Set the foldChangeValueUDDown.
+	 * @param foldChangeValueUDDown The foldChangeValueUDDown to set
+	 */
+	public void setFoldChangeValueUDDown(String foldChangeValueUDDown) {
+		this.foldChangeValueUDDown = foldChangeValueUDDown;
+		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus");
+		System.out.println("I am in the setFoldChangeValueUDDown() methid: "+thisRegulationStatus);
+
+		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("updown") && (this.foldChangeValueUDDown.length() > 0))
+
+			foldDomainMap.put(this.foldChangeValueUDDown, ExprFoldChangeDE.DownRegulation.class.getName());
+	        System.out.println("foldDomainMap size in the setFoldChangeValueUDDown() method:"+foldDomainMap.size());
+
+	}
+
+	 
 	/**
 	 * Returns the resultView.
 	 * @return String
@@ -1161,43 +1290,8 @@ public class GeneExpressionForm extends BaseForm {
 		this.resultView = resultView;
 	}
 
-	/**
-	 * Returns the geneFile.
-	 * @return String
-	 */
-	public String getGeneFile() {
-		return geneFile;
-	}
-
-	/**
-	 * Set the geneFile.
-	 * @param geneFile The geneFile to set
-	 */
-	public void setGeneFile(String geneFile) {
-		this.geneFile = geneFile;
-	}
-
-	/**
-	 * Returns the foldChangeValueUDDown.
-	 * @return String
-	 */
-	public String getFoldChangeValueUDDown() {
-		return foldChangeValueUDDown;
-	}
-
-	/**
-	 * Set the foldChangeValueUDDown.
-	 * @param foldChangeValueUDDown The foldChangeValueUDDown to set
-	 */
-	public void setFoldChangeValueUDDown(String foldChangeValueUDDown) {
-		this.foldChangeValueUDDown = foldChangeValueUDDown;
-		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus");
-
-		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("updown") && (this.foldChangeValueUDDown.length() > 0))
-
-			foldDomainMap.put(this.foldChangeValueUDDown, ExprFoldChangeDE.DownRegulation.class.getName());
-	}
-
+	
+	
 	/**
 	 * Returns the geneGroup.
 	 * @return String

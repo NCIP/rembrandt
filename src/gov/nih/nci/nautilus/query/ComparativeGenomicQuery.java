@@ -153,7 +153,7 @@ public class ComparativeGenomicQuery extends Query {
 		   if(!thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
 			  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
 				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-			    Collection cloneColl = thisCloneOrProbeCriteria.getCloneIdentifiers();
+			    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
 			    Iterator iter = cloneColl.iterator();
 			    while(iter.hasNext()){
 				    CloneIdentifierDE cloneIdentifierDE = (CloneIdentifierDE)iter.next();

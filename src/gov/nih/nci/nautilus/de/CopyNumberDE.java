@@ -70,7 +70,6 @@ abstract public class CopyNumberDE extends DomainElement {
         public Amplification(Float AmplificationNumber) {
             super(AMPLIFICATION, AmplificationNumber);
         }
-
     }
 
  /**
@@ -79,9 +78,7 @@ abstract public class CopyNumberDE extends DomainElement {
     public final static class Deletion extends CopyNumberDE {
        public Deletion(Float deletionNumber) {
             super(DELETION, deletionNumber);
-
        }
-
     }
 
  /**

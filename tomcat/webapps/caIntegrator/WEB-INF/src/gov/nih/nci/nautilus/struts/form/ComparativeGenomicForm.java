@@ -15,6 +15,7 @@ import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
 import java.lang.reflect.*;
+import java.io.*;
 
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
@@ -848,23 +849,45 @@ private void createAssayPlatformCriteriaObject(){
 	 */
 	public void setCloneListFile(String cloneListFile) {
 		this.cloneListFile = cloneListFile;
+			// this is to check if the radio button is selected for the clone category
+		String thisCloneId = (String)thisRequest.getParameter("cloneId");
+	   // this is to check the type of the clone
+	   String thisCloneList = (String)thisRequest.getParameter("cloneList");	
+	   if ((thisCloneId != null) && thisCloneId.equalsIgnoreCase("Upload") && (thisCloneList.length() >0) && (this.cloneListFile.length() > 0)){
+		     
+             File cloneFile = new File(this.cloneListFile);
+			 String line = null;
+			 try{
+			   FileReader editfr = new FileReader (cloneFile);
+		       BufferedReader inFile = new BufferedReader (editfr);           
+		       line = inFile.readLine();
+			   int i=0;
+			 
+			   while (line != null && line.length()>0) {				  		     
+			      StringTokenizer st = new StringTokenizer(line);
+			      while(st.hasMoreTokens()){			   
+				      String token = st.nextToken();
+					  if (thisCloneList.equalsIgnoreCase("imageId")){
+					    cloneDomainMap.put(token,CloneIdentifierDE.IMAGEClone.class.getName());						
+					    } 
+					  else if (thisCloneList.equalsIgnoreCase("BACId")){
+					    cloneDomainMap.put(token,CloneIdentifierDE.BACClone.class.getName());						
+					   }				              
+			    
+					}
+				  line = inFile.readLine();  				  
+			    }// end of while
+				
+			 inFile.close();
+			  }
+			 catch(IOException ex){
+			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
+			  }
+	   }
+
 	}
 
-	/** 
-	 * Returns the snpListFile.
-	 * @return String
-	 */
-	public String getSnpListFile() {
-		return snpListFile;
-	}
-
-	/** 
-	 * Set the snpListFile.
-	 * @param snpListFile The snpListFile to set
-	 */
-	public void setSnpListFile(String snpListFile) {
-		this.snpListFile = snpListFile;
-	}
+	
 
 	/** 
 	 * Returns the cloneListSpecify.
@@ -918,11 +941,12 @@ private void createAssayPlatformCriteriaObject(){
 		this.snpListSpecify = snpListSpecify;
 		
 	   // this is to check if the radio button is selected for the SNP category
-	   String thisSNPId = (String)thisRequest.getParameter("snpId");	   
+	   String thisSNPId = (String)thisRequest.getParameter("snpId");	
+	  
 	   // this is to check the type of the SNP
 	   String thisSNPList = (String)thisRequest.getParameter("snpList");
-	   
-	   if(thisSNPId != null && thisSNPList != null && !thisSNPList.equals("")){
+	  
+	   if(thisSNPId != null && thisSNPId.equalsIgnoreCase("specify") && thisSNPList != null && !thisSNPList.equals("")){
 	      if(this.snpListSpecify != null && !this.snpListSpecify.equals("")){
 		    String [] snpStr = this.snpListSpecify.split("\\x2C");
 			for(int i=0; i<snpStr.length; i++){
@@ -941,6 +965,69 @@ private void createAssayPlatformCriteriaObject(){
 	    }
 	}
 
+	/** 
+	 * Returns the snpListFile.
+	 * @return String
+	 */
+	public String getSnpListFile() {
+		return snpListFile;
+	}
+
+	/** 
+	 * Set the snpListFile.
+	 * @param snpListFile The snpListFile to set
+	 */
+	public void setSnpListFile(String snpListFile) {
+		this.snpListFile = snpListFile;
+	  // this is to check if the radio button is selected for the SNP category
+	   String thisSNPId = (String)thisRequest.getParameter("snpId");	
+	  System.out.println(" thisSNPId in the setSnpListFile() method is:" +thisSNPId);
+	   // this is to check the type of the SNP
+	   String thisSNPList = (String)thisRequest.getParameter("snpList");
+	   System.out.println(" thisSNPList in the setSnpListFile() method is:" +thisSNPList);
+	
+	   if(thisSNPId != null && thisSNPId.equalsIgnoreCase("upload") && thisSNPList != null && !thisSNPList.equals("")&& this.snpListFile.length()>0){
+	     
+             File snpFile = new File(this.snpListFile);
+			 String line = null;
+			 try{
+			   FileReader editfr = new FileReader (snpFile);
+		       BufferedReader inFile = new BufferedReader (editfr);           
+		       line = inFile.readLine();
+			   int i=0;
+			 
+			   while (line != null && line.length()>0) {		
+			     i ++;
+				 System.out.println("i is :"+i);		  		     
+			      StringTokenizer st = new StringTokenizer(line);
+				  
+			      while(st.hasMoreTokens()){			   
+				      String token = st.nextToken();
+					  System.out.println("		token is :"+token);			  
+					   if(thisSNPList.equalsIgnoreCase("TSCId")){
+					    snpDomainMap.put(token,SNPIdentifierDE.TSC.class.getName());
+					   } 
+					   else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
+					    snpDomainMap.put(token,SNPIdentifierDE.SBSNP.class.getName());					   
+					   }				              
+			           else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
+					    snpDomainMap.put(token,SNPIdentifierDE.SNPProbeSet.class.getName());					  
+					   }	
+					}
+				  System.out.println("	line is :"+line);
+				  line = inFile.readLine();  	
+				  		  
+			    }// end of while
+				
+			 inFile.close();
+			  }
+			 catch(IOException ex){
+			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
+			  }
+	   }
+		
+		
+	}
 	/** 
 	 * Returns the cnADAmplified.
 	 * @return String
@@ -1146,6 +1233,45 @@ private void createAssayPlatformCriteriaObject(){
 	 */
 	public void setGeneFile(String geneFile) {
 		this.geneFile = geneFile;
+		String thisGeneType = this.thisRequest.getParameter("geneType");
+		String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload") && (thisGeneType.length() >0) && (this.geneFile.length() > 0)){
+		     
+             File geneListFile = new File(this.geneFile);
+			 String line = null;
+			 try{
+			   FileReader editfr = new FileReader (geneListFile);
+		       BufferedReader inFile = new BufferedReader (editfr);           
+		       line = inFile.readLine();
+			   int i=0;
+			 
+			   while (line != null && line.length()>0) {				  		     
+			      StringTokenizer st = new StringTokenizer(line);
+			      while(st.hasMoreTokens()){			   
+				      String token = st.nextToken();
+					  if (thisGeneType.equalsIgnoreCase("genesymbol")){
+						geneDomainMap.put(token, GeneIdentifierDE.GeneSymbol.class.getName());
+					    } 
+					  else if (thisGeneType.equalsIgnoreCase("genelocus")){
+						geneDomainMap.put(token, GeneIdentifierDE.LocusLink.class.getName());
+					   } 
+					  else if (thisGeneType.equalsIgnoreCase("genbankno")){
+						geneDomainMap.put(token, GeneIdentifierDE.GenBankAccessionNumber.class.getName());
+					   }			              
+			      	 else if(thisGeneType.equalsIgnoreCase("allgenes")){
+				        geneDomainMap.put(token, GeneIdentifierDE.GeneSymbol.class.getName());
+				      }
+		
+					}
+				  line = inFile.readLine();  				  
+			    }// end of while
+				
+			 inFile.close();
+			  }
+			 catch(IOException ex){
+			    System.out.println("Errors when uploading gene file:" + ex.getMessage());
+			  }
+		}
 	}
 
 	/** 

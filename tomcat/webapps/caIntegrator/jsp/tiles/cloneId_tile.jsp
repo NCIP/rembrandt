@@ -18,8 +18,8 @@
 					<html:option value="bac">BAC Id</html:option>
 				</html:select> --->
 &nbsp;<html:text property="cloneListSpecify"/>&nbsp;-or-&nbsp;
-<html:radio property="cloneId" value="file" styleClass="radio" disabled="true" />
-				<html:file property="cloneListFile" disabled="true" /></br>
+<html:radio property="cloneId" value="Upload" styleClass="radio" disabled="no" />
+			<html:file property="cloneListFile" disabled="no" /></br>
 			<html:errors property="cloneId"/></br>
 <!--
 <input type="radio" class="radio" name="cloneId" value="list" checked selected>

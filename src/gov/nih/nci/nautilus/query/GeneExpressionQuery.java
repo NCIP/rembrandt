@@ -65,7 +65,7 @@ public class GeneExpressionQuery extends Query {
 		if (!thisFoldChangeCrit.isEmpty() && labels != null) {
 			String thisCriteria = thisFoldChangeCrit.getClass().getName();
 			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-			Collection foldChangeObjects = thisFoldChangeCrit.getFoldChangeObjects();
+			Collection foldChangeObjects = thisFoldChangeCrit.getFoldChangeObjects();		
 			
 			for (Iterator iter = foldChangeObjects.iterator(); iter.hasNext();) {
 				DomainElement de = (DomainElement) iter.next();
