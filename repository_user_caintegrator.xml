@@ -334,7 +334,7 @@
              jdbc-type="VARCHAR"
         />
 
-   
+
 </class-descriptor>
 
 
@@ -781,7 +781,7 @@
         <field-descriptor
                name="goId"
                column="GO_ID"
-               jdbc-type="String"
+               jdbc-type="VARCHAR"
 
           />
         <field-descriptor
