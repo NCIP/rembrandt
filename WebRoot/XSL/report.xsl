@@ -140,11 +140,13 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		      			<td class="{$class}"><xsl:value-of select="Data" /></td>
 		    			</xsl:for-each>
 		    		</tr>
-				<xsl:if test="./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text()">
+
+				<xsl:if test="/Report[@reportType != 'Clinical'] and ./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text()">
 					<tr>
 		      			<td colspan="{$colCount}" class="geneSpacerStyle">--</td>
 		    		</tr>
 				</xsl:if>
+
 		</xsl:for-each>
   	</table>
   </xsl:for-each>
