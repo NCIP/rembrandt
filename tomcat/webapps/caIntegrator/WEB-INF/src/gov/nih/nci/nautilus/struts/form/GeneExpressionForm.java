@@ -12,7 +12,6 @@ import org.apache.struts.action.ActionError;
 import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
-import java.lang.Class;
 import java.lang.reflect.*;
 
 import gov.nih.nci.nautilus.criteria.*;
@@ -131,6 +130,7 @@ public class GeneExpressionForm extends ActionForm {
 	private FoldChangeCriteria foldChangeCriteria;
 	private RegionCriteria regionCriteria;
 	
+// Hashmap to store Domain elements 
 	private HashMap geneDomainMap;
 	private HashMap foldDomainMap;
 	private HashMap regionDomainMap;
@@ -141,7 +141,7 @@ public class GeneExpressionForm extends ActionForm {
 	// --------------------------------------------------------- Methods
 	public GeneExpressionForm(){
 		
-		// Create Criteria elements here
+		// Create Lookups for Gene Expression screens 
 		setGeneExpressionLookup();
 
 	}
@@ -187,6 +187,7 @@ public class GeneExpressionForm extends ActionForm {
 	private void createGeneCriteriaObject() {
 
 
+		// Loop thru the HashMap, extract the Domain elements and create respective Criteria Objects
 		Set keys = geneDomainMap.keySet();
 		Iterator i = keys.iterator();
 		while (i.hasNext()) {
@@ -198,7 +199,7 @@ public class GeneExpressionForm extends ActionForm {
 				Constructor [] geneConstructors = Class.forName(strgeneDomainClass).getConstructors();
 				Object [] parameterObjects = {key};
 
-				GeneIdentifierDE geneSymbolDEObj = (GeneIdentifierDE) geneConstructors[0].newInstance(parameterObjects);					
+				GeneIdentifierDE geneSymbolDEObj = (GeneIdentifierDE) geneConstructors[0].newInstance(parameterObjects);
 				geneCriteria.setGeneIdentifier(geneSymbolDEObj);
 				
 				System.out.println("Gene Domain Element Value==> "+geneSymbolDEObj.getValueObject());
@@ -213,6 +214,7 @@ public class GeneExpressionForm extends ActionForm {
 				
 					
 			}
+			
 
 	}
 
@@ -231,7 +233,7 @@ public class GeneExpressionForm extends ActionForm {
 				Object [] parameterObjects = {Float.valueOf((String) key)};
 
 				ExprFoldChangeDE foldChangeDEObj = (ExprFoldChangeDE) foldConstructors[0].newInstance(parameterObjects);					
-				foldChangeCriteria.setFoldChange(foldChangeDEObj);
+				foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
 
 				System.out.println("Fold Change Domain Element Value is ==>"+foldChangeDEObj.getValueObject());
 				
@@ -247,7 +249,7 @@ public class GeneExpressionForm extends ActionForm {
 				
 					
 			}
-
+			
 	}
 
 	private void createRegionCriteriaObject() {
@@ -288,14 +290,7 @@ public class GeneExpressionForm extends ActionForm {
 					System.out.println("Test End Criteria" + regionCriteria.getEnd().getValue());
 				}
 				
-/*				Object [] parameterObjects = {Float.valueOf((String) key)};
-
-				ExprFoldChangeDE foldChangeDEObj = (ExprFoldChangeDE) foldConstructors[0].newInstance(parameterObjects);					
-				foldChangeCriteria.setFoldChange(foldChangeDEObj);
-
-				System.out.println("Fold Change Domain Element Value is ==>"+foldChangeDEObj.getValueObject());*/
-				
-				
+			
 			} catch (Exception ex) {
 				System.out.println("Error in createRegionCriteriaObject  "+ex.getMessage());
 				ex.printStackTrace();
@@ -432,6 +427,17 @@ public class GeneExpressionForm extends ActionForm {
 		if (thisGeneGroup != null && thisGeneGroup.equalsIgnoreCase("Specify") && (thisGeneType.equalsIgnoreCase("allgenes"))){
 			geneDomainMap.put("allgenes", GeneIdentifierDE.GeneSymbol.class.getName());
 		}
+	}
+
+
+	public GeneIDCriteria getGeneIDCriteria() {
+		return this.geneCriteria;
+	}
+	public FoldChangeCriteria getFoldChangeCriteria() {
+		return this.foldChangeCriteria;
+	}
+	public RegionCriteria getRegionCriteria() {
+		return this.regionCriteria;
 	}
 
 	/** 
@@ -753,8 +759,7 @@ public class GeneExpressionForm extends ActionForm {
 		
 		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("unchange") && (this.foldChangeValueUnchangeFrom.length() > 0))
 
-			foldDomainMap.put(this.foldChangeValueUnchangeFrom, ExprFoldChangeDE.UnChangedRegulation.class.getName());
-
+			foldDomainMap.put(this.foldChangeValueUnchangeFrom, ExprFoldChangeDE.UnChangedRegulationDownLimit.class.getName());
 	}
 
 	/** 
@@ -775,6 +780,11 @@ public class GeneExpressionForm extends ActionForm {
 	 */
 	public void setFoldChangeValueUnchangeTo(String foldChangeValueUnchangeTo) {
 		this.foldChangeValueUnchangeTo = foldChangeValueUnchangeTo;
+		String thisRegulationStatus = this.thisRequest.getParameter("regulationStatus"); 
+		
+		if (thisRegulationStatus != null && thisRegulationStatus.equalsIgnoreCase("unchange") && (this.foldChangeValueUnchangeTo.length() > 0)) {
+			foldDomainMap.put(this.foldChangeValueUnchangeTo, ExprFoldChangeDE.UnChangedRegulationUpperLimit.class.getName());
+		}
 	}
 
 	/** 
