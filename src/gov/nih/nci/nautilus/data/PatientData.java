@@ -5,6 +5,9 @@ package gov.nih.nci.nautilus.data;
 
 public class PatientData
 {
+  public final static String BIOSPECIMEN_ID = "biospecimenId";
+  public final static String SURVIVAL_LENGTH = "survivalLength";
+    
   private Long age;
 
   private Long biospecimenId;
