@@ -6,6 +6,8 @@ package gov.nih.nci.nautilus.struts.form;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.LabelValueBean;
+import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.lookup.*;
 
 import java.util.*;
 
@@ -101,5 +103,67 @@ public class BaseForm extends ActionForm {
 	 */
 	public void setMethod(String method) {
 		this.method = method;
+	}
+	
+	public Collection getChromosomeValue(){
+
+			Collection returnColl = new ArrayList();
+			ChromosomeNumberDE[] chromosomes;
+			try {
+				chromosomes = LookupManager.getChromosomeDEs();
+				TreeSet chrNum = new TreeSet();
+				TreeSet chrStr = new TreeSet();
+
+				if(chromosomes != null){
+					for(int i =0; i < chromosomes.length; i++){
+
+						try {
+							chrNum.add(new Integer(chromosomes[i].getValueObject()));
+						}catch(NumberFormatException ex){
+							chrStr.add(chromosomes[i].getValueObject());
+						}
+
+					}
+				}
+				returnColl.add(new LabelValueBean("",""));
+				for (Iterator iter = chrNum.iterator(); iter.hasNext();) {
+					String idxValue = ((Integer)iter.next()).toString(); 
+					returnColl.add(new LabelValueBean(idxValue, idxValue));
+				}
+				for (Iterator iter = chrStr.iterator(); iter.hasNext();) {
+					String idxValue = (String) iter.next();
+					returnColl.add(new LabelValueBean(idxValue, idxValue));
+				}
+			} catch (Exception e) {
+				System.out.println("Error reading Chromosome values from table "+e.getLocalizedMessage());
+			}
+			return returnColl;
+
+		}
+
+	public HashMap getCytoBandForChr(){
+		
+			Collection chrValues = this.getChromosomeValue();
+			HashMap cytobandCollections = new HashMap();
+			
+			for (Iterator chrVal = chrValues.iterator(); chrVal.hasNext();) {
+				LabelValueBean lbl = (LabelValueBean) chrVal.next();
+				String thisChromosome = lbl.getValue();
+				if (thisChromosome.length() > 0){
+					try {
+						CytobandDE[] cytobands = LookupManager.getCytobandDEs(new ChromosomeNumberDE(thisChromosome));
+						String cytoString = "";
+						for (int cytoIndex = 1; cytoIndex < cytobands.length; cytoIndex++) {
+							if (cytoString.length() > 0) cytoString += ",";
+							cytoString += '"'+cytobands[cytoIndex].getValueObject()+'"';
+						}
+						cytobandCollections.put(thisChromosome,cytoString);
+					
+					}catch(Exception ex){
+						System.out.println("Error reading Cytobands from table"+ex.getMessage());
+					}
+				}
+			}
+			return cytobandCollections;
 	}
 }
