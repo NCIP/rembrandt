@@ -144,6 +144,7 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	 */
     public Collection getFilteredGroupByResultsets(String[] groupLabels, boolean isShow){
     	Collection geneResults = new ArrayList();
+    	/**
     	Collection geneCollection = (Collection)genes;
     	if(isShow){ //get all geneResultant objects that are in the collection
     		for (Iterator geneIterator = geneCollection.iterator(); geneIterator.hasNext();) {
@@ -180,7 +181,7 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	        		}
 	    		}
     		}
-    	}
+    	}**/
     	return geneResults;
     }    
 	/**
@@ -193,7 +194,7 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	//getPaginatedGeneResultsets(int start, int count) – returns gene resultant from start to start+count
     public Collection  getPaginatedGeneResultsets(int start, int count){
     	Set keys = genes.keySet();
-    	String[] geneNames = (String[]) keys.toArray();
+    	String[] geneNames = (String[]) keys.toArray(new String[genes.size()]);
     	Collection geneResults = new ArrayList();
     	int size = count;
     	if( geneNames.length < count) {
@@ -216,13 +217,19 @@ public class GeneExprResultsContainer implements ResultsContainer{
 	    	}
     	}
        	else{//return everything besides the ones that are in the collection
-       		geneResults = (Collection) genes;
+       		Set symbols = genes.keySet();
 	    	for (int i = 0; i < geneSymbols.length; i++ ){
 	    		String geneSymbol = geneSymbols[i].getValue().toString();
 	    		if(genes.containsKey(geneSymbol)){
-	    			geneResults.remove(genes.get(geneSymbol));
+	    			symbols.remove((String) genes.get(geneSymbol));
 	    		}
 	    	}
+	    	Collection geneKeys = new ArrayList();
+	    	for(Iterator symbolsIterator = symbols.iterator(); symbolsIterator.hasNext();){
+	    		String symbol = (String) symbolsIterator.next();
+	    		geneKeys.add(new GeneIdentifierDE.GeneSymbol(symbol));
+	    	}
+	    	geneResults = getFilteredGeneResultsets((GeneIdentifierDE.GeneSymbol[])geneKeys.toArray(new GeneIdentifierDE.GeneSymbol[geneKeys.size()]),true);
     	}
     	return geneResults;
     }
