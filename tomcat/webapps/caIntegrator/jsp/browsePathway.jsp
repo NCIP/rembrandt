@@ -62,9 +62,8 @@
 	 <tr>
 	  <td class="label"><b>No</b></td>
 	  <td class="label"><b>Pathway Name</b></td>
-	  <td class="label"><b>Pathway Title</b></td>
-	  <td class="label"><b>Pathway Description</b> </td>
-	  <td class="label"><b>Genes</b> </td>
+	  <td class="label"><b>Pathway Title</b></td>	  
+	  <td class="label"><b>Genes & Pathway Description </b> </td>
 	  </tr>
 
 	
@@ -87,9 +86,8 @@
 				<tr>
 		          <TD><%=k%></TD>
 		          <TD><html:checkbox property="pathwayName" value="<%=pathwayName%>"/> <%=pathwayName%></TD>
-		          <TD><%=myPathways[i].getDisplayValue()%></TD>
-				  <TD><%=myPathways[i].getDescription()%></TD>
-				  <TD><a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"> Genes</a></TD>
+		          <TD><%=myPathways[i].getDisplayValue()%></TD>				
+				  <TD><a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"> Genes & Pathway Description</a></TD>
 				</tr>
 					<%}
 		      }
@@ -102,7 +100,7 @@
 		
  </table>
  <p>
-  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;
+  <div></div><input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;
   
  </p>
 
