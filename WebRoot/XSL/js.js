@@ -66,8 +66,17 @@ function stupidXSL(i, cPage, total)	{
 
 	function saveSamples()	{
 		document.prbSamples.prbQueryName.value = document.getElementById('tmp_prb_queryName').value;
-		//alert(document.prbSamples.prbQueryName.value);
-		document.prbSamples.submit();
+		var can_continue = false;
+		for (i = 0; i < document.prbSamples.samples.length; i++)	{
+			if(document.prbSamples.samples[i].checked == true)
+				can_continue = true;
+		}
+		if(can_continue)	{
+			//alert("cool");
+			document.prbSamples.submit();
+		}
+		else	
+			alert("You must select at least one sample");
 	}
 
 	function groupCheck(field, idx, ischecked)	{
