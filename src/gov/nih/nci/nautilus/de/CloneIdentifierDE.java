@@ -80,10 +80,10 @@ abstract public class CloneIdentifierDE extends DomainElement {
     * Sets the value for this <code>CloneIdentifierDE</code> object
     * @param object the value    
 	*/  
-    public void setValue(Object cloneID) throws Exception {
-         if (! (geneID instanceof String) )
+    public void setValue(Object obj) throws Exception {
+         if (! (obj instanceof String) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
-         setValueObject((String)cloneID);
+         setValueObject((String)obj);
     }
 
 	
@@ -97,10 +97,20 @@ abstract public class CloneIdentifierDE extends DomainElement {
 
 	
   /**
+    * Sets the cloneName for this <code>GeneIdentifierDE</code> object
+    * @param cloneName the cloneName    
+	*/ 
+	
+    public void setValueObject(String cloneName) {
+        assert(cloneName != null);
+        this.value = cloneName;
+    }
+	
+  /**
     * Sets the cloneID for this <code>CloneIdentifierDE</code> object
     * @param cloneID the cloneID    
 	*/ 
-    public void geneID(String cloneID) {
+    public void setCloneID(String cloneID) {
         assert(cloneID != null);
         value = cloneID;
     }

@@ -97,10 +97,10 @@ abstract public class GeneIdentifierDE extends DomainElement {
     * Sets the value for this <code>GeneIdentifierDE</code> object
     * @param object the value    
 	*/  
-    public void setValue(Object geneID) throws Exception {
-         if (! (geneID instanceof String) )
+    public void setValue(Object obj) throws Exception {
+         if (! (obj instanceof String) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
-         setValueObject((String)geneID);
+         setValueObject((String)obj);
     }
 
 	
@@ -114,10 +114,19 @@ abstract public class GeneIdentifierDE extends DomainElement {
 
 	
   /**
-    * Sets the geneID for this <code>ExprFoldChangeDE</code> object
+    * Sets the gene for this <code>GeneIdentifierDE</code> object
+    * @param gene the gene    
+	*/ 
+    public void setValueObject(String geneName) {
+        assert(geneName != null);
+        this.value = geneName;
+    }
+	
+  /**
+    * Sets the geneID for this <code>GeneIdentifierDE</code> object
     * @param regulation the regulation    
 	*/ 
-    public void geneID(String geneID) {
+    public void setGeneID(String geneID) {
         assert(geneID != null);
         value = geneID;
     }

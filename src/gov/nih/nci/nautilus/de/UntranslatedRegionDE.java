@@ -27,12 +27,12 @@ abstract public class UntranslatedRegionDE extends DomainElement {
   /**
 	* 5UTR
     */
-    public static final String 5UTR = "5UTR";
+    public static final String UTR5 = "UTR_5";
 	
   /**
 	* 3UTR
     */
-    public static final String 3UTR = "3UTR";	
+    public static final String UTR3 = "UTR_3";	
 	
   
 
@@ -43,26 +43,26 @@ abstract public class UntranslatedRegionDE extends DomainElement {
   /**
 	* private parent constructor utilized in the two nested/childe classes
     */
-    private UntranslatedRegionDE(String UTRIDType, String value) {
+    private UntranslatedRegionDE(String UTRIDType, Boolean value) {
         super(value);
         this.UTRIDType = UTRIDType;
     }
 	
   /**
-	* nested child class: 5UTR
+	* nested child class: UTR_5
     */
-    public final static class 5UTR extends UntranslatedRegionDE {
-        public 5UTR(String 5UTR) {
-            super(5UTR, 5UTR);
+    public final static class UTR_5 extends UntranslatedRegionDE {
+        public UTR_5(Boolean UTR_5) {
+            super(UTR5, UTR_5);
         }
     }
 
  /**
-	* nested child class: 3UTR
+	* nested child class: UTR_3
     */	
-    public final static class 3UTR extends UntranslatedRegionDE {
-       public 3UTR(String 3UTR) {
-            super(3UTR, 3UTR);
+    public final static class UTR_3 extends UntranslatedRegionDE {
+       public UTR_3(Boolean UTR_3) {
+            super(UTR3, UTR_3);
 
        }
     }
@@ -80,10 +80,10 @@ abstract public class UntranslatedRegionDE extends DomainElement {
     * Sets the value for this <code>UntranslatedRegionDE</code> object
     * @param object the value    
 	*/  
-    public void setValue(Object UTRID) throws Exception {
-         if (! (geneID instanceof String) )
+    public void setValue(Object obj) throws Exception {
+         if (! (obj instanceof Boolean) )
             throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + obj);
-         setValueObject((String)UTRID);
+         setValueObject((Boolean)obj);
     }
 
 	
@@ -97,10 +97,19 @@ abstract public class UntranslatedRegionDE extends DomainElement {
 
 	
   /**
+    * Sets the utr for this <code>UntranslatedRegionDE</code> object
+    * @param utr the cloneName    
+	*/ 
+	
+    public void setValueObject(Boolean utr) {
+        assert(utr != null);
+        this.value = utr;
+    }	
+  /**
     * Sets the UTRID for this <code>UntranslatedRegionDE</code> object
     * @param UTRID the regulation    
 	*/ 
-    public void geneID(String UTRID) {
+    public void setURTID(String UTRID) {
         assert(UTRID != null);
         value = UTRID;
     }
