@@ -1,36 +1,8 @@
 package gov.nih.nci.nautilus.test;
 
-import gov.nih.nci.nautilus.criteria.AgeCriteria;
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.Constants;
-import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.criteria.GenderCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
-import gov.nih.nci.nautilus.criteria.PathwayCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.SNPCriteria;
-import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.data.PatientData;
-import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE;
-import gov.nih.nci.nautilus.de.ArrayPlatformDE;
-import gov.nih.nci.nautilus.de.AssayPlatformDE;
-import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
-import gov.nih.nci.nautilus.de.CloneIdentifierDE;
-import gov.nih.nci.nautilus.de.CopyNumberDE;
-import gov.nih.nci.nautilus.de.CytobandDE;
-import gov.nih.nci.nautilus.de.DiseaseNameDE;
-import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
-import gov.nih.nci.nautilus.de.GenderDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.de.GeneOntologyDE;
-import gov.nih.nci.nautilus.de.PathwayDE;
-import gov.nih.nci.nautilus.de.SNPIdentifierDE;
-import gov.nih.nci.nautilus.de.SurvivalDE;
+import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE.UpperAgeLimit;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
@@ -40,6 +12,7 @@ import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -75,6 +48,7 @@ public class QueryTest extends TestCase {
 	 private static final DecimalFormat resultFormat = new DecimalFormat("0.00");
      DiseaseOrGradeCriteria diseaseCrit;
      FoldChangeCriteria foldCrit;
+     SampleCriteria sampleCrit;
      CopyNumberCriteria copyNumberCrit;
      GeneIDCriteria  geneIDCrit;
      GeneOntologyCriteria ontologyCrit;
@@ -91,6 +65,7 @@ public class QueryTest extends TestCase {
 	 GenderCriteria genderCrit;
 
     protected void setUp() throws Exception {
+        buildSampleIDCrit();
         buildDiseaseTypeCrit();
         buildSurvivalCrit();
         buildAgeCrit();
@@ -111,11 +86,11 @@ public class QueryTest extends TestCase {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-            //q.setGeneIDCrit(geneIDCrit);
+            q.setGeneIDCrit(geneIDCrit);
 
-             q.setGeneOntologyCrit(ontologyCrit);
-            q.setRegionCrit(regionCrit);
-            q.setPathwayCrit(pathwayCrit);
+             //q.setGeneOntologyCrit(ontologyCrit);
+            //q.setRegionCrit(regionCrit);
+            //q.setPathwayCrit(pathwayCrit);
 
             //q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
@@ -129,11 +104,12 @@ public class QueryTest extends TestCase {
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
             //q.setDiseaseOrGradeCrit(diseaseCrit);
-            q.setFoldChgCrit(foldCrit);
+              q.setSampleIDCrit(sampleCrit);
+              q.setFoldChgCrit(foldCrit);
 
             try {
-            	CompoundQuery myCompoundQuery = new CompoundQuery(q);
-                ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+            	//CompoundQuery myCompoundQuery = new CompoundQuery(q);
+                ResultSet[] geneExprObjects = QueryProcessor.execute(q);
                 System.out.println("NUMBER OF RECORDS: " + geneExprObjects.length);
 
                 print(geneExprObjects);
@@ -330,9 +306,9 @@ public class QueryTest extends TestCase {
 
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        //suit.addTest(new TestSuite(GeneExpression.class));
+        suit.addTest(new TestSuite(GeneExpression.class));
         //suit.addTest(new TestSuite(CGH.class));
-         suit.addTest(new TestSuite(Clinical.class));
+        // suit.addTest(new TestSuite(Clinical.class));
         return suit;
 	}
 
@@ -355,7 +331,7 @@ public class QueryTest extends TestCase {
                   new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
          GeneIdentifierDE llObj2 =
                   new GeneIdentifierDE.LocusLink((String)inputIDs.get(1));
-         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("VEGF");
+         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("EGFR");
 
          inputIDs.add(gs);
         // GeneIdentifierDE geIDObj =
@@ -430,6 +406,28 @@ public class QueryTest extends TestCase {
          diseaseCrit = new DiseaseOrGradeCriteria();
          diseaseCrit.setDisease(new DiseaseNameDE("OLIG"));
     }
+    private void buildSampleIDCrit() {
+        sampleCrit = new SampleCriteria();
+        Collection sampleIDs = new ArrayList();
+        SampleIDDE s0 = new SampleIDDE("HF608");
+        SampleIDDE s1 = new SampleIDDE("HF118");
+        SampleIDDE s2 = new SampleIDDE("HF305");
+        SampleIDDE s3 = new SampleIDDE("HF990");
+        SampleIDDE s4 = new SampleIDDE("HF1219");
+        SampleIDDE s5 = new SampleIDDE("HF1227");
+        // Few More IDs HF1325	HF1348	HF1489	HF329	HF332	HF434	HF835	HF87	HF931
+
+        sampleIDs.add(s0);
+        sampleIDs.add(s1);
+        sampleIDs.add(s2);
+        sampleIDs.add(s3);
+        sampleIDs.add(s4);
+        sampleIDs.add(s5);
+
+        sampleCrit.setSampleIDs(sampleIDs);
+
+    }
+
     private void buildSurvivalCrit() {
          survivalCrit  = new SurvivalCriteria();
          survivalCrit.setLowerSurvivalRange(
