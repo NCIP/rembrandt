@@ -87,6 +87,18 @@
   <include name="struts.jar"/>
   <include name="struts-legacy.jar"/>
  </patternset>
+	
+ <patternset id="jfreechart.jars">
+  <include name="jfreechart-0.9.21-demo.jar"/>
+  <include name="jfreechart-0.9.21.jar"/>
+  <include name="jcommon-0.9.7.jar"/>
+  <include name="cewolf.jar"/>
+  <include name="batik-xml.jar"/>	
+  <include name="batik-util.jar"/>
+  <include name="batik-svggen.jar"/>
+  <include name="batik-dom.jar"/>
+  <include name="batik-awt-util.jar"/>
+ </patternset>
  
  <patternset id="caintergrator.jars">
  <include name="caintergrator.jar"/>
@@ -102,7 +114,8 @@
      <patternset refid="other.jars"/>
      <patternset refid="test.jars"/>
      <patternset refid="struts.jars"/>
-   </fileset>
+     
+    </fileset>
  </path>
  
  <path id="cp.run">
@@ -275,6 +288,7 @@
  	<patternset refid="cabio.jars"/>
     <patternset refid="ojb.client.jars"/>
    	<patternset refid="db.platform.jars"/>
+ 	<patternset refid="jfreechart.jars"/>
    	<!-- <patternset refid="xml.jars"> -->
    	<!-- <patternset refid="other.jars"/> -->
  </lib>
