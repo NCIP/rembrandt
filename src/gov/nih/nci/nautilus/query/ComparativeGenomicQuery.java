@@ -65,12 +65,14 @@ public class ComparativeGenomicQuery extends Query {
 		DiseaseOrGradeCriteria thisDiseaseCrit = this.getDiseaseOrGradeCriteria();	
 		if ((thisDiseaseCrit != null) && !thisDiseaseCrit.isEmpty() && labels != null) { 
 		    Collection diseaseColl = thisDiseaseCrit.getDiseases();
+			String thisCriteria = thisDiseaseCrit.getClass().getName();
+			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B><BR>";
+
 			Iterator iter = diseaseColl.iterator();
 			while(iter.hasNext()){
 			  DiseaseNameDE  diseaseDE = (DiseaseNameDE)iter.next();
-			  String diseaseStr = diseaseDE.getClass().getName();		      
-		      OutStr += "<BR>"+labels.getString(diseaseStr.substring(diseaseStr.lastIndexOf(".")+1))+": "+diseaseDE.getValue()+"";
-		       }	 	   
+			  OutStr += "&nbsp;&nbsp;"+((String) diseaseDE.getValue())+" ";
+			   }	 	   
 		   }
 		else{
 		   System.out.println("Disease Criteria is empty or Application Resources file is missing");
@@ -83,7 +85,7 @@ public class ComparativeGenomicQuery extends Query {
 		if ((thisCopyNumberCrit != null) && !thisCopyNumberCrit.isEmpty() && labels != null) {
 		    System.out.println(" I am in the CopyNumberCriteria");
 			String thisCriteria = thisCopyNumberCrit.getClass().getName();
-			OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
+			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			Collection copyNoObjects = thisCopyNumberCrit.getCopyNummbers();
 			
 			for (Iterator iter = copyNoObjects.iterator(); iter.hasNext();) {
@@ -101,7 +103,7 @@ public class ComparativeGenomicQuery extends Query {
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCriteria();
 			if ((thisGeneIDCrit != null ) && !thisGeneIDCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisGeneIDCrit.getClass().getName();
-				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
+				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
 			
 				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext();) {
@@ -114,35 +116,34 @@ public class ComparativeGenomicQuery extends Query {
 			  System.out.println("Gene ID Criteria is empty or Application Resources file is missing");
                }// end of GeneIDCriteria
 			   
-			   
 			// starting RegionCriteria
 			RegionCriteria thisRegionCrit = this.getRegionCriteria();
 			if ((thisRegionCrit != null) &&!thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
-				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
+				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
 
 				DomainElement chromosomeDE  = thisRegionCrit.getChromNumber();
 				DomainElement chrStartDE  = thisRegionCrit.getStart();
 				DomainElement chrEndDE  = thisRegionCrit.getEnd();
 				
-				if (cytoBandDE != null) {
-					String cytoBandStr = cytoBandDE.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
-				}
-				
-				else {
+				if (chromosomeDE != null) {
 					String chromosomeDEStr = chromosomeDE.getClass().getName();
 					OutStr += "<BR>&nbsp;&nbsp;"+ labels.getString(chromosomeDEStr.substring(chromosomeDEStr.lastIndexOf(".")+1)) +": "+chromosomeDE.getValue();
 
-					if (chrStartDE != null && chrEndDE != null) {
-						String chrStartDEStr = chrStartDE.getClass().getName();
-						String chrEndDEStr = chrEndDE.getClass().getName();
-						OutStr += "<BR>"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)";
-						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1)) +": "+chrStartDE.getValue();
-						OutStr += "<BR>&nbsp;&nbsp;" + labels.getString(chrEndDEStr.substring(chrEndDEStr.lastIndexOf(".")+1)) +": "+chrEndDE.getValue();
+					if (cytoBandDE != null) {
+						String cytoBandStr = cytoBandDE.getClass().getName();
+						OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
+					}else{
+						if (chrStartDE != null && chrEndDE != null) {
+							String chrStartDEStr = chrStartDE.getClass().getName();
+							String chrEndDEStr = chrEndDE.getClass().getName();
+							OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)";
+							OutStr += "<BR>&nbsp;&nbsp;&nbsp;" + labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1)) +": "+chrStartDE.getValue();
+							OutStr += "<BR>&nbsp;&nbsp;&nbsp;" + labels.getString(chrEndDEStr.substring(chrEndDEStr.lastIndexOf(".")+1)) +": "+chrEndDE.getValue();
+						}
 					}
-		         }
+				}
 			 }
 			else {
 			     System.out.println("Region Criteria is empty or Application Resources file is missing");
@@ -153,7 +154,7 @@ public class ComparativeGenomicQuery extends Query {
 		   CloneOrProbeIDCriteria thisCloneOrProbeCriteria = this.getCloneOrProbeIDCriteria();		 
 		   if((thisCloneOrProbeCriteria != null) && !thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
 			  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
-				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
+				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
 			    Iterator iter = cloneColl.iterator();
 			    while(iter.hasNext()){
@@ -171,7 +172,7 @@ public class ComparativeGenomicQuery extends Query {
 		   SNPCriteria thisSNPCriteria = this.getSNPCriteria();		 
 		   if((thisSNPCriteria != null ) && !thisSNPCriteria.isEmpty() && labels != null){	
 		        String thisCriteria = thisSNPCriteria.getClass().getName();			
-				OutStr += "<BR>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1));
+				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			    Collection cloneColl = thisSNPCriteria.getIdentifiers();
 			    Iterator iter = cloneColl.iterator();
 			    while(iter.hasNext()){
@@ -191,7 +192,9 @@ public class ComparativeGenomicQuery extends Query {
 		   if((thisAlleleFrequencyCriteria != null ) && !thisAlleleFrequencyCriteria.isEmpty() && labels != null){	
 		      	AlleleFrequencyDE alleleFrequencyDE = thisAlleleFrequencyCriteria.getAlleleFrequencyDE();				
 				String alleleStr = alleleFrequencyDE.getClass().getName();
-				OutStr += "<BR>"+labels.getString(alleleStr.substring(alleleStr.lastIndexOf(".")+1))+": "+alleleFrequencyDE.getValue()+"";
+
+				OutStr += "<BR><B>"+labels.getString(alleleStr.substring(alleleStr.lastIndexOf(".")+1))+"</B>";
+				OutStr += "<BR>&nbsp;&nbsp;"+alleleFrequencyDE.getValue();
 				  	   
 			    }
 			else{
@@ -203,7 +206,8 @@ public class ComparativeGenomicQuery extends Query {
 		    if((thisAssayPlatformCriteria != null) && !thisAssayPlatformCriteria.isEmpty() && labels != null){	
 			  AssayPlatformDE assayPlatformDE = thisAssayPlatformCriteria.getAssayPlatformDE();
 			  String assayStr = assayPlatformDE.getClass().getName();
-			  OutStr += "<BR>"+labels.getString(assayStr.substring(assayStr.lastIndexOf(".")+1))+": "+assayPlatformDE.getValue()+"";
+			  OutStr += "<BR><B>"+labels.getString(assayStr.substring(assayStr.lastIndexOf(".")+1))+"</B>";
+			  OutStr += "<BR>&nbsp;&nbsp;" + assayPlatformDE.getValue();
 			
 		   }
 		  else{
