@@ -57,6 +57,32 @@ public class ChromosomeHelper implements Factory{
 		return chromosomes;
 	}
 	/**
+	 * Helper method, returns a specific ChromosomeBean based on the 
+	 * given chromosome name. Returns null if it is not in the chromosomes
+	 * list.
+	 * @param chromosomeName
+	 * @return
+	 */
+	public ChromosomeBean getChromosomeBean(String chromosomeName) {
+		int index = chromosomes.indexOf(new ChromosomeBean(chromosomeName));
+		if(index>-1) {
+			return (ChromosomeBean)chromosomes.get(index);
+		}else {
+			return null;
+		}
+	}
+	/**
+	 * Helper method, returns a specific ChromosomeBean based on the 
+	 * chromosomeIndex. Returns null if it is not in the chromosomes
+	 * list.
+	 * @param chromosomeIndex
+	 * @return
+	 */
+	public ChromosomeBean getChromosomeBean(int chromosomeIndex) {
+		return (ChromosomeBean)chromosomes.get(chromosomeIndex);
+	}
+	
+	/**
 	 * checks the current list of Chromosomes and then adds the cytoband to
 	 * either the created or existing ChromosomeBean
 	 * @param cytoband
@@ -68,21 +94,22 @@ public class ChromosomeHelper implements Factory{
 		int i;
 		try {
 			//Can I parse the chomosome number into an int
-			i = Integer.parseInt(chromoString);
+			i = Integer.parseInt(chromoString)-1;
 		}catch(NumberFormatException nfe) {
 			//No, this is a sex chromosome
 			//try to place it in the 23rd location.
-			i=23;
+			i=22;
 			//Get the ChromosomeBean at the 23rd location
 			ChromosomeBean testBean = (ChromosomeBean)chromosomes.get(i);
 			//Is it the right ChromosomeBean, in that it is the chromosome we are looking for
 			if(!testBean.equals(new ChromosomeBean(chromoString))&&!testBean.equals(new ChromosomeBean("0"))) {
 				//No! 23rd location is full, use 24th
-				i = 24;
+				i = 23;
 			}
 		}
 		ChromosomeBean bean = (ChromosomeBean)chromosomes.get(i);
 		bean.setChromosome(chromoString);
+		bean.setValue(i);
 		cytobands = bean.getCytobands();
 		if(cytobands == null) {
 			cytobands = new ArrayList();

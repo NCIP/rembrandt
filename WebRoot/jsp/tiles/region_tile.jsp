@@ -16,9 +16,10 @@
 	<!-- <html:form action="<%=act%>" > -->
 	
 <br />	&nbsp;&nbsp;Chromosome Number&nbsp;
-		<nested:select name="geneexpressionForm" property="chromosomeNumber" onchange="javascript:cytobandChange()">
-		    <html:optionsCollection name="geneexpressionForm" property="chromosomes" />
-		</nested:select>	
+	<html:select property="chromosomeNumber" onchange="javascript:cytobandChange()">
+		    <option value=""/>
+		    <html:optionsCollection property="chromosomes"/>
+		</html:select>	
 	<html:errors property="chromosomeNumber"/>
 
 	&nbsp;<br>

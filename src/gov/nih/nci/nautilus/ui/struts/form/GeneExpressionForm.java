@@ -23,6 +23,7 @@ import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.GeneOntologyDE;
 import gov.nih.nci.nautilus.de.PathwayDE;
 import gov.nih.nci.nautilus.de.SampleIDDE;
+import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
 import java.io.BufferedReader;
@@ -51,10 +52,10 @@ public class GeneExpressionForm extends BaseForm {
 	// --------------------------------------------------------- Instance
 	// Variables
 	/** selected chromosomes cytobands **/
-	private ArrayList cytobands = new ArrayList();
+	private List cytobands = new ArrayList();
 		
 	/** chromosomes property */
-	private static ArrayList chromosomes;
+	private static List chromosomes;
 
 	/** geneOption property */
 	private String geneOption = "standard";
@@ -114,7 +115,7 @@ public class GeneExpressionForm extends BaseForm {
 	private String basePairEnd;
 
 	/** chromosomeNumber property */
-	private String chromosomeNumber;
+	private String chromosomeNumber = "";
 
 	/** regulationStatus property */
 	private String regulationStatus;
@@ -836,7 +837,7 @@ public class GeneExpressionForm extends BaseForm {
 	 * 
 	 * @param chromosomes
 	 */
-	public void setChromosomes(ArrayList chromosomes) {
+	public void setChromosomes(List chromosomes) {
 		GeneExpressionForm.chromosomes = chromosomes;
 	}
 
@@ -845,7 +846,7 @@ public class GeneExpressionForm extends BaseForm {
 	 * 
 	 * @param chromosomes
 	 */
-	public ArrayList getChromosomes() {
+	public List getChromosomes() {
 		return GeneExpressionForm.chromosomes;
 	}
 
@@ -1614,12 +1615,25 @@ public class GeneExpressionForm extends BaseForm {
 	 * @param chromosomeNumber
 	 *            The chromosomeNumber to set
 	 */
-	public void setChromosomeNumber(String chrosomeNumber) {
-		this.chromosomeNumber = chrosomeNumber;
-		if (regionDomainMap != null) {
-			if (chrosomeNumber != null && chrosomeNumber.length() > 0) {
-				regionDomainMap.put(this.chromosomeNumber,
-						ChromosomeNumberDE.class.getName());
+	public void setChromosomeNumber(String chromosomeIndex) {
+		//IMPORTANT! The chromosomeNumber is actually the
+		//index into the chromosome List where the selected
+		//chromosome can be found.  It is NOT the actual chromosome
+		//number.  Chromosome numbers can actually be characters, like
+		// X and Y so we 
+		this.chromosomeNumber = chromosomeIndex;
+		if(!"".equals(chromosomeIndex)) {
+			//Get the chromosome from the Chromosome List
+			try {
+				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
+				String chromosomeName = bean.getChromosome();
+				if (regionDomainMap != null) {
+					regionDomainMap.put(chromosomeName,
+					ChromosomeNumberDE.class.getName());
+				}
+			}catch(NumberFormatException nfe) {
+				logger.error("Expected an Integer index for chromosome, got a char or string");
+				logger.error(nfe);
 			}
 		}
 
@@ -2056,13 +2070,18 @@ public class GeneExpressionForm extends BaseForm {
 	/**
 	 * @return Returns the cytobands.
 	 */
-	public ArrayList getCytobands() {
+	public List getCytobands() {
+		//Check to make sure that if we have a chromosome selected
+		//that we also have it's associated cytobands
+		if(!"".equals(chromosomeNumber)&&cytobands.isEmpty()) {
+			cytobands = ((ChromosomeBean)(chromosomes.get(Integer.parseInt(chromosomeNumber)))).getCytobands();
+		}
 		return cytobands;
 	}
 	/**
 	 * @param cytobands The cytobands to set.
 	 */
-	public void setCytobands(ArrayList cytobands) {
+	public void setCytobands(List cytobands) {
 		this.cytobands = cytobands;
 	}
 }

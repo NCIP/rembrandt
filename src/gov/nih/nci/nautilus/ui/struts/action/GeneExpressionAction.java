@@ -31,6 +31,7 @@ import gov.nih.nci.nautilus.view.ViewType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.list.LazyList;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -69,9 +70,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		if(geneExpressionForm.getChromosomes()==null||geneExpressionForm.getChromosomes().isEmpty()) {
 			//set the chromsomes list in the form 
 			logger.debug("Setup the chromosome values for the form");
-			geneExpressionForm.setChromosomes((ArrayList)(ChromosomeHelper.getInstance().getChromosomes()));
+			geneExpressionForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
 		}
- 		return mapping.findForward("backToGeneExp");
+		return mapping.findForward("backToGeneExp");
     }
     
     
@@ -238,15 +239,17 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 			GeneExpressionForm geForm = (GeneExpressionForm)form;
+			//This is the static list of chromosomes that is fetched the first time it is needed
 			List chromosomes = geForm.getChromosomes();
-			int index = chromosomes.indexOf(new ChromosomeBean(geForm.getChromosomeNumber()));
-			if(index!=-1) {
-				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(index);
+			//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
+			//into the static chromosomes list where the chromosome can be found.
+			if(!"".equals(geForm.getChromosomeNumber())) {
+				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(geForm.getChromosomeNumber()));
 				geForm.setCytobands(bean.getCytobands());
-				
 			}
+			
 			return mapping.findForward("backToGeneExp");
-		}
+	}
 			
 			
 	

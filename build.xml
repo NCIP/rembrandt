@@ -90,6 +90,8 @@
 		<include name="jakarta-oro.jar" />
 		<include name="struts.jar" />
 		<include name="struts-legacy.jar" />
+		<include name="jasper-runtime.jar" />
+		<include name="jasper-compiler.jar" />
 	</patternset>
 
 	<patternset id="graphic-pkg.jars">
