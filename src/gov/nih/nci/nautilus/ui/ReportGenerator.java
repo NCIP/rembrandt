@@ -294,7 +294,7 @@ public class ReportGenerator  {
 		  		        	cssLabels.add(label);
 		  		        	   	
 					           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-					            	sampleNames.append("<td class=\""+label+"\" id=\"header\">" + sampleIdIterator.next()+"</td>"); 
+					            	sampleNames.append("<td class=\""+label+"\" id=\"header\">" + sampleIdIterator.next().toString().substring(2)+"</td>"); 
 					            	theColspan += sampleIds.size();
 					           	}
 				    	}
@@ -417,7 +417,7 @@ public class ReportGenerator  {
 				    	cssLabels.add(label);
 				    	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-				            	sampleNames.append("<td class='"+label+"' id=\"header\">"+sampleIdIterator.next()+"</td>"); 
+				            	sampleNames.append("<td class='"+label+"' id=\"header\">"+sampleIdIterator.next().toString().substring(2)+"</td>"); 
 				            	header.append("\t");
 				           	}
 			           	header.deleteCharAt(header.lastIndexOf("\t"));
