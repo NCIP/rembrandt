@@ -399,7 +399,12 @@
 		      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 		      			</xsl:when>
 		      			<xsl:otherwise>
-		      				<xsl:value-of select="Data" disable-output-escaping="yes" />
+		      				<xsl:if test="@class = 'highlighted'">
+		      					<span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+		      				</xsl:if>
+		      				<xsl:if test="@class != 'highlighted'">
+		      					<xsl:value-of select="Data" disable-output-escaping="yes" />
+		      				</xsl:if>
 		      			</xsl:otherwise>
 		      			</xsl:choose>
 		      			</td>
