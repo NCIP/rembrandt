@@ -34,6 +34,8 @@ import gov.nih.nci.nautilus.util.LogEntry;
 public class GeneExpressionForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance Variables
+	
+	private String[] pathwayName;
 
 	/** geneList property */
 	private String geneList;
@@ -574,6 +576,7 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
+	    pathwayName = new String[0];
 		geneList = "";
 		goBiologicalProcess = "";
 		tumorGrade = "";
@@ -1379,5 +1382,21 @@ public class GeneExpressionForm extends BaseForm {
    
   public QueryCollection getQueryCollection(){
    return this.queryCollection;
-   }	   
+   }	
+
+   
+ public String[] getPathwayName  (){ 
+ //  System.out.println( "88888888 after:"+ pathwayName.length);   
+   return pathwayName;
+   }   
+ public void setPathwayName (String[] pathwayName){ 
+  this.pathwayName = pathwayName;
+  for(int i=0; i<pathwayName.length;i++){
+      System.out.println("pathwayName:"+pathwayName[i]);
+      } 
+  System.out.println( "88888888:"+ pathwayName.length);
+   }  
+   
+   
+
 }
