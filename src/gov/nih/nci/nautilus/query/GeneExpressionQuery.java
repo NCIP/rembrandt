@@ -6,6 +6,9 @@ import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.GeneExprQueryHandler;
 
+import java.util.*;
+import gov.nih.nci.nautilus.de.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR
@@ -23,6 +26,9 @@ public class GeneExpressionQuery extends Query {
     public QueryHandler getQueryHandler() throws Exception  {
         return (HANDLER == null) ? new GeneExprQueryHandler() : HANDLER;
     }
+	public QueryType getQueryType() throws Exception {
+		return QueryType.GENE_EXPR_QUERY_TYPE;
+	}
 
     public GeneExpressionQuery() {
         super();
@@ -31,6 +37,87 @@ public class GeneExpressionQuery extends Query {
     public GeneIDCriteria getGeneIDCrit() {
         return geneIDCrit;
     }
+    public String toString(){
+    	
+
+		ResourceBundle labels = null;
+		String OutStr = "Gene Expression Data\n\n";
+		OutStr += "Query: " + this.getQueryName()+"\n\n";
+
+
+	try {
+
+		labels = ResourceBundle.getBundle("gov.nih.nci.nautilus.struts.ApplicationResources", Locale.US);
+	
+		FoldChangeCriteria thisFoldChangeCrit = this.getFoldChgCrit();
+			
+		if (!thisFoldChangeCrit.isEmpty() && labels != null) {
+			String thisCriteria = thisFoldChangeCrit.getClass().getName();
+			OutStr += labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "\n";
+			Collection foldChangeObjects = thisFoldChangeCrit.getFoldChangeObjects();
+			
+			for (Iterator iter = foldChangeObjects.iterator(); iter.hasNext();) {
+				DomainElement de = (DomainElement) iter.next();
+				String thisDomainElement = de.getClass().getName();
+				OutStr += labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue()+"\n";
+			}
+		}
+		else System.out.println("Fold Change Criteria is empty or Application Resources file is missing");
+
+
+			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCrit();
+			if (!thisGeneIDCrit.isEmpty() && labels != null) { 
+				String thisCriteria = thisGeneIDCrit.getClass().getName();
+				OutStr += labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "\n";
+				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
+			
+				for (Iterator iter = geneIDObjects.iterator(); iter.hasNext();) {
+					DomainElement de = (DomainElement) iter.next();
+					String thisDomainElement = de.getClass().getName();
+					OutStr += labels.getString(thisDomainElement.substring(thisDomainElement.lastIndexOf(".")+1)) +": "+de.getValue()+"\n";
+				}
+			}
+			else System.out.println("Gene ID Criteria is empty or Application Resources file is missing");
+
+			
+			RegionCriteria thisRegionCrit = this.getRegionCrit();
+			if (!thisRegionCrit.isEmpty() && labels != null) { 
+				String thisCriteria = thisRegionCrit.getClass().getName();
+				OutStr += labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "\n";
+				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
+
+				DomainElement chromosomeDE  = thisRegionCrit.getChromNumber();
+				DomainElement chrStartDE  = thisRegionCrit.getStart();
+				DomainElement chrEndDE  = thisRegionCrit.getEnd();
+				
+				if (cytoBandDE != null) {
+					String cytoBandStr = cytoBandDE.getClass().getName();
+					OutStr += labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue()+"\n";
+				}else {
+					String chromosomeDEStr = chromosomeDE.getClass().getName();
+					OutStr += labels.getString(chromosomeDEStr.substring(chromosomeDEStr.lastIndexOf(".")+1)) +": "+chromosomeDE.getValue()+"\n";
+
+					if (chrStartDE != null && chrEndDE != null) {
+						String chrStartDEStr = chrStartDE.getClass().getName();
+						String chrEndDEStr = chrEndDE.getClass().getName();
+						OutStr += "\n"+labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1, chrStartDEStr.lastIndexOf("$")))+"(kb)\n";
+						OutStr += labels.getString(chrStartDEStr.substring(chrStartDEStr.lastIndexOf(".")+1)) +": "+chrStartDE.getValue()+"\n";
+						OutStr += labels.getString(chrEndDEStr.substring(chrEndDEStr.lastIndexOf(".")+1)) +": "+chrEndDE.getValue()+"\n";
+					}
+		}
+			}
+			else System.out.println("Region Criteria is empty or Application Resources file is missing");
+			
+		}
+	catch (Exception ie) {
+		ie.printStackTrace();
+		System.out.println("Error in ResourceBundle - " + ie.getMessage());
+	}
+
+
+    	return OutStr;
+    }
+    
 
     public void setGeneIDCrit(GeneIDCriteria geneIDCrit) {
         this.geneIDCrit = geneIDCrit;
