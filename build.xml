@@ -50,7 +50,8 @@
      <patternset refid="ojb.rt.jars"/>
      <patternset refid="db.platform.jars"/>
      <patternset refid="xml.jars"/>       
-        <patternset refid="other.jars"/>
+     <patternset refid="other.jars"/>
+     <patternset refid="test.jars"/>
     </fileset>
  </path>
  
@@ -65,7 +66,9 @@
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
         <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">
-            <classpath refid="cp.compile"/>
+        	<exclude name="**/test/*.java" /> 
+        	<exclude name="**/de/PBTest.java" />
+        	<classpath refid="cp.compile"/>
         </javac>
     </target>
 	
