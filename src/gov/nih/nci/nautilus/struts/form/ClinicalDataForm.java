@@ -578,6 +578,7 @@ public class ClinicalDataForm extends BaseForm {
 		surgeryTypeColl.add( new LabelValueBean( "Bioposy Only(BX)", "Bioposy Only(BX)" ) );
 		
 		
+		survivalLowerColl.add( new LabelValueBean( "", "" ) );
 		survivalLowerColl.add( new LabelValueBean( "0", "0" ) );
 		survivalLowerColl.add( new LabelValueBean( "10", "10" ) );
 		survivalLowerColl.add( new LabelValueBean( "20", "20" ) );
@@ -589,6 +590,7 @@ public class ClinicalDataForm extends BaseForm {
 		survivalLowerColl.add( new LabelValueBean( "80", "80" ) );
 		survivalLowerColl.add( new LabelValueBean( "90", "90" ) );
 		
+		survivalUpperColl.add( new LabelValueBean( "", "" ) );
 		survivalUpperColl.add( new LabelValueBean( "0", "0" ) );
 		survivalUpperColl.add( new LabelValueBean( "10", "10" ) );
 		survivalUpperColl.add( new LabelValueBean( "20", "20" ) );
@@ -602,6 +604,7 @@ public class ClinicalDataForm extends BaseForm {
 		survivalUpperColl.add( new LabelValueBean( "90+", "90+" ) );		
 		
 		
+		ageLowerColl.add( new LabelValueBean( "", "" ) );
 		ageLowerColl.add( new LabelValueBean( "0", "0" ) );
 		ageLowerColl.add( new LabelValueBean( "10", "10" ) );
 		ageLowerColl.add( new LabelValueBean( "20", "20" ) );
@@ -613,6 +616,7 @@ public class ClinicalDataForm extends BaseForm {
 		ageLowerColl.add( new LabelValueBean( "80", "80" ) );
 		ageLowerColl.add( new LabelValueBean( "90", "90" ) );
 		
+		ageUpperColl.add( new LabelValueBean( "", "" ) );
 		ageUpperColl.add( new LabelValueBean( "0", "0" ) );
 		ageUpperColl.add( new LabelValueBean( "10", "10" ) );
 		ageUpperColl.add( new LabelValueBean( "20", "20" ) );
