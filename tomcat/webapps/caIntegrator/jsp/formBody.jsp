@@ -1,4 +1,5 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*" %> 
 <% 	/*	
 		This page receives the section identifier in the query string (s)
@@ -13,9 +14,14 @@
 		corresponding JSP tiles are called: dataElement_tile.jsp
 	*/
 %>
-
 <%
 
+//below, we need to set the form action to the name cooresponding bean/action - 
+// get if from the request, and make lower to match the struts-config
+String act = request.getParameter("s").toLowerCase();
+%>
+<html:form action="<%= act %>" >
+<%
 	Properties props = new Properties();
     try {
     props.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+request.getParameter("s")+".properties"));
@@ -25,12 +31,13 @@
 	}
 	String strIncFile = "";
 	for (int t=1; t<props.size()+1; t++)	{	
-		strIncFile = "/jsp/tiles/"+props.getProperty(String.valueOf(t))+"_tile.jsp";
+		strIncFile = "/jsp/tiles/"+props.getProperty(String.valueOf(t))+"_tile.jsp?act="+act;
 		%>
-		<tr class="report"><td><tiles:insert page="<%= strIncFile %>" flush="true" /></td></tr>
+		<tr class="report"><td><tiles:insert page="<%= strIncFile %>" flush="false" /></td></tr>
 		<%
 	}
 %>
+</html:form>
 
 
 
