@@ -11,7 +11,7 @@ import java.util.Collection;
  * Time: 6:21:03 PM
  * To change this template use Options | File Templates.
  */
-abstract public class View {
+abstract public class View implements Viewable{
    Collection selectedDomainElements;
    ViewType viewType;
    public Collection getSelectedElements() {

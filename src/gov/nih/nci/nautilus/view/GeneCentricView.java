@@ -10,7 +10,20 @@ import gov.nih.nci.nautilus.de.DomainElementClass;
  * To change this template use Options | File Templates.
  */
 public class GeneCentricView extends View {
-    private static DomainElementClass[] validDEs
+	private GroupType groupType = GroupType.DISEASE_TYPE_GROUP; //always defalut to disease
+    /**
+	 * @return Returns the groupType.
+	 */
+	public GroupType getGroupType() {
+		return groupType;
+	}
+	/**
+	 * @param groupType The groupType to set.
+	 */
+	public void setGroupType(GroupType groupType) {
+		this.groupType = groupType;
+	}
+	private static DomainElementClass[] validDEs
             = new DomainElementClass[]
               { DomainElementClass.LOCUS_LINK,
                 DomainElementClass.GENBANK_ACCESSION_NUMBER,
