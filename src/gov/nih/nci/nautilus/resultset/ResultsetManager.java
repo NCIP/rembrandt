@@ -81,7 +81,9 @@ public class ResultsetManager {
         Collection results = compoundResultSet.getResults();
         if(results != null){
         	for (Iterator resultsIterator = results.iterator(); resultsIterator.hasNext();) {
-        	ResultSet[] resultsets = 	(ResultSet[]) resultsIterator.next();
+    		Object obj = resultsIterator.next();
+			if(obj instanceof ResultSet[]){
+				ResultSet[] resultsets = 	(ResultSet[]) obj;
 		    	if (resultsets instanceof GeneExprSingle[]){
 		    		GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
 		    		if (associatedView instanceof GeneExprSampleView){
@@ -118,6 +120,7 @@ public class ResultsetManager {
 					resultant.setAssociatedView(associatedView);
 				}
 			}
+        	}
 		}
       }
       return resultant;
