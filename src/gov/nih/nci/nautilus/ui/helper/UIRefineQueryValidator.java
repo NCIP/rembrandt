@@ -69,6 +69,8 @@ public class UIRefineQueryValidator {
 		 */
 		if(isAllGenesQuery) {
 			try {
+				//Drop any of the selected queries from the ArrayList
+				refineQueryForm.setSelectedQueries(new ArrayList());
 				selectedQueries = getAllGenesQuery(refineQueryForm.getAllGeneQuery(), sessionId, selectedResultSet);
 			}catch(IllegalStateException ise) {
 				/*

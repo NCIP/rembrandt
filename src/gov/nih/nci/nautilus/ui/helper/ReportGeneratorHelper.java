@@ -203,18 +203,8 @@ public class ReportGeneratorHelper {
 		//create a new ReportBean
 		_reportBean = new ReportBean();
 		Resultant sampleIdResults = null;
-		try {
-			SampleCriteria sampleCriteria = new SampleCriteria();
-			Collection sampleIDDEs = new ArrayList();
-			if (sampleIds != null) {
-				for (int i = 0; i < sampleIds.length; i++) {
-					sampleIDDEs.add(new SampleIDDE(sampleIds[i]));
-				}
-				sampleCriteria.setSampleIDs(sampleIDDEs);
-			}
-			addSampleCriteriaToCompoundQuery(_cQuery, sampleCriteria);
-			//sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
-			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery);
+		try {	
+			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
 		}catch(Exception e) {
 			logger.error("The ResultsetManager threw some exception");
 			logger.error(e);

@@ -325,7 +325,7 @@ public class CompoundQueryTest extends TestCase {
 			}
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery1); //,sampleIDs);
 			print(resultant);
-			Collection newSampleIDs = ResultsetManager.filterCopyNumber(resultant,new Integer(2),new Integer(20),OperatorType.OR);
+			Collection newSampleIDs = ResultsetManager.getSampleIdsforCopyNumberFilter(resultant,new Integer(2),new Integer(20),OperatorType.OR);
 			//DEBUG
 			for (Iterator sampleIDsIterator = newSampleIDs.iterator(); sampleIDsIterator.hasNext();) {
 				String sampleID = (String) sampleIDsIterator.next();

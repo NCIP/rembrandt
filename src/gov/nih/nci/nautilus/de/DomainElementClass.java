@@ -101,7 +101,6 @@ abstract public class DomainElementClass implements Serializable, Cloneable {
 			myClone = (DomainElementClass) super.clone();
 		} catch (CloneNotSupportedException e) {
 			// This will never happen!
-			e.printStackTrace();
 		}
 		return myClone;
 	}

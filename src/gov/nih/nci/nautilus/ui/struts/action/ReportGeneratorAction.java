@@ -250,7 +250,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		
 		//hold our samples for exclusion
 		String[] sampleIds = null;
-		excludedSamples = ResultsetManager.filterCopyNumber(resultant, nocalls, percent, operator);
+		excludedSamples = ResultsetManager.getSampleIdsforCopyNumberFilter(resultant, nocalls, percent, operator);
 		sampleIds = (String[]) excludedSamples.toArray();
 		
 		if(reportBean!=null) {
