@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
+import java.util.HashMap;
+
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 
@@ -13,6 +15,12 @@ public class ReportGeneratorForm extends BaseForm {
     private CompoundQuery requestQuery;
     private String resultSetName;
     private String xsltFileName;
+    //General Filter values to be used by the XSLT
+    private HashMap filterParams = new HashMap();
+    private String filter_value1;
+    private String filter_value2;
+    private String filter_value3;
+    
        
 	/**
 	 * @return Returns the query.
@@ -77,5 +85,57 @@ public class ReportGeneratorForm extends BaseForm {
 	 */
 	public void setXsltFileName(String xsltFileName) {
 		this.xsltFileName = xsltFileName;
+	}
+	/**
+	 * @return Returns the filter_value1.
+	 */
+	public String getFilter_value1() {
+		return filter_value1;
+	}
+	/**
+	 * @param filter_value1 The filter_value1 to set.
+	 */
+	public void setFilter_value1(String filter_value1) {
+		this.filter_value1 = filter_value1;
+		filterParams.put("filter_value1",filter_value1);
+		
+	}
+	/**
+	 * @return Returns the filter_value2.
+	 */
+	public String getFilter_value2() {
+		return filter_value2;
+	}
+	/**
+	 * @param filter_value2 The filter_value2 to set.
+	 */
+	public void setFilter_value2(String filter_value2) {
+		this.filter_value2 = filter_value2;
+		filterParams.put("filter_value2",filter_value2);
+	}
+	/**
+	 * @return Returns the filter_value3.
+	 */
+	public String getFilter_value3() {
+		return filter_value3;
+	}
+	/**
+	 * @param filter_value3 The filter_value3 to set.
+	 */
+	public void setFilter_value3(String filter_value3) {
+		this.filter_value3 = filter_value3;
+		filterParams.put("filter_value3",filter_value3);
+	}
+	/**
+	 * @return Returns the filterParams.
+	 */
+	public HashMap getFilterParams() {
+		return filterParams;
+	}
+	/**
+	 * @param filterParams The filterParams to set.
+	 */
+	public void setFilterParams(HashMap filterParams) {
+		this.filterParams = filterParams;
 	}
 }

@@ -3,6 +3,10 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
@@ -51,6 +55,7 @@ public class ReportGeneratorAction extends DispatchAction {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	//Get the sessionCache
     	Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
+    	
     	//I think I should add convenience methods to the CachManagerWrapper
     	//to avoid classes from having to know the implementation of the
     	//cache.  For instnce, if a user is looking for a specific reportXML
@@ -58,10 +63,11 @@ public class ReportGeneratorAction extends DispatchAction {
     	//and have reportXML returned.  Why should the user have to worry about
     	//cache elements and what not.  --Dave
     	Element cacheElement = sessionCache.get(rgForm.getQueryName());
+    	request.setAttribute(NautilusConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
     	if(cacheElement!=null) {
 	    	ReportBean reportBean = (ReportBean)cacheElement.getValue();
 	    	//Apply any filters
-	    	if(rgForm.getXsltFileName()==null||rgForm.getXsltFileName().equals("")) {
+	    	if("".equals(rgForm.getXsltFileName())||rgForm.getXsltFileName()==null) {
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,NautilusConstants.DEFAULT_XSLT_FILENAME);
 	    	}else {
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,rgForm.getXsltFileName());
@@ -109,4 +115,5 @@ public class ReportGeneratorAction extends DispatchAction {
         logger.debug("back: " + goBack);
         return mapping.findForward(goBack);
 	}
+	
 }

@@ -3,6 +3,7 @@ package gov.nih.nci.nautilus.ui.helper;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
@@ -72,7 +73,7 @@ public class ReportGeneratorHelper {
 				// Get the sessionId to needed to retrieve the sessionCache
 				cacheKey = cQuery.getSessionId();
 				
-				if (cQuery.getQueryName() == null
+				if (cQuery.getQueryName()== null
 						|| cQuery.getQueryName().equals("")) {
 					cQuery.setQueryName(NautilusConstants.TEMP_RESULTS);
 				}
@@ -188,7 +189,7 @@ public class ReportGeneratorHelper {
 		logger.debug("Applying XSLT "+xsltFilename);
         Transformer transformer;
 		try {
-			transformer = new Transformer(styleSheet, request.getParameterMap());
+			transformer = new Transformer(styleSheet, (HashMap)request.getAttribute(NautilusConstants.FILTER_PARAM_MAP));
 	     	Document transformedDoc = transformer.transform(reportXML);
 	        OutputFormat format = OutputFormat.createPrettyPrint();
 	        XMLWriter writer;
