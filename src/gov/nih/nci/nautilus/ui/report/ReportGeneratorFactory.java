@@ -25,13 +25,13 @@ public class ReportGeneratorFactory {
    
         ReportGenerator reportGen = null;
         if(viewType instanceof ClinicalSampleView) {
-           //reportGen = new ClinicalSampleReport();
+           reportGen = new ClinicalSampleReport();
         }else if(viewType instanceof CopyNumberSampleView) {
             reportGen = new CopyNumberSampleReport();
         }else if(viewType instanceof GeneExprDiseaseView) {
-            //reportGen = new GeneExprDiseaseReport();
+            reportGen = new GeneExprDiseaseReport();
         }else if(viewType instanceof GeneExprSampleView) {
-            //reportGen = new GeneExprSampleReport();
+            reportGen = new GeneExprSampleReport();
         }
      	return reportGen;
     }
