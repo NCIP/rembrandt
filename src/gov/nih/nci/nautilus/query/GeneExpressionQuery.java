@@ -476,17 +476,33 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 	public Object clone() {
 		GeneExpressionQuery myClone = null;
 		myClone = (GeneExpressionQuery) super.clone();
-		myClone.allGenesCrit = (AllGenesCriteria) allGenesCrit.clone();
+        if(allGenesCrit != null){
+            myClone.allGenesCrit = (AllGenesCriteria) allGenesCrit.clone();
+        }
+        if(arrayPlatformCriteria != null){
 		myClone.arrayPlatformCriteria = (ArrayPlatformCriteria) arrayPlatformCriteria
 				.clone();
+        }
+        if(cloneOrProbeIDCriteria != null){
 		myClone.cloneOrProbeIDCriteria = (CloneOrProbeIDCriteria) cloneOrProbeIDCriteria
 				.clone();
+        }
+        if(foldChgCrit != null){
 		myClone.foldChgCrit = (FoldChangeCriteria) foldChgCrit.clone();
+        }
+        if(geneIDCrit != null){
 		myClone.geneIDCrit = (GeneIDCriteria) geneIDCrit.clone();
+        }
+        if(geneOntologyCriteria != null){
 		myClone.geneOntologyCriteria = (GeneOntologyCriteria) geneOntologyCriteria
 				.clone();
+        }
+        if(pathwayCriteria != null){
 		myClone.pathwayCriteria = (PathwayCriteria) pathwayCriteria.clone();
-		myClone.regionCrit = (RegionCriteria) regionCrit.clone();
+        }
+        if(regionCrit != null){
+            myClone.regionCrit = (RegionCriteria) regionCrit.clone();
+        }
 		return myClone;
 	}
 
