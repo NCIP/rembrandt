@@ -14,6 +14,9 @@ import gov.nih.nci.nautilus.resultset.copynumber.SampleCopyNumberValuesResultset
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.javaby.jbyte.Template;
 
 /**
@@ -33,33 +36,27 @@ public class CopyNumberSampleReport implements ReportGenerator{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public Template getReportTemplate(Resultant resultant, String skin) {
+	public Document getReportXML(Resultant resultant) {
 
-		//	have setter or put in props file
+		//	TODO: have setter or put in props file
 		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
-		try	{
-			//	main report template
-			Template report = new Template(skin);
+			Document document = DocumentHelper.createDocument();
+
+			Element report = document.addElement( "Report" );
+			Element cell = null;
+			Element data = null;
+			Element dataRow = null;
+			//add the atts
+	        report.addAttribute("reportType", "Copy Number");
+	        //fudge these for now
+	        report.addAttribute("groupBy", "none");
+	        report.addAttribute("queryName", "the query name");
+	        report.addAttribute("sessionId", "the session id");
+	        report.addAttribute("creationTime", "right now");
+	        
 			
-		    //	main data row/cell
-		    Template row = null; 
-		    Template cell = null;
-		    //	header and sample cells, 1 row each
-		    Template headerCell = null;
-		    Template sampleCell = null;
-		    //	template to hold CSS string
-		    //	Template cssTemplate = null;
-		    //	is this a CSV report
-		    boolean csv = false;
-		    
-		    //are we doing a csv (assuming that the string "csv" is in the csv template name
-		    if(skin.indexOf("csv") != -1)
-		    	csv = true;
-		    else
-		    	csv = false;
-	
 			StringBuffer sb = new StringBuffer();
 			int recordCount = 0;
 			int totalSamples = 0;
@@ -72,7 +69,6 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 				if(dimensionalViewContainer != null)	{
 					copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
-					//request.getSession(true).setAttribute("_dv", dimensionalViewContainer);
 				}
 			}
 			else if(resultsContainer instanceof CopyNumberSingleViewResultsContainer)	{ //for single
@@ -89,28 +85,6 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			    	StringBuffer header = new StringBuffer();
 			    	StringBuffer sampleNames = new StringBuffer();
 			        StringBuffer stringBuffer = new StringBuffer();
-			        			        
-			        ArrayList cssLabels = new ArrayList(); //create the CSS dynamically
-			        
-			        //	set up the header for the table
-			        //	hard code some cols
-			        headerCell = report.get("headerCell");
-				        headerCell.set("headerValue", "Cytoband");
-				        headerCell.set("headerColspan", "1");
-			        report.append("headerCell", headerCell);
-			        headerCell = report.get("headerCell");
-				        headerCell.set("headerValue", "Reporter");
-				        headerCell.set("headerColspan", "1");
-			        report.append("headerCell", headerCell);
-			        
-			        sampleCell = report.get("sampleCell");
-			        	sampleCell.set("sampleValue", "&nbsp;");
-			        	sampleCell.set("sampleColspan", "1");
-			        report.append("sampleCell", sampleCell);
-			        sampleCell = report.get("sampleCell");
-			        	sampleCell.set("sampleValue", "&nbsp;");
-			        	sampleCell.set("sampleColspan", "1");
-			        report.append("sampleCell", sampleCell);
 			        
 			        /*
 			        sampleNames.append("<Tr>");
@@ -120,9 +94,26 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			    	header.append("<Td id=\"header\">Cytoband</td><td id=\"header\">Reporter</td>");
 				   */
 			        
-			        //this generates the "Bar" spacer
-			    	int theColspan = 2; // start countig with the 2 cells above 
-			    	
+			        Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("Cytoband");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+				        data = cell.addElement("data").addAttribute("type", "header").addText("Reporter");
+				        data = null;
+			        cell = null;
+			        
+			        Element sampleRow = report.addElement("Row").addAttribute("name", "sampleRow");
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
+			       
 			    	//this nested loop generates the header row and the samples row
 			    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 			        	String label = (String) labelIterator.next();
@@ -130,74 +121,29 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        	sampleIds = copyNumberContainer.getBiospecimenLabels(label); 
 			        	totalSamples += sampleIds.size();
 			        	
-			        	if(!csv)	{
-			        		//create a new cell with colspan for every group/label and append to the row
-			        		headerCell = report.get("headerCell");
-				        		headerCell.set("headerColspan", Integer.toString(sampleIds.size()) );
-				        		headerCell.set("headerValue", label+" Samples");
-			        		report.append("headerCell", headerCell);
-			        	}
-		        	
+			        		cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
+				        		data = cell.addElement("Data").addAttribute("type", "header").addText(label+" Samples");
+					        	data = null;
+					        cell = null;
 			        	
 			        	//header.append("<Td colspan='"+sampleIds.size()+"' class=\""+label+"\" id=\"header\">"+label+" Samples</td>"); 
-	  		        	cssLabels.add(label);
 	  		        	   	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-
-				        		if(csv)	{
-				        			//in csv, make a new header cell for each sample, since no colspan
-				        			headerCell = report.get("headerCell");
-				        			headerCell.set("headerValue", label);
-				        			headerCell.set("headerColspan", "");
-				        			report.append("headerCell", headerCell);
-				        		}
-				           		
+        		
 				        		String s = sampleIdIterator.next().toString();
-				        		sampleCell = report.get("sampleCell");
-					           		sampleCell.set("sampleValue", s.substring(2));
-					           		sampleCell.set("sampleColspan", "1");
-				           		report.append("sampleCell", sampleCell);
+				           		cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
+						        	data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
+						        	data = null;
+						        cell = null;
+				           		
 				           		//sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
-				            	theColspan += sampleIds.size();
+				            	//theColspan += sampleIds.size();
 				           	}
 			    	}
 			    	//header.append("</tr>\n"); 
 			    	//sampleNames.append("</tr>\n");
 			    	
-			    	if(!csv)	{	
-				    	//generate the CSS once we have all the labels, not for CSV though
-			    		// could make this its own template, but not now
-						StringBuffer css = new StringBuffer();
-						css.append("<style>\n");
-						String color = "";
-						String font = "";
-						for (int i = 0; i < cssLabels.size(); i++) {
-								int currentColor = i;
-								if(currentColor < theColors.length)	{
-									color = theColors[currentColor];	
-								}
-								else	{
-								 currentColor = i - theColors.length;
-								 color = theColors[currentColor];
-								}
-								css.append("td."+(String)(cssLabels.get(i))+ " { background-color: #"+color+"; }\n");
-							}
-						css.append("</style>\n");
-						/*
-						cssTemplate = report.get("css");
-						cssTemplate.set("css", css.toString());
-						report.append("css", cssTemplate);
-						*/
-						report.set("css", css.toString());
-						
-						//sb.append(css.toString());
-						
-			    	}
-			    	/*
-					sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
-					sb.append(header.toString());
-					sb.append(sampleNames.toString());
-					*/
+			    	/* done with the headerRow and SampleRow Elements, time to add data rows */
 			    	
 			    	for (Iterator cytobandIterator = cytobands.iterator(); cytobandIterator.hasNext();) {
 			    		CytobandResultset cytobandResultset = (CytobandResultset)cytobandIterator.next();
@@ -210,17 +156,15 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        		String reporterName = reporterResultset.getReporter().getValue().toString();
 			        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 			        		
-			        		//get the row, and hardcode-append the first 2 cols
-			        		row = report.get("row");
-			        		cell = row.get("cell");
-			        			cell.set("value", cytoband);
-			        			cell.set("class", cytoband);
-			        		row.append("cell", cell);
-			        		cell = row.get("cell");
-				        		cell.set("value", reporterName);
-			        			cell.set("class", reporterName);
-			        		row.append("cell", cell);
-			        		
+			        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
+					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+					        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
+					        	data = null;
+					        cell = null;
+					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+					        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
+					        	data = null;
+					        cell = null;
 			        		//sb.append("<tr><td>"+cytoband+"</td><td>"+reporterName+"</td>");
 			        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 			        			String label = (String) labelIterator.next();
@@ -239,74 +183,60 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			                       			Double ratio = (Double) sampleResultset2.getCopyNumber().getValue();
 			                       			if(ratio != null)	{
 			                       				//sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");
-			                       				cell = row.get("cell");
-				                       				cell.set("value", resultFormat.format(ratio));
-				                       				cell.set("class", label);
-			                       				row.append("cell", cell);
+			                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
+				    					        	data = null;
+				    					        cell = null;
 			                       			}
 			                       			else	{
-			                       				cell = row.get("cell");
-				                       				cell.set("value", "-");
-				                       				cell.set("class", label);
-			                       				row.append("cell", cell);
 			                       				//sb.append("<td class='"+label+"'>-</td>");
+			                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+				    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+				    					        	data = null;
+				    					        cell = null;
 			                       			}
 			                       		}
 			                       		else	{
-			                       			cell = row.get("cell");
-			                       				cell.set("value", "-");
-			                       				cell.set("class", label);
-		                       				row.append("cell", cell);
 			                       			//sb.append("<td class='"+label+"'>-</td>");
+		                       				
+		                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+			    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+			    					        	data = null;
+			    					        cell = null;
 			                       		}
 			                       	}
 			        			}
 			                    else	{
 			                    	for(int s=0;s<sampleIds.size();s++)	{ 
-			                    		cell = row.get("cell");
-		                       				cell.set("value", "-");
-		                       				cell.set("class", label);
-		                   				row.append("cell", cell);
+			                    		cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", label).addAttribute("group", label);
+		    					        	data = cell.addElement("Data").addAttribute("type", "data").addText("-");
+		    					        	data = null;
+		    					        cell = null;
 			                    		//sb.append("<td class='"+label+"'>-</td>");
 			                    	}
 			                    }
 			         		}
 			        		//sb.append("</tr>\n");
-			        		report.append("row", row);
 			    		}
-			        	//append the extra row here
-			        	//is !csv for loop thru and append a new blank td foreach theColspan
-			        	if(!csv)	{
-			        		row = report.get("row");
-			        		for(int i=0; i<theColspan; i++)	{
-			        			cell = row.get("cell");
-			        			cell.set("value", "&nbsp;");
-			        			cell.set("class", "geneSpacerStyle");
-			        			row.append("cell", cell);
-			        		}
-			        		report.append("row", row);
-			        	}
+			        	
 			        	//sb.append("<tr><td colspan=\""+theColspan+"\" class=\"geneSpacerStyle\">&nbsp;</td></tr>\n");
 			    	}
 				//sb.append("</table><Br><br>");	
 			}
 			
 			else	{
+				//TODO: handle these errs
 				sb.append("<br><br>Copy Number container is empty");
 			}
 			
 		}
 		else	{
+			//TODO: handle these errs
 			sb.append("<br><br>Copy Number container is empty");
 		}	
 		
-		return report;
-			//return "<div class=\"rowCount\">"+ helpFul +recordCount+" records returned. "+ totalSamples + " samples returned. &nbsp;&nbsp;&nbsp;" + links +"</div>\n" + sb.toString();
-		 }
-		catch(Exception e){
-			//failed to load template
-			return null;
-		}
+		return document;
+		//return "<div class=\"rowCount\">"+ helpFul +recordCount+" records returned. "+ totalSamples + " samples returned. &nbsp;&nbsp;&nbsp;" + links +"</div>\n" + sb.toString();
 	}
 
 }
