@@ -7,8 +7,13 @@ gov.nih.nci.nautilus.ui.bean.ReportBean,
 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
 gov.nih.nci.nautilus.constants.NautilusConstants"
 %>
-
+<span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
+	<br><Br>
+	<img src="images/statusBar2.gif">
+	<br>Loading...please wait<br>
+</span>
 <%
+response.flushBuffer();
 	ReportBean reportBean = (ReportBean)request.getAttribute(NautilusConstants.REPORT_BEAN);
 	ReportGeneratorHelper.renderReport(reportBean,null,out);
 %>
