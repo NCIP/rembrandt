@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -112,10 +113,17 @@ public class QuickSearchAction extends DispatchAction {
         		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
         		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
             return mapping.findForward("kmplot");
-            }
-            return mapping.findForward("badgraph");
+            }      
         }
-        return mapping.findForward("error");
+        ActionErrors errors = new ActionErrors();
+        errors
+           .add(
+                ActionErrors.GLOBAL_ERROR,
+                new ActionError(
+                        "gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
+                        quickSearchName));
+        this.saveErrors(request, errors);
+        return mapping.findForward("badgraph");
 	}
 
 	public ActionForward redrawKMPlot(ActionMapping mapping, ActionForm form,
