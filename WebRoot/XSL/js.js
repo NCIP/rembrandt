@@ -182,6 +182,6 @@ function checkElement(id)	{
 
 function stupidXSLEscape(qname)	{
 	var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&csv=true";
-	alert(dest);
+	//alert(dest);
 	location.href = dest;
 }

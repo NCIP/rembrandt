@@ -12,13 +12,12 @@ if(csv.equals("true"))	{
 	//generate the CSV
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
-	System.out.println("do csv");
 	try{	
 	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
 	if(reportXML != null)
 		ReportGeneratorHelper.renderReport(request, reportXML,"csv.xsl",out);
 	else
-		out.println("no reportXML");
+		out.println("Error Generating the report");
 	}
 	catch(Exception e)	{
 		out.println("Error Generating the report");
@@ -35,10 +34,8 @@ else	{ %>
 <%
 	response.flushBuffer();	
 	try	{
-	out.println((String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME));
-	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
-	ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME),out);
-
+		Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
+		ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME),out);
 	}
 	catch(Exception e)	{
 	//maybe put this in a finally?

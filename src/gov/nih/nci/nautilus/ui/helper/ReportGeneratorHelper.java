@@ -468,8 +468,16 @@ public class ReportGeneratorHelper {
 		try {
 			transformer = new Transformer(styleSheet, (HashMap)request.getAttribute(NautilusConstants.FILTER_PARAM_MAP));
 	     	Document transformedDoc = transformer.transform(reportXML);
-	        //put this filenamein the constants
-	     	if(!xsltFilename.equals("csv.xsl")){
+	        
+	     	/*
+	         * right now this assumes that we will only have one XSL for CSV
+	         * and it checks for that as we do not want to "pretty print" the CSV, we
+	         * only want to spit it out as a string, or formatting gets messed up
+	         * we will of course want to pretty print the XHTML for the graphical reports
+	         * later we can change this to handle mult XSL CSVs
+	         * RCL
+	         */
+	     	if(!xsltFilename.equals(NautilusConstants.DEFAULT_XSLT_CSV_FILENAME)){
 	            OutputFormat format = OutputFormat.createPrettyPrint();
 	            XMLWriter writer;
 	            writer = new XMLWriter( out, format );
