@@ -17,6 +17,7 @@ public class GeneResultset {
 	  private GeneIdentifierDE.GeneSymbol geneSymbol = null;
 	  private GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo = null;
 	  private GeneIdentifierDE.LocusLink locusLinkID = null;
+	  private boolean isAnonymousGene = false;
 	  //private DataSetDE. dataset;
 	  private SortedMap reporters = new TreeMap();
 
@@ -98,4 +99,18 @@ public class GeneResultset {
     public void removeAllDiseaseResultset(){
     	reporters.clear();
     }
+
+	/**
+	 * For genes that do not have a Gene Symbol associated with it
+	 */
+	public void setAnonymousGene() {
+		isAnonymousGene = true;
+		
+	}
+	/**
+	 * @return Returns the isAnonymousGene.
+	 */
+	public boolean isAnonymousGene() {
+		return this.isAnonymousGene;
+	}
 }

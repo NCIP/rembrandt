@@ -15,7 +15,7 @@ import gov.nih.nci.nautilus.de.*;
  */
 public class ReporterResultset {
 	private DatumDE reporter = null;
-	private SortedMap diseases = new TreeMap();
+	private SortedMap groupTypes = new TreeMap();
 
 	/**
 	 * 
@@ -24,42 +24,42 @@ public class ReporterResultset {
 		setReporter(repoter);
 	}
 	/**
-	 * @param diseaseResultset Adds diseaseResultset to this ReporterResultset object.
+	 * @param groupResultset Adds groupResultset to this ReporterResultset object.
 	 */
-	public void addDiseaseResultset(DiseaseResultset diseaseResultset){
-		if(diseaseResultset != null && diseaseResultset.getDieaseType() != null){
-			diseases.put(diseaseResultset.getDieaseType().getValue().toString(), diseaseResultset);
+	public void addGroupResultset(GroupResultset groupResultset){
+		if(groupResultset != null && groupResultset.getType() != null){
+			groupTypes.put(groupResultset.getType().getValue().toString(), groupResultset);
 		}
 	}
 	/**
-	 * @param diseaseResultset Removes diseaseResultset to this ReporterResultset object.
+	 * @param groupResultset Removes groupResultset to this ReporterResultset object.
 	 */
-	public void removeDiseaseResultset(DiseaseResultset diseaseResultset){
-		if(diseaseResultset != null && diseaseResultset.getDieaseType() != null){
-			diseases.remove(diseaseResultset.getDieaseType());
+	public void removeGroupResultset(GroupResultset groupResultset){
+		if(groupResultset != null && groupResultset.getType() != null){
+			groupTypes.remove(groupResultset.getType().getValue().toString());
 		}
 	}
     /**
      * @param disease
-	 * @return diseaseResultset Returns reporterResultset for this ReporterResultset.
+	 * @return groupResultset Returns reporterResultset for this ReporterResultset.
 	 */
-    public DiseaseResultset getDiseaseResultset(String disease){
-    	if(disease != null){
-			return (DiseaseResultset) diseases.get(disease);
+    public GroupResultset getGroupResultset(String groupType){
+    	if(groupType != null){
+			return (GroupResultset) groupTypes.get(groupType);
 		}
     		return null;
     }
 	/**
-	 * @return Collection Returns collection of DiseaseResultsets to this ReporterResultset object.
+	 * @return Collection Returns collection of GroupResultsets to this ReporterResultset object.
 	 */
-    public Collection getDiseaseResultsets(){
-    		return diseases.values();
+    public Collection getGroupResultsets(){
+    		return groupTypes.values();
     }
 	/**
-	 * @param none Removes all diseaseResultset in this ReporterResultset object.
+	 * @param none Removes all groupResultset in this ReporterResultset object.
 	 */
-    public void removeAllDiseaseResultset(){
-    	diseases.clear();
+    public void removeAllGroupResultset(){
+    	groupTypes.clear();
     }
 	public static void main(String[] args) {
 	}

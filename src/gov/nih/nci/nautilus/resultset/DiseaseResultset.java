@@ -6,62 +6,45 @@
  */
 package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.de.*;
-
-import java.util.*;
 /**
  * @author SahniH
  *
  * This class encapulates a collection of DieaseResultset objects.
  */
-public class DiseaseResultset {
-	private DiseaseNameDE dieaseType;
-	private SortedMap samples = new TreeMap();
-	/**
-	 * @param disease
-	 */
-	public DiseaseResultset(DiseaseNameDE disease) {		
-		setDieaseType(disease);
-	}
-	/**
-	 * @return Returns the dieaseType.
-	 */
-	public DiseaseNameDE getDieaseType() {
-		return dieaseType;
-	}
-	/**
-	 * @param dieaseType The dieaseType to set.
-	 */
-	public void setDieaseType(DiseaseNameDE dieaseType) {
-		this.dieaseType = dieaseType;
-	}
-	/**
-	 * @param bioSpecimenResultset Adds bioSpecimenResultset to this DiseaseResultset object.
-	 */
-	public void addBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.put(bioSpecimenResultset.getBiospecimen().getValue().toString(), bioSpecimenResultset);
+public class DiseaseResultset extends GroupResultset{
+		/* (non-Javadoc)
+		 * @see gov.nih.nci.nautilus.resultset.GroupResultset#getType()
+		 */
+		public DomainElement getType() {
+			return (DiseaseNameDE) getDiseaseType();
 		}
-	}
-	/**
-	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this DiseaseResultset object.
-	 */
-	public void removeBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.remove(bioSpecimenResultset.getBiospecimen());
+		/* (non-Javadoc)
+		 * @see gov.nih.nci.nautilus.resultset.GroupResultset#setType(gov.nih.nci.nautilus.de.DomainElement)
+		 */
+		public void setType(DomainElement type) throws Exception {
+	        if (! (type instanceof DiseaseNameDE) )
+	            throw new Exception ( "Could not set the value.  Parameter is of invalid data type: " + type);
+	        setDiseaseType((DiseaseNameDE)type);
 		}
-	}
-	/**
-	 * @return bioSpecimenResultset Returns bioSpecimenResultset to this DiseaseResultset object.
-	 */
-    public Collection getBioSpecimenResultsets(){
-    		return samples.values();
-    }
-	/**
-	 * @param none Removes all bioSpecimenResultset in this DiseaseResultset object.
-	 */
-    public void removeAllBioSpecimenResultset(){
-    	samples.clear();
-    }
-	public static void main(String[] args) {
-	}
+
+		/**
+		 * @param disease
+		 */
+		public DiseaseResultset(DiseaseNameDE diseaseType) {		
+			setDiseaseType(diseaseType);
+		}
+		/**
+		 * @return Returns the diseaseType.
+		 */
+		public DiseaseNameDE getDiseaseType() {
+			return (DiseaseNameDE) type;
+		}
+		/**
+		 * @param diseaseType The diseaseType to set.
+		 */
+		public void setDiseaseType(DiseaseNameDE diseaseType) {
+			if(diseaseType != null){
+		         type = diseaseType;
+				 }
+			}
 }

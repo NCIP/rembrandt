@@ -11,7 +11,9 @@ import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.queryprocessing.GeneExpr;
-import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.queryprocessing.ResultsetProcessor;
+import gov.nih.nci.nautilus.resultset.*;
+
 
 import java.util.*;
 
@@ -66,6 +68,7 @@ public class GeneExpressionQueryTest extends TestCase {
             try {
                 ResultSet[] geneExprObjects = QueryManager.executeQuery(q);
                 print(geneExprObjects);
+                testResultset(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
@@ -117,7 +120,39 @@ public class GeneExpressionQueryTest extends TestCase {
 
             return ;
     }
-
+      public void testResultset(ResultSet[] geneExprObjects){
+    	ResultsetProcessor resultsetProc = new ResultsetProcessor();
+    	assertNotNull(geneExprObjects);
+        assertTrue(geneExprObjects.length > 0);
+    	resultsetProc.handleGeneView(geneExprObjects, GroupType.AGE_GROUP);
+    	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
+    	Collection genes = geneViewContainer.getGeneResultsets();
+    	System.out.println("Gene Count: "+genes.size());
+    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
+    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+    		Collection reporters = geneResultset.getReporterResultsets();
+        	System.out.println("Repoter Count: "+reporters.size());
+    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+        		Collection groupTypes = reporterResultset.getGroupResultsets();
+            	System.out.println("Group Count: "+groupTypes.size());
+        		for (Iterator groupIterator = groupTypes.iterator(); groupIterator.hasNext();) {
+        			GroupResultset groupResultset = (GroupResultset)groupIterator.next();
+            		Collection biospecimens = groupResultset.getBioSpecimenResultsets();
+                	System.out.println("Biospecimen Count: "+biospecimens.size());
+            		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
+            			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
+                	            System.out.println(	"GeneSymbol: "+geneResultset.getGeneSymbol().getValueObject().toString()+
+                	            					"| ReporterName: "+ reporterResultset.getReporter().getValue().toString()+
+													"| GroupType : "+groupResultset.getType().getValue().toString()+
+													"| BioSpecimenId: "+ biospecimenResultset.getBiospecimen().getValue().toString()+
+													"| FoldChangeRatioValue: "+ biospecimenResultset.getFoldChangeRatioValue().getValue().toString());
+            		}
+        		}
+    		}
+    	}
+    	
+    }
      public static Test suite() {
 		TestSuite suit =  new TestSuite();
         suit.addTest(new TestSuite(GeneExpressionQueryTest.class));
