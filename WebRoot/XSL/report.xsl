@@ -263,13 +263,13 @@
 			  <xsl:choose>
 			  <xsl:when test="Data = ' '">
 			  	
-			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() != ' '">
-			  	<td colspan="2">
+			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() != ' ' and $currentGroup = 'header'">
+			  	<td colspan="2" align="center">
 				  <input type="text" name="prb_queryName" value="{$qName}" size="10" />
 				  <input type="submit" name="prb_submitSamples" value="Save" style="width:40px" />
 				 </td>
 			  	</xsl:if>
-			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() = ' ' and following::Cell[1]/Data[1]/text() != ' '">
+			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() = ' ' and following::Cell[1]/Data[1]/text() != ' ' and $currentGroup = 'header'">
 				  
 			  	</xsl:if>
 			  </xsl:when>
