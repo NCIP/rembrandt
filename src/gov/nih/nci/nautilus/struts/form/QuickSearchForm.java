@@ -45,4 +45,15 @@ public void setQuickSearchName(String str){
 public String getQuickSearchName(){
  return this.quickSearchName;
 }		
+
+public ActionErrors validate(
+		ActionMapping mapping,
+		HttpServletRequest request) {
+
+			ActionErrors errors = new ActionErrors();
+
+			return errors;
+
+}
+
 }
