@@ -19,6 +19,16 @@ abstract public class DomainElementClass {
         }
    };
 
+   public final  static DomainElementClass IMAGE_CLONE = new DomainElementClass() {
+    public final String getName() {
+        return CloneIdentifierDE.IMAGEClone.class.getName();
+    }
+};
+   public final  static DomainElementClass BAC_CLONE = new DomainElementClass() {
+    public final String getName() {
+        return CloneIdentifierDE.BACClone.class.getName();
+    }
+};
    public final  static DomainElementClass EXPRFOLDCHANGE = new DomainElementClass() {
         public final String getName() {
             return ExprFoldChangeDE.class.getName();
