@@ -271,6 +271,7 @@
  <lib dir="${build.lib.dir}">
  	<include name="xercesImpl.jar"/>
  	<include name="xml-apis.jar"/>
+ 	<patternset refid="cabio.jars"/>
     <patternset refid="ojb.client.jars"/>
    	<patternset refid="db.platform.jars"/>
    	<!-- <patternset refid="xml.jars"> -->
