@@ -65,10 +65,11 @@ public class GeneexpressionAction extends Action {
 		
 		// Change this code later to get view type directly from Form !!
 		if (thisView.equalsIgnoreCase("sample")) {
-			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
+			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			}
 		else if (thisView.equalsIgnoreCase("gene")){
-			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_VIEW_TYPE));
+			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			geneExpQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 			}
 		
 		// Set gene criteria

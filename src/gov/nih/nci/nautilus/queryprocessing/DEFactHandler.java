@@ -25,48 +25,25 @@ abstract public class DEFactHandler {
     Class sfactClass = DifferentialExpressionSfact.class;
     Map geneExprObjects = Collections.synchronizedMap(new HashMap());
     List eventList = Collections.synchronizedList(new ArrayList());
-
+    abstract void addToResults(Collection results);
     abstract Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
     throws Exception;
-
-    final static class SingleDEFactHandler extends DEFactHandler {
-        Map executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
-        throws Exception {
-            final String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
-            System.out.println("Total Number Of Probes:" + allProbeIDs.size());
-            build(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, foldCrit, fieldName);
-            build(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, foldCrit, fieldName);
-                /*
-                sampleQuery.setAttributes(new String[] {
-                        DifferentialExpressionSfact.DES_ID,
-                        DifferentialExpressionSfact.PROBE_NAME,
-                        DifferentialExpressionSfact.CLONE_NAME,
-                        DifferentialExpressionSfact.PROBESET_ID,
-                        DifferentialExpressionSfact.tyCLONE_ID,
-                        DifferentialExpressionSfact.GENE_SYMBOL,
-                        DifferentialExpressionSfact.BIOSPECIMEN_ID,
-                        DifferentialExpressionSfact.EXPRESSION_RATIO
-                } );
-                */
-            boolean sleep = true;
-            do {
-                Thread.sleep(10);
-                sleep = false;
-                for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
-                    DBEvent eventObj = (DBEvent)iterator.next();
-                    if (! eventObj.isCompleted()) {
-                        sleep = true;
-                        break;
-                    }
+    protected void sleep() throws InterruptedException {
+        boolean sleep = true;
+        do {
+            Thread.sleep(10);
+            sleep = false;
+            for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
+                DBEvent eventObj = (DBEvent)iterator.next();
+                if (! eventObj.isCompleted()) {
+                    sleep = true;
+                    break;
                 }
-            } while (sleep);
-
-            print();
-            return geneExprObjects;
-
-        }
-
-        private void build(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final FoldChangeCriteria foldCrit, final String fieldName) throws Exception {
+            }
+        } while (sleep);
+        return;
+    }
+    protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, final FoldChangeCriteria foldCrit) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
 
             for (int i = 0; i < arrayIDs.size();) {
@@ -83,14 +60,14 @@ abstract public class DEFactHandler {
                 eventList.add(dbEvent);
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
                 final Criteria sampleCritBasedOnProbes = new Criteria();
-                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, DifferentialExpressionSfact.class, _BROKER, sampleCritBasedOnProbes);
+                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCritBasedOnProbes);
                 new Thread(
                    new Runnable() {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           sampleCritBasedOnProbes.addAndCriteria(IDs);
                           org.apache.ojb.broker.query.Query sampleQuery =
-                          QueryFactory.newQuery(DifferentialExpressionSfact.class,sampleCritBasedOnProbes, true);
+                          QueryFactory.newQuery(targetFactClass,sampleCritBasedOnProbes, true);
                           assert(sampleQuery != null);
                           Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                           addToResults(exprObjects);
@@ -99,9 +76,18 @@ abstract public class DEFactHandler {
                    }
                ).start();
             }
+     }
+    final static class SingleDEFactHandler extends DEFactHandler {
+        Map executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+        throws Exception {
+            //final String fieldName = DifferentialExpressionSfact.BIOSPECIMEN_ID ;
+            System.out.println("Total Number Of Probes:" + allProbeIDs.size());
+            executeQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, foldCrit );
+            executeQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, foldCrit);
+            sleep();
+            return geneExprObjects;
         }
-
-        private void addToResults(Collection exprObjects) {
+        void addToResults(Collection exprObjects) {
             for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
                 DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
                 GeneExpr.GeneExprSingle singleExprObj = new GeneExpr.GeneExprSingle();
@@ -110,7 +96,6 @@ abstract public class DEFactHandler {
                 exprObj = null;
             }
         }
-
         private void copyTo(GeneExpr.GeneExprSingle singleExprObj, DifferentialExpressionSfact exprObj) {
             singleExprObj.setDesId(exprObj.getDesId());
             singleExprObj.setAgeGroup(exprObj.getAgeGroup());
@@ -127,55 +112,42 @@ abstract public class DEFactHandler {
             singleExprObj.setSurvivalLengthRange(exprObj.getSurvivalLengthRange());
             singleExprObj.setTimecourseId(exprObj.getTimecourseId());
         }
-
-        private void print() {
-            int count = 0;
-            HashSet probeIDS = new HashSet();
-            HashSet cloneIDs = new HashSet();
-            Set keys = geneExprObjects.keySet();
-            for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
-                Long desID =  (Long) iterator.next();
-                GeneExpr.GeneExprSingle exprObj = (GeneExpr.GeneExprSingle)geneExprObjects.get(desID);
-                if (exprObj.getProbesetId() != null) {
-                  // System.out.println("ProbesetID: " + exprObj.getProbesetId() + " :Exp Value: "
-                    //            + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol() );
-                    probeIDS.add(exprObj.getProbesetId());
-                }
-                if ( exprObj.getCloneId() != null) {
-                   // System.out.println("CloneID: " + exprObj.getCloneId()+ " :Exp Value: "
-                     //           + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol());
-                    cloneIDs.add(exprObj.getCloneId() );
-                }
-
-                 ++count;
-            }
-            System.out.println("Total Number Of Samples: " + count);
-            StringBuffer p = new StringBuffer();
-            for (Iterator iterator = probeIDS.iterator(); iterator.hasNext();) {
-                Long aLong = (Long) iterator.next();
-                p.append(aLong.toString() + ",");
-            }
-            System.out.println("Total Probes: " + probeIDS.size());
-            System.out.println(p.toString());
-            StringBuffer c = new StringBuffer();
-            for (Iterator iterator = cloneIDs.iterator(); iterator.hasNext();) {
-                Long aLong = (Long) iterator.next();
-                c.append(aLong.toString() + ",");
-            }
-            System.out.println("Total clones: " + cloneIDs.size());
-            System.out.println(c.toString());
-
-            return ;
-        }
     }
+        final static class GroupDEFactHanlder extends DEFactHandler {
 
-    static class GroupDEFactHanlder extends DEFactHandler {
-        Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
-        throws Exception {
-            //TODO:
-            return null;
+            Map executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, final FoldChangeCriteria foldCrit)
+            throws Exception {
+                executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, foldCrit );
+                executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, foldCrit);
+                sleep();
+                return geneExprObjects;
+            }
+
+            void addToResults(Collection exprObjects) {
+                for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
+                    DifferentialExpressionGfact exprObj = (DifferentialExpressionGfact) iterator.next();
+                    GeneExpr.GeneExprGroup groupExprObj = new GeneExpr.GeneExprGroup();
+                    copyTo(groupExprObj, exprObj);
+                    geneExprObjects.put(groupExprObj.getDegId(), groupExprObj);
+                    exprObj = null;
+                }
+            }
+            private void copyTo(GeneExpr.GeneExprGroup groupExprObj, DifferentialExpressionGfact  exprObj) {
+                groupExprObj.setDegId(exprObj.getDegId());
+
+                groupExprObj.setCloneId(exprObj.getCloneId());
+                groupExprObj.setCloneName(exprObj.getCloneName());
+                groupExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());
+                groupExprObj.setExpressionRatio(exprObj.getExpressionRatio());
+                groupExprObj.setGeneSymbol(exprObj.getGeneSymbol());
+                groupExprObj.setProbesetId(exprObj.getProbesetId());
+                groupExprObj.setProbesetName(exprObj.getProbesetName());
+                groupExprObj.setNormalIntensity(exprObj.getNormalIntensity());
+                groupExprObj.setSampleIntensity(exprObj.getSampleGIntensity());
+                groupExprObj.setRatioPval(exprObj.getRatioPval());
+                groupExprObj.setTimecourseId(exprObj.getTimecourseId());
+            }
         }
     }
 
 
-}

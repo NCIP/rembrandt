@@ -11,11 +11,14 @@ import gov.nih.nci.nautilus.query.Query;
  */
 public class ViewFactory {
     public static ViewType newView(ViewType viewType) {
-        if (viewType instanceof ViewType.GeneCentricView) {
-            return ViewType.GENE_VIEW_TYPE;
+        if (viewType instanceof ViewType.GeneSingleSampleView) {
+            return ViewType.GENE_SINGLE_SAMPLE_VIEW;
         }
-        if (viewType instanceof ViewType.SampleCentricView) {
-            return ViewType.SAMPLE_VIEW_TYPE;
+        else if (viewType instanceof ViewType.GeneGroupSampleView) {
+            return ViewType.GENE_GROUP_SAMPLE_VIEW ;
+        }
+        else if (viewType instanceof ViewType.ClinicalView) {
+            return ViewType.CLINICAL_VIEW;
         }
         return null;
     }

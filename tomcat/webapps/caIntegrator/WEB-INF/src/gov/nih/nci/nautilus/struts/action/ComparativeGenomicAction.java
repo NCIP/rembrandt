@@ -66,14 +66,17 @@ public class ComparativeGenomicAction extends Action {
 			
 			// Change this code later to get view type directly from Form !!
 			if (thisView.equalsIgnoreCase("sample")) 
-				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
+				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			else if (thisView.equalsIgnoreCase("gene"))
-				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_VIEW_TYPE)); 
+
+				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW)); 
+
+				cghQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 				System.out.println("3333");	
 	   // set Disease criteria
 		DiseaseOrGradeCriteria diseaseOrGradeCriteria = comparativeGenomicForm.getDiseaseOrGradeCriteria();
 		cghQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);				
-	 
+
 		// Set gene criteria
 		GeneIDCriteria geneIDCrit = comparativeGenomicForm.getGeneIDCriteria();
 		cghQuery.setGeneIDCrit(geneIDCrit);

@@ -9,16 +9,23 @@ package gov.nih.nci.nautilus.view;
  */
 abstract public class ViewType {
     abstract ViewType getViewType();
-    public final static GeneCentricView GENE_VIEW_TYPE = new GeneCentricView();
-    public final static SampleCentricView SAMPLE_VIEW_TYPE = new SampleCentricView();
-    public static class GeneCentricView extends ViewType {
+    public final static GeneSingleSampleView GENE_SINGLE_SAMPLE_VIEW = new GeneSingleSampleView();
+    public final static GeneGroupSampleView GENE_GROUP_SAMPLE_VIEW = new GeneGroupSampleView();
+    public final static ClinicalView CLINICAL_VIEW = new ClinicalView();
+
+    public static class GeneSingleSampleView extends ViewType {
        public ViewType getViewType() {
-           return GENE_VIEW_TYPE;
+           return GENE_SINGLE_SAMPLE_VIEW;
        }
     }
-    public static class SampleCentricView extends ViewType {
+    public static class GeneGroupSampleView extends ViewType {
        public ViewType getViewType() {
-           return SAMPLE_VIEW_TYPE ;
+           return GENE_GROUP_SAMPLE_VIEW;
+       }
+    }
+    public static class ClinicalView extends ViewType {
+       public ViewType getViewType() {
+           return CLINICAL_VIEW ;
        }
     }
 }

@@ -11,16 +11,13 @@ import gov.nih.nci.nautilus.resultset.ResultSet;
  */
 abstract public class GeneExpr implements ResultSet {
     private Long cloneId;
-    //private Long datasetId;
     private Long diseaseTypeId;
     private Double expressionRatio;
-    private Long expPlatformId;
     private String probesetName;
     private String cloneName;
     private String geneSymbol;
-    private Long institutionId;
-    private Float normalIntensity;
-    private Float sampleIntensity;
+    private Double normalIntensity;
+    private Double sampleIntensity;
     private Long probesetId;
     private Long timecourseId;
 
@@ -32,15 +29,6 @@ abstract public class GeneExpr implements ResultSet {
         this.cloneId = cloneId;
     }
 
-    /*
-    public Long getDatasetId() {
-        return datasetId;
-    }
-
-    public void setDatasetId(Long datasetId) {
-        this.datasetId = datasetId;
-    }
-    */
     public Long getDiseaseTypeId() {
         return diseaseTypeId;
     }
@@ -56,15 +44,6 @@ abstract public class GeneExpr implements ResultSet {
     public void setExpressionRatio(Double expressionRatio) {
         this.expressionRatio = expressionRatio;
     }
-
-    public Long getExpPlatformId() {
-        return expPlatformId;
-    }
-
-    public void setExpPlatformId(Long expPlatformId) {
-        this.expPlatformId = expPlatformId;
-    }
-
     public String getProbesetName() {
         return probesetName;
     }
@@ -89,6 +68,8 @@ abstract public class GeneExpr implements ResultSet {
         this.geneSymbol = geneSymbol;
     }
 
+    /*
+
     public Long getInstitutionId() {
         return institutionId;
     }
@@ -96,20 +77,20 @@ abstract public class GeneExpr implements ResultSet {
     public void setInstitutionId(Long institutionId) {
         this.institutionId = institutionId;
     }
-
-    public Float getNormalIntensity() {
+    */
+    public Double getNormalIntensity() {
         return normalIntensity;
     }
 
-    public void setNormalIntensity(Float normalIntensity) {
+    public void setNormalIntensity(Double normalIntensity) {
         this.normalIntensity = normalIntensity;
     }
 
-    public Float getSampleIntensity() {
+    public Double getSampleIntensity() {
         return sampleIntensity;
     }
 
-    public void setSampleIntensity(Float sampleIntensity) {
+    public void setSampleIntensity(Double sampleIntensity) {
         this.sampleIntensity = sampleIntensity;
     }
 
@@ -215,7 +196,7 @@ abstract public class GeneExpr implements ResultSet {
     }
 
     final public static class GeneExprGroup extends GeneExpr {
-        private String ratioPval;
+        private Double ratioPval;
         private Long degId;
         public Long getDegId() {
             return degId;
@@ -223,10 +204,10 @@ abstract public class GeneExpr implements ResultSet {
         public void setDegId(Long degId) {
             this.degId = degId;
         }
-        public String getRatioPval() {
+        public Double getRatioPval() {
             return ratioPval;
         }
-        public void setRatioPval(String ratioPval) {
+        public void setRatioPval(Double ratioPval) {
             this.ratioPval = ratioPval;
         }
     }

@@ -10,10 +10,9 @@ import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.queryprocessing.GeneExpr;
 
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +25,7 @@ public class GeneExpressionQueryTest extends TestCase {
      FoldChangeCriteria foldCrit;
      GeneIDCriteria  geneIDCrit;
      GeneOntologyCriteria ontologyCrit;
-    PathwayCriteria pathwayCrit;
+     PathwayCriteria pathwayCrit;
      RegionCriteria regionCrit;
      CloneOrProbeIDCriteria cloneCrit;
      CloneOrProbeIDCriteria probeCrit;
@@ -46,8 +45,9 @@ public class GeneExpressionQueryTest extends TestCase {
     }
     public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-            q.setQueryName("Test Gene Query");
-            q.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
+             q.setQueryName("Test Gene Query");
+             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
             //q.setGeneIDCrit(geneIDCrit);
             //q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
@@ -63,12 +63,58 @@ public class GeneExpressionQueryTest extends TestCase {
             q.setFoldChgCrit(foldCrit);
 
             try {
-                QueryManager.executeQuery(q);
-                
+                Map geneExprObjects = QueryManager.executeQuery(q);
+                print(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
 
+    }
+      private void print(Map geneExprObjects) {
+            int count = 0;
+            HashSet probeIDS = new HashSet();
+            HashSet cloneIDs = new HashSet();
+            Set keys = geneExprObjects.keySet();
+            for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+                Long desID =  (Long) iterator.next();
+                Object obj = geneExprObjects.get(desID);
+                GeneExpr exprObj = null;
+                if (obj instanceof GeneExpr.GeneExprGroup)  {
+                    exprObj = (GeneExpr.GeneExprGroup) obj;
+                }
+                 else if (obj instanceof GeneExpr.GeneExprSingle)  {
+                    exprObj = (GeneExpr.GeneExprSingle) obj;
+                }
+                if (exprObj.getProbesetId() != null) {
+                  // System.out.println("ProbesetID: " + exprObj.getProbesetId() + " :Exp Value: "
+                    //            + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol() );
+                    probeIDS.add(exprObj.getProbesetId());
+                }
+                if ( exprObj.getCloneId() != null) {
+                   // System.out.println("CloneID: " + exprObj.getCloneId()+ " :Exp Value: "
+                     //           + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol());
+                    cloneIDs.add(exprObj.getCloneId() );
+                }
+
+                 ++count;
+            }
+            System.out.println("Total Number Of Samples: " + count);
+            StringBuffer p = new StringBuffer();
+            for (Iterator iterator = probeIDS.iterator(); iterator.hasNext();) {
+                Long aLong = (Long) iterator.next();
+                p.append(aLong.toString() + ",");
+            }
+            System.out.println("Total Probes: " + probeIDS.size());
+            System.out.println(p.toString());
+            StringBuffer c = new StringBuffer();
+            for (Iterator iterator = cloneIDs.iterator(); iterator.hasNext();) {
+                Long aLong = (Long) iterator.next();
+                c.append(aLong.toString() + ",");
+            }
+            System.out.println("Total clones: " + cloneIDs.size());
+            System.out.println(c.toString());
+
+            return ;
     }
 
      public static Test suite() {

@@ -46,7 +46,7 @@ public class GeneOntologyHandler {
             GeneIDCriteria geneIDCrit = new GeneIDCriteria();
             geneIDCrit.setGeneIdentifiers(geneSymbols);
 
-            // build ProbesetID and CloneIDs for GeneSymbols
+            // executeQuery ProbesetID and CloneIDs for GeneSymbols
             return GeneIDCriteriaHandler.buildGeneIDCriteria(geneIDCrit, includeClones, includeProbes, pb);
     }
 }

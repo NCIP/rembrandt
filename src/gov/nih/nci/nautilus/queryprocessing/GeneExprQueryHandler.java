@@ -70,10 +70,10 @@ final public class GeneExprQueryHandler extends QueryHandler {
     public Map handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
 
-        if (query.getAssociatedView().equals(ViewType.SAMPLE_VIEW_TYPE)) {
+        if (query.getAssociatedView().equals(ViewType.GENE_SINGLE_SAMPLE_VIEW)) {
                 factHandler = new DEFactHandler.SingleDEFactHandler();
         }
-        if (query.getAssociatedView().equals(ViewType.GENE_VIEW_TYPE)) {
+        if (query.getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW)) {
                 factHandler = new DEFactHandler.GroupDEFactHanlder();
         }
         // make sure that platform (for the resulting smaples) is specified
@@ -145,14 +145,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
             }
         } while (sleep);
 
-        /*Criteria combinedIDs = getCombinedIDs();
-        if (combinedIDs != null) {
-            Enumeration idEnum = combinedIDs.getElements();
-            if (idEnum.hasMoreElements()) {
-                sampleCrit.addAndCriteria(combinedIDs);
-            }
-        }*/
-        return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery.getFoldChgCrit());
+       return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery.getFoldChgCrit());
    }
 
     private Criteria getCombinedIDs() {

@@ -2,6 +2,8 @@ package gov.nih.nci.nautilus.query;
 
 import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
 
+import java.util.Map;
+
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR
@@ -14,8 +16,8 @@ public class QueryManager {
     public static Query createQuery(QueryType typeOfQuery) {
         return QueryFactory.newQuery(typeOfQuery);
     }
-    public static void executeQuery(Query queryToExecute) throws Exception {
-        QueryProcessor.execute(queryToExecute);
+    public static Map executeQuery(Query queryToExecute) throws Exception {
+        return QueryProcessor.execute(queryToExecute);
     }
 
 }

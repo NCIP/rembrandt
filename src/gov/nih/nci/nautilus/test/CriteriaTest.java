@@ -118,7 +118,7 @@ public class CriteriaTest extends TestCase {
         protected void setUp() {
             GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
             q.setQueryName("Test Gene Query");
-            q.setAssociatedView(ViewFactory.newView(ViewType.SAMPLE_VIEW_TYPE));
+            q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             q.setGeneIDCrit(geneIDCrit);
             q.setRegionCrit(regionCrit);
             q.setFoldChgCrit(foldCrit);
