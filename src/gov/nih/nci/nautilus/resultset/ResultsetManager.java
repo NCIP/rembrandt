@@ -206,7 +206,7 @@ public class ResultsetManager {
 		if (queryToExecute != null && sampleIDs != null) {
 			ConstrainedQueryWithSamplesHandler sampleHandler = new ConstrainedQueryWithSamplesHandler();
 			SampleCriteria sampleCriteria = sampleHandler.createSampleCriteria(sampleIDs);
-			CompoundQuery newCQuery = sampleHandler.constrainQuery(queryToExecute,sampleCriteria);
+			CompoundQuery newCQuery = sampleHandler.constrainQuery((CompoundQuery)queryToExecute.clone(),sampleCriteria);
 			resultant = executeCompoundQuery(newCQuery);
 		}
 

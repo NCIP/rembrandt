@@ -203,6 +203,9 @@ public class ReportGeneratorHelper {
 		//create a new ReportBean
 		_reportBean = new ReportBean();
 		Resultant sampleIdResults = null;
+		for(int i = 0;i< sampleIds.length;i++) {
+			sampleIds[i]="HF"+sampleIds[i];
+		}
 		try {	
 			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
 		}catch(Exception e) {
