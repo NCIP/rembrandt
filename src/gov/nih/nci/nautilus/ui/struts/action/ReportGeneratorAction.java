@@ -3,11 +3,14 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.Collection;
 import java.util.Map;
 
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
+import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
@@ -17,6 +20,8 @@ import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.ui.struts.form.ReportGeneratorForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.resultset.*;
+import gov.nih.nci.nautilus.query.OperatorType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+
 
 public class ReportGeneratorAction extends DispatchAction {
 
@@ -216,6 +222,47 @@ public class ReportGeneratorAction extends DispatchAction {
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
 	
-	
+	public ActionForward runFilterCopyNumber(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ActionForward thisForward = null;
+		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+		String queryName = rgForm.getQueryName();
+		String sessionId = request.getSession().getId();
+		ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId, queryName);
+		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
+	    //call Hmans code to get list of samples to exclude
+		Collection excludedSamples = null;
+		
+		Resultant resultant = reportBean.getResultant();
+		Integer nocalls = new Integer("0");
+		Integer percent = new Integer("0");
+		OperatorType operator = OperatorType.OR;
+		
+		//get the data we need from the form
+		if(rgForm.getFilter_value5()!=null)
+		    nocalls = Integer.getInteger(rgForm.getFilter_value5());
+		if(rgForm.getFilter_value6()!=null)
+		    percent = Integer.getInteger(rgForm.getFilter_value6());
+		//reusing filter_value4 for this
+		if(rgForm.getFilter_value4()!=null && rgForm.getFilter_value4().equalsIgnoreCase("and"))
+		    operator = OperatorType.AND;
+		
+		//hold our samples for exclusion
+		String[] sampleIds = null;
+		excludedSamples = ResultsetManager.filterCopyNumber(resultant, nocalls, percent, operator);
+		sampleIds = (String[]) excludedSamples.toArray();
+		
+		if(reportBean!=null) {
+			//This will generate get a resultant and store it in the cache
+		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds);
+			//store the name of the query in the form so that we can later pull it out of cache
+			reportBean = rgHelper.getReportBean();
+			//add the new name so we know its a copy number filter
+			rgForm.setQueryName(reportBean.getResultantCacheKey() + " Copy Number Filter");
+       	}
+		//now send everything that we have done to the actual method that will render the report
+		return runGeneViewReport(mapping, rgForm, request, response);
+	}	
 	
 }
