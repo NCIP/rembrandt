@@ -121,7 +121,7 @@ public class RefineQueryAction extends LookupDispatchAction {
                 	cQuery.setQueryName(resultSetName);
                 }
                 
-                ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
+                ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
                 ReportBean reportBean = rgHelper.getReportBean();
                 request.setAttribute("queryName", reportBean.getResultantCacheKey());
                 //Send to the appropriate view as per selection!!

@@ -3,9 +3,12 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.Map;
+
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
+import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
@@ -50,6 +53,34 @@ public class ReportGeneratorAction extends DispatchAction {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
     	ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId,rgForm.getQueryName());
+    	//check to see if this is a filter submission
+    	Map filterParams = rgForm.getFilterParams();
+    	if(filterParams!=null&&filterParams.containsKey("filter_type")) {
+    		//get the old resultant
+    		Resultant resultant = reportBean.getResultant();
+    		//get the old query
+    		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getResultant().getAssociatedQuery()));
+    		String queryName = cQuery.getQueryName();
+    		if(queryName.indexOf("filter report")<0) {
+    			queryName = queryName+" filter report";
+    		}
+    		//change the name of the associated query
+    		cQuery.setQueryName(queryName);
+    		//set the modified query in to the resultant
+    		resultant.setAssociatedQuery(cQuery);
+    		//Create a new bean to store the new resultant, name, param combination
+    		ReportBean newReportBean = new ReportBean();
+    		//set the retrieval key for the ReportBean
+    		newReportBean.setResultantCacheKey(queryName);
+    		//add the resultant to the new bean
+    		newReportBean.setResultant(resultant);
+    		//put the new bean in cache
+    		CacheManagerDelegate.getInstance().addToSessionCache(sessionId, queryName,newReportBean );
+    		//Generate new XML for the old resultant under the new QueryName
+    		ReportGeneratorHelper generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    		//get the final report bean
+    		reportBean = generatorHelper.getReportBean();
+    	}
     	if(reportBean!=null) {
 	    	if("".equals(rgForm.getXsltFileName())||rgForm.getXsltFileName()==null) {
 	    		//If no filters specified then use the default XSLT

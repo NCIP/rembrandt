@@ -139,7 +139,7 @@ public class ReportGeneratorHelper {
 	 */
 	private Map processFilterParamMap(Map filterParams) {
 		List tokens = null;
-		if(filterParams.containsKey("filter_string")) {
+		if(filterParams!=null && filterParams.containsKey("filter_string")) {
 			StringTokenizer tokenizer = new StringTokenizer((String)filterParams.get("filter_string"), ",", false);
 			tokens = new ArrayList();
 			while(tokenizer.hasMoreTokens()) {
@@ -190,7 +190,7 @@ public class ReportGeneratorHelper {
 		//parameter
 		_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
 	}
-
+	
 	/**
 	 * This contructor use a TemplateMethod pattern to perform the following
 	 * tasks (They must happen in this order, though some may be omitted if the
@@ -207,7 +207,7 @@ public class ReportGeneratorHelper {
 	 *        
 	 * @param query --the query that you want some new view (Report) of
 	 */
-	public ReportGeneratorHelper(Queriable query) {
+	public ReportGeneratorHelper(Queriable query, Map filterParams) {
 		try {
 			//check the query to make sure that it is a compound query
 			checkCompoundQuery(query);
@@ -228,6 +228,7 @@ public class ReportGeneratorHelper {
 				logger.debug("Executing Query");
 				executeQuery();
 			}
+			_reportBean.setFilterParams(processFilterParamMap(filterParams));
 			this.generateReportXML();
 		}catch(Exception e) {
 			logger.error("Unable to create the ReportBean");
