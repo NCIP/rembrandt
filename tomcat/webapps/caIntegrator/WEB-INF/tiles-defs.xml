@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+
+<tiles-definitions>
+    <definition name="baseDef" path="/jsp/layout.jsp">
+		<put name="title" value="caIntegrator" />
+		<!--  the common criteria  -->
+		<put name="htmlHead" value="/jsp/tiles/htmlHead_tile.jsp" />
+		<put name="overlib" value="/jsp/tiles/overlib_tile.jsp" />
+		<put name="header" value="/jsp/header.jsp" />
+	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
+		<put name="sideBar" value="/jsp/tiles/sideBar_tile.jsp" />
+		<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+		<put name="footer" value="/jsp/footer.jsp" />
+		<!--  form specific criteria  -->
+		<put name="mainForm" value="" />		<!-- main form page, read from props file -->
+		<put name="formName" value="#" />		<!-- form name -->
+		<put name="formAction" value="#" />		<!-- form action -->
+    </definition>
+    <definition name="geneExpression" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=geneExpression" />
+	  <put name="formName" value="geneExpData" /> 	<!-- form name -->
+	  <put name="formAction" value="/geneexpression" />			<!-- form action -->
+	  <put name="title" value="Gene Expression" />	<!-- title of page -->
+    </definition>
+    <definition name="comparitiveGenomic" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic" />
+	  <put name="formName" value="genomic" /> 		<!-- form name -->
+	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="title" value="Comparitive Genomic Data" />
+    </definition>
+    <definition name="clinical" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=clinical" />
+	  <put name="formName" value="clinical" /> 		<!-- form name -->
+	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="title" value="Clinical Data" />
+    </definition>
+	<definition name="menu" extends="baseDef">
+      <put name="mainForm" value="/jsp/menu.jsp" />
+	  <put name="formName" value="menu" /> 		<!-- form name -->
+	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="title" value="Advanced Search - Build Query" />
+	  <put name="reqdFieldsMsg" value="" />
+    </definition>
+	<definition name="home" extends="baseDef">
+      <put name="mainForm" value="/jsp/home.jsp" />
+	  <put name="formName" value="home" /> 		<!-- form name -->
+	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="title" value="caIntegrator Advanced Search" />
+	  <put name="reqdFieldsMsg" value="" />
+	  <put name="sideBar" value="/jsp/tiles/quickSearch_tile.jsp" />
+    </definition>
+	<definition name="noSidebar" path="/jsp/layoutNoSidebar.jsp">
+		<put name="title" value="caIntegrator" />
+		<!--  the common criteria  -->
+		<put name="htmlHead" value="/jsp/tiles/htmlHead_tile.jsp" />
+		<put name="overlib" value="/jsp/tiles/overlib_tile.jsp" />
+		<put name="header" value="/jsp/header.jsp" />
+	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
+		<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+		<put name="footer" value="/jsp/footer.jsp" />
+		<put name="buttons" value="/jsp/buttons_tile.jsp" />
+		<put name="outputExamples" value="/jsp/outputExamples_tile.jsp" />
+		<!--  form specific criteria  -->
+		<put name="mainForm" value="" />		<!-- main form page, read from props file -->
+		<put name="formName" value="#" />		<!-- form name -->
+		<put name="formAction" value="#" />		<!-- form action -->
+    </definition>
+	<definition name="refine" extends="noSidebar">
+      <put name="mainForm" value="/jsp/refine_tile.jsp" />
+	  <put name="formName" value="refine" /> 		<!-- form name -->
+	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="title" value="Please refine your query below" />
+	  <put name="reqdFieldsMsg" value="" />
+    </definition>
+	<definition name="presentation" extends="noSidebar">
+      <put name="mainForm" value="/jsp/presentation_tile.jsp" />
+	  <put name="formName" value="presentation" /> 		<!-- form name -->
+	  <put name="formAction" value="#" />			<!-- form action -->
+	  <put name="title" value="Select Presentation" />
+	  <put name="reqdFieldsMsg" value="" />
+    </definition>
+</tiles-definitions>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<!--
+     This is the Struts configuration file for the example application,
+     using the proposed new syntax.
+-->
+
+
+<struts-config>
+
+
+  <!-- ========== Data Source Configuration =============================== -->
+<!--
+ <data-sources>
+   <data-source>
+     <set-property property="autoCommit"
+                      value="false"/>
+     <set-property property="description"
+                      value="Example Data Source Configuration"/>
+     <set-property property="driverClass"
+                      value="org.postgresql.Driver"/>
+     <set-property property="maxCount"
+                      value="4"/>
+     <set-property property="minCount"
+                      value="2"/>
+     <set-property property="password"
+                      value="mypassword"/>
+     <set-property property="url"
+                      value="jdbc:postgresql://localhost/mydatabase"/>
+     <set-property property="user"
+                      value="myusername"/>
+   </data-source>
+ </data-sources>
+-->
+  <!-- ========== Form Bean Definitions =================================== -->
+  <form-beans>
+
+    <!-- Logon form bean -->
+    <form-bean       name="logonForm"
+                     type="org.apache.struts.validator.DynaValidatorForm">
+      <form-property name="username" type="java.lang.String"/>
+      <form-property name="password" type="java.lang.String"/>
+    </form-bean>
+
+    <!-- Subscription form bean -->
+    <form-bean      name="subscriptionForm"
+                    type="org.apache.struts.webapp.example.SubscriptionForm"/>
+
+
+<!-- pshah struts-config -->
+	   <form-bean name="geneexpressionForm" type="gov.nih.nci.nautilus.struts.form.GeneExpressionForm">
+            <form-property name="geneList" type="java.lang.String" />
+            <form-property name="goBiologicalProcess" type="java.lang.String" />
+            <form-property name="tumorGrade" type="java.lang.String" />
+            <form-property name="region" type="java.lang.String" />
+            <form-property name="foldChangeValueDown" type="java.lang.String" initial="2" />
+            <form-property name="cytobandRegion" type="java.lang.String" />
+            <form-property name="cloneId" type="java.lang.String" />
+            <form-property name="pathways" type="java.lang.String" />
+            <form-property name="tumorType" type="java.lang.String" />
+            <form-property name="arrayPlatform" type="java.lang.String" />
+            <form-property name="cloneListFile" type="java.lang.String" />
+            <form-property name="goCellularComp" type="java.lang.String" />
+            <form-property name="goMolecularFunction" type="java.lang.String" />
+            <form-property name="cloneListSpecify" type="java.lang.String" />
+            <form-property name="goClassification" type="java.lang.String" />
+            <form-property name="basePairEnd" type="java.lang.String" />
+            <form-property name="chrosomeNumber" type="java.lang.String" />
+            <form-property name="regulationStatus" type="java.lang.String" />
+            <form-property name="foldChangeValueUnchange" type="java.lang.String" initial="2" />
+            <form-property name="foldChangeValueUp" type="java.lang.String" initial="2" />
+            <form-property name="geneType" type="java.lang.String" />
+            <form-property name="foldChangeValueUDUp" type="java.lang.String" />
+            <form-property name="resultView" type="java.lang.String" />
+            <form-property name="geneFile" type="java.lang.String" />
+            <form-property name="foldChangeValueUDDown" type="java.lang.String" initial="2" />
+            <form-property name="geneGroup" type="java.lang.String" />
+            <form-property name="cloneList" type="java.lang.String" />
+            <form-property name="queryName" type="java.lang.String" />
+            <form-property name="basePairStart" type="java.lang.String" />
+        </form-bean>
+
+
+  </form-beans>
+
+
+  <!-- ========== Global Forward Definitions ============================== -->
+  <global-forwards>
+    <forward   name="logoff"               path="/logoff.do"/>
+    <forward   name="logon"                path="/logon.jsp"/>
+    <forward   name="success"              path="/mainMenu.jsp"/>
+  </global-forwards>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+    <!-- Edit mail subscription -->
+    <action    path="/editSubscription"
+               type="org.apache.struts.webapp.example.EditSubscriptionAction"
+          attribute="subscriptionForm"
+              scope="request"
+           validate="false">
+      <forward name="failure"              path="/mainMenu.jsp"/>
+      <forward name="success"              path="/subscription.jsp"/>
+    </action>
+
+    <!-- Process a user logoff -->
+    <action    path="/logoff"
+               type="org.apache.struts.webapp.example.LogoffAction">
+      <forward name="success"              path="/index.jsp"/>
+    </action>
+
+    <!-- Process a user logon -->
+    <action    path="/logon"
+               type="org.apache.struts.webapp.example.LogonAction"
+               name="logonForm"
+              scope="session"
+              input="logon">
+      <exception
+                key="expired.password"
+               type="org.apache.struts.webapp.example.ExpiredPasswordException"
+               path="/changePassword.jsp"/>
+    </action>
+
+    <!-- Save mail subscription -->
+    <action    path="/saveSubscription"
+               type="org.apache.struts.webapp.example.SaveSubscriptionAction"
+               name="subscriptionForm"
+              scope="request"
+              input="subscription">
+      <forward name="subscription"    path="/subscription.jsp"/>
+      <forward name="success"         path="/editRegistration.do?action=Edit"/>
+    </action>
+
+
+    <!-- Display the "walking tour" documentation -->
+    <action    path="/tour"
+            forward="/tour.htm">
+    </action>
+
+	<action path="/geneExpression"
+		type="DoFirst">
+		<forward name="success" path="geneExpression" />
+	</action>
+
+	<action path="/comparitiveGenomic"
+		type="DoFirst">
+		<forward name="success" path="comparitiveGenomic" />
+	</action>
+	
+	<action path="/menu"
+		type="DoFirst">
+		<forward name="success" path="menu" />
+	</action>
+
+	<action path="/clinical"
+		type="DoFirst">
+		<forward name="success" path="clinical" />
+	</action>
+
+	<action path="/home"
+		type="DoFirst">
+		<forward name="success" path="home" />
+	</action>
+
+
+<!-- pshah -->
+  
+        <action
+            attribute="geneexpressionForm"
+            input="/jsp/geneexpression.jsp"
+            name="geneexpressionForm"
+            path="/geneexpression"
+            type="gov.nih.nci.nautilus.struts.action.GeneexpressionAction"
+            validate="true">
+            <forward name="advanceSearchMenu" path="/jsp/advanceSearchMenu.jsp" />
+            <forward name="queryPreview" path="/jsp/queryPreview.jsp" />
+        </action>
+    
+  </action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+
+  <!-- ========== Message Resources Definitions =========================== -->
+
+  <message-resources
+    parameter="org.apache.struts.webapp.example.ApplicationResources"/>
+
+  <message-resources
+    parameter="org.apache.struts.webapp.example.AlternateApplicationResources"
+    key="alternate">
+  </message-resources>
+
+	<!-- pshah -->
+ <message-resources parameter="gov.nih.nci.nautilus.struts.ApplicationResources" />
+
+  <!-- ========== Plug Ins Configuration ================================== -->
+
+  <plug-in className="org.apache.struts.plugins.ModuleConfigVerifier"/>
+
+  <plug-in className="org.apache.struts.webapp.example.memory.MemoryDatabasePlugIn">
+    <set-property property="pathname" value="/WEB-INF/database.xml"/>
+  </plug-in>
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+                     value="/WEB-INF/validator-rules.xml,
+                            /WEB-INF/validation.xml"/>
+  </plug-in>
+
+<plug-in className="org.apache.struts.tiles.TilesPlugin" >
+  <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+  <set-property property="definitions-parser-validate" value="true" />
+  <set-property property="moduleAware" value="true" />
+</plug-in>
+
+
+
+</struts-config>
