@@ -28,7 +28,7 @@ import java.math.BigDecimal;
  * To change this template use Options | File Templates.
  */
 public class GeneIDCriteriaHandler {
-     private final static int VALUES_PER_THREAD = 100;
+     private final static int VALUES_PER_THREAD = 200;
      static HashMap data = new HashMap();
         static {
             data.put(GeneIdentifierDE.GeneSymbol.class.getName(),

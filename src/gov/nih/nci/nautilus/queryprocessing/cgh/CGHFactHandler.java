@@ -28,7 +28,7 @@ abstract public class CGHFactHandler {
     private static Logger logger = Logger.getLogger(CGHFactHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
-    private final static int VALUES_PER_THREAD = 100;
+    private final static int VALUES_PER_THREAD = 200;
     List factEventList = Collections.synchronizedList(new ArrayList());
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
