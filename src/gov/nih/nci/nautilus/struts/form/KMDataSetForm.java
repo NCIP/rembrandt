@@ -264,7 +264,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
         }
         
         //Create the Census Series
-        KMDataSeries censusSeries = new KMDataSeries(seriesName+" Census Points", true);
+        KMDataSeries censusSeries = new KMDataSeries(seriesName+" Censor Points", true);
         for (int i = 0; i < dataPoints.length; i++) {
         	if(dataPoints[i].isCensus()) {
         		censusSeries.add(dataPoints[i]);
