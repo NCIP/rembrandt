@@ -1,416 +1,250 @@
- 
-<!--================= GeneIdentifierDE.GenBankAccessionNumber ==================-->
- 
- <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GeneIdentifierDE.GenBankAccessionNumber"
-        table="GENE_DIM">
-   
-   <field-descriptor
-          name="value"
-          column="GENBANK_ACC_NO"         
-		  jdbc-type="VARCHAR"
-   />
-   
   
-  <!--================= GeneIdentifierDE.LocusLinkID ==================-->
- 
- <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GeneIdentifierDE.LocusLinkID"
-        table="GENE_DIM">
+ <!--================= PathwayDE ==================-->  
    
-   <field-descriptor
-          name="value"
-          column="LL_ID"         
-		  jdbc-type="VARCHAR"
-   />    
 
-  <!--================= GeneIdentifierDE.GeneSymbol ==================-->
+ <class-descriptor class="gov.nih.nci.nautilus.de.PathwayDE" 
+	table="PATHWAY">		
+	<field-descriptor name="value" column="PATHWAY_NAME" jdbc-type="VARCHAR" primarykey="false" />
+		
+	</class-descriptor>
+	
+  <!--================= GradeDE ==================-->  
  
- <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GeneIdentifierDE.GeneSymbol"
-        table="GENE_DIM">
-   
-   <field-descriptor
-          name="value"
-          column="GENE_SYMBOL"         
-		  jdbc-type="VARCHAR"
-   />    
+	<class-descriptor class="gov.nih.nci.nautilus.de.GradeDE" 
+	table="DISEASE_GRADE">		
+	<field-descriptor name="value" column="GRADE" jdbc-type="VARCHAR" primarykey="false" />
+		
+	</class-descriptor>
+
+
  
-  
-   
  <!--================= ChromosomeNumberDE ==================-->  
    
    <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.ChromosomeNumberDE"
+        class="gov.nih.nci.nautilus.de.ChromosomeNumberDE"
         table="CHROMOSOME_DIM">
 		
    <field-descriptor
           name="value"
           column="CHROMOSOME"          
 		  jdbc-type="VARCHAR"
+		  primarykey="false"
 	  />
-
-<!--================= CytobandDE ==================-->  
-   
-   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.CytobandDE"
-        table="CYTOBAND_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="CYTOBAND"          
-		  jdbc-type="VARCHAR"
-	  />
-	  
-<!--================= BasePairPositionDE.StartBasePair ==================-->  
-   
-   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.BasePairPositionDE.StartBasePair"
-        table="GENE_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="KB_START"          
-		  jdbc-type="BIGINT"
-	  />	  
-
-<!--================= BasePairPositionDE.EndBasePair ==================-->  
-   
-   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.BasePairPositionDE.EndBasePair"
-        table="GENE_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="KB_END"          
-		  jdbc-type="BIGINT"
-	  />		  
-	  
-<!--================= GeneExpFoldChgDE.UpRegulation ==================-->  
-   
-   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GeneExpFoldChgDE.UpRegulation"
-        table="DIFFERENTIAL_EXPRESSION_SFACT">
-		
-   <field-descriptor
-          name="value"
-          column="EXPRESSION_RATIO"          
-		  jdbc-type="REAL"
-	  />
-	  
-<!--================= GeneExpFoldChgDE.DownRegulation ==================-->  
-   
-   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GeneExpFoldChgDE.DownRegulation"
-        table="DIFFERENTIAL_EXPRESSION_SFACT">
-		
-   <field-descriptor
-          name="value"
-          column="EXPRESSION_RATIO"          
-		  jdbc-type="REAL"
-	  />		  	  		  
-	  
-<!--================= GeneExpFoldChgDE.UnchangedRegulation ==================-->  
-   
-   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GeneExpFoldChgDE.UnchangedRegulation"
-        table="DIFFERENTIAL_EXPRESSION_SFACT">
-		
-   <field-descriptor
-          name="value"
-          column="EXPRESSION_RATIO"          
-		  jdbc-type="REAL"
-	  />		  
-	  
-<!--================= CloneIdentifierDE.BACCloneID ==================-->  
-   
-   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.CloneIdentifierDE.BACCloneID"
-        table="?">
-		
-   <field-descriptor
-          name="value"
-          column="?"          
-		  jdbc-type="BIGINT"
-	  />	
+	</class-descriptor>
 	
-	<!--================= CloneIdentifierDE.IMAGECloneID ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.CloneIdentifierDE.IMAGECloneID"
-        table="?">
-		
-   <field-descriptor
-          name="value"
-          column="?"          
-		  jdbc-type="BIGINT"
-	  />	  	  
-	  
-	  
+<!--================= CytobandDE ==================-->  
+	   
+	   <class-descriptor
+	        class="gov.nih.nci.nautilus.de.CytobandDE"
+	        table="CYTOBAND_DIM">
+			
+	   <field-descriptor
+	          name="value"
+	          column="CYTOBAND"          
+			  jdbc-type="VARCHAR"
+			   primarykey="false"
+		  />
+	</class-descriptor>
+	
 <!--================= ProbeSetDE ==================-->  
    
   <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.ProbeSetDE"
+        class="gov.nih.nci.nautilus.de.ProbeSetDE"
         table="PROBESET_DIM">
 		
    <field-descriptor
           name="value"
           column="PROBESET_NAME"          
 		  jdbc-type="VARCHAR"
+		  primarykey="false"
  />	  
- 
- <!--================= DiseaseNameDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.DiseaseNameDE"
-        table="DISEASE_TYPE_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="DISEASE_TYPE"          
+	</class-descriptor>	
+	
+	 <!--================= DiseaseNameDE ==================-->  
+	   
+	  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.DiseaseNameDE"
+	        table="DISEASE_TYPE_DIM">
+			
+	   <field-descriptor
+	          name="value"
+	          column="DISEASE_TYPE"          
+			  jdbc-type="VARCHAR"
+			  primarykey="false"
+	 />	 
+	 
+ 	</class-descriptor>
+ 	
+ 	  <!--================= InstitutionNameDE ==================-->  
+	   
+<!--	  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.InstitutionNameDE"
+	        table="INSTITUTION_DIM">
+			
+	   <field-descriptor
+	          name="value"
+	          column="INSTITUTION_NAME"          
+			  jdbc-type="VARCHAR"
+			   primarykey="false"
+	 />	
+ 	</class-descriptor>-->
+ 	
+ 	 <!--================= ChemoAgentDE ==================-->  
+	   
+	<!--	  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.ChemoAgentDE"
+	        table="AGENT">
+			
+	   <field-descriptor
+	          name="value"
+	          column="AGENT_NAME"          
+			  jdbc-type="VARCHAR"
+			   primarykey="false"
+	 />	   
+ 	</class-descriptor>-->
+ 	
+ 	  <!--================= SurgeryTypeDE ==================-->  
+	   
+	<!--  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.SurgeryTypeDE"
+	        table="?">
+			
+	   <field-descriptor
+	          name="value"
+	          column="?"          
 		  jdbc-type="VARCHAR"
- />	 
- 
- 
-  <!--================= InstitutionNameDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.InstitutionNameDE"
-        table="INSTITUTION_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="INSTITUTION_NAME"          
-		  jdbc-type="VARCHAR"
- />	
- 
- <!--================= UntranslatedRegionDE.5UTR ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.UntranslatedRegionDE.5UTR"
-        table="CLONE_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="UTRCLONE_DIM"          
-		  jdbc-type="INTEGER"
-          conversion="gov.nih.nci.caBIG.caIntegrator.Nautilus.common.conversions.Boolean2IntFieldConversion"
- />	  	  
-	  
-<!--================= UntranslatedRegionDE.3UTR ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.UntranslatedRegionDE.3UTR"
-        table="CLONE_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="UTRCLONE_DIM"          
-		  jdbc-type="INTEGER"
-          conversion="gov.nih.nci.caBIG.caIntegrator.Nautilus.common.conversions.Boolean2IntFieldConversion"
-
- />	 	 
- 
- <!--================= ChemoAgentDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.ChemoAgentDE"
-        table="AGENT">
-		
-   <field-descriptor
-          name="value"
-          column="AGENT_NAME"          
-		  jdbc-type="VARCHAR"
- />	   
- 
-  <!--================= GradeDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GradeDE"
-        table="DISEASE_TYPE_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="GRADE"          
-		  jdbc-type="VARCHAR"
- />	 
- 
-  <!--================= SurgeryTypeDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.SurgeryTypeDE"
-        table="?">
-		
-   <field-descriptor
-          name="value"
-          column="?"          
-		  jdbc-type="VARCHAR"
- />	
- 
-  <!--================= RaditionTherapyDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.RaditionTherapyDE"
-        table="?">
-		
-   <field-descriptor
-          name="value"
-          column="?"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= PathwayNameDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.PathwayNameDE"
-        table="PATHWAY">
-		
-   <field-descriptor
-          name="value"
-          column="PATHWAY_NAME"          
-		  jdbc-type="VARCHAR"
- />
- 
-  <!--================= SNPIdentifierDE.SNPProbeSetID ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.SNPIdentifierDE.SNPProbeSetID"
-        table="PROBESET_DIM???">
-		
-   <field-descriptor
-          name="value"
-          column="PROBESET_NAME"          
-		  jdbc-type="VARCHAR"
- />
- 
-  <!--================= SNPIdentifierDE.TSCID ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.SNPIdentifierDE.TSCID"
-        table="PROBESET_DIM???">
-		
-   <field-descriptor
-          name="value"
-          column="??"          
-		  jdbc-type="VARCHAR"
- />
- 
-  <!--================= SNPIdentifierDE.DBSNPID ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.SNPIdentifierDE.DBSNPID"
-        table="???">
-		
-   <field-descriptor
-          name="value"
-          column="PROBESET_NAME"          
-		  jdbc-type="VARCHAR"
- />
- 
-  <!--================= GeneOntologyDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GeneOntologyDE"
-        table="GENE_ONTOLOGY">
-		
-   <field-descriptor
-          name="value"
-          column="GO_NAME"          
-		  jdbc-type="VARCHAR"
- />
- 
-  <!--================= ArrayPlatformDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.ArrayPlatformDE"
-        table="EXP_PLATFORM_DIM???">
-		
-   <field-descriptor
-          name="value"
-          column="EXP_PLATFORM_NAME"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= GenderDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.GenderDE"
-        table="GENDER">
-		
-   <field-descriptor
-          name="value"
-          column="GENDER_CODE"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= AlleleFrequencyDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.AlleleFrequencyDE"
-        table="POPULATION_TYPE??">
-		
-   <field-descriptor
-          name="value"
-          column="POPULATION_TYPE_NAME??"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= OccaranceDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.OccaranceDE"
-        table="??">
-		
-   <field-descriptor
-          name="value"
-          column="??"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= AgeAtDiagnosisDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.AgeAtDiagnosisDE"
-        table="AGE_GROUP_DX">
-		
-   <field-descriptor
-          name="value"
-          column="AGE_GROUP??"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= SurvivalDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.SurvivalDE"
-        table="SURVIVAL_LENGTH_RANGE">
-		
-   <field-descriptor
-          name="value"
-          column="SURVIVAL_LENGTH_RANGE"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= CopyNumberDE.Amplification ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.CopyNumberDE.Amplification"
-        table="????">
-		
-   <field-descriptor
-          name="value"
-          column="????"          
-		  jdbc-type="VARCHAR"
- />
- 
- <!--================= CopyNumberDE.Amplification ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.caBIG.caIntegrator.Nautilus.de.CopyNumberDE.Deletion"
-        table="????">
-		
-   <field-descriptor
-          name="value"
-          column="????"          
-		  jdbc-type="VARCHAR"
- />
+	 />	
+ 	</class-descriptor>-->
+ 	
+ 	  <!--================= RaditionTherapyDE ==================-->  
+	   
+	<!--   <class-descriptor
+	        class="gov.nih.nci.nautilus.de.RaditionTherapyDE"
+	        table="?">
+			
+	   <field-descriptor
+	          name="value"
+	          column="?"          
+			  jdbc-type="VARCHAR"
+			   primarykey="false"
+	 />
+ 	</class-descriptor>-->
+ 	  <!--================= GeneOntologyDE ==================-->  
+	   
+	  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.GeneOntologyDE"
+	        table="GENE_ONTOLOGY">
+			
+	   <field-descriptor
+	          name="value"
+	          column="GO_NAME"          
+			  jdbc-type="VARCHAR"
+			   primarykey="false"
+	 />
+ 	</class-descriptor>
+ 	  <!--================= ArrayPlatformDE ==================-->  
+	   
+	  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.ArrayPlatformDE"
+	        table="EXP_PLATFORM_DIM???">
+			
+	   <field-descriptor
+	          name="value"
+	          column="EXP_PLATFORM_NAME"          
+			  jdbc-type="VARCHAR"
+			  primarykey="false"
+	 />
+ 	</class-descriptor>
+ 	
+ 	 <!--================= GenderDE ==================-->  
+	   
+	 <!--  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.GenderDE"
+	        table="GENDER">
+			
+	   <field-descriptor
+	          name="value"
+	          column="GENDER_CODE"          
+			  jdbc-type="VARCHAR"
+			  primarykey="false"
+	 />
+ 	</class-descriptor>-->  
+ 	 <!--================= AlleleFrequencyDE ==================-->  
+	   
+	  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.AlleleFrequencyDE"
+	        table="POPULATION_TYPE">
+			
+	   <field-descriptor
+	          name="value"
+	          column="POPULATION_TYPE_NAME"          
+			  jdbc-type="VARCHAR"
+			  primarykey="false"
+	 />
+ 	</class-descriptor>
+ 	
+ 	 <!--================= OccaranceDE ==================-->  
+	   
+	 <!-- <class-descriptor
+	        class="gov.nih.nci.nautilus.de.OccaranceDE"
+	        table="??">
+			
+	   <field-descriptor
+	          name="value"
+	          column="??"          
+			  jdbc-type="VARCHAR"
+	 />
+ 	</class-descriptor>-->  
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	 <!--================= AgeAtDiagnosisDE ==================-->  
+	   
+		<!--   <class-descriptor
+	        class="gov.nih.nci.nautilus.de.AgeAtDiagnosisDE"
+	        table="AGE_GROUP_DX">
+			
+	   <field-descriptor
+	          name="value"
+	          column="AGE_GROUP"          
+			  jdbc-type="VARCHAR"
+	 />
+	 	</class-descriptor>-->  
+	 <!--================= SurvivalDE ==================-->  
+	   
+	 	<!--  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.SurvivalDE"
+	        table="SURVIVAL_LENGTH_RANGE">
+			
+	   <field-descriptor
+	          name="value"
+	          column="SURVIVAL_LENGTH_RANGE"          
+			  jdbc-type="VARCHAR"
+	 />
+	 	</class-descriptor>-->  
+	 <!--================= CopyNumberDE.Amplification ==================-->  
+	   
+	<!--   <class-descriptor
+	        class="gov.nih.nci.nautilus.de.CopyNumberDE.Amplification"
+	        table="????">
+			
+	   <field-descriptor
+	          name="value"
+	          column="????"          
+			  jdbc-type="VARCHAR"
+	 />
+	 	</class-descriptor>-->  
+	 <!--================= CopyNumberDE.Amplification ==================-->  
+	   
+	<!--  <class-descriptor
+	        class="gov.nih.nci.nautilus.de.CopyNumberDE.Deletion"
+	        table="????">
+			
+	   <field-descriptor
+	          name="value"
+	          column="????"          
+			  jdbc-type="VARCHAR"
+	 />
+	</class-descriptor>-->  

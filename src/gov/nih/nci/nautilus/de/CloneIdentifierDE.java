@@ -110,6 +110,8 @@ abstract public class CloneIdentifierDE extends DomainElement {
     * @param cloneID the cloneID    
 	*/ 
     public void setCloneID(String cloneID) {
+	  if(cloneID != null){
         value = cloneID;
+	  }
     }
 }

@@ -50,6 +50,8 @@ public class DiseaseNameDE extends DomainElement{
     * @param diseaseName the diseaseName    
 	*/ 
     public void setValueObject(String diseaseName) {
+	  if(diseaseName != null){
         value = diseaseName;
+		}
     }
 }

@@ -50,6 +50,8 @@ public class GeneOntologyDE extends DomainElement{
     * @param probeSetID the probeSetID    
 	*/ 
     public void setValueObject(String ontologyID) {
+	  if(ontologyID != null){
         value = ontologyID;
+		}
     }
 }

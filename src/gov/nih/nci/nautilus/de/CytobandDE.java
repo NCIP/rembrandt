@@ -49,6 +49,8 @@ public class CytobandDE extends DomainElement{
     * @param cytobandLocation the cytobandLocation    
 	*/ 
     public void setValueObject(String cytobandLocation) {
+	   if(cytobandLocation != null){
          value = cytobandLocation;
+		 }
     }
 }

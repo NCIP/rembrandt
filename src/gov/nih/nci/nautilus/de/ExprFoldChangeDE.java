@@ -129,6 +129,8 @@ abstract public class ExprFoldChangeDE extends DomainElement {
     * @param regulation the regulation
 	*/
     public void setValueObject(Float regulation) {
+	   if(regulation != null){
         value = regulation;
+		}
     }
 }

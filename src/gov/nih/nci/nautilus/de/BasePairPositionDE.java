@@ -101,7 +101,8 @@ abstract public class BasePairPositionDE extends DomainElement {
     * @param basePairPosition the basePairPosition    
 	*/ 
     public void setValueObject(Integer basePairPosition) {
-        assert(basePairPosition != null);
-        this.value = basePairPosition;
+        if(basePairPosition != null){
+           this.value = basePairPosition;
+		}
     }
 }

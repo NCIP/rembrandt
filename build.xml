@@ -1,0 +1,108 @@
+<project name="caintergrator" default="compile">
+
+ <property name="props-file" value="build.properties"/>
+ <property file="${props-file}"/>
+
+ <patternset id="test.jars">
+  <include name="junit.jar"/>
+ </patternset>	
+ 
+ 
+ <patternset id="ojb.rt.jars">
+  <include name="btree.jar"/>
+  <include name="commons-beanutils.jar"/>
+  <include name="commons-collections-2.1.1.jar"/>
+  <include name="commons-dbcp-1.1.jar"/>
+  <include name="commons-lang-2.0.jar"/>
+  <include name="commons-pool-1.1.jar"/>
+  <include name="db-ojb-1.0.rc7.jar"/>
+  <include name="j2ee.jar"/>
+  <include name="jcs.jar"/>
+  <include name="jdo.jar"/>
+  <include name="jdori.jar"/>
+  <include name="jta-1.0.1.jar"/>
+  <include name="log4j-1.2.8.jar"/>
+  <include name="p6spy.jar"/>
+  <include name="xercesImpl.jar"/>
+  <include name="xml-apis.jar"/>
+ </patternset>
+	
+ <patternset id="xml.jars">
+ 	<include name="jdom-1.0b8.jar"/>
+ 	<include name="jaxen-1.0-FCS-full.jar"/>
+ 	<include name="saxpath-1.0-FCS.jar"/>
+ 	<include name="xercesImpl-2.4.0.jar"/>
+ 	<include name="xmi-apis-2.0.2.jar"/>
+ </patternset>
+	
+ <patternset id="db.platform.jars">
+  <include name="oracle.jar"/>
+ </patternset>
+
+ <patternset id="other.jars">
+  <include name="jxmldiff.jar"/>
+ </patternset>
+
+ <property file="build.properties"/>
+ 
+ <path id="cp.compile">
+    <fileset dir="${build.lib.dir}">
+     <patternset refid="ojb.rt.jars"/>
+     <patternset refid="db.platform.jars"/>
+     <patternset refid="xml.jars"/>       
+        <patternset refid="other.jars"/>
+    </fileset>
+ </path>
+ 
+ <path id="cp.run">
+  <path refid="cp.compile"/>
+  <pathelement location="${build.classes.dir}"/>
+ </path>
+ 
+
+    <target name="compile"> 
+        <tstamp/>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">
+            <classpath refid="cp.compile"/>
+        </javac>
+    </target>
+	
+	<target name="jar-caintergrator" depends="compile">
+	    <delete dir="${jar.dir}"/>  
+		<mkdir dir="${jar.dir}"/>      
+		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
+            <fileset dir="${build.classes.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </jar>		
+	</target>
+	
+	
+ <target name="junit-caintergrator" depends="compile">
+
+    <delete dir="${junit.report.dir}"/>
+    <mkdir dir="${junit.report.dir}"/>
+ 	<junit printsummary="yes" fork="yes"> 	  	
+ 	<formatter type="plain"/>
+	   
+    <classpath>
+		<pathelement location="${source.resource.dir}" />
+		<pathelement location="build/classes" />
+		<fileset dir="${build.lib.dir}">
+			<include name="*.jar" />
+		</fileset>			
+	</classpath>	
+
+  	<test name="gov.nih.nci.nautilus.de.PBTest"
+          haltonfailure="no"
+	      outfile="${junit.report.dir}/PBTest"/> 
+  	</junit> 	  	
+ </target>
+    
+ <target name="clean">       
+        <delete dir="${build.dir}" quiet="true"/>
+ </target> 
+ 
+</project>

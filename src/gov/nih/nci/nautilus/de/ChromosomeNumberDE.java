@@ -52,6 +52,8 @@ public class ChromosomeNumberDE extends DomainElement{
     * @param chromosomeNumber the chromosomeNumber    
 	*/ 
     public void setValueObject(String chromosomeNumber) {
+	 if(chromosomeNumber != null){
         value = chromosomeNumber;
+	  }
     }
 }

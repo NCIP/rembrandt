@@ -50,6 +50,8 @@ public class PathwayDE extends DomainElement{
     * @param pathwayName the pathwayName    
 	*/ 
     public void setValueObject(String pathwayName) {
+	  if(pathwayName != null){
         value = pathwayName;
+		}
     }
 }

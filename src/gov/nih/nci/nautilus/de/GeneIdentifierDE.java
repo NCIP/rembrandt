@@ -126,7 +126,8 @@ abstract public class GeneIdentifierDE extends DomainElement {
     * @param regulation the regulation
 	*/
     public void setGeneID(String geneID) {
-        assert(geneID != null);
+       if(geneID != null){
         value = geneID;
+		}
     }
 }

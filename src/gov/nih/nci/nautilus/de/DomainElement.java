@@ -47,8 +47,9 @@ abstract public class DomainElement {
     * Initializes a newly created <code>DomainElement</code> object so that it represents an DomainElement.
     */
    protected DomainElement(Object value) {
-        assert(value != null);
+       if(value != null){
         this.value = value;
+		}
     }
 	
    

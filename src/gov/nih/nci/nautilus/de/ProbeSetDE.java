@@ -50,6 +50,8 @@ public class ProbeSetDE extends DomainElement{
     * @param probeSetID the probeSetID    
 	*/ 
     public void setValueObject(String probeSetID) {
+	  if(probeSetID != null){
         value = probeSetID;
+		}
     }
 }

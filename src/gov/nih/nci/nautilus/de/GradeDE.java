@@ -26,7 +26,7 @@ public class GradeDE extends DomainElement{
         super(grade);
     }
 	
-   
+   String grade_desc = null;
 
   /**
     * Sets the value for this <code>GradeDE</code> object
@@ -51,6 +51,8 @@ public class GradeDE extends DomainElement{
     * @param grade the grade    
 	*/ 
     public void setValueObject(String grade) {
+	  if(grade != null){
         value = grade;
+		}
     }
 }
