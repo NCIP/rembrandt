@@ -150,7 +150,9 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		</xsl:for-each>
   	</table>
   </xsl:for-each>
- 
+ <script language="javascript">
+	<![CDATA[ hideLoadingMessage();]]>
+</script>
   </body>
   </html>
 </xsl:template>
