@@ -10,11 +10,12 @@ import gov.nih.nci.nautilus.view.Viewable;
 /**
  * @author SahniH
  */
-public interface Queriable extends Serializable {
+public interface Queriable extends Serializable, Cloneable {
     public Viewable getAssociatedView();
     public void setAssociatedView(Viewable view);
     public String toString();
     public String getQueryName();
     public void setQueryName(String queryName);
 	public Query[] getAssociatiedQueries();
+	public Object clone();
 }

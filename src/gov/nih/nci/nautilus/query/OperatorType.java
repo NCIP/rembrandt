@@ -49,13 +49,15 @@
  */
 package gov.nih.nci.nautilus.query;
 
+import java.io.Serializable;
+
 
 /**
  * @author SahniH
  * Date: Sep 24, 2004
  * 
  */
-public class OperatorType {
+public class OperatorType implements Serializable,Cloneable{
     private String operatorType;
     public final static Intersection AND = new Intersection();
     public final static Union OR = new Union ();
