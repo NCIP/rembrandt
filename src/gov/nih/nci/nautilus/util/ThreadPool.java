@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class ThreadPool {
     static HashMap allThreads = new HashMap();
-    public final static long MAX_THREADS = 450;
+    public final static long MAX_THREADS = 120;
     public static long THREAD_COUNT = 0;
 
     public synchronized static AppThread newAppThread(MyRunnable r) {
@@ -33,7 +33,7 @@ public class ThreadPool {
                 THREAD_COUNT--;
                 allThreads.remove(this.getID());
              };
-             //System.out.println("END: Thread Count: " + ThreadPool.THREAD_COUNT);
+             System.out.println("END: Thread Count: " + ThreadPool.THREAD_COUNT);
         }
         private  AppThread(MyRunnable appRunnable) {
             this.ar = appRunnable;

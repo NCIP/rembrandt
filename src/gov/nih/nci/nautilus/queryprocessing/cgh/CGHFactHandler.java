@@ -7,6 +7,7 @@ import gov.nih.nci.nautilus.queryprocessing.CommonFactHandler;
 import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.ThreadController;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.util.ThreadPool;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -26,7 +27,7 @@ abstract public class CGHFactHandler {
     private static Logger logger = Logger.getLogger(CGHFactHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
-    private final static int VALUES_PER_THREAD = 100;
+    private final static int VALUES_PER_THREAD = 200;
     List factEventList = Collections.synchronizedList(new ArrayList());
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
@@ -98,10 +99,11 @@ abstract public class CGHFactHandler {
                 String threadID = "CGHHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
-                new Thread(
-                   new Runnable() {
-                      public void run() {
-                          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+
+                ThreadPool.AppThread t = ThreadPool.newAppThread(
+                           new ThreadPool.MyRunnable() {
+                              public void codeToRun() {
+                                  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           ReportQueryByCriteria annotQuery =
                           QueryFactory.newReportQuery(GeneLlAccSnp.class, annotCrit, true);
                           annotQuery.setAttributes(new String[] {GeneLlAccSnp.SNP_PROBESET_ID, GeneLlAccSnp.GENE_SYMBOL, GeneLlAccSnp.LOCUS_LINK_ID, GeneLlAccSnp.ACCESSION});
@@ -123,7 +125,8 @@ abstract public class CGHFactHandler {
                           dbEvent.setCompleted(true);
                       }
                    }
-               ).start();
+               );
+                t.start();
             }
     }
 
