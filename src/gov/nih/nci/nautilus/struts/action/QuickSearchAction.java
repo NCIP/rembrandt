@@ -183,15 +183,23 @@ public class QuickSearchAction extends DispatchAction {
 	        		String reporterName = reporterResultset.getReporter().getValue().toString();
 	       			Double intensityValue = (Double)reporterResultset.getFoldChangeIntensity().getValue();
 	       			Double pvalue = (Double)reporterResultset.getRatioPval().getValue();
-	       			stringBuffer.append(reporterName+"\t"+resultFormat.format(intensityValue)+"\t"+pValueFormat.format(pvalue)+"\n");
+	       			if(diseaseResultset.getType().getValue().toString().compareTo(NautilusConstants.NORMAL)==0){
+		       			stringBuffer.append(reporterName+"\t"+resultFormat.format(intensityValue)+"\tN/A\n");
+	       			}
+	       			else{
+	       				stringBuffer.append(reporterName+"\t"+resultFormat.format(intensityValue)+"\t"+pValueFormat.format(pvalue)+"\n");
+	       			}
 	       			//fill up our lists
 	       			//probeSets.add(reporterName);
 	       			probeSets[counter] = reporterName;
 	       			//intensityValues[counter] = Double.valueOf(resultFormat.format(intensityValue)).doubleValue();
 	       			intensityValues[counter] = intensityValue.doubleValue();
-	       			
-	       			pValues.add(pValueFormat.format(pvalue));
-	       			
+	       			if(diseaseResultset.getType().getValue().toString().compareTo(NautilusConstants.NORMAL)==0){
+	       				pValues.add("N/A");
+	       			}
+	       			else{
+	       				pValues.add(pValueFormat.format(pvalue));
+	       			}
 	       			intValuesArray[counter][icounter] = intensityValue.doubleValue();
 	       			logger.debug("intValuesArray["+counter+"]["+icounter+"] = "+intensityValue.doubleValue());
 	       			counter ++;
