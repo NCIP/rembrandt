@@ -50,6 +50,8 @@ abstract public class DomainElement {
         assert(value != null);
         this.value = value;
     }
+	
+   
 }
 
 

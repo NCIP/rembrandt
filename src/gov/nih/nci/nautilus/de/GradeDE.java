@@ -25,6 +25,7 @@ public class GradeDE extends DomainElement{
     public GradeDE(String grade) {
         super(grade);
     }
+	
    
 
   /**
