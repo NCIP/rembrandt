@@ -101,36 +101,36 @@ public class ComparativeGenomicAction extends Action {
 		try{
 		
 			//Set query in Session.
-			if (! cghQuery.isEmpty()) {
-			   System.out.println("4444");	
+			if (! cghQuery.isEmpty()) {			  
 			 
 				// Get Hashmap from session if available
-				HashMap queryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
-				if (queryMap == null) {
-					System.out.println("Query Map in Session is empty");
+				
+				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(Constants.QUERY_KEY);
+		        if( queryCollection == null){
+				   System.out.println("QueryCollectionin Session is empty");
+				   queryCollection = new QueryCollection();
+				  }
+				queryCollection.putQuery(cghQuery);
+				request.getSession().setAttribute(Constants.QUERY_KEY, queryCollection);
+				
+				
+				/*HashMap queryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
+				  if (queryMap == null) {
+				  System.out.println("Query Map in Session is empty");
 					queryMap = new HashMap();
 				}
 				queryMap.put(cghQuery.getQueryName(), cghQuery);
 				request.getSession().setAttribute(Constants.QUERY_KEY, queryMap);
+				*/
 			} else {
-			System.out.println("5555");	
+			
 				ActionErrors errors = new ActionErrors();
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.form.query.cgh.error"));
 				this.saveErrors(request, errors);
 				return mapping.findForward("backToCGHExp");
 				
-			}
-			
-			
-			//Test display of query from Hashmap !!
-			HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
-			Query thisQuery = (Query) thisQueryMap.get(cghQuery.getQueryName());
-			System.out.println("I am in cgh expression action ");
-	
-	
-			if (thisQuery.getQueryType().equals(QueryType.CGH_QUERY_TYPE)) {
-				System.out.println(thisQuery.toString());
-			     }			
+			   }
+			 
 			  }		
 		
 		catch(Exception e){

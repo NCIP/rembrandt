@@ -16,6 +16,7 @@ import java.io.*;
 
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.query.QueryCollection;
 
 
 
@@ -158,6 +159,8 @@ public class GeneExpressionForm extends BaseForm {
 	private HashMap untranslatedRegionDomainMap;// this one may not be used for this release.
 
 	private HttpServletRequest thisRequest;
+	
+	private QueryCollection queryCollection;
 
 
 	// --------------------------------------------------------- Methods
@@ -847,12 +850,10 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setCytobandRegion(String cytobandRegion) {
 		this.cytobandRegion = cytobandRegion;
-
 		String thisRegion = this.thisRequest.getParameter("region");
-
-		if (thisRegion != null && thisRegion.equalsIgnoreCase("cytoband"))
-
+		if (thisRegion != null && thisRegion.equalsIgnoreCase("cytoband")){
 			regionDomainMap.put(this.cytobandRegion, CytobandDE.class.getName());
+			}
 
 	}
 
@@ -1367,4 +1368,11 @@ public class GeneExpressionForm extends BaseForm {
 	   return cloneTypeColl; 	   
 	   }
 
+  public void  setQueryCollection(QueryCollection queryCollection){
+    this.queryCollection = queryCollection;
+   }
+   
+  public QueryCollection getQueryCollection(){
+   return this.queryCollection;
+   }	   
 }

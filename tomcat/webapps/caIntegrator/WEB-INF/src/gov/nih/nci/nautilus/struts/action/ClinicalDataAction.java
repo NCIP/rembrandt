@@ -56,7 +56,7 @@ public class ClinicalDataAction extends Action {
 		HttpServletResponse response)
 		throws Exception {
 		ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
-		System.out.println("I am in the action forword for clinical %%%%%%%%%%%%%%%%%%%%%");
+	
 		
 		String thisView = clinicalDataForm.getResultView();
 		// Create Query Objects
@@ -73,8 +73,7 @@ public class ClinicalDataAction extends Action {
  
  
 		// Set disease criteria	
-	    DiseaseOrGradeCriteria diseaseOrGradeCrit = clinicalDataForm.getDiseaseOrGradeCriteria();
-		System.out.println("777777777777777777777");
+	    DiseaseOrGradeCriteria diseaseOrGradeCrit = clinicalDataForm.getDiseaseOrGradeCriteria();		
 		clinicalDataQuery.setDiseaseOrGradeCrit(diseaseOrGradeCrit);
 				
  
@@ -111,35 +110,26 @@ public class ClinicalDataAction extends Action {
 		
 			//Set query in Session.
 			if (! clinicalDataQuery.isEmpty()) {
-			   System.out.println("4444");	
-			 
-				// Get Hashmap from session if available
-				HashMap queryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
-				if (queryMap == null) {
-					System.out.println("Query Map in Session is empty");
-					queryMap = new HashMap();
-				}
-				queryMap.put(clinicalDataQuery.getQueryName(), clinicalDataQuery);
-				request.getSession().setAttribute(Constants.QUERY_KEY, queryMap);
+			  		 
+				// Get QueryCollection from session if available
+				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(Constants.QUERY_KEY);
+				if(queryCollection == null){
+				    System.out.println("Query Map in Session is empty");
+					queryCollection = new QueryCollection();
+				  }
+				queryCollection.putQuery(clinicalDataQuery);
+				request.getSession().setAttribute(Constants.QUERY_KEY, queryCollection);  
+				
+				
 			} else {
-			System.out.println("5555");	
+			
 				ActionErrors errors = new ActionErrors();
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.form.query.cgh.error"));
 				this.saveErrors(request, errors);
 				return mapping.findForward("backToCGHExp");
 				
-			}
+			}		
 			
-			
-			//Test display of query from Hashmap !!
-			HashMap thisQueryMap = (HashMap) request.getSession().getAttribute(Constants.QUERY_KEY);
-			Query thisQuery = (Query) thisQueryMap.get(clinicalDataQuery.getQueryName());
-			System.out.println("I am in clinical expression action ");
-	
-	
-			if (thisQuery.getQueryType().equals(QueryType.CLINICAL_DATA_QUERY_TYPE)) {
-				System.out.println(thisQuery.toString());
-			     }			
 			  }		
 		
 		catch(Exception e){
