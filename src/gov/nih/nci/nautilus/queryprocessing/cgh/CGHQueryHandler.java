@@ -12,6 +12,7 @@ import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 import gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.CloneProbePlatfromHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
@@ -73,10 +74,25 @@ public class CGHQueryHandler extends QueryHandler {
             new Thread(handler).start();
         }
 
+
         if(cghQuery.getCloneOrProbeIDCriteria() != null) {
             throw new Exception (" Only BACClone will be implemented post Nautilus ");
         }
-        return null;
+
+        boolean sleep = true;
+           do {
+               Thread.sleep(10);
+               sleep = false;
+               for (Iterator iterator = eventList.iterator(); iterator.hasNext();) {
+                   DBEvent eventObj = (DBEvent)iterator.next();
+                   if (! eventObj.isCompleted()) {
+                       sleep = true;
+                       break;
+                   }
+               }
+           } while (sleep);
+
+        return new CGHFactHandler.SingleCGHFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery.getCopyNumberCriteria());
 
     }
 

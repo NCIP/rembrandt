@@ -28,6 +28,7 @@ import java.util.*;
 public class QueryTest extends TestCase {
 	 private static final DecimalFormat resultFormat = new DecimalFormat("0.00");
      FoldChangeCriteria foldCrit;
+     CopyNumberCriteria copyNumberCrit;
      GeneIDCriteria  geneIDCrit;
      GeneOntologyCriteria ontologyCrit;
      PathwayCriteria pathwayCrit;
@@ -49,6 +50,7 @@ public class QueryTest extends TestCase {
         buildOntologyCrit();
         buildPathwayCrit();
         buildSNPCrit();
+        buildCopyChangeCrit();
     }
     public static class GeneExpression extends QueryTest {
           public void testGeneExprQuery() {
@@ -56,7 +58,7 @@ public class QueryTest extends TestCase {
              q.setQueryName("Test Gene Query");
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
              //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-            //q.setGeneIDCrit(geneIDCrit);
+            q.setGeneIDCrit(geneIDCrit);
             //q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
             //q.setPathwayCrit(pathwayCrit);
@@ -65,15 +67,15 @@ public class QueryTest extends TestCase {
            //q.setPlatCriteria(affyOligoPlatformCrit);
            //q.setPlatCriteria(cdnaPlatformCrit);
 
-            q.setCloneOrProbeIDCrit(cloneCrit);
+            //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
 
-            //q.setFoldChgCrit(foldCrit);
+            q.setFoldChgCrit(foldCrit);
 
             try {
-                //ResultSet[] geneExprObjects = QueryManager.executeQuery(q);
-                //print(geneExprObjects);
-                //testResultset(geneExprObjects);
+                ResultSet[] geneExprObjects = QueryManager.executeQuery(q);
+                print(geneExprObjects);
+                testResultset(geneExprObjects);
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
@@ -205,12 +207,11 @@ public class QueryTest extends TestCase {
             //q.setPathwayCrit(pathwayCrit);
 
             AssayPlatformCriteria crit = new AssayPlatformCriteria();
-            crit.setAssayPlatformDE(
-                    new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
+            crit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
             q.seAssayPlatformCrit(crit);
             //q.setRegionCrit(regionCrit);
             q.setSNPCrit(snpCrit);
-           ///q.setFoldChgCrit(foldCrit);
+            q.setCopyNumberCrit(copyNumberCrit);
 
             try {
                 ResultSet[] cghObjects = QueryManager.executeQuery(q);
@@ -242,16 +243,18 @@ public class QueryTest extends TestCase {
         ArrayList inputIDs = new ArrayList();
         //inputIDs.add(0, "220988");    // Locus Link for hnRNPA3
         //inputIDs.add(0, "BF195526");      // accession numbers for hnRNPA3 gene are AW080932, AA527502, AA528233
-          inputIDs.add(0, "hnRNPA3");
-         // GeneIdentifierDE geIDObj =
+         // inputIDs.add(0, "hnRNPA3");
+         GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("MGC33382");
+         inputIDs.add(gs);
+        // GeneIdentifierDE geIDObj =
            //       new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
        // GeneIdentifierDE geIDObj =
         //                new GeneIdentifierDE.GenBankAccessionNumber((String)inputIDs.get(0));
-        GeneIdentifierDE geIDObj =
-                        new GeneIdentifierDE.GeneSymbol((String)inputIDs.get(0));
+        //GeneIdentifierDE geIDObj =
+          //              new GeneIdentifierDE.GeneSymbol((String)inputIDs.get(0));
         ArrayList geneIDentifiers = new ArrayList();
 
-        geneIDentifiers.add(geIDObj);
+        geneIDentifiers.add(gs);
         geneIDCrit = new GeneIDCriteria();
         geneIDCrit.setGeneIdentifiers(geneIDentifiers);
     }
@@ -327,19 +330,36 @@ public class QueryTest extends TestCase {
         cloneCrit.setCloneIdentifier(new CloneIdentifierDE.IMAGEClone("1579639"));
     }
 
+
     private void buildFoldChangeCrit() {
-        Float upRegExpected = new Float(2.0);
-        Float downRegExpected = new Float(1.0);
+        Float upRegExpected = new Float(1.2);
+        Float downRegExpected = new Float(0.8);
         ExprFoldChangeDE.UpRegulation upRegObj = new ExprFoldChangeDE.UpRegulation(upRegExpected );
         ExprFoldChangeDE.DownRegulation downRegObj = new ExprFoldChangeDE.DownRegulation(downRegExpected );
-        //ExprFoldChangeDE.UnChangedRegulationUpperLimit upUnChangedObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(upperUnchangedExpected );
-        //ExprFoldChangeDE.UnChangedRegulationDownLimit downUnChangedRegObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(downUnChangedExpected );
+        ExprFoldChangeDE.UnChangedRegulationUpperLimit upUnChangedObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(upRegExpected  );
+        ExprFoldChangeDE.UnChangedRegulationDownLimit downUnChangedRegObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(downRegExpected );
 
         foldCrit = new FoldChangeCriteria();
         Collection objs = new ArrayList(4);
-        objs.add(upRegObj);
-        objs.add(downRegObj);
-        //objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
+        //objs.add(upRegObj);
+        //objs.add(downRegObj);
+        objs.add(upUnChangedObj); objs.add(downUnChangedRegObj);
         foldCrit.setFoldChangeObjects(objs);
+    }
+
+     private void buildCopyChangeCrit() {
+        Float amplification = new Float(2.0);
+        Float deletion = new Float(0.8);
+        CopyNumberDE.Amplification ampObj = new CopyNumberDE.Amplification(amplification );
+        CopyNumberDE.Deletion deletionObj = new CopyNumberDE.Deletion(deletion);
+        CopyNumberDE.UnChangedCopyNumberUpperLimit upCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberUpperLimit(amplification);
+        CopyNumberDE.UnChangedCopyNumberDownLimit  downCopyNumberObj = new CopyNumberDE.UnChangedCopyNumberDownLimit(deletion);
+
+        copyNumberCrit = new CopyNumberCriteria();
+        Collection objs = new ArrayList(4);
+        objs.add(ampObj);
+        //objs.add(deletionObj);
+        //objs.add(upCopyNumberObj); objs.add(downCopyNumberObj);
+        copyNumberCrit.setCopyNumbers(objs);
     }
 }

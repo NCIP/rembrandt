@@ -86,15 +86,15 @@ abstract public class GEFactHandler {
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
                 PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
-                final Criteria sampleCritBasedOnProbes = new Criteria();
-                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCritBasedOnProbes);
+                final Criteria sampleCrit = new Criteria();
+                FoldChangeCriteriaHandler.addFoldChangeCriteria(foldCrit, targetFactClass, _BROKER, sampleCrit);
                 new Thread(
                    new Runnable() {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-                          sampleCritBasedOnProbes.addAndCriteria(IDs);
+                          sampleCrit.addAndCriteria(IDs);
                           org.apache.ojb.broker.query.Query sampleQuery =
-                          QueryFactory.newQuery(targetFactClass,sampleCritBasedOnProbes, true);
+                          QueryFactory.newQuery(targetFactClass,sampleCrit, true);
                           assert(sampleQuery != null);
                           Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                           addToResults(exprObjects);
