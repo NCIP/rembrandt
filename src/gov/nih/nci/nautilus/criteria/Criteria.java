@@ -1,5 +1,9 @@
 package gov.nih.nci.nautilus.criteria;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: BhattarR
@@ -8,5 +12,21 @@ package gov.nih.nci.nautilus.criteria;
  * To change this template use Options | File Templates.
  */
 abstract public class Criteria {
-    abstract public boolean validate();
+    abstract public boolean isValid();
+    public static boolean isEmpty(Criteria critObj) {
+        try {
+            String className = critObj.getClass().getName();
+            Class critClass = Class.forName(className);
+            Method[] methods = critClass.getDeclaredMethods();
+            for (int i = 0; i < methods.length; i++) {
+                Method method = methods[i];
+                if (method.invoke(critObj, null) != null) {
+                    return false;
+                }
+            }
+         } catch (Throwable e) {
+                e.printStackTrace();
+         }
+         return true;
+    }
 }

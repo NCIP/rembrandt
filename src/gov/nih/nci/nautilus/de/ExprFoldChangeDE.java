@@ -37,10 +37,14 @@ abstract public class ExprFoldChangeDE extends DomainElement {
     public final static String DOWN_REGULATION =  "DownRegulation";
 
   /**
-	* UnchangedRegulation
-    */
-    public final static String UNCHANGED_REGULATION =  "UnchangedRegulation";
+	* UnchangedRegulationUpperLimit
+   * */
+    public final static String UNCHANGED_REGULATION_UPPER_LIMIT =  "UnchangedRegulationUpperLimit";
 
+    /**
+      * UnchangedRegulationUpperLimit
+    * */
+    public final static String UNCHANGED_REGULATION_DOWN_LIMIT =  "UnchangedRegulationDownLimit";
 
    // ****************************************************
    //                   CONSTRUCTOR(S)
@@ -77,12 +81,21 @@ abstract public class ExprFoldChangeDE extends DomainElement {
   /**
 	* nested child class: UnChangedRegulation
     */
-    public final static class UnChangedRegulation extends ExprFoldChangeDE {
-      public static String LABEL = (String) ApplicationContext.getLabelProperties().get("UnChangedRegulation");
-      public UnChangedRegulation(Float unChangedRegValue) {
-            super(UNCHANGED_REGULATION, unChangedRegValue);
+    public final static class UnChangedRegulationUpperLimit extends ExprFoldChangeDE {
+      public UnChangedRegulationUpperLimit (Float unChangedRegUpperValue) {
+            super(UNCHANGED_REGULATION_UPPER_LIMIT, unChangedRegUpperValue);
       }
     }
+
+    /**
+        * nested child class: UnChangedRegulation
+        */
+    public final static class UnChangedRegulationDownLimit extends ExprFoldChangeDE {
+      public UnChangedRegulationDownLimit (Float unChangedRegDownValue) {
+            super(UNCHANGED_REGULATION_DOWN_LIMIT, unChangedRegDownValue);
+      }
+    }
+
 
 
   /**
