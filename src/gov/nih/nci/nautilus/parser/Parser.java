@@ -16,72 +16,102 @@ public class Parser {
     /**
      * @param text The string to be recognized.
      */
-    public Parser(Vector tokenOfVectors) {
+    public Parser(Vector tokenOfVectors) throws Exception {
 		allTokens = tokenOfVectors;
         if (allTokens.size() < 1) 
-        	error("Please select a query to execute");
+			throw new Exception ( "Please input a query to execute");
     }
     
-    public CompoundQuery getCompundQuery() {
-    	return (CompoundQuery) stack.pop();
+    public CompoundQuery getCompoundQuery() throws Exception {
+    	
+		CompoundQuery thisCompoundQuery=null;
+		try {
+			Object stackObj = stack.peek();
+			if (stackObj instanceof CompoundQuery) {
+				thisCompoundQuery = (CompoundQuery) stack.pop();
+			}else
+			throw new Exception("No Compound Query exists");
+		}
+		catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+    	
+    	return thisCompoundQuery;
     }
 
     /**
      * expression()
      */
-    public boolean expression() {
+    public boolean expression()throws Exception {
         if (!term1())
             return false;
-        while (orOperator()) {
+        while (prbOperator()) {
             if (!term1())
-                error("Error in expression after 'OR' operator");
+				throw new Exception ( "Error in expression after 'Project Results By' operator.  Need a query after 'Project Results By' operator");
             buildCompoundQuery(2, 1, 3);
         }
         return true;
     }
+
+	private boolean term1() throws Exception {
+		if (!term2())
+			return false;
+		while (orOperator()) {
+			if (!term1())
+				throw new Exception ( "Error in expression after 'OR' operator.  Need a query after 'OR' operator");
+			buildCompoundQuery(2, 1, 3);
+		}
+
+		return true;
+	}
 
     /**
      */
-    private boolean term1() {
-        if (!term2())
+    private boolean term2() throws Exception {
+        if (!term3())
             return false;
         while (andOperator()) {
-            if (!term2())
-                error("No term after 'AND' operator");
+            if (!term3())
+				throw new Exception ( "Error in expression after 'AND' operator.  Need a query after 'AND' operator");
             buildCompoundQuery(2, 1, 3);
         }
 
         return true;
     }
 
-	private boolean term2() {
+	private boolean term3()throws Exception {
 		if (!factor())
 			return false;
 
 		while (notOperator()) {
 			if (!factor())
-				error("No term after 'NOT' operator");
+				throw new Exception ( "Error in expression after 'NOT' operator.  Need a query after 'NOT' operator");
 			buildCompoundQuery(2, 1, 3);
 		}
 		return true;
 	}
     /**
      */
-    private boolean factor() {
+    private boolean factor() throws Exception {
         if (isQueriable())
             return true;
         if (symbol("(")) {
             stack.pop();
             if (!expression())
-                error("Error in parenthesized expression");
+				throw new Exception ( "Error in parenthesized expression !!");
             if (!symbol(")"))
-                error("Unclosed parenthetical expression");
+				throw new Exception ( "Unclosed parenthetical expression !!");
             stack.pop();
             return true;
         }
         return false;
     }
 
+	/**
+	 */
+	private boolean prbOperator() {
+		return symbol("PRB");
+	}
     /**
      */
     private boolean orOperator() {
@@ -99,7 +129,7 @@ public class Parser {
 	private boolean notOperator() {
 		return symbol("NOT");
 	}
-
+	
     /**
      */
     private boolean isQueriable() {
@@ -119,23 +149,12 @@ public class Parser {
     }
 
     /**
-     * Tests whether the next token is the expected symbol. If it is,
-     * the token is consumed, otherwise it is not.
-     * 
-     * @return <code>true</code> if the next token is the expected symbol.
      */
     private boolean symbol(String expectedSymbol) {
         return nextTokenMatches(expectedSymbol);
     }
 
     /**
-     * If the next Token has the expected type, it is used as the
-     * value of a new (childless) CompundQuery node, and that node
-     * is then pushed onto the stack. If the next Token does not
-     * have the expected type, this method effectively does nothing.
-     * 
-     * @param type The expected type of the next token.
-     * @return <code>true</code> if the next token has the expected type.
      */
     private boolean nextTokenMatches(String token) {
 
@@ -145,7 +164,7 @@ public class Parser {
 			if (thisToken instanceof String) {
 			
 				if (((String) thisToken).equalsIgnoreCase(token)) {
-					// TO DO For Operator Types convert to correct types before pushing to stack!!
+					// For Operator Types convert to correct types before pushing to stack!!
 					
 					if (((String) thisToken).equalsIgnoreCase("AND") || ((String) thisToken).equalsIgnoreCase("OR") || 
 					((String) thisToken).equalsIgnoreCase("NOT") || ((String) thisToken).equalsIgnoreCase("PRB")) {
@@ -176,13 +195,6 @@ public class Parser {
      * <code>buildCompoundQuery(2, 1, 3)</code> would result in y at the root,
      * x as the left child, and z as the right child.
      * 
-     * @param rootIndex Which of the three stack elements (1 = leftmost element,
-     *             2 = middle element, 3 = rightmost element) to use as the
-     *             value of the root of the CompundQuery.
-     * @param leftIndex Which of the three stack elements to use as the left
-     *             subtree of the CompundQuery.
-     * @param rightIndex Which of the three stack elements to use as the right
-     *              subtree of the CompundQuery.
      */
     private void buildCompoundQuery(int rootIndex, int leftIndex, int rightIndex) {
                
@@ -208,12 +220,4 @@ public class Parser {
         return (Object) stack.get(stack.size() - 4 + n);
     }
 
-    /**
-     * Utility routine to throw a <code>LogoParseException</code> with the
-     * given message.
-     * @param message The text to put in the <code>LogoParseException</code>.
-     */
-    private void error(String message) {
-        System.out.println(message);;
-    }
 }

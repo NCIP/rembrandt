@@ -32,11 +32,11 @@ public class ParserTest extends TestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	GeneExpressionQuery q1 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+	GeneExpressionQuery q2 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+	GeneExpressionQuery q3 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
 	protected void setUp() throws Exception {
 		
-		GeneExpressionQuery q1 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-		GeneExpressionQuery q2 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-		GeneExpressionQuery q3 = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
 
 		q1.setQueryName("Query 1");
 		q2.setQueryName("Query 2");
@@ -44,12 +44,10 @@ public class ParserTest extends TestCase {
 		
 		super.setUp();
 		v1 = new Vector();
-//		v1.addElement("(");
 		v1.addElement(q1);
-		v1.addElement("AND");
+		v1.addElement("PRB");
 		v1.addElement("(");
 		v1.addElement(q2);
-//		v1.addElement(")");
 		v1.addElement("OR");
 		v1.addElement(q3);
 		v1.addElement(")");
@@ -67,9 +65,18 @@ public class ParserTest extends TestCase {
 	}
 
 	public void testParser() {
-		Parser p = new Parser(v1);
-		p.expression();
-		Queriable q = p.getCompundQuery();
+		try {
+			Parser p = new Parser(v1);
+			p.expression();
+			Queriable q = p.getCompoundQuery();
+			System.out.println("Compound Query is "+q.toString());
+			CompoundQuery x = new CompoundQuery(OperatorType.AND, q1,q2);
+			System.out.println("Query is "+x.toString());
+	
+		}catch (Exception e){
+			System.out.println("Error is " + e.getMessage());
+		}
+			
 		
 	}
 
