@@ -25,7 +25,7 @@
 		<tiles:insert attribute="crumbMenu"/> <%-- include crumb menu --%>
 		<table cellspacing="0" cellpadding="0" border="0">
 			<tr>
-			<td width="75%"> 
+			<td width="500"> 
 
 				<Table cellpadding="0" cellspacing="0" border="0" width="100%"> 
 					<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   

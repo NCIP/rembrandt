@@ -41,27 +41,23 @@ QueryCollection queryCollection = (QueryCollection) request.getSession().getAttr
 %>
 
 <tr class="report"><td>
+<table border="0" cellspacing="4" cellpadding="3">
 <form>
-<table border="0" cellspacing="4" cellpadding="3" width="100%">
 	<tr>
 		<td>
-		<strong>Add to query:</strong><br><html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+		<fieldset>
+		<legend>Add to query:</legend><br>
+		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 		<blockquote>
-		
-			  
-		<br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Gene Expression Analysis" onclick="javascript:location.href='geneExpression.do';">
-		&nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Expression Analysis Queries</b>
-		<br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
-		&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Comparitive Genomic Analysis Queries</b>
-		<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
-		&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b>
-		<!--
-		<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="MRI Imaging Analysis" onclick="javascript:location.href='mriImage.html';">
-		&nbsp;<b class="message">- (0) MRI Imaging Analysis Queries</b>
-		<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="FISH Data Analysis" onclick="javascript:location.href='refine.do';">
-		&nbsp;<b class="message">- (0) FISH Data Analysis Queries</b>
-		-->
+			<br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Gene Expression Analysis" onclick="javascript:location.href='geneExpression.do';">
+			&nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b>
+			<br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
+			&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Comp. Genomic Analysis Queries</b>
+			<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
+			&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b>
 		</blockquote>
+		<br>
+		</fieldset>
 	</td>
 	</tr>
 	<tr>

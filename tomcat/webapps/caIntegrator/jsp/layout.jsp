@@ -23,10 +23,9 @@
 	
 	<div class="content">
 		<tiles:insert attribute="crumbMenu"/> <%-- include crumb menu --%>
-		<table cellspacing="0" cellpadding="0" border="0">
+		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 			<tr>
-			<td width="75%"> 
-
+			<td width="575"> 
 				<Table cellpadding="4" cellspacing="2" border="0" width="100%"> 
 					<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   
 					<tiles:insert attribute="mainForm"/> <%-- include the main form --%>

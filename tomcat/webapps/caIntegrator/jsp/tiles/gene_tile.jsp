@@ -8,9 +8,10 @@ used in: GeneExpression form, CGH form
 String act = request.getParameter("act");
 %>
 	<!-- <html:form action="<%=act%>"> -->
-<div class="title">Gene
+<fieldset class="gray">
+<legend class="red">Gene
 <a href="javascript:void(0);" onmouseover="return overlib('Paste a comma separated Gene list, or upload file using Browse button', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-</div>
+</legend>
 <br>
 <html:radio property="geneGroup" value="Specify" styleClass="radio" />
 			<html:select property="geneType">
@@ -26,7 +27,7 @@ String act = request.getParameter("act");
 			<html:errors property="geneGroup"/>
 			<html:errors property="geneList"/>
 			<html:errors property="geneType"/></br>
-			
+	</fieldset>		
 			
 
 <!-- </html:form> -->

@@ -1,6 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<fieldset class="gray">
 
-<div class="title">Clone Id/Probe Set Id</div>
+<legend class="red">Clone Id/Probe Set Id</legend>
 <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b>
 <br>
 <%
@@ -21,19 +22,5 @@
 <html:radio property="cloneId" value="Upload" styleClass="radio" disabled="no" />
 			<html:file property="cloneListFile" disabled="no" /></br>
 			<html:errors property="cloneId"/></br>
-<!--
-<input type="radio" class="radio" name="cloneId" value="list" checked selected>
-<select name="cloneList">
-	<option>&nbsp;</option>
-	<option>IMAGE Id</option>
-	<option>BAC Id</option>
-	<option>Probe Set Id</option>
-</select>
-&nbsp;
-<input type="text" name="cloneListSpecify">
-&nbsp;&nbsp;
-
-<input type="radio" class="radio" name="cloneId" value="file">
-<input type="file" name="cloneListFile">
--->
+</fieldset>
 <!-- </html:form> -->

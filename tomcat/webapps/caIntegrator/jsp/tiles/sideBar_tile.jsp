@@ -12,7 +12,7 @@
 
 %>
 		
-		<div>
+		<div width="100%">
 		<h3>Queries</h3>
 		<Table>
 		
