@@ -17,6 +17,9 @@ import java.util.*;
 public class ResultsetProcessor {
 	public GeneViewContainer geneViewContainer = new GeneViewContainer();
 	public void createGeneView(Collection differentialExpressionSfact){
+		GeneResultset geneResultset = null;
+		ReporterResultset reporterResultset = null;
+		DiseaseResultset diseaseResultset = null;
 		if(differentialExpressionSfact != null && differentialExpressionSfact.size()>0) {
 		Iterator iter = differentialExpressionSfact.iterator();
 	      while (iter.hasNext()){
@@ -24,22 +27,24 @@ public class ResultsetProcessor {
 	      	if (diffExpSfact != null){
 	      		//get the gene accessesion number for this record
 	      		//check if the gene exsists in the GeneViewContainer, otherwise add a new one.
-	      		GeneResultset geneResultset = geneViewContainer.getGeneResultsets(diffExpSfact.getGeneSymbol());
+	      		geneResultset = geneViewContainer.getGeneResultset(diffExpSfact.getGeneSymbol());
 	      		if(geneResultset == null){ // no record found
 	      			geneResultset = new GeneResultset();
 	      		}
 	      		GeneIdentifierDE.GeneSymbol geneSymbol = new GeneIdentifierDE.GeneSymbol(diffExpSfact.getGeneSymbol());
-	      	    GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo = new GeneIdentifierDE.GenBankAccessionNumber(diffExpSfact.getGeneSymbol()); //TODO: add GenBankAccessionNumber
+//	      	    GeneIdentifierDE.GenBankAccessionNumber genbankAccessionNo = new GeneIdentifierDE.GenBankAccessionNumber(); //TODO: add GenBankAccessionNumber
 //	      	    GeneIdentifierDE.LocusLink locusLinkID = new GeneIdentifierDE.LocusLink(); // add GeneIdentifierDE.LocusLink
 	      		geneResultset.setGeneSymbol(geneSymbol);
-	      		geneResultset.setGenbankAccessionNo(genbankAccessionNo);
+	      		//geneResultset.setGenbankAccessionNo(genbankAccessionNo);
 	      		// find out if it has a probeset or a clone associated with it
 	      		//populate ReporterResultset with the approciate one
-	      		ReporterResultset reporterResultset = new ReporterResultset();
 	      		//TODO: TEMP PROBESET ID, NEED to SWITCH IT to PROBESET NAME or CLONE NAME
 	      		if(diffExpSfact.getProbesetId() != null ){
-	      			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,diffExpSfact.getProbesetId());
-	      			reporterResultset.setReporter(reporter);
+	      			 DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,diffExpSfact.getProbesetId());
+		      		 reporterResultset = geneResultset.getRepoterResultset(diffExpSfact.getProbesetId().toString());
+		      		 if(reporterResultset == null){
+		      		 	reporterResultset = new ReporterResultset(reporter);
+		      		 }
 	      		}
 	      		/**
 	      		if(diffExpSfact.getProbesetName() != null && diffExpSfact.getCloneName() == null){
@@ -53,11 +58,15 @@ public class ResultsetProcessor {
 	      		**/
 	      		//find out the disease type associated with the diffExpSfact
 	      		//populate the DiseaseResultset
-	      		DiseaseResultset diseaseResultset = new DiseaseResultset();
+	      		if(diffExpSfact.getDiseaseTypeId() != null){
+	      			DiseaseNameDE disease = new DiseaseNameDE(diffExpSfact.getDiseaseTypeId().toString());
+	      			diseaseResultset = reporterResultset.getDiseaseResultset(diffExpSfact.getDiseaseTypeId().toString());
+	      		    if (diseaseResultset == null){
+	      		    	diseaseResultset= new DiseaseResultset(disease);
+	      		    }
 	      		//TODO: TEMP DISEASETYPE ID, NEED to SWITCH IT to DISEASE NAME 
 	      		//DiseaseNameDE disease = new DiseaseNameDE(diffExpSfact.getADiseaseTypeDim().getDiseaseType());
-	      		DiseaseNameDE disease = new DiseaseNameDE(diffExpSfact.getDiseaseTypeId().toString());
-	      		diseaseResultset.setDieaseType(disease);
+	      		}
 				//find out the biospecimenID associated with the diffExpSfact
 				//populate the BiospecimenResuluset
 	      		//TODO: TEMP BIOSPECIMEN ID, NEED to SWITCH to SAMPLE_NAME
@@ -65,7 +74,8 @@ public class ResultsetProcessor {
 				//BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(diffExpSfact.getABiospecimenDim().getSampleId());
 				BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(diffExpSfact.getBiospecimenId().toString());
 	      		biospecimenResultset.setBiospecimen(biospecimenID);
-	      		DatumDE foldchange = new DatumDE(DatumDE.FOLD_CHANGE,diffExpSfact.getSampleIntensity());
+	      		DatumDE foldchange = new DatumDE(DatumDE.FOLD_CHANGE,diffExpSfact.getExpressionRatio());
+	      		biospecimenResultset.setFoldChangeValue(foldchange);
 	      		//add biospecimenresultset to disease etc ...
 	      		diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
 	      		reporterResultset.addDiseaseResultset(diseaseResultset);

@@ -18,7 +18,7 @@ import java.util.Iterator;
 /**
  * @author SahniH
  * Date: September 20, 2004 
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * This junit test encapsulates the query and resultset tests
  * 
  * 
@@ -76,7 +76,7 @@ public class ResultsetTest extends TestCase{
         
 	        for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
 	        	DifferentialExpressionSfact expObj = (DifferentialExpressionSfact) iterator.next();
-	            System.out.println("expObj.geneSymbol: " + expObj.getGeneSymbol() + " |expObj.probesetId: " +expObj.getProbesetId()+ " |expObj.dieasesID: " +expObj.getDesId()+ " |expObj.biospecimenID: " +expObj.getBiospecimenId() );
+	            //System.out.println("expObj.geneSymbol: " + expObj.getGeneSymbol() + " |expObj.probesetId: " +expObj.getProbesetId()+ " |expObj.dieasesID: " +expObj.getDesId()+ " |expObj.biospecimenID: " +expObj.getBiospecimenId() );
 	        }
  		} catch (Exception ex) {
  			ex.printStackTrace();
@@ -90,22 +90,26 @@ public class ResultsetTest extends TestCase{
     	resultsetProc.createGeneView(exprObjects);
     	GeneViewContainer geneViewContainer = resultsetProc.getGeneViewContainer();
     	Collection genes = geneViewContainer.getGeneResultsets();
+    	System.out.println("Gene Count: "+genes.size());
     	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
     		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
     		Collection reporters = geneResultset.getReporterResultsets();
+        	System.out.println("Repoter Count: "+reporters.size());
     		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
         		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-        		Collection diseaseTypes = reporterResultset.getDiseaseResultset();
+        		Collection diseaseTypes = reporterResultset.getDiseaseResultsets();
+            	System.out.println("Disease Count: "+diseaseTypes.size());
         		for (Iterator diseaseIterator = diseaseTypes.iterator(); diseaseIterator.hasNext();) {
         			DiseaseResultset dieaseResultset = (DiseaseResultset)diseaseIterator.next();
             		Collection biospecimens = dieaseResultset.getBioSpecimenResultsets();
+                	System.out.println("Biospecimen Count: "+biospecimens.size());
             		for (Iterator biospecimenIterator = biospecimens.iterator(); biospecimenIterator.hasNext();) {
             			BioSpecimenResultset biospecimenResultset = (BioSpecimenResultset)biospecimenIterator.next();
-                	            		System.out.println(	"GeneSymbol: "+geneResultset.getGeneSymbol().getValueObject().toString()+
-            							"| ReporterId: "+ reporterResultset.getReporter().getValue().toString()+
-										"| DieaseType Id: "+dieaseResultset.getDieaseType().getValue().toString()+
-										"| BioSpecimen Id: "+ biospecimenResultset.getBiospecimen().getValue().toString()//+
-										/**"| FoldChange Value"+ biospecimenResultset.getFolgChangeValue().getValue().toString()*/);
+                	            System.out.println(	"GeneSymbol: "+geneResultset.getGeneSymbol().getValueObject().toString()+
+                	            					"| ReporterId: "+ reporterResultset.getReporter().getValue().toString()+
+													"| DieaseType Id: "+dieaseResultset.getDieaseType().getValue().toString()+
+													"| BioSpecimen Id: "+ biospecimenResultset.getBiospecimen().getValue().toString()+
+													"| FoldChange Value: "+ biospecimenResultset.getFoldChangeValue().getValue().toString());
             		}
         		}
     		}
