@@ -6,6 +6,8 @@ import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.Factory;
+import org.apache.commons.collections.list.LazyList;
 import org.apache.log4j.Logger;
 
 /**
@@ -14,17 +16,20 @@ import org.apache.log4j.Logger;
  * and their associated information.  More helper methods will be added as the 
  * Chromosome object expands or as the need arises. 
  * 
- * @author BauerD
+ * @author BauerD, RossoK
  * Mar 14, 2005
  */
-public class ChromosomeHelper {
+public class ChromosomeHelper implements Factory{
 	private static Logger logger = Logger.getLogger(ChromosomeHelper.class);
-	private static List chromosomes;
 	private static ChromosomeHelper instance;
+	private static List chromosomes;
+	
+	
 	
 	//Create the singleton instance
 	static {
 		instance = new ChromosomeHelper();
+		chromosomes = LazyList.decorate(new ArrayList(), instance);
 	}
 	/**
 	 * Creates the ChromosomeHelper and generates the ChromosomeBean collection
@@ -32,9 +37,8 @@ public class ChromosomeHelper {
 	 */
 	private ChromosomeHelper() {
 		try {
-			chromosomes = new ArrayList();
+			
 			//Drop a place holder in the 0th position
-			chromosomes.add(0,new ChromosomeBean());
 			CytobandLookup[] cytobandLookups = LookupManager.getCytobandPositions();
 			for(int i = 0; i<cytobandLookups.length;i++) {
 				addCytoband(cytobandLookups[i]);
@@ -108,4 +112,10 @@ public class ChromosomeHelper {
 			chromosomes.add(i, bean);
 		}
 	}
+    /**
+     * Reqquired for the LazyList
+     */
+    public Object create() {
+          return new ChromosomeBean();
+    }
 }

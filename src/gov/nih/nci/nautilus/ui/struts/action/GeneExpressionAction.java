@@ -1,6 +1,8 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
@@ -20,6 +22,7 @@ import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.helper.ChromosomeHelper;
 import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
@@ -36,9 +39,43 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.LookupDispatchAction;
 
+
+
 public class GeneExpressionAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(GeneExpressionAction.class);
 	
+    /**
+     * Method setup
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    
+    //Setup the gene Expression form from menu page
+    public ActionForward setup(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
+		
+		//set the chromsomes list in the form 
+		logger.debug("Setup the chromosome values for the form");
+		
+		Collection test = ChromosomeHelper.getInstance().getChromosomes();
+		geneExpressionForm.setChromosomes(test);
+        		
+		return mapping.findForward("backToGeneExp");
+    }
+    
+    
+    
     /**
      * Method submitAllGenes
      * 
@@ -254,6 +291,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	protected Map getKeyMethodMap() {
 		 
        HashMap map = new HashMap();
+       //Gene Expression Query Button using gene expression setup method
+       map.put("GeneExpressionAction.setupButton", "setup");
        
        //Submit Query Button using gene expression submittal method
        map.put("buttons_tile.submittalButton", "submittal");

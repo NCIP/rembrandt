@@ -31,8 +31,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,15 +47,21 @@ import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
 
+
+
 public class GeneExpressionForm extends BaseForm {
 
 	// --------------------------------------------------------- Instance
 	// Variables
     
+    /**chromosomes property */
+    private Collection chromosomes;
+    
     /**geneOption property */    
 	private String geneOption = "standard";
     
-    private String[] pathwayName;
+    /**pathwayName property */
+	private String[] pathwayName;
 	
 	/** sampleList property */
 	private String sampleList;
@@ -808,6 +816,22 @@ public class GeneExpressionForm extends BaseForm {
 	public String getGeneList() {
 
 		return geneList;
+	}
+	
+	/**Set the chromosomes Collection
+	 * 
+	 * @param chromosomes
+	 */
+	public void setChromosomes(Collection chromosomes){
+	    this.chromosomes = chromosomes;
+	}
+	
+	/**Return the chromosomes List
+	 * 
+	 * @param chromosomes
+	 */
+	public Collection getChromosomes(){
+	    return this.chromosomes;
 	}
 
 	/**

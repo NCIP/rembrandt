@@ -1,5 +1,8 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
 <%@ page import="java.util.*,
 	 gov.nih.nci.nautilus.query.*,
 	 gov.nih.nci.nautilus.constants.NautilusConstants,
@@ -50,8 +53,14 @@ String cghQueryString = "0";
 		<legend>Add to query:</legend><br>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 			<table border="0" cellpadding="3" cellspacing="3">
-			<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Gene Expression Analysis" onclick="javascript:location.href='geneExpression.do';">
-				&nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b></td></tr>
+			<tr><td>
+			    <html:form action="/geneexpression">
+			       <html:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
+			          <bean:message key="GeneExpressionAction.setupButton"/>
+			        </html:submit>
+			        &nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b></td></tr>
+			     </html:form>
+				
 			<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Copy Number Data Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
 				&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b></td></tr>
 			<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">

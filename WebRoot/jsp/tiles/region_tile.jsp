@@ -14,8 +14,8 @@
 	
 <br />	&nbsp;&nbsp;Chromosome Number&nbsp;
 	
-	<html:select property="chrosomeNumber" onchange="javascript:changeCytoBand();">
-			    <html:optionsCollection property="chromosomeValue" />
+	<html:select property="chrosomeNumber">
+			    <html:optionsCollection property="chromosomes" />
 	</html:select>
 	<html:errors property="chrosomeNumber"/>
 
