@@ -198,7 +198,7 @@ public class CompoundQueryTest extends TestCase {
 			e.printStackTrace();
 		}		
 	}
-	public void testGeneExprANDCopyNumberQueryORProbeQuery() {
+	public void testGeneExprANDCopyNumberQueryORGeneExpr() {
 		try {
 			//test CompoundQuery Query
 			for(int i= 0; i < 10; i++){
