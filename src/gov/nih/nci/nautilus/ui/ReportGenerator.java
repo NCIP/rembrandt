@@ -60,6 +60,8 @@ public class ReportGenerator  {
 		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
 		 		if(resultsContainer != null)	{
 			 		html.append("<a href=\"jsp/geneViewReportCSV.jsp\" onclick=\"javascript:return false;\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a><br><br>\n");
+			 		html.append("<div class=\"query\">"+myCompoundQuery.toString()+"</div><br><br>");
+			 		
 			 		Viewable view = resultant.getAssociatedView();
 			 		 
 			 		//4 views here, returning the String of HTML for report
