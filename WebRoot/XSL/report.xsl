@@ -176,10 +176,10 @@
 	 
 	  
 	  <div class="filterForm">
-	  <form action="runReport.do?method=runShowAllValuesQuery" method="post" name="filter_form">
+	  <form action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 		<b><span class="lb">Filter</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		<!--<input type="radio" class="checkorradio" name="filter_type" value="show" />Show Only-->
+		<input type="radio" class="checkorradio" name="filter_type" value="show" />Show Only
 		<input type="radio" class="checkorradio" name="filter_type" checked="true" value="hide"/>Hide		
 		<select name="filter_element">
 			<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
