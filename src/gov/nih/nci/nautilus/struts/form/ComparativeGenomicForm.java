@@ -701,13 +701,13 @@ private void createAssayPlatformCriteriaObject(){
 			 String[] geneStr = this.geneList.split("\\x2C");
 			    for(int i = 0; i < geneStr.length; i++){
 				   if(thisGeneType.equalsIgnoreCase("genesymbol")){	     
-				      geneDomainMap.put(geneStr[i], GeneIdentifierDE.GeneSymbol.class.getName());
+				      geneDomainMap.put(geneStr[i].trim(), GeneIdentifierDE.GeneSymbol.class.getName());
 				      }
 				   else if (thisGeneType.equalsIgnoreCase("locusLinkId")){	
-				      geneDomainMap.put(geneStr[i], GeneIdentifierDE.LocusLink.class.getName());
+				      geneDomainMap.put(geneStr[i].trim(), GeneIdentifierDE.LocusLink.class.getName());
 				     }
 				   else if(thisGeneType.equalsIgnoreCase("genBankAccNo")){
-				     geneDomainMap.put(geneStr[i], GeneIdentifierDE.GenBankAccessionNumber.class.getName());
+				     geneDomainMap.put(geneStr[i].trim(), GeneIdentifierDE.GenBankAccessionNumber.class.getName());
 				     }	   
 			      } // end of for loop 
 		    }// end of if(this.geneList != null && !this.geneList.equals(""))
@@ -987,10 +987,10 @@ private void createAssayPlatformCriteriaObject(){
 		    String [] cloneStr = this.cloneListSpecify.split("\\x2C");
 			for(int i=0; i<cloneStr.length; i++){
 			  if(thisCloneList.equalsIgnoreCase("imageId")){
-			     cloneDomainMap.put(cloneStr[i],CloneIdentifierDE.IMAGEClone.class.getName());
+			     cloneDomainMap.put(cloneStr[i].trim(),CloneIdentifierDE.IMAGEClone.class.getName());
 				}
 			  else if(thisCloneList.equalsIgnoreCase("BACId")){	
-			     cloneDomainMap.put(cloneStr[i],CloneIdentifierDE.BACClone.class.getName());
+			     cloneDomainMap.put(cloneStr[i].trim(),CloneIdentifierDE.BACClone.class.getName());
 				}
 			
 			  }	 // end of for loop 
@@ -1025,13 +1025,13 @@ private void createAssayPlatformCriteriaObject(){
 		    String [] snpStr = this.snpListSpecify.split("\\x2C");
 			for(int i=0; i<snpStr.length; i++){
 			  if(thisSNPList.equalsIgnoreCase("TSCId")){
-			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.TSC.class.getName());
+			     snpDomainMap.put(snpStr[i].trim(),SNPIdentifierDE.TSC.class.getName());
 				}
 			  else if(thisSNPList.equalsIgnoreCase("dBSNPId")){	
-			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.DBSNP.class.getName());
+			     snpDomainMap.put(snpStr[i].trim(),SNPIdentifierDE.DBSNP.class.getName());
 				}
 			  else if(thisSNPList.equalsIgnoreCase("probeSetId")){	
-			     snpDomainMap.put(snpStr[i],SNPIdentifierDE.SNPProbeSet.class.getName());
+			     snpDomainMap.put(snpStr[i].trim(),SNPIdentifierDE.SNPProbeSet.class.getName());
 				}
 			  }	 // end of for loop 
 		   }// end of  if(thisSNPId != null && thisSNPList != null && !thisSNPList.equals("")){

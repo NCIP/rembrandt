@@ -834,21 +834,22 @@ public class GeneExpressionForm extends BaseForm {
 				&& (thisGeneType.length() > 0) && (this.geneList.length() > 0)) {
 
 			String[] splitValue = this.geneList.split("\\x2C");
+			
 
 			for (int i = 0; i < splitValue.length; i++) {
-
+                
 				if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-					geneDomainMap.put(splitValue[i],
+					geneDomainMap.put(splitValue[i].trim(),
 							GeneIdentifierDE.GeneSymbol.class.getName());
 				} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-					geneDomainMap.put(splitValue[i],
+					geneDomainMap.put(splitValue[i].trim(),
 							GeneIdentifierDE.LocusLink.class.getName());
 				} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-					geneDomainMap.put(splitValue[i],
+					geneDomainMap.put(splitValue[i].trim(),
 							GeneIdentifierDE.GenBankAccessionNumber.class
 									.getName());
 				} else if (thisGeneType.equalsIgnoreCase("allgenes")) {
-					geneDomainMap.put(splitValue[i],
+					geneDomainMap.put(splitValue[i].trim(),
 							GeneIdentifierDE.GeneSymbol.class.getName());
 				}
 
@@ -1257,13 +1258,13 @@ public class GeneExpressionForm extends BaseForm {
 				String[] cloneStr = cloneListSpecify.split("\\x2C");
 				for (int i = 0; i < cloneStr.length; i++) {
 					if (thisCloneList.equalsIgnoreCase("imageId")) {
-						cloneDomainMap.put(cloneStr[i],
+						cloneDomainMap.put(cloneStr[i].trim(),
 								CloneIdentifierDE.IMAGEClone.class.getName());
 					} else if (thisCloneList.equalsIgnoreCase("BACId")) {
-						cloneDomainMap.put(cloneStr[i],
+						cloneDomainMap.put(cloneStr[i].trim(),
 								CloneIdentifierDE.BACClone.class.getName());
 					} else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
-						cloneDomainMap.put(cloneStr[i],
+						cloneDomainMap.put(cloneStr[i].trim(),
 								CloneIdentifierDE.ProbesetID.class.getName());
 					}
 
