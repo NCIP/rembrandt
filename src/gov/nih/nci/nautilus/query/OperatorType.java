@@ -125,4 +125,23 @@ public class OperatorType implements Serializable,Cloneable{
 		}
 		return myClone;
 	}
+    
+    public boolean equals(Object obj){
+        boolean returnType = false;
+        if(obj instanceof OperatorType){
+            if(obj instanceof Intersection && this instanceof Intersection){
+                returnType = true;
+            }
+            else if(obj instanceof ProjectResultsBy && this instanceof ProjectResultsBy){
+                returnType = true;
+            }
+            else if(obj instanceof Union && this instanceof Union){
+                returnType = true;
+            }
+            else if(obj instanceof Difference && this instanceof Difference){
+                returnType = true;
+            }
+        }
+        return returnType;
+    }
 }
