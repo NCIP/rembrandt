@@ -217,7 +217,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
      //Submit Query Button using comparative genomic submittal method
      map.put("buttons_tile.submittalButton", "submittal");
      
-//   Preview Query Button using comparative genomic preview method
+     //Preview Query Button using comparative genomic preview method
      map.put("buttons_tile.previewButton", "preview");
      
      return map;

@@ -6,12 +6,15 @@ package gov.nih.nci.nautilus.ui.struts.action;
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
-import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
+import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.ui.struts.form.ReportGeneratorForm;
+import gov.nih.nci.nautilus.view.ViewFactory;
+import gov.nih.nci.nautilus.view.ViewType;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -73,7 +76,7 @@ public class ReportGeneratorAction extends DispatchAction {
      * actually returns back to the input action.  This action method is currently
      * called by all 3 /preview* action mappings and is necesary to allow for validation
      * before we actually execute a query and display the results.  The previous
-     * actions will have already created and executed the preview query.
+     * actions will have already created, and executed, the preview query.
      * @param mapping
      * @param form
      * @param request
@@ -107,6 +110,7 @@ public class ReportGeneratorAction extends DispatchAction {
 	public ActionForward submitSamples(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		ActionForward thisForward = null;
 		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
 		String queryName = rgForm.getQueryName();
 		String prb_queryName = rgForm.getPrbQueryName();
@@ -114,9 +118,16 @@ public class ReportGeneratorAction extends DispatchAction {
 		String sessionId = request.getSession().getId();
 		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
 		if(cquery!=null) {
-			
-		}
-		return runGeneViewReport(mapping, form, request, response);
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+			cquery.setQueryName(prb_queryName);
+			//This will generate the report and store it in the cache
+			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds );
+			//store the name of the query in the form so that we can later pull it out of cache
+			ReportBean reportBean = rgHelper.getReportBean();
+			rgForm.setQueryName(reportBean.getResultantCacheKey());
+       	}
+		//now send everything that we have done to the actual method that will render the report
+		return runGeneViewReport(mapping, rgForm, request, response);
 	}
 	
 	

@@ -21,6 +21,7 @@ import gov.nih.nci.nautilus.cache.RembrandtContextListener;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
 
@@ -45,10 +46,11 @@ import gov.nih.nci.nautilus.view.Viewable;
  * 
  */
 public class ReportGeneratorHelper {
+	//This is the general purpose Nautilus Logger
 	private static Logger logger = Logger
 			.getLogger(ReportGeneratorHelper.class);
-	private static Logger xmlLogger = Logger.getLogger("XML_LOGGER");
-
+	//this is the XML logger for the reports
+	private static Logger xmlLogger;
 	//This is the element that is used to store all relevant report data
 	//it sores the resultant, the sessionId, the latest reportXML
 	private ReportBean _reportBean;
@@ -57,24 +59,36 @@ public class ReportGeneratorHelper {
 	private String _sessionId = null;
 	private static Properties applicationResources = applicationResources = ApplicationContext.getLabelProperties();
 	private ConvenientCache _cacheManager = CacheManagerDelegate.getInstance();
+	//Check the applications resource file and turn on report xml logging if 
+	//property nautilus.xml_logging = true, else then no xml report logging.
 	private static boolean xmlLogging;
 	static {
 		String property = (String)applicationResources.get("nautilus.xml_logging");
 		if("true".equals(property)){
 			xmlLogging = true;
+			//Get the XML_LOGGER specified in log4j.properties
+			xmlLogger = Logger.getLogger("XML_LOGGER");
 		}else {
 			xmlLogging = false;
 		}
 		
 	}
-		
 	
 	/**
 	 * This is intended to be used to generate a ReportBean when you have a
 	 * query and want to reduce the result set by limiting the results to 
-	 * sample ids listed in the String[] sampleIds. 
+	 * sample ids listed in the String[] sampleIds. As it is currently implemented
+	 * it does not check the cache for any result sets, because at present, we
+	 * execute the query all over again.  
 	 * 
-	 * @param query --This is the CompundQuery that you are selected sample ids from
+	 * In the future if performance is important we may consider just taking the
+	 * already existing result set and just extract the relevant sampleIds 
+	 * 
+	 * @param query --currently a CompoundQuery that you are selecting sample
+	 * ids from. No other Queriable object will actually work.  I know,I know
+	 * bad design. But this is to allow for the possibility of other types 
+	 * in the future.  We may later decide to constrain this to a CompoundQuery
+	 * but for now... well it is just going to have to be the way it is.
 	 * @param sampleIds --this is the array of sample ids that you would like to
 	 * contstrain
 	 */
@@ -85,16 +99,36 @@ public class ReportGeneratorHelper {
 		checkSessionId( _cQuery.getSessionId());
 		//check that we have a queryName
 		checkQueryName( _cQuery.getQueryName());
-		
-		
+		//create a new ReportBean
+		_reportBean = new ReportBean();
+		//execute the sample id sub select query
+		Resultant sampleIdResults = QueryManager.runReportSampleIdSelection(_cQuery, sampleIds);
+		//store the results into the report bean
+		_reportBean.setResultant(sampleIdResults);
+		//store the cache key that can be used to retrieve this bean later
+		_reportBean.setResultantCacheKey(_queryName);
+		//generate the reportXML and store in the ReportBean
+		generateReportXML();
+		//drop this ReportBean in the session cache, use the _queryName as the 
+		//parameter
+		_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
 	}
 
 	/**
-	 * Constructor
-	 * Execute the CompoundQuery and store in the sessionCache. Create a
-	 * ReportBean and store there for later retrieval.
-	 * 
-	 * @param query
+	 * This contructor use a TemplateMethod pattern to perform the following
+	 * tasks (They must happen in this order, though some may be omitted if the
+	 * use case does not require it): 
+	 * 		1-Check to see if the query is a CompoundQuery and cast if is
+	 * 		2-Check that there is a sessionId specified for the query
+	 * 		3-Check that we have a query name for the CompoundQuery
+	 * 		4-Check the SessionCache for any stored results for this query
+	 *      to avoid running to the database if not needed.
+	 *      5-Execute the query if there is no result set to use in the cache
+	 *      6-Generate the report xml based on the desired view
+	 *      7-store the new report bean in cache with the new xml for later 
+	 *      retrieval by the UI.
+	 *        
+	 * @param query --the query that you want some new view (Report) of
 	 */
 	public ReportGeneratorHelper(Queriable query) {
 		try {
@@ -126,7 +160,19 @@ public class ReportGeneratorHelper {
 		
 		
 	}
-
+	/**
+	 * Checks the Queriable object and determines if it is a CompoundQuery.  If
+	 * so then set the class variable _cQuery = (CompoundQuery)query else
+	 * throw a new UnsupportedOperationException as we can not currently handle 
+	 * anything but CompoundQueries at this time.  I know that it doesn't make 
+	 * much sense to only allow a single implementation of the Queriable Interface
+	 * to really be passed when we specify in the signature that any Queriable
+	 * object will do.  It is just that in order to avoid tons of casting and
+	 * maintain flexibility for later implementations I did it this way.
+	 *  
+	 * @param query
+	 * @throws UnsupportedOperationException
+	 */
 	private void checkCompoundQuery(Queriable query) throws UnsupportedOperationException {
 		if (query != null && query instanceof CompoundQuery) {
 			_cQuery = (CompoundQuery)query;
@@ -143,7 +189,11 @@ public class ReportGeneratorHelper {
 					"You must pass a CompoundQuery at this time");
 		}
 	}
-
+	/**
+	 * Check the sessionId in the Queriable object that we have gotten
+	 * @param sessionId
+	 * @throws IllegalStateException
+	 */
 	private void checkSessionId(String sessionId)throws IllegalStateException {
 		if (sessionId != null && !sessionId.equals("")) {
 			_sessionId = sessionId;
@@ -161,7 +211,10 @@ public class ReportGeneratorHelper {
 					"There does not appear to be a session associated with this query");
 		}
 	}
-	
+	/**
+	 * make sure that we have a name for our report
+	 * @param queryName
+	 */
 	private void checkQueryName(String queryName) {
 		if (!"".equals(queryName)&& queryName != null){
 			_queryName = queryName;
@@ -181,7 +234,10 @@ public class ReportGeneratorHelper {
 			_cQuery.setQueryName(_queryName);
 		}
 	}
-	
+	/**
+	 * check the cache for the results sets for the query
+	 * @param view
+	 */
 	private void checkCache(View view) {
 		/*
 		 * Use the sessionId to get the cache and see if 
@@ -190,7 +246,15 @@ public class ReportGeneratorHelper {
 		 */
 		_reportBean = _cacheManager.getReportBean(_sessionId, _queryName, view);
 	}
-	
+	/**
+	 * This method will take the class variable ReportBean _reportBean and 
+	 * create the correct XML representation for the desired view of the results.  When
+	 * completed it adds the XML to the _reportBean and drops the _reportBean
+	 * into the sessionCache for later retrieval when needed
+	 * 
+	 * @throws IllegalStateException this is thrown when there is no resultant
+	 * found in _reportBean
+	 */
 	private void generateReportXML() throws IllegalStateException {
 		/*
 		 * Get the correct report XML generator for the desired view
@@ -242,25 +306,49 @@ public class ReportGeneratorHelper {
 			throw new IllegalStateException("There is no resultant to create report");
 		}
 	}
-	
+	/**
+	 * This executes the current Compound Query that is referenced in the _cQuery
+	 * class scope variable.
+	 * @throws Exception
+	 */
 	private void executeQuery() throws Exception{
-		Resultant resultant = ResultsetManager.executeCompoundQuery(_cQuery);
-		/*
-		 * Create the _reportBean that will store everything we 
-		 * may need later when messing with the reports associated
-		 * with this result set.  This _reportBean will also 
-		 * be stored in the cache.
-		 */				
-		_reportBean = new ReportBean();
-		_reportBean.setResultant(resultant);
-		//The cache key will always be the compound query name
-		_reportBean.setResultantCacheKey(_cQuery.getQueryName());
+		if(_cQuery!=null) {
+			Resultant resultant = ResultsetManager.executeCompoundQuery(_cQuery);
+			/*
+			 * Create the _reportBean that will store everything we 
+			 * may need later when messing with the reports associated
+			 * with this result set.  This _reportBean will also 
+			 * be stored in the cache.
+			 */				
+			_reportBean = new ReportBean();
+			_reportBean.setResultant(resultant);
+			//The cache key will always be the compound query name
+			_reportBean.setResultantCacheKey(_cQuery.getQueryName());
+		}else{
+			logger.error("Compound Query is Null.  Can not execute!");
+			throw new NullPointerException("CompoundQuery is null.");
+		}
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public ReportBean getReportBean() {
 		return _reportBean;
 	}
-	
+	/**
+	 * This static method will render a query report of the passed reportXML, in
+	 * HTML using the XSLT whose name has been passed, to the jsp whose 
+	 * jspWriter has been passed. The request is used to acquire any filter 
+	 * params that may have been added to the request and that may be applicable
+	 * to the XSLT.
+	 *  
+	 * @param request --the request that will contain any parameters you want applied
+	 * to the XSLT that you specify
+	 * @param reportXML -- this is the XML that you want transformed to HTML
+	 * @param xsltFilename --this the XSLT that you want to use
+	 * @param out --the JSPWriter you want the transformed document to go to...
+	 */
 	public static void renderReport(HttpServletRequest request, Document reportXML, String xsltFilename, JspWriter out) {
 		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
 		// load the transformer using JAXP
