@@ -1,7 +1,3 @@
-// Created by Xslt generator for Eclipse.
-// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
-// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
-
 package gov.nih.nci.nautilus.ui.struts.action;
 
 
@@ -32,12 +28,10 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import java.util.*;
 
 
-
-/** 
- */
 public class RefineQueryAction extends DispatchAction {
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
-	/** 
+    private static Logger logger = Logger.getLogger(RefineQueryAction.class);
+	
+    /** 
 	 * Method execute
 	 * @param ActionMapping mapping
 	 * @param ActionForm form
@@ -70,7 +64,7 @@ public class RefineQueryAction extends DispatchAction {
 		if (queryCollect != null){
 			//Create a vector of search token values from FormBean
 		
-// Query 1
+			// Query 1
 			queryName1 = refineQueryForm.getQueryName1();
 			queryName2 = refineQueryForm.getQueryName2();
 			queryName3 = refineQueryForm.getQueryName3();
@@ -81,7 +75,7 @@ public class RefineQueryAction extends DispatchAction {
 				refineQueryForm.setQueryText(queryName1);
 				
 				refineQueryForm.setRunFlag("yes");
-				System.out.println("set query text");
+				logger.debug("set query text");
 				
 				//Stuff compoundquery in queryCollection 
 				queryCollect.setCompoundQuery(compoundQuery);
@@ -141,7 +135,7 @@ public class RefineQueryAction extends DispatchAction {
 				refineQueryForm.setQueryText(compoundQuery.toString());
 				
 				refineQueryForm.setRunFlag("yes");
-				System.out.println("set query text");
+				logger.debug("set query text");
 				
 				// Get collection of view types
 				Collection viewCollection = setRefineQueryView((CompoundQuery) compoundQuery, request);
@@ -155,7 +149,7 @@ public class RefineQueryAction extends DispatchAction {
 	
 			}catch (Exception e){
 				refineQueryForm.setQueryText("Error!! "+e.getMessage());
-				System.out.println("Error Parsing Query and/or creating Compound Query " + e.getMessage());
+				logger.debug("Error Parsing Query and/or creating Compound Query " + e.getMessage());
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.parse.error",e.getMessage()));
 
 				this.saveErrors(request, errors);
@@ -201,7 +195,7 @@ public class RefineQueryAction extends DispatchAction {
 		}else {
 		
 			queryViewColl.add( new LabelValueBean( " ", " " ));
-			System.out.println("Compound Query passed is null");
+			logger.debug("Compound Query passed is null");
 		}
 		return queryViewColl;
 	}
@@ -227,9 +221,9 @@ public class RefineQueryAction extends DispatchAction {
 		if (queryCollect != null) {
 			if (queryCollect.hasCompoundQuery()) {
 				CompoundQuery cQuery = (CompoundQuery) queryCollect.getCompoundQuery();
-				System.out.println(refineQueryForm.getCompoundView());
+				logger.debug(refineQueryForm.getCompoundView());
 				ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
-				System.out.println(selectView);
+				logger.debug(selectView);
 				// Set View in compoundQuery
 				cQuery.setAssociatedView(ViewFactory.newView(selectView));
 
@@ -239,13 +233,13 @@ public class RefineQueryAction extends DispatchAction {
 //				request.getSession().setAttribute(Constants.RESULTSET_KEY,queryResultSetObjects);
 				
 			}else {
-				System.out.println("QueryCollection has no Compound queries to execute.  Please select a query to execute");
+				logger.debug("QueryCollection has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
 				this.saveErrors(request, errors);
 				ActionForward thisForward = mapping.findForward("failure");
 			}
 		}else{	
-			System.out.println("QueryCollection object missing in session!!");
+			logger.debug("QueryCollection object missing in session!!");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
 			ActionForward thisForward = mapping.findForward("failure");
@@ -259,11 +253,11 @@ public class RefineQueryAction extends DispatchAction {
   
 	private void print(ResultSet[] geneExprObjects) {
 		if(geneExprObjects != null){
-			System.out.println("Number of Records:"+ geneExprObjects.length);
+			logger.debug("Number of Records:"+ geneExprObjects.length);
 			for (int i =0; i < geneExprObjects.length; i++) {
 				GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
 				if(expObj != null){
-				System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
+				logger.debug( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
 				}
 			}
 		}

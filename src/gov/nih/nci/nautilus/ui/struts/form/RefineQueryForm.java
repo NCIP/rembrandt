@@ -1,6 +1,3 @@
-// Created by Xslt generator for Eclipse.
-// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
-// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
 package gov.nih.nci.nautilus.ui.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,18 +13,9 @@ import gov.nih.nci.nautilus.query.*;
 
 import java.util.*;
 
-
-
-
-/**
- * RefineQueryForm.java
- * created on 10-05-2004
- *
- * @struts:form name="refineQueryForm"
- */
 public class RefineQueryForm extends BaseForm {
     private static Logger logger = Logger.getLogger(RefineQueryForm.class);
-	// --------------------------------------------------------- Instance Variables
+	
 	private String queryName1;
 	private String leftParen1;
 	private String rightParen1;
@@ -77,14 +65,14 @@ public class RefineQueryForm extends BaseForm {
 
 		ActionErrors errors = new ActionErrors();
 		
-		// Only one PRB in Query
+		//Only one PRB in Query
 		String queryName1 = this.getQueryName1().trim();
 		String queryName2 = this.getQueryName2().trim();
 		String queryName3 = this.getQueryName3().trim();
 		String paramValue = request.getParameter(mapping.getParameter());
 		
-//		 
-// 		Validate Query validation
+	 
+		//Validate Query validation
 		if (paramValue.equalsIgnoreCase("validate")) {
 			if (queryName1.length() < 1 && (queryName2.length()>0 || queryName3.length()>0)) {
 				errors.add("queryName1", new ActionError("gov.nih.nci.nautilus.ui.struts.form.query.empty"));
@@ -115,7 +103,7 @@ public class RefineQueryForm extends BaseForm {
 				errors.add("operatorType2", new ActionError("gov.nih.nci.nautilus.ui.struts.form.operatortype.no.query"));
 			}
 		}
-// Run Report Validations
+		//Run Report Validations
 		if (paramValue.equalsIgnoreCase("displayresult")) {
 			if (this.getCompoundView().trim().length() < 1){ 
 				if (this.getQueryText().trim().length() >= 1) {
@@ -125,11 +113,8 @@ public class RefineQueryForm extends BaseForm {
 				if (this.getQueryText().trim().length() < 1) {
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.no.error"));
 				}
-
 			}
-			
 		}
-		
 		return errors;
 	}
 
@@ -153,7 +138,7 @@ public class RefineQueryForm extends BaseForm {
 			}		
 		}else {
 		
-			System.out.println("No Query Collection Object in Session");
+			logger.debug("No Query Collection Object in Session");
 		}
 
 	}
