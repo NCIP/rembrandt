@@ -1,47 +1,18 @@
 package gov.nih.nci.nautilus.test;
 
-import gov.nih.nci.nautilus.criteria.AgeCriteria;
-import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.AssayPlatformCriteria;
-import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
-import gov.nih.nci.nautilus.criteria.Constants;
-import gov.nih.nci.nautilus.criteria.CopyNumberCriteria;
-import gov.nih.nci.nautilus.criteria.DiseaseOrGradeCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
-import gov.nih.nci.nautilus.criteria.GenderCriteria;
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.GeneOntologyCriteria;
-import gov.nih.nci.nautilus.criteria.PathwayCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.SNPCriteria;
-import gov.nih.nci.nautilus.criteria.SampleCriteria;
-import gov.nih.nci.nautilus.criteria.SurvivalCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.data.PatientData;
-import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE;
-import gov.nih.nci.nautilus.de.ArrayPlatformDE;
-import gov.nih.nci.nautilus.de.AssayPlatformDE;
-import gov.nih.nci.nautilus.de.BasePairPositionDE;
-import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
-import gov.nih.nci.nautilus.de.CloneIdentifierDE;
-import gov.nih.nci.nautilus.de.CopyNumberDE;
-import gov.nih.nci.nautilus.de.DiseaseNameDE;
-import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
-import gov.nih.nci.nautilus.de.GenderDE;
-import gov.nih.nci.nautilus.de.GeneIdentifierDE;
-import gov.nih.nci.nautilus.de.GeneOntologyDE;
-import gov.nih.nci.nautilus.de.PathwayDE;
-import gov.nih.nci.nautilus.de.SNPIdentifierDE;
-import gov.nih.nci.nautilus.de.SampleIDDE;
-import gov.nih.nci.nautilus.de.SurvivalDE;
+import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.de.AgeAtDiagnosisDE.UpperAgeLimit;
 import gov.nih.nci.nautilus.query.ClinicalDataQuery;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
-import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.queryprocessing.QueryProcessor;
 import gov.nih.nci.nautilus.resultset.DimensionalViewContainer;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -55,16 +26,14 @@ import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.io.*;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -77,7 +46,7 @@ import junit.framework.TestSuite;
  * Time: 1:41:11 PM
  * To change this template use Options | File Templates.
  */
-public class QueryTest extends TestCase { 
+public class QueryTest extends TestCase {
 	 private static final DecimalFormat resultFormat = new DecimalFormat("0.00");
      DiseaseOrGradeCriteria diseaseCrit;
      FoldChangeCriteria foldCrit;
@@ -96,13 +65,15 @@ public class QueryTest extends TestCase {
      SurvivalCriteria survivalCrit;
 	 AgeCriteria ageCriteria;
 	 GenderCriteria genderCrit;
+     AllGenesCriteria allGenesCriteria;
+
 
     protected void setUp() throws Exception {
         buildSampleIDCrit();
 
         // the following two are mutually exclusive
-        buildDiseaseTypeCrit();
-        //buildAllDiseaseTypeCrit();
+        //buildDiseaseTypeCrit();
+        buildAllDiseaseTypeCrit();
 
         buildSurvivalCrit();
         buildAgeCrit();
@@ -114,8 +85,9 @@ public class QueryTest extends TestCase {
         buildFoldChangeCrit();
 
         // the following two are mutually exclusive
-        buildGeneIDFromFileCrit();
+        //buildGeneIDFromFileCrit();
         //buildGeneIDCrit();
+        buildAllGenesCriteria();
 
         buildOntologyCrit();
         buildPathwayCrit();
@@ -127,40 +99,41 @@ public class QueryTest extends TestCase {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+              //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
              //q.setGeneIDCrit(geneIDCrit);
-
+             q.setAllGenes(allGenesCriteria);
              //q.setGeneOntologyCrit(ontologyCrit);
 
             //q.setPathwayCrit(pathwayCrit);
 
             //q.setGeneOntologyCrit(ontologyCrit);
-            q.setRegionCrit(regionCrit);
-            //q.setPathwayCrit(pathwayCrit);
+            //q.setRegionCrit(regionCrit);
+             //q.setPathwayCrit(pathwayCrit);
 
 
-            q.setArrayPlatformCrit(allPlatformCrit);
-           //q.setPlatCriteria(affyOligoPlatformCrit);
-           //q.setPlatCriteria(cdnaPlatformCrit);
+            //q.setArrayPlatformCrit(allPlatformCrit);
+            q.setArrayPlatformCrit(affyOligoPlatformCrit);
+           //q.setArrayPlatformCrit(cdnaPlatformCrit);
 
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
-            q.setDiseaseOrGradeCrit(diseaseCrit);
-              //q.setSampleIDCrit(sampleCrit);
-              q.setFoldChgCrit(foldCrit);
+            //q.setDiseaseOrGradeCrit(diseaseCrit);
+            q.setSampleIDCrit(sampleCrit);
+            q.setFoldChgCrit(foldCrit);
 
             try {
             	//CompoundQuery myCompoundQuery = new CompoundQuery(q);
                 ResultSet[] geneExprObjects = QueryProcessor.execute(q);
                 System.out.println("NUMBER OF RECORDS: " + geneExprObjects.length);
 
-               // print(geneExprObjects);
+                print(geneExprObjects);
                //if (geneExprObjects.length > 0)
                  //   testResultset(geneExprObjects);
 
             } catch(Throwable t ) {
                 t.printStackTrace();
             }
-                                         
+
     }
 
       private void print(ResultSet[] geneExprObjects) {
@@ -177,15 +150,37 @@ public class QueryTest extends TestCase {
                 }
                  else if (obj instanceof GeneExpr.GeneExprSingle)  {
                     exprObj = (GeneExpr.GeneExprSingle) obj;
+                     System.out.println("\n\n ******* SAMPLE ID: " + ((GeneExpr.GeneExprSingle)exprObj).getSampleId()
+                                        + "*******\n\n");
                 }
                 if (exprObj.getGeneSymbol() != null) {
                     gs.add(exprObj.getGeneSymbol());
+                    System.out.println("Gene Annotations For GeneSymbol: " + exprObj.getGeneSymbol());
+                    GeneExpr.Annotaion  a =  exprObj.getAnnotation();
+                    if (a != null && a.getGeneAnnotation() != null) {
+
+                       // display pathwayNames
+                       Collection pathways = a.getGeneAnnotation().getPathwayNames();
+                       for (Iterator iterator = pathways.iterator(); iterator.hasNext();) {
+                           String pathwayName =  (String) iterator.next();
+                           System.out.println("                     PathwayName: " + pathwayName);
+                       }
+
+                       // display GOIDs
+                       Collection goIDs = a.getGeneAnnotation().getPathwayNames();
+                       for (Iterator iterator = goIDs.iterator(); iterator.hasNext();) {
+                           String goID =  (String) iterator.next();
+                           System.out.println("                     GeneOntologyName: " + goID);
+                       }
+
+                    }
                 }
                 if (exprObj.getProbesetId() != null) {
                     System.out.println("Disease: "+ exprObj.getDiseaseType());
 
                   System.out.println("ProbesetID: " + exprObj.getProbesetId() + " :Exp Value: "
-                                + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol() );
+                                + exprObj.getExpressionRatio() + "  GeneSymbol: " + exprObj.getGeneSymbol()
+                            );
                     probeIDS.add(exprObj.getProbesetId());
                 }
                 if ( exprObj.getCloneId() != null) {
@@ -196,7 +191,7 @@ public class QueryTest extends TestCase {
 
                  ++count;
             }
-            System.out.println("Total Number Of Samples: " + count);
+            System.out.println("Total Number Of GeneExpression Facts: " + count);
             StringBuffer p = new StringBuffer();
             for (Iterator iterator = probeIDS.iterator(); iterator.hasNext();) {
                 Long aLong = (Long) iterator.next();
@@ -330,7 +325,7 @@ public class QueryTest extends TestCase {
        public void testClinicalQuery() {
         ClinicalDataQuery q = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
             q.setQueryName("Test Clinical Query");
-            
+
             //q.setSurvivalCrit(survivalCrit);
             q.setGenderCrit(genderCrit);
             q.setAgeCrit(ageCriteria);
@@ -358,7 +353,7 @@ public class QueryTest extends TestCase {
 								"\t"+patientData.getSurvivalLengthRange()+
 								"\t"+patientData.getAgeGroup());
 		}
-		
+
 	}
     }
 
@@ -433,9 +428,12 @@ public class QueryTest extends TestCase {
        //regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(8800000)));
 
         // Chromosome Number is mandatory
-        regionCrit.setChromNumber(new ChromosomeNumberDE(new String("6")));
-        regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(1)));
-       regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(170914576)));
+        regionCrit.setChromNumber(new ChromosomeNumberDE(new String("1")));
+        //regionCrit.setStart(new BasePairPositionDE.StartPosition(new Integer(1)));
+        //regionCrit.setEnd(new BasePairPositionDE.EndPosition(new Integer(5000000)));
+
+        regionCrit.setStartCytoband(new CytobandDE("p36.33"));
+        regionCrit.setEndCytoband(new CytobandDE("p36.11"));
     }
 
     private void buildOntologyCrit() {
@@ -471,14 +469,20 @@ public class QueryTest extends TestCase {
         pathwayCrit = new PathwayCriteria();
         PathwayDE obj1 = new PathwayDE("AcetaminophenPathway");
         PathwayDE obj2 = new PathwayDE("41bbPathway");
+        PathwayDE obj3 = new PathwayDE("egfPathway");
         Collection pathways = new ArrayList();
-        pathways.add(obj1); pathways.add(obj2);
+        //pathways.add(obj1); pathways.add(obj2);
+        pathways.add(obj3);
         pathwayCrit.setPathwayNames(pathways);
     }
     private void buildPlatformCrit() {
         allPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.ALL_PLATFROM));
         affyOligoPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM));
         cdnaPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.CDNA_ARRAY_PLATFORM));
+    }
+    private void buildAllGenesCriteria() {
+        allGenesCriteria = new AllGenesCriteria();
+        allGenesCriteria.setAllGenes(true);
     }
     private void buildDiseaseTypeCrit() {
          diseaseCrit = new DiseaseOrGradeCriteria();
@@ -513,11 +517,65 @@ public class QueryTest extends TestCase {
 
         sampleIDs.add(s0); sampleIDs.add(s1); sampleIDs.add(s2); sampleIDs.add(s3);
         sampleIDs.add(s4); sampleIDs.add(s5); sampleIDs.add(s6); sampleIDs.add(s7);
-        //sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
-        //sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
+        sampleIDs.add(s8); sampleIDs.add(s9); sampleIDs.add(s10); sampleIDs.add(s11);
+        sampleIDs.add(s12); sampleIDs.add(s13); sampleIDs.add(s14);
 
-        sampleCrit.setSampleIDs(sampleIDs);
-
+        String[] IDs = new String[] {
+               "HF1057", "HF1139","HF118","HF1219",
+                "HF1220",
+                "HF1223",
+                "HF1226",
+                "HF1227",
+                "HF1232",
+                "HF1269",
+                "HF1297",
+                "HF1307",
+                "HF1325",
+                "HF1326",
+                "HF1338",
+                "HF1348",
+                "HF1397",
+                "HF1409",
+                "HF1458",
+                "HF1489",
+                "HF17",
+                "HF189",
+                "HF223",
+                "HF252",
+                "HF26",
+                "HF305",
+                "HF329",
+                "HF332",
+                "HF350",
+                "HF434",
+                "HF442",
+                "HF453",
+                "HF471",
+                "HF50",
+                "HF608",
+                "HF615",
+                "HF627",
+                "HF652",
+                "HF719",
+                "HF813",
+                "HF828",
+                "HF835",
+                "HF87",
+                "HF89",
+                "HF894",
+                "HF931",
+                "HF936",
+                "HF953",
+                "HF962",
+                "HF986",
+                "HF990"
+        };
+        ArrayList all52Samples = new ArrayList(52);
+        for (int i = 0; i < IDs.length; i++) {
+            all52Samples.add(new SampleIDDE(IDs[i]));
+        }
+        //sampleCrit.setSampleIDs(sampleIDs);
+        sampleCrit.setSampleIDs(all52Samples);
     }
 
     private void buildSurvivalCrit() {

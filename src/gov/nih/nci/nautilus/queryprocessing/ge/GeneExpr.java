@@ -262,8 +262,27 @@ abstract public class GeneExpr implements ResultSet{
     public abstract static class Annotaion {
         ArrayList locusLinks;
         ArrayList accessions;
-        Long ID;
         GeneAnnotation geneAnnotation;
+        Long ID;
+
+        public StringBuffer print() {
+            StringBuffer toString = null;
+            toString = new StringBuffer();
+            if (geneAnnotation != null) {
+                String geneSymbol = geneAnnotation.getGeneSymbol();
+                toString.append("Gene Symbol: " + geneSymbol.toUpperCase());
+                toString.append("     Pathways:        ");
+                toString.append("                      " + geneAnnotation.getPathwayNames().toString());
+                toString.append("     Gene Ontologies: ");
+                toString.append("                      " + geneAnnotation.getGoIDs().toString());
+            }
+            return toString;
+        }
+
+        public String toString() {
+            return print().toString();
+        }
+
         protected Annotaion() { }
         public Annotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
             this.locusLinks = locusLinks;
@@ -319,10 +338,23 @@ abstract public class GeneExpr implements ResultSet{
         public ProbeAnnotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
             super(locusLinks, accessions, ID);
         }
+
+        public StringBuffer print() {
+            StringBuffer toString = super.print();
+            toString.append("     Accessions:      ");
+            toString.append("                      " + accessions);
+            return toString;
+        }
     }
     public static class CloneAnnotaion extends Annotaion{
         public CloneAnnotaion(ArrayList locusLinks, ArrayList accessions, Long ID) {
             super(locusLinks, accessions, ID);
+        }
+        public StringBuffer print() {
+            StringBuffer toString = super.print();
+            toString.append("     Locus Links:     ");
+            toString.append("                      " + locusLinks);
+            return toString;
         }
     }
     public static class GeneAnnotation {

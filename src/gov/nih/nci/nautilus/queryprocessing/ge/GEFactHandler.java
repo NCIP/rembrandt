@@ -312,6 +312,15 @@ abstract public class GEFactHandler {
                 if (obj.getProbesetId() != null) allProbeIDs.add(obj.getProbesetId());
                 else if (obj.getCloneId() != null) allCloneIDs.add(obj.getCloneId());
             }
+
+            HashSet geneSymbols = new HashSet();
+            for (int i = 0; i < objs.length; i++) {
+                GeneExpr obj = (GeneExpr.GeneExprSingle) objs[i];
+                if (obj.getGeneSymbol() != null) geneSymbols.add(obj.getGeneSymbol());
+            }
+
+            executeGenePathwayAnnotationQuery(geneSymbols);
+            executeGeneOntologyAnnotationQuery(geneSymbols);
             executeCloneAnnotationQuery(allCloneIDs);
             executeProbeAnnotationQuery(allProbeIDs );
             ThreadController.sleepOnEvents(annotationEventList);
@@ -324,8 +333,15 @@ abstract public class GEFactHandler {
                 else if (obj.getCloneId() != null) {
                     obj.setAnnotation((GeneExpr.CloneAnnotaion)cloneAnnotations.get(obj.getCloneId()));
                 }
+                if (obj.getGeneSymbol() != null  && obj.getAnnotation() != null) {
+                    obj.getAnnotation().setGeneAnnotation((GeneExpr.GeneAnnotation)geneAnnotations.get(obj.getGeneSymbol()));
+                    System.out.println("*****************************Annotations: ****************************");
+                    System.out.println(obj.getAnnotation());
+                }
                 results[i] = obj;
             }
+
+
             return results;
         }
 
@@ -348,7 +364,6 @@ abstract public class GEFactHandler {
             executeGeneOntologyAnnotationQuery(geneSymbols);
             executeCloneAnnotationQuery(allCloneIDs);
             executeProbeAnnotationQuery(allProbeIDs );
-
             ThreadController.sleepOnEvents(annotationEventList);
 
             // by now geneExprObjects,  geneAnnotations, cloneAnnotations, probeAnnotations would have populated
