@@ -1,8 +1,8 @@
 package gov.nih.nci.nautilus.criteria;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,21 +14,38 @@ import java.lang.reflect.InvocationTargetException;
 abstract public class Criteria {
     abstract public boolean isValid();
 
-    //TODO: fix the following methos
-    public static boolean isEmpty(Criteria critObj) {
-        try {
-            String className = critObj.getClass().getName();
-            Class critClass = Class.forName(className);
-            Method[] methods = critClass.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++) {
-                Method method = methods[i];
-                if (method.invoke(critObj, null) != null) {
-                    return false;
-                }
-             }
-         } catch (Throwable e) {
-                e.printStackTrace();
-         }
-         return true;
-    }
+    //TODO: The followig method checks if a given Criteria is empty
+	    public boolean isEmpty() {
+			try {
+		
+				String currObjectName = this.getClass().getName();
+				Class currClass = Class.forName(currObjectName);
+				Method[] allPublicmethods = currClass.getMethods();
+				
+				for (int i = 0; i < allPublicmethods.length; i++) {
+					Method currMethod = allPublicmethods[i];
+					String currMethodString = currMethod.getName();
+					if ((currMethodString.toUpperCase().startsWith("GET")) 
+						&& (currMethod.getModifiers() == Modifier.PUBLIC) 
+						&& (!currMethodString.equalsIgnoreCase("getclass")))
+					{
+							Object thisObj = currMethod.invoke(this, null);
+	
+							if (thisObj != null) {
+								if (Collection.class.isInstance(thisObj)){
+									Collection thisCollection = (Collection) thisObj;
+									if (!thisCollection.isEmpty()) {return false;}
+								}
+								else {return false;} 
+							}
+					}
+				}
+				
+			 } catch (Throwable e) {
+					e.printStackTrace();
+			 }
+			 return true;
+		}
+
+
 }
