@@ -176,9 +176,12 @@ public class GeneExprSampleReport implements ReportGenerator{
 		    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 		    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 		    		Collection reporters = geneResultset.getReporterResultsets();
-		    		
+                    String the_gene = "";
 		    		/*  hard code filter for now */
-	        		String the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
+                    if(geneResultset.getGeneSymbol()!= null){
+	        		the_gene = geneResultset.getGeneSymbol().getValueObject().toString();
+                    }
+
 		    		//if(!the_gene.equalsIgnoreCase(filter_string))	{
 	        		if(FilterHelper.checkFilter(filter_element, "gene", the_gene, filter_type, filter_string))	{
 	        		//if(!filter_element.equals("gene") || (filter_element.equals("gene") && !filter_string.contains(the_gene)))	{
