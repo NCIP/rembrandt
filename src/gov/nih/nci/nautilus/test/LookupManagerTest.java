@@ -85,8 +85,15 @@ public class LookupManagerTest extends TestCase {
 	    try{
 	    	PatientDataLookup[] patientData = LookupManager.getPatientData();
 			assertNotNull(patientData);
+			System.out.println("patientID"+
+					"\t survival"+
+					"\t censor");
 	        for (int i =0;i<patientData.length;i++) {
 	        	PatientDataLookup patient = patientData[i];
+	        	System.out.println(patient.getSampleId()+
+    					"\t"+patient.getSurvivalLength()+
+						"\t"+patient.getCensoringStatus());
+
 	        }
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
