@@ -301,33 +301,64 @@ public class ReportGenerator  {
 						
 				    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 				    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
-				    		String geneSymbol = geneResultset.getGeneSymbol().getValue().toString();
-				    		Collection reporters = geneExprDiseaseContainer.getRepoterResultsets(geneSymbol); 
 
+				    		//String geneSymbol = geneResultset.getGeneSymbol().getValue().toString();
+				    		//Collection reporters = geneExprDiseaseContainer.getRepoterResultsets(geneSymbol); 
+				    		Collection reporters = geneResultset.getReporterResultsets();
+				    		
 				    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 				    			recordCount += reporters.size();
 				    			
 				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
-				        		String reporterName = reporterResultset.getReporter().getValue().toString();
-				        		Collection groupTypes = geneExprDiseaseContainer.getGroupByResultsets(geneSymbol,reporterName); //reporterResultset.getGroupResultsets();
-				        	//	stringBuffer = new StringBuffer();
-							
-							/*
-				        		if(reporterName.length()< 10){ //Remove this from table
-				        			reporterName= reporterName+"        ";
-				        			reporterName = reporterName.substring(0,10);
+				        		Collection groupTypes = reporterResultset.getGroupByResultsets();
+
+				        		String reporterName = "-";
+				        		try	{
+				        			reporterName = reporterResultset.getReporter().getValue().toString();
 				        		}
-				        	*/
+				        		catch(Exception e)	{
+				        			reporterName = "-";
+				        		}
+				        		
+					    		GeneSymbol gene = geneResultset.getGeneSymbol();
+				        		String geneSymbol = "&nbsp;";
+				        		if( gene != null){
+				        			try{
+				        				geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
+				        			}
+				        			catch(Exception e){
+				        				geneSymbol = " - ";
+				        			}
+				        			System.out.println("Gene Symbol: "+ geneSymbol);
+				        		}
+				        		
+				        	//	Collection groupTypes = geneExprDiseaseContainer.getGroupByResultsets(geneSymbol,reporterName); 
+				        	//	reporterResultset.getGroupResultsets();
 				        		
 				        		sb.append("<tr><td>"+geneSymbol+"</td><td>" + reporterName + "</td>");
+				        		System.out.println("okay so far");
+				        		
 				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 				    	        	label = (String) labelIterator.next();
 				    	        	DiseaseGroupResultset diseaseResultset = (DiseaseGroupResultset) reporterResultset.getGroupByResultset(label);
 				    	        	if(diseaseResultset != null){
-			                   			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
-			                   			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
-			                   			sb.append("<td class=\""+label+"\">"+resultFormat.format(ratio)+" ("+resultFormat.format(pvalue)+")"+"</td>");  
-			                   			}
+				    	        		sb.append("<td class=\""+label+"\">");
+				    	        		try	{
+				    	        			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
+				    	        			sb.append(resultFormat.format(ratio));
+				    	        		}
+				    	        		catch(Exception e)	{
+				    	        			sb.append("-&nbsp;");
+				    	        		}
+				    	        		try	{
+				    	        			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
+				    	        			sb.append(" ("+resultFormat.format(pvalue) + ")");
+				    	        		}
+				    	        		catch(Exception e){
+				    	        			sb.append("&nbsp;");
+				    	        		}
+				    	        		sb.append("</td>");
+			                   		}
 			                   		else	{
 			                   			sb.append("<Td class=\""+label+"\">-</td>");
 			                   		}
@@ -677,6 +708,7 @@ public class ReportGenerator  {
 	
 		
 	}
+
 	public static String queryInformation(Queriable compoundQuery)	{
 		StringBuffer sb = new StringBuffer();
 		if(compoundQuery != null) {			
