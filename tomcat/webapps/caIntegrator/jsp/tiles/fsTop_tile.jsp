@@ -8,8 +8,8 @@ String act = request.getParameter("s").toLowerCase();
 String strIncFile = "/jsp/tiles/diseaseType_tile.jsp?act="+act;
 String strIncFile2 = "";
 
-if(act.equalsIgnoreCase("geneExpression"))	{
-	strIncFile2 = "/jsp/tiles/diseaseType_tile.jsp?act="+act;
+if(act.equalsIgnoreCase("geneexpression"))	{
+	strIncFile2 = "/jsp/tiles/foldChange_tile.jsp?act="+act;
 } 
 else	{
 strIncFile2 = "/jsp/tiles/copyNumber_tile.jsp?act="+act;
