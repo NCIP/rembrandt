@@ -40,7 +40,7 @@ public class ReportGenerator  {
 	
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
-	public static String links = "<a href=\"#queryInfo\">[Query Information]</a> | <a href=\"jsp/geneViewReportCSV.jsp\" onclick=\"javascript:return false;\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";
+	public static String links = "<a href=\"#queryInfo\">[Query Information]</a> | <a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";
 		
 	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv)	{
 		
