@@ -481,8 +481,32 @@ function showQueryDetail(selectName){
 			myOption.value = cytoRegion[i];
 			document.forms[0].cytobandRegion.options[document.forms[0].cytobandRegion.options.length] = myOption;
 		}
-	 }	
+	 }
+	 
+	 if(element == "dataSet"){
+	 alert("you got here");
+	 var ds = document.forms[1].dataSet.selectedIndex;
+	 
+	 document.forms[1].generatingInstitution.options.length = 1;
+	 alert("you got here");
+	    switch(ds)	{
+			
+			case 1: var genInst = new Array("NCI", "Johns Hopkins University", "UCSF");
+			      break;
+			case 2: var genInst = new Array("");
+			      break;
+			default:
+				var genInst = new Array("NCI", "Johns Hopkins University", "UCSF");
+		}
+	 //dataSet box has changed, so update generating Inst.
+		for(var i=0; i<genInst.length; i++)	{
+			myOption = new Option();
+			myOption.text = genInst[i];
+			myOption.value = genInst[i];
+			document.forms[1].generatingInstitution.options[document.forms[1].generatingInstitution.options.length] = myOption;
+		}	
 		
 	}
-
+  }
+ 
   

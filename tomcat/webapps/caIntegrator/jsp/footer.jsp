@@ -12,3 +12,4 @@
 </table>
 <div>
 <!-- End Footer table -->
+</div>

@@ -1,44 +1,67 @@
-<fieldset class="sidebar" style="border-width: 2px">
-<legend style="background-color:#ffffff">Advanced Search</legend>
+<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ page import="java.util.*, java.lang.*, java.io.*" %> 
 
-<form action="menu.do" method="POST">
-<input type="radio" class="radio" name="menu" value="0" checked selected onclick="javascript:document.forms[0].rpt.disabled=true;">
-		<b>Create a New Query</b>
-		<a href="javascript:void(0);" onmouseover="return overlib('Select this option if you do not have a saved query to upload.  You will be able to build a query based on the Advanced Search Areas listed below.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-		<br><Br>	
-				<table border="0">
-						<tr>
-							<Td>
-							Study Data Set<br>
-							<select name="dataSet" onchange="javascript:moveEm(this);">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-								<option>Rembrandt (GMDI)</option>
-								<option>I-SPY</option>
-								<option>Other1</option>
-								
-							</select><br>
-							Generating Institution<br>
-							<select name="generatingInstitution">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-								
-							</select>
-							</td>
-						</tr>
-					</table>
-		<hr width="150" color="#ffffff">
-		<input type="Radio" name="menu" class="radio" value="1" onclick="javascript:document.forms[0].rpt;" disabled="true">
-		<b>Upload a saved Query</b>
-		<a href="javascript:void(0);" onmouseover="return overlib('You may choose to start from an existing query.  Please upload that saved query here.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-		&nbsp;&nbsp;
-		<br><Br>
-		<input type="file" name="rpt" disabled="true">
-		<div class="advButton">
-			<input type="submit" class="xbutton" style="width:100px;" value="continue">
-		</div>
-		
-     </form>
-		<div class="message">Note: Please move your mouse over the 
-			<a href="javascript:void(0);" onmouseover="return overlib('Help messages will appear here.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-			links for help throughout the application.		
-		</div>
+<fieldset class="sidebar" style="border-width: 2px">
+<legend style="background-color:#ffffff">Advanced Search Areas</legend>
+<table cellspacing="0" cellpadding="4">
+  <tr valign="top">
+ <td><strong>Gene Expression Analysis</strong><br />
+ <!--read from Gene Expression Analysis text file-->
+  <% 
+  Properties props1 = new Properties();
+    try {
+    props1.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"geneExpressionAreas.properties"));
+    } 
+	catch (IOException e) {
+    out.println("cant read props");
+	}
+	for (int t=1; t<props1.size()+1; t++){
+		String Props = props1.getProperty(String.valueOf(t));
+		out.print(Props);
+		out.print("<br> ");
+	}   
+ %>
+
+ </td>
+	<td>
+	<strong>Comparative Genomic Analysis</strong><br />
+	<!--read from Comparative Genomic Analysis text file-->
+	<% 
+	  Properties props2 = new Properties();
+	    try {
+	    props2.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"comparitiveGenomicAreas.properties"));
+	    } 
+		catch (IOException e) {
+	    out.println("cant read props");
+		}
+		for (int t=1; t<props2.size()+1; t++){
+			String Props = props2.getProperty(String.valueOf(t));
+			out.print(Props);
+			out.print("<Br>");
+		}   
+	 %>
+	</td>
+	</tr>
+	<tr>
+	<td colspan="2">
+	<strong>Clinical Study Analysis</strong><br />
+	<!--read from Clinical Study Analysis text file-->
+	<% 
+	  Properties props3 = new Properties();
+	    try {
+	    props3.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"clinicalAreas.properties"));
+	    } 
+		catch (IOException e) {
+	    out.println("cant read props");
+		}
+		for (int t=1; t<props3.size()+1; t++){
+			String Props = props3.getProperty(String.valueOf(t));
+			out.print(Props);
+			out.print(", ");
+		}   
+	 %>
+	</td>
+  </tr>
+</table>
 </fieldset>

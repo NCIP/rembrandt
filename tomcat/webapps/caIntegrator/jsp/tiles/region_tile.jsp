@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<fieldset class="gray">
 
-<div class="title">Region</div>
-
+<legend class="red">Region</legend>
 <%
 	String act = request.getParameter("act");
 	System.out.println(act);
@@ -53,7 +53,7 @@ Cytoband &nbsp;<input type="text" name="cytobandRegion">
 
 				<html:errors property="region"/>
 
-				
+				</fieldset>
 				
 				
 				<!--

@@ -22,18 +22,27 @@ response.setHeader("Location",newLocn);
 
 </head>
 <body>
-<!--header image map-->
+<!--header NCI-->
+<table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
+<tr bgcolor="#A90101">
+		<td width="283" height="37" align="left"><a href="http://www.cancer.gov"><img src="images/logotype.gif" width="283" height="37" border="0"></a></td>
+		<td>&nbsp;</td>
+		<td width="295" height="37" align="right"><a href="http://www.cancer.gov"><img src="images/tagline.gif" width="295" height="37" border="0"></a></td>
+
+</tr>
+</table>
+<!--header REMBRANDT image map-->
+<div align="center" width="765px">
 <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
-  <img src="images/header.jpg" width="765" height="102" border="0" alt="National Cancer Institute" usemap="#headerMap"><map name="headerMap">
-  <area alt="NCI Logo" coords="3,1,284,36" href="http://www.cancer.gov">
-  <area alt="cancer.gov website" coords="650,12,741,32" href="http://www.cancer.gov">
-  <area alt="REMBRANDT logo" coords="6,46,270,87" href="http://rembrandt.nci.nih.gov">
-  </map>
+<map name="headerMap">
+<area alt="REMBRANDT website" coords="7,8,272,50" href="http://rembrandt.nci.nih.gov">
+</map>
+<img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>
-<!--end header-->
+<!--end all headers-->
 
 <!--navigation bar-->
-<div style="background-color:#D5E0E9; width:765; padding:1px 0px 1px 0px;"><a style="font-size:.8em" href="#">home</a>&nbsp;&nbsp;&nbsp;<a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;<a style="font-size:.8em" href="#">support</a>&nbsp;&nbsp;&nbsp;</div>
+<div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left"><a style="font-size:.8em" href="#">home</a>&nbsp;&nbsp;&nbsp;<a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;<a style="font-size:.8em" href="#">support</a>&nbsp;&nbsp;&nbsp;</div>
 <!--end nav bar-->
 
 <!--site description for readers-->
@@ -44,25 +53,25 @@ response.setHeader("Location",newLocn);
 <!--banner graphic ends-->
 
 <!--main content div with table for description and login-->
-<div style="width:765;">
+<div style="width:765px;">
       
   <!--content table--> 
   <table border="0" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765">
 	 <tr>
 	  <!--begin description cell-->
-	  <td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000;">
-         <p style="font-size:1.2em; font-weight:bold;">
+	  <td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
+         <p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
 		 About this application 
 		 </p>
 	
-		 <p style="padding:0px 5px 0px 0px">We are designing a robust bioinformatics knowledgebase framework called
+		 <p style="padding:0px 5px 0px 5px">We are designing a robust bioinformatics knowledgebase framework called
 	     CaIntegrator that leverages data warehousing technology to host and
 	     integrate GMDI trial data. The knowledge framework will provide
 	     researchers with the ability to perform ad hoc querying and
 	     reporting across multiple domains.
 		 </p>
 		 
-	     <p style="margin-bottom:10px; padding:0px 5px 0px 0px">Scientists will be able to
+	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px">Scientists will be able to
 	     answer basic scientific questions related to a patient or patient population
 	     and view the integrated data sets in a variety of scientific based contexts.
 	     Tools that link data to other annotations such as cellular pathways,
@@ -122,7 +131,7 @@ response.setHeader("Location",newLocn);
 </tr>
 </table>
 <!--end NCI footer-->
-
+</div>
 
 </body>
 </html>

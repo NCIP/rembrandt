@@ -57,7 +57,7 @@
     </definition>
     
     <definition name="nautilus.home" extends="homeDef">
-	  <put name="title" value="caIntegrator Quick Search" />
+	  <put name="title" value="REMBRANDT Quick Gene Search" />
 	  <put name="reqdFieldsMsg" value="" />	
 	  <put name="sideBar" value="/jsp/tiles/advSearch_tile.jsp" />
 	  <put name="mainForm" value="/jsp/home.jsp" />
