@@ -20,6 +20,7 @@ import de.laures.cewolf.DatasetProducer;
 public class KMDataSetForm extends ActionForm implements DatasetProducer,
 		Serializable {
 
+    private String pValue;
 	private GeneExpressionQuery geneQuery;
 
 	private String method;
@@ -275,4 +276,14 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 		}
 		return upOrAmplified;
 	}
+
+    public String getPValue() {
+        return pValue;
+    }
+    
+
+    public void setPValue(String value) {
+        pValue = "";
+    }
+    
 }
