@@ -48,6 +48,10 @@
                    <mappedBean name="gov.nih.nci.nautilus.data.DifferentialExpressionGfact"
                    attribute="expressionRatio"/>
     </DomainElement>
+    <DomainElement name="gov.nih.nci.nautilus.de.CopyNumberDE">
+                   <mappedBean name="gov.nih.nci.nautilus.data.ArrayGenoAbnFact"
+                   attribute="copyNumber"/>
+    </DomainElement>
    <DomainElement name="gov.nih.nci.nautilus.de.CloneIdentifierDE$BACClone">
                    <mappedBean name="gov.nih.nci.nautilus.data.CloneDim"
                    attribute="cloneName"/>
