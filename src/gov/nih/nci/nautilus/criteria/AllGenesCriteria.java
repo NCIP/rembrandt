@@ -21,4 +21,9 @@ public class AllGenesCriteria extends Criteria {
     public boolean isValid() {
         return true;
     }
+
+    //TODO: The followig method checks if a given Criteria is empty
+    public boolean isEmpty() {
+        return true;
+    }
 }
