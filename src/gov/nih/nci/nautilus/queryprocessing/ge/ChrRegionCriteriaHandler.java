@@ -35,7 +35,7 @@ final public class ChrRegionCriteriaHandler {
     }
     final private static class CytobandHandler extends RegionHandler {
         StartEndPosition  buildStartEndPosition(RegionCriteria regionCrit, PersistenceBroker pb) throws Exception {
-            StartEndPosition posObj = getStartEndPostions(pb, regionCrit.getCytoband(), regionCrit.getChromNumber());
+            StartEndPosition posObj = getStartEndPostions(pb, regionCrit, regionCrit.getChromNumber());
             assert(posObj != null);
             return posObj;
         }
@@ -154,13 +154,23 @@ final public class ChrRegionCriteriaHandler {
         ReportQueryByCriteria coleIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
         return coleIDSubQuery;
     }
-    private static StartEndPosition getStartEndPostions(PersistenceBroker pb, CytobandDE cytoband, ChromosomeNumberDE chrNumber) throws Exception {
+    private static StartEndPosition getStartEndPostions(PersistenceBroker pb, RegionCriteria regionCrit, ChromosomeNumberDE chrNumber) throws Exception {
         String cytobandCol = QueryHandler.getColumnName(pb, CytobandDE.class.getName(), CytobandPosition.class.getName());
         String chrNumberCol = QueryHandler.getColumnNameForBean(pb, CytobandPosition.class.getName(), CytobandPosition.CHROMOSOME);
+
+        CytobandDE startCytoband = regionCrit.getStartCytoband();
+        CytobandDE endCytoband = regionCrit.getEndCytoband();
+
         Criteria cytobandCrit = new Criteria();
-        if (cytoband != null && cytoband.getValueObject() != null) {
-            cytobandCrit.addColumnEqualTo(cytobandCol, cytoband.getValueObject());
+        if (startCytoband != null && startCytoband.getValueObject() != null) {
+            cytobandCrit.addColumnEqualTo(cytobandCol, startCytoband.getValueObject());
         }
+        if (endCytoband != null && endCytoband .getValueObject() != null) {
+            Criteria c = new Criteria();
+            c.addColumnEqualTo(cytobandCol, endCytoband.getValueObject());
+            cytobandCrit.addOrCriteria(c);
+        }
+
         cytobandCrit.addColumnEqualTo(chrNumberCol, chrNumber.getValueObject());
 
         String cbStartCol = QueryHandler.getColumnNameForBean(pb, CytobandPosition.class.getName(), CytobandPosition.CB_START);
@@ -169,16 +179,22 @@ final public class ChrRegionCriteriaHandler {
         ReportQueryByCriteria cytobandQuery = QueryFactory.newReportQuery(CytobandPosition.class,
                 new String[] {cbStartCol, cbEndCol }, cytobandCrit, true);
         Iterator iter = pb.getReportQueryIteratorByQuery(cytobandQuery);
-        StartEndPosition posObj = null;
-        // there supposed to be only one row
-        if (iter.hasNext()) {
+
+        BigDecimal cbStartPos =  null;
+        BigDecimal cbEndPos = null;
+        while (iter.hasNext()) {
             Object[] values = (Object[]) iter.next();
-            BigDecimal cbStartPos = (BigDecimal)values[0];
-            BigDecimal cbEndPos = (BigDecimal)values[1];
-            BasePairPositionDE startPosition = new BasePairPositionDE.StartPosition(new Integer(cbStartPos.intValue()));
-            BasePairPositionDE endPosition = new BasePairPositionDE.EndPosition(new Integer(cbEndPos.intValue()));
-            posObj = new StartEndPosition(startPosition, endPosition,  chrNumber);
+            cbStartPos = (cbStartPos == null) ? (BigDecimal)values[0]:
+                          new BigDecimal(String.valueOf(Math.min(cbStartPos.longValue(), ((BigDecimal)values[0]).longValue())));
+            cbEndPos = (cbEndPos == null) ? (BigDecimal)values[1]:
+                           new BigDecimal(String.valueOf(Math.max(cbEndPos.longValue(), ((BigDecimal)values[1]).longValue())));
         }
+
+        StartEndPosition posObj = null;
+        BasePairPositionDE startPosition = new BasePairPositionDE.StartPosition(new Integer(cbStartPos.intValue()));
+        BasePairPositionDE endPosition = new BasePairPositionDE.EndPosition(new Integer(cbEndPos.intValue()));
+        posObj = new StartEndPosition(startPosition, endPosition,  chrNumber);
+
         return posObj;
     }
 

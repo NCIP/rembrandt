@@ -40,7 +40,7 @@ public class CommonFactHandler {
         }
     }
 
-
+                        
     public static void addSampleIDCriteria(Query query, Class beanClass, Criteria criteria)
     throws Exception {
         SampleCriteria sampleIDCrit = query.getSampleIDCrit();
