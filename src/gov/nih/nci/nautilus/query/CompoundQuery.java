@@ -50,8 +50,6 @@
 package gov.nih.nci.nautilus.query;
 
 
-
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.view.Viewable;
 
@@ -69,7 +67,7 @@ import org.apache.log4j.Logger;
  * 
  */
 public class CompoundQuery implements Queriable{
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(CompoundQuery.class);
     private Queriable leftQuery = null;
 	private Queriable rightQuery = null;
 	private OperatorType operatorType = null;
