@@ -42,7 +42,20 @@
  <patternset id="other.jars">
   <include name="jxmldiff.jar"/>
  </patternset>
-
+ 
+ <patternset id="struts.jars">
+  <include name="commons-beanutils.jar"/>
+  <include name="commons-collections.jar"/>
+  <include name="commons-digester.jar"/>
+  <include name="commons-fileupload.jar"/>
+  <include name="commons-lang.jar"/>
+  <include name="commons-logging.jar"/>
+  <include name="commons-validator.jar"/>
+  <include name="jakarta-oro.jar"/>
+  <include name="struts.jar"/>
+  <include name="struts-legacy.jar"/>
+ </patternset>
+ 
  <property file="build.properties"/>
  
  <path id="cp.compile">
@@ -52,6 +65,9 @@
      <patternset refid="xml.jars"/>       
      <patternset refid="other.jars"/>
      <patternset refid="test.jars"/>
+    </fileset>
+	 <fileset dir="${build.struts.lib.dir}">
+     <patternset refid="struts.jars"/>    
     </fileset>
  </path>
  
@@ -65,10 +81,22 @@
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
-        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">
+        <javac srcdir="${source.java.dir}" destdir="${build.classes.dir}">		
         	<exclude name="**/test/*.java" /> 
-        	<exclude name="**/de/PBTest.java" />
-        	<classpath refid="cp.compile"/>
+        	<exclude name="**/de/PBTest.java" />	   
+        </javac>
+    </target>	
+	
+	<target name="compile_struts"> 
+        <tstamp/>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>     
+	   	 <javac srcdir="${source.struts.dir}" destdir="${build.classes.dir}">	
+		 <exclude name="**/form/ClinicalDataForm.java" /> 
+		 <exclude name="**/form/ComparativeGenomicForm.java" /> 
+         <exclude name="**/action/ClinicalDataAction.java" />	
+		  <exclude name="**/action/ComparativeGenomicAction.java" />		
+        <classpath refid="cp.compile"/>
         </javac>
     </target>	
 	
