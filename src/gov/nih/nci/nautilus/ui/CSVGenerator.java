@@ -482,65 +482,113 @@ public class CSVGenerator  {
 
 			        		stringBuffer.append(geneResultset.getGeneSymbol().getValueObject().toString()+","+reporterName);
 			        		
-			        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
-			        		if(locusLinkIds != null){
-			        			String ll = " ";
-			        			System.out.println("LLs "+reporterName+": "+locusLinkIds.size());
-			        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
-			        			{
-			        				try	{
-			        					Object llObj = LLIterator.next();
-			        					if(llObj!=null){
-			        						ll += llObj.toString();
-			        						ll += " | ";
-			        					}
-			        				}
-			        				catch(Exception e){
-			        					
-			        				}
-			        			}
-			        			if(showLL)	{
-			        				header.append(",Locus Link");
-			        				sampleNames.append(", ");
-			        				showLL = false;
-			        			}
-			        			stringBuffer.append(","+ll);
-			        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
-			        			System.out.println("done with this LL");
-			        		}
-			        		else	{
-			        			stringBuffer.append(", ");
-			        		}
+			        		if(showLL)	{
+		        				header.append(",Locus Link");
+		        				sampleNames.append(", ");
+		        				showLL = false;
+		        			}
+			        		if(showAcc){
+		        				header.append(",Acc No");
+		        				sampleNames.append(", ");
+		        				showAcc = false;
+		        			}
 			        		
-			        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
-			        		if(accNumbers!=null)	{
-			        			String acc = " ";
-			        			System.out.println("Acc nos for "+reporterName+": "+accNumbers.size());
-			        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
-			        			{
-			        				try	{
-				        				Object accObj = accIterator.next();
-				        				if(accObj!=null){
-				        					acc += accObj.toString();
-				        					acc += " | ";
+			        		String ll = "";
+			        		try	{
+				        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
+				        		if(locusLinkIds != null){
+				        			
+				        			System.out.println("LLs for "+reporterName+": "+locusLinkIds.size());
+				        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
+				        			{
+				        				try	{
+				        					Object llObj = LLIterator.next();
+				        					if(llObj!=null){
+				        						ll += llObj.toString();
+				        						ll += " | ";
+				        					}
 				        				}
-			        				}
-			        				catch(Exception e)	{
-			        					
-			        				}
-			        			}
-			        			if(showAcc){
-			        				header.append(",Acc No");
-			        				sampleNames.append(", ");
-			        				showAcc = false;
-			        			}
-			        			stringBuffer.append(", "+acc);
-			        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        				catch(Exception e){
+				        					
+				        				}
+				        			}
+				        			/*
+				        			if(showLL)	{
+				        				header.append(",Locus Link");
+				        				sampleNames.append(", ");
+				        				showLL = false;
+				        			}
+				        			*/
+				        			//stringBuffer.append(","+ll);
+				        			//stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        			System.out.println("done with this LL");
+				        		}
+				        		else	{
+				        			//stringBuffer.append(",xx");
+				        			ll = "xx";
+				        		}
 			        		}
-			        		else	{
-			        			stringBuffer.append(", ");
+			        		catch(Exception e){
+			        			//stringBuffer.append(",xxx");
+			        			ll = "xxx";
 			        		}
 			        		
+			        		stringBuffer.append(","+ll);
+			        		try	{
+			        			stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+			        		}
+			        		catch(Exception e)	{
+			        			
+			        		}
+			        		
+			        		// do the acc no annotation
+			        		String acc = "";
+			        		try	{
+				        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
+				        		if(accNumbers!=null)	{
+				        			
+				        			System.out.println("Acc nos for "+reporterName+": "+accNumbers.size());
+				        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
+				        			{
+				        				try	{
+					        				Object accObj = accIterator.next();
+					        				if(accObj!=null){
+					        					acc += accObj.toString();
+					        					acc += " | ";
+					        				}
+				        				}
+				        				catch(Exception e)	{
+				        					
+				        				}
+				        			}
+				        			/*
+				        			if(showAcc){
+				        				header.append(",Acc No");
+				        				sampleNames.append(", ");
+				        				showAcc = false;
+				        			}
+				        			*/
+				        			//stringBuffer.append(","+acc);
+				        			//stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+				        			System.out.println("done with this acc");
+				        		}
+				        		else	{
+				        			//stringBuffer.append(",xx");
+				        			acc = "xx";
+				        		}
+			        		}
+			        		catch(Exception e)	{
+			        			//stringBuffer.append(",xxx");
+			        			acc = "xxx";
+			        		}
+			        		
+			        		stringBuffer.append(","+acc);
+		        			try	{
+		        				stringBuffer.deleteCharAt(stringBuffer.lastIndexOf("|"));
+		        			}
+		        			catch(Exception e)	{
+		        			}
+		        			
 			        		//sampleNames.append("\n");
 			        		
 			        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
