@@ -101,7 +101,7 @@ public class QueryTest extends TestCase {
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
               //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
              //q.setGeneIDCrit(geneIDCrit);
-             q.setAllGenes(allGenesCriteria);
+             q.setAllGenesCrit(allGenesCriteria);
              //q.setGeneOntologyCrit(ontologyCrit);
 
             //q.setPathwayCrit(pathwayCrit);
@@ -481,8 +481,7 @@ public class QueryTest extends TestCase {
         cdnaPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.CDNA_ARRAY_PLATFORM));
     }
     private void buildAllGenesCriteria() {
-        allGenesCriteria = new AllGenesCriteria();
-        allGenesCriteria.setAllGenes(true);
+        allGenesCriteria = new AllGenesCriteria(true);
     }
     private void buildDiseaseTypeCrit() {
          diseaseCrit = new DiseaseOrGradeCriteria();
