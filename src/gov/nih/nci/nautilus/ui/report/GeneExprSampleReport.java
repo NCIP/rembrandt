@@ -39,10 +39,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 	 */
 	public Document getReportXML(Resultant resultant) {
 
-		//	TODO: have setter or put in props file
-		String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
-		
 		
 		Document document = DocumentHelper.createDocument();
 
@@ -51,7 +48,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 			Element data = null;
 			Element dataRow = null;
 			//add the atts
-	        report.addAttribute("reportType", "Copy Number");
+	        report.addAttribute("reportType", "Gene Expression Sample");
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
 	        report.addAttribute("queryName", "the query name");

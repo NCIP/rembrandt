@@ -825,6 +825,11 @@ location.href='menu.do';
 
   
  }
+
+function hideLoadingMessage(){
+			document.getElementById('spnLoading').style.display = "none" ;
+}
+		
  
  
   

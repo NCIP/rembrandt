@@ -44,7 +44,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			Element data = null;
 			Element dataRow = null;
 			//add the atts
-	        report.addAttribute("reportType", "Copy Number");
+	        report.addAttribute("reportType", "Clinical");
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
 	        report.addAttribute("queryName", "the query name");
