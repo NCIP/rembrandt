@@ -209,13 +209,17 @@
 </target>
 <target name="check-cvs-login">
 	 <available file="${basedir}/.cvspass" type="file" property="cvs.login.present"/>
- 	<echoproperties prefix="cvs.login.present"/>
+ 	 <echoproperties prefix="cvs.login.present"/>
 </target>
 <!-- cvsUpdate target --> 
  <target name="cvs-update" depends="check-cvs-login, cvs-login">
 	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="update -d" passfile="${basedir}/.cvspass"/>
  </target>
 
+<!-- cvsUpdate checkout --> 
+	 <target name="cvs-checkout" depends="check-cvs-login, cvs-login">
+		<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="checkout" passfile="${basedir}/.cvspass"/>
+	 </target>
  <target name="tagcode">
 	<cvs cvsRoot="${cvsRoot}" package="${cvsPackage}" dest="${basedir}/.." command="tag -R ${tag}" passfile="${basedir}/.cvspass"/>
  </target>
