@@ -9,11 +9,15 @@ package gov.nih.nci.nautilus.test;
 import java.util.Iterator;
 
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
+import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
+import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.lookup.CytobandLookup;
 import gov.nih.nci.nautilus.lookup.ExpPlatformLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.lookup.PatientDataLookup;
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * @author Himanso
@@ -22,6 +26,25 @@ import junit.framework.TestCase;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LookupManagerTest extends TestCase {
+	/**
+	 * @param string
+	 */
+	public LookupManagerTest(String string) {
+		super(string);
+	}
+
+	public static Test suite() {
+		TestSuite suite =  new TestSuite();
+        //suite.addTest(new LookupManagerTest("testGetCytobandPositions"));
+        suite.addTest(new LookupManagerTest("testgetCytobandDEs"));
+        //suite.addTest(new LookupManagerTest("testGetExpPlatforms"));
+        //suite.addTest(new LookupManagerTest("testGetPathways"));
+        //suite.addTest(new LookupManagerTest("testGetPatientData"));
+        //suite.addTest(new LookupManagerTest("testPatientData"));
+
+
+        return suite;
+	}
 
 	/*
 	 * @see TestCase#setUp()
@@ -37,27 +60,54 @@ public class LookupManagerTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testGetCytobands() {
-		/*try {
-			CytobandLookup[] cytobands = LookupManager.getCytobands();
+	public void testGetCytobandPositions() {
+		try {
+			CytobandLookup[] cytobands = LookupManager.getCytobandPositions();
 			assertNotNull(cytobands);
+			System.out.println("cbEndPos"+
+					"\tcbStart"+
+					"\tchromosome"+
+					"\tcytoband"+
+					"\tcytobandPositionId"+
+					"\torganism");
 	        for (int i =0;i<cytobands.length;i++) {
 	        	CytobandLookup cytoband = cytobands[i];
-	            System.out.println("cbEndPos"+ cytoband.getCbEndPos()+
-	            					"\t cbStart"+cytoband.getCbStart()+
-									"\t chromosome"+cytoband.getChromosome()+
-									"\t cytoband"+cytoband.getCytoband()+
-									"\t cytobandPositionId"+cytoband.getCytobandPositionId()+
-									"\t organism"+cytoband.getOrganism());
+	            System.out.println(cytoband.getCbEndPos()+
+	            					"\t"+cytoband.getCbStart()+
+									"\t"+cytoband.getChromosome()+
+									"\t"+cytoband.getCytoband()+
+									"\t"+cytoband.getCytobandPositionId()+
+									"\t"+cytoband.getOrganism());
 	        }
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 		
 	}
+	public void testgetCytobandDEs(){
+		ChromosomeNumberDE[] chromosomes;
+		try {
+			chromosomes = LookupManager.getChromosomeDEs();
+			if(chromosomes != null){
+				for(int i =0; i < chromosomes.length; i++){
+					System.out.println("Chr:"+ chromosomes[i].getValueObject());
+					CytobandDE[] cytobands = LookupManager.getCytobandDEs(chromosomes[i]);
+					if(cytobands != null){
+						for(int k = 0; k < cytobands.length; k++){
+							System.out.println("Cytos:"+ cytobands[k].getValueObject());
+						}
+					}
+					
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
 	public void testGetPathways() {
 		//TODO Implement getPathways().
 	}
