@@ -24,4 +24,6 @@ public final class NautilusConstants {
 	public static final String JSP_LOGGER = "gov.nih.nci.nautilus.jsp";
 
 	public static final int MAX_FILEFORM_COUNT = 500;
+    
+	public static final String REPORT_BEAN = "reportBean";
 }
