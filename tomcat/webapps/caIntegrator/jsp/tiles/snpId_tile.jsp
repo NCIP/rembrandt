@@ -12,7 +12,7 @@
 <br /><br />
 
 
- <html:select property="snpList" onchange="javascript:depChange(this);">
+ <html:select property="snpList" disabled="false">
    <html:optionsCollection property="snpTypes" />
     </html:select>
 
@@ -22,10 +22,10 @@
 
 <html:radio property="snpId" value="specify" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
 
-<html:text property="snpListSpecify" onfocus="javascript:radioFold(this);" />
+<html:text property="snpListSpecify" disabled="false" onfocus="javascript:radioFold(this);" value=""/>
 &nbsp;&nbsp;
 <html:radio property="snpId" value="upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
-<html:file property="snpListFile"/><br /><br />
+<html:file property="snpListFile" disabled="true" /><br /><br />
 &nbsp;&nbsp;Validated SNPs:&nbsp;&nbsp;
 
 <html:radio property="validatedSNP" value="all"  disabled="true" styleClass="radio"/>&nbsp;&nbsp;All

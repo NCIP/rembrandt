@@ -287,7 +287,7 @@ public class ComparativeGenomicForm extends BaseForm {
 						new ActionError(
 								"gov.nih.nci.nautilus.struts.form.uploadFile.no.error"));
 			}
-			/*
+			
 			//Make sure the uploaded File is of type txt and MIME type is text/plain
 			if(this.getSnpListFile() != null  &&
 			  (!(this.getSnpListFile().getFileName().endsWith(".txt"))) &&
@@ -298,7 +298,7 @@ public class ComparativeGenomicForm extends BaseForm {
 						new ActionError(
 								"gov.nih.nci.nautilus.struts.form.uploadFile.no.error"));
 			}	
-			*/	
+				
 			// Validate minimum criteria's for GE Query 
 			if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
 			   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
