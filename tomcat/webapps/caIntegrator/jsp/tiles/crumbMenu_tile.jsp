@@ -9,7 +9,7 @@
 	*/
 
 %>
-
+  
 <DIV class="crumb">	
                <a class="possible" href="home.do">Search</A>
                <A class="possible" href="menu.do">Build Query</A>
@@ -41,8 +41,8 @@
 	           } 
 				%>
                 
-				<span style="padding-left:121px;">Welcome,&nbsp;
+				<span style="text-align:right;font-size:.85em;margin-left:140px;">Welcome, &nbsp;
 				<% out.println(session.getAttribute("name")); %>&nbsp;|&nbsp;
-				<a href="logout.jsp">Logout</a></span>  
+				<a style="font-size:.85em;" href="logout.jsp">Logout</a></span>			
                 
 </DIV>

@@ -6,12 +6,13 @@
 
 <!-- <html:form action="validatequery.do">-->
 
-<div align="left">
-<b>Step 1: Please refine your result set by grouping it</b><br><br>
-</div>
+<div class="steps">
+<b>Step 1: Please refine your result set by grouping it</b>
 
-<div class="queryRows">
-			<table border="1" width="100%" cellpadding="2" cellspacing="2" id="rosso">
+
+
+
+			<table border="0" width="100%" cellpadding="2" cellspacing="1" id="rosso">
 				<tr><td colspan="6" class="message">Group Your Queries<BR><html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 				</td></tr>
 				<tr>
@@ -108,69 +109,83 @@
 					<Td>&nbsp;
 					</td>
 				</tr>
-				<tr>
-					<Td align="center" colspan="5"><br><input type="reset" value="reset query" class="sbutton">
+				</table>
+			
+			</div>
+			
+				<!--Display buttons here -->			
+			<div class="midButtons">
+				<!--<b class="message">[add more rows]</b><br />-->
+					<br><input type="reset" value="reset query" class="sbutton">
+			</div>	
+			
+			
+		
+
+
+
+   <div class="steps">	
+		<b>Step 2: Validate your query</b><br>
+		
+		
+		
+		<table border="0" cellpadding="2" cellspacing="2">
+			<tr>
+					<td align="center">&nbsp;&nbsp;&nbsp;
+					<html:button property="validatebutton" styleClass="xbutton" value="Validate Query" 
+							onclick="JavaScript:setDispMethod('validate')"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</td>
+				
+					<td align="right">
+						<html:textarea property="queryText" style="width:610px; height:40px;"></html:textarea>
+					</td>
+					
 				</tr>
+				
 			</table>
-			<b class="message">[add more rows]</b>
-		</div>
-<!--Display buttons here -->		
-		<div align="left">
-		<b>Step 2:Validate your query</b><br>
-		</div>
-		<div>
-			<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
-				<tr>
-					<td align="center">
-						<html:button property="validatebutton" styleClass="xbutton" value="Validate Query" 
-							onclick="JavaScript:setDispMethod('validate')"/> 
-					</td>
-				</tr>
-				<tr>
-					<td align="center">
-						<html:textarea property="queryText" style="width:700px; height:75px;"></html:textarea>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<table width="100%" align="centeR" cellpadding="0" cellspacing="0">
+			
+	</div>	
+		
+		
+	<div class="steps">	
+			<table width="100%" border="0">
 				<tr><td>
 						<br>
-						<b>Step 3:Please select a View</b>&nbsp;&nbsp;
+						<b>Step 3: Please select a View</b>&nbsp;&nbsp;
 						<html:select property="compoundView" onchange="">
 						    <html:optionsCollection property="compoundViewColl" />
 						</html:select><html:errors property="compoundView"/>
 					</td>
 				</tr>
 			</table>
-		</div>
+		
+	</div>
 	
-		<div>
-			<table width="100%" align="centeR" cellpadding="0" cellspacing="0">
+	<div class="steps">
+		
+			<table border="0">
 				<tr><td>
 						<br>
-						<b>Step 4:Please name your resultset</b>&nbsp;&nbsp;
+						<b>Step 4: Please name your resultset</b>&nbsp;&nbsp;
 						<html:text property="resultsetName" onchange="" disabled="true">
 						</html:text>&nbsp;&nbsp;&nbsp;
 						<input type="button" class="sbutton" value="Save Query As..." disabled="true">
 					</td>
 				</tr>
 			</table>
-		</div>
+	</div>	
 		<br>
-		<div align="left">
-		<b>Step 5:To Select Report Parameters press Continue button</b><br><br>
-		</div>
-		<div>
-			<table width="100%" align="centeR" cellpadding="2" cellspacing="2">
-				<tr align="center">
-					<td>
-
-					<html:button property="backbutton" styleClass="xbutton" value="back" 
+		
+		
+		
+		
+		<div class="steps">	
+			<table border="0">
+				<tr><td>
+					<b>Step 5: Run report or return to previous screen</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 						onclick="javascript:history.back();"/>&nbsp;&nbsp
-					<html:button property="continuebutton" styleClass="xbutton" value="Run Report" 
+					<html:button property="continuebutton" styleClass="xbutton" value="Run Report >>" 
 						onclick="JavaScript:setDispMethod('displayresult')"/> 
 
 					</td>

@@ -573,7 +573,19 @@ function showQueryDetail(selectName){
 	
 	      }
 	   }
-	   
+	   if(element == "snpId"){
+	      if (i == 0){
+	        document.forms[0].snpListSpecify.disabled = false;
+	        document.forms[0].snpList.disabled = false;
+	        document.forms[0].snpListFile.disabled = true;
+	      }
+	      if (i == 1){
+	        document.forms[0].snpListSpecify.value = "";
+	        document.forms[0].snpListSpecify.disabled = true;
+	        document.forms[0].snpList.disabled = true;
+	        document.forms[0].snpListFile.disabled = false;
+	      }
+	   }
 	   
   }
 	  
@@ -583,6 +595,12 @@ function showQueryDetail(selectName){
    if (element == "geneList"){ 
 	      document.forms[0].geneGroup[0].checked = true;
 	      }	
+   if (element == "cloneListSpecify"){ 
+	      document.forms[0].cloneId[0].checked = true;
+	      }
+   if (element == "snpListSpecify"){
+          document.forms[0].snpId[0].checked = true;
+          }
    if (element == "foldChangeValueUp"){ 
 	      document.forms[0].regulationStatus[0].checked = true;
 	      document.forms[0].regulationStatus[1].checked = false;
@@ -658,7 +676,7 @@ function showQueryDetail(selectName){
  
  function alertUser(){
   
-if(confirm("Pressing cancel will eliminate all data currently entered in the form and will not add a query"))
+if(confirm("This will eliminate all data currently entered in the form and will not add a query"))
 {
 location.href='menu.do';
 }

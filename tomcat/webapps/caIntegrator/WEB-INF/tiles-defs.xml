@@ -83,7 +83,7 @@
       <put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />
 	  <put name="formName" value="refineQueryForm" /> 		<!-- form name -->
 	  <put name="formAction" value="validatequery.do" />	<!-- form action -->
-	  <put name="title" value="" />
+	  <put name="title" value="Refine Query" />
 	  <put name="reqdFieldsMsg" value="" />
     </definition>
 	<definition name="nautilus.presentation" extends="noSidebar">
