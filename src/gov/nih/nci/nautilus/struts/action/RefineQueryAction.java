@@ -9,7 +9,7 @@ import gov.nih.nci.nautilus.struts.form.RefineQueryForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.Action;
+import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -19,6 +19,10 @@ import org.apache.struts.action.ActionError;
 import gov.nih.nci.nautilus.query.*;
 import gov.nih.nci.nautilus.constants.Constants;
 import gov.nih.nci.nautilus.parser.*;
+import org.apache.struts.util.LabelValueBean;
+import gov.nih.nci.nautilus.view.*;
+import gov.nih.nci.nautilus.util.*;
+
 
 import java.util.*;
 
@@ -26,8 +30,7 @@ import java.util.*;
 
 /** 
  */
-public class RefineQueryAction extends Action {
-
+public class RefineQueryAction extends DispatchAction {
 
 	/** 
 	 * Method execute
@@ -38,7 +41,7 @@ public class RefineQueryAction extends Action {
 	 * @return ActionForward
 	 * @throws Exception
 	 */
-	public ActionForward execute(
+	public ActionForward validate(
 		ActionMapping mapping,
 		ActionForm form,
 		HttpServletRequest request,
@@ -66,11 +69,19 @@ public class RefineQueryAction extends Action {
 			queryName2 = refineQueryForm.getQueryName2();
 			queryName3 = refineQueryForm.getQueryName3();
 			
+			// User input a single query 
 			if ((queryName1.trim().length() >= 1) && (queryName2.trim().length() < 1) & (queryName3.trim().length() < 1)){
 				CompoundQuery compoundQuery = new CompoundQuery(queryCollect.getQuery(queryName1));
 				refineQueryForm.setQueryText(queryName1);
 				//Stuff compoundquery in queryCollection 
 				queryCollect.setCompoundQuery(compoundQuery);
+				
+				// Get collection of view types
+				Collection viewCollection = setRefineQueryView(compoundQuery, request);
+				// Set collection of view types
+				refineQueryForm.setCompoundViewColl((ArrayList) viewCollection);
+				// Set Resultset name for Single Query
+				refineQueryForm.setResultsetName(queryName1);		
 				return mapping.findForward("displayQuery");
 			}
 
@@ -118,6 +129,11 @@ public class RefineQueryAction extends Action {
 				Queriable compoundQuery = queryParser.getCompoundQuery();
 				//Display validated query on the screen 
 				refineQueryForm.setQueryText(compoundQuery.toString());
+				// Get collection of view types
+				Collection viewCollection = setRefineQueryView((CompoundQuery) compoundQuery, request);
+				// Set collection of view types in Form
+				refineQueryForm.setCompoundViewColl((ArrayList) viewCollection);
+
 				//Stuff compoundquery in queryCollection 
 				queryCollect.setCompoundQuery((CompoundQuery) compoundQuery);
 			
@@ -143,4 +159,83 @@ public class RefineQueryAction extends Action {
 		return mapping.findForward("displayQuery");
 		
      }
+     
+
+	private Collection setRefineQueryView(CompoundQuery cQuery, HttpServletRequest request) {
+
+		// Get the Query Collection from the session
+		ArrayList queryViewColl = new ArrayList();
+		queryViewColl.add( new LabelValueBean( " ", " " ));
+
+		Properties props = new Properties();
+		props = ApplicationContext.getLabelProperties();
+
+		
+		if (cQuery != null && props != null) {
+			
+			ViewType [] availableViewTypes = cQuery.getValidViews();
+			//Set the View Types array in request to be used on return trip
+			request.getSession().setAttribute(Constants.VALID_QUERY_TYPES_KEY, availableViewTypes);
+
+			
+			for (int viewIndex = 0; viewIndex < availableViewTypes.length; viewIndex++) {
+				ViewType thisViewType = (ViewType) availableViewTypes[viewIndex];
+				String viewText = (String) props.get(thisViewType.getClass().getName());
+
+				queryViewColl.add( new LabelValueBean( viewText, Integer.toString(viewIndex)) );
+			}
+		
+		}else {
+		
+			System.out.println("Compound Query passed is null");
+		}
+		return queryViewColl;
+	}
+
+  
+	public ActionForward displayresult(
+		ActionMapping mapping,
+		ActionForm form,
+		HttpServletRequest request,
+		HttpServletResponse response)
+		throws Exception {
+
+		ActionErrors errors = new ActionErrors();
+		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
+
+
+		QueryCollection queryCollect = (QueryCollection) request.getSession().getAttribute(Constants.QUERY_KEY);
+		// Get the viewType array from session 
+		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(Constants.VALID_QUERY_TYPES_KEY);
+// 		Set ViewType array in session to null, we dont need it anymore
+//		request.getSession().setAttribute(Constants.VALID_QUERY_TYPES_KEY, null);
+		
+		if (queryCollect != null) {
+			if (queryCollect.hasCompoundQuery()) {
+				CompoundQuery cQuery = (CompoundQuery) queryCollect.getCompoundQuery();
+				System.out.println(refineQueryForm.getCompoundView());
+				ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
+				System.out.println(selectView);
+				// Set View in compoundQuery
+				cQuery.setAssociatedView(ViewFactory.newView(selectView));
+			}else {
+				System.out.println("QueryCollection has no Compound queries to execute.  Please select a query to execute");
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.executequery.querycoll.no.error"));
+				this.saveErrors(request, errors);
+				ActionForward thisForward = mapping.findForward("failure");
+			}
+		}else{	
+			System.out.println("QueryCollection object missing in session!!");
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.struts.action.refinequery.querycoll.missing.error"));
+			this.saveErrors(request, errors);
+			ActionForward thisForward = mapping.findForward("failure");
+		}
+//Send to the appropriate view as per selection!!
+		ActionForward thisForward = mapping.findForward("success");
+		
+		return thisForward;
+
+	 }
+  
+     
 }
