@@ -29,8 +29,12 @@
 			<html:errors property="cytobandRegion"/>
 			
 	<html:radio property="region" value="basePairPosition" styleClass="radio" />
-	        Base Pair Position (kb)&nbsp; <html:text property="basePairStart"/>
- 	&nbsp;-to-&nbsp;<html:text property="basePairEnd"/>
+	        Base Pair Position (kb)&nbsp; 
+	        <p style="margin-left:30px">
+	        <html:text property="basePairStart"/>
+ 			&nbsp;-to-&nbsp;
+ 			<html:text property="basePairEnd"/>
+ 			</p>
 				<html:errors property="basePairEnd"/>
 	</blockquote>	
 <!--

@@ -19,7 +19,7 @@ String act = request.getParameter("act");
       &nbsp;&nbsp;<html:select property="geneType" disabled="false">
 		<html:optionsCollection property="geneTypeColl" />
 	  </html:select>
-	  
+	  <p style="margin-left:30px">
         <html:radio property="geneGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
         
           <html:text property="geneList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].geneGroup[0]);" />
@@ -30,7 +30,7 @@ String act = request.getParameter("act");
 	    <html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
 			<html:file property="geneFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].geneGroup[1]);" onfocus="javascript:document.forms[0].geneGroup[1].checked = true;" />
 			<Br>
-			
+	</p>		
 		<html:errors property="geneFile"/>
 		<html:errors property="geneGroup"/>
 		<html:errors property="geneList"/>
