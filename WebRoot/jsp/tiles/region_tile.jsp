@@ -26,10 +26,14 @@
 	<blockquote>
 	<html:radio property="region" value="cytoband" styleClass="radio" />
 			Cytoband&nbsp;
-			 <html:select property="cytobandRegion" onchange="javascript:selectCRadio();">
+			 <html:select property="cytobandRegionStart" onchange="javascript:selectCRadio();">
              	<option value=""/>
              	<html:optionsCollection property="cytobands" label="cytoband" value="cytoband"/>	
-             </html:select>
+             </html:select> &nbsp;-to-&nbsp;
+             <html:select property="cytobandRegionEnd" onchange="javascript:selectCRadio();">
+          	<option value=""/>
+          	<html:optionsCollection property="cytobands" label="cytoband" value="cytoband"/>	
+          </html:select>
 			<input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br />
 			<html:errors property="cytobandRegion"/>
 			

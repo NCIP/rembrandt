@@ -118,6 +118,7 @@ public class GeneExpressionQuery extends Query {
 				logger.debug("thisCriteria is :"+ thisCriteria);
 				OutStr += "<BR><B class='otherBold'>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
+				DomainElement cytoBandEndDE  = thisRegionCrit.getEndCytoband();
 
 				DomainElement chromosomeDE  = thisRegionCrit.getChromNumber();
 				DomainElement chrStartDE  = thisRegionCrit.getStart();
@@ -127,9 +128,11 @@ public class GeneExpressionQuery extends Query {
 					String chromosomeDEStr = chromosomeDE.getClass().getName();
 					OutStr += "<BR>&nbsp;&nbsp;"+ labels.getString(chromosomeDEStr.substring(chromosomeDEStr.lastIndexOf(".")+1)) +": "+chromosomeDE.getValue();
 
-					if (cytoBandDE != null) {
+					if (cytoBandDE != null && cytoBandEndDE != null) {
 						String cytoBandStr = cytoBandDE.getClass().getName();
+						String cytoBandEndStr = cytoBandEndDE.getClass().getName();
 						OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
+						OutStr += "&nbsp;&nbsp;to "+labels.getString(cytoBandEndStr.substring(cytoBandEndStr.lastIndexOf(".")+1)) +": "+cytoBandEndDE.getValue();
 					}else{
 						if (chrStartDE != null && chrEndDE != null) {
 							String chrStartDEStr = chrStartDE.getClass().getName();

@@ -44,7 +44,7 @@ public class UIFormValidator {
 	}
 
 	public static ActionErrors validateChromosomalRegion(String chrosomeNumber,
-			String region, String cytobandRegion, String basePairStart,
+			String region, String cytobandRegionStart, String basePairStart,
 			String basePairEnd, ActionErrors errors) {
 		if (chrosomeNumber.trim().length() > 0) {
 			if (region.trim().length() < 1)
@@ -52,7 +52,7 @@ public class UIFormValidator {
 						"gov.nih.nci.nautilus.ui.struts.form.region.no.error"));
 			else {
 				if (region.trim().equalsIgnoreCase("cytoband")) {
-					if (cytobandRegion.trim().length() < 1)
+					if (cytobandRegionStart.trim().length() < 1)
 						errors
 								.add(
 										"cytobandRegion",

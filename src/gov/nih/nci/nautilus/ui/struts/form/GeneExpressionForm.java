@@ -90,8 +90,11 @@ public class GeneExpressionForm extends BaseForm {
 	/** foldChangeValueDown property */
 	private String foldChangeValueDown = "2";
 
-	/** cytobandRegion property */
-	private String cytobandRegion;
+	/** cytobandRegionStart property */
+	private String cytobandRegionStart;
+	
+	/** cytobandRegionEnd property */
+	private String cytobandRegionEnd;
 
 	/** cloneId property */
 	private String cloneId;
@@ -256,7 +259,7 @@ public class GeneExpressionForm extends BaseForm {
 			errors = UIFormValidator.validateQueryName(queryName, errors);
 			// Chromosomal region validations
 			errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber,
-					region, cytobandRegion, basePairStart, basePairEnd, errors);
+					region, cytobandRegionStart, basePairStart, basePairEnd, errors);
 			// Validate Go Classification
 			errors = UIFormValidator.validateGOClassification(goClassification,
 					errors);
@@ -508,10 +511,20 @@ public class GeneExpressionForm extends BaseForm {
 					CytobandDE cytobandDEObj = (CytobandDE) regionConstructors[0]
 							.newInstance(parameterObjects);
 					regionCriteria.setCytoband(cytobandDEObj);
-					logger.debug("Test Cytoband Criteria"
+					logger.debug("Test Start Cytoband Criteria"
 							+ regionCriteria.getCytoband().getValue());
 
 				}
+				if (strRegionDomainClass.endsWith("CytobandDE")) {
+					Object[] parameterObjects = { (String) key };
+					CytobandDE cytobandDEObj = (CytobandDE) regionConstructors[0]
+							.newInstance(parameterObjects);
+					regionCriteria.setEndCytoband(cytobandDEObj);
+					logger.debug("Test End Cytoband Criteria"
+							+ regionCriteria.getCytoband().getValue());
+
+				}
+				
 				if (strRegionDomainClass.endsWith("ChromosomeNumberDE")) {
 					Object[] parameterObjects = { (String) key };
 					ChromosomeNumberDE chromosomeDEObj = (ChromosomeNumberDE) regionConstructors[0]
@@ -765,7 +778,7 @@ public class GeneExpressionForm extends BaseForm {
 		tumorGrade = "";
 		region = "";
 		foldChangeValueDown = "2";
-		cytobandRegion = "";
+		cytobandRegionStart = "";
 		cloneId = "";
 		pathways = "";
 		tumorType = "";
@@ -1232,8 +1245,8 @@ public class GeneExpressionForm extends BaseForm {
 	 * 
 	 * @return String
 	 */
-	public String getCytobandRegion() {
-		return cytobandRegion;
+	public String getCytobandRegionStart() {
+		return this.cytobandRegionStart;
 	}
 
 	/**
@@ -1242,8 +1255,8 @@ public class GeneExpressionForm extends BaseForm {
 	 * @param cytobandRegion
 	 *            The cytobandRegion to set
 	 */
-	public void setCytobandRegion(String cytobandRegion) {
-		this.cytobandRegion = cytobandRegion;
+	public void setCytobandRegionStart(String cytobandRegionStart) {
+		this.cytobandRegionStart = cytobandRegionStart;
 		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
 			String thisChrNumber = this.thisRequest
@@ -1253,8 +1266,8 @@ public class GeneExpressionForm extends BaseForm {
 
 				if (thisRegion != null
 						&& thisRegion.equalsIgnoreCase("cytoband")
-						&& this.cytobandRegion.trim().length() > 0) {
-					regionDomainMap.put(this.cytobandRegion, CytobandDE.class
+						&& this.cytobandRegionStart.trim().length() > 0) {
+					regionDomainMap.put(this.cytobandRegionStart, CytobandDE.class
 							.getName());
 				}
 			}
@@ -2016,7 +2029,8 @@ public class GeneExpressionForm extends BaseForm {
 		form.setTumorGrade(tumorGrade);
 		form.setRegion(region);
 		form.setFoldChangeValueDown(foldChangeValueDown);
-		form.setCytobandRegion(cytobandRegion);
+		form.setCytobandRegionStart(cytobandRegionStart);
+		form.setCytobandRegionEnd(cytobandRegionEnd);
 		form.setCloneId(cloneId);
 		form.setPathways(pathways);
 		form.setTumorType(tumorType);
@@ -2084,4 +2098,32 @@ public class GeneExpressionForm extends BaseForm {
 	public void setCytobands(List cytobands) {
 		this.cytobands = cytobands;
 	}
+    /**
+     * @return Returns the cytobandRegionEnd.
+     */
+    public String getCytobandRegionEnd() {
+        return cytobandRegionEnd;
+    }
+    /**
+     * @param cytobandRegionEnd The cytobandRegionEnd to set.
+     */
+    public void setCytobandRegionEnd(String cytobandRegionEnd) {
+        this.cytobandRegionEnd = cytobandRegionEnd;
+		if (thisRequest != null) {
+			String thisRegion2 = this.thisRequest.getParameter("region");
+			String thisChrNumber2 = this.thisRequest
+					.getParameter("chromosomeNumber");
+
+			if (thisChrNumber2 != null && thisChrNumber2.trim().length() > 0) {
+
+				if (thisRegion2 != null
+						&& thisRegion2.equalsIgnoreCase("cytoband")
+						&& this.cytobandRegionEnd.trim().length() > 0) {
+					regionDomainMap.put(this.cytobandRegionEnd, CytobandDE.class
+							.getName());
+				}
+			}
+		}
+
+    }
 }
