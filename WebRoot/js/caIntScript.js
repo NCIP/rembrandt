@@ -744,8 +744,8 @@ function showQueryDetail(selectName){
    if (element == "basePairStart" || element == "basePairEnd"){
         document.forms[0].region[1].checked = true;
         document.forms[0].region[0].checked = false;
-        document.formss[0].cytobandRegionStart.value = "";
-        document.formss[0].cytobandRegionEnd.value = "";     
+        document.forms[0].cytobandRegionStart.value = "";
+        document.forms[0].cytobandRegionEnd.value = "";     
        }      
    
    if (element == "sampleList"){
