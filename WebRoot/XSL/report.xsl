@@ -315,6 +315,9 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
 		<xsl:text>&#160;</xsl:text>
+		<input type="button" name="filter_submit" value="Hide Missing Values" onclick="javascript:showAllValues('{$qName}', false);" />
+		<xsl:text>&#160;</xsl:text>
+		
 		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Clicking on this button lets you view the gene expression fold changes or copy number values (depending on the type of report) for all the reporters in the report. This allows you to see those values that did not match your query criteria.');" onmouseout="return nd();">[?]</a></b>
 	  </div>
 	  

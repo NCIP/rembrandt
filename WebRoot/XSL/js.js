@@ -194,3 +194,23 @@ function stupidXSLEscape(qname)	{
 	//alert(dest);
 	location.href = dest;
 }
+
+function showAllValues(q, state)	{
+	if(!state)	{
+		var oldq = "";
+		var tmp = "";
+		if(q.indexOf(" filter report")!= -1)	{
+			//we have a filter report
+			tmp = q.indexOf(" filter report");
+		}
+		else if(q.indexOf(" show all values report") != -1)	{
+			//we have a show all vals report
+			tmp = q.indexOf(" show all values report");
+
+		}
+		oldq = q.substr(0, tmp);
+		//alert("'"+oldq+"'");
+		if(oldq!="")				
+			location.href='runReport.do?method=runGeneViewReport&queryName='+oldq;
+	}
+}
