@@ -6,15 +6,11 @@
  */
 package gov.nih.nci.nautilus.test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 import gov.nih.nci.nautilus.criteria.CloneOrProbeIDCriteria;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.de.ArrayPlatformDE;
 import gov.nih.nci.nautilus.de.CloneIdentifierDE;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
@@ -29,6 +25,11 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
+import gov.nih.nci.nautilus.view.Viewable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -210,7 +211,7 @@ public class CompoundQueryTest extends TestCase {
         affyOligoPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM));
         cdnaPlatformCrit = new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.CDNA_ARRAY_PLATFORM));
     }
-    private void changeQueryView(Query query,ViewType view){
+    private void changeQueryView(Query query,Viewable view){
     	if(query !=null){
     		query.setAssociatedView(view);
     	}
