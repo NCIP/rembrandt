@@ -129,8 +129,13 @@
             <patternset refid="cache.jars"/>         
 		</fileset>
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
-			<include name="servlet.jar" />
 			<include name="jasper-runtime.jar" />
+			<!--Needed for Tomcat 5.0 -->
+			<include name="jsp-api.jar" />
+			<include name="servlet-api.jar" />
+			<!--Needed for Tomcat 4.0 -->
+			<include name="servlet.jar" />
+			
 		</fileset>
 	</path>
 
@@ -225,11 +230,13 @@
 				<include name="ApplicationResources.properties" />
 			</fileset>
 		</copy>
+		<!--
         <jar index="true" jarfile="${build.webapp.lib.dir}/${app.jar.name}.jar">
 			<fileset dir="${build.classes.dir}">
 				<include name="**/*" />
 			</fileset>
 		</jar>
+		-->
     </target>
 
     <target name="build-war" depends="build-jar">
