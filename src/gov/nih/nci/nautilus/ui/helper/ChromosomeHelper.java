@@ -6,14 +6,16 @@ import gov.nih.nci.nautilus.lookup.LookupManager;
 import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 import java.util.ArrayList;
 import java.util.Collection;
-
-
 import org.apache.log4j.Logger;
 
 /**
+ * This class is intended to provide a single interface to the LookupManager
+ * when getting collective information regarding the entire set of Chromosomes
+ * and their associated information.  More helper methods will be added as the 
+ * Chromosome object expands or as the need arises. 
+ * 
  * @author BauerD
  * Mar 14, 2005
- * 
  */
 public class ChromosomeHelper {
 	private static Logger logger = Logger.getLogger(ChromosomeHelper.class);
@@ -24,7 +26,10 @@ public class ChromosomeHelper {
 	static {
 		instance = new ChromosomeHelper();
 	}
-	
+	/**
+	 * Creates the ChromosomeHelper and generates the ChromosomeBean collection
+	 *
+	 */
 	private ChromosomeHelper() {
 		try {
 			chromosomes = new ArrayList();
@@ -46,11 +51,17 @@ public class ChromosomeHelper {
 			logger.error(e);
 		}
 	}
-	
+	/**
+	 * Returns the SingletonInstance
+	 * @return
+	 */
 	public static ChromosomeHelper getInstance() {
 		return instance;
 	}
-	
+	/**
+	 * Returns the Collection of ChromosomeBeans for the UI
+	 * @return
+	 */
 	public Collection getChromosomes() {
 		return chromosomes;
 	}
