@@ -35,6 +35,8 @@ public class ReportGeneratorForm extends BaseForm {
     private String filter_string = "";
     //this is the list of sampleIds that the user can select from the report page
     private String[] samples;
+    
+    private String showSampleSelect = "";
            
 	/**
 	 * 
@@ -207,6 +209,7 @@ public class ReportGeneratorForm extends BaseForm {
 	public void setSamples(String[] samples) {
 		this.samples = samples;
 	}
+		
 	/**
 	 * @return Returns the pbQueryName.
 	 */
@@ -238,6 +241,20 @@ public class ReportGeneratorForm extends BaseForm {
 	public String getFilter_type() {
 		return filter_type;
 	}
+	/**
+	 * @param 
+	 */
+	public void setShowSampleSelect(String showSampleSelect) {
+		filterParams.put("showSampleSelect",showSampleSelect);
+		this.showSampleSelect = showSampleSelect;
+	}
+	/**
+	 * @return Returns the filter_type.
+	 */
+	public String getShowSampleSelect() {
+		return showSampleSelect;
+	}
+	
 	/**
 	 * @param filter_element The filter_element to set.
 	 */

@@ -12,7 +12,8 @@
 <xsl:param name="filter_value5"></xsl:param>
 <xsl:param name="filter_value6"></xsl:param>
 
-<xsl:param name="showSampleSelect">true</xsl:param>
+<xsl:param name="showSampleSelect"></xsl:param>
+
 
 <xsl:template match="/">
 
@@ -142,6 +143,8 @@
 	</style>
 	</head>
   <body>
+  
+<!--  <h1><xsl:value-of select="$showSampleSelect" /> asdf</h1> -->
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
   <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
@@ -196,7 +199,7 @@
 		
  	</div>
  	<div id="hideme">
-	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
+	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical' and $showSampleSelect != 'false'" >
  
 	  <div class="filterForm">
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
@@ -440,7 +443,7 @@
 			  </xsl:when>
 			  <xsl:otherwise>
 		      	<td class="{$currentGroup}">
-		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect = 'true'">
+		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect != 'false'">
 		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
 		      	</xsl:if>
 		      		<a href="#?s={$sample}"><xsl:value-of select="Data" /></a>

@@ -246,6 +246,7 @@ public class ReportGeneratorHelper {
 	 */
 	public ReportGeneratorHelper(Queriable query, Map filterParams) {
 		try {
+			
 			//check the query to make sure that it is a compound query
 			checkCompoundQuery(query);
 			//check to make sure that we have a sessionId
@@ -263,6 +264,10 @@ public class ReportGeneratorHelper {
 			 */
 			if (_reportBean == null||NautilusConstants.PREVIEW_RESULTS.equals(_queryName)) {
 				logger.debug("Executing Query");
+				if(NautilusConstants.PREVIEW_RESULTS.equals(_queryName))	{
+					//put this in the map for preview
+					filterParams.put("showSampleSelect", new String("false"));
+				}
 				executeQuery();
 			}
 			_reportBean.setFilterParams(processFilterParamMap(filterParams));
