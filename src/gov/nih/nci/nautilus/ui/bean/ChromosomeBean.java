@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -13,8 +14,8 @@ import org.apache.log4j.Logger;
  */
 public class ChromosomeBean {
 	private Logger logger = Logger.getLogger(ChromosomeBean.class);
-	private String chromosome;
-	private List cytobands;
+	private String chromosome= "";
+	private List cytobands = new ArrayList();
 	/**
 	 * Returns a Collection of CytobandLookup Objects
 	 * @return
@@ -41,11 +42,13 @@ public class ChromosomeBean {
 	 * @return
 	 */
 	public boolean equals(ChromosomeBean bean) {
-		if(bean.getChromosome().equals(this.chromosome)) {
-			return true;
-		}else {
-			return false;
+		if(bean!=null) {
+			String test = bean.getChromosome();
+			if(this.chromosome.equals(test)) {
+				return true;
+			}
 		}
+		return false;
 	}
 	/**
 	 * Overrides the Object.toString() method. Returns a 
