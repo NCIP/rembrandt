@@ -1,3 +1,4 @@
+package gov.nih.nci.nautilus.ui.bean;
 /*
  *  @author: SahniH
  *  Created on Sep 24, 2004
@@ -47,12 +48,15 @@
  *	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *	
  */
-package gov.nih.nci.nautilus.ui.bean;
+
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Query;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 /**
  * @author SahniH

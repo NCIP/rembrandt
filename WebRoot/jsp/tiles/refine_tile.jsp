@@ -80,12 +80,10 @@
 <fieldset class="grayRefine">
 <legend class="red">Step 3 (optional): Select Result set</legend>
 &nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:
-    <select>
-    <option></option>  
-    <option>Result set 1</option>
-    <option>Result set 2</option>
-    <option>Result set 3</option>
-  </select>
+    <html:select name="refineQueryForm" property="selectedResultSet">
+    	<option></option>  
+    	<html:options name="refineQueryForm" property="resultSets"/>
+  	</html:select>
 </fieldset>
 
 <fieldset class="grayRefine">

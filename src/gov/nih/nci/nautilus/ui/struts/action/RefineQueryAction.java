@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
+import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
@@ -13,12 +14,16 @@ import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.ehcache.Cache;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -70,11 +75,13 @@ public class RefineQueryAction extends LookupDispatchAction {
         } else {
             //Process the existing querries
             refineQueryForm = UIRefineQueryValidator.processCompoundQuery(form, request, queryCollect);
-            if(refineQueryForm.getErrors()!=null) {
+            if(refineQueryForm.getErrors()!=null&&!refineQueryForm.getErrors().isEmpty()) {
                 //Processing returned some errors
             	saveErrors(request, refineQueryForm.getErrors());
                 return (new ActionForward(mapping.getInput()));
-            }
+            } 
+            Collection names = queryCollect.getResultsetQueryNames();
+            refineQueryForm.setResultSets(names);
             return mapping.findForward("displayQuery");
         }
      }
@@ -106,7 +113,10 @@ public class RefineQueryAction extends LookupDispatchAction {
 				
                 //Create compound query to execute
                 CompoundQuery cQuery = (CompoundQuery) queryCollect.getCompoundQuery();
-				ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
+				if(!refineQueryForm.getResultSetName().equals("")) {
+					
+				}
+                ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
 				cQuery.setAssociatedView(ViewFactory.newView(selectView));
                 String resultSetName = refineQueryForm.getResultSetName();
                 
@@ -185,10 +195,11 @@ public class RefineQueryAction extends LookupDispatchAction {
         refineQueryForm.setCompoundViewColl(UIRefineQueryValidator.setRefineQueryView(cquery, request));
         //Validation for the refined query
         String resultSetName = refineQueryForm.getResultSetName();
-        refineQueryForm.setRunFlag("yes");
         if(resultSetName!=null && !resultSetName.equals("")) {
         	cquery.setQueryName(refineQueryForm.getResultSetName());
-        	return mapping.findForward("displayQuery");
+        	queryCollect.putResultsetQuery(cquery);
+        	Cache sessionCache = CacheManagerWrapper.getSessionCache(request.getSession().getId());
+        	return mapping.findForward("advanceSearchMenu");
         	
         }else {
         	ActionError emptyResultSetNameError = new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.missing.resultsetname");

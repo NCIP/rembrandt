@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +20,7 @@ import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
-
+ 
 public class RefineQueryForm extends BaseForm implements Factory {
     private static Logger logger = Logger.getLogger(RefineQueryForm.class);
     private ActionErrors errors = new ActionErrors();;
@@ -32,6 +33,8 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private List queryNameColl = new ArrayList();
 	private List compoundViewColl = new ArrayList();
     private List selectedQueries = LazyList.decorate(new ArrayList(), this);
+    private Collection resultSets;
+    private String selectedResultSet = null;
 	public RefineQueryForm(){
 
 		super();
@@ -260,5 +263,29 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		SelectedQueryBean newQuery = new SelectedQueryBean();
         newQuery.setQueryName("");
         return newQuery;
+	} 
+	/**
+	 * @return Returns the resultSets.
+	 */
+	public Collection getResultSets() {
+		return resultSets;
+	}
+	/**
+	 * @return Returns the selectedResultSet.
+	 */
+	public String getSelectedResultSet() {
+		return selectedResultSet;
+	}
+	/**
+	 * @param resultSets The resultSets to set.
+	 */
+	public void setResultSets(Collection resultSets) {
+		this.resultSets = resultSets;
+	}
+	/**
+	 * @param selectedResultSet The selectedResultSet to set.
+	 */
+	public void setSelectedResultSet(String selectedResultSet) {
+		this.selectedResultSet = selectedResultSet;
 	}
 }

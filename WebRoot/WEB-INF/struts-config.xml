@@ -201,6 +201,7 @@
             validate="true">
          <forward name="success" path="/runReport.do?method=runGeneViewReport"/>
          <forward name="displayQuery" path="nautilus.refine" />
+         <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="failure" path="/refine.do" />
 	</action>
 	<action path="/runReport"
