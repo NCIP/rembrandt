@@ -52,6 +52,7 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
+import gov.nih.nci.nautilus.criteria.SampleCriteria;
 import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
@@ -156,24 +157,27 @@ public class ResultsetManager {
 		return resultant;
 	}
 
-public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute)throws Exception {
+	public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute)
+			throws Exception {
 		Resultant resultant = new Resultant();
 		if (queryToExecute != null) {
-			if(queryToExecute instanceof GeneExpressionQuery){
+			if (queryToExecute instanceof GeneExpressionQuery) {
 				Viewable associatedView = ViewFactory
 						.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
 				queryToExecute.setAssociatedView(associatedView);
-				ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
+				ResultSet[] resultsets = QueryManager
+						.executeQuery(queryToExecute);
 				ResultsContainer resultsContainer = KaplanMeierPlotHandler
 						.handleKMGeneExprPlotContainer((GeneExpr.GeneExprSingle[]) resultsets);
 				resultant.setResultsContainer(resultsContainer);
 				resultant.setAssociatedQuery(queryToExecute);
 				resultant.setAssociatedView(associatedView);
-			}else if(queryToExecute instanceof GeneExpressionQuery){
+			} else if (queryToExecute instanceof GeneExpressionQuery) {
 				Viewable associatedView = ViewFactory
-				.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW);
+						.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW);
 				queryToExecute.setAssociatedView(associatedView);
-				ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
+				ResultSet[] resultsets = QueryManager
+						.executeQuery(queryToExecute);
 				ResultsContainer resultsContainer = KaplanMeierPlotHandler
 						.handleKMCopyNumberPlotContainer((CopyNumber[]) resultsets);
 				resultant.setResultsContainer(resultsContainer);
@@ -182,7 +186,9 @@ public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute)thr
 			}
 		}
 		return resultant;
-	}	public static Resultant executeShowAllQuery(Resultant resultant)
+	}
+
+	public static Resultant executeShowAllQuery(Resultant resultant)
 			throws Exception {
 
 		ShowAllValuesHandler showAllValuesHandler = new ShowAllValuesHandler(
@@ -190,5 +196,20 @@ public static Resultant executeKaplanMeierPlotQuery(Queriable queryToExecute)thr
 
 		return showAllValuesHandler.getShowAllValuesResultant();
 	}
+	
+	public static Resultant executeCompoundQuery(CompoundQuery queryToExecute, String[] sampleIDs)
+	throws Exception {
+		Resultant resultant = null;
+		if (queryToExecute != null && sampleIDs != null) {
+			ContraintQueryWithSamplesHandler sampleHandler = new ContraintQueryWithSamplesHandler();
+			SampleCriteria sampleCriteria = sampleHandler.createSampleCriteria(sampleIDs);
+			CompoundQuery newCQuery = sampleHandler.contraintQuery(queryToExecute,sampleCriteria);
+			resultant = executeCompoundQuery(newCQuery);
+		}
+
+	
+	return resultant;
+	}
+	
 
 }
