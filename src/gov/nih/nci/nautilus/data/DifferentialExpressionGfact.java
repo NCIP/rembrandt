@@ -31,6 +31,15 @@ public class DifferentialExpressionGfact
   private Long timecourseId;
     private String probesetName;
     private String cloneName;
+     public String getDiseaseType() {
+        return diseaseType;
+    }
+
+    public void setDiseaseType(String diseaseType) {
+        this.diseaseType = diseaseType;
+    }
+
+    private String diseaseType;
 
     public String getGeneSymbol() {
         return geneSymbol;

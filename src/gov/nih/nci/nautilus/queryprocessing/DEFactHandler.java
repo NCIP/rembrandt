@@ -113,6 +113,7 @@ abstract public class DEFactHandler {
             singleExprObj.setCloneName(exprObj.getCloneName());
             singleExprObj.setCytoband(exprObj.getCytoband());
             singleExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());
+            singleExprObj.setDiseaseType(exprObj.getDiseaseType());
             singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
             singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
             singleExprObj.setProbesetId(exprObj.getProbesetId());
@@ -154,6 +155,7 @@ abstract public class DEFactHandler {
                 groupExprObj.setCloneId(exprObj.getCloneId());
                 groupExprObj.setCloneName(exprObj.getCloneName());
                 groupExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());
+                groupExprObj.setDiseaseType(exprObj.getDiseaseType());
                 groupExprObj.setExpressionRatio(exprObj.getExpressionRatio());
                 groupExprObj.setGeneSymbol(exprObj.getGeneSymbol());
                 groupExprObj.setProbesetId(exprObj.getProbesetId());

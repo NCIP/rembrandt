@@ -28,6 +28,7 @@ public class DifferentialExpressionSfact
 
 
 
+
   private Long agentId;
 
   private String ageGroup;
@@ -43,6 +44,16 @@ public class DifferentialExpressionSfact
   private Long diseaseHistoryId;
 
   private Long diseaseTypeId;
+
+    public String getDiseaseType() {
+        return diseaseType;
+    }
+
+    public void setDiseaseType(String diseaseType) {
+        this.diseaseType = diseaseType;
+    }
+
+    private String diseaseType;
 
   private Double expressionRatio;
 

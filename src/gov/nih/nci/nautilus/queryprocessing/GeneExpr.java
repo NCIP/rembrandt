@@ -12,6 +12,7 @@ import gov.nih.nci.nautilus.resultset.ResultSet;
 abstract public class GeneExpr implements ResultSet {
     private Long cloneId;
     private Long diseaseTypeId;
+    private String diseaseType;
     private Double expressionRatio;
     private String probesetName;
     private String cloneName;
@@ -37,6 +38,13 @@ abstract public class GeneExpr implements ResultSet {
         this.diseaseTypeId = diseaseTypeId;
     }
 
+    public String getDiseaseType() {
+        return diseaseType;
+    }
+
+    public void setDiseaseType(String diseaseType) {
+        this.diseaseType = diseaseType;
+    }
     public Double getExpressionRatio() {
         return expressionRatio;
     }
