@@ -201,7 +201,7 @@
 		
  	</div>
  	<div id="hideme">
-	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical' and $showSampleSelect != 'false'" >
+	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
  
 	  <div class="filterForm">
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
@@ -295,7 +295,7 @@
 	  </form>
 	  </div>
 	  
-	  
+	  <xsl:if test="$showSampleSelect != 'false'">
 	  <div class="filterForm">
 		<b><span class="lb">Select Samples:</span></b> 
 		<xsl:text>&#160;</xsl:text>
@@ -308,6 +308,7 @@
 	 	<xsl:text>&#160;</xsl:text>
 	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('You can select the samples of interest by clicking on each individual sample or a group and saving them with a unique name. This allows you to select this sample set to apply your future queries to.');" onmouseout="return nd();">[?]</a></b>
 	  </div>
+	 </xsl:if>
 	  
   	<div class="filterForm">
 		<b><span class="lb">Show all Values:</span></b> 
