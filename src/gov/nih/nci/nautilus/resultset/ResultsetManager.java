@@ -50,6 +50,9 @@
 package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprGroup;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -63,14 +66,21 @@ public class ResultsetManager {
     	if(queryToExecute != null ){
         Viewable associatedView = queryToExecute.getAssociatedView();
         ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
-    	if (associatedView instanceof GeneExprSampleView){
+    	if (resultsets instanceof GeneExprSingle[]){
     		    GeneExprSampleView geneExprSampleView = (GeneExprSampleView) associatedView;
     			GroupType groupType = geneExprSampleView.getGroupType();
-    			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(resultsets,groupType);
+    			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView((GeneExprSingle[]) resultsets,groupType);
     			resultant.setResultsContainer(resultsContainer);
     			resultant.setAssociatedQuery(queryToExecute);
     			resultant.setAssociatedView(associatedView);
     		}
+    	else if (resultsets instanceof GeneExprGroup[]){
+    		GeneExprDiseaseView geneExprDiseaseView = (GeneExprDiseaseView) associatedView;
+			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprDiseaseView((GeneExprGroup[]) resultsets);
+			resultant.setResultsContainer(resultsContainer);
+			resultant.setAssociatedQuery(queryToExecute);
+			resultant.setAssociatedView(associatedView);
+		}
     	
     	
     	

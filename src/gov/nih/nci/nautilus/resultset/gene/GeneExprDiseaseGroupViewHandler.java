@@ -69,6 +69,8 @@ public class GeneExprDiseaseGroupViewHandler extends GeneExprViewHandler {
    			diseaseResultset = handleDiseaseGroupResultset(reporterResultset,exprObj);
    			reporterResultset.addGroupByResultset(diseaseResultset);
       		geneResultset.addReporterResultset(reporterResultset);
+     		geneViewContainer.addDiseaseTypes(exprObj.getDiseaseType());
+     		 
       		//add the reporter to geneResultset
       		geneViewContainer.addGeneResultset(geneResultset);
       	}
@@ -84,6 +86,7 @@ public class GeneExprDiseaseGroupViewHandler extends GeneExprViewHandler {
   		    if (diseaseGroupResultset == null){
   		    	diseaseGroupResultset= new DiseaseGroupResultset(disease);
 	      		}
+  		    diseaseGroupResultset.setDiseaseType(disease);
   		    diseaseGroupResultset.setFoldChangeRatioValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
   		    diseaseGroupResultset.setRatioPval(new DatumDE(DatumDE.RATIO_PVAL,exprObj.getRatioPval()));
 

@@ -64,6 +64,7 @@ import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
+import gov.nih.nci.nautilus.resultset.gene.DiseaseGroupResultset;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSampleViewContainer;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSingleViewResultsContainer;
@@ -73,6 +74,7 @@ import gov.nih.nci.nautilus.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
 import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
@@ -107,7 +109,6 @@ public class ResultsetViewTest extends TestCase {
         buildPlatformCrit();
         buildFoldChangeCrit();
         buildGeneIDCrit();
-        buildGeneExprGeneSingleViewQuery();
 	}
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
@@ -178,6 +179,7 @@ public class ResultsetViewTest extends TestCase {
     public void testGeneExprSampleView(){
 		//test Single Query
 		try {
+	        buildGeneExprGeneSingleViewQuery();
 			System.out.println("Building Single Gene Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery1);
 			GeneExprSampleView geneCentricView = new GeneExprSampleView();
@@ -207,12 +209,11 @@ public class ResultsetViewTest extends TestCase {
 	    public void testGeneExprDiseaseView(){
 			//test Single Query
 			try {
+		        buildGeneExprDiseaseViewQuery();
 				System.out.println("Building Group Gene Compound Query>>>>>>>>>>>>>>>>>>>>>>>");
 				CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery2);
-				GeneExprSampleView geneCentricView = new GeneExprSampleView();
-				geneCentricView.setGroupType(GroupType.DISEASE_TYPE_GROUP);			
 				Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
-				System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
+				System.out.println("DiseaseQuery:\n"+ myCompoundQuery.toString());
 				assertNotNull(resultant.getResultsContainer());
 				if(resultant != null){
 					System.out.println("Testing Disease Gene Query >>>>>>>>>>>>>>>>>>>>>>>");
@@ -221,7 +222,7 @@ public class ResultsetViewTest extends TestCase {
 					System.out.println("Associated ViewType/n"+resultant.getAssociatedView());
 					if (resultsContainer instanceof GeneExprResultsContainer){
 						GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
-				        //displayGeneExprDiseaseView(geneExprDiseaseContainer);
+				        displayGeneExprDiseaseView(geneExprDiseaseContainer);
 
 					}
 				}
@@ -231,6 +232,72 @@ public class ResultsetViewTest extends TestCase {
 			}			
 
     }
+	/**
+		 * @param geneExprDiseaseContainer
+		 */
+		public void displayGeneExprDiseaseView(GeneExprResultsContainer geneExprDiseaseContainer) {
+			System.out.println("inside display diease");
+			final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
+	    	Collection genes = geneExprDiseaseContainer.getGeneResultsets();
+	    	Collection labels = geneExprDiseaseContainer.getGroupsLabels();
+	    	Collection sampleIds = null;
+	    	StringBuffer header = new StringBuffer();
+	    	StringBuffer sampleNames = new StringBuffer();
+	        StringBuffer stringBuffer = new StringBuffer();
+	    	//get group size (as Disease or Agegroup )from label.size
+	        String label = null;
+	    	
+	        //set up the header for the table
+	    	header.append("Gene\tReporter\t");
+	    	sampleNames.append("Name\tName\t\t");
+		   
+	    	for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+	        	label = (String) labelIterator.next();
+	        	header.append("|"+label+"\t"); //remove this for table
+	    	}
+	    	header.append("|"); 
+
+	    	//System.out.println("Gene Count: "+genes.size());
+			System.out.println(header.toString());
+			System.out.println(sampleNames.toString());
+	    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
+	    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
+	    		String geneSymbol = geneResultset.getGeneSymbol().getValue().toString();
+	    		Collection reporters = geneExprDiseaseContainer.getRepoterResultsets(geneSymbol); //geneResultset.getReporterResultsets();
+	        	//System.out.println("Repoter Count: "+reporters.size());
+	    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+	        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+	        		String reporterName = reporterResultset.getReporter().getValue().toString();
+	        		Collection groupTypes = geneExprDiseaseContainer.getGroupByResultsets(geneSymbol,reporterName); //reporterResultset.getGroupResultsets();
+	        		stringBuffer = new StringBuffer();
+	            	//System.out.println("Group Count: "+groupTypes.size());
+	        		if(reporterName.length()< 10){ //Remove this from table
+	        			reporterName= reporterName+"        ";
+	        			reporterName = reporterName.substring(0,10);
+	        		}
+	        		//get the gene name, and reported Name
+	        		
+	        		stringBuffer.append(geneSymbol+"\t"+
+	    					reporterName+"\t");
+	        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
+	    	        	label = (String) labelIterator.next();
+	    	        	DiseaseGroupResultset diseaseResultset = (DiseaseGroupResultset) reporterResultset.getGroupByResultset(label);
+	    	        	if(diseaseResultset != null){
+                   			Double ratio = (Double)diseaseResultset.getFoldChangeRatioValue().getValue();
+                   			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
+                   			stringBuffer.append(resultFormat.format(ratio)+"("+resultFormat.format(pvalue)+")"+"\t");  
+                   			}
+                   		else 
+                   		{
+                   			stringBuffer.append("\t");
+                   		}
+	    	    	}
+	        		System.out.println(stringBuffer.toString());
+	    		}
+
+	    	}
+			
+		}
 	public void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer){
 		final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
     	Collection genes = geneViewContainer.getGeneResultsets();

@@ -132,4 +132,12 @@ public class GeneExprResultsContainer implements ResultsContainer{
     		return null;
     }
 
+	/**
+	 * @param diseaseType
+	 */
+	public void addDiseaseTypes(String diseaseType) {
+		groupsLabels.put(diseaseType,null);
+		
+	}
+
 }

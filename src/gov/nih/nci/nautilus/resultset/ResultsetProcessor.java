@@ -20,9 +20,40 @@ import gov.nih.nci.nautilus.view.GroupType;
  * This class takes a DifferentialExpressionSfact and DifferentialExpressionGfact object and helps create a GeneCentricViewHandler or a SampleCentricViewHandler classes.
  */
 public class ResultsetProcessor {
- 	public static ResultsContainer handleGeneExprView(ResultSet[] geneExprObjects, GroupType groupType){
+ 	public static ResultsContainer handleGeneExprSingleView(GeneExpr.GeneExprSingle[] geneExprObjects, GroupType groupType){
  		ResultsContainer resultsContainer = null;
  	  	GeneExprSingleViewHandler geneExprSingleViewHandler = new GeneExprSingleViewHandler();
+ 	  	GeneExprDiseaseGroupViewHandler geneExprDiseaseViewHandler = new GeneExprDiseaseGroupViewHandler();
+ 	  	SampleViewHandler sampleViewHandler = new SampleViewHandler();
+      	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
+    	SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
+    	GeneExprSampleViewContainer geneExprSampleViewContainer = new GeneExprSampleViewContainer();
+      	GeneExprResultsContainer geneExprResultsContainer = new GeneExprResultsContainer();
+          for (int i = 0; i < geneExprObjects.length; i++) {
+    		if(geneExprObjects[i] != null) {
+            ResultSet obj = geneExprObjects[i];
+            	if (obj instanceof GeneExpr.GeneExprSingle)  {
+	              	//Propulate the GeneExprSingleResultsContainer
+	               	GeneExprSingle  exprObj = (GeneExpr.GeneExprSingle) obj;
+	               	geneExprSingleResultsContainer = geneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleResultsContainer,exprObj, groupType);
+	               	geneExprSampleViewContainer.setGeneExprSingleViewContainer(geneExprSingleResultsContainer);
+	               	//Populate the SampleViewResultsContainer
+	               	sampleViewResultsContainer = sampleViewHandler.handleSampleView(sampleViewResultsContainer,exprObj,groupType);
+	               	geneExprSampleViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
+	               	geneExprSampleViewContainer.setGeneExprSingleViewContainer(geneExprSingleResultsContainer);
+	               	resultsContainer = geneExprSampleViewContainer;
+               }
+    		}
+        }//for
+        return resultsContainer;
+	}
+
+	/**
+	 * @param resultsets
+	 * @return
+	 */
+	public static ResultsContainer handleGeneExprDiseaseView(GeneExpr.GeneExprGroup[] geneExprObjects) {
+		ResultsContainer resultsContainer = null;
  	  	GeneExprDiseaseGroupViewHandler geneExprDiseaseViewHandler = new GeneExprDiseaseGroupViewHandler();
  	  	SampleViewHandler sampleViewHandler = new SampleViewHandler();
       	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
@@ -38,17 +69,6 @@ public class ResultsetProcessor {
               	geneExprResultsContainer = geneExprDiseaseViewHandler.handleGeneExprDiseaseView(geneExprResultsContainer,exprObj);
               	resultsContainer = geneExprResultsContainer;
               }
-               else if (obj instanceof GeneExpr.GeneExprSingle)  {
-              	//Propulate the GeneExprSingleResultsContainer
-               	GeneExprSingle  exprObj = (GeneExpr.GeneExprSingle) obj;
-               	geneExprSingleResultsContainer = geneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleResultsContainer,exprObj, groupType);
-               	geneExprSampleViewContainer.setGeneExprSingleViewContainer(geneExprSingleResultsContainer);
-               	//Populate the SampleViewResultsContainer
-               	sampleViewResultsContainer = sampleViewHandler.handleSampleView(sampleViewResultsContainer,exprObj,groupType);
-               	geneExprSampleViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
-               	geneExprSampleViewContainer.setGeneExprSingleViewContainer(geneExprSingleResultsContainer);
-               	resultsContainer = geneExprSampleViewContainer;
-               }
     		}
         }//for
         return resultsContainer;
