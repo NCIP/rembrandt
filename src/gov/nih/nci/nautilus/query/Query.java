@@ -18,7 +18,7 @@ import java.lang.reflect.Modifier;
  * Time: 6:19:55 PM
  * To change this template use Options | File Templates.
  */
-abstract public class Query {
+abstract public class Query implements Queriable{
 
     private String queryName;
     private View associatedView;
