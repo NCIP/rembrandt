@@ -1,8 +1,8 @@
 <%@ page language="java" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-
 <app:checkLogin name="logged" page="/login.jsp" />
 
 <%
@@ -28,26 +28,36 @@
 %>
 <body onload="javascript:checkForm();">
 <% } %>
-    <tiles:insert attribute="overlib"/> <%-- include div for overlib --%>
-    <tiles:insert attribute="header"/> <%-- include header --%>
-	
+	 <%-- include div for overlib --%>
+    <tiles:insert attribute="overlib"/>
+    <%-- include header --%>
+    <tiles:insert attribute="header"/> 
 	<div class="content">
-		<tiles:insert attribute="crumbMenu"/> <%-- include crumb menu --%>
+		<%-- include crumb menu --%>
+		<tiles:insert attribute="crumbMenu"/> 
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 			<tr>
-			<td width="575"> 
-				<Table cellpadding="4" cellspacing="2" border="0" width="100%"> 
-					<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   
-					<tiles:insert attribute="mainForm"/> <%-- include the main form --%>
-				</table>
-			</td>
-			<td valign="top" class="sideBar">
-			    <tiles:insert attribute="sideBar"/> <%-- include sidebar --%>
-			</td>
+				<td width="575"> 
+					<Table cellpadding="4" cellspacing="2" border="0" width="100%"> 
+						<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   
+						<tr><td>
+							<%-- include the main form --%>
+							<tiles:insert attribute="mainForm"/> 
+						</td></tr>	
+						<tr><td align="left" width="100%">
+							<%-- include required message note --%>
+							<tiles:insert attribute="reqdFieldsMsg"/><br>
+						</td></tr>
+					</table>
+				</td>
+				<td valign="top" class="sideBar">
+					<%-- include sidebar --%>
+				    <tiles:insert attribute="sideBar"/> 
+				</td>
 			</tr>
 		</table>
+	<%-- include footer --%>	
+	<tiles:insert attribute="footer"/> 
 	</div>
-    <tiles:insert attribute="reqdFieldsMsg"/> <%-- include required message note --%><br>
-    <tiles:insert attribute="footer"/> <%-- include footer --%>
 </body>
 </html>
