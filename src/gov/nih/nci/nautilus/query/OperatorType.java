@@ -49,8 +49,6 @@
  */
 package gov.nih.nci.nautilus.query;
 
-import gov.nih.nci.nautilus.query.QueryType.CGHQueryType;
-import gov.nih.nci.nautilus.query.QueryType.GeneExprQueryType;
 
 /**
  * @author SahniH
