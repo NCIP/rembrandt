@@ -15,8 +15,8 @@
 <a href="javascript:void(0);" onmouseover="return overlib('Enter a name or the first few characters followed by *.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
 <br /><br />
 <strong>Select graph format:</strong><br /> 
-<input type="radio" name="geneExpPlot" class="radio" value="geneExpPlot" checked>Gene Expression plot&nbsp;
-<input type="radio" name="kapMaiPlot" class="radio" value="kapMaiPlot">Kaplan-Maier survival plot
+<input type="radio" name="plot" class="radio" value="geneExpPlot" checked>Gene Expression plot&nbsp;
+<input type="radio" name="plot" class="radio" value="kapMaiPlot">Kaplan-Maier survival plot
 </form>
 <!--<strong>Examples</strong><br />
 Gene - act1<br />
