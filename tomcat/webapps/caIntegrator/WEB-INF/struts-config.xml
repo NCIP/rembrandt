@@ -178,6 +178,8 @@
          <forward name="success" path="/jsp/geneViewReport.jsp" />
          <forward name="backtopresent" path="/presentation.do" />
    </action>
+   <action path="/report"
+           forward="/jsp/geneViewReport.jsp" />
 
     </action-mappings>
     
