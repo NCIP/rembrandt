@@ -1,84 +1,99 @@
+<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ page import="java.util.*, java.lang.*, java.io.*" %> 
+
 <tr class="report"><td>
+<div class="quickSearch">
 
 
-<input type="radio" class="radio" name="menu" value="0" checked selected onclick="javascript:document.forms[0].rpt.disabled=true;">
-		Create a New Query/Report
-		<a href="javascript:void(0);" onmouseover="return overlib('Select this option if you do not have a saved query to upload.  You will be able to build a query based on the Advanced Search Areas listed below.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-		<blockquote>
-				<table border="0" width="100%" style="">
-						<tr>
-							<Td>
-							<div class="title">Study Data Set</div>
-							<select name="dataSet" onchange="javascript:moveEm(this);">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-								<option>Rembrandt (GMDI)</option>
-								<option>I-SPY</option>
-								<option>Other</option>
-								
-							</select>
-							</td>
-						
-							<Td>
-							<div class="title">Generating Institution</div>
-							<select name="generatingInstitution">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-								
-							</select>
-							</td>
-						</tr>
-					</table>
-		</blockquote>
-		<br><br>
-		<input type="Radio" name="menu" class="radio" value="1" onclick="javascript:document.forms[0].rpt.disabled=false;">
-		Upload a saved Query
-		<a href="javascript:void(0);" onmouseover="return overlib('You may choose to start from an existing query.  Please upload that saved query here.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-		&nbsp;&nbsp;
-		<blockquote>
-			<input type="file" name="rpt" disabled>
-		</blockquote>
-		<center>
-		&nbsp;&nbsp;<input type="button" class="xbutton" style="width:100px;" value="continue" onclick="javascript:location.href='aSearchMenu.html';">
-		</center>
+<form action="#">
+<strong>Enter a gene name or ID</strong>
+<Br>
+<input type="text" name="quickSearchName" size="40">
+&nbsp;
+<input type="submit" value="Go">
+<a href="javascript:void(0);" onmouseover="return overlib('Enter a name or the first few characters followed by *.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+<br /><br />
+<strong>Select graph format:</strong><br /> 
+<input type="radio" name="geneExpPlot" class="radio" value="geneExpPlot" checked>Gene Expression plot&nbsp;
+<input type="radio" name="kapMaiPlot" class="radio" value="kapMaiPlot">Kaplan-Maier survival plot
+</form>
+<!--<strong>Examples</strong><br />
+Gene - act1<br />
+Locus Link ID - YHR023W<br />
+GenBank AccNo. - L00683<br />-->
+<br /><br /><br />
+</p>
 
-		<div style="padding:5px 30px 5px 30px;">
+
+</div>
+
+
+		<div class="advancedSearch">
 		<br>
 		<strong>Advanced Search Areas</strong>
-		<table border="0" cellspacing="2" cellpadding="4" style="border: 1px solid silver; padding:5px;">
+		<table border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #f3f3f3; padding:5px; font-size:.91em">
 		  <tr valign="top">
-		    <td>
-			<strong>Gene Expression Analysis</strong><br />
-			Cytoband<br />
-			Gene<br />
-			Clone/Probeset<br />
-			Gene Ontology (GO) Classifications<br />
-			Pathways<br />
-			Array Platform<br />
-			Differential Gene Expression
-			</td>
+		 <td><strong>Gene Expression Analysis</strong><br />
+		 <!--read from Gene Expression Analysis text file-->
+		  <% 
+		  Properties props1 = new Properties();
+		    try {
+		    props1.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"geneExpressionAreas.properties"));
+		    } 
+			catch (IOException e) {
+		    out.println("cant read props");
+			}
+			for (int t=1; t<props1.size()+1; t++){
+				String Props = props1.getProperty(String.valueOf(t));
+				out.print(Props);
+				out.print("<br />");
+			}   
+		 %>
+		 </td>
+		    
 			<td>
 			<strong>Comparative Genomic Analysis</strong><br />
-            Cytoband<br />
-			SNP Id<br />
-			Genomic Annotation Track <br>
-			Chromosomal Abnormality<br>
-			Copy Number
+			<!--read from Comparative Genomic Analysis text file-->
+			<% 
+			  Properties props2 = new Properties();
+			    try {
+			    props2.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"comparitiveGenomicAreas.properties"));
+			    } 
+				catch (IOException e) {
+			    out.println("cant read props");
+				}
+				for (int t=1; t<props2.size()+1; t++){
+					String Props = props2.getProperty(String.valueOf(t));
+					out.print(Props);
+					out.print("<br />");
+				}   
+			 %>
 			</td>
 			<td>
 			<strong>Clinical Study Analysis</strong><br />
-            Prior Therapy<br />
-			Demographics<br />
-			Histopathology<br />
-			Survival<br />
-			Interventions
+			<!--read from Clinical Study Analysis text file-->
+			<% 
+			  Properties props3 = new Properties();
+			    try {
+			    props3.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"clinicalAreas.properties"));
+			    } 
+				catch (IOException e) {
+			    out.println("cant read props");
+				}
+				for (int t=1; t<props3.size()+1; t++){
+					String Props = props3.getProperty(String.valueOf(t));
+					out.print(Props);
+					out.print("<br />");
+				}   
+			 %>
 			</td>
 		  </tr>
 		</table>
-		</div>
-		<br>
 		
-		<b class="message">Note: Please move your mouse over the 
-		<a href="javascript:void(0);" onmouseover="return overlib('Help messages will appear here.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-		links for help throughout the application.		
-		</b>
+		
+		</div>
+		
+	</td></tr>	
+		
 
-</td></tr>

@@ -119,7 +119,7 @@
                name="loginForm"
               scope="request"
               input="/login.jsp">
-    <forward name="success" path="/menu.do"/>
+    <forward name="success" path="/home.do"/>
     <forward name="failure" path="/error.jsp"/>
     </action>
 
@@ -170,7 +170,7 @@
 
 	<action path="/home"
 		type="DoFirst">
-		<forward name="success" path="home" />
+		<forward name="success" path="nautilus.home" />
 	</action>
     </action-mappings>
     

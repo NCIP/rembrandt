@@ -1,7 +1,9 @@
 BODY	{background: #ffffff; color: #333366;font-size: 12px; font-family: verdana; margin-top: 5px;}
-TABLE	{border: 0px; padding:1px; font-size:12px;}
+TABLE	{border: 0px; padding:0px; font-size:12px;x`}
 TD {vertical-align: top; }
-H3 { text-decoration: none; }
+TD.title { border-top: 1px solid #BFBFBF;}
+H3 { text-decoration: none;}
+H4 { margin-left:35;}
 H5	{ font-size:10px; font-decoration:none; }
 B {text-decoration: none; }
 A {color: #333366; text-decoration: underline; font-size:12px}
@@ -14,6 +16,7 @@ div.pOptions { margin-left: 30px; width:80%; background: #f9f9f9; padding:5px;}
 div.crumb {padding:5px; background: #e9e9e9; }
 
 .message {color: #000000; text-decoration: none; font-size:10px; font-weight: normal}
+div.message {color: #000000; text-decoration: none; font-size:10px; font-weight: normal; margin-top:8px;}
 .req {color: red; text-decoration: none; font-size:12px; font-weight: normal}
 
 td.message {background: #cccccc; margin-left:20px; text-align:center;}
@@ -36,7 +39,14 @@ div.queryRows	{
 
 }
 
-.sideBar {background: #e9e9e9; padding:0px 5px 5px 5px; height:100%; vertical-align:top;}
+.sideBar {
+ background: #e9e9e9; 
+ padding:0px 5px 5px 0px; 
+ height:100%; 
+ vertical-align:top;
+ margin:0px 0px 0px 0px;
+ 
+ }
 
 .xbutton	{
 					font-family:arial;
@@ -51,6 +61,7 @@ div.queryRows	{
 					height:22px;
 					cursor:pointer;
 					padding:0px, 10px, 0px, 10px;
+					
 					/*background-image: url('textfield.gif');*/
 			}
 
@@ -127,3 +138,21 @@ table.sortable	{margin: 5px; }
 					padding:0px, 10px, 0px, 10px;
 			}
 .grayBG {background: #E6E6E6;}
+
+div.advancedSearch
+ {background: #e9e9e9;
+  padding:0px 30px 10px 10px; 
+  margin:0px 0px 0px 0px; 
+   
+ }
+ 
+div.quickSearch
+ {padding: 0px 0px 35px 10px;
+  
+  border-bottom: 1px solid #BFBFBF;
+ }
+
+div.advButton
+ {
+ margin:15px 5px 15px 40px;
+ }
