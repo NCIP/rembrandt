@@ -41,6 +41,8 @@ junit.framework.Assert" %>
 	
 	// get the ResultSet[] from the session
     geneExprObjects = ( ResultSet[] ) (session.getAttribute("geneViewResultSet"));
+ 
+if(geneExprObjects != null && geneExprObjects.length > 0) {      
     
 	System.out.println("GeneExprObjs: " + geneExprObjects.length);
 
@@ -146,4 +148,7 @@ junit.framework.Assert" %>
         		out.println(stringBuffer.toString());
     		}
     	}
+}
+else
+	out.println("No results");
 %>

@@ -53,13 +53,15 @@ junit.framework.Assert" %>
 <body>
 <%
 System.out.println("Here WE Go");
-%>
-<a href="geneViewReportCSV.jsp">[Download this report for Excel]</a><Br>
-<%
 
 		// get the ResultSet[] from the session
         geneExprObjects = ( ResultSet[] ) (session.getAttribute("geneViewResultSet"));
-        
+
+//see if theres at least on RS in the array and the RS exists
+if(geneExprObjects != null && geneExprObjects.length > 0) {      
+		%>
+		<a href="geneViewReportCSV.jsp">[Download this report for Excel]</a><Br>
+		<%
 		System.out.println("GeneExprObjs: " + geneExprObjects.length);
 
     	gov.nih.nci.nautilus.resultset.ResultsetProcessor resultsetProc = new gov.nih.nci.nautilus.resultset.ResultsetProcessor();
@@ -175,6 +177,11 @@ System.out.println("Here WE Go");
     		}
     	}
 			out.println("</table>");
+}
+else
+	out.println("<h4>No Results Available</h4>");
+
+session.removeAttribute("geneViewResultSet");
 %>
 
 
