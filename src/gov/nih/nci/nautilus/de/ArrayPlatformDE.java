@@ -6,34 +6,33 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * ArrayPlatformDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class ArrayPlatformDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
 
+    public ArrayPlatformDE() {
+        super();
+    }
+   
    /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
+    * Initializes a newly created <code>ArrayPlatformDE</code> object so that it represents an ArrayPlatformDE.
     */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+    public ArrayPlatformDE(String arrayName) {
+        super(arrayName);
     }
    
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>ArrayPlatformDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +42,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the arrayName for this ArrayPlatformDE obect.
+    * @return the arrayName for this <code>ArrayPlatformDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the arrayName for this <code>ArrayPlatformDE</code> object
+    * @param arrayName the arrayName    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
-		}
+    public void setValueObject(String arrayName) {
+	   if(arrayName != null){
+         value = arrayName;
+		 }
     }
 }

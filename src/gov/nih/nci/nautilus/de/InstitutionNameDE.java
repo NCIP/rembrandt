@@ -6,34 +6,33 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * InstitutionNameDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class InstitutionNameDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
 
+    public InstitutionNameDE() {
+        super();
+    }
+   
    /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
+    * Initializes a newly created <code>InstitutionNameDE</code> object so that it represents an InstitutionNameDE.
     */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+    public InstitutionNameDE(String institutionName) {
+        super(institutionName);
     }
    
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>InstitutionNameDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +42,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the institutionName for this InstitutionNameDE obect.
+    * @return the institutionName for this <code>InstitutionNameDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the institutionName for this <code>InstitutionNameDE</code> object
+    * @param institutionName the institutionName    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
+    public void setValueObject(String institutionName) {
+	  if(institutionName != null){
+        value = institutionName;
 		}
     }
 }

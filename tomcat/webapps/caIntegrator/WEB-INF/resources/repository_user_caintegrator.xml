@@ -1,250 +1,803 @@
-  
- <!--================= PathwayDE ==================-->  
-   
-
- <class-descriptor class="gov.nih.nci.nautilus.de.PathwayDE" 
-	table="PATHWAY">		
-	<field-descriptor name="value" column="PATHWAY_NAME" jdbc-type="VARCHAR" primarykey="false" />
-		
-	</class-descriptor>
-	
-  <!--================= GradeDE ==================-->  
  
-	<class-descriptor class="gov.nih.nci.nautilus.de.GradeDE" 
-	table="DISEASE_GRADE">		
-	<field-descriptor name="value" column="GRADE" jdbc-type="VARCHAR" primarykey="false" />
-		
-	</class-descriptor>
-
-
  
- <!--================= ChromosomeNumberDE ==================-->  
+ 
+  <!--================= GeneIdentifierDE.GeneSymbol ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.GeneIdentifierDE$GeneSymbol"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="GENE_SYMBOL"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+   <!--================= GeneIdentifierDE.LocusLink ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.GeneIdentifierDE$LocusLink"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="LL_ID"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+    <!--================= GeneIdentifierDE.GenBankAccessionNumber ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.GeneIdentifierDE$GenBankAccessionNumber"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="ACCESSION_NUMBER"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+ <!--================= ChromosomeNumberDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.ChromosomeNumberDE" 
+	table="PROBESET_DIM">	
+	<field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="CHROMOSOME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+ 
+ 
+ <!--================= CytobandDE ==================-->  
    
    <class-descriptor
-        class="gov.nih.nci.nautilus.de.ChromosomeNumberDE"
-        table="CHROMOSOME_DIM">
-		
-   <field-descriptor
-          name="value"
-          column="CHROMOSOME"          
-		  jdbc-type="VARCHAR"
-		  primarykey="false"
-	  />
-	</class-descriptor>
-	
-<!--================= CytobandDE ==================-->  
-	   
-	   <class-descriptor
-	        class="gov.nih.nci.nautilus.de.CytobandDE"
-	        table="CYTOBAND_DIM">
-			
-	   <field-descriptor
-	          name="value"
-	          column="CYTOBAND"          
-			  jdbc-type="VARCHAR"
-			   primarykey="false"
-		  />
-	</class-descriptor>
-	
-<!--================= ProbeSetDE ==================-->  
-   
-  <class-descriptor
-        class="gov.nih.nci.nautilus.de.ProbeSetDE"
+        class="gov.nih.nci.nautilus.de.CytobandDE"
         table="PROBESET_DIM">
-		
+	
+	<field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />	
    <field-descriptor
           name="value"
-          column="PROBESET_NAME"          
+          column="CYTOBAND"          
 		  jdbc-type="VARCHAR"
-		  primarykey="false"
- />	  
+		  primarykey="false" 
+	  />
 	</class-descriptor>	
 	
-	 <!--================= DiseaseNameDE ==================-->  
-	   
-	  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.DiseaseNameDE"
-	        table="DISEASE_TYPE_DIM">
-			
-	   <field-descriptor
-	          name="value"
-	          column="DISEASE_TYPE"          
-			  jdbc-type="VARCHAR"
-			  primarykey="false"
-	 />	 
-	 
- 	</class-descriptor>
- 	
- 	  <!--================= InstitutionNameDE ==================-->  
-	   
-<!--	  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.InstitutionNameDE"
-	        table="INSTITUTION_DIM">
-			
-	   <field-descriptor
-	          name="value"
-	          column="INSTITUTION_NAME"          
-			  jdbc-type="VARCHAR"
-			   primarykey="false"
-	 />	
- 	</class-descriptor>-->
- 	
- 	 <!--================= ChemoAgentDE ==================-->  
-	   
-	<!--	  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.ChemoAgentDE"
-	        table="AGENT">
-			
-	   <field-descriptor
-	          name="value"
-	          column="AGENT_NAME"          
-			  jdbc-type="VARCHAR"
-			   primarykey="false"
-	 />	   
- 	</class-descriptor>-->
- 	
- 	  <!--================= SurgeryTypeDE ==================-->  
-	   
-	<!--  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.SurgeryTypeDE"
-	        table="?">
-			
-	   <field-descriptor
-	          name="value"
-	          column="?"          
+	
+	 <!--================= BasePairPositionDE.StartPosition ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.BasePairPositionDE$StartPosition"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="KB_START"         
 		  jdbc-type="VARCHAR"
-	 />	
- 	</class-descriptor>-->
- 	
- 	  <!--================= RaditionTherapyDE ==================-->  
-	   
-	<!--   <class-descriptor
-	        class="gov.nih.nci.nautilus.de.RaditionTherapyDE"
-	        table="?">
-			
-	   <field-descriptor
-	          name="value"
-	          column="?"          
-			  jdbc-type="VARCHAR"
-			   primarykey="false"
-	 />
- 	</class-descriptor>-->
- 	  <!--================= GeneOntologyDE ==================-->  
-	   
-	  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.GeneOntologyDE"
-	        table="GENE_ONTOLOGY">
-			
-	   <field-descriptor
-	          name="value"
-	          column="GO_NAME"          
-			  jdbc-type="VARCHAR"
-			   primarykey="false"
-	 />
- 	</class-descriptor>
- 	  <!--================= ArrayPlatformDE ==================-->  
-	   
-	  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.ArrayPlatformDE"
-	        table="EXP_PLATFORM_DIM???">
-			
-	   <field-descriptor
-	          name="value"
-	          column="EXP_PLATFORM_NAME"          
-			  jdbc-type="VARCHAR"
-			  primarykey="false"
-	 />
- 	</class-descriptor>
- 	
- 	 <!--================= GenderDE ==================-->  
-	   
-	 <!--  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.GenderDE"
-	        table="GENDER">
-			
-	   <field-descriptor
-	          name="value"
-	          column="GENDER_CODE"          
-			  jdbc-type="VARCHAR"
-			  primarykey="false"
-	 />
- 	</class-descriptor>-->  
- 	 <!--================= AlleleFrequencyDE ==================-->  
-	   
-	  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.AlleleFrequencyDE"
-	        table="POPULATION_TYPE">
-			
-	   <field-descriptor
-	          name="value"
-	          column="POPULATION_TYPE_NAME"          
-			  jdbc-type="VARCHAR"
-			  primarykey="false"
-	 />
- 	</class-descriptor>
- 	
- 	 <!--================= OccaranceDE ==================-->  
-	   
-	 <!-- <class-descriptor
-	        class="gov.nih.nci.nautilus.de.OccaranceDE"
-	        table="??">
-			
-	   <field-descriptor
-	          name="value"
-	          column="??"          
-			  jdbc-type="VARCHAR"
-	 />
- 	</class-descriptor>-->  
- 	
- 	
- 	
- 	
- 	
- 	 <!--================= AgeAtDiagnosisDE ==================-->  
-	   
-		<!--   <class-descriptor
-	        class="gov.nih.nci.nautilus.de.AgeAtDiagnosisDE"
-	        table="AGE_GROUP_DX">
-			
-	   <field-descriptor
-	          name="value"
-	          column="AGE_GROUP"          
-			  jdbc-type="VARCHAR"
-	 />
-	 	</class-descriptor>-->  
-	 <!--================= SurvivalDE ==================-->  
-	   
-	 	<!--  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.SurvivalDE"
-	        table="SURVIVAL_LENGTH_RANGE">
-			
-	   <field-descriptor
-	          name="value"
-	          column="SURVIVAL_LENGTH_RANGE"          
-			  jdbc-type="VARCHAR"
-	 />
-	 	</class-descriptor>-->  
-	 <!--================= CopyNumberDE.Amplification ==================-->  
-	   
-	<!--   <class-descriptor
-	        class="gov.nih.nci.nautilus.de.CopyNumberDE.Amplification"
-	        table="????">
-			
-	   <field-descriptor
-	          name="value"
-	          column="????"          
-			  jdbc-type="VARCHAR"
-	 />
-	 	</class-descriptor>-->  
-	 <!--================= CopyNumberDE.Amplification ==================-->  
-	   
-	<!--  <class-descriptor
-	        class="gov.nih.nci.nautilus.de.CopyNumberDE.Deletion"
-	        table="????">
-			
-	   <field-descriptor
-	          name="value"
-	          column="????"          
-			  jdbc-type="VARCHAR"
-	 />
-	</class-descriptor>-->  
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+  <!--================= BasePairPositionDE.EndPosition ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.BasePairPositionDE$EndPosition"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="KB_END"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+	
+	
+<!--================= ExprFoldChangeDE.UpRegulation ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.ExprFoldChangeDE$UpRegulation"
+        table="DIFFERENTIAL_EXPRESSION_SFACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="DES_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="EXPRESSION_RATIO"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+ <!--================= ExprFoldChangeDE.DownRegulation ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.ExprFoldChangeDE$DownRegulation"
+        table="DIFFERENTIAL_EXPRESSION_SFACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="DES_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="EXPRESSION_RATIO"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+  <!--================= ExprFoldChangeDE.UnChangedRegulationUpperLimit ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.ExprFoldChangeDE$UnChangedRegulationUpperLimit"
+        table="DIFFERENTIAL_EXPRESSION_SFACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="DES_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="EXPRESSION_RATIO"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+	
+	
+	  <!--================= ExprFoldChangeDE.UnChangedRegulationDownLimit ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.ExprFoldChangeDE$UnChangedRegulationDownLimit"
+        table="DIFFERENTIAL_EXPRESSION_SFACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="DES_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="EXPRESSION_RATIO"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+   <!--================= ExprFoldChangeDE.UnChangedRegulationDownLimit ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.ExprFoldChangeDE$UnChangedRegulationDownLimit"
+        table="DIFFERENTIAL_EXPRESSION_SFACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="DES_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="EXPRESSION_RATIO"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+  <!--================= CloneIdentifierDE.BACClone ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.CloneIdentifierDE$BACClone"
+        table="CLONE_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="CLONE_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="CLONE_NAME"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+  <!--================= CloneIdentifierDE.IMAGEClone ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.CloneIdentifierDE$IMAGEClone"
+        table="CLONE_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="CLONE_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="CLONE_NAME"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+  <!--================= ProbeSetDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.ProbeSetDE" 
+	table="PROBESET_DIM">	
+	<field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="PROBESET_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+	
+<!--================= DiseaseNameDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.DiseaseNameDE" 
+	table="DISEASE_TYPE_DIM">	
+	<field-descriptor
+    name="id"
+    column="DISEASE_TYPE_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="DISEASE_TYPE" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+	
+	<!--================= InstitutionNameDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.InstitutionNameDE" 
+	table="INSTITUTION_DIM">	
+	<field-descriptor
+    name="id"
+    column="INSTITUTION_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="INSTITUTION_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+	
+	 <!--================= UntranslatedRegionDE.UTR_5 ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.UntranslatedRegionDE$UTR_5"
+        table="CLONE_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="CLONE_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="CLONE_NAME"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+  <!--================= UntranslatedRegionDE.UTR_3 ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.UntranslatedRegionDE$UTR_3"
+        table="CLONE_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="CLONE_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="CLONE_NAME"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+ <!--================= ChemoAgentDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.ChemoAgentDE" 
+	table="AGENT">	
+	<field-descriptor
+    name="id"
+    column="AGENT_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="AGENT_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+	
+	  <!--================= GradeDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.GradeDE" 
+	table="DISEASE_GRADE">	
+	<field-descriptor
+    name="id"
+    column="GRADE_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="GRADE" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+	
+	  <!--================= SurgeryTypeDE ==================-->     
+
+  <!--<class-descriptor class="gov.nih.nci.nautilus.de.SurgeryTypeDE" 
+	table="SURGERYTYPE">	
+	<field-descriptor
+    name="id"
+    column="SURGERYTYPE_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="SURGERYTYPE" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+	-->  
+	
+	  <!--================= RadiationTherapyDE ==================-->     
+
+  <!--<class-descriptor class="gov.nih.nci.nautilus.de.RadiationTherapyDE" 
+	table="RADIATION">	
+	<field-descriptor
+    name="id"
+    column="RADIATION_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="RADIATION_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+	-->  
+  <!--================= PathwayDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.PathwayDE" 
+	table="PATHWAY">	
+	<field-descriptor
+    name="id"
+    column="PATHWAY_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="PATHWAY_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>
+
+ <!--================= SNPIdentifierDE.TSC ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.SNPIdentifierDE$TSC"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="PROBESET_NAME"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ <!--================= SNPIdentifierDE.SBSNP ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.SNPIdentifierDE$SBSNP"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="PROBESET_NAME"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor> 
+ 
+ <!--================= SNPIdentifierDE.SNPProbeSet ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.SNPIdentifierDE$SNPProbeSet"
+        table="PROBESET_DIM">   
+ 
+ <field-descriptor
+    name="id"
+    column="PROBESET_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="PROBESET_NAME"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor>
+ 
+  <!--================= GeneOntologyDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.GeneOntologyDE" 
+	table="GENE_ONTOLOGY">	
+	<field-descriptor
+    name="id"
+    column="GO_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="GO_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor> 
+	<!--================= ArrayPlatformDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.ArrayPlatformDE" 
+	table="EXP_PLATFORM_DIM">	
+	<field-descriptor
+    name="id"
+    column="EXP_PLATFORM_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+	<field-descriptor 
+	name="value" 
+	column="EXP_PLATFORM_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor> 
+	<!--================= GenderDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.GenderDE" 
+	table="GENDER">	
+	<field-descriptor
+    name="id"
+    column="GENDER_CODE"
+    jdbc-type="VARCHAR"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />   
+	<field-descriptor 
+	name="value" 
+	column="GENDER_DESC" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor> 
+	<!--================= AlleleFrequencyDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.AlleleFrequencyDE" 
+	table="POPULATION_TYPE">	
+	<field-descriptor
+    name="id"
+    column="POPULATION_TYPE_ID"
+    jdbc-type="VARCHAR"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />   
+	<field-descriptor 
+	name="value" 
+	column="POPULATION_TYPE_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor> 
+	
+	<!--================= OccaranceDE ==================-->     
+
+ <!--<class-descriptor class="gov.nih.nci.nautilus.de.OccaranceDE" 
+	table="OCCARANCE">	
+	<field-descriptor
+    name="id"
+    column="OCCARANCE_ID"
+    jdbc-type="VARCHAR"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />   
+	<field-descriptor 
+	name="value" 
+	column="OCCARANCE_NAME" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor> -->  
+	
+	<!--================= AgeAtDiagnosisDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.AgeAtDiagnosisDE" 
+	table="AGE_GROUP_DX">	
+	<field-descriptor
+    name="id"
+    column="LOWERBOUND"
+    jdbc-type="VARCHAR"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />   
+	<field-descriptor 
+	name="value" 
+	column="AGE_GROUP" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>   
+	
+	<!--================= SurvivalDE ==================-->     
+
+ <class-descriptor class="gov.nih.nci.nautilus.de.SurvivalDE" 
+	table="SURVIVAL_LENGTH_RANGE">	
+	<field-descriptor
+    name="id"
+    column="LOWERBOUND"
+    jdbc-type="VARCHAR"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />   
+	<field-descriptor 
+	name="value" 
+	column="SURVIVAL_LENGTH_RANGE" 
+	jdbc-type="VARCHAR" 
+	primarykey="false" 
+  />		
+	</class-descriptor>   
+	
+	 <!--================= CopyNumberDE.Amplification ==================-->
+ 
+ <class-descriptor
+        class="gov.nih.nci.nautilus.de.CopyNumberDE$Amplification"
+        table="ARRAY_GENO_ABN_FACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="AGA_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="COPY_NUMBER"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor>
+  <!--================= CopyNumberDE.Deletion ==================-->
+ 
+   <class-descriptor
+        class="gov.nih.nci.nautilus.de.CopyNumberDE$Deletion"
+        table="ARRAY_GENO_ABN_FACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="AGA_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="COPY_NUMBER"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor>
+ 
+   <!--================= CopyNumberDE.Unchange ==================-->
+ 
+  <class-descriptor
+        class="gov.nih.nci.nautilus.de.CopyNumberDE$Unchange"
+        table="ARRAY_GENO_ABN_FACT">   
+ 
+ <field-descriptor
+    name="id"
+    column="AGA_ID"
+    jdbc-type="BIGINT"
+    primarykey="true"
+    autoincrement="true"
+	access="anonymous"
+  />
+
+ <field-descriptor
+          name="value"
+          column="COPY_NUMBER"         
+		  jdbc-type="VARCHAR"
+		  primarykey="false"
+   />    
+ </class-descriptor>

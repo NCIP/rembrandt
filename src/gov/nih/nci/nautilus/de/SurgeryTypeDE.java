@@ -6,34 +6,34 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * SurgeryTypeDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class SurgeryTypeDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
 
-   /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
-    */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+     public SurgeryTypeDE() {
+        super();
     }
-   
+	
+   /**
+    * Initializes a newly created <code>SurgeryTypeDE</code> object so that it represents an SurgeryTypeDE.
+    */
+    public SurgeryTypeDE(String surgeryType) {
+        super(surgeryType);
+    }
+	
+  
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>SurgeryTypeDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +43,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the surgeryType for this SurgeryTypeDE obect.
+    * @return the surgeryType for this <code>SurgeryTypeDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the surgeryType for this <code>SurgeryTypeDE</code> object
+    * @param surgeryType the surgeryType    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
+    public void setValueObject(String surgeryType) {
+	  if(surgeryType != null){
+        value = surgeryType;
 		}
     }
 }

@@ -6,34 +6,33 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * GenderDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class GenderDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
 
+    public GenderDE() {
+        super();
+    }
+   
    /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
+    * Initializes a newly created <code>GenderDE</code> object so that it represents an GenderDE.
     */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+    public GenderDE(String gender) {
+        super(gender);
     }
    
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>GenderDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +42,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the gender for this GenderDE obect.
+    * @return the gender for this <code>GenderDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the gender for this <code>GenderDE</code> object
+    * @param gender the gender    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
+    public void setValueObject(String gender) {
+	  if(gender != null){
+        value = gender;
 		}
     }
 }

@@ -40,6 +40,11 @@ abstract public class CloneIdentifierDE extends DomainElement {
    //                   CONSTRUCTOR(S)
    // *****************************************************
 
+    private CloneIdentifierDE() {
+        super();
+        
+    }
+	
   /**
 	* private parent constructor utilized in the two nested/childe classes
     */
@@ -55,6 +60,9 @@ abstract public class CloneIdentifierDE extends DomainElement {
         public BACClone(String bacClineID) {
             super(BAC_CLONE, bacClineID);
         }
+	   public BACClone() {
+            super();
+        }
     }
 
  /**
@@ -63,6 +71,10 @@ abstract public class CloneIdentifierDE extends DomainElement {
     public final static class IMAGEClone extends CloneIdentifierDE {
        public IMAGEClone(String imageCloneID) {
             super(IMAGE_CLONE, imageCloneID);
+
+       }
+	   public IMAGEClone() {
+            super();
 
        }
     }

@@ -6,33 +6,34 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * DiseaseNameDE object.
+ * RadiationTherapyDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class DiseaseNameDE extends DomainElement{
+public class RadiationTherapyDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public DiseaseNameDE() {
+     public RadiationTherapyDE() {
         super();
     }
-   
+	
    /**
-    * Initializes a newly created <code>DiseaseNameDE</code> object so that it represents an DiseaseNameDE.
+    * Initializes a newly created <code>RadiationTherapyDE</code> object so that it represents an RadiationTherapyDE.
     */
-    public DiseaseNameDE(String diseaseName) {
-        super(diseaseName);
+    public RadiationTherapyDE(String radiationTherapy) {
+        super(radiationTherapy);
     }
-   
+	
+  
 
   /**
-    * Sets the value for this <code>DiseaseNameDE</code> object
+    * Sets the value for this <code>RadiationTherapyDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -42,20 +43,20 @@ public class DiseaseNameDE extends DomainElement{
     }
 
   /**
-    * Returns the diseaseName for this DiseaseNameDE obect.
-    * @return the diseaseName for this <code>DiseaseNameDE</code> object
+    * Returns the radiationTherapy for this RadiationTherapyDE obect.
+    * @return the radiationTherapy for this <code>RadiationTherapyDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the diseaseName for this <code>DiseaseNameDE</code> object
-    * @param diseaseName the diseaseName    
+    * Sets the radiationTherapy for this <code>RadiationTherapyDE</code> object
+    * @param radiationTherapy the radiationTherapy    
 	*/ 
-    public void setValueObject(String diseaseName) {
-	  if(diseaseName != null){
-        value = diseaseName;
+    public void setValueObject(String radiationTherapy) {
+	  if(radiationTherapy != null){
+        value = radiationTherapy;
 		}
     }
 }

@@ -6,34 +6,32 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * SurvivalDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class SurvivalDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
 
+    public SurvivalDE() {
+        super();
+    }
    /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
+    * Initializes a newly created <code>SurvivalDE</code> object so that it represents an SurvivalDE.
     */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+    public SurvivalDE(String survival) {
+        super(survival);
     }
    
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>SurvivalDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +41,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the survival for this SurvivalDE obect.
+    * @return the survival for this <code>SurvivalDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the survival for this <code>SurvivalDE</code> object
+    * @param survival the survival    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
+    public void setValueObject(String survival) {
+	  if(survival != null){
+        value = survival;
 		}
     }
 }

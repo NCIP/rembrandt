@@ -21,6 +21,10 @@ public class ChromosomeNumberDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
+  
+    public ChromosomeNumberDE() {
+        super();
+    }
    /**
     * Initializes a newly created <code>ChromosomeNumberDE</code> object so that it represents an ChromosomeNumberDE.
     */

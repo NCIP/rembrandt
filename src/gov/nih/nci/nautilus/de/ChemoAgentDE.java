@@ -6,34 +6,33 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * ChemoAgentDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class ChemoAgentDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
 
+    public ChemoAgentDE() {
+        super();
+    }
+   
    /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
+    * Initializes a newly created <code>ChemoAgentDE</code> object so that it represents an ChemoAgentDE.
     */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+    public ChemoAgentDE(String chemoAgentName) {
+        super(chemoAgentName);
     }
    
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>ChemoAgentDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +42,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the chemoAgentName for this ChemoAgentDE obect.
+    * @return the chemoAgentName for this <code>ChemoAgentDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the chemoAgentName for this <code>ChemoAgentDE</code> object
+    * @param chemoAgentName the chemoAgentName    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
+    public void setValueObject(String chemoAgentName) {
+	  if(chemoAgentName != null){
+        value = chemoAgentName;
 		}
     }
 }

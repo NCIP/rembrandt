@@ -6,34 +6,33 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * AgeAtDiagnosisDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class AgeAtDiagnosisDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
 
+     public AgeAtDiagnosisDE() {
+        super();
+    }
+   
    /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
+    * Initializes a newly created <code>AgeAtDiagnosisDE</code> object so that it represents an AgeAtDiagnosisDE.
     */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+    public AgeAtDiagnosisDE(String ageGroup) {
+        super(ageGroup);
     }
    
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>AgeAtDiagnosisDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +42,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the ageGroup for this AgeAtDiagnosisDE obect.
+    * @return the ageGroup for this <code>AgeAtDiagnosisDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the ageGroup for this <code>AgeAtDiagnosisDE</code> object
+    * @param ageGroup the ageGroup    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
-		}
+    public void setValueObject(String ageGroup) {
+	  if(ageGroup != null){
+        value = ageGroup;
+		} 
     }
 }

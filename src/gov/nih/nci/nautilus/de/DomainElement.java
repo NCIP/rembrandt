@@ -42,6 +42,9 @@ abstract public class DomainElement {
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
+  
+     protected DomainElement() {}
+	
 
    /**
     * Initializes a newly created <code>DomainElement</code> object so that it represents an DomainElement.

@@ -6,34 +6,32 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 
 /**
  * This  class encapsulates the properties of an caintergator 
- * PathwayDE object.
+ * AlleleFrequencyDE object.
  *  
  * Dana Zhang
  * Date: August 12, 2004 
  * Version 1.0
  */
-public class PathwayDE extends DomainElement{
+public class AlleleFrequencyDE extends DomainElement{
    
     
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-  
-  public PathwayDE(){
-	  super();
-	 }
-
+    public AlleleFrequencyDE() {
+        super();
+    }
+   
    /**
-    * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.
+    * Initializes a newly created <code>AlleleFrequencyDE</code> object so that it represents an AlleleFrequencyDE.
     */
-	
-    public PathwayDE(String pathwayName) {
-        super(pathwayName);
+    public AlleleFrequencyDE(String allelName) {
+        super(allelName);
     }
    
 
   /**
-    * Sets the value for this <code>PathwayDE</code> object
+    * Sets the value for this <code>AlleleFrequencyDE</code> object
     * @param object the value    
 	*/  	
     public void setValue(Object obj) throws Exception {
@@ -43,20 +41,20 @@ public class PathwayDE extends DomainElement{
     }
 
   /**
-    * Returns the pathwayName for this PathwayDE obect.
-    * @return the pathwayName for this <code>PathwayDE</code> object
+    * Returns the allelName for this AlleleFrequencyDE obect.
+    * @return the allelName for this <code>AlleleFrequencyDE</code> object
     */	
     public String getValueObject() {
         return (String) getValue();
     }
 
   /**
-    * Sets the pathwayName for this <code>PathwayDE</code> object
-    * @param pathwayName the pathwayName    
+    * Sets the allelName for this <code>AlleleFrequencyDE</code> object
+    * @param allelName the allelName    
 	*/ 
-    public void setValueObject(String pathwayName) {
-	  if(pathwayName != null){
-        value = pathwayName;
-		}
+    public void setValueObject(String allelName) {
+	  if(allelName != null){
+        value = allelName;
+		} 
     }
 }
