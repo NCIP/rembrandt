@@ -23,7 +23,16 @@ public class FilterHelper {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+	/*
+	 * 	This method checks the filter criteria and returns a boolean based on a scenario
+	 *  true = process this element (gene/reporter)
+	 *  false = dont process this element, as it has been filtered off the report
+	 * 	params: filter_element = gene | cytoband | reporter
+	 *  		f_element = string version of filter_element for comparison
+	 * 			name = name of the gene | reporter | cytoband for comparison
+	 * 			filter_type = show | hide
+	 * 			filter_string = ArrayList of all gene | reporter | cytoband to show | hide 
+	 */
 	public static boolean checkFilter(String filter_element, String f_element, String name, String filter_type, ArrayList filter_string)	{
 		if(filter_type.equals("hide") && (!filter_element.equals(f_element) || (filter_element.equals(f_element) && !filter_string.contains(name)))) 
 			return true;
