@@ -232,11 +232,11 @@
 	  </div>
 	  
   	<div class="filterForm">
-		<b><span class="lb">Missing Values:</span></b> 
+		<b><span class="lb">Show all Values:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		
-		<input type="button" name="filter_submit" value="Show missing values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
+		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
 		<xsl:text>&#160;</xsl:text>
+		<a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('show all values');" onmouseout="return nd();">[?]</a>
 	  </div>
 	  
 	 <div class="filterForm">
@@ -389,33 +389,46 @@
 					<tr>
 		  				<xsl:for-each select="Cell">
 		  	  			<xsl:variable name="class" select="@group" />
+		  	  			<xsl:variable name="styleclass" select="@class" />
+		  	  			<xsl:variable name="theData" select="Data"/>
 		      			<td class="{$class}">
-						<xsl:if test="$class = 'sample'">
-		      				<xsl:variable name="sample" select="Data"  />
-		      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
-						</xsl:if>
+
 		      			<xsl:choose>
-		      			<xsl:when test="$filter_value1 != 000 and Data > $filter_value1">
-		      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-		      			</xsl:when>
-		      			<xsl:otherwise>
-		      				<xsl:if test="@class = 'highlighted'">
-		      					<span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-		      				</xsl:if>
-		      				<xsl:if test="@class != 'highlighted'">
-		      					<xsl:value-of select="Data" disable-output-escaping="yes" />
-		      				</xsl:if>
-		      			</xsl:otherwise>
+		      				<xsl:when test="$styleclass = 'gene' and $theData != '-'">
+		      					<a href="#" onclick="javascript:spawnAnnot('gene', '{$theData}'); return false;"><xsl:value-of select="Data"/></a>
+		      				</xsl:when>
+		      				<xsl:when test="$styleclass = 'reporter' and $theData != '-'">
+		      						<a href="#" onclick="javascript:spawnAnnot('reporter','{$theData}'); return false;"><xsl:value-of select="Data"/></a>	
+		      				</xsl:when>
+			      			<xsl:when test="$class = 'sample'">
+			      				<xsl:variable name="sample" select="Data"  />
+			      				<xsl:value-of select="Data" />
+			      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
+							</xsl:when>
+			      			<xsl:when test="$filter_value1 != 000 and Data > $filter_value1">
+			      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      			</xsl:when>
+			      			<xsl:otherwise>
+			      				<xsl:if test="@class = 'highlighted'">
+			      					<span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      				</xsl:if>
+			      				<xsl:if test="@class != 'highlighted'">
+			      					<xsl:value-of select="Data" disable-output-escaping="yes" />
+			      				</xsl:if>
+			      			</xsl:otherwise>
 		      			</xsl:choose>
 		      			</td>
 		    			</xsl:for-each>
 		    		</tr>
-			</xsl:if>
-				<xsl:if test="/Report[@reportType != 'Clinical'] and ./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text()">
+
+				<xsl:if test="/Report[@reportType != 'Clinical'] and ./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text() and following::Cell[1]/Data[1]/text() != ''">
 					<tr>
 		      			<td colspan="{$colCount}" class="geneSpacerStyle">--</td>
 		    		</tr>
 				</xsl:if>
+
+			</xsl:if>
+
 <!-- the pagination form -->
 <xsl:variable name="nextpage" select = "$filter_value2 + 1" />
 <xsl:variable name="prevpage" select = "$filter_value2 - 1" />

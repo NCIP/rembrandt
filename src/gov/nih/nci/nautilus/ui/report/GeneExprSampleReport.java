@@ -201,11 +201,11 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        		}
 				        		
 				        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
-							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(geneSymbol);
 							        	data = null;
 							        cell = null;
-							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "reporter").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
 							        	data = null;
 							        cell = null;

@@ -174,11 +174,11 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				        		if(FilterHelper.checkFilter(filter_element, "reporter", reporterName, filter_type, filter_string))	{   	
 				        		//if(!filter_element.equals("reporter") || (filter_element.equals("reporter") && !filter_string.contains(reporterName)))	{		
 					        		dataRow = report.addElement("Row").addAttribute("name", "dataRow");
-							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "cytoband").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
 							        	data = null;
 							        cell = null;
-							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "header").addAttribute("group", "header");
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "reporter").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
 							        	data = null;
 							        cell = null;
