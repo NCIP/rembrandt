@@ -138,6 +138,8 @@ abstract public class CGHFactHandler {
                     obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
                 }
                 results[i] = obj;
+                System.out.println("SAMPLE_ID: " + obj.getSampleId() + "    Copy Number: " + obj.getCopyNumber() +
+                                    "    DISEASE_TYPE: " + obj.getDiseaseType());
             }
             return results;
         }
