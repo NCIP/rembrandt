@@ -7,15 +7,16 @@
 <html:form action="/kmGraph.do?method=redrawKMPlot">
 <html:hidden property="geneSymbol"/>
 <div>
-    Upregulated
-    <html:radio title="UPREGULATED" property="regulated" value="Up"/>
-    &nbspDownregulated
-    <html:radio title="DOWNREGULATED" property="regulated" value="Down"/>
-    &nbspFolds
+     Folds
     <html:select property="fold">
        <html:options property="folds"/>
     </html:select>
-      
+    <html:radio styleClass="radio" title="UPREGULATED" property="regulated" value="Up"/>
+    Upregulated
+    &nbsp
+    <html:radio styleClass="radio" title="DOWNREGULATED" property="regulated" value="Down"/>
+    Downregulated
+    &nbsp
     <html:submit value="Redraw Graph"/>
 </div>
 <div>
