@@ -14,7 +14,7 @@ public class ViewFactory {
             return new GeneExprSampleView();
         }
         else if (viewType instanceof ViewType.GeneGroupSampleView) {
-            return new GeneSingleDiseaseView();
+            return new GeneExprDiseaseView();
         }
         else if (viewType instanceof ViewType.ClinicalView) {
             return new ClinicalSampleView();

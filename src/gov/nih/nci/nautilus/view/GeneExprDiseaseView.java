@@ -56,10 +56,10 @@ import gov.nih.nci.nautilus.de.DomainElementClass;
  * Date: Nov 1, 2004
  * 
  */
-public class GeneSingleDiseaseView extends View {
+public class GeneExprDiseaseView extends View {
     private DomainElementClass[] validDEs;
 
-    GeneSingleDiseaseView() {
+    GeneExprDiseaseView() {
         validDEs = new DomainElementClass[]
               { DomainElementClass.PROBESET,
                 DomainElementClass.EXPRFOLDCHANGE,
