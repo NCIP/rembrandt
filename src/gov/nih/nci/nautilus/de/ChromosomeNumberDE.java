@@ -11,7 +11,7 @@ public class ChromosomeNumberDE extends DomainElement{
     private String chromsomeNumber;
 
     static {
-        LABEL = (String) ApplicationContext.getLabelProperties().get("ChromosomeNumberDE");
+        LABEL = (String) ApplicationContext.getLabelProperties().get("ChromosomeNumber");
     }
 
     public Object getValue() {
