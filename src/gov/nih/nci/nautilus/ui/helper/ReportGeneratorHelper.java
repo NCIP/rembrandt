@@ -568,7 +568,8 @@ public class ReportGeneratorHelper {
 	private Map processFilterParamMap(Map filterParams) {
 		String test = "";
 		List tokens = null;
-		String unallowableCharacters = " <>!:\"@#\\$%^&*()-+=/{}[]|?~`";
+		//String unallowableCharacters = " <>!:\"@#\\$%^&*()-+=/{}[]|?~`";
+		String unallowableCharacters = " <>!:\"@#\\$%^&*()+=/{}[]|?~`";
 		if(filterParams!=null && filterParams.containsKey("filter_string")) {
 			//tokenize the string
 			StringTokenizer tokenizer = new StringTokenizer((String)filterParams.get("filter_string"), ",", false);
