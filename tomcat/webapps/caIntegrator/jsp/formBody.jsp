@@ -25,7 +25,7 @@ String act = request.getParameter("s").toLowerCase();
      request.getSession().setAttribute("currentPage2", "1");
 	 session.removeAttribute("currentPage");
 	 String pageStr = (String)request.getSession().getAttribute("currentPage");
-	  System.out.println("pageStr^^^^^^^^^^^^^:"+pageStr);
+	
 
 	Properties props = new Properties();
     try {

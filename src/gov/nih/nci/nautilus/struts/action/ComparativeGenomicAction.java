@@ -120,13 +120,10 @@ public class ComparativeGenomicAction extends Action {
 		  cghQuery.setAlleleFrequencyCrit(alleleFrequencyCriteria);
 		  }
 		
-		System.out.println("111111111111111");
+		
 		AssayPlatformCriteria assayPlatformCriteria = comparativeGenomicForm.getAssayPlatformCriteria();
-		System.out.println("22222222222222");  
-		  if(!assayPlatformCriteria.isEmpty()){
-		  System.out.println("33333333333333333333");
-		    cghQuery.setAssayPlatformCrit(assayPlatformCriteria);
-			System.out.println("444444444444444");
+		if(!assayPlatformCriteria.isEmpty()){		
+		    cghQuery.setAssayPlatformCrit(assayPlatformCriteria);		
 		  }
 		
 		try{
@@ -137,8 +134,7 @@ public class ComparativeGenomicAction extends Action {
 				// Get Hashmap from session if available
 				
 				QueryCollection queryCollection = (QueryCollection)request.getSession().getAttribute(Constants.QUERY_KEY);
-		        if( queryCollection == null){
-				   System.out.println("QueryCollectionin Session is empty");
+		        if( queryCollection == null){				  
 				   queryCollection = new QueryCollection();
 				  }
 				queryCollection.putQuery(cghQuery);

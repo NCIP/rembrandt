@@ -246,7 +246,7 @@ public class ComparativeGenomicForm extends BaseForm {
 		HttpServletRequest request) {
 
 			ActionErrors errors = new ActionErrors();
-			System.out.println("------------------I am in the cgh validata method()");
+			
 		
 			// Query Name cannot be blank
 			if ((queryName == null || queryName.length() < 1))
