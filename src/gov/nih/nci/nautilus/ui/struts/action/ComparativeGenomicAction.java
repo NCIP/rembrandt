@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.ui.struts.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
@@ -18,9 +19,12 @@ import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.helper.ChromosomeHelper;
 import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
+import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
@@ -39,6 +43,53 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     
    
+    /**
+     * Method setup
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    
+    //Setup the comparativeGenomicForm from menu page
+    public ActionForward setup(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+		ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
+		//Since Chromosomes is a static variable there is no need to set it twice.
+		//It is only a lookup option collection
+		if(comparativeGenomicForm.getChromosomes()==null||comparativeGenomicForm.getChromosomes().isEmpty()) {
+			//set the chromsomes list in the form 
+			logger.debug("Setup the chromosome values for the form");
+			comparativeGenomicForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
+		}
+		return mapping.findForward("backToCGH");
+    }
+    
+    public ActionForward getCytobands(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+			ComparativeGenomicForm cgForm = (ComparativeGenomicForm)form;
+			//This is the static list of chromosomes that is fetched the first time it is needed
+			List chromosomes = cgForm.getChromosomes();
+			//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
+			//into the static chromosomes list where the chromosome can be found.
+			if(!"".equals(cgForm.getChromosomeNumber())) {
+				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(cgForm.getChromosomeNumber()));
+				cgForm.setCytobands(bean.getCytobands());
+			}
+			
+			return mapping.findForward("backToCGH");
+	}
+    
+    
     /**
      * Method submitAllGenes
      * 
@@ -287,6 +338,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     protected Map getKeyMethodMap() {
 		 
       HashMap map = new HashMap();
+      //Comparative Genomic Query Button using comparative genomic setup method
+      map.put("ComparativeGenomicAction.setupButton", "setup");
       
       //Submit Query Button using comparative genomic submittal method
       map.put("buttons_tile.submittalButton", "submittal");
@@ -300,6 +353,9 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
       //Submit Standard Button using cgh expression submitStandard method
       map.put("buttons_tile.submitStandard", "submitStandard");
       
+      //Submit to get the cytobands of the selected chromosome
+      map.put("ComparativeGenomicAction.getCytobands", "getCytobands");
+     
       return map;
       
       }

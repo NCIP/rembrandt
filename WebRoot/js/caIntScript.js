@@ -14,6 +14,7 @@ function checkNull(text)
 
 function cRadio(field, radio)
 {
+	
 	if(field.value == "")
 		radio.checked = false;
 }
@@ -712,6 +713,19 @@ function showQueryDetail(selectName){
 	  
  function radioFold(formElement){
        var element = formElement.name;
+       
+   if (element == "cytobandRegion"){
+        document.forms[0].region[0].checked = true;
+        document.forms[0].region[1].checked = false;
+        document.forms[0].basePairStart.value = "";
+        document.forms[0].basePairEnd.value = "";        
+       } 
+   
+   if (element == "basePairStart" || element == "basePairEnd"){
+        document.forms[0].region[1].checked = true;
+        document.forms[0].region[0].checked = false;     
+       }      
+   
    if (element == "sampleList"){
          document.forms[0].sampleGroup[0].checked = true;
         }

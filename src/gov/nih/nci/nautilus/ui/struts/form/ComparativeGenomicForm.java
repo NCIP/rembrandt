@@ -26,6 +26,7 @@ import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.SNPIdentifierDE;
 import gov.nih.nci.nautilus.de.SampleIDDE;
+import gov.nih.nci.nautilus.ui.bean.ChromosomeBean;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,6 +38,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -63,6 +65,12 @@ public class ComparativeGenomicForm extends BaseForm {
 
     // --------------------------------------------------------- Instance
     // Variables
+    
+    /** selected chromosomes cytobands **/
+	private List cytobands = new ArrayList();
+		
+	/** chromosomes property */
+	private static List chromosomes;
     
     /**geneOption property */    
 	private String geneOption = "standard";
@@ -119,7 +127,7 @@ public class ComparativeGenomicForm extends BaseForm {
     private String basePairEnd;
 
     /** chrosomeNumber property */
-    private String chrosomeNumber;
+    private String chromosomeNumber;
 
     /** cnADDeleted property */
     private String cnADDeleted;
@@ -300,7 +308,7 @@ public class ComparativeGenomicForm extends BaseForm {
         //Query Name cannot be blank
         errors = UIFormValidator.validateQueryName(queryName, errors);
         // Chromosomal region validations
-        errors = UIFormValidator.validateChromosomalRegion(chrosomeNumber, region, cytobandRegion, basePairStart,basePairEnd, errors);
+        errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber, region, cytobandRegion, basePairStart,basePairEnd, errors);
         //Validate Gene List, Gene File and Gene Group
         errors = UIFormValidator.validate(geneGroup, geneList, geneFile, errors);
         //Make sure the snpListFile uploaded is of type txt and MIME type is text/plain
@@ -316,8 +324,8 @@ public class ComparativeGenomicForm extends BaseForm {
         if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
             if ((this.getGeneGroup() == null || this.getGeneGroup().trim()
                     .length() < 1)
-                    && (this.getChrosomeNumber() == null || this
-                            .getChrosomeNumber().trim().length() < 1)) {
+                    && (this.getChromosomeNumber() == null || this
+                            .getChromosomeNumber().trim().length() < 1)) {
                 if ((this.getSnpId() == null || this.getSnpId().trim().length() < 1)
                         || (this.getSnpListSpecify().length() < 1 && this
                                 .getSnpListFile() == null)
@@ -764,7 +772,7 @@ public class ComparativeGenomicForm extends BaseForm {
         cnADAmplified = "";
         genomicTrack = "";
         basePairEnd = "";
-        chrosomeNumber = "";
+        chromosomeNumber = "";
         cnADDeleted = "";
         cnUnchangeTo = "";
         alleleFrequency = "";
@@ -805,6 +813,25 @@ public class ComparativeGenomicForm extends BaseForm {
         thisRequest = request;
 
     }
+    
+    /**
+	 * Set the chromosomes Collection
+	 * 
+	 * @param chromosomes
+	 */
+	public void setChromosomes(List chromosomes) {
+		ComparativeGenomicForm.chromosomes = chromosomes;
+	}
+
+	/**
+	 * Return the chromosomes List
+	 * 
+	 * @param chromosomes
+	 */
+	public List getChromosomes() {
+		return ComparativeGenomicForm.chromosomes;
+	}
+
 
     /**
      * Returns the geneList.
@@ -1500,8 +1527,8 @@ public class ComparativeGenomicForm extends BaseForm {
      * 
      * @return String
      */
-    public String getChrosomeNumber() {
-        return chrosomeNumber;
+    public String getChromosomeNumber() {
+        return chromosomeNumber;
     }
 
     /**
@@ -1510,11 +1537,11 @@ public class ComparativeGenomicForm extends BaseForm {
      * @param chrosomeNumber
      *            The chrosomeNumber to set
      */
-    public void setChrosomeNumber(String chrosomeNumber) {
-        this.chrosomeNumber = chrosomeNumber;
+    public void setChromosomeNumber(String chromosomeNumber) {
+        this.chromosomeNumber = chromosomeNumber;
 
-        if (chrosomeNumber != null && chrosomeNumber.length() > 0) {
-            regionDomainMap.put(this.chrosomeNumber, ChromosomeNumberDE.class
+        if (chromosomeNumber != null && chromosomeNumber.length() > 0) {
+            regionDomainMap.put(this.chromosomeNumber, ChromosomeNumberDE.class
                     .getName());
         }
 
@@ -2013,6 +2040,24 @@ public class ComparativeGenomicForm extends BaseForm {
     public ArrayList getAlleleTypes() {
         return alleleTypes;
     }
+    
+    /**
+	 * @return Returns the cytobands.
+	 */
+	public List getCytobands() {
+		//Check to make sure that if we have a chromosome selected
+		//that we also have it's associated cytobands
+		if(!"".equals(chromosomeNumber)&&cytobands.isEmpty()) {
+			cytobands = ((ChromosomeBean)(chromosomes.get(Integer.parseInt(chromosomeNumber)))).getCytobands();
+		}
+		return cytobands;
+	}
+	/**
+	 * @param cytobands The cytobands to set.
+	 */
+	public void setCytobands(List cytobands) {
+		this.cytobands = cytobands;
+	}
 
     public ComparativeGenomicForm cloneMe() {
         ComparativeGenomicForm form = new ComparativeGenomicForm();
@@ -2027,7 +2072,7 @@ public class ComparativeGenomicForm extends BaseForm {
         form.setCloneListFile(cloneListFile);
         form.setCloneListSpecify(cloneListSpecify);
         form.setBasePairEnd(basePairEnd);
-        form.setChrosomeNumber(chrosomeNumber);
+        form.setChromosomeNumber(chromosomeNumber);
         form.setGeneType(geneType);
         form.setResultView(resultView);
         form.setGeneFile(geneFile);

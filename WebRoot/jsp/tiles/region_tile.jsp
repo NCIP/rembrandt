@@ -26,22 +26,34 @@
 	<blockquote>
 	<html:radio property="region" value="cytoband" styleClass="radio" />
 			Cytoband&nbsp;
-			 <html:select property="cytobandRegion" onchange="javascript:selectCRadio();">
+	        <logic:present name="geneexpressionForm">
+			 <html:select property="cytobandRegion" onclick="javascript:radioFold(this);">
               <logic:iterate name="geneexpressionForm" property="cytobands" id="cytoband">
                	<option>
               	 	<bean:write name="cytoband" property="cytoband"/>	
               	</option>
-               </logic:iterate>		
-            </html:select>
+               </logic:iterate>
+              </html:select>
+            </logic:present>
+            <logic:present name="comparitivegenomicForm">
+			 <html:select property="cytobandRegion" onclick="javascript:radioFold(this);">
+             <logic:iterate name="comparitivegenomicForm" property="cytobands" id="cytoband">
+              	<option>
+             	 	<bean:write name="cytoband" property="cytoband"/>	
+             	</option>
+              </logic:iterate>	
+             </html:select>
+           </logic:present>            
+            
 			<input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br />
 			<html:errors property="cytobandRegion"/>
 			
 	<html:radio property="region" value="basePairPosition" styleClass="radio" />
 	        Base Pair Position (kb)&nbsp; 
 	        <p style="margin-left:30px">
-	        <html:text property="basePairStart"/>
+	        <html:text property="basePairStart" onclick="javascript:radioFold(this);"/>
  			&nbsp;-to-&nbsp;
- 			<html:text property="basePairEnd"/>
+ 			<html:text property="basePairEnd" onclick="javascript:radioFold(this);"/>
  			</p>
 				<html:errors property="basePairEnd"/>
 	</blockquote>	

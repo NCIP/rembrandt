@@ -61,8 +61,17 @@ String cghQueryString = "0";
 			        &nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b></td></tr>
 			     </html:form>
 				
-			<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Copy Number Data Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
-				&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b></td></tr>
+			  <tr><td> 
+			     <html:form action="/comparitivegenomic">
+			       <html:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
+			          <bean:message key="ComparativeGenomicAction.setupButton"/>
+			       </html:submit>
+			        &nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b></td></tr>
+			     </html:form>
+			     
+			     
+			
+				
 			<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
 				&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b></td></tr>
 			</table>
