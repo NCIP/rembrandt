@@ -10,10 +10,13 @@
 	<!-- <html:form action="<%=act%>" method="get"> -->
 	
 <html:radio property="cloneId" value="list" styleClass="radio" />
-				<html:select property="cloneList">
+	<html:select property="cloneList">
+	<html:optionsCollection property="cloneTypeColl" />
+	</html:select>
+				<!--- <html:select property="cloneList">
 					<html:option value="image">IMAGE Id</html:option>
 					<html:option value="bac">BAC Id</html:option>
-				</html:select>
+				</html:select> --->
 &nbsp;<html:text property="cloneListSpecify"/>&nbsp;-or-&nbsp;
 <html:radio property="cloneId" value="file" styleClass="radio" disabled="true" />
 				<html:file property="cloneListFile" disabled="true" /></br>

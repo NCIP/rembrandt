@@ -3,7 +3,7 @@
 /*
 Gene Tile -
 used in: GeneExpression form, CGH form
-
+*/
 
 String act = request.getParameter("act");
 %>
