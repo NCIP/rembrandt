@@ -111,10 +111,11 @@ function moveEm(formElement)	{
 	var element = formElement.name;
 		//alert(element);
 	
-	var tt = document.forms[0].tumorType.selectedIndex;
+//	var tt = document.forms[0].tumorType.selectedIndex;
 	var ds = document.forms[0].dataSet.selectedIndex;
 	var gi = document.forms[0].generatingInstitution.selectedIndex;
 			
+/*
 	if(element == "tumorType")	{
 		//reset the dropdown for dataset	
 		document.forms[0].dataSet.options.length = 1;
@@ -148,12 +149,14 @@ function moveEm(formElement)	{
 		document.forms[0].generatingInstitution.options.length=1;
 		
 	}
-	else if(element == "dataSet")	{
+*/
+	if(element == "dataSet")	{
 		//reset the dropdown for gen inst	
 		document.forms[0].generatingInstitution.options.length = 1;
 		//data set was moved, switch on ds
 		switch(ds)	{
-			case 1:
+			//case 1:
+			/*
 				switch(tt)	{
 					case 1: //brain tt
 					case 2:
@@ -172,10 +175,15 @@ function moveEm(formElement)	{
 					default:
 						var genInst = new Array("all", "NCI","other");
 				}
-				
-			break;
+			*/
+				case 1:
+						var genInst = new Array("All", "UCSF", "NCI", "Johns Hopkins", "MDACC", "other");
+						break;
+				case 2:
+						var genInst = new Array("All", "UNC", "NCI", "other");
+						break;
 			default:
-				var genInst = new Array("all", "NCI","other");
+				var genInst = new Array("All", "NCI","other");
 		}
 		//data set box has changed, so update gen inst
 		for(var a=0; a<genInst.length; a++)	{

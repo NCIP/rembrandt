@@ -28,13 +28,28 @@
 									</TD>
 								</TR>
 								<TR class="report">
-									<TD width="30%">
-										<DIV class="title">Disease Type
-										</DIV>
-										<SELECT>
-											<OPTION selected>Breast Cancer</OPTION>
-										</SELECT>
-									</TD>
+							<Td colspan="3">
+							<div class="title">Disease <!--Tumor--> Type</div>
+							<select name="tumorType">
+								<option>All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<!--
+								<option>Brain</option>
+								<option>Breast</option>
+								-->
+								<option>Astrocytic</option>
+								<option>Oligodendroglial</option>
+								<option>Ependymal cell </option>
+								<option>Mixed gliomas </option>
+								<option>Neuroepithelial</option>
+								<option>Choroid Plexus </option>
+								<option>Neuronal and mixed neuronal-glial</option>
+								<option>Pineal Parenchyma </option>
+								<option>Embryonal</option>
+								<option>Some I-SPY Tumor Type</option>
+							</select>
+							<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
+							</td>
+									<!--
 									<TD width="30%">
 										<DIV class="title">Study Data Set
 										</DIV>
@@ -57,10 +72,13 @@
 											<OPTION>Memorial Sloan Kettering Cancer Center</OPTION>
 										</SELECT>
 									</TD>
+									-->
 								</TR>
 								<TR class="report">
 									<TD colspan="3">
-										<DIV class="title">Recurrence</DIV>
+										<DIV class="title">Occurrence</DIV>
+										<input type="checkbox" class="radio" checked selected>First Presentation
+										&nbsp;&nbsp;
 										<input type="checkbox" class="radio" checked selected 
 										onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));">Recurrence&nbsp;&nbsp;
 											<select name="rec">
@@ -68,9 +86,8 @@
 												<option>1</option>
 												<option>2</option>
 												<option>3</option>
-											</select>	
-											&nbsp;&nbsp;									
-										<input type="checkbox" class="radio" checked selected>First Presentation
+											</select>			
+										
 									</TD>
 								</TR>
 							
@@ -113,7 +130,7 @@
 											<option>12+ months</option>
 										</select>
 									<TD>
-										<DIV class="title">	Age at DX</DIV>
+										<DIV class="title">	Age at Dx</DIV>
 										<SELECT>
 											<OPTION selected>&nbsp;</OPTION>
 											<OPTION>0-5</OPTION>
@@ -137,7 +154,7 @@
 											<OPTION>90 +</OPTION>
 										</SELECT>
 									</TD>
-									<TD colspan="2" align="left">
+									<TD align="left">
 										<DIV class="title">	Gender</DIV>
 											<select>
 												<option>all</option>
@@ -150,7 +167,9 @@
 								<TR class="report">
 									<TD align="center" colspan="3">										
 										<INPUT type="reset" value="clear" class="xbutton">&nbsp;&nbsp;										
-										<input type="button" class="xbutton" value="submit" onclick="location.href = 'step1a.html';">
+										<input type="button" class="xbutton" value="submit" onclick="location.href = 'step1a.html';">&nbsp;&nbsp;
+										<input type="button" class="xbutton" value="preview" onclick="javascript:spawn('preview.html', 780, 300);">
+
 									</TD>
 								</TR>
 							</TABLE>

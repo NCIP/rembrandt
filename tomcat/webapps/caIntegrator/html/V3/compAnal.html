@@ -58,7 +58,7 @@
 							<Td width="33%">
 							<div class="title">Disease Type</div>
 							<select name="tumorType" onchange="javascript:moveEm(this);">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<option>All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
 								<option>Astrocytic</option>
 								<option>Oligodendroglial</option>
 								<option>Ependymal cell </option>
@@ -72,7 +72,7 @@
 							</select>
 							<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
 							</td>
-						
+						<!--
 							<Td>
 							<div class="title">Study Data Set</div>
 							<select name="dataSet" onchange="javascript:moveEm(this);">
@@ -86,6 +86,7 @@
 								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
 							</select>
 							</td>
+							-->
 						</tr>
 					</table>
 				</td>
@@ -98,7 +99,18 @@
 					<input type="text" size="50">
 					</td>
 				</tr>
-				
+				<tr class="report">
+					<td>
+					<div class="title">Select Resultant View
+					<a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+					</div>
+					<Select>
+						<option>&nbsp;</option>
+						<option>Sample View</option>
+						<option>Gene View</option>
+					</select>
+					</td>
+				</tr>
 				<Tr class="report"><Td><br></td></tr>
 				
 				<tr class="report">
@@ -112,7 +124,7 @@
 					<br>
 					<input type="radio" class="radio" name="gene" selected checked>
 					<select>
-							<option>&nbsp;</option>
+							<option>All Genes</option>
 							<option>Name/Symbol</option>
 							<option>Locus Link Id</option>
 							<option>GenBank AccNo.</option>
@@ -169,6 +181,14 @@
 					</td>
 				</tr>
 				<tr class="report">
+					<td>
+					<div class="title">Genomic Annotation Track
+					<a href="javascript:void(0);" onmouseover="return overlib('Via DAS.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+					</div>
+					<input type="text">&nbsp;<input type="button" class="sbutton" value="Genomic Browser..." style="width:150px;">
+					</td>
+				</tr>
+				<tr class="report">
 				<td>
 				<div class="title">Clone Id</div>
 				<b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b>
@@ -176,7 +196,7 @@
 				<input type="radio" class="radio" name="cloneId" checked selected>
 				<select>
 					<option>&nbsp;</option>
-						<option>I.M.A.G.E Id</option>
+						<option>IMAGE Id</option>
 						<option>BAC Id</option>
 					</select>
 				&nbsp;
@@ -211,14 +231,7 @@
 					<br>
 					</td>
 				</tr>
-				<tr class="report">
-					<td>
-					<div class="title">Genomic Annotation Track
-					<a href="javascript:void(0);" onmouseover="return overlib('Via DAS.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-					</div>
-					<input type="text">&nbsp;<input type="button" class="sbutton" value="Genomic Browser..." style="width:150px;">
-					</td>
-				</tr>
+				
 				<tr class="report">
 					<Td>
 					<div class="title">Allele Frequency</div>
@@ -255,7 +268,8 @@
 				<tr class="report">
 					<td align="center">
 						<input type="reset" value="clear" class="xbutton">&nbsp;&nbsp;
-						<input type="button" class="xbutton" value="submit" onclick="location.href= 'step1b.html'">
+						<input type="button" class="xbutton" value="submit" onclick="location.href= 'step1b.html'">&nbsp;&nbsp;
+						<input type="button" class="xbutton" value="preview" onclick="javascript:spawn('preview.html', 780, 300);">
 
 					</td>
 				</tr>
