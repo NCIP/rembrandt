@@ -21,9 +21,11 @@ import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -70,26 +72,65 @@ public class CompoundQueryTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testCompoundQueryProcessor() {
+	public void testSingleQueryInCompoundQueryProcessor() {
 		try {
-			CompoundQuery myCompoundQuery = new CompoundQuery(cloneQuery);
+			//test Single Query
+			System.out.println("Testing Single Gene Query>>>>>>>>>>>>>>>>>>>>>>>");
+			CompoundQuery myCompoundQuery = new CompoundQuery(geneQuery);
 			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
 			System.out.println("SingleQuery:\n"+ myCompoundQuery.toString());
 			print(geneExprObjects);
 		} catch (Exception e) {
 			e.printStackTrace();
+			}
 		}
-		
-		
+	public void testCompoundQueryANDProcessor() {
+		try {
+			//test CompoundQuery Query
+			System.out.println("Testing CompoundQuery GeneQuery AND ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,probeQuery);
+			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
+			print(geneExprObjects);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	public void testCompoundQueryNOTProcessor() {
+		try {
+			//test CompoundQuery Query
+			System.out.println("Testing CompoundQuery GeneQuery NOT ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.NOT,geneQuery,probeQuery);
+			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
+			print(geneExprObjects);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	public void testCompoundQueryORProcessor() {
+		try {
+			//test CompoundQuery Query
+			System.out.println("Testing CompoundQuery CloneQuery OR ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.OR,cloneQuery,probeQuery);
+			ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
+			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
+			print(geneExprObjects);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
     /**
 	 * @param geneExprObjects
 	 */
 	private void print(ResultSet[] geneExprObjects) {
 		if(geneExprObjects != null){
-	        for (int i =0; i <= geneExprObjects.length; i++) {
-	        	DifferentialExpressionSfact expObj = (DifferentialExpressionSfact) geneExprObjects[i];
-	            System.out.println( "uID: " +expObj.getDesId()+ "|geneSymbol: " + expObj.getGeneSymbol() + " |CloneId: " +expObj.getCloneId()+ " |probesetId: " +expObj.getProbesetId()+"|expObj.biospecimenID: " +expObj.getBiospecimenId() );
+			System.out.println("Number of Records:"+ geneExprObjects.length);
+	        for (int i =0; i < geneExprObjects.length; i++) {
+	        	GeneExpr.GeneExprSingle expObj = (GeneExpr.GeneExprSingle) geneExprObjects[i];
+	        	if(expObj != null){
+	            System.out.println( "uID: " + expObj.getDesId() + "|geneSymbol: " + expObj.getGeneSymbol() +"|clone: " + expObj.getCloneName()+"|probeSet: "+expObj.getProbesetName()+"|biospecimenID: " + expObj.getBiospecimenId() );
+	        	}
 	        }
 		}
 		
@@ -122,7 +163,7 @@ public class CompoundQueryTest extends TestCase {
     private void buildGeneIDCrit() {
         geneCrit = new GeneIDCriteria();
         //Both IMAGE:2014733 and 1555146_at should be subsets of ATF2
-        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("EGFR"));
+        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("ATF2"));
 
     }
     private void buildFoldChangeCrit() {

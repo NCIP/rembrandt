@@ -54,6 +54,8 @@ import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.query.QueryManager;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.*;
@@ -109,7 +111,10 @@ public class CompoundQueryProcessor {
 				else if(operator.equals(OperatorType.PROJECT_RESULTS_BY)){
 					resultSets = ResultSetProjectResultsBy(leftResultSets,rightResultSets);
 				}
+			}else{ //then its the right query
+				resultSets = rightResultSets;
 			}
+				
 		}
 		return resultSets;	
 	}
@@ -129,12 +134,35 @@ public class CompoundQueryProcessor {
 	 * @return resultSet[] which is set of every element that is in the leftResultset but not in the rightResultset
 	 */
 	private static ResultSet[] ResultSetDifference(ResultSet[] leftResultSets, ResultSet[] rightResultSets) {
-		Collection leftResults = Arrays.asList(leftResultSets);
-		Collection rightResults = Arrays.asList(rightResultSets);
-		//the removeAll operation effectively modifies this set so that its value is the asymmetric set difference of the two sets.
-		Set diffSet = new HashSet(leftResults);
-		diffSet.removeAll(rightResults);
-		return (ResultSet[]) diffSet.toArray();
+		Collection leftResults = new HashSet();
+		Collection rightResults = new HashSet();
+		Set finalResults = new HashSet();
+		if(leftResultSets != null && rightResultSets != null){
+			for(int i =0;i < leftResultSets.length;i++){
+				GeneExpr geneExpr = (GeneExpr) leftResultSets[i];
+				leftResults.add(geneExpr.getID());
+			}
+			for(int i =0;i < rightResultSets.length;i++){
+				GeneExpr geneExpr = (GeneExpr) rightResultSets[i];
+				rightResults.add(geneExpr.getID());
+			}
+			//the removeAll operation effectively modifies this set so that its value is the asymmetric set difference of the two sets.
+			System.err.println("L:"+leftResults.size());
+			System.err.println("R:"+rightResults.size());
+			Set diffset = new HashSet(leftResults);
+			diffset.removeAll(rightResults);
+			System.err.println("Diff:"+diffset.size());		
+			for (Iterator iterator = diffset.iterator(); iterator.hasNext();) {
+	    		Long id = (Long)iterator.next();
+	    		for(int i =0;i < leftResultSets.length;i++){
+		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
+		    		if(geneExpr.getID().equals(id)){
+		    			finalResults.add(geneExpr);
+		    		}
+	    		}
+	    	}		
+		}
+		return (ResultSet[])finalResults.toArray(rightResultSets);
 	}
 	/**
 	 * ResultSetUnion: a resultSet containing every element that is in either the leftResultSet or the rightResultSet, or both
@@ -144,12 +172,42 @@ public class CompoundQueryProcessor {
 	 * @return resultSet[] containing every element that is in either the leftResultSet or the rightResultSet, or both
 	 */
 	private static ResultSet[] ResultSetUnion(ResultSet[] leftResultSets, ResultSet[] rightResultSets) {
-		Collection leftResults = Arrays.asList(leftResultSets);
-		Collection rightResults = Arrays.asList(rightResultSets);
-		Set diffSet = new HashSet(leftResults);
-		//the addAll operation effectively modifies this set so that its value is the union of the two sets.
-		diffSet.addAll(rightResults);
-		return (ResultSet[]) diffSet.toArray();
+		Collection leftResults = new HashSet();
+		Collection rightResults = new HashSet();
+		Set finalResults = new HashSet();
+		if(leftResultSets != null && rightResultSets != null){
+			for(int i =0;i < leftResultSets.length;i++){
+				GeneExpr geneExpr = (GeneExpr) leftResultSets[i];
+				leftResults.add(geneExpr.getID());
+			}
+			for(int i =0;i < rightResultSets.length;i++){
+				GeneExpr geneExpr = (GeneExpr) rightResultSets[i];
+				rightResults.add(geneExpr.getID());
+			}
+			//the addAll operation effectively modifies this set so that its value is the union of the two sets.
+			Set unionSet = new HashSet(leftResults);
+			System.err.println("L:"+leftResults.size());
+			System.err.println("R:"+rightResults.size());
+			unionSet.addAll(rightResults);
+			System.err.println("Union:"+unionSet.size());	
+			//Get the corresponding objects out of the left and right resultsets
+			for (Iterator iterator = unionSet.iterator(); iterator.hasNext();) {
+	    		Long id = (Long)iterator.next();
+	    		for(int i =0;i < leftResultSets.length;i++){
+		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
+		    		if(geneExpr.getID().equals(id)){
+		    			finalResults.add(geneExpr);
+		    		}
+	    		}
+	    		for(int i =0;i < rightResultSets.length;i++){
+		    		GeneExprSingle geneExpr = (GeneExprSingle) rightResultSets[i];
+		    		if(geneExpr.getID().equals(id)){
+		    			finalResults.add(geneExpr);
+		    		}
+	    		}
+	    	}	
+		}
+		return (ResultSet[])finalResults.toArray(rightResultSets);
 	}
 	/**
 	 * ResultSetIntersection (intersect): a resultset containing every element that is in both rightResultSet and LeftResultset
@@ -158,12 +216,36 @@ public class CompoundQueryProcessor {
 	 * @return resultSet[] containing every element that is in both rightResultSet and LeftResultset
 	 */
 	private static ResultSet[] ResultSetInterSection(ResultSet[] leftResultSets, ResultSet[] rightResultSets) {
-		Collection leftResults = Arrays.asList(leftResultSets);
-		Collection rightResults = Arrays.asList(rightResultSets);
-		//this operation effectively modifies this set so that its value is the intersection of the two sets.
-		Set diffSet = new HashSet(leftResults);
-		diffSet.retainAll(rightResults);
-		return (ResultSet[]) diffSet.toArray();
+		Collection leftResults = new HashSet();
+		Collection rightResults = new HashSet();
+		Set finalResults = new HashSet();
+		if(leftResultSets != null && rightResultSets != null){
+			for(int i =0;i < leftResultSets.length;i++){
+				GeneExpr geneExpr = (GeneExpr) leftResultSets[i];
+				leftResults.add(geneExpr.getID());
+			}
+			for(int i =0;i < rightResultSets.length;i++){
+				GeneExpr geneExpr = (GeneExpr) rightResultSets[i];
+				rightResults.add(geneExpr.getID());
+			}
+			//this operation effectively modifies this set so that its value is the intersection of the two sets.
+			Set interSectSet = new HashSet(leftResults);
+			System.err.println("L:"+leftResults.size());
+			System.err.println("R:"+rightResults.size());
+			interSectSet.retainAll(rightResults);
+			System.err.println("InterSect:"+interSectSet.size());	
+			//Get the corresponding objects out of the left and right resultsets
+			for (Iterator iterator = interSectSet.iterator(); iterator.hasNext();) {
+	    		Long id = (Long)iterator.next();
+	    		for(int i =0;i < leftResultSets.length;i++){
+		    		GeneExprSingle geneExpr = (GeneExprSingle) leftResultSets[i];
+		    		if(geneExpr.getID().equals(id)){
+		    			finalResults.add(geneExpr);
+		    		}
+	    		}
+	    	}
+		}
+		return (ResultSet[])finalResults.toArray(rightResultSets);
 	}
 
 }
