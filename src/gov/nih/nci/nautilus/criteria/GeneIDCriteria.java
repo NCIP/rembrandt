@@ -27,8 +27,10 @@ public class GeneIDCriteria extends Criteria {
     }
 
     public void setGeneIdentifier(GeneIdentifierDE geneIdentifier) {
-        assert(geneIdentifier != null);
+       // assert(geneIdentifier != null);
+	   if(geneIdentifier != null){
         getGeneIdentifiersMember().add(geneIdentifier);
+		}
     }
     private Collection getGeneIdentifiersMember() {
         if (geneIdentifiers == null)

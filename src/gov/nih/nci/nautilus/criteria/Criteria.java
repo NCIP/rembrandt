@@ -25,7 +25,7 @@ abstract public class Criteria {
                 if (method.invoke(critObj, null) != null) {
                     return false;
                 }
-            }
+             }
          } catch (Throwable e) {
                 e.printStackTrace();
          }
