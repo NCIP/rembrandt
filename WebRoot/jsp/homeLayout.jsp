@@ -5,12 +5,6 @@
 
 <app:checkLogin name="logged" page="/login.jsp" />
 
-<%
-/*
- *		this is the main tiles template for the form based pages
-*/
-%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
@@ -38,7 +32,6 @@
 			</tr>
 		</table>
 	</div>
-    <tiles:insert attribute="reqdFieldsMsg"/> <%-- include required message note --%><br>
-    <tiles:insert attribute="footer"/> <%-- include footer --%>
+   <tiles:insert attribute="footer"/> <%-- include footer --%>
 </body>
 </html>

@@ -1,20 +1,8 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ page import="java.util.*, gov.nih.nci.nautilus.query.QueryCollection,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
-<bean:write name="geneexpressionForm" property="getQueryCollection"/>
-
-<%
-
-	/*
-	*
-	*	generates the sidebar where all teh current queries are listed
-	*
-	*/
-
-%>
-		
-		<div width="100%">
-		<h3>Queries</h3>
+<div width="100%">
+<h3>Queries</h3>
 <html:form action ="delete_Query.do">
 <script>
  var method;
@@ -93,5 +81,4 @@
 		<html:hidden property="queryKey" />
 		</html:form>
 		<br>
-		
-		</div>
+	</div>
