@@ -1,47 +1,35 @@
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+
 <div class="title">CGH Copy Number</div>
-<input type="radio" class="radio" name="cn" selected checked>Amplified 
-&nbsp;<input type="Text"><b class="message">&nbsp;threshold</b>
+
+
+<html:radio property="copyNumber" value="amplified"/> Amplified
+				<html:text property="cnAmplified"/></br>
+
+<html:radio property="copyNumber" value="deleted"/> Deleted
+				<html:text property="cnDeleted"/></br>
+<html:radio property="copyNumber" value="ampdel"/> Amplified or Deleted &nbsp;
 <blockquote>
-	<input type="radio" class="radio" name="amp" checked selected>
-	<select>
-		<option>2x</option>
-		<option>3x</option>
-		<option>4x</option>
-		<option>5x</option>
-		<option>6x</option>
-		<option>7x</option>
-		<option>8x</option>
-		<option>9x</option>
-		<option>10x</option>
-	</select>&nbsp;-or-&nbsp;
-	<input type="radio" class="radio" name="amp">
-	<input type="text">
+Amplified&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <html:text property="cnADAmplified"/>
+&nbsp;
+<Br>
+Deleted
+<html:text property="cnADDeleted"/>
+&nbsp;
 </blockquote>
-<!-- <input type="text" size="3">&nbsp;to&nbsp;<input type="text" size="3"><br> -->
-<input type="radio" class="radio" name="cn">Deleted&nbsp;
-<select>
-	<option>&nbsp;</option>
-	<option>Homozygous</option>
-	<option>LOH</option>
-</select><Br>
-<input type="radio" class="radio" name="cn">Unchanged&nbsp;
-<input type="text"><b class="message">&nbsp;threshold</b>
-<br>
-<input type="radio" class="radio" name="cn">Amplified OR Deleted&nbsp;<br>
-<blockquote>
-	<input type="radio" class="radio" name="amp" checked selected>&nbsp;
-	Amplified&nbsp;
-	<select>
-		<option>2x</option>
-		<option>3x</option>
-		<option>4x</option>
-		<option>5x</option>
-		<option>6x</option>
-		<option>7x</option>
-		<option>8x</option>
-		<option>9x</option>
-		<option>10x</option>
-	</select>&nbsp;-or-&nbsp;
-	<input type="radio" class="radio" name="amp">
-	<input type="text">
-</blockquote>
+<html:radio property="copyNumber" value="unchange"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<html:text property="cnUnchangeFrom"/>-to-
+				<html:text property="cnUnchangeTo"/>
+
+<html:errors property="cnADAmplified"/></br>
+<html:errors property="cnADDeleted"/></br>
+<html:errors property="cnAmplified"/></br>
+<html:errors property="cnDeleted"/></br>
+<html:errors property="cnUnchangeFrom"/></br>
+<html:errors property="cnUnchangeTo"/></br>
+<html:errors property="copyNumber"/></br>
+
+
+
+

@@ -1,6 +1,7 @@
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <div class="title">Allele Frequency</div>
 Population Type:
-<select>
+<html:select property="alleleFrequency"/>
 	<option>&nbsp;</option>
 	<option selected> ALL </option>
 	<option> CENTRAL ASIA </option>
@@ -15,4 +16,5 @@ Population Type:
 	<option> PACIFIC </option>
 	<option> UNKNOWN </option>
 	<option> WEST AFRICA </option>
-</select>
+</html:select>
+<html:errors property="alleleFrequency"/>
