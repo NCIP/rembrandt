@@ -77,6 +77,9 @@ public class GeneExprResultsContainer implements ResultsContainer{
 		if(geneResultset != null && geneResultset.getGeneSymbol() != null){
 			genes.put(geneResultset.getGeneSymbol().getValue().toString(), geneResultset);
 		}
+		else if(geneResultset != null && geneResultset.isAnonymousGene() == true){
+			genes.put("zzzzzzzzzzzzzz", geneResultset);
+		}
 	}
 	/**
 	 * @param geneResultset Removes geneResultset to this GeneExprSingleViewResultsContainer object.

@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.ui;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.Query;
@@ -624,8 +625,12 @@ public class ReportGenerator  {
 			        		Collection groupTypes = reporterResultset.getGroupByResultsets();
 			        	//	stringBuffer = new StringBuffer();
 			        		String reporterName = reporterResultset.getReporter().getValue().toString();
-
-			        		sb.append("<tr><td>"+geneResultset.getGeneSymbol().getValueObject().toString()+"</td><td>"+
+			        		GeneSymbol gene = geneResultset.getGeneSymbol();
+			        		String geneSymbol = "&nbsp;";
+			        		if( gene != null){
+			        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
+			        		}
+			        		sb.append("<tr><td>"+geneSymbol+"</td><td>"+
 			    					reporterName+"</td>");
 			        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 			        			String label = (String) labelIterator.next();
