@@ -1779,7 +1779,8 @@ public class GeneExpressionForm extends BaseForm {
 	public void setPathwayName(String[] pathwayName) {
 		this.pathwayName = pathwayName;
 	}
-    public GeneExpressionForm cloneMe(GeneExpressionForm form) {
+    public GeneExpressionForm cloneMe() {
+        GeneExpressionForm form = new GeneExpressionForm();
         form.setPathwayName(pathwayName);
         form.setGeneList(geneList);
         form.setGoClassification(goClassification);

@@ -3,7 +3,6 @@
  */ 
 package gov.nih.nci.nautilus.ui.struts.action;
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
 import gov.nih.nci.nautilus.ui.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm;
@@ -35,13 +34,16 @@ public class ReportGeneratorAction extends DispatchAction {
             request.setAttribute("geneexpressionForm", request.getAttribute("previewForm"));
             goBack = "backToGeneExp";
         }else if(form instanceof ClinicalDataForm) {
-            goBack = "backToCGH";
-        }else if(form instanceof ComparativeGenomicForm) {
+            request.setAttribute("clinicaldataForm", request.getAttribute("previewForm"));
             goBack = "backToClinical";
+        }else if(form instanceof ComparativeGenomicForm) {
+            request.setAttribute("comparitivegenomicForm", request.getAttribute("previewForm"));
+            goBack = "backToCGH";
         }
         // We obviously have passed validation...
         //So now go back to the submitting page and run
         //java script to spawn the report window.
+        request.removeAttribute("previewForm");
         request.setAttribute("preview", new String("yes"));
         logger.debug("back: " + goBack);
         return mapping.findForward(goBack);
