@@ -52,15 +52,34 @@ public class ReportGeneratorAction extends DispatchAction {
 	throws Exception {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
+    	//get the specified report bean from the cache using the query name as the key
     	ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId,rgForm.getQueryName());
-    	//check to see if this is a filter submission
+    	/*
+    	 * check to see if this is a filter submission.  If it is then
+    	 * we are going to need to generate XML most likely.  WE should probably
+    	 * differentiate what are XML generation filter options and what are
+    	 * XSLT filter options.  But for now they are all contained in the 
+    	 * filterParams HashMap...  This could be clearer as it will definatley
+    	 * cause some confusion for maintenance.
+    	 * 
+    	 * --Dave 
+    	 */
     	Map filterParams = rgForm.getFilterParams();
+    	/*
+    	 * If there is a filter_type specified, we know that the UI
+    	 * wants to perform a filter.  So we need to annotate the 
+    	 * queryName to show that it is filter report.
+    	 */
     	if(filterParams!=null&&filterParams.containsKey("filter_type")) {
     		//get the old resultant
     		Resultant resultant = reportBean.getResultant();
     		//get the old query
     		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getResultant().getAssociatedQuery()));
+    		//Mark this as a filter report
     		String queryName = cQuery.getQueryName();
+    		//don't mark it again as a filter report if it is already a filter 
+    		//report at present this will cause the old result in cache
+    		//to be overwritten...
     		if(queryName.indexOf("filter report")<0) {
     			queryName = queryName+" filter report";
     		}
@@ -76,13 +95,26 @@ public class ReportGeneratorAction extends DispatchAction {
     		newReportBean.setResultant(resultant);
     		//put the new bean in cache
     		CacheManagerDelegate.getInstance().addToSessionCache(sessionId, queryName,newReportBean );
-    		//Generate new XML for the old resultant under the new QueryName
+    		/*
+    		 *  Generate new XML for the old resultant under the new QueryName.
+    		 *	The filter param maps is necesary because it contains data that
+    		 *  will be necesary to generate the correct XML for the filter
+    		 *  specified...  This does beg the question, Why are we 
+    		 *  regenerating the XML to apply a filter when we could do that in
+    		 *  XSL.  Need to take a look at that in subsequent releases.
+    		 *  
+    		 *  --Dave
+    		 *   
+    		 */
+    		
     		ReportGeneratorHelper generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
-    		//get the final report bean
+    		//get the final constructed report bean
     		reportBean = generatorHelper.getReportBean();
     	}
+    	//Do we have a ReportBean... we have to have a ReportBean
     	if(reportBean!=null) {
-	    	if("".equals(rgForm.getXsltFileName())||rgForm.getXsltFileName()==null) {
+	    	//Check to see if there is an XSLT specified
+    		if("".equals(rgForm.getXsltFileName())||rgForm.getXsltFileName()==null) {
 	    		//If no filters specified then use the default XSLT
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,NautilusConstants.DEFAULT_XSLT_FILENAME);
 	    	}else {

@@ -231,7 +231,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
         compoundQuery.setSessionId(request.getSession().getId());
         //Generate the reportXML for the preview.  It will be stored in the session
 	    //cache for later retrieval
-        ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery);
+        ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery, new HashMap());
         return mapping.findForward("previewReport");
 	}
 	
