@@ -112,7 +112,7 @@
 	<property file="build.properties" />
 
 	<path id="cp.compile">
-		<fileset dir="${build.lib.dir}">
+		<fileset dir="${source.lib.dir}">
 			<include name="cewolf.jar" />
 			<include name="krysalis-jCharts-1.0.0-alpha-1.jar" />
 			<include name="jfreechart-0.9.8.jar" />
@@ -155,12 +155,10 @@
 	</target>
 
 	<target name="precompile-jsps" depends="jspc">
-
-
 		<javac destdir="${build.classes.dir}" optimize="off" failonerror="false" srcdir="${webapp.dir}/WEB-INF/src-temp" excludes="**/*.smap" debug="true" debuglevel="lines,vars,source">
 			<classpath>
 				<pathelement location="${webapp.path}/WEB-INF/classes" />
-				<fileset dir="${build.struts.lib.dir}">
+				<fileset dir="${build.webapp.lib.dir}">
 					<include name="${app.jar.name}.jar" />
 					<patternset refid="struts.jars" />
 				</fileset>
@@ -195,10 +193,10 @@
 		</javac>
 	</target>
 	<target name="build-jar" depends="compile">
-		<delete dir="${build.struts.lib.dir}" />
-		<mkdir dir="${build.struts.lib.dir}" />
-		<copy todir="${build.struts.lib.dir}">
-			<fileset dir="${build.lib.dir}">
+		<delete dir="${build.webapp.lib.dir}" />
+		<mkdir dir="${build.webapp.lib.dir}" />
+		<copy todir="${build.webapp.lib.dir}">
+			<fileset dir="${source.lib.dir}">
 				<patternset refid="struts.jars" />
 				<patternset refid="ojb.client.jars" />
 				<patternset refid="db.platform.jars" />
@@ -224,53 +222,32 @@
 				<include name="ApplicationResources.properties" />
 			</fileset>
 		</copy>
-		<jar index="true" jarfile="${jar.dir}/${app.jar.name}.jar">
+		<jar index="true" jarfile="${build.webapp.lib.dir}/${app.jar.name}.jar">
 			<fileset dir="${build.classes.dir}">
 				<include name="**/*" />
 			</fileset>
 		</jar>
         </target>
-	<target name="build-war" depends="build-jar">
+
+    <target name="build-war" depends="build-jar">
 		<delete file="${build.dir}/${app.war.name}.war" />
 		<war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
-			<fileset file="${webapp.dir}/*.jsp" />
-			<fileset file="${webapp.dir}/*.swf" />
-			<fileset file="${webapp.dir}/*.exe" />
-			<fileset file="${webapp.dir}/*.html" />
-			<!--<zipfileset dir="${webapp.dir}/log" prefix="log" />-->
+			<fileset file="${webapp.dir}/*.*" />
 			<zipfileset dir="${webapp.dir}/css" prefix="css" />
 			<zipfileset dir="${webapp.dir}/images" prefix="images" />
 			<zipfileset dir="${webapp.dir}/js" prefix="js" />
 			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp" />
-			<zipfileset dir="${webapp.dir}/WEB-INF/resources" prefix="/WEB-INF/resources" />
 			<webinf dir="${webapp.dir}/WEB-INF">
 				<include name="*.xml" />
 				<include name="*.properties" />
 				<include name="*.tld" />
 				<exclude name="web.xml" />
 			</webinf>
-			<lib dir="${build.struts.lib.dir}">
-				<include name="${app.jar.name}.jar" />
-				<patternset refid="struts.jars" />
-			</lib>
-			<lib dir="${build.lib.dir}">
-				<include name="xercesImpl.jar" />
-				<include name="xml-apis.jar" />
-				<patternset refid="cabio.jars" />
-				<patternset refid="ojb.client.jars" />
-				<patternset refid="db.platform.jars" />
-				<patternset refid="graphic-pkg.jars" />
-				<!-- <patternset refid="xml.jars"> -->
-				<!-- <patternset refid="other.jars"/> -->
-			</lib>
-			<classes dir="${build.struts.classes.dir}" prefix="/WEB-INF/classes" />
-			<zipfileset file="${basedir}/repository*.*" prefix="/WEB-INF/classes" />
-			<zipfileset file="${basedir}/deToBeanAttrMappings.xml" prefix="/WEB-INF/classes" />
-			<zipfileset file="${basedir}/OJB.properties" prefix="/WEB-INF/classes" />
-			<zipfileset file="${webapp.dir}/log4j.properties" prefix="/WEB-INF/classes" />
-			<zipfileset file="${webapp.dir}/WEB-INF/resources/ApplicationResources.properties" prefix="/WEB-INF/classes/gov/nih/nci/nautilus/struts" />
-
-		</war>
+			<lib dir="${build.webapp.lib.dir}">
+				<include name="*.jar" />
+            </lib>
+			<classes dir="${build.webapp.classes.dir}" />
+    	</war>
 	</target>
 
 	<!--
@@ -283,14 +260,10 @@
 	</target>
 	<target name="deploy-Nautilus" depends="cvs-checkout,clean,deploy-war-n-restart-tomcat" />
 	<target name="deploy-war-n-restart-tomcat" depends="tomcat-shutdown-unix,tomcat-shutdown-win,deploy-webapp,tomcat-startup-unix,tomcat-startup-win" />
-
 	<target name="restart-tomcat-unix" if="${isUnix}" depends="tomcat-shutdown-unix,deploy-webapp,tomcat-startup-unix" />
 	<target name="restart-tomcat-win" if="${isWindows}" depends="tomcat-shutdown-win,deploy-webapp,tomcat-startup-win" />
-
 	<target name="build-all" depends="build-war" />
-
 	<target name="run_junit" depends="compile">
-
 		<delete dir="${junit.report.dir}" />
 		<mkdir dir="${junit.report.dir}" />
 		<junit printsummary="yes" fork="yes">
@@ -303,7 +276,6 @@
 					<include name="*.jar" />
 				</fileset>
 			</classpath>
-
 			<test name="gov.nih.nci.nautilus.de.PBTest" haltonfailure="no" outfile="${junit.report.dir}/PBTest" />
 		</junit>
 	</target>
