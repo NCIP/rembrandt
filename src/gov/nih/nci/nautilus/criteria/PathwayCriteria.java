@@ -69,9 +69,11 @@ public class PathwayCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		PathwayCriteria myClone = null;
 		myClone = (PathwayCriteria) super.clone();
-		myClone.pathwayNames = new ArrayList();
-		for (Iterator i = pathwayNames.iterator(); i.hasNext();) {
-			myClone.pathwayNames.add(((PathwayDE) i.next()).clone());
+		if(this.pathwayNames!=null) {
+			myClone.pathwayNames = new ArrayList();
+			for (Iterator i = pathwayNames.iterator(); i.hasNext();) {
+				myClone.pathwayNames.add(((PathwayDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

@@ -75,9 +75,11 @@ public class OccurrenceCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		OccurrenceCriteria myClone = null;
 		myClone = (OccurrenceCriteria) super.clone();
+		if(this.occurrences!=null) {
 		myClone.occurrences = new ArrayList();
-		for (Iterator i = occurrences.iterator(); i.hasNext();) {
-			myClone.occurrences.add(((OccurrenceDE) i.next()).clone());
+			for (Iterator i = occurrences.iterator(); i.hasNext();) {
+				myClone.occurrences.add(((OccurrenceDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

@@ -66,9 +66,11 @@ public class SNPCriteria extends Criteria implements Serializable, Cloneable {
 	public Object clone() {
 		SNPCriteria myClone = null;
 		myClone = (SNPCriteria) super.clone();
-		myClone.snpIdentifiers = new ArrayList();
-		for (Iterator i = snpIdentifiers.iterator(); i.hasNext();) {
-			myClone.snpIdentifiers.add(((SNPIdentifierDE) i.next()).clone());
+		if(snpIdentifiers!=null) {
+			myClone.snpIdentifiers = new ArrayList();
+			for (Iterator i = snpIdentifiers.iterator(); i.hasNext();) {
+				myClone.snpIdentifiers.add(((SNPIdentifierDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

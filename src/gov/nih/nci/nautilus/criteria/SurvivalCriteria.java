@@ -74,10 +74,14 @@ public class SurvivalCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		SurvivalCriteria myClone = null;
 		myClone = (SurvivalCriteria) super.clone();
-		myClone.lowerSurvivalRange = (SurvivalDE.LowerSurvivalRange) lowerSurvivalRange
+		if(this.lowerSurvivalRange!=null) {
+			myClone.lowerSurvivalRange = (SurvivalDE.LowerSurvivalRange) lowerSurvivalRange
 				.clone();
-		myClone.upperSurvivalRange = (SurvivalDE.UpperSurvivalRange) upperSurvivalRange
+		}
+		if(this.upperSurvivalRange!=null) {
+			myClone.upperSurvivalRange = (SurvivalDE.UpperSurvivalRange) upperSurvivalRange
 				.clone();
+		}
 		return myClone;
 	}
 }

@@ -67,8 +67,10 @@ public class CloneOrProbeIDCriteria extends Criteria implements Serializable,
 		CloneOrProbeIDCriteria myClone = null;
 		myClone = (CloneOrProbeIDCriteria) super.clone();
 		myClone.identifiers = new ArrayList();
-		for (Iterator i = identifiers.iterator(); i.hasNext();) {
-			myClone.identifiers.add(((CloneIdentifierDE) i.next()).clone());
+		if(identifiers!=null) {
+			for (Iterator i = identifiers.iterator(); i.hasNext();) {
+				myClone.identifiers.add(((CloneIdentifierDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

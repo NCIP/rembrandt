@@ -66,10 +66,12 @@ public class FoldChangeCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		FoldChangeCriteria myClone = null;
 		myClone = (FoldChangeCriteria) super.clone();
-		myClone.foldChangeObjects = new ArrayList();
-		for (Iterator i = foldChangeObjects.iterator(); i.hasNext();) {
-			myClone.foldChangeObjects
-					.add(((ExprFoldChangeDE) i.next()).clone());
+		if(foldChangeObjects!=null) {
+			myClone.foldChangeObjects = new ArrayList();
+			for (Iterator i = foldChangeObjects.iterator(); i.hasNext();) {
+				myClone.foldChangeObjects
+						.add(((ExprFoldChangeDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

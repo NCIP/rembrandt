@@ -70,9 +70,11 @@ public class SampleCriteria extends Criteria implements Serializable, Cloneable 
 	public Object clone() {
 		SampleCriteria myClone = null;
 		myClone = (SampleCriteria) super.clone();
-		myClone.sampleIDs = new ArrayList();
-		for (Iterator i = sampleIDs.iterator(); i.hasNext();) {
-			myClone.sampleIDs.add(((SampleIDDE) i.next()).clone());
+		if(sampleIDs!=null) {
+			myClone.sampleIDs = new ArrayList();
+			for (Iterator i = sampleIDs.iterator(); i.hasNext();) {
+				myClone.sampleIDs.add(((SampleIDDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

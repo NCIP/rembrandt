@@ -52,7 +52,9 @@ public class SurgeryTypeCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		SurgeryTypeCriteria myClone = null;
 		myClone = (SurgeryTypeCriteria) super.clone();
-		myClone.surgeryTypeDE = (SurgeryTypeDE) surgeryTypeDE.clone();
+		if(this.surgeryTypeDE!=null) {
+			myClone.surgeryTypeDE = (SurgeryTypeDE) surgeryTypeDE.clone();
+		}
 		return myClone;
 	}
 }

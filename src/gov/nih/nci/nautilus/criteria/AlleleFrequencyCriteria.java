@@ -50,9 +50,12 @@ public class AlleleFrequencyCriteria extends Criteria implements Serializable,
 	 */
 	public Object clone() {
 		AlleleFrequencyCriteria myClone = null;
+		
 		myClone = (AlleleFrequencyCriteria) super.clone();
-		myClone.alleleFrequencyDE = (AlleleFrequencyDE) alleleFrequencyDE
+		if(alleleFrequencyDE!=null) {
+			myClone.alleleFrequencyDE = (AlleleFrequencyDE) alleleFrequencyDE
 				.clone();
+		}
 		return myClone;
 	}
 }

@@ -51,8 +51,10 @@ public class RadiationTherapyCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		RadiationTherapyCriteria myClone = null;
 		myClone = (RadiationTherapyCriteria) super.clone();
-		myClone.radiationTherapyDE = (RadiationTherapyDE) radiationTherapyDE
-				.clone();
+		if(this.radiationTherapyDE!=null) {
+			myClone.radiationTherapyDE = (RadiationTherapyDE) radiationTherapyDE
+					.clone();
+		}
 		return myClone;
 	}
 

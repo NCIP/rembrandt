@@ -65,9 +65,11 @@ public class GeneOntologyCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		GeneOntologyCriteria myClone = null;
 		myClone = (GeneOntologyCriteria) super.clone();
-		myClone.goIdentifiers = new ArrayList();
-		for (Iterator i = goIdentifiers.iterator(); i.hasNext();) {
-			myClone.goIdentifiers.add(((GeneOntologyDE) i.next()).clone());
+		if(this.goIdentifiers!=null) {
+			myClone.goIdentifiers = new ArrayList();
+			for (Iterator i = goIdentifiers.iterator(); i.hasNext();) {
+				myClone.goIdentifiers.add(((GeneOntologyDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

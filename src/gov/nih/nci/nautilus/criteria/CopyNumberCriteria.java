@@ -84,9 +84,11 @@ public class CopyNumberCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		CopyNumberCriteria myClone = null;
 		myClone = (CopyNumberCriteria) super.clone();
-		myClone.copyNumbers = new ArrayList();
-		for (Iterator i = copyNumbers.iterator(); i.hasNext();) {
-			myClone.copyNumbers.add(((CopyNumberDE) i.next()).clone());
+		if(copyNumbers!=null) {
+			myClone.copyNumbers = new ArrayList();
+			for (Iterator i = copyNumbers.iterator(); i.hasNext();) {
+				myClone.copyNumbers.add(((CopyNumberDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

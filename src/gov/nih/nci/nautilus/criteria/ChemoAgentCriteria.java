@@ -51,7 +51,9 @@ public class ChemoAgentCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		ChemoAgentCriteria myClone = null;
 		myClone = (ChemoAgentCriteria) super.clone();
-		myClone.chemoAgentDE = (ChemoAgentDE) chemoAgentDE.clone();
+		if(chemoAgentDE!=null) {
+			myClone.chemoAgentDE = (ChemoAgentDE) chemoAgentDE.clone();
+		}
 		return myClone;
 	}
 }

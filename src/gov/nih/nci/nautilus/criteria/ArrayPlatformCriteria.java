@@ -50,7 +50,9 @@ public class ArrayPlatformCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		ArrayPlatformCriteria myClone = null;
 		myClone = (ArrayPlatformCriteria) super.clone();
-		myClone.platform = (ArrayPlatformDE) platform.clone();
+		if(platform!=null) {
+			myClone.platform = (ArrayPlatformDE) platform.clone();
+		}
 		return myClone;
 	}
 }

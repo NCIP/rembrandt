@@ -69,10 +69,14 @@ public class AgeCriteria extends Criteria implements Serializable, Cloneable {
 	 */
 	public Object clone() {
 		AgeCriteria myClone = (AgeCriteria) super.clone();
-		myClone.lowerAgeLimit = (AgeAtDiagnosisDE.LowerAgeLimit) lowerAgeLimit
+		if(lowerAgeLimit!=null) {
+			myClone.lowerAgeLimit = (AgeAtDiagnosisDE.LowerAgeLimit) lowerAgeLimit
 				.clone();
-		myClone.upperAgeLimit = (AgeAtDiagnosisDE.UpperAgeLimit) upperAgeLimit
-				.clone();
+		}
+		if(upperAgeLimit!=null) {
+			myClone.upperAgeLimit = (AgeAtDiagnosisDE.UpperAgeLimit) upperAgeLimit
+					.clone();
+		}
 		return myClone;
 	}
 

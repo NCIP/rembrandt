@@ -60,7 +60,9 @@ public class AssayPlatformCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		AssayPlatformCriteria myClone = null;
 		myClone = (AssayPlatformCriteria) super.clone();
-		myClone.assayPlatformDE = (AssayPlatformDE) assayPlatformDE.clone();
+		if(assayPlatformDE!=null) {
+			myClone.assayPlatformDE = (AssayPlatformDE) assayPlatformDE.clone();
+		}
 		return myClone;
 	}
 

@@ -67,9 +67,11 @@ public class GeneIDCriteria extends Criteria implements Serializable, Cloneable 
 	public Object clone() {
 		GeneIDCriteria myClone = null;
 		myClone = (GeneIDCriteria) super.clone();
-		myClone.geneIdentifiers = new ArrayList();
-		for (Iterator i = geneIdentifiers.iterator(); i.hasNext();) {
-			myClone.geneIdentifiers.add(((GeneIdentifierDE) i.next()).clone());
+		if(geneIdentifiers!=null) {
+			myClone.geneIdentifiers = new ArrayList();
+			for (Iterator i = geneIdentifiers.iterator(); i.hasNext();) {
+				myClone.geneIdentifiers.add(((GeneIdentifierDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

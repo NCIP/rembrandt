@@ -112,13 +112,17 @@ public class DiseaseOrGradeCriteria extends Criteria implements Serializable,
 	public Object clone() {
 		DiseaseOrGradeCriteria myClone = null;
 		myClone = (DiseaseOrGradeCriteria) super.clone();
-		myClone.diseases = new ArrayList();
-		for (Iterator i = diseases.iterator(); i.hasNext();) {
-			myClone.diseases.add(((DiseaseNameDE) i.next()).clone());
+		if(diseases!=null) {
+			myClone.diseases = new ArrayList();
+			for (Iterator i = diseases.iterator(); i.hasNext();) {
+				myClone.diseases.add(((DiseaseNameDE) i.next()).clone());
+			}
 		}
-		myClone.grades = new ArrayList();
-		for (Iterator i = grades.iterator(); i.hasNext();) {
-			myClone.grades.add(((GradeDE) i.next()).clone());
+		if(grades!=null) {
+			myClone.grades = new ArrayList();
+			for (Iterator i = grades.iterator(); i.hasNext();) {
+				myClone.grades.add(((GradeDE) i.next()).clone());
+			}
 		}
 		return myClone;
 	}

@@ -51,7 +51,9 @@ public class GenderCriteria extends Criteria implements Serializable, Cloneable 
 	public Object clone() {
 		GenderCriteria myClone = null;
 		myClone = (GenderCriteria) super.clone();
-		myClone.genderDE = (GenderDE) genderDE.clone();
+		if(genderDE!=null) {
+			myClone.genderDE = (GenderDE) genderDE.clone();
+		}
 		return myClone;
 	}
 
