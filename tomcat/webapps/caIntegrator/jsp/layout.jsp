@@ -20,7 +20,7 @@
 		<table cellspacing="0" cellpadding="0" border="0">
 			<tr>
 			<td width="75%"> 
-				<form action="<tiles:getAsString name="formAction"/>" method="get" name="<tiles:getAsString name="formName"/>">
+				<form action="<tiles:getAsString name="formAction"/>" method="post" name="<tiles:getAsString name="formName"/>">
 				<Table cellpadding="4" cellspacing="2" border="0" width="100%"> 
 					<tr class="report"><td><h3><tiles:getAsString name="title"/></h3></td></tr>   
 					<tiles:insert attribute="mainForm"/> <%-- include the main form --%>
