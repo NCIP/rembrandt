@@ -18,8 +18,8 @@ import org.jfree.data.XYSeriesCollection;
  */
 public class KMGraphGenerator {
     private String geneSymbol;
-    private int upFold = 2;
-    private int downFold = 2;
+    private double upFold = 2.0;
+    private double downFold = 2.0;
     private String chartTitle = null;
     private static final int UPREGULATED = 1;
     private static final int DOWNREGULATED = 2;
@@ -230,34 +230,36 @@ public class KMGraphGenerator {
     /**
      * @return Returns the downFold.
      */
-    public int getDownFold() {
+    public double getDownFold() {
         return this.downFold;
     }
     /**
      * @param downFold The downFold to set.
      */
-    private void setDownFold(int downFold) {
+    private void setDownFold(double downFold) {
 //      set down fold
         if(getPlotType() != null){
             if(getPlotType().equals(NautilusConstants.GENE_EXP_KMPLOT)) {
                 this.downFold = 1/downFold;
             }
-            if(getPlotType().equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+            else if(getPlotType().equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
                 this.downFold = downFold;
             }
+            else {
+            	this.downFold = downFold;
+            }
         }
-        this.downFold = downFold;
     }
     /**
      * @return Returns the upFold.
      */
-    public int getUpFold() {
+    public double getUpFold() {
         return this.upFold;
     }
     /**
      * @param upFold The upFold to set.
      */
-    private void setUpFold(int upFold) {
+    private void setUpFold(double upFold) {
         this.upFold = upFold;
     }
 
