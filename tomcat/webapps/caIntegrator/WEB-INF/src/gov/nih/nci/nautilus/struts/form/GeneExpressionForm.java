@@ -454,7 +454,7 @@ public class GeneExpressionForm extends BaseForm {
 				Object [] parameterObjects = {key};
 
 				PathwayDE pathwayDEObj = (PathwayDE)pathwayConstructors[0].newInstance(parameterObjects);
-				pathwayCriteria.setPathwayDE(pathwayDEObj);
+				pathwayCriteria.setPathwayName(pathwayDEObj);
 
 				System.out.println("GO Domain Element Value==> "+pathwayDEObj.getValueObject());
 			} catch (Exception ex) {
