@@ -56,15 +56,15 @@
   Your search returned <b><%=result.getCount()%> </b> pathways.   
 
  </div>	  
-   
+   <br>
 	 <table align="center" width="85%" cellpadding="5" cellspacing="5" border="1">
 	 
 	 <tr>
-	  <td class="label">No</td>
-	  <td class="label">Pathway Name</td>
-	  <td class="label">Display Value</td>
-	  <td class="label">Pathway Description </td>
-	  <td class="label">Genes </td>
+	  <td class="label"><b>No</b></td>
+	  <td class="label"><b>Pathway Name</b></td>
+	  <td class="label"><b>Pathway Title</b></td>
+	  <td class="label"><b>Pathway Description</b> </td>
+	  <td class="label"><b>Genes</b> </td>
 	  </tr>
 
 	
@@ -73,13 +73,20 @@
 		  <%    myPathways = (Pathway[]) result.getResultSet();	   
 		        int k=0;    
 				for (int i = 0; i < myPathways.length; i++) 
-				{  k++;
-				  //Gene[] myGenes = (Gene[])myPathways[i].getGenes();
+				{  
+				  k++;
+				  
+				  String pathwayName = myPathways[i].getName();
+				  if(pathwayName != null){
+				    pathwayName = pathwayName.trim();												   
+				    pathwayName = pathwayName.substring(2);
+				      }
+				     
 				  
 					%>
 				<tr>
 		          <TD><%=k%></TD>
-		          <TD><html:checkbox property="pathwayName" value="<%=myPathways[i].getName()%>"/> <%=myPathways[i].getName()%></TD>
+		          <TD><html:checkbox property="pathwayName" value="<%=pathwayName%>"/> <%=pathwayName%></TD>
 		          <TD><%=myPathways[i].getDisplayValue()%></TD>
 				  <TD><%=myPathways[i].getDescription()%></TD>
 				  <TD><a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"> Genes</a></TD>

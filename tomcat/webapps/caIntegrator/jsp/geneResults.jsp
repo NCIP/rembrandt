@@ -16,9 +16,10 @@
 	 <table align="center" width="85%" cellpadding="5" cellspacing="5" border="1">
 	 
 	 <tr>
-	  <td class="label">ID</td>		 
-	  <td class="label">Title</td>
-	  <td class="label">Name/Symbol</td>
+	 
+	  <td class="label"><b>Gene Symbol</b></td>
+	  <td class="label"><b>Gene Name</b></td>
+	  
 	 
 	  </tr>
   <%
@@ -40,9 +41,8 @@
 			
 				%>
 				<tr>
-		          <TD><%=myGenes[i].getId()%></TD>							         
-		          <TD><%=myGenes[i].getTitle()%></TD>
-				  <TD><%=myGenes[i].getName()%></TD>
+		          <TD><%=myGenes[i].getName()%></TD>					         
+		          <TD><%=myGenes[i].getTitle()%></TD>				  
 				 </tr>
 					<%}
 			}

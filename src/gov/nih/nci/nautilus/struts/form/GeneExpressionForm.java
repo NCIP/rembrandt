@@ -472,7 +472,7 @@ public class GeneExpressionForm extends BaseForm {
 				System.out.println("Linkage Error in createGeneCriteriaObject "+ le.getMessage());
 				le.printStackTrace();
 			}
-			}
+		}
 	}
 
 
@@ -898,7 +898,7 @@ public class GeneExpressionForm extends BaseForm {
 	   System.out.println("pathways.length:"+pathways.length());
 	    if(pathways != null ){
 			this.pathways = pathways.trim();
-			System.out.println("pathways.length after:"+pathways.length());
+			System.out.println("pathways.length after:"+this.pathways.length());
 			String pathwaySelect = (String)thisRequest.getParameter("pathways");
 			if(pathwaySelect != null && !pathwaySelect.equals("")){
 			   pathwayDomainMap.put(this.pathways, PathwayDE.class.getName());
