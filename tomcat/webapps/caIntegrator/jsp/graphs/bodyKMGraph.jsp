@@ -16,7 +16,7 @@
       Folds
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       Downregulated
-      &nbsp;&le;&nbsp;
+      &nbsp;&ge;&nbsp;
       <html:select property="downFold">
         <html:options property="folds"/>
       </html:select>
