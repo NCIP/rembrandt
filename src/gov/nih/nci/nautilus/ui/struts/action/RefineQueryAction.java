@@ -113,6 +113,8 @@ public class RefineQueryAction extends LookupDispatchAction {
                //Set the name of the compound query
                 if(!resultSetName.equals("")) {
                 	cQuery.setQueryName(resultSetName);
+                }else {
+                	cQuery.setQueryName(NautilusConstants.TEMP_RESULTS);
                 }
                 ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
                 ReportBean reportBean = rgHelper.getReportBean();

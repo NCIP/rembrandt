@@ -17,6 +17,7 @@ import javax.servlet.jsp.JspWriter;
 
 import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.cache.RembrandtContextListener;
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
@@ -71,6 +72,11 @@ public class ReportGeneratorHelper {
 				// Get the sessionId to needed to retrieve the sessionCache
 				cacheKey = cQuery.getSessionId();
 				
+				if (cQuery.getQueryName() == null
+						|| cQuery.getQueryName().equals("")) {
+					cQuery.setQueryName(NautilusConstants.TEMP_RESULTS);
+				}
+				
 				if (cacheKey != null && !cacheKey.equals("")) {
 					/*
 					 * Use the cacheKey to get the cache and see if 
@@ -80,7 +86,7 @@ public class ReportGeneratorHelper {
 					Cache sessionCache = CacheManagerWrapper.getSessionCache(cacheKey);
 					resultSetCacheElement = sessionCache.get(cQuery.getQueryName());
 					
-					if (resultSetCacheElement == null) {
+					if (resultSetCacheElement == null||cQuery.getQueryName().equals(NautilusConstants.TEMP_RESULTS)) {
 						/*
 						 * We know that we are executing a compoundQuery which
 						 * implies that this is the first time that this
@@ -100,10 +106,7 @@ public class ReportGeneratorHelper {
 						 * until another unnamed query is run.
 						 * 
 						 */
-						if (cQuery.getQueryName() == null
-								|| cQuery.getQueryName().equals("")) {
-							cQuery.setQueryName("temp_results");
-						}
+						
 
 						reportBean = new ReportBean();
 						reportBean.setResultant(resultant);
