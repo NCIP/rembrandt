@@ -847,6 +847,10 @@ public class GeneExpressionForm extends BaseForm {
 
 		String thisGeneType = this.thisRequest.getParameter("geneType");
 		String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+		
+		System.out.println("this.geneFile :"+this.geneFile);
+		System.out.println("thisGeneType :"+thisGeneType);
+		System.out.println("thisGeneGroup8888888888888 :"+thisGeneGroup);
 		if ((thisGeneGroup != null) && thisGeneGroup.equalsIgnoreCase("Upload")
 				&& (thisGeneType.length() > 0) && (this.geneFile.length() > 0)) {
 
