@@ -33,4 +33,5 @@ abstract public class ViewType {
         public ViewType getViewType() {
             return COPYNUMBER_GROUP_SAMPLE_VIEW;
         }
+    }
 }
