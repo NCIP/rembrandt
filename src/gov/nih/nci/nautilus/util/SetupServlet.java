@@ -18,7 +18,7 @@ public class SetupServlet extends HttpServlet {
       return onlyInstance;
     }
 
- public SetupServlet(){
+ /*private SetupServlet(){
     try{
       init();  
       }  
@@ -26,7 +26,7 @@ public class SetupServlet extends HttpServlet {
 	  e.printStackTrace();
 	  }
    }
-      
+   */   
   public void init() throws UnavailableException {
     ServletConfig config = getServletConfig();
     ServletContext context = getServletContext();
