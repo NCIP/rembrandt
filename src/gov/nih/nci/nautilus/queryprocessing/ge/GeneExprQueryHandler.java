@@ -8,6 +8,9 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.data.ReporterAll;
 import gov.nih.nci.nautilus.data.GeneOntology;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
+import gov.nih.nci.nautilus.view.ClinicalSampleView;
+import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
@@ -55,10 +58,10 @@ final public class GeneExprQueryHandler extends QueryHandler {
     public ResultSet[] handle(gov.nih.nci.nautilus.query.Query query) throws Exception {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
 
-        if (query.getAssociatedView().equals(ViewType.GENE_SINGLE_SAMPLE_VIEW) ||
-                query.getAssociatedView().equals(ViewType.CLINICAL_VIEW) )
+        if (query.getAssociatedView() instanceof GeneExprSampleView ||
+                query.getAssociatedView()instanceof ClinicalSampleView )
                 factHandler = new GEFactHandler.SingleGEFactHandler();
-        else if (query.getAssociatedView().equals(ViewType.GENE_GROUP_SAMPLE_VIEW))
+        else if (query.getAssociatedView()instanceof GeneExprDiseaseView)
                 factHandler = new GEFactHandler.GroupGEFactHanlder();
         else throw new Exception("Illegal View.  This view is not supported in this Query:");
 
