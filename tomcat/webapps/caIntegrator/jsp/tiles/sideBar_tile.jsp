@@ -5,7 +5,7 @@
 
 	/*
 	*
-	*	generates the sidebar where all the current queries are listed
+	*	generates the sidebar where all teh current queries are listed
 	*
 	*/
 
@@ -27,4 +27,5 @@
 				}
 			%>
 
+		</Table>
 		</div>

@@ -2,13 +2,18 @@
 
 <div class="title">CGH Copy Number</div>
 
+<%
+	String act = request.getParameter("act");
+	System.out.println(act);
+%>
+	<!-- <html:form action="<%=act%>" > -->
 
-<html:radio property="copyNumber" value="amplified"/> Amplified
+<html:radio property="copyNumber" value="amplified" styleClass="radio"/> Amplified
 				<html:text property="cnAmplified"/></br>
 
-<html:radio property="copyNumber" value="deleted"/> Deleted
+<html:radio property="copyNumber" value="deleted" styleClass="radio"/> Deleted
 				<html:text property="cnDeleted"/></br>
-<html:radio property="copyNumber" value="ampdel"/> Amplified or Deleted &nbsp;
+<html:radio property="copyNumber" value="ampdel" styleClass="radio"/> Amplified or Deleted &nbsp;
 <blockquote>
 Amplified&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <html:text property="cnADAmplified"/>
@@ -17,19 +22,14 @@ Amplified&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Deleted
 <html:text property="cnADDeleted"/>
 &nbsp;
+
 </blockquote>
-<html:radio property="copyNumber" value="unchange"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<html:radio property="copyNumber" value="unchange" styleClass="radio"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<html:text property="cnUnchangeFrom"/>-to-
 				<html:text property="cnUnchangeTo"/>
 
-<html:errors property="cnADAmplified"/></br>
-<html:errors property="cnADDeleted"/></br>
-<html:errors property="cnAmplified"/></br>
-<html:errors property="cnDeleted"/></br>
-<html:errors property="cnUnchangeFrom"/></br>
-<html:errors property="cnUnchangeTo"/></br>
-<html:errors property="copyNumber"/></br>
+<html:errors property="cnerror"/></br>
 
 
-
+<!-- </html:form> -->
 

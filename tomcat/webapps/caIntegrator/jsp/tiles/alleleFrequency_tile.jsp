@@ -1,8 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%
+String act = request.getParameter("act");
+%>
+	<!-- <html:form action="<%=act%>"> -->
 <div class="title">Allele Frequency</div>
 Population Type:
 <html:select property="alleleFrequency"/>
-	<option>&nbsp;</option>
+<!--	<option>&nbsp;</option>
 	<option selected> ALL </option>
 	<option> CENTRAL ASIA </option>
 	<option> CENTRAL/SOUTH AFRICA </option>
@@ -15,6 +19,8 @@ Population Type:
 	<option> NOT SPECIFIED </option>
 	<option> PACIFIC </option>
 	<option> UNKNOWN </option>
-	<option> WEST AFRICA </option>
+	<option> WEST AFRICA </option> -->
 </html:select>
 <html:errors property="alleleFrequency"/>
+
+<!-- </html:form> -->

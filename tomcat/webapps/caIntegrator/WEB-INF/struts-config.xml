@@ -39,6 +39,41 @@
             <form-property name="basePairStart" type="java.lang.String" />
         </form-bean>
         
+        <form-bean name="comparitivegenomicForm" type="gov.nih.nci.nautilus.struts.form.ComparitivegenomicForm">
+            <form-property name="geneList" type="java.lang.String" />
+            <form-property name="tumorGrade" type="java.lang.String" />
+            <form-property name="assayPlatform" type="java.lang.String" />
+            <form-property name="region" type="java.lang.String" />
+            <form-property name="cytobandRegion" type="java.lang.String" />
+            <form-property name="snpList" type="java.lang.String" />
+            <form-property name="cloneId" type="java.lang.String" />
+            <form-property name="cnAmplified" type="java.lang.String" />
+            <form-property name="tumorType" type="java.lang.String" />
+            <form-property name="cloneListFile" type="java.lang.String" />
+            <form-property name="snpListFile" type="java.lang.String" />
+            <form-property name="cloneListSpecify" type="java.lang.String" />
+            <form-property name="snpListSpecify" type="java.lang.String" />
+            <form-property name="cnADAmplified" type="java.lang.String" />
+            <form-property name="genomicTrack" type="java.lang.String" />
+            <form-property name="basePairEnd" type="java.lang.String" />
+            <form-property name="chrosomeNumber" type="java.lang.String" />
+            <form-property name="cnADDeleted" type="java.lang.String" />
+            <form-property name="cnUnchangeTo" type="java.lang.String" />
+            <form-property name="alleleFrequency" type="java.lang.String" />
+            <form-property name="geneType" type="java.lang.String" />
+            <form-property name="validatedSNP" type="java.lang.String" />
+            <form-property name="resultView" type="java.lang.String" />
+            <form-property name="geneFile" type="java.lang.String" />
+            <form-property name="snpId" type="java.lang.String" />
+            <form-property name="cnDeleted" type="java.lang.String" />
+            <form-property name="geneGroup" type="java.lang.String" />
+            <form-property name="cnUnchangeFrom" type="java.lang.String" />
+            <form-property name="cloneList" type="java.lang.String" />
+            <form-property name="queryName" type="java.lang.String" />
+            <form-property name="copyNumber" type="java.lang.String" />
+            <form-property name="basePairStart" type="java.lang.String" />
+        </form-bean>
+        
             <!-- Logon form bean -->
                 <form-bean      name="loginForm"
                     type="nautilus.login.LoginForm"/>
@@ -70,35 +105,31 @@
     </action>
 
    <action    path="/geneExpression"
-            forward="nautilus.geneExpression" />
-<!--
-   	<action path="/geneExpression"
-		type="DoFirst">
-		<forward name="success" path="nautilus.geneExpression" />
-	</action>
--->	
-<!--
-	<action path="/geneExp"
-            input="nautilus.geneExpression"
-            name="geneexpressionForm"
-            type="gov.nih.nci.nautilus.struts.action.GeneexpressionAction"
-            validate="true">
-         <forward name="advanceSearchMenu" path="nautilus.clinical" />
-	</action>
--->
+              forward="nautilus.geneExpression" />
+
 	<action path="/geneexpression"
             input="nautilus.geneExpression"
             name="geneexpressionForm"
             type="gov.nih.nci.nautilus.struts.action.GeneexpressionAction"
+            scope="request"
             validate="true">
-         <forward name="advanceSearchMenu" path="nautilus.clinical" />
+         <forward name="advanceSearchMenu" path="nautilus.menu" />
+         <forward name="backToGeneExp" path="nautilus.geneExpression" />
 	</action>
 	
-	<action path="/comparitiveGenomic"
-		type="DoFirst">
-		<forward name="success" path="nautilus.comparitiveGenomic" />
+   <action    path="/comparitiveGenomic"
+              forward="nautilus.comparitiveGenomic" />
+
+	<action path="/comparitivegenomic"
+            input="nautilus.comparitiveGenomic"
+            name="comparitivegenomicForm"
+            type="gov.nih.nci.nautilus.struts.action.ComparitivegenomicAction"
+            scope="request"
+            validate="true">
+         <forward name="advanceSearchMenu" path="nautilus.menu" />
+         <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
-	
+
 	<action path="/menu"
 		type="DoFirst"
 		name="noForm">
@@ -114,18 +145,6 @@
 		type="DoFirst">
 		<forward name="success" path="home" />
 	</action>
-<!--
-        <action
-            attribute="geneexpressionForm"
-            input="/jsp/geneexpression.jsp"
-            name="geneexpressionForm"
-            path="/geneexpression"
-            type="gov.nih.nci.nautilus.struts.action.GeneexpressionAction"
-            validate="true">
-            <forward name="advanceSearchMenu" path="/jsp/advanceSearchMenu.jsp" />
-            <forward name="queryPreview" path="/jsp/queryPreview.jsp" />
-        </action>
-   -->     
     </action-mappings>
     
     <!-- ========== Controller Configuration ================================ -->
