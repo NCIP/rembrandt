@@ -77,7 +77,6 @@
       
       <html:hidden property="plot" />
       <html:hidden property="quickSearchName" />
-      <html:hidden property="quickSearchType" />
       
       
     </html:form>
