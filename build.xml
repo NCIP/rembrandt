@@ -19,6 +19,10 @@
  <patternset id="test.jars">
   <include name="junit.jar"/>  
  </patternset>	
+ 
+ <patternset id="cabio.jars">
+  <include name="caBIO21.jar"/>  
+ </patternset>	
  <patternset id="ojb.client.jars">
 	  <include name="commons-beanutils.jar"/>
 	  <include name="commons-collections.jar"/>
@@ -195,8 +199,9 @@
 		    <patternset refid="struts.jars"/> 
 	        <patternset refid="ojb.client.jars"/>
 			<patternset refid="db.platform.jars"/>
+			<patternset refid="cabio.jars"/>
 	     	<include name="xercesImpl.jar"/>
-	     	<include name="xml-apis.jar"/>
+	     	<include name="xml-apis.jar"/>			
        </fileset>	    
 	 </copy>	
 	 
