@@ -13,6 +13,9 @@
 	<listener>
 		<listener-class>gov.nih.nci.nautilus.cache.SessionTracker</listener-class>
 	</listener>
+	<listener>
+		<listener-class>gov.nih.nci.nautilus.cache.RembrandtContextListener</listener-class>
+	</listener>
   <!-- Action Servlet Configuration -->
   <servlet>
     <servlet-name>action</servlet-name>
