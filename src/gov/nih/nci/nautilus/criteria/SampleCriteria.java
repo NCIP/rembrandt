@@ -1,6 +1,7 @@
 package gov.nih.nci.nautilus.criteria;
 
 import gov.nih.nci.nautilus.de.SampleIDDE;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -30,6 +31,11 @@ public class SampleCriteria {
 		if (sampleIDs == null)
 			sampleIDs = new ArrayList();
 		return sampleIDs;
+	}
+    public void setSampleID(SampleIDDE sampleID) {
+		if (sampleID != null) {
+			getSampleIDDEsMember().add(sampleID);
+		}
 	}
 
 	public SampleCriteria() {
