@@ -10,4 +10,5 @@ public final class NautilusConstants {
 	public static final String LOGGING_PROPERTIES = "log4j.properties";
 	public static final String LOGGER = "gov.nih.nci.nautilus";
 	//TODO: fix Z hack
+	public static final int MAX_FILEFORM_COUNT = 500;
 		}
