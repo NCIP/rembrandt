@@ -7,7 +7,7 @@
 		<blockquote>
 		<br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Gene Expression Analysis" onclick="javascript:location.href='geneExp.do';">
 		&nbsp; <b class="message">- (0) Gene Expression Analysis Queries</b>
-		<br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='comparitiveGenomic.do';">
+		<br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Comparitive Genomic Analysis" onclick="javascript:location.href='cgh.do';">
 		&nbsp; <b class="message">- (0) Comparitive Genomic Analysis Queries</b>
 		<Br><br><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinical.do';">
 		&nbsp;<b class="message">- (0) Clinical Study Analysis Queries</b>
