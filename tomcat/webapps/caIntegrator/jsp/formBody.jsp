@@ -21,7 +21,12 @@
 String act = request.getParameter("s").toLowerCase();
 %>
 <html:form action="<%= act %>" >
-<%
+<%  	
+     request.getSession().setAttribute("currentPage2", "1");
+	 session.removeAttribute("currentPage");
+	 String pageStr = (String)request.getSession().getAttribute("currentPage");
+	  System.out.println("pageStr^^^^^^^^^^^^^:"+pageStr);
+
 	Properties props = new Properties();
     try {
     props.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+request.getParameter("s")+".properties"));

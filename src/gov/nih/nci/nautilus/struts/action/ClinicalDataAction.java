@@ -55,6 +55,10 @@ public class ClinicalDataAction extends Action {
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
+		
+		request.getSession().setAttribute("currentPage", "0");
+	    request.getSession().removeAttribute("currentPage2");	 
+		  
 		ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
 	
 		
