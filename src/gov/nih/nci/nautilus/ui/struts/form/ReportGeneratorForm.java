@@ -219,4 +219,44 @@ public class ReportGeneratorForm extends BaseForm {
 	public void setPrbQueryName(String prbQueryName) {
 		this.prbQueryName = prbQueryName;
 	}
+	/**
+	 * @return Returns the filter_element.
+	 */
+	public String getFilter_element() {
+		
+		return filter_element;
+	}
+	/**
+	 * @return Returns the filter_string.
+	 */
+	public String getFilter_string() {
+		return filter_string;
+	}
+	/**
+	 * @return Returns the filter_type.
+	 */
+	public String getFilter_type() {
+		return filter_type;
+	}
+	/**
+	 * @param filter_element The filter_element to set.
+	 */
+	public void setFilter_element(String filter_element) {
+		filterParams.put("filter_element",filter_element);
+		this.filter_element = filter_element;
+	}
+	/**
+	 * @param filter_string The filter_string to set.
+	 */
+	public void setFilter_string(String filter_string) {
+		filterParams.put("filter_element",filter_string);
+		this.filter_string = filter_string;
+	}
+	/**
+	 * @param filter_type The filter_type to set.
+	 */
+	public void setFilter_type(String filter_type) {
+		filterParams.put("filter_element",filter_type);
+		this.filter_type = filter_type;
+	}
 }

@@ -130,6 +130,25 @@ public class ReportGeneratorAction extends DispatchAction {
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
 	
+	public ActionForward runShowAllValuesQuery(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ActionForward thisForward = null;
+		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+		String queryName = rgForm.getQueryName();
+		String sessionId = request.getSession().getId();
+		ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId, queryName);
+		if(reportBean!=null) {
+			//This will generate get a resultant and store it in the cache
+			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, rgForm.getFilterParams());
+			//store the name of the query in the form so that we can later pull it out of cache
+			reportBean = rgHelper.getReportBean();
+			rgForm.setQueryName(reportBean.getResultantCacheKey());
+       	}
+		//now send everything that we have done to the actual method that will render the report
+		return runGeneViewReport(mapping, rgForm, request, response);
+	}
+	
 	
 	
 }

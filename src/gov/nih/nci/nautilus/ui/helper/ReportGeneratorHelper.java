@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
@@ -73,7 +77,57 @@ public class ReportGeneratorHelper {
 		}
 		
 	}
+	public ReportGeneratorHelper(ReportBean reportBean, Map filterParams) {
+		Resultant resultant = reportBean.getResultant();
+		Resultant showAllResults;
+		try {
+			showAllResults = ResultsetManager.executeShowAllQuery(resultant);
+			//check to make sure that we have a sessionId
+			Queriable showAllQuery = showAllResults.getAssociatedQuery();
+			//check the query to make sure that it is a compound query
+			checkCompoundQuery(showAllQuery);
+			//check the sessionId
+			checkSessionId(_cQuery.getSessionId());
+			//check that we have a queryName
+			checkQueryName( _cQuery.getQueryName()+" show all values report");
+			//set the query name to a show all report
+			resultant.getAssociatedQuery().setQueryName(_queryName);
+			//create a new ReportBean
+			_reportBean = new ReportBean();
+			//store the results into the report bean
+			_reportBean.setResultant(showAllResults);
+			//store the cache key that can be used to retrieve this bean later
+			_reportBean.setResultantCacheKey(_queryName);
+			//check the filterParam map for processing
+			_reportBean.setFilterParams(processFilterParamMap(filterParams));
+			//generate the reportXML and store in the ReportBean
+			generateReportXML();
+			//drop this ReportBean in the session cache, use the _queryName as the 
+			//parameter
+			_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
+		}catch(Exception e) {
+			logger.error("Exception when trying to generate a Show All Values Report");
+			logger.error(e);
+		}
+	}
 	
+	/**
+	 * @param filterParams
+	 */
+	private Map processFilterParamMap(Map filterParams) {
+		List tokens = null;
+		if(filterParams.containsKey("filter_string")) {
+			StringTokenizer tokenizer = new StringTokenizer((String)filterParams.get("filter_string"), ",", false);
+			tokens = new ArrayList();
+			while(tokenizer.hasMoreTokens()) {
+				tokens.add(tokenizer.nextToken());
+			}
+			filterParams.put("filter_string", tokens);
+		}
+		return filterParams;
+		
+	}
+
 	/**
 	 * This is intended to be used to generate a ReportBean when you have a
 	 * query and want to reduce the result set by limiting the results to 
@@ -175,6 +229,7 @@ public class ReportGeneratorHelper {
 	 */
 	private void checkCompoundQuery(Queriable query) throws UnsupportedOperationException {
 		if (query != null && query instanceof CompoundQuery) {
+			//sets the class variable _cQuery 
 			_cQuery = (CompoundQuery)query;
 		}else {
 			/*
@@ -266,6 +321,7 @@ public class ReportGeneratorHelper {
 			Resultant resultant = _reportBean.getResultant();
 			Viewable oldView = resultant.getAssociatedView();
 			Viewable newView = _cQuery.getAssociatedView();
+			Map filterParams = _reportBean.getFilterParams();
 			/*
 			 * Make sure that we change the view on the resultSet
 			 * if the user changes the desired view from already
@@ -277,7 +333,7 @@ public class ReportGeneratorHelper {
 				ReportGenerator reportGen = ReportGeneratorFactory
 						.getReportGenerator(newView);
 				resultant.setAssociatedView(newView);
-				reportXML = reportGen.getReportXML(resultant);
+				reportXML = reportGen.getReportXML(resultant, filterParams);
 				
 			}else {
 				//Old view is the current view

@@ -1,6 +1,8 @@
 package gov.nih.nci.nautilus.ui.bean;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import gov.nih.nci.nautilus.resultset.Resultant;
 
@@ -18,6 +20,7 @@ public class ReportBean implements Serializable{
 	private Resultant resultant;
     private String resultantCacheKey;
 	private Document reportXML;
+	private Map filterParams = new HashMap();
     
 	public ReportBean() {}
 
@@ -56,5 +59,17 @@ public class ReportBean implements Serializable{
 	 */
 	public void setResultant(Resultant resultant) {
 		this.resultant = resultant;
+	}
+	/**
+	 * @return Returns the filterParams.
+	 */
+	public Map getFilterParams() {
+		return filterParams;
+	}
+	/**
+	 * @param filterParams The filterParams to set.
+	 */
+	public void setFilterParams(Map filterParams) {
+		this.filterParams = filterParams;
 	}
 }
