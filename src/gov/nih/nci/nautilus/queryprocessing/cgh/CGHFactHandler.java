@@ -19,6 +19,7 @@ import gov.nih.nci.nautilus.queryprocessing.ge.FactCriteriaHandler;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ge.GEFactHandler;
 import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
+import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 
 
 
@@ -87,9 +88,7 @@ abstract public class CGHFactHandler {
                 }
             }
             else {
-                {
-                    System.out.println("Hello");
-                }
+                throw new Exception ("At least one criteria required");
 
                 /*  this will retrieve everything so it will run out of memory
                 PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
@@ -110,7 +109,10 @@ abstract public class CGHFactHandler {
 
      protected void executeGeneAnnotationQuery(Collection cghOrSNPIDs) throws Exception {
             ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
-
+            final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+            final String geneSymbolCol = QueryHandler.getColumnNameForBean(_BROKER, GeneLlAcc.class.getName(), GeneLlAcc.GENE_SYMBOL);
+                final String llColName = QueryHandler.getColumnNameForBean(_BROKER, GeneLlAcc.class.getName(), GeneLlAcc.LOCUS_LINK_ID);
+                final String accColName = QueryHandler.getColumnNameForBean(_BROKER, GeneLlAcc.class.getName(), GeneLlAcc.ACCESSION);
             for (int i = 0; i < arrayIDs.size();) {
                 Collection values = new ArrayList();
                 int begIndex = i;
@@ -118,35 +120,32 @@ abstract public class CGHFactHandler {
                 int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria annotCrit = new Criteria();
-                annotCrit.addIn(SnpAssociatedGene.SNP_PROBESET_ID, values);
+                annotCrit.addIn(GeneLlAcc.SNP_PROBESET_ID, values);
                 long time = System.currentTimeMillis();
-                String threadID = "CGHFactHandler.ThreadID:" +time;
-
+                String threadID = "CGHFactHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
-                final PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
-                final String geneSymbolCol = QueryHandler.getColumnNameForBean(_BROKER, SnpAssociatedGene.class.getName(), SnpAssociatedGene.GENE_SYMBOL);
-                final String accessionColName = QueryHandler.getColumnNameForBean(_BROKER, SnpAssociatedGene.class.getName(), SnpAssociatedGene.ACCESSION_NUMBER);
-                final String snpProbesetColName = QueryHandler.getColumnNameForBean(_BROKER, SnpAssociatedGene.class.getName(), SnpAssociatedGene.SNP_PROBESET_ID);
 
                 new Thread(
                    new Runnable() {
                       public void run() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-                          Query annotQuery =
-                          QueryFactory.newReportQuery(SnpAssociatedGene.class,new String[] {snpProbesetColName , geneSymbolCol, accessionColName }, annotCrit, true);
+                          ReportQueryByCriteria annotQuery =
+                          QueryFactory.newReportQuery(GeneLlAcc.class, annotCrit, true);
+                          annotQuery.setAttributes(new String[] {GeneLlAcc.SNP_PROBESET_ID, GeneLlAcc.GENE_SYMBOL, GeneLlAcc.LOCUS_LINK_ID, GeneLlAcc.ACCESSION});
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
                           while (iter.hasNext()) {
                                Object[] attrs = (Object[]) iter.next();
                                Long snpProbID = new Long(((BigDecimal)attrs[0]).longValue());
-                               CopyNumber.Annotation a = ( CopyNumber.Annotation)annotations.get(snpProbID );
+                               CopyNumber.SNPAnnotation a = (CopyNumber.SNPAnnotation)annotations.get(snpProbID );
                                if (a == null) {
-                                   a = new  CopyNumber.Annotation(new ArrayList(), new ArrayList(), snpProbID);
+                                   a = new CopyNumber.SNPAnnotation(snpProbID, new HashSet(), new HashSet(), new HashSet());
                                    annotations.put(snpProbID, a);
                                }
-                               a.geneSymbols.add(attrs[1]);
-                               a.accessions.add(attrs[2]);
+                               a.getGeneSymbols().add(attrs[1]);
+                               a.getLocusLinkIDs().add(attrs[2]);
+                               a.getAccessionNumbers().add(attrs[3]);
                           }
                           dbEvent.setCompleted(true);
                       }
@@ -159,10 +158,9 @@ abstract public class CGHFactHandler {
         throws Exception {
             System.out.println("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
             executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
-            //sleepOnFactEvents();
+
             ThreadController.sleepOnEvents(factEventList);
             executeGeneAnnotationQuery(allSNPProbeIDs);
-            //sleepOnAnnotationEvents();
             ThreadController.sleepOnEvents(annotationEventList);
 
             // by now CopyNumberObjects and annotations would have populated
@@ -171,7 +169,7 @@ abstract public class CGHFactHandler {
             for (int i = 0; i < objs.length; i++) {
                 CopyNumber obj = (CopyNumber) objs[i];
                 if (obj.getSnpProbesetId() != null) {
-                    obj.setAnnotations((CopyNumber.Annotation)annotations.get(obj.getSnpProbesetId()));
+                    obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
                 }
                 results[i] = obj;
             }

@@ -33,7 +33,7 @@
                    attribute="llId"/>
                    <mappedBean name="gov.nih.nci.nautilus.data.GeneClone"
                    attribute="llId"/>
-                    <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAcc"
+                    <mappedBean name="gov.nih.nci.nautilus.data.LlSnp"
                     attribute="llId"/>
     </DomainElement>
     <DomainElement name="gov.nih.nci.nautilus.de.GeneIdentifierDE$GeneSymbol">
@@ -41,7 +41,7 @@
                    attribute="geneSymbol"/>
                    <mappedBean name="gov.nih.nci.nautilus.data.GeneClone"
                    attribute="geneSymbol"/>
-                    <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAcc"
+                    <mappedBean name="gov.nih.nci.nautilus.data.GeneSnp"
                     attribute="geneSymbol"/>
 
     </DomainElement>

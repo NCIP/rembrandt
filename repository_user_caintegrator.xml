@@ -1,6 +1,6 @@
 <class-descriptor
        class="gov.nih.nci.nautilus.data.GeneLlAcc"
-       table="GENE_LL_ACC">
+       table="GENE_LL_ACC_SNP">
    <field-descriptor
              name="imageId"
              column="IMAGE_ID"
@@ -42,7 +42,11 @@
              column="CHROMOSOME"
              jdbc-type="VARCHAR"
             />
-
+   <field-descriptor
+             name="snpProbesetId"
+             column="SNP_PROBESET_ID"
+             jdbc-type="BIGINT"
+            />
 
  </class-descriptor>
 
@@ -773,8 +777,6 @@
 
 </class-descriptor>
 
-
-
 <class-descriptor
        class="gov.nih.nci.nautilus.data.GeneOntology"
        table="GENE_ONTOLOGY">
@@ -782,8 +784,7 @@
                name="goId"
                column="GO_ID"
                jdbc-type="VARCHAR"
-
-          />
+         />
         <field-descriptor
              name="geneSymbol"
              column="gene_symbol"
@@ -795,6 +796,7 @@
          jdbc-type="VARCHAR"
     />
 </class-descriptor>
+
 <class-descriptor
        class="gov.nih.nci.nautilus.data.CloneAccession"
        table="CLONE_ACCESSION">
@@ -809,4 +811,48 @@
              column="ACCESSION_NUMBER"
              jdbc-type="VARCHAR"
         />
+</class-descriptor>
+
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.GeneSnp"
+       table="GENE_SNP">
+        <field-descriptor
+               name="snpProbesetId"
+               column="SNP_PROBESET_ID"
+               jdbc-type="BIGINT"
+
+          />
+        <field-descriptor
+             name="geneSymbol"
+             column="GENE_SYMBOL"
+             jdbc-type="VARCHAR"
+        />
+         <field-descriptor
+             name="upGeneSymbol"
+             column="UP_GENE_SYMBOL"
+             jdbc-type="VARCHAR"
+        />
+
+</class-descriptor>
+
+<class-descriptor
+       class="gov.nih.nci.nautilus.data.LlSnp"
+       table="LL_SNP">
+        <field-descriptor
+               name="snpProbesetId"
+               column="SNP_PROBESET_ID"
+               jdbc-type="BIGINT"
+
+          />
+        <field-descriptor
+             name="llId"
+             column="LL_ID"
+             jdbc-type="VARCHAR"
+        />
+         <field-descriptor
+             name="PROBESET_NAME"
+             column="probesetName"
+             jdbc-type="VARCHAR"
+        />
+
 </class-descriptor>

@@ -15,6 +15,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.HashMap;
 import java.math.BigDecimal;
 
 /**
@@ -26,6 +27,15 @@ import java.math.BigDecimal;
  */
 public class GeneIDCriteriaHandler {
     private final static long SNP_KB_INTERVAL = 50;
+     static HashMap data = new HashMap();
+        static {
+            data.put(GeneIdentifierDE.GeneSymbol.class.getName(),
+                            new TargetClass(GeneSnp.class, GeneSnp.SNP_PROBESET_ID));
+            data.put(GeneIdentifierDE.LocusLink.class.getName(),
+                            new TargetClass(LlSnp.class, LlSnp.SNP_PROBESET_ID));
+            data.put(GeneIdentifierDE.GenBankAccessionNumber.class.getName(),
+                            new TargetClass(GeneSnp.class, GeneSnp.SNP_PROBESET_ID));
+        }
     /*public static GEReporterIDCriteria buildGeneIDCriteria( GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb ) throws Exception {
 
         Class deClass = getGeneIDClassName(geneIDCrit);
@@ -49,43 +59,35 @@ public class GeneIDCriteriaHandler {
             CGHReporterIDCriteria  snpProbeIDCrit = new CGHReporterIDCriteria ();
 
             if ( includeSNPs) {
-                String geneIDCol = QueryHandler.getAttrNameForTheDE(deClass.getName(), GeneLlAcc.class.getName());
-                String startPos = QueryHandler.getColumnNameForBean(pb, GeneLlAcc.class.getName(), GeneLlAcc.START_POSITION);
-                String chromsomeCol = QueryHandler.getColumnNameForBean(pb, GeneLlAcc.class.getName(), GeneLlAcc.CHROMOSOME);
-                String endPos = QueryHandler.getColumnNameForBean(pb, GeneLlAcc.class.getName(), GeneLlAcc.END_POSITION);
-                Criteria c = new Criteria();
-                c.addIn(geneIDCol, geneIDs);
-                ReportQueryByCriteria positionSubQuery = QueryFactory.newReportQuery(GeneLlAcc.class,
-                        new String[] {chromsomeCol, startPos, endPos}, c, true );
-                Iterator iter = pb.getReportQueryIteratorByQuery(positionSubQuery);
-                Criteria snpProbesetIDCrit = new  Criteria();
-
-                while (iter.hasNext()) {
-                    Criteria crit = new Criteria();
-
-                    Object[] objs = (Object[]) iter.next();
-                    if (objs[0] != null && objs[1] != null && objs[2] != null) {
-                        String chromosome = (String)objs[0];
-                        Long cStart = new Long(((BigDecimal)objs[1]).longValue() - SNP_KB_INTERVAL);
-                        Long cEnd = new Long(((BigDecimal)objs[2]).longValue() + SNP_KB_INTERVAL);
-
-                        crit.addEqualTo(SnpProbesetDim.CHROMOSOME, chromosome);
-                        crit.addGreaterOrEqualThan(SnpProbesetDim.PHYSICAL_POSITION, cStart);
-                        crit.addLessOrEqualThan(SnpProbesetDim.PHYSICAL_POSITION, cEnd);
-
-                        snpProbesetIDCrit.addOrCriteria(crit);
-                    }
-                }
-
-                String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.SNP_PROBESET_ID);
-                ReportQueryByCriteria snpSubQuery = QueryFactory.newReportQuery(SnpProbesetDim.class,
-                        new String[] {snpProbeIDCol}, snpProbesetIDCrit, true );
-                snpProbeIDCrit.setSnpProbeIDsSubQuery(snpSubQuery);
+                TargetClass t = (TargetClass) data.get(deClass.getName());
+                snpProbeIDCrit = buildGeneSymbolCrit(deClass, geneIDs, t.target, t.attrToSearch);
             }
             if (includeCGH)  {
                 // TODO: Post Nautilus
             }
             return snpProbeIDCrit;
+    }
+    private static class  TargetClass {
+        Class target;
+        String attrToSearch;
+
+
+        public TargetClass(Class targetClass, String attrToSearch) {
+            this.target = targetClass;
+            this.attrToSearch = attrToSearch;
+        }
+    }
+
+    private static CGHReporterIDCriteria buildGeneSymbolCrit(Class deClass, ArrayList geneIDs, Class targetClass, String attrToRetrieve) throws Exception {
+        CGHReporterIDCriteria snpProbeIDCrit = new CGHReporterIDCriteria();
+        String geneIDCol = QueryHandler.getAttrNameForTheDE(deClass.getName(), targetClass.getName());
+        Criteria snpProbesetIDCrit = new  Criteria();
+        snpProbesetIDCrit.addIn(geneIDCol, geneIDs);
+        //String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, GeneSnp.class.getName(), );
+        ReportQueryByCriteria snpSubQuery = QueryFactory.newReportQuery(targetClass,snpProbesetIDCrit, true );
+        snpSubQuery.setAttributes(new String[] {attrToRetrieve}) ;
+        snpProbeIDCrit.setSnpProbeIDsSubQuery(snpSubQuery);
+        return  snpProbeIDCrit;
     }
 
     public static GEReporterIDCriteria buildReporterIDCritForGEQuery(GeneIDCriteria  geneIDCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {

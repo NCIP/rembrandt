@@ -9,10 +9,12 @@ public class GeneLlAcc
   public final static String START_POSITION = "cStart";
   public final static String END_POSITION = "cEnd";
   public final static String ACCESSION = "accession";
+  public final static String LOCUS_LINK_ID = "llId";
   public final static String CHROMOSOME = "chromosome";
-
+  public final static String SNP_PROBESET_ID = "snpProbesetId";
+ 
   private String accession;
-
+    private String snpProbesetId;
   private String chromosome;
 
   private String cytoband;

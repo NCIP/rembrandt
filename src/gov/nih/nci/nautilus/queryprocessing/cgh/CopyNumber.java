@@ -6,6 +6,7 @@ package gov.nih.nci.nautilus.queryprocessing.cgh;
 import gov.nih.nci.nautilus.resultset.ResultSet;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class CopyNumber implements ResultSet
 {
@@ -24,25 +25,43 @@ public class CopyNumber implements ResultSet
   private String snpProbesetName ;
   private String survivalLengthRange;
   private Long timecourseId;
-  private Annotation annotations;
+  private SNPAnnotation annotations;
 
-   public static class Annotation {
-        ArrayList geneSymbols;
-        ArrayList accessions;
-        Long snpProbesetID;
+  public static class SNPAnnotation {
+         public Long snpProbesetID;
+         public HashSet geneSymbols;
+         public HashSet locusLinkIDs;
+         public HashSet accessionNumbers;
 
-       public Annotation(ArrayList geneSymbols, ArrayList accessions, Long snpProbesetID) {
-           this.geneSymbols = geneSymbols;
-           this.accessions = accessions;
-           this.snpProbesetID = snpProbesetID;
-       }
-   }
+         public SNPAnnotation(Long snpProbesetID, HashSet geneSymbols, HashSet locusLinkIDs, HashSet accessionNumbers) {
+             this.snpProbesetID = snpProbesetID;
+             this.geneSymbols = geneSymbols;
+             this.locusLinkIDs = locusLinkIDs;
+             this.accessionNumbers = accessionNumbers;
+         }
+         public Long getSnpProbesetID() {
+             return snpProbesetID;
+         }
+         public void setSnpProbesetID(Long snpProbesetID) {
+             this.snpProbesetID = snpProbesetID;
+         }
+         public HashSet getGeneSymbols() {
+             return geneSymbols;
+         }
+         public HashSet getLocusLinkIDs() {
+             return locusLinkIDs;
+         }
 
-    public Annotation getAnnotations() {
+         public HashSet getAccessionNumbers() {
+             return accessionNumbers;
+         }
+     }
+
+    public SNPAnnotation   getAnnotations() {
         return annotations;
     }
 
-    public void setAnnotations(Annotation annotations) {
+    public void setAnnotations(SNPAnnotation  annotations) {
         this.annotations = annotations;
     }
     public String getAgeGroup() {

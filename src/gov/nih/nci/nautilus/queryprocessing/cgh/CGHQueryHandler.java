@@ -22,7 +22,7 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler;
 import gov.nih.nci.nautilus.data.SnpProbesetDim;
 import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.data.CloneDim;
-import gov.nih.nci.nautilus.data.SnpAssociatedGene;
+
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.ManageableCollection;

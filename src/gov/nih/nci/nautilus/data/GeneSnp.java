@@ -5,6 +5,9 @@ package gov.nih.nci.nautilus.data;
 
 public class GeneSnp
 {
+    public final static String SNP_PROBESET_ID  = "snpProbesetId";
+    public final static String GENE_SYMBOL  = "geneSymbol";
+
   private String geneSymbol;
 
   private String probesetName;
@@ -12,6 +15,7 @@ public class GeneSnp
   private Long snpProbesetId;
 
   private String upGeneSymbol;
+
 
   public String getGeneSymbol()
   {

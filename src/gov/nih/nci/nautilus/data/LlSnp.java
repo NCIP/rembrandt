@@ -5,6 +5,8 @@ package gov.nih.nci.nautilus.data;
 
 public class LlSnp
 {
+  public final static String SNP_PROBESET_ID = "snpProbesetId";
+  public final static String LOCUS_LINK_ID = "llId";
   private String llId;
 
   private String probesetName;
