@@ -210,10 +210,10 @@ public class ClinicalDataAction extends LookupDispatchAction {
      HashMap map = new HashMap();
      
      //Submit Query Button using comparative genomic submittal method
-     map.put("submittalButton", "submittal");
+     map.put("buttons_tile.submittalButton", "submittal");
      
-     //Preview Query Button using comparative genomic preview method
-     map.put("previewButton", "preview");
+//   Preview Query Button using comparative genomic preview method
+     map.put("buttons_tile.previewButton", "preview");
      
      return map;
      
