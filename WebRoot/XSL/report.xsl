@@ -79,6 +79,9 @@
 	<div class="rowCount">
 	 <div style="background-color:#ffffff; margin-bottom:5px; padding-bottom:5px; border-left:1px solid black; border-right:1px solid black;">
 		<span style="float:right; top:0px;">
+			  <script language="javascript">
+	  			//checkForBack();
+	 		  </script>
 			<a style="margin-left:10px" href="#" onclick="javascript:toggleDiv('hideme');return false;">[Show/Hide Form Tools]</a>
 			<xsl:text>&#160;</xsl:text><xsl:text>&#160;</xsl:text> 
  		</span>
@@ -340,7 +343,7 @@
 		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect != 'false'">
 		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
 		      	</xsl:if>
-		      		<a href="#?s={$sample}"><xsl:value-of select="Data" /></a>
+		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
 		      	</td>
 		      </xsl:otherwise>
 		      </xsl:choose>

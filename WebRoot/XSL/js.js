@@ -228,3 +228,9 @@ function goPageChangeStep(p, s)	{
 	 	document.forms['paginate'].submit(); 
 	}
 }
+
+function checkForBack()	{
+	if(history.length > 1)	{
+		document.write("<a style=\"margin-left:10px\" href=\"#\" onclick=\"javascript:history.back();\">[Back]</a>");
+	}	
+}
