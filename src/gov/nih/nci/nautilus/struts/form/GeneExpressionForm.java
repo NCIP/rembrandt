@@ -259,7 +259,33 @@ public class GeneExpressionForm extends BaseForm {
 										"error:gov.nih.nci.nautilus.struts.form.geneOntology.functions.required"));
 			}
 		}
+		
+		// Validate minimum criteria's for GE Query 
+		if (this.getQueryName() != null && this.getQueryName().length() >= 1) {
+		   if ((this.getGeneGroup() == null || this.getGeneGroup().trim().length() < 1) &&
+		   		(this.getChrosomeNumber() == null || this.getChrosomeNumber().trim().length() < 1) && 
+		   		(this.getGoClassification() == null || this.getGoClassification().trim().length() < 1) && 
+		   		(this.getPathways() == null || this.getPathways().trim().length() < 1)) { 
+				
+				errors
+				.add(
+						ActionErrors.GLOBAL_ERROR,
+						new ActionError(
+								"gov.nih.nci.nautilus.struts.form.ge.minimum.error"));
+			}
+		}
 
+		if (this.getGeneGroup() != null && this.getGeneGroup().trim().length() >= 1){
+			if (this.getGeneList().trim().length() < 1 && this.getGeneFile().trim().length() < 1){
+				errors
+				.add(
+						"geneGroup",
+						new ActionError(
+								"gov.nih.nci.nautilus.struts.form.geneGroup.no.error"));
+			}
+			
+		}
+		
 		if (errors.isEmpty()) {
 			createDiseaseCriteriaObject();
 			createGeneCriteriaObject();
