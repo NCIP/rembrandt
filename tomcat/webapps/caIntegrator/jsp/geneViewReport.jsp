@@ -1,4 +1,5 @@
 <%@ page language="java" %>
+<%@ page buffer="none" %>
 <%@ page import="
 gov.nih.nci.nautilus.criteria.*,
 gov.nih.nci.nautilus.de.*,
@@ -52,13 +53,27 @@ org.apache.log4j.Logger" %>
 	.rowCount { font-size:11px; padding:2px;}
 	
 	</style>
+	<script language="javascript" >
+		function hideLoadingMessage(){
+			document.getElementById('spnLoading').style.display = "none" ;
+		}
+	</script>
+	
 </head>
 <body>
 <div style="background-color: #ffffff"><img src="images/smallHead.jpg"></div>
+<span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
+	<br><Br>
+	<img src="images/statusBar2.gif">
+	<br>Loading...please wait<br>
+</span>
+
+
 <Br>
 <a name="top"></a>
 <%
-	logger.debug("sample we want: " + request.getParameter("s"));
+response.flushBuffer();
+	System.out.println("sample we want: " + request.getParameter("s"));
 
 	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
@@ -155,5 +170,8 @@ else	{
 
 
 %>
+<script language="javascript">
+	hideLoadingMessage();
+</script>
 </body>
 </html>
