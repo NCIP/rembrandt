@@ -135,6 +135,7 @@ public class GeneExpressionPlotTest extends TestCase {
 	private void displayGeneExprPlotData(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer) {
 		System.out.println("inside display diease");
 		final DecimalFormat resultFormat = new DecimalFormat("0.00");	
+		final DecimalFormat pValueFormat = new DecimalFormat("0.0000");	
 		assertNotNull(geneExprDiseasePlotContainer);
 		System.out.println("Gene:"+geneExprDiseasePlotContainer.getGeneSymbol());
     	Collection diseases = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultsets();
@@ -156,7 +157,7 @@ public class GeneExpressionPlotTest extends TestCase {
         		String reporterName = reporterResultset.getReporter().getValue().toString();
        			Double intensityValue = (Double)reporterResultset.getFoldChangeIntensity().getValue();
        			Double pvalue = (Double)reporterResultset.getRatioPval().getValue();
-       			stringBuffer.append(reporterName+"\t"+resultFormat.format(intensityValue)+"\t"+resultFormat.format(pvalue)+"\n");  
+       			stringBuffer.append(reporterName+"\t"+resultFormat.format(intensityValue)+"\t"+pValueFormat.format(pvalue)+"\n");  
     		}
     	}
     	System.out.println(stringBuffer.toString());		
