@@ -152,7 +152,7 @@ public class CompoundQueryTest extends TestCase {
 			//test CompoundQuery Query
 			System.out.println("Testing CompoundQuery GeneExprQuery AND GenomicQuery>>>>>>>>>>>>>>>>>>>>>>>");
 			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
-			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeQuery(myCompoundQuery);
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
 			print(resultant);
@@ -279,12 +279,12 @@ public class CompoundQueryTest extends TestCase {
     private void buildGeneIDCrit() {
         geneCrit = new GeneIDCriteria();
         //Both IMAGE:2014733 and 1555146_at should be subsets of ATF2
-        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("ATF2"));
+        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("EGFR"));
 
     }
     private void buildFoldChangeCrit() {
-        Float upRegExpected = new Float(2.0);
-        Float downRegExpected = new Float(1.0);
+        Float upRegExpected = new Float(3.0);
+        Float downRegExpected = new Float(3.0);
         ExprFoldChangeDE.UpRegulation upRegObj = new ExprFoldChangeDE.UpRegulation(upRegExpected );
         ExprFoldChangeDE.DownRegulation downRegObj = new ExprFoldChangeDE.DownRegulation(downRegExpected );
         //ExprFoldChangeDE.UnChangedRegulationUpperLimit upUnChangedObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(upperUnchangedExpected );
