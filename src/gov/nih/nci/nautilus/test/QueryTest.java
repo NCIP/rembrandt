@@ -68,8 +68,7 @@ public class QueryTest extends TestCase {
           public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
-             q.setAssociatedView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
-             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             //q.setGeneIDCrit(geneIDCrit);
             q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
@@ -85,7 +84,8 @@ public class QueryTest extends TestCase {
             q.setFoldChgCrit(foldCrit);
 
             try {
-                ResultSet[] geneExprObjects = QueryManager.executeQuery(q);
+            	CompoundQuery myCompoundQuery = new CompoundQuery(q);
+                ResultSet[] geneExprObjects = QueryManager.executeQuery(myCompoundQuery);
                 print(geneExprObjects);
                 if (geneExprObjects.length > 0)
                     testResultset(geneExprObjects);
@@ -262,6 +262,7 @@ public class QueryTest extends TestCase {
         //inputIDs.add(0, "BF195526");      // accession numbers for hnRNPA3 gene are AW080932, AA527502, AA528233
          // inputIDs.add(0, "hnRNPA3");
          GeneIdentifierDE.GeneSymbol gs = new GeneIdentifierDE.GeneSymbol("CTNND2");
+
          inputIDs.add(gs);
         // GeneIdentifierDE geIDObj =
            //       new GeneIdentifierDE.LocusLink((String)inputIDs.get(0));
@@ -290,6 +291,7 @@ public class QueryTest extends TestCase {
 
     private void buildOntologyCrit() {
         ontologyCrit = new GeneOntologyCriteria();
+
         ontologyCrit.setGOIdentifier(new GeneOntologyDE("GO:0008150"));
     }
     private void buildSNPCrit() {
