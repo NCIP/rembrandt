@@ -307,6 +307,8 @@ public class CompoundQueryTest extends TestCase {
 		
 		try {
 			CompoundQuery myCompoundQuery1 = new CompoundQuery(genomicQuery);
+			/**
+			 * 
 			List sampleIDList = new ArrayList();
 			sampleIDList.add("HF1139");
 			sampleIDList.add("HF1297");
@@ -316,21 +318,21 @@ public class CompoundQueryTest extends TestCase {
 			sampleIDList.add("HF1397");
 			sampleIDList.add("HF1409");
 			String[] sampleIDs = (String[])sampleIDList.toArray(new String[sampleIDList.size()]);
-			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
-			
-
-			System.out.println("Now Constraint it by the following samples only");
+				System.out.println("Now Constraint it by the following samples only");
 			for (int i = 0; i < sampleIDs.length;i++){
 				System.out.println(i+") "+ sampleIDs[i]);
 			}
+			*/
+			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery1); //,sampleIDs);
 			print(resultant);
-			Collection newSampleIDs = ResultsetManager.getSampleIdsforCopyNumberFilter(resultant,new Integer(2),new Integer(20),OperatorType.OR);
-			//DEBUG
-			for (Iterator sampleIDsIterator = newSampleIDs.iterator(); sampleIDsIterator.hasNext();) {
-				String sampleID = (String) sampleIDsIterator.next();
-				System.out.println(sampleID);
-			}
+			
+			System.out.println("Now filter results by consecutiveCall >= 4 and percentCall >= 50 and OR");
+			Resultant resultant1 = ResultsetManager.filterCopyNumber(resultant,new Integer(4),new Integer(50),OperatorType.OR);
+			print(resultant1);
+			System.out.println("Now filter results by consecutiveCall >= 2 and percentCall >= 20 and AND");
+			resultant = ResultsetManager.filterCopyNumber(resultant1,new Integer(4),new Integer(50),OperatorType.OR);
+			print(resultant);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
