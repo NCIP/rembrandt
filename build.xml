@@ -374,9 +374,8 @@
 	<target name="tomcat-startup-win" if="${isWindows}">
 		<exec executable="${tomcat-startup-win}" spawn="true" />
 	</target>
-
 	<target name="clean">
-		<delete dir="${build.dir-win}" quiet="true" />
+		<delete dir="${build.dir}" quiet="true" />
 	</target>
 
 </project>
