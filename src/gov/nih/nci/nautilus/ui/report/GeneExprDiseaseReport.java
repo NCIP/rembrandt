@@ -122,7 +122,7 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 					        		}
 					        		
 						    		GeneSymbol gene = geneResultset.getGeneSymbol();
-					        		String geneSymbol = "&nbsp;";
+					        		String geneSymbol = "-";
 					        		if( gene != null){
 					        			try{
 					        				geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
@@ -159,14 +159,14 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 					    	        			sb.append(resultFormat.format(ratio));
 					    	        		}
 					    	        		catch(Exception e)	{
-					    	        			sb.append("-&nbsp;");
+					    	        			sb.append("-");
 					    	        		}
 					    	        		try	{
 					    	        			Double pvalue = (Double)diseaseResultset.getRatioPval().getValue();
 					    	        			sb.append(" ("+resultFormat.format(pvalue) + ")");
 					    	        		}
 					    	        		catch(Exception e){
-					    	        			sb.append("&nbsp;");
+					    	        			sb.append("-");
 					    	        		}
 												data = cell.addElement("Data").addAttribute("type", "data").addText(sb.toString());
 				    					        data = null;

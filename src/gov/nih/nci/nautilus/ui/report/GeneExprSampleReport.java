@@ -155,7 +155,8 @@ public class GeneExprSampleReport implements ReportGenerator{
 		        		Collection groupTypes = reporterResultset.getGroupByResultsets();
 		        		String reporterName = reporterResultset.getReporter().getValue().toString();
 		        		GeneSymbol gene = geneResultset.getGeneSymbol();
-		        		String geneSymbol = "&nbsp;";
+		        		//String geneSymbol = "&#160;";
+		        		String geneSymbol = "-";
 		        		if( gene != null){
 		        			geneSymbol = geneResultset.getGeneSymbol().getValueObject().toString();
 		        		}
