@@ -199,13 +199,13 @@ public class ReportGeneratorHelper {
 		_reportBean = new ReportBean();
 		Resultant sampleIdResults = null;
 		try {	
-			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);
-			sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());
+			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);			
 		}catch(Exception e) {
 			logger.error("The ResultsetManager threw some exception");
 			logger.error(e);
 		}
 		if(sampleIdResults!=null&&sampleIdResults.getResultsContainer()!=null) {
+            sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());
 			//store the results into the report bean
 			_reportBean.setResultant(sampleIdResults);
 		}else {
