@@ -15,6 +15,7 @@ import gov.nih.nci.nautilus.view.GroupType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.nautilus.resultset.ResultsetProcessor;
 import gov.nih.nci.nautilus.resultset.*;
 import gov.nih.nci.nautilus.resultset.gene.GeneExprSampleViewContainer;
@@ -70,9 +71,9 @@ public class QueryTest extends TestCase {
              q.setQueryName("Test Gene Query");
              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
             //q.setGeneIDCrit(geneIDCrit);
-            q.setGeneOntologyCrit(ontologyCrit);
+            //q.setGeneOntologyCrit(ontologyCrit);
             //q.setRegionCrit(regionCrit);
-            //q.setPathwayCrit(pathwayCrit);
+            q.setPathwayCrit(pathwayCrit);
 
             q.setArrayPlatformCrit(allPlatformCrit);
            //q.setPlatCriteria(affyOligoPlatformCrit);
@@ -145,7 +146,7 @@ public class QueryTest extends TestCase {
       public void testResultset(ResultSet[] geneExprObjects){
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
-        ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
+        ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView((GeneExprSingle[]) geneExprObjects, GroupType.DISEASE_TYPE_GROUP);
 		if (resultsContainer instanceof GeneExprSampleViewContainer){
 			GeneExprSampleViewContainer geneExprSampleViewContainer = (GeneExprSampleViewContainer) resultsContainer;
 	        GeneExprSingleViewResultsContainer geneViewContainer = geneExprSampleViewContainer.getGeneExprSingleViewContainer();
@@ -194,7 +195,7 @@ public class QueryTest extends TestCase {
 														//"| GroupType : "+groupResultset.getType().getValue().toString()+"\t");
 	                               	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 	                               		String sampleId = (String) sampleIdIterator.next();
-	                               		SampleFoldChangeValuesResultset samplesResultset = groupResultset.getBioSpecimenResultset(sampleId);
+	                               		SampleFoldChangeValuesResultset samplesResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 	                               		if(samplesResultset != null){
 	                               			Double ratio = (Double)samplesResultset.getFoldChangeRatioValue().getValue();
 	                               			stringBuffer.append(resultFormat.format(ratio)+"\t");
