@@ -27,12 +27,12 @@ QueryCollection queryCollection = (QueryCollection) request.getSession().getAttr
  		   geQueryString = Integer.toString(geQueryNum);
  		}
  		if(query instanceof ComparativeGenomicQuery){
- 		   System.out.println("this is a gene expression query in the collection");
+ 		   System.out.println("this is a Comparative Genomic query in the collection");
  	 	   cpQueryNum++;
  	 	   cpQueryString = Integer.toString(cpQueryNum);
  	 	}
  		if(query instanceof ClinicalDataQuery){
- 			System.out.println("this is a gene expression query in the collection");
+ 			System.out.println("this is a Clinical Data query in the collection");
  	 		cghQueryNum++;
  	 		cghQueryString = Integer.toString(cghQueryNum);
  	 		}

@@ -164,7 +164,16 @@ public class ComparativeGenomicAction extends Action {
 		  e.printStackTrace();
 		 }	
 		 
-	   return mapping.findForward("advanceSearchMenu");			
+        if (comparativeGenomicForm.getMethod().equals("run report")) {
+            CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
+            compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+            QueryCollection collection = new QueryCollection();
+            collection.setCompoundQuery(compoundQuery);
+            request.setAttribute(Constants.QUERY_KEY, collection);
+            return mapping.findForward("previewReport");
+        } else {
+            return mapping.findForward("advanceSearchMenu");
+        }			
 		
 		
 	} //throw new UnsupportedOperationException("Generated method 'execute(...)' not implemented.");

@@ -158,7 +158,17 @@ public class ClinicalDataAction extends Action {
 		  e.printStackTrace();
 		 }	
 		 
-	   return mapping.findForward("advanceSearchMenu");			
+        if (clinicalDataForm.getMethod().equals("run report")) {
+            CompoundQuery compoundQuery = new CompoundQuery(clinicalDataQuery);
+            compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+            QueryCollection collection = new QueryCollection();
+            collection.setCompoundQuery(compoundQuery);
+            request.setAttribute(Constants.QUERY_KEY, collection);
+            return mapping.findForward("previewReport");
+        } else {
+            return mapping.findForward("advanceSearchMenu");
+        }
+   
 	
 	}
 

@@ -8,7 +8,7 @@
   <div>
     <b>
       Upregulated
-      &nbsp
+      &nbsp&gt&nbsp
       <html:select property="upFold">
         <html:options property="folds"/>
       </html:select>
@@ -16,7 +16,7 @@
       Folds
       &nbsp&nbsp&nbsp&nbsp&nbsp
       Downregulated
-      &nbsp
+      &nbsp&lt=&nbsp
       <html:select property="downFold">
         <html:options property="folds"/>
       </html:select>

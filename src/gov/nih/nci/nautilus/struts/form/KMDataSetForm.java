@@ -149,7 +149,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
 	 */
 	public ArrayList getFolds() {
 		if(folds.isEmpty()) {
-            for(int i = 1;i<11;i++) {
+            for(int i = 2;i<11;i++) {
             	folds.add(new Integer(i));
             }
         }

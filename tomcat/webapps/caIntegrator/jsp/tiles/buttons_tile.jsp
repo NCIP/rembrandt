@@ -1,4 +1,10 @@
-<input type="reset" value="clear" class="xbutton">&nbsp;&nbsp;
-<input type="button" class="xbutton" value="cancel" onclick="javascript:alertUser();">&nbsp;&nbsp;
-<input type="button" class="xbutton" value="preview" onclick="javascript:spawn('preview.jsp', 780, 300);">&nbsp;&nbsp;
-<input type="submit" class="subButton" value="submit">&nbsp;&nbsp;
+<%@page contentType="text/html"%>
+<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+
+<html:reset styleClass="xbutton" value="clear"/>&nbsp;&nbsp;
+<html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser();"/>&nbsp;&nbsp;
+<html:submit styleClass="xbutton" property="method" value="run report"/>&nbsp;&nbsp;
+<html:submit styleClass="subButton" property="method" value="submit"/>
+

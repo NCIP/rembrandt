@@ -22,16 +22,16 @@
 
     <definition name="nautilus.geneExpression" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=geneExpression" />
-	<put name="title" value="Gene Expression" />	<!-- title of page -->
+	  <put name="title" value="Gene Expression" />	<!-- title of page -->
     </definition>
     
     <definition name="nautilus.comparitiveGenomic" extends="baseDef">
-        <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic" />
+      <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic" />
 	  <put name="title" value="Comparitive Genomic Data" />
     </definition>
     
     <definition name="nautilus.clinical" extends="baseDef">
-        <put name="mainForm" value="/jsp/formBody.jsp?s=clinical" />
+      <put name="mainForm" value="/jsp/formBody.jsp?s=clinical" />
 	  <put name="title" value="Clinical Data" />
     </definition>
     

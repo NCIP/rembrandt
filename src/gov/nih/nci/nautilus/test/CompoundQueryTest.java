@@ -160,7 +160,7 @@ public class CompoundQueryTest extends TestCase {
 			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
 			queryCollection.setCompoundQuery(myCompoundQuery);
 			String theColors[] = {"0073E6","FFFF61"};
-			System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
+			//System.out.println(ReportGenerator.displayReport( queryCollection, theColors,false));
 			//print(resultant);
 		} catch (Exception e) {
 			e.printStackTrace();
