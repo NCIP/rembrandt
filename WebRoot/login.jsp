@@ -67,7 +67,7 @@ response.setHeader("Location",newLocn);
 	  <td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
          <p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
 		 About this application	
-		 <br /><span style="font-size:.7em;text-align:right;">Release 0.5</span>
+		 <br /><span style="font-size:.7em;text-align:right;">Release 0.51</span>
 		 </p>
 		 
 	

@@ -19,7 +19,7 @@
 	<html:select property="chromosomeNumber" onchange="javascript:cytobandChange()">
 		    <option value=""/>
 		    <html:optionsCollection property="chromosomes"/>
-		</html:select>	
+		</html:select>	<br />
 	<html:errors property="chromosomeNumber"/>
 
 	&nbsp;<br>

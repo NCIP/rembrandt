@@ -16,7 +16,16 @@ import org.apache.struts.upload.FormFile;
 public class UIFormValidator {
     private static Logger logger = Logger.getLogger(UIFormValidator.class);
     
-	   
+	public static ActionErrors validateFormFieldsWithRegion(FormFile geneFile, String geneGroup, FormFile cloneListFile,
+	        String cloneId, FormFile sampleFile, String sampleGroup, ActionErrors errors){
+	    if (geneGroup.equalsIgnoreCase("Upload") && geneFile != null
+	            || cloneId.equalsIgnoreCase("Upload") && cloneListFile != null
+	               || sampleGroup.equalsIgnoreCase("Upload") && sampleFile != null){
+	        errors.add("chromosomeNumber", new ActionError(
+							"gov.nih.nci.nautilus.ui.struts.form.region.uploadFormFiles"));
+	    }	    
+	    return errors;
+	}
     public static ActionErrors validateGeneSymbolisNotEmpty(String geneSymbol,
 			ActionErrors errors) {
 	    

@@ -29,6 +29,11 @@ document.forms[0].target = "_self";
  </html:submit>&nbsp;&nbsp;
 </logic:equal>
 </logic:present>
+<logic:present name="clinicaldataForm">
+	<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+	<bean:message key="buttons_tile.previewButton"/>
+	</html:submit>&nbsp;&nbsp;
+</logic:present>
 
 <html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].queryName);">
      <bean:message key="buttons_tile.submittalButton"/>

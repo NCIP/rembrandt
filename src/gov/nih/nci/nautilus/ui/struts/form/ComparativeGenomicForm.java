@@ -304,6 +304,22 @@ public class ComparativeGenomicForm extends BaseForm {
 
         ActionErrors errors = new ActionErrors();
         
+       // if method is "getCytobands" AND they have upload formFiles, do necessary validation for uploaded files
+		if (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup().equalsIgnoreCase("Upload")
+		        || this.getMethod().equalsIgnoreCase("GetCytobands") && this.getCloneId().equalsIgnoreCase("Upload")
+		          || this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup().equalsIgnoreCase("Upload")){
+		    errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, snpListFile, snpId, sampleFile, sampleGroup, errors);
+		    if(this.getGeneGroup().equalsIgnoreCase("Upload")){
+		        this.setGeneGroup(null);
+		    }
+		    if(this.getSnpId().equalsIgnoreCase("Upload")){
+		        this.setSnpId(null);
+		    }
+		    if(this.getSampleGroup().equalsIgnoreCase("Upload")){
+		        this.setSampleGroup(null);
+		    }
+		}
+        
         //if the method of the button is "submit" or "run report", validate
         if(this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview")){
         logger.debug("Validating Form");
