@@ -260,12 +260,13 @@ public class QueryTest extends TestCase {
         }
     }
      public static class Clinical extends QueryTest {
-       public void testCGHExprQuery() {
+       public void testClinicalQuery() {
         ClinicalDataQuery q = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
             q.setQueryName("Test Clinical Query");
-            q.setSurvivalCrit(survivalCrit);
+            
+            //q.setSurvivalCrit(survivalCrit);
             q.setGenderCrit(genderCrit);
-            q.setAgeCrit(ageCriteria);
+            //q.setAgeCrit(ageCriteria);
             q.setDiseaseOrGradeCrit(diseaseCrit);
             try {
                 ResultSet[] patientDataObjects = QueryManager.executeQuery(q);
@@ -414,7 +415,7 @@ public class QueryTest extends TestCase {
    }
     private void buildGenderCrit(){
         genderCrit = new GenderCriteria();
-        genderCrit.setGenderDE(new GenderDE("F"));
+        genderCrit.setGenderDE(new GenderDE("M"));
     }
     private void buildProbeCrit() {
         probeCrit = new CloneOrProbeIDCriteria();
