@@ -132,8 +132,13 @@ public class GeneExpressionQuery extends Query {
 						String cytoBandStr = cytoBandDE.getClass().getName();
 						String cytoBandEndStr = cytoBandEndDE.getClass().getName();
 						OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
-						OutStr += "&nbsp;&nbsp;to "+labels.getString(cytoBandEndStr.substring(cytoBandEndStr.lastIndexOf(".")+1)) +": "+cytoBandEndDE.getValue();
-					}else{
+						OutStr += "&nbsp;&nbsp;to "+ cytoBandEndDE.getValue();
+					}
+					else if (cytoBandDE != null && cytoBandEndDE == null){
+					    String cytoBandStr = cytoBandDE.getClass().getName();
+					    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(cytoBandStr.substring(cytoBandStr.lastIndexOf(".")+1)) +": "+cytoBandDE.getValue();
+					}
+					else{
 						if (chrStartDE != null && chrEndDE != null) {
 							String chrStartDEStr = chrStartDE.getClass().getName();
 							String chrEndDEStr = chrEndDE.getClass().getName();

@@ -631,6 +631,7 @@ function showQueryDetail(selectName){
    //selected index of the selected
 	var element = formElement.name;
 	
+	  
 	  if(element == "sampleGroup"){
 	    if(i == 0){
 	    document.forms[0].sampleFile.disabled = true;
@@ -711,7 +712,7 @@ function showQueryDetail(selectName){
  function radioFold(formElement){
        var element = formElement.name;
        
-   if (element == "cytobandRegion"){
+   if (element == "cytobandRegionStart" || element == "cytobandRegionEnd"){
         document.forms[0].region[0].checked = true;
         document.forms[0].region[1].checked = false;
         document.forms[0].basePairStart.value = "";
@@ -720,7 +721,9 @@ function showQueryDetail(selectName){
    
    if (element == "basePairStart" || element == "basePairEnd"){
         document.forms[0].region[1].checked = true;
-        document.forms[0].region[0].checked = false;     
+        document.forms[0].region[0].checked = false;
+        document.formss[0].cytobandRegionStart.value = "";
+        document.formss[0].cytobandRegionEnd.value = "";     
        }      
    
    if (element == "sampleList"){

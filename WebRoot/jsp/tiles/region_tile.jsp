@@ -26,11 +26,11 @@
 	<blockquote>
 	<html:radio property="region" value="cytoband" styleClass="radio" />
 			Cytoband&nbsp;
-			 <html:select property="cytobandRegionStart" onchange="javascript:selectCRadio();">
+			 <html:select property="cytobandRegionStart" onclick="javascript:radioFold(this);">
              	<option value=""/>
              	<html:optionsCollection property="cytobands" label="cytoband" value="cytoband"/>	
              </html:select> &nbsp;-to-&nbsp;
-             <html:select property="cytobandRegionEnd" onchange="javascript:selectCRadio();">
+             <html:select property="cytobandRegionEnd" onclick="javascript:radioFold(this);">
           	<option value=""/>
           	<html:optionsCollection property="cytobands" label="cytoband" value="cytoband"/>	
           </html:select>
@@ -40,11 +40,11 @@
 	<html:radio property="region" value="basePairPosition" styleClass="radio" />
 	        Base Pair Position (kb)&nbsp; 
 	        <p style="margin-left:30px">
-	        <html:text property="basePairStart"/>
+	        <html:text property="basePairStart" onclick="javascript:radioFold(this);" />
  			&nbsp;-to-&nbsp;
- 			<html:text property="basePairEnd"/>
+ 			<html:text property="basePairEnd" onclick="javascript:radioFold(this);"/>
  			</p>
-				<html:errors property="basePairEnd"/>
+				<html:errors property="basePairEnd" />
 	</blockquote>	
 <!--
 <input type="radio" class="radio" name="region" value="cytoband" checked>&nbsp;
