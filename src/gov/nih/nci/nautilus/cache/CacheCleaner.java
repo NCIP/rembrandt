@@ -115,7 +115,7 @@ public class CacheCleaner extends Thread {
 							CacheManagerDelegate.getInstance().removeSessionCache(sessionId);
 						}
 					}else {
-						logger.error("Somehow the Sessions are not in synch with the CacheManagerDelegate");
+						logger.error("Somehow the Sessions are not in synch with the session caches");
 					}
 				}
 			}

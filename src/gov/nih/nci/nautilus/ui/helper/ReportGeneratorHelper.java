@@ -104,7 +104,7 @@ public class ReportGeneratorHelper {
 	public ReportGeneratorHelper(ReportBean reportBean, Map filterParams) {
 		Resultant oldResultant = reportBean.getResultant();
 		Resultant newResultant;
-//		Get the sessionId and name for this resultant, this works because,
+		//Get the sessionId and name for this resultant, this works because,
 		//at the present time there is only one type of query that is ever
 		//run, and that is a CompoundQuery if that changes than it will be
 		//necesary to modify the code here and many other places
@@ -318,7 +318,7 @@ public class ReportGeneratorHelper {
 			 * session based cache system, that unique cache id should
 			 * be the session id. If there is no session id, than we can
 			 * assume that something is really wrong so throw a new
-			 * RuntimeException
+			 * IllegalStateException
 			 */
 			logger.error("sessionId is empty for the compoundQuery");
 			throw new IllegalStateException(

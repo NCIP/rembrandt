@@ -330,7 +330,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 				}
 			}
 		//Now setup all of the current result sets
-		setResultSets(cacheManager.getResultSetNames(sessionId));
+		setResultSets(cacheManager.getSampleSetNames(sessionId));
 			
 		} else {
 			logger.debug("No Query Collection Object in Session");

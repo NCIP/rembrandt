@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.dom4j.Document;
-
+ 
 
 /**
- * @author BauerD
- * Feb 8, 2005
  * This class is intended to be passed the report.jsp where
  * the attributes will be used to render the final report.
  * 
+ * @author BauerD
+ * Feb 8, 2005
  */
 public class ReportBean implements Serializable{
 	private Resultant resultant;

@@ -40,7 +40,7 @@ import org.apache.log4j.Logger;
  * be added to the ConvenientCache interface.  This will make sure that any 
  * future delegates will always be compliant with what other classes in the
  * application expect and will greatly minimize the work if we change out the
- * cacheing mechanism. 
+ * caching mechanism. 
  * 
  * @author BauerD
  * Feb 9, 2005
@@ -308,7 +308,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 		return reportBean;
 	}
 	/**
-	 * This method will add a serializable key value pair to the given sessions
+	 * This method will add a serializable key/value pair to the given sessions
 	 * cache.
 	 *  
 	 * @param sessionId
@@ -470,7 +470,20 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return theBag;
 	}
-	public List getResultSetNames(String sessionId) {
+	/**
+	 * There is a subtle distinction between SampleSets and ResultSets, one is
+	 * a ReportBean where isSampleSet()==true and the latter,isSampleSet()==false.
+	 * That is it.  What that currently means is that one ReportBean is a list of
+	 * samples selected from a regular result set.  This list of samples is then
+	 * used to create a SampleCriteria that is placed in a GeneExpressionQuery that
+	 * has a ClinicalView.  This gives us the ability to extract or look at these
+	 * "Samples of Interest" at any time, and applying them to other queries if
+	 * the user desires.    
+	 * 
+	 * @param sessionId --identifies the sessionCache that you want a complete
+	 * list of SampleSetNames stored in.
+	 */
+	public List getSampleSetNames(String sessionId) {
 		List names = new ArrayList();
 		Cache sessionCache = getSessionCache(sessionId);
 		try {
@@ -490,15 +503,33 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return names;
 	}
+	/**
+	 * The method will return all of the SampleSet ReportBeans that are stored
+	 * in the sessionCache of the sessionId specified.  This is NOT all the
+	 * ReportBeans in the sessionCache.  They will only be the SampleSets that
+	 * were explicitly created and stored by the user in the cache.  To get all
+	 * the ReportBeans use the getAllReportBeans(String sessionId) method of
+	 * this class.
+	 * 
+	 * @param sessionId
+	 * @return --all the SampleSet ReportBeans that are stored in the associated
+	 * sessionCache
+	 */
 	public Collection getAllSampleSetReportBeans(String sessionId) {
 		Collection beans = new ArrayList();
-		List beanNames = getResultSetNames(sessionId);
+		List beanNames = getSampleSetNames(sessionId);
 		for(Iterator i = beanNames.iterator();i.hasNext();) {
 			beans.add(this.getReportBean(sessionId, (String)i.next()));
 		}
 		return beans;
 	}
-	
+	/**
+	 * This method will return all of the ReportBeans that are stored in the
+	 * sessionCache of the sessionId specified.
+	 *
+	 * @param sessionId --the sessionCache that you want the ReportBeans from
+	 * @return --All the ReportBeans in the sessionCache
+	 */
 	public Collection getAllReportBeans(String sessionId) {
 		Collection beans = new ArrayList();
 		Cache sessionCache = getSessionCache(sessionId);

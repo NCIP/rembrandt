@@ -93,7 +93,7 @@ public interface ConvenientCache {
 	 */
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag);
 	/**
-	 * This method when given a sessionId and a queryName will check the 
+	 * This method, when given a sessionId and a queryName, will check the 
 	 * session cache for the stored compoundQuery.  If it is not stored or 
 	 * causes an exception it will return Null.  If you are getting Null values,
 	 * when you know that you have stored the query in the sessionCache, check
@@ -104,10 +104,39 @@ public interface ConvenientCache {
 	 * @return compoundQuery
 	 */
 	public CompoundQuery getQuery(String sessionId, String queryName);
-	
-	public List getResultSetNames(String sessionId);
-	
+	/**
+	 * There is a subtle distinction between SampleSets and ResultSets, one is
+	 * a ReportBean where isSampleSet()==true and the latter,isSampleSet()==false.
+	 * That is it.  What that currently means is that one ReportBean is a list of
+	 * samples selected from a regular result set.  This list of samples is then
+	 * used to create a SampleCriteria that is placed in a GeneExpressionQuery that
+	 * has a ClinicalView.  This gives us the ability to extract or look at these
+	 * "Samples of Interest" at any time, and applying them to other queries if
+	 * the user desires.    
+	 * 
+	 * @param sessionId --identifies the sessionCache that you want a complete
+	 * list of SampleSetNames stored in.
+	 */
+	public List getSampleSetNames(String sessionId);
+	/**
+	 * The method will return all of the SampleSet ReportBeans that are stored
+	 * in the sessionCache of the sessionId specified.  This is NOT all the
+	 * ReportBeans in the sessionCache.  They will only be the SampleSets that
+	 * were explicitly created and stored by the user in the cache.  To get all
+	 * the ReportBeans use the getAllReportBeans(String sessionId) method of
+	 * this class.
+	 * 
+	 * @param sessionId
+	 * @return --all the SampleSet ReportBeans that are stored in the associated
+	 * sessionCache
+	 */
 	public Collection getAllSampleSetReportBeans(String sessionId);
-	
+	/**
+	 * This method will return all of the ReportBeans that are stored in the
+	 * sessionCache of the sessionId specified.
+	 *
+	 * @param sessionId --the sessionCache that you want the ReportBeans from
+	 * @return --All the ReportBeans in the sessionCache
+	 */
 	public Collection getAllReportBeans(String sessionId);
 }
