@@ -21,24 +21,28 @@
       <put name="mainForm" value="/jsp/formBody.jsp?s=geneExpression" />
 	  <put name="title" value="Gene Expression" />	<!-- title of page -->
       <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+      <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
     
     <definition name="nautilus.comparitiveGenomic" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=comparitiveGenomic" />
 	  <put name="title" value="Comparative Genomic Data" />
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+	  <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
     
     <definition name="nautilus.clinical" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=clinical" />
 	  <put name="title" value="Clinical Data" />
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+	  <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
     
 	<definition name="nautilus.menu" extends="baseDef">
       <put name="mainForm" value="/jsp/menu.jsp" />
 	  <put name="title" value="Advanced Search - Build Query" />
 	   <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
+	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
 	</definition>
     
     <definition name="nautilus.refine" extends="baseDef">
@@ -47,6 +51,7 @@
 	  <put name="formAction" value="refineQuery.do" />	<!-- form action -->
 	  <put name="title" value="Refine Query" />
    	   <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
+   	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
     
     <definition name="nautilus.home" path="/jsp/homeLayout.jsp">
@@ -56,13 +61,29 @@
 		<put name="overlib" value="/jsp/tiles/overlib_tile.jsp" />
 		<put name="header" value="/jsp/header.jsp" />
 	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
-		<put name="sideBar" value="/jsp/tiles/advSearch_tile.jsp" />
+	    <put name="sideBar" value="/jsp/tiles/blankSidebar_tile.jsp" />
+		<!-- <put name="sideBar" value="/jsp/tiles/advSearch_tile.jsp" /> -->
 		<put name="footer" value="/jsp/footer.jsp" />
 		<put name="mainForm" value="/jsp/home.jsp" />
+		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=1" />
 		
     </definition>
     
-	
+	   <definition name="nautilus.homeAdvanced" path="/jsp/homeLayout.jsp">
+		<put name="title" value="REMBRANDT Advanced Search" />
+		<!--  the common criteria  -->
+		<put name="htmlHead" value="/jsp/tiles/htmlHead_tile.jsp" />
+		<put name="overlib" value="/jsp/tiles/overlib_tile.jsp" />
+		<put name="header" value="/jsp/header.jsp" />
+	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
+	    <put name="sideBar" value="/jsp/tiles/blankSidebar_tile.jsp" />
+		<!-- <put name="sideBar" value="/jsp/tiles/advSearch_tile.jsp" /> -->
+		<put name="footer" value="/jsp/footer.jsp" />
+		<put name="mainForm" value="/jsp/home.jsp" />
+		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+		
+    </definition>
+    
 	<definition name="noSidebar" path="/jsp/layoutNoSidebar.jsp">
 		<put name="title" value="caIntegrator" />
 		<!--  the common criteria  -->
