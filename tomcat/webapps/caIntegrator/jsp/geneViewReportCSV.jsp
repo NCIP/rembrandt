@@ -18,8 +18,6 @@ gov.nih.nci.nautilus.ui.CSVGenerator" %>
 	//generate the CSV
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
-	
-	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
 	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(Constants.QUERY_KEY));
 
@@ -27,7 +25,7 @@ gov.nih.nci.nautilus.ui.CSVGenerator" %>
 
 
 	if(queryCollection != null)	{
-		out.println(CSVGenerator.displayReport(queryCollection, theColors, false));
+		out.println(CSVGenerator.displayReport(queryCollection, false));
 	}
 	else
 		out.println("QueryCollection is NULL");
