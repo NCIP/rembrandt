@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Landyr
  * Date: Nov 3, 2004
@@ -42,7 +44,7 @@ public class ReportGenerator  {
 		
 	public static String links = "<a href=\"#queryInfo\">[Query Information]</a> | <a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";
 		
-	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv)	{
+	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv, HttpServletRequest request)	{
 		
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();
@@ -91,7 +93,7 @@ public class ReportGenerator  {
 		 			}
 	 				else if(view instanceof ClinicalSampleView){
 	 					html.append("<div class=\"title\">Sample Report</div>\n");
-	 					html.append(clinicalSampleView(resultsContainer, theColors));
+	 					html.append(clinicalSampleView(resultsContainer, theColors, request));
 	 					return html.toString();
 	 				}	
 	 				else	{
@@ -119,7 +121,7 @@ public class ReportGenerator  {
 	
 	
 	
-	public static String clinicalSampleView(ResultsContainer resultsContainer, String[] theColors)	{
+	public static String clinicalSampleView(ResultsContainer resultsContainer, String[] theColors, HttpServletRequest request)	{
 			
 			boolean gLinks = false;
 			boolean cLinks = false;
@@ -134,11 +136,17 @@ public class ReportGenerator  {
 						if(dimensionalViewContainer.getGeneExprSingleViewContainer() != null)	{
 							// show the geneExprHyperlinks
 							gLinks = true;
+							//request.setAttribute( "resultsContainer", resultsContainer );
+							request.getSession(true).setAttribute( "report", new String("gene") );							
+							System.out.println("Set in session");
 						}
 						if(dimensionalViewContainer.getCopyNumberSingleViewContainer() != null)	{
 							// show the copyNumberHyperlinks
 							cLinks = true;
+							request.getSession(true).setAttribute( "report", new String("copy") );
+							System.out.println("Set in session");
 						}
+
 				sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 				
 			}else if (resultsContainer instanceof SampleViewResultsContainer){
@@ -157,16 +165,26 @@ public class ReportGenerator  {
  		   		sb.append("<td id=\"header\">CopyNumber</td>");
  		   	sb.append("</tr>\n");
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
+   	   			String sampleName = sampleResultset.getBiospecimen().getValue().toString();
 	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
 					"<td>"+sampleResultset.getGenderCode().getValue()+ "</td>" +
 					"<td>"+sampleResultset.getSurvivalLengthRange().getValue()+ "</td>" +
 					"<Td>"+sampleResultset.getDisease().getValue() + "</td>");
-	   			if(gLinks)
-	   				sb.append("<td><a href=\"#\">G</a></td>");
-	   			if(cLinks)
-	   				sb.append("<Td><a href=\"#\">C</a></td>");
+	   			if(gLinks)	{
+	   				sb.append("<td><a href=\"report.do?s="+sampleName+"\">G</a></td>");
+	   				request.getSession(true).setAttribute( sampleName, sampleResultset.getGeneExprSingleViewResultsContainer() );
+	   		   		
+	   			}
+		   		
+	   			//	sb.append("<td><a href=\"report.do?s="+ sampleResultset.getBiospecimen().getValue().toString() +"\">G</a></td>");
+	   			if(cLinks)	{
+					request.getSession(true).setAttribute( sampleName, sampleResultset.getCopyNumberSingleViewResultsContainer() );
+	   				sb.append("<Td><a href=\"report.do?s="+sampleName +"\">C</a></td>");
+	   			}
+
 	   			sb.append("</tr>\n");
     		}
     		sb.append("</table>\n<br>");
@@ -279,19 +297,24 @@ public class ReportGenerator  {
 		
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
-				
-				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-				if(dimensionalViewContainer != null)	{		
-					CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+				CopyNumberSingleViewResultsContainer copyNumberContainer = null;
+
+				if(resultsContainer instanceof DimensionalViewContainer)	{
+					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+					if(dimensionalViewContainer != null)	{
+						copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+					}
+				}
+				else if(resultsContainer instanceof CopyNumberSingleViewResultsContainer)	{ //for single
+					copyNumberContainer = (CopyNumberSingleViewResultsContainer) resultsContainer;
+				}
+				if(copyNumberContainer != null)	{		
 					
-					SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-					if(sampleViewContainer.getBioSpecimenResultsets().size() > 0 && copyNumberContainer.getCytobandResultsets().size() > 0)	{
-						Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+					if(copyNumberContainer.getCytobandResultsets().size() > 0)	{
 		
 						Collection cytobands = copyNumberContainer.getCytobandResultsets();
 				    	Collection labels = copyNumberContainer.getGroupsLabels();
 				    	Collection sampleIds = null;
-				    	
 				    	
 				    	StringBuffer header = new StringBuffer();
 				    	StringBuffer sampleNames = new StringBuffer();
@@ -406,13 +429,19 @@ public class ReportGenerator  {
 
 
 	public static String geneExprSampleView(ResultsContainer resultsContainer, String[] theColors)	{
-		
+				GeneExprSingleViewResultsContainer geneViewContainer = null;
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
-				
-			    DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-			    if(dimensionalViewContainer != null)	{
-		        	GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+				if(resultsContainer instanceof DimensionalViewContainer)	{
+					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+					if(dimensionalViewContainer != null)	{
+						geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+					}
+				}
+				else if(resultsContainer instanceof GeneExprSingleViewResultsContainer)	{ //for single
+					geneViewContainer = (GeneExprSingleViewResultsContainer) resultsContainer;
+				}
+				if(geneViewContainer != null)	{
 			    	Collection genes = geneViewContainer.getGeneResultsets();
 			    	Collection labels = geneViewContainer.getGroupsLabels();
 			    	Collection sampleIds = null;

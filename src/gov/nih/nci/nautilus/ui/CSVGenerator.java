@@ -36,11 +36,10 @@ import java.util.Iterator;
  */
 public class CSVGenerator  {
 	
-//	public static String theColors[] = {"0073E6","FFFF61"};
-	
+
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
 				
-	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv)	{
+	public static String displayReport(QueryCollection queryCollection, boolean csv)	{
 		
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();
@@ -67,28 +66,25 @@ public class CSVGenerator  {
 		 		if(resultsContainer != null)	{
 		 			
 			 		Viewable view = resultant.getAssociatedView();
-			 		 
-			 		//4 views here, returning the String of HTML for report
-			 		// need to add the html buffer here
 			 		
 		 			if (view instanceof GeneExprSampleView)	{ 
 		 				html.append("Gene Expression Fold Change (Tumor/Non-tumor)\n");
-		 				html.append(geneExprSampleView(resultsContainer, theColors));
+		 				html.append(geneExprSampleView(resultsContainer));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof CopyNumberSampleView)	{ 
 		 				html.append("Copy Number Data\n");
-		 				html.append(copyNumberSampleView(resultsContainer, theColors));
+		 				html.append(copyNumberSampleView(resultsContainer));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
 		 				html.append("Mean Gene Expression Fold Change for Tumor Sub-types\n");
-		 				html.append(geneExprDiseaseView(resultsContainer, theColors));
+		 				html.append(geneExprDiseaseView(resultsContainer));
 		 				return html.toString();
 		 			}
 	 				else if(view instanceof ClinicalSampleView){
 	 					html.append("Sample Report\n");
-	 					html.append(clinicalSampleView(resultsContainer, theColors));
+	 					html.append(clinicalSampleView(resultsContainer));
 	 					return html.toString();
 	 				}	
 	 				else	{
@@ -116,7 +112,7 @@ public class CSVGenerator  {
 	
 	
 	
-	public static String clinicalSampleView(ResultsContainer resultsContainer, String[] theColors)	{
+	public static String clinicalSampleView(ResultsContainer resultsContainer)	{
 			
 			boolean gLinks = false;
 			boolean cLinks = false;
@@ -165,7 +161,7 @@ public class CSVGenerator  {
 	}
 	
 	
-	public static String geneExprDiseaseView(ResultsContainer resultsContainer, String[] theColors)	{
+	public static String geneExprDiseaseView(ResultsContainer resultsContainer)	{
 		
 		StringBuffer sb = new StringBuffer();
 		GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
@@ -229,7 +225,7 @@ public class CSVGenerator  {
 	}
 
 
-	public static String copyNumberSampleView(ResultsContainer resultsContainer, String[] theColors)	{
+	public static String copyNumberSampleView(ResultsContainer resultsContainer)	{
 		
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;
@@ -322,7 +318,7 @@ public class CSVGenerator  {
 	}
 
 
-	public static String geneExprSampleView(ResultsContainer resultsContainer, String[] theColors)	{
+	public static String geneExprSampleView(ResultsContainer resultsContainer)	{
 		
 				StringBuffer sb = new StringBuffer();
 				int recordCount = 0;

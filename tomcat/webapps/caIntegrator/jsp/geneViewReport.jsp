@@ -57,7 +57,7 @@ gov.nih.nci.nautilus.ui.ReportGenerator" %>
 <Br>
 <a name="top"></a>
 <%
-out.println("sample we want: " + request.getParameter("s"));
+	System.out.println("sample we want: " + request.getParameter("s"));
 
 //	String theColors[] = {"5C73B7", "B1BCDD" };	
 //	String theColors[] = {"5C73B7", "B1BCDD", "DDD2B1", "8697CA", "B7A15C", "CFD4E6", "404F80", "5C71B5" };
