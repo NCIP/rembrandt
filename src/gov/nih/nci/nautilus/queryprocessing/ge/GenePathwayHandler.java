@@ -12,6 +12,7 @@ import gov.nih.nci.nautilus.data.Pathway;
 import gov.nih.nci.nautilus.queryprocessing.ge.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -28,7 +29,8 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class GenePathwayHandler {
-    static GEReporterIDCriteria  buildPathwayCriteria( PathwayCriteria pathwayCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+    static GEReporterIDCriteria  buildPathwayCriteria( PathwayCriteria pathwayCrit, boolean includeClones, boolean includeProbes) throws Exception {
+            PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
             Collection pathwayNames = pathwayCrit.getPathwayNames();
             ArrayList pathwayNameValues = new ArrayList();
             if (pathwayNames  != null && pathwayNames .size() > 0) {
@@ -53,6 +55,6 @@ public class GenePathwayHandler {
             geneIDCrit.setGeneIdentifiers(geneSymbols);
 
             // executeQuery ProbesetID and CloneIDs for GeneSymbols
-            return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes, pb);
+            return gov.nih.nci.nautilus.queryprocessing.ge.GeneIDCriteriaHandler.buildReporterIDCritForGEQuery(geneIDCrit, includeClones, includeProbes);
     }
 }

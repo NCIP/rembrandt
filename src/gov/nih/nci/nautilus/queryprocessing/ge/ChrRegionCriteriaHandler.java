@@ -8,6 +8,7 @@ import gov.nih.nci.nautilus.data.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -43,7 +44,8 @@ final public class ChrRegionCriteriaHandler {
         }
     }
 
-    public static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes, PersistenceBroker pb) throws Exception {
+    public static GEReporterIDCriteria buildGERegionCriteria( RegionCriteria regionCrit, boolean includeClones, boolean includeProbes) throws Exception {
+        PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
         assert (regionCrit != null);
         StartEndPosition posObj = getPositionObject(regionCrit, pb);
         return buildGECloneIDProbeIDCrit(posObj, includeProbes, pb, includeClones);

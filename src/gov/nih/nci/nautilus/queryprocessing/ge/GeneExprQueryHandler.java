@@ -80,7 +80,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
 
         if (geQuery.getRegionCrit() != null) {
-            GEReporterIDCriteria regionCrit = gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildGERegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes, _BROKER);
+            GEReporterIDCriteria regionCrit = gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildGERegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes);
             assert(regionCrit != null);
             SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
@@ -88,7 +88,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
 
         if (geQuery.getGeneOntologyCriteria() != null) {
-            GEReporterIDCriteria ontologyCrit  = GeneOntologyHandler.buildGeneOntologyIDCriteria(geQuery.getGeneOntologyCriteria(), includeClones, includeProbes, _BROKER);
+            GEReporterIDCriteria ontologyCrit  = GeneOntologyHandler.buildGeneOntologyIDCriteria(geQuery.getGeneOntologyCriteria(), includeClones, includeProbes);
             assert(ontologyCrit != null);
             SelectHandler handler = new SelectHandler.OntologySelectHandler(ontologyCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
@@ -96,7 +96,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
 
         if (geQuery.getPathwayCriteria() != null) {
-            GEReporterIDCriteria pathwayCrit = GenePathwayHandler.buildPathwayCriteria(geQuery.getPathwayCriteria(), includeClones, includeProbes, _BROKER);
+            GEReporterIDCriteria pathwayCrit = GenePathwayHandler.buildPathwayCriteria(geQuery.getPathwayCriteria(), includeClones, includeProbes);
             assert(pathwayCrit != null);
             SelectHandler handler = new SelectHandler.PathwaySelectHandler(pathwayCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
