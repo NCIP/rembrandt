@@ -5,17 +5,60 @@ package gov.nih.nci.nautilus.data;
 
 public class GeneClone
 {
+  public final static String CLONE_ID =   "cloneId";
+  private String accessionNumber;
+
+  private Long accEnd;
+
+  private Long accStart;
+
   private Long cloneId;
 
-  private String cloneType;
+  private String ec;
 
-  private Long geneId;
+  private String geneCloneId;
 
   private String geneSymbol;
 
-  private gov.nih.nci.nautilus.data.CloneDim aCloneDim;
+  private String geneTitle;
 
-  private gov.nih.nci.nautilus.data.GeneDimOld aGeneDimOld;
+  private String llId;
+
+  private String ominId;
+
+  private String unigeneId;
+
+  private String unigeneLibrary;
+
+  public String getAccessionNumber()
+  {
+     return this.accessionNumber;
+  }
+  public void setAccessionNumber(String param)
+  {
+    this.accessionNumber = param;
+  }
+
+
+  public Long getAccEnd()
+  {
+     return this.accEnd;
+  }
+  public void setAccEnd(Long param)
+  {
+    this.accEnd = param;
+  }
+
+
+  public Long getAccStart()
+  {
+     return this.accStart;
+  }
+  public void setAccStart(Long param)
+  {
+    this.accStart = param;
+  }
+
 
   public Long getCloneId()
   {
@@ -27,23 +70,23 @@ public class GeneClone
   }
 
 
-  public String getCloneType()
+  public String getEc()
   {
-     return this.cloneType;
+     return this.ec;
   }
-  public void setCloneType(String param)
+  public void setEc(String param)
   {
-    this.cloneType = param;
+    this.ec = param;
   }
 
 
-  public Long getGeneId()
+  public String getGeneCloneId()
   {
-     return this.geneId;
+     return this.geneCloneId;
   }
-  public void setGeneId(Long param)
+  public void setGeneCloneId(String param)
   {
-    this.geneId = param;
+    this.geneCloneId = param;
   }
 
 
@@ -57,23 +100,53 @@ public class GeneClone
   }
 
 
-  public gov.nih.nci.nautilus.data.CloneDim getACloneDim()
+  public String getGeneTitle()
   {
-     return this.aCloneDim;
+     return this.geneTitle;
   }
-  public void setACloneDim(gov.nih.nci.nautilus.data.CloneDim param)
+  public void setGeneTitle(String param)
   {
-    this.aCloneDim = param;
+    this.geneTitle = param;
   }
 
 
-  public gov.nih.nci.nautilus.data.GeneDimOld getAGeneDimOld()
+  public String getLlId()
   {
-     return this.aGeneDimOld;
+     return this.llId;
   }
-  public void setAGeneDimOld(gov.nih.nci.nautilus.data.GeneDimOld param)
+  public void setLlId(String param)
   {
-    this.aGeneDimOld = param;
+    this.llId = param;
+  }
+
+
+  public String getOminId()
+  {
+     return this.ominId;
+  }
+  public void setOminId(String param)
+  {
+    this.ominId = param;
+  }
+
+
+  public String getUnigeneId()
+  {
+     return this.unigeneId;
+  }
+  public void setUnigeneId(String param)
+  {
+    this.unigeneId = param;
+  }
+
+
+  public String getUnigeneLibrary()
+  {
+     return this.unigeneLibrary;
+  }
+  public void setUnigeneLibrary(String param)
+  {
+    this.unigeneLibrary = param;
   }
 
 

@@ -5,65 +5,29 @@ package gov.nih.nci.nautilus.data;
 
 public class GeneOntology
 {
-  private Long geneId;
+    public final static String GENE_SYMBOL = "geneSymbol";
+    public final static String GO_ID = "goId";
 
-  private String goDesc;
-
-  private Long goId;
-
-  private String goName;
-
-  private gov.nih.nci.nautilus.data.GeneDimOld aGeneDimOld;
-
-  public Long getGeneId()
-  {
-     return this.geneId;
-  }
-  public void setGeneId(Long param)
-  {
-    this.geneId = param;
-  }
+      private String geneSymbol;
+      private Long goId;
+      private String goName;
+      public Long getGoId() {
+         return this.goId;
+      }
+      public void setGoId(Long param)
+      {
+        this.goId = param;
+      }
 
 
-  public String getGoDesc()
-  {
-     return this.goDesc;
-  }
-  public void setGoDesc(String param)
-  {
-    this.goDesc = param;
-  }
-
-
-  public Long getGoId()
-  {
-     return this.goId;
-  }
-  public void setGoId(Long param)
-  {
-    this.goId = param;
-  }
-
-
-  public String getGoName()
-  {
-     return this.goName;
-  }
-  public void setGoName(String param)
-  {
-    this.goName = param;
-  }
-
-
-  public gov.nih.nci.nautilus.data.GeneDimOld getAGeneDimOld()
-  {
-     return this.aGeneDimOld;
-  }
-  public void setAGeneDimOld(gov.nih.nci.nautilus.data.GeneDimOld param)
-  {
-    this.aGeneDimOld = param;
-  }
-
+      public String getGoName()
+      {
+         return this.goName;
+      }
+      public void setGoName(String param)
+      {
+        this.goName = param;
+      }
 
 }
 

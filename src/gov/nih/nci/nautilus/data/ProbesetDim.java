@@ -9,7 +9,8 @@ public class ProbesetDim
     public final static String PROBESET_NAME = "probesetName";
     public final static String GENE_SYMBOL = "geneSymbol";
     public final static String CYTOBAND = "cytoband";
- private Long probesetId;
+    public final static String ACCESSION_NUMBER = "accessionNumber";
+    private Long probesetId;
  private String probesetName;
 
     public String getChromosome() {
@@ -70,6 +71,15 @@ public class ProbesetDim
 
     private String cytoband;
 
+    public String getAccessionNumber() {
+        return accessionNumber;
+    }
+
+    public void setAccessionNumber(String accessionNumber) {
+        this.accessionNumber = accessionNumber;
+    }
+
+    private String accessionNumber;
   private String ec;
 
   private Long geneId;
