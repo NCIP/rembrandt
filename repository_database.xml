@@ -12,34 +12,34 @@
 -->
 
     <jdbc-connection-descriptor
-        jcd-alias="caIntegrator"
-        default-connection="true"
-        platform="Oracle"
-        jdbc-level="1.0"
-        driver="oracle.jdbc.driver.OracleDriver"
-        protocol="jdbc"
-        subprotocol="oracle"
-        dbalias="thin:@cbiodb2-d.nci.nih.gov:1521:rbtdev"
-        username="nautilusdev"
-        password="lpgnautilus">
-        <connection-pool
-            maxActive="5"
-            maxIdle="2"
-            maxWait="3"
-            minEvictableIdleTimeMillis="40"
-            numTestsPerEvictionRun="5"
-            testOnBorrow="true"
-            testOnReturn="true"
-            testWhileIdle="true"
-            timeBetweenEvictionRunsMillis="6"
-            whenExhaustedAction="2"
-            validationQuery="select 1 from dual"
-            logAbandoned="true"
-            removeAbandoned="true"
-            removeAbandonedTimeout="8"/>
-
-        <sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerHighLowImpl">
-            <attribute attribute-name="key1" attribute-value="value1"/>
-            <attribute attribute-name="key2" attribute-value="value2"/>
-        </sequence-manager>
-    </jdbc-connection-descriptor>
+           jcd-alias="caIntegrator"
+           default-connection="true"
+           platform="Oracle"
+           jdbc-level="1.0"
+           driver="oracle.jdbc.driver.OracleDriver"
+           protocol="jdbc"
+           subprotocol="oracle"
+           dbalias="thin:@cbiodb2-d.nci.nih.gov:1521:rbtdev"
+           username="nautilusdev"
+           password="dev!234">
+           <connection-pool
+               maxActive="5"
+               maxIdle="2"
+               maxWait="3"
+               minEvictableIdleTimeMillis="40"
+               numTestsPerEvictionRun="5"
+               testOnBorrow="true"
+               testOnReturn="true"
+               testWhileIdle="true"
+               timeBetweenEvictionRunsMillis="6"
+               whenExhaustedAction="2"
+               validationQuery="select 1 from dual"
+               logAbandoned="true"
+               removeAbandoned="true"
+               removeAbandonedTimeout="8"/>
+   
+           <sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerHighLowImpl">
+               <attribute attribute-name="key1" attribute-value="value1"/>
+               <attribute attribute-name="key2" attribute-value="value2"/>
+           </sequence-manager>
+       </jdbc-connection-descriptor>
