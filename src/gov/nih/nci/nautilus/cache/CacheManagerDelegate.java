@@ -168,7 +168,7 @@ public class CacheManagerDelegate implements ConvenientCache{
         }
     }
     /**
-     * When ever a cache is destroyed this method notifies all
+     * Whenever a cache is destroyed this method notifies all
      * registered CacheListeners.
      * 
      * @param cacheId the cache id
@@ -330,7 +330,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 	}
 	/**
 	 * This method should be used to generate unique temporary report names for
-	 * any given session with in the application.  It has a reference to a
+	 * any given session within the application.  It has a reference to a
 	 * counter (SessionTempReportCounter) that is present and unique for every
 	 * session, and tracks the number of unique temp reports.  It uses this 
 	 * counter to create a new query/report name that will be unique for the
@@ -490,7 +490,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return names;
 	}
-	public Collection getAllResultSetReportBeans(String sessionId) {
+	public Collection getAllSampleSetReportBeans(String sessionId) {
 		Collection beans = new ArrayList();
 		List beanNames = getResultSetNames(sessionId);
 		for(Iterator i = beanNames.iterator();i.hasNext();) {
@@ -499,6 +499,31 @@ public class CacheManagerDelegate implements ConvenientCache{
 		return beans;
 	}
 	
+	public Collection getAllReportBeans(String sessionId) {
+		Collection beans = new ArrayList();
+		Cache sessionCache = getSessionCache(sessionId);
+		try {
+			List keys = sessionCache.getKeys();
+			for(Iterator i = keys.iterator();i.hasNext();) {
+				Element element = sessionCache.get((String)i.next());
+				Object object = element.getValue();
+				if(object instanceof ReportBean) {
+						beans.add(object);
+					
+				}
+			}
+		}catch(CacheException ce) {
+			logger.error(ce);
+		}
+		return beans;
+	}
+	/**
+	 * This simply puts the SessionQueryBag into the sessionCache
+	 * 
+	 * @param sessionId --the session that this query bag should be associated
+	 * with
+	 * @param theBag --the bag you want to set in the cache.
+	 */
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag) {
 		this.addToSessionCache(sessionId,NautilusConstants.SESSION_QUERY_BAG_KEY, theBag );
 	}
