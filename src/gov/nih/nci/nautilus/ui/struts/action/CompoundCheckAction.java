@@ -6,7 +6,7 @@ package gov.nih.nci.nautilus.ui.struts.action;
 
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
-import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

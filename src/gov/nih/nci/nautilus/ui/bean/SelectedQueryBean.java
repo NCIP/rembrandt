@@ -1,11 +1,11 @@
-package gov.nih.nci.nautilus.ui.helper;
+package gov.nih.nci.nautilus.ui.bean;
 
 /**
  * @author BauerD
  * Jan 27, 2005
  * 
  */
-public class SelectedQuery {
+public class SelectedQueryBean {
 	private String leftParen;
     private String rightParen;
     private String queryName;

@@ -2,8 +2,8 @@ package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.Query;
-import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
-import gov.nih.nci.nautilus.ui.helper.SelectedQuery;
+import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -229,7 +229,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 */
 	public List getSelectedQueries() {
          if(selectedQueries.isEmpty()) {
-            SelectedQuery newQuery = new SelectedQuery();
+            SelectedQueryBean newQuery = new SelectedQueryBean();
             newQuery.setQueryName("");
             selectedQueries.add(newQuery);
          }
@@ -242,13 +242,13 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		this.selectedQueries = selectedQueries;
 	}
  
-    public SelectedQuery getSelectedQuery(int index) {
-        return (SelectedQuery) this.getSelectedQueries().get(index);
+    public SelectedQueryBean getSelectedQuery(int index) {
+        return (SelectedQueryBean) this.getSelectedQueries().get(index);
     }
     
     public void addSelectedQuery() {
     	List selectedQueries = this.getSelectedQueries();
-        SelectedQuery newQuery = new SelectedQuery();
+        SelectedQueryBean newQuery = new SelectedQueryBean();
         newQuery.setQueryName("");
         selectedQueries.add(newQuery);
     }
@@ -257,7 +257,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 * @see org.apache.commons.collections.Factory#create()
 	 */
 	public Object create() {
-		SelectedQuery newQuery = new SelectedQuery();
+		SelectedQueryBean newQuery = new SelectedQueryBean();
         newQuery.setQueryName("");
         return newQuery;
 	}

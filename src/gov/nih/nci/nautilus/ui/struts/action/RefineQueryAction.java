@@ -4,14 +4,15 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
-import gov.nih.nci.nautilus.ui.helper.SelectedQuery;
+import gov.nih.nci.nautilus.ui.bean.ReportBean;
+import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.helper.UIRefineQueryValidator;
 import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,37 +75,49 @@ public class RefineQueryAction extends LookupDispatchAction {
 		HttpServletResponse response)
 		throws Exception {
 
-		ActionErrors errors = new ActionErrors();
+        ActionErrors errors = new ActionErrors();
+        ActionForward thisForward = null;
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
-
 		SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
 		// Get the viewType array from session 
 		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(NautilusConstants.VALID_QUERY_TYPES_KEY);
-		//Set ViewType array in session to null, we dont need it anymore
-		//request.getSession().setAttribute(Constants.VALID_QUERY_TYPES_KEY, null);
-		
 		if (queryCollect != null) {
 			if (queryCollect.hasCompoundQuery()) {
-				CompoundQuery cQuery = (CompoundQuery) queryCollect.getCompoundQuery();
+				
+                //Create compound query to execute
+                CompoundQuery cQuery = (CompoundQuery) queryCollect.getCompoundQuery();
 				ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
 				cQuery.setAssociatedView(ViewFactory.newView(selectView));
-			}else {
+                String resultSetName = refineQueryForm.getResultSetName();
+                
+                if(!resultSetName.equals(" ")
+                        ||!resultSetName.equals("")) {
+                	cQuery.setQueryName(resultSetName);
+                }else {
+                	//Set the CompoundQueryName to temp
+                    cQuery.setQueryName("temp");
+                }
+                
+                ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery);
+                ReportBean reportBean = rgHelper.getReportBean();
+                
+                request.setAttribute(NautilusConstants.REPORT_BEAN, reportBean);
+            }else {
 				logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
 				this.saveErrors(request, errors);
-				ActionForward thisForward = mapping.findForward("failure");
+				thisForward = mapping.findForward("failure");
 			}
 		}else{	
 			logger.debug("SessionQueryBag object missing in session!!");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.querycoll.missing.error"));
 			this.saveErrors(request, errors);
-			ActionForward thisForward = mapping.findForward("failure");
+			thisForward = mapping.findForward("failure");
 		}
-		//Send to the appropriate view as per selection!!
-		ActionForward thisForward = mapping.findForward("success");
-		
-		return thisForward;
-
+       
+        //Send to the appropriate view as per selection!!
+		thisForward = mapping.findForward("success");
+        return thisForward;
 	 }
   
 	private void print(ResultSet[] geneExprObjects) {
@@ -129,16 +142,21 @@ public class RefineQueryAction extends LookupDispatchAction {
         RefineQueryForm refineQueryForm = (RefineQueryForm)form;
         SessionQueryBag queryCollect = (SessionQueryBag) request.getSession().getAttribute(NautilusConstants.SESSION_QUERY_BAG_KEY);
         CompoundQuery cquery = queryCollect.getCompoundQuery();
-        //Get SessionCache
-        //Get QueryNumber
-        //Create Unique_queryName...  CQ_1
-        //set CompundQueryName
-        cquery.setQueryName("temp");
-        //store the query in the cache
-        //register the query and results set name in the lookup table
         refineQueryForm.setCompoundViewColl(UIRefineQueryValidator.setRefineQueryView(cquery, request));
+        //Validation for the refine query
+        String resultSetName = refineQueryForm.getResultSetName();
         refineQueryForm.setRunFlag("yes");
-        return mapping.findForward("displayQuery");
+        if(resultSetName!=null && !resultSetName.equals("")) {
+        	cquery.setQueryName(refineQueryForm.getResultSetName());
+        	return mapping.findForward("displayQuery");
+        	
+        }else {
+        	ActionErrors errors = new ActionErrors();
+            ActionError emptyResultSetNameError = new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.missing.resultsetname");
+            errors.add("badSetName", emptyResultSetNameError);
+            this.saveErrors(request, errors);
+            return (new ActionForward(mapping.getInput()));
+        }
     }
     
     public ActionForward operandChange(
@@ -150,13 +168,13 @@ public class RefineQueryAction extends LookupDispatchAction {
    
         RefineQueryForm refineQueryForm = (RefineQueryForm)form;
         List selectedQuerries = refineQueryForm.getSelectedQueries();
-        SelectedQuery lastQuery = (SelectedQuery)selectedQuerries.get(selectedQuerries.size()-1);
+        SelectedQueryBean lastQuery = (SelectedQueryBean)selectedQuerries.get(selectedQuerries.size()-1);
         //This logic is to prevent the adding of unnecesary rows...
         if(!lastQuery.getOperand().equals("")) {
         	refineQueryForm.addSelectedQuery();
         }else {
         	for(int i = 0; i < selectedQuerries.size();i++) {
-        		if(((SelectedQuery)selectedQuerries.get(i)).getOperand().equals("")&& i!=selectedQuerries.size()-1) {
+        		if(((SelectedQueryBean)selectedQuerries.get(i)).getOperand().equals("")&& i!=selectedQuerries.size()-1) {
         			for(int j = selectedQuerries.size()-1; j>=i;j--) {
                        selectedQuerries.remove(j);
                     }

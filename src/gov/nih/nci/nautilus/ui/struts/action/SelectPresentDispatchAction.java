@@ -10,7 +10,7 @@ import gov.nih.nci.nautilus.de.DomainElementClass;
 import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.resultset.ResultSet;
-import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.SelectPresentationForm;
 import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.Viewable;

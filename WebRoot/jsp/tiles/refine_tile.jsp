@@ -28,7 +28,7 @@
 								property="selectedQueries" 
 								id="selectedQuery"  
 								indexId="index" 
-								type="gov.nih.nci.nautilus.ui.helper.SelectedQuery">
+								type="gov.nih.nci.nautilus.ui.bean.SelectedQueryBean">
 				  <%@ include file="/jsp/selectQueryRow.jsp" %>
 				</nested:iterate>
 				<!-- END looping over SelectedQueries -->

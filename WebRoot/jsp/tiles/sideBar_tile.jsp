@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.ui.helper.SessionQueryBag,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
+<%@ page import="java.util.*, gov.nih.nci.nautilus.ui.bean.SessionQueryBag,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
 <div width="100%">
 <h3>Queries</h3>
 <html:form action ="delete_Query.do">

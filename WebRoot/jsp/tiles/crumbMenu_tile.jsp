@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ page import="java.util.*,
 				 gov.nih.nci.nautilus.query.*,
-				 gov.nih.nci.nautilus.ui.helper.SessionQueryBag,
+				 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
 				 gov.nih.nci.nautilus.constants.NautilusConstants" %>
 <%@ page import="org.apache.log4j.Logger;" %>
 <%

@@ -4,6 +4,8 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.parser.Parser;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.RefineQueryForm;
 import gov.nih.nci.nautilus.util.ApplicationContext;
 import gov.nih.nci.nautilus.view.ViewType;
@@ -38,8 +40,14 @@ public class UIRefineQueryValidator {
          * There is only one selected query to execute
          */
         if(selectedQueries.size()==1) {
-           SelectedQuery query = (SelectedQuery)selectedQueries.get(0);
-           compoundQuery = new CompoundQuery(queryCollect.getQuery(query.getQueryName()));
+           SelectedQueryBean query = (SelectedQueryBean)selectedQueries.get(0);
+           if(!query.getQueryName().equals("")&&!query.getQueryName().equals(" ")) {
+            //They have chosen a query
+           	compoundQuery = new CompoundQuery(queryCollect.getQuery(query.getQueryName()));
+           }else {
+           	    //They have not chosen a query
+           	    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query"));
+           }
         }else {
         	/*CASE 2:
              * There is more than 1 query selected
@@ -49,7 +57,7 @@ public class UIRefineQueryValidator {
             //Tokenize the selected queries
             for(int i = 0;i<selectedQueries.size(); i++)
             {
-            	SelectedQuery query = (SelectedQuery)selectedQueries.get(i);
+            	SelectedQueryBean query = (SelectedQueryBean)selectedQueries.get(i);
                 String leftParen = query.getLeftParen();
                 String queryName = query.getQueryName();
                 String rightParen = query.getRightParen();
@@ -88,6 +96,7 @@ public class UIRefineQueryValidator {
             queryCollect.setCompoundQuery((CompoundQuery) compoundQuery);
             refineQueryForm.setRunFlag("yes");
         }
+        refineQueryForm.setErrors(errors);
         return refineQueryForm;
  	}
 

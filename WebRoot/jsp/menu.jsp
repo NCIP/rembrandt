@@ -4,7 +4,7 @@
 	 gov.nih.nci.nautilus.query.*,
 	 gov.nih.nci.nautilus.constants.NautilusConstants,
 	 org.apache.log4j.Logger,
-	  gov.nih.nci.nautilus.ui.helper.SessionQueryBag" %> 
+	  gov.nih.nci.nautilus.ui.bean.SessionQueryBag" %> 
 
 
 <%

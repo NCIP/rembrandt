@@ -47,7 +47,7 @@
  *	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *	
  */
-package gov.nih.nci.nautilus.ui.helper;
+package gov.nih.nci.nautilus.ui.bean;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Query;
 

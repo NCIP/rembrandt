@@ -20,7 +20,7 @@ import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.de.GeneOntologyDE;
 import gov.nih.nci.nautilus.de.PathwayDE;
-import gov.nih.nci.nautilus.ui.helper.SessionQueryBag;
+import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
 import java.io.BufferedReader;
 import java.io.IOException;
