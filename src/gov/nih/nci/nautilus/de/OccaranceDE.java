@@ -19,10 +19,6 @@ public class OccaranceDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public OccaranceDE() {
-        super();
-    }
-   
    /**
     * Initializes a newly created <code>OccaranceDE</code> object so that it represents an OccaranceDE.
     */

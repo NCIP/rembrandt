@@ -19,9 +19,7 @@ public class SurvivalDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public SurvivalDE() {
-        super();
-    }
+
    /**
     * Initializes a newly created <code>SurvivalDE</code> object so that it represents an SurvivalDE.
     */

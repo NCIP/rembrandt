@@ -48,9 +48,6 @@ abstract public class SNPIdentifierDE extends DomainElement {
   //                   CONSTRUCTOR(S)
   // *****************************************************
 
-    private SNPIdentifierDE() {
-      super();     
-    }
 
   /**
 	* private parent constructor utilized in the two nested/childe classes
@@ -66,10 +63,7 @@ abstract public class SNPIdentifierDE extends DomainElement {
    public final static class TSC extends SNPIdentifierDE {
      public TSC(String TSCId) {
        super(TSC, TSCId);
-        }
-	 public TSC() {
-       super();
-        }
+        }	
     }
   
    /**
@@ -78,10 +72,7 @@ abstract public class SNPIdentifierDE extends DomainElement {
    public final static class SBSNP extends SNPIdentifierDE {
       public SBSNP(String DBSNPId ) {
         super(DBSNP, DBSNPId);
-        }
-	  public SBSNP() {
-        super();
-        }
+        }	
     }
 	
 	 
@@ -91,10 +82,7 @@ abstract public class SNPIdentifierDE extends DomainElement {
    public final static class SNPProbeSet extends SNPIdentifierDE {
       public SNPProbeSet(String SNPProbeSetId ) {
          super(SNP_PROBESET, SNPProbeSetId);
-        }
-	 public SNPProbeSet() {
-         super();
-        }
+        }	
     }
 	
 	 

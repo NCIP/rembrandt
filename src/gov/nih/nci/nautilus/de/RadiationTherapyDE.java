@@ -19,9 +19,7 @@ public class RadiationTherapyDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-     public RadiationTherapyDE() {
-        super();
-    }
+
 	
    /**
     * Initializes a newly created <code>RadiationTherapyDE</code> object so that it represents an RadiationTherapyDE.

@@ -18,9 +18,7 @@ public class AlleleFrequencyDE extends DomainElement{
   // ****************************************************
   //                   CONSTRUCTOR(S)
   // ****************************************************
-    public AlleleFrequencyDE() {
-        super();
-    }
+    
    
    /**
     * Initializes a newly created <code>AlleleFrequencyDE</code> object so that it represents an AlleleFrequencyDE.

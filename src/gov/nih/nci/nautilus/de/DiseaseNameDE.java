@@ -19,9 +19,7 @@ public class DiseaseNameDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public DiseaseNameDE() {
-        super();
-    }
+ 
    
    /**
     * Initializes a newly created <code>DiseaseNameDE</code> object so that it represents an DiseaseNameDE.

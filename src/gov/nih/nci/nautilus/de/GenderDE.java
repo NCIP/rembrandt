@@ -19,10 +19,7 @@ public class GenderDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public GenderDE() {
-        super();
-    }
-   
+
    /**
     * Initializes a newly created <code>GenderDE</code> object so that it represents an GenderDE.
     */

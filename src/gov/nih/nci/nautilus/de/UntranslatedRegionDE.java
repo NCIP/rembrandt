@@ -40,10 +40,7 @@ abstract public class UntranslatedRegionDE extends DomainElement {
    //                   CONSTRUCTOR(S)
    // *****************************************************
 
-   private UntranslatedRegionDE() {
-        super();
-      
-    }
+  
   /**
 	* private parent constructor utilized in the two nested/childe classes
     */
@@ -58,10 +55,7 @@ abstract public class UntranslatedRegionDE extends DomainElement {
     public final static class UTR_5 extends UntranslatedRegionDE {
         public UTR_5(Boolean UTR_5) {
             super(UTR5, UTR_5);
-        }
-		public UTR_5() {
-            super();
-        }
+        }	
     }
 
  /**
@@ -70,12 +64,7 @@ abstract public class UntranslatedRegionDE extends DomainElement {
     public final static class UTR_3 extends UntranslatedRegionDE {
        public UTR_3(Boolean UTR_3) {
             super(UTR3, UTR_3);
-
-       }
-	   public UTR_3() {
-            super();
-
-       }
+       }	
     }
 
 

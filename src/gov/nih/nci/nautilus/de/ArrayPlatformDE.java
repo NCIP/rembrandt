@@ -19,9 +19,7 @@ public class ArrayPlatformDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public ArrayPlatformDE() {
-        super();
-    }
+   
    
    /**
     * Initializes a newly created <code>ArrayPlatformDE</code> object so that it represents an ArrayPlatformDE.

@@ -19,9 +19,7 @@ public class CytobandDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public CytobandDE() {
-        super();
-    }
+   
 	
   /**
     * Initializes a newly created <code>CytobandDE</code> object so that it represents an CytobandDE.

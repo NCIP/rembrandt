@@ -43,9 +43,7 @@ abstract public class BasePairPositionDE extends DomainElement {
   //                   CONSTRUCTOR(S)
   // *****************************************************
 
-   private BasePairPositionDE(){
-    super();
-   }
+
 
   /**
 	* private parent constructor utilized in the two nested/childe classes
@@ -62,9 +60,7 @@ abstract public class BasePairPositionDE extends DomainElement {
      public StartPosition(Integer startPosition) {
         super(START_POSITION, startPosition);
         }
-	public StartPosition() {
-        super();
-        }	
+	
     }
   
    /**
@@ -74,9 +70,7 @@ abstract public class BasePairPositionDE extends DomainElement {
       public EndPosition(Integer endPosition) {
         super(END_POSITION, endPosition);
         }
-	  public EndPosition() {
-        super();
-        }	
+	 
     }
 	
 	 

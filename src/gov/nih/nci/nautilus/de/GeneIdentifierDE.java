@@ -46,9 +46,7 @@ abstract public class GeneIdentifierDE extends DomainElement {
    //                   CONSTRUCTOR(S)
    // *****************************************************
    
-   private GeneIdentifierDE(){
-    super();
-   }
+
 
   /**
 	* private parent constructor utilized in the two nested/childe classes
@@ -64,10 +62,7 @@ abstract public class GeneIdentifierDE extends DomainElement {
     public final static class LocusLink extends GeneIdentifierDE {
         public LocusLink(String locusLinkID) {
             super(LOCUS_LINK, locusLinkID);
-        }
-	    public LocusLink(){
-	      super();
-	      } 
+        }	
     }
 
  /**
@@ -76,12 +71,8 @@ abstract public class GeneIdentifierDE extends DomainElement {
     public final static class GenBankAccessionNumber extends GeneIdentifierDE {
        public GenBankAccessionNumber(String genBankAccessionNumber) {
             super(GENBANK_ACCESSION_NUMBER, genBankAccessionNumber);
-
        }
-	  public GenBankAccessionNumber(){
-	   super();
-	   } 
-    }
+	  }
 
 
   /**
@@ -91,11 +82,7 @@ abstract public class GeneIdentifierDE extends DomainElement {
     public final static class GeneSymbol extends GeneIdentifierDE {
        public GeneSymbol(String geneSymbol) {
             super(GENESYMBOL, geneSymbol);
-
-       }
-	  public GeneSymbol(){
-	   super();
-	   }  
+       }	 
     }
 
 

@@ -19,9 +19,7 @@ public class PathwayDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
   
-  public PathwayDE(){
-	  super();
-	 }
+
 
    /**
     * Initializes a newly created <code>PathwayDE</code> object so that it represents an PathwayDE.

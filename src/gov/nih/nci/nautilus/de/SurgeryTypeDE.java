@@ -19,9 +19,7 @@ public class SurgeryTypeDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-     public SurgeryTypeDE() {
-        super();
-    }
+
 	
    /**
     * Initializes a newly created <code>SurgeryTypeDE</code> object so that it represents an SurgeryTypeDE.

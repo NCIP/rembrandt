@@ -51,10 +51,6 @@ abstract public class ExprFoldChangeDE extends DomainElement {
    // *****************************************************
 
    
-   private ExprFoldChangeDE() {
-        super();        
-    }
-	
   /**
 	* private parent constructor utilized in the two nested/childe classes
     */
@@ -71,10 +67,7 @@ abstract public class ExprFoldChangeDE extends DomainElement {
        public UpRegulation(Float upRegValue) {
             super(UP_REGULATION, upRegValue);
        }
-	   public UpRegulation() {
-            super();
-       }
-    }
+	 }
 
   /**
 	* nested child class: DownRegulation
@@ -83,9 +76,7 @@ abstract public class ExprFoldChangeDE extends DomainElement {
       public DownRegulation(Float downRegValue) {
             super(DOWN_REGULATION, downRegValue);
       }
-	  public DownRegulation() {
-            super();
-      }
+	 
     }
 
 
@@ -96,9 +87,7 @@ abstract public class ExprFoldChangeDE extends DomainElement {
       public UnChangedRegulationUpperLimit (Float unChangedRegUpperValue) {
             super(UNCHANGED_REGULATION_UPPER_LIMIT, unChangedRegUpperValue);
       }
-	  public UnChangedRegulationUpperLimit () {
-            super();
-      }
+	
     }
 
     /**
@@ -108,9 +97,7 @@ abstract public class ExprFoldChangeDE extends DomainElement {
       public UnChangedRegulationDownLimit (Float unChangedRegDownValue) {
             super(UNCHANGED_REGULATION_DOWN_LIMIT, unChangedRegDownValue);
       }
-	  public UnChangedRegulationDownLimit () {
-            super();
-      }
+
     }
 
 

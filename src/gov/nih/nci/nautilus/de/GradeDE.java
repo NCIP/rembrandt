@@ -19,10 +19,7 @@ public class GradeDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-     public GradeDE() {
-        super();
-    }
-	
+ 
    /**
     * Initializes a newly created <code>GradeDE</code> object so that it represents an GradeDE.
     */

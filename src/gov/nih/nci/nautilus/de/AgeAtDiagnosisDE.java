@@ -19,10 +19,7 @@ public class AgeAtDiagnosisDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-     public AgeAtDiagnosisDE() {
-        super();
-    }
-   
+  
    /**
     * Initializes a newly created <code>AgeAtDiagnosisDE</code> object so that it represents an AgeAtDiagnosisDE.
     */

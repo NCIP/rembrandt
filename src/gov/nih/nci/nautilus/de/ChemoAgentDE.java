@@ -19,9 +19,7 @@ public class ChemoAgentDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public ChemoAgentDE() {
-        super();
-    }
+  
    
    /**
     * Initializes a newly created <code>ChemoAgentDE</code> object so that it represents an ChemoAgentDE.

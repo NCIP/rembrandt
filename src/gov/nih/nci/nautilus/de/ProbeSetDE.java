@@ -19,9 +19,7 @@ public class ProbeSetDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public ProbeSetDE() {
-        super();
-    }
+   
    /**
     * Initializes a newly created <code>ProbeSetDE</code> object so that it represents an ProbeSetDE.
     */

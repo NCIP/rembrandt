@@ -19,9 +19,7 @@ public class InstitutionNameDE extends DomainElement{
   //                   CONSTRUCTOR(S)
   // ****************************************************
 
-    public InstitutionNameDE() {
-        super();
-    }
+
    
    /**
     * Initializes a newly created <code>InstitutionNameDE</code> object so that it represents an InstitutionNameDE.

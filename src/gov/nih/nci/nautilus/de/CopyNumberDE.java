@@ -44,11 +44,7 @@ abstract public class CopyNumberDE extends DomainElement {
    //                   CONSTRUCTOR(S)
    // *****************************************************
 
-    private CopyNumberDE() {
-        super();        
-    }
-	
-   
+    
   /**
 	* private parent constructor utilized in the two nested/childe classes
     */
@@ -64,9 +60,7 @@ abstract public class CopyNumberDE extends DomainElement {
         public Amplification(Float AmplificationNumber) {
             super(AMPLIFICATION, AmplificationNumber);
         }
-		 public Amplification() {
-            super();
-        }
+	
     }
 
  /**
@@ -77,10 +71,7 @@ abstract public class CopyNumberDE extends DomainElement {
             super(DELETION, deletionNumber);
 
        }
-	   public Deletion() {
-            super();
-
-       }
+	 
     }
 
 
@@ -91,9 +82,7 @@ abstract public class CopyNumberDE extends DomainElement {
        public Unchange(Float unchangeNumber) {
             super(UNCHANGE, unchangeNumber);
        }
-	   public Unchange() {
-            super();
-       }
+	  
     }
     
 	 
