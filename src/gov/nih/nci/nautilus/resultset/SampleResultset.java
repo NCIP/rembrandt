@@ -49,6 +49,8 @@
  */
 package gov.nih.nci.nautilus.resultset;
 
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
+
 
 
 /**
@@ -57,9 +59,23 @@ package gov.nih.nci.nautilus.resultset;
  * 
  */
 public class SampleResultset extends BioSpecimenResultset {
+	private DiseaseNameDE disease = null;
+	
 	private GeneExprSingleViewResultsContainer geneExprSingleViewResultsContainer = null;
 	
 
+	/**
+	 * @return Returns the disease.
+	 */
+	public DiseaseNameDE getDisease() {
+		return this.disease;
+	}
+	/**
+	 * @param disease The disease to set.
+	 */
+	public void setDisease(DiseaseNameDE disease) {
+		this.disease = disease;
+	}
 	/**
 	 * @return Returns the geneExprSingleViewResultsContainer.
 	 */

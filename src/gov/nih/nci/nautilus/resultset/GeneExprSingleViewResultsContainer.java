@@ -13,7 +13,7 @@ import java.util.*;
  *
  * 
  */
-public class GeneExprSingleViewResultsContainer {
+public class GeneExprSingleViewResultsContainer implements ResultsContainer{
 
 	private SortedMap genes = new TreeMap();
 	private SortedMap groupsLabels = new TreeMap(); 

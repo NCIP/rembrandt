@@ -51,6 +51,7 @@ package gov.nih.nci.nautilus.resultset;
 
 import gov.nih.nci.nautilus.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.nautilus.de.DatumDE;
+import gov.nih.nci.nautilus.de.DiseaseNameDE;
 import gov.nih.nci.nautilus.de.GenderDE;
 import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 
@@ -86,6 +87,7 @@ public class SampleViewHandler {
 		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,exprObj.getAgeGroup()));
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,exprObj.getSurvivalLengthRange()));
 		sampleResultset.setGenderCode(new GenderDE(exprObj.getGenderCode()));
+		sampleResultset.setDisease(new DiseaseNameDE(exprObj.getDiseaseType()));
   		return sampleResultset;
     }
 }

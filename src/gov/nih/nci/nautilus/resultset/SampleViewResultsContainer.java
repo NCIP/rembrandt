@@ -60,7 +60,7 @@ import java.util.TreeMap;
  * Date: Oct 21, 2004
  * 
  */
-public class SampleViewResultsContainer {
+public class SampleViewResultsContainer implements ResultsContainer{
 	private SortedMap samples = new TreeMap();
 	/**
 	* the object type, it repesents generic typpe for data element
