@@ -11,27 +11,33 @@
         <legend>
           Quick Search
         </legend>
-        <br />
         <html:errors/>
-        <br>
-        <strong>
-          Enter a gene symbol
-        </strong>
-        <br />
-        <input type="text" name="quickSearchName" size="40">
-        &nbsp;
-        <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
-        <app:help help="Enter a HUGO gene symbol (such as EGFR) to plot either a gene expression profile or a Kaplan-Meier survival plot for the gene"/>
-        <br />
         <br />
         <strong>
           Select graph format:
         </strong>
         <br />
-        <input type="radio" name="plot" class="radio" value="geneExpPlot" checked="true">
-        Gene Expression plot&nbsp;
-        <input type="radio" name="plot" class="radio" value="kapMaiPlot">
-        Kaplan-Meier survival plot
+        <input type="radio" name="plot" class="radio" value="geneExpPlot" checked="true" onclick="javascript:onRadio(this,0);">
+        Gene Expression plot&nbsp;<br />
+        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);">
+        Kaplan-Meier survival plot for Gene Expression Data&nbsp;<br />
+        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);">
+        Kaplan-Meier survival plot for Copy Number Data&nbsp;<br />
+        <br />
+        <br>
+        <strong>
+          Enter a gene symbol
+        </strong>
+        <br />
+        <select name="quickSearchType">
+        <option>Gene Symbol</option>
+        <select>
+        <input type="text" name="quickSearchName" size="40">
+        &nbsp;
+        <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
+        <app:help help="Enter a HUGO gene symbol (such as EGFR) to plot either a gene expression profile or a Kaplan-Meier survival plot for the gene"/>
+        <br />
+        
       </fieldset>
     </html:form>
     <br>
