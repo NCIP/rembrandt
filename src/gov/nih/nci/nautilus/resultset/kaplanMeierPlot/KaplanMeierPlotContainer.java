@@ -49,6 +49,7 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.Constants;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
@@ -59,15 +60,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Himanso
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
  */
-public class KaplanMeierPlotContainer extends SampleViewResultsContainer{
-	private GeneIdentifierDE.GeneSymbol geneSymbol;
-	private ExprFoldChangeDE averageFoldChange = new ExprFoldChangeDE.UpRegulation(Constants.KAPLAN_MEIER_DEFAULT_RATIO);//default
+public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
+	private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private GeneIdentifierDE.GeneSymbol geneSymbol;
+
 	private Collection geneExprSamples = new Vector();
 
 	/**
@@ -76,37 +80,54 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer{
 	public GeneIdentifierDE.GeneSymbol getGeneSymbol() {
 		return this.geneSymbol;
 	}
+
 	/**
-	 * @param geneSymbol The geneSymbol to set.
+	 * @param geneSymbol
+	 *            The geneSymbol to set.
 	 */
 	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
 		this.geneSymbol = geneSymbol;
 	}
-	public Collection getSampleKaplanMeierPlotResultsets(ExprFoldChangeDE averageFoldChange){
-		this.averageFoldChange = averageFoldChange;
+
+	public Collection getSampleKaplanMeierPlotResultsets(
+			ExprFoldChangeDE foldChange) {
+		//this.averageFoldChange = foldChange;
 		Collection samples = getBioSpecimenResultsets();
-    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
-	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
-	    		Collection reporters = sample.getReporterFoldChangeValuesResultsets();
-	    		int numberOfReporters = reporters.size();
-	    		double reporterValues = 0.0;
-	        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
-	        		ReporterFoldChangeValuesResultset reporter = (ReporterFoldChangeValuesResultset) reporterIterator.next();
-	        		double foldchange = new Double (reporter.getFoldChangeRatioValue().getValue().toString()).doubleValue();
-	        		reporterValues += foldchange;
-	        	}
-	        	double geneExprAverage = reporterValues/numberOfReporters;
-	        	if(averageFoldChange instanceof ExprFoldChangeDE.UpRegulation){
-		        	if(geneExprAverage >= averageFoldChange.getValueObject().doubleValue()){
-		        		geneExprSamples.add(sample);
-		        	}
-	        	}
-	        	if(averageFoldChange instanceof ExprFoldChangeDE.DownRegulation){
-		        	if(geneExprAverage <=  (1/averageFoldChange.getValueObject().doubleValue())){
-		        		geneExprSamples.add(sample);
-		        	}
-	        	}
-        	}
+		for (Iterator sampleIterator = samples.iterator(); sampleIterator
+				.hasNext();) {
+			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator
+					.next();
+			Collection reporters = sample
+					.getReporterFoldChangeValuesResultsets();
+			int numberOfReporters = reporters.size();
+			double reporterValues = 0.0;
+			for (Iterator reporterIterator = reporters.iterator(); reporterIterator
+					.hasNext();) {
+				ReporterFoldChangeValuesResultset reporter = (ReporterFoldChangeValuesResultset) reporterIterator
+						.next();
+				double foldchange = new Double(reporter
+						.getFoldChangeRatioValue().getValue().toString())
+						.doubleValue();
+				reporterValues += foldchange;
+			}
+			double geneExprAverage = reporterValues / numberOfReporters;
+			if (foldChange.getRegulationType().equals(
+					ExprFoldChangeDE.UP_REGULATION)) {
+				if (geneExprAverage >= foldChange.getValueObject()
+						.doubleValue()) {
+					geneExprSamples.add(sample);
+				}
+			}
+			if (foldChange.getRegulationType().equals(
+					ExprFoldChangeDE.DOWN_REGULATION)) { 
+				if (geneExprAverage <= (1/foldChange.getValueObject()
+						.doubleValue())) {
+					//logger.debug("What the hell!");
+                    geneExprSamples.add(sample);
+                }
+            }
+			
+		}
 		return geneExprSamples;
 	}
 }
