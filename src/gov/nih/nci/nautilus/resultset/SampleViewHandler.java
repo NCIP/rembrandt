@@ -63,11 +63,16 @@ import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 public class SampleViewHandler {
     public SampleViewResultsContainer handleSampleView(SampleViewResultsContainer sampleViewContainer, GeneExpr.GeneExprSingle exprObj, GroupType groupType){
     	SampleResultset sampleResultset = null;
-    	GeneExprSingleViewHandler geneExprSingleViewHandler = new GeneExprSingleViewHandler();
+    	GeneExprSingleViewHandler geneExprSingleViewHandler = geneExprSingleViewHandler = new GeneExprSingleViewHandler();
       	if (sampleViewContainer != null && exprObj != null){
       		sampleResultset = handleBioSpecimenResultset(sampleViewContainer,exprObj);
           	//Propulate the GeneExprSingleResultsContainer
-      		sampleResultset.setGeneExprSingleViewResultsContainer(geneExprSingleViewHandler.handleGeneSingleView(new GeneExprSingleViewResultsContainer(),exprObj, groupType));
+      		GeneExprSingleViewResultsContainer geneExprSingleViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
+        	if(geneExprSingleViewContainer == null){
+        		geneExprSingleViewContainer = new geneExprSingleViewcaontainer();
+        	}
+        	geneExprSingleViewContainer = geneExprSingleViewHandler.handleGeneSingleView(geneExprSingleViewcaontainer,exprObj, groupType);
+      		sampleResultset.setGeneExprSingleViewResultsContainer(geneExprSingleViewContainer);
            	//Populate the SampleViewResultsContainer
       		sampleViewContainer.addBioSpecimenResultset(sampleResultset);
       	}
