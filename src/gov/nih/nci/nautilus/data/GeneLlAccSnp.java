@@ -3,7 +3,7 @@
 
 package gov.nih.nci.nautilus.data;
 
-public class GeneLlAcc
+public class GeneLlAccSnp
 {
   public final static String GENE_SYMBOL = "geneSymbol";
   public final static String START_POSITION = "cStart";
@@ -14,10 +14,10 @@ public class GeneLlAcc
   public final static String SNP_PROBESET_ID = "snpProbesetId";
  
   private String accession;
-    private String snpProbesetId;
+  private String snpProbesetId;
   private String chromosome;
 
-  private String cytoband;
+
 
   private Long cEnd;
 
@@ -53,17 +53,6 @@ public class GeneLlAcc
   {
     this.chromosome = param;
   }
-
-
-  public String getCytoband()
-  {
-     return this.cytoband;
-  }
-  public void setCytoband(String param)
-  {
-    this.cytoband = param;
-  }
-
 
   public Long getCEnd()
   {
