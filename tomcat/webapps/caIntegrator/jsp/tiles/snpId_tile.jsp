@@ -6,9 +6,9 @@
 	<!-- <html:form action="<%=act%>" > -->
 <fieldset class="gray">
 <legend class="red">SNP Id
-<app:help help="Choose one type of SNP identifiers (dbSNP ID or Affymetrix SNP Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs for SNPs to be searched in the text box. Another option to load a list of genes is to upload a tab-delimited file containing SNP ID list by click the browse button."/>
+<app:help help="Choose one type of SNP identifiers (dbSNP ID or Affymetrix SNP Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs to be searched in the text box. Another option to load a list of IDs is to upload a file using the Browse button, file must be of type \"*.txt\" with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
 </legend>
-<b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>
+<!-- <b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>-->
 <br /><br />
 
 
@@ -26,8 +26,8 @@
 &nbsp;&nbsp;
 <html:radio property="snpId" value="upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
 <html:file property="snpListFile" disabled="true" />
-<app:help help="Only files of type "*.txt" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." />
-<br /><br />
+<!-- <app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." />-->
+<br />
 &nbsp;&nbsp;Validated SNPs:&nbsp;&nbsp;
 
 <html:radio property="validatedSNP" value="all"  disabled="true" styleClass="radio"/>&nbsp;&nbsp;All

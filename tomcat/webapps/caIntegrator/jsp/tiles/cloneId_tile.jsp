@@ -7,13 +7,13 @@
 <fieldset class="gray">
 <legend class="red">Clone Id/Probe Set Id
 <% if(act.equalsIgnoreCase("geneexpression"))	{ %>
-<app:help help="Paste a comma delimited IMAGE Clone Id/Affymetrix probe set ID list, or upload a tab-delimited file containing the IDs using the browse button." />
+<app:help help="Choose one type of Reporter identifiers either (IMAGE ID for Clones or Affymetrix Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs to be searched in the text box. Another option to load a list of IDs is to upload a file using the Browse button, file must be of type \"*.txt\" with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
 <% } else { %>
 <app:help help="Future implementation"/>
 <% } %>
 </legend>
-<b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b>
-<br><br />
+<!-- <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b> -->
+<br />
 
 	<!-- <html:form action="<%=act%>" method="get"> -->
 	
@@ -29,7 +29,7 @@
 	&nbsp;-or-&nbsp;
 <html:radio property="cloneId" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
 			<html:file property="cloneListFile" disabled="true" />
-			<app:help help="Only files of type "*.txt" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." /></br>
+			<!--<app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." /></br>-->
 			<html:errors property="cloneId"/></br>
 </fieldset>
 <!-- </html:form> -->
