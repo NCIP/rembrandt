@@ -145,9 +145,9 @@ public class ComparativeGenomicForm extends BaseForm {
   
     //HashMap to store Domain Elements  
   private HashMap diseaseDomainMap;
-  private HashMap gradeDomainMap;// this is not implemented this release.
   private HashMap geneDomainMap;
-  private HashMap copyNoDomainMap;
+  private HashMap copyNoAmpDomainMap;
+  private HashMap copyNoDelDomainMap;
   private HashMap regionDomainMap;
   private HashMap cloneDomainMap;
   private HashMap snpDomainMap;
@@ -186,24 +186,6 @@ public class ComparativeGenomicForm extends BaseForm {
 	  assayTypes = new ArrayList();
 	  
 	 // These are hardcoded but will come from DB
-	 /*
-	  ** moved to the upper class:BaseForm.java
-	  diseaseTypes.add( new LabelValueBean( "Astrocytic", "astro" ) );
-	  diseaseTypes.add( new LabelValueBean( "Oligodendroglial", "oligo" ) );
-	  diseaseTypes.add( new LabelValueBean( "Ependymal cell", "Ependymal cell" ) );
-	  diseaseTypes.add( new LabelValueBean( "Mixed gliomas", "Mixed gliomas" ) );
-	  diseaseTypes.add( new LabelValueBean( "Neuroepithelial", "Neuroepithelial" ) );
-	  diseaseTypes.add( new LabelValueBean( "Choroid Plexus", "Choroid Plexus" ) );
-	  diseaseTypes.add( new LabelValueBean( "Neuronal and mixed neuronal-glial", "neuronal-glial" ) );
-	  diseaseTypes.add( new LabelValueBean( "Pineal Parenchyma", "Pineal Parenchyma" ));
-	  diseaseTypes.add( new LabelValueBean( "Embryonal", "Embryonal" ));
-	  diseaseTypes.add( new LabelValueBean( "Glioblastoma", "Glioblastoma" ));
-	  
-	  geneTypeColl.add( new LabelValueBean( "All Genes","allgenes" ));
-	  geneTypeColl.add( new LabelValueBean( "Name/Symbol","genesymbol" ));
-	  geneTypeColl.add( new LabelValueBean( "Locus Link Id","locusLinkId" ));
-	  geneTypeColl.add( new LabelValueBean( "GenBank AccNo.","genBankAccNo" ));		
-	  */  
 	  
 	  cloneTypeColl.add(new LabelValueBean("IMAGE Id","imageId"));
 	  cloneTypeColl.add(new LabelValueBean("BAC Id","BACId"));
@@ -273,21 +255,6 @@ public class ComparativeGenomicForm extends BaseForm {
 				
 			}
 
-			// Chromosomal region validations
-//			if (this.getRegion().equalsIgnoreCase("chnum")) {
-//			
-//				if (basePairStart.length() > 0 || basePairEnd.length() > 0) {
-//					if (chrosomeNumber.length() < 1 || basePairStart.length() < 1 || (basePairEnd.length() < 1)) {
-//						errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.no.error"));
-//					} else {
-//						if (!isBasePairValid(basePairStart, basePairEnd))
-//							errors.add("region", new ActionError("gov.nih.nci.nautilus.struts.form.basePair.incorrect.error"));
-//					}
-//				}
-//			}
-         
-		 
-		 
 		  if (errors.isEmpty()) {// if there are no errors, then proceed.
 		    createDiseaseCriteriaObject();
 			createGeneCriteriaObject();
@@ -366,13 +333,13 @@ private void createGeneCriteriaObject(){
   ** and extract out the domain elements and create respective Criteria Objects
   */  
 private void createCopyNumberCriteriaObject(){
-   if(copyNoDomainMap.size()>0){
-     Set keys = copyNoDomainMap.keySet();
+   if(copyNoAmpDomainMap.size()>0){
+     Set keys = copyNoAmpDomainMap.keySet();
 	 Iterator iter = keys.iterator();
 	 while(iter.hasNext()){
 	   try{
 		   String key = (String)iter.next();
-		   String className = (String)copyNoDomainMap.get(key);
+		   String className = (String)copyNoAmpDomainMap.get(key);
 		   Constructor[] copyNoConstructors = Class.forName(className).getConstructors();
 		   
 		   Object [] initargs = {Float.valueOf((String) key)};		  
@@ -390,6 +357,30 @@ private void createCopyNumberCriteriaObject(){
 						   
 		} //end of while   	
      }   // end of if
+	if(copyNoDelDomainMap.size()>0){
+	  Set keys = copyNoDelDomainMap.keySet();
+	  Iterator iter = keys.iterator();
+	  while(iter.hasNext()){
+		try{
+			String key = (String)iter.next();
+			String className = (String)copyNoDelDomainMap.get(key);
+			Constructor[] copyNoConstructors = Class.forName(className).getConstructors();
+		   
+			Object [] initargs = {Float.valueOf((String) key)};		  
+			CopyNumberDE copyNumberDE = (CopyNumberDE)copyNoConstructors[0].newInstance(initargs);
+			copyNumberCriteria.setCopyNumber(copyNumberDE);
+			 }// end of try
+		catch (Exception ex) {
+				 System.out.println("Error in createCopyNumberCriteriaObject() method:  "+ex.getMessage());
+				 ex.printStackTrace();
+			 } 
+		catch (LinkageError le) {
+				 System.out.println("Linkage Error in createCopyNumberCriteriaObject() method: "+ le.getMessage());
+				 le.printStackTrace();
+			 }	
+						   
+		 } //end of while   	
+	  }   // end of if
  }
 
  /* createRegionCriteriaObject() mtethod is to look through the regionDomainMap
@@ -554,34 +545,7 @@ private void createAssayPlatformCriteriaObject(){
     }// end of if
  }
  
- /*
- ** moved to the upperclass: BaseForm.java
- private boolean isBasePairValid(String basePairStart, String basePairEnd){
-   if(basePairStart != null && basePairEnd != null){   
-     try{
-	     int basePairStartInt = Integer.parseInt(basePairStart);
-	     int basePairEndInt = Integer.parseInt(basePairEnd);		   
-         if(basePairStartInt >=0 && basePairEndInt >0){
-	         if(basePairEndInt > basePairStartInt){
-		         return true;
-			    }	       
-            else{
-	             return false;
-	            }		
-            }// end of if(basePairStartInt >=0 && basePairEndInt >0)
-	   }// end of try
-	 catch(NumberFormatException ex){
-	    return false;
-	    }  
-	 }
-   else {
-       return false;
-      }	 
-   return false;	  
-  }
-	
-*/	
-	/** 
+ 	/** 
 	 * Method reset
 	 * @param ActionMapping mapping
 	 * @param HttpServletRequest request
@@ -623,9 +587,9 @@ private void createAssayPlatformCriteriaObject(){
 		
 		
 		 diseaseDomainMap = new HashMap();
-         gradeDomainMap = new HashMap();// this is not implemented this release.
 	     geneDomainMap = new HashMap();
-	     copyNoDomainMap = new HashMap();
+	     copyNoAmpDomainMap = new HashMap();
+		 copyNoDelDomainMap = new HashMap();
 	     regionDomainMap = new HashMap();
 	     cloneDomainMap = new HashMap();
 	     snpDomainMap = new HashMap();
@@ -736,7 +700,6 @@ private void createAssayPlatformCriteriaObject(){
 	 */
 	public void setTumorGrade(String tumorGrade) {
 		this.tumorGrade = tumorGrade;
-		gradeDomainMap.put(this.tumorGrade, GradeDE.class.getName());
 	}
 
 	/** 
@@ -848,7 +811,7 @@ private void createAssayPlatformCriteriaObject(){
 		// match the ones declared on the copyNumber_tile.jsp
 		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 		
 		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("amplified") && (this.cnAmplified.length() > 0)){
-			copyNoDomainMap.put(this.cnAmplified, CopyNumberDE.Amplification.class.getName());	
+			copyNoAmpDomainMap.put(this.cnAmplified, CopyNumberDE.Amplification.class.getName());	
 			}
 	}
 
@@ -1094,8 +1057,8 @@ private void createAssayPlatformCriteriaObject(){
 		// match the ones declared on the copyNumber_tile.jsp
 		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 
 		
-		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("amplified_deleted") && (this.cnADAmplified.length() > 0)){
-			copyNoDomainMap.put(this.cnADAmplified, CopyNumberDE.Amplification.class.getName());
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("ampdel") && (this.cnADAmplified.length() > 0)){
+			copyNoAmpDomainMap.put(this.cnADAmplified, CopyNumberDE.Amplification.class.getName());
 			}
 	
 	}
@@ -1184,8 +1147,8 @@ private void createAssayPlatformCriteriaObject(){
 		// match the ones declared on the copyNumber_tile.jsp
 		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 
 		
-		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("deleted") && (this.cnADDeleted.length() > 0)){
-			copyNoDomainMap.put(this.cnADDeleted, CopyNumberDE.Deletion.class.getName());
+		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("ampdel") && (this.cnADDeleted.length() > 0)){
+			copyNoDelDomainMap.put(this.cnADDeleted, CopyNumberDE.Deletion.class.getName());
 			}	
 	 }
 
@@ -1205,7 +1168,7 @@ private void createAssayPlatformCriteriaObject(){
 		this.cnUnchangeTo = cnUnchangeTo;
 		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 		
 		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("unchange") && (this.cnUnchangeTo.length() > 0)) {
-			copyNoDomainMap.put(this.cnUnchangeTo, CopyNumberDE.UnChangedCopyNumberUpperLimit.class.getName());
+			copyNoDelDomainMap.put(this.cnUnchangeTo, CopyNumberDE.UnChangedCopyNumberUpperLimit.class.getName());
 		}
 
 	}
@@ -1365,7 +1328,7 @@ private void createAssayPlatformCriteriaObject(){
 		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 
 		System.out.println("!!!!!!!!!!!!!");		
 		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("deleted") && (this.cnDeleted.length() > 0)){
-			copyNoDomainMap.put(this.cnDeleted, CopyNumberDE.Deletion.class.getName());
+			copyNoDelDomainMap.put(this.cnDeleted, CopyNumberDE.Deletion.class.getName());
 			}	
 	 }
 
@@ -1401,7 +1364,7 @@ private void createAssayPlatformCriteriaObject(){
 		this.cnUnchangeFrom = cnUnchangeFrom;
 		String thisCopyNumber = this.thisRequest.getParameter("copyNumber"); 		
 		if (thisCopyNumber != null && thisCopyNumber.equalsIgnoreCase("unchange") && (this.cnUnchangeFrom.length() > 0)){
-			copyNoDomainMap.put(this.cnUnchangeFrom, CopyNumberDE.UnChangedCopyNumberDownLimit.class.getName());
+			copyNoAmpDomainMap.put(this.cnUnchangeFrom, CopyNumberDE.UnChangedCopyNumberDownLimit.class.getName());
 			}	
 	}
 
