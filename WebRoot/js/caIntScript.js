@@ -24,6 +24,9 @@ function resetVal(formElement)
     if ((element == "operatorType1") || (element == "operatorType2")){
 	document.getElementById("queryText").value = "";
 	}
+	if (element == "pathways"){
+	document.forms[0].pathways.value = "";	
+	}
 }
 
 function formNewTargetSimple(windowName, winw, winh)
