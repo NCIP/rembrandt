@@ -50,16 +50,20 @@
 package gov.nih.nci.nautilus.resultset.geneExpressionPlot;
 
 import gov.nih.nci.nautilus.de.DatumDE;
+import gov.nih.nci.nautilus.resultset.gene.FoldChange;
 
 /**
  * @author SahniH
  * Date: Nov 9, 2004
  * 
  */
-public class ReporterFoldChangeValuesResultset {
-	private DatumDE reporter = null;
+public class ReporterFoldChangeValuesResultset implements FoldChange{
+	private DatumDE foldChangeRatioValue = null;
 	private DatumDE foldChangeIntensity = null;
+	private DatumDE foldChangeNonTumorIntensity = null;
 	private DatumDE ratioPval = null;
+	private DatumDE reporter = null;
+
 	/**
 	 * @param reporter
 	 */
@@ -101,5 +105,30 @@ public class ReporterFoldChangeValuesResultset {
 	 */
 	public void setReporter(DatumDE reporterName) {
 		this.reporter = reporterName;
+	}
+	/**
+	 * @return Returns the foldChangeNonTumorIntensity.
+	 */
+	public DatumDE getFoldChangeNonTumorIntensity() {
+		return foldChangeNonTumorIntensity;
+	}
+	/**
+	 * @param foldChangeNonTumorIntensity The foldChangeNonTumorIntensity to set.
+	 */
+	public void setFoldChangeNonTumorIntensity(
+			DatumDE foldChangeNonTumorIntensity) {
+		this.foldChangeNonTumorIntensity = foldChangeNonTumorIntensity;
+	}
+	/**
+	 * @return Returns the foldChangeRatioValue.
+	 */
+	public DatumDE getFoldChangeRatioValue() {
+		return foldChangeRatioValue;
+	}
+	/**
+	 * @param foldChangeRatioValue The foldChangeRatioValue to set.
+	 */
+	public void setFoldChangeRatioValue(DatumDE foldChangeRatioValue) {
+		this.foldChangeRatioValue = foldChangeRatioValue;
 	}
 }
