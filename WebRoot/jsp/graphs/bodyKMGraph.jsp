@@ -77,7 +77,6 @@
     width="720"
     height="540"/>
     <p>
-      <bean:write name="kmDataSetForm" property="pValue"/>
-    
+   
   </div>
 </html:form>
