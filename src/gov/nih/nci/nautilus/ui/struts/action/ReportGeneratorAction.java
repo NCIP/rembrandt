@@ -275,8 +275,11 @@ public class ReportGeneratorAction extends DispatchAction {
 		 */
 		
 		ReportBean rb = new ReportBean();
+		//our newly populated map
 		rb.setFilterParams(filterParams);
+		//the name from the old bean, plus the additional string
 		rb.setResultantCacheKey(reportBean.getResultantCacheKey() + " Copy Number Filter");
+		//put the resultant from the old bean into the new bean
 		rb.setResultant(resultant);
 		
 		if(reportBean!=null) {

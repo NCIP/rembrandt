@@ -12,6 +12,8 @@
 <xsl:param name="filter_value5"></xsl:param>
 <xsl:param name="filter_value6"></xsl:param>
 
+<xsl:param name="showSampleSelect">true</xsl:param>
+
 <xsl:template match="/">
 
 
@@ -253,7 +255,7 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Submit" />
-		<!--<input type="hidden" name="filter_type" value="newXML"/>-->
+		<input type="hidden" name="filter_type" value="copy_number"/>
 		<xsl:text>&#160;</xsl:text>
 		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
 	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>
@@ -438,7 +440,7 @@
 			  </xsl:when>
 			  <xsl:otherwise>
 		      	<td class="{$currentGroup}">
-		      	<xsl:if test="$sample != '' and $sample != ' '">
+		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect = 'true'">
 		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
 		      	</xsl:if>
 		      		<a href="#?s={$sample}"><xsl:value-of select="Data" /></a>
