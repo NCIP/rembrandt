@@ -1,8 +1,6 @@
 package gov.nih.nci.nautilus.query;
 
-import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.criteria.RegionCriteria;
-import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
+import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.GeneExprQueryHandler;
 
@@ -21,6 +19,12 @@ public class GeneExpressionQuery extends Query {
     private GeneIDCriteria geneIDCrit;
     private RegionCriteria regionCrit;
     private FoldChangeCriteria foldChgCrit;
+	private DiseaseOrGradeCriteria diseaseOrGradeCriteria;		
+	private CloneOrProbeIDCriteria cloneOrProbeIDCriteria;
+	private GeneOntologyCriteria geneOntologyCriteria;
+	private PathwayCriteria pathwayCriteria;
+	private ArrayPlatformCriteria arrayPlatformCriteria;
+
     private QueryHandler HANDLER;
 
     public QueryHandler getQueryHandler() throws Exception  {
@@ -34,6 +38,14 @@ public class GeneExpressionQuery extends Query {
         super();
     }
 
+   public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
+        return diseaseOrGradeCriteria;
+    }
+
+    public void setDiseaseOrGradeCrit(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
+        this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
+    }
+	
     public GeneIDCriteria getGeneIDCrit() {
         return geneIDCrit;
     }
@@ -139,6 +151,38 @@ public class GeneExpressionQuery extends Query {
         this.foldChgCrit = foldChgCrit;
     }
 
+	
+    public CloneOrProbeIDCriteria  getCloneOrProbeIDCriteria() {
+        return cloneOrProbeIDCriteria;
+    }
+
+    public void setCloneOrProbeIDCrit(CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
+        this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
+    }
+	
+	public GeneOntologyCriteria  getGeneOntologyCriteria() {
+        return geneOntologyCriteria;
+    }
+
+    public void setGeneOntologyCrit(GeneOntologyCriteria geneOntologyCriteria) {
+        this.geneOntologyCriteria = geneOntologyCriteria;
+    }
+	
+	public PathwayCriteria  getPathwayCriteria() {
+        return pathwayCriteria;
+    }
+
+    public void setPathwayCrit(PathwayCriteria pathwayCriteria) {
+        this.pathwayCriteria = pathwayCriteria;
+    }
+	
+	public ArrayPlatformCriteria  getArrayPlatformCriteria() {
+        return arrayPlatformCriteria;
+    }
+
+    public void setArrayPlatformCrit(ArrayPlatformCriteria arrayPlatformCriteria) {
+        this.arrayPlatformCriteria = arrayPlatformCriteria;
+    }
     class Handler {
 
     }
