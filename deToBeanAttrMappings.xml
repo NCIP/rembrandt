@@ -59,6 +59,13 @@
                    <mappedBean name="gov.nih.nci.nautilus.data.DifferentialExpressionGfact"
                    attribute="expressionRatio"/>
     </DomainElement>
+    <DomainElement name="gov.nih.nci.nautilus.de.SampleIDDE">
+                   <mappedBean name="gov.nih.nci.nautilus.data.DifferentialExpressionSfact"
+                   attribute="sampleId"/>
+                   <mappedBean name="gov.nih.nci.nautilus.data.ArrayGenoAbnFact"
+                   attribute="sampleId"/>
+
+    </DomainElement>
      <DomainElement name="gov.nih.nci.nautilus.de.DiseaseNameDE">
                    <mappedBean name="gov.nih.nci.nautilus.data.DifferentialExpressionSfact"
                    attribute="diseaseType"/>
