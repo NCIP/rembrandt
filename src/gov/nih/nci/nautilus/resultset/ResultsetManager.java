@@ -58,10 +58,10 @@ import gov.nih.nci.nautilus.view.Viewable;
 
 
 public class ResultsetManager {
-    public static Resultant executeQuery(Queriable queryToExecute, Viewable associatedView) throws Exception {
+    public static Resultant executeQuery(Queriable queryToExecute) throws Exception {
     	Resultant resultant= new Resultant();
-    	if(queryToExecute != null && associatedView != null){
-        ViewType viewType = queryToExecute.getAssociatedView();
+    	if(queryToExecute != null ){
+        Viewable associatedView = queryToExecute.getAssociatedView();
         ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
     	if (associatedView instanceof GeneExprSampleView){
     		    GeneExprSampleView geneExprSampleView = (GeneExprSampleView) associatedView;
@@ -69,7 +69,6 @@ public class ResultsetManager {
     			ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprView(resultsets,groupType);
     			resultant.setResultsContainer(resultsContainer);
     			resultant.setAssociatedQuery(queryToExecute);
-    			resultant.setAssociatedViewType(viewType);
     			resultant.setAssociatedView(associatedView);
     		}
     	

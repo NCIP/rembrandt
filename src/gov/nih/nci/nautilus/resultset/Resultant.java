@@ -60,7 +60,6 @@ import gov.nih.nci.nautilus.view.Viewable;
  */
 public class Resultant {
 private Queriable associatedQuery;
-private ViewType associatedViewType;
 private ResultsContainer resultsContainer;
 private Viewable associatedView;
 
@@ -87,18 +86,6 @@ public Viewable getAssociatedView() {
  */
 public void setAssociatedView(Viewable associatedView) {
 	this.associatedView = associatedView;
-}
-/**
- * @return Returns the associatedViewType.
- */
-public ViewType getAssociatedViewType() {
-	return associatedViewType;
-}
-/**
- * @param associatedViewType The associatedViewType to set.
- */
-public void setAssociatedViewType(ViewType associatedViewType) {
-	this.associatedViewType = associatedViewType;
 }
 /**
  * @return Returns the resultsContainer.
