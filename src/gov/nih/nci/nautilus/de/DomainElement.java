@@ -1,5 +1,7 @@
 package gov.nih.nci.nautilus.de;
 
+import java.io.Serializable;
+
 //caintergator classes
 
 /**
@@ -12,7 +14,7 @@ package gov.nih.nci.nautilus.de;
  * Time: 3:06:10 PM
  * To change this template use Options | File Templates.
  */
-abstract public class DomainElement {
+abstract public class DomainElement implements Serializable{
    
    // ****************************************************
    //                     ATTRIBUTES

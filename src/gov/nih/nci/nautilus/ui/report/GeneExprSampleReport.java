@@ -22,7 +22,7 @@ import org.javaby.jbyte.Template;
  * Feb 8, 2005
  * 
  */
-public class GeneExprSampleReport implements ReportGenerator{
+public class GeneExprSampleReport{// implements ReportGenerator{
 
 	/**
 	 * 

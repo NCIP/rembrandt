@@ -1,12 +1,6 @@
-/*
- * Created on Nov 12, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.nautilus.lookup;
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.nautilus.cache.CacheManagerWrapper;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DiseaseTypeDim;
 import gov.nih.nci.nautilus.data.ExpPlatformDim;
@@ -15,10 +9,15 @@ import gov.nih.nci.nautilus.data.PatientData;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
 import gov.nih.nci.nautilus.de.CytobandDE;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheException;
+import net.sf.ehcache.Element;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -28,26 +27,68 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 
 /**
- * @author Himanso
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This class provide a single point for UI related classes to 
+ * get lookup data (data that a user can select to mofify a query)
+ * It uses that CacheManagerWrapper to determine if the data
+ * has already been loaded.  If not it executes the query and
+ * stores it in the ApplicationCache, else it retrives that data
+ * from the Cache and returns it to the UI.
+ * 
+ * @author SahniH
  */
 public class LookupManager{
-    private static Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(LookupManager.class);
     private static PatientDataLookup[] patientData;
 	private static CytobandLookup[] cytobands;
 	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
 	
-	private  static Collection executeQuery(Class bean, Criteria crit)throws Exception{
-			   Collection resultsetObjs = null;
-			   PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
-			   broker.clearCache();
-	           resultsetObjs = createQuery(bean, crit, broker);
-	           broker.close();
-	           return resultsetObjs;
+	//Lookup Types
+	private static final String CHROMOSOME_DE = "chromosomeDE";
+	private static final String CYTOBAND_DE = "cytobandDE";
+	private static final String CYTOBAND_POSITION = "cytobandPosition";
+	private static final String DISEASE_TYPE = "diseaseType";
+	private static final String DISEASE_TYPE_MAP = "diseaseTypeMap";
+	private static final String EXP_PLATFORMS = "expPlatforms";
+	private static final String GENE_SYMBOLS = "geneSymbols";
+	private static final String PATIENT_DATA = "patientData";
+	private static final String PATIENT_DATA_MAP = "patientDataMap";
+	private static final String PATHWAYS = "pathways";
+	
+	
+	/**
+	 * Performs the actual lookup query.  Gets the application
+	 * PersistanceBroker and then passes to the 
+	 * @param bean the lookup class 
+	 * @param crit the criteria for the lookup
+	 * @return the collection of lookup values
+	 * @throws Exception
+	 */
+	private  static Collection executeQuery(Class bean, Criteria crit, String lookupType)throws Exception{
+	Cache applicationCache = CacheManagerWrapper.getApplicationCache();	   
+	Collection resultsetObjs = checkCache(lookupType, applicationCache);
+		if(resultsetObjs == null) {
+			logger.debug("LookupType "+lookupType+" was not found in ApplicationCache");
+			PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
+			broker.clearCache();
+		    resultsetObjs = createQuery(bean, crit, broker);
+		    if(applicationCache!=null) {
+		    	try {
+		    		applicationCache.put(new Element(lookupType,(Serializable)resultsetObjs));
+		    		logger.debug("The lookup results have been stored in the ApplicationCache");
+		    	}catch(ClassCastException cce){
+		    		logger.error("The results are not Serializable, and thus can not be stored in the ApplicationCache");
+		    		logger.equals(cce);
+		    	}
+		    }
+		    broker.close();
+		    
+		}else {
+			logger.debug("LookupType "+lookupType+" found in ApplicationCache");
+			
+		}
+	    return resultsetObjs;
 	       
 	}
 	private static Collection createQuery(Class bean, Criteria crit, PersistenceBroker broker) throws Exception{
@@ -56,19 +97,18 @@ public class LookupManager{
 	        Query exprQuery = QueryFactory.newQuery(bean, crit,true);
 	        resultsetObjs = broker.getCollectionByQuery(exprQuery);
 	        logger.debug("Got " + resultsetObjs.size() + " resultsetObjs objects.");
-     
-		    return resultsetObjs;
+	        return resultsetObjs;
 	}
 
 	/**
 	 * @return Returns the cytobands.
 	 */
 	public static CytobandLookup[] getCytobandPositions() throws Exception{
-		if(cytobands == null){
+		
 			Criteria crit = new Criteria();
 			crit.addOrderByAscending("chrCytoband");
-			cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit).toArray(new CytobandLookup[1]);
-		}
+			cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION).toArray(new CytobandLookup[1]);
+		
 		return cytobands;
 	}
 	/**
@@ -118,7 +158,7 @@ public class LookupManager{
 	public static PatientDataLookup[] getPatientData() throws Exception {
 		if(patientData == null){
 			Criteria crit = new Criteria();
-			patientData = (PatientDataLookup[])(executeQuery(PatientData.class,crit).toArray(new PatientDataLookup[1]));
+			patientData = (PatientDataLookup[])(executeQuery(PatientData.class,crit,LookupManager.PATIENT_DATA).toArray(new PatientDataLookup[1]));
 		}
 		return patientData;
 	}
@@ -148,7 +188,7 @@ public class LookupManager{
 		if(diseaseTypes == null){
 			Criteria crit = new Criteria();
 			crit.addOrderByAscending("diseaseTypeId");
-			diseaseTypes = (DiseaseTypeLookup[])(executeQuery(DiseaseTypeDim.class,crit).toArray(new DiseaseTypeLookup[1]));
+			diseaseTypes = (DiseaseTypeLookup[])(executeQuery(DiseaseTypeDim.class,crit,LookupManager.DISEASE_TYPE).toArray(new DiseaseTypeLookup[1]));
 		}
 		return diseaseTypes;
 	}
@@ -177,14 +217,51 @@ public class LookupManager{
 	public static ExpPlatformLookup[] getExpPlatforms() throws Exception {
 		if(expPlatforms == null){
 			Criteria crit = new Criteria();
-			expPlatforms = (ExpPlatformLookup[]) executeQuery(ExpPlatformDim.class,crit).toArray(new ExpPlatformLookup[1]);
+			expPlatforms = (ExpPlatformLookup[]) executeQuery(ExpPlatformDim.class,crit,LookupManager.EXP_PLATFORMS).toArray(new ExpPlatformLookup[1]);
 		}
 		return expPlatforms;
 	}
    
     public static Collection getGeneSymbols() throws Exception{
         Criteria crit = new Criteria();
-        Collection myresults = executeQuery(GeneClone.class, (Criteria)crit);
+        Collection myresults = executeQuery(GeneClone.class, (Criteria)crit,LookupManager.GENE_SYMBOLS);
         return myresults;
+    } 
+    /**
+     * Checks the ApplicationCache for the lookupType that was specified and 
+     * gets the value if it is there.  Returns null if not found. 
+     * @param lookupType
+     * @param applicationCache
+     * @return
+     */
+    private static Collection checkCache(String lookupType, Cache applicationCache) {
+    	logger.debug("Checking the ApplicationCache for lookup type: "+lookupType);
+    	Collection results = null;
+    	
+      	if(applicationCache!=null) {
+      		try {
+       			Element element = applicationCache.get(lookupType);
+       			try {
+		   			if(element!=null) {
+		   				results = (Collection)element.getValue();
+		   			}else {
+		   				logger.debug(lookupType+" not found in ApplicationCache");
+		   			}
+       			}catch(ClassCastException cce) {
+       				logger.error("ResultsFound in ApplicationCache, but are not a collection");
+       				logger.error(cce);
+       				
+       			}
+       		}catch(IllegalStateException ise){
+      			logger.error("The cache manager threw an IllegalStateExcpetion");
+      			logger.error(ise);
+      		}catch(CacheException ce ){
+      			logger.error("The cache manager threw an CacheException");
+      			logger.error(ce);
+      		}
+     	}else {
+     		logger.error("the ApplicationCache appears to be null");
+     	}
+    	return results;
     }
 }

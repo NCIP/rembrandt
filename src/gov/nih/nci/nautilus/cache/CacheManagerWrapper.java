@@ -11,17 +11,17 @@ import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.ObjectExistsException;
 /**
- * The CacheManagerWrapper (of darkness, as I like to call it) is intended to 
- * act as the initializer for the application CacheManager and a factory for the
- * session cache.  It is an observable class in that it accepts CacheListeners
- * that will be notified whenever a sessionCache is created or removed. In case
- * you are wondering I had to call it an overlord as CacheManager was already
- * taken...
+ * The CacheManagerWrapper is intended to act as the initializer for the 
+ * application CacheManager and a factory for the session cache.  It is an 
+ * observable class in that it accepts CacheListeners that will be notified 
+ * whenever a sessionCache is created or removed. In case you are wondering I 
+ * had to call it an overlord as CacheManager was already taken...
  * 
  * Later, I suppose for the 1.0 release, there will be a new kind of cache that
- * persists a users result sets between sessions.  Also it may be that we start
- * caching based on the userId and not the sessionId.  These are all 
- * considerations for a later time, but would be easily added to this class.
+ * persists a users result sets between sessions and server shutdowns.  Also it
+ * may be that we start caching based on the userId and not the sessionId.
+ * These are all considerations for a later time, but would be easily added
+ * to this class.
  * 
  * @author BauerD
  * Feb 9, 2005
@@ -32,16 +32,16 @@ public class CacheManagerWrapper{
     //This value must match the name of the cache in the configuration xml file
     static final private String REMBRANDT_CACHE = "applicationCache"; 
     static private transient List cacheListeners;
-    static Logger logger = Logger.getLogger(CacheManagerWrapper.class);
+    static private Logger logger = Logger.getLogger(CacheManagerWrapper.class);
     static private CacheManager manager = null;
-    static Cache applicationCache;
-        
+           
+    //Create the CacheManager and the ApplicationCache
     static {
      	try {
            //Create the cacheManager and the application cache
            //as specified in the configurationFile.xml 
     		manager = CacheManager.create();
-    		logger.debug("ApplicationCache created");
+    		logger.debug("CacheManger created");
         }catch(Throwable t) {
             logger.error("FATAL: CacheManager and Application Cache not created!");
             logger.error(t);
@@ -57,10 +57,24 @@ public class CacheManagerWrapper{
      * @return  The Application Cache
      */
     static public Cache getApplicationCache() {
-        if(manager!=null && applicationCache==null) {
-        	applicationCache = manager.getCache(REMBRANDT_CACHE);
+        Cache applicationCache = null;
+    	if(manager!=null && !manager.cacheExists(CacheManagerWrapper.REMBRANDT_CACHE)) {
+        	applicationCache = new Cache(CacheManagerWrapper.REMBRANDT_CACHE, 1, true, false, 5, 2);
+            logger.debug("New ApplicationCache created");
+            try {
+            	manager.addCache(applicationCache);
+            }catch(ObjectExistsException oee) {
+                logger.error("ApplicationCache creation failed.");
+                logger.error(oee);
+            }catch(CacheException ce) {
+                logger.error("ApplicationCache creation failed.");
+                logger.error(ce);
+            }
+        }else if(manager!=null){
+        	applicationCache = manager.getCache(CacheManagerWrapper.REMBRANDT_CACHE);
         }
-        return applicationCache;
+      
+    	return applicationCache;
     }
   	/**
   	 * Returns a cache for the given sessionId. If there is no cache currently

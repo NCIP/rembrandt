@@ -17,7 +17,7 @@ import org.javaby.jbyte.Template;
  * Feb 8, 2005
  * 
  */
-public class ClinicalSampleReport implements ReportGenerator {
+public class ClinicalSampleReport{// implements ReportGenerator {
 
 	/**
 	 * 
