@@ -52,8 +52,7 @@ public class ReportGenerator  {
 	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv, HttpServletRequest request, final String theLinks)	{
 		
 		links = theLinks;
-		
-		
+
 		StringBuffer html = new StringBuffer();
 		StringBuffer errors = new StringBuffer();
 		Resultant resultant;

@@ -86,15 +86,15 @@ if(debug)	{
 }
      
      
-	System.out.println("sample we want: " + request.getParameter("s"));
+System.out.println("sample we want: " + request.getParameter("s"));
 
-	String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
+String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 
 String links = "";
-//String sample = request.getParameter("s");
+
 String mode = request.getParameter("report");
 
-//get the results container from the session with sample as key
+
 if(mode == null)	{
   System.out.println("do a regular report");
   QueryCollection queryCollection = null;
@@ -104,7 +104,7 @@ if(mode == null)	{
   }
   else	{
     queryCollection = (QueryCollection)(request.getAttribute(NautilusConstants.QUERY_KEY));
-    links = "<a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
+    links = "<a href=\"jsp/geneViewReportCSV.jsp\">[Download this report for Excel]</a> | <a href=\"javascript:window.close()\">[Close Window]</a> | <a href=\"javascript:void(window.print())\">[Print Report]</a> | <a href=\"#queryInfo\">[Query Info]</a>\n";
   }
 
 	CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
@@ -117,7 +117,8 @@ if(mode == null)	{
 		out.println("QueryCollection is NULL");
 		
     out.println("<Br><Br><Br><a name=\"queryInfo\"></a>\n");	
-  
+ 
+/*
 	if(!myCompoundQuery.toString().equals(""))	{
 		out.println("<B>Compound Query:</b> " + myCompoundQuery.toString() + "<br><br>");
 	}
@@ -125,7 +126,6 @@ if(mode == null)	{
 		out.println("<B>Single Query:</b> " + queryCollection.getQueryNames() + "<br><br>");
 	}
 
-/*
  	String  query = "";	
 	int j = 0;	
 	String queryKey = null;
@@ -162,10 +162,9 @@ if(mode == null)	{
 }
 
 else	{
-	
+ 
 	System.out.println("do a trans report");
 	//we have a mode, process the transitional report
-	//ResultsContainer resultsContainer = (ResultsContainer) session.getAttribute(sample);
 	ResultsContainer scv = null;
 	DimensionalViewContainer dv = null;
 	String s = (String) request.getParameter("s");
@@ -186,8 +185,6 @@ else	{
 		}
 		else
 			out.println("gene Dv null");
-	
-	//	out.println(ReportGenerator.geneExprSampleView(resultsContainer, theColors, request));
 	}
 	else if( mode.equals("copy"))	{
 		scv = null;
@@ -203,8 +200,6 @@ else	{
 		}
 		else
 			out.println("copy Dv null");
-	
-		//out.println(ReportGenerator.copyNumberSampleView(resultsContainer, theColors));
 	}
 	else if(mode.equals("ss"))	{
 		scv = null;
@@ -220,7 +215,7 @@ else	{
 			out.println("Dv null");
 	}
 	else
-		out.println("Error somewhere");
+		out.println("Error with your report.  Please try again.");
 		
 	session.setAttribute("csv", scv);
 	session.setAttribute("mode", mode);
