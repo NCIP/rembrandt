@@ -1,3 +1,4 @@
+	<%@ page import="gov.nih.nci.nautilus.constants.NautilusConstants" %>
 <!-- Start Footer Table -->
 <div class="content">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -13,3 +14,32 @@
 <div>
 <!-- End Footer table -->
 </div>
+
+	<%
+	String preview = (String) request.getAttribute("preview");
+	if(preview != null && preview.equals("yes"))
+	{
+		System.out.println("preview");
+		// if we have a report to preview
+		Object q = (Object) request.getAttribute(NautilusConstants.QUERY_KEY);
+		if(q != null)	{
+			session.setAttribute(NautilusConstants.QUERY_KEY+"_tmp", q);
+			System.out.println("Set prev in req");
+		}
+		else
+			request.setAttribute(NautilusConstants.QUERY_KEY, null);
+		%>
+		<form name="prev" action="report.do" target="_preview">
+			<input type="hidden" name="preview" value="yes">
+		</form>
+		
+		<script type="text/javascript">
+			spawnx("report.do", 770, 550, "_report");
+		//document.prev.submit();
+		</script>
+		
+		<form
+		
+	<%
+	}
+	%>

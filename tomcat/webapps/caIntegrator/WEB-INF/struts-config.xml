@@ -87,7 +87,7 @@
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
-         <forward name="previewReport" path="/previewReport.do?method=previewReport"/>
+         <forward name="previewReport" path="/previewReport.do?method=previewReportGene"/>
          <forward name="success" path="/jsp/geneViewReport.jsp" />
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
 	</action>
@@ -101,8 +101,11 @@
             scope="request"
             parameter="method"
             validate="false">
-         <forward name="success" path="/jsp/geneViewReport.jsp" />
+         <forward name="success" path="/jsp/geneViewReport.jsp" /> 
+         <forward name="failure" path="/menu.do" /> 
+         <forward name="backToClinical" path="nautilus.clinical" />
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
+         <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 		
     <action path="/comparitiveGenomic"
@@ -115,7 +118,7 @@
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
-         <forward name="previewReport" path="/previewReport.do?method=previewReport"/>
+         <forward name="previewReport" path="/previewReport.do?method=previewReportCGH"/>
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 
@@ -135,7 +138,7 @@
             scope="request"
             validate="true">
          <forward name="advanceSearchMenu" path="nautilus.menu" />
-         <forward name="previewReport" path="/previewReport.do?method=previewReport"/>
+         <forward name="previewReport" path="/previewReport.do?method=previewReportClinical"/>
          <forward name="backToClinical" path="nautilus.clinical" />
 	</action>
 
