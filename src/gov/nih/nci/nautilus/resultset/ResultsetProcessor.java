@@ -2,7 +2,7 @@
  * Created on Sep 14, 2004
  *
  */
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.resultset;
 import gov.nih.nci.nautilus.resultset.*;
 import gov.nih.nci.nautilus.de.*;
 import gov.nih.nci.nautilus.queryprocessing.ge.*;

@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import org.apache.ojb.broker.query.*;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -13,6 +13,8 @@ import gov.nih.nci.nautilus.data.GeneClone;
 import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.queryprocessing.DBEvent;
+import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 
 /**
  * Created by IntelliJ IDEA.

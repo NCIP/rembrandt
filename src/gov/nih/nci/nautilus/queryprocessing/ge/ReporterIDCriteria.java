@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.query.Criteria;
@@ -11,7 +11,7 @@ import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
  * Time: 12:17:51 PM
  * To change this template use Options | File Templates.
  */
-class ReporterIDCriteria {
+public class ReporterIDCriteria {
     private ReportQueryByCriteria cloneIDsSubQuery;
     private ReportQueryByCriteria probeIDsSubQuery;
 

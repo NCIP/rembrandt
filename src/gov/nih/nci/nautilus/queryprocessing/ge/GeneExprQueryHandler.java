@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 import gov.nih.nci.nautilus.criteria.*;
@@ -10,6 +10,11 @@ import gov.nih.nci.nautilus.data.GeneOntology;
 import gov.nih.nci.nautilus.data.DifferentialExpressionGfact;
 import gov.nih.nci.nautilus.view.ViewType;
 import gov.nih.nci.nautilus.resultset.ResultSet;
+import gov.nih.nci.nautilus.queryprocessing.ge.*;
+import gov.nih.nci.nautilus.queryprocessing.ge.CloneProbePlatfromHandler;
+import gov.nih.nci.nautilus.queryprocessing.ge.DEFactHandler;
+import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 
 import java.util.*;
 
@@ -106,7 +111,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
 
         if (geQuery.getRegionCrit() != null) {
-            regionCrit = ChrRegionCriteriaHandler.buildRegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes, _BROKER);
+            regionCrit = gov.nih.nci.nautilus.queryprocessing.ge.ChrRegionCriteriaHandler.buildRegionCriteria(geQuery.getRegionCrit(), includeClones, includeProbes, _BROKER);
             assert(regionCrit != null);
             SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allProbeIDS, allCloneIDS, _BROKER);
             eventList.add(handler.getDbEvent());

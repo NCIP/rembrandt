@@ -33,7 +33,7 @@ abstract public class QueryHandler {
     private static HashMap deBeanMappings = new HashMap();
     private final static String FILE_NAME ="/deToBeanAttrMappings.xml";
     private static Document doc;
-    abstract ResultSet[] handle(Query query) throws Exception;
+    protected abstract ResultSet[] handle(Query query) throws Exception;
     static {
        //TODO: complete this
        try {
@@ -73,7 +73,7 @@ abstract public class QueryHandler {
         else throw new Exception("DEBeanAttrMapping  could not be found for: " + deClassName + "within " + inBeanName);
     }
 
-    protected static String getColumnName(PersistenceBroker pb, String deClassName) throws Exception {
+    public static String getColumnName(PersistenceBroker pb, String deClassName) throws Exception {
         DescriptorRepository dr = pb.getDescriptorRepository();
         DEBeanAttrMapping mappingObj = getBeanAttrMappingFor(deClassName);
         String beanName = mappingObj.mappedBean;
@@ -82,11 +82,11 @@ abstract public class QueryHandler {
         FieldDescriptor fd = cd.getFieldDescriptorByName(beanAttrName);
         return fd.getColumnName();
     }
-    protected static String getAttrNameForTheDE(String deClassName, String inBeanName) throws Exception{
+    public static String getAttrNameForTheDE(String deClassName, String inBeanName) throws Exception{
         DEBeanAttrMapping  mappingsObj = getBeanAttrMappingFor(deClassName, inBeanName);
         return mappingsObj.mappedBeanAttribute;
     }
-    protected static String getColumnName(PersistenceBroker pb, String deClassName, String inBeanName) throws Exception {
+    public static String getColumnName(PersistenceBroker pb, String deClassName, String inBeanName) throws Exception {
         DescriptorRepository dr = pb.getDescriptorRepository();
         DEBeanAttrMapping mappingObj = getBeanAttrMappingFor(deClassName, inBeanName);
         String beanName = mappingObj.mappedBean;
@@ -96,7 +96,7 @@ abstract public class QueryHandler {
         return fd.getColumnName();
     }
      // used in report queries for columnNames attrributes
-     protected static String getColumnNameForBean(PersistenceBroker pb, String beanClassName, String attrName) throws Exception {
+    public static String getColumnNameForBean(PersistenceBroker pb, String beanClassName, String attrName) throws Exception {
         DescriptorRepository dr = pb.getDescriptorRepository();
         ClassDescriptor cd = dr.getDescriptorFor( beanClassName );
         FieldDescriptor fd = cd.getFieldDescriptorByName(attrName);

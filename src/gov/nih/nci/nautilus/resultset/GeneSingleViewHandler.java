@@ -50,7 +50,7 @@
 package gov.nih.nci.nautilus.resultset;
 
 import gov.nih.nci.nautilus.de.*;
-import gov.nih.nci.nautilus.queryprocessing.GeneExpr;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 
 /**
  * @author SahniH
@@ -63,7 +63,7 @@ public class GeneSingleViewHandler {
 		assert(geneViewContainer!= null);
 		this.geneViewContainer = geneViewContainer;
 	}
-    public GeneViewContainer handleGeneSingleView(GeneExpr.GeneExprSingle exprObj,GroupType groupType){
+    public GeneViewContainer handleGeneSingleView(gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle exprObj,GroupType groupType){
 		GeneResultset geneResultset = null;
 		ReporterResultset reporterResultset = null;
 		BioSpecimenResultset biospecimenResultset = null;
@@ -117,7 +117,7 @@ public class GeneSingleViewHandler {
   		return geneResultset;
 
     }
-    public BioSpecimenResultset handleBioSpecimenResultset(GeneExpr.GeneExprSingle exprObj){
+    public BioSpecimenResultset handleBioSpecimenResultset(gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle exprObj){
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
   		//TODO: TEMP BIOSPECIMEN ID, NEED to SWITCH to DE_PATIENT_ID
@@ -132,7 +132,7 @@ public class GeneSingleViewHandler {
   		biospecimenResultset.setGenderCode(new GenderDE(exprObj.getGenderCode()));
   		return biospecimenResultset;
     }
-    public ReporterResultset handleReporterResultset(GeneResultset geneResultset,GeneExpr.GeneExprSingle exprObj){
+    public ReporterResultset handleReporterResultset(GeneResultset geneResultset,gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle exprObj){
   		//geneResultset.setGenbankAccessionNo(genbankAccessionNo);
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one
@@ -155,7 +155,7 @@ public class GeneSingleViewHandler {
 		}
         return reporterResultset;
     }
-    public DiseaseResultset handleDiseaseResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprSingle exprObj){
+    public DiseaseResultset handleDiseaseResultset(ReporterResultset reporterResultset, gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle exprObj){
   		//find out the disease type associated with the exprObj
   		//populate the DiseaseResultset
 		DiseaseResultset diseaseResultset = null;
@@ -181,7 +181,7 @@ public class GeneSingleViewHandler {
       	}
   		return ageGroupResultset;
     }
-    public SurvivalRangeResultset handleSurvivalRangeResultset(ReporterResultset reporterResultset, GeneExpr.GeneExprSingle exprObj){
+    public SurvivalRangeResultset handleSurvivalRangeResultset(ReporterResultset reporterResultset, gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr.GeneExprSingle exprObj){
   		//find out the age group associated with the exprObj
   		//populate the SurvivalRangeResultset
 		SurvivalRangeResultset survivalRangeResultset = null;

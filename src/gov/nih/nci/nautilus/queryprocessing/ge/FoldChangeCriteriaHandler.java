@@ -1,7 +1,8 @@
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.criteria.FoldChangeCriteria;
 import gov.nih.nci.nautilus.de.ExprFoldChangeDE;
+import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 

@@ -1,10 +1,11 @@
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
+import gov.nih.nci.nautilus.queryprocessing.DBEvent;
 
 import java.util.Collection;
 import java.util.Iterator;

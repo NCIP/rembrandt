@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.resultset.ResultSet;
 

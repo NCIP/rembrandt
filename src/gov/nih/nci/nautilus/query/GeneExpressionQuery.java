@@ -10,7 +10,7 @@ import gov.nih.nci.nautilus.criteria.PathwayCriteria;
 import gov.nih.nci.nautilus.criteria.ArrayPlatformCriteria;
 
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
-import gov.nih.nci.nautilus.queryprocessing.GeneExprQueryHandler;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExprQueryHandler;
 
 import java.util.*;
 import gov.nih.nci.nautilus.de.*;

@@ -10,7 +10,7 @@ import gov.nih.nci.nautilus.query.QueryManager;
 import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
-import gov.nih.nci.nautilus.queryprocessing.GeneExpr;
+import gov.nih.nci.nautilus.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.nautilus.queryprocessing.ResultsetProcessor;
 import gov.nih.nci.nautilus.resultset.*;
 

@@ -1,4 +1,4 @@
-package gov.nih.nci.nautilus.queryprocessing;
+package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.criteria.RegionCriteria;
 import gov.nih.nci.nautilus.de.ChromosomeNumberDE;
@@ -8,6 +8,7 @@ import gov.nih.nci.nautilus.data.ProbesetDim;
 import gov.nih.nci.nautilus.data.CloneDim;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.GeneClone;
+import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
