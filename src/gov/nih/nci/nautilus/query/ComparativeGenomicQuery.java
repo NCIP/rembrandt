@@ -53,7 +53,7 @@ public class ComparativeGenomicQuery extends Query {
     	
 
 		ResourceBundle labels = null;
-		String OutStr = "<B>Clinical Data Query</B>";
+		String OutStr = "<B>Comparative Genomic Query</B>";
 		OutStr += "<BR>Query: " + this.getQueryName();
 
 
@@ -63,7 +63,7 @@ public class ComparativeGenomicQuery extends Query {
 	  
 	    // starting DiseaseOrGradeCriteria
 		DiseaseOrGradeCriteria thisDiseaseCrit = this.getDiseaseOrGradeCriteria();	
-		if (!thisDiseaseCrit.isEmpty() && labels != null) { 
+		if ((thisDiseaseCrit != null) && !thisDiseaseCrit.isEmpty() && labels != null) { 
 		    Collection diseaseColl = thisDiseaseCrit.getDiseases();
 			Iterator iter = diseaseColl.iterator();
 			while(iter.hasNext()){
@@ -79,8 +79,8 @@ public class ComparativeGenomicQuery extends Query {
 		 
 		 // starting CopyNumberCriteria
 		CopyNumberCriteria thisCopyNumberCrit = this.getCopyNumberCriteria();	
-		System.out.println("thisCopyNumberCrit.isEmpty():"+thisCopyNumberCrit.isEmpty());		
-		if (!thisCopyNumberCrit.isEmpty() && labels != null) {
+			
+		if ((thisCopyNumberCrit != null) && !thisCopyNumberCrit.isEmpty() && labels != null) {
 		    System.out.println(" I am in the CopyNumberCriteria");
 			String thisCriteria = thisCopyNumberCrit.getClass().getName();
 			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
@@ -99,7 +99,7 @@ public class ComparativeGenomicQuery extends Query {
 		   
             // starting GeneIDCriteria
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCriteria();
-			if (!thisGeneIDCrit.isEmpty() && labels != null) { 
+			if ((thisGeneIDCrit != null ) && !thisGeneIDCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisGeneIDCrit.getClass().getName();
 				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 				Collection geneIDObjects = thisGeneIDCrit.getGeneIdentifiers();
@@ -117,7 +117,7 @@ public class ComparativeGenomicQuery extends Query {
 			   
 			// starting RegionCriteria
 			RegionCriteria thisRegionCrit = this.getRegionCriteria();
-			if (!thisRegionCrit.isEmpty() && labels != null) { 
+			if ((thisRegionCrit != null) &&!thisRegionCrit.isEmpty() && labels != null) { 
 				String thisCriteria = thisRegionCrit.getClass().getName();
 				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 				DomainElement cytoBandDE  = thisRegionCrit.getCytoband();
@@ -151,7 +151,7 @@ public class ComparativeGenomicQuery extends Query {
 		   // starting cloneorProbeCriteria
 				
 		   CloneOrProbeIDCriteria thisCloneOrProbeCriteria = this.getCloneOrProbeIDCriteria();		 
-		   if(!thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
+		   if((thisCloneOrProbeCriteria != null) && !thisCloneOrProbeCriteria.isEmpty() && labels != null){		   
 			  	String thisCriteria = thisCloneOrProbeCriteria.getClass().getName();			
 				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			    Collection cloneColl = thisCloneOrProbeCriteria.getIdentifiers();
@@ -169,7 +169,7 @@ public class ComparativeGenomicQuery extends Query {
 						
 			 // starting snpCriteria: 				
 		   SNPCriteria thisSNPCriteria = this.getSNPCriteria();		 
-		   if(!thisSNPCriteria.isEmpty() && labels != null){	
+		   if((thisSNPCriteria != null ) && !thisSNPCriteria.isEmpty() && labels != null){	
 		        String thisCriteria = thisSNPCriteria.getClass().getName();			
 				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			    Collection cloneColl = thisSNPCriteria.getIdentifiers();
@@ -186,7 +186,7 @@ public class ComparativeGenomicQuery extends Query {
 			
 			 // starting snpCriteria: 				
 		   AlleleFrequencyCriteria thisAlleleFrequencyCriteria = this.getAlleleFrequencyCriteria();		 
-		   if(!thisAlleleFrequencyCriteria.isEmpty() && labels != null){	
+		   if((thisAlleleFrequencyCriteria != null ) && !thisAlleleFrequencyCriteria.isEmpty() && labels != null){	
 		        String thisCriteria = thisAlleleFrequencyCriteria.getClass().getName();	
 				//OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 				AlleleFrequencyDE alleleFrequencyDE = thisAlleleFrequencyCriteria.getAlleleFrequencyDE();				
@@ -201,7 +201,7 @@ public class ComparativeGenomicQuery extends Query {
 		}// end of try
 	catch (Exception ie) {
 		ie.printStackTrace();
-		System.out.println("Error in ResourceBundle - " + ie.getMessage());
+		System.out.println("Error in ResourceBundle in CGH query - " + ie.getMessage());
 	}
 
 		OutStr += "<BR><BR>";

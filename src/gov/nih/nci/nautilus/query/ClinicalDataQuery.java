@@ -53,7 +53,7 @@ public class ClinicalDataQuery extends Query {
     	
 
 		ResourceBundle labels = null;
-		String OutStr = "<B>CGH  Query</B>";
+		String OutStr = "<B>Clinical Data Query</B>";
 		OutStr += "<BR>Query: " + this.getQueryName();
 
 
@@ -63,7 +63,7 @@ public class ClinicalDataQuery extends Query {
 	  
 	    // starting DiseaseOrGradeCriteria
 		DiseaseOrGradeCriteria thisDiseaseCrit = this.getDiseaseOrGradeCriteria();	
-		if (!thisDiseaseCrit.isEmpty() && labels != null) { 
+		if ((thisDiseaseCrit != null)&&!thisDiseaseCrit.isEmpty() && labels != null) { 
 		    Collection diseaseColl = thisDiseaseCrit.getDiseases();
 			Iterator iter = diseaseColl.iterator();
 			while(iter.hasNext()){
@@ -78,7 +78,7 @@ public class ClinicalDataQuery extends Query {
 		  
 		   // starting  OccurrenceCriteria		  
 		  OccurrenceCriteria thisOccurrenceCriteria = this.getOccurrenceCriteria();
-		  if(!thisOccurrenceCriteria.isEmpty()&& labels != null){
+		  if((thisOccurrenceCriteria != null) && thisOccurrenceCriteria.isEmpty()&& labels != null){
 		     String thisCriteria = thisOccurrenceCriteria.getClass().getName();
 			 OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+"</B>";
 			
@@ -104,7 +104,7 @@ public class ClinicalDataQuery extends Query {
 		
 		 // starting RadiationTherapyCriteria
 		 RadiationTherapyCriteria thisRadiationTherapyCriteria = this.getRadiationTherapyCriteria();
-		 if(!thisRadiationTherapyCriteria.isEmpty() && labels != null){		   
+		 if((thisRadiationTherapyCriteria != null) && !thisRadiationTherapyCriteria.isEmpty() && labels != null){		   
 		       RadiationTherapyDE radiationTherapyDE = thisRadiationTherapyCriteria.getRadiationTherapyDE();				
 			   String radiationStr = radiationTherapyDE.getClass().getName();
 			   OutStr += "<BR>"+labels.getString(radiationStr.substring(radiationStr.lastIndexOf(".")+1))+": "+radiationTherapyDE.getValue()+"";
@@ -116,7 +116,7 @@ public class ClinicalDataQuery extends Query {
 		
 		  // starting ChemoAgentCriteria
 		  ChemoAgentCriteria thisChemoAgentCriteria = this.getChemoAgentCriteria();
-		  if(!thisChemoAgentCriteria.isEmpty() && labels != null){
+		  if((thisChemoAgentCriteria != null) && !thisChemoAgentCriteria.isEmpty() && labels != null){
 		       ChemoAgentDE chemoAgentDE = thisChemoAgentCriteria.getChemoAgentDE();				
 			   String chemoStr = chemoAgentDE.getClass().getName();
 			   OutStr += "<BR>"+labels.getString(chemoStr.substring(chemoStr.lastIndexOf(".")+1))+": "+chemoAgentDE.getValue()+"";
@@ -129,7 +129,7 @@ public class ClinicalDataQuery extends Query {
 		  
 		 // starting SurgeryTypeCriteria 
 		 SurgeryTypeCriteria thisSurgeryTypeCriteria = this.getSurgeryTypeCriteria();
-		 if(!thisSurgeryTypeCriteria.isEmpty()){
+		 if((thisSurgeryTypeCriteria != null) && !thisSurgeryTypeCriteria.isEmpty()&& labels != null){
 		   SurgeryTypeDE surgeryTypeDE = thisSurgeryTypeCriteria.getSurgeryTypeDE();
 		   String surgeryStr = surgeryTypeDE.getClass().getName();
 		   OutStr += "<BR>"+labels.getString(surgeryStr.substring(surgeryStr.lastIndexOf(".")+1))+": "+surgeryTypeDE.getValue()+"";
@@ -140,7 +140,7 @@ public class ClinicalDataQuery extends Query {
 		 
 		 		 
 		 SurvivalCriteria thisSurvivalCriteria = this.getSurvivalCriteria();
-		 if(!thisSurvivalCriteria.isEmpty() && labels != null){
+		 if((thisSurvivalCriteria != null) && !thisSurvivalCriteria.isEmpty() && labels != null){
 		      String thisCriteria = thisSurvivalCriteria.getClass().getName();
 			  OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 			
@@ -159,7 +159,7 @@ public class ClinicalDataQuery extends Query {
 		 
 		 // starting AgeCriteria
 		 AgeCriteria thisAgeCriteria = this.getAgeCriteria();
-		 if(!thisAgeCriteria.isEmpty() && labels != null){
+		 if((thisAgeCriteria != null) && !thisAgeCriteria.isEmpty() && labels != null){
 		    String thisCriteria = ageCriteria.getClass().getName();
 			OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
 		    DomainElement LowerAgeLimit = thisAgeCriteria.getLowerAgeLimit();
@@ -179,7 +179,7 @@ public class ClinicalDataQuery extends Query {
 		 
 		 // starting GenderCriteria 
 		   GenderCriteria thisGenderCriteria = this.getGenderCriteria();
-		   if(!thisGenderCriteria.isEmpty() && labels != null){		      
+		   if((thisGenderCriteria != null) && !thisGenderCriteria.isEmpty() && labels != null){		      
 		     GenderDE genderDE = thisGenderCriteria.getGenderDE();
 			 String genderStr = genderDE.getClass().getName();
 		     OutStr += "<BR>"+labels.getString(genderStr.substring(genderStr.lastIndexOf(".")+1))+": "+genderDE.getValue()+"";
@@ -194,7 +194,7 @@ public class ClinicalDataQuery extends Query {
 		}// end of try
 	catch (Exception ie) { 
 		ie.printStackTrace();
-		System.out.println("Error in ResourceBundle - " + ie.getMessage());
+		System.out.println("Error in ResourceBundle in clinical Data Query - " + ie.getMessage());
 	}
 
 		OutStr += "<BR><BR>";
