@@ -96,15 +96,18 @@
 
   <xsl:for-each select="Report">
     <h2 class="title"><xsl:value-of select="@reportType" /></h2> 
-    
+    <h2 class="title">Query Name:<xsl:value-of select="@queryName" /></h2>
+    <h3>test: <xsl:value-of select="$filter_value"/></h3>
 	<xsl:variable name="helpLink" select="@reportType" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 
+<xsl:variable name="qName" select="@queryName" />
 	<div class="filterForm">
-	<form action="/refineQuery.do" method="post" name="filter_form">
+	<form action="/c2/refineQuery.do" method="post" name="filter_form">
 	Filter: highlight values greater than <input type="text" name="filter_value" size="4" />
-	<input type="submit" name="filter_submit" value="Filter" />
 	<input type="hidden" name="action" value="filter" />
+	<input type="hidden" name="queryName" value="{$qName}"/>
+	<input type="submit" name="filter_submit" value="Filter" />
 	</form>
 	</div>
 	<div class="rowCount">
