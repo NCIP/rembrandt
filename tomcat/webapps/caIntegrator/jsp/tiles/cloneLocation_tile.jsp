@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <fieldset class="gray">
-<legend class="red">Clone Location</legend>
+<legend class="red">Clone Location
+<app:help help="Future implementation"/>
+</legend>
 <%
 	String act = request.getParameter("act");
 %>

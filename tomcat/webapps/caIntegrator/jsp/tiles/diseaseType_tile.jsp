@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <fieldset class="gray">
-<legend class="red">Disease Type <b class="req">*</b></legend>
+<legend class="red">Disease Type <b class="req">*</b>
+<app:help help="Enter the type of diseases using the pick list. “Grade” will be implemented in a future version."/>
+</legend>
 <br>
 <%
 	String act = request.getParameter("act");

@@ -1,10 +1,13 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <%
 String act = request.getParameter("act");
 %>
 	<!-- <html:form action="<%=act%>"> -->
 <fieldset class="gray">
-<legend class="red">Allele Frequency</legend><br />
+<legend class="red">Allele Frequency
+<app:help help="Future implementation"/>
+</legend><br />
 &nbsp;&nbsp;Population Type:
 
  <html:select property="alleleFrequency" disabled="true">

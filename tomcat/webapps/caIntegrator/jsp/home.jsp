@@ -1,5 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*" %>
 <tr class="report">
   <td>
@@ -20,9 +21,7 @@
         <input type="text" name="quickSearchName" size="40">
         &nbsp;
         <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
-        <a href="javascript:void(0);" onmouseover="return overlib('Enter a name or the first few characters followed by *.', CAPTION, 'Help');" onmouseout="return nd();">
-          [?]
-        </a>
+        <app:help help="Enter a HUGO gene symbol (such as EGFR) to plot either a gene expression profile or a Kaplan-Meier survival plot for the gene"/>
         <br />
         <br />
         <strong>
@@ -49,20 +48,17 @@
               <b>
                 Create a New Query
               </b>
-              &nbsp;&nbsp;
-              <a href="javascript:void(0);" onmouseover="return overlib('Select this option if you do not have a saved query to upload.  You will be able to build a query based on the Advanced Search Areas listed below.', CAPTION, 'Help');" onmouseout="return nd();">
-                [?]
-              </a>
+              &nbsp;
+              <app:help help="Select this option if you do not have a saved query to upload.  You will be able to build a query based on the Advanced Search Areas listed below."/>
+
             </td>
             <td>
               <input type="Radio" name="menu" class="radio" value="1" onclick="javascript:document.forms[0].rpt;" disabled="true">
               <b>
                 Upload a saved Query
               </b>
-              &nbsp;&nbsp;
-              <a href="javascript:void(0);" onmouseover="return overlib('You may choose to start from an existing query.  Please upload that saved query here.', CAPTION, 'Help');" onmouseout="return nd();">
-                [?]
-              </a>
+              &nbsp;
+              <app:help help="You may choose to start from an existing query.  Please upload that saved query here."/>
             </td>
           </tr>
           <tr>
@@ -115,9 +111,7 @@
         </table>
         <div class="message">
           Note: Please move your mouse over the
-          <a href="javascript:void(0);" onmouseover="return overlib('Help messages will appear here.', CAPTION, 'Help');" onmouseout="return nd();">
-            [?]
-          </a>
+          <app:help help="Help messages will appear here."/>
           links for help throughout the application.
         </div>
       </fieldset>

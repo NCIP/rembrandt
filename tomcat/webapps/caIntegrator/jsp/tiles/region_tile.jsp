@@ -1,9 +1,11 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ page import="java.util.*, gov.nih.nci.nautilus.struts.form.*" %> 
-
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <fieldset class="gray">
 
-<legend class="red">Region</legend>
+<legend class="red">Region
+<app:help help="Specify the chromosomal region of interest to search by either choosing a cytoband or entering the start and end base pair position after choosing a chromosome of interest. The cytoband pick list is context sensitive and lists only the relevant cytobands for a particular chromosome. " />
+</legend>
 <%
 	String act = request.getParameter("act");
 

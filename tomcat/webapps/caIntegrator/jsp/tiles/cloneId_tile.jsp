@@ -1,12 +1,20 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<fieldset class="gray">
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 
-<legend class="red">Clone Id/Probe Set Id</legend>
-<b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b>
-<br><br />
 <%
 	String act = request.getParameter("act");
 %>
+<fieldset class="gray">
+<legend class="red">Clone Id/Probe Set Id
+<% if(act.equalsIgnoreCase("geneexpression"))	{ %>
+<app:help help="Paste a comma delimited IMAGE Clone Id/Affymetrix probe set ID list, or upload a tab-delimited file containing the IDs using the browse button." />
+<% } else { %>
+<app:help help="Future implementation"/>
+<% } %>
+</legend>
+<b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b>
+<br><br />
+
 	<!-- <html:form action="<%=act%>" method="get"> -->
 	
 	

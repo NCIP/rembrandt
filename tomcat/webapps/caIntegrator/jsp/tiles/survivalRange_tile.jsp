@@ -1,7 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 	<fieldset class="gray">
-	<legend class="red">Survival Range</legend><br />
+	<legend class="red">Survival Range
+	<app:help help="The range of the patient survival length after the first diagnosis."/>
+	</legend><br />
 		<%
 	     String act = request.getParameter("act");
      %>
@@ -50,7 +52,9 @@
 	 </fieldset>
 	 <br /><br />
 	<fieldset class="gray">
-	<legend class="red">Age at Dx</legend><br />
+	<legend class="red">Age at Dx
+	<app:help help="Specify the upper and lower limits for filtering the clinical data based on the age at which a patient was diagnosed with the disease"/>
+	</legend><br />
 		
 	&nbsp;&nbsp;&nbsp;lower:&nbsp;
 		<!--- <select property="ageLower">

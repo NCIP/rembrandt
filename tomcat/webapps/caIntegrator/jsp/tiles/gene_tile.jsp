@@ -1,4 +1,5 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <% 
 /*
 Gene Tile -
@@ -10,7 +11,7 @@ String act = request.getParameter("act");
 	<!-- <html:form action="<%=act%>"> -->
 <fieldset class="gray">
 <legend class="red">Gene
-<a href="javascript:void(0);" onmouseover="return overlib('Paste a comma separated Gene list, or upload file using Browse button', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+<app:help help="Choose one type of Gene identifiers (Genbank ID, LocusLink ID or Gene symbol) from the pick list. Then enter the corresponding comma delimited value or IDs for the genes to be searched in the text box. Another option to load a list of genes is to upload a tab-delimited file containing Gene identifiers by click the browse button." />
 </legend>
 
 <br>

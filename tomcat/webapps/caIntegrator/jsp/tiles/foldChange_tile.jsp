@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <fieldset class="gray">
-<legend class="red">Fold Change</legend>
+<legend class="red">Fold Change
+<app:help help="Specify the threshold for the differential regulation by indicating the “up”, “down” or “unchanged” criteria. This will bring back differential expression ratios between tumor and non-tumor samples for a particular reporter"/>
+</legend>
 
 <%
 	String act = request.getParameter("act");

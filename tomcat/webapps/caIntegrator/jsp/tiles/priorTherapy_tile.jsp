@@ -1,16 +1,14 @@
 
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-
-
-
-
-		<%
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%
 	     String act = request.getParameter("act");
-
-        %>
+%>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <fieldset class="gray">
-<legend class="red">Prior Therapy</legend><br />	
+<legend class="red">Prior Therapy
+<app:help help="Future implementation"/>
+</legend><br />	
 <input type="checkbox" name="radiation"  class="radio" disabled="true" onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
 <!--- <select property="radiationType" name="rad" disabled="true">
 	<option>any</option>

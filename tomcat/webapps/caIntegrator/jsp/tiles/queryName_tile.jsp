@@ -1,13 +1,15 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <%@ page import="java.util.*, gov.nih.nci.nautilus.query.QueryCollection,gov.nih.nci.nautilus.constants.NautilusConstants" %> 
 
 <fieldset class="gray">
 <legend class="red">
 <bean:message key="queryName.label"/>
 <b class="req">*</b>
-<a href="javascript:void(0);" onmouseover="return overlib('<bean:message key="queryName.help"/>', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+<!-- <a href="javascript:void(0);" onmouseover="return overlib('<bean:message key="queryName.help"/>', CAPTION, 'Help');" onmouseout="return nd();">[?]</a> -->
+<app:help help="Please give a title/name for this query. This name must be unique among all your queries in this session." />
 </legend>
 <%
 String act = request.getParameter("act");

@@ -1,6 +1,9 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <fieldset class="gray">
-<legend class="red">CGH Copy Number</legend><br />
+<legend class="red">CGH Copy Number
+<app:help help="Specify the threshold for the copy number by indicating the “amplified”, “deleted” or “unchanged” criteria."/>
+</legend><br />
 
 <%
 	String act = request.getParameter("act");

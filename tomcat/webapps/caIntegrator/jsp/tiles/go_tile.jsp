@@ -1,6 +1,10 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+
 <fieldset class="gray">
-<legend class="red">Gene Ontology (GO) Classifications</legend>
+<legend class="red">Gene Ontology (GO) Classifications
+<app:help help="Enter Gene Ontology (GO) ID in this box to search for one of more branches of the GO heirarchy. eg. GO:0005006 : epidermal growth factor receptor activity ( 12 ) ."/>
+</legend>
 <%
 	String act = request.getParameter("act");
 %>

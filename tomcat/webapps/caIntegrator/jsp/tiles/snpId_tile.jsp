@@ -1,11 +1,13 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <%
 	String act = request.getParameter("act");
 %>
 	<!-- <html:form action="<%=act%>" > -->
 <fieldset class="gray">
-<legend class="red">SNP Id</legend>
+<legend class="red">SNP Id
+<app:help help="Choose one type of SNP identifiers (dbSNP ID or Affymetrix SNP Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs for SNPs to be searched in the text box. Another option to load a list of genes is to upload a tab-delimited file containing SNP ID list by click the browse button."/>
+</legend>
 <b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>
 <br /><br />
 

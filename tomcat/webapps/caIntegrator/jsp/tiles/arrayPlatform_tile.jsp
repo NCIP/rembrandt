@@ -1,8 +1,11 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.nautilus.criteria.Constants"%>
 
 <fieldset class="gray">
-<legend class="red">Array Platform</legend>
+<legend class="red">Array Platform
+<app:help help="Select array platform (Affymetrix Oligo arrays or cDNA array platform) from the pick list"/>
+</legend>
 <%
 	String act = request.getParameter("act");
 %>
