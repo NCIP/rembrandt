@@ -23,19 +23,13 @@ import java.util.Random;
  * 
  */
 public class ReportGenerator  {
-
-	// the colors for the columns and dynamic css (blue/yellow)
-	// TODO: move these colors to a props file and make more colors
-	
 	
 //	public static String theColors[] = {"0073E6","FFFF61"};
 	
-//	public static String theColors[] = {"5C73B7", "B1BCDD", "DDD2B1", "8697CA", "B7A15C", "CFD4E6", "404F80", "5C71B5" };
-	
 	public static final DecimalFormat resultFormat = new DecimalFormat("0.0000");
-	
-	//public static String geneSpacerStyle = "height:1px; font-size:0px; border-top:2px solid black; border-bottom:0px solid black; padding:0px; background-color:#000000";
-			
+		
+	public static String links = "<a href=\"#queryInfo\">[Query Information]</a> | <a href=\"jsp/geneViewReportCSV.jsp\" onclick=\"javascript:return false;\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a>\n";
+		
 	public static String displayReport(QueryCollection queryCollection, String[] theColors, boolean csv)	{
 		
 		StringBuffer html = new StringBuffer();
@@ -45,9 +39,8 @@ public class ReportGenerator  {
 			
 		try	{
 			
-		//	QueryCollection queryCollection = (QueryCollection) (session.getAttribute(gov.nih.nci.nautilus.constants.Constants.QUERY_KEY));
 			CompoundQuery myCompoundQuery = queryCollection.getCompoundQuery();
-	
+
 			try	{
 				resultant = ResultsetManager.executeQuery(myCompoundQuery);
 	  		}
@@ -55,32 +48,37 @@ public class ReportGenerator  {
 	  			errors.append("Error executing the query.<Br><Br>");
 	  			return errors.toString();
 	  		}
-  		
+
 			if(resultant != null) {      
 		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
+		 		
+		 		String theQuery  =  resultant.getAssociatedQuery().toString();
+
 		 		if(resultsContainer != null)	{
-			 		html.append("<a href=\"jsp/geneViewReportCSV.jsp\" onclick=\"javascript:return false;\">[Download this report for Excel]</a> | <a href=\"menu.do\">[Back to Menu]</a><br><br>\n");
-			 		html.append("<div class=\"query\">"+myCompoundQuery.toString()+"</div><br><br>");
-			 		
+			 		// html.append("<fieldset class=\"q\">"+theQuery+"</fieldset>\n");
+		 			
 			 		Viewable view = resultant.getAssociatedView();
 			 		 
 			 		//4 views here, returning the String of HTML for report
 			 		// need to add the html buffer here
 			 		
 		 			if (view instanceof GeneExprSampleView)	{ 
-		 				//return this.geneExprSampleView(resultsContainer);
+		 				html.append("<div class=\"title\">Gene Expression Fold Change (Tumor/Non-tumor)</div>\n");
 		 				html.append(geneExprSampleView(resultsContainer, theColors));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof CopyNumberSampleView)	{ 
+		 				html.append("<div class=\"title\">Copy Number Data</div>\n");
 		 				html.append(copyNumberSampleView(resultsContainer, theColors));
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
+		 				html.append("<div class=\"title\">Mean Gene Expression Fold Change for Tumor Sub-types</div>\n");
 		 				html.append(geneExprDiseaseView(resultsContainer, theColors));
 		 				return html.toString();
 		 			}
 	 				else if(view instanceof ClinicalSampleView){
+	 					html.append("<div class=\"title\">Sample Report</div>\n");
 	 					html.append(clinicalSampleView(resultsContainer, theColors));
 	 					return html.toString();
 	 				}	
@@ -126,10 +124,12 @@ public class ReportGenerator  {
 				// show the copyNumberHyperlinks
 				cLinks = true;
 			}
-			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
+			
 			SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
- 		   	sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL</td><td id=\"header\">DISEASE</td>");
+			sb.append("<div class=\"rowCount\">"+samples.size()+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n");
+			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
+			sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL</td><td id=\"header\">DISEASE</td>");
  		   	if(gLinks)
  		   		sb.append("<Td id=\"header\">GeneExp</td>");
  		   	if(cLinks)
@@ -158,6 +158,7 @@ public class ReportGenerator  {
 		StringBuffer sb = new StringBuffer();
 		GeneExprResultsContainer geneExprDiseaseContainer = (GeneExprResultsContainer) resultsContainer;
 		StringBuffer css = new StringBuffer();
+		int recordCount = 0;
 					if(geneExprDiseaseContainer != null)	{
 				    	Collection genes = geneExprDiseaseContainer.getGeneResultsets();
 				    	Collection labels = geneExprDiseaseContainer.getGroupsLabels();
@@ -171,7 +172,7 @@ public class ReportGenerator  {
 				        
 				    	//get group size (as Disease or Agegroup )from label.size
 				        String label = null;
-				    	
+				        
 				    	sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");
 				    	
 				        //set up the header for the table
@@ -210,6 +211,8 @@ public class ReportGenerator  {
 				    		Collection reporters = geneExprDiseaseContainer.getRepoterResultsets(geneSymbol); 
 
 				    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+				    			recordCount += reporters.size();
+				    			
 				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
 				        		Collection groupTypes = geneExprDiseaseContainer.getGroupByResultsets(geneSymbol,reporterName); //reporterResultset.getGroupResultsets();
@@ -246,14 +249,16 @@ public class ReportGenerator  {
 				else	{
 					sb.append("<Br><br>Gene Disease View container is empty");
 				}
-				
-				return css.toString() + sb.toString();
+	
+				return "<div class=\"rowCount\">"+recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + css.toString() + sb.toString();
 	}
 
 
 	public static String copyNumberSampleView(ResultsContainer resultsContainer, String[] theColors)	{
 		
 				StringBuffer sb = new StringBuffer();
+				int recordCount = 0;
+				
 				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 				if(dimensionalViewContainer != null)	{		
 					CopyNumberSingleViewResultsContainer copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
@@ -265,6 +270,7 @@ public class ReportGenerator  {
 						Collection cytobands = copyNumberContainer.getCytobandResultsets();
 				    	Collection labels = copyNumberContainer.getGroupsLabels();
 				    	Collection sampleIds = null;
+				    	
 				    	
 				    	StringBuffer header = new StringBuffer();
 				    	StringBuffer sampleNames = new StringBuffer();
@@ -324,8 +330,9 @@ public class ReportGenerator  {
 				    		CytobandResultset cytobandResultset = (CytobandResultset)cytobandIterator.next();
 				    		String cytoband = cytobandResultset.getCytoband().getValue().toString();
 				    		Collection reporters = copyNumberContainer.getRepoterResultsets(cytoband); 
-	
+				    		recordCount += reporters.size();
 				        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+				        		
 				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
 				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
@@ -371,8 +378,8 @@ public class ReportGenerator  {
 			else	{
 				sb.append("<br><br>Copy Number container is empty");
 			}	
-			
-			return sb.toString();
+				
+			return "<div class=\"rowCount\">"+recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
 				
 	}
 
@@ -380,14 +387,17 @@ public class ReportGenerator  {
 	public static String geneExprSampleView(ResultsContainer resultsContainer, String[] theColors)	{
 		
 				StringBuffer sb = new StringBuffer();
-		
+				int recordCount = 0;
+				
 			    DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 			    if(dimensionalViewContainer != null)	{
 		        	GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
 			    	Collection genes = geneViewContainer.getGeneResultsets();
 			    	Collection labels = geneViewContainer.getGroupsLabels();
 			    	Collection sampleIds = null;
+		
 			    	StringBuffer header = new StringBuffer();
+			    	
 			    	header.append("<table cellpadding=\"0\" cellspacing=\"0\">\n<tr>\n");
 			    	StringBuffer sampleNames = new StringBuffer();
 			        StringBuffer stringBuffer = new StringBuffer();
@@ -459,11 +469,14 @@ public class ReportGenerator  {
 			    	sb.append(header.toString());
 					sb.append(sampleNames.toString());
 		
-		    		String geneBreak = " style=\"border-bottom: 1px solid black\"";
+		    		//String geneBreak = " style=\"border-bottom: 1px solid black\"";
 		    		
+					
 			    	for (Iterator geneIterator = genes.iterator(); geneIterator.hasNext();) {
 			    		GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 			    		Collection reporters = geneResultset.getReporterResultsets();
+			    		
+			    		recordCount+=reporters.size();
 			    		
 			    		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 			        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
@@ -513,9 +526,9 @@ public class ReportGenerator  {
 				else {
 					sb.append("<br><Br>Gene Container is empty<br>");
 				}
-				
-				return sb.toString();
-		
+			    
+			    return "<div class=\"rowCount\">"+recordCount+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n" + sb.toString();
+	
 		
 	}
 
