@@ -81,7 +81,7 @@ public class ReportGeneratorHelper {
 								.executeCompoundQuery(cQuery);
 						/*
 						 * If the query name is empty than we can assume that
-						 * the user has not interest in storing the query for
+						 * the user has no interest in storing the query for
 						 * later use. However the user may still want to use the
 						 * current query report in other ways, like changing the
 						 * view or downloading it. SO we should probably keep it
