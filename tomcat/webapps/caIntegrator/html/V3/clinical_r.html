@@ -27,9 +27,31 @@
 									<TD colspan="3"><H3>Clinical Data</H3>
 									</TD>
 								</TR>
-								<TR class="report">
+								<Tr class="report">
+						<td colspan="3">
+						<div class="title">Query Name <b class="req">*</b>
+						<a href="javascript:void(0);" onmouseover="return overlib('Please give a title/name to this query.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+						</div>
+						<input type="text" size="50">
+						</td>
+					</tr>
+					<tr class="report">
+							<td colspan="3">
+							<div class="title">Result View <b class="req">*</b>
+							<a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+							</div>
+							<Select>
+								<option>&nbsp;</option>
+								<option>Sample Centric</option>
+								<option>Gene Centric</option>
+							</select>
+							&nbsp;<a href="#" class="message">[sample centric example]</a>&nbsp;<a href="#" class="message">[gene centric example]</a>
+							</td>
+					</tr>
+						<Tr class="report"><Td colspan="3"><br></td></tr>
+						<tr class="report">
 							<Td colspan="3">
-							<div class="title">Disease <!--Tumor--> Type</div>
+							<div class="title">Disease Type <b class="req">*</b></div>
 							<select name="tumorType">
 								<option>All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
 								<!--
@@ -47,41 +69,27 @@
 								<option>Embryonal</option>
 								<option>Some I-SPY Tumor Type</option>
 							</select>
+							&nbsp;
+							Grade:&nbsp;
+							<select multiple size="4" class="radio" style="width:60px; vertical-align:middle">
+								<option selected>All</option>
+								<option>I</option>
+								<option>II</option>
+								<option>III</option>
+								<option>IV</option>
+							</select><br>
 							<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
 							</td>
-									<!--
-									<TD width="30%">
-										<DIV class="title">Study Data Set
-										</DIV>
-										<SELECT>
-											<OPTION>&nbsp;</OPTION>
-											<OPTION selected>ACRIN 6657</OPTION>
-											<OPTION>ACRIN 6657/CALGB 150007</OPTION>
-											<OPTION>ACRIN 6657/CALGB 49808</OPTION>
-										</SELECT>
-									</TD>
-									<TD width="40%">
-										<DIV class="title">	Generating Institution
-										</DIV>
-										<SELECT>
-											<OPTION selected>all</OPTION>
-											<OPTION>University of California, San Francisco</OPTION>
-											<OPTION>University of North Carolina-Chapel Hill</OPTION>
-											<OPTION>Hospital of the University of Pennsylvania</OPTION>
-											<OPTION>Georgetown University</OPTION>
-											<OPTION>Memorial Sloan Kettering Cancer Center</OPTION>
-										</SELECT>
-									</TD>
-									-->
-								</TR>
+	
+						</tr>
 								<TR class="report">
 									<TD colspan="3">
 										<DIV class="title">Occurrence</DIV>
-										<input type="checkbox" class="radio" checked selected>First Presentation
+										<input type="checkbox" class="radio">First Presentation
 										&nbsp;&nbsp;
-										<input type="checkbox" class="radio" checked selected 
+										<input type="checkbox" class="radio" 
 										onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));">Recurrence&nbsp;&nbsp;
-											<select name="rec">
+											<select name="rec" disabled="true">
 												<option>any</option>
 												<option>1</option>
 												<option>2</option>
@@ -94,24 +102,24 @@
 								<TR class="report">
 									<TD colspan="3">
 										<DIV class="title">	Prior Therapy</DIV>
-										<input type="checkbox" class="radio" checked selected
+										<input type="checkbox" class="radio"
 										 onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
-										<select name="rad">
+										<select name="rad" disabled="true">
 											<option>any</option>
 											<option>photon</option>
 										</select>
 										<br>
-										<input type="checkbox" class="radio" checked selected
+										<input type="checkbox" class="radio"
 										 onclick="javascript:document.forms[0].chemo.disabled=(!(document.forms[0].chemo.disabled));">Chemo&nbsp;&nbsp;
 										- agent:&nbsp;
-										<select name="chemo">
+										<select name="chemo" disabled="true">
 											<option>any</option>
 											<option></option>
 										</select>
 										<Br>
-										<input type="checkbox" class="radio" checked selected
+										<input type="checkbox" class="radio"
 										 onclick="javascript:document.forms[0].surgery.disabled=(!(document.forms[0].surgery.disabled));">Surgery&nbsp;&nbsp;
-										<select name="surgery">
+										<select name="surgery" disabled="true">
 											<option>any</option>
 											<option>Complete Resection (CR)</option>
 											<option>Partial Resection (PR)</option>
@@ -122,6 +130,7 @@
 								<TR class="report">
 									<TD>
 										<DIV class="title">	Survival Range</DIV>
+										<!--
 										<select>
 											<option>0-3 months</option>
 											<option>4-6 months</option>
@@ -129,8 +138,35 @@
 											<option>10-12 months</option>
 											<option>12+ months</option>
 										</select>
+										-->
+										lower:&nbsp;<select>
+											<option>0</option>
+											<option>10</option>
+											<option>20</option>
+											<option>30</option>
+											<option>40</option>
+											<option>50</option>
+											<option>60</option>
+											<option>70</option>
+											<option>80</option>
+											<option>90</option>
+										</select>&nbsp;&nbsp;
+										upper:&nbsp;<select>
+											<option>0</option>
+											<option>10</option>
+											<option>20</option>
+											<option>30</option>
+											<option>40</option>
+											<option>50</option>
+											<option>60</option>
+											<option>70</option>
+											<option>80</option>
+											<option>90</option>
+										</select>
+										&nbsp;<b class="message">(months)</b>
 									<TD>
 										<DIV class="title">	Age at Dx</DIV>
+										<!--
 										<SELECT>
 											<OPTION selected>&nbsp;</OPTION>
 											<OPTION>0-5</OPTION>
@@ -153,6 +189,33 @@
 											<OPTION>86-90</OPTION>
 											<OPTION>90 +</OPTION>
 										</SELECT>
+										-->
+										lower:&nbsp;<select>
+											<option>0</option>
+											<option>10</option>
+											<option>20</option>
+											<option>30</option>
+											<option>40</option>
+											<option>50</option>
+											<option>60</option>
+											<option>70</option>
+											<option>80</option>
+											<option>90</option>
+										</select>&nbsp;&nbsp;
+										upper:&nbsp;<select>
+											<option>0</option>
+											<option>10</option>
+											<option>20</option>
+											<option>30</option>
+											<option>40</option>
+											<option>50</option>
+											<option>60</option>
+											<option>70</option>
+											<option>80</option>
+											<option>90</option>
+											<option>90+</option>
+										</select>
+										&nbsp;<b class="message">(years)</b>
 									</TD>
 									<TD align="left">
 										<DIV class="title">	Gender</DIV>
@@ -181,6 +244,7 @@
 				</TR>
 		</TABLE>
 	</DIV>
+	<br><b class="req">* indicates a required field</b>
 </FORM>
 </BODY>
 </HTML>

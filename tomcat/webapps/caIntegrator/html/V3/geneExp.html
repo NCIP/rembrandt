@@ -25,13 +25,35 @@
 			<form action="#" method="get" name="geneExpData">
 		
 			<Table cellpadding="4" cellspacing="2" border="0" width="100%">
-			<tr class="report"><td><h3>Gene Expression Data</h3></td></tr>
-			<Tr class="report">
-				<Td>
-					<table border="0" width="100%" style="">
-						<tr>
-							<Td width="33%">
-							<div class="title">Disease <!--Tumor--> Type</div>
+			<!--
+					<tr class="report"><td style="text-align:right;"><a href="#" class="message">[sample centric example]</a>&nbsp;<a href="#" class="message">[gene centric example]</a></td></tr>
+			-->
+					<tr class="report"><td><h3>Gene Expression Data</h3></td></tr>
+					<Tr class="report">
+						<td>
+						<div class="title">Query Name <b class="req">*</b>
+						<a href="javascript:void(0);" onmouseover="return overlib('Please give a title/name to this query.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+						</div>
+						<input type="text" size="50">
+						</td>
+					</tr>
+					<tr class="report">
+							<td>
+							<div class="title">Result View <b class="req">*</b>
+							<a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+							</div>
+							<Select>
+								<option>&nbsp;</option>
+								<option>Sample Centric</option>
+								<option>Gene Centric</option>
+							</select>
+							&nbsp;<a href="#" class="message">[sample centric example]</a>&nbsp;<a href="#" class="message">[gene centric example]</a>
+							</td>
+					</tr>
+						<Tr class="report"><Td><br></td></tr>
+						<tr class="report">
+							<Td>
+							<div class="title">Disease <!--Tumor--> Type <b class="req">*</b></div>
 							<select name="tumorType">
 								<option>All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
 								<!--
@@ -49,6 +71,15 @@
 								<option>Embryonal</option>
 								<option>Some I-SPY Tumor Type</option>
 							</select>
+							&nbsp;
+							Grade:&nbsp;
+							<select multiple size="4" class="radio" style="width:60px; vertical-align:middle">
+								<option selected>All</option>
+								<option>I</option>
+								<option>II</option>
+								<option>III</option>
+								<option>IV</option>
+							</select><br>
 							<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
 							</td>
 						<!--
@@ -68,30 +99,6 @@
 							</td>
 							-->
 						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr class="report">
-					<td>
-					<div class="title">Query Name
-					<a href="javascript:void(0);" onmouseover="return overlib('Please give a title/name to this query.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-					</div>
-					<input type="text" size="50">
-					</td>
-			</tr>
-			<tr class="report">
-					<td>
-					<div class="title">Select Resultant View
-					<a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-					</div>
-					<Select>
-						<option>&nbsp;</option>
-						<option>Sample View</option>
-						<option>Gene View</option>
-					</select>
-					</td>
-			</tr>
-			<Tr class="report"><Td><br></td></tr>
 			<tr class="report">
 				<td>
 				<div class="title">Gene
@@ -111,7 +118,9 @@
 					<!-- <option>Affy Probe Set Id</option> -->
 				</select>
 				&nbsp;
-				<input type="text">
+				<input type="text">&nbsp;
+				<a href="javascript:void(0);" onmouseover="return overlib('Selected Criteria on this form applies to all genes specified in this list.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+							
 				&nbsp;-or-&nbsp;
 				<input type="radio" class="radio" name="gene">
 				<input type="file">
@@ -121,7 +130,7 @@
 			<tr class="report">
 				<Td>
 				<div class="title">Fold Change</div>
-				<input type="radio" class="radio" name="reg">Up-regulation&nbsp;
+				<input type="radio" class="radio" name="reg">Up-regulation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" class="radio" name="fold" value="yes" checked selected>
 				<select>
 					<option>&nbsp;</option>
@@ -141,8 +150,9 @@
 					<option>3x</option>
 					<option>4x</option>
 				</select>&nbsp;-or-&nbsp;<input type="radio" class="radio" name="fold2" value="no">&nbsp;<input type="text" value="other"><Br>
-				<input type="radio" class="radio" name="reg">Up/Down&nbsp;
+				<input type="radio" class="radio" name="reg">Up OR Down&nbsp;
 				<blockquote>
+				Up-regulation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" class="radio" name="fold3" value="yes" checked selected>
 				<select>
 					<option>&nbsp;</option>
@@ -152,8 +162,9 @@
 					<option>3x</option>
 					<option>4x</option>
 				</select>&nbsp;-or-&nbsp;<input type="radio" class="radio" name="fold3" value="no">&nbsp;<input type="text" value="other">
-				&nbsp;<b class="message">(up)</b>
+				&nbsp;
 				<Br>
+				Down-regulation
 				<input type="radio" class="radio" name="fold3" value="yes" checked selected>
 				<select>
 					<option>&nbsp;</option>
@@ -163,9 +174,10 @@
 					<option>3x</option>
 					<option>4x</option>
 				</select>&nbsp;-or-&nbsp;<input type="radio" class="radio" name="fold3" value="no">&nbsp;<input type="text" value="other">
-				&nbsp;<b class="message">(down)</b>
+				&nbsp;
 				</blockquote>
-				<input type="radio" class="radio" name="reg" onclick="javascript:document.forms[0].f4.disabled=(!(document.forms[0].f4.disabled));document.forms[0].f4_2.disabled=(!(document.forms[0].f4_2.disabled));">Unchanged&nbsp;
+				<input type="radio" class="radio" name="reg" onclick="javascript:document.forms[0].f4.disabled=(!(document.forms[0].f4.disabled));document.forms[0].f4_2.disabled=(!(document.forms[0].f4_2.disabled));">
+				Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" class="radio" name="fold4" value="yes" checked selected>
 				<select name="f4" disabled="true">
 					<option>&nbsp;</option>
@@ -182,19 +194,27 @@
 				-->
 				</td>
 			</tr>
+			<!--
 			<tr class="report">
 				<Td>
 				<div class="title">Confidence Level</div>
 				<input type="text">
 				</td>
 			</tr>
+			-->
 			<tr class="report">
 				<Td>
 				<div class="title">Region</div>
-				Chromosome Number <!-- Name --> <br><input type="text"><br>
-				Cytoband <!-- Map --> Location <Br><input type="text">&nbsp;<input type="button" class="sbutton" value="MAP Browser..."><br>
-				Base Pair Position (kb)<br>
-				<input type="text" size="10">&nbsp;start&nbsp;&nbsp;<input type="text" size="10">&nbsp;end
+				<input type="radio" class="radio" name="reg" checked>&nbsp;
+				Cytoband &nbsp;<input type="text">&nbsp;<input type="button" class="sbutton" value="MAP Browser..."><br>
+				<br>
+				<input type="radio" class="radio" name="reg">&nbsp;
+				Chromosome Number
+				<blockquote>
+					<input type="text">&nbsp;
+					Base Pair Position (kb)&nbsp;
+					<input type="text" size="10">&nbsp;start&nbsp;<input type="text" size="10">&nbsp;end
+				</blockquote>
 				</td>
 			</tr>
 			<tr class="report">
@@ -222,7 +242,7 @@
 				<select size="4" multiple style="width:150px;">
 				<option>&nbsp;&nbsp;</option>
 				</select>
-				<input class="sbutton" type="button" value="GO Browser...">
+				<input class="sbutton" type="button" value="GO Browser..." onclick="javascript:spawn('http://cgap.nci.nih.gov/Genes/GOBrowser', 780, 500);">
 				<br>
 				<input class="radio" type="checkbox" value="">Molecular Function&nbsp;&nbsp;
 				<input class="radio" type="checkbox" value="">Biological Process&nbsp;&nbsp;
@@ -241,6 +261,7 @@
 				<input class="sbutton" type="button" style="width:150px" value="Pathway Browser...">
 				</td>
 			</tr>
+			<!--
 			<Tr class="report">
 				<Td>
 				<div class="title">Comparison Option</div>
@@ -249,6 +270,7 @@
 				<input class="radio" type="radio" name="comp">Single Sample to Normal Pool<br>
 				</td>
 			</tr>
+			-->
 			<Tr class="report">
 				<Td>
 				<div class="title">Array Platform</div>
@@ -289,6 +311,7 @@
 		</tr>
 	</table>
 </div>
+	<br><b class="req">* indicates a required field</b>
 </form>
 </body>
 </html>

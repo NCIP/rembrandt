@@ -26,39 +26,36 @@
 			<Table cellpadding="4" cellspacing="2" border="0" width="100%">
 				<Tr class="report"><td><h3>Comparitive Genomic Data</h3> </td></tR>
 				<Tr class="report">
-				<Td>
-					<table border="0" width="100%" style="">
-					<!--
-						<tr>
-							<Td width="33%">
-							<div class="title">Disease Type</div>
-							<select name="tumorType" onchange="javascript:moveEm(this);">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+						<td>
+						<div class="title">Query Name <b class="req">*</b>
+						<a href="javascript:void(0);" onmouseover="return overlib('Please give a title/name to this query.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+						</div>
+						<input type="text" size="50">
+						</td>
+					</tr>
+					<tr class="report">
+							<td>
+							<div class="title">Result View <b class="req">*</b>
+							<a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+							</div>
+							<Select>
+								<option>&nbsp;</option>
+								<option>Sample Centric</option>
+								<option>Gene Centric</option>
+							</select>
+							&nbsp;<a href="#" class="message">[sample centric example]</a>&nbsp;<a href="#" class="message">[gene centric example]</a>
+							</td>
+					</tr>
+						<Tr class="report"><Td><br></td></tr>
+						<tr class="report">
+							<Td>
+							<div class="title">Disease <!--Tumor--> Type <b class="req">*</b></div>
+							<select name="tumorType">
+								<option>All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<!--
 								<option>Brain</option>
 								<option>Breast</option>
-							</select>
-							</td>
-						
-							<Td>
-							<div class="title">Study Data Set</div>
-							<select name="dataSet" onchange="javascript:moveEm(this);">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-							</select>
-							</td>
-						
-							<Td>
-							<div class="title">Generating Institution</div>
-							<select name="generatingInstitution">
-								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-							</select>
-							</td>
-						</tr>
-						-->
-						<tr>
-							<Td width="33%">
-							<div class="title">Disease Type</div>
-							<select name="tumorType" onchange="javascript:moveEm(this);">
-								<option>All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								-->
 								<option>Astrocytic</option>
 								<option>Oligodendroglial</option>
 								<option>Ependymal cell </option>
@@ -70,6 +67,15 @@
 								<option>Embryonal</option>
 								<option>Some I-SPY Tumor Type</option>
 							</select>
+							&nbsp;
+							Grade:&nbsp;
+							<select multiple size="4" class="radio" style="width:60px; vertical-align:middle">
+								<option selected>All</option>
+								<option>I</option>
+								<option>II</option>
+								<option>III</option>
+								<option>IV</option>
+							</select><br>
 							<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
 							</td>
 						<!--
@@ -77,6 +83,7 @@
 							<div class="title">Study Data Set</div>
 							<select name="dataSet" onchange="javascript:moveEm(this);">
 								<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								
 							</select>
 							</td>
 						
@@ -88,31 +95,7 @@
 							</td>
 							-->
 						</tr>
-					</table>
-				</td>
-			</tr>
-				<tr class="report">
-					<td>
-					<div class="title">Query Name
-					<a href="javascript:void(0);" onmouseover="return overlib('Please give a title/name to this query.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-					</div>
-					<input type="text" size="50">
-					</td>
-				</tr>
-				<tr class="report">
-					<td>
-					<div class="title">Select Resultant View
-					<a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-					</div>
-					<Select>
-						<option>&nbsp;</option>
-						<option>Sample View</option>
-						<option>Gene View</option>
-					</select>
-					</td>
-				</tr>
-				<Tr class="report"><Td><br></td></tr>
-				
+						
 				<tr class="report">
 					<td>
 					<div class="title">Gene
@@ -138,7 +121,7 @@
 				</tr>
 				<tr class="report">
 					<Td><div class="title">CGH Copy Number</div>
-					<input type="checkbox" class="radio" name="cn" selected checked>Amplified 
+					<input type="radio" class="radio" name="cn" selected checked>Amplified 
 					&nbsp;<input type="Text"><b class="message">&nbsp;threshold</b>
 					<blockquote>
 						<input type="radio" class="radio" name="amp" checked selected>
@@ -157,27 +140,48 @@
 						<input type="text">
 					</blockquote>
 					<!-- <input type="text" size="3">&nbsp;to&nbsp;<input type="text" size="3"><br> -->
-					<input type="checkbox" class="radio" name="cn">Deleted&nbsp;
+					<input type="radio" class="radio" name="cn">Deleted&nbsp;
 					<select>
 						<option>&nbsp;</option>
 						<option>Homozygous</option>
 						<option>LOH</option>
 					</select><Br>
-					<input type="checkbox" class="radio" name="cn">Unchanged&nbsp;
+					<input type="radio" class="radio" name="cn">Unchanged&nbsp;
 					<input type="text"><b class="message">&nbsp;threshold</b>
 					<br>
+					<input type="radio" class="radio" name="cn">Amplified OR Deleted&nbsp;<br>
+					<blockquote>
+						<input type="radio" class="radio" name="amp" checked selected>&nbsp;
+						Amplified&nbsp;
+						<select>
+							<option>2x</option>
+							<option>3x</option>
+							<option>4x</option>
+							<option>5x</option>
+							<option>6x</option>
+							<option>7x</option>
+							<option>8x</option>
+							<option>9x</option>
+							<option>10x</option>
+						</select>&nbsp;-or-&nbsp;
+						<input type="radio" class="radio" name="amp">
+						<input type="text">
+					</blockquote>
 					</td>
 				</tr>
 				<tr class="report">
-					<Td><div class="title">Region</div>
-						Chromosome Number <!-- Name --> <br>
-						<select>
-							<option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-						</select>
-						<br>
-						Map Location <Br><input type="text">&nbsp;<input type="button" class="sbutton" value="MAP Browser..."><br>
-						Base Pair Position (kb)<br>
-						<input type="text" size="10">&nbsp;start&nbsp;&nbsp;<input type="text" size="10">&nbsp;end
+					<Td>
+					<div class="title">Region</div>
+					<input type="radio" class="radio" name="reg" checked>&nbsp;
+					Cytoband &nbsp;<input type="text">&nbsp;<input type="button" class="sbutton" value="MAP Browser..."><br>
+					<br>
+					<input type="radio" class="radio" name="reg">&nbsp;
+					Chromosome Number
+					<blockquote>
+						<input type="text">&nbsp;
+						Base Pair Position (kb)&nbsp;
+						<input type="text" size="10">&nbsp;start&nbsp;<input type="text" size="10">&nbsp;end
+					</blockquote>
 					</td>
 				</tr>
 				<tr class="report">
@@ -300,6 +304,7 @@
 </table>
 
 </div>
+<br><b class="req">* indicates a required field</b>
 </form>
 </body>
 </html>
