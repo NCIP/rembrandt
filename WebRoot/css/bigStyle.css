@@ -231,7 +231,7 @@ a.notPossible{
  }
  div.steps{
  text-align:left;
- 
+ margin-left:5px;
  }
  
  span.pop { background-color: yellow; color: red; text-align: center; padding: 5px;}
