@@ -221,19 +221,24 @@ public class ShowAllValuesHandler {
 			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleFoldChangeValuesResultset){
 				                       		SampleFoldChangeValuesResultset showAllBiospecimenResultset  = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 				                       		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = (SampleFoldChangeValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
-				                       		if(showAllBiospecimenResultset != null){
-				                       			Double ratio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
+				                       		if(showAllBiospecimenResultset != null && sampleFoldChangeValuesResultset != null){
+				                       			Double ratio = (Double)sampleFoldChangeValuesResultset.getFoldChangeRatioValue().getValue();
 				                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getFoldChangeRatioValue().getValue();
 				                       			if(ratio != null && ratio.equals(showAllRatio)){
 				                       				showAllBiospecimenResultset.setHighlighted(true);  
 				                       				groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);        			
 				                       			}
+                                                else{
+                                                    showAllBiospecimenResultset.setHighlighted(false);  
+                                                    groupResultset.addBioSpecimenResultset(showAllBiospecimenResultset);                    
+
+                                                }
 					                       	}
 			                     		}
 			                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
 			                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
 			                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) geneViewContainer.getBioSpecimentResultset(geneSymbol,reporterName, label, sampleId);
-				                       		if(showAllBiospecimenResultset != null){
+				                       		if(showAllBiospecimenResultset != null && sampleResultset2 != null){
 				                       			Double ratio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
 				                       			Double showAllRatio = (Double)showAllBiospecimenResultset.getCopyNumber().getValue();
 				                       			if(ratio != null && ratio.equals(showAllRatio)){
