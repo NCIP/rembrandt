@@ -48,7 +48,7 @@ public class UIFormValidator {
 			String basePairEnd, ActionErrors errors) {
 		if (chrosomeNumber.trim().length() > 0) {
 			if (region.trim().length() < 1)
-				errors.add("chrosomeNumber", new ActionError(
+				errors.add("chromosomeNumber", new ActionError(
 						"gov.nih.nci.nautilus.ui.struts.form.region.no.error"));
 			else {
 				if (region.trim().equalsIgnoreCase("cytoband")) {
