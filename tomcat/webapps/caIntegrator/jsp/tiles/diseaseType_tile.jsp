@@ -21,7 +21,7 @@
 <option>Embryonal</option>
 <option>Glioblastoma</option>
 </select>
--->
+
 &nbsp;
 Grade:&nbsp;
 <html:select property="tumorGrade">
@@ -31,6 +31,7 @@ Grade:&nbsp;
 				<html:option value="three">III</html:option><br>
 				<html:option value="four">IV</html:option>
 </html:select><html:errors property="tumorGrade"/>
+-->
 
 <!-- </html:form> -->
 
