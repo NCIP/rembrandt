@@ -269,7 +269,7 @@ public class ComparativeGenomicQuery extends Query {
         return assayPlatformCriteria;
     }
 
-    public void seAssayPlatformCrit(AssayPlatformCriteria assayPlatformCriteria) {
+    public void setAssayPlatformCrit(AssayPlatformCriteria assayPlatformCriteria) {
         this.assayPlatformCriteria = assayPlatformCriteria;
     }
     class Handler {
