@@ -3,7 +3,9 @@
 
 package gov.nih.nci.nautilus.data;
 
-public class PatientData
+import gov.nih.nci.nautilus.lookup.PatientDataLookup;
+
+public class PatientData implements PatientDataLookup
 {
   public final static String BIOSPECIMEN_ID = "biospecimenId";
   public final static String SURVIVAL_LENGTH = "survivalLength";

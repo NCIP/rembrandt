@@ -9,6 +9,7 @@ package gov.nih.nci.nautilus.lookup;
 import gov.nih.nci.nautilus.data.CytobandPosition;
 import gov.nih.nci.nautilus.data.DifferentialExpressionSfact;
 import gov.nih.nci.nautilus.data.ExpPlatformDim;
+import gov.nih.nci.nautilus.data.PatientData;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -26,7 +27,7 @@ import org.apache.ojb.broker.query.QueryFactory;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LookupManager{
-	private static Lookup[] patientData;
+	private static PatientDataLookup[] patientData;
 	private static CytobandLookup[] cytobands;
 	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
@@ -47,9 +48,6 @@ public class LookupManager{
 	        resultsetObjs = broker.getCollectionByQuery(exprQuery);
 			System.out.println("Got " + resultsetObjs.size() + " resultsetObjs objects.");
      
-		        for (Iterator iterator = resultsetObjs.iterator(); iterator.hasNext();) {
-		             System.out.println("resultsetObjs " + resultsetObjs.toString() );
-		        }
 		    return resultsetObjs;
 	}
 
@@ -70,8 +68,12 @@ public class LookupManager{
 	}
 	/**
 	 * @return Returns the patientData.
+	 * @throws Exception
 	 */
-	public Lookup[] getPatientData() {
+	public static PatientDataLookup[] getPatientData() throws Exception {
+		if(patientData == null){
+			patientData = (PatientDataLookup[]) executeQuery(PatientData.class).toArray();
+		}
 		return patientData;
 	}
 	/**
