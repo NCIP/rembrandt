@@ -450,6 +450,7 @@ private void createCloneOrProbeCriteriaObject(){
   */  
 private void createSNPCriteriaObject(){
    if(snpDomainMap.size()>0){
+     System.out.println("snpDomainMap.size():"+snpDomainMap.size());
      Set keys = snpDomainMap.keySet();
 	 Iterator iter = keys.iterator();
 	 while(iter.hasNext()){
@@ -459,7 +460,7 @@ private void createSNPCriteriaObject(){
 		   Constructor[] snpConstructors = Class.forName(className).getConstructors();
 		   String [] initargs = {key};
 		   SNPIdentifierDE snpIdentifierDE = (SNPIdentifierDE)snpConstructors[0].newInstance(initargs);
-		   snpCriteria.setSNPIdentifierDE(snpIdentifierDE);
+		   snpCriteria.setSNPIdentifier(snpIdentifierDE);
 		   }// end of try
 	   catch (Exception ex) {
 				System.out.println("Error in createSNPCriteriaObject() method : "+ex.getMessage());

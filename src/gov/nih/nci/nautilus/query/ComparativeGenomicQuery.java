@@ -168,15 +168,18 @@ public class ComparativeGenomicQuery extends Query {
 						
 			 // starting snpCriteria: 				
 		   SNPCriteria thisSNPCriteria = this.getSNPCriteria();		 
-		   if(!thisSNPCriteria.isEmpty() && labels != null){		
-		        String thisCriteria = thisSNPCriteria.getClass().getName();	
+		   if(!thisSNPCriteria.isEmpty() && labels != null){	
+		        String thisCriteria = thisSNPCriteria.getClass().getName();			
 				OutStr += "<BR><B>"+labels.getString(thisCriteria.substring(thisCriteria.lastIndexOf(".")+1))+ "</B>";
-			   	SNPIdentifierDE snpIdentifierDE = thisSNPCriteria.getSNPIdentifierDE();				
-				String snpIdStr = snpIdentifierDE.getClass().getName();
-				OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(snpIdStr.substring(snpIdStr.lastIndexOf(".")+1))+": "+snpIdentifierDE.getValue()+"";
-				  	   
-			    }
-			else{
+			    Collection cloneColl = thisSNPCriteria.getIdentifiers();
+			    Iterator iter = cloneColl.iterator();
+			    while(iter.hasNext()){
+				    SNPIdentifierDE snpIdentifierDE = (SNPIdentifierDE)iter.next();
+					String snpIdStr = snpIdentifierDE.getClass().getName();
+				    OutStr += "<BR>&nbsp;&nbsp;"+labels.getString(snpIdStr.substring(snpIdStr.lastIndexOf(".")+1))+": "+snpIdentifierDE.getValue()+"";
+					 }			   
+			    }	
+		      	else{
 			  System.out.println("SNP Criteria is empty or Application Resources file is missing.");
 			}// end of  cloneorProbeCriteria
 			
