@@ -13,13 +13,16 @@ import org.apache.struts.util.LabelValueBean;
 
 import java.util.*;
 import java.lang.reflect.*;
+import org.apache.log4j.Level;
 
 import gov.nih.nci.nautilus.criteria.*;
 import gov.nih.nci.nautilus.de.*;
+import gov.nih.nci.nautilus.util.Logging;
+import gov.nih.nci.nautilus.util.LogEntry;
 
-
+ 
   
-
+ 
 /** 
  * ClinicalDataForm.java created by EasyStruts - XsltGen.
  * http://easystruts.sf.net
@@ -161,6 +164,7 @@ public class ClinicalDataForm extends BaseForm {
 			  }		  
 		  	 }
 		  catch(NumberFormatException ex){
+		    
 		    ex.printStackTrace();
 		   }	 
 		 }  
@@ -708,6 +712,9 @@ public class ClinicalDataForm extends BaseForm {
 		
 	    // this is to check if radiation option is selected
 	    String thisRadiation = (String)thisRequest.getParameter("radiation");
+		
+		LogEntry logEntry = new LogEntry(Level.DEBUG,"thisRadiation is this is a test:"+thisRadiation);
+		Logging.add(logEntry);
 		
 		// this is to check the type of radiation
 		String thisRadiationType = (String)thisRequest.getParameter("radiationType");
