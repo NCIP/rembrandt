@@ -86,7 +86,7 @@ public class KMGraphGenerator {
           
 
         }else {
-            myActionErrors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord", geneSymbol));
+            myActionErrors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord", "Gene Symbol",geneSymbol));
         }
     }
     

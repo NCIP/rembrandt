@@ -59,7 +59,7 @@ public class KMDataSetHelper {
 			if (_plotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
 				reporters.add(0,NautilusConstants.GRAPH_DEFAULT);
 			}
-            if (_plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)){
+            if (_plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT) && reporters.size()>1){
                 reporters.add(0," ");
 
             }

@@ -102,19 +102,33 @@ public class QuickSearchAction extends DispatchAction {
             performKMCopyNumberQuery(quickSearchName, quickSearchType);
             //kmForm.setReporters(populateReporters());
             if(getKmResultsContainer() != null){
+                KMGraphGenerator generator = null;
+                if(quickSearchType.equals(NautilusConstants.GENE_SYMBOL)){                
                 String cytobandGeneSymbol = getKmResultsContainer().getCytobandDE().getValue().toString();
                 kmForm.setGeneOrCytoband(quickSearchName +"("+cytobandGeneSymbol+")");
                 KMSampleInfo[] kmSampleInfos = {new KMSampleInfo(0,0,0)};
-                KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
+                generator = new KMGraphGenerator(kmForm.getUpFold(),
                         kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
+                kmForm.setPlotVisible(false);
+                }
+                else if(quickSearchType.equals(NautilusConstants.SNP_PROBESET_ID)){                
+                    String cytobandGeneSymbol = quickSearchName;
+                    kmForm.setGeneOrCytoband(cytobandGeneSymbol);
+                    KMSampleInfo[] kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(quickSearchName);
+                    generator = new KMGraphGenerator(kmForm.getUpFold(),
+                            kmForm.getDownFold(), quickSearchName, kmSampleInfos, kmplotType);
+                    kmForm.setPlotVisible(true);
+                    }
             if (generator.getMyActionErrors().size() > 0) {
                 this.saveErrors(request, generator.getMyActionErrors());
                 return mapping.findForward("badgraph");
             }
+            
         		kmForm = KMDataSetHelper.populateKMDataSetForm(generator,kmplotType, kmForm);
         		kmForm = KMDataSetHelper.populateReporters(getKmResultsContainer().getAssociatedReporters(),kmplotType, kmForm);
-                kmForm.setPlotVisible(false);
+                
             return mapping.findForward("kmplot");
+            
             }      
         }
         ActionErrors errors = new ActionErrors();
@@ -123,7 +137,7 @@ public class QuickSearchAction extends DispatchAction {
                 ActionErrors.GLOBAL_ERROR,
                 new ActionError(
                         "gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
-                        quickSearchName));
+                        quickSearchType,quickSearchName));
         this.saveErrors(request, errors);
         return mapping.findForward("badgraph");
 	}
@@ -176,13 +190,16 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 		QuickSearchForm qsForm = (QuickSearchForm) form;
 		ActionErrors errors = new ActionErrors();
-		errors = UIFormValidator.validateGeneSymbol(qsForm, errors);
+        if(qsForm.getQuickSearchType() != null && qsForm.getQuickSearchType().equals(NautilusConstants.GENE_SYMBOL)){
+            errors = UIFormValidator.validateGeneSymbol(qsForm, errors);
+        }
 		if(errors.isEmpty()){
 		chartType = qsForm.getPlot();
 		
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
 			    logger.debug("user requested geneExp kapMai w/ genesymbol");
 				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+                request.setAttribute("quickSearchType",qsForm.getQuickSearchType());
 				request.setAttribute("plotType", NautilusConstants.GENE_EXP_KMPLOT);
 				return mapping.findForward("kmplot");
 			}if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {

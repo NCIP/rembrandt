@@ -29,7 +29,7 @@ public class UIFormValidator {
     public static ActionErrors validateGeneSymbolisNotEmpty(String geneSymbol,
 			ActionErrors errors) {
 	    
-	    if (geneSymbol == null || geneSymbol.equals("")) {
+	    if (geneSymbol == null || geneSymbol.equals("") ) {
 			errors
 					.add(
 							ActionErrors.GLOBAL_ERROR,
@@ -240,7 +240,7 @@ public class UIFormValidator {
 						ActionErrors.GLOBAL_ERROR,
 						new ActionError(
 								"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
-								gene));
+								"Gene Symbol", gene));
 			}
 		}
 	    //if gene Symbol can be found , execute query
