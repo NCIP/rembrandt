@@ -26,6 +26,7 @@ public class QuickSearchAction extends DispatchAction {
 	static Logger logger = Logger.getLogger(QuickSearchAction.class);
 	private KaplanMeierPlotContainer kmResultsContainer = null;
 	private String chartType;
+	private String geneSymbol;
 	/**
 	 * Method execute
 	 * 
@@ -48,11 +49,10 @@ public class QuickSearchAction extends DispatchAction {
 		if (generator.getErrors().size() > 0) {
 			this.saveErrors(request, generator.getErrors());
 			return mapping.findForward("badgraph");
-		} else {
-			generator.setRequestAttributes(request);
-			generator.setSessionAttributes(request.getSession(true));
-			return mapping.findForward("histogram");
 		}
+        generator.setRequestAttributes(request);
+        generator.setSessionAttributes(request.getSession(true));
+        return mapping.findForward("histogram");
 
 	}
 
@@ -72,11 +72,11 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 
 		KMDataSetForm kmForm = (KMDataSetForm) form;
-		kmForm.setGeneSymbol((String) request.getAttribute("geneSymbol"));
+		geneSymbol = (String)request.getAttribute("geneSymbol");
+		kmForm.setGeneSymbol(geneSymbol );
+		setKmResultsContainer(geneSymbol);
 		kmForm.setReporters(populateReporters());
-		KMPlotManager kmPlotManager = new KMPlotManager();
-		kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager.performKMGeneExpressionQuery((String) request.getAttribute("geneSymbol"));
-		KMSampleInfo[] kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+		KMSampleInfo[] kmSampleInfos = getKmResultsContainer().getSummaryKMPlotSamples();
 		KMGraphGenerator generator = new KMGraphGenerator(kmForm.getUpFold(),
 				kmForm.getDownFold(), (String) request
 						.getAttribute("geneSymbol"), kmSampleInfos);
@@ -95,7 +95,7 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KMSampleInfo[] kmSampleInfos = null;
-		if( kmResultsContainer != null && kmForm.getSelectedReporter() != null){
+		if( getKmResultsContainer() != null && kmForm.getSelectedReporter() != null){
 			if(kmForm.getSelectedReporter().equals(NautilusConstants.GRAPH_DEFAULT)){
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 			}
@@ -107,10 +107,9 @@ public class QuickSearchAction extends DispatchAction {
 			if (generator.getMyActionErrors().size() > 0) {
 				this.saveErrors(request, generator.getMyActionErrors());
 				return mapping.findForward("badgraph");
-			} else {
-				kmForm.setCensorDataset(generator.getCensorDataseries());
-				kmForm.setLineDataset(generator.getLineDataseries());
 			}
+            kmForm.setCensorDataset(generator.getCensorDataseries());
+            kmForm.setLineDataset(generator.getLineDataseries());
 			return mapping.findForward("kmplot");
 		}
 		return mapping.findForward("badgraph");
@@ -146,7 +145,7 @@ public class QuickSearchAction extends DispatchAction {
 	  }
 	private List populateReporters(){
 		List reporters = null;
-		if( kmResultsContainer != null){
+		if( getKmResultsContainer() != null){
 			reporters = kmResultsContainer.getAssociatedReporters();
 			if (chartType.equalsIgnoreCase("geneExpPlot")){
 				reporters.add(0,NautilusConstants.GRAPH_DEFAULT);
@@ -154,5 +153,20 @@ public class QuickSearchAction extends DispatchAction {
 		}
 		return reporters;
 	}
+    /**
+     * @return Returns the kmResultsContainer.
+     * @throws Exception
+     */
+    private void setKmResultsContainer(String geneSymbol) throws Exception {
+    		KMPlotManager kmPlotManager = new KMPlotManager();
+    		this.kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager.performKMGeneExpressionQuery(geneSymbol);
+    }
+
+    /**
+     * @return Returns the kmResultsContainer.
+     */
+    public KaplanMeierPlotContainer getKmResultsContainer() {
+        return this.kmResultsContainer;
+    }
 }
 

@@ -125,7 +125,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	    if(!samples.isEmpty()){
 	    	Iterator sampleIterator = samples.iterator();	    	
 	    	SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
-	    	reporterNames = (List) sample.getReporterNames();
+            reporterNames = sample.getReporterNames();
 	    }
 	    return reporterNames;
 	}

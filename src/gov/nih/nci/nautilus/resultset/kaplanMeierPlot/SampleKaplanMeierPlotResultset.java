@@ -54,9 +54,11 @@ import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 import gov.nih.nci.nautilus.resultset.sample.BioSpecimenResultset;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -180,8 +182,11 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	/**
 	 * @return Returns the reporter Names.
 	 */
-	public Collection getReporterNames() {
-		return reporters.keySet();
+	public List getReporterNames() {
+        List reporterNames = new ArrayList();
+        Collection reporterList = reporters.keySet();
+        reporterNames.addAll(reporterList);
+		return reporterNames;
 	}
 	/**
 	 * @param reporters The reporters to set.
