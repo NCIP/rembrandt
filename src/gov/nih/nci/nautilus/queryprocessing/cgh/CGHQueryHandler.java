@@ -77,7 +77,7 @@ public class CGHQueryHandler extends QueryHandler {
         pb.close();
         ThreadController.sleepOnEvents(eventList);
 
-        return new FactHandler.SingleFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery);
+        return new FactCriteriaHandler.SingleFactCriteriaHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery);
 
     }
 

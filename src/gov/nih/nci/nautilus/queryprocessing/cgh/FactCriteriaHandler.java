@@ -34,8 +34,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
  * Time: 3:58:42 PM
  * To change this template use File | Settings | File Templates.
  */
-abstract public class FactHandler {
-    private static Logger logger = Logger.getLogger(FactHandler.class);
+abstract public class FactCriteriaHandler {
+    private static Logger logger = Logger.getLogger(FactCriteriaHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
     private final static int VALUES_PER_THREAD = 100;
@@ -57,7 +57,7 @@ abstract public class FactHandler {
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria IDs = new Criteria();
                 IDs.addIn(snpOrCGHAttr, values);
-                String threadID = "FactHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
+                String threadID = "FactCriteriaHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
 
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
@@ -103,7 +103,7 @@ abstract public class FactHandler {
                 final Criteria annotCrit = new Criteria();
                 annotCrit.addIn(GeneLlAccSnp.SNP_PROBESET_ID, values);
                 long time = System.currentTimeMillis();
-                String threadID = "FactHandler.ThreadID:" + time;
+                String threadID = "FactCriteriaHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
                 annotationEventList.add(dbEvent);
                 new Thread(
@@ -134,7 +134,7 @@ abstract public class FactHandler {
                ).start();
             }
     }
-    final static class SingleFactHandler extends FactHandler {
+    final static class SingleFactCriteriaHandler extends FactCriteriaHandler {
         ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
         throws Exception {
             logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
