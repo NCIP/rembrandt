@@ -17,7 +17,7 @@
 	<title><tiles:getAsString name="title"/></title>
 	<tiles:insert attribute="htmlHead"/> <%-- include html head --%>
 </head>
-<body onload="document.forms[0].queryName.focus();">
+<body onload="javascript:checkForm();">
     <tiles:insert attribute="overlib"/> <%-- include div for overlib --%>
     <tiles:insert attribute="header"/> <%-- include header --%>
 	

@@ -53,7 +53,7 @@ public class GeneExpressionQuery extends Query {
 
 		ResourceBundle labels = null;
 		String OutStr = "<B>Gene Expression Query</B>";
-		OutStr += "<BR><B class='otherBold'>Query Name:</b>" + this.getQueryName();
+		OutStr += "<BR><B class='otherBold'>Query Name: </b>" + this.getQueryName();
 
 
 	try {
@@ -190,7 +190,7 @@ public class GeneExpressionQuery extends Query {
 			while(iter.hasNext()){
 			  PathwayDE  pathwayDE = (PathwayDE)iter.next();
 			  String pathwayStr = pathwayDE.getClass().getName();		      
-		      OutStr += "<BR>"+labels.getString(pathwayStr.substring(pathwayStr.lastIndexOf(".")+1))+": "+pathwayDE.getValue()+"";
+		      OutStr += "<BR><B class='otherBold'>"+labels.getString(pathwayStr.substring(pathwayStr.lastIndexOf(".")+1))+":</b><br />"+pathwayDE.getValue()+"";
 		       }	 	   
 		   }
 		else{

@@ -54,7 +54,7 @@ public class ClinicalDataQuery extends Query {
 
 		ResourceBundle labels = null;
 		String OutStr = "<B>Clinical Data Query</B>";
-		OutStr += "<BR><B class='otherBold'>Query Name:</b>" + this.getQueryName();
+		OutStr += "<BR><B class='otherBold'>Query Name: </b>" + this.getQueryName();
 
 
 	try {

@@ -54,7 +54,7 @@ public class ComparativeGenomicQuery extends Query {
 
 		ResourceBundle labels = null;
 		String OutStr = "<B>Comparative Genomic Query</B>";
-		OutStr += "<BR><B class='otherBold'>Query Name:</b>" + this.getQueryName();
+		OutStr += "<BR><B class='otherBold'>Query Name: </b>" + this.getQueryName();
 
 
 	try {

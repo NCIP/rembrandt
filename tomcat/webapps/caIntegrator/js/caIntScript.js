@@ -4,6 +4,12 @@ function spawn(url,winw,winh) {
       ",scrollbars=yes,resizable=yes");
 } 
 
+function checkForm(){
+ if(document.forms[0].queryName != null){
+ document.forms[0].queryName.focus();
+ }
+}
+
 function setQuery(txt)	{
 	document.forms[0].query.value = txt;
 }
