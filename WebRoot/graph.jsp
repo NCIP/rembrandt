@@ -12,6 +12,7 @@ long randomness = System.currentTimeMillis(); //prevent image caching
 				"onmouseover=\"return overlib('Click here for additional information about this report.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
 				"</a><br clear=\"all\">";
 %> 
+<div style="background:#ffffff;">
 <div>
 <%=helpLink%>?sect=gplot<%=helpLinkClose%>
 </div>
@@ -88,3 +89,4 @@ Legend: Abbreviations of Group Names
 <br>
 <a href="javascript:void(window.print())">[Print this graph]</a><Br><Br>
 <b>To save this image, right click and select "save image as..."</b><br><Br>
+</div>

@@ -18,8 +18,11 @@
     <tiles:insert attribute="header"/> <%-- include header --%>
 	<div class="content">
 		<tiles:insert attribute="crumbMenu"/>
-		<h3><tiles:getAsString name="title"/></h3>
-		<tiles:insert attribute="mainForm"/>
+		<tiles:insert attribute="tabs"/>
+		<div id="main" style="padding-left:5px;padding-right:5px;padding-bottom:5px">
+			<h3><tiles:getAsString name="title"/></h3>
+			<tiles:insert attribute="mainForm"/>
+		</div>
 	</div>
     <tiles:insert attribute="footer"/> <%-- include footer --%>
 </body>

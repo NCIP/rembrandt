@@ -9,14 +9,18 @@
 							"<li><a href=\"menu.do\">Build Query</a></li>\n" +
 							"<li><a href=\"refinecheck.do\">Refine Query</a></li>\n" +
 							"</ul>\n";
-		
+							
+	String simpleSecondary = "<ul id=\"secondary\">\n" +
+							"<li><a href=\"home.do\">Gene Search Home</a></li>\n" +
+							"</ul>\n";
+							
 	String s = (String) request.getParameter("s");
 	if(s != null)	{
 		int sect = Integer.parseInt(s);	
 		switch(sect)	{
 			case 1:
 				//1 is simple search
-				simple = "<span>Simple Search</span>";
+				simple = "<span>Simple Search</span>\n" + simpleSecondary;
 				adv = "<a href=\"homeAdvanced.do\">Advanced Search</a>";
 				viewResults = "<a href=\"#\">View Results&nbsp;&nbsp;</a>";
 				break;
@@ -33,7 +37,7 @@
 				viewResults = "<span>View Results&nbsp;&nbsp;</span>";
 				break;
 			default:
-				simple = "<span>Simple Search</span>";
+				simple = "<span>Simple Search</span>\n" + simpleSecondary;
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a href=\"#\">View Results&nbsp;&nbsp;</a>";
 				break;

@@ -117,6 +117,7 @@
 		<put name="footer" value="/jsp/footer.jsp" />
 	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
 		<!--  form specific criteria  -->
+		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=1" />
 		<put name="mainForm" value="" />		<!-- main form page, read from props file -->
     </definition>
     
