@@ -17,7 +17,7 @@ import gov.nih.nci.nautilus.de.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: BhattarR
+ * User: BhattarR 
  * Date: Aug 12, 2004
  * Time: 6:46:14 PM
  * To change this template use Options | File Templates.
@@ -176,7 +176,25 @@ public class GeneExpressionQuery extends Query {
 	      System.out.println("GeneOntolgoy Criteria is empty or Application Resources file is missing.");
 	       }// end of GeneOntologyCriteria
 
-
+		   
+		   // starting PathwayCriteria
+		PathwayCriteria thisPathwayCriteria = this.getPathwayCriteria();
+	
+		if ((thisPathwayCriteria != null) && !thisPathwayCriteria.isEmpty() && labels != null) { 
+		    Collection pathwayColl = thisPathwayCriteria.getPathwayNames();
+			Iterator iter = pathwayColl.iterator();
+			while(iter.hasNext()){
+			  PathwayDE  pathwayDE = (PathwayDE)iter.next();
+			  String pathwayStr = pathwayDE.getClass().getName();		      
+		      OutStr += "<BR>"+labels.getString(pathwayStr.substring(pathwayStr.lastIndexOf(".")+1))+": "+pathwayDE.getValue()+"";
+		       }	 	   
+		   }
+		else{
+		   System.out.println("PathwayCriteria is empty or Application Resources file is missing");
+		  
+         }
+		 
+		
       /* TODO: Prashant Can you please fix this commented code.  I have changed the
         PathwayCriteria class definition So the below code needs to be readjusted
         */

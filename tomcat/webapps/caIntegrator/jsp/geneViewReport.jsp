@@ -53,7 +53,7 @@ System.out.println("Here WE Go");
 
 		// get the ResultSet[] from the session
         geneExprObjects = ( ResultSet[] ) (session.getAttribute(Constants.RESULTSET_KEY));
-System.out.println("geneExprObjects"+geneExprObjects.length);
+//System.out.println("geneExprObjects"+geneExprObjects.length);
 //see if theres at least on RS in the array and the RS exists
 if(geneExprObjects != null && geneExprObjects.length > 0) {      
 		%>

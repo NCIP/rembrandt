@@ -457,6 +457,7 @@ public class GeneExpressionForm extends BaseForm {
 
 			try {
 				String strPathwayDomainClass = (String) pathwayDomainMap.get(key);
+				System.out.println("strPathwayDomainClass is for pathway:"+strPathwayDomainClass+strPathwayDomainClass.length());
 				Constructor [] pathwayConstructors = Class.forName(strPathwayDomainClass).getConstructors();
 				Object [] parameterObjects = {key};
 
@@ -894,11 +895,15 @@ public class GeneExpressionForm extends BaseForm {
 	 * @param pathways The pathways to set
 	 */
 	public void setPathways(String pathways) {
-		this.pathways = pathways;
-		String pathwaySelect = (String)thisRequest.getParameter("pathways");
-		if(pathwaySelect != null && !pathwaySelect.equals("")){
-		   pathwayDomainMap.put(this.pathways, PathwayDE.class.getName());
-		}
+	   System.out.println("pathways.length:"+pathways.length());
+	    if(pathways != null ){
+			this.pathways = pathways.trim();
+			System.out.println("pathways.length after:"+pathways.length());
+			String pathwaySelect = (String)thisRequest.getParameter("pathways");
+			if(pathwaySelect != null && !pathwaySelect.equals("")){
+			   pathwayDomainMap.put(this.pathways, PathwayDE.class.getName());
+			}
+	}
 	}
 
 	/**
@@ -1385,18 +1390,11 @@ public class GeneExpressionForm extends BaseForm {
    }	
 
    
- public String[] getPathwayName  (){ 
- //  System.out.println( "88888888 after:"+ pathwayName.length);   
+ public String[] getPathwayName  (){   
    return pathwayName;
    }   
  public void setPathwayName (String[] pathwayName){ 
-  this.pathwayName = pathwayName;
-  for(int i=0; i<pathwayName.length;i++){
-      System.out.println("pathwayName:"+pathwayName[i]);
-      } 
-  System.out.println( "88888888:"+ pathwayName.length);
-   }  
-   
-   
+  this.pathwayName = pathwayName; 
+   }    
 
 }
