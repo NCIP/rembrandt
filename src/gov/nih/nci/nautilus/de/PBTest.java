@@ -228,7 +228,7 @@ public class PBTest extends TestCase {
 		   
 			PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();						
 			QueryByCriteria q = (QueryByCriteria) QueryFactory.newQuery(
-					SNPIdentifierDE$SBSNP.class, new Criteria(), true);			    			
+					SNPIdentifierDE$DBSNP.class, new Criteria(), true);			    			
 			Collection sNPProbeSet = pb.getCollectionByQuery(q);
 			System.err.println("Got " + sNPProbeSet.size() + " sNPProbeSet objects.");
 		} catch (Exception ex) {
