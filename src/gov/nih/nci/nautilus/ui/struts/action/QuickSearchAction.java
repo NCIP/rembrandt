@@ -78,6 +78,9 @@ public class QuickSearchAction extends DispatchAction {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
         quickSearchName = (String)request.getAttribute("quickSearchName");	
         quickSearchType = (String)request.getAttribute("quickSearchType");
+        if(quickSearchType == null){
+            quickSearchType = NautilusConstants.GENE_SYMBOL;
+        }
 		kmplotType = (String)request.getAttribute("plotType");
 
         if(kmplotType.equals(NautilusConstants.GENE_EXP_KMPLOT)){
@@ -200,7 +203,7 @@ public class QuickSearchAction extends DispatchAction {
 			    logger.debug("user requested geneExp kapMai w/ genesymbol");
 				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
                 request.setAttribute("quickSearchType",qsForm.getQuickSearchType());
-				request.setAttribute("plotType", NautilusConstants.GENE_EXP_KMPLOT);
+                request.setAttribute("plotType", NautilusConstants.GENE_EXP_KMPLOT);
 				return mapping.findForward("kmplot");
 			}if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
 			    logger.debug("user rquested SNP kapMaiPlotCN");
