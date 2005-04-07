@@ -290,7 +290,7 @@ public class ReportGeneratorForm extends BaseForm {
 	 * @param allowShowAllValues The allowShowAllValues to set.
 	 */
 	public void setAllowShowAllValues(String allowShowAllValues) {
-		filterParams.put("allowShowAllValues",filter_type);
+		filterParams.put("allowShowAllValues",allowShowAllValues);
 		this.allowShowAllValues = allowShowAllValues;
 	}
 	
