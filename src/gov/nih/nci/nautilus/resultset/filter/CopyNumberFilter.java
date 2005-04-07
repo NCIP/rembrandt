@@ -61,7 +61,7 @@ public class CopyNumberFilter {
 
 	private static boolean processCopyNumberFilterPerSample(
 			SampleResultset sampleResultset, List reporterNames, Integer noOfConsectiveCalls, Integer percentCall,OperatorType operator ) {
-		int totalCalls = 0;
+		float totalCalls = 0;
 		int consectiveCalls = 0;
 		boolean isConsectiveCall = false;
 		boolean isPercentCall = false;
@@ -101,8 +101,8 @@ public class CopyNumberFilter {
 					}
 				}
 			}
-			int percent = (totalCalls/reporterNames.size()) * 100;
-			if(percent >= percentCall.intValue()){
+			float percent = (totalCalls/reporterNames.size()) * 100;
+			if(percentCall.intValue() > 0 && percent >= percentCall.intValue()){
 				isPercentCall = true;
 			}
 		}
