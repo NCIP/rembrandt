@@ -1,6 +1,8 @@
 package gov.nih.nci.nautilus.ui.bean;
 
+import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
+import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.Resultant;
 
 import java.io.Serializable;
@@ -120,5 +122,17 @@ public class ReportBean implements Serializable{
 	}
 	public boolean getIsSampleSetQuery() {
 	    return this.isSampleSetQuery;
+	}
+	public boolean isAllGenesQuery(){
+	boolean isAllGenesQuery = false;	
+	
+		if(getResultant() != null){
+			Queriable queriable = getResultant().getAssociatedQuery();
+			if (queriable != null && queriable instanceof CompoundQuery) {
+				CompoundQuery cQuery = (CompoundQuery)queriable;
+				isAllGenesQuery = cQuery.isAllGenesQuery();
+			}
+		}
+	return isAllGenesQuery;
 	}
 }

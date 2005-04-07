@@ -57,6 +57,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -411,5 +413,35 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 			myClone.operatorType = (OperatorType) operatorType.clone();
 		}
 		return myClone;
+	}
+	/**
+	 * This method will return the if the compoundQuery contains an all all genes querries.
+	 * It iterates through the current list of queries and checks for
+	 * isAllGenesQuery(). There is no
+	 * setter for this property as it is only a subset of the current queries
+	 *  in the compound query.
+	 * 
+	 * @return -- a boolean ifl the All Genes Query is detected
+	 */
+	public boolean isAllGenesQuery() {
+		Query[] queries = getAssociatiedQueries();
+		if(queries != null){
+			for(int i = 0; i < queries.length; i++) {
+				
+				Query query = (Query)queries[i];
+				if(query instanceof ComparativeGenomicQuery) {
+					ComparativeGenomicQuery cgQuery = (ComparativeGenomicQuery)query;
+					if(cgQuery.isAllGenesQuery()) {
+						return true;
+					}
+				}else if(query instanceof GeneExpressionQuery) {
+					GeneExpressionQuery geQuery = (GeneExpressionQuery)query;
+					if(geQuery.isAllGenesQuery()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
