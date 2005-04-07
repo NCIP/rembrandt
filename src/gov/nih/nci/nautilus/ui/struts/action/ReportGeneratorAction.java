@@ -7,6 +7,7 @@ import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
+import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
@@ -18,6 +19,7 @@ import gov.nih.nci.nautilus.ui.struts.form.ReportGeneratorForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,6 +137,42 @@ public class ReportGeneratorAction extends DispatchAction {
     		if(reportBean.isAllGenesQuery()) {
     			rgForm.setAllowShowAllValues("false");
     		}
+    		
+    		/*
+    		 *	put the textual description of the compound query into the report. 
+    		 *
+    		 * 	this is a complete hack and should be revisited as soon as we re-do the 
+    		 *  toString() for each query - note the ugly HTML that does not belong here.
+    		 *  also, due to the stupidity of XSL, we need to replace certain chars:
+    		 *  such as <,  >, and & before sending it over.  we are then relying on 
+    		 *  trusty old javascript to convert back into HTML for presentation
+    		 * 
+    		 *  -RCL
+    		 */
+    		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getResultant().getAssociatedQuery()));
+    		StringBuffer sb = new StringBuffer();
+    		if(compoundQuery != null) {			
+    			String theQuery  =  compoundQuery.toString();
+    	 		sb.append("<br><a name=\'queryInfo\'></a>Query: "+theQuery);
+    	 		sb.append("<table>");
+    	 		sb.append("<tr>");
+    	 		Query[] queries = compoundQuery.getAssociatiedQueries();
+    	 		for(int i = 0; i<queries.length; i++){
+    	 			sb.append("<td>");
+    	 			sb.append(queries[i]);
+    	 			sb.append("</td>");
+    	 		}
+    	 		sb.append("</tr>");
+    	 		sb.append("</table>");
+    		}
+    		
+    		String noHTMLString = sb.toString();
+    		//noHTMLString = noHTMLString.replaceAll("\\<.*?\\>","");
+    		noHTMLString = noHTMLString.replaceAll("<", "{");
+    		noHTMLString = noHTMLString.replaceAll(">", "}");
+    		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
+    		rgForm.setQueryDetails(noHTMLString);
+    		
 	    	//add the Filter Parameters from the form to the forwarding request
 	    	request.setAttribute(NautilusConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
 	    	//put the report xml in the request

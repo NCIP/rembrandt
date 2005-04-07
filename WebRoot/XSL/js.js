@@ -235,3 +235,9 @@ function checkForBack()	{
 		document.write("<a style=\"margin-left:10px\" href=\"#\" onclick=\"javascript:history.back();\">[Back]</a>");
 	}	
 }
+
+function goQueryDetails(str)	{
+	var newstr;
+	newstr = str.replace(/\{/g, "<").replace(/\}/g, ">");
+	document.write(newstr);
+}

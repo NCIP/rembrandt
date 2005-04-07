@@ -14,8 +14,8 @@
 
 <xsl:param name="showSampleSelect"></xsl:param>
 
-<xsl:param name="showAllValues">true</xsl:param>
-
+<xsl:param name="allowShowAllValues">true</xsl:param>
+<xsl:param name="queryDetails">N/A</xsl:param>
 <xsl:template match="/">
 
 
@@ -203,7 +203,7 @@
 	  </div>
 	 </xsl:if>
 	 
-	 <xsl:if test="$showAllValues != 'false'"> 
+	 <xsl:if test="$allowShowAllValues != 'false'"> 
   	 <div class="filterForm">
 		<b><span class="lb">Show all Values:</span></b> 
 		<xsl:text>&#160;</xsl:text>
@@ -419,6 +419,11 @@
 		</xsl:for-each>
 	</form>
   	</table>
+  	<div>
+  	<script language="javascript">
+  		goQueryDetails("<xsl:copy-of select="$queryDetails" />");
+  	</script>
+  	</div>
   	</xsl:if><!-- no records -->
   	<xsl:if test="$recordCount = 0">
   		<h3 style="text-align:center; margin-top:200px;">There was an error generating your report.  Please try again later. <br/><a href="javascript:window.close()">Close</a></h3>
