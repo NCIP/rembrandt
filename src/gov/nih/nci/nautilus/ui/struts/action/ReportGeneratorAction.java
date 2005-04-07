@@ -22,7 +22,9 @@ import gov.nih.nci.nautilus.view.ViewType;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -247,7 +249,8 @@ public class ReportGeneratorAction extends DispatchAction {
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
 			
 			HashMap fpm = rgForm.getFilterParams();
-			fpm.put("statusMsg", "Samples Added");
+			String msg = ResourceBundle.getBundle(NautilusConstants.APPLICATION_RESOURCES, Locale.US).getString("add_samples_msg");
+			fpm.put("statusMsg", msg);
 			rgForm.setFilterParams(fpm);
 
        	}
