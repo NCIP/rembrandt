@@ -37,6 +37,8 @@ public class ReportGeneratorForm extends BaseForm {
     private String[] samples;
     
     private String showSampleSelect = "";
+    
+    private String allowShowAllValues = "true";
            
 	/**
 	 * 
@@ -275,5 +277,18 @@ public class ReportGeneratorForm extends BaseForm {
 	public void setFilter_type(String filter_type) {
 		filterParams.put("filter_type",filter_type);
 		this.filter_type = filter_type;
+	}
+	/**
+	 * @return Returns the allowShowAllValues.
+	 */
+	public String getAllowShowAllValues() {
+		return allowShowAllValues;
+	}
+	/**
+	 * @param allowShowAllValues The allowShowAllValues to set.
+	 */
+	public void setAllowShowAllValues(String allowShowAllValues) {
+		filterParams.put("allowShowAllValues",filter_type);
+		this.allowShowAllValues = allowShowAllValues;
 	}
 }

@@ -124,9 +124,17 @@ public class ReportGeneratorAction extends DispatchAction {
 	    		//If no filters specified then use the default XSLT
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,NautilusConstants.DEFAULT_XSLT_FILENAME);
 	    	}else {
-	    		//Apply any filters defined in the form
+	    		//Apply any XSL filters defined in the form
 	    		request.setAttribute(NautilusConstants.XSLT_FILE_NAME,rgForm.getXsltFileName());
 	    	}
+    		/*
+    		 * decide whether the XSL should allow an "Show All Values" button.
+    		 * At this time the AllGenedQuery has just too many values to return,
+    		 * especially for a CopyNumber AllGEnes query 
+    		 */
+    		if(reportBean.isAllGenesQuery()) {
+    			rgForm.setAllowShowAllValues("false");
+    		}
 	    	//add the Filter Parameters from the form to the forwarding request
 	    	request.setAttribute(NautilusConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
 	    	//put the report xml in the request
