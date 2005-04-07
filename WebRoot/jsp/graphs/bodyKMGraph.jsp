@@ -84,7 +84,7 @@
     <legend class="red">Statistical Report: </legend>
 <table class="graphTable" border="0" cellpadding="2" cellspacing="0">
     <logic:present name="kmDataSetForm" property="geneOrCytoband">
-    <tr><td colspan="2" id="reportBold">Gene: <bean:write name="kmDataSetForm" property="geneOrCytoband" /></td>
+    <tr><td colspan="2" id="reportBold"><bean:write name="kmDataSetForm" property="geneOrCytoband" /></td>
     </tr>
     </logic:present>
     <logic:present name="kmDataSetForm" property="selectedReporter">
