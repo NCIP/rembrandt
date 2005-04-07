@@ -99,7 +99,7 @@ String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 			out.println(genePlotHelp()); 
 		if(sect.equals("kmplot"))
 			out.println(kmPlotHelp());
-		if(sect.equals("clinical"))
+		if(sect.equals("clinical") || sect.equals("Clinical"))
 			out.println(clinicalHelp());
 		if(sect.equals("sample") || sect.equals("Gene Expression Sample"))
 			out.println(sampleHelp());
