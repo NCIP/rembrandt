@@ -80,7 +80,7 @@ import java.util.Iterator;
 public class ResultsetManager {
 	public static Resultant executeCompoundQuery(CompoundQuery queryToExecute)
 			throws Exception {
-		Resultant resultant = null;
+		Resultant resultant = new NullResultant();
 		if (queryToExecute != null) {
 			resultant = new Resultant();
 			Viewable associatedView = queryToExecute.getAssociatedView();
@@ -202,7 +202,7 @@ public class ResultsetManager {
 	
 	public static Resultant executeCompoundQuery(CompoundQuery queryToExecute, String[] sampleIDs)
 	throws Exception {
-		Resultant resultant = null;
+		Resultant resultant = new NullResultant();
 		if (queryToExecute != null && sampleIDs != null) {
 			ConstrainedQueryWithSamplesHandler sampleHandler = new ConstrainedQueryWithSamplesHandler();
 			SampleCriteria sampleCriteria = sampleHandler.createSampleCriteria(sampleIDs);
@@ -230,7 +230,7 @@ public class ResultsetManager {
         	
         
         }
-        return null;
+        return new NullResultant();
     }
 
 }
