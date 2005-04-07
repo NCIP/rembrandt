@@ -39,6 +39,8 @@ public class ReportGeneratorForm extends BaseForm {
     private String showSampleSelect = "";
     
     private String allowShowAllValues = "true";
+    
+    private String queryDetails = "";
            
 	/**
 	 * 
@@ -290,5 +292,13 @@ public class ReportGeneratorForm extends BaseForm {
 	public void setAllowShowAllValues(String allowShowAllValues) {
 		filterParams.put("allowShowAllValues",filter_type);
 		this.allowShowAllValues = allowShowAllValues;
+	}
+	
+	public String getQueryDetails() {
+		return queryDetails;
+	}
+	public void setQueryDetails(String queryDetails) {
+		filterParams.put("queryDetails",queryDetails);
+		this.queryDetails = queryDetails;
 	}
 }
