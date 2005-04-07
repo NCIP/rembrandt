@@ -69,8 +69,15 @@ function stupidXSL(i, cPage, total)	{
 	function saveSamples()	{
 		document.prbSamples.prbQueryName.value = document.getElementById('tmp_prb_queryName').value;
 		var can_continue = false;
-		for (i = 0; i < document.prbSamples.samples.length; i++)	{
-			if(document.prbSamples.samples[i].checked == true)
+		
+		if(document.prbSamples.samples.length > 1)	{
+			for (i = 0; i < document.prbSamples.samples.length; i++)	{
+				if(document.prbSamples.samples[i].checked == true)
+					can_continue = true;
+			}
+		}
+		else	{
+			if(document.prbSamples.samples.checked == true)
 				can_continue = true;
 		}
 		if(can_continue)	{

@@ -263,7 +263,7 @@ public class ReportGeneratorAction extends DispatchAction {
 			String reportView = (String)rgForm.getReportView();
 			if(reportView != null)	{
 				if(reportView.equals("G"))
-					cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+					cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 				else if(reportView.equals("C"))
 					cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
 				else
