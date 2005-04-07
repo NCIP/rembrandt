@@ -77,6 +77,9 @@ public class QuickSearchAction extends DispatchAction {
 
 		KMDataSetForm kmForm = (KMDataSetForm) form;
         quickSearchName = (String)request.getAttribute("quickSearchName");	
+        if(quickSearchName != null){
+        	quickSearchName = quickSearchName.toUpperCase();
+        }
         quickSearchType = (String)request.getAttribute("quickSearchType");
         if(quickSearchType == null){
             quickSearchType = NautilusConstants.GENE_SYMBOL;
