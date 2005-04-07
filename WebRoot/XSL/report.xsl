@@ -16,6 +16,8 @@
 
 <xsl:param name="allowShowAllValues">true</xsl:param>
 <xsl:param name="queryDetails">N/A</xsl:param>
+<xsl:param name="statusMsg"></xsl:param>
+
 <xsl:template match="/">
 
 
@@ -37,6 +39,7 @@
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
   <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
+ 	<p align="center" style="background:red; color:#ffffff; font-size:12px;"><xsl:value-of select="$statusMsg" /></p>
  
    <xsl:for-each select="Report">
     
@@ -93,6 +96,7 @@
 		</b>
 		
  	</div>
+ 	
  	<div id="hideme">
 	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
  

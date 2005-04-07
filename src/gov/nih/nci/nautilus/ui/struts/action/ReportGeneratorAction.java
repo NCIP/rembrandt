@@ -234,6 +234,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		//get this list of sample ids
 		String[] sampleIds = rgForm.getSamples();
 		String sessionId = request.getSession().getId();
+		
 		//get the old 
 		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
 		if(cquery!=null) {
@@ -244,6 +245,11 @@ public class ReportGeneratorAction extends DispatchAction {
 			//store the name of the query in the form so that we can later pull it out of cache
 			ReportBean reportBean = rgHelper.getReportBean();
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
+			
+			HashMap fpm = rgForm.getFilterParams();
+			fpm.put("statusMsg", "Samples Added");
+			rgForm.setFilterParams(fpm);
+
        	}
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
