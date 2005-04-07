@@ -121,7 +121,7 @@ public class GeneExprResultsContainer implements ResultsContainer{
     	if(geneSymbol != null){
 			return (GeneResultset) genes.get(geneSymbol);
 		}
-    		return null;
+        return (GeneResultset) genes.get(NO_GENE_SYMBOL);
     }
     /**
      * @param geneSymbol
