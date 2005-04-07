@@ -260,7 +260,19 @@ public class ReportGeneratorAction extends DispatchAction {
 		//get the old 
 		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
 		if(cquery!=null) {
-			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+			String reportView = (String)rgForm.getReportView();
+			if(reportView != null)	{
+				if(reportView.equals("G"))
+					cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+				else if(reportView.equals("C"))
+					cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+				else
+					cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+			}
+			else	{
+				//clinical by default since thats universal for all query types
+				cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));				
+			}
 			//This will generate the report and store it in the cache
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, rgForm.getFilterParams() );
 			//store the name of the query in the form so that we can later pull it out of cache
