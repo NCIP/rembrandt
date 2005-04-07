@@ -39,7 +39,7 @@
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
   <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
- 	<p align="center" style="background:red; color:#ffffff; font-size:12px;"><xsl:value-of select="$statusMsg" /></p>
+  <p align="center" style="background:red; color:#ffffff; font-size:12px; font-weight:bold;"><xsl:value-of select="$statusMsg" /></p>
  
    <xsl:for-each select="Report">
     
