@@ -19,8 +19,6 @@ import gov.nih.nci.nautilus.ui.struts.form.ReportGeneratorForm;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
-import java.net.URLEncoder;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -84,7 +82,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		//get the old resultant
     		Resultant resultant = reportBean.getResultant();
     		//get the old query
-    		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getResultant().getAssociatedQuery()));
+    		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		//Mark this as a filter report
     		String queryName = cQuery.getQueryName();
     		//don't mark it again as a filter report if it is already a filter 
@@ -151,7 +149,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		 * 
     		 *  -RCL
     		 */
-    		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getResultant().getAssociatedQuery()));
+    		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		StringBuffer sb = new StringBuffer();
     		if(compoundQuery != null) {			
     			String theQuery  =  compoundQuery.toString();
@@ -182,7 +180,7 @@ public class ReportGeneratorAction extends DispatchAction {
     	}else {
     		//Throw an exception because you should never call this action method
     		//unless you have already generated the report and stored it in the cache
-    		logger.error( new IllegalStateException("Can not find the desired report in cache"));
+    		logger.error( new IllegalStateException("Missing ReportBean for: "+rgForm.getQueryName()));
     	}
     	//Go to the geneViewReport.jsp to render the report
     	return mapping.findForward("runGeneViewReport");
