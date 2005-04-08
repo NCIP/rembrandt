@@ -2,7 +2,6 @@ package gov.nih.nci.nautilus.ui.bean;
 
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
-import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.Resultant;
 
 import java.io.Serializable;
@@ -18,10 +17,15 @@ import org.dom4j.Document;
  * This class is intended to be passed the report.jsp where
  * the attributes will be used to render the final report.
  * 
+ * IMPORTANT!
+ * Any operations on the stored Resultant should check to 
+ * make sure that it is not of class NullResultant
+ * 
  * @author BauerD
  * Feb 8, 2005
  */
 public class ReportBean implements Serializable{
+	private Queriable associatedQuery;
 	private Resultant resultant;
     private String resultantCacheKey;
     private String encodedResultantCacheKey;
@@ -75,7 +79,7 @@ public class ReportBean implements Serializable{
 	}
 	public void setBeanText(Resultant resultant){
 	    Resultant myResultant = resultant;
-	    this.beanText = ((String) myResultant.getAssociatedQuery().toString());
+	   
 	}
 	public String getBeanText(){
 	    return this.beanText;
@@ -125,14 +129,27 @@ public class ReportBean implements Serializable{
 	}
 	public boolean isAllGenesQuery(){
 	boolean isAllGenesQuery = false;	
-	
-		if(getResultant() != null){
-			Queriable queriable = getResultant().getAssociatedQuery();
-			if (queriable != null && queriable instanceof CompoundQuery) {
-				CompoundQuery cQuery = (CompoundQuery)queriable;
+		if(associatedQuery != null){
+			if (associatedQuery != null && associatedQuery instanceof CompoundQuery) {
+				CompoundQuery cQuery = (CompoundQuery)associatedQuery;
 				isAllGenesQuery = cQuery.isAllGenesQuery();
 			}
 		}
 	return isAllGenesQuery;
+	}
+	/**
+	 * @return Returns the associatedQuery.
+	 */
+	public Queriable getAssociatedQuery() {
+		return associatedQuery;
+	}
+	/**
+	 * @param associatedQuery The associatedQuery to set.
+	 */
+	public void setAssociatedQuery(Queriable associatedQuery) {
+		this.associatedQuery = associatedQuery;
+		 if(associatedQuery!=null) {
+	    	this.beanText = ((String) associatedQuery.toString());
+	    }
 	}
 }

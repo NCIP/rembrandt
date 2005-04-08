@@ -71,4 +71,6 @@ public final class NautilusConstants {
     public static final String ALL_GENES_COPY_NUMBER_REGULATION = "10";
     
     public static final String ALL_GENES_GENE_EXP_REGULATION = "4";
+    //The maximum number of samples that can be applied to All Gene Reports
+	public static final int MAX_ALL_GENE_SAMPLE_SET = 20;
 }

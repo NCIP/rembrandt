@@ -24,7 +24,6 @@ import gov.nih.nci.nautilus.util.ApplicationContext;
 import gov.nih.nci.nautilus.util.MoreStringUtils;
 import gov.nih.nci.nautilus.view.View;
 import gov.nih.nci.nautilus.view.Viewable;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -37,11 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
-
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
-
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
@@ -88,64 +85,82 @@ public class ReportGeneratorHelper {
 		
 	}
 	/**
-	 * NEED TO EDIT THESE COMMENTS
-	 * This constructor is intended to be used by the UI when it would like to
-	 * perform a Report that would be a "Show All Values" report.  This means
-	 * that there must be a previous query that has been executed and stored in
-	 * the cache that we can retrieve.  The ReportBean given should be the bean
-	 * for the report that was generated and the user selected to see all values.
+	 * This constructor is intended to be used by the UI when it needs to apply
+	 * a filter on a previously run report that requires the regeneration of the
+	 * report XML.  At this time it is only a "Show All Values" and "Copy Number
+	 * Filter" report.
 	 * 
-	 * @param reportBean --this should be the ReportBean for the report that the 
-	 * user would like to get all the missing values for
-	 * @param filterParams -- this is all the filterParam values associated with 
-	 * report view that the user desires
+	 * This means that there must be a previous query that has been executed and
+	 * stored in the cache that can retrieveed.  The ReportBean given should be
+	 * the bean for the report that was previously generated and the user would
+	 * like to filter.
+	 * 
+	 * @param reportBean
+	 * @param filterParams -- this is all the XML filterParam values 
 	 */	
-	public ReportGeneratorHelper(ReportBean reportBean, Map filterParams) {
-		Resultant oldResultant = reportBean.getResultant();
+	 public ReportGeneratorHelper(ReportBean reportBean, Map filterParams) {
+		logger.debug("Calling ReportGeneratorHelper to filter resultant");
+	 	Resultant oldResultant = reportBean.getResultant();
 		Resultant newResultant;
 		//Get the sessionId and name for this resultant, this works because,
 		//at the present time there is only one type of query that is ever
 		//run, and that is a CompoundQuery if that changes than it will be
 		//necesary to modify the code here and many other places
-		String sessionId = ((CompoundQuery)(oldResultant.getAssociatedQuery())).getSessionId();
-		String oldQueryName = ((CompoundQuery)(oldResultant.getAssociatedQuery())).getQueryName();
+		String sessionId = ((CompoundQuery)(reportBean.getAssociatedQuery())).getSessionId();
+		String oldQueryName = ((CompoundQuery)(reportBean.getAssociatedQuery())).getQueryName();
 		String newQueryName = "";
 		String filter_element = (String)filterParams.get("filter_element");
 		try {
-		if("copy_number".equals(filter_element)) {
-			//execute copy number filter query
-			OperatorType operator = (OperatorType)filterParams.get("filter_value4");
-			Integer consecutiveCalls = (Integer)filterParams.get("filter_value5");
-			Integer percentCalls = (Integer)filterParams.get("filter_value6");
-			newResultant = ResultsetManager.filterCopyNumber(oldResultant,consecutiveCalls,percentCalls,operator);
-			newQueryName = oldQueryName;
-		}else {
+			//Apply the copy_number filter
+			if("copy_number".equals(filter_element)) {
+				logger.debug("Performing CopyNumber filter");
+				//execute copy number filter query
+				OperatorType operator = (OperatorType)filterParams.get("filter_value4");
+				Integer consecutiveCalls = (Integer)filterParams.get("filter_value5");
+				Integer percentCalls = (Integer)filterParams.get("filter_value6");
+				logger.debug("Old QueryName: "+oldQueryName);
+				newResultant = ResultsetManager.filterCopyNumber(oldResultant,consecutiveCalls,percentCalls,operator);
+				newQueryName = nameFilterQuery(oldQueryName, NautilusConstants.FILTER_REPORT_SUFFIX);
+				logger.debug("New QueryName: "+newQueryName);
+			}else {
+				logger.debug("Performing a Show All Values Query");
+				/*
+				 * This is a hack...  we need to make sure that this isn't
+				 * something other than a show all values query
+				 */
+				logger.debug("Old QueryName: "+oldQueryName);
+				newResultant = ResultsetManager.executeShowAllQuery(oldResultant);
+				newQueryName = nameFilterQuery(oldQueryName, NautilusConstants.SHOW_ALL_VALUES_SUFFIX);
+				logger.debug("New QueryName: "+newQueryName);
+			}
 			/*
-			 * This is a hack...  we need to make sure that this isn't
-			 * something other than a show all values query
+			 * We have to rename the resultant using the new query name with the
+			 * added suffix
 			 */
-			newResultant = ResultsetManager.executeShowAllQuery(oldResultant);
-			newQueryName = oldQueryName+ NautilusConstants.SHOW_ALL_VALUES_SUFFIX;
-		}
-		/*
-		 * At present the executeShowAllQuery(Resultant) method does not 
-		 * pass through the sessionId or the queryName, in the associated
-		 * Query in the showAllResults. So it is necesary to get the query
-		 * and set the sessionId and the queryName.  
-		 */
-			CompoundQuery newQuery = (CompoundQuery)newResultant.getAssociatedQuery();
+			if(newResultant!=null) {
+				logger.debug("Setting newQueryName in resultant's associated query");
+				newResultant.getAssociatedQuery().setQueryName(newQueryName);
+			}
+			/*
+			 * At present the executeShowAllQuery(Resultant) method does not 
+			 * pass through the sessionId or the queryName, in the associated
+			 * Query in the showAllResults. So it is necesary to get the query
+			 * and set the sessionId and the queryName.  
+			 */
+			CompoundQuery query = (CompoundQuery)reportBean.getAssociatedQuery();
 			//check the associated query to make sure that it is a compound query
 			//also sets the _cQuery attribute
-			checkCompoundQuery(newQuery);
+		
+			checkCompoundQuery(query);
 			//check the sessionId that it isn't null or empty and set _sessionId in _cQuery
 			checkSessionId(sessionId);
 			//check that we have an old QueryName and set the class variable _queryName,
 			//adding that it is a all values report
 			checkQueryName( newQueryName);
-			//store the annotated query in the resultant
-			newResultant.setAssociatedQuery(_cQuery);
-			//create a new ReportBean
+//			create a new ReportBean
 			_reportBean = new ReportBean();
+			//store the annotated query in the reportBean
+			_reportBean.setAssociatedQuery(_cQuery);
 			//store the results into the report bean
 			_reportBean.setResultant(newResultant);
 			//store the cache key that can be used to retrieve this bean later
@@ -204,9 +219,14 @@ public class ReportGeneratorHelper {
 			logger.error("The ResultsetManager threw some exception");
 			logger.error(e);
 		}
+		/*
+		 * Make sure we got a result set back and then store all the information
+		 * in the bean.
+		 */
 		if(sampleIdResults!=null&&sampleIdResults.getResultsContainer()!=null) {
             sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());
-			//store the results into the report bean
+			//store the results and query into the report bean
+            _reportBean.setAssociatedQuery(sampleIdResults.getAssociatedQuery());
 			_reportBean.setResultant(sampleIdResults);
 		}else {
 			throw new IllegalStateException("ResultsetManager returned an empty resultant or threw an Exception");
@@ -222,6 +242,7 @@ public class ReportGeneratorHelper {
 	
 
 	/**
+	 * This constructor will generate a 
 	 * This constructor uses a TemplateMethod pattern to perform the following
 	 * tasks (They must happen in this order, though some may be omitted if the
 	 * use case does not require it): 
@@ -366,35 +387,50 @@ public class ReportGeneratorHelper {
 	 * found in _reportBean
 	 */
 	private void generateReportXML() throws IllegalStateException {
+		
 		/*
 		 * Get the correct report XML generator for the desired view
 		 * of the results.
 		 * 
 		 */
-		Document reportXML;
+		Document reportXML = null;
 		if (_reportBean != null) {
-			Resultant resultant = _reportBean.getResultant();
-			Viewable oldView = resultant.getAssociatedView();
-			Viewable newView = _cQuery.getAssociatedView();
-			Map filterParams = _reportBean.getFilterParams();
 			/*
-			 * Make sure that we change the view on the resultSet
-			 * if the user changes the desired view from already
-			 * stored view of the results
+			 * We need to check the resultant to make sure that
+			 * the database has actually return something for the associated
+			 * query or filter.
 			 */
-			if(!oldView.equals(newView)||_reportBean.getReportXML()==null) {
-				//we must generate a new XML document for the
-				//view they want
-				ReportGenerator reportGen = ReportGeneratorFactory
-						.getReportGenerator(newView);
-				resultant.setAssociatedView(newView);
-				reportXML = reportGen.getReportXML(resultant, filterParams);
-				
-			}else {
-				//Old view is the current view
-				reportXML = _reportBean.getReportXML();
+			Resultant resultant = _reportBean.getResultant();
+			if(resultant!=null) {
+				try {
+					Viewable oldView = resultant.getAssociatedView();
+					Viewable newView = _cQuery.getAssociatedView();
+					Map filterParams = _reportBean.getFilterParams();
+					/*
+					 * Make sure that we change the view on the resultSet
+					 * if the user changes the desired view from already
+					 * stored view of the results
+					 */
+					if(!oldView.equals(newView)||_reportBean.getReportXML()==null) {
+						//we must generate a new XML document for the
+						//view they want
+						logger.debug("Generating XML");
+						ReportGenerator reportGen = ReportGeneratorFactory
+								.getReportGenerator(newView);
+						resultant.setAssociatedView(newView);
+						reportXML = reportGen.getReportXML(resultant, filterParams);
+						logger.debug("Completed Generating XML");
+					}else {
+						//Old view is the current view
+						logger.debug("Fetching report XML from reportBean");
+						reportXML = _reportBean.getReportXML();
+					}
+				}catch(NullPointerException npe) {
+					logger.error("The resultant has a null value for something that was needed");
+					logger.error(npe);
+				}
 			}
-			
+				
 			//XML Report Logging
 			if(xmlLogging) {
 				try {
@@ -407,6 +443,8 @@ public class ReportGeneratorHelper {
 				}catch(IOException ioe) {
 					logger.error("There was an error writing the XML to log");
 					logger.error(ioe);
+				}catch(NullPointerException npe){
+					logger.debug("There is no XML to log!");
 				}
 			}
 			_reportBean.setReportXML(reportXML);
@@ -419,7 +457,8 @@ public class ReportGeneratorHelper {
 	}
 	/**
 	 * This executes the current Compound Query that is referenced in the _cQuery
-	 * class scope variable.
+	 * class scope variable.  Stores this _cQuery in the ReportBean as the
+	 * associatedQuery
 	 * @throws Exception
 	 */
 	private void executeQuery() throws Exception{
@@ -432,6 +471,7 @@ public class ReportGeneratorHelper {
 			 * be stored in the cache.
 			 */				
 			_reportBean = new ReportBean();
+			_reportBean.setAssociatedQuery(_cQuery);
 			_reportBean.setResultant(resultant);
 			//The cache key will always be the compound query name
 			_reportBean.setResultantCacheKey(_cQuery.getQueryName());
@@ -583,6 +623,21 @@ public class ReportGeneratorHelper {
 		}
 		return filterParams;
 		
+	}
+	/**
+	 * This will verify that the desired suffix is not already in the report
+	 * @param oldQueryName
+	 * @param suffix
+	 * @return
+	 */
+	private String nameFilterQuery(String oldQueryName, String suffix) {
+		String newQueryName;
+		if(oldQueryName.lastIndexOf(suffix)<0) {
+			newQueryName = oldQueryName + suffix;
+		}else {
+			newQueryName = oldQueryName;
+		}
+		return newQueryName;
 	}
 	
 

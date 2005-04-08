@@ -3,7 +3,6 @@ package gov.nih.nci.nautilus.cache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
-import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.report.SessionTempReportCounter;
@@ -273,7 +272,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 			if(element!=null) {
 				reportBean = (ReportBean)element.getValue();
 				//Check the reportBean for view incompatabilites
-				View cachedView = (View)reportBean.getResultant().getAssociatedView();
+				View cachedView = (View)reportBean.getAssociatedQuery().getAssociatedView();
 				//If the requested view is a Gene Group view and...
 				if(view.equals(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW))) {
 					//the cached view is not a Gene Group View
@@ -428,8 +427,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 		ReportBean bean = getReportBean(sessionId, queryName);
 		CompoundQuery compoundQuery = null;
 		if(bean!=null) {
-			Resultant resultant = bean.getResultant();
-			Queriable queriable = resultant.getAssociatedQuery();
+			Queriable queriable = bean.getAssociatedQuery();
 			if(queriable instanceof CompoundQuery) {
 				compoundQuery = (CompoundQuery)queriable;
 			}

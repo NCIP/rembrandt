@@ -115,7 +115,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 			thisForward = new ActionForward();
 			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
 		}else {
-			logger.debug("SessionQueryBag has no Compound queries to execute.  Please select a query to execute");
+			logger.error("SessionQueryBag has no Compound queries to execute");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
 			this.saveErrors(request, errors);
 			thisForward = mapping.findForward("failure");

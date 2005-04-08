@@ -9,7 +9,6 @@ import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.resultset.Resultant;
-import gov.nih.nci.nautilus.resultset.ResultsetManager;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper;
 import gov.nih.nci.nautilus.ui.struts.form.ClinicalDataForm;
@@ -93,12 +92,14 @@ public class ReportGeneratorAction extends DispatchAction {
     		}
     		//change the name of the associated query
     		cQuery.setQueryName(queryName);
-    		//set the modified query in to the resultant
-    		resultant.setAssociatedQuery(cQuery);
+    		
     		//Create a new bean to store the new resultant, name, param combination
     		ReportBean newReportBean = new ReportBean();
     		//set the retrieval key for the ReportBean
     		newReportBean.setResultantCacheKey(queryName);
+//    		set the modified query in to the resultant and the report bean
+    		resultant.setAssociatedQuery(cQuery);
+    		newReportBean.setAssociatedQuery(cQuery);
     		//add the resultant to the new bean
     		newReportBean.setResultant(resultant);
     		//put the new bean in cache
@@ -300,6 +301,12 @@ public class ReportGeneratorAction extends DispatchAction {
 		ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId, queryName);
 		if(reportBean!=null) {
 			//This will generate get a resultant and store it in the cache
+			/*
+			 * Dropped the sessionId into the reportBean associated query, because it was
+			 * getting missed some how
+			 * @todo must find this
+			 */
+			((CompoundQuery)(reportBean.getAssociatedQuery())).setSessionId(sessionId);
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, rgForm.getFilterParams());
 			//store the name of the query in the form so that we can later pull it out of cache
 			reportBean = rgHelper.getReportBean();

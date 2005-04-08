@@ -80,7 +80,7 @@ import java.util.Iterator;
 public class ResultsetManager {
 	public static Resultant executeCompoundQuery(CompoundQuery queryToExecute)
 			throws Exception {
-		Resultant resultant = new NullResultant();
+		Resultant resultant = null;
 		if (queryToExecute != null) {
 			resultant = new Resultant();
 			Viewable associatedView = queryToExecute.getAssociatedView();
@@ -140,6 +140,9 @@ public class ResultsetManager {
 				}
 			}
 		}
+		if(resultant.getResultsContainer()==null) {
+			resultant = null;
+		}
 		return resultant;
 	}
 
@@ -156,6 +159,9 @@ public class ResultsetManager {
 			resultant.setResultsContainer(resultsContainer);
 			resultant.setAssociatedQuery(queryToExecute);
 			resultant.setAssociatedView(associatedView);
+		}
+		if(resultant.getResultsContainer()==null) {
+			resultant = null;
 		}
 		return resultant;
 	}
@@ -188,6 +194,9 @@ public class ResultsetManager {
 				resultant.setAssociatedView(associatedView);
 			}
 		}
+		if(resultant.getResultsContainer()==null) {
+			resultant = null;
+		}
 		return resultant;
 	}
 
@@ -202,7 +211,7 @@ public class ResultsetManager {
 	
 	public static Resultant executeCompoundQuery(CompoundQuery queryToExecute, String[] sampleIDs)
 	throws Exception {
-		Resultant resultant = new NullResultant();
+		Resultant resultant = null;
 		if (queryToExecute != null && sampleIDs != null) {
 			ConstrainedQueryWithSamplesHandler sampleHandler = new ConstrainedQueryWithSamplesHandler();
 			SampleCriteria sampleCriteria = sampleHandler.createSampleCriteria(sampleIDs);
@@ -227,10 +236,9 @@ public class ResultsetManager {
         	CompoundQuery newCompoundQuery =  (CompoundQuery) compoundQuery.clone();
         	return executeCompoundQuery(newCompoundQuery,sampleIds);
         	}
-        	
-        
+  
         }
-        return new NullResultant();
+        return null;
     }
 
 }

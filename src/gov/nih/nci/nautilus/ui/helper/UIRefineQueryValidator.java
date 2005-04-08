@@ -4,10 +4,7 @@ import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.criteria.SampleCriteria;
-import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
 import gov.nih.nci.nautilus.query.CompoundQuery;
-import gov.nih.nci.nautilus.query.GeneExpressionQuery;
-import gov.nih.nci.nautilus.query.OperatorType;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
@@ -158,7 +155,7 @@ public class UIRefineQueryValidator {
          */   
 		if(compoundQuery!=null) {
 			
-			String resultSetString = "";
+			
 			/*
 			 * This is where we will apply a result set of sample ids to the
 			 * CompoundQuery that was just created. In the instance that it is
@@ -180,22 +177,37 @@ public class UIRefineQueryValidator {
 	    		if(query1 instanceof Query){
 	    			sampleCrit = ((Query)query1).getSampleIDCrit();
 	    		}
-	        	//drop the sample criteria into the compound query, clone it here
-	    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
+	    		/*
+	    		 * But before we apply it, we need to make sure that we do not have
+	    		 * too many samples for an All Gene Query... currently that
+	    		 * number is a constant specified in the NautilusConstants file
+	    		 * and is based on the largest disease sample group.  Later this
+	    		 * may be dynamically set with a count query against the
+	    		 * database.
+	    		 */
+	    		
+	    		if(isAllGenesQuery&&sampleCrit.getSampleIDs().size()> NautilusConstants.MAX_ALL_GENE_SAMPLE_SET) {
+		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery.toomanysamples", selectedResultSet,Integer.toString(NautilusConstants.MAX_ALL_GENE_SAMPLE_SET)));
+	    		}else {
+	    			//drop the sample criteria into the compound query, clone it here
+		    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
+	    		}
 	    		
 	    	}
-			//store the sessionId that the compound query is associated with
-			compoundQuery.setSessionId(sessionId);
-			//Returned String representation of the final query
-			refineQueryForm.setQueryText(compoundQuery.toString());
-            //We need to retrieve the list of available views
-            List viewCollection = setRefineQueryView(compoundQuery, request);
-            // Set collection of view types in Form
-            refineQueryForm.setCompoundViewColl(viewCollection);
-            //Stuff compoundquery in queryCollection
-            queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
-            //This means show that Run Button as we have a query to run...
-            refineQueryForm.setRunFlag("yes");
+			if(errors.isEmpty()) {
+				//store the sessionId that the compound query is associated with
+				compoundQuery.setSessionId(sessionId);
+				//Returned String representation of the final query
+				refineQueryForm.setQueryText(compoundQuery.toString());
+	            //We need to retrieve the list of available views
+	            List viewCollection = setRefineQueryView(compoundQuery, request);
+	            // Set collection of view types in Form
+	            refineQueryForm.setCompoundViewColl(viewCollection);
+	            //Stuff compoundquery in queryCollection
+	            queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
+	            //This means show that Run Button as we have a query to run...
+	            refineQueryForm.setRunFlag("yes");
+			}
         }
 		
         refineQueryForm.setErrors(errors);

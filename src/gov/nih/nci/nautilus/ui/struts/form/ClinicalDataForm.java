@@ -1300,17 +1300,10 @@ public class ClinicalDataForm extends BaseForm {
         // survival range validations
         if (this.survivalLower != null && this.survivalUpper != null) {
             try {
-
-                if (Integer.parseInt(survivalLower) >= Integer
-                        .parseInt(survivalUpper)) {
-                    errors
-                            .add(
-                                    "survivalUpper",
-                                    new ActionError(
-                                            "gov.nih.nci.nautilus.ui.struts.form.survivalRange.upperRange.error"));
+                if (Integer.parseInt(survivalLower) >= Integer.parseInt(survivalUpper)) {
+                    errors.add("survivalUpper",new ActionError("gov.nih.nci.nautilus.ui.struts.form.survivalRange.upperRange.error"));
                 }
             } catch (NumberFormatException ex) {
-
               logger.error(ex);
             }
         }
