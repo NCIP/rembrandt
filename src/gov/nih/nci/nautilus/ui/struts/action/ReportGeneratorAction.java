@@ -307,6 +307,11 @@ public class ReportGeneratorAction extends DispatchAction {
 			 * @todo must find this
 			 */
 			((CompoundQuery)(reportBean.getAssociatedQuery())).setSessionId(sessionId);
+			
+			//put a flag in the filterParams Map so we know its a showAllValues
+			HashMap fpm = rgForm.getFilterParams();
+			fpm.put("showAllValues", "true");
+			rgForm.setFilterParams(fpm);
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, rgForm.getFilterParams());
 			//store the name of the query in the form so that we can later pull it out of cache
 			reportBean = rgHelper.getReportBean();

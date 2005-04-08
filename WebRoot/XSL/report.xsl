@@ -17,7 +17,7 @@
 <xsl:param name="allowShowAllValues">true</xsl:param>
 <xsl:param name="queryDetails">N/A</xsl:param>
 <xsl:param name="statusMsg"></xsl:param>
-
+<xsl:param name="showAllValues">false</xsl:param>
 <xsl:template match="/">
 
 
@@ -397,7 +397,9 @@
 			      					<xsl:when test="$theData = 'G' or $theData = 'C'">
 			      						<a href="runReport.do?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a>
 			      					</xsl:when>
-
+									<xsl:when test="$theData = '-' and $showAllValues = 'true'">
+										<span class="missing" style="color:gray;">null</span>
+									</xsl:when>
 			      					<xsl:otherwise>
 			      						<xsl:if test="$styleclass = 'highlighted'">
 			      							<span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
