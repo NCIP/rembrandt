@@ -363,22 +363,6 @@ public class ReportGeneratorAction extends DispatchAction {
 		filterParams.put( "filter_value6", percent );
 		filterParams.put( "filter_element", filter_element );
 		
-		/*
-		//hold our samples for exclusion
-		String[] sampleIds = null;
-		excludedSamples = ResultsetManager.getSampleIdsforCopyNumberFilter(resultant, nocalls, percent, operator);
-		if(excludedSamples!=null)
-		    sampleIds = (String[]) excludedSamples.toArray(new String[0]);
-		 */
-		
-		//ReportBean rb = new ReportBean();
-		//our newly populated map
-		//rb.setFilterParams(filterParams);
-		//the name from the old bean, plus the additional string
-		//rb.setResultantCacheKey(reportBean.getResultantCacheKey() + " Copy Number Filter");
-		//put the resultant from the old bean into the new bean
-		//rb.setResultant(resultant);
-		
 		if(reportBean!=null) {
 			//This will generate get a resultant and store it in the cache
 		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, filterParams);

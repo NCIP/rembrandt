@@ -430,6 +430,13 @@ public class CacheManagerDelegate implements ConvenientCache{
 			Queriable queriable = bean.getAssociatedQuery();
 			if(queriable instanceof CompoundQuery) {
 				compoundQuery = (CompoundQuery)queriable;
+				/*
+				 * This is here because we have found instances where a
+				 * reportBean has been stored without the associated query
+				 * having a sessionId in it.  This check really shouldn't be
+				 * here but it is a good fix for .51.  We will revisit later.
+				 */
+				compoundQuery.setSessionId(sessionId);
 			}
 		}
 		return compoundQuery;
