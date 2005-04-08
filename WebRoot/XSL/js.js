@@ -17,8 +17,12 @@ function stupidXSL(i, cPage, total)	{
 }
 
 	function checkAll(field)	{
-		for (i = 0; i < field.length; i++)
-			field[i].checked = true ;
+		if(field.length > 1)	{
+			for (i = 0; i < field.length; i++)
+				field[i].checked = true ;
+		}
+		else
+			field.checked = true;
 			
 			var c;
 			c = document.getElementsByTagName("input");
@@ -30,8 +34,12 @@ function stupidXSL(i, cPage, total)	{
 	}
 		
 	function uncheckAll(field)	{
-		for (i = 0; i < field.length; i++)
-			field[i].checked = false ;
+		if(field.length > 1)	{
+			for (i = 0; i < field.length; i++)
+				field[i].checked = false ;
+		}
+		else
+			field.checked = false;
 
 			var c;
 			c = document.getElementsByTagName("input");
@@ -42,21 +50,34 @@ function stupidXSL(i, cPage, total)	{
 	}
 		
 	function checkById(field, idx)	{
-		for (i = 0; i < field.length; i++)	{
-			if(field[i].id == idx)	{
-				field[i].checked = true;
-				//field[i].checked = !field[i].checked;
+		if(field.length > 1)	{
+			for (i = 0; i < field.length; i++)	{
+				if(field[i].id == idx)	{
+					field[i].checked = true;
+					//field[i].checked = !field[i].checked;
+				}
 			}
+		}
+		else	{
+			if(field.id == idx)
+				field.checked = true;
 		}
 	}
 		
 	function uncheckById(field, idx)	{
-		for (i = 0; i < field.length; i++)	{
-			if(field[i].id == idx)
-				field[i].checked = false;
+		if(field.length > 1)	{
+			for (i = 0; i < field.length; i++)	{
+				if(field[i].id == idx)
+					field[i].checked = false;
+			}
+		}
+		else	{
+			if(field.id == idx)
+				field.checked = false;
 		}
 	}
 
+	//not in use
 	function toggleCheckById(field, idx)	{
 		for (i = 0; i < field.length; i++)	{
 			if(field[i].id == idx)	{

@@ -192,7 +192,7 @@
 	  </form>
 	  </div>
 	  
-	  <xsl:if test="$showSampleSelect != 'false'">
+	  <xsl:if test="$showSampleSelect != 'false' and contains($qName, 'previewResults') = false">
 	  <div class="filterForm">
 		<b><span class="lb">Select Samples:</span></b> 
 		<xsl:text>&#160;</xsl:text>
@@ -312,7 +312,7 @@
 						<xsl:variable name="colspan" select="count(/Report/Row[@name='sampleRow']/Cell[@group=$currentGroup])"/>
 						<td colspan="{$colspan}" class="{$currentGroup}">
 							<xsl:value-of select="Data" />
-							<xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical'] and $showSampleSelect != 'false'" >
+							<xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical'] and $showSampleSelect != 'false' and contains($qName, 'previewResults')=false" >
 								<input id="grpcheck" class="checkorradio" type="checkbox" onclick="javascript:groupCheck(document.prbSamples.samples, '{$currentGroup}', this.checked)" />
 							</xsl:if>
 						</td>
