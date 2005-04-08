@@ -161,19 +161,16 @@ function showHelp(help)	{
 
 function spawnAnnot(type, element)	{
 
+	var el = element.innerHTML;
 	var winw = 800;
 	var winh = 550;
 	var page = "";
 	if(type == 'gene')	{
-		page = escape('http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM=')+escape(element);
-		//spawn(page,winw,winh);
-		//alert(page);
+		page = escape('http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM=')+escape(el);
 		rbtFrame(page);
 	}
 	else if(type == 'reporter')	{
-		page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(element)+escape('&pix=620&hgsid=40518963&Submit=submit');
-		//spawn(page,winw,winh);
-		//alert(page);
+		page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(el)+escape('&pix=620&hgsid=40518963&Submit=submit');
 		rbtFrame(page);
 	}
 }
