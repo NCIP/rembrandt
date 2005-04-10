@@ -302,7 +302,7 @@
     <table cellpadding="0" cellspacing="0">
 		<xsl:for-each select="Row[@name='headerRow']">
 			<tr class="headerRow">
-		  	<xsl:for-each select="Cell">
+		  	<xsl:for-each select="Cell[@class != 'csv']">
 			<xsl:choose>
 					<xsl:when test="@group='header'">
 						<td style="color:red"><xsl:value-of select="Data" /></td>
@@ -326,7 +326,7 @@
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<xsl:for-each select="Row[@name='sampleRow']">
 			<tr class="sampleRow">
-		  	<xsl:for-each select="Cell">
+		  	<xsl:for-each select="Cell[@class != 'csv']">
 			  <xsl:variable name="currentGroup" select="@group" />
 			  <xsl:variable name="sample" select="Data" />
 			  <xsl:choose>
@@ -359,7 +359,7 @@
 		<xsl:for-each select="Row[(@name='dataRow')] ">
 			<xsl:if test="$filter_value3 + ($filter_value3 * $filter_value2)>=position() and position() > ($filter_value2 * $filter_value3)">	
 					<tr>
-		  				<xsl:for-each select="Cell">
+		  				<xsl:for-each select="Cell[@class != 'csv']">
 		  	  			<xsl:variable name="class" select="@group" />
 		  	  			<xsl:variable name="styleclass" select="@class" />
 		  	  			<xsl:variable name="theData" select="Data"/>

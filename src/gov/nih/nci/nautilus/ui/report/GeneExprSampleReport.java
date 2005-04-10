@@ -13,6 +13,7 @@ import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -129,12 +130,32 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        data = null;
 			        cell = null;
 			        
+			        //starting annotations
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Locus link");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("GenBank Acc");
+				        data = null;
+			        cell = null;
+
+		        
 			        Element sampleRow = report.addElement("Row").addAttribute("name", "sampleRow");
 			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
 			        	data = null;
 			        cell = null;
 			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
+			        
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
 			        	data = null;
 			        cell = null;
@@ -214,6 +235,73 @@ public class GeneExprSampleReport implements ReportGenerator{
 							        cell = null;
 				        		//sb.append("<tr><td>"+geneSymbol+"</td><td>"+reporterName+"</td>");
 				        		
+							        
+							        /*
+							         * adding our annotations. this code needs to be cleaned up
+							         * 
+							         */
+							        String ll = "";
+				        			try	{
+						        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
+						        		if(locusLinkIds != null){
+						        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
+						        			{
+						        				try	{
+							        				Object llObj = LLIterator.next();
+							        				if(llObj!=null){
+							        					ll += llObj.toString();
+							        					ll += " | ";
+							        				}
+						        				}
+						        				catch(Exception e) { }
+						        			}	
+						        		}
+						        		else	{
+						        			ll = "-";
+						        		}
+				        			}
+				        			catch(Exception e){
+				        				ll = "--";
+				        			}
+					        		
+
+				        			String acc = "";
+				        			try	{
+						        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
+						        		if(accNumbers!=null)	{
+						        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
+						        			{
+						        				try	{
+							        				Object accObj = accIterator.next();
+							        				if(accObj!=null){
+							        					acc += accObj.toString();
+							        					acc += " | ";
+							        				}	
+						        				}
+						        				catch(Exception e){	}
+						        			}
+		
+						        		}
+						        		else	{
+						        			acc = "-";
+						        		}
+				        			}
+				        			catch(Exception e){	}
+							        
+				        			 /*
+							         * 
+							         *  actually add the annotations to the report
+							         * 
+							         */
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(ll);
+							        	data = null;
+							        cell = null;
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(acc);
+							        	data = null;
+							        cell = null;
+							        
 				        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 				        			String label = (String) labelIterator.next();
 				        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);

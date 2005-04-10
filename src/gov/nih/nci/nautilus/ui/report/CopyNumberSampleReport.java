@@ -12,6 +12,7 @@ import gov.nih.nci.nautilus.resultset.gene.ViewByGroupResultset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -117,12 +118,35 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				        data = null;
 			        cell = null;
 			        
+			        /*
+			         * Start annotations (csv only)
+			         *  1) Bp position
+			         *  2) associated genes (pipe delimimted list)
+			         */
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Bp Position");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Genes");
+				        data = null;
+			        cell = null;
+
+		        
 			        Element sampleRow = report.addElement("Row").addAttribute("name", "sampleRow");
 			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
 			        	data = null;
 			        cell = null;
 			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
 			        	data = null;
 			        cell = null;
@@ -171,6 +195,45 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				        	for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 				        		
 				        		ReporterResultset reporterResultset = (ReporterResultset)reporterIterator.next();
+				        		
+				        		/*
+				        		 * 
+				        		 *  store our annotations
+				        		 * 
+				        		 */
+				        		String bp_position = "";
+				        		try	{
+				        		    bp_position = reporterResultset.getStartPhysicalLocation().getValue().toString();
+				        		}
+				        		catch(Exception e) {}
+				        		
+				        		//there is a much better way to do this, but this is reused from 0.50
+				        		//this code will be cleaned up for 1.0
+				        		String genes = "";
+			        			try	{
+					        		HashSet geneSymbols = new HashSet(reporterResultset.getAssiciatedGeneSymbols());
+					        		if(geneSymbols != null){
+					        			for(Iterator geneIterator = geneSymbols.iterator(); geneIterator.hasNext();)
+					        			{
+					        				try	{
+						        				Object geneObj = geneIterator.next();
+						        				if(geneObj != null){
+							        				genes += geneObj.toString();
+							        				genes += " | ";
+						        				}
+					        				}
+					        				catch(Exception e)	{ }
+					        			}
+					        		}
+					        		else	{
+					        			genes = "-";
+					        		}
+			        			}
+			        			catch(Exception e)	{
+			        				genes = "--";	
+			        			}
+			        			
+				        		
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
 				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 				        		
@@ -186,6 +249,21 @@ public class CopyNumberSampleReport implements ReportGenerator{
 							        	data = null;
 							        cell = null;
 					        		//sb.append("<tr><td>"+cytoband+"</td><td>"+reporterName+"</td>");
+							        
+							        /*
+							         * 
+							         *  actually add the annotations to the report
+							         * 
+							         */
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(bp_position);
+							        	data = null;
+							        cell = null;
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(genes);
+							        	data = null;
+							        cell = null;
+							        
 					        		for (Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
 					        			String label = (String) labelIterator.next();
 					        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(label);
