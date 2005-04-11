@@ -142,20 +142,7 @@ public class ReporterResultset {
     public void setValue(DatumDE value) {
         this.value = value;
     }
-    
-   
-	/**
-	 * @return Returns the associatedGIIds.
-	 */
-	public Collection getAssociatedGIIds() {
-		return associatedGIIds;
-	}
-	/**
-	 * @param associatedGIIds The associatedGIIds to set.
-	 */
-	public void setAssociatedGIIds(Collection associatedGIIds) {
-		this.associatedGIIds = associatedGIIds;
-	}
+     
 	/**
 	 * @return Returns the associatedPathways.
 	 */

@@ -12,8 +12,16 @@
 	<xsl:variable name="qName" select="@queryName" />
 	<xsl:variable name="rType" select="@reportType" />
 <csv>
+<xsl:for-each select="Row[@name='headerRow']">
+		<xsl:for-each select="Cell[@group = 'header']">
+			<xsl:value-of select="Data"/>	
+			<xsl:value-of select="', '"/>
+		</xsl:for-each>
+</xsl:for-each>
+
 	<xsl:for-each select="Row[@name='sampleRow']">
 		<xsl:for-each select="Cell">
+		<xsl:if test="Data != ' ' and Data != ''">
 			<xsl:if test="@group != 'header'">
 				<xsl:value-of select="substring(@group, 0, 6)" />
 			</xsl:if>
@@ -23,6 +31,7 @@
 			<xsl:if test="position() = last()">
 				<xsl:text>&#10;</xsl:text>
 			</xsl:if>
+		</xsl:if>
 		</xsl:for-each>
 	</xsl:for-each>
 

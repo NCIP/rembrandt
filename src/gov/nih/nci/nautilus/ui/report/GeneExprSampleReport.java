@@ -140,6 +140,15 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        data = null;
 			        cell = null;
 
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("GO Id");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Pathways");
+				        data = null;
+			        cell = null;
+
 		        
 			        Element sampleRow = report.addElement("Row").addAttribute("name", "sampleRow");
 			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
@@ -151,6 +160,14 @@ public class GeneExprSampleReport implements ReportGenerator{
 			        	data = null;
 			        cell = null;
 			        
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
+			        	data = null;
+			        cell = null;
 			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
 			        	data = null;
@@ -237,7 +254,12 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        		
 							        
 							        /*
-							         * adding our annotations. this code needs to be cleaned up
+							         * adding our 4 annotations. this code needs to be cleaned up...
+							         * 
+							         * I will pull all this logic out into a seperate Annotations Class ...
+							         * or something like that ASAP
+							         * 
+							         * RCL
 							         * 
 							         */
 							        String ll = "";
@@ -287,7 +309,53 @@ public class GeneExprSampleReport implements ReportGenerator{
 						        		}
 				        			}
 				        			catch(Exception e){	}
+				        			
+				        			String go_ids = "";
+				        			try	{
+						        		HashSet go_idsHS = new HashSet(reporterResultset.getAssociatedGOIds());
+						        		if(go_idsHS!=null)	{
+						        			for(Iterator goIterator = go_idsHS.iterator(); goIterator.hasNext();)
+						        			{
+						        				try	{
+							        				Object goObj = goIterator.next();
+							        				if(goObj!=null){
+							        				    go_ids += goObj.toString();
+							        				    go_ids += " | ";
+							        				}	
+						        				}
+						        				catch(Exception e){	}
+						        			}
+		
+						        		}
+						        		else	{
+						        		    go_ids = "-";
+						        		}
+				        			}
+				        			catch(Exception e){	}
 							        
+				        			String pathways = "";
+				        			try	{
+						        		HashSet pathwaysHS = new HashSet(reporterResultset.getAssociatedPathways());
+						        		if(pathwaysHS!=null)	{
+						        			for(Iterator pathwaysIterator = pathwaysHS.iterator(); pathwaysIterator.hasNext();)
+						        			{
+						        				try	{
+							        				Object pathwaysObj = pathwaysIterator.next();
+							        				if(pathwaysObj!=null){
+							        				    pathways += pathwaysObj.toString();
+							        				    pathways += " | ";
+							        				}	
+						        				}
+						        				catch(Exception e){	}
+						        			}
+		
+						        		}
+						        		else	{
+						        		    pathways = "-";
+						        		}
+				        			}
+				        			catch(Exception e){	}
+				        			
 				        			 /*
 							         * 
 							         *  actually add the annotations to the report
@@ -299,6 +367,14 @@ public class GeneExprSampleReport implements ReportGenerator{
 							        cell = null;
 							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(acc);
+							        	data = null;
+							        cell = null;
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(go_ids);
+							        	data = null;
+							        cell = null;
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "header");
+							        	data = cell.addElement("Data").addAttribute("type", "header").addText(pathways);
 							        	data = null;
 							        cell = null;
 							        
