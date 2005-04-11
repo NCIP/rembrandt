@@ -94,19 +94,18 @@ public abstract class GeneExprViewHandler {
 	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}
 	  			}
-            reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
-	  		if(exprObj.getAnnotation() != null){
-	  			GeneExpr.Annotaion annotation = exprObj.getAnnotation();
-	  			reporterResultset.setAssiciatedGenBankAccessionNos(exprObj.getAnnotation().getAccessions());
-	  			reporterResultset.setAssiciatedLocusLinkIDs(exprObj.getAnnotation().getLocusLinks());
-	  			reporterResultset.setAssociatedPathways(exprObj.getAnnotation().getGeneAnnotation().getPathwayNames());	  			
-	  			reporterResultset.setAssociatedGOIds(exprObj.getAnnotation().getGeneAnnotation().getGoIDs());
+	            reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
+		  		if(exprObj.getAnnotation() != null){
+		  			GeneExpr.Annotaion annotation = exprObj.getAnnotation();
+		  			reporterResultset.setAssiciatedGenBankAccessionNos(exprObj.getAnnotation().getAccessions());
+		  			reporterResultset.setAssiciatedLocusLinkIDs(exprObj.getAnnotation().getLocusLinks());
+		  		if(exprObj.getAnnotation().getGeneAnnotation() != null){
+		  			reporterResultset.setAssociatedPathways(exprObj.getAnnotation().getGeneAnnotation().getPathwayNames());
+		  		    reporterResultset.setAssociatedGOIds(exprObj.getAnnotation().getGeneAnnotation().getGoIDs());
+		  		}
 
-	  		}
-	  	
+	 		}
 		}
-        return reporterResultset;
+	    return reporterResultset;
     }
-	
-
 }
