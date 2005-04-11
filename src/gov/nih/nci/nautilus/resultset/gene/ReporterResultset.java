@@ -24,6 +24,8 @@ public class ReporterResultset {
     private Collection assiciatedGeneSymbols = null;
     private Collection assiciatedLocusLinkIDs =  null;
     private Collection assiciatedGenBankAccessionNos = null;
+    private Collection associatedPathways = null;
+    private Collection associatedGOIds = null;
 	/**
 	 * 
 	 */
@@ -141,5 +143,42 @@ public class ReporterResultset {
         this.value = value;
     }
     
-    
+   
+	/**
+	 * @return Returns the associatedGIIds.
+	 */
+	public Collection getAssociatedGIIds() {
+		return associatedGIIds;
+	}
+	/**
+	 * @param associatedGIIds The associatedGIIds to set.
+	 */
+	public void setAssociatedGIIds(Collection associatedGIIds) {
+		this.associatedGIIds = associatedGIIds;
+	}
+	/**
+	 * @return Returns the associatedPathways.
+	 */
+	public Collection getAssociatedPathways() {
+		return associatedPathways;
+	}
+	/**
+	 * @param associatedPathways The associatedPathways to set.
+	 */
+	public void setAssociatedPathways(Collection associatedPathways) {
+		this.associatedPathways = associatedPathways;
+	}
+
+	/**
+	 * @return Returns the associatedGOIds.
+	 */
+	public Collection getAssociatedGOIds() {
+		return associatedGOIds;
+	}
+	/**
+	 * @param associatedGOIds The associatedGOIds to set.
+	 */
+	public void setAssociatedGOIds(Collection associatedGOIds) {
+		this.associatedGOIds = associatedGOIds;
+	}
 }

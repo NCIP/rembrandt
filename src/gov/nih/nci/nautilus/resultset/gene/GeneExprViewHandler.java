@@ -98,7 +98,10 @@ public abstract class GeneExprViewHandler {
 	  		if(exprObj.getAnnotation() != null){
 	  			GeneExpr.Annotaion annotation = exprObj.getAnnotation();
 	  			reporterResultset.setAssiciatedGenBankAccessionNos(exprObj.getAnnotation().getAccessions());
-	  			reporterResultset.setAssiciatedLocusLinkIDs(exprObj.getAnnotation().getLocusLinks());	  			
+	  			reporterResultset.setAssiciatedLocusLinkIDs(exprObj.getAnnotation().getLocusLinks());
+	  			reporterResultset.setAssociatedPathways(exprObj.getAnnotation().getGeneAnnotation().getPathwayNames());	  			
+	  			reporterResultset.setAssociatedGOIds(exprObj.getAnnotation().getGeneAnnotation().getGoIDs());
+
 	  		}
 	  	
 		}
