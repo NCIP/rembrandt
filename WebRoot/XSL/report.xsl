@@ -292,7 +292,7 @@
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical']" >
-	  	<xsl:value-of select="count(Row[@name='sampleRow']/Cell)-2" /> samples returned.
+	  	<xsl:value-of select="count(Row[@name='sampleRow']/Cell[@class != 'csv' and @class != 'header'])" /> samples returned.
 	  </xsl:if>
 	  </div>
 	  
