@@ -39,6 +39,7 @@ public class ReportGeneratorForm extends BaseForm {
     private String showSampleSelect = "";
     
     private String allowShowAllValues = "true";
+    private String showAllValues = "";
     
     private String queryDetails = "";
         
@@ -309,5 +310,13 @@ public class ReportGeneratorForm extends BaseForm {
 	public void setReportView(String reportView) {
 		filterParams.put("reportView",reportView);
 		this.reportView = reportView;
+	}
+	
+	public String getShowAllValues() {
+		return showAllValues;
+	}
+	public void setShowAllValues(String showAllValues) {
+		filterParams.put("showAllValues",showAllValues);
+		this.showAllValues = showAllValues;
 	}
 }

@@ -76,6 +76,7 @@
 	<input type="hidden" name="filter_value2" value="{$filter_value2}" />
 	<input type="hidden" name="filter_value3" value="{$filter_value3}" />
 	<input type="hidden" name="filter_value1" value="{$filter_value1}"/>
+	<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 	</form>
 	
 	<div class="rptHeader">	
@@ -121,6 +122,7 @@
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Filter" onclick="javascript:return checkElement(filter_form.filter_string);"/>
 		<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" />
+		<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</span>
 	  </form>
 	  </div>
@@ -188,6 +190,7 @@
 		<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
 		<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
 		<input type="submit" name="filter_submit" value="Highlight" />
+		<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.filter_value1.value='';" />
 	  </form>
 	  </div>
