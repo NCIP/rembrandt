@@ -1300,7 +1300,11 @@ public class ClinicalDataForm extends BaseForm {
         // survival range validations
         if (this.survivalLower != null && this.survivalUpper != null) {
             try {
-                if (Integer.parseInt(survivalLower) >= Integer.parseInt(survivalUpper)) {
+                if((survivalLower.trim().length() > 0 && !(survivalUpper.trim().length() > 0)) ||
+                        (survivalUpper.trim().length() > 0 && !(survivalLower.trim().length() > 0))){
+                    errors.add("survivalUpper",new ActionError("gov.nih.nci.nautilus.ui.struts.form.survivalRange.upperOrLowerMissing.error"));                    
+                }
+                else if (Integer.parseInt(survivalLower) >= Integer.parseInt(survivalUpper)) {
                     errors.add("survivalUpper",new ActionError("gov.nih.nci.nautilus.ui.struts.form.survivalRange.upperRange.error"));
                 }
             } catch (NumberFormatException ex) {
@@ -1310,7 +1314,11 @@ public class ClinicalDataForm extends BaseForm {
 
         if (this.ageLower != null && this.ageUpper != null) {
             try {
-                if (Integer.parseInt(ageLower) >= Integer.parseInt(ageUpper)) {
+                if((ageLower.trim().length() > 0 && !(ageUpper.trim().length() > 0)) ||
+                        (ageUpper.trim().length() > 0 && !(ageLower.trim().length() > 0))){
+                    errors.add("ageUpper",new ActionError("gov.nih.nci.nautilus.ui.struts.form.survivalRange.upperOrLowerMissing.error"));                    
+                }
+                else if(Integer.parseInt(ageLower) >= Integer.parseInt(ageUpper)) {
                     errors.add("ageUpper",
                                   new ActionError("gov.nih.nci.nautilus.ui.struts.form.ageRange.upperRange.error"));
                 }
