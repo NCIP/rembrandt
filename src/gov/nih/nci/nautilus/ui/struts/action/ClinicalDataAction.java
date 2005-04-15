@@ -40,6 +40,14 @@ public class ClinicalDataAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(ClinicalDataAction.class);
     private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
     
+   //if multiUse button clicked (with styles de-activated) forward back to page
+    public ActionForward multiUse(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+		
+		return mapping.findForward("backToClinical");
+    }
+    
     /**
      * Method submittal
      * 
@@ -74,7 +82,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
             ActionError error = new ActionError("gov.nih.nci.nautilus.ui.struts.form.query.cgh.error");
             errors.add(ActionErrors.GLOBAL_ERROR,error);
             this.saveErrors(request, errors);
-            return mapping.findForward("backToCGHExp");
+            return mapping.findForward("backToClinical");
         }
         return mapping.findForward("advanceSearchMenu");
     }
@@ -195,6 +203,9 @@ public class ClinicalDataAction extends LookupDispatchAction {
      
      //Preview Query Button using comparative genomic preview method
      map.put("buttons_tile.previewButton", "preview");
+     
+     //Submit nothing if multiuse button entered if css turned off
+     map.put("buttons_tile.multiUseButton", "multiUse");
      
      return map;
      

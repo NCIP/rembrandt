@@ -23,9 +23,10 @@
         
         <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		  <tr>
-		    <td class="message">Type</th>
-            <td class="message">Resultant Name</th>
-            <td class="message">Compound Query</th>
+		    <td class="message">Type</td>
+            <td class="message">Resultant Name</td>
+            <td class="message">Compound Query</td>
+            <td class="message">View</td>
          
             
             
@@ -34,17 +35,18 @@
 				property="reportBeans" 
 				id="reportBean"  
 				indexId="index">
-              <tr style="background-color:#f2f2f2;font-size:.9em">
+              <tr style="background-color:#f2f2f2;font-size:.8em">
                 <nested:equal property="isSampleSetQuery" value="true">
-                 <td style="font-size:.9em">sample</td>
+                 <td>sample</td>
                 </nested:equal>
                 <nested:equal property="isSampleSetQuery" value="false">
-                 <td style="font-size:.9em">results</td>
+                 <td>results</td>
                 </nested:equal>
 	            <td>
 	              <a href="runReport.do?method=runGeneViewReport&queryName=<nested:write property='encodedResultantCacheKey'/>&showSampleSelect=false" style="font-size:.9em" target="_blank">
 	              <nested:write property="resultantCacheKey"/></a></td>
 	            <td><nested:write property="beanText"/></td>
+	            <td><nested:write property="beanView"/></td>
 	            
               </tr>
           </nested:iterate>

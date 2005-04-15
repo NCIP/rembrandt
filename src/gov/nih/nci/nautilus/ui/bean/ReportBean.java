@@ -1,13 +1,21 @@
 package gov.nih.nci.nautilus.ui.bean;
 
+import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
 import gov.nih.nci.nautilus.resultset.Resultant;
+import gov.nih.nci.nautilus.view.ClinicalSampleView;
+import gov.nih.nci.nautilus.view.CopyNumberSampleView;
+import gov.nih.nci.nautilus.view.GeneExprDiseaseView;
+import gov.nih.nci.nautilus.view.GeneExprSampleView;
+import gov.nih.nci.nautilus.view.Viewable;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.net.URLEncoder;
 
 import org.dom4j.Document;
@@ -32,7 +40,10 @@ public class ReportBean implements Serializable{
 	private Document reportXML;
 	private Map filterParams = new HashMap();
 	private boolean isSampleSetQuery = false;
-	private String beanText;	
+	private String beanText;
+    private Viewable associatedView;
+    private String beanView;
+	
 	
     
 	public ReportBean() {}
@@ -76,8 +87,10 @@ public class ReportBean implements Serializable{
 		this.resultant = resultant;
         //now grab the compound query text using resultant
 		setBeanText(resultant);
+		setAssociatedBeanView(resultant);
 	}
-	public void setBeanText(Resultant resultant){
+	
+    public void setBeanText(Resultant resultant){
 	    Resultant myResultant = resultant;
 	   
 	}
@@ -152,4 +165,30 @@ public class ReportBean implements Serializable{
 	    	this.beanText = ((String) associatedQuery.toString());
 	    }
 	}
+	public void setAssociatedBeanView(Resultant resultant) {
+	    this.associatedView = resultant.getAssociatedView();
+	    if(associatedView instanceof ClinicalSampleView){
+	        this.beanView = ResourceBundle.getBundle(NautilusConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.nautilus.view.ViewType$ClinicalView");
+	    }
+	    if(associatedView instanceof CopyNumberSampleView){
+	        this.beanView = ResourceBundle.getBundle(NautilusConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.nautilus.view.ViewType$CopyNumberSampleView");
+	    }
+	    if(associatedView instanceof GeneExprDiseaseView){
+	        this.beanView = ResourceBundle.getBundle(NautilusConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.nautilus.view.ViewType$GeneGroupSampleView");
+	    }
+	    if(associatedView instanceof GeneExprSampleView){
+	        this.beanView = ResourceBundle.getBundle(NautilusConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.nautilus.view.ViewType$GeneSingleSampleView");
+	    }
+	    else{
+	        this.beanView = "View cannot be determined";
+	    }
+	}
+	public Viewable getAssociatedView() {
+		return associatedView;
+	}
+	public String getBeanView() {
+		return beanView;
+	}
+	
+	
 }

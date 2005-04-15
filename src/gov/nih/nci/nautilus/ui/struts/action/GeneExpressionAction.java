@@ -77,6 +77,14 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		return mapping.findForward("backToGeneExp");
     }
     
+   //if multiUse button clicked (with styles de-activated) forward back to page
+    public ActionForward multiUse(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+		
+		return mapping.findForward("backToGeneExp");
+    }
+    
     
     
     /**
@@ -373,6 +381,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
        
        //Submit to get the cytobands of the selected chromosome
        map.put("GeneExpressionAction.getCytobands", "getCytobands");
+       
+       //Submit nothing if multiuse button entered if css turned off
+       map.put("buttons_tile.multiUseButton", "multiUse");
        
        return map;
        

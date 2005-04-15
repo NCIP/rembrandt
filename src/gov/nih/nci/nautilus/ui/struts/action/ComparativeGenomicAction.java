@@ -48,6 +48,15 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
    
+    
+   //if multiUse button clicked (with styles de-activated) forward back to page
+    public ActionForward multiUse(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+		
+		return mapping.findForward("backToCGH");
+    }
+    
     /**
      * Method setup
      * 
@@ -416,7 +425,10 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
       
       //Submit to get the cytobands of the selected chromosome
       map.put("ComparativeGenomicAction.getCytobands", "getCytobands");
-     
+      
+      //Submit nothing if multiuse button entered if css turned off
+      map.put("buttons_tile.multiUseButton", "multiUse");
+      
       return map;
       
       }
