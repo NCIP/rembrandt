@@ -265,6 +265,9 @@ public class ReportGeneratorAction extends DispatchAction {
 		//Used to get the old resultant from cache
 		String queryName = rgForm.getQueryName();
 		String sessionId = request.getSession().getId();
+		
+		String[] sampleIds = rgForm.getSamples();
+		
 		//get the old 
 		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
 		if(cquery!=null) {
@@ -282,7 +285,15 @@ public class ReportGeneratorAction extends DispatchAction {
 				cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));				
 			}
 			//This will generate the report and store it in the cache
-			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, rgForm.getFilterParams() );
+			ReportGeneratorHelper rgHelper = null;
+			if(sampleIds.length == 0)	{
+			    rgHelper = new ReportGeneratorHelper(cquery, rgForm.getFilterParams() );
+			}
+			else	{
+			    rgHelper = new ReportGeneratorHelper(cquery, sampleIds);
+			}
+			
+			
 			//store the name of the query in the form so that we can later pull it out of cache
 			ReportBean reportBean = rgHelper.getReportBean();
 			rgForm.setQueryName(reportBean.getResultantCacheKey());

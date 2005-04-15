@@ -266,3 +266,11 @@ function goQueryDetails(str)	{
 	newstr = str.replace(/\{/g, "<").replace(/\}/g, ">");
 	document.write(newstr);
 }
+
+function switchViews(view, sample)	{
+	document.switchViewsForm.reportView.value = view;
+	document.switchViewsForm.samples.value = sample;
+	document.switchViewsForm.submit();
+	
+
+}

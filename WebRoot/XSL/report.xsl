@@ -79,6 +79,12 @@
 	<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 	</form>
 	
+	<form action="runReport.do?method=switchViews" method="post" name="switchViewsForm">
+	     <input type="hidden" name= "reportView" value="" />
+	     <input type="hidden" name="queryName" value="{$qName}" />
+	     <input type="hidden" name="samples" value="" />			
+	</form>
+	
 	<div class="rptHeader">	
 	<div class="rowCount">
 	 <div style="background-color:#ffffff; margin-bottom:5px; padding-bottom:5px; border-left:1px solid black; border-right:1px solid black;">
@@ -350,7 +356,11 @@
 		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect != 'false' and contains($qName,'previewResults') = false">
 		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
 		      	</xsl:if>
+		      	<!--
 		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
+		      	-->
+		      		<a href="javascript:switchViews('Cl', '{$sample}')"><xsl:value-of select="Data" /></a>
+		      	
 		      	</td>
 		      </xsl:otherwise>
 		      </xsl:choose>
@@ -398,7 +408,10 @@
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
 			      					<xsl:when test="$theData = 'G' or $theData = 'C'">
-			      						<a href="runReport.do?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a>
+			      					<xsl:variable name="currentSample" select="..//Cell[1]/Data"/>
+			      						<a href="javascript:switchViews('{$theData}', '{$currentSample}')"><xsl:value-of select="$theData"/></a>
+			
+			<!--      						<a href="runReport.do?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a> -->
 			      					</xsl:when>
 									<xsl:when test="$theData = '-' and $showAllValues = 'true'">
 										<span class="missing" style="color:gray;">null</span>
