@@ -10,7 +10,7 @@
 
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
-	 &nbsp;&nbsp;&nbsp;<html:select property="tumorType">
+	 &nbsp;&nbsp;&nbsp;<html:select property="tumorType" onchange="javascript:onRadio(this, this.selectedIndex);">
    <html:optionsCollection property="diseaseType" />
 </html:select><html:errors property="tumorType"/>
 
@@ -21,8 +21,9 @@ Grade:&nbsp;
 				<html:option value="all">All</html:option>
 				<html:option value="one">I</html:option>
 				<html:option value="two">II</html:option>
-				<html:option value="three">III</html:option><br>
+				<html:option value="three">III</html:option>
 				<html:option value="four">IV</html:option>
+				
 </html:select>
 <b><app:help help="This criteria will be implemented in the upcoming release "/></b>
 <html:errors property="tumorGrade"/>

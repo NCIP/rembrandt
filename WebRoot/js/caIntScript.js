@@ -634,10 +634,39 @@ function showQueryDetail(selectName){
   }
  
  function onRadio(formElement,i){
-   
-   
+     
    //selected index of the selected
 	var element = formElement.name;
+		
+	  if(element == "tumorType"){
+	    document.forms[0].tumorGrade.options.length = 1;
+	        myOption1 = new Option("I","one");
+		    myOption2 = new Option("II","two");
+		    myOption3 = new Option("III","three");
+		    myOption4 = new Option("IV","four");
+		if(i == 0){
+		 document.forms[0].tumorGrade.options[1] = myOption1;
+	     document.forms[0].tumorGrade.options[2] = myOption2;
+	     document.forms[0].tumorGrade.options[3] = myOption3;
+	     document.forms[0].tumorGrade.options[4] = myOption4;
+	     }    
+	    if(i == 1){
+	     document.forms[0].tumorGrade.options[1] = myOption2;
+	     document.forms[0].tumorGrade.options[2] = myOption3;
+	     }
+	    if(i == 2){
+	     document.forms[0].tumorGrade.options[1] = myOption4;
+	     }
+	    if(i == 3){
+	     document.forms[0].tumorGrade.options[1] = myOption2;
+	     document.forms[0].tumorGrade.options[2] = myOption3;
+	     }
+	    if(i == 4){
+	     document.forms[0].tumorGrade.options[1] = myOption1;
+	     document.forms[0].tumorGrade.options[2] = myOption2;
+	     document.forms[0].tumorGrade.options[3] = myOption3;
+	     }
+	  }
 	
 	  if(element == "isAllGenesQuery"){
 	   if(i == 0){
