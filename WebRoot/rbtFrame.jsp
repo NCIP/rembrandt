@@ -5,7 +5,6 @@
 	String bottomPage = "rbtFramesBottom.jsp";
 	if(request.getParameter("p") != null)
 	       bottomPage = request.getParameter("p");
-	// System.out.println(bottomPage);
 %>
 
 <HTML>
