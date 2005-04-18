@@ -150,7 +150,7 @@ abstract public class CGHFactHandler {
 
             Collection exprObjects =  _BROKER.getCollectionByQuery(sampleQuery );
             addToResults(exprObjects);
-            System.out.println("Length: " + exprObjects.size());
+            logger.debug("Length: " + exprObjects.size());
             _BROKER.close();
 
             Collection allSNPProbeIDs = new ArrayList();
@@ -172,7 +172,7 @@ abstract public class CGHFactHandler {
                 }
             }
 
-            System.out.println("Annotations Retrieved");
+            logger.debug("Annotations Retrieved");
             Object[]objs = (cghObjects.values().toArray());
             CopyNumber[] results = new CopyNumber[objs.length];
             for (int j = 0; j < objs.length; j++) {

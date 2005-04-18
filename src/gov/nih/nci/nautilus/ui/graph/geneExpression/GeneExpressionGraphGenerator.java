@@ -326,7 +326,7 @@ public class GeneExpressionGraphGenerator {
 			} // instance of
 		} // resultant != null
       else{
-          System.out.println("resultant is null");
+          logger.debug("resultant is null");
       }
 	}
 

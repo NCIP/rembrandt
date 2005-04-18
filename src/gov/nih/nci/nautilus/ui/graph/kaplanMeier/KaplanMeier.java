@@ -8,16 +8,14 @@ package gov.nih.nci.nautilus.ui.graph.kaplanMeier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
+import org.apache.log4j.Logger;
+
 import weka.core.Statistics;
 
 
 /**
  * @author XiaoN
- * 
- * 
- * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
  */
 public class KaplanMeier {
 	private ArrayList allSamples;
@@ -26,6 +24,8 @@ public class KaplanMeier {
 	private ArrayList downSamples;
 	private double upperThreshold;
 	private double lowerThreshold;
+	Logger logger = Logger.getLogger(KaplanMeier.class);
+	
 	public KaplanMeier(KMSampleInfo[] samples, double upper, double lower) {
 		allSamples = new ArrayList();
 		upSamples = new ArrayList();
@@ -41,20 +41,15 @@ public class KaplanMeier {
 		upSamples.clear();
 		intSamples.clear();
 		downSamples.clear();
-		//System.out.println("UPPER Threshold " + upperThreshold);
-		//System.out.println("LOWER Threshold " + lowerThreshold);
 		for (int i = 0; i < allSamples.size(); i++) {
 			KMSampleInfo s = (KMSampleInfo) allSamples.get(i);
 			double value = s.getValue();
 			if (value >= upperThreshold) {
 				upSamples.add(s);
-				//System.out.println("Put in UP " + value);
 			} else if (value <= lowerThreshold) {
 				downSamples.add(s);
-				//System.out.println("Put in DOWN " + value);
 			} else {
 				intSamples.add(s);
-				//System.out.println("Put in INT " + value);
 			}
 		}
 	}
@@ -72,7 +67,7 @@ public class KaplanMeier {
 		int r = samples.size();
 		int left = samples.size();
 		ArrayList points = new ArrayList();
-		System.out.println("Sorted input data: ");
+		logger.debug("Sorted input data: ");
 		for (int i = 0; i < samples.size(); i++) {
 			curSurvTime = ((KMSampleInfo) samples.get(i)).getTime();
 			System.out.println("Survival time: " + curSurvTime + "\tcensor:"
@@ -170,6 +165,10 @@ public class KaplanMeier {
 		rest.removeAll(group1);
 		return getLogRankPValue(group1, rest);
 	}
+	/**
+	 * Test code for this class
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		double upper = 3.0;
 		double lower = 1.0 / 3.0;
@@ -255,8 +254,7 @@ public class KaplanMeier {
 		System.out.println("up" + km.getLogRankPValue(km.getUpSamples()));
 		System.out.println("int" + km.getLogRankPValue(km.getIntSamples()));
 		System.out.println("down" + km.getLogRankPValue(km.getDownSamples()));
-		System.out
-				.println("Number of samples in UP" + km.getUpSamples().size());
+		System.out.println("Number of samples in UP" + km.getUpSamples().size());
 		System.out.println("Number of samples in INT"
 				+ km.getIntSamples().size());
 		System.out.println("Number of samples in DOWN"
