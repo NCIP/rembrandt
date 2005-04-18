@@ -644,24 +644,26 @@ function showQueryDetail(selectName){
 		    myOption2 = new Option("II","two");
 		    myOption3 = new Option("III","three");
 		    myOption4 = new Option("IV","four");
-		if(i == 0){
+		    
+		    
+		if(i == "ALL"){
 		 document.forms[0].tumorGrade.options[1] = myOption1;
 	     document.forms[0].tumorGrade.options[2] = myOption2;
 	     document.forms[0].tumorGrade.options[3] = myOption3;
 	     document.forms[0].tumorGrade.options[4] = myOption4;
 	     }    
-	    if(i == 1){
+	    if(i == "ASTROCYTOMA"){
 	     document.forms[0].tumorGrade.options[1] = myOption2;
 	     document.forms[0].tumorGrade.options[2] = myOption3;
 	     }
-	    if(i == 2){
+	    if(i == "GBM"){
 	     document.forms[0].tumorGrade.options[1] = myOption4;
 	     }
-	    if(i == 3){
+	    if(i == "OLIG"){
 	     document.forms[0].tumorGrade.options[1] = myOption2;
 	     document.forms[0].tumorGrade.options[2] = myOption3;
 	     }
-	    if(i == 4){
+	    if(i == "MIXED"){
 	     document.forms[0].tumorGrade.options[1] = myOption1;
 	     document.forms[0].tumorGrade.options[2] = myOption2;
 	     document.forms[0].tumorGrade.options[3] = myOption3;

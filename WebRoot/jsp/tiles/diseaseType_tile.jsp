@@ -10,7 +10,7 @@
 
 %>
 	<!-- <html:form action="<%=act%>" method="get"> -->
-	 &nbsp;&nbsp;&nbsp;<html:select property="tumorType" onchange="javascript:onRadio(this, this.selectedIndex);">
+	 &nbsp;&nbsp;&nbsp;<html:select property="tumorType" onchange="javascript:onRadio(this, this.value);">
    <html:optionsCollection property="diseaseType" />
 </html:select><html:errors property="tumorType"/>
 
