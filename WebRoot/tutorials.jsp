@@ -57,23 +57,29 @@
 <fieldset>
  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">1. Gene Expression Plot</legend>
 <br>
-	<a href="javascript:spawnm('gplot.html');">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) or 
-	<a href="gplot.exe">download</a> the tutorial for offline viewing.
+	<a href="javascript:spawnm('tutorials/qs_gplot.htm');">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) 
+	or <a href="tutorials/qs_gplot.exe">download</a> the tutorial for offline viewing.
 </fieldset>
  <Br><br>
  <fieldset>
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">2. Kaplan-Meier Survival Plot</legend>
   <br>
-	<a href="javascript:spawnm('kmplot.html');">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) 
-	or <a href="kmplot.exe">download</a> the tutorial for offline viewing (.exe file).
+	<a href="javascript:spawnm('tutorials/qs_kmplot.htm');">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) 
+	or <a href="tutorials/qs_kmplot.exe">download</a> the tutorial for offline viewing (.exe file).
  </fieldset>
  <br><br>
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">3. Advanced Search</legend>
+  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">3. Advanced Search (Gene Expression)</legend>
   <br>
-	<a href="javascript:spawnm('advancedSearch.html');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) or 
-	<a href="advancedSearch.exe">download</a> the tutorial for offline viewing (.exe file).
-  
+	<a href="javascript:spawnm('tutorials/advanced_search_1.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
+	or <a href="tutorials/advanced_search_1.exe">download</a> the tutorial for offline viewing (.exe file).
+ </fieldset>
+ <br><br>
+  <fieldset>
+  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">4. Advanced Search (Copy Number)</legend>
+  <br>
+	<a href="javascript:spawnm('tutorials/advanced_search_2.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
+	or <a href="tutorials/advanced_search_2.exe">download</a> the tutorial for offline viewing (.exe file).
  </fieldset>
  <br><br>
  <fieldset>
