@@ -7,7 +7,7 @@
 <fieldset class="gray">
 
 <legend class="red">Region
-<app:help help="Specify the chromosomal region of interest to search by either choosing a cytoband or entering the start and end base pair position after choosing a chromosome of interest. The cytoband pick list is context sensitive and lists only the relevant cytobands for a particular chromosome. " />
+<app:help help="Specify the chromosomal region of interest to search by choosing a chromosome of interest and either choosing a cytoband range or entering the start and end base pair position. The cytoband pick list is context sensitive and lists only the relevant cytobands for a particular chromosome. " />
 </legend>
 <%
 	String act = request.getParameter("act");

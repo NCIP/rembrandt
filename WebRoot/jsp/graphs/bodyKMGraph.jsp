@@ -14,7 +14,31 @@
 %>
 <div>
 <html:errors/>
-<%=helpLink%>?sect=kmplot<%=helpLinkClose%>
+
+<%
+   String km = "kmplotGE";
+   if(  ((request.getParameter("plot") != null) && 
+         (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotGE")))
+           || 
+        ((request.getParameter("plot") == null) && 
+         (request.getParameter("plotType").equalsIgnoreCase("GE_KM_PLOT"))) ){
+         km = "kmplotGE";
+   }
+   if(  ((request.getParameter("plot") != null) && 
+         (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotCN")))
+           || 
+        ((request.getParameter("plot") == null) && 
+         (request.getParameter("plotType").equalsIgnoreCase("COPY_NUM_KM_PLOT"))) ){
+        km = "kmplotCN";
+   }
+	
+%>
+
+
+<%=helpLink%>?sect=<%=km%><%=helpLinkClose%>
+
+
+        
 </div>
 
 <html:form action="/kmGraph.do?method=redrawKMPlot">

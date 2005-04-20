@@ -26,14 +26,16 @@
 	        </strong>    
 	        <br />
 	        
-	        <h5>Gene Expression Graph</h5>
+	        <h5>Gene Expression-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
+	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) to plot either a gene expression profile or a Kaplan-Meier survival plot based on the expression of your gene of interest." /></h5>
 	        <input type="radio" name="plot" class="radio" value="geneExpPlot" checked="true" onclick="javascript:onRadio(this,0);">
 	        Gene Expression plot&nbsp;<br />
 	        
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);">
 	        Kaplan-Meier survival plot for Gene Expression Data&nbsp;<br />
 	        
-	        <h5>Copy Number Graph</h5>
+	        <h5>Copy Number-based Graph&nbsp;&nbsp;&nbsp;&nbsp;
+	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) or an Affymetrix 100K SNP Probeset ID (reporter) to plot a Kaplan-Meier survival plot based on the Gene copy number or the SNP reporter respectively." /></h5>
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);">
 	        Kaplan-Meier survival plot for Copy Number Data&nbsp;
 	                

@@ -6,7 +6,7 @@
 	<!-- <html:form action="<%=act%>" > -->
 <fieldset class="gray">
 <legend class="red">SNP Id
-<app:help help="Choose one type of SNP identifiers (dbSNP ID or Affymetrix SNP Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs to be searched in the text box. Another option to load a list of IDs is to upload a file using the Browse button, file must be of type *.txt with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
+<app:help help="Choose one type of SNP identifiers (dbSNP ID or Affymetrix SNP Probeset ID) from the pick list. Then enter the corresponding comma delimited IDs for SNPs to be searched in the text box.Optionally, you can upload a tab-delimited file containing SNP ID list by click the browse button." />
 </legend>
 <!-- <b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>-->
 <br /><br />

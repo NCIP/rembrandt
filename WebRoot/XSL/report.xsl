@@ -173,7 +173,7 @@
 		<input type="submit" name="filter_submit" value="Submit" />
 		<input type="hidden" name="filter_element" value="copy_number"/>
 		<xsl:text>&#160;</xsl:text>
-		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Filter Copy Number');" onmouseout="return nd();">[?]</a></b>
+		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('The Copy Number Filter allows you to filter the copy number report based on additional criteria such as No. of Consecutive SNPs and Percent of SNPs that match criteria.  These criteria will determine which SNPs are displayed on the report. The filtered Version of our report will now reflect the filter parameters we have filled out. For example, selecting “3” for the first filter and “50%” in the second filter will displays only those samples that had atleast 3 consecutive SNPs and 50% of the SNPs that met the criteria specified.');" onmouseout="return nd();">[?]</a></b>
 	  </form>
 	  </div>
 	  </xsl:if>	  

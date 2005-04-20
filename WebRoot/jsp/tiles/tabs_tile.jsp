@@ -11,7 +11,7 @@
 							"</ul>\n";
 							
 	String simpleSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"home.do\">Gene Search Home</a></li>\n" +
+							"<li><a href=\"home.do\">Simple Search Home</a></li>\n" +
 							"</ul>\n";
 							
 	String s = (String) request.getParameter("s");

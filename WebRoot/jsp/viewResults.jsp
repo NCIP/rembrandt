@@ -6,8 +6,14 @@
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
 <%@ page import="java.util.*, java.lang.*, java.io.*, java.net.URLEncoder " %>
-
-
+<%
+String helpLink = "<a href=\"javascript: spawn('help.jsp";
+String helpLinkClose = "', 350, 500);\">"+
+				"<img align=\"right\" src=\"images/help.png\" border=\"0\" "+
+				"onmouseover=\"return overlib('Click here for additional information about the view results page.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
+				"</a><br clear=\"all\">";
+%> 
+<%=helpLink%>?sect=viewResults<%=helpLinkClose%>
 <tr class="report">
   <td>
     <br />

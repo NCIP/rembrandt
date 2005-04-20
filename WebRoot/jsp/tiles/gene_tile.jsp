@@ -12,7 +12,7 @@ String act = request.getParameter("act");
 	<!-- <html:form action="<%=act%>"> -->
 <fieldset class="gray">
 <legend class="red">Gene
-<app:help help="Choose one type of Gene identifiers (Genbank ID, LocusLink ID or Gene symbol) from the pick list. Then enter the corresponding comma delimited value or IDs for the genes to be searched in the text box. Another option is to load a list of genes is to upload a file using the Browse button, file must be of type *.txt with each entry in a new line. Upper limit for this option is 500 entries in the txt file." />
+<app:help help="Choose one type of Gene identifiers (Genbank ID, LocusLink ID or Gene symbol) from the pick list. Then enter the corresponding comma delimited value or IDs for the genes to be searched in the text box. Optionally, you can upload a tab-delimited file containing Gene identifiers by clicking the browse button.Choose “All Genes query” if you do not wish to specify a list of genes, but would like to see the data for all the genes analyzed. You must apply the “All Genes query” to a pre-existing result set. (see help on Refine query page for more details)" />
 </legend>
 
 <br>

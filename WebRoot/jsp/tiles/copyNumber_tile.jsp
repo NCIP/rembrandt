@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <fieldset class="gray">
 <legend class="red">CGH Copy Number
-<app:help help="Specify the threshold for the copy number by indicating the “amplified”, “deleted” or “unchanged” criteria."/>
+<app:help help="Specify the threshold for the copy number by indicating the “amplified”, “deleted” or “unchanged” criteria. If you are creating an “All Genes” query, you must select an amplification threshold > 10 or a deletion threshold < 1."/>
 </legend><br />
 
 <%
