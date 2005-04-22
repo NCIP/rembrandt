@@ -60,7 +60,7 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     private String allSampleCount = null;
     private boolean plotVisible = false;
 	private ArrayList folds = new ArrayList();
-
+    private Integer numberOfPlots = null;
 	private static Logger logger = Logger.getLogger(KMDataSetForm.class);
 
 	public KMDataSetForm() {
@@ -424,7 +424,21 @@ public class KMDataSetForm extends ActionForm implements DatasetProducer,
     public void setPlotVisible(boolean plotVisible) {
         this.plotVisible = plotVisible;
     }
+
+
     
 
 
+	/**
+	 * @return Returns the numberOfPlots.
+	 */
+	public Integer getNumberOfPlots() {
+		return numberOfPlots;
+	}
+	/**
+	 * @param numberOfPlots The numberOfPlots to set.
+	 */
+	public void setNumberOfPlots(Integer numberOfPlots) {
+		this.numberOfPlots = numberOfPlots;
+	}
 }

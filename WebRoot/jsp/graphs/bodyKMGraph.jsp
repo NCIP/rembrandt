@@ -165,29 +165,33 @@
        <td><bean:write name="kmDataSetForm" property="downVsIntPvalue"/></td>
     </tr>
     </logic:greaterThan>
-    
-    <tr><td colspan="2"><hr width="100%" size="1" color="black" /></td>
-	</tr>
-	<logic:greaterThan name="kmDataSetForm" property="upVsRestPvalue" value="-100">
-    <tr>
-	   <td><bean:write name="kmDataSetForm" property="upOrAmplified" />
-	   vs. all other samples: </td>
-       <td><bean:write name="kmDataSetForm" property="upVsRestPvalue" /></td>
-    </tr>
+    <logic:greaterThan name="kmDataSetForm" property="numberOfPlots" value="2">
+	    <tr><td colspan="2"><hr width="100%" size="1" color="black" /></td>
+		</tr>
+		<logic:greaterThan name="kmDataSetForm" property="upVsRestPvalue" value="-100">
+	    <tr>
+		   <td><bean:write name="kmDataSetForm" property="upOrAmplified" />
+		   vs. all other samples: </td>
+	       <td><bean:write name="kmDataSetForm" property="upVsRestPvalue" /></td>
+	    </tr>
+	    </logic:greaterThan>
+	    <logic:greaterThan name="kmDataSetForm" property="downVsRestPvalue" value="-100">
+	    <tr>
+		   <td><bean:write name="kmDataSetForm" property="downOrDeleted" />
+		   vs. all other samples: </td>
+	       <td><bean:write name="kmDataSetForm" property="downVsRestPvalue" /></td>
+	    </tr>
+	    </logic:greaterThan>
+	    <logic:greaterThan name="kmDataSetForm" property="intVsRestPvalue" value="-100">
+	    <tr>
+		   <td>Intermediate vs. all other samples: </td>
+	       <td><bean:write name="kmDataSetForm" property="intVsRestPvalue" /></td>
+	    </tr>
+	    </logic:greaterThan>
     </logic:greaterThan>
-    <logic:greaterThan name="kmDataSetForm" property="downVsRestPvalue" value="-100">
-    <tr>
-	   <td><bean:write name="kmDataSetForm" property="downOrDeleted" />
-	   vs. all other samples: </td>
-       <td><bean:write name="kmDataSetForm" property="downVsRestPvalue" /></td>
-    </tr>
-    </logic:greaterThan>
-    <logic:greaterThan name="kmDataSetForm" property="intVsRestPvalue" value="-100">
-    <tr>
-	   <td>Intermediate vs. all other samples: </td>
-       <td><bean:write name="kmDataSetForm" property="intVsRestPvalue" /></td>
-    </tr>
-    </logic:greaterThan>
+    <logic:lessEqual name="kmDataSetForm" property="numberOfPlots" value="1">
+    	<td>N/A ( Not Applicable )</td>
+    </logic:lessEqual>
 </table>
 </fieldset>
 </logic:equal>

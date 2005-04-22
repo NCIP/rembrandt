@@ -384,6 +384,24 @@ public class KMGraphGenerator {
     public Double getUpVsRest() {
             return new Double(kaplanMeier.getLogRankPValue(kaplanMeier.getUpSamples()));
     }
+
+
+	/**
+	 * @return
+	 */
+	public Integer getNumberOfPlots() {
+			int count = 0;
+			if(kaplanMeier.getDownSamples() != null && kaplanMeier.getDownSamples().size() > 0){
+				count++;
+			}
+			if(kaplanMeier.getUpSamples() != null && kaplanMeier.getUpSamples().size() > 0){
+				count++;
+			}
+			if(kaplanMeier.getIntSamples() != null && kaplanMeier.getIntSamples().size() > 0){
+				count++;
+			}
+			return new Integer(count);
+	}
     
     
 }

@@ -47,6 +47,7 @@ public class KMDataSetHelper {
     		_kmForm.setUpVsRestPvalue(numberFormatter.format(_generator.getUpVsRest()));
     		_kmForm.setDownVsRestPvalue(numberFormatter.format(_generator.getDownVsRest()));
     		_kmForm.setIntVsRestPvalue(numberFormatter.format(_generator.getIntVsRest()));
+    		_kmForm.setNumberOfPlots(_generator.getNumberOfPlots());    		
     		
 		}
 		return _kmForm;
