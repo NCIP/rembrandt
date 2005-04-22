@@ -253,7 +253,8 @@
 			<zipfileset dir="${webapp.dir}/images" prefix="images" />
 			<zipfileset dir="${webapp.dir}/js" prefix="js" />
 			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp" />
-            <zipfileset dir="${webapp.dir}/XSL" prefix="XSL" />         
+            <zipfileset dir="${webapp.dir}/XSL" prefix="XSL" />  
+			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials" />    
 			<webinf dir="${webapp.dir}/WEB-INF">
 				<include name="*.xml" />
 				<include name="*.properties" />
