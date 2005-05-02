@@ -75,12 +75,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
             SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allProbeIDS, allCloneIDS);
             eventList.add(handler.getDbEvent());
             new Thread(tg, handler).start();
-            GeneIDCriteria  geneCrit = geQuery.getGeneIDCrit();
-            Class deClass = GeneIDCriteriaHandler.getGeneIDClassName(geneCrit );
-            ArrayList arrayIDs = GeneIDCriteriaHandler.getGeneIDValues(geneCrit );
-
-            //if ()
-            //factHandler.executeSampleQueryForAllGenes()
+         
         }
 
         if (geQuery.getRegionCrit() != null) {
