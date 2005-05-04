@@ -125,6 +125,7 @@
 			<include name="struts.jar" />
 			<include name="commons-lang-2.0.jar" />
 			<include name="commons-collections.jar" />
+			<include name="commons-beanutils.jar" />
 			<include name="xercesImpl.jar" />
 			<include name="junit.jar" />
 			<include name="log4j-1.2.8.jar" />
