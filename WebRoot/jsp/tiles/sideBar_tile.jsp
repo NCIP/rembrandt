@@ -51,7 +51,8 @@
 					<Table border="0" style="font-size:.9em">
 				    <tr><td><%=query%>
 					<%if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))) ){%>
-					     <input type="submit" class="sbutton" value="delete" onclick="setMode('deleteQuery', '<%=queryKey%>')"></td>			
+					     <input type="submit" class="sbutton" style="width:50px" value="delete" onclick="setMode('deleteQuery', '<%=queryKey%>')">			
+					     <input type="submit" class="sbutton" style="width:50px" value="edit" onclick="setMode('editQuery', '<%=queryKey%>')"></td>			
 					<%}%>
 					</tr>&nbsp;&nbsp;
 				    <%}		

@@ -40,7 +40,36 @@
 		 <forward name="menuPage" path="nautilus.menu" />
 		 <forward name="cghPage" path="nautilus.comparitiveGenomic" />
 		 <forward name="clinicalPage" path="nautilus.clinical" />
+		 <forward name="editClinical" path="/editClinical.do" />
+		 <forward name="editCGH" path="/editCGH.do" />
+		 <forward name="editGE" path="/editGE.do" />
 	</action>
+	
+	<action path="/editClinical"
+		type="gov.nih.nci.nautilus.ui.struts.action.EditClinicalDataAction"
+ 		attribute="clinicaldataForm"
+        scope="request"
+        validate="false">
+         <forward name="goEditClinical" path="nautilus.clinical" />
+    </action>
+
+	<action path="/editCGH"
+		type="gov.nih.nci.nautilus.ui.struts.action.EditCGHAction"
+ 		attribute="comparitivegenomicForm"
+        scope="request"
+        validate="false">
+         <forward name="goEditCGH" path="nautilus.comparitiveGenomic" />
+    </action>
+
+
+	<action path="/editGE"
+		type="gov.nih.nci.nautilus.ui.struts.action.EditGEAction"
+ 		attribute="geneexpressionForm"
+        scope="request"
+        validate="false">
+         <forward name="goEditGE" path="nautilus.geneExpression" />
+    </action>
+
 	
 	<action path="/quickSearch"            
             name="quickSearchForm"

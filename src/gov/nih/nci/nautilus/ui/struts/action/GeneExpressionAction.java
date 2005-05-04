@@ -222,7 +222,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	   
 		if (!geneExpQuery.isEmpty()) {
 			SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
-            queryBag.putQuery(geneExpQuery);
+            queryBag.putQuery(geneExpQuery, geneExpressionForm);
             cacheManager.putSessionQueryBag(sessionId, queryBag);
             
      	} else {

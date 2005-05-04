@@ -2,6 +2,10 @@ package gov.nih.nci.nautilus.ui.struts.action;
 
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
+import gov.nih.nci.nautilus.query.ClinicalDataQuery;
+import gov.nih.nci.nautilus.query.ComparativeGenomicQuery;
+import gov.nih.nci.nautilus.query.GeneExpressionQuery;
+import gov.nih.nci.nautilus.query.Query;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 import gov.nih.nci.nautilus.ui.struts.form.DeleteQueryForm;
 
@@ -53,6 +57,40 @@ public class DeleteQueryAction extends DispatchAction {
 			}  	 	
 		   return mapping.findForward("menuPage");		
 	     }
+	
+	public ActionForward editQuery(
+			ActionMapping mapping,
+			ActionForm form,
+			HttpServletRequest request,
+			HttpServletResponse response)
+			throws Exception {
+	    		String queryKey = "";
+	    		
+			   DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
+			   String sessionId = request.getSession().getId();
+			   SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+			   if(queryBag != null){			     
+				  queryKey = deleteQueryForm.getQueryKey();
+				  //store this somewhere
+				  request.setAttribute("queryKey", queryKey);
+				}  	 	
+			   String editForward = "";
+			   //by default, should be reset below, always
+			   editForward = "editClinical";
+			   
+			   Query query = queryBag.getQuery(queryKey);               //use this to get query
+			   if(query instanceof ComparativeGenomicQuery){
+			       editForward = "editCGH";
+               }
+			   else  if(query instanceof ClinicalDataQuery){
+			       editForward = "editClinical";
+               }
+			   else  if(query instanceof GeneExpressionQuery){
+			       editForward = "editGE";
+               }
+
+			   return mapping.findForward(editForward);		
+		     }
 	
 	public ActionForward deleteAll(
 		ActionMapping mapping,

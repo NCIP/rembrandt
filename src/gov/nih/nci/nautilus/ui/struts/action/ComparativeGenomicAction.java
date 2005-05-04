@@ -253,7 +253,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
                 //Store the query in the SessionQueryBag
                 if (!cghQuery.isEmpty()) {
                     SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
-                    queryBag.putQuery(cghQuery);
+                    queryBag.putQuery(cghQuery, comparativeGenomicForm);
                     cacheManager.putSessionQueryBag(sessionId, queryBag);
                 } else {
                     ActionErrors errors = new ActionErrors();

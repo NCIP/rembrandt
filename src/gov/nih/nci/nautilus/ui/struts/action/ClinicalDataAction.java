@@ -75,7 +75,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
         if (!clinicalDataQuery.isEmpty()) {
         	SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
-            queryBag.putQuery(clinicalDataQuery);
+            queryBag.putQuery(clinicalDataQuery, clinicalDataForm);
             cacheManager.putSessionQueryBag(sessionId, queryBag);
         }else{
             ActionErrors errors = new ActionErrors();

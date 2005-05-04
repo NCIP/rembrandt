@@ -63,8 +63,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.struts.action.ActionForm;
+
 /**
- * @author SahniH, BauerD 
+ * @author SahniH, BauerD, LandyR, RossoK 
  */
 public class SessionQueryBag implements Serializable {
 	/*
@@ -81,14 +83,18 @@ public class SessionQueryBag implements Serializable {
 	//this map is generated from the queryMap, storing only the non-allGenesQueries
 	private Map nonAllGeneQueries = new HashMap();
 	
+	//hold form beans
+	private Map formBeanMap = new HashMap();
+	
 	/* This is the current compound query that has been validated and is ready
 	 * to run...
 	 */
 	private CompoundQuery compoundQuery = null;
 
-	public void putQuery(Query query) {
+	public void putQuery(Query query, ActionForm form) {
 		if (query != null && query.getQueryName() != null) {
 			queryMap.put(query.getQueryName(), query);
+			formBeanMap.put(query.getQueryName(), form);
 		}
 	}
 
@@ -103,6 +109,7 @@ public class SessionQueryBag implements Serializable {
 	public void removeQuery(String queryName) {
 		if (queryName != null) {
 			queryMap.remove(queryName);
+			formBeanMap.remove(queryName);
 		}
 	}
 
@@ -202,4 +209,16 @@ public class SessionQueryBag implements Serializable {
 		
 	}
 
+    /**
+     * @return Returns the formBeanMap.
+     */
+    public Map getFormBeanMap() {
+        return formBeanMap;
+    }
+    /**
+     * @param formBeanMap The formBeanMap to set.
+     */
+    public void setFormBeanMap(Map formBeanMap) {
+        this.formBeanMap = formBeanMap;
+    }
 }
