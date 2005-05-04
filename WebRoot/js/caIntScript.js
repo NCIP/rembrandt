@@ -99,6 +99,9 @@ function checkForm(){
  if(document.forms[0].queryName != null){
  document.forms[0].queryName.focus();
  }
+ if(document.forms[0].tumorType != null){ 
+ onRadio("tumorType",(document.forms[0].tumorType.options.value));
+ }
 }
 
 function setQuery(txt)	{
@@ -637,15 +640,15 @@ function showQueryDetail(selectName){
      
    //selected index of the selected
 	var element = formElement.name;
-		
-	  if(element == "tumorType"){
+	  
+	  if(element == "tumorType" || formElement == "tumorType"){
 	    document.forms[0].tumorGrade.options.length = 1;
 	        myOption1 = new Option("I","one");
 		    myOption2 = new Option("II","two");
 		    myOption3 = new Option("III","three");
 		    myOption4 = new Option("IV","four");
 		    
-		    
+		 
 		if(i == "ALL"){
 		 document.forms[0].tumorGrade.options[1] = myOption1;
 	     document.forms[0].tumorGrade.options[2] = myOption2;
