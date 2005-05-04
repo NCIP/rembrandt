@@ -91,6 +91,42 @@ public class DeleteQueryAction extends DispatchAction {
 
 			   return mapping.findForward(editForward);		
 		     }
+
+	public ActionForward copyQuery(
+			ActionMapping mapping,
+			ActionForm form,
+			HttpServletRequest request,
+			HttpServletResponse response)
+			throws Exception {
+	    		String queryKey = "";
+	    		
+			   DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
+			   String sessionId = request.getSession().getId();
+			   SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+			   if(queryBag != null){			     
+				  queryKey = deleteQueryForm.getQueryKey();
+				  //store this somewhere
+				  request.setAttribute("queryKey", queryKey);
+				}  	 	
+			   String editForward = "";
+			   //by default, should be reset below, always
+			   editForward = "editClinical";
+			   
+			   Query query = queryBag.getQuery(queryKey);               //use this to get query
+			   if(query instanceof ComparativeGenomicQuery){
+			       editForward = "editCGH";
+               }
+			   else  if(query instanceof ClinicalDataQuery){
+			       editForward = "editClinical";
+               }
+			   else  if(query instanceof GeneExpressionQuery){
+			       editForward = "editGE";
+               }
+			   request.setAttribute("copy", "true");
+			   
+			   return mapping.findForward(editForward);		
+		     }
+	
 	
 	public ActionForward deleteAll(
 		ActionMapping mapping,

@@ -75,6 +75,9 @@ public class EditCGHAction extends Action {
 				}  	
 			   
 			   String editForward = "";
+			   if(request.getAttribute("copy")!=null && ((String) request.getAttribute("copy")).equals("true"))
+			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
+
 		       editForward = "goEditCGH";
 			   
 			   return mapping.findForward(editForward);		

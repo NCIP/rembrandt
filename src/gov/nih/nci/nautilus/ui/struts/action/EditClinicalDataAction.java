@@ -75,7 +75,10 @@ public class EditClinicalDataAction extends Action {
 				}  	
 			   
 			   String editForward = "";
-		       editForward = "goEditClinical";
+			   if(request.getAttribute("copy")!=null && ((String) request.getAttribute("copy")).equals("true"))
+			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
+			  
+			  editForward = "goEditClinical";
 			   
 			   return mapping.findForward(editForward);		
 		     }
