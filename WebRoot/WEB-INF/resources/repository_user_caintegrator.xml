@@ -925,8 +925,8 @@
        class="gov.nih.nci.nautilus.data.AllGeneAlias"
        table="ALL_GENE_ALIAS">
    <field-descriptor
-             name="alias"
-             column="ALIAS"
+             name="approvedSymbol"
+             column="APPROVED_SYMBOL"
              jdbc-type="VARCHAR"
              primarykey="true"
         />
