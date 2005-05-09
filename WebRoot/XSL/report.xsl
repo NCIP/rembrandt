@@ -90,7 +90,7 @@
 	 <div style="background-color:#ffffff; margin-bottom:5px; padding-bottom:5px; border-left:1px solid black; border-right:1px solid black;">
 		<span style="float:right; top:0px;">
 			  <script language="javascript">
-	  			//checkForBack();
+	  			checkForBack();
 	 		  </script>
 			<a style="margin-left:10px" href="#" onclick="javascript:toggleDiv('hideme');return false;">[Show/Hide Form Tools]</a>
 			<xsl:text>&#160;</xsl:text><xsl:text>&#160;</xsl:text> 
