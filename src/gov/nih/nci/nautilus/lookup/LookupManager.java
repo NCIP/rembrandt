@@ -263,13 +263,13 @@ public class LookupManager{
     public static AllGeneAliasLookup[] searchGeneKeyWord(String geneKeyWord){
     	//Create a Criteria for Approved Symbol
         Criteria approvedSymbolCrit = new Criteria();
-        approvedSymbolCrit.addLike("upper(approvedSymbol)",geneKeyWord);
+        approvedSymbolCrit.addLike("upper(approvedSymbol)",geneKeyWord.toUpperCase());
         //Create a Criteria for Alias
         Criteria aliasCrit = new Criteria();
-        aliasCrit.addLike("upper(alias)",geneKeyWord);
+        aliasCrit.addLike("upper(alias)",geneKeyWord.toUpperCase());
         //Create a Criteria for Approved Name
         Criteria approvedNameCrit = new Criteria();
-        approvedNameCrit.addLike("upper(approvedName)",geneKeyWord);
+        approvedNameCrit.addLike("upper(approvedName)",geneKeyWord.toUpperCase());
         
         //Or the three
         approvedSymbolCrit.addOrCriteria(approvedNameCrit);
