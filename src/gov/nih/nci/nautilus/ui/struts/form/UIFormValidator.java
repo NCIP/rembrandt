@@ -217,7 +217,7 @@ public class UIFormValidator {
         String gene = bean.getGeneSymbol();
 //      see if geneSymbol can't be found, if it cannot look for aliases
 	    if(!LookupManager.isGeneSymbolFound(gene)){
-			AllGeneAliasLookup[] allGeneAlias = LookupManager.getGenesForAlias(gene);
+			AllGeneAliasLookup[] allGeneAlias = LookupManager.searchGeneKeyWord(gene);
 			// if there are aliases , set the array to be displayed in the form and return the showAlias warning
 			if(allGeneAlias != null){
 			    bean.setAllGeneAlias(allGeneAlias);

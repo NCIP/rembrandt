@@ -43,7 +43,7 @@ public class LookupManager{
 	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
-    private static GeneAliasMap aliasMap = null;
+    //private static GeneAliasMap aliasMap = null;
     private static Set geneSymbols = null;
     
 	
@@ -71,7 +71,7 @@ public class LookupManager{
 	 * @throws Exception
 	 */
 	 
-	private  static Collection executeQuery(Class bean, Criteria crit, String lookupType)throws Exception{
+	private  static Collection executeQuery(Class bean, Criteria crit, String lookupType, boolean distinct)throws Exception{
 		  
 		cacheManagerDelegate = CacheManagerDelegate.getInstance();
 		Collection resultsetObjs = cacheManagerDelegate.checkLookupCache(lookupType);
@@ -79,7 +79,7 @@ public class LookupManager{
 			logger.debug("LookupType "+lookupType+" was not found in ApplicationCache");
 			PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
 			broker.clearCache();
-		    resultsetObjs = createQuery(bean, crit, broker);
+		    resultsetObjs = createQuery(bean, crit, broker, distinct);
 		    cacheManagerDelegate.addToApplicationCache(lookupType,(Serializable)resultsetObjs);
 		    broker.close();
 		    
@@ -90,10 +90,10 @@ public class LookupManager{
 	    return resultsetObjs;
 	     
 	}
-	private static Collection createQuery(Class bean, Criteria crit, PersistenceBroker broker) throws Exception{
+	private static Collection createQuery(Class bean, Criteria crit, PersistenceBroker broker, boolean distinct) throws Exception{
 			//Criteria crit = new Criteria();
 			Collection resultsetObjs = null;
-	        Query exprQuery = QueryFactory.newQuery(bean, crit,true);
+	        Query exprQuery = QueryFactory.newQuery(bean, crit,distinct);
 	        resultsetObjs = broker.getCollectionByQuery(exprQuery);
 	        logger.debug("Got " + resultsetObjs.size() + " resultsetObjs objects.");
 	        return resultsetObjs;
@@ -106,7 +106,7 @@ public class LookupManager{
 		
 		Criteria crit = new Criteria();
 		crit.addOrderByAscending("chrCytoband");
-		cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION).toArray(new CytobandLookup[1]);
+		cytobands = (CytobandLookup[]) executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION, true).toArray(new CytobandLookup[1]);
 		
 		return cytobands;
 	}
@@ -157,7 +157,7 @@ public class LookupManager{
 	public static PatientDataLookup[] getPatientData() throws Exception {
 		if(patientData == null){
 			Criteria crit = new Criteria();
-			patientData = (PatientDataLookup[])(executeQuery(PatientData.class,crit,LookupManager.PATIENT_DATA).toArray(new PatientDataLookup[1]));
+			patientData = (PatientDataLookup[])(executeQuery(PatientData.class,crit,LookupManager.PATIENT_DATA, true).toArray(new PatientDataLookup[1]));
 		}
 		return patientData;
 	}
@@ -187,7 +187,7 @@ public class LookupManager{
 		if(diseaseTypes == null){
 			Criteria crit = new Criteria();
 			crit.addOrderByAscending("diseaseTypeId");
-			diseaseTypes = (DiseaseTypeLookup[])(executeQuery(DiseaseTypeDim.class,crit,LookupManager.DISEASE_TYPE).toArray(new DiseaseTypeLookup[1]));
+			diseaseTypes = (DiseaseTypeLookup[])(executeQuery(DiseaseTypeDim.class,crit,LookupManager.DISEASE_TYPE,true).toArray(new DiseaseTypeLookup[1]));
 		}
 		return diseaseTypes;
 	}
@@ -216,20 +216,18 @@ public class LookupManager{
 	public static ExpPlatformLookup[] getExpPlatforms() throws Exception {
 		if(expPlatforms == null){
 			Criteria crit = new Criteria();
-			expPlatforms = (ExpPlatformLookup[]) executeQuery(ExpPlatformDim.class,crit,LookupManager.EXP_PLATFORMS).toArray(new ExpPlatformLookup[1]);
+			expPlatforms = (ExpPlatformLookup[]) executeQuery(ExpPlatformDim.class,crit,LookupManager.EXP_PLATFORMS, true).toArray(new ExpPlatformLookup[1]);
 		}
 		return expPlatforms;
 	}
    
     private static void getAllGeneAlias() throws Exception{
-    	if(aliasMap == null){
+    	if(geneSymbols == null){
 	        Criteria crit = new Criteria();
-	        Collection allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)crit,LookupManager.ALLGENEALIAS);
-	        aliasMap = new GeneAliasMap();
+	        Collection allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)crit,LookupManager.ALLGENEALIAS,true);
 	        geneSymbols =  new HashSet();
 	        for (Iterator iterator = allGeneAlias.iterator(); iterator.hasNext();) {
 	        	AllGeneAlias geneAlias = (AllGeneAlias) iterator.next();
-	        	aliasMap.addGenes(geneAlias);
 	        	geneSymbols.add(geneAlias.getApprovedSymbol().trim());
 	         }
     	}
@@ -246,6 +244,7 @@ public class LookupManager{
     	}
     	return false;
     }
+    /*
     public static AllGeneAliasLookup[] getGenesForAlias(String geneSymbol) throws Exception{
     	if(aliasMap == null){
     		getAllGeneAlias();
@@ -259,5 +258,34 @@ public class LookupManager{
 	    	return geneAlias;
     	}
     	return null;
+    }
+    */
+    public static AllGeneAliasLookup[] searchGeneKeyWord(String geneKeyWord){
+    	//Create a Criteria for Approved Symbol
+        Criteria approvedSymbolCrit = new Criteria();
+        approvedSymbolCrit.addLike("upper(approvedSymbol)",geneKeyWord);
+        //Create a Criteria for Alias
+        Criteria aliasCrit = new Criteria();
+        aliasCrit.addLike("upper(alias)",geneKeyWord);
+        //Create a Criteria for Approved Name
+        Criteria approvedNameCrit = new Criteria();
+        approvedNameCrit.addLike("upper(approvedName)",geneKeyWord);
+        
+        //Or the three
+        approvedSymbolCrit.addOrCriteria(approvedNameCrit);
+        approvedSymbolCrit.addOrCriteria(aliasCrit);
+        Collection allGeneAlias;
+		try {
+			allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)approvedSymbolCrit,LookupManager.ALLGENEALIAS,true);
+
+		if(allGeneAlias != null && allGeneAlias.size() > 0){
+        	return (AllGeneAliasLookup[]) allGeneAlias.toArray(new AllGeneAliasLookup[allGeneAlias.size()]);
+        }
+		return null;
+		} catch (Exception e) {
+			logger.error("Error in AllGeneAliasLookup when searching for "+geneKeyWord);
+			logger.error(e.getMessage());
+			return null;
+		}
     }
 }
