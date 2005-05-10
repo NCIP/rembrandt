@@ -44,7 +44,7 @@ public class LookupManager{
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
     //private static GeneAliasMap aliasMap = null;
-    private static Set geneSymbols = null;
+    //private static Set geneSymbols = null;
     
 	
 	//Lookup Types
@@ -221,71 +221,65 @@ public class LookupManager{
 		return expPlatforms;
 	}
    
-    private static void getAllGeneAlias() throws Exception{
-    	if(geneSymbols == null){
-	        Criteria crit = new Criteria();
-	        Collection allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)crit,LookupManager.ALLGENEALIAS,true);
-	        geneSymbols =  new HashSet();
-	        for (Iterator iterator = allGeneAlias.iterator(); iterator.hasNext();) {
-	        	AllGeneAlias geneAlias = (AllGeneAlias) iterator.next();
-	        	geneSymbols.add(geneAlias.getApprovedSymbol().trim());
-	         }
-    	}
-    }
+    /*private static void getAllGeneAlias() throws Exception{
+    	Criteria crit = new Criteria();
+		Collection allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)crit,LookupManager.ALLGENEALIAS,true);
+		geneSymbols =  new HashSet();
+		for (Iterator iterator = allGeneAlias.iterator(); iterator.hasNext();) {
+			AllGeneAlias geneAlias = (AllGeneAlias) iterator.next();
+			geneSymbols.add(geneAlias.getApprovedSymbol().trim());
+		 }
+    }*/
     public static boolean isGeneSymbolFound(String geneSymbol) throws Exception{
-    	if(geneSymbols == null){
-    		getAllGeneAlias();    		
-    	}
     	if(geneSymbol != null){
-	    	geneSymbol = geneSymbol.trim();
-	    	if(geneSymbols.contains(geneSymbol) || geneSymbols.contains(geneSymbol.toUpperCase())){
-	    		return true;
-	    	}
+        	//Create a Criteria for Approved Symbol
+            Criteria approvedSymbolCrit = new Criteria();
+            approvedSymbolCrit.addLike("upper(approvedSymbol)",geneSymbol.toUpperCase());
+            Collection geneCollection;
+	    		try {
+	    			geneCollection = executeQuery(AllGeneAlias.class, (Criteria)approvedSymbolCrit,LookupManager.ALLGENEALIAS,true);
+
+		    		if(geneCollection != null && geneCollection.size() == 1){
+		            	return true;
+		            }
+	    		} catch (Exception e) {
+	    			logger.error("Error in geneCollection when searching for "+geneSymbol);
+	    			logger.error(e.getMessage());
+	    			return false;
+	    		}
     	}
     	return false;
     }
-    /*
-    public static AllGeneAliasLookup[] getGenesForAlias(String geneSymbol) throws Exception{
-    	if(aliasMap == null){
-    		getAllGeneAlias();
-    	}
-    	if(geneSymbol != null){
-	    	geneSymbol = geneSymbol.trim();
-	    	AllGeneAliasLookup[] geneAlias = aliasMap.getGenes(geneSymbol);
-	    	if(geneAlias == null ){
-	    	    geneAlias = aliasMap.getGenes(geneSymbol.toUpperCase());
-	    	}
-	    	return geneAlias;
-    	}
-    	return null;
-    }
-    */
     public static AllGeneAliasLookup[] searchGeneKeyWord(String geneKeyWord){
-    	//Create a Criteria for Approved Symbol
-        Criteria approvedSymbolCrit = new Criteria();
-        approvedSymbolCrit.addLike("upper(approvedSymbol)",geneKeyWord.toUpperCase());
-        //Create a Criteria for Alias
-        Criteria aliasCrit = new Criteria();
-        aliasCrit.addLike("upper(alias)",geneKeyWord.toUpperCase());
-        //Create a Criteria for Approved Name
-        Criteria approvedNameCrit = new Criteria();
-        approvedNameCrit.addLike("upper(approvedName)",geneKeyWord.toUpperCase());
-        
-        //Or the three
-        approvedSymbolCrit.addOrCriteria(approvedNameCrit);
-        approvedSymbolCrit.addOrCriteria(aliasCrit);
-        Collection allGeneAlias;
-		try {
-			allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)approvedSymbolCrit,LookupManager.ALLGENEALIAS,true);
-
-		if(allGeneAlias != null && allGeneAlias.size() > 0){
-        	return (AllGeneAliasLookup[]) allGeneAlias.toArray(new AllGeneAliasLookup[allGeneAlias.size()]);
-        }
-		return null;
-		} catch (Exception e) {
-			logger.error("Error in AllGeneAliasLookup when searching for "+geneKeyWord);
-			logger.error(e.getMessage());
+    	if(geneKeyWord != null){
+    		    
+		    	//Create a Criteria for Approved Symbol
+		        Criteria approvedSymbolCrit = new Criteria();
+		        approvedSymbolCrit.addLike("upper(approvedSymbol)",geneKeyWord.toUpperCase());
+		        //Create a Criteria for Alias
+		        Criteria aliasCrit = new Criteria();
+		        aliasCrit.addLike("upper(alias)",geneKeyWord.toUpperCase());
+		        //Create a Criteria for Approved Name
+		        Criteria approvedNameCrit = new Criteria();
+		        approvedNameCrit.addLike("upper(approvedName)",geneKeyWord.toUpperCase());
+		        
+		        //Or the three
+		        approvedSymbolCrit.addOrCriteria(approvedNameCrit);
+		        approvedSymbolCrit.addOrCriteria(aliasCrit);
+		        Collection allGeneAlias;
+				try {
+					allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)approvedSymbolCrit,LookupManager.ALLGENEALIAS,true);
+		
+				if(allGeneAlias != null && allGeneAlias.size() > 0){
+		        	return (AllGeneAliasLookup[]) allGeneAlias.toArray(new AllGeneAliasLookup[allGeneAlias.size()]);
+		        }
 			return null;
-		}
+			} catch (Exception e) {
+				logger.error("Error in AllGeneAliasLookup when searching for "+geneKeyWord);
+				logger.error(e.getMessage());
+				return null;
+			}
+    	}
+		return null;
     }
 }

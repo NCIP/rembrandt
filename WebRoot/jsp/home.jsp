@@ -46,7 +46,7 @@
 	        
 	        <br />
 	        <select name="quickSearchType">
-	        <option>Gene Symbol</option>
+	        <option>Gene Keyword</option>
 	        </select>
         </logic:empty>
         

@@ -51,7 +51,7 @@ public final class NautilusConstants {
     
     public static final String COPY_NUMBER_KMPLOT = "COPY_NUM_KM_PLOT";
     
-    public static final String GENE_SYMBOL = "Gene Symbol";
+    public static final String GENE_SYMBOL = "Gene Keyword";
     
     public static final String CYTOBAND = "Cytoband";
     

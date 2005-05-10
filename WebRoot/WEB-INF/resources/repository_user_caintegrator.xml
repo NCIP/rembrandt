@@ -930,11 +930,6 @@
              jdbc-type="VARCHAR"
              primarykey="true"
         />
-    <field-descriptor
-             name="alias"
-             column="ALIAS"
-             jdbc-type="VARCHAR"
-        />
      <field-descriptor
              name="approvedSymbol"
              column="APPROVED_SYMBOL"

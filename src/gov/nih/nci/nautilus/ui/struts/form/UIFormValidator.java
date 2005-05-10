@@ -224,12 +224,14 @@ public class UIFormValidator {
 				for(int i =0; i < allGeneAlias.length ; i++){
 					AllGeneAliasLookup alias = allGeneAlias[i];
 					logger.debug(alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()+"\n");
-					errors
-					   .add(
-							ActionErrors.GLOBAL_ERROR,
-							new ActionError(
-									"gov.nih.nci.nautilus.ui.struts.form.quicksearch.showAlias",
-									gene));
+					if(errors.isEmpty()){//add only one error message
+						errors
+						   .add(
+								ActionErrors.GLOBAL_ERROR,
+								new ActionError(
+										"gov.nih.nci.nautilus.ui.struts.form.quicksearch.showAlias",
+										gene));
+					}
 				}
 			}
 			// if there are no aliases, we don't have record, so show noRecord error message
@@ -239,8 +241,8 @@ public class UIFormValidator {
 				   .add(
 						ActionErrors.GLOBAL_ERROR,
 						new ActionError(
-								"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
-								"Gene Symbol", gene));
+								"gov.nih.nci.nautilus.ui.struts.form.quicksearch.improveSearch",
+								"Gene Symbol/Keyword", gene));
 			}
 		}
 	    //if gene Symbol can be found , execute query
