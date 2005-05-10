@@ -237,12 +237,23 @@ public class UIFormValidator {
 			// if there are no aliases, we don't have record, so show noRecord error message
 			else{
 			    logger.debug("no aliases found \n");
-			    errors
-				   .add(
-						ActionErrors.GLOBAL_ERROR,
-						new ActionError(
-								"gov.nih.nci.nautilus.ui.struts.form.quicksearch.improveSearch",
-								"Gene Symbol/Keyword", gene));
+                if(gene.indexOf("*")< 0){ //no wild cards
+    			    errors
+    				   .add(
+    						ActionErrors.GLOBAL_ERROR,
+    						new ActionError(
+    								"gov.nih.nci.nautilus.ui.struts.form.quicksearch.improveSearch",
+    								"Gene Symbol/Keyword", gene));
+                }
+                else{
+                    errors
+                   .add(
+                        ActionErrors.GLOBAL_ERROR,
+                        new ActionError(
+                                "gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
+                                "Gene Symbol/Keyword", gene));
+
+                }
 			}
 		}
 	    //if gene Symbol can be found , execute query

@@ -58,7 +58,7 @@ public class LookupManager{
 	private static final String PATIENT_DATA = "patientData";
 	private static final String PATIENT_DATA_MAP = "patientDataMap";
 	private static final String PATHWAYS = "pathways";
-	private static final String ALLGENEALIAS = "AllGeneAlias";
+	private static final String NO_CACHE = "NoCache";
 	private static ConvenientCache cacheManagerDelegate;
 	
 	
@@ -80,7 +80,9 @@ public class LookupManager{
 			PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
 			broker.clearCache();
 		    resultsetObjs = createQuery(bean, crit, broker, distinct);
+            if(!lookupType.equals(LookupManager.NO_CACHE)){  //Never cache Quick search type queries
 		    cacheManagerDelegate.addToApplicationCache(lookupType,(Serializable)resultsetObjs);
+            }
 		    broker.close();
 		    
 		}else {
@@ -232,12 +234,13 @@ public class LookupManager{
     }*/
     public static boolean isGeneSymbolFound(String geneSymbol) throws Exception{
     	if(geneSymbol != null){
+            try {
         	//Create a Criteria for Approved Symbol
             Criteria approvedSymbolCrit = new Criteria();
             approvedSymbolCrit.addLike("upper(approvedSymbol)",geneSymbol.toUpperCase());
             Collection geneCollection;
-	    		try {
-	    			geneCollection = executeQuery(AllGeneAlias.class, (Criteria)approvedSymbolCrit,LookupManager.ALLGENEALIAS,true);
+	    		
+	    			geneCollection = executeQuery(AllGeneAlias.class, approvedSymbolCrit,LookupManager.NO_CACHE,true);
 
 		    		if(geneCollection != null && geneCollection.size() == 1){
 		            	return true;
@@ -252,7 +255,8 @@ public class LookupManager{
     }
     public static AllGeneAliasLookup[] searchGeneKeyWord(String geneKeyWord){
     	if(geneKeyWord != null){
-    		    
+            try {
+                logger.debug("inside searchGeneKeyWord");
 		    	//Create a Criteria for Approved Symbol
 		        Criteria approvedSymbolCrit = new Criteria();
 		        approvedSymbolCrit.addLike("upper(approvedSymbol)",geneKeyWord.toUpperCase());
@@ -267,8 +271,8 @@ public class LookupManager{
 		        approvedSymbolCrit.addOrCriteria(approvedNameCrit);
 		        approvedSymbolCrit.addOrCriteria(aliasCrit);
 		        Collection allGeneAlias;
-				try {
-					allGeneAlias = executeQuery(AllGeneAlias.class, (Criteria)approvedSymbolCrit,LookupManager.ALLGENEALIAS,true);
+				
+					allGeneAlias = executeQuery(AllGeneAlias.class, approvedSymbolCrit,LookupManager.NO_CACHE,true);
 		
 				if(allGeneAlias != null && allGeneAlias.size() > 0){
 		        	return (AllGeneAliasLookup[]) allGeneAlias.toArray(new AllGeneAliasLookup[allGeneAlias.size()]);
