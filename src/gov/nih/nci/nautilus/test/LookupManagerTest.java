@@ -230,7 +230,7 @@ public void testGeneSymbolAlias(){
 			String symbol = (String) iter.next();
 			System.out.print("user Input: "+symbol+"\n");
 			if(!LookupManager.isGeneSymbolFound(symbol)){
-				AllGeneAliasLookup[] allGeneAlias = LookupManager.getGenesForAlias(symbol);
+				AllGeneAliasLookup[] allGeneAlias = LookupManager.searchGeneKeyWord(symbol);
 				if(allGeneAlias != null){
 					for(int i =0; i < allGeneAlias.length ; i++){
 						AllGeneAliasLookup alias = allGeneAlias[i];
