@@ -233,7 +233,10 @@ public class LookupManager{
 		 }
     }*/
     public static boolean isGeneSymbolFound(String geneSymbol) throws Exception{
-    	if(geneSymbol != null){
+        //make sure your not checking for wildcards
+    	if(geneSymbol != null  && (geneSymbol.indexOf("*")< 0 || geneSymbol.indexOf("%") < 0)){
+            
+            
             try {
         	//Create a Criteria for Approved Symbol
             Criteria approvedSymbolCrit = new Criteria();
