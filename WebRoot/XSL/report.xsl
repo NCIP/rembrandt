@@ -111,8 +111,8 @@
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 		<b><span class="lb">Filter:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		<input type="radio" class="checkorradio" name="filter_type" value="show" />Show Only
-		<input type="radio" class="checkorradio" name="filter_type" checked="true" value="hide"/>Hide		
+		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" value="show" />Show Only</span>
+		<input type="radio" class="checkorradio" name="filter_type" id="hide_radio" checked="true" value="hide"/>Hide		
 		<select name="filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
 			<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
 			<option value="gene">Gene(s)</option>
@@ -127,7 +127,10 @@
 		<input type="text" name="filter_string"/>
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Filter" onclick="javascript:return checkElement(filter_form.filter_string);"/>
-		<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" />
+		
+		<input type="button" name="filter_submit" onclick="javascript:doShowAllValues('{$qName}', false);" value="Reset (show all)" />
+	<!--	<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" /> -->
+		
 		<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</span>
 	  </form>
@@ -222,7 +225,7 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
 		<xsl:text>&#160;</xsl:text>
-		<input type="button" name="filter_submit" value="View Previous Report" onclick="javascript:showAllValues('{$qName}', false);" />
+		<input type="button" name="filter_submit" value="View Previous Report" onclick="javascript:doShowAllValues('{$qName}', false);" />
 		<xsl:text>&#160;</xsl:text>
 		
 		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Clicking on this button lets you view the gene expression fold changes or copy number values (depending on the type of report) for all the reporters in the report. This allows you to see those values that did not match your query criteria.');" onmouseout="return nd();">[?]</a></b>

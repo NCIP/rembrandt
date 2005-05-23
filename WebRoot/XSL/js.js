@@ -196,12 +196,15 @@ function showCNumberFilter(v, id)	{
 	if(v == 'copy number')	{
 		displayDiv(id, "block");
 		displayDiv('fb', "none");
+		displayDiv('showOnlyLabel', "none");
+		document.getElementById('hide_radio').checked = true;
 	}
 	else	{
 		if(document.getElementById(id))	{
 			displayDiv(id, "none");
 		}
 		displayDiv('fb', "inline");
+		displayDiv('showOnlyLabel', "inline");
 	}
 }
 
@@ -222,7 +225,7 @@ function stupidXSLEscape(qname)	{
 	location.href = dest;
 }
 
-function showAllValues(q, state)	{
+function doShowAllValues(q, state)	{
 	if(!state)	{
 		var oldq = "";
 		var tmp = "";
