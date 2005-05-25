@@ -265,8 +265,7 @@ public class ReportGeneratorHelper {
 			checkSessionId( _cQuery.getSessionId());
 			//check that we have a queryName
 			checkQueryName( _cQuery.getQueryName());
-			//check the cache for the resultant of the query
-			checkCache((View)_cQuery.getAssociatedView());
+
 			/*
 			 * If the _reportBean is null then we know that we could not
 			 * find an appropriate result set in the session cache. So
@@ -282,8 +281,10 @@ public class ReportGeneratorHelper {
 				}
 				executeQuery();
 			}
-			_reportBean.setFilterParams(processFilterParamMap(filterParams));
-			this.generateReportXML();
+			if(_reportBean != null){//if its a valid query
+				_reportBean.setFilterParams(processFilterParamMap(filterParams));
+				this.generateReportXML();
+			}
 		}catch(Exception e) {
 			logger.error("Unable to create the ReportBean");
 			logger.error(e);
@@ -462,6 +463,9 @@ public class ReportGeneratorHelper {
 	 * @throws Exception
 	 */
 	private void executeQuery() throws Exception{
+		//empty the cache before executing the query again
+		_cacheManager.addToSessionCache(_sessionId,_queryName,null);
+		
 		if(_cQuery!=null) {
 			Resultant resultant = ResultsetManager.executeCompoundQuery(_cQuery);
 			/*
@@ -469,12 +473,18 @@ public class ReportGeneratorHelper {
 			 * may need later when messing with the reports associated
 			 * with this result set.  This _reportBean will also 
 			 * be stored in the cache.
-			 */				
-			_reportBean = new ReportBean();
-			_reportBean.setAssociatedQuery(_cQuery);
-			_reportBean.setResultant(resultant);
-			//The cache key will always be the compound query name
-			_reportBean.setResultantCacheKey(_cQuery.getQueryName());
+			 */	
+			if(resultant != null){
+				_reportBean = new ReportBean();
+				_reportBean.setAssociatedQuery(_cQuery);
+				_reportBean.setResultant(resultant);
+				//The cache key will always be the compound query name
+				_reportBean.setResultantCacheKey(_cQuery.getQueryName());
+			}
+			else{
+				logger.debug("resultant is Null.  no results returned!");
+				_reportBean = null;
+			}		
 		}else{
 			logger.error("Compound Query is Null.  Can not execute!");
 			throw new NullPointerException("CompoundQuery is null.");

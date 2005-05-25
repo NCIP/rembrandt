@@ -17,7 +17,7 @@ if(csv.equals("true"))	{
 	if(reportXML != null)
 		ReportGeneratorHelper.renderReport(request, reportXML,"csv.xsl",out);
 	else
-		out.println("No records Available for this query");
+		out.println("No Records Available for this query");
 	}
 	catch(Exception e)	{
 		out.println("Error Generating the report");
@@ -46,7 +46,7 @@ else	{ %>
 			<script language="javascript">
 				if(document.getElementById('spnLoading') != null &&	document.getElementById('spnLoading').style.display != "none")	{
 					hideLoadingMessage();
-					document.write("<h3 style=\"text-align:center; margin-top:200px;\">No records Returned.  Please a different query. <br><a href=\"javascript:window.close()\">Close</a></h3>");
+					document.write("<h3 style=\"text-align:center; margin-top:200px;\">No Records Returned.  Please modify the query. <br><a href=\"javascript:window.close()\">Close</a></h3>");
 				}
 			</script>
 <%
