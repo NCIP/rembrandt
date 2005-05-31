@@ -358,10 +358,10 @@ public class ReportGeneratorAction extends DispatchAction {
 		if(rgForm.getFilter_value4()!=null && ((String)rgForm.getFilter_value4()).equalsIgnoreCase("and"))
 		    operator = OperatorType.AND;
 		/*
-		 * filter_type should never be anything except "copy_number" for this operation, 
+		 * filter_element should never be anything except "copy_number" for this operation, 
 		 * which is the default value above, and the hidden param in the html form
 		 * thus, this next part is actually redundant, but will include it in case we need to 
-		 * change the filter_type on the fly for some reason in the future
+		 * change the filter_element on the fly for some reason in the future
 		 * 	-RCL
 		 */ 	
 		if(rgForm.getFilter_element()!=null)
