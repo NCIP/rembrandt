@@ -283,8 +283,8 @@ public class GeneExpressionForm extends BaseForm {
 			errors = UIFormValidator.validateGOClassification(goClassification,
 					errors);
 			// Validate Gene List, Gene File and Gene Group
-			errors = UIFormValidator.validate(sampleGroup, sampleList,
-					sampleFile, errors);
+			errors = UIFormValidator.validateTextFileType(sampleFile, 
+			        "sampleGroup", errors);
 			// Make sure the cloneListFile uploaded is of type txt and MIME type
 			// is text/plain
 			errors = UIFormValidator.validateTextFileType(cloneListFile,
@@ -1100,7 +1100,7 @@ public class GeneExpressionForm extends BaseForm {
 			if ((thisSampleGroup != null)
 					&& thisSampleGroup.equalsIgnoreCase("Upload")
 					&& (this.sampleFile != null)
-					&& (this.sampleFile.getFileName().endsWith(".txt"))
+					&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
 					&& (this.sampleFile.getContentType().equals("text/plain"))) {
 				try {
 					InputStream stream = sampleFile.getInputStream();
@@ -1611,7 +1611,7 @@ public class GeneExpressionForm extends BaseForm {
 	 *            The basePairEnd to set
 	 */
 	public void setBasePairEnd(String basePairEnd) {
-		this.basePairEnd = basePairEnd;
+		this.basePairEnd = basePairEnd.trim();
 
 		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
@@ -1999,7 +1999,7 @@ public class GeneExpressionForm extends BaseForm {
 	 *            The basePairStart to set
 	 */
 	public void setBasePairStart(String basePairStart) {
-		this.basePairStart = basePairStart;
+		this.basePairStart = basePairStart.trim();
 		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
 			String thisChrNumber = this.thisRequest

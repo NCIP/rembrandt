@@ -1562,7 +1562,7 @@ public class ComparativeGenomicForm extends BaseForm {
      *            The basePairEnd to set
      */
     public void setBasePairEnd(String basePairEnd) {
-        this.basePairEnd = basePairEnd;
+        this.basePairEnd = basePairEnd.trim();
 
 		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
@@ -1871,7 +1871,7 @@ public class ComparativeGenomicForm extends BaseForm {
 	
 	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
 					&& (this.sampleFile != null)
-					&& (this.sampleFile.getFileName().endsWith(".txt"))
+					&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
 					&& (this.sampleFile.getContentType().equals("text/plain"))) {
 				try {
 					InputStream stream = sampleFile.getInputStream();				
@@ -2089,7 +2089,7 @@ public class ComparativeGenomicForm extends BaseForm {
      *            The basePairStart to set
      */
     public void setBasePairStart(String basePairStart) {
-        this.basePairStart = basePairStart;
+        this.basePairStart = basePairStart.trim();
 		if (thisRequest != null) {
 			String thisRegion = this.thisRequest.getParameter("region");
 			String thisChrNumber = this.thisRequest

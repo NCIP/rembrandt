@@ -761,7 +761,7 @@ public class ClinicalDataForm extends BaseForm {
 	
 	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
 					&& (this.sampleFile != null)
-					&& (this.sampleFile.getFileName().endsWith(".txt"))
+					&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
 					&& (this.sampleFile.getContentType().equals("text/plain"))) {
 				try {
 					InputStream stream = sampleFile.getInputStream();				
