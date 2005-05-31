@@ -45,10 +45,11 @@ public class CopyNumberFilter {
 						SampleResultset sampleResultset = (SampleResultset) sampleIterator.next();
 						if (processCopyNumberFilterPerSample(sampleResultset,reporterNames, noOfConsectiveCalls, percentCall, operator)) {
 							logger.debug(sampleResultset.getBiospecimen().getValue() + "\t"+ "TRUE");
-							sampleIDs.add(sampleResultset.getBiospecimen().getValue().toString());
+							//sampleIDs.add(sampleResultset.getBiospecimen().getValue().toString());
 						}
 						else{
 							logger.debug(sampleResultset.getBiospecimen().getValue() + "\t"+ "FALSE");
+							sampleIDs.add(sampleResultset.getBiospecimen().getValue().toString());
 						}
 						
 					}
