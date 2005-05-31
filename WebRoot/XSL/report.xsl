@@ -111,8 +111,8 @@
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 		<b><span class="lb">Filter:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" value="show" />Show Only</span>
-		<input type="radio" class="checkorradio" name="filter_type" id="hide_radio" checked="true" value="hide"/>Hide		
+		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" id="showOnly_radio" value="show" />Show Only</span>
+		<span id="hideLabel"><input type="radio" class="checkorradio" name="filter_type" id="hide_radio" checked="true" value="hide"/>Hide</span>		
 		<select name="filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
 			<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
 			<option value="gene">Gene(s)</option>

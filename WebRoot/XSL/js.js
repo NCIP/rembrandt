@@ -196,15 +196,15 @@ function showCNumberFilter(v, id)	{
 	if(v == 'copy number')	{
 		displayDiv(id, "block");
 		displayDiv('fb', "none");
-		displayDiv('showOnlyLabel', "none");
-		document.getElementById('hide_radio').checked = true;
+		displayDiv('hideLabel', "none");
+		document.getElementById('showOnly_radio').checked = true;
 	}
 	else	{
 		if(document.getElementById(id))	{
 			displayDiv(id, "none");
 		}
 		displayDiv('fb', "inline");
-		displayDiv('showOnlyLabel', "inline");
+		displayDiv('hideLabel', "inline");
 	}
 }
 
