@@ -1032,7 +1032,7 @@ public class GeneExpressionForm extends BaseForm {
 			if ((thisGeneGroup != null)
 					&& thisGeneGroup.equalsIgnoreCase("Upload")
 					&& (thisGeneType.length() > 0) && (this.geneFile != null)
-					&& (this.geneFile.getFileName().endsWith(".txt"))
+					&& (this.geneFile.getFileName().endsWith(".txt")|| this.geneFile.getFileName().endsWith(".TXT"))
 					&& (this.geneFile.getContentType().equals("text/plain"))) {
 				try {
 					InputStream stream = geneFile.getInputStream();
@@ -1529,7 +1529,7 @@ public class GeneExpressionForm extends BaseForm {
 					&& thisCloneId.equalsIgnoreCase("Upload")
 					&& (thisCloneList.length() > 0)
 					&& (this.cloneListFile != null)
-					&& (this.cloneListFile.getFileName().endsWith(".txt"))
+					&& (this.cloneListFile.getFileName().endsWith(".txt") || this.cloneListFile.getFileName().endsWith(".TXT"))
 					&& (this.getCloneListFile().getContentType()
 							.equals("text/plain"))) {
 

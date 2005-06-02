@@ -1457,7 +1457,7 @@ public class ComparativeGenomicForm extends BaseForm {
             //retrieve the file name & size
             if ((thisSNPId != null) && thisSNPId.equalsIgnoreCase("Upload")
                     && (thisSNPList.length() > 0) && (this.snpListFile != null)
-                    && (this.snpListFile.getFileName().endsWith(".txt"))
+                    && (this.snpListFile.getFileName().endsWith(".txt") || this.snpListFile.getFileName().endsWith(".TXT"))
                     && (this.snpListFile.getContentType().equals("text/plain"))) {
 
                 try {
@@ -1807,7 +1807,7 @@ public class ComparativeGenomicForm extends BaseForm {
             if ((thisGeneGroup != null)
                     && thisGeneGroup.equalsIgnoreCase("Upload")
                     && (thisGeneType.length() > 0) && (this.geneFile != null)
-                    && (this.geneFile.getFileName().endsWith(".txt"))
+                    && (this.geneFile.getFileName().endsWith(".txt") || this.geneFile.getFileName().endsWith(".TXT"))
                     && (this.geneFile.getContentType().equals("text/plain"))) {
                 try {
                     InputStream stream = geneFile.getInputStream();

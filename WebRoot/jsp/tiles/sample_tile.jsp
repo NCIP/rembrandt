@@ -4,7 +4,7 @@
 
 <fieldset class="gray">
 <legend class="red">Sample Identifier
-<app:help help="Manually enter Sample Id(s) or Select Sample Id(s) from file using browse button" />
+<app:help help="Manually enter Sample Id(s) or Select Sample Id(s) from file using browse button. There must only be one entry per line and a return must be added at the end of the file." />
 </legend>
 <%
 	String act = request.getParameter("act");
