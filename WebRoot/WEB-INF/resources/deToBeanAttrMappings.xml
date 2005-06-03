@@ -51,7 +51,7 @@
                    <mappedBean name="gov.nih.nci.nautilus.data.GeneClone"
                    attribute="accessionNumber"/>
                    <mappedBean name="gov.nih.nci.nautilus.data.GeneLlAccSnp"
-                   attribute="accessionNumber"/>
+                   attribute="accession"/>
     </DomainElement>
     <DomainElement name="gov.nih.nci.nautilus.de.ExprFoldChangeDE">
                    <mappedBean name="gov.nih.nci.nautilus.data.DifferentialExpressionSfact"
