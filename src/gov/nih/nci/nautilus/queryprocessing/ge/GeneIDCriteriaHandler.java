@@ -1,10 +1,7 @@
 package gov.nih.nci.nautilus.queryprocessing.ge;
 
 import gov.nih.nci.nautilus.criteria.GeneIDCriteria;
-import gov.nih.nci.nautilus.data.GeneClone;
-import gov.nih.nci.nautilus.data.GeneSnp;
-import gov.nih.nci.nautilus.data.LlSnp;
-import gov.nih.nci.nautilus.data.ProbesetDim;
+import gov.nih.nci.nautilus.data.*;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.queryprocessing.QueryHandler;
 import gov.nih.nci.nautilus.queryprocessing.cgh.CGHReporterIDCriteria;
@@ -32,7 +29,7 @@ public class GeneIDCriteriaHandler {
             data.put(GeneIdentifierDE.LocusLink.class.getName(),
                             new TargetClass(LlSnp.class, LlSnp.SNP_PROBESET_ID));
             data.put(GeneIdentifierDE.GenBankAccessionNumber.class.getName(),
-                            new TargetClass(GeneSnp.class, GeneSnp.SNP_PROBESET_ID));
+                            new TargetClass(GeneLlAccSnp.class, GeneSnp.SNP_PROBESET_ID));
         }
 
      static ArrayList getGeneIDValues(GeneIDCriteria geneIDCrit) {
