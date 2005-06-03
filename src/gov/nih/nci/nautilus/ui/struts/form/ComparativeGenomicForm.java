@@ -899,11 +899,11 @@ public class ComparativeGenomicForm extends BaseForm {
                                     .put(geneStr[i].trim(),
                                             GeneIdentifierDE.GeneSymbol.class
                                                     .getName());
-                        } else if (thisGeneType.equalsIgnoreCase("locusLinkId")) {
+                        } else if (thisGeneType.equalsIgnoreCase("genelocus")) {
                             geneDomainMap.put(geneStr[i].trim(),
                                     GeneIdentifierDE.LocusLink.class.getName());
                         } else if (thisGeneType
-                                .equalsIgnoreCase("genBankAccNo")) {
+                                .equalsIgnoreCase("genbankno")) {
                             geneDomainMap
                                     .put(
                                             geneStr[i].trim(),

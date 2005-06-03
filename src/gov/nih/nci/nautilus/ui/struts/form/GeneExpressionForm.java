@@ -894,7 +894,8 @@ public class GeneExpressionForm extends BaseForm {
 
 			String thisGeneType = this.thisRequest.getParameter("geneType");
 			String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-
+            geneCriteria = new GeneIDCriteria();
+            GeneIdentifierDE geneIdentifierDE = null;
 			if ((thisGeneGroup != null)
 					&& thisGeneGroup.equalsIgnoreCase("Specify")
 					&& (thisGeneType.length() > 0)
@@ -905,20 +906,17 @@ public class GeneExpressionForm extends BaseForm {
 				for (int i = 0; i < splitValue.length; i++) {
 
 					if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-						geneDomainMap.put(splitValue[i].trim(),
-								GeneIdentifierDE.GeneSymbol.class.getName());
+                        geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(splitValue[i].trim());
 					} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-						geneDomainMap.put(splitValue[i].trim(),
-								GeneIdentifierDE.LocusLink.class.getName());
+                        geneIdentifierDE = new GeneIdentifierDE.LocusLink(splitValue[i].trim());
 					} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-						geneDomainMap.put(splitValue[i].trim(),
-								GeneIdentifierDE.GenBankAccessionNumber.class
-										.getName());
-					} else if (thisGeneType.equalsIgnoreCase("allgenes")) {
-						geneDomainMap.put(splitValue[i].trim(),
-								GeneIdentifierDE.GeneSymbol.class.getName());
-					}
-
+                        geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(splitValue[i].trim());
+					} //else if (thisGeneType.equalsIgnoreCase("allgenes")) {
+						//geneDomainMap.put(splitValue[i].trim(),
+						//		GeneIdentifierDE.GeneSymbol.class.getName());
+                        
+					//}
+                    geneCriteria.setGeneIdentifier(geneIdentifierDE);
 				}
 			}
 
@@ -1041,34 +1039,32 @@ public class GeneExpressionForm extends BaseForm {
 							new InputStreamReader(stream));
 
 					int count = 0;
+                    geneCriteria = new GeneIDCriteria();
+                    GeneIdentifierDE geneIdentifierDE = null;
 					while ((inputLine = inFile.readLine()) != null
 							&& count < NautilusConstants.MAX_FILEFORM_COUNT) {
 						if (UIFormValidator.isAscii(inputLine)) { // make sure
 																	// all data
 																	// is ASCII
 							count++;
-							if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-								geneDomainMap.put(inputLine,
-										GeneIdentifierDE.GeneSymbol.class
-												.getName());
+                            if (thisGeneType.equalsIgnoreCase("genesymbol")) {
+                                geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine);
 							} else if (thisGeneType
 									.equalsIgnoreCase("genelocus")) {
-								geneDomainMap.put(inputLine,
-										GeneIdentifierDE.LocusLink.class
-												.getName());
+                                geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);
+
 							} else if (thisGeneType
 									.equalsIgnoreCase("genbankno")) {
-								geneDomainMap
-										.put(
-												inputLine,
-												GeneIdentifierDE.GenBankAccessionNumber.class
-														.getName());
-							} else if (thisGeneType
-									.equalsIgnoreCase("allgenes")) {
-								geneDomainMap.put(inputLine,
-										GeneIdentifierDE.GeneSymbol.class
-												.getName());
-							}
+                                geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(inputLine);
+
+							}// else if (thisGeneType
+							//		.equalsIgnoreCase("allgenes")) {
+                                //geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);
+								//geneDomainMap.put(inputLine,
+								//		GeneIdentifierDE.GeneSymbol.class
+								//				.getName());
+							//}
+                            geneCriteria.setGeneIdentifier(geneIdentifierDE);
 						}
 					}// end of while
 

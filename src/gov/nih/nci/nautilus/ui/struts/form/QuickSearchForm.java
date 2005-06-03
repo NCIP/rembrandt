@@ -25,7 +25,7 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	public void setQuickSearchName(String str) {	    
 	    String[] quickSearchNameStrings = str.split(":");
 	    str = quickSearchNameStrings[0];
-		this.quickSearchName = str;
+		this.quickSearchName = str.trim();
 	}
 
 	public String getQuickSearchName() {
@@ -59,6 +59,9 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
      * @see gov.nih.nci.nautilus.ui.struts.form.GeneValidator#setGeneSymbol(java.lang.String)
      */
     public void setGeneSymbol(String geneSymbol) {
+        if(geneSymbol != null){
+            geneSymbol = geneSymbol.trim();
+        }
        this.quickSearchName = geneSymbol;
         
     }
