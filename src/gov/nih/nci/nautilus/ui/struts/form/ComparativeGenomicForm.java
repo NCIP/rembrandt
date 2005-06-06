@@ -1470,6 +1470,7 @@ public class ComparativeGenomicForm extends BaseForm {
                             && count < NautilusConstants.MAX_FILEFORM_COUNT) {
                         if (UIFormValidator.isAscii(inputLine)) { //make sure all data is ASCII
                             count++; //increment
+                            inputLine = inputLine.trim();
                             if (thisSNPList.equalsIgnoreCase("TSCId")) {
                                 snpDomainMap.put(inputLine,
                                         SNPIdentifierDE.TSC.class.getName());
@@ -1819,6 +1820,7 @@ public class ComparativeGenomicForm extends BaseForm {
                     while ((inputLine = inFile.readLine()) != null
                             && count < NautilusConstants.MAX_FILEFORM_COUNT) {
                         if(UIFormValidator.isAscii(inputLine)) { //make sure all data is ASCII
+                            inputLine = inputLine.trim();
                             count++;
                             if (thisGeneType.equalsIgnoreCase("genesymbol")) {
                                 geneDomainMap.put(inputLine,
@@ -1881,7 +1883,8 @@ public class ComparativeGenomicForm extends BaseForm {
 					int count = 0;
 					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
 						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
-								count++;
+						    inputLine = inputLine.trim();	
+						    count++;
 								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
 						}
 					}// end of while

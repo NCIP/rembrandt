@@ -1046,7 +1046,8 @@ public class GeneExpressionForm extends BaseForm {
 						if (UIFormValidator.isAscii(inputLine)) { // make sure
 																	// all data
 																	// is ASCII
-							count++;
+						    inputLine = inputLine.trim();
+						    count++;
                             if (thisGeneType.equalsIgnoreCase("genesymbol")) {
                                 geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine);
 							} else if (thisGeneType
@@ -1110,7 +1111,8 @@ public class GeneExpressionForm extends BaseForm {
 						if (UIFormValidator.isAscii(inputLine)) { // make sure
 																	// all data
 																	// is ASCII
-							count++;
+						    inputLine = inputLine.trim();
+						    count++;
 							sampleDomainMap.put(inputLine, SampleIDDE.class
 									.getName());
 						}
@@ -1540,7 +1542,8 @@ public class GeneExpressionForm extends BaseForm {
 						if (UIFormValidator.isAscii(inputLine)) { // make sure
 																	// all data
 																	// is ASCII
-							count++; // increment
+						    inputLine = inputLine.trim();
+						    count++; // increment
 							if (thisCloneList.equalsIgnoreCase("IMAGEId")) {
 								cloneDomainMap.put(inputLine,
 										CloneIdentifierDE.IMAGEClone.class

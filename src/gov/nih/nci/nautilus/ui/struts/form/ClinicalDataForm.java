@@ -771,7 +771,8 @@ public class ClinicalDataForm extends BaseForm {
 					int count = 0;
 					while ((inputLine = inFile.readLine()) != null && count < NautilusConstants.MAX_FILEFORM_COUNT)  {
 						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
-								count++;
+						    inputLine = inputLine.trim();	
+						    count++;
 								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
 						}
 					}// end of while
