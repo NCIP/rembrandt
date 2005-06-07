@@ -348,4 +348,11 @@
 	<target name="clean">
 		<delete dir="${build.classes.dir}" quiet="true" />
 	</target>
+	<target name="config-database">
+		<delete file="${webapp.dir}/WEB-INF/resources/repository_database.xml"/>
+	    <copy file="${webapp.dir}/WEB-INF/resources/repository_database.xml.template" tofile="${webapp.dir}/WEB-INF/resources/repository_database.xml"/>
+		<replaceregexp file = "${webapp.dir}/WEB-INF/resources/repository_database.xml" match="DB_USER" replace="${databaseUser}" flags="g"/>
+		<replaceregexp file = "${webapp.dir}/WEB-INF/resources/repository_database.xml" match="URL_DB_ALIAS" replace="${urlDbalias}" flags="g"/>
+		<replaceregexp file = "${webapp.dir}/WEB-INF/resources/repository_database.xml" match="DB_PASSWD" replace="${databasePassword}" flags="g"/>
+	</target>
 </project>
