@@ -20,7 +20,7 @@
 	</patternset>
     <patternset id="cache.jars">
         <include name="ehcache-1.1.jar" />
-    </patternset>   
+    </patternset>
 
 	<patternset id="cabio.jars">
 		<include name="caBIO.jar" />
@@ -69,8 +69,8 @@
 		<include name="xdoclet-ojb-module-1.2b3-dev.jar" />
 		<include name="xml-apis.jar" />
 		<include name="xjavadoc-1.0.jar" />
-        <include name="dom4j-1.5.2.jar" />      
-        
+        <include name="dom4j-1.5.2.jar" />
+
 	</patternset>
 
 	<patternset id="db.platform.jars">
@@ -90,7 +90,7 @@
 		<include name="jakarta-oro.jar" />
 		<include name="struts.jar" />
 		<include name="struts-legacy.jar" />
-        <!-- Tomcat 5 Jasper2 jars -->      
+        <!-- Tomcat 5 Jasper2 jars -->
 		<include name="jasper-runtime.jar" />
 		<include name="jasper-compiler.jar" />
 	</patternset>
@@ -107,7 +107,7 @@
 		<include name="batik-dom.jar" />
 		<include name="batik-awt-util.jar" />
 		<include name="krysalis-jCharts-1.0.0-alpha-1.jar" />
-        <include name="dom4j-1.5.2.jar" />  
+        <include name="dom4j-1.5.2.jar" />
 	</patternset>
 
 	<patternset id="caintergrator.jars">
@@ -131,7 +131,7 @@
 			<include name="log4j-1.2.8.jar" />
 			<include name="db-ojb-1.0.rc7.jar" />
 			<include name="dom4j-1.5.2.jar" />
-            <patternset refid="cache.jars"/>         
+            <patternset refid="cache.jars"/>
 		</fileset>
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="jasper-runtime.jar" />
@@ -140,7 +140,7 @@
 			<include name="servlet-api.jar" />
 			<!--Needed for Tomcat 4.0 -->
 			<include name="servlet.jar" />
-			
+
 		</fileset>
 	</path>
 
@@ -215,14 +215,17 @@
 				<patternset refid="db.platform.jars" />
 				<patternset refid="cabio.jars" />
 				<patternset refid="graphic-pkg.jars" />
-                <patternset refid="cache.jars"/>            
+                <patternset refid="cache.jars"/>
 				<include name="xercesImpl.jar" />
 				<include name="xml-apis.jar" />
                 <include name="jasper-runtime.jar" />
-                <include name="jasper-compiler.jar" />            
+                <include name="jasper-compiler.jar" />
 			</fileset>
 		</copy>
 		<filter token="LOGDIR" value="${logging.dir}" />
+        <filter token="DBURL" value="${urlDbalias}" />
+        <filter token="DBUSER" value="${databaseUser}" />
+        <filter token="DBPASSWD" value="${databasePassword}" />
 		<copy todir="${webapp.dir}/WEB-INF/classes" filtering="true" overwrite="true">
 			<fileset dir="${webapp.dir}/WEB-INF/resources">
 				<include name="deToBeanAttrMappings.xml" />
@@ -254,8 +257,8 @@
 			<zipfileset dir="${webapp.dir}/images" prefix="images" />
 			<zipfileset dir="${webapp.dir}/js" prefix="js" />
 			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp" />
-            <zipfileset dir="${webapp.dir}/XSL" prefix="XSL" />  
-			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials" />    
+            <zipfileset dir="${webapp.dir}/XSL" prefix="XSL" />
+			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials" />
 			<webinf dir="${webapp.dir}/WEB-INF">
 				<include name="*.xml" />
 				<include name="*.properties" />
@@ -305,9 +308,9 @@
 
 		<delete file="${basedir}/.cvspass" />
 		<!--    <input message="Please enter CVS user login name:" addproperty="cvsLogin" />
-	<condition property="noLogin"> 
-		<equals arg1="" arg2="${cvsLogin}" /> 
-	</condition> 
+	<condition property="noLogin">
+		<equals arg1="" arg2="${cvsLogin}" />
+	</condition>
 	<fail if="noLogin">You didn't enter a CVS user login name.</fail> -->
 		<input message="Please enter CVS password for user ${cvsUser}:" addproperty="cvsPassword" />
 		<condition property="noCVSPassword">
