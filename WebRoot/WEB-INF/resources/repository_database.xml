@@ -21,7 +21,7 @@
            subprotocol="oracle"
            dbalias=@DBURL@
            username=@DBUSER@
-           password=@DBPASSWD@
+           password=@DBPASSWD@>
            <connection-pool
                maxActive="1000"
                maxIdle="2"
