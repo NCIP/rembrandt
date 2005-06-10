@@ -19,9 +19,9 @@
            driver="oracle.jdbc.driver.OracleDriver"
            protocol="jdbc"
            subprotocol="oracle"
-           dbalias=@DBURL@
-           username=@DBUSER@
-           password=@DBPASSWD@>
+           dbalias="@DBURL@"
+           username="@DBUSER@"
+           password="@DBPASSWD@">
            <connection-pool
                maxActive="1000"
                maxIdle="2"
