@@ -483,7 +483,12 @@ public class ReportGeneratorHelper {
 			}
 			else{
 				logger.debug("resultant is Null.  no results returned!");
-				_reportBean = null;
+				//_reportBean = null;
+				_reportBean = new ReportBean();
+				_reportBean.setAssociatedQuery(_cQuery);
+				//_reportBean.setResultant(resultant);
+				//The cache key will always be the compound query name
+				_reportBean.setResultantCacheKey(_cQuery.getQueryName());
 			}		
 		}else{
 			logger.error("Compound Query is Null.  Can not execute!");
