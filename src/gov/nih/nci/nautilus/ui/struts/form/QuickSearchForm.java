@@ -4,6 +4,7 @@ import gov.nih.nci.nautilus.lookup.AllGeneAliasLookup;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 
@@ -13,6 +14,7 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
     private AllGeneAliasLookup[] allGeneAlias;
     private String quickSearchName = null;
 	private String quickSearchType = null;
+	private static Logger logger = Logger.getLogger(QuickSearchForm.class);
 	
 	public String getPlot() {
 		return plot;
@@ -51,6 +53,11 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 			HttpServletRequest request) {
 	    ActionErrors errors = new ActionErrors();
 	    UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
+		try {
+			UIFormValidator.validateGeneSymbol(this, errors);
+		} catch (Exception e) {
+			logger.error(e);
+		}
 		return errors;
 
 	}
