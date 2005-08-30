@@ -52,8 +52,8 @@
 		This will build the war file
 	-->
     <target name="build_war" depends="copy_resources">
-		<delete file="${build.dir}/${app.war.name}.war" />
-		<war destfile="${build.dir}/${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
+		<delete file="${app.war.name}.war" />
+		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.*" />
 			<zipfileset dir="${webapp.dir}/css" prefix="css" />
 			<zipfileset dir="${webapp.dir}/images" prefix="images" />
@@ -63,8 +63,7 @@
 			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials" />
 			<zipfileset dir="${webapp.dir}/XSL" prefix="XSL" />
 			<webinf dir="${webapp.dir}/WEB-INF"/>
-			<classes dir="${build.classes.dir}" />
-    	</war>
+	   	</war>
 	</target>
 	
 </project>
