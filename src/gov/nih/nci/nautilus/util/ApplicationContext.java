@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.log4j.Logger;
-import org.apache.xerces.impl.xs.dom.DOMParser;
+import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 /**
