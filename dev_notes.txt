@@ -1,7 +1,81 @@
     JDK 1.5.0.2 is now required
     Ant 1.6.5 is the version that I am using  but 1.6.2 should work as well.
+-----------------------------------------------------------------------------------
+A. Recommended way to check out and build the project in MyEclipse 
+(enabling debugging and other features)
+    
+   	0.1  You must have the cbiocvs2.nci.nih.gov repository mapped
+     in the CVS browser
+	0.2  You must JDK 1.5.0_04
+	0.3  You must have myEclipse installed
+	0.4  You must have JBoss 4.0.2 installed
+	0.5  You must have a JBOSS_HOME enviornment variable created in Eclipse
+	     that points to your JBoss directory
+	0.6  You must have configured JBoss 4 in the 
+		Window-->Preferences-->MyEclipse-->Application Servers menu 
+	
+	**********************************************
+	1. Using the CVS Repository Explorer browse to:
+		:/share/content/cvsroot/caintegrator
+	
+	2. Right Click--> select "Check out as..."
+	
+	3. Select "Check out as a project configured using the New Project Wizard"
+	
+	4. click "Finish"
+	
+	5. browse to and select a "MyEclipse/J2EE Projects/Web Project"
+	
+	6. For the page titled "New J2EE Web Project" use the 
+	following settings:
+		
+		Project Name = "rembrandt"
+		
+		"Use Default Location" is checked
+			
+		Source folder = "src"
+		
+		Web root folder = "WebRoot"
+		
+		"J2EE Specification Level"
+			select "J2EE 1.4[default]"
+		
+		Leave "JSTL Support" Unchecked
+	
+	7. click "Finish"
+	
+	8. Project should begin checking out from CVS
+	
+	9. Make sure that Project-->"build automatically" is checked
+	
+	10. Project should build with no errors
+	
+	**********************************************
+	Configure Logging and Database properties
+	by modifying the build.properties file and 
+	running the build.xml-->configure_database target
+	(This will apply your build.property file settings
+	to the log4j.properties and repository_database.xml 
+	files).  
+	**********************************************
+	
+	11. Create a deployment by going to the toolbar icon with the label
+	"Deploy MyEclipse J2EE Project to Server"
+	
+	12. Select "rembrandt" as the project
+	
+	13. Press the "Add" button
+	
+	14. On the next page select "JBoss 4" as your server and select
+	"Exploded Archive"
+	
+	15. Press "Finish"
+	
+	16.  The project should begin deploying to your JBoss default server
+
+---------------------------------------------------------------------------------
    
-A. Recommended way to run the build script in Eclipse (for myEclipse see part C) you can use the following steps:
+B. Recommended way to run the build script in Eclipse (for myEclipse see part C) you can use the following steps:
     0.1 make sure you have the correct JDK installed
     0.2 make sure that you have Ant installed
     0.3 make sure that you have JBoss 4.0.2 installed
@@ -15,8 +89,9 @@ A. Recommended way to run the build script in Eclipse (for myEclipse see part C)
     7- Console Output should provide instructions as to what is happening
     8- Grab the war that was placed in your project and put it in the JBOSS_HOME/server/default/deploy/
 
+-----------------------------------------------------------------------------------
 
-B. Recommended way to build from command line
+C. Recommended way to build from command line
     0.1 make sure you have the correct JDK installed
     0.2 make sure that you have Ant installed
     0.3 make sure that you have JBoss 4.0.2 installed
@@ -27,12 +102,3 @@ B. Recommended way to build from command line
     4- go to the location of the build.xml file and type "Ant"
     5-You should see the project compiling and war'ing
     6- Grab the war that was created and put it in the JBOSS_HOME/server/default/deploy/  
-
-C. Recommended way to build the project in myEclipse (enabling debugging and other features)
-    
-    0.1 make sure you have the correct JDK installed
-    0.2 make sure that you have Ant installed
-    0.3 make sure that you have JBoss 4.0.2 installed
-    0.4 create a JBOSS_HOME variable in eclipse pointing to the JBoss installation
-
-   I am verifying that it is simply a matter of checking out and importing as a myEclipse web project.

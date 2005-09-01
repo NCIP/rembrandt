@@ -4,7 +4,7 @@
 	TARGET: COMPILE
 		Compiles the source directory
 	-->
-	<target name="compile" depends="config_database, config_logging">
+	<target name="compile" depends="config_database">
 		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}" />
 		<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.4" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -27,7 +27,7 @@
 		urlDbalias - The URL to the database that we are going to use
 		databasePassword - The database password
 	-->
-	<target name="config_database">
+	<target name="config_database" depends="config_logging">
 				<delete file="src/repository_database.xml"/>
 			    <copy file="src/repository_database.xml.template" tofile="src/repository_database.xml"/>
 				<replaceregexp file = "src/repository_database.xml" match="__DB_USER__" replace="${databaseUser}" flags="g"/>
