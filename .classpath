@@ -3,12 +3,9 @@
 	<classpathentry excluding="gov/nih/nci/nautilus/test/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/classes12.zip"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-dbcp.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-pool.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-validator.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/db-ojb-1.0.rc4-junit.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/db-ojb-1.0.rc4-src.jar"/>
+	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jar"/>
+	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jsp.jar"/>
+	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/log4j.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/batik-awt-util.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/batik-dom.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/batik-svggen.jar"/>
@@ -16,10 +13,12 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/batik-xml.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/caBIO.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cewolf.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/classes12.zip"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-beanutils.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-collections.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-digester.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-lang-2.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/db-ojb-1.0.rc4-src.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/db-ojb-1.0.rc7.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/dom4j-1.5.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ehcache-1.1.jar"/>
@@ -28,14 +27,13 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jcs.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jdo.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jdori.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jfreechart-0.9.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jfreechart-0.9.8-demo.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jfreechart-0.9.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/krysalis-jCharts-1.0.0-alpha-1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/oracle.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/weka.jar"/>
-	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jar"/>
-	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jsp.jar"/>
-	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/log4j.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-dbcp.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-pool.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
