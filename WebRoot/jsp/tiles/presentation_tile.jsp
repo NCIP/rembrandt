@@ -60,8 +60,7 @@
 						</tbody>
 					</table>
 					<Br><a href="JavaScript:window.new('output_sample.html')">sample view example</a>
-			</div>
-		</logic:equal>
+		</div>
 		<br><br>
 		Apply a saved Template 	<a href="javascript:void(0);" onmouseover="return overlib('You can use a previously saved template', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
 		&nbsp;Upload Template:&nbsp;<input type="file">
