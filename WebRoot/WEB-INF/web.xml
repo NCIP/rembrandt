@@ -67,7 +67,7 @@
 	
   <!-- The Welcome File List -->
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
    <error-page>
     <error-code>404</error-code>
