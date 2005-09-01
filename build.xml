@@ -4,7 +4,7 @@
 	TARGET: COMPILE
 		Compiles the source directory
 	-->
-	<target name="compile">
+	<target name="compile" depends="config_database, config_logging">
 		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}" />
 		<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.4" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -27,18 +27,28 @@
 		urlDbalias - The URL to the database that we are going to use
 		databasePassword - The database password
 	-->
-	<target name="config_database" depends="compile">
+	<target name="config_database">
 				<delete file="src/repository_database.xml"/>
 			    <copy file="src/repository_database.xml.template" tofile="src/repository_database.xml"/>
 				<replaceregexp file = "src/repository_database.xml" match="__DB_USER__" replace="${databaseUser}" flags="g"/>
 				<replaceregexp file = "src/repository_database.xml" match="__URL_DB_ALIAS__" replace="${urlDbalias}" flags="g"/>
 				<replaceregexp file = "src/repository_database.xml" match="__DB_PASSWD__" replace="${databasePassword}" flags="g"/>
-		</target>
+	</target>
+	<!--
+		TARGET: config_logging
+		Configures the log4j.properties file using the settings in the 
+		build.properties file
+	-->
+	<target name="config_logging">
+				<delete file="src/log4j.properties"/>
+			    <copy file="src/log4j.properties.template" tofile="src/log4j.properties"/>
+				<replaceregexp file = "src/log4j.properties" match="@LOGDIR@" replace="${logging.dir}" flags="g"/>
+	</target>
 	<!--
 		TARGET: copy_resources
 		Copies all the bundle resources to the WEB-INF/classes/ folder
 	-->
-	<target name="copy_resources" depends="config_database">
+	<target name="copy_resources" depends="compile">
 		<copy todir="${build.classes.dir}">
 			<fileset dir="${source.dir}">
 				<include name="*.xml" />
