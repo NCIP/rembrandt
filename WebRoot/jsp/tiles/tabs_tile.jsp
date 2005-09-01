@@ -48,6 +48,6 @@
 	<ul id="primary">
 		<li><%= simple %></li>
 		<li><%= adv %></li>
-		<li><%= viewResults %></a></li>
+		<li><%= viewResults %></li>
 	</ul>
 </div>
