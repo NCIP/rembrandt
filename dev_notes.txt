@@ -1,0 +1,38 @@
+    JDK 1.5.0.2 is now required
+    Ant 1.6.5 is the version that I am using  but 1.6.2 should work as well.
+   
+A. Recommended way to run the build script in Eclipse (for myEclipse see part C) you can use the following steps:
+    0.1 make sure you have the correct JDK installed
+    0.2 make sure that you have Ant installed
+    0.3 make sure that you have JBoss 4.0.2 installed
+
+    1- Check out the project.  
+    2- Verify your build path is correct by adding the libraries that are in the not_deployed_jars folder and the WebRoot/WEB-INF/lib folder
+    3- Verify the build.properties logging directory is correct for your machine
+    4- Check any other properties that are of interest to you
+    5- right click on the build.xml file
+    6- select "Run As"-->"Ant Build"
+    7- Console Output should provide instructions as to what is happening
+    8- Grab the war that was placed in your project and put it in the JBOSS_HOME/server/default/deploy/
+
+
+B. Recommended way to build from command line
+    0.1 make sure you have the correct JDK installed
+    0.2 make sure that you have Ant installed
+    0.3 make sure that you have JBoss 4.0.2 installed
+
+    1- Check out the project.  
+    2- Verify the build.properties logging directory is correct for your machine
+    3- Check any other properties that are of interest to you
+    4- go to the location of the build.xml file and type "Ant"
+    5-You should see the project compiling and war'ing
+    6- Grab the war that was created and put it in the JBOSS_HOME/server/default/deploy/  
+
+C. Recommended way to build the project in myEclipse (enabling debugging and other features)
+    
+    0.1 make sure you have the correct JDK installed
+    0.2 make sure that you have Ant installed
+    0.3 make sure that you have JBoss 4.0.2 installed
+    0.4 create a JBOSS_HOME variable in eclipse pointing to the JBoss installation
+
+   I am verifying that it is simply a matter of checking out and importing as a myEclipse web project.
