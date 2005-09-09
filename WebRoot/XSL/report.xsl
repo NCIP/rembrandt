@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 
 <xsl:param name="filter_value1"></xsl:param>
@@ -19,7 +20,6 @@
 <xsl:param name="statusMsg"></xsl:param>
 <xsl:param name="showAllValues">false</xsl:param>
 <xsl:template match="/">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   	<head>
@@ -179,6 +179,12 @@
 		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('The Copy Number Filter allows you to filter the copy number report based on additional criteria such as No. of Consecutive SNPs and Percent of SNPs that match criteria.  These criteria will determine which SNPs are displayed on the report. The filtered Version of our report will now reflect the filter parameters we have filled out. For example, selecting “3” for the first filter and “50%” in the second filter will displays only those samples that had atleast 3 consecutive SNPs and 50% of the SNPs that met the criteria specified.');" onmouseout="return nd();">[?]</a></b>
 	  </form>
 	  </div>
+	  <!-- Added for WebGenome Testing -->
+	  <div class="filterForm">
+	  <form action="null" method="post" name="reportGeneratorForm">
+	 	 <button type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')">Testing WebGenome...</button>
+	  </form>
+	   </div>
 	  </xsl:if>	  
 	  
 			
