@@ -66,7 +66,6 @@ import gov.nih.nci.nautilus.query.QueryType;
 import gov.nih.nci.nautilus.resultset.Resultant;
 import gov.nih.nci.nautilus.resultset.ResultsContainer;
 import gov.nih.nci.nautilus.resultset.ResultsetManager;
-import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMGraphGenerator;
 import gov.nih.nci.nautilus.view.ViewFactory;
 import gov.nih.nci.nautilus.view.ViewType;
 
@@ -77,7 +76,7 @@ import org.apache.log4j.Logger;
  *  
  */
 public class KMPlotManager {
-	private static Logger logger = Logger.getLogger(KMGraphGenerator.class);
+	private static Logger logger = Logger.getLogger(KMPlotManager.class);
 
 	/***************************************************************************
 	 * 
