@@ -49,12 +49,13 @@
  */
 package gov.nih.nci.nautilus.resultset.kaplanMeierPlot;
 
+import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.nautilus.de.CytobandDE;
 import gov.nih.nci.nautilus.de.DatumDE;
 import gov.nih.nci.nautilus.de.GeneIdentifierDE;
 import gov.nih.nci.nautilus.resultset.gene.ReporterResultset;
 import gov.nih.nci.nautilus.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.nautilus.ui.graph.kaplanMeier.KMSampleInfo;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,8 +90,8 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
 		this.geneSymbol = geneSymbol;
 	}
-	public KMSampleInfo[] getSummaryKMPlotSamples() {
-	    List kmSampleInfoArray = new ArrayList(); 
+	public KaplanMeierSampleInfo[] getSummaryKMPlotSamples() {
+	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
 	    Collection samples = getBioSpecimenResultsets();
         //Clear the Previous collection
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
@@ -98,13 +99,13 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 			Long time = (Long) (sample.getSurvivalLength().getValue());
 			Integer censor = new Integer((sample.getCensor().getValue().toString()));
 			Double value = (Double) sample.getSummaryReporterFoldChange().getValue();
-			KMSampleInfo kmSampleInfo = new KMSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+			KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
 			kmSampleInfoArray.add(kmSampleInfo);
 		}
-		return (KMSampleInfo[]) kmSampleInfoArray.toArray(new KMSampleInfo[kmSampleInfoArray.size()]);
+		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
 	}
-	public KMSampleInfo[] getKMPlotSamplesForReporter(String reporterName){
-	    List kmSampleInfoArray = new ArrayList(); 
+	public KaplanMeierSampleInfo[] getKMPlotSamplesForReporter(String reporterName){
+	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
 	    Collection samples = getBioSpecimenResultsets();
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
@@ -114,11 +115,11 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 				Integer censor = new Integer((sample.getCensor().getValue().toString()));
 				DatumDE datumDE = reporterResultset.getValue();
                 Double value = (Double) datumDE.getValue();
-				KMSampleInfo kmSampleInfo = new KMSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+                KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
 				kmSampleInfoArray.add(kmSampleInfo);
 			}
 		}
-		return (KMSampleInfo[]) kmSampleInfoArray.toArray(new KMSampleInfo[kmSampleInfoArray.size()]);
+		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
 	}
 	public List getAssociatedReporters(){
 		List reporterNames = null;

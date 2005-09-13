@@ -1,28 +1,15 @@
 package gov.nih.nci.caintegrator.ui.graphing.test;
 
-
-
 import gov.nih.nci.caintegrator.ui.graphing.chart.plot.KaplanMeierPlot;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierPlotPointSeries;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierPlotPointSeriesSet;
-
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 
 public class KaplanMeierGraphTester extends ApplicationFrame {
 
@@ -40,7 +27,6 @@ public class KaplanMeierGraphTester extends ApplicationFrame {
 		KaplanMeierPlotPointSeriesSet set3 = createKMPlotPointSeriesSet("Intermediate", 18, .07);
 		set3.setColor(Color.GREEN);
 		sets.add(set3);
-		
 		
 		KaplanMeierPlot kmPlot = new KaplanMeierPlot(sets);
 		JFreeChart chart = kmPlot.getKmChart();

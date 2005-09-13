@@ -6,7 +6,7 @@ A. Recommended way to check out and build the project in MyEclipse
     
    	0.1  You must have the cbiocvs2.nci.nih.gov repository mapped
      in the CVS browser
-	0.2  You must JDK 1.5.0_04
+	0.2  You must have JDK 1.5.0_04
 	0.3  You must have myEclipse installed
 	0.4  You must have JBoss 4.0.2 installed
 	0.5  You must have a JBOSS_HOME enviornment variable created in Eclipse
@@ -75,7 +75,8 @@ A. Recommended way to check out and build the project in MyEclipse
 
 ---------------------------------------------------------------------------------
    
-B. Recommended way to run the build script in Eclipse (for myEclipse see part C) you can use the following steps:
+B. Recommended way to run the build script in Eclipse (for myEclipse see part A)
+   you can use the following steps:
     0.1 make sure you have the correct JDK installed
     0.2 make sure that you have Ant installed
     0.3 make sure that you have JBoss 4.0.2 installed

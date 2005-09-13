@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+	<tlib-version>0.5</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>caintegrator-graphing</short-name>
+	<description>
+		This library contains the graphing tags created for caIntegrator
+	</description>
+
+	<tag>
+		<name>KaplanMeierPlot</name>
+		<tag-class>
+			gov.nih.nci.caintegrator.ui.graphing.taglib.KaplanMeierPlot
+		</tag-class>
+		<bodycontent>empty</bodycontent>
+		<desciption>The Kaplan Meier Survival Plot</desciption>
+	</tag>
+</taglib>
