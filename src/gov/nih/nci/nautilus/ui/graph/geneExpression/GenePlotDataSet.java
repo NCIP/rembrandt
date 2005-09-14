@@ -36,6 +36,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 /**
  * @author landyr
  *
@@ -43,6 +44,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class GenePlotDataSet {
 
 	protected DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	protected DefaultBoxAndWhiskerCategoryDataset bwdataset = new DefaultBoxAndWhiskerCategoryDataset();
+	
 	private Logger logger = Logger.getLogger(GeneExpressionGraphGenerator.class);
 	protected HashMap pValues = new HashMap();
 	
@@ -120,15 +123,17 @@ public class GenePlotDataSet {
 				geneSymbol = geneExprDiseasePlotContainer.getGeneSymbol().getValue().toString();
 				
 				//hold our categories and series
-				ArrayList catArrayList = new ArrayList();
-				ArrayList serArrayList = new ArrayList();
+				//ArrayList catArrayList = new ArrayList();
+				//ArrayList serArrayList = new ArrayList();
 				
 				Collection diseases = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultsets();
 				
 				//start ref
 				String[] groups = new String[diseases.size()];
+				
 				int probeSetSize = 0;
 				int diseaseSize = 0;
+				
 				diseaseSize = diseases.size();
 				for (Iterator diseasesIterator = diseases.iterator(); diseasesIterator.hasNext();) {
 					DiseaseGeneExprPlotResultset diseaseResultset = (DiseaseGeneExprPlotResultset) diseasesIterator.next();
@@ -153,10 +158,6 @@ public class GenePlotDataSet {
 							.getDiseaseGeneExprPlotResultset(diseaseTypes[i].getDiseaseType().toString());
 
 					String diseaseName = diseaseResultset.getType().getValue().toString();
-					//add the disease name to our list
-					//catArrayList.add(diseaseName);
-					
-					//stringBuffer.append(diseaseName + "\n");
 
 					//concat for ASTRO for some reason
 					if (diseaseName.equalsIgnoreCase(gov.nih.nci.nautilus.constants.NautilusConstants.ASTRO)) {
@@ -174,27 +175,11 @@ public class GenePlotDataSet {
 					for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 						ReporterFoldChangeValuesResultset reporterResultset = (ReporterFoldChangeValuesResultset) reporterIterator.next();
 						String reporterName = reporterResultset.getReporter().getValue().toString();
-						//add the reporter to the list
-						//serArrayList.add(reporterName);
 						
 						Double intensityValue = (Double) reporterResultset.getFoldChangeIntensity().getValue();
+
 						Double pvalue = (Double) reporterResultset.getRatioPval().getValue();
-						/*
-						if (diseaseResultset.getType().getValue().toString().compareTo(NautilusConstants.NORMAL) == 0) {
-							stringBuffer.append(reporterName + "\t"
-									+ resultFormat.format(intensityValue)
-									+ "\tN/A\n");
-						} else {
-							stringBuffer
-									.append(reporterName
-											+ "\t"
-											+ resultFormat
-													.format(intensityValue)
-											+ "\t"
-											+ pValueFormat.format(pvalue)
-											+ "\n");
-						}
-						*/
+
 						//fill up our lists
 						probeSets[counter] = reporterName;
 						intensityValues[counter] = intensityValue.doubleValue();
@@ -205,67 +190,14 @@ public class GenePlotDataSet {
 							pValues.put(reporterName+"::"+diseaseName, pValueFormat.format(pvalue));
 						}
 						
-						
-						//the money
+						//the money = actually build the jfree dataset
 						dataset.addValue(intensityValue.doubleValue(), reporterName, diseaseName);
-						
-						/*
-						intValuesArray[counter][icounter] = intensityValue.doubleValue();
-						logger.debug("intValuesArray[" + counter + "]["
-								+ icounter + "] = "
-								+ intensityValue.doubleValue());
-						*/
+					
 						counter++;
 					}
 					icounter++;
-				}
-				
-				
-				
-				/*
-				boolean setSeries = false;
-				int catCounter = 0;
-				int serCounter = 0;
-				
-				//for each disease, add a category to the category Array 
-				for (Iterator diseasesIterator = diseases.iterator(); diseasesIterator.hasNext();) {
-					
-					DiseaseGeneExprPlotResultset diseaseResultset = (DiseaseGeneExprPlotResultset) diseasesIterator.next();
-					String diseaseName = diseaseResultset.getType().getValue().toString();
-					
-					catArrayList.add(new String(diseaseName));
-					
-					Collection reporters = diseaseResultset.getReporterFoldChangeValuesResultsets();
-					//for each reporter add a series, then add the data point
-					for (Iterator reportersIterator = reporters.iterator(); reportersIterator.hasNext();) {
-						
-						ReporterFoldChangeValuesResultset reporterResultset = (ReporterFoldChangeValuesResultset) reportersIterator.next();
-						String reporterName = reporterResultset.getReporter().getValue().toString();
-						
-						if(!setSeries)	{
-							//only do this once - not once for every disease
-							serArrayList.add(reporterName);
-						}
-						
-						Double intensityValue = (Double) reporterResultset.getFoldChangeIntensity().getValue();
-						Double pvalue = (Double) reporterResultset.getRatioPval().getValue();
-						
-						dataset.addValue(intensityValue, (String) serArrayList.get(serCounter), (String) catArrayList.get(catCounter));
-						serCounter++;
-					}
-					setSeries = true;
-					catCounter++;
-
-				}
-				*/
-				
+				}	
 			}
-
-		   //define your series (items per group)
-		   
-		   //define your categories/groups
-		   
-		   //add to the data set
 	   }
 	   
 	   public DefaultCategoryDataset getDataSet() {
