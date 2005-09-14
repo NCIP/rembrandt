@@ -15,6 +15,15 @@
 			gov.nih.nci.caintegrator.ui.graphing.taglib.KaplanMeierPlot
 		</tag-class>
 		<bodycontent>empty</bodycontent>
-		<desciption>The Kaplan Meier Survival Plot</desciption>
+		<description>The Kaplan Meier Survival Plot</description>
+	</tag>
+	
+	<tag>
+		<name>GenePlot</name>
+		<tag-class>
+			gov.nih.nci.caintegrator.ui.graphing.taglib.GenePlotTag
+		</tag-class>
+		<bodycontent>empty</bodycontent>
+		<description>The Gene Expression Plot</description>
 	</tag>
 </taglib>
