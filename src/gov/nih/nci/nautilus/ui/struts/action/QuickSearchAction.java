@@ -47,6 +47,7 @@ public class QuickSearchAction extends DispatchAction {
 	private ActionForward doGeneExpPlot(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		/*
 		GeneExpressionGraphGenerator generator = new GeneExpressionGraphGenerator(
 				form);
 		if (generator.getErrors().size() > 0) {
@@ -56,7 +57,26 @@ public class QuickSearchAction extends DispatchAction {
 		generator.setRequestAttributes(request);
 		generator.setSessionAttributes(request.getSession(true));
 		return mapping.findForward("histogram");
-
+		*/
+		
+		//		old school
+		//GeneExpressionGraphGenerator generator = new GeneExpressionGraphGenerator(form);
+		/*
+		if (generator.getErrors().size() > 0) {
+			this.saveErrors(request, generator.getErrors());
+			return mapping.findForward("badgraph");
+		}
+		*/
+		
+		//we will handle the error elsewhere, so no need to findForward("badgraph")
+		QuickSearchForm qsForm = (QuickSearchForm) form;
+		//need this to pass the geneSymbol to the JSP
+		request.setAttribute("geneSymbol", qsForm.getGeneSymbol());
+		
+        //generator.setRequestAttributes(request);
+        //generator.setSessionAttributes(request.getSession(true));
+        return mapping.findForward("histogram");
+		
 	}
 
 	/***************************************************************************
