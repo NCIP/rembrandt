@@ -1,0 +1,10 @@
+<dwr>
+  <allow>
+    <create creator="new" javascript="JDate">
+      <param name="class" value="java.util.Date"/>
+    </create>
+    <create creator="new" javascript="Inbox">
+      <param name="class" value="gov.nih.nci.nautilus.ui.inbox.QueryInbox"/>
+    </create>
+  </allow>
+</dwr>

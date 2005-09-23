@@ -24,6 +24,7 @@ import org.jfree.chart.plot.*;
 import org.jfree.chart.entity.*;
 import org.jfree.chart.imagemap.StandardURLTagFragmentGenerator;
 import org.jfree.chart.labels.*;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.urls.*;
 import org.jfree.chart.servlet.*;
 
@@ -69,6 +70,8 @@ public class GeneExpressionPlot {
 	            }
 	           
 	        });
+			
+			// LegendTitle lg = chart.getLegend();
 			
 			//  Write the chart image to the temporary directory
 			ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
