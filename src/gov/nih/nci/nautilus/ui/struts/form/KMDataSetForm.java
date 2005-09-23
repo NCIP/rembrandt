@@ -1,22 +1,23 @@
 package gov.nih.nci.nautilus.ui.struts.form;
 
+import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.GeneExpressionQuery;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 
-
 public class KMDataSetForm extends ActionForm implements Serializable {
 
 	private GeneExpressionQuery geneQuery;
+	
+	private KaplanMeierStoredData storedData = null;
 
 	private String method;
 
@@ -24,26 +25,30 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 
 	private String plotType;
 
-	private int upFold = 3;
-
-	private int downFold = 3;
-
 	private String selectedReporter;
 
 	private List reporters = new ArrayList();;
 
-	private String chartTitle = "";//NautilusConstants.GENE_EXP_KMPLOT;
+	private String chartTitle = "";// NautilusConstants.GENE_EXP_KMPLOT;
 
 	private String changeType = "";
+	
+	private double upFold = 3;
+	
+	private double downFold = 3;
 
 	private String upOrAmplified = "Up Regulated";
 
 	private String downOrDeleted = "Down Regulated";
-	
-	
-    private boolean plotVisible = false;
+
+	private boolean plotVisible = false;
+
 	private ArrayList<Integer> folds = new ArrayList<Integer>();
-    private Integer numberOfPlots = null;
+
+	private Integer numberOfPlots = null;
+
+	private String selectedDataset;
+
 	private static Logger logger = Logger.getLogger(KMDataSetForm.class);
 
 	public KMDataSetForm() {
@@ -54,15 +59,12 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 		setPlotType(_plotType);
 	}
 
-	/***************************************************************************
-	 *  
+	/*********************************************
+	 * 
+	 * 
 	 */
 	public boolean hasExpired(Map params, Date since) {
 		return (System.currentTimeMillis() - since.getTime()) > 5000;
-	}
-
-	public String getProducerId() {
-		return "KMDataSetForm";
 	}
 
 	/**
@@ -83,16 +85,8 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	/**
 	 * @return Returns the geneFolds.
 	 */
-	public int getUpFold() {
-		return upFold;
-	}
-
-	/**
-	 * @param geneFolds
-	 *            The geneFolds to set.
-	 */
-	public void setUpFold(int upFolds) {
-		this.upFold = upFolds;
+	public double getUpFold() {
+		return this.upFold;
 	}
 
 	/**
@@ -125,16 +119,8 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	/**
 	 * @return Returns the downFold.
 	 */
-	public int getDownFold() {
-		return downFold;
-	}
-
-	/**
-	 * @param downFold
-	 *            The downFold to set.
-	 */
-	public void setDownFold(int downFold) {
-		this.downFold = downFold;
+	public double getDownFold() {
+		return this.downFold;
 	}
 
 	/**
@@ -194,10 +180,10 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	 *            The plotType to set.
 	 */
 	public void setPlotType(String plotType) {
-		if(plotType != null &&
-				( plotType.equals(NautilusConstants.GENE_EXP_KMPLOT) ||
-				plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT))){
-		this.plotType = plotType;
+		if (plotType != null
+				&& (plotType.equals(NautilusConstants.GENE_EXP_KMPLOT) || plotType
+						.equals(NautilusConstants.COPY_NUMBER_KMPLOT))) {
+			this.plotType = plotType;
 		}
 	}
 
@@ -241,19 +227,20 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	}
 
 	/**
-	 * @param downOrDeleted The downOrDeleted to set.
+	 * @param downOrDeleted
+	 *            The downOrDeleted to set.
 	 */
 	public void setDownOrDeleted(String downOrDeleted) {
 		this.downOrDeleted = downOrDeleted;
 	}
 
-    public boolean isPlotVisible() {
-        return plotVisible;
-    }
-    
-    public void setPlotVisible(boolean plotVisible) {
-        this.plotVisible = plotVisible;
-    }
+	public boolean isPlotVisible() {
+		return plotVisible;
+	}
+
+	public void setPlotVisible(boolean plotVisible) {
+		this.plotVisible = plotVisible;
+	}
 
 	/**
 	 * @return Returns the numberOfPlots.
@@ -261,10 +248,62 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	public Integer getNumberOfPlots() {
 		return numberOfPlots;
 	}
+
 	/**
-	 * @param numberOfPlots The numberOfPlots to set.
+	 * @param numberOfPlots
+	 *            The numberOfPlots to set.
 	 */
 	public void setNumberOfPlots(Integer numberOfPlots) {
 		this.numberOfPlots = numberOfPlots;
+	}
+
+	/**
+	 * @return Returns the selectedDataset.
+	 */
+	public String getSelectedDataset() {
+		return selectedDataset;
+	}
+
+	/**
+	 * @param selectedDataset
+	 *            The selectedDataset to set.
+	 */
+	public void setSelectedDataset(String selectedDataset) {
+		this.selectedDataset = selectedDataset;
+	}
+
+	/**
+	 * @return Returns the storedData.
+	 */
+	public KaplanMeierStoredData getStoredData() {
+		return storedData;
+	}
+
+	/**
+	 * @param storedData The storedData to set.
+	 */
+	public void setStoredData(KaplanMeierStoredData storedData) {
+		this.storedData = storedData;
+	}
+
+	/**
+	 * @param downFold The downFold to set.
+	 */
+	public void setDownFold(double downFold) {
+		this.downFold = downFold;
+	}
+
+	/**
+	 * @param upFold The upFold to set.
+	 */
+	public void setUpFold(double upFold) {
+		this.upFold = upFold;
+	}
+
+	/**
+	 * @param upOrAmplified The upOrAmplified to set.
+	 */
+	public void setUpOrAmplified(String upOrAmplified) {
+		this.upOrAmplified = upOrAmplified;
 	}
 }

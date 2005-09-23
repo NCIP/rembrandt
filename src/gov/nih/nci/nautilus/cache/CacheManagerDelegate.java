@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.cache;
 
+import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.query.Queriable;
@@ -124,6 +125,19 @@ public class CacheManagerDelegate implements ConvenientCache{
         	sessionCache = manager.getCache(sessionId);
         }
         return sessionCache;
+    }
+    public Object getObjectFromSessionCache(String sessionId, String key) {
+    	Cache sessionCache = getSessionCache(sessionId);
+    	Object returnObject = null;
+    	try {
+			Element element = sessionCache.get(key);
+			returnObject = element.getValue();
+		} catch (IllegalStateException e) {
+			logger.error(e);
+		} catch (CacheException e) {
+			logger.error(e);
+		}
+    	return returnObject;
     }
     /**
      * Removes the cache for the specified sessionId, if one exists.
@@ -545,7 +559,6 @@ public class CacheManagerDelegate implements ConvenientCache{
 				Object object = element.getValue();
 				if(object instanceof ReportBean) {
 						beans.add(object);
-					
 				}
 			}
 		}catch(CacheException ce) {
@@ -562,5 +575,29 @@ public class CacheManagerDelegate implements ConvenientCache{
 	 */
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag) {
 		this.addToSessionCache(sessionId,NautilusConstants.SESSION_QUERY_BAG_KEY, theBag );
+	}
+	/*****
+	 * NEEDS TO BE ADDED TO THE ConvenientCache Interface
+	 * @param sessionId
+	 * @param graphData
+	 */
+	public void addSessionGraphingData(String sessionId, CachableGraphData graphData) {
+		this.addToSessionCache(sessionId,graphData.getId(),graphData);
+	}
+	
+	public CachableGraphData getSessionGraphingData(String sessionId, String graphId) {
+		Cache sessionCache = this.getSessionCache(sessionId);
+		CachableGraphData graphData = null;
+		try {
+				Element element = sessionCache.get(graphId);
+				graphData = (CachableGraphData)element.getValue();
+			} catch (IllegalStateException e) {
+				logger.error(e);
+			} catch (CacheException e) {
+				logger.error(e);
+			}catch(ClassCastException cce) {
+				logger.error(cce);
+			}
+			return graphData;
 	}
 }

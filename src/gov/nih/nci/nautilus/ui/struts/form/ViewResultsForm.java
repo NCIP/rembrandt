@@ -2,30 +2,16 @@ package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
 import gov.nih.nci.nautilus.cache.ConvenientCache;
-import gov.nih.nci.nautilus.ui.bean.ReportBean;
-import gov.nih.nci.nautilus.ui.bean.SelectedQueryBean;
-import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.Element;
-
-import org.apache.commons.collections.Factory;
-import org.apache.commons.collections.list.LazyList;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.util.LabelValueBean;
 
 public class ViewResultsForm extends BaseForm {
 	private Logger logger = Logger.getLogger(RefineQueryForm.class);

@@ -18,33 +18,29 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 
 
-public class KaplanMeierPlot extends XYPlot{
+public class KaplanMeierPlot{
+
 	private Collection<KaplanMeierPlotPointSeriesSet> kaplanMeierPlotSets;
 	private JFreeChart kmChart;
 	private XYSeriesCollection finalDataCollection;
-		
 	
 	public KaplanMeierPlot(Collection<KaplanMeierPlotPointSeriesSet> kmPlotSets) {
-		
 		kaplanMeierPlotSets = kmPlotSets;
-		
 		finalDataCollection = new XYSeriesCollection();
 		/**
 		 * Repackage all the datasets to go into the XYSeriesCollection
 		 */
-	   
 		for(KaplanMeierPlotPointSeriesSet dataSet: kaplanMeierPlotSets) {
 			finalDataCollection.addSeries(dataSet.getCensorPlotPoints());
 			finalDataCollection.addSeries(dataSet.getProbabilityPlotPoints());
 		}
-		
 		createChart(finalDataCollection);
 	}
 	
 	private void createChart(XYDataset dataset) {
 		//Create the chart, dropping in the data set
 		JFreeChart chart = ChartFactory.createXYLineChart(
-	            "Kaplan Meier Survival Plot",
+	            "",
 	            "Days in Study",
 	            "Probability of Survival",
 	            dataset,

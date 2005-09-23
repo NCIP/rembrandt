@@ -8,14 +8,21 @@
 	<description>
 		This library contains the graphing tags created for caIntegrator
 	</description>
-
 	<tag>
 		<name>KaplanMeierPlot</name>
 		<tag-class>
-			gov.nih.nci.caintegrator.ui.graphing.taglib.KaplanMeierPlot
+			gov.nih.nci.caintegrator.ui.graphing.taglib.KaplanMeierPlotTag
 		</tag-class>
 		<bodycontent>empty</bodycontent>
-		<description>The Kaplan Meier Survival Plot</description>
+		<desciption>The Kaplan Meier Survival Plot</desciption>
+		<attribute>
+			<name>bean</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>dataset</name>
+			<required>true</required>
+		</attribute>
 	</tag>
 	
 	<tag>

@@ -2,6 +2,7 @@ package gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier;
 
 import gov.nih.nci.nautilus.constants.NautilusConstants;
 
+import java.awt.Color;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +19,7 @@ import org.apache.log4j.Logger;
  * @author BauerD 
  */
 public class KaplanMeierDataController {
-	
+
 	private KaplanMeierStoredData storedData;
 	
 	private String geneSymbol;
@@ -41,7 +42,7 @@ public class KaplanMeierDataController {
 
 	private String downLabel;
 
-	public KaplanMeierDataController(int _upFold, int _downFold, String _geneName,
+	public KaplanMeierDataController(double _upFold, double _downFold, String _geneName,
 			KaplanMeierSampleInfo[] samples, String plotType) {
 
 		geneSymbol = _geneName;
@@ -54,17 +55,17 @@ public class KaplanMeierDataController {
 					this.getDownFold());
 			// All Sample Series
 			plotPointSeriesSetCollection.add(getDataSeries(samples, Regulation.ALL_SAMPLES,
-					"All Samples "));
+					"All Samples ", Color.BLUE));
 			// UpRegulated Samples Series
 			plotPointSeriesSetCollection.add(getDataSeries(samples, Regulation.UPREGULATED,
-					geneSymbol + getUpLabel() + " >= " + upFold + "X "));
+					geneSymbol + getUpLabel() + " >= " + upFold + "X ",Color.RED));
 			// Down Regulation Series
 			plotPointSeriesSetCollection
 					.add(getDataSeries(samples, Regulation.DOWNREGULATED, geneSymbol
-							+ getDownLabel() + " <= " + 1 / downFold + "X "));
+							+ getDownLabel() + " <= " + 1 / downFold + "X ",Color.GREEN));
 			// intermediate samples
 			plotPointSeriesSetCollection.add(getDataSeries(samples, Regulation.INTERMEDIATE,
-					geneSymbol + " Intermediate "));
+					geneSymbol + " Intermediate ",Color.ORANGE));
 		} else {
 			logger.error("gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord");
 			// throw new exception
@@ -114,7 +115,7 @@ public class KaplanMeierDataController {
 	 * @return
 	 */
 	private KaplanMeierPlotPointSeriesSet getDataSeries(
-			KaplanMeierSampleInfo[] KMsampleInfos, Regulation regulation, String seriesName) {
+			KaplanMeierSampleInfo[] KMsampleInfos, Regulation regulation, String seriesName, Color color) {
 		ArrayList<KaplanMeierSampleInfo> samples;
 		switch (regulation) {
 		case ALL_SAMPLES:
@@ -140,7 +141,7 @@ public class KaplanMeierDataController {
 		KaplanMeierPlotPoint[] samplePoints = kaplanMeier
 				.getDrawingPoints(samples);
 
-		return createSeries(samplePoints, seriesName, samples);
+		return createSeries(samplePoints, seriesName, samples, color);
 
 	}
 
@@ -158,7 +159,7 @@ public class KaplanMeierDataController {
 	 * @return
 	 */
 	private KaplanMeierPlotPointSeriesSet createSeries(
-			KaplanMeierPlotPoint[] dataPoints, String seriesName, ArrayList<KaplanMeierSampleInfo> samples) {
+			KaplanMeierPlotPoint[] dataPoints, String seriesName, ArrayList<KaplanMeierSampleInfo> samples, Color color) {
 
 		// Create the DataPoint Series
 		KaplanMeierPlotPointSeries dataSeries = new KaplanMeierPlotPointSeries(
@@ -178,6 +179,7 @@ public class KaplanMeierDataController {
 		censusSeries.setDescription(seriesName);
 
 		KaplanMeierPlotPointSeriesSet kmPointSet = new KaplanMeierPlotPointSeriesSet();
+		kmPointSet.setColor(color);
 		kmPointSet.setName(seriesName);
 		kmPointSet.setCensorPlotPoints(censusSeries);
 		kmPointSet.setProbabilityPlotPoints(dataSeries);

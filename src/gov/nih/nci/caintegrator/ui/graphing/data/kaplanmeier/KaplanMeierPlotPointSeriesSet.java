@@ -18,6 +18,7 @@ import java.util.ArrayList;
  *
  */
 public class KaplanMeierPlotPointSeriesSet{
+
 	private KaplanMeierPlotPointSeries censorPlotPoints = null;
 	private KaplanMeierPlotPointSeries probabilityPlotPoints = null;
 	private ArrayList<KaplanMeierSampleInfo> samples;
@@ -25,7 +26,7 @@ public class KaplanMeierPlotPointSeriesSet{
 	private String name = "";
 	private Comparable hashKey = 0;
 	//Set the default color
-	private Color color = Color.BLACK;
+	private Color color;
 	
 	public KaplanMeierPlotPointSeriesSet() {
 		//create a hash set for this series

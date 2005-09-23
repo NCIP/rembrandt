@@ -1,5 +1,8 @@
 package gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier;
 
+
+import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
+
 import java.util.Collection;
 
 /**
@@ -9,7 +12,7 @@ import java.util.Collection;
  * @author BauerD
  *
  */
-public class KaplanMeierStoredData {
+public class KaplanMeierStoredData implements CachableGraphData{
 	
 	
 	private Double upVsRestPvalue = null;
@@ -61,6 +64,8 @@ public class KaplanMeierStoredData {
 	private String downLabel;
 
 	private String upLabel;
+
+	private String id;
 
 	/**
 	 * @return Returns the chartTitle.
@@ -395,5 +400,18 @@ public class KaplanMeierStoredData {
 	 */
 	public String getUpLabel() {
 		return upLabel;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+		
+	}
+
+	public Object getDataset() {
+		return getPlotPointSeriesCollection();
+	}
+
+	public String getId() {
+		return id;
 	}
 }

@@ -1,5 +1,6 @@
 package gov.nih.nci.nautilus.cache;
 
+import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.nautilus.query.CompoundQuery;
 import gov.nih.nci.nautilus.ui.bean.ReportBean;
 import gov.nih.nci.nautilus.ui.bean.SessionQueryBag;
@@ -139,4 +140,12 @@ public interface ConvenientCache {
 	 * @return --All the ReportBeans in the sessionCache
 	 */
 	public Collection getAllReportBeans(String sessionId);
+	/**
+	 * This method should return the desired GraphData from the session cache
+	 * 
+	 * @param sessionId
+	 * @param graphType
+	 * @return
+	 */
+	public CachableGraphData getSessionGraphingData(String sessionId, String graphId);
 }

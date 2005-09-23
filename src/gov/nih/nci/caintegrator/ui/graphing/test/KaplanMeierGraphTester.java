@@ -108,7 +108,6 @@ public class KaplanMeierGraphTester extends ApplicationFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
 */
+
 }
