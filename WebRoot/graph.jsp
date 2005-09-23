@@ -9,10 +9,13 @@
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
 <%
 
-	String geneSymbol = (String) request.getAttribute("geneSymbol");
+//	String geneSymbol = (String) request.getAttribute("geneSymbol");
+String geneSymbol = "";
+String filename="";
+String graphURL= "";
 
-	String filename = GeneExpressionPlot.generateBarChart(geneSymbol, session, new PrintWriter(out));
-	String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
+//	String filename = GeneExpressionPlot.generateBarChart(geneSymbol, session, new PrintWriter(out));
+//	String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 
 	//would be nice to make a tag out of this
  	String helpLink = "<a href=\"javascript: spawn('help.jsp";

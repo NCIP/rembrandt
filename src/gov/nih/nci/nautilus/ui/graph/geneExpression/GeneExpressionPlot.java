@@ -14,9 +14,12 @@ import java.text.NumberFormat;
 import javax.servlet.http.HttpSession;
 import org.jfree.data.*;
 import org.jfree.data.category.*;
+import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
+import org.jfree.data.statistics.StatisticalCategoryDataset;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.*;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.StackedXYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
@@ -29,13 +32,16 @@ import org.jfree.chart.urls.*;
 import org.jfree.chart.servlet.*;
 
 public class GeneExpressionPlot {
-
+	
+	protected String legendHtml;
+	
 	public static String generateBarChart(String gene, HttpSession session, PrintWriter pw) {
 		String filename = null;
 		try {
 			final GenePlotDataSet gpds = new GenePlotDataSet(gene);
 			
-			DefaultCategoryDataset dataset = (DefaultCategoryDataset) gpds.getDataSet();
+			DefaultStatisticalCategoryDataset dataset = (DefaultStatisticalCategoryDataset) gpds.getDataSet();
+			CategoryDataset fdataset = (CategoryDataset) gpds.getFdataset();
 			
 			//  create the chart...
 	        JFreeChart chart = ChartFactory.createBarChart(
@@ -49,15 +55,56 @@ public class GeneExpressionPlot {
 	            false                     // URLs?
 	        );
 	        
+	        /**
+	         * 
+	         * okay, heres where it gets tricky...
+	         * we need to generate another chart, with a seperate dataset -
+	         * one that does not include the errorbars for std deviation
+	         * we generate this fchart (aka "fake chart", then use it later to map the coords
+	         * for the tooltip.  we will need to customize the fchart and the
+	         * frenderer, faxis ext to look exactly like the current chart w/error bars
+	         * in order for the coords to match.  In the end, we will display the image w/the
+	         * error bars, but render the map coords of the image w/o the error bars....
+	         * confusing, but the only way to add tooltips to the chart w/errorbars without
+	         * rewriting components of the api.  this is actually not a complete waste, because
+	         * it will allow us to toggle between showing chart w/ and w/o the errorbars
+	         * 
+	         * -RL
+	         */
+	        JFreeChart fchart = ChartFactory.createBarChart(
+		            "Gene Expression Plot ("+gene.toUpperCase()+")",         // chart title
+		            "Groups",               // domain axis label
+		            "Mean Expression Intensity",                  // range axis label
+		            fdataset,                  // data
+		            PlotOrientation.VERTICAL, // orientation
+		            true,                     // include legend
+		            true,                     // tooltips?
+		            false                     // URLs?
+		        );
+	        
+	        
+	        
 			chart.setBackgroundPaint(java.awt.Color.white);
 			//lets start some customization to retro fit w/jcharts lookand feel
 			CategoryPlot plot = chart.getCategoryPlot();
 			CategoryAxis axis = plot.getDomainAxis();
 			axis.setLowerMargin(0.02); // two percent
-			axis.setCategoryMargin(0.20); // ten percent
+			axis.setCategoryMargin(0.20); // 20 percent
 			axis.setUpperMargin(0.02); // two percent
 			
-			BarRenderer renderer = (BarRenderer) plot.getRenderer();
+			
+			//same for our fake chart - just to get the tooltips
+			CategoryPlot fplot = fchart.getCategoryPlot();
+			CategoryAxis faxis = fplot.getDomainAxis();
+			faxis.setLowerMargin(0.02); // two percent
+			faxis.setCategoryMargin(0.20); // 20 percent
+			faxis.setUpperMargin(0.02); // two percent
+			
+			
+			//customise the renderer...
+	        StatisticalBarRenderer renderer = new StatisticalBarRenderer();
+	        
+			//BarRenderer renderer = (BarRenderer) plot.getRenderer();
 			renderer.setItemMargin(0.01); // one percent
 			renderer.setDrawBarOutline(true);
 			renderer.setOutlinePaint(Color.BLACK);
@@ -66,21 +113,46 @@ public class GeneExpressionPlot {
 	            public String generateToolTip(CategoryDataset dataset, int series, int item) {
 	               HashMap pv = gpds.getPValuesHashMap();
 	               String currentPV = (String) pv.get(dataset.getRowKey(series)+"::"+dataset.getColumnKey(item));
-	            	return "Probeset : " + dataset.getRowKey(series)+ "<br/>Intensity : " + dataset.getValue(series, item) +"<br>PVALUE : "+currentPV+"<br/>";
+	               return "Probeset : " + dataset.getRowKey(series)+ "<br/>Intensity : " + dataset.getValue(series, item) +"<br>PVALUE : "+currentPV+"<br/>";
 	            }
 	           
 	        });
 			
-			// LegendTitle lg = chart.getLegend();
 			
+			//customize the fake renderer
+				BarRenderer frenderer = (BarRenderer) fplot.getRenderer();
+				frenderer.setItemMargin(0.01); // one percent
+				frenderer.setDrawBarOutline(true);
+				frenderer.setOutlinePaint(Color.BLACK);
+				frenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
+
+		            public String generateToolTip(CategoryDataset dataset, int series, int item) {
+		               HashMap pv = gpds.getPValuesHashMap();
+		               String currentPV = (String) pv.get(dataset.getRowKey(series)+"::"+dataset.getColumnKey(item));
+		               return "Probeset : " + dataset.getRowKey(series)+ "<br/>Intensity : " + dataset.getValue(series, item) +"<br>PVALUE : "+currentPV+"<br/>";
+		            }
+		           
+		        });
+			
+			// LegendTitle lg = chart.getLegend();
+			plot.setRenderer(renderer);
+		
 			//  Write the chart image to the temporary directory
 			ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
 			filename = ServletUtilities.saveChartAsPNG(chart, 650, 400, info, session);
 
+			//clear the first one and overwrite info with our second one - no error bars
+			//we shoud delete this extra image
+			info.clear(); //lose the first one
+			fplot.setRenderer(frenderer);
+			String ffilename = ServletUtilities.saveChartAsPNG(fchart, 650, 400, info, session);
+
 			//  Write the image map to the PrintWriter
 			//can use a different writeImageMap to pass tooltip and URL custom
+
 			ChartUtilities.writeImageMap(pw, filename, info, new CustomOverlibToolTipTagFragmentGenerator(), new StandardURLTagFragmentGenerator() );
-			//			ChartUtilities.writeImageMap(pw, filename, info, true);
+			//ChartUtilities.writeImageMap(pw, filename, info, true);
+
 			pw.flush();
 
 		} catch (Exception e) {
@@ -89,5 +161,17 @@ public class GeneExpressionPlot {
 			filename = "public_error_500x300.png";
 		}
 		return filename;
+	}
+
+	public String getLegendHtml() {
+		return legendHtml;
+	}
+
+	public void setLegendHtml(String legendHtml) {
+		this.legendHtml = legendHtml;
+	}
+	
+	public void addToLegendHtml(String legendHtml) {
+		this.legendHtml += legendHtml;
 	}
 }

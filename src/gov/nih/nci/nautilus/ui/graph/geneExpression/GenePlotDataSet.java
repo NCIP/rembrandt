@@ -37,19 +37,24 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
+import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 /**
  * @author landyr
  *
  */
 public class GenePlotDataSet {
 
-	protected DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//	protected DefaultCategoryDataset dataset_old = new DefaultCategoryDataset();
 	protected DefaultBoxAndWhiskerCategoryDataset bwdataset = new DefaultBoxAndWhiskerCategoryDataset();
 	
+	protected DefaultStatisticalCategoryDataset dataset = new DefaultStatisticalCategoryDataset();
+	protected DefaultCategoryDataset fdataset = new DefaultCategoryDataset();
+
 	private Logger logger = Logger.getLogger(GeneExpressionGraphGenerator.class);
 	protected HashMap pValues = new HashMap();
 	
 	   public GenePlotDataSet() throws ParseException {
+/*
 		   //		 row keys... each per cluster
 	        String series1 = "Probeset1";
 	        String series2 = "Probeset2";
@@ -66,26 +71,27 @@ public class GenePlotDataSet {
 
 	        // create the dataset...
 
-	        dataset.addValue(1.0, series1, category1);
-	        dataset.addValue(4.0, series1, category2);
-	        dataset.addValue(3.0, series1, category3);
-	        dataset.addValue(5.0, series1, category4);
-	        dataset.addValue(5.0, series1, category5);
-	        dataset.addValue(7.0, series1, category6);
+	        dataset_old.addValue(1.0, series1, category1);
+	        dataset_old.addValue(4.0, series1, category2);
+	        dataset_old.addValue(3.0, series1, category3);
+	        dataset_old.addValue(5.0, series1, category4);
+	        dataset_old.addValue(5.0, series1, category5);
+	        dataset_old.addValue(7.0, series1, category6);
 
-	        dataset.addValue(5.0, series2, category1);
-	        dataset.addValue(7.0, series2, category2);
-	        dataset.addValue(6.0, series2, category3);
-	        dataset.addValue(8.0, series2, category4);
-	        dataset.addValue(4.0, series2, category5);
-	        dataset.addValue(5.0, series2, category6);
+	        dataset_old.addValue(5.0, series2, category1);
+	        dataset_old.addValue(7.0, series2, category2);
+	        dataset_old.addValue(6.0, series2, category3);
+	        dataset_old.addValue(8.0, series2, category4);
+	        dataset_old.addValue(4.0, series2, category5);
+	        dataset_old.addValue(5.0, series2, category6);
 
-	        dataset.addValue(4.0, series3, category1);
-	        dataset.addValue(3.0, series3, category2);
-	        dataset.addValue(2.0, series3, category3);
-	        dataset.addValue(3.0, series3, category4);
-	        dataset.addValue(6.0, series3, category5);
-	        dataset.addValue(2.0, series3, category6);	
+	        dataset_old.addValue(4.0, series3, category1);
+	        dataset_old.addValue(3.0, series3, category2);
+	        dataset_old.addValue(2.0, series3, category3);
+	        dataset_old.addValue(3.0, series3, category4);
+	        dataset_old.addValue(6.0, series3, category5);
+	        dataset_old.addValue(2.0, series3, category6);	
+	    */
 	    }
 	   
 	   /**
@@ -190,8 +196,14 @@ public class GenePlotDataSet {
 							pValues.put(reporterName+"::"+diseaseName, pValueFormat.format(pvalue));
 						}
 						
+						
+						double stdDev = 200; //for testing purposes
+						
 						//the money = actually build the jfree dataset
-						dataset.addValue(intensityValue.doubleValue(), reporterName, diseaseName);
+						dataset.add(intensityValue.doubleValue(), stdDev, reporterName, diseaseName);
+						fdataset.addValue(intensityValue.doubleValue(), reporterName, diseaseName);
+						
+						//dataset.addValue(intensityValue.doubleValue(), reporterName, diseaseName);
 					
 						counter++;
 					}
@@ -200,12 +212,16 @@ public class GenePlotDataSet {
 			}
 	   }
 	   
-	   public DefaultCategoryDataset getDataSet() {
+	   public DefaultStatisticalCategoryDataset getDataSet() {
 		   return dataset;
 	   }
 	   
 	   public HashMap getPValuesHashMap()	{
 		   return pValues;
 	   }
+
+	public DefaultCategoryDataset getFdataset() {
+		return fdataset;
+	}
 	   
 }
