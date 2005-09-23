@@ -1,0 +1,32 @@
+Steps for setting up CSM:
+
+1. Modify ApplicationSecurityConfig.xml and point the <hibernate-config-file> 
+   attribute to a place where the rembrandt.hibernate.cfg.xml will reside. For example
+   (C:/dev/rembrandt/conf/csm/rembrandt.hibernate.cfg.xml)
+
+2. Copy and place ApplicationSecurityConfig.xml in the jboss default server "conf" directory:
+   (\jboss-4.0.2\server\default\conf)
+
+3. Edit the properties-service.xml in jboss-4.0.2\server\default\deploy and add the
+   following INSIDE the System Properties Service ... the tag appears as:
+   <mbean code="org.jboss.varia.property.SystemPropertiesService"...: 
+   
+    <attribute name="Properties">
+   		gov.nih.nci.security.configFile=<<YOUR FULL PATH TO ApplicationSecurityConfig.xml>>
+    </attribute>
+    
+    Modify the path to point to your jboss default server "conf" directory.
+    
+4. Place oracle-ds.xml in the jboss-4.0.2\server\default\deploy directory
+
+5. Add the following lines to jboss-4.0.2\server\default\conf\login-config.xml
+
+    <application-policy name="rembrandt">
+		<authentication>
+			<login-module code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="required">
+				<module-option name="ldapHost">ldaps://ncids2b.nci.nih.gov:636</module-option>
+				<module-option name="ldapSearchableBase">ou=nci,o=nih</module-option>
+				<module-option name="ldapUserIdLabel">cn</module-option>
+			</login-module>			
+		</authentication>
+	</application-policy>

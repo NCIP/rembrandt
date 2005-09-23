@@ -1,0 +1,27 @@
+<security-config>
+	<upt-context-name>
+		<!-- Context Name for the UPT Application -->
+		<<upt_context_name>>
+	</upt-context-name>
+	<application-list>
+	<!-- For every application using the security api an entry should be made here -->
+		<application>
+			<context-name>
+				rembrandt
+			</context-name>
+			<authentication>
+				<authentication-provider-class>
+				<!-- Fully qualified class name-->
+				</authentication-provider-class>
+			</authentication>
+			<authorization>
+				<authorization-provider-class>
+					<!-- Fully qualified class name-->
+				</authorization-provider-class>
+				<hibernate-config-file>
+					C:/dev/rembrandt/conf/csm/rembrandt.hibernate.cfg.xml
+				</hibernate-config-file>
+			</authorization>
+		</application>
+	</application-list>
+</security-config>

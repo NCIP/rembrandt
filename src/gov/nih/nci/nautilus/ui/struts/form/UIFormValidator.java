@@ -2,11 +2,13 @@ package gov.nih.nci.nautilus.ui.struts.form;
 
 import gov.nih.nci.nautilus.lookup.AllGeneAliasLookup;
 import gov.nih.nci.nautilus.lookup.LookupManager;
-
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.upload.FormFile;
+import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.exceptions.CSException;
 
 /**
  * @author BauerD Dec 15, 2004 
@@ -15,7 +17,37 @@ import org.apache.struts.upload.FormFile;
  */
 public class UIFormValidator {
     private static Logger logger = Logger.getLogger(UIFormValidator.class);
-        
+    
+    public static ActionErrors validateLDAP(String username, String password,
+            ActionErrors errors) {
+        AuthenticationManager am = null;
+        boolean loggedIn = false;
+        try {
+            logger.debug("Testing Logging");            
+            am = SecurityServiceProvider.getAuthenticationManager("rembrandt");
+            loggedIn = am.login(username, password);
+
+        } catch (CSException e) {
+            logger.debug("loginFail");
+        }
+        /**the following  if clause will only be used until the 
+         * app is released as a backdoor for developers and non NIH
+         * folks. Once the app is moved, this clause should also be removed.
+         * -kevin rosso
+         */
+        if(username.equals("RBTuser") && password.equals("RBTpass")){
+            loggedIn = true;
+        }
+        if(loggedIn) {
+            logger.debug("loginSuccess");
+        } else {
+            logger.debug("loginFail");
+            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+                "gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
+        }
+        return errors;
+    }
+    
     public static ActionErrors validateFormFieldsWithRegion(FormFile geneFile, String geneGroup, FormFile cloneListFile,
 	        String cloneId, FormFile sampleFile, String sampleGroup, ActionErrors errors){
 	    if (geneGroup.equalsIgnoreCase("Upload") && geneFile != null

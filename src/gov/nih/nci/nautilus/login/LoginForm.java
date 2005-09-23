@@ -1,4 +1,6 @@
 package gov.nih.nci.nautilus.login;
+import gov.nih.nci.nautilus.ui.struts.form.UIFormValidator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionError;
@@ -8,9 +10,14 @@ import org.apache.struts.action.ActionMapping;
 
 public final class LoginForm extends ActionForm
 {
-
+private boolean userLoggedIn = false;    
 private String userName;
 private String password;
+
+public boolean getUserLoggedIn(){
+    return userLoggedIn;
+}
+
 public void setUserName(String argUserName)
 {
 	userName = argUserName;
@@ -36,6 +43,13 @@ public ActionErrors validate(ActionMapping mapping,
 		errors.add("User Name:",new ActionError("error.userName"));
 		errors.add("Password:",new ActionError("error.password"));
 	}
-	return errors;
+    errors = UIFormValidator.validateLDAP(userName, password, errors);
+	
+    if (errors.isEmpty()) {
+        userLoggedIn = true;
+    }
+    
+    return errors;
 }
+
 }

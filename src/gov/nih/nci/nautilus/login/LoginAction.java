@@ -4,17 +4,18 @@ import gov.nih.nci.nautilus.constants.NautilusConstants;
 
 import java.io.FileInputStream;
 import java.util.Properties;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.exceptions.CSException;
 
 public final class LoginAction extends Action
 {
@@ -22,12 +23,30 @@ public final class LoginAction extends Action
 	public ActionForward perform(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
+        HttpSession session = request.getSession();
+        ServletContext context = session.getServletContext();
+        LoginForm f = (LoginForm) form;
+        if(f.getUserLoggedIn()){
+            session.setAttribute("logged", "yes");
+            session.setAttribute("name", f.getUserName());
+            return (mapping.findForward("success"));
+        }
+        else
+            return (mapping.findForward("failure"));
+        
+        
+    }
+        
+        /**old login method...should be deleted when time is appropriate
+         * 
+         * -kevin rosso
 		LoginForm f = (LoginForm) form;
-		String userName=f.getUserName();
-		String password = f.getPassword();
-		
-		boolean valid = false;		
-		//load the props file
+        String userName=f.getUserName();
+        String password = f.getPassword();
+        
+        boolean valid = false;
+        
+        //load the props file
 		Properties props = new Properties();
 		HttpSession session = request.getSession();
 		ServletContext context = session.getServletContext();
@@ -74,17 +93,6 @@ public final class LoginAction extends Action
 		else
 			return (mapping.findForward("failure"));
 			
-		/*
-		if(userName.equals("admin") && password.equals("admin123"))
-		{
-		//set something in the session here
-		HttpSession session = request.getSession();
-		session.setAttribute("logged", "yes");
-		return (mapping.findForward("success"));			
-		}
-
-		else
-		return (mapping.findForward("failure"));
-		*/
-	}
+		
+	}**/
 }
