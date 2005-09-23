@@ -905,4 +905,17 @@ function toggleDiv(id, state)	{
 			document.getElementById(id).style.display = "block";	
 }
  
- 
+function toggleGenePlot(a, b)	{
+	if(document.getElementById("geneChart"))	{
+		var chart = document.getElementById("geneChart");
+		//alert(chart.src + " = " + a);
+		var imgURL = chart.src.split("filename=");
+		
+		if(imgURL[1] == a)	{
+			chart.src = imgURL[0] + "filename=" + b;
+		}
+		else if(imgURL[1] == b)	{
+			chart.src = imgURL[0] + "filename=" + a;
+		}
+	} 
+}

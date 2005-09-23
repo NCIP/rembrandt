@@ -35,8 +35,11 @@ public class GeneExpressionPlot {
 	
 	protected String legendHtml;
 	
-	public static String generateBarChart(String gene, HttpSession session, PrintWriter pw) {
+	public static HashMap generateBarChart(String gene, HttpSession session, PrintWriter pw) {
 		String filename = null;
+		String ffilename = null;
+		HashMap charts = new HashMap();
+		
 		try {
 			final GenePlotDataSet gpds = new GenePlotDataSet(gene);
 			
@@ -94,6 +97,7 @@ public class GeneExpressionPlot {
 			
 			
 			//same for our fake chart - just to get the tooltips
+			fchart.setBackgroundPaint(java.awt.Color.white);
 			CategoryPlot fplot = fchart.getCategoryPlot();
 			CategoryAxis faxis = fplot.getDomainAxis();
 			faxis.setLowerMargin(0.02); // two percent
@@ -145,7 +149,7 @@ public class GeneExpressionPlot {
 			//we shoud delete this extra image
 			info.clear(); //lose the first one
 			fplot.setRenderer(frenderer);
-			String ffilename = ServletUtilities.saveChartAsPNG(fchart, 650, 400, info, session);
+			ffilename = ServletUtilities.saveChartAsPNG(fchart, 650, 400, info, session);
 
 			//  Write the image map to the PrintWriter
 			//can use a different writeImageMap to pass tooltip and URL custom
@@ -160,7 +164,11 @@ public class GeneExpressionPlot {
 			e.printStackTrace(System.out);
 			filename = "public_error_500x300.png";
 		}
-		return filename;
+		//return filename;
+		charts.put("errorBars", filename);
+		charts.put("noErrorBars", ffilename);
+		return charts;
+		
 	}
 
 	public String getLegendHtml() {
