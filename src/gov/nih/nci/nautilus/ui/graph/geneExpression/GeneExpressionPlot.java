@@ -1,6 +1,8 @@
 
 package gov.nih.nci.nautilus.ui.graph.geneExpression;
 
+import gov.nih.nci.caintegrator.ui.graphing.legend.LegendCreator;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.io.PrintWriter;
@@ -33,11 +35,11 @@ import org.jfree.chart.servlet.*;
 
 public class GeneExpressionPlot {
 	
-	protected String legendHtml;
 	
 	public static HashMap generateBarChart(String gene, HttpSession session, PrintWriter pw) {
 		String filename = null;
 		String ffilename = null;
+		String legendHtml = null;
 		HashMap charts = new HashMap();
 		
 		try {
@@ -84,8 +86,6 @@ public class GeneExpressionPlot {
 		            true,                     // tooltips?
 		            false                     // URLs?
 		        );
-	        
-	        
 	        
 			chart.setBackgroundPaint(java.awt.Color.white);
 			//lets start some customization to retro fit w/jcharts lookand feel
@@ -141,12 +141,19 @@ public class GeneExpressionPlot {
 			// LegendTitle lg = chart.getLegend();
 			plot.setRenderer(renderer);
 		
+			// lets generate a custom legend - assumes theres only one source?
+			LegendItemCollection lic = chart.getLegend().getSources()[0].getLegendItems();
+			legendHtml = LegendCreator.buildLegend(lic, "Probesets");
+			//pw.print(LegendCreator.buildLegend(lic, "Probesets"));
+			
+			chart.removeLegend();
+			fchart.removeLegend();
+			
 			//  Write the chart image to the temporary directory
 			ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
 			filename = ServletUtilities.saveChartAsPNG(chart, 650, 400, info, session);
-
+	        
 			//clear the first one and overwrite info with our second one - no error bars
-			//we shoud delete this extra image
 			info.clear(); //lose the first one
 			fplot.setRenderer(frenderer);
 			ffilename = ServletUtilities.saveChartAsPNG(fchart, 650, 400, info, session);
@@ -167,19 +174,11 @@ public class GeneExpressionPlot {
 		//return filename;
 		charts.put("errorBars", filename);
 		charts.put("noErrorBars", ffilename);
+		charts.put("legend", legendHtml);
+		
 		return charts;
 		
 	}
 
-	public String getLegendHtml() {
-		return legendHtml;
-	}
 
-	public void setLegendHtml(String legendHtml) {
-		this.legendHtml = legendHtml;
-	}
-	
-	public void addToLegendHtml(String legendHtml) {
-		this.legendHtml += legendHtml;
-	}
 }

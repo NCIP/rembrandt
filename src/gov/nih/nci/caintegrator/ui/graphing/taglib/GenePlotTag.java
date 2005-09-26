@@ -20,10 +20,13 @@ public class GenePlotTag extends AbstractGraphingTag {
 			HashMap charts = GeneExpressionPlot.generateBarChart(geneSymbol, pageContext.getSession(), new PrintWriter(out));
 			String filename = (String) charts.get("errorBars");
 			String ffilename = (String) charts.get("noErrorBars");
+			String legendHtml = (String) charts.get("legend");
+			
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
 			
 			out.print("<img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\">");
+			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend
 			out.print("<br/><a href=\"javascript:toggleGenePlot('"+filename+"','"+ffilename+"');\">Toggle Error Bars</a><br/> ");
 			
 		} catch (IOException e) {

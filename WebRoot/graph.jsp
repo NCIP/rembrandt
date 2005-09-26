@@ -39,10 +39,12 @@ String graphURL= "";
 	<!-- 
 	<img src="<%= graphURL %>" border=0 usemap="#<%= filename %>">
 	-->
-	
+
 	<graphing:GenePlot/>
+	
+	
 	<Br/>
-	Legend: Probesets
+	<!--  Legend: Probesets -->
 	<Br/><Br/>
 	<fieldset style="width:300px; text-align:left; padding:3px">
 		<legend>Abbreviations of Group Names</legend>
