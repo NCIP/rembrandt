@@ -151,12 +151,12 @@
     
     <definition name="nautilus.graph" extends="graph">
       <put name="mainForm" value="/graph.jsp" />
-	  <put name="title" value="" />
+	  <put name="title" value="caIntegrator Gene Expression Plot" />
     </definition>
    
     <definition name="nautilus.KMGraph" extends="graph">
       <put name="mainForm" value="/jsp/graphs/bodyKMGraph.jsp" />
-	  <put name="title" value="" />
+	  <put name="title" value="caIntegrator KM Plot" />
     </definition>
     
 </tiles-definitions>
