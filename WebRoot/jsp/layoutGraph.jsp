@@ -20,7 +20,7 @@
 		<tiles:insert attribute="crumbMenu"/>
 		<tiles:insert attribute="tabs"/>
 		<div id="main" style="padding-left:5px;padding-right:5px;padding-bottom:5px">
-			<h3><tiles:getAsString name="title"/></h3>
+			
 			<tiles:insert attribute="mainForm"/>
 		</div>
 	</div>
