@@ -12,6 +12,9 @@ public class LegendCreator {
 	 * @return
 	 */
 	public static String buildLegend(LegendItemCollection lic, String legendTitle)	{
+		
+		//TODO: take annotation link as a string param
+		
 		String html = new String();
 		Color p = null;
 		html = "<fieldset style='display:table;width:600; border:1px solid gray; text-align:left; padding:5px;'>";
