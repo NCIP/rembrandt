@@ -231,6 +231,7 @@ abstract public class CGHFactHandler {
             resultObj.setSurvivalLengthRange(factObj.getSurvivalLengthRange());
             resultObj.setTimecourseId(factObj.getTimecourseId());
             resultObj.setPhysicalPosition(factObj.getPhysicalPosition());
+            resultObj.setChromosome(factObj.getChromosome());
         }
     }
 }

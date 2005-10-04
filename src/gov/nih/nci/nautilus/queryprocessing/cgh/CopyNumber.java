@@ -36,8 +36,17 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private Long timecourseId;
   private Long physicalPosition;
   private SNPAnnotation annotations;
+  private String chromosome;
 
-  public static class SNPAnnotation {
+    public String getChromosome() {
+        return chromosome;
+    }
+
+    public void setChromosome(String chromosome) {
+        this.chromosome = chromosome;
+    }
+
+    public static class SNPAnnotation {
          public Long snpProbesetID;
          public HashSet geneSymbols;
          public HashSet locusLinkIDs;
