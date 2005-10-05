@@ -1,11 +1,11 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*, 
-				 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
-				 gov.nih.nci.nautilus.constants.NautilusConstants,
-				 gov.nih.nci.nautilus.cache.CacheManagerDelegate" %> 
+				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+				 gov.nih.nci.rembrandt.util.RembrandtConstants,
+				 gov.nih.nci.rembrandt.cache.CacheManagerDelegate" %> 
 
 <fieldset class="gray">
 <legend class="red">

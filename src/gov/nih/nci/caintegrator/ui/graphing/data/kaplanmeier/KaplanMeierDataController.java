@@ -1,6 +1,6 @@
 package gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier;
 
-import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.awt.Color;
 import java.text.NumberFormat;
@@ -34,7 +34,7 @@ public class KaplanMeierDataController {
 
 	private Collection<KaplanMeierPlotPointSeriesSet> plotPointSeriesSetCollection;
 
-	private String plotType = NautilusConstants.GENE_EXP_KMPLOT;
+	private String plotType = RembrandtConstants.GENE_EXP_KMPLOT;
 
 	private static Logger logger = Logger.getLogger(KaplanMeierDataController.class);
 
@@ -201,10 +201,10 @@ public class KaplanMeierDataController {
 	private void setDownFold(double downFold) {
 		// set down fold
 		if (getPlotType() != null) {
-			if (getPlotType().equals(NautilusConstants.GENE_EXP_KMPLOT)) {
+			if (getPlotType().equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
 				this.downFold = 1 / downFold;
 			} else if (getPlotType().equals(
-					NautilusConstants.COPY_NUMBER_KMPLOT)) {
+					RembrandtConstants.COPY_NUMBER_KMPLOT)) {
 				this.downFold = downFold;
 			} else {
 				this.downFold = downFold;
@@ -233,17 +233,17 @@ public class KaplanMeierDataController {
 
 	private void setPlotType(String plotType) {
 		if (plotType != null
-				&& plotType.equals(NautilusConstants.GENE_EXP_KMPLOT)
-				|| plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)) {
+				&& plotType.equals(RembrandtConstants.GENE_EXP_KMPLOT)
+				|| plotType.equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
 			this.plotType = plotType;
 		}
 	}
 
 	private String getDownLabel() {
 		if (plotType != null) {
-			if (plotType.equals(NautilusConstants.GENE_EXP_KMPLOT)) {
+			if (plotType.equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
 				downLabel = " Down-Reg.";
-			} else if (plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)) {
+			} else if (plotType.equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
 				downLabel = " Deleted";
 			}
 		}
@@ -252,9 +252,9 @@ public class KaplanMeierDataController {
 
 	private String getUpLabel() {
 		if (plotType != null) {
-			if (plotType.equals(NautilusConstants.GENE_EXP_KMPLOT)) {
+			if (plotType.equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
 				upLabel = " Up-Reg.";
-			} else if (plotType.equals(NautilusConstants.COPY_NUMBER_KMPLOT)) {
+			} else if (plotType.equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
 				upLabel = " Amplified";
 			}
 		}

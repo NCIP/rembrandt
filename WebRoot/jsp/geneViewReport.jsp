@@ -1,7 +1,7 @@
-<%@ page language="java" %><%@ taglib uri="/WEB-INF/app.tld" prefix="app" %><%@ page buffer="none" %><%@ page import="
-gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper,
-gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
-gov.nih.nci.nautilus.constants.NautilusConstants,
+<%@ page language="java" %><%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %><%@ page buffer="none" %><%@ page import="
+gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper,
+gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+gov.nih.nci.rembrandt.util.RembrandtConstants,
 org.dom4j.Document,org.dom4j.io.XMLWriter,org.dom4j.io.OutputFormat"
 %><%
 String csv = "false";
@@ -13,7 +13,7 @@ if(csv.equals("true"))	{
 	response.setContentType("application/csv");
 	response.setHeader("Content-Disposition", "attachment; filename=report.csv");
 	try{	
-	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
+	Document reportXML = (Document)request.getAttribute(RembrandtConstants.REPORT_XML);
 	if(reportXML != null)
 		ReportGeneratorHelper.renderReport(request, reportXML,"csv.xsl",out);
 	else
@@ -33,10 +33,10 @@ else	{ %>
 <%
 	response.flushBuffer();	
 	try	{
-		Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
+		Document reportXML = (Document)request.getAttribute(RembrandtConstants.REPORT_XML);
 		
 		if(reportXML!=null)
-			ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(NautilusConstants.XSLT_FILE_NAME),out);
+			ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(RembrandtConstants.XSLT_FILE_NAME),out);
 		else	{ 
 		//we still need to know if this is due to no records in the result, or system failure
 		//from here on down is not-good-code, will be cleaned up later

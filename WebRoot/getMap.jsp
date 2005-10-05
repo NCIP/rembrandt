@@ -10,11 +10,11 @@
 			org.krysalis.jcharts.properties.util.ChartFont,
 			org.krysalis.jcharts.imageMap.*,
 			org.krysalis.jcharts.encoders.ServletEncoderHelper,
-			gov.nih.nci.nautilus.constants.NautilusConstants,
+			gov.nih.nci.rembrandt.util.RembrandtConstants,
 	 		org.apache.log4j.Logger"%>
 <%
 
-Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
 Chart chart= (Chart) session.getAttribute( "chart" );
 
 if(chart!=null)

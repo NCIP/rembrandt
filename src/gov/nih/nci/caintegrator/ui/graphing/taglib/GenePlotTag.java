@@ -1,6 +1,6 @@
 package gov.nih.nci.caintegrator.ui.graphing.taglib;
 
-import gov.nih.nci.nautilus.ui.graph.geneExpression.GeneExpressionPlot;
+import gov.nih.nci.caintegrator.ui.graphing.data.geneExpression.GeneExpressionPlot;
 
 import java.io.IOException;
 import java.io.PrintWriter;

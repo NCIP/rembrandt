@@ -43,12 +43,12 @@ log4j.appender.NautilusXMLLogger.layout.ConversionPattern=%d %-5p %c - %m%n
 #------------------------------------------------------------------------
 # Define your specific logger information under here.
 # e.g.-a logger specific to the struts package:
-#	log4j.logger.gov.nih.nci.nautilus.ui.struts=DEBUG,stdout,NautilusLogger
+#	log4j.logger.gov.nih.nci.rembrandt.web.struts=DEBUG,stdout,NautilusLogger
 #------------------------------------------------------------------------
 
-#log4j.logger.gov.nih.nci.nautilus.ui.struts.form.GeneExpressionForm=DEBUG,NautilusLogger
-#log4j.logger.gov.nih.nci.nautilus.cache = DEBUG,NautilusLogger
-#log4j.logger.gov.nih.nci.nautilus.lookup = DEBUG,NautilusLogger
+#log4j.logger.gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm=DEBUG,NautilusLogger
+#log4j.logger.gov.nih.nci.rembrandt.cache = DEBUG,NautilusLogger
+#log4j.logger.gov.nih.nci.rembrandt.dto.lookup = DEBUG,NautilusLogger
 log4j.logger.XML_LOGGER = DEBUG,NautilusXMLLogger
 #----------------------------------------------------------------------------------------
 #OJB Logging

@@ -1,5 +1,5 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
 	String act = request.getParameter("act");
 %>

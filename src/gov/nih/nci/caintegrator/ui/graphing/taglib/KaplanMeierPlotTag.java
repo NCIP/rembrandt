@@ -3,8 +3,8 @@ package gov.nih.nci.caintegrator.ui.graphing.taglib;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
 import gov.nih.nci.caintegrator.ui.graphing.util.FileDeleter;
-import gov.nih.nci.nautilus.cache.CacheManagerDelegate;
-import gov.nih.nci.nautilus.cache.RembrandtContextListener;
+import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 
 import java.io.File;
 import java.io.FileInputStream;

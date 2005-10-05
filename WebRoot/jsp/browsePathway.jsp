@@ -4,7 +4,7 @@
 <%@ page import="gov.nih.nci.caBIO.search.*,
 	 gov.nih.nci.caBIO.bean.*,
 	 org.apache.log4j.Logger,
-	 gov.nih.nci.nautilus.constants.NautilusConstants" %> 
+	 gov.nih.nci.rembrandt.util.RembrandtConstants" %> 
 
 
  <script language="javascript">
@@ -60,7 +60,7 @@
  </p>
  
  <% 
- Logger logger = Logger.getLogger(NautilusConstants.LOGGER);
+ Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
  try {
  
       PathwaySearchCriteria pathwaySearch = new PathwaySearchCriteria();

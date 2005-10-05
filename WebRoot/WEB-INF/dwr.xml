@@ -4,7 +4,7 @@
       <param name="class" value="java.util.Date"/>
     </create>
     <create creator="new" javascript="Inbox">
-      <param name="class" value="gov.nih.nci.nautilus.ui.inbox.QueryInbox"/>
+      <param name="class" value="gov.nih.nci.rembrandt.web.inbox.QueryInbox"/>
     </create>
   </allow>
 </dwr>

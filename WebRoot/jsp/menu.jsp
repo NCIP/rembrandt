@@ -3,15 +3,16 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="java.util.*,
-	 gov.nih.nci.nautilus.query.*,
-	 gov.nih.nci.nautilus.constants.NautilusConstants,
+	 gov.nih.nci.rembrandt.dto.query.*,
+	 gov.nih.nci.caintegrator.dto.query.*,
+	 gov.nih.nci.rembrandt.util.RembrandtConstants,
 	 org.apache.log4j.Logger,
-	 gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
-	 gov.nih.nci.nautilus.cache.CacheManagerDelegate" %> 
+	 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+	 gov.nih.nci.rembrandt.cache.CacheManagerDelegate" %> 
 
 
 <%
-Logger logger = Logger.getLogger(NautilusConstants.JSP_LOGGER);
+Logger logger = Logger.getLogger(RembrandtConstants.JSP_LOGGER);
 int geQueryNum = 0;
 String geQueryString = "0";
 int cpQueryNum = 0;

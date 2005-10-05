@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-<%@ page import="gov.nih.nci.nautilus.criteria.Constants"%>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
+<%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 
 <fieldset class="gray">
 <legend class="red">Array Platform

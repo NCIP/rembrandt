@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.nautilus.constants.NautilusConstants" %>
+<%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.rembrandt.util.RembrandtConstants" %>
 
 <% 	/*
 		This page receives the section identifier in the query string (s)

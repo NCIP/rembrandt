@@ -1,5 +1,5 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <fieldset class="gray">
 <legend class="red">Disease Type <b class="req">*</b>
 <app:help help="Enter the type of diseases using the pick list. You can see the context-sensitive Grades menu for the disease type selected. Filtering the data based on grades will be available in the next release."/>

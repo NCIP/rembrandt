@@ -5,7 +5,8 @@
 <%@ page import = "java.util.Date" %>
 <%@ page import = "java.util.Iterator" %>
 <%@ page import = "java.util.Locale" %>
-<%@ page import = "gov.nih.nci.nautilus.ui.graph.geneExpression.*,gov.nih.nci.nautilus.lookup.*" %>
+<%@ page import = "gov.nih.nci.caintegrator.ui.graphing.data.geneExpression.*" %>
+<%@ page import = "gov.nih.nci.rembrandt.dto.lookup.*" %>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
 <%
 
@@ -54,7 +55,7 @@ String graphURL= "";
 		if(diseaseTypes != null)	{
 			for (int i = 0; i< diseaseTypes.length ; i++) {
 				String diseaseType = diseaseTypes[i].getDiseaseType();
-				if(diseaseType.equalsIgnoreCase(gov.nih.nci.nautilus.constants.NautilusConstants.ASTRO))	{
+				if(diseaseType.equalsIgnoreCase(gov.nih.nci.rembrandt.util.RembrandtConstants.ASTRO))	{
 			    	diseaseType = diseaseType.substring(0,6);
 			    }	
 			 	out.println("<tr><Td>"+diseaseType+":</td><Td>"+diseaseTypes[i].getDiseaseDesc() + "</td></tr>\n" );

@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <app:checkLogin name="logged" page="/login.jsp" />
 
 <%

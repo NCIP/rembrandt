@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, gov.nih.nci.nautilus.ui.struts.form.*" %> 
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ page import="java.util.*, gov.nih.nci.rembrandt.web.struts.form.*" %> 
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>

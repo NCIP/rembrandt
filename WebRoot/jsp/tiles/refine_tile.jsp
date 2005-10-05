@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
 String helpLink = "<a href=\"javascript: spawn('help.jsp";
 String helpLinkClose = "', 350, 500);\">"+
@@ -38,7 +38,7 @@ String helpLinkClose = "', 350, 500);\">"+
 								property="selectedQueries" 
 								id="selectedQuery"  
 								indexId="index" 
-								type="gov.nih.nci.nautilus.ui.bean.SelectedQueryBean">
+								type="gov.nih.nci.rembrandt.web.bean.SelectedQueryBean">
 				  <%@ include file="/jsp/selectQueryRow.jsp" %>
 				</nested:iterate>
 				<!-- END looping over SelectedQueries -->

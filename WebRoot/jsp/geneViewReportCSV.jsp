@@ -1,10 +1,10 @@
 <%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page buffer="none" %>
 <%@ page import="
-gov.nih.nci.nautilus.ui.helper.ReportGeneratorHelper,
-gov.nih.nci.nautilus.ui.bean.SessionQueryBag,
-gov.nih.nci.nautilus.constants.NautilusConstants,
+gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper,
+gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+gov.nih.nci.rembrandt.util.RembrandtConstants,
 org.dom4j.Document"
 %>
 <span id="spnLoading"  style="display:inline; width:500; text-align:center;" >
@@ -14,6 +14,6 @@ org.dom4j.Document"
 </span>
 <%
 	response.flushBuffer();	
-	Document reportXML = (Document)request.getAttribute(NautilusConstants.REPORT_XML);
+	Document reportXML = (Document)request.getAttribute(RembrandtConstants.REPORT_XML);
 	ReportGeneratorHelper.renderReport(request, reportXML,"report.xsl",out);
 %>

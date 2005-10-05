@@ -1,0 +1,116 @@
+package gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh;
+
+import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
+import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
+import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
+
+import java.util.Collection;
+
+import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.query.Criteria;
+
+/**
+ * @author BhattarR
+ */
+public class CopyNumberCriteriaHandler {
+
+    public final static Float ALL_GENES_COPY_LIMIT = new Float(10.0);
+    private static Logger logger = Logger.getLogger(CopyNumberCriteriaHandler.class);
+
+    static void addCopyNumberCriteriaForAllGenes(ComparativeGenomicQuery cghQuery, Class targetFactClass, PersistenceBroker pb, Criteria criteria) throws Exception {
+        CopyNumberCriteria copyNumberCrit = cghQuery.getCopyNumberCriteria();
+        validateCopyNumberForAllGenes(copyNumberCrit);
+        addCopyNumberCriteria(cghQuery, targetFactClass, pb, criteria);
+    }
+
+    private static void validateCopyNumberForAllGenes(CopyNumberCriteria copyNumberCrit) throws Exception {
+        CopyNumberDE c = (CopyNumberDE)copyNumberCrit.getCopyNummbers().toArray()[0];
+        String type = c.getCGHType();
+        if (type.equals(CopyNumberDE.AMPLIFICATION)) {
+            if (c.getValueObject().compareTo(ALL_GENES_COPY_LIMIT) < 0) {
+                throw new Exception("Amplification must be at greater than or equal to " + ALL_GENES_COPY_LIMIT);
+            }
+        }
+
+        else if(type.equals(CopyNumberDE.DELETION)) {
+             if (c.getValueObject().compareTo(ALL_GENES_COPY_LIMIT) > 0) {
+                throw new Exception("Deletion must be at less than or equal to " + ALL_GENES_COPY_LIMIT);
+            }
+        }
+    }
+
+    static void addCopyNumberCriteria(ComparativeGenomicQuery cghQuery, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
+        CopyNumberCriteria copyNumberCrit = cghQuery.getCopyNumberCriteria();
+        if (copyNumberCrit != null) {
+               String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());
+               Collection objs = copyNumberCrit.getCopyNummbers();
+               Object[] copyObjs = objs.toArray();
+
+                // Either only UpRegulation or DownRegulation
+                if (copyObjs .length == 1) {
+                    CopyNumberDE copyObj = (CopyNumberDE) copyObjs [0];
+                    Double foldChange = new Double(copyObj.getValueObject().floatValue());
+                    addSingleUpORDownCriteria(foldChange, copyObj.getCGHType(), columnName, criteria, pb);
+                }
+
+                // else it could be EITHER both (UpRegulation or DownRegulation) OR UnChangedRegulation
+                else if (copyObjs.length == 2) {
+                   String type = ((CopyNumberDE)copyObjs[0]).getCGHType();
+                   if (type.equals(CopyNumberDE.UNCHANGED_COPYNUMBER_UPPER_LIMIT) || type.equals(CopyNumberDE.UNCHANGED_COPYNUMBER_DOWN_LIMIT) ) {
+                       addUnChangedCriteria(copyObjs, columnName, criteria, pb);
+                   }
+                   else if (type.equals(CopyNumberDE.AMPLIFICATION) || type.equals(CopyNumberDE.DELETION) ) {
+                       addUpAndDownCriteria(copyObjs, columnName, criteria, pb);
+                   }
+                }
+                else {
+                   throw new Exception("Invalid number of Copy Numnber Criteria objects: " + copyObjs.length);
+                }
+         }
+    }
+
+    private static void addUpAndDownCriteria(Object[] copyObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
+        String type1 = ((CopyNumberDE)copyObjs[0]).getCGHType();
+        Double copyChange1 = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
+        Criteria newCrit = new Criteria();
+        addSingleUpORDownCriteria(copyChange1, type1, columnName, newCrit, pb);
+
+        String type2 = ((CopyNumberDE)copyObjs[1]).getCGHType();
+        Double copyChange2 = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
+        Criteria copy2Crit = new Criteria();
+        addSingleUpORDownCriteria(copyChange2, type2, columnName, copy2Crit, pb);
+
+        newCrit.addOrCriteria(copy2Crit);
+
+        criteria.addAndCriteria(newCrit);
+    }
+
+    private static void addUnChangedCriteria(Object[] copyObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
+
+        String type1 = ((CopyNumberDE)copyObjs[0]).getCGHType();
+        Double upperLimit;
+        Double lowerLimit;
+
+        if (type1.equals(CopyNumberDE.UNCHANGED_COPYNUMBER_UPPER_LIMIT)) {
+            upperLimit = new Double(((CopyNumberDE) copyObjs[1]).getValueObject().floatValue());
+            lowerLimit = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
+        }
+        else {
+            upperLimit = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
+            lowerLimit = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
+        }
+        criteria.addBetween(columnName, lowerLimit, upperLimit);
+    }
+
+    private static void addSingleUpORDownCriteria(Double copyChange, String type, String colunName, Criteria subCrit, PersistenceBroker pb) throws Exception {
+        if (type.equals(CopyNumberDE.AMPLIFICATION))
+            subCrit.addGreaterOrEqualThan(colunName,copyChange);
+        else if (type.equals(CopyNumberDE.DELETION))
+            subCrit.addLessOrEqualThan(colunName, copyChange);
+        else {
+            throw new Exception("Invalid Copy Nuumber: " + type + " Value:" + copyChange);
+        }
+   }
+}

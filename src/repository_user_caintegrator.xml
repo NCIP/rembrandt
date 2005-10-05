@@ -1,5 +1,5 @@
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.GeneLlAccSnp"
+       class="gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp"
        table="GENE_LL_ACC_SNP">
    <field-descriptor
              name="imageId"
@@ -48,7 +48,7 @@
 
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.ArrayGenoAbnFact"
+       class="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
        table="ARRAY_GENO_ABN_FACT">
 
     <field-descriptor
@@ -184,7 +184,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.SnpProbesetDim"
+       class="gov.nih.nci.rembrandt.dbbean.SnpProbesetDim"
        table="SNP_PROBESET_DIM">
 
         <field-descriptor
@@ -242,7 +242,7 @@
 
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.ProbesetDim"
+       class="gov.nih.nci.rembrandt.dbbean.ProbesetDim"
        table="PROBESET_DIM">
 
         <field-descriptor
@@ -339,7 +339,7 @@
 
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.CytobandPosition"
+       class="gov.nih.nci.rembrandt.dbbean.CytobandPosition"
        table="CYTOBAND_POSITION">
 
 
@@ -389,7 +389,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.GenePathway"
+       class="gov.nih.nci.rembrandt.dbbean.GenePathway"
        table="GENE_PATHWAY">
         <field-descriptor
              name="geneSymbol"
@@ -417,7 +417,7 @@
     
 </class-descriptor>
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.GeneClone"
+       class="gov.nih.nci.rembrandt.dbbean.GeneClone"
        table="GENE_CLONE">
        <field-descriptor
              name="geneCloneId"
@@ -488,7 +488,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.CloneDim"
+       class="gov.nih.nci.rembrandt.dbbean.CloneDim"
        table="CLONE_DIM">
         <field-descriptor
                name="cloneId"
@@ -533,7 +533,7 @@
 	    <collection-descriptor
              auto-retrieve="false"
              name="differentialExpressionSfact"
-             element-class-ref="gov.nih.nci.nautilus.data.DifferentialExpressionSfact">
+             element-class-ref="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact">
              <inverse-foreignkey field-ref="cloneId"/>
          </collection-descriptor>
 
@@ -541,7 +541,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.DifferentialExpressionSfact"
+       class="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact"
        table="DIFFERENTIAL_EXPRESSION_SFACT">
     <field-descriptor
         name="agentId"
@@ -669,7 +669,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.DifferentialExpressionGfact"
+       class="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionGfact"
        table="DIFFERENTIAL_EXPRESSION_GFACT">
 
     <field-descriptor
@@ -761,7 +761,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.GeneOntology"
+       class="gov.nih.nci.rembrandt.dbbean.GeneOntology"
        table="GENE_ONTOLOGY">
         <field-descriptor
                name="goId"
@@ -781,7 +781,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.CloneAccession"
+       class="gov.nih.nci.rembrandt.dbbean.CloneAccession"
        table="CLONE_ACCESSION">
         <field-descriptor
                name="cloneId"
@@ -797,7 +797,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.GeneSnp"
+       class="gov.nih.nci.rembrandt.dbbean.GeneSnp"
        table="GENE_SNP">
         <field-descriptor
                name="snpProbesetId"
@@ -819,7 +819,7 @@
 </class-descriptor>
 
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.LlSnp"
+       class="gov.nih.nci.rembrandt.dbbean.LlSnp"
        table="LL_SNP">
         <field-descriptor
                name="snpProbesetId"
@@ -840,7 +840,7 @@
 
 </class-descriptor>
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.PatientData"
+       class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
         <field-descriptor
                name="age"
@@ -901,7 +901,7 @@
         />
 </class-descriptor>
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.DiseaseTypeDim"
+       class="gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim"
        table="DISEASE_TYPE_DIM">
    <field-descriptor
              name="diseaseTypeId"
@@ -922,7 +922,7 @@
         />
   </class-descriptor>
 <class-descriptor
-       class="gov.nih.nci.nautilus.data.AllGeneAlias"
+       class="gov.nih.nci.rembrandt.dbbean.AllGeneAlias"
        table="ALL_GENE_ALIAS">
    <field-descriptor
              name="approvedSymbol"
