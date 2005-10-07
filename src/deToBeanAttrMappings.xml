@@ -5,13 +5,13 @@
 -->
 <mappings>
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.CytobandDE">
-          <mappedBean name="gov.nih.nci.rembrandt.dto.dbbean.CytobandPosition" attribute="cytoband"/>
-          <mappedBean name="gov.nih.nci.rembrandt.dto.dbbean.ProbesetDim" attribute="cytoband"/>
+          <mappedBean name="gov.nih.nci.rembrandt.dbbean.CytobandPosition" attribute="cytoband"/>
+          <mappedBean name="gov.nih.nci.rembrandt.dbbean.ProbesetDim" attribute="cytoband"/>
     </DomainElement>
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE">
-          <mappedBean name="gov.nih.nci.rembrandt.dto.dbbean.CytobandPosition" attribute="chromosome"/>
-          <mappedBean name="gov.nih.nci.rembrandt.dto.dbbean.ProbesetDim" attribute="chromosome"/>
-          <mappedBean name="gov.nih.nci.rembrandt.dto.dbbean.GeneClone" attribute="chromosome"/>
+          <mappedBean name="gov.nih.nci.rembrandt.dbbean.CytobandPosition" attribute="chromosome"/>
+          <mappedBean name="gov.nih.nci.rembrandt.dbbean.ProbesetDim" attribute="chromosome"/>
+          <mappedBean name="gov.nih.nci.rembrandt.dbbean.GeneClone" attribute="chromosome"/>
     </DomainElement>
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.BasePairPositionDE$StartPosition">
           <mappedBean name="gov.nih.nci.rembrandt.dbbean.CytobandPosition" attribute="cbStart"/>
@@ -77,7 +77,7 @@
 
     </DomainElement>
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.CopyNumberDE">
-                   <mappedBean name="gov.nih.nci.rembrandt.dto.dbbean.ArrayGenoAbnFact"
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ProbesetDim.ArrayGenoAbnFact"
                    attribute="copyNumber"/>
     </DomainElement>
    <DomainElement name="gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE$BACClone">
