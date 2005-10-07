@@ -77,7 +77,7 @@
 
     </DomainElement>
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.CopyNumberDE">
-                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ProbesetDim.ArrayGenoAbnFact"
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
                    attribute="copyNumber"/>
     </DomainElement>
    <DomainElement name="gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE$BACClone">
