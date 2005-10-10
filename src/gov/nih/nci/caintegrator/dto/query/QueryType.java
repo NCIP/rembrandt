@@ -4,8 +4,13 @@ package gov.nih.nci.caintegrator.dto.query;
 /**
  * @author BhattarR
  */
-abstract public class QueryType {
-   
+public enum QueryType {
+	GENE_EXPR_QUERY_TYPE,
+	CGH_QUERY_TYPE,
+	CLINICAL_DATA_QUERY_TYPE,
+	CLASS_COMPARISON_QUERY;
+	
+	/**
     String queryType;
     
     public final static GeneExprQueryType GENE_EXPR_QUERY_TYPE = new GeneExprQueryType();
@@ -31,4 +36,5 @@ abstract public class QueryType {
          super("ClinicalQueryType");
          }
     }
+    **/
 }

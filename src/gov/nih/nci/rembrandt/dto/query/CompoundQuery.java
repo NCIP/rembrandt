@@ -262,11 +262,11 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 
 		for (Iterator iter = queryTypesCollection.iterator(); iter.hasNext();) {
 			QueryType thisQuery = (QueryType) iter.next();
-			if (thisQuery instanceof QueryType.GeneExprQueryType)
+			if (thisQuery == QueryType.GENE_EXPR_QUERY_TYPE)
 				isGEQuery = true;
-			if (thisQuery instanceof QueryType.CGHQueryType)
+			if (thisQuery == QueryType.CGH_QUERY_TYPE)
 				isCGHQuery = true;
-			if (thisQuery instanceof QueryType.ClinicalQueryType)
+			if (thisQuery == QueryType.CLINICAL_DATA_QUERY_TYPE)
 				isClinical = true;
 		}
 		// Gene Expression Only
