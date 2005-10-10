@@ -150,7 +150,7 @@ final public class ChrRegionCriteriaHandler {
         ReportQueryByCriteria coleIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
         return coleIDSubQuery;
     }
-    private static StartEndPosition getStartEndPostions(PersistenceBroker pb, RegionCriteria regionCrit, ChromosomeNumberDE chrNumber) throws Exception {
+    public static StartEndPosition getStartEndPostions(PersistenceBroker pb, RegionCriteria regionCrit, ChromosomeNumberDE chrNumber) throws Exception {
         String cytobandCol = QueryHandler.getColumnName(pb, CytobandDE.class.getName(), CytobandPosition.class.getName());
         String chrNumberCol = QueryHandler.getColumnNameForBean(pb, CytobandPosition.class.getName(), CytobandPosition.CHROMOSOME);
 
