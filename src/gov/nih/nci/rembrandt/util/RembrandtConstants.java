@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.util;
 
+
 public final class RembrandtConstants {
 
     //Specifies the location in the webapp classes directory
@@ -73,6 +74,8 @@ public final class RembrandtConstants {
     public static final String ALL_GENES_GENE_EXP_REGULATION = "4";
     //The maximum number of samples that can be applied to All Gene Reports
 	public static final int MAX_ALL_GENE_SAMPLE_SET = 20;
+	
+	public static final String SESSION_CRITERIA_BAG_KEY = "rembrandt.criteriaMap";;
 	
 	public static enum GraphType{KaplanMeierGeneExpression, KaplanMeierCopyNumber, GeneExrpression};
 	
