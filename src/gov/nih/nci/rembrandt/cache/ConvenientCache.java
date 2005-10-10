@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.view.View;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
 import java.io.Serializable;
@@ -20,8 +21,11 @@ import java.util.List;
  * 
  * Any references to the cache should be made through this interface.
  * 
- * @author BauerD
+ * @author BauerD, SahniH
  * Mar 10, 2005
+ * Oct 10, 2005 Added by SahniH
+ * public SessionCriteriaBag getSessionCriteriaBag(String sessionId) and
+ * public void putSessionCriteriaBag(String sessionId, SessionCriteriaBag theBag);
  * 
  */
 public interface ConvenientCache {
@@ -148,4 +152,22 @@ public interface ConvenientCache {
 	 * @return
 	 */
 	public CachableGraphData getSessionGraphingData(String sessionId, String graphId);
+	
+	/**
+	 * This is a convenience method for returning the SessionCriteriaBag for the
+	 * the specified session.  If there is no SessionCriteriaBag stored in the
+	 * cache for the session, it will create one and return it.   
+	 * 
+	 * @param --the sessionId you want the bag for
+	 * @return --the SessionCriteriaBag for the session
+	 */
+	public SessionCriteriaBag getSessionCriteriaBag(String sessionId);
+	/**
+	 * This simply puts the SessionCriteriaBag into the sessionCache
+	 * 
+	 * @param sessionId --the session that this query bag should be associated
+	 * with
+	 * @param theBag --the bag you want to set in the cache.
+	 */
+	public void putSessionCriteriaBag(String sessionId, SessionCriteriaBag theBag);
 }

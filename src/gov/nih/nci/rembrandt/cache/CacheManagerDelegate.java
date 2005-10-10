@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.queryservice.view.ViewFactory;
 import gov.nih.nci.rembrandt.queryservice.view.ViewType;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.helper.SessionTempReportCounter;
 
@@ -44,8 +45,12 @@ import org.apache.log4j.Logger;
  * 
  * @author BauerD
  * Feb 9, 2005
+ * Oct 10, 2005 Added by SahniH
+ * public SessionCriteriaBag getSessionCriteriaBag(String sessionId) and
+ * public void putSessionCriteriaBag(String sessionId, SessionCriteriaBag theBag);
  * 
  */
+
 public class CacheManagerDelegate implements ConvenientCache{
 	
     //This value must match the name of the cache in the configuration xml file
@@ -199,7 +204,8 @@ public class CacheManagerDelegate implements ConvenientCache{
      * 
      * @param cacheListener
      */
-    public void addCacheListener(CacheListener cacheListener) {
+    @SuppressWarnings("unchecked")
+	public void addCacheListener(CacheListener cacheListener) {
         if(cacheListeners==null) {
             cacheListeners = new ArrayList();
         }
@@ -599,5 +605,49 @@ public class CacheManagerDelegate implements ConvenientCache{
 				logger.error(cce);
 			}
 			return graphData;
+	}
+	/**
+	 * This is a convenience method for returning the SessionCriteriaBag for the
+	 * the specified session.  If there is no SessionCriteriaBag stored in the
+	 * cache for the session, it will create one and return it.   
+	 * 
+	 * @param --the sessionId you want the bag for
+	 * @return --the SessionCriteriaBag for the session
+	 */
+	public SessionCriteriaBag getSessionCriteriaBag(String sessionId) {
+		Cache sessionCache =  this.getSessionCache(sessionId);
+		SessionCriteriaBag theBag = null;
+		try {
+			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_CRITERIA_BAG_KEY);
+			theBag = (SessionCriteriaBag)cacheElement.getValue();
+		}catch(CacheException ce) {
+			logger.error("Retreiving the SessionCriteriaBag threw an exception for session: "+sessionId);
+			logger.error(ce);
+		}catch(ClassCastException cce) {
+			logger.error("Someone put something other than a SessionCriteriaBag in the cache as a SessionQueryBag");
+			logger.error(cce);
+		}catch(NullPointerException npe){
+			logger.debug("There is no query bag for session: "+sessionId);		
+		}
+		/**
+		 * There is no SessionQueryBag for this session, create one
+		 */
+		if(theBag==null) {
+			
+			logger.debug("Creating new SessionCriteriaBag");
+			theBag = new SessionCriteriaBag();
+		}
+		return theBag;
+	}
+	/**
+	 * This simply puts the SessionCriteriaBag into the sessionCache
+	 * 
+	 * @param sessionId --the session that this query bag should be associated
+	 * with
+	 * @param theBag --the bag you want to set in the cache.
+	 */
+	public void putSessionCriteriaBag(String sessionId, SessionCriteriaBag theBag) {
+		this.addToSessionCache(sessionId,RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag );
+		
 	}
 }
