@@ -51,6 +51,7 @@ package gov.nih.nci.rembrandt.web.bean;
  */
 
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.Criteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
@@ -75,7 +76,10 @@ public class SessionCriteriaBag implements Serializable {
 	 * that was created by the user.
 	 *  
 	 * */
-	
+	/**
+	 * Criteria Types supported by the SessionCriteriaBag
+	 */
+	public enum CriteriaType {GeneIDCriteriaType, SNPCriteriaType, SampleCriteriaType, CloneOrProbeIDCriteriaType};
 	/**
 	 * 
 	 */
@@ -101,120 +105,138 @@ public class SessionCriteriaBag implements Serializable {
 	 */	
 	private Map sampleCriteriaMap = new TreeMap();
 	
-	public Collection getSNPCriteriaCollection(){
-		return sNPCriteriaMap.values();
-	}	
+	public Collection getCriteriaCollection(CriteriaType criteriaType){
+		Collection myCollection = null;
+		switch (criteriaType){
+		case GeneIDCriteriaType:
+			myCollection = geneIDCriteriaMap.values();
+			break;
+		case SNPCriteriaType:
+			myCollection = sNPCriteriaMap.values();
+			break;
+		case SampleCriteriaType:
+			myCollection = sampleCriteriaMap.values();
+			break;
+		case CloneOrProbeIDCriteriaType:
+			myCollection = cloneOrProbeIDCriteriaMap.values();
+			break;
+		}
+		return myCollection;
+	}
 	
-	public Collection getSNPCriteriaNames() {
-		return sNPCriteriaMap.keySet();
+	public Collection getCriteriaNames(CriteriaType criteriaType){
+		Collection myCollection = null;
+		switch (criteriaType){
+		case GeneIDCriteriaType:
+			myCollection = geneIDCriteriaMap.keySet();
+			break;
+		case SNPCriteriaType:
+			myCollection = sNPCriteriaMap.keySet();
+			break;
+		case SampleCriteriaType:
+			myCollection = sampleCriteriaMap.keySet();
+			break;
+		case CloneOrProbeIDCriteriaType:
+			myCollection = cloneOrProbeIDCriteriaMap.keySet();
+			break;
+		}
+		return myCollection;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void putSNPCriteria(String snpCriteriaName, SNPCriteria sNPCriteria) {
-		if (snpCriteriaName != null && sNPCriteria != null && sNPCriteria.isEmpty() == false) {
-			sNPCriteriaMap.put(snpCriteriaName, sNPCriteria);
+	public void putCriteria(CriteriaType criteriaType, String criteriaName, Criteria criteria) {
+		if (criteriaType != null && criteriaName != null && criteria != null && criteria.isEmpty() == false) {
+			switch (criteriaType){
+			case GeneIDCriteriaType:
+				if(criteria instanceof GeneIDCriteria){
+					geneIDCriteriaMap.put(criteriaName, (GeneIDCriteria) criteria);
+				}
+				break;
+			case SNPCriteriaType:
+				if(criteria instanceof SNPCriteria){
+					sNPCriteriaMap.put(criteriaName, (SNPCriteria) criteria);
+				}
+				break;
+			case SampleCriteriaType:
+				if(criteria instanceof SampleCriteria){
+					sampleCriteriaMap.put(criteriaName, (SampleCriteria) criteria);
+				}
+				break;
+			case CloneOrProbeIDCriteriaType:
+				if(criteria instanceof CloneOrProbeIDCriteria){
+					cloneOrProbeIDCriteriaMap.put(criteriaName, (CloneOrProbeIDCriteria) criteria);
+				}
+				break;
+			}
 		}
 	}
 	
-	public void removeSNPCriteria(String sNPCriteriaName) {
-		if (sNPCriteriaName != null) {
-			sNPCriteriaMap.remove(sNPCriteriaName);
+	public void removeCriteria (CriteriaType criteriaType, String criteriaName) {
+		if (criteriaName != null) {
+			switch (criteriaType){
+			case GeneIDCriteriaType:
+				geneIDCriteriaMap.remove(criteriaName);
+				break;
+			case SNPCriteriaType:
+				sNPCriteriaMap.remove(criteriaName);
+				break;
+			case SampleCriteriaType:
+				sampleCriteriaMap.remove(criteriaName);
+				break;
+			case CloneOrProbeIDCriteriaType:
+				cloneOrProbeIDCriteriaMap.remove(criteriaName);
+				break;
+			}
 		}
 	}
 	
-	public SNPCriteria getSNP(String snpCriteriaName) {
-		if (snpCriteriaName != null) {
-			return (SNPCriteria) sNPCriteriaMap.get(snpCriteriaName);
+	private Criteria getCriteria (CriteriaType criteriaType, String criteriaName) {
+		if (criteriaName != null) {
+			switch (criteriaType){
+			case GeneIDCriteriaType:
+				return (GeneIDCriteria) geneIDCriteriaMap.get(criteriaName);
+			case SNPCriteriaType:
+				return (SNPCriteria) sNPCriteriaMap.get(criteriaName);
+			case SampleCriteriaType:
+				return (SampleCriteria) sampleCriteriaMap.get(criteriaName);
+			case CloneOrProbeIDCriteriaType:
+				return (CloneOrProbeIDCriteria) cloneOrProbeIDCriteriaMap.get(criteriaName);
+			}
 		}
 		return null;
 	}
-	public void removeAllSNPCriterias() {
-		sNPCriteriaMap.clear();
+
+	public void removeAllCriterias(CriteriaType criteriaType) {
+			switch (criteriaType){
+			case GeneIDCriteriaType:
+				geneIDCriteriaMap.clear();
+				break;
+			case SNPCriteriaType:
+				sNPCriteriaMap.clear();
+				break;
+			case SampleCriteriaType:
+				sampleCriteriaMap.clear();
+				break;
+			case CloneOrProbeIDCriteriaType:
+				cloneOrProbeIDCriteriaMap.clear();
+				break;
+			}
 	}
-	public Collection getCloneOrProbeIDCriteriaCollection() {
-		return cloneOrProbeIDCriteriaMap.values();
-	}
-	
-	public Collection getCloneOrProbeIDCriteriaNames() {
-		return cloneOrProbeIDCriteriaMap.keySet();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void putCloneOrProbeIDCriteria(String cloneOrProbeIDCriteriaName, CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
-		if (cloneOrProbeIDCriteriaName != null && cloneOrProbeIDCriteria != null && cloneOrProbeIDCriteria.isEmpty() == false) {
-			cloneOrProbeIDCriteriaMap.put(cloneOrProbeIDCriteriaName, cloneOrProbeIDCriteria);
-		}
-	}
-	
-	public void removeCloneOrProbeIDCriteria(String cloneOrProbeIDCriteria) {
-		if (cloneOrProbeIDCriteria != null) {
-			cloneOrProbeIDCriteriaMap.remove(cloneOrProbeIDCriteria);
-		}
+	public SNPCriteria getSNPCriteria(String sNPCriteriaName) {
+		return (SNPCriteria) getCriteria (CriteriaType.SNPCriteriaType, sNPCriteriaName);
 	}
 	
 	public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria(String cloneOrProbeIDCriteriaName) {
-		if (cloneOrProbeIDCriteriaName != null) {
-			return (CloneOrProbeIDCriteria) cloneOrProbeIDCriteriaMap.get(cloneOrProbeIDCriteriaName);
-		}
-		return null;
-	}
-	
-	public void removeAllCloneOrProbeIDCriterias() {
-		cloneOrProbeIDCriteriaMap.clear();
-	}
-	
-	public Collection getSampleCriteriaCollection() {
-		return sampleCriteriaMap.values();
-	}
-	
-	public Collection getSampleCriteriaNames() {
-		return sampleCriteriaMap.keySet();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void putSampleCriteria(String sampleCriteriaName, SampleCriteria sampleCriteria) {
-		if (sampleCriteriaName != null && sampleCriteria != null && sampleCriteria.isEmpty() == false) {
-			sampleCriteriaMap.put(sampleCriteriaName, sampleCriteria);
-		}
+		return (CloneOrProbeIDCriteria) getCriteria (CriteriaType.CloneOrProbeIDCriteriaType, cloneOrProbeIDCriteriaName);
 	}
 	
 	public SampleCriteria getSampleCriteria(String sampleCriteriaName) {
-		if (sampleCriteriaName != null) {
-			return (SampleCriteria) sampleCriteriaMap.get(sampleCriteriaName);
-		}
-		return null;
-	}
-	public void removeSampleCriteria(String sampleCriteriaName) {
-		if (sampleCriteriaName != null) {
-			sampleCriteriaMap.remove(sampleCriteriaName);
-		}
-	}
-	
-	public Collection getGeneIDCriteriaCollection() {
-		return geneIDCriteriaMap.values();
-	}
-
-	public Collection getGeneIDCriteriaNames() {
-		return geneIDCriteriaMap.keySet();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void putGeneIDCriteria(String geneIDCriteriaName, GeneIDCriteria geneIDCriteria) {
-		if (geneIDCriteriaName != null && geneIDCriteria != null && geneIDCriteria.isEmpty() == false) {
-			geneIDCriteriaMap.put(geneIDCriteriaName, geneIDCriteria);
-		}
+		return (SampleCriteria) getCriteria (CriteriaType.SampleCriteriaType, sampleCriteriaName);
 	}
 	
 	public GeneIDCriteria getGeneCriteria(String geneIDCriteriaName) {
-		if (geneIDCriteriaName != null) {
-			return (GeneIDCriteria) geneIDCriteriaMap.get(geneIDCriteriaName);
-		}
-		return null;
+		return  (GeneIDCriteria) getCriteria (CriteriaType.GeneIDCriteriaType, geneIDCriteriaName);
 	}
-	public void removeGeneCriteria(String geneIDCriteriaName) {
-		if (geneIDCriteriaName != null) {
-			geneIDCriteriaMap.remove(geneIDCriteriaName);
-		}
-	}
+
 
 }
