@@ -55,14 +55,14 @@ public class FindingsFactory implements
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.service.findings.FindingsFactory#createClassComparisonFinding(gov.nih.nci.caintegrator.dto.query.Query)
 	 */
-	public ClassComparisonFindingsResultset createClassComparisonFinding(gov.nih.nci.caintegrator.dto.query.ClassComparisonQuery query, String sessionID, String taskID) {
+	public void createClassComparisonFinding(gov.nih.nci.caintegrator.dto.query.ClassComparisonQuery query, String sessionID, String taskID) {
 		try {
-			ClassComparisonFindingStrategy classComparisonFindingStrategy = new  ClassComparisonFindingStrategy(sessionID,taskID, (ClassComparisonQuery) query);
+			ClassComparisonQuery classComparisonQuery = (ClassComparisonQuery) query;
+			ClassComparisonFindingStrategy classComparisonFindingStrategy = new  ClassComparisonFindingStrategy(sessionID,classComparisonQuery.getQueryName(),classComparisonQuery );
 			classComparisonFindingStrategy.createQuery();
 			classComparisonFindingStrategy.executeQuery();
 			classComparisonFindingStrategy.analyzeResultSet();
-			return (ClassComparisonFindingsResultset) classComparisonFindingStrategy.getResultSet();
-			
+		
 		} catch (ValidationException e) {
 			logger.error(e);
 		} catch (FindingsQueryException e) {
@@ -70,8 +70,7 @@ public class FindingsFactory implements
 		} catch (FindingsAnalysisException e) {
 			logger.error(e);
 		}
-		
-		return null;
+
 	}
 
 	/* (non-Javadoc)
