@@ -3,6 +3,8 @@ package gov.nih.nci.caintegrator.dto.query;
 import gov.nih.nci.caintegrator.dto.critieria.Criteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.exceptions.ValidationException;
+import gov.nih.nci.caintegrator.query.Validatable;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 
@@ -12,7 +14,7 @@ import java.lang.reflect.Modifier;
 
 import org.apache.log4j.Logger;
 
-abstract public class Query implements Queriable, Serializable, Cloneable{
+abstract public class Query implements Queriable, Serializable, Cloneable, Validatable{
 	/**
 	 * IMPORTANT! This class has a clone method! This requires that any new data
 	 * field that is added to this class also be cloneable and be added to clone
@@ -165,5 +167,13 @@ abstract public class Query implements Queriable, Serializable, Cloneable{
 	 */
 	public void setAppliedResultSet(String appliedResultSet) {
 		this.appliedResultSet = appliedResultSet;
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.caintegrator.query.Validatable#validate()
+	 */
+	public boolean validate() throws ValidationException {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
