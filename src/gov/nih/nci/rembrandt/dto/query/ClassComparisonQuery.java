@@ -133,8 +133,7 @@ public class ClassComparisonQuery extends Query implements gov.nih.nci.caintegra
 		if(getClinicalDataQueryCollection() != null && getClinicalDataQueryCollection().size() >= 2){
 			return true;
 		}
-		else throw new ValidationException("ClinicalDataQueryCollection has to have 2 or more groups")
-		return false;
+		else throw new ValidationException("ClinicalDataQueryCollection has to have 2 or more groups");
 	}
 
 
