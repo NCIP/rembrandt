@@ -1,5 +1,5 @@
 package gov.nih.nci.caintegrator.dto.finding;
 
-public interface ClassComparisonFindingsResultset {
+public interface ClassComparisonFindingsResultset extends FindingsResultset{
 
 }
