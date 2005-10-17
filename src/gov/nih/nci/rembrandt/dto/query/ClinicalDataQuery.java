@@ -18,6 +18,7 @@ import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
 import gov.nih.nci.caintegrator.dto.de.SurgeryTypeDE;
 import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.clinical.ClinicalQueryHandler;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
@@ -440,5 +441,21 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable {
 	}
 
 	class Handler {
+	}
+
+	public boolean validate() throws ValidationException {
+	/** TO DO
+	 /	if(((ageCriteria != null && ageCriteria.isValid() ) ||
+			((agechemoAgentCriteria != null && chemoAgentCriteria.isValid() ) ||
+			((occurrenceCriteria != null && occurrenceCriteria.isValid() ) ||
+			((radiationTherapyCriteria != null && radiationTherapyCriteria.isValid() ) ||
+			((surgeryTypeCriteria != null && surgeryTypeCriteria.isValid() ) ||
+			((survivalCriteria != null && survivalCriteria.isValid() ) )
+			{
+				return true;
+			}
+     return false;
+     */
+		return true;
 	}
 }
