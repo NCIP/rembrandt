@@ -160,7 +160,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					//set platform
 					//TODO:Covert ArrayPlatform String to Enum -Himanso 10/15/05
 					if(query.getArrayPlatformCriteria().getPlatform().getValueObject().equals(ArrayPlatformType.AFFY_OLIGO_PLATFORM)){
-						classComparisonRequest.setArrayPlatform(ArrayPlatformType.AFFY_OLIGO_PLATFORM);
+						classComparisonRequest.setArrayPlatform(ArrayPlatformType.AFFY_OLIGO_PLATFORM); //TODO: Needs to change
 					}
 					// set SampleGroups
 					SampleGroup[] sampleGroupObjects = (SampleGroup[]) sampleGroups.toArray();				
