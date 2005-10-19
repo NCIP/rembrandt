@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.cache;
 
+import gov.nih.nci.caintegrator.dto.finding.FindingsResultset;
 import gov.nih.nci.caintegrator.dto.query.Queriable;
 import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
@@ -650,4 +651,57 @@ public class CacheManagerDelegate implements ConvenientCache{
 		this.addToSessionCache(sessionId,RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag );
 		
 	}
+	/**
+	 * Returns a FindingsResultset if one is stored in the session cache using the
+	 * parameters passed.  
+	 *  
+	 * @param sessionId
+	 * @return Collection
+	 */
+	public Collection getAllFindingsResultsets(String sessionId){
+		Collection beans = new ArrayList();
+		Cache sessionCache = getSessionCache(sessionId);
+		try {
+			List keys = sessionCache.getKeys();
+			for(Iterator i = keys.iterator();i.hasNext();) {
+				Element element = sessionCache.get((String)i.next());
+				Object object = element.getValue();
+				if(object instanceof FindingsResultset) {
+						beans.add(object);
+				}
+			}
+		}catch(CacheException ce) {
+			logger.error(ce);
+		}
+		return beans;
+	}
+	/**
+	 * Returns a FindingsResultset if one is stored in the session cache using the
+	 * parameters passed.  
+	 *  
+	 * @param sessionId
+	 * @param taskId (queryName)
+	 * @return FindingsResultset
+	 */
+	public FindingsResultset getAllFindingsResultsets(String sessionId, String taskId){
+		FindingsResultset findingsResultset = null;
+		Cache sessionCache = getSessionCache(sessionId);
+		try {
+			Element element = sessionCache.get(taskId);
+			if(element!=null) {
+				findingsResultset = (FindingsResultset)element.getValue();
+			}
+		}catch(IllegalStateException ise) {
+			logger.error("Getting the FindingsResultset from cache threw IllegalStateException");
+			logger.error(ise);
+		}catch(CacheException ce) {
+			logger.error("Getting the FindingsResultset from cache threw a new CacheException");
+			logger.error(ce);
+		}catch(ClassCastException cce) {
+			logger.error("CacheElement was not a FindingsResultset");
+			logger.error(cce);
+		}
+		return findingsResultset;
+	}
+
 }

@@ -68,6 +68,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.GeneExprD
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.view.ViewFactory;
 import gov.nih.nci.rembrandt.queryservice.view.ViewType;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -87,6 +88,7 @@ public class GeneExpressionPlotTest extends TestCase {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
+		ApplicationContext.init();
 	}
 
 	/*

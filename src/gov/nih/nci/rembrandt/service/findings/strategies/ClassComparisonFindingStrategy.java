@@ -68,7 +68,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	 */
 	public boolean createQuery() throws FindingsQueryException {
 		//because each layer is valid I am assured I will be getting a fulling populated query object
-		StatisticalMethodType statisticType = query.getClassComparisionAnalysisCriteria().getStatisticTypeDE().getValueObject();
+		StatisticalMethodType statisticType = query.getClassComparisonAnalysisCriteria().getStatisticTypeDE().getValueObject();
 
 		if(query.getClinicalDataQueryCollection() != null ){
 			switch (statisticType){
@@ -138,7 +138,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	 * @see gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy#analyzeResultSet()
 	 */
 	public boolean analyzeResultSet() throws FindingsAnalysisException {
-		StatisticalMethodType statisticType = query.getClassComparisionAnalysisCriteria().getStatisticTypeDE().getValueObject();
+		StatisticalMethodType statisticType = query.getClassComparisonAnalysisCriteria().getStatisticTypeDE().getValueObject();
 		classComparisonRequest.setStatisticalMethod(statisticType);
 		try{
 			switch (statisticType){
@@ -147,7 +147,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 				{
 					//set MultiGroupComparisonAdjustmentType
 					classComparisonRequest.setMultiGroupComparisonAdjustmentType(
-					query.getClassComparisionAnalysisCriteria().getMultiGroupComparisonAdjustmentTypeDE().getValueObject());				
+					query.getClassComparisonAnalysisCriteria().getMultiGroupComparisonAdjustmentTypeDE().getValueObject());				
 					//set foldchange
 					Collection objs = query.getFoldChangeCriteria().getFoldChangeObjects();
 					Object[] foldObjs = objs.toArray();				
@@ -169,7 +169,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 						classComparisonRequest.setGroup2(sampleGroupObjects[1]);
 					}
 					// set PvalueThreshold
-					classComparisonRequest.setPvalueThreshold(query.getClassComparisionAnalysisCriteria().getStatisticalSignificanceDE().getValueObject());
+					classComparisonRequest.setPvalueThreshold(query.getClassComparisonAnalysisCriteria().getStatisticalSignificanceDE().getValueObject());
 					return true;
 				}
 			}

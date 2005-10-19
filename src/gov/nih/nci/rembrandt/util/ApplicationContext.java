@@ -1,15 +1,18 @@
 package gov.nih.nci.rembrandt.util;
 
+import gov.nih.nci.caintegrator.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import org.apache.log4j.Logger;
-import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
+import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 /**
  * @todo comment this!
  * @author BauerD
@@ -19,6 +22,7 @@ public class ApplicationContext{
 	private static Map mappings = new HashMap();
 	private static Logger logger = Logger.getLogger(ApplicationContext.class);
 	private static Properties labelProps = null;
+	private static Properties messagingProps = null;
     private static Document doc =null;
    /**
     * COMMENT THIS
@@ -30,10 +34,13 @@ public class ApplicationContext{
     public static Map getDEtoBeanAttributeMappings() {
     	return mappings;
     }
-    
+    public static Properties getJMSProperties(){
+    	return messagingProps;
+    }
     public static void init() {
     	 logger.debug("Loading Application Resources");
          labelProps = PropertyLoader.loadProperties(RembrandtConstants.APPLICATION_RESOURCES);
+         messagingProps = PropertyLoader.loadProperties(RembrandtConstants.JMS_PROPERTIES);
          try {
           logger.debug("Bean to Attribute Mappings");
           InputStream inStream = QueryHandler.class.getResourceAsStream(RembrandtConstants.DE_BEAN_FILE_NAME);
@@ -46,6 +53,8 @@ public class ApplicationContext{
           mappings = new DEBeanMappingsHandler().populate(doc);
           logger.debug("DomainElement to Bean Mapping is completed");
           QueryHandler.init();
+          //Start the JMS Lister
+          AnalysisServerClientManager analysisServerClientManager = AnalysisServerClientManager.getInstance();
       } catch(Throwable t) {
          logger.error(new IllegalStateException("Error parsing deToBeanAttrMappings.xml file: Exception: " + t));
       }

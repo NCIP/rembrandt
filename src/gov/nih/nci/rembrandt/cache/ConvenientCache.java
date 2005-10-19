@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.cache;
 
+import gov.nih.nci.caintegrator.dto.finding.FindingsResultset;
 import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.view.View;
@@ -170,4 +171,31 @@ public interface ConvenientCache {
 	 * @param theBag --the bag you want to set in the cache.
 	 */
 	public void putSessionCriteriaBag(String sessionId, SessionCriteriaBag theBag);
+	/**
+	 * This method will retreive a serializable value for a given sessionId and key from the
+	 * cache.
+	 *  
+	 * @param sessionId
+	 * @param key
+	 * @return Object
+	 */
+	public Object getObjectFromSessionCache(String sessionId, String key) ;
+	/**
+	 * Returns a FindingsResultset if one is stored in the session cache using the
+	 * parameters passed.  
+	 *  
+	 * @param sessionId
+	 * @return Collection
+	 */
+	public Collection getAllFindingsResultsets(String sessionId);
+	/**
+	 * Returns a FindingsResultset if one is stored in the session cache using the
+	 * parameters passed.  
+	 *  
+	 * @param sessionId
+	 * @param taskId (queryName)
+	 * @return FindingsResultset
+	 */
+	public FindingsResultset getAllFindingsResultsets(String sessionId, String taskId);
+	
 }

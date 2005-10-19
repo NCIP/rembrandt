@@ -19,12 +19,11 @@ import java.util.Collection;
  */
 public class ClassComparisonQuery extends Query implements gov.nih.nci.caintegrator.dto.query.ClassComparisonQuery{
     private String name;
-	private ClassComparisonAnalysisCriteria classComparisionAnalysisCriteria;
+	private ClassComparisonAnalysisCriteria classComparisonAnalysisCriteria;
 	private InstitutionCriteria institutionCriteria;
 	private FoldChangeCriteria foldChangeCriteria;
 	private ArrayPlatformCriteria arrayPlatformCriteria;
 	private Collection<ClinicalDataQuery> clinicalDataQueryCollection;
-	
 	/**
 	 * 
 	 */
@@ -73,20 +72,6 @@ public class ClassComparisonQuery extends Query implements gov.nih.nci.caintegra
 		this.arrayPlatformCriteria = arrayPlatformCriteria;
 	}
 
-	/**
-	 * @return Returns the classComparisionAnalysisCriteria.
-	 */
-	public ClassComparisonAnalysisCriteria getClassComparisionAnalysisCriteria() {
-		return classComparisionAnalysisCriteria;
-	}
-
-	/**
-	 * @param classComparisionAnalysisCriteria The classComparisionAnalysisCriteria to set.
-	 */
-	public void setClassComparisionAnalysisCriteria(
-			ClassComparisonAnalysisCriteria classComparisionAnalysisCriteria) {
-		this.classComparisionAnalysisCriteria = classComparisionAnalysisCriteria;
-	}
 
 	/**
 	 * @return Returns the foldChangeCriteria.
@@ -135,6 +120,21 @@ public class ClassComparisonQuery extends Query implements gov.nih.nci.caintegra
 		}
 		else throw new ValidationException("ClinicalDataQueryCollection has to have 2 or more groups");
 	}
+	/**
+	 * @return Returns the classComparisonAnalysisCriteria.
+	 */
+	public ClassComparisonAnalysisCriteria getClassComparisonAnalysisCriteria() {
+		return classComparisonAnalysisCriteria;
+	}
+	/**
+	 * @param classComparisonAnalysisCriteria The classComparisonAnalysisCriteria to set.
+	 */
+	public void setClassComparisonAnalysisCriteria(
+			ClassComparisonAnalysisCriteria classComparisonAnalysisCriteria) {
+		this.classComparisonAnalysisCriteria = classComparisonAnalysisCriteria;
+	}
+
+
 
 
 }

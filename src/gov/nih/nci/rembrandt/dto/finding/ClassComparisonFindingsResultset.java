@@ -14,21 +14,19 @@ import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
  * @author sahnih
  *
  */
-public class ClassComparisonFindingsResultset implements gov.nih.nci.caintegrator.dto.finding.ClassComparisonFindingsResultset{
+public class ClassComparisonFindingsResultset extends gov.nih.nci.caintegrator.dto.finding.ClassComparisonFindingsResultset{
 	//TODO:Change to Domain objects returns
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ClassComparisonResult classComparisonResult;
+
 	/**
 	 * @param result
 	 */
 	public ClassComparisonFindingsResultset(ClassComparisonResult result) {
-		super();
-		// TODO Auto-generated constructor stub
-		classComparisonResult = result;
+		super(result);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult#arePvaluesAdjusted()

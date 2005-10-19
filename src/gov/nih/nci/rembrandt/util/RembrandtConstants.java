@@ -75,7 +75,9 @@ public final class RembrandtConstants {
     //The maximum number of samples that can be applied to All Gene Reports
 	public static final int MAX_ALL_GENE_SAMPLE_SET = 20;
 	
-	public static final String SESSION_CRITERIA_BAG_KEY = "rembrandt.criteriaMap";;
+	public static final String SESSION_CRITERIA_BAG_KEY = "rembrandt.criteriaMap";
+	
+	public static final String JMS_PROPERTIES = "jms.properties";
 	
 	public static enum GraphType{KaplanMeierGeneExpression, KaplanMeierCopyNumber, GeneExrpression};
 	

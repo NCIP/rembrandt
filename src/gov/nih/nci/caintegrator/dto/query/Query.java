@@ -37,6 +37,7 @@ abstract public class Query implements Queriable, Serializable, Cloneable, Valid
 	//and that can know what result set we applied
 	private String appliedResultSet;
 
+	private boolean isComplete = false;
 	private Viewable associatedView;
     
     protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
@@ -175,5 +176,16 @@ abstract public class Query implements Queriable, Serializable, Cloneable, Valid
 	public boolean validate() throws ValidationException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	/** for analysis type large queries that run asynchronously
+	 * 
+	 * 
+	 */
+	public boolean isTaskComplete() {
+		return isComplete;
+	}
+	public void setIsTaskComplete(boolean status) {
+		isComplete = status;
+		
 	}
 }
