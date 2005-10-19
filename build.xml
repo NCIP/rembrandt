@@ -27,7 +27,7 @@
 		urlDbalias - The URL to the database that we are going to use
 		databasePassword - The database password
 	-->
-	<target name="config_database" depends="config_logging">
+	<target name="config_database" depends="config_logging, config_analysis_server">
 				<delete file="src/repository_database.xml"/>
 			    <copy file="src/repository_database.xml.template" tofile="src/repository_database.xml"/>
 				<replaceregexp file = "src/repository_database.xml" match="__DB_USER__" replace="${databaseUser}" flags="g"/>
@@ -43,6 +43,16 @@
 				<delete file="src/log4j.properties"/>
 			    <copy file="src/log4j.properties.template" tofile="src/log4j.properties"/>
 				<replaceregexp file = "src/log4j.properties" match="@LOGDIR@" replace="${logging.dir}" flags="g"/>
+	</target>
+	<!--
+		TARGET: config_analysis_server
+		Configures the JMS.properties file using the settings in the 
+		build.properties file
+	-->
+	<target name="config_analysis_server">
+				<delete file="src/JMS.properties"/>
+			    <copy file="src/JMS.properties.template" tofile="src/JMS.properties"/>
+				<replaceregexp file = "src/JMS.properties" match="@JBOSS_URL@" replace="${jboss.url}" flags="g"/>
 	</target>
 	<!--
 		TARGET: copy_resources
