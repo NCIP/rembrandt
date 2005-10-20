@@ -3,7 +3,7 @@
  */
 package gov.nih.nci.caintegrator.dto.query;
 
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 
 import java.io.Serializable;
 

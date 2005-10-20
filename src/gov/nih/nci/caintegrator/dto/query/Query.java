@@ -3,10 +3,10 @@ package gov.nih.nci.caintegrator.dto.query;
 import gov.nih.nci.caintegrator.dto.critieria.Criteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.query.Validatable;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
