@@ -1,16 +1,19 @@
 package gov.nih.nci.caintegrator.ui.graphing.taglib;
 
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
+import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierPlotPointSeriesSet;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
 import gov.nih.nci.caintegrator.ui.graphing.util.FileDeleter;
 import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -91,13 +94,15 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 					imageReady = true;
 					inputStream.close();
 				}catch(IOException ioe) {
-					imageReady = false;
+					imageReady = false;					
 				}
 				if(timeout <= 1) {
+					
 					break;
 				}
 			}
 		    out.print("<img src=\""+finalURLPath+"\" width=700 height=500 border=0>");
+		    out.print(createLegend(cacheData));
 		}catch (IllegalAccessException e1) {
 			logger.error(e1);
 		} catch (InvocationTargetException e1) {
@@ -115,6 +120,21 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 		return EVAL_BODY_INCLUDE;
 	}
 	
+	private String createLegend(KaplanMeierStoredData cacheData) {
+		/**********
+		 * This will create the legend with the color representations of the
+		 * each of the available data sets.  It will also create a selectable 
+		 * link to the underlying sample data.
+		 * 
+		 ****/
+		Collection<KaplanMeierPlotPointSeriesSet> plotPointSeriesSet = cacheData.getPlotPointSeriesCollection();
+		for(KaplanMeierPlotPointSeriesSet set: plotPointSeriesSet) {
+			Color setColor = set.getColor();
+			String title = set.getLegendTitle();
+		}
+		return "<br>This is where the legend will go<br>";
+	}
+
 	private String createUniqueChartName(HttpSession session) {
 		double time = (double)System.currentTimeMillis();
 		double random = (1-Math.random());

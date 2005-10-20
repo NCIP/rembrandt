@@ -14,6 +14,7 @@ import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -49,6 +50,7 @@ public class KaplanMeierPlot{
 	            true,//tooltips
 	            false//urls
 	            );
+		LegendTitle legend = chart.getLegend();
 		XYPlot plot = (XYPlot) chart.getPlot();
 	    /********************************************************
 	     * IMPORTANT:
@@ -71,6 +73,7 @@ public class KaplanMeierPlot{
 		    }else if(kmSeries.getType()==SeriesType.PROBABILITY){
 		    	renderer.setSeriesLinesVisible(i, true);
 		        renderer.setSeriesShapesVisible(i, false);
+		        
 			}else {
 				//don't show this set as it is not a known type
 				renderer.setSeriesLinesVisible(i, false);
