@@ -9,7 +9,7 @@
  */
 
 import affymetrix.gdacfiles.*;
-import gov.nih.nci.nautilus.constants.NautilusConstants;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.*;
 
