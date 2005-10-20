@@ -1,14 +1,14 @@
 package gov.nih.nci.rembrandt.queryservice.test;
 
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.CommonFactHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.FoldChangeCriteriaHandler;
-import gov.nih.nci.rembrandt.queryservice.view.ViewFactory;
-import gov.nih.nci.rembrandt.queryservice.view.ViewType;
 
 import java.util.Collection;
 

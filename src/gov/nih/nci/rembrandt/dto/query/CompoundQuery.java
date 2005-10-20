@@ -53,8 +53,8 @@ import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.query.Queriable;
 import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.rembrandt.queryservice.view.ViewType;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 
 import java.io.Serializable;
 import java.util.ArrayList;

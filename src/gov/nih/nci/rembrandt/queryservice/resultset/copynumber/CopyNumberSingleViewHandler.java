@@ -9,12 +9,12 @@ package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.AgeGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.DiseaseTypeResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SurvivalRangeResultset;
-import gov.nih.nci.rembrandt.queryservice.view.GroupType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 
 

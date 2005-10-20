@@ -59,6 +59,9 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.query.Queriable;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -73,9 +76,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesR
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.view.CopyNumberSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -50,7 +50,7 @@
 package gov.nih.nci.rembrandt.queryservice.resultset;
 
 import gov.nih.nci.caintegrator.dto.query.Queriable;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 
 import java.io.Serializable;
 

@@ -50,9 +50,9 @@
 package gov.nih.nci.rembrandt.queryservice.test;
 
 import gov.nih.nci.caintegrator.dto.de.DomainElementClass;
-import gov.nih.nci.rembrandt.queryservice.view.View;
-import gov.nih.nci.rembrandt.queryservice.view.ViewFactory;
-import gov.nih.nci.rembrandt.queryservice.view.ViewType;
+import gov.nih.nci.caintegrator.dto.view.View;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
 import junit.framework.TestCase;
 
 /**
@@ -79,13 +79,13 @@ public class DomainElementClassTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testGetLabel() {
+	/*public void testGetLabel() {
 		View geneView = ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
 		DomainElementClass[] domainElements = geneView.getValidElements();
 		System.out.println("Valid Domain Elements for GeneExprSampleView");
 		for(int i=0;i<domainElements.length;i++){
 			System.out.println("["+i+"]"+domainElements[i].getLabel());
 		}
-	}
+	}*/
 
 }

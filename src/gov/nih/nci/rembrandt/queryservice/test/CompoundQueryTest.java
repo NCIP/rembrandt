@@ -31,6 +31,9 @@ import gov.nih.nci.caintegrator.dto.de.PathwayDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -43,9 +46,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleV
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.view.ViewFactory;
-import gov.nih.nci.rembrandt.queryservice.view.ViewType;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
 import java.text.DecimalFormat;

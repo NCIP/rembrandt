@@ -35,6 +35,9 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.SurvivalDE;
 import gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE.UpperAgeLimit;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.GroupType;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
@@ -54,9 +57,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
-import gov.nih.nci.rembrandt.queryservice.view.GroupType;
-import gov.nih.nci.rembrandt.queryservice.view.ViewFactory;
-import gov.nih.nci.rembrandt.queryservice.view.ViewType;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -333,7 +333,7 @@ public class QueryTest extends TestCase {
             q.setCopyNumberCrit(copyNumberCrit);
             q.setSampleIDCrit(sampleCrit);
             try {
-                //ResultSet[] cghObjects = QueryManager.executeQuery(q);
+                //ResultSetInterface[] cghObjects = QueryManager.executeQuery(q);
                 ResultSet[] cghObjects = QueryProcessor.execute(q);
                 //print(geneExprObjects);
                 //testResultset(geneExprObjects);

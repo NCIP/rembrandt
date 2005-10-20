@@ -1,13 +1,13 @@
 package gov.nih.nci.rembrandt.web.bean;
 
 import gov.nih.nci.caintegrator.dto.query.Queriable;
+import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.view.ClinicalSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.CopyNumberSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprDiseaseView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
@@ -168,16 +168,16 @@ public class ReportBean implements Serializable{
 	public void setAssociatedBeanView(Resultant resultant) {
 	    this.associatedView = resultant.getAssociatedView();
 	    if(associatedView instanceof ClinicalSampleView){
-	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.rembrandt.queryservice.view.ViewType$ClinicalView");
+	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$ClinicalView");
 	    }
 	    if(associatedView instanceof CopyNumberSampleView){
-	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.rembrandt.queryservice.view.ViewType$CopyNumberSampleView");
+	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$CopyNumberSampleView");
 	    }
 	    if(associatedView instanceof GeneExprDiseaseView){
-	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.rembrandt.queryservice.view.ViewType$GeneGroupSampleView");
+	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$GeneGroupSampleView");
 	    }
 	    if(associatedView instanceof GeneExprSampleView){
-	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.rembrandt.queryservice.view.ViewType$GeneSingleSampleView");
+	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$GeneSingleSampleView");
 	    }
 	    else{
 	        this.beanView = "View cannot be determined";

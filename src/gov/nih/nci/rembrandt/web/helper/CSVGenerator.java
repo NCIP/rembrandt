@@ -1,6 +1,11 @@
 package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
+import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
@@ -18,11 +23,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesR
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.view.ClinicalSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.CopyNumberSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprDiseaseView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
 import java.text.DecimalFormat;

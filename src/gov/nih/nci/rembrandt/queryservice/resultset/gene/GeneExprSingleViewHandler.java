@@ -52,9 +52,9 @@ package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
-import gov.nih.nci.rembrandt.queryservice.view.GroupType;
 
 public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		public static GeneExprSingleViewResultsContainer handleGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, GeneExpr.GeneExprSingle exprObj,GroupType groupType){

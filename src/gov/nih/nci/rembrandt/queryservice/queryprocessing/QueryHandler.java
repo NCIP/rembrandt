@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing;
 
 import gov.nih.nci.caintegrator.dto.query.Query;
+import gov.nih.nci.caintegrator.dto.query.QueryHandlerInterface;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.DEBeanAttrMapping;
@@ -18,12 +19,12 @@ import org.apache.ojb.broker.metadata.FieldDescriptor;
 /**
  * @author BhattarR, BauerD
  */
-abstract public class QueryHandler {
+abstract public class QueryHandler implements QueryHandlerInterface {
 
     private static Logger logger = Logger.getLogger(QueryHandler.class);
     private static Map deBeanMappings = null;
         
-    protected abstract ResultSet[] handle(Query query) throws Exception;
+    public abstract ResultSet[] handle(Query query) throws Exception;
    
     final static DEBeanAttrMapping getBeanAttrMappingFor(String deClassName) throws Exception {
         return getBeanAttrMappingFor(deClassName, null);

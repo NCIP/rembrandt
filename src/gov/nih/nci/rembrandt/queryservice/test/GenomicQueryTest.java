@@ -4,13 +4,13 @@ import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryProcessor;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
-import gov.nih.nci.rembrandt.queryservice.view.ViewFactory;
-import gov.nih.nci.rembrandt.queryservice.view.ViewType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,7 +40,7 @@ import gov.nih.nci.rembrandt.queryservice.view.ViewType;
             //q.setCopyNumberCrit(copyNumberCrit);
             q.setSampleIDCrit(sampleCrit);
             try {
-                //ResultSet[] cghObjects = QueryManager.executeQuery(q);
+                //ResultSetInterface[] cghObjects = QueryManager.executeQuery(q);
                 ResultSet[] cghObjects = QueryProcessor.execute(q);
                 //print(geneExprObjects);
                 //testResultset(geneExprObjects);

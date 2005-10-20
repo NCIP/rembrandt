@@ -5,14 +5,14 @@ import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
+import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
-import gov.nih.nci.rembrandt.queryservice.view.ClinicalSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.CopyNumberSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprDiseaseView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprSampleView;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -4,6 +4,7 @@
  */
 package gov.nih.nci.rembrandt.queryservice;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
+import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
@@ -23,7 +24,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.GeneExprD
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.GeneExprDiseasePlotHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.view.GroupType;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 

@@ -52,6 +52,7 @@ package gov.nih.nci.rembrandt.queryservice.queryprocessing;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.query.Queriable;
 import gov.nih.nci.caintegrator.dto.query.Query;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
@@ -59,7 +60,6 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 
 import java.util.Arrays;
@@ -350,7 +350,7 @@ public class CompoundQueryProcessor {
 			
 	    	
 		}
-		return interSectSet; //(ResultSet[])finalResults.toArray(new ResultSet[1]);
+		return interSectSet; //(ResultSetInterface[])finalResults.toArray(new ResultSetInterface[1]);
 	}
 	/**
 	 * @param leftResultSets

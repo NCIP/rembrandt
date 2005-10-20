@@ -25,7 +25,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
  */
 public class ClinicalQueryHandler extends QueryHandler {
 
-    protected ResultSet[] handle(Query query) throws Exception {
+    public ResultSet[] handle(Query query) throws Exception {
         ClinicalDataQuery clinicalQuery = (ClinicalDataQuery) query;
         Criteria allCriteria = new Criteria();
 

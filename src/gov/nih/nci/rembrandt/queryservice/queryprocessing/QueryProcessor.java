@@ -12,7 +12,7 @@ public class QueryProcessor {
             each criteria in query object, if criteria is not null, then it is also not empty
             by calling isEmpty() method for each of the criterias */
         // query.validate();
-        return query.getQueryHandler().handle(query);
+        return (ResultSet[]) query.getQueryHandler().handle(query);
 
     }
 }

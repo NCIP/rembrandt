@@ -1,11 +1,11 @@
 package gov.nih.nci.rembrandt.web.xml;
 
+import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
+import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.view.ClinicalSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.CopyNumberSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprDiseaseView;
-import gov.nih.nci.rembrandt.queryservice.view.GeneExprSampleView;
-import gov.nih.nci.rembrandt.queryservice.view.Viewable;
 
 /**
  * The ReportGeneratorFactory returns the correct ReportGenerator based

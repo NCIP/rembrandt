@@ -1,12 +1,15 @@
 package gov.nih.nci.rembrandt.util;
 
-import gov.nih.nci.caintegrator.analysis.server.AnalysisServerClientManager;
+import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -37,7 +40,8 @@ public class ApplicationContext{
     public static Properties getJMSProperties(){
     	return messagingProps;
     }
-    public static void init() {
+    @SuppressWarnings("unused")
+	public static void init() {
     	 logger.debug("Loading Application Resources");
          labelProps = PropertyLoader.loadProperties(RembrandtConstants.APPLICATION_RESOURCES);
          messagingProps = PropertyLoader.loadProperties(RembrandtConstants.JMS_PROPERTIES);
@@ -53,11 +57,23 @@ public class ApplicationContext{
           mappings = new DEBeanMappingsHandler().populate(doc);
           logger.debug("DomainElement to Bean Mapping is completed");
           QueryHandler.init();
-          //Start the JMS Lister
-          AnalysisServerClientManager analysisServerClientManager = AnalysisServerClientManager.getInstance();
+
       } catch(Throwable t) {
          logger.error(new IllegalStateException("Error parsing deToBeanAttrMappings.xml file: Exception: " + t));
       }
+      //Start the JMS Lister
+      try {
+		@SuppressWarnings("unused") AnalysisServerClientManager analysisServerClientManager = AnalysisServerClientManager.getInstance();
+	} catch (NamingException e) {
+        logger.error(new IllegalStateException("Error getting an instance of  AnalysisServerClientManager" ));
+		logger.error(e.getMessage());
+		logger.error(e);
+	} catch (JMSException e) {
+        logger.error(new IllegalStateException("Error getting an instance of  AnalysisServerClientManager" ));
+		logger.error(e.getMessage());
+		logger.error(e);
+	}
+
       
     }
 }

@@ -50,9 +50,9 @@
 		build.properties file
 	-->
 	<target name="config_analysis_server">
-				<delete file="src/JMS.properties"/>
-			    <copy file="src/JMS.properties.template" tofile="src/JMS.properties"/>
-				<replaceregexp file = "src/JMS.properties" match="@JBOSS_URL@" replace="${jboss.url}" flags="g"/>
+				<delete file="src/jms.properties"/>
+			    <copy file="src/jms.properties.template" tofile="src/jms.properties"/>
+				<replaceregexp file = "src/jms.properties" match="@JBOSS_URL@" replace="${jboss.url}" flags="g"/>
 	</target>
 	<!--
 		TARGET: copy_resources
