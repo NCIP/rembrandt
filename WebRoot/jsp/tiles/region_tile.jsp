@@ -13,7 +13,7 @@
 	String act = request.getParameter("act");
 
 %>
-	<!-- <html:form action="<%=act%>" > -->
+
 	
 <br />	&nbsp;&nbsp;Chromosome Number&nbsp;
 	<html:select property="chromosomeNumber" onchange="javascript:cytobandChange()">
@@ -74,4 +74,3 @@ function cytobandChange(){
 </SCRIPT>
 
 
-<!-- </html:form> -->

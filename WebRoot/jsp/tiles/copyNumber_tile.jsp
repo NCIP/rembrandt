@@ -9,7 +9,7 @@
 	String act = request.getParameter("act");
 
 %>
-	<!-- <html:form action="<%=act%>" > -->
+	
 	
 <html:errors property="copyNumberAllGenesAmp"/></br>
 <html:errors property="copyNumberAllGenesDel"/></br>
@@ -37,5 +37,5 @@ Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
 <html:errors property="cnerror"/></br>
 
 </fieldset>
-<!-- </html:form> -->
+
 

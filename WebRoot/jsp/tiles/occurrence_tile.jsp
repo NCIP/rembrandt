@@ -7,7 +7,7 @@
 <%
 	String act = request.getParameter("act");
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 <input type="checkbox" name="firstPresentation" class="radio" disabled="true" >First Presentation
 &nbsp;&nbsp;
 <input type="checkbox" name="recur" class="radio"  disabled="true"
@@ -23,5 +23,5 @@ onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disa
 	<html:optionsCollection property="recurrenceTypeColl" />
     </html:select><html:errors property="recurrence"/> 
 	
-	<!-- </html:form> -->
+
 </ fieldset>

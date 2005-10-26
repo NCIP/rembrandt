@@ -4,7 +4,7 @@
 <%
 	     String act = request.getParameter("act");
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+
 <fieldset class="gray">
 <legend class="red">Prior Therapy
 <app:help help="Future implementation"/>
@@ -45,5 +45,5 @@
 <html:optionsCollection property="surgeryTypeColl" />
 </html:select><html:errors property="surgeryType"/>
 
-<!-- </html:form> -->
+
 </fieldset>

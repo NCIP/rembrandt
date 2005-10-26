@@ -248,5 +248,19 @@ a.notPossible{
  #reportBold{
  font-weight:bold;
  }
- 
+ .divHide	{display:none;}
+.divShow	{
+	padding:5px;
+	display:block;
+	position:relative;
+ 	top:0px;
+ 	left:10px;
+	border: 1px dashed #D2D3D3;
+	margin-right:12px;
+	}
+.exp{
+text-decoration:none;
+font-size:1.3em;
+
+}
  

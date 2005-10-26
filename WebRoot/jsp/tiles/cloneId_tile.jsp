@@ -15,7 +15,7 @@
 <!-- <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b> -->
 <br />
 
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 	
 	
 	
@@ -32,4 +32,4 @@
 			<!--<app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." /></br>-->
 			<html:errors property="cloneId"/></br>
 </fieldset>
-<!-- </html:form> -->
+

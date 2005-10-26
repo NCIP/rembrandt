@@ -18,6 +18,10 @@
    		<form-bean name="kmDataSetForm" type="gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm"/>
    		<form-bean name="reportActionForm" type="gov.nih.nci.rembrandt.web.struts.form.BaseForm"/>
    		<form-bean name="viewResultsForm" type="gov.nih.nci.rembrandt.web.struts.form.ViewResultsForm"/>
+   		<form-bean name="classComparisonForm" type="gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm"/>
+		<form-bean name="principalComponentForm" type="gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm"/>		
+		<form-bean name="loginForm" type="gov.nih.nci.rembrandt.web.struts.form.LoginForm"/>
+   		
   </form-beans>
   <!-- ========== Global Exception Definitions ============================ -->
   <global-exceptions />
@@ -31,6 +35,13 @@
     <!-- ========== Action Mapping Definitions ============================ -->
     
   <action-mappings>
+  
+  	<action path="/analysisHome"
+		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
+		parameter="method">
+		<forward name="success" path="nautilus.analysisHome" />
+	</action>
+  
     <action path="/delete_Query"            
             name="deleteQueryForm"
             type="gov.nih.nci.rembrandt.web.struts.action.DeleteQueryAction"
@@ -121,6 +132,34 @@
          <forward name="previewReport" path="/previewGeneReport.do?method=previewReport"/>
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
          <forward name="showAllGenes" path="nautilus.allGenesGE" />
+	</action>
+	
+	<action path="/classComparison"
+         forward="nautilus.classComparison" />
+	
+	<action path="/classcomparison"
+	    input="nautilus.classComparison"
+		type="gov.nih.nci.rembrandt.web.struts.action.ClassComparisonAction"
+		name="classComparisonForm"
+		scope="request"
+		validate="true"
+		parameter="method">
+		<forward name="backToClassComparison" path="nautilus.classComparison" />
+		<forward name="classComparisonSetup" path="/classcomparison.do?method=setup" />
+	</action>
+	
+	<action path="/principalComponent"
+         forward="nautilus.principalComponent" />
+	
+	<action path="/principalcomponent"
+	    input="nautilus.principalComponent"
+		type="gov.nih.nci.rembrandt.web.struts.action.PrincipalComponentAction"
+		name="principalComponentForm"
+		scope="request"
+		validate="true"
+		parameter="method">
+		<forward name="backToPrincipalComponent" path="nautilus.principalComponent" />
+		<forward name="principalComponentSetup" path="/principalcomponent.do?method=setup" />
 	</action>
 	
 	<action path="/previewGeneReport"

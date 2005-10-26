@@ -9,10 +9,9 @@
 
 <fieldset class="gray">
 <legend class="red">
-<bean:message key="queryName.label"/>
+Step 4: Name Analysis Result
 <b class="req">*</b>
-<!-- <a href="javascript:void(0);" onmouseover="return overlib('<bean:message key="queryName.help"/>', CAPTION, 'Help');" onmouseout="return nd();">[?]</a> -->
-<app:help help="Please give a title/name for this query. This name must be unique among all your queries in this session." />
+<app:help help="Please give a title/name for this analysis result. This name must be unique among all your analysis results in this session." />
 </legend>
 <%
 String act = request.getParameter("act");
@@ -24,11 +23,17 @@ String act = request.getParameter("act");
 %>
 <br>
 	
-<html:text property="queryName" size="50" /> (should be unique)
-<!-- <input type="text" name="queryName" size="50" >  -->
-<br /><html:errors property="queryName"/>
-	
+<html:text styleId="analysisResultName" property="analysisResultName" size="50" /> (should be unique)
+<br /><html:errors property="analysisResultName"/>
 </fieldset>
+
+
+
+
+
+
+
+
 
 <%
 
@@ -58,10 +63,11 @@ String act = request.getParameter("act");
 		}
 
 %>
+
 <SCRIPT>
 function checkQueryName(){
 
-	var thisQueryName = document.forms[0].queryName.value;
+	var thisQueryName = document.forms[0].analysisResultName.value;
 	
 	<%
 			out.println("\t\t\tvar queryNameArray = new Array("+returnQueryNames+");");

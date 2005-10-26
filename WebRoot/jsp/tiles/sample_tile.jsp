@@ -9,7 +9,7 @@
 <%
 	String act = request.getParameter("act");
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 <br>	
 &nbsp;&nbsp;
 <html:radio property="sampleGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
@@ -23,4 +23,3 @@
 <html:errors property="sampleList"/>
 
 </fieldset>
-<!-- </html:form> -->

@@ -8,7 +8,7 @@
 <%
 	String act = request.getParameter("act");
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 <br>
 <b class="message">(Type GO format as 'GO:XXXXXXX' where number is XXXXXXX)</b><br>
 <html:textarea property="goClassification" rows="5" cols="40"></html:textarea>
@@ -24,4 +24,3 @@
 
 </fieldset>
 
-<!-- </html:form> -->

@@ -58,6 +58,7 @@
 	String simple = "";
 	String adv = "";
 	String viewResults = "";
+	String analysis = "";
 	String secondary = "";
 	String advSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"menu.do\">Advanced Search Home</a></li>\n" +
@@ -67,6 +68,9 @@
 							
 	String simpleSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"home.do\">Simple Search Home</a></li>\n" +
+							"</ul>\n";
+	String analysisSecondary = "<ul id=\"secondary\">\n" +
+							"<li><a href=\"analysisHome.do\">Analysis Home</a></li>\n" +
 							"</ul>\n";
 							
 	String s = (String) request.getParameter("s");
@@ -78,23 +82,34 @@
 				simple = "<span>Simple Search</span>\n" + simpleSecondary;
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				break;
 			case 2:
 				//2 is adv
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<span>Advanced Search</span>\n" + advSecondary;
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				break;
 			case 3:
 				//3 is view results
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>";
+				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
+				break;
+			case 4:
+				//4 is high order analysis
+				simple = "<a href=\"home.do\">Simple Search</a>";
+				adv = "<a href=\"menu.do\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<span>High Order Analysis</span>\n" + analysisSecondary;
 				break;
 			default:
 				simple = "<span>Simple Search</span>\n" + simpleSecondary;
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				break;
 		}
 	}
@@ -104,5 +119,6 @@
 		<li><%= simple %></li>
 		<li><%= adv %></li>
 		<li><%= viewResults %></li>
+		<li><%= analysis %></li>
 	</ul>
 </div>

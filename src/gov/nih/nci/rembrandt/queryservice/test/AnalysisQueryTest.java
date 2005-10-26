@@ -91,9 +91,9 @@ public class AnalysisQueryTest extends TestCase {
 		group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		groupCollection.add(group1);
 		ClinicalDataQuery group2 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-		group1.setQueryName("OLIGO");
+		group1.setQueryName("OLIG");
 		diseaseCrit = new DiseaseOrGradeCriteria();
-		diseaseCrit.setDisease(new DiseaseNameDE("OLIGO"));
+		diseaseCrit.setDisease(new DiseaseNameDE("OLIG"));
 		group2.setDiseaseOrGradeCrit(diseaseCrit);
 		group2.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		groupCollection.add(group2);

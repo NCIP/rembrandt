@@ -37,7 +37,7 @@
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
 	  <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
-    
+        
     <definition name="nautilus.allGenesGE" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=geneExpression:allGenesGE" />
 	  <put name="title" value="Gene Expression" />	<!-- title of page -->
@@ -52,12 +52,30 @@
       <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
     
+    <definition name="nautilus.classComparison" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=classComparison" />
+	  <put name="title" value="Class Comparison Analysis Form" />
+	  <put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
+	  <put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
+	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
+    </definition>
+    
+    <definition name="nautilus.principalComponent" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=principalComponent" />
+	  <put name="title" value="Principal Component Analysis (PCA) Form" />
+	  <put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
+	  <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
+	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
+    </definition>
+    
 	<definition name="nautilus.menu" extends="baseDef">
       <put name="mainForm" value="/jsp/menu.jsp" />
 	  <put name="title" value="Advanced Search - Build Query" />
 	   <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
 	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
 	</definition>
+	
+	
 	
 	<definition name="nautilus.viewResults" path="/jsp/homeLayout.jsp">
 		<put name="title" value="View Results" />
@@ -94,6 +112,21 @@
 		<put name="footer" value="/jsp/footer.jsp" />
 		<put name="mainForm" value="/jsp/home.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=1" />
+		
+    </definition>
+    
+    <definition name="nautilus.analysisHome" path="/jsp/homeLayout.jsp">
+		<put name="title" value="REMBRANDT High Order Analysis" />
+		<!--  the common criteria  -->
+		<put name="htmlHead" value="/jsp/tiles/htmlHead_tile.jsp" />
+		<put name="overlib" value="/jsp/tiles/overlib_tile.jsp" />
+		<put name="header" value="/jsp/header.jsp" />
+	    <put name="crumbMenu" value="/jsp/tiles/crumbMenu_tile.jsp" />
+	    <put name="sideBar" value="/jsp/tiles/blankSidebar_tile.jsp" />
+		<!-- <put name="sideBar" value="/jsp/tiles/advSearch_tile.jsp" /> -->
+		<put name="footer" value="/jsp/footer.jsp" />
+		<put name="mainForm" value="/jsp/analysisHome.jsp" />
+		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
 		
     </definition>
     
@@ -158,5 +191,7 @@
       <put name="mainForm" value="/jsp/graphs/bodyKMGraph.jsp" />
 	  <put name="title" value="caIntegrator KM Plot" />
     </definition>
+    
+    
     
 </tiles-definitions>

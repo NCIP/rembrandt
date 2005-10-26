@@ -1,15 +1,24 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 
 <fieldset class="gray">
-<legend class="red">Array Platform
+<legend class="red">
+<logic:notPresent name="geneexpressionForm">
+Step 3: Array Platform
+</logic:notPresent>
+<logic:present name="geneexpressionForm">
+Array Platform
+</logic:present>
+
+
 <app:help help="Select array platform (Affymetrix Oligo arrays or cDNA array platform) from the pick list"/>
 </legend>
 <%
 	String act = request.getParameter("act");
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 <br>	
 &nbsp;&nbsp;<html:select property="arrayPlatform">
 					<html:option value="<%=Constants.ALL_PLATFROM%>">All</html:option>
@@ -18,4 +27,3 @@
 			</html:select>
 			<html:errors property="arrayPlatform"/>
 </fieldset>
-<!-- </html:form> -->

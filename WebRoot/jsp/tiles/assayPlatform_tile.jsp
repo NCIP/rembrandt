@@ -4,7 +4,7 @@
 	String act = request.getParameter("act");
 %>
 
-<!-- <html:form action="<%=act%>" > -->
+
 
 <fieldset class="gray">
 <legend class="red">Assay Platform
@@ -18,4 +18,4 @@
 </html:select>
 <html:errors property="assayPlatform"/>
 </fieldset>
-<!-- </html:form> -->
+

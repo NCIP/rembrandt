@@ -3,7 +3,7 @@
 <%
 String act = request.getParameter("act");
 %>
-	<!-- <html:form action="<%=act%>"> -->
+	
 <fieldset class="gray">
 <legend class="red">Allele Frequency
 <app:help help="Future implementation"/>
@@ -17,5 +17,5 @@ String act = request.getParameter("act");
 
 <html:errors property="alleleFrequency"/>
 </fieldset>
-<!-- </html:form> -->
+
 

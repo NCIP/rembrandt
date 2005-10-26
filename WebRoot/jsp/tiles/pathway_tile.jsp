@@ -8,7 +8,7 @@
 	String act = request.getParameter("act");
 
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 <Br>
 <html:textarea property="pathways" rows="5" cols="40" readonly="true">
 			</html:textarea>
@@ -31,5 +31,4 @@
     <input type="button" class="xbutton" onclick="javascript:resetVal(pathways)" value="clear text area" />
 
 
-<!-- </html:form> -->
 

@@ -9,7 +9,7 @@
 	String act = request.getParameter("act");
 
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 	 &nbsp;&nbsp;&nbsp;<html:select property="tumorType" onchange="javascript:onRadio(this, this.value);">
    <html:optionsCollection property="diseaseType" />
 </html:select><html:errors property="tumorType"/>
@@ -28,7 +28,7 @@ Grade:&nbsp;
 <b><app:help help="This criteria will be implemented in the upcoming release "/></b>
 <html:errors property="tumorGrade"/>
 
-<!-- </html:form> -->
+
 
 
 <br>

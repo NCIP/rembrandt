@@ -163,10 +163,11 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 						classComparisonRequest.setArrayPlatform(ArrayPlatformType.AFFY_OLIGO_PLATFORM); //TODO: Needs to change
 					}
 					// set SampleGroups
-					SampleGroup[] sampleGroupObjects = (SampleGroup[]) sampleGroups.toArray();				
-					if (sampleGroupObjects.length == 2) {
-						classComparisonRequest.setGroup1(sampleGroupObjects[0]);
-						classComparisonRequest.setGroup2(sampleGroupObjects[1]);
+                    Object[] obj = sampleGroups.toArray();
+					//SampleGroup[] sampleGroupObjects =  (SampleGroup[]) sampleGroups.toArray();				
+					if (obj.length == 2) {
+						classComparisonRequest.setGroup1((SampleGroup)obj[0]);
+						classComparisonRequest.setGroup2((SampleGroup)obj[1]);
 					}
 					// set PvalueThreshold
 					classComparisonRequest.setPvalueThreshold(query.getClassComparisonAnalysisCriteria().getStatisticalSignificanceDE().getValueObject());

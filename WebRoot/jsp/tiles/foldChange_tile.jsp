@@ -9,7 +9,7 @@
 	String act = request.getParameter("act");
 
 %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 <br />
 <html:errors property="regulationStatusAllGenes" /><br />
 
@@ -37,4 +37,4 @@ Down-regulation &nbsp;&nbsp; &ge;
 <html:errors property="foldChangeValueUDUp"/>
 <html:errors property="foldChangeValueUDDown"/>
 </fieldset>
-<!-- </html:form> -->
+

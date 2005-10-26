@@ -7,7 +7,7 @@
 		<%
 	     String act = request.getParameter("act");
      %>
-	<!-- <html:form action="<%=act%>" method="get"> -->
+	
 	
 		
 	&nbsp;&nbsp;&nbsp;lower:&nbsp;
@@ -110,5 +110,5 @@
             </html:select><html:errors property="genderType"/>
       </fieldset>
       <br />
-<!-- </html:form> -->
+
 

@@ -5,7 +5,7 @@
 String act = request.getParameter("act");
 %>
 
-<!-- <html:form action="<%=act%>"> -->
+
 <fieldset class="gray">
 <legend class="red">Genomic Annotation Track &nbsp;
 <app:help help="Future implementation"/>
@@ -13,4 +13,3 @@ String act = request.getParameter("act");
 <br />
 <html:text property="genomicTrack" disabled="true" />&nbsp;<input type="button" class="sbutton" value="Genomic Browser..." style="width:150px;" disabled="true">
 <br /></fieldset>
-<!-- </html:form> -->

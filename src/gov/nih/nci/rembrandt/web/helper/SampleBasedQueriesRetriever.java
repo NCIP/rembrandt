@@ -15,11 +15,13 @@ import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.util.LabelValueBean;
 
 /**
  * @author sahnih
@@ -35,6 +37,8 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unchecked")
 	private Map<String,ClinicalDataQuery> predefinedQueryMap = new TreeMap();
+	private List allPredefinedAndSampleSetNames;
+    private LabelValueBean lvb;
 	/**
 	 *  Constructor creates the PredefinedQueries Disease Queries
 	 */
@@ -65,8 +69,10 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	 * 
 	 */
 	public List getAllPredefinedDiseaseQueryNames(){
-		return (List) predefinedQueryMap.keySet();
+		return new ArrayList( predefinedQueryMap.keySet());
 	}
+    
+       
 	/**
 	 * This is a list of samples selected from a Resultset.
 	 * It is used to create a SampleCriteria that is placed in a ClinicalDataQuery that
@@ -80,6 +86,33 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	public List getAllSampleSetNames(String sessionID){
 		return  cacheManager.getSampleSetNames(sessionID);
 	}
+    
+    /**This is the list of names of all the predefined queries and sample sets
+     * that are in the session. There is a list of defined Disease query names that are
+     * retrieved as well as samples the user has selected and saved. After all these 
+     * names have been retieved, they are stored as LabelValueBeans in an ArrayList.
+     * 
+     * NOTE: may want only call predefined queries once. 
+     * 
+     @param sessionId --identifies the sessionCache that you want a complete
+     * list of SampleSetNames stored in. -KR
+     */
+    public List getAllPredefinedAndSampleSetNames(String sessionID){
+        
+        //NEED to add sample set retrieval
+        //if(CacheManagerDelegate.getInstance().getObjectFromSessionCache(sessionID,"predefinedDiseaseQueries") == null){
+                   List predefined = new ArrayList(getAllPredefinedDiseaseQueryNames());
+                   //List sampleSet = new ArrayList(getAllSampleSetNames(sessionID));
+                   allPredefinedAndSampleSetNames = new ArrayList();
+                       for(int i =0; i < predefined.size(); i++){
+                           lvb = new LabelValueBean((String)predefined.get(i),(String)predefined.get(i));
+                           allPredefinedAndSampleSetNames.add(lvb);
+                       }
+                       //cacheManager.addToSessionCache(sessionID,"predefinedDiseaseQueries",(Serializable) allPredefinedAndSampleSetNames);
+        //}
+        return allPredefinedAndSampleSetNames;
+        }
+    
 	/**
 	 * This method, when given a sessionId and a queryName, will check the 
 	 * session cache for the stored ClinicalDataQuery.  If it is not stored or 
