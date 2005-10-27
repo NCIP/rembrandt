@@ -60,7 +60,7 @@ public class FindingsFactory implements
 			ClassComparisonQuery classComparisonQuery = (ClassComparisonQuery) query;
 			ClassComparisonFindingStrategy classComparisonFindingStrategy = new  ClassComparisonFindingStrategy(sessionID,classComparisonQuery.getQueryName(),classComparisonQuery );
 			classComparisonFindingStrategy.createQuery();
-			classComparisonFindingStrategy.executeQuery();
+			//classComparisonFindingStrategy.executeQuery();//TODO:DEBUG
 			classComparisonFindingStrategy.analyzeResultSet();
 		
 		} catch (ValidationException e) {
