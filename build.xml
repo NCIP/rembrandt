@@ -55,6 +55,20 @@
 				<replaceregexp file = "src/jms.properties" match="@JBOSS_URL@" replace="${jboss.url}" flags="g"/>
 	</target>
 	<!--
+			TARGET: config_common_security_module
+			Configures the common security module using the JBoss installation
+			directory
+		-->
+		<target name="config_common_security_module">
+				<delete file="WebRoot/csm/ApplicationSecurityConfig.xml"/>
+				<copy file="WebRoot/csm/ApplicationSecurityConfig.xml.template" tofile="WebRoot/csm/ApplicationSecurityConfig.xml"/>
+				<replaceregexp file = "WebRoot/csm/ApplicationSecurityConfig.xml" match="@CONTEXT_NAME@" replace="${app.war.name}" flags="g"/>
+				<replaceregexp file = "WebRoot/csm/ApplicationSecurityConfig.xml" match="@HIBERNATE_CONFIG_FILE@" replace="${jboss.install.dir}/server/default/deploy/rembrandt.war/csm" flags="g"/>
+				<delete file="WebRoot/csm/rembrandt.hibernate.cfg.xml"/>
+				<copy file="WebRoot/csm/rembrandt.hibernate.cfg.xml.template" tofile="WebRoot/csm/rembrandt.hibernate.cfg.xml"/>
+				<replaceregexp file = "WebRoot/csm/rembrandt.hibernate.cfg.xml" match="@CONTEXT_NAME@" replace="/${app.war.name}" flags="g"/>
+		</target>
+	<!--
 		TARGET: copy_resources
 		Copies all the bundle resources to the WEB-INF/classes/ folder
 	-->
