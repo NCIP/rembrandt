@@ -44,7 +44,8 @@ public class StrategyHelper {
 			Collection bioSpecimen = svrContainer.getBioSpecimenResultsets();
 			for(Iterator i = bioSpecimen.iterator();i.hasNext();) {
 				SampleResultset sampleResultset =  (SampleResultset)i.next();
-				sampleIds.add(sampleResultset.getBiospecimen().getValue().toString());
+				//TODO:DEGUG ADDED HF
+				sampleIds.add("HF"+sampleResultset.getBiospecimen().getValue().toString());
 			}
 		}else {
 			throw new OperationNotSupportedException("We are not able to able to extract SampleIds from: "+container.getClass());
