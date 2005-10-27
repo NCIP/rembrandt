@@ -18,6 +18,7 @@ import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
+import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.dto.finding.ClassComparisonFindingsResultset;
 import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
@@ -25,10 +26,13 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import javax.naming.OperationNotSupportedException;
 
 import org.apache.log4j.Logger;
@@ -50,6 +54,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	private ClassComparisonRequest classComparisonRequest = null;
 	private ClassComparisonResult classComparisonResult = null;
 	private ClassComparisonFindingsResultset classComparisonFindingsResultset = null;
+    private AnalysisServerClientManager analysisServerClientManager; 
 	
 	public ClassComparisonFindingStrategy(String sessionId, String taskId, ClassComparisonQuery query) throws ValidationException {
 		//Check if the passed query is valid
@@ -58,6 +63,17 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 			this.sessionId = sessionId;
 			this.taskId = taskId;
 			classComparisonRequest = new ClassComparisonRequest(sessionId,taskId);
+            try {
+                analysisServerClientManager = AnalysisServerClientManager.getInstance();
+            } catch (NamingException e) {               
+                logger.error(new IllegalStateException("Error getting an instance of  AnalysisServerClientManager" ));
+                logger.error(e.getMessage());
+                logger.error(e);
+            } catch (JMSException e) {                
+                logger.error(new IllegalStateException("Error getting an instance of  AnalysisServerClientManager" ));
+                logger.error(e.getMessage());
+                logger.error(e);
+            }
 		}
 	}
 
@@ -171,7 +187,8 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					}
 					// set PvalueThreshold
 					classComparisonRequest.setPvalueThreshold(query.getClassComparisonAnalysisCriteria().getStatisticalSignificanceDE().getValueObject());
-					return true;
+                    analysisServerClientManager.sendRequest(classComparisonRequest);
+                    return true;
 				}
 			}
 			

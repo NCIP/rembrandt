@@ -78,6 +78,7 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 		Context context = new InitialContext(props);  
 		  
 	    // Get the connection factory
+
 	    QueueConnectionFactory queueConnectionFactory =
 	      (QueueConnectionFactory)context.lookup(messagingProps.getProperty("FACTORY_JNDI"));
 
