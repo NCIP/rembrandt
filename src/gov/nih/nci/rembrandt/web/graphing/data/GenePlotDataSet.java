@@ -1,7 +1,7 @@
 /**
  * 
  */
-package gov.nih.nci.caintegrator.ui.graphing.data.geneExpression;
+package gov.nih.nci.rembrandt.web.graphing.data;
 
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;

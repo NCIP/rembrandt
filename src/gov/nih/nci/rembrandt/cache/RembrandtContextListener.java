@@ -1,8 +1,6 @@
 package gov.nih.nci.rembrandt.cache;
 
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

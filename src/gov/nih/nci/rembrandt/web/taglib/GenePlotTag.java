@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
-import gov.nih.nci.caintegrator.ui.graphing.data.geneExpression.GeneExpressionPlot;
+import gov.nih.nci.rembrandt.web.graphing.data.GeneExpressionPlot;
 
 import java.io.IOException;
 import java.io.PrintWriter;

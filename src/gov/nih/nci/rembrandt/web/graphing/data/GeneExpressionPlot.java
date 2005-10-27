@@ -1,7 +1,7 @@
 
-package gov.nih.nci.caintegrator.ui.graphing.data.geneExpression;
+package gov.nih.nci.rembrandt.web.graphing.data;
 
-import gov.nih.nci.caintegrator.ui.graphing.legend.LegendCreator;
+import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

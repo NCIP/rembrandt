@@ -1,4 +1,4 @@
-package gov.nih.nci.caintegrator.ui.graphing.legend;
+package gov.nih.nci.rembrandt.web.legend;
 
 import java.awt.Color;
 
