@@ -79,6 +79,7 @@ public class CacheManagerDelegate implements ConvenientCache{
     /**
      * returns the WebApplication cache. If the first time this has been called
      * it will instantiate the cache.
+     * *  IMPORTANT! Signature missing from the ConvenientCache Inteface
      * 
      * @return  The Application Cache
      */
@@ -105,6 +106,7 @@ public class CacheManagerDelegate implements ConvenientCache{
   	/**
   	 * Returns a cache for the given sessionId. If there is no cache currently
   	 * created it will create one, store it and return the new instance.
+  	 * *  IMPORTANT! Signature missing from the ConvenientCache Inteface
   	 * 
   	 * @param sessionId
   	 * @return
@@ -132,6 +134,9 @@ public class CacheManagerDelegate implements ConvenientCache{
         }
         return sessionCache;
     }
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getObjectFromSessionCache(java.lang.String, java.lang.String)
+	 */
     public Object getObjectFromSessionCache(String sessionId, String key) {
     	Cache sessionCache = getSessionCache(sessionId);
     	Object returnObject = null;
@@ -142,17 +147,12 @@ public class CacheManagerDelegate implements ConvenientCache{
 			logger.error(e);
 		} catch (CacheException e) {
 			logger.error(e);
-		} catch (NullPointerException e) {
-            logger.error(e);
-        }
+		}
     	return returnObject;
     }
-    /**
-     * Removes the cache for the specified sessionId, if one exists.
-     * 
-     * @param sessionId Session to remove
-     * @return True-cache found and removed, False-Cache found for that session
-     */
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#removeSessionCache(java.lang.String)
+	 */
     public boolean removeSessionCache(String sessionId) {
     	if(manager!=null && manager.cacheExists(sessionId)) {
     		manager.removeCache(sessionId);
@@ -167,6 +167,9 @@ public class CacheManagerDelegate implements ConvenientCache{
         }
     }
     
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getCacheList()
+	 */
     public String[] getCacheList() {
     	manager.getCacheNames();
         return manager.getCacheNames();
@@ -176,6 +179,7 @@ public class CacheManagerDelegate implements ConvenientCache{
     /**
      * When ever a cache is created this method notifies all
      * registered CacheListeners
+     * *  IMPORTANT! Signature missing from the ConvenientCache Inteface
      * 
      * @param cacheId the cache id
      */
@@ -191,6 +195,7 @@ public class CacheManagerDelegate implements ConvenientCache{
     /**
      * Whenever a cache is destroyed this method notifies all
      * registered CacheListeners.
+     * *  IMPORTANT! Signature missing from the ConvenientCache Inteface
      * 
      * @param cacheId the cache id
      */
@@ -202,11 +207,9 @@ public class CacheManagerDelegate implements ConvenientCache{
             }
         }
     }
-    /**
-     * Adds a cache listener to the CacheManagerDelegate
-     * 
-     * @param cacheListener
-     */
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#addCacheListener(gov.nih.nci.rembrandt.cache.CacheListener)
+	 */
     @SuppressWarnings("unchecked")
 	public void addCacheListener(CacheListener cacheListener) {
         if(cacheListeners==null) {
@@ -215,11 +218,9 @@ public class CacheManagerDelegate implements ConvenientCache{
         logger.debug("New CacheListener added");
         cacheListeners.add(cacheListener);
     }
-    /**
-     * removes a cache listener from the CacheManagerDelegate
-     * 
-     * @param cacheListener
-     */
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#removeCacheListener(gov.nih.nci.rembrandt.cache.CacheListener)
+	 */
     public void removeCacheListener(CacheListener cacheListener) {
         if(cacheListener!=null) {
             logger.debug("CacheListener removed");
@@ -238,24 +239,9 @@ public class CacheManagerDelegate implements ConvenientCache{
     public static CacheManagerDelegate getInstance() {
     	return instance;
     }
-    /**
-     * DANGER!										DANGER! 
-     * This method is only intended to be used by the UI
-     * to retrieve an existing result set that should be there 
-     * already.  It should only be called in the instance that you
-     * know that the desired view of the report has not changed from
-     * when it was cached. If the view has changed, it will not check
-     * to see if the resultant is compatable with the desired view.
-     * It is possible to get a ClassCastException when using this method
-     * with the report generators and can cause unpredictable application
-     * behavior. 
-     * DANGER!   									DANGER!
-     *	--D Bauer
-     *
-     * @param sessionId
-     * @param queryName
-     * @return
-     */
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getReportBean(java.lang.String, java.lang.String)
+	 */
     public ReportBean getReportBean(String sessionId, String queryName) {
     	ReportBean reportBean = null;
 		Cache sessionCache = getSessionCache(sessionId);
@@ -277,15 +263,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		return reportBean;
 	}
    
-	/**
-	 * Returns a ReportBean if the Report is found in the cache.  It also contains
-	 * some logic for handling incompatable views and result sets. Since
-	 * Rembrandt .5, the GENE_GROUP_SAMPLE_VIEW uses a different Fact Table in
-	 * the database than the GENE_SINGLE_SAMPLE_VIEW and the CLINICAL_VIEW.
-	 * 
-	 * @param sessionId used to get the session cache.
-	 * @param queryName the desired result set (used as a key to get from the cache)
-	 * @param view  The desired view for the query
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getReportBean(java.lang.String, java.lang.String, gov.nih.nci.caintegrator.dto.view.View)
 	 */
 	public ReportBean getReportBean(String sessionId, String queryName, View view) {
 		ReportBean reportBean = null;
@@ -329,13 +308,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return reportBean;
 	}
-	/**
-	 * This method will add a serializable key/value pair to the given sessions
-	 * cache.
-	 *  
-	 * @param sessionId
-	 * @param key
-	 * @param value
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#addToSessionCache(java.lang.String, java.io.Serializable, java.io.Serializable)
 	 */
 	public void addToSessionCache(String sessionId, Serializable key, Serializable value) {
 		Cache sessionCache = getSessionCache(sessionId);
@@ -350,16 +324,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 			logger.error(iae);
 		}
 	}
-	/**
-	 * This method should be used to generate unique temporary report names for
-	 * any given session within the application.  It has a reference to a
-	 * counter (SessionTempReportCounter) that is present and unique for every
-	 * session, and tracks the number of unique temp reports.  It uses this 
-	 * counter to create a new query/report name that will be unique for the
-	 * session.
-	 * 
-	 * @param sessionId --the session that wants the report/query name
-	 * @return tempReportName --a unique name for the report/query
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getTempReportName(java.lang.String)
 	 */
 	public String getTempReportName(String sessionId) {
 		String tempReportName = null;
@@ -382,15 +348,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return tempReportName;
 	}
-	/**
-	 * This method is intended to check the application cache for the specified
-	 * lookupType that is stored.  It really is the same as making a call to the
-	 * getFromApplicationCache(key) method, except that all lookupType objects
-	 * should implement the java.util.Collection interface.  Returns null if the
-	 * Collection is not found or if an error is thrown.
-	 * 
-	 * @param lookupType  Check the constants in the LookupManager to see what
-	 * is meant by lookupType.
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#checkLookupCache(java.lang.String)
 	 */
 	public Collection checkLookupCache(String lookupType) {
 		Collection results = null;
@@ -413,11 +372,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return results;
 	}
-	/**
-	 * This method takes a key value pair of serializable objects and places them
-	 * in the application cache.
-	 * @param key --This is the key that will retrieve the stored value
-	 * @param value --This is the value to be stored
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#addToApplicationCache(java.io.Serializable, java.io.Serializable)
 	 */
 	public void addToApplicationCache(Serializable key, Serializable value) {
 		Cache applicationCache = getApplicationCache();
@@ -432,16 +388,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 			logger.error(cce);
 		}
 	}
-	/**
-	 * This method when given a sessionId and a queryName will check the 
-	 * session cache for the stored compoundQuery.  If it is not stored or 
-	 * causes an exception it will return Null.  If you are getting Null values,
-	 * when you know that you have stored the query in the sessionCache, check
-	 * the log files as any exceptions will be written there.
-	 *   
-	 * @param sessionId --the session that should have the query stored
-	 * @param queryName --the query that is desired
-	 * @return compoundQuery
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getQuery(java.lang.String, java.lang.String)
 	 */
 	public CompoundQuery getQuery(String sessionId, String queryName) {
 		
@@ -465,13 +413,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		return compoundQuery;
 	
 	}
-	/**
-	 * This is a convenience method for returning the SessionQueryBag for the
-	 * the specified session.  If there is no SessionQueryBag stored in the
-	 * cache for the session, it will create one and return it.   
-	 * 
-	 * @param --the sessionId you want the bag for
-	 * @return --the SessionQueryBag for the session
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getSessionQueryBag(java.lang.String)
 	 */
 	public SessionQueryBag getSessionQueryBag(String sessionId) {
 		Cache sessionCache =  this.getSessionCache(sessionId);
@@ -498,18 +441,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return theBag;
 	}
-	/**
-	 * There is a subtle distinction between SampleSets and ResultSets, one is
-	 * a ReportBean where isSampleSet()==true and the latter,isSampleSet()==false.
-	 * That is it.  What that currently means is that one ReportBean is a list of
-	 * samples selected from a regular result set.  This list of samples is then
-	 * used to create a SampleCriteria that is placed in a GeneExpressionQuery that
-	 * has a ClinicalView.  This gives us the ability to extract or look at these
-	 * "Samples of Interest" at any time, and applying them to other queries if
-	 * the user desires.    
-	 * 
-	 * @param sessionId --identifies the sessionCache that you want a complete
-	 * list of SampleSetNames stored in.
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getSampleSetNames(java.lang.String)
 	 */
 	public List getSampleSetNames(String sessionId) {
 		List names = new ArrayList();
@@ -531,17 +464,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return names;
 	}
-	/**
-	 * The method will return all of the SampleSet ReportBeans that are stored
-	 * in the sessionCache of the sessionId specified.  This is NOT all the
-	 * ReportBeans in the sessionCache.  They will only be the SampleSets that
-	 * were explicitly created and stored by the user in the cache.  To get all
-	 * the ReportBeans use the getAllReportBeans(String sessionId) method of
-	 * this class.
-	 * 
-	 * @param sessionId
-	 * @return --all the SampleSet ReportBeans that are stored in the associated
-	 * sessionCache
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getAllSampleSetReportBeans(java.lang.String)
 	 */
 	public Collection getAllSampleSetReportBeans(String sessionId) {
 		Collection beans = new ArrayList();
@@ -551,12 +475,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return beans;
 	}
-	/**
-	 * This method will return all of the ReportBeans that are stored in the
-	 * sessionCache of the sessionId specified.
-	 *
-	 * @param sessionId --the sessionCache that you want the ReportBeans from
-	 * @return --All the ReportBeans in the sessionCache
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getAllReportBeans(java.lang.String)
 	 */
 	public Collection getAllReportBeans(String sessionId) {
 		Collection beans = new ArrayList();
@@ -575,25 +495,22 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return beans;
 	}
-	/**
-	 * This simply puts the SessionQueryBag into the sessionCache
-	 * 
-	 * @param sessionId --the session that this query bag should be associated
-	 * with
-	 * @param theBag --the bag you want to set in the cache.
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#putSessionQueryBag(java.lang.String, gov.nih.nci.rembrandt.web.bean.SessionQueryBag)
 	 */
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag) {
 		this.addToSessionCache(sessionId,RembrandtConstants.SESSION_QUERY_BAG_KEY, theBag );
 	}
-	/*****
-	 * NEEDS TO BE ADDED TO THE ConvenientCache Interface
-	 * @param sessionId
-	 * @param graphData
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#addSessionGraphingData(java.lang.String, gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData)
 	 */
 	public void addSessionGraphingData(String sessionId, CachableGraphData graphData) {
 		this.addToSessionCache(sessionId,graphData.getId(),graphData);
 	}
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getSessionGraphingData(java.lang.String, java.lang.String)
+	 */
 	public CachableGraphData getSessionGraphingData(String sessionId, String graphId) {
 		Cache sessionCache = this.getSessionCache(sessionId);
 		CachableGraphData graphData = null;
@@ -609,13 +526,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 			}
 			return graphData;
 	}
-	/**
-	 * This is a convenience method for returning the SessionCriteriaBag for the
-	 * the specified session.  If there is no SessionCriteriaBag stored in the
-	 * cache for the session, it will create one and return it.   
-	 * 
-	 * @param --the sessionId you want the bag for
-	 * @return --the SessionCriteriaBag for the session
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getSessionCriteriaBag(java.lang.String)
 	 */
 	public SessionCriteriaBag getSessionCriteriaBag(String sessionId) {
 		Cache sessionCache =  this.getSessionCache(sessionId);
@@ -642,23 +554,15 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return theBag;
 	}
-	/**
-	 * This simply puts the SessionCriteriaBag into the sessionCache
-	 * 
-	 * @param sessionId --the session that this query bag should be associated
-	 * with
-	 * @param theBag --the bag you want to set in the cache.
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#putSessionCriteriaBag(java.lang.String, gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag)
 	 */
 	public void putSessionCriteriaBag(String sessionId, SessionCriteriaBag theBag) {
 		this.addToSessionCache(sessionId,RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag );
 		
 	}
-	/**
-	 * Returns a FindingsResultset if one is stored in the session cache using the
-	 * parameters passed.  
-	 *  
-	 * @param sessionId
-	 * @return Collection
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getAllFindingsResultsets(java.lang.String)
 	 */
 	public Collection getAllFindingsResultsets(String sessionId){
 		Collection beans = new ArrayList();
@@ -677,13 +581,8 @@ public class CacheManagerDelegate implements ConvenientCache{
 		}
 		return beans;
 	}
-	/**
-	 * Returns a FindingsResultset if one is stored in the session cache using the
-	 * parameters passed.  
-	 *  
-	 * @param sessionId
-	 * @param taskId (queryName)
-	 * @return FindingsResultset
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getAllFindingsResultsets(java.lang.String, java.lang.String)
 	 */
 	public FindingsResultset getAllFindingsResultsets(String sessionId, String taskId){
 		FindingsResultset findingsResultset = null;

@@ -11,7 +11,7 @@
 	<tag>
 		<name>KaplanMeierPlot</name>
 		<tag-class>
-			gov.nih.nci.caintegrator.ui.graphing.taglib.KaplanMeierPlotTag
+			gov.nih.nci.rembrandt.web.taglib.KaplanMeierPlotTag
 		</tag-class>
 		<bodycontent>empty</bodycontent>
 		<desciption>The Kaplan Meier Survival Plot</desciption>
@@ -28,7 +28,7 @@
 	<tag>
 		<name>GenePlot</name>
 		<tag-class>
-			gov.nih.nci.caintegrator.ui.graphing.taglib.GenePlotTag
+			gov.nih.nci.rembrandt.web.taglib.GenePlotTag
 		</tag-class>
 		<bodycontent>empty</bodycontent>
 		<description>The Gene Expression Plot</description>

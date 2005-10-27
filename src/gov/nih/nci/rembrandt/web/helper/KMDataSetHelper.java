@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier;
+package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;

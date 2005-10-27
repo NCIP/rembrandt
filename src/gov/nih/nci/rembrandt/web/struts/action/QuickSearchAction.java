@@ -3,7 +3,6 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
-import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KMDataSetHelper;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierDataController;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
@@ -11,6 +10,7 @@ import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.helper.KMDataSetHelper;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 import gov.nih.nci.rembrandt.web.struts.form.QuickSearchForm;
 import gov.nih.nci.rembrandt.web.struts.form.UIFormValidator;
