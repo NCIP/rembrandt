@@ -105,6 +105,10 @@ public class SessionQueryBag implements Serializable {
 	public Collection getQueryNames() {
 		return queryMap.keySet();
 	}
+	
+	public void putQuery(Query query) {
+	  queryMap.put(query.getQueryName(), query);
+	}
 
 	public void removeQuery(String queryName) {
 		if (queryName != null) {

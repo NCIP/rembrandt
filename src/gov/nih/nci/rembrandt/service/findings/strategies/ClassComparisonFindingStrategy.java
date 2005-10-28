@@ -188,7 +188,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					}
 					// set PvalueThreshold
 					classComparisonRequest.setPvalueThreshold(query.getClassComparisonAnalysisCriteria().getStatisticalSignificanceDE().getValueObject());
-                    analysisServerClientManager.sendRequest(classComparisonRequest);
+                    analysisServerClientManager.sendRequest(query,classComparisonRequest);
                     return true;
 				}
 			}

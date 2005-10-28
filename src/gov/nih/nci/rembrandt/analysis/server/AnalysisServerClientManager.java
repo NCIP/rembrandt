@@ -14,6 +14,7 @@ import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.dto.finding.ClassComparisonFindingsResultset;
 import gov.nih.nci.rembrandt.dto.finding.FindingsResultsetHandler;
+import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
@@ -164,10 +165,11 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 	}
 
 	public void sendRequest(AnalysisRequest request) {
-	    ObjectMessage msg;
+		ObjectMessage msg;
 		try {
 		    // Create a message
 			msg = queueSession.createObjectMessage(request);
+			setRequestStatus(request.getSessionId(), request.getTaskId(), false);
 
 		    // Send the message
 		    requestSender.send(msg, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, Message.DEFAULT_TIME_TO_LIVE);
@@ -175,14 +177,34 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 		} catch (JMSException e) {
 			logger.error(e);
 		}
-	
-
-		
 	}
-	private void setRequestComplete(String sessionId, String taskId){
+	
+	public void sendRequest(Query query, AnalysisRequest request) {
+	  //put the query in the session cache
+	  addQueryToSessionCache(request.getSessionId(), query);
+	  sendRequest(request);
+	}
+	
+	private void addQueryToSessionCache(String sessionId, Query query) {
+	  SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
+	  query.setIsTaskComplete(false);
+	  queryBag.putQuery(query);
+	}
+	
+	/**
+	 * Note: taskId is the same as Query.getQueryName()   Revisit
+	 * @param sessionId
+	 * @param taskId
+	 * @param isComplete
+	 */
+	private void setRequestStatus(String sessionId, String taskId, boolean isComplete){
     	SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
     	Query query = queryBag.getQuery(taskId);
-		query.setIsTaskComplete(true);		
+		query.setIsTaskComplete(isComplete);		
+	}
+	
+	private void setRequestComplete(String sessionId, String taskId){
+      setRequestStatus(sessionId, taskId, true);
 	}
 
 

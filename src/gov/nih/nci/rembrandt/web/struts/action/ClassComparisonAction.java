@@ -65,7 +65,7 @@ public class ClassComparisonAction extends DispatchAction {
         ClassComparisonQuery classComparisonQuery = createClassComparisonQuery(classComparisonForm,sessionId);
         
         FindingsFactory factory = new FindingsFactory();
-        factory.createClassComparisonFinding(classComparisonQuery,sessionId,classComparisonQuery.getName());
+        factory.createClassComparisonFinding(classComparisonQuery,sessionId,classComparisonQuery.getQueryName());
         Collection results = cacheManager.getAllFindingsResultsets(sessionId);
         
         
@@ -86,8 +86,8 @@ public class ClassComparisonAction extends DispatchAction {
         
     private ClassComparisonQuery createClassComparisonQuery(ClassComparisonForm classComparisonQueryForm, String sessionId){
 
-        ClassComparisonQuery classComparisonQuery = classComparisonQuery = (ClassComparisonQuery) QueryManager.createQuery(QueryType.CLASS_COMPARISON_QUERY);
-        classComparisonQuery.setName("CCQuery");
+        ClassComparisonQuery classComparisonQuery = (ClassComparisonQuery) QueryManager.createQuery(QueryType.CLASS_COMPARISON_QUERY);
+        classComparisonQuery.setQueryName(classComparisonQueryForm.getAnalysisResultName());
         
         
         //Create the clinical query collection from the selected groups in the form

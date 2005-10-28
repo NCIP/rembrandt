@@ -18,7 +18,7 @@ import java.util.Collection;
  *
  */
 public class ClassComparisonQuery extends Query implements gov.nih.nci.caintegrator.dto.query.ClassComparisonQuery{
-    private String name;
+    //private String name;  Removed becuase redundant with super.queryName
 	private ClassComparisonAnalysisCriteria classComparisonAnalysisCriteria;
 	private InstitutionCriteria institutionCriteria;
 	private FoldChangeCriteria foldChangeCriteria;
@@ -101,19 +101,7 @@ public class ClassComparisonQuery extends Query implements gov.nih.nci.caintegra
 		this.institutionCriteria = institutionCriteria;
 	}
 
-	/**
-	 * @return Returns the name.
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name The name to set.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	public boolean validate() throws ValidationException {
 		if(getClinicalDataQueryCollection() != null && getClinicalDataQueryCollection().size() >= 2){
 			return true;
