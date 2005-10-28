@@ -182,13 +182,25 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 	public void sendRequest(Query query, AnalysisRequest request) {
 	  //put the query in the session cache
 	  addQueryToSessionCache(request.getSessionId(), query);
-	  sendRequest(request);
+      ObjectMessage msg;
+        try {
+            // Create a message
+            msg = queueSession.createObjectMessage(request);
+            setRequestStatus(request.getSessionId(), request.getTaskId(), false);
+
+            // Send the message
+            requestSender.send(msg, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, Message.DEFAULT_TIME_TO_LIVE);
+
+        } catch (JMSException e) {
+            logger.error(e);
+        }
 	}
 	
 	private void addQueryToSessionCache(String sessionId, Query query) {
 	  SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
 	  query.setIsTaskComplete(false);
 	  queryBag.putQuery(query);
+      _cacheManager.putSessionQueryBag(sessionId,queryBag);
 	}
 	
 	/**
