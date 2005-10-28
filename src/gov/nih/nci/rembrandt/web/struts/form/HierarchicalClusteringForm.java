@@ -27,17 +27,17 @@ import org.apache.struts.util.LabelValueBean;
 
 
 
-public class PrincipalComponentForm extends ActionForm {
+public class HierarchicalClusteringForm extends ActionForm {
     
  // -------------INSTANCE VARIABLES-----------------------------//
     private static Logger logger = Logger.getLogger(BaseForm.class);
 	
-    private static List existingGroupsList;
+    private String analysisResultName = "";
     
-    private String selectedGroupName = "";
+    private String distanceMatrix = "correlation";
     
-    private String analysisResultName = "";    
-        
+    private String linkageMethod = "average";
+    
     private int variancePercentile = 70;
     
     private String filterType = "default";
@@ -45,6 +45,8 @@ public class PrincipalComponentForm extends ActionForm {
     private String geneSetName = "";
     
     private String reporterSetName = "";
+    
+    private String clusterBy = "samples";
     
     private String arrayPlatform = "";
     
@@ -54,22 +56,8 @@ public class PrincipalComponentForm extends ActionForm {
     
     private String constraintVariance = "";
 
-	public PrincipalComponentForm(){
+	public HierarchicalClusteringForm(){
 		
-    }
-
-    /**
-     * @return Returns the existingGroupsList.
-     */
-    public List getExistingGroupsList() {
-        return PrincipalComponentForm.existingGroupsList;
-    }
-
-    /**
-     * @param existingGroupsList The existingGroupsList to set.
-     */
-    public void setExistingGroupsList(List existingGroupsList) {
-        PrincipalComponentForm.existingGroupsList = existingGroupsList;
     }
 
     /**
@@ -79,12 +67,16 @@ public class PrincipalComponentForm extends ActionForm {
         return analysisResultName;
     }
 
+
+
     /**
      * @param analysisResultName The analysisResultName to set.
      */
     public void setAnalysisResultName(String analysisResultName) {
         this.analysisResultName = analysisResultName;
     }
+
+
 
     /**
      * @return Returns the arrayPlatform.
@@ -93,6 +85,8 @@ public class PrincipalComponentForm extends ActionForm {
         return arrayPlatform;
     }
 
+
+
     /**
      * @param arrayPlatform The arrayPlatform to set.
      */
@@ -100,8 +94,64 @@ public class PrincipalComponentForm extends ActionForm {
         this.arrayPlatform = arrayPlatform;
     }
 
-    
-       /**
+   
+    /**
+     * @return Returns the clusterBy.
+     */
+    public String getClusterBy() {
+        return clusterBy;
+    }
+
+
+
+
+    /**
+     * @param clusterBy The clusterBy to set.
+     */
+    public void setClusterBy(String clusterBy) {
+        this.clusterBy = clusterBy;
+    }
+
+
+
+
+    /**
+     * @return Returns the distanceMatrix.
+     */
+    public String getDistanceMatrix() {
+        return distanceMatrix;
+    }
+
+
+
+
+    /**
+     * @param distanceMatrix The distanceMatrix to set.
+     */
+    public void setDistanceMatrix(String distanceMatrix) {
+        this.distanceMatrix = distanceMatrix;
+    }
+
+
+
+    /**
+     * @return Returns the linkageMethod.
+     */
+    public String getLinkageMethod() {
+        return linkageMethod;
+    }
+
+
+
+
+    /**
+     * @param linkageMethod The linkageMethod to set.
+     */
+    public void setLinkageMethod(String linkageMethod) {
+        this.linkageMethod = linkageMethod;
+    }
+
+    /**
      * @return Returns the variancePercentile.
      */
     public int getVariancePercentile() {
@@ -211,22 +261,6 @@ public class PrincipalComponentForm extends ActionForm {
         this.reporterSetName = reporterSetName;
     }
 
-
-    /**
-     * @return Returns the selectedGroupName.
-     */
-    public String getSelectedGroupName() {
-        return selectedGroupName;
-    }
-
-
-    /**
-     * @param selectedGroupName The selectedGroupName to set.
-     */
-    public void setSelectedGroupName(String selectedGroupName) {
-        this.selectedGroupName = selectedGroupName;
-    }
-
     /**
      * Method validate
      * 
@@ -262,7 +296,10 @@ public class PrincipalComponentForm extends ActionForm {
         arrayPlatform = "";             
       
     }
-    
+
+
+
+
 
 
     

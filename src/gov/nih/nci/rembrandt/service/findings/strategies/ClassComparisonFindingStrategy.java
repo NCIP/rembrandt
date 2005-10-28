@@ -49,7 +49,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	@SuppressWarnings("unused")
 	private Collection<ClinicalDataQuery> clinicalDataQueries;
 	@SuppressWarnings({"unchecked"})
-	private Collection<SampleGroup> sampleGroups = testmethod(); //new ArrayList();TODO:DEBUG
+	private Collection<SampleGroup> sampleGroups = testmethod();//new ArrayList();
 	private String sessionId = null;
 	private String taskId = null;
 	private ClassComparisonRequest classComparisonRequest = null;
@@ -182,7 +182,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					// set SampleGroups
                     Object[] obj = sampleGroups.toArray();
 					//SampleGroup[] sampleGroupObjects =  (SampleGroup[]) sampleGroups.toArray();				
-					if (obj.length == 2) {
+					if (obj.length == 5) {
 						classComparisonRequest.setGroup1((SampleGroup)obj[0]);
 						classComparisonRequest.setGroup2((SampleGroup)obj[1]);
 					}

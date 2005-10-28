@@ -5,11 +5,15 @@
 
 <fieldset class="gray">
 <legend class="red">
-<logic:notPresent name="geneexpressionForm">
-Step 3: Array Platform
-</logic:notPresent>
+
 <logic:present name="geneexpressionForm">
 Array Platform
+</logic:present>
+<logic:present name="principalComponentForm">
+Step 3: Select Array Platform
+</logic:present>
+<logic:present name="hierarchicalClusteringForm">
+Step 4: Select Array Platform
 </logic:present>
 
 

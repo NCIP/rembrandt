@@ -17,13 +17,14 @@ String act = request.getParameter("act");
 	}
 	function createGList(data){
     	
+    	DWRUtil.removeOptions("geneList", data);
     	DWRUtil.addOptions("geneList", data);
 	}
 	function updateR(){
     	Defaults.getSessionReporterBag(createRList);
 	}
 	function createRList(data){
-    	
+    	DWRUtil.removeOptions("geneList", data);
     	DWRUtil.addOptions("reporterList", data);
 	}
 	
@@ -34,7 +35,14 @@ String act = request.getParameter("act");
 
 	
 <fieldset class="gray">
-<legend class="red">Step 2: Filter Genes/Reporters
+<legend class="red">
+	<logic:present name="hierarchicalClusteringForm">
+	Step 1: 
+	</logic:present>
+	<logic:present name="principalComponentForm">
+	Step 2: 
+	</logic:present>
+	Filter Genes/Reporters
 <app:help help=" ...Optionally, you can upload a text file containing Gene identifiers by clicking the browse button. There must only be one entry per line and a return must be added at the end of the file. Choose “All Genes query” if you do not wish to specify a list of genes, but would like to see the data for all the genes analyzed. You must apply the “All Genes query” to a pre-existing result set. (see help on Refine query page for more details)" />
 </legend>
 

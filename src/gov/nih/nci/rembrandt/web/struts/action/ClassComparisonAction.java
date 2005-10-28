@@ -16,6 +16,7 @@ import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.service.findings.FindingsFactory;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
@@ -62,6 +63,12 @@ public class ClassComparisonAction extends DispatchAction {
         ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
         String sessionId = request.getSession().getId();
         ClassComparisonQuery classComparisonQuery = createClassComparisonQuery(classComparisonForm,sessionId);
+        
+        FindingsFactory factory = new FindingsFactory();
+        factory.createClassComparisonFinding(classComparisonQuery,sessionId,classComparisonQuery.getName());
+        Collection results = cacheManager.getAllFindingsResultsets(sessionId);
+        
+        
         return mapping.findForward("classComparisonSetup");
     }
     
@@ -80,7 +87,7 @@ public class ClassComparisonAction extends DispatchAction {
     private ClassComparisonQuery createClassComparisonQuery(ClassComparisonForm classComparisonQueryForm, String sessionId){
 
         ClassComparisonQuery classComparisonQuery = classComparisonQuery = (ClassComparisonQuery) QueryManager.createQuery(QueryType.CLASS_COMPARISON_QUERY);
-        classComparisonQuery.setQueryName("CCQuery");
+        classComparisonQuery.setName("CCQuery");
         
         
         //Create the clinical query collection from the selected groups in the form
@@ -132,17 +139,19 @@ public class ClassComparisonAction extends DispatchAction {
             
         //Create class comparison criteria
         ClassComparisonAnalysisCriteria classComparisonAnalysisCriteria = new ClassComparisonAnalysisCriteria();
-        Float statisticalSignificanceFloat = new Float(classComparisonQueryForm.getStatisticalSignificance());
+        Double statisticalSignificanceDouble = new Double(classComparisonQueryForm.getStatisticalSignificance());
         
-            if(classComparisonQueryForm.getComparisonAdjustment() != "" || classComparisonQueryForm.getComparisonAdjustment().length() != 0){
+            if(!classComparisonQueryForm.getComparisonAdjustment().equalsIgnoreCase("NONE")){
                 MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
-                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(statisticalSignificanceFloat,Operator.LE,StatisticalSignificanceType.adjustedpValue);
+                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(statisticalSignificanceDouble,Operator.LE,StatisticalSignificanceType.adjustedpValue);
                 classComparisonAnalysisCriteria.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
                 classComparisonAnalysisCriteria.setStatisticalSignificanceDE(statisticalSignificanceDE);
                 classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
             }
             else{
-                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(statisticalSignificanceFloat,Operator.LE,StatisticalSignificanceType.pValue);  
+                MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
+                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(statisticalSignificanceDouble,Operator.LE,StatisticalSignificanceType.pValue);  
+                classComparisonAnalysisCriteria.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
                 classComparisonAnalysisCriteria.setStatisticalSignificanceDE(statisticalSignificanceDE);
                 classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
             }

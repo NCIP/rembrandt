@@ -68,6 +68,14 @@
 	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
     </definition>
     
+     <definition name="nautilus.hierarchicalClustering" extends="baseDef">
+      <put name="mainForm" value="/jsp/formBody.jsp?s=hierarchicalClustering" />
+	  <put name="title" value="Hierarchical Clustering Analysis Form" />
+	  <put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
+	  <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
+	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
+    </definition>
+    
 	<definition name="nautilus.menu" extends="baseDef">
       <put name="mainForm" value="/jsp/menu.jsp" />
 	  <put name="title" value="Advanced Search - Build Query" />

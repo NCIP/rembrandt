@@ -15,8 +15,16 @@ document.forms[0].target = "_self";
 <html:reset styleId="clearButton" styleClass="xbutton" value="clear" />&nbsp;&nbsp;
 <html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser();"/>&nbsp;&nbsp;
 
+<logic:notPresent name="hierarchicalClusteringForm">
 <html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript:checkClassComparisonNull(document.getElementById('analysisResultName'),document.getElementById('selectedGroups'));javascript:saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));">
      <bean:message key="buttons_tile.submittalButton"/>
 </html:submit>
+</logic:notPresent>
+
+<logic:present name="hierarchicalClusteringForm">
+<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.getElementById('analysisResultName'))">
+     <bean:message key="buttons_tile.submittalButton"/>
+</html:submit>
+</logic:present>
 
 

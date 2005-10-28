@@ -1,6 +1,7 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*, 
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
@@ -9,7 +10,14 @@
 
 <fieldset class="gray">
 <legend class="red">
-Step 4: Name Analysis Result
+
+		<logic:present name="principalComponentForm">
+		Step 4: 
+		</logic:present>
+		<logic:present name="hierarchicalClusteringForm">
+		Step 5: 
+		</logic:present>
+		Name Analysis Result
 <b class="req">*</b>
 <app:help help="Please give a title/name for this analysis result. This name must be unique among all your analysis results in this session." />
 </legend>
