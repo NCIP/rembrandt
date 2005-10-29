@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.analysis.server.AnalysisRequestSender;
 import gov.nih.nci.caintegrator.analysis.server.AnalysisResultReceiver;
 import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.exceptions.AnalysisServerException;
+import gov.nih.nci.caintegrator.service.findings.Resultant;
 import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.dto.finding.ClassComparisonFindingsResultset;
@@ -130,7 +131,10 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 		String sessionId = classComparisonResult.getSessionId();
 		String taskId = classComparisonResult.getTaskId();
 		setRequestComplete(sessionId,taskId);
-		_cacheManager.addToSessionCache(sessionId,taskId,findingResultset);
+		Resultant resultant = new Resultant();
+		resultant.setAssociatedQuery(getAssociatedQuery(sessionId,taskId));
+		resultant.setResultsContainer(findingResultset);		
+		_cacheManager.addToSessionCache(sessionId,taskId,resultant);
 
 		
 	}
@@ -139,7 +143,11 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 		String sessionId = analysisServerException.getFailedRequest().getSessionId();
 		String taskId = analysisServerException.getFailedRequest().getTaskId();
 		setRequestComplete(sessionId,taskId);		
+		Resultant resultant = new Resultant();
+		resultant.setReturnedException(analysisServerException);
+		resultant.setAssociatedQuery(getAssociatedQuery(sessionId,taskId));
 		_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);
+
 		logger.error(analysisServerException);
 		
 	}
@@ -218,6 +226,10 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 	private void setRequestComplete(String sessionId, String taskId){
       setRequestStatus(sessionId, taskId, true);
 	}
-
+    private Query getAssociatedQuery(String sessionId, String taskId){
+        SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
+    	Query query = queryBag.getQuery(taskId);
+    	return query;
+    }
 
 }

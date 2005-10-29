@@ -1,9 +1,9 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.filter;
 
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
+import gov.nih.nci.caintegrator.service.findings.Resultant;
+import gov.nih.nci.caintegrator.service.findings.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.SampleCopyNumberValuesResultset;

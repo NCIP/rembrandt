@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.web.xml;
 
-import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.caintegrator.service.findings.Resultant;
 
 import java.util.Map;
 
