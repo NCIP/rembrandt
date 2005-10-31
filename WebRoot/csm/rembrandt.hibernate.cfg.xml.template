@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <!-- properties  -->
-        <property name="connection.datasource">java:___CONTEXT_NAME___</property>
+        <property name="connection.datasource">java:@CONTEXT_NAME@</property>
         <property name="hibernate.show_sql">true</property>
         <property name="dialect">net.sf.hibernate.dialect.OracleDialect</property>	
         <property name="hibernate.transaction.factory_class">net.sf.hibernate.transaction.JTATransactionFactory</property>
