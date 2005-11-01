@@ -32,6 +32,7 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	 * methods now! (Not necesary for primitives.)
 	 */
 	private static final long serialVersionUID = 1L;
+    private String queryName;
 	private StatisticalSignificanceDE statisticalSignificanceDE ;
 	private StatisticTypeDE statisticTypeDE ;
 	private MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE ;
@@ -80,12 +81,10 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 		this.statisticTypeDE = statisticTypeDE;
 	}
 	public void setQueryName(String name) {
-		// TODO Auto-generated method stub
-		
+		this.queryName = name;
 	}
 	public String getQueryName() {
-		// TODO Auto-generated method stub
-		return null;
+		return queryName;
 	}
 	public boolean validate() throws ValidationException {
 		boolean _valid = false;

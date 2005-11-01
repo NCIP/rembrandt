@@ -5,18 +5,21 @@ import java.util.Collection;
 
 
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.ClassComparisonAnalysisCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
+import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
-import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
+
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
-import gov.nih.nci.rembrandt.service.findings.FindingsFactory;
+import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
+
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
@@ -27,6 +30,8 @@ import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE.UpRegulation;
 import gov.nih.nci.caintegrator.enumeration.*;
+import gov.nih.nci.caintegrator.exceptions.FrameworkException;
+import gov.nih.nci.caintegrator.service.findings.Finding;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,12 +67,15 @@ public class ClassComparisonAction extends DispatchAction {
             throws Exception {
         ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
         String sessionId = request.getSession().getId();
-        ClassComparisonQuery classComparisonQuery = createClassComparisonQuery(classComparisonForm,sessionId);
+        ClassComparisonQueryDTO classComparisonQueryDTO = createClassComparisonQueryDTO(classComparisonForm,sessionId);
         
-        FindingsFactory factory = new FindingsFactory();
-        factory.createClassComparisonFinding(classComparisonQuery,sessionId,classComparisonQuery.getQueryName());
-        Collection results = cacheManager.getAllFindingsResultsets(sessionId);
-        
+        RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
+        Finding finding = null;
+        try {
+            finding = factory.createClassComparisonFinding(classComparisonQueryDTO,sessionId,classComparisonQueryDTO.getQueryName());
+        } catch (FrameworkException e) {
+            e.printStackTrace();
+        }
         
         return mapping.findForward("classComparisonSetup");
     }
@@ -84,14 +92,14 @@ public class ClassComparisonAction extends DispatchAction {
         return mapping.findForward("backToClassComparison");
     }
         
-    private ClassComparisonQuery createClassComparisonQuery(ClassComparisonForm classComparisonQueryForm, String sessionId){
+    private ClassComparisonQueryDTO createClassComparisonQueryDTO(ClassComparisonForm classComparisonQueryForm, String sessionId){
 
-        ClassComparisonQuery classComparisonQuery = (ClassComparisonQuery) QueryManager.createQuery(QueryType.CLASS_COMPARISON_QUERY);
-        classComparisonQuery.setQueryName(classComparisonQueryForm.getAnalysisResultName());
+        ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
+        classComparisonQueryDTO.setQueryName(classComparisonQueryForm.getAnalysisResultName());
         
         
-        //Create the clinical query collection from the selected groups in the form
-        Collection<ClinicalDataQuery> clinicalQueryCollection = new ArrayList();
+        //Create the clinical query DTO collection from the selected groups in the form
+        Collection<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList();
         
             if(classComparisonQueryForm.getSelectedGroups() != null && classComparisonQueryForm.getSelectedGroups().length == 2 ){
                 SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
@@ -99,68 +107,51 @@ public class ClassComparisonAction extends DispatchAction {
                     ClinicalDataQuery clinicalDataQuery= sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
                     clinicalQueryCollection.add(clinicalDataQuery);
                 }
-                classComparisonQuery.setClinicalDataQueryCollection(clinicalQueryCollection);
+                classComparisonQueryDTO.setComparisonGroups(clinicalQueryCollection);
             }
         
         //Create the foldChange criteria
-        FoldChangeCriteria foldChangeCriteria = new FoldChangeCriteria();
+       
             
             if (classComparisonQueryForm.getFoldChange().equals("list")){
-                try {
                     UpRegulation exprFoldChangeDE = new UpRegulation(new Float(classComparisonQueryForm.getFoldChangeAuto()));
-                    foldChangeCriteria.setFoldChangeObject(exprFoldChangeDE);
-                    classComparisonQuery.setFoldChangeCriteria(foldChangeCriteria);
-                } catch (NumberFormatException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                    classComparisonQueryDTO.setExprFoldChangeDE(exprFoldChangeDE);
             }
-            if (classComparisonQueryForm.getFoldChange().equals("specify")){
-                try {
+            if (classComparisonQueryForm.getFoldChange().equals("specify")){        
                     UpRegulation exprFoldChangeDE = new UpRegulation(new Float(classComparisonQueryForm.getFoldChangeManual()));
-                    foldChangeCriteria.setFoldChangeObject(exprFoldChangeDE);
-                    classComparisonQuery.setFoldChangeCriteria(foldChangeCriteria);
-                } catch (NumberFormatException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                    classComparisonQueryDTO.setExprFoldChangeDE(exprFoldChangeDE);                   
             }
             
         
         //Create arrayPlatfrom criteria
-        ArrayPlatformCriteria arrayPlatformCriteria = new ArrayPlatformCriteria();
             if(classComparisonQueryForm.getArrayPlatform() != "" || classComparisonQueryForm.getArrayPlatform().length() != 0){       
                 ArrayPlatformDE arrayPlatformDE = new ArrayPlatformDE(classComparisonQueryForm.getArrayPlatform());
-                arrayPlatformCriteria.setPlatform(arrayPlatformDE);
-                classComparisonQuery.setArrayPlatformCriteria(arrayPlatformCriteria);
+                classComparisonQueryDTO.setArrayPlatformDE(arrayPlatformDE);
             }
             
         //Create class comparison criteria
-        ClassComparisonAnalysisCriteria classComparisonAnalysisCriteria = new ClassComparisonAnalysisCriteria();
-           
-            if(!classComparisonQueryForm.getComparisonAdjustment().equalsIgnoreCase("NONE")){
+           if(!classComparisonQueryForm.getComparisonAdjustment().equalsIgnoreCase("NONE")){
                 MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
                 StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.adjustedpValue);
-                classComparisonAnalysisCriteria.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
-                classComparisonAnalysisCriteria.setStatisticalSignificanceDE(statisticalSignificanceDE);
-                classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
+                classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
+                classComparisonQueryDTO.setStatisticalSignificanceDE(statisticalSignificanceDE);
+                
             }
             else{
                 MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
                 StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.pValue);  
-                classComparisonAnalysisCriteria.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
-                classComparisonAnalysisCriteria.setStatisticalSignificanceDE(statisticalSignificanceDE);
-                classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
+                classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
+                classComparisonQueryDTO.setStatisticalSignificanceDE(statisticalSignificanceDE);
+                
             }
             
             
             if(classComparisonQueryForm.getStatisticalMethod() != "" || classComparisonQueryForm.getStatisticalMethod().length() != 0){
                 StatisticTypeDE statisticTypeDE = new StatisticTypeDE(StatisticalMethodType.valueOf(StatisticalMethodType.class, classComparisonQueryForm.getStatisticalMethod()));
-                classComparisonAnalysisCriteria.setStatisticTypeDE(statisticTypeDE);
-                classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
+                classComparisonQueryDTO.setStatisticTypeDE(statisticTypeDE);
             }
             
-            return classComparisonQuery;
+            return classComparisonQueryDTO;
     }
     
     
