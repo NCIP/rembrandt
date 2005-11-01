@@ -12,6 +12,9 @@ Array Platform
 <logic:present name="principalComponentForm">
 Step 3: Select Array Platform
 </logic:present>
+<logic:present name="classComparisonForm">
+Step 3: Select Array Platform
+</logic:present>
 <logic:present name="hierarchicalClusteringForm">
 Step 4: Select Array Platform
 </logic:present>

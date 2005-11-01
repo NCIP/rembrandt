@@ -80,6 +80,8 @@ public final class RembrandtConstants {
 	public static final String JMS_PROPERTIES = "jms.properties";
 	
 	public static enum GraphType{KaplanMeierGeneExpression, KaplanMeierCopyNumber, GeneExrpression};
+    
+    public static final String[] FOLD_CHANGE_DEFAULTS = {"2","3","4","5","6","7","8","9","10"};
 	
 
 

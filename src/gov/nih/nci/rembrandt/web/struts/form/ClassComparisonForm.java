@@ -13,6 +13,7 @@ import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE.UpRegulation;
 import gov.nih.nci.caintegrator.enumeration.*;
 import gov.nih.nci.rembrandt.dto.query.ClassComparisonQueryDTOImpl;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 
 import java.util.ArrayList;
@@ -63,9 +64,11 @@ public class ClassComparisonForm extends ActionForm {
     
     private String foldChangeAuto = "2";
     
-    private String foldChangeManual = "";
+    private List foldChangeAutoList = new ArrayList();
     
-    private String statisticalSignificance = ".05";
+    private String foldChangeManual;
+    
+    private Double statisticalSignificance = .05;
     
     private String arrayPlatform = "";
     
@@ -81,6 +84,10 @@ public class ClassComparisonForm extends ActionForm {
         
         for (StatisticalMethodType statisticalMethodType : StatisticalMethodType.values()){
             statisticalMethodCollection.add(new LabelValueBean(statisticalMethodType.toString(),statisticalMethodType.name()));  
+        }
+        
+        for (int i=0; i<RembrandtConstants.FOLD_CHANGE_DEFAULTS.length;i++){
+            foldChangeAutoList.add(new LabelValueBean(RembrandtConstants.FOLD_CHANGE_DEFAULTS[i],RembrandtConstants.FOLD_CHANGE_DEFAULTS[i]));
         }
         
     }
@@ -322,7 +329,7 @@ public class ClassComparisonForm extends ActionForm {
     /**
      * @return Returns the statisticalSignificance.
      */
-    public String getStatisticalSignificance() {
+    public Double getStatisticalSignificance() {
         return statisticalSignificance;
     }
 
@@ -331,7 +338,7 @@ public class ClassComparisonForm extends ActionForm {
     /**
      * @param statisticalSignificance The statisticalSignificance to set.
      */
-    public void setStatisticalSignificance(String statisticalSignificance) {
+    public void setStatisticalSignificance(Double statisticalSignificance) {
         this.statisticalSignificance = statisticalSignificance;
     }
         
@@ -376,14 +383,34 @@ public class ClassComparisonForm extends ActionForm {
         analysisResultName = "";        
         statistic = "default";        
         comparisonAdjustment = "NONE";        
-        foldChange = "list";        
-        foldChangeAuto = "2";        
-        foldChangeManual = "";        
-        statisticalSignificance = ".05";        
+        foldChange = "list";      
+        foldChangeAuto = "2"; 
+        statisticalSignificance = .05;        
         arrayPlatform = "";             
         statisticalMethod = "TTest";
     }
 
+
+
+    /**
+     * @return Returns the foldChangeAutoList.
+     */
+    public List getFoldChangeAutoList() {
+        return foldChangeAutoList;
+    }
+
+
+
+    /**
+     * @param foldChangeAutoList The foldChangeAutoList to set.
+     */
+    public void setFoldChangeAutoList(List foldChangeAutoList) {
+        this.foldChangeAutoList = foldChangeAutoList;
+    }
+
+
+
+   
 
 
     

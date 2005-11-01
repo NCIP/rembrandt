@@ -36,16 +36,8 @@ Multiple Comparison Adjustment
 	<html:radio property="foldChange" value="list" styleClass="radio"/>
 	&nbsp;&nbsp;Fold Change&nbsp;&ge;
 	<html:select property="foldChangeAuto">
-		<html:option value="none">&nbsp;</html:option>
-		<html:option value="2">2</html:option>
-		<html:option value="3">3</html:option>
-		<html:option value="4">4</html:option>
-		<html:option value="5">5</html:option>
-		<html:option value="6">6</html:option>
-		<html:option value="7">7</html:option>
-		<html:option value="8">8</html:option>
-		<html:option value="9">9</html:option>
-		<html:option value="10">10</html:option>
+		<html:option value="0">&nbsp;</html:option>		
+		<html:optionsCollection property="foldChangeAutoList" />
 	</html:select>
 	
 	&nbsp;&nbsp;-OR-&nbsp;&nbsp;

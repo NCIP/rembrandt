@@ -104,11 +104,10 @@ public class ClassComparisonAction extends DispatchAction {
         
         //Create the foldChange criteria
         FoldChangeCriteria foldChangeCriteria = new FoldChangeCriteria();
-            Float foldChangeFloatValue;
+            
             if (classComparisonQueryForm.getFoldChange().equals("list")){
                 try {
-                    foldChangeFloatValue = Float.parseFloat(classComparisonQueryForm.getFoldChangeAuto());
-                    UpRegulation exprFoldChangeDE = new UpRegulation(foldChangeFloatValue);
+                    UpRegulation exprFoldChangeDE = new UpRegulation(new Float(classComparisonQueryForm.getFoldChangeAuto()));
                     foldChangeCriteria.setFoldChangeObject(exprFoldChangeDE);
                     classComparisonQuery.setFoldChangeCriteria(foldChangeCriteria);
                 } catch (NumberFormatException e) {
@@ -118,8 +117,7 @@ public class ClassComparisonAction extends DispatchAction {
             }
             if (classComparisonQueryForm.getFoldChange().equals("specify")){
                 try {
-                    foldChangeFloatValue = Float.parseFloat(classComparisonQueryForm.getFoldChangeManual());
-                    UpRegulation exprFoldChangeDE = new UpRegulation(foldChangeFloatValue);
+                    UpRegulation exprFoldChangeDE = new UpRegulation(new Float(classComparisonQueryForm.getFoldChangeManual()));
                     foldChangeCriteria.setFoldChangeObject(exprFoldChangeDE);
                     classComparisonQuery.setFoldChangeCriteria(foldChangeCriteria);
                 } catch (NumberFormatException e) {
@@ -139,18 +137,17 @@ public class ClassComparisonAction extends DispatchAction {
             
         //Create class comparison criteria
         ClassComparisonAnalysisCriteria classComparisonAnalysisCriteria = new ClassComparisonAnalysisCriteria();
-        Double statisticalSignificanceDouble = new Double(classComparisonQueryForm.getStatisticalSignificance());
-        
+           
             if(!classComparisonQueryForm.getComparisonAdjustment().equalsIgnoreCase("NONE")){
                 MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
-                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(statisticalSignificanceDouble,Operator.LE,StatisticalSignificanceType.adjustedpValue);
+                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.adjustedpValue);
                 classComparisonAnalysisCriteria.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
                 classComparisonAnalysisCriteria.setStatisticalSignificanceDE(statisticalSignificanceDE);
                 classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
             }
             else{
                 MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
-                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(statisticalSignificanceDouble,Operator.LE,StatisticalSignificanceType.pValue);  
+                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.pValue);  
                 classComparisonAnalysisCriteria.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
                 classComparisonAnalysisCriteria.setStatisticalSignificanceDE(statisticalSignificanceDE);
                 classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
