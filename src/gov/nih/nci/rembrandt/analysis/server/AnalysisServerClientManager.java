@@ -26,6 +26,7 @@ import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.ExceptionListener;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.QueueConnection;
@@ -44,19 +45,19 @@ import org.apache.log4j.Logger;
  * @author sahnih
  * singleton object
  */
-public class AnalysisServerClientManager implements MessageListener, AnalysisRequestSender, AnalysisResultReceiver{
+public class AnalysisServerClientManager implements MessageListener, ExceptionListener, AnalysisRequestSender, AnalysisResultReceiver{
 	private static Logger logger = Logger.getLogger(AnalysisServerClientManager.class);
 	private FindingsResultsetHandler findingsResultsetHandler = new FindingsResultsetHandler();
 	private ConvenientCache _cacheManager = CacheManagerDelegate.getInstance();
 	
     private Properties messagingProps;
-	 private QueueSession queueSession;
+	private QueueSession queueSession;
  
-	 private QueueSender requestSender;
-	 private QueueReceiver resultReceiver;
+	private QueueSender requestSender;
+	private QueueReceiver resultReceiver;
 
-	 private Queue requestQueue;
-	 private Queue resultQueue;
+	private Queue requestQueue;
+	private Queue resultQueue;
 	private QueueConnection queueConnection;
     private static AnalysisServerClientManager instance = null;
 	/**
@@ -87,6 +88,8 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 	    // Create the connection
 	    queueConnection = queueConnectionFactory.createQueueConnection();
 
+	    queueConnection.setExceptionListener(this);
+	    
 	    // Create the session
 	    queueSession = queueConnection.createQueueSession(
 	      // No transaction
@@ -98,15 +101,18 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 	    requestQueue = (Queue)context.lookup("queue/AnalysisRequest");
 	    resultQueue = (Queue)context.lookup("queue/AnalysisResponse");
 
-    
 	    
 	    // Create a publisher
 	    requestSender = queueSession.createSender(requestQueue);
 		resultReceiver = queueSession.createReceiver(resultQueue);
 		resultReceiver.setMessageListener(this);
+		
 		queueConnection.start();
 	}
 	
+	/**
+	 * JMS notification about a new message
+	 */
 	public void onMessage(Message message) {
 		 //String msg = ((TextMessage)m).getText();
 	      ObjectMessage msg = (ObjectMessage) message;
@@ -123,6 +129,13 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 			logger.error(e);
 		}
 		
+	}
+	
+	/**
+	 * JMS notification about an exception
+	 */
+    public void onException(JMSException jmsException) {
+	  logger.error(jmsException);	
 	}
 
 	public void receiveResult(AnalysisResult analysisResult) {
@@ -147,7 +160,6 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 		resultant.setReturnedException(analysisServerException);
 		resultant.setAssociatedQuery(getAssociatedQuery(sessionId,taskId));
 		_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);
-
 		logger.error(analysisServerException);
 		
 	}
@@ -172,13 +184,16 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 		return instance;
 	}
 
+	/**
+	 * Send an AnalysisRequest to the JMS request queue. Note this method does not store anything
+	 * in the cache. 
+	 * @see sendRequest(Query query, AnalysisRequest request)
+	 */
 	public void sendRequest(AnalysisRequest request) {
 		ObjectMessage msg;
 		try {
 		    // Create a message
 			msg = queueSession.createObjectMessage(request);
-			setRequestStatus(request.getSessionId(), request.getTaskId(), false);
-
 		    // Send the message
 		    requestSender.send(msg, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, Message.DEFAULT_TIME_TO_LIVE);
 
@@ -187,21 +202,17 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
 		}
 	}
 	
+	/**
+	 * Add the query to the session cache and set the status isComplete to false
+	 * then send the AnalysisRequest to the JMS request queue
+	 * @param query
+	 * @param request
+	 */
 	public void sendRequest(Query query, AnalysisRequest request) {
 	  //put the query in the session cache
 	  addQueryToSessionCache(request.getSessionId(), query);
-      ObjectMessage msg;
-        try {
-            // Create a message
-            msg = queueSession.createObjectMessage(request);
-            setRequestStatus(request.getSessionId(), request.getTaskId(), false);
-
-            // Send the message
-            requestSender.send(msg, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, Message.DEFAULT_TIME_TO_LIVE);
-
-        } catch (JMSException e) {
-            logger.error(e);
-        }
+	  setRequestStatus(request.getSessionId(), request.getTaskId(), false);
+	  sendRequest(request);
 	}
 	
 	private void addQueryToSessionCache(String sessionId, Query query) {
@@ -231,5 +242,7 @@ public class AnalysisServerClientManager implements MessageListener, AnalysisReq
     	Query query = queryBag.getQuery(taskId);
     	return query;
     }
+
+	
 
 }
