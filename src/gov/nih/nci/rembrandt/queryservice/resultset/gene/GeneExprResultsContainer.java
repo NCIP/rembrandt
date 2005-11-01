@@ -50,7 +50,7 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
-import gov.nih.nci.caintegrator.service.findings.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 
 import java.util.ArrayList;
 import java.util.Collection;

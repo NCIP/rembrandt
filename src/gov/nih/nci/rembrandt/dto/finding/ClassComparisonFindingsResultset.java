@@ -8,7 +8,7 @@ import java.util.List;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
-import gov.nih.nci.caintegrator.service.findings.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 
 
 /**

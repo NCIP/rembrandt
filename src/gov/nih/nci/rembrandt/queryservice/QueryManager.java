@@ -1,9 +1,9 @@
 package gov.nih.nci.rembrandt.queryservice;
 
-import gov.nih.nci.caintegrator.dto.query.Queriable;
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.dto.query.Queriable;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.CompoundQueryProcessor;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryProcessor;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;

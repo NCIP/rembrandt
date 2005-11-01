@@ -5,7 +5,7 @@ import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
-import gov.nih.nci.caintegrator.service.findings.Resultant;
+import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 
 /**
  * The ReportGeneratorFactory returns the correct ReportGenerator based

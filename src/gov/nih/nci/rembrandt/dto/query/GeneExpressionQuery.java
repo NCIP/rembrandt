@@ -16,7 +16,6 @@ import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
 import gov.nih.nci.caintegrator.dto.de.PathwayDE;
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprQueryHandler;

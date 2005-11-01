@@ -50,10 +50,10 @@ package gov.nih.nci.rembrandt.web.bean;
  *	
  */
 
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.Query;
 
 import java.io.Serializable;
 import java.util.Collection;

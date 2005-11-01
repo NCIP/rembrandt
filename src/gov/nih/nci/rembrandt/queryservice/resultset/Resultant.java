@@ -1,6 +1,6 @@
 /*
  *  @author: SahniH
- *  Created on Nov 9, 2004
+ *  Created on Oct 21, 2004
  *  @version $ Revision: 1.0 $
  * 
  *	The caBIO Software License, Version 1.0
@@ -47,69 +47,82 @@
  *	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *	
  */
-package gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot;
+package gov.nih.nci.rembrandt.queryservice.resultset;
 
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.rembrandt.dto.query.Queriable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
 
 /**
  * @author SahniH
- * Date: Nov 9, 2004
+ * Date: Oct 21, 2004
  * 
  */
-public class GeneExprDiseasePlotContainer implements ResultsContainer{
-	private GeneIdentifierDE.GeneSymbol geneSymbol;
-	private Map diseases = new HashMap(); 
-	
-	public void addDiseaseGeneExprPlotResultset(DiseaseGeneExprPlotResultset diseaseGeneExprPlotResultset){
-		if(diseaseGeneExprPlotResultset != null && diseaseGeneExprPlotResultset.getType() != null){
-			diseases.put(diseaseGeneExprPlotResultset.getType().getValue().toString(), diseaseGeneExprPlotResultset);
-		}
+public class Resultant implements Serializable {
+private Queriable associatedQuery;
+private ResultsContainer resultsContainer;
+private Viewable associatedView;
+private Throwable returnedException;
+private boolean isException = false;
+
+/**
+ * @return Returns the returnedException.
+ */
+public Throwable getReturnedException() {
+	return returnedException;
+}
+/**
+ * @param returnedException The returnedException to set.
+ */
+public void setReturnedException(Throwable returnedException) {
+	this.returnedException = returnedException;
+}
+/**
+ * @return Returns the associatedView.
+ */
+public Viewable getAssociatedView() {
+	return associatedView;
+}
+/**
+ * @param associatedView The associatedView to set.
+ */
+public void setAssociatedView(Viewable associatedView) {
+	this.associatedView = associatedView;
+}
+/**
+ * @return Returns the resultsContainer.
+ */
+public ResultsContainer getResultsContainer() {
+	return resultsContainer;
+}
+/**
+ * @param resultsContainer The resultsContainer to set.
+ */
+public void setResultsContainer(ResultsContainer resultsContainer) {
+	this.resultsContainer = resultsContainer;
+}
+
+/**
+ * @return Returns the associatedQuery.
+ */
+public Queriable getAssociatedQuery() {
+	return this.associatedQuery;
+}
+/**
+ * @param associatedQuery The associatedQuery to set.
+ */
+public void setAssociatedQuery(Queriable associatedQuery) {
+	this.associatedQuery = associatedQuery;
+}
+/**
+ * @return Returns the isException.
+ */
+public boolean isException() {
+	if(returnedException != null){
+		isException = true;
 	}
-	/**
-	 * @param diseaseGeneExprPlotResultset Removes diseaseGeneExprPlotResultset to this ReporterResultset object.
-	 */
-	public void removeDiseaseGeneExprPlotResultset(DiseaseGeneExprPlotResultset diseaseGeneExprPlotResultset){
-		if(diseaseGeneExprPlotResultset != null && diseaseGeneExprPlotResultset.getType() != null){
-			diseases.remove(diseaseGeneExprPlotResultset.getType().getValue().toString());
-		}
-	}
-    /**
-     * @param disease
-	 * @return diseaseGeneExprPlotResultset Returns reporterResultset for this ReporterResultset.
-	 */
-    public DiseaseGeneExprPlotResultset getDiseaseGeneExprPlotResultset(String diseaseType){
-    	if(diseaseType != null){
-			return (DiseaseGeneExprPlotResultset) diseases.get(diseaseType);
-		}
-    		return null;
-    }
-	/**
-	 * @return Collection Returns collection of diseaseGeneExprPlotResultsets to this ReporterResultset object.
-	 */
-    public Collection getDiseaseGeneExprPlotResultsets(){
-    		return diseases.values();
-    }
-	/**
-	 * @param none Removes all diseaseGeneExprPlotResultset in this ReporterResultset object.
-	 */
-    public void removeAllDiseaseGeneExprPlotResultset(){
-    	diseases.clear();
-    }
-	/**
-	 * @return Returns the geneSymbol.
-	 */
-	public GeneIdentifierDE.GeneSymbol getGeneSymbol() {
-		return this.geneSymbol;
-	}
-	/**
-	 * @param geneSymbol The geneSymbol to set.
-	 */
-	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
-		this.geneSymbol = geneSymbol;
-	}
+	return isException;
+}
+
 }

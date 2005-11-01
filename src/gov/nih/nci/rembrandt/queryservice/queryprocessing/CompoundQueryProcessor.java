@@ -50,11 +50,11 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing;
 
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
-import gov.nih.nci.caintegrator.dto.query.Queriable;
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.dto.query.Queriable;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;

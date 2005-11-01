@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing;
 
-import gov.nih.nci.caintegrator.dto.query.Query;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 
 /**

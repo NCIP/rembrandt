@@ -4,7 +4,6 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset;
 
-import gov.nih.nci.caintegrator.service.findings.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;

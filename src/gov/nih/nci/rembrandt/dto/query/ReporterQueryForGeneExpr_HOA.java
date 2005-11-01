@@ -4,7 +4,6 @@
 package gov.nih.nci.rembrandt.dto.query;
 
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 
@@ -20,7 +19,7 @@ public class ReporterQueryForGeneExpr_HOA extends Query {
 	private static final long serialVersionUID = 1L;
 	private CloneOrProbeIDCriteria cloneOrProbeIDCriteria;
 	/* (non-Javadoc)
-	 * @see gov.nih.nci.caintegrator.dto.query.Query#getQueryHandler()
+	 * @see gov.nih.nci.caintegrator.dto.query.QueryDTOold#getQueryHandler()
 	 */
 	@Override
 	public QueryHandler getQueryHandler() throws Exception {
@@ -29,7 +28,7 @@ public class ReporterQueryForGeneExpr_HOA extends Query {
 	}
 
 	/* (non-Javadoc)
-	 * @see gov.nih.nci.caintegrator.dto.query.Query#getQueryType()
+	 * @see gov.nih.nci.caintegrator.dto.query.QueryDTOold#getQueryType()
 	 */
 	@Override
 	public QueryType getQueryType() throws Exception {
@@ -38,7 +37,7 @@ public class ReporterQueryForGeneExpr_HOA extends Query {
 	}
 
 	/* (non-Javadoc)
-	 * @see gov.nih.nci.caintegrator.dto.query.Query#toString()
+	 * @see gov.nih.nci.caintegrator.dto.query.QueryDTOold#toString()
 	 */
 	@Override
 	public String toString() {

@@ -1,33 +1,8 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.ClassComparisonAnalysisCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
-import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.caintegrator.dto.view.ViewFactory;
-import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
-import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
-import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
-import gov.nih.nci.rembrandt.queryservice.QueryManager;
-import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
-import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
-import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm;
-import gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm;
-import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
-import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
-import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
-import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
-import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
-import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE.UpRegulation;
-import gov.nih.nci.caintegrator.enumeration.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -32,7 +32,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
     private Collection allCloneIDS = Collections.synchronizedCollection(new HashSet());
     private List eventList = Collections.synchronizedList(new ArrayList());
 
-    public ResultSet[] handle(gov.nih.nci.caintegrator.dto.query.Query query) throws Exception {
+    public ResultSet[] handle(gov.nih.nci.rembrandt.dto.query.Query query) throws Exception {
         GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
                                                       
         if (query.getAssociatedView() instanceof GeneExprSampleView ||

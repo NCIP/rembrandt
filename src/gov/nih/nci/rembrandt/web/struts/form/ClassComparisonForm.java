@@ -3,7 +3,6 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.ClassComparisonAnalysisCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
@@ -12,6 +11,7 @@ import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE.UpRegulation;
 import gov.nih.nci.caintegrator.enumeration.*;
+import gov.nih.nci.rembrandt.dto.query.ClassComparisonQueryDTOImpl;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 

@@ -1,9 +1,9 @@
 package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
-import gov.nih.nci.caintegrator.dto.query.Queriable;
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.dto.query.Queriable;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.util.Stack;

@@ -3,9 +3,6 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
 
-import java.io.FileInputStream;
-import java.util.Properties;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.cache;
 
 import gov.nih.nci.caintegrator.dto.finding.FindingsResultset;
 import gov.nih.nci.caintegrator.dto.view.View;
+import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
@@ -251,17 +252,8 @@ public interface ConvenientCache {
 	 * @param sessionId
 	 * @return Collection
 	 */
-	public Collection getAllFindingsResultsets(String sessionId);
+	public Collection<Finding> getAllFindings(String sessionId);
 
-	/**
-	 * Returns a FindingsResultset if one is stored in the session cache using the
-	 * parameters passed.  
-	 *  
-	 * @param sessionId
-	 * @param taskId (queryName)
-	 * @return FindingsResultset
-	 */
-	public FindingsResultset getAllFindingsResultsets(String sessionId,
-			String taskId);
+	public Finding getFinding(String sessionId, String taskId);
 
 }

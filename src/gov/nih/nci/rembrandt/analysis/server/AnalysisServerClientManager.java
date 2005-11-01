@@ -5,28 +5,24 @@ package gov.nih.nci.rembrandt.analysis.server;
 
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisResult;
-import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
 import gov.nih.nci.caintegrator.analysis.server.AnalysisRequestSender;
 import gov.nih.nci.caintegrator.analysis.server.AnalysisResultReceiver;
-import gov.nih.nci.caintegrator.dto.query.Query;
+import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.AnalysisServerException;
-import gov.nih.nci.caintegrator.service.findings.Resultant;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.caintegrator.service.findings.AnalysisFinding;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
-import gov.nih.nci.rembrandt.dto.finding.ClassComparisonFindingsResultset;
 import gov.nih.nci.rembrandt.dto.finding.FindingsResultsetHandler;
-import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
-import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.Hashtable;
 import java.util.Properties;
 
 import javax.jms.DeliveryMode;
+import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.ExceptionListener;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.QueueConnection;
@@ -48,7 +44,7 @@ import org.apache.log4j.Logger;
 public class AnalysisServerClientManager implements MessageListener, ExceptionListener, AnalysisRequestSender, AnalysisResultReceiver{
 	private static Logger logger = Logger.getLogger(AnalysisServerClientManager.class);
 	private FindingsResultsetHandler findingsResultsetHandler = new FindingsResultsetHandler();
-	private ConvenientCache _cacheManager = CacheManagerDelegate.getInstance();
+	private ConvenientCache _cacheManager = ApplicationFactory.getCacheManager();
 	
     private Properties messagingProps;
 	private QueueSession queueSession;
@@ -139,15 +135,15 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	}
 
 	public void receiveResult(AnalysisResult analysisResult) {
-		ClassComparisonResult classComparisonResult = (ClassComparisonResult) analysisResult;
-		ClassComparisonFindingsResultset findingResultset = findingsResultsetHandler.processClassComparisonAnalsisResult(classComparisonResult);
-		String sessionId = classComparisonResult.getSessionId();
-		String taskId = classComparisonResult.getTaskId();
-		setRequestComplete(sessionId,taskId);
-		Resultant resultant = new Resultant();
-		resultant.setAssociatedQuery(getAssociatedQuery(sessionId,taskId));
-		resultant.setResultsContainer(findingResultset);		
-		_cacheManager.addToSessionCache(sessionId,taskId,resultant);
+		String sessionId = analysisResult.getSessionId();
+		String taskId = analysisResult.getTaskId();
+		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getFinding(sessionId, taskId);
+		finding.setAnalysisResult(analysisResult);
+		FindingStatus oldStatus = finding.getStatus();
+		FindingStatus currentStatus = FindingStatus.Completed;
+		currentStatus.setKey(oldStatus.getKey());
+		finding.setStatus(currentStatus);
+		_cacheManager.addToSessionCache(sessionId,taskId,finding);
 
 		
 	}
@@ -155,10 +151,11 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	public void receiveException(AnalysisServerException analysisServerException) {
 		String sessionId = analysisServerException.getFailedRequest().getSessionId();
 		String taskId = analysisServerException.getFailedRequest().getTaskId();
-		setRequestComplete(sessionId,taskId);		
-		Resultant resultant = new Resultant();
-		resultant.setReturnedException(analysisServerException);
-		resultant.setAssociatedQuery(getAssociatedQuery(sessionId,taskId));
+		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getFinding(sessionId, taskId);
+		FindingStatus oldStatus = finding.getStatus();
+		FindingStatus currentStatus = FindingStatus.Error;
+		currentStatus.setKey(oldStatus.getKey());
+		finding.setStatus(currentStatus);
 		_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);
 		logger.error(analysisServerException);
 		
@@ -166,7 +163,6 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 
 	/**
 	 * @return Returns the instance.
-
 	 */
 	public static AnalysisServerClientManager getInstance()  throws NamingException, JMSException{
 		//first time
@@ -194,7 +190,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		try {
 		    // Create a message
 			msg = queueSession.createObjectMessage(request);
-		    // Send the message
+			// Send the message
 		    requestSender.send(msg, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, Message.DEFAULT_TIME_TO_LIVE);
 
 		} catch (JMSException e) {
@@ -202,47 +198,4 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		}
 	}
 	
-	/**
-	 * Add the query to the session cache and set the status isComplete to false
-	 * then send the AnalysisRequest to the JMS request queue
-	 * @param query
-	 * @param request
-	 */
-	public void sendRequest(Query query, AnalysisRequest request) {
-	  //put the query in the session cache
-	  addQueryToSessionCache(request.getSessionId(), query);
-	  setRequestStatus(request.getSessionId(), request.getTaskId(), false);
-	  sendRequest(request);
-	}
-	
-	private void addQueryToSessionCache(String sessionId, Query query) {
-	  SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
-	  query.setIsTaskComplete(false);
-	  queryBag.putQuery(query);
-      _cacheManager.putSessionQueryBag(sessionId,queryBag);
-	}
-	
-	/**
-	 * Note: taskId is the same as Query.getQueryName()   Revisit
-	 * @param sessionId
-	 * @param taskId
-	 * @param isComplete
-	 */
-	private void setRequestStatus(String sessionId, String taskId, boolean isComplete){
-    	SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
-    	Query query = queryBag.getQuery(taskId);
-		query.setIsTaskComplete(isComplete);		
-	}
-	
-	private void setRequestComplete(String sessionId, String taskId){
-      setRequestStatus(sessionId, taskId, true);
-	}
-    private Query getAssociatedQuery(String sessionId, String taskId){
-        SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
-    	Query query = queryBag.getQuery(taskId);
-    	return query;
-    }
-
-	
-
 }

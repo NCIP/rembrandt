@@ -1,7 +1,6 @@
 package gov.nih.nci.rembrandt.dto.query;
 
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 

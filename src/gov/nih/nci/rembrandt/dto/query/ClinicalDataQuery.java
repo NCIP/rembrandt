@@ -16,7 +16,7 @@ import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
 import gov.nih.nci.caintegrator.dto.de.SurgeryTypeDE;
-import gov.nih.nci.caintegrator.dto.query.Query;
+import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
@@ -30,8 +30,14 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
+/**
+ * This class is used by the pre-Rembrandt 1.0 query mechanism.  At this time
+ * the ClinicalQueryDTO in the caIntegrator framework is just a marker interface
+ * but will later change to contain the getters and setters required for the DEs
+ * of the query criteria. 
+ */
 
-public class ClinicalDataQuery extends Query implements Serializable,Cloneable {
+public class ClinicalDataQuery extends Query implements Serializable,Cloneable,ClinicalQueryDTO {
 	/**
 	 * 
 	 */

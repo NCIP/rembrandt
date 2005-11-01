@@ -1,12 +1,13 @@
 package gov.nih.nci.rembrandt.cache;
 
 import gov.nih.nci.caintegrator.dto.finding.FindingsResultset;
-import gov.nih.nci.caintegrator.dto.query.Queriable;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
@@ -564,16 +565,16 @@ public class CacheManagerDelegate implements ConvenientCache{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getAllFindingsResultsets(java.lang.String)
 	 */
-	public Collection getAllFindingsResultsets(String sessionId){
-		Collection beans = new ArrayList();
+	public Collection<Finding> getAllFindings(String sessionId){
+		Collection<Finding> beans = new ArrayList<Finding>();
 		Cache sessionCache = getSessionCache(sessionId);
 		try {
 			List keys = sessionCache.getKeys();
 			for(Iterator i = keys.iterator();i.hasNext();) {
 				Element element = sessionCache.get((String)i.next());
 				Object object = element.getValue();
-				if(object instanceof FindingsResultset) {
-						beans.add(object);
+				if(object instanceof Finding) {
+					beans.add((Finding)object);
 				}
 			}
 		}catch(CacheException ce) {
@@ -584,13 +585,14 @@ public class CacheManagerDelegate implements ConvenientCache{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.rembrandt.cache.ConvenientCache#getAllFindingsResultsets(java.lang.String, java.lang.String)
 	 */
-	public FindingsResultset getAllFindingsResultsets(String sessionId, String taskId){
-		FindingsResultset findingsResultset = null;
+	public Finding getFinding(String sessionId, String taskId){
+		Finding finding = null;
 		Cache sessionCache = getSessionCache(sessionId);
 		try {
 			Element element = sessionCache.get(taskId);
 			if(element!=null) {
-				findingsResultset = (FindingsResultset)element.getValue();
+				if(element.getValue() instanceof Finding)
+					finding = (Finding)element.getValue();
 			}
 		}catch(IllegalStateException ise) {
 			logger.error("Getting the FindingsResultset from cache threw IllegalStateException");
@@ -602,7 +604,7 @@ public class CacheManagerDelegate implements ConvenientCache{
 			logger.error("CacheElement was not a FindingsResultset");
 			logger.error(cce);
 		}
-		return findingsResultset;
+		return finding;
 	}
 
 }

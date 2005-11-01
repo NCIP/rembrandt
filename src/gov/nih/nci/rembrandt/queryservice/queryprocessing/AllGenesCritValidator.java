@@ -3,8 +3,8 @@ package gov.nih.nci.rembrandt.queryservice.queryprocessing;
 import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.FoldChangeCriteriaHandler;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 

@@ -1,7 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing;
 
-import gov.nih.nci.caintegrator.dto.query.Query;
-import gov.nih.nci.caintegrator.dto.query.QueryHandlerInterface;
+import gov.nih.nci.rembrandt.dto.query.Query;
+import gov.nih.nci.rembrandt.queryservice.QueryHandlerInterface;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.DEBeanAttrMapping;

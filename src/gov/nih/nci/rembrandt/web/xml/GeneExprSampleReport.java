@@ -1,9 +1,9 @@
 package gov.nih.nci.rembrandt.web.xml;
 
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
-import gov.nih.nci.caintegrator.service.findings.Resultant;
-import gov.nih.nci.caintegrator.service.findings.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;

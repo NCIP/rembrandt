@@ -3,8 +3,8 @@
  */
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
-import gov.nih.nci.caintegrator.service.findings.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
 

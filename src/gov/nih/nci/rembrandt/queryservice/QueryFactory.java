@@ -1,11 +1,10 @@
 package gov.nih.nci.rembrandt.queryservice;
 
-import gov.nih.nci.caintegrator.dto.query.Query;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.Query;
 
 /**
  * @author BhattarR. sahnih
@@ -23,10 +22,7 @@ class QueryFactory {
 		  else if (queryType == QueryType.CLINICAL_DATA_QUERY_TYPE) {              
               return new ClinicalDataQuery();
           }
-		  else if (queryType == QueryType.CLASS_COMPARISON_QUERY) {              
-              return new ClassComparisonQuery();
-          }
-        return null;
+		  return null;
     }
 
 

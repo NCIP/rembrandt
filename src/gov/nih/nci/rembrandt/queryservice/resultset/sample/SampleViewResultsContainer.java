@@ -50,7 +50,7 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.sample;
 
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
-import gov.nih.nci.caintegrator.service.findings.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 
 import java.util.Collection;
 import java.util.SortedMap;

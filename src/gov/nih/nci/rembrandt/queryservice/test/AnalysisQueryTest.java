@@ -1,20 +1,15 @@
 package gov.nih.nci.rembrandt.queryservice.test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.StringTokenizer;
-
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.ClassComparisonAnalysisCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
+import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -25,14 +20,26 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
-import gov.nih.nci.rembrandt.dto.query.ClassComparisonQuery;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
-import gov.nih.nci.rembrandt.service.findings.FindingsFactory;
+import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.StringTokenizer;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+/**
+ * This test case was written to simulate a Front End call to the Middle-Tier to 
+ * create a Class Comparison Finding
+ * 
+ * @author BauerD, SahniH
+ *
+ */
 
 public class AnalysisQueryTest extends TestCase {
 	private SampleGroup gbmGrp = new SampleGroup("GBM");
@@ -47,7 +54,7 @@ public class AnalysisQueryTest extends TestCase {
 	private String mixedHFids = "HF0022,HF0183,HF0252,HF0305,HF0606,HF0802,HF0844,HF0891,HF1090,HF1297,HF1319,HF1588";
 	private String normalHFids = "HF0088,HF0120,HF0131,HF0137,HF0141,HF0151,HF0163,HF0171,HF0178,HF0201,HF0211,HF0232,HF0295,HF0303,HF0312,HF0377,HF0383,HF0467,HF0512,HF0523,HF0526,HF0533,HF0593,HF0616";
 
-	private ClassComparisonQuery classComparisonQuery;
+	private ClassComparisonQueryDTO classComparisonQueryDTO;
 	private static ConvenientCache cacheManagerDelegate  = CacheManagerDelegate.getInstance();
 	public AnalysisQueryTest(String string) {
 		super(string);
@@ -79,24 +86,16 @@ public class AnalysisQueryTest extends TestCase {
 		super.tearDown();
 	}
 	private void setUpCCQuery(){
-		classComparisonQuery = (ClassComparisonQuery) QueryManager.createQuery(QueryType.CLASS_COMPARISON_QUERY);
-		classComparisonQuery.setQueryName("CCQuery");
+		classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
+		classComparisonQueryDTO.setQueryName("CCQuery");
+		classComparisonQueryDTO.setStatisticTypeDE(new StatisticTypeDE(StatisticalMethodType.TTest));
+		classComparisonQueryDTO.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.5,Operator.GT,StatisticalSignificanceType.adjustedpValue));
+		classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.FWER ));
+		classComparisonQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
+		classComparisonQueryDTO.setExprFoldChangeDE(new ExprFoldChangeDE.UpRegulation(new Float(2)));
 		
-		ClassComparisonAnalysisCriteria classComparisonAnalysisCriteria = new ClassComparisonAnalysisCriteria();
-		classComparisonAnalysisCriteria.setStatisticTypeDE(new StatisticTypeDE(StatisticalMethodType.TTest));
-		classComparisonAnalysisCriteria.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.5,Operator.GT,StatisticalSignificanceType.adjustedpValue));
-		classComparisonAnalysisCriteria.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.FWER ));
-		classComparisonQuery.setClassComparisonAnalysisCriteria(classComparisonAnalysisCriteria);
-		
-		ArrayPlatformCriteria arrayPlatformCriteria = 	new ArrayPlatformCriteria ();
-		arrayPlatformCriteria.setPlatform(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
-		classComparisonQuery.setArrayPlatformCriteria(arrayPlatformCriteria);
-		
-		FoldChangeCriteria foldChangeCriteria = new FoldChangeCriteria();
-		foldChangeCriteria.setFoldChangeObject(new ExprFoldChangeDE.UpRegulation(new Float(2)));
-		classComparisonQuery.setFoldChangeCriteria(foldChangeCriteria);
-		
-		Collection<ClinicalDataQuery> groupCollection= new ArrayList();
+		Collection<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
+		//Create ClinicalQueryDTO 1 (Class 1) for the class comparison
 		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 		group1.setQueryName("GBM");
 		DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
@@ -104,6 +103,8 @@ public class AnalysisQueryTest extends TestCase {
 		group1.setDiseaseOrGradeCrit(diseaseCrit);
 		group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		groupCollection.add(group1);
+		
+		//Create ClinicalQueryDTO 2 (Class 2) for the class comparison
 		ClinicalDataQuery group2 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 		group1.setQueryName("OLIG");
 		diseaseCrit = new DiseaseOrGradeCriteria();
@@ -111,13 +112,14 @@ public class AnalysisQueryTest extends TestCase {
 		group2.setDiseaseOrGradeCrit(diseaseCrit);
 		group2.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		groupCollection.add(group2);
-		classComparisonQuery.setClinicalDataQueryCollection(groupCollection);
+		
+		classComparisonQueryDTO.setComparisonGroups(groupCollection);
 			
 	}
 	public void testCCQuery(){
-		FindingsFactory factory = new FindingsFactory();
-		factory.createClassComparisonFinding(classComparisonQuery,"mySession","CCQuery");
-		Collection results = cacheManagerDelegate.getAllFindingsResultsets("mySession");
+		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
+		factory.createClassComparisonFinding(classComparisonQueryDTO,"mySession","CCQuery");
+		Collection results = cacheManagerDelegate.getAllFindings("mySession");
 		
 
 	}

@@ -4,7 +4,7 @@ import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
-import gov.nih.nci.caintegrator.dto.query.Query;
+import gov.nih.nci.rembrandt.dto.query.Query;
 
 import java.util.ArrayList;
 import java.util.Iterator;
