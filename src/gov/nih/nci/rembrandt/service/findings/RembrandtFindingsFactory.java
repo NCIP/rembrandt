@@ -7,6 +7,7 @@ import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
+import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.ClinicalFinding;
@@ -55,7 +56,7 @@ public class RembrandtFindingsFactory implements FindingsFactory {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.service.findings.FindingsFactory#createClassComparisonFinding(gov.nih.nci.caintegrator.dto.query.QueryDTOold)
 	 */
-	public ClassComparisonFinding createClassComparisonFinding(ClassComparisonQueryDTO queryDTO, String sessionID, String taskID) {
+	public ClassComparisonFinding createClassComparisonFinding(ClassComparisonQueryDTO queryDTO, String sessionID, String taskID) throws FrameworkException  {
 		ClassComparisonFinding finding = null;
 		try {
 			ClassComparisonFindingStrategy strategy = new  ClassComparisonFindingStrategy(sessionID,queryDTO.getQueryName(),queryDTO );
@@ -66,10 +67,13 @@ public class RembrandtFindingsFactory implements FindingsFactory {
 
 		} catch (ValidationException e) {
 			logger.error(e);
+			throw(e);
 		} catch (FindingsQueryException e) {
 			logger.error(e);
+			throw(e);
 		} catch (FindingsAnalysisException e) {
 			logger.error(e);
+			throw(e);
 		}
 		return finding;
 	}

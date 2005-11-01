@@ -14,10 +14,13 @@ import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
+import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.enumeration.MultiGroupComparisonAdjustmentType;
 import gov.nih.nci.caintegrator.enumeration.Operator;
 import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
+import gov.nih.nci.caintegrator.exceptions.FrameworkException;
+import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
@@ -118,10 +121,26 @@ public class AnalysisQueryTest extends TestCase {
 	}
 	public void testCCQuery(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
-		factory.createClassComparisonFinding(classComparisonQueryDTO,"mySession","CCQuery");
-		Collection results = cacheManagerDelegate.getAllFindings("mySession");
+		Finding finding = null;
+		try {
+			finding = factory.createClassComparisonFinding(classComparisonQueryDTO,"mySession","CCQuery");
+		} catch (FrameworkException e) {
+			e.printStackTrace();
+		}
+		FindingStatus status = finding.getStatus();
+		assert(status == FindingStatus.Running);
 		
-
+		while(finding.getStatus() == FindingStatus.Running){
+			 finding = cacheManagerDelegate.getFinding(finding.getSessionId(),finding.getTaskId());
+			 try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		status = finding.getStatus();
+		assert(status == FindingStatus.Completed);
 	}
 	private void initializeSampleGroups() {
 		  initializeSampleGroup(gbmGrp, gbmHFids);

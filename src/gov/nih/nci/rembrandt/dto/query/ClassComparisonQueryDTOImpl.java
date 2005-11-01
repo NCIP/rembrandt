@@ -40,31 +40,6 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	private Collection<ClinicalQueryDTO> comparisonGroups;
 	private InstitutionNameDE institutionNameDE;
 	
-	/**
-	 * This validates the ClassComparisonQueryDTOImpl
-	 * @return
-	 */
-	public boolean isValid() {
-		boolean _valid = false;
-		if ((multiGroupComparisonAdjustmentTypeDE != null)&& (statisticalSignificanceDE != null)){
-			switch (multiGroupComparisonAdjustmentTypeDE.getValueObject()){
-				case NONE:{
-					if (statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.pValue){
-						_valid = true;
-					}
-				}
-				break;
-				case FWER:
-				case FDR:{
-					if (statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.adjustedpValue){
-						_valid = true;
-					}
-				}
-				break;					
-			}
-		}
-		return _valid;
-	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getMultiGroupComparisonAdjustmentTypeDE()
 	 */
@@ -113,8 +88,29 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 		return null;
 	}
 	public boolean validate() throws ValidationException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean _valid = false;
+		if ((multiGroupComparisonAdjustmentTypeDE != null)&& (statisticalSignificanceDE != null)){
+			switch (multiGroupComparisonAdjustmentTypeDE.getValueObject()){
+				case NONE:{
+					if (statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.pValue){
+						_valid = true;
+					}else{
+						throw(new ValidationException("Statistical Type does not equal pValue"));
+					}
+				}
+				break;
+				case FWER:
+				case FDR:{
+					if (statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.adjustedpValue){
+						_valid = true;
+					}else{
+						throw(new ValidationException("Statistical Type does not equal adjusted pValue"));
+					}
+				}
+				break;					
+			}
+		}
+		return _valid;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getArrayPlatformDE()

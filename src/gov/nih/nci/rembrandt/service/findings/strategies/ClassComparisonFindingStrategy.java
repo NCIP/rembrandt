@@ -267,6 +267,6 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 
 
 	public Finding getFinding() {
-		return cacheManager.getFinding(sessionId,taskId);
+		return classComparisonFinding;
 	}
 }

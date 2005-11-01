@@ -143,6 +143,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		FindingStatus currentStatus = FindingStatus.Completed;
 		currentStatus.setKey(oldStatus.getKey());
 		finding.setStatus(currentStatus);
+		finding.setEndTime(System.currentTimeMillis());
 		_cacheManager.addToSessionCache(sessionId,taskId,finding);
 
 		
