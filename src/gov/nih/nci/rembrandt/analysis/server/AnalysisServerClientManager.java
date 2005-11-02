@@ -133,18 +133,20 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
     public void onException(JMSException jmsException) {
 	  logger.error(jmsException);	
 	}
-
-	public void receiveResult(AnalysisResult analysisResult) {
-		String sessionId = analysisResult.getSessionId();
+    /***
+     * @param analysisResult is the result 
+     */
+    public void receiveResult(AnalysisResult analysisResult) {
+    	String sessionId = analysisResult.getSessionId();
 		String taskId = analysisResult.getTaskId();
+		logger.debug("AnalysisResult session: "+sessionId+" & task: "+taskId+" has been returned");
+		logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
 		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getFinding(sessionId, taskId);
 		finding.setAnalysisResult(analysisResult);
-		FindingStatus oldStatus = finding.getStatus();
-		FindingStatus currentStatus = FindingStatus.Completed;
-		currentStatus.setKey(oldStatus.getKey());
-		finding.setStatus(currentStatus);
-		finding.setEndTime(System.currentTimeMillis());
+		finding.setStatus(FindingStatus.Completed);
+		logger.debug("Following task has been completed:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
 		_cacheManager.addToSessionCache(sessionId,taskId,finding);
+		logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
 
 		
 	}
@@ -152,14 +154,13 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	public void receiveException(AnalysisServerException analysisServerException) {
 		String sessionId = analysisServerException.getFailedRequest().getSessionId();
 		String taskId = analysisServerException.getFailedRequest().getTaskId();
+		logger.debug("AnalysisServerException session: "+sessionId+" & task: "+taskId+" has been returned");
 		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getFinding(sessionId, taskId);
-		FindingStatus oldStatus = finding.getStatus();
-		FindingStatus currentStatus = FindingStatus.Error;
-		currentStatus.setKey(oldStatus.getKey());
-		finding.setStatus(currentStatus);
+		finding.setStatus(FindingStatus.Error);
+		logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
 		_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);
+		logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
 		logger.error(analysisServerException);
-		
 	}
 
 	/**

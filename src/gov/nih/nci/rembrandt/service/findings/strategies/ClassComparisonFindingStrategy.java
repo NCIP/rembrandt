@@ -84,12 +84,9 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 		/*
 		 * Set the Finding into the cache! YOU HAVE TO DO THIS!
 		 */
-		classComparisonFinding = new ClassComparisonFinding(null);
-		classComparisonFinding.setStartTime(System.currentTimeMillis());
-		classComparisonFinding.setSessionId(sessionId);
+		
 		FindingStatus currentStatus = FindingStatus.Running;
-		currentStatus.setKey(taskId);
-		classComparisonFinding.setStatus(currentStatus);
+		classComparisonFinding = new ClassComparisonFinding(sessionId, taskId, currentStatus, null);
 		cacheManager.addToSessionCache(sessionId, taskId, classComparisonFinding);
 	}
 
