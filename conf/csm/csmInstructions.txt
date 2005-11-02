@@ -14,7 +14,7 @@ Steps for setting up CSM:
     <mbean code="org.jboss.varia.property.SystemPropertiesService"...: 
    
     <attribute name="Properties">
-   		gov.nih.nci.security.configFile=MY_JBOSS_DIR/server/default/deploy/rembrandt.war/ApplicationSecurityConfig.xml
+   		gov.nih.nci.security.configFile=MY_JBOSS_DIR/server/default/deploy/rembrandt.war/csm/ApplicationSecurityConfig.xml
     </attribute>
 
    IMPORTANT: Make sure you modify the "MY_JBOSS_DIR" to point to your JBoss installation.
