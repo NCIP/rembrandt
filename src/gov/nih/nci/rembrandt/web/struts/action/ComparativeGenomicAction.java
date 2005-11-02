@@ -2,7 +2,6 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AlleleFrequencyCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
@@ -12,7 +11,6 @@ import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
-import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -407,7 +405,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     
     protected Map getKeyMethodMap() {
 		 
-      HashMap map = new HashMap();
+      HashMap<String,String> map = new HashMap<String,String>();
       //Comparative Genomic Query Button using comparative genomic setup method
       map.put("ComparativeGenomicAction.setupButton", "setup");
       

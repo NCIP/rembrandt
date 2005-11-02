@@ -194,7 +194,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 	 */
 	protected Map getKeyMethodMap() {
 		 
-        HashMap map = new HashMap();
+        HashMap<String,String> map = new HashMap<String,String>();
         
         //Validate Query Button using validate method
         map.put("RefineQueryAction.validateButton", "validateQuery");

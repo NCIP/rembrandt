@@ -22,8 +22,8 @@ public class BaseForm extends ActionForm {
     private static Logger logger = Logger.getLogger(BaseForm.class);
 		
 	// Collections used for Lookup values.  
-	private ArrayList diseaseType;
-	private ArrayList geneTypeColl;
+	private ArrayList<LabelValueBean> diseaseType;
+	private ArrayList<LabelValueBean> geneTypeColl;
     private String method;
 
 
@@ -36,8 +36,8 @@ public class BaseForm extends ActionForm {
 
 	public void setLookups() {
 
-		diseaseType = new ArrayList();
-		geneTypeColl = new ArrayList();
+		diseaseType = new ArrayList<LabelValueBean>();
+		geneTypeColl = new ArrayList<LabelValueBean>();
 	
 		// These are hardcoded but will come from DB
 		diseaseType.add( new LabelValueBean( "All", "ALL" ) );
@@ -83,12 +83,12 @@ public class BaseForm extends ActionForm {
 	
 	public Collection getChromosomeValue(){
 
-			Collection returnColl = new ArrayList();
+			Collection<LabelValueBean> returnColl = new ArrayList<LabelValueBean>();
 			ChromosomeNumberDE[] chromosomes;
 			try {
 				chromosomes = LookupManager.getChromosomeDEs();
-				TreeSet chrNum = new TreeSet();
-				TreeSet chrStr = new TreeSet();
+				TreeSet<Integer> chrNum = new TreeSet<Integer>();
+				TreeSet<String> chrStr = new TreeSet<String>();
 
 				if(chromosomes != null){
 					for(int i =0; i < chromosomes.length; i++){
@@ -121,7 +121,7 @@ public class BaseForm extends ActionForm {
 	public HashMap getCytoBandForChr(){
 		
 			Collection chrValues = this.getChromosomeValue();
-			HashMap cytobandCollections = new HashMap();
+			HashMap<String,String> cytobandCollections = new HashMap<String,String>();
 			
 			for (Iterator chrVal = chrValues.iterator(); chrVal.hasNext();) {
 				LabelValueBean lbl = (LabelValueBean) chrVal.next();

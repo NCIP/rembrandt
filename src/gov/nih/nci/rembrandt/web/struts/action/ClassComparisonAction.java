@@ -1,37 +1,29 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
-import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
-import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
-import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.caintegrator.dto.view.ViewFactory;
-import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
-
-import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
-import gov.nih.nci.rembrandt.queryservice.QueryManager;
-import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
-
-import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
-import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
-import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
-import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE.UpRegulation;
-import gov.nih.nci.caintegrator.enumeration.*;
+import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.enumeration.MultiGroupComparisonAdjustmentType;
+import gov.nih.nci.caintegrator.enumeration.Operator;
+import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
+import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.service.findings.Finding;
+import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
+import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -99,7 +91,7 @@ public class ClassComparisonAction extends DispatchAction {
         
         
         //Create the clinical query DTO collection from the selected groups in the form
-        Collection<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList();
+        Collection<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
         
             if(classComparisonQueryForm.getSelectedGroups() != null && classComparisonQueryForm.getSelectedGroups().length == 2 ){
                 SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();

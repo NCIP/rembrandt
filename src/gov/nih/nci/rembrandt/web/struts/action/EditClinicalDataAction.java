@@ -2,16 +2,10 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
-import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
-import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
-import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
-import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
-import gov.nih.nci.rembrandt.web.struts.form.DeleteQueryForm;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +17,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
 
 /**
  * @author LandyR

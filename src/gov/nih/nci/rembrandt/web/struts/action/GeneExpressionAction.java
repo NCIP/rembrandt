@@ -363,7 +363,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	
 	protected Map getKeyMethodMap() {
 		 
-       HashMap map = new HashMap();
+       HashMap<String,String> map = new HashMap<String,String>();
        //Gene Expression Query Button using gene expression setup method
        map.put("GeneExpressionAction.setupButton", "setup");
        

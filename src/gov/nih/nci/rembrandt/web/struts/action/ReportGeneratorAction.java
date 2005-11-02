@@ -247,7 +247,7 @@ public class ReportGeneratorAction extends DispatchAction {
 			ReportBean reportBean = rgHelper.getReportBean();
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
 			
-			HashMap fpm = rgForm.getFilterParams();
+			HashMap<String,String> fpm = rgForm.getFilterParams();
 			String msg = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("add_samples_msg");
 			fpm.put("statusMsg", msg);
 			rgForm.setFilterParams(fpm);
@@ -320,7 +320,7 @@ public class ReportGeneratorAction extends DispatchAction {
 			((CompoundQuery)(reportBean.getAssociatedQuery())).setSessionId(sessionId);
 			
 			//put a flag in the filterParams Map so we know its a showAllValues
-			HashMap fpm = rgForm.getFilterParams();
+			HashMap<String,String> fpm = rgForm.getFilterParams();
 			fpm.put("showAllValues", "true");
 			rgForm.setFilterParams(fpm);
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, rgForm.getFilterParams());
@@ -367,7 +367,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		if(rgForm.getFilter_element()!=null)
 		    filter_element = (String) rgForm.getFilter_element();
 		
-		Map filterParams = new HashMap();		
+		Map<String, Object> filterParams = new HashMap<String, Object>();		
 		//put all params from the form in the filterparams map
 		filterParams.put( "filter_value4", operator );
 		filterParams.put( "filter_value5", nocalls );

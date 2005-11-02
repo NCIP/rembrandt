@@ -76,5 +76,4 @@ public class RembrandtImageFileHandler {
 	public String getImageTag() {
 		return "<img src=\""+getFinalURLPath()+"\" width="+imageWidth+" height="+imageHeight+" border=0>";
 	}
-	
 }

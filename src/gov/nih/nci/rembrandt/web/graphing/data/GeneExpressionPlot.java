@@ -3,35 +3,28 @@ package gov.nih.nci.rembrandt.web.graphing.data;
 
 import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.Color;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.text.NumberFormat;
+
 import javax.servlet.http.HttpSession;
-import org.jfree.data.*;
-import org.jfree.data.category.*;
-import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
-import org.jfree.data.statistics.StatisticalCategoryDataset;
-import org.jfree.chart.*;
-import org.jfree.chart.axis.*;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.LegendItemCollection;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.imagemap.StandardURLTagFragmentGenerator;
+import org.jfree.chart.labels.CategoryToolTipGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StatisticalBarRenderer;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.StackedXYAreaRenderer;
-import org.jfree.chart.renderer.xy.XYAreaRenderer;
-import org.jfree.chart.plot.*;
-import org.jfree.chart.entity.*;
-import org.jfree.chart.imagemap.StandardURLTagFragmentGenerator;
-import org.jfree.chart.labels.*;
-import org.jfree.chart.title.LegendTitle;
-import org.jfree.chart.urls.*;
-import org.jfree.chart.servlet.*;
+import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 public class GeneExpressionPlot {
 	

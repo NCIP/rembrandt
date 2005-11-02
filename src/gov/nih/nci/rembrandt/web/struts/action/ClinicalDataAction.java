@@ -196,7 +196,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
     
     protected Map getKeyMethodMap() {
 		 
-     HashMap map = new HashMap();
+     HashMap<String,String> map = new HashMap<String,String>();
      
      //Submit Query Button using comparative genomic submittal method
      map.put("buttons_tile.submittalButton", "submittal");

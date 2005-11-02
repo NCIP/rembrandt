@@ -19,7 +19,7 @@ public class ReportGeneratorForm extends BaseForm {
     private String xsltFileName = "";
     //General Filter values to be used by the XSLT for pagenation and other
     //general XSL functions for the report
-    private HashMap filterParams = new HashMap();
+    private HashMap<String,String> filterParams = new HashMap<String,String>();
     private String filter_value1 = "";
     private String filter_value2 = "";
     private String filter_value3 = "";
@@ -194,13 +194,13 @@ public class ReportGeneratorForm extends BaseForm {
 	/**
 	 * @return Returns the filterParams.
 	 */
-	public HashMap getFilterParams() {
+	public HashMap<String,String> getFilterParams() {
 		return filterParams;
 	}
 	/**
 	 * @param filterParams The filterParams to set.
 	 */
-	public void setFilterParams(HashMap filterParams) {
+	public void setFilterParams(HashMap<String,String> filterParams) {
 		this.filterParams = filterParams;
 	}
 	/**
