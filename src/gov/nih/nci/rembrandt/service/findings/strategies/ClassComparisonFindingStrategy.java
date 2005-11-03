@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
+import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
@@ -215,15 +216,6 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 		return false;
 	}
 
-	public boolean validate(QueryDTO query) throws ValidationException {
-		if(query != null  && (query.validate())){
-			return true;
-		}
-		else throw new ValidationException("ClassComparionQuery in ClassComparionFindingStatergy cannot be null");
-
-
-	}
-
     private Collection<SampleGroup> testmethod(){ //TODO:DEBUG
     	Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>();
     	 SampleGroup gbmGrp = new SampleGroup("GBM");
@@ -264,5 +256,46 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 
 	public Finding getFinding() {
 		return classComparisonFinding;
+	}
+
+
+
+	public boolean validate(QueryDTO queryDTO) throws ValidationException {
+		boolean _valid = false;
+		if(queryDTO instanceof ClassComparisonQueryDTO){
+			_valid = true;
+			ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)queryDTO;
+			boolean assertsEnabled = false;
+	        assert assertsEnabled = true; // Intentional side effect!!!
+			//		 Now assertsEnabled is set to the correct value 
+	        String errorMsg = " In ClassComparisonQueryDTO ";
+			try {
+				//assert(this.institutionNameDE != null);
+				assert classComparisonQueryDTO.getArrayPlatformDE() != null:errorMsg+"arrayPlatformDE cannot be Null";
+				assert classComparisonQueryDTO.getComparisonGroups() != null:errorMsg+"comparisonGroups cannot be Null";
+				assert classComparisonQueryDTO.getExprFoldChangeDE() != null:errorMsg+"exprFoldChangeDE cannot be Null";
+				assert classComparisonQueryDTO.getMultiGroupComparisonAdjustmentTypeDE() != null:errorMsg+"multiGroupComparisonAdjustmentTypeDE cannot be Null";
+				assert classComparisonQueryDTO.getQueryName() != null:errorMsg+"queryName cannot be Null";
+				assert classComparisonQueryDTO.getStatisticalSignificanceDE() != null:errorMsg+"statisticalSignificanceDE cannot be Null";
+				assert classComparisonQueryDTO.getStatisticTypeDE() != null:errorMsg+"statisticTypeDE cannot be Null";
+					switch (classComparisonQueryDTO.getMultiGroupComparisonAdjustmentTypeDE().getValueObject()){
+						case NONE:
+							assert(classComparisonQueryDTO.getStatisticalSignificanceDE().getStatisticType() == StatisticalSignificanceType.pValue):
+								errorMsg+"When multiGroupComparisonAdjustmentTypeDE is NONE, Statistical Type cannot equal pValue";
+							break;
+						case FWER:
+						case FDR:
+							assert(classComparisonQueryDTO.getStatisticalSignificanceDE().getStatisticType() == StatisticalSignificanceType.adjustedpValue):
+								errorMsg+"When multiGroupComparisonAdjustmentTypeDE is FWER or FDR, Statistical Type cannot equal adjusted pValue";
+							break;
+						default:
+								throw(new ValidationException("multiGroupComparisonAdjustmentTypeDE is does not match any options"));					
+					}
+				} catch (AssertionError e) {
+					e.printStackTrace();
+					throw(new ValidationException(e.getMessage()));
+				}
+		}		
+		return _valid;
 	}
 }
