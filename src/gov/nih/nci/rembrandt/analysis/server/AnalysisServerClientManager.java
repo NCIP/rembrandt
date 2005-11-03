@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gov.nih.nci.rembrandt.analysis.server;
 
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisRequest;
@@ -63,9 +60,8 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	 */
 	@SuppressWarnings("unchecked")
 	private AnalysisServerClientManager() throws NamingException, JMSException {
-		super();
 		messagingProps = ApplicationContext.getJMSProperties();
-//		 Populate with needed properties
+		//Populate with needed properties
 		Hashtable props = new Hashtable();
 		props.put(Context.INITIAL_CONTEXT_FACTORY,
 		    "org.jnp.interfaces.NamingContextFactory");
@@ -147,8 +143,6 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		logger.debug("Following task has been completed:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
 		_cacheManager.addToSessionCache(sessionId,taskId,finding);
 		logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
-
-		
 	}
 
 	public void receiveException(AnalysisServerException analysisServerException) {
