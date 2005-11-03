@@ -3,7 +3,7 @@ package gov.nih.nci.rembrandt.web.xml;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
-import gov.nih.nci.rembrandt.dto.finding.ClassComparisonFindingsResultset;
+import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -48,20 +48,10 @@ public class ClassComparisonReport implements ReportGenerator{
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
-		/* testing hardcoded vals - these will be params of this method soon */
-		/*
-		ArrayList g = new ArrayList();
-		g.add("EGFR");
-		g.add("VEGF");
-		String tmp_filter_type = "hide";
-		String tmp_filter_element = "gene";
-
-		HashMap filterMapParams = new HashMap();
-		filterMapParams.put("filter_string", g);
-		filterMapParams.put("filter_type", tmp_filter_type);
-		filterMapParams.put("filter_element", tmp_filter_element);
-		*/
 		
+		/*
+		 *  this is for filtering, we will want a p-value filter for CC
+		 */
 		ArrayList filter_string = new ArrayList();	// hashmap of genes | reporters | cytobands
 		String filter_type = "show"; 		// show | hide
 		String filter_element = "none"; 	// none | gene | reporter | cytoband
@@ -89,35 +79,15 @@ public class ClassComparisonReport implements ReportGenerator{
 	        report.addAttribute("sessionId", "the session id");
 	        report.addAttribute("creationTime", "right now");
 		    
-		    //ResultsContainer  resultsContainer = resultant.getResultsContainer();
-		    
-			//GeneExprSingleViewResultsContainer geneViewContainer = null;
 			StringBuffer sb = new StringBuffer();
 			
-			//String helpFul = helpLink + "?sect=sample" + helpLinkClose;
-			
-			//DimensionalViewContainer dimensionalViewContainer = null;
 			int recordCount = 0;
 			int totalSamples = 0;
-			/*
-			if(resultsContainer instanceof DimensionalViewContainer)	{
-				dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-				if(dimensionalViewContainer != null)	{
-					geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
-				}
-			}
-			else if(resultsContainer instanceof GeneExprSingleViewResultsContainer)	{ //for single
-				geneViewContainer = (GeneExprSingleViewResultsContainer) resultsContainer;
-			}
-			*/
 			
-			ClassComparisonFindingsResultset ccfr = (ClassComparisonFindingsResultset) resultant.getResultsContainer();
+			ClassComparisonFinding ccfr = (ClassComparisonFinding) resultant.getResultsContainer();
 			//instance of
 	        
 			if(ccfr != null)	{
-		    	//Collection genes = geneViewContainer.getGeneResultsets();
-		    	//Collection labels = geneViewContainer.getGroupsLabels();
-		    	//Collection sampleIds = null;
 					
 				Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
@@ -145,7 +115,7 @@ public class ClassComparisonReport implements ReportGenerator{
 			        data = null;
 		        cell = null;
 			        
-		        //starting annotations
+		        //starting annotations...leave these here for now, as we may want them
 		        /*
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Locus link");
@@ -155,7 +125,6 @@ public class ClassComparisonReport implements ReportGenerator{
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("GenBank Acc");
 			        data = null;
 		        cell = null;
-
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("GO Id");
 			        data = null;
@@ -165,6 +134,7 @@ public class ClassComparisonReport implements ReportGenerator{
 			        data = null;
 		        cell = null;
 		        */
+		        
 	        	/*
 	         	//wtf? to force colspans?
 		        Element sampleRow = report.addElement("Row").addAttribute("name", "sampleRow");
@@ -195,50 +165,9 @@ public class ClassComparisonReport implements ReportGenerator{
 		        cell = null;
 				*/
 			        
-		        //set up the header for the table	        
-		    	//header.append("<Td id=\"header\">Gene</td>\n<td id=\"header\">Reporter</td>\n");        
-		    	//sampleNames.append("<tr><Td> &nbsp;</td><Td> &nbsp;</tD>"); 
-
-		        /*
- 				//build the sample row TD's
-		    	for(Iterator labelIterator = labels.iterator(); labelIterator.hasNext();) {
-		        	String label = (String) labelIterator.next();
-		        	sampleIds = geneViewContainer.getBiospecimenLabels(label);    	
-		        	//theColspan += sampleIds.size();
-			    	totalSamples += sampleIds.size();
-
-			    	cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
-		        		data = cell.addElement("Data").addAttribute("type", "header").addText(label+" Samples");
-			        	data = null;
-			        cell = null;
-		        	//header.append("<td colspan="+sampleIds.size()+" class='"+label+"' id=\"header\">"+label+" Samples</td>"); 
-			    	
-			           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-
-			            	String s = sampleIdIterator.next().toString();
-							cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
-						        //data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
-						        data = cell.addElement("Data").addAttribute("type", "header").addText(s);
-						    	data = null;
-						    cell = null;
-			            	//sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
-			            	//header.append("\t");
-			 
-			           	}
-		           	//header.deleteCharAt(header.lastIndexOf("\t"));
-		    	}
-		    	//sampleNames.append("</tr>");
-		    	//header.append("</tr>"); 
-		    	*/
 			        
 		    	/* done with the headerRow and SampleRow Elements, time to add data rows */
-				
-		        //get the CCResult, get the CC.getResultEntries, foreach add the cells
-		        //this is a bogus ccr, should get this as a param (Resultant)
-		        //ClassComparisonResult ccr = new ClassComparisonResult("test","test");
-		        
-		        //ClassComparisonFindingsResultset ccfr = (ClassComparisonFindingsResultset) resultant.getResultsContainer();
-		        
+						        
 		        for(ClassComparisonResultEntry ccre : ccfr.getResultEntries())	{
 		        	dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
