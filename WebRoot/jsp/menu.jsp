@@ -22,7 +22,7 @@ String cpQueryString = "0";
 int cghQueryNum = 0;
 String cghQueryString = "0";
 String sessionId = request.getSession().getId();
-SessionQueryBag queryCollection = presentationTier.getSessionQueryBag(sessionId);
+SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
 if(queryCollection == null){
    logger.debug("its null");
 }else{
