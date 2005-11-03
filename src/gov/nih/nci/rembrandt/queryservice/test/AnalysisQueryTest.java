@@ -66,7 +66,9 @@ public class AnalysisQueryTest extends TestCase {
 
 	public static Test suite() {
 		TestSuite suite =  new TestSuite();
-        suite.addTest(new AnalysisQueryTest("testCCQuery"));
+        suite.addTest(new AnalysisQueryTest("testCCQueryCompleted"));
+        suite.addTest(new AnalysisQueryTest("testCCQueryError"));
+        
         //suite.addTest(new AnalysisQueryTest("testPCAQuery"));
         //suite.addTest(new AnalysisQueryTest("testHCQuery"));
 
@@ -119,7 +121,7 @@ public class AnalysisQueryTest extends TestCase {
 		classComparisonQueryDTO.setComparisonGroups(groupCollection);
 			
 	}
-	public void testCCQuery(){
+	public void testCCQueryCompleted(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
 		Finding finding = null;
 		try {
@@ -141,6 +143,33 @@ public class AnalysisQueryTest extends TestCase {
 		}
 		status = finding.getStatus();
 		assert(status == FindingStatus.Completed);
+	}
+	public void testCCQueryError(){
+		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
+		Finding finding = null;
+		try {
+			//create an error
+			classComparisonQueryDTO.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.5,Operator.GT,StatisticalSignificanceType.adjustedpValue));
+			classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.NONE ));
+
+			finding = factory.createClassComparisonFinding(classComparisonQueryDTO,"mySession","CCQuery");
+		} catch (FrameworkException e) {
+			e.printStackTrace();
+		}
+		FindingStatus status = finding.getStatus();
+		assert(status == FindingStatus.Running);
+		
+		while(finding.getStatus() == FindingStatus.Running){
+			 finding = cacheManagerDelegate.getFinding(finding.getSessionId(),finding.getTaskId());
+			 try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		status = finding.getStatus();
+		assert(status == FindingStatus.Error);
 	}
 	private void initializeSampleGroups() {
 		  initializeSampleGroup(gbmGrp, gbmHFids);
