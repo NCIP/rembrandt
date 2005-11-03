@@ -3,10 +3,10 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ page import="java.util.*, 
-				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
-				 gov.nih.nci.rembrandt.util.RembrandtConstants,
-				 gov.nih.nci.rembrandt.cache.CacheManagerDelegate" %> 
+<%@ page import="gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+				gov.nih.nci.rembrandt.util.RembrandtConstants,
+	 			gov.nih.nci.rembrandt.cache.PresentationTierCache,
+	 			gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>  
 
 <fieldset class="gray">
 <legend class="red">
@@ -22,6 +22,7 @@
 <app:help help="Please give a title/name for this analysis result. This name must be unique among all your analysis results in this session." />
 </legend>
 <%
+PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 String act = request.getParameter("act");
 
  String format = "H:mm:ss";
@@ -34,19 +35,10 @@ String act = request.getParameter("act");
 <html:text styleId="analysisResultName" property="analysisResultName" size="50" /> (should be unique)
 <br /><html:errors property="analysisResultName"/>
 </fieldset>
-
-
-
-
-
-
-
-
-
 <%
 
 		String sessionId = request.getSession().getId();
-  		SessionQueryBag queryCollection = CacheManagerDelegate.getInstance().getSessionQueryBag(sessionId);
+  		SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
  		String returnQueryNames = "";
 		
 		if (queryCollection != null) {

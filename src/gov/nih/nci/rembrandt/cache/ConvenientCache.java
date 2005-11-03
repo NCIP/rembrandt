@@ -1,6 +1,5 @@
 package gov.nih.nci.rembrandt.cache;
 
-import gov.nih.nci.caintegrator.dto.finding.FindingsResultset;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
@@ -16,9 +15,9 @@ import java.util.List;
  * This interface was written to hide the implementation of the cache
  * from the classes that use it.  In the instance that we decide to 
  * change out our caching mechanism we simply need to change out our
- * CacheManagerDelegate and make sure that the new Class uses this
+ * BusinessCacheManager and make sure that the new Class uses this
  * interface.  If the cache needs more conveniece methods they should
- * be added here first and not just to the CacheManagerDelegate!
+ * be added here first and not just to the BusinessCacheManager!
  * 
  * Any references to the cache should be made through this interface.
  * 
@@ -45,14 +44,14 @@ public interface ConvenientCache {
 	public String[] getCacheList();
 
 	/**
-	 * Adds a cache listener to the CacheManagerDelegate
+	 * Adds a cache listener to the BusinessCacheManager
 	 * @param cacheListener
 	 */
 	@SuppressWarnings("unchecked")
 	public void addCacheListener(CacheListener cacheListener);
 
 	/**
-	 * removes a cache listener from the CacheManagerDelegate
+	 * removes a cache listener from the BusinessCacheManager
 	 * @param cacheListener
 	 */
 	public void removeCacheListener(CacheListener cacheListener);

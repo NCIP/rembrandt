@@ -1,7 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +22,7 @@ public class ViewResultsForm extends BaseForm {
 
 	private String selectedResultSet = null;
 	
-	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-	
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	 
 	public ViewResultsForm() {
 		super();
@@ -120,7 +119,7 @@ public class ViewResultsForm extends BaseForm {
 	 */
 	private void setViewResultsLookups(HttpServletRequest request) {
 		String sessionId = request.getSession().getId();
-		setReportBeans(cacheManager.getAllReportBeans(sessionId));
+		setReportBeans(presentationTierCache.getAllReportBeans(sessionId));
 		
 		//setResultsets();//grabs report beans that meet crit.
 		//setQueryTextList(); // run through loop for each resultset and set text

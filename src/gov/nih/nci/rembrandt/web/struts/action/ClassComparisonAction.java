@@ -14,8 +14,7 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -35,11 +34,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class ClassComparisonAction extends DispatchAction {
-    private Logger logger = Logger.getLogger(ClassComparisonAction.class);
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-    
   
-    
+	private Logger logger = Logger.getLogger(ClassComparisonAction.class);
+    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     /**
      * Method submittal
      * 

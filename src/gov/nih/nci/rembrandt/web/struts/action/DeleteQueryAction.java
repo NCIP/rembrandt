@@ -1,12 +1,12 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.DeleteQueryForm;
 
 import java.util.Collection;
@@ -23,8 +23,7 @@ import org.apache.struts.actions.DispatchAction;
 
 public class DeleteQueryAction extends DispatchAction {
     private Logger logger = Logger.getLogger(DeleteQueryAction.class);
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-
+    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	// --------------------------------------------------------- Instance Variables
 
 	// --------------------------------------------------------- Methods
@@ -48,7 +47,7 @@ public class DeleteQueryAction extends DispatchAction {
 		   String page = (String)request.getSession().getAttribute("currentPage");
 		   logger.debug("the current page is :"+page);
 		   String sessionId = request.getSession().getId();
-		   SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+		   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 		   if(queryBag != null){			     
 			  Collection queryColl = queryBag.getQueries();	
 			  String queryKey = deleteQueryForm.getQueryKey();
@@ -68,7 +67,7 @@ public class DeleteQueryAction extends DispatchAction {
 	    		
 			   DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
 			   String sessionId = request.getSession().getId();
-			   SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+			   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 			   if(queryBag != null){			     
 				  queryKey = deleteQueryForm.getQueryKey();
 				  //store this somewhere
@@ -102,7 +101,7 @@ public class DeleteQueryAction extends DispatchAction {
 	    		
 			   DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
 			   String sessionId = request.getSession().getId();
-			   SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+			   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 			   if(queryBag != null){			     
 				  queryKey = deleteQueryForm.getQueryKey();
 				  //store this somewhere
@@ -137,7 +136,7 @@ public class DeleteQueryAction extends DispatchAction {
 	 String sessionId = request.getSession().getId();	
 	 DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;
 	 String page = (String)request.getSession().getAttribute("currentPage");
-	 SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+	 SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 	 Collection queryColl = queryBag.getQueries();
 	 /**
 	  * @todo Need to make sure this actually clearing out the Collection

@@ -2,10 +2,10 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ page import="java.util.*, 
-				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+<%@ page import="gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
-				 gov.nih.nci.rembrandt.cache.CacheManagerDelegate" %> 
+	 			 gov.nih.nci.rembrandt.cache.PresentationTierCache,
+	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %> 	 
 
 <fieldset class="gray">
 <legend class="red">
@@ -15,8 +15,8 @@
 <app:help help="Please give a title/name for this query. This name must be unique among all your queries in this session." />
 </legend>
 <%
-String act = request.getParameter("act");
-
+ String act = request.getParameter("act");
+ PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
  String format = "H:mm:ss";
  Date today = new Date();
  SimpleDateFormat formatter = new SimpleDateFormat(format);
@@ -33,7 +33,7 @@ String act = request.getParameter("act");
 <%
 
 		String sessionId = request.getSession().getId();
-  		SessionQueryBag queryCollection = CacheManagerDelegate.getInstance().getSessionQueryBag(sessionId);
+  		SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
  		String returnQueryNames = "";
 		
 		if (queryCollection != null) {

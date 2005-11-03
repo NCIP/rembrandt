@@ -1,9 +1,8 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +22,8 @@ import org.apache.struts.action.ActionMapping;
  */
 public class RefineCheckAction extends Action {
     private Logger logger = Logger.getLogger(RefineCheckAction.class);
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-	/**
+    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    /**
 	 * Method execute
 	 * @param ActionMapping mapping
 	 * @param ActionForm form
@@ -44,7 +43,7 @@ public class RefineCheckAction extends Action {
 		request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
 		String sessionId = request.getSession().getId();
-		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 		RefineQueryForm rqForm = (RefineQueryForm)form;
 		if (queryBag.hasQuery()) {
 			ActionForward thisForward = mapping.findForward("success");

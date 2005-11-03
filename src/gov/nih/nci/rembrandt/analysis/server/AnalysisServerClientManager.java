@@ -7,7 +7,7 @@ import gov.nih.nci.caintegrator.analysis.server.AnalysisResultReceiver;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.AnalysisServerException;
 import gov.nih.nci.caintegrator.service.findings.AnalysisFinding;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.dto.finding.FindingsResultsetHandler;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -41,7 +41,7 @@ import org.apache.log4j.Logger;
 public class AnalysisServerClientManager implements MessageListener, ExceptionListener, AnalysisRequestSender, AnalysisResultReceiver{
 	private static Logger logger = Logger.getLogger(AnalysisServerClientManager.class);
 	private FindingsResultsetHandler findingsResultsetHandler = new FindingsResultsetHandler();
-	private ConvenientCache _cacheManager = ApplicationFactory.getCacheManager();
+	private BusinessTierCache _cacheManager = ApplicationFactory.getBusinessTierCache();
 	
     private Properties messagingProps;
 	private QueueSession queueSession;
@@ -137,7 +137,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		String taskId = analysisResult.getTaskId();
 		logger.debug("AnalysisResult session: "+sessionId+" & task: "+taskId+" has been returned");
 		logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
-		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getFinding(sessionId, taskId);
+		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getSessionFinding(sessionId, taskId);
 		finding.setAnalysisResult(analysisResult);
 		finding.setStatus(FindingStatus.Completed);
 		logger.debug("Following task has been completed:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
@@ -149,7 +149,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		String sessionId = analysisServerException.getFailedRequest().getSessionId();
 		String taskId = analysisServerException.getFailedRequest().getTaskId();
 		logger.debug("AnalysisServerException session: "+sessionId+" & task: "+taskId+" has been returned");
-		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getFinding(sessionId, taskId);
+		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getSessionFinding(sessionId, taskId);
 		finding.setStatus(FindingStatus.Error);
 		logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
 		_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);

@@ -2,7 +2,7 @@ package gov.nih.nci.rembrandt.cache;
 
 /**
  * A simple interface that is used by classes that want to be notified
- * when the CacheManagerDelegate creates or destroys a cache.  At the
+ * when the BusinessCacheManager creates or destroys a cache.  At the
  * time of writing it was only used for the creation/destruction of
  * session based caches
  * 

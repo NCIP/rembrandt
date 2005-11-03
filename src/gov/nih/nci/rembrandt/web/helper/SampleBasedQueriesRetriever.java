@@ -6,13 +6,15 @@ package gov.nih.nci.rembrandt.web.helper;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	 * 
 	 */
     private static Logger logger = Logger.getLogger(SampleBasedQueriesRetriever.class);
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
+    private PresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unchecked")
 	private Map<String,ClinicalDataQuery> predefinedQueryMap = new TreeMap();
@@ -100,7 +102,7 @@ public class SampleBasedQueriesRetriever implements Serializable {
     public List getAllPredefinedAndSampleSetNames(String sessionID){
         
         //NEED to add sample set retrieval
-        //if(CacheManagerDelegate.getInstance().getObjectFromSessionCache(sessionID,"predefinedDiseaseQueries") == null){
+        //if(BusinessCacheManager.getInstance().getObjectFromSessionCache(sessionID,"predefinedDiseaseQueries") == null){
                    List predefined = new ArrayList(getAllPredefinedDiseaseQueryNames());
                    //List sampleSet = new ArrayList(getAllSampleSetNames(sessionID));
                    allPredefinedAndSampleSetNames = new ArrayList();

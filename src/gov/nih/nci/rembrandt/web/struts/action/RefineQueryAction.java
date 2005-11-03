@@ -2,8 +2,7 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
@@ -11,6 +10,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.helper.UIRefineQueryValidator;
 import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
@@ -41,8 +41,8 @@ import org.apache.struts.actions.LookupDispatchAction;
 
 public class RefineQueryAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(RefineQueryAction.class);
-	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-   /**
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	/**
     *  Responsible for looking at the user constructed compound query from the
     *  refine_tile.jsp.  If the Selected queries and operations are correct
     *  than it will create a compound query that should be executed
@@ -63,7 +63,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 		String sessionId = request.getSession().getId();
         RefineQueryForm refineQueryForm = (RefineQueryForm) form;
 		ActionErrors errors = new ActionErrors();
-        SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+        SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
         UIRefineQueryValidator myValidator = new UIRefineQueryValidator();
         refineQueryForm = myValidator.processCompoundQuery(form, request);
         if(refineQueryForm.getErrors()!=null&&!refineQueryForm.getErrors().isEmpty()) {
@@ -96,7 +96,7 @@ public class RefineQueryAction extends LookupDispatchAction {
         ActionForward thisForward = null;
 		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
 		//Get the SessionQueryBag for this request and session
-		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 		// Get the viewType array from session 
 		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
 		//Make sure that we have a validated CompoundQuery to use

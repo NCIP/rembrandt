@@ -5,8 +5,9 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
@@ -21,6 +22,7 @@ import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.xml.ReportGenerator;
 import gov.nih.nci.rembrandt.web.xml.ReportGeneratorFactory;
 import gov.nih.nci.rembrandt.web.xml.Transformer;
@@ -70,7 +72,7 @@ public class ReportGeneratorHelper {
 	private String _queryName = null;
 	private String _sessionId = null;
 	private static Properties applicationResources = applicationResources = ApplicationContext.getLabelProperties();
-	private ConvenientCache _cacheManager = CacheManagerDelegate.getInstance();
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	//Check the applications resource file and turn on report xml logging if 
 	//property nautilus.xml_logging = true, else then no xml report logging.
 	private static boolean xmlLogging;
@@ -172,7 +174,7 @@ public class ReportGeneratorHelper {
 			generateReportXML();
 			//drop this ReportBean in the session cache, use the _queryName as the 
 			//parameter
-			_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
+			presentationTierCache.addToSessionCache(_sessionId,_queryName,_reportBean);
 		
 		}catch(Exception e) {
 			logger.error("Exception when trying to generate a Show All Values Report");
@@ -362,7 +364,7 @@ public class ReportGeneratorHelper {
 			 * fixed temp name to use as a session cache key.
 			 * 
 			 */
-			_queryName = _cacheManager.getTempReportName(_sessionId);
+			_queryName = presentationTierCache.getTempReportName(_sessionId);
 			
 		}
 		_cQuery.setQueryName(_queryName);
@@ -377,7 +379,7 @@ public class ReportGeneratorHelper {
 		 * a result set already exists for the queryName we have been 
 		 * given.
 		 */
-		_reportBean = _cacheManager.getReportBean(_sessionId, _queryName, view);
+		_reportBean = presentationTierCache.getReportBean(_sessionId, _queryName, view);
 	}
 	/**
 	 * This method will take the class variable ReportBean _reportBean and 
@@ -450,7 +452,7 @@ public class ReportGeneratorHelper {
 				}
 			}
 			_reportBean.setReportXML(reportXML);
-			_cacheManager.addToSessionCache(_sessionId,_queryName,_reportBean);
+			presentationTierCache.addToSessionCache(_sessionId,_queryName,_reportBean);
 		   			   
 		    	
 		}else {
@@ -465,7 +467,7 @@ public class ReportGeneratorHelper {
 	 */
 	private void executeQuery() throws Exception{
 		//empty the cache before executing the query again
-		_cacheManager.addToSessionCache(_sessionId,_queryName,null);
+		presentationTierCache.addToSessionCache(_sessionId,_queryName,null);
 		
 		if(_cQuery!=null) {
 			Resultant resultant = ResultsetManager.executeCompoundQuery(_cQuery);

@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
  *	it stores this information in a Map for easy access by other interested
  *	classes.  It also is responsible for removing any cache that was established
  *	for a session when that session is destroyed.  It accomplished this by 
- *	calling the CacheManagerDelegate.removeSessionCache(String sessionId) method.
+ *	calling the BusinessCacheManager.removeSessionCache(String sessionId) method.
  *
  *  At instantiation it creates the CacheTracker which watches the 
- *  CacheManagerDelegate for any cache creations or removals.  A CacheCleaner
+ *  BusinessCacheManager for any cache creations or removals.  A CacheCleaner
  *  is also created to use the CacheTracker in determining when a 
  *  sessionCache should be removed. 
  * 
@@ -30,7 +30,7 @@ public class SessionTracker implements HttpSessionListener {
 	
 	public SessionTracker() {
 		theCacheTracker = new CacheTracker();	
-		CacheManagerDelegate.getInstance().addCacheListener(theCacheTracker);
+		BusinessCacheManager.getInstance().addCacheListener(theCacheTracker);
 		new CacheCleaner(theCacheTracker, this).start();
 	}
 
@@ -47,7 +47,7 @@ public class SessionTracker implements HttpSessionListener {
 		logger.debug("Removing reference to session: " + evt.getSession().getId());
 		logger.debug("Total Active Sessions: " + activeSessions.size());
 		//remove the cache for the dead session
-		CacheManagerDelegate.getInstance().removeSessionCache(evt.getSession().getId());
+		BusinessCacheManager.getInstance().removeSessionCache(evt.getSession().getId());
 	}
 
 	/**

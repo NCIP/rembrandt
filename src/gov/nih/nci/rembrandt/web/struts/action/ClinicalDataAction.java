@@ -12,13 +12,13 @@ import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 
@@ -38,7 +38,7 @@ import org.apache.struts.actions.LookupDispatchAction;
 
 public class ClinicalDataAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(ClinicalDataAction.class);
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
+    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
    //if multiUse button clicked (with styles de-activated) forward back to page
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
@@ -74,9 +74,9 @@ public class ClinicalDataAction extends LookupDispatchAction {
         //Create Query Objects
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
         if (!clinicalDataQuery.isEmpty()) {
-        	SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+        	SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
             queryBag.putQuery(clinicalDataQuery, clinicalDataForm);
-            cacheManager.putSessionQueryBag(sessionId, queryBag);
+            presentationTierCache.putSessionQueryBag(sessionId, queryBag);
         }else{
             ActionErrors errors = new ActionErrors();
             ActionError error = new ActionError("gov.nih.nci.nautilus.ui.struts.form.query.cgh.error");

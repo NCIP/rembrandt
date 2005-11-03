@@ -3,7 +3,8 @@ package gov.nih.nci.rembrandt.web.taglib;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierPlotPointSeriesSet;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
 
 import java.awt.Color;
@@ -29,6 +30,7 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 	private String beanName = "";
 	private String datasetName = "";
 	private Logger logger = Logger.getLogger(KaplanMeierPlotTag.class);
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
 	public int doStartTag() {
 		ServletRequest request = pageContext.getRequest();
@@ -39,7 +41,7 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 		String dataName;
 		try {
 			dataName = BeanUtils.getSimpleProperty(o,datasetName);
-			KaplanMeierStoredData cacheData = (KaplanMeierStoredData)CacheManagerDelegate.getInstance().getSessionGraphingData(session.getId(),dataName);
+			KaplanMeierStoredData cacheData = (KaplanMeierStoredData)presentationTierCache.getSessionGraphingData(session.getId(),dataName);
 			JFreeChart chart = CaIntegratorChartFactory.getKaplanMeierGraph(cacheData.getPlotPointSeriesCollection());
 			RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
 			//The final complete path to be used by the webapplication

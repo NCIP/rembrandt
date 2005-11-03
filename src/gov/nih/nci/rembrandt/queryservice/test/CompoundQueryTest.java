@@ -1,9 +1,3 @@
-/*
- * Created on Oct 18, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.rembrandt.queryservice.test;
 
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;

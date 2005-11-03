@@ -6,12 +6,14 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
@@ -36,7 +38,8 @@ import org.apache.struts.actions.DispatchAction;
 public class ReportGeneratorAction extends DispatchAction {
 
     private Logger logger = Logger.getLogger(ReportGeneratorAction.class);
-	
+    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    
     public ActionForward compundReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -60,7 +63,7 @@ public class ReportGeneratorAction extends DispatchAction {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
     	//get the specified report bean from the cache using the query name as the key
-    	ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId,rgForm.getQueryName());
+    	ReportBean reportBean = presentationTierCache.getReportBean(sessionId,rgForm.getQueryName());
     	/*
     	 * check to see if this is a filter submission.  If it is then
     	 * we are going to need to generate XML most likely.  WE should probably
@@ -103,7 +106,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		//add the resultant to the new bean
     		newReportBean.setResultant(resultant);
     		//put the new bean in cache
-    		CacheManagerDelegate.getInstance().addToSessionCache(sessionId, queryName,newReportBean );
+    		BusinessCacheManager.getInstance().addToSessionCache(sessionId, queryName,newReportBean );
     		/*
     		 *  Generate new XML for the old resultant under the new QueryName.
     		 *	The filter param maps is necesary because it contains data that
@@ -237,7 +240,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		String sessionId = request.getSession().getId();
 		
 		//get the old 
-		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
+		CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
 		if(cquery!=null) {
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			cquery.setQueryName(prb_queryName);
@@ -269,7 +272,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		String[] sampleIds = rgForm.getSamples();
 		
 		//get the old 
-		CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
+		CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
 		if(cquery!=null) {
 			String reportView = (String)rgForm.getReportView();
 			if(reportView != null)	{
@@ -309,7 +312,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
 		String queryName = rgForm.getQueryName();
 		String sessionId = request.getSession().getId();
-		ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId, queryName);
+		ReportBean reportBean = presentationTierCache.getReportBean(sessionId, queryName);
 		if(reportBean!=null) {
 			//This will generate get a resultant and store it in the cache
 			/*
@@ -339,8 +342,8 @@ public class ReportGeneratorAction extends DispatchAction {
 		ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
 		String queryName = rgForm.getQueryName();
 		String sessionId = request.getSession().getId();
-		ReportBean reportBean = CacheManagerDelegate.getInstance().getReportBean(sessionId, queryName);
-		//CompoundQuery cquery = CacheManagerDelegate.getInstance().getQuery(sessionId, queryName );
+		ReportBean reportBean = presentationTierCache.getReportBean(sessionId, queryName);
+		//CompoundQuery cquery = BusinessCacheManager.getInstance().getQuery(sessionId, queryName );
 		
 		Resultant resultant = reportBean.getResultant();
 		//set the defaults in case we dont get what we need from the form

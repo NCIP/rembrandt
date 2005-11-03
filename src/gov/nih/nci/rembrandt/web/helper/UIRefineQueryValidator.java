@@ -2,8 +2,9 @@ package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
@@ -11,6 +12,7 @@ import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
 
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ import org.apache.struts.util.LabelValueBean;
 public class UIRefineQueryValidator {
 
 	private static Logger logger = Logger.getLogger(UIRefineQueryValidator.class);
-	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
 	public RefineQueryForm processCompoundQuery(ActionForm form,
                                                      HttpServletRequest request) 
@@ -52,7 +54,7 @@ public class UIRefineQueryValidator {
 		refineQueryForm.setQueryText("");
 		refineQueryForm.setCompoundViewColl(new ArrayList());
 		String sessionId = request.getSession().getId();
-		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 		//clears out the old compound query, in case something bombs
 		queryBag.setCompoundQuery(compoundQuery);
 		ActionErrors errors = new ActionErrors();
@@ -166,7 +168,7 @@ public class UIRefineQueryValidator {
 			 */
 		    
 			if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
-	        	CompoundQuery resultSetCompoundQuery = (CompoundQuery)(cacheManager.getQuery(sessionId, selectedResultSet));
+	        	CompoundQuery resultSetCompoundQuery = (CompoundQuery)(presentationTierCache.getQuery(sessionId, selectedResultSet));
 	        	/*
 	    		 * At this time there is only a single query in any result set.
 	    		 * So let me grab that single query out of the compound query 
@@ -242,7 +244,7 @@ public class UIRefineQueryValidator {
 		SelectedQueryBean bean = null;
 		List queries = new ArrayList();
 		if(allGeneQueryName!=null&&!allGeneQueryName.equals("")) {
-			SessionQueryBag bag = cacheManager.getSessionQueryBag(sessionId);
+			SessionQueryBag bag = presentationTierCache.getSessionQueryBag(sessionId);
 			Map allGenesQueries = bag.getAllGenesQueries();
 			if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
 				if(allGenesQueries!=null&&allGenesQueries.containsKey(allGeneQueryName)) {

@@ -1,7 +1,9 @@
 package gov.nih.nci.rembrandt.web.helper;
 
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +20,7 @@ public class DefaultsHelper{
     private static List sessionReporterBag = new ArrayList();
     private static int variancePercentile = 70;
     
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
+    private PresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
     private HttpSession sessionId = ExecutionContext.get().getSession(false);
 
     

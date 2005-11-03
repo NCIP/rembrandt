@@ -1,15 +1,15 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierDataController;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.KMDataSetHelper;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 import gov.nih.nci.rembrandt.web.struts.form.QuickSearchForm;
@@ -27,8 +27,8 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class QuickSearchAction extends DispatchAction {
-	static Logger logger = Logger.getLogger(QuickSearchAction.class);
-
+	private static Logger logger = Logger.getLogger(QuickSearchAction.class);
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	/**
 	 * Method execute
 	 * 
@@ -139,8 +139,8 @@ public class QuickSearchAction extends DispatchAction {
 		kmForm.setStoredData(storedData);
 		kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 		kmForm.setSelectedDataset("KAPLAN");
-		CacheManagerDelegate.getInstance().addToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
-		CacheManagerDelegate.getInstance().addSessionGraphingData(request.getSession().getId(), storedData);
+		presentationTierCache.addToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
+		presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
 		
 
 		/**
@@ -192,7 +192,7 @@ public class QuickSearchAction extends DispatchAction {
 			kmForm.setStoredData(storedData);
 			kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 			kmForm.setSelectedDataset("KAPLAN");
-			CacheManagerDelegate.getInstance().addSessionGraphingData(request.getSession().getId(), storedData);
+			presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
 			kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 			kmForm.setDownFold(downRegulation);
 			kmForm.setUpFold(upRegulation);
@@ -202,7 +202,7 @@ public class QuickSearchAction extends DispatchAction {
 	}
 	
 	private KaplanMeierPlotContainer getKmResultsContainer(String sessionId) {
-		return (KaplanMeierPlotContainer)CacheManagerDelegate.getInstance().getObjectFromSessionCache(sessionId,"MyKaplainMeierContainer");
+		return (KaplanMeierPlotContainer)presentationTierCache.getObjectFromSessionCache(sessionId,"MyKaplainMeierContainer");
 	}
 
 	public ActionForward quickSearch(ActionMapping mapping, ActionForm form,

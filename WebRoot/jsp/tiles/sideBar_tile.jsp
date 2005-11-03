@@ -3,7 +3,8 @@
 <%@ page import="java.util.*,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
-				 gov.nih.nci.rembrandt.cache.CacheManagerDelegate" %> 
+	 			 gov.nih.nci.rembrandt.cache.PresentationTierCache,
+	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %> 
 <div width="100%">
 <h3>Queries</h3>
 <html:form action ="delete_Query.do">
@@ -18,6 +19,7 @@
 		
 		 
 			<%
+			   PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 			   String  query = "";	
 			   int j = 0;	
 			   String queryKey = null;
@@ -26,7 +28,7 @@
 			   String pageStr2 = (String)request.getSession().getAttribute("currentPage2");  
 			   
 			   String sessionId = request.getSession().getId();
-  				SessionQueryBag queryCollection = CacheManagerDelegate.getInstance().getSessionQueryBag(sessionId);
+  				SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
 			   if(queryCollection != null){
 			     
 			      Collection queryColl = queryCollection.getQueries();

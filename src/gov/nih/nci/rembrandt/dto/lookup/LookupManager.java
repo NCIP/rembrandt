@@ -2,13 +2,15 @@ package gov.nih.nci.rembrandt.dto.lookup;
 
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
+import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 /**
  * This class provide a single point for UI related classes to 
  * get lookup data (data that a user can select to mofify a query)
- * It uses that CacheManagerDelegate to determine if the data
+ * It uses that BusinessCacheManager to determine if the data
  * has already been loaded.  If not it executes the query and
  * stores it in the ApplicationCache, else it retrives that data
  * from the Cache and returns it to the UI.
@@ -56,7 +58,7 @@ public class LookupManager{
 	private static final String PATIENT_DATA_MAP = "patientDataMap";
 	private static final String PATHWAYS = "pathways";
 	private static final String NO_CACHE = "NoCache";
-	private static ConvenientCache cacheManagerDelegate;
+	private static BusinessTierCache businessTierCache;
 	
 	
 	/**
@@ -70,15 +72,15 @@ public class LookupManager{
 	 
 	private  static Collection executeQuery(Class bean, Criteria crit, String lookupType, boolean distinct)throws Exception{
 		  
-		cacheManagerDelegate = CacheManagerDelegate.getInstance();
-		Collection resultsetObjs = cacheManagerDelegate.checkLookupCache(lookupType);
+		businessTierCache = ApplicationFactory.getBusinessTierCache();
+		Collection resultsetObjs = businessTierCache.checkLookupCache(lookupType);
 		if(resultsetObjs == null) {
 			logger.debug("LookupType "+lookupType+" was not found in ApplicationCache");
 			PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
 			broker.clearCache();
 		    resultsetObjs = createQuery(bean, crit, broker, distinct);
             if(!lookupType.equals(LookupManager.NO_CACHE)){  //Never cache Quick search type queries
-		    cacheManagerDelegate.addToApplicationCache(lookupType,(Serializable)resultsetObjs);
+		    businessTierCache.addToApplicationCache(lookupType,(Serializable)resultsetObjs);
             }
 		    broker.close();
 		    

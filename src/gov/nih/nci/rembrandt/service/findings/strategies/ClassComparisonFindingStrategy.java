@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonRequest;
@@ -24,6 +21,7 @@ import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
+import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
@@ -60,7 +58,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	private ClassComparisonResult classComparisonResult = null;
 	private ClassComparisonFinding classComparisonFinding;
 	private AnalysisServerClientManager analysisServerClientManager;
-	private ConvenientCache cacheManager = ApplicationFactory.getCacheManager();
+	private BusinessTierCache cacheManager = ApplicationFactory.getBusinessTierCache();
 	
 	public ClassComparisonFindingStrategy(String sessionId, String taskId, ClassComparisonQueryDTO queryDTO) throws ValidationException {
 		//Check if the passed query is valid
@@ -253,6 +251,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
       
       return sampleGroups;
     }
+    
     private void initializeTestSampleGroup(SampleGroup grp, String identifierStr) {//TODO:DEBUG
   	  StringTokenizer t = new StringTokenizer(identifierStr, ",");
   	  String id;

@@ -15,14 +15,14 @@ import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
@@ -46,8 +46,9 @@ import org.apache.struts.actions.LookupDispatchAction;
 
 public class GeneExpressionAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(GeneExpressionAction.class);
-	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-    /**
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	
+	/**
      * Method setup
      * 
      * @param ActionMapping
@@ -221,9 +222,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	    logger.debug("This is a Gene Expression Submital");
 	   
 		if (!geneExpQuery.isEmpty()) {
-			SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+			SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
             queryBag.putQuery(geneExpQuery, geneExpressionForm);
-            cacheManager.putSessionQueryBag(sessionId, queryBag);
+            presentationTierCache.putSessionQueryBag(sessionId, queryBag);
             
      	} else {
 			ActionErrors errors = new ActionErrors();

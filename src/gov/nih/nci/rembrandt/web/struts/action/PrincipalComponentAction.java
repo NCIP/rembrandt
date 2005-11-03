@@ -1,7 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm;
 
@@ -16,8 +16,7 @@ import org.apache.struts.actions.DispatchAction;
 
 public class PrincipalComponentAction extends DispatchAction {
     private Logger logger = Logger.getLogger(ClassComparisonAction.class);
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-    
+    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
   
     
     /**

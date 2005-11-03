@@ -1,7 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +23,8 @@ import org.apache.struts.action.ActionMapping;
 
 public class ViewResultsAction extends Action{
     private Logger logger = Logger.getLogger(RefineQueryAction.class);
-	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-   
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	
 	/**
 	 * Method execute
 	 * @param ActionMapping mapping

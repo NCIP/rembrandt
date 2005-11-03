@@ -21,7 +21,8 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
+import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
+import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
@@ -58,7 +59,7 @@ public class AnalysisQueryTest extends TestCase {
 	private String normalHFids = "HF0088,HF0120,HF0131,HF0137,HF0141,HF0151,HF0163,HF0171,HF0178,HF0201,HF0211,HF0232,HF0295,HF0303,HF0312,HF0377,HF0383,HF0467,HF0512,HF0523,HF0526,HF0533,HF0593,HF0616";
 
 	private ClassComparisonQueryDTO classComparisonQueryDTO;
-	private static ConvenientCache cacheManagerDelegate  = CacheManagerDelegate.getInstance();
+	private static BusinessTierCache businessTierCache  = ApplicationFactory.getBusinessTierCache();
 	public AnalysisQueryTest(String string) {
 		super(string);
 		
@@ -133,7 +134,7 @@ public class AnalysisQueryTest extends TestCase {
 		assert(status == FindingStatus.Running);
 		
 		while(finding.getStatus() == FindingStatus.Running){
-			 finding = cacheManagerDelegate.getFinding(finding.getSessionId(),finding.getTaskId());
+			 finding = businessTierCache.getSessionFinding(finding.getSessionId(),finding.getTaskId());
 			 try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -160,7 +161,7 @@ public class AnalysisQueryTest extends TestCase {
 		assert(status == FindingStatus.Running);
 		
 		while(finding.getStatus() == FindingStatus.Running){
-			 finding = cacheManagerDelegate.getFinding(finding.getSessionId(),finding.getTaskId());
+			 finding = businessTierCache.getSessionFinding(finding.getSessionId(),finding.getTaskId());
 			 try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {

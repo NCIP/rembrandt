@@ -1,8 +1,8 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,9 +26,9 @@ import org.apache.struts.action.ActionMapping;
  */
 public class EditClinicalDataAction extends Action {
     private Logger logger = Logger.getLogger(DeleteQueryAction.class);
-    private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-
-	public ActionForward perform(
+    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	
+    public ActionForward perform(
 			ActionMapping mapping,
 			ActionForm form,
 			HttpServletRequest request,
@@ -45,7 +45,7 @@ public class EditClinicalDataAction extends Action {
 				}
 			   ClinicalDataForm cdForm = (ClinicalDataForm) form;	
 			   String sessionId = request.getSession().getId();
-			   SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+			   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 			   String queryKey = (String) request.getAttribute("queryKey");
 			   if(queryBag != null){			     
 			       //get the Form from the sessionQB

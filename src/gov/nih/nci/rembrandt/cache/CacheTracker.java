@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 
 /**
- * CacheTracker watches the CacheManagerDelegate for the addition and removal
+ * CacheTracker watches the BusinessCacheManager for the addition and removal
  * of sessionCaches so that it knows at given moment how many sessionCaches 
  * currently exist, the max number of simultaneous sessionCaches created, and
  * when the currently existing sessionCaches were created.

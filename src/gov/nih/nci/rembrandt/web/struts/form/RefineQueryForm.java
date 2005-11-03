@@ -1,9 +1,9 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
-import gov.nih.nci.rembrandt.cache.CacheManagerDelegate;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,8 +50,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 
 	private String selectedResultSet = null;
 	
-	private ConvenientCache cacheManager = CacheManagerDelegate.getInstance();
-	
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private boolean isAllGenesQuery = false ;
  
 	public RefineQueryForm() {
@@ -308,7 +307,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private void setRefineQueryLookups(HttpServletRequest request) {
 		String sessionId = request.getSession().getId();
 		//Retrieve the session query bag from the cacheManager
-		SessionQueryBag queryBag = cacheManager.getSessionQueryBag(sessionId);
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 		//setup the List of Queries
 		nonAllGenesQueries = new ArrayList();
 		allGenesQueries = new ArrayList();
@@ -330,7 +329,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 				}
 			}
 		//Now setup all of the current result sets
-		setResultSets(cacheManager.getSampleSetNames(sessionId));
+		setResultSets(presentationTierCache.getSampleSetNames(sessionId));
 			
 		} else {
 			logger.debug("No Query Collection Object in Session");
