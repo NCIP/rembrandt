@@ -1,23 +1,20 @@
 package gov.nih.nci.rembrandt.dto.query;
 
-import java.util.Collection;
-
-import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.InstitutionNameDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
-import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
-import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
+import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
+import gov.nih.nci.caintegrator.exceptions.ValidationException;
+import java.util.Collection;
 /**
  * @author sahnih
  */
 public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
-	
 	/**
 	 * This class captures the significance and/or magnitude of the difference between groups of biological
 	 * specimen of which the gene expression is measured by BioAssays.
@@ -40,7 +37,7 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	private ExprFoldChangeDE exprFoldChangeDE;
 	private Collection<ClinicalQueryDTO> comparisonGroups;
 	private InstitutionNameDE institutionNameDE;
-	
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getMultiGroupComparisonAdjustmentTypeDE()
 	 */
@@ -87,28 +84,38 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 		return queryName;
 	}
 	public boolean validate() throws ValidationException {
-		boolean _valid = false;
-		if ((multiGroupComparisonAdjustmentTypeDE != null)&& (statisticalSignificanceDE != null)){
-			switch (multiGroupComparisonAdjustmentTypeDE.getValueObject()){
-				case NONE:{
-					if (statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.pValue){
-						_valid = true;
-					}else{
-						throw(new ValidationException("Statistical Type does not equal pValue"));
-					}
+		boolean _valid = true;
+		boolean assertsEnabled = false;
+        assert assertsEnabled = true; // Intentional side effect!!!
+		//		 Now assertsEnabled is set to the correct value 
+        String errorMsg = " In ClassComparisonQueryDTO ";
+		try {
+			//assert(this.institutionNameDE != null);
+			assert this.arrayPlatformDE != null:errorMsg+"arrayPlatformDE cannot be Null";
+			assert this.comparisonGroups != null:errorMsg+"comparisonGroups cannot be Null";
+			assert this.exprFoldChangeDE != null:errorMsg+"exprFoldChangeDE cannot be Null";
+			assert this.multiGroupComparisonAdjustmentTypeDE!= null:errorMsg+"multiGroupComparisonAdjustmentTypeDE cannot be Null";
+			assert this.queryName != null:errorMsg+"queryName cannot be Null";
+			assert this.statisticalSignificanceDE != null:errorMsg+"statisticalSignificanceDE cannot be Null";
+			assert this.statisticTypeDE != null:errorMsg+"statisticTypeDE cannot be Null";
+				switch (multiGroupComparisonAdjustmentTypeDE.getValueObject()){
+					case NONE:
+						assert(statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.pValue):
+							errorMsg+"When multiGroupComparisonAdjustmentTypeDE is NONE, Statistical Type cannot equal pValue";
+						break;
+					case FWER:
+					case FDR:
+						assert(statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.adjustedpValue):
+							errorMsg+"When multiGroupComparisonAdjustmentTypeDE is FWER or FDR, Statistical Type cannot equal adjusted pValue";
+						break;
+					default:
+							throw(new ValidationException("multiGroupComparisonAdjustmentTypeDE is does not match any options"));					
 				}
-				break;
-				case FWER:
-				case FDR:{
-					if (statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.adjustedpValue){
-						_valid = true;
-					}else{
-						throw(new ValidationException("Statistical Type does not equal adjusted pValue"));
-					}
-				}
-				break;					
+			} catch (AssertionError e) {
+				e.printStackTrace();
+				throw(new ValidationException(e.getMessage()));
 			}
-		}
+		
 		return _valid;
 	}
 	/* (non-Javadoc)
