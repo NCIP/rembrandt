@@ -227,6 +227,12 @@
 		<forward name="success" path="nautilus.menu" />
 	</action>
 	
+	<action path="/testReport"
+		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
+		name="noForm">
+		<forward name="success" path="/jsp/testReport.jsp" />
+	</action>
+	
 	<action path="/homeAdvanced"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
 		name="noForm">

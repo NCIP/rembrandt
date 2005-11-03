@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
+import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -30,21 +31,20 @@ import org.dom4j.Element;
  * Feb 8, 2005
  * 
  */
-public class ClassComparisonReport implements ReportGenerator{
+public class ClassComparisonReport{
 
 	/**
 	 * 
 	 */
 	public ClassComparisonReport() {
-		super();
-		// TODO Auto-generated constructor stub
+		//super();
 	}
 
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
 	
-	public Document getReportXML(Resultant resultant, Map filterMapParams) {
+	public static Document getReportXML(Finding finding, Map filterMapParams) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		
@@ -73,7 +73,13 @@ public class ClassComparisonReport implements ReportGenerator{
 	        report.addAttribute("reportType", "Class Comparison");
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
-	        String queryName = resultant.getAssociatedQuery().getQueryName();
+	        String queryName = "none";
+	        try	{
+	        	//queryName = finding.getQueryDTO().getQueryName();
+	        }
+	        catch (Exception e) {
+				// TODO: handle exception
+			}
 	        //set the queryName to be unique for session/cache access
 	        report.addAttribute("queryName", queryName);
 	        report.addAttribute("sessionId", "the session id");
@@ -84,10 +90,10 @@ public class ClassComparisonReport implements ReportGenerator{
 			int recordCount = 0;
 			int totalSamples = 0;
 			
-			ClassComparisonFinding ccfr = (ClassComparisonFinding) resultant.getResultsContainer();
-			//instance of
-	        
-			if(ccfr != null)	{
+			//TODO: instance of
+			ClassComparisonFinding ccf = (ClassComparisonFinding) finding;
+			
+			if(ccf != null)	{
 					
 				Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
@@ -102,10 +108,12 @@ public class ClassComparisonReport implements ReportGenerator{
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("P-Value");
 			        data = null;
 		        cell = null;
+		        /*
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Adj. P-Value");
 			        data = null;
 		        cell = null;
+		        */
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Fold Change (log)");
 			    data = null;
@@ -168,26 +176,26 @@ public class ClassComparisonReport implements ReportGenerator{
 			        
 		    	/* done with the headerRow and SampleRow Elements, time to add data rows */
 						        
-		        for(ClassComparisonResultEntry ccre : ccfr.getResultEntries())	{
+		        for(ClassComparisonResultEntry ccre : ccf.getResultEntries())	{
 		        	dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(ccre.getReporterId());
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "reporter").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(ccre.getMeanGrp1() + " / " + ccre.getMeanGrp2());
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(resultFormat.format(ccre.getMeanGrp1()) + " / " + resultFormat.format(ccre.getMeanGrp2()));
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(ccre.getPvalue()));
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getPvalue())));
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(ccre.getFoldChange()));
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getFoldChange())));
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(ccre.getFoldChange()));
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getFoldChange())));
 			        	data = null;
 			        cell = null;
 		        }
@@ -200,7 +208,6 @@ public class ClassComparisonReport implements ReportGenerator{
 				sb.append("<br><Br>Gene Container is empty<br>");
 			}
 		    
-
 		    return document;
 	}
 
