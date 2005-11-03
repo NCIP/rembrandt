@@ -43,13 +43,7 @@ public class BusinessCacheManager implements BusinessTierCache{
     }
  
     private BusinessCacheManager() {}
-    /**
-     * returns the WebApplication cache. If the first time this has been called
-     * it will instantiate the cache.
-     * *  IMPORTANT! Signature missing from the ConvenientCache Inteface
-     * 
-     * @return  The Application Cache
-     */
+   
     private Cache getApplicationCache() {
         Cache applicationCache = null;
     	if(manager!=null && !manager.cacheExists(BusinessCacheManager.REMBRANDT_CACHE)) {
@@ -140,13 +134,6 @@ public class BusinessCacheManager implements BusinessTierCache{
     }
     
     
-    /**
-     * When ever a cache is created this method notifies all
-     * registered CacheListeners
-     * *  IMPORTANT! Signature missing from the ConvenientCache Inteface
-     * 
-     * @param cacheId the cache id
-     */
     static private void fireCacheAddEvent(String cacheId) {
         if(cacheListeners!=null && !cacheListeners.isEmpty()) {
             logger.debug("Fire cacheAddEvent");
@@ -156,13 +143,7 @@ public class BusinessCacheManager implements BusinessTierCache{
         	
         }
     }
-    /**
-     * Whenever a cache is destroyed this method notifies all
-     * registered CacheListeners.
-     * *  IMPORTANT! Signature missing from the ConvenientCache Inteface
-     * 
-     * @param cacheId the cache id
-     */
+   
     static private void fireCacheRemoveEvent(String cacheId) {
         if(cacheListeners!=null && !cacheListeners.isEmpty()) {
             logger.debug("Fire cacheRemoveEvent");

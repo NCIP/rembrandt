@@ -5,8 +5,6 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
-import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
-import gov.nih.nci.rembrandt.cache.ConvenientCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
