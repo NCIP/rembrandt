@@ -2,10 +2,12 @@ package gov.nih.nci.rembrandt.queryservice.test;
 
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
@@ -101,19 +103,35 @@ public class AnalysisQueryTest extends TestCase {
 		Collection<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
 		//Create ClinicalQueryDTO 1 (Class 1) for the class comparison
 		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-		group1.setQueryName("GBM");
-		DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
-		diseaseCrit.setDisease(new DiseaseNameDE("GBM"));
-		group1.setDiseaseOrGradeCrit(diseaseCrit);
+		group1.setQueryName("NORMAL GROUP");
+		//DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
+		//diseaseCrit.setDisease(new DiseaseNameDE("OLIGODENDROGLIOMA"));
+		//group1.setDiseaseOrGradeCrit(diseaseCrit);
+		SampleCriteria sampleCriteria = new SampleCriteria();
+		Collection samplesGroupA = new ArrayList();
+		samplesGroupA.add(new SampleIDDE("HF0088"));
+		samplesGroupA.add(new SampleIDDE("HF0120"));
+		samplesGroupA.add(new SampleIDDE("HF0131"));
+		samplesGroupA.add(new SampleIDDE("HF0137"));
+		sampleCriteria.setSampleIDs(samplesGroupA);
+		group1.setSampleIDCrit(sampleCriteria);
 		group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		groupCollection.add(group1);
 		
 		//Create ClinicalQueryDTO 2 (Class 2) for the class comparison
 		ClinicalDataQuery group2 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-		group1.setQueryName("OLIG");
-		diseaseCrit = new DiseaseOrGradeCriteria();
-		diseaseCrit.setDisease(new DiseaseNameDE("OLIG"));
-		group2.setDiseaseOrGradeCrit(diseaseCrit);
+		group1.setQueryName("GBM GROUP");
+		//diseaseCrit = new DiseaseOrGradeCriteria();
+		//diseaseCrit.setDisease(new DiseaseNameDE("MIXED"));
+		//group2.setDiseaseOrGradeCrit(diseaseCrit);
+		sampleCriteria = new SampleCriteria();
+		Collection samplesGroupB = new ArrayList();
+		samplesGroupB.add(new SampleIDDE("HF0024"));
+		samplesGroupB.add(new SampleIDDE("HF0031"));
+		samplesGroupB.add(new SampleIDDE("HF0048"));
+		samplesGroupB.add(new SampleIDDE("HF0050"));
+		sampleCriteria.setSampleIDs(samplesGroupB);
+		group2.setSampleIDCrit(sampleCriteria);
 		group2.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		groupCollection.add(group2);
 		
