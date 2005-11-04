@@ -8,7 +8,6 @@ import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.AnalysisServerException;
 import gov.nih.nci.caintegrator.service.findings.AnalysisFinding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.dto.finding.FindingsResultsetHandler;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
@@ -40,7 +39,6 @@ import org.apache.log4j.Logger;
  */
 public class AnalysisServerClientManager implements MessageListener, ExceptionListener, AnalysisRequestSender, AnalysisResultReceiver{
 	private static Logger logger = Logger.getLogger(AnalysisServerClientManager.class);
-	private FindingsResultsetHandler findingsResultsetHandler = new FindingsResultsetHandler();
 	private BusinessTierCache _cacheManager = ApplicationFactory.getBusinessTierCache();
 	
     private Properties messagingProps;
