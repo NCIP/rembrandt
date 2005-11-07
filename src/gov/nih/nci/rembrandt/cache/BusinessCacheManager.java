@@ -32,11 +32,15 @@ public class BusinessCacheManager implements BusinessTierCache{
            instance = new BusinessCacheManager();
      	   //Create the cacheManager and the application cache
            //as specified in the configurationFile.xml 
-    		manager = CacheManager.create();
-    		assert manager!=null: "FATAL CacheManager not created";
-    		logger.debug("CacheManger created");
+          if(manager==null) {
+        	  manager = CacheManager.create();
+        	 logger.debug("Creating ehCache manager instance");
+          }else {
+        	  manager = CacheManager.getInstance();
+        	  logger.debug("Getting ehCache manager instance");
+          }
         }catch(Throwable t) {
-            logger.error("FATAL: CacheManager and Application Cache not created!");
+            logger.error("FATAL: CacheManager and Business Cache not created!");
             logger.error(t);
             throw new ExceptionInInitializerError(t);
         }
@@ -267,26 +271,21 @@ public class BusinessCacheManager implements BusinessTierCache{
     public static BusinessCacheManager getInstance() {
     	return instance;
     }
-	public Collection checkLookupCache(String lookupType) {
+	public Object getFromApplicationCache(String lookupType) {
 		Cache applicationCache = this.getApplicationCache();
-		Collection lookpCollection = null;
+		Object applicationCacheObject = null;
 		try {
 			Element element = applicationCache.get(lookupType);
-			if(element!=null) {
-				if(element.getValue() instanceof Collection)
-					lookpCollection = (Collection)element.getValue();
-			}
+			applicationCacheObject = element.getValue();
+		
 		}catch(IllegalStateException ise) {
 			logger.error("Getting the FindingsResultset from cache threw IllegalStateException");
 			logger.error(ise);
 		}catch(CacheException ce) {
 			logger.error("Getting the FindingsResultset from cache threw a new CacheException");
 			logger.error(ce);
-		}catch(ClassCastException cce) {
-			logger.error("CacheElement was not a FindingsResultset");
-			logger.error(cce);
 		}
-		return lookpCollection;
+		return applicationCacheObject;
 	}
 
 }

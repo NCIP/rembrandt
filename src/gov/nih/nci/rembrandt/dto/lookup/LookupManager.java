@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.dto.lookup;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
@@ -56,7 +57,7 @@ public class LookupManager{
 	private static final String PATIENT_DATA_MAP = "patientDataMap";
 	private static final String PATHWAYS = "pathways";
 	private static final String NO_CACHE = "NoCache";
-	private static BusinessTierCache businessTierCache;
+	private static PresentationTierCache presentationTierCache;
 	
 	
 	/**
@@ -70,15 +71,15 @@ public class LookupManager{
 	 
 	private  static Collection executeQuery(Class bean, Criteria crit, String lookupType, boolean distinct)throws Exception{
 		  
-		businessTierCache = ApplicationFactory.getBusinessTierCache();
-		Collection resultsetObjs = businessTierCache.checkLookupCache(lookupType);
+		presentationTierCache = ApplicationFactory.getPresentationTierCache();
+		Collection resultsetObjs = presentationTierCache.checkLookupCache(lookupType);
 		if(resultsetObjs == null) {
 			logger.debug("LookupType "+lookupType+" was not found in ApplicationCache");
 			PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
 			broker.clearCache();
 		    resultsetObjs = createQuery(bean, crit, broker, distinct);
             if(!lookupType.equals(LookupManager.NO_CACHE)){  //Never cache Quick search type queries
-		    businessTierCache.addToApplicationCache(lookupType,(Serializable)resultsetObjs);
+            	presentationTierCache.addToPresentationCache(lookupType,(Serializable)resultsetObjs);
             }
 		    broker.close();
 		    

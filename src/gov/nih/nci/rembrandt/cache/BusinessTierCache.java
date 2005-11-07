@@ -30,7 +30,7 @@ public interface BusinessTierCache {
 
 	public Finding getSessionFinding(String sessionId, String taskId);
 	
-	public Collection checkLookupCache(String lookupType);
+	public Object getFromApplicationCache(String lookupType);
 	
 
 }

@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import net.sf.ehcache.Cache;
+
 public interface PresentationTierCache {
 
 	public void putSessionCriteriaBag(String sessionId,
@@ -45,7 +47,7 @@ public interface PresentationTierCache {
 
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag);
 
-	public void addToApplicationCache(Serializable key, Serializable value);
+	public void addToPresentationCache(Serializable key, Serializable value);
 
 	public CompoundQuery getQuery(String sessionId, String queryName);
 
@@ -53,8 +55,7 @@ public interface PresentationTierCache {
 
 	public String[] getCacheList();
 	
-	public void addToSessionCache(String id, String string, Serializable object);
-	
+	public void addToSessionCache(String sessionId, Serializable key, Serializable object);
 }
 
 	
