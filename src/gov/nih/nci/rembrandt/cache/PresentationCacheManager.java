@@ -43,14 +43,9 @@ public class PresentationCacheManager implements PresentationTierCache{
      		myInstance = new PresentationCacheManager();
      	   //Create the cacheManager and the application cache
            //as specified in the configurationFile.xml 
-          if(manager==null) {
-        	  manager = CacheManager.create();
-        	 logger.debug("Creating ehCache manager instance");
-          }else {
-        	  manager = CacheManager.getInstance();
-        	  logger.debug("Getting ehCache manager instance");
-          }
-          logger.debug("CacheManger available");
+     		logger.debug("Getting ehCache manager instance");
+         	manager = CacheManager.getInstance();
+        	logger.debug("CacheManger available");
         }catch(Throwable t) {
             logger.error("FATAL: Problem creating CacheManager!");
             logger.error(t);

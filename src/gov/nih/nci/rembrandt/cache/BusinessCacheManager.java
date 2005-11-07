@@ -30,16 +30,9 @@ public class BusinessCacheManager implements BusinessTierCache{
     static {
      	try {
            instance = new BusinessCacheManager();
-     	   //Create the cacheManager and the application cache
-           //as specified in the configurationFile.xml 
-          if(manager==null) {
-        	  manager = CacheManager.create();
-        	 logger.debug("Creating ehCache manager instance");
-          }else {
-        	  manager = CacheManager.getInstance();
-        	  logger.debug("Getting ehCache manager instance");
-          }
-        }catch(Throwable t) {
+           manager = CacheManager.getInstance();
+           logger.debug("Getting ehCache manager instance");
+         }catch(Throwable t) {
             logger.error("FATAL: CacheManager and Business Cache not created!");
             logger.error(t);
             throw new ExceptionInInitializerError(t);

@@ -11,8 +11,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.ehcache.Cache;
-
 public interface PresentationTierCache {
 
 	public void putSessionCriteriaBag(String sessionId,
