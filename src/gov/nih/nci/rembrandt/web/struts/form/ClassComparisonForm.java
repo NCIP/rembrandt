@@ -340,8 +340,14 @@ public class ClassComparisonForm extends ActionForm {
         
         
         //Analysis Query Name cannot be blank
+        
+        if (analysisResultName.equals("")){
+            errors.add("analysisResultName", new ActionError(
+            "gov.nih.nci.nautilus.ui.struts.form.analysisResultName.no.error"));
+ 
+        }
 
-        if (selectedGroups != null && selectedGroups.length != 2){
+        if (selectedGroups == null || selectedGroups.length != 2){
             errors.add("selectedGroups", new ActionError(
                     "gov.nih.nci.nautilus.ui.struts.form.groups.more.error"));
         }

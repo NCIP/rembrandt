@@ -12,13 +12,18 @@ function checkNull(text)
 	}
 }
 
-function checkClassComparisonNull(Nametext,Grouptext)
+function checkAnalysisNull(Nametext,Grouptext)
 {
-	if(Nametext.value == "" || Grouptext.options.length == 0)	{
-		scroll(0,0);
-		alert("The following fields:" + "\n" + "Selected Groups" + "\n" + "Analysis Result Name" + "\n" + "are required fields and must not be empty");
+	if(Grouptext.options.length == 0){
+		alert("Please select 2 groups");
 		return false;
 	}
+	if(Nametext.value == "")	{
+		scroll(0,0);
+		alert("Please name Analysis Result");
+		return false;
+	}
+	
 	else	{
 		//return checkQueryName();
 	}

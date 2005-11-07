@@ -137,6 +137,17 @@
 	
 	<action path="/classComparison"
          forward="nautilus.classComparison" />
+         
+    <action path="/classcomparisonInit"
+	    
+	    type="gov.nih.nci.rembrandt.web.struts.action.ClassComparisonAction"
+		name="classComparisonForm"
+		scope="request"
+		validate="false"
+		parameter="method">
+		<forward name="backToClassComparison" path="nautilus.classComparison" />
+		<forward name="classComparisonSetup" path="/classcomparisonInit.do?method=setup" />
+	</action>
 	
 	<action path="/classcomparison"
 	    input="nautilus.classComparison"
@@ -146,8 +157,9 @@
 		validate="true"
 		parameter="method">
 		<forward name="backToClassComparison" path="nautilus.classComparison" />
-		<forward name="classComparisonSetup" path="/classcomparison.do?method=setup" />
+		<forward name="classComparisonSetup" path="/classcomparisonInit.do?method=setup" />
 	</action>
+	
 	
 	<action path="/principalComponent"
          forward="nautilus.principalComponent" />

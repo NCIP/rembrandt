@@ -31,9 +31,9 @@ String act = request.getParameter("act");
  String datenewformat = formatter.format(today);
 %>
 <br>
-	
+	<html:errors property="analysisResultName"/>
 <html:text styleId="analysisResultName" property="analysisResultName" size="50" /> (should be unique)
-<br /><html:errors property="analysisResultName"/>
+<br />
 </fieldset>
 <%
 
