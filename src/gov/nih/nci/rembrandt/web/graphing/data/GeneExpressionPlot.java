@@ -28,7 +28,6 @@ import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 public class GeneExpressionPlot {
 	
-	
 	public static HashMap generateBarChart(String gene, HttpSession session, PrintWriter pw) {
 		String filename = null;
 		String ffilename = null;
@@ -54,7 +53,6 @@ public class GeneExpressionPlot {
 	        );
 	        
 	        /**
-	         * 
 	         * okay, heres where it gets tricky...
 	         * we need to generate another chart, with a seperate dataset -
 	         * one that does not include the errorbars for std deviation
@@ -88,7 +86,6 @@ public class GeneExpressionPlot {
 			axis.setCategoryMargin(0.20); // 20 percent
 			axis.setUpperMargin(0.02); // two percent
 			
-			
 			//same for our fake chart - just to get the tooltips
 			fchart.setBackgroundPaint(java.awt.Color.white);
 			CategoryPlot fplot = fchart.getCategoryPlot();
@@ -96,7 +93,6 @@ public class GeneExpressionPlot {
 			faxis.setLowerMargin(0.02); // two percent
 			faxis.setCategoryMargin(0.20); // 20 percent
 			faxis.setUpperMargin(0.02); // two percent
-			
 			
 			//customise the renderer...
 	        StatisticalBarRenderer renderer = new StatisticalBarRenderer();
@@ -170,8 +166,6 @@ public class GeneExpressionPlot {
 		charts.put("legend", legendHtml);
 		
 		return charts;
-		
 	}
-
 
 }

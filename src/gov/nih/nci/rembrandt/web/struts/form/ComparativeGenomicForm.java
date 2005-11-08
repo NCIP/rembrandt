@@ -1,7 +1,3 @@
-// Created by Xslt generator for Eclipse.
-// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
-// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
-
 package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
@@ -51,22 +47,11 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
-/**
- * ComparitivegenomicForm.java created by EasyStruts - XsltGen.
- * http://easystruts.sf.net created on 09-12-2004
- * 
- * XDoclet definition:
- * 
- * @struts:form name="comparitivegenomicForm"
- */
 public class ComparativeGenomicForm extends BaseForm {
     private static Logger logger = Logger
             .getLogger(ComparativeGenomicForm.class);
 
-    // --------------------------------------------------------- Instance
-    // Variables
-    
-    /** selected chromosomes cytobands **/
+     /** selected chromosomes cytobands **/
 	private List cytobands = new ArrayList();
 		
 	/** chromosomes property */

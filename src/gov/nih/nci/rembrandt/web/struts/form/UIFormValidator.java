@@ -12,7 +12,8 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.upload.FormFile;
 
 /**
- * @author BauerD Dec 15, 2004 
+ * @author BauerD 
+ * Dec 15, 2004 
  * This class is used to validate input fields from the UI
  *  
  */

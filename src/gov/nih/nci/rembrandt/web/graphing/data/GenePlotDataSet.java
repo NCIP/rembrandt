@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gov.nih.nci.rembrandt.web.graphing.data;
 
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
@@ -45,7 +42,7 @@ public class GenePlotDataSet {
 	protected DefaultStatisticalCategoryDataset dataset = new DefaultStatisticalCategoryDataset();
 	protected DefaultCategoryDataset fdataset = new DefaultCategoryDataset();
 
-	private Logger logger = Logger.getLogger(GeneExpressionGraphGenerator.class);
+	private Logger logger = Logger.getLogger(GenePlotDataSet.class);
 	protected HashMap pValues = new HashMap();
 	
 	   public GenePlotDataSet() throws ParseException {

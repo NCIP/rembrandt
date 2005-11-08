@@ -95,7 +95,8 @@ public class PresentationCacheManager implements PresentationTierCache{
          */
         String uniqueSession = sessionId+"_presentation";
         if( manager!=null && !manager.cacheExists(uniqueSession) ) {
-            sessionCache = new Cache(uniqueSession, 1000, true, true, 1200, 600);
+        	//Programatically creates the a unique session cache for the sessionId passed
+            sessionCache = new Cache(uniqueSession, 1000, true, true, 0, 0, true, 120);
             logger.debug("New Presentation SessionCache created: "+sessionId);
             Element counter = new Element(RembrandtConstants.REPORT_COUNTER, new SessionTempReportCounter());
             try {
