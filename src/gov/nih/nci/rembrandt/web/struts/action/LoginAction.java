@@ -1,13 +1,14 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -26,6 +27,9 @@ public final class LoginAction extends Action
         if(f.getUserLoggedIn()){
             session.setAttribute("logged", "yes");
             session.setAttribute("name", f.getUserName());
+            UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
+            session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
+            
             return (mapping.findForward("success"));
         }
         else
