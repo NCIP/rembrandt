@@ -66,7 +66,7 @@ public class ClassComparisonAction extends DispatchAction {
             e.printStackTrace();
         }
         
-        return mapping.findForward("classComparisonSetup");
+        return mapping.findForward("viewResults");
     }
     
     public ActionForward setup(ActionMapping mapping, ActionForm form,

@@ -75,10 +75,11 @@ public class ClassComparisonReport{
 	        report.addAttribute("groupBy", "none");
 	        String queryName = "none";
 	        try	{
-	        	//queryName = finding.getQueryDTO().getQueryName();
+	        	queryName = finding.getQueryDTO().getQueryName();
 	        }
 	        catch (Exception e) {
 				// TODO: handle exception
+	        	queryName = finding.getTaskId();
 			}
 	        //set the queryName to be unique for session/cache access
 	        report.addAttribute("queryName", queryName);

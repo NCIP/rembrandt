@@ -6,6 +6,11 @@
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
 <%@ page import="java.util.*, java.lang.*, java.io.*, java.net.URLEncoder " %>
+<%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>
+<%@ page import="gov.nih.nci.rembrandt.cache.*" %>
+<%@ page import="gov.nih.nci.caintegrator.service.findings.*" %>
+<%@ page import="gov.nih.nci.caintegrator.enumeration.*" %>
+
 <%
 String helpLink = "<a href=\"javascript: spawn('help.jsp";
 String helpLinkClose = "', 350, 500);\">"+
@@ -22,7 +27,7 @@ String helpLinkClose = "', 350, 500);\">"+
       
       <fieldset>
         <legend>
-          View Results
+          Query Results
         </legend>
         
         <logic:notEmpty name="viewResultsForm" property="reportBeans">
@@ -33,9 +38,6 @@ String helpLinkClose = "', 350, 500);\">"+
             <td class="message">Resultant Name</td>
             <td class="message">Compound Query</td>
             <td class="message">View</td>
-         
-            
-            
           </tr>
           <nested:iterate name="viewResultsForm" 
 				property="reportBeans" 
@@ -65,9 +67,96 @@ String helpLinkClose = "', 350, 500);\">"+
      <strong>There are no results to view at this time.</strong>
      <br /><br />
      </logic:empty>
-     
-     
+        
      </fieldset>
      <br /><br />
-     <form>
+     <!--  <form> -->
+     
+     <fieldset>
+     	<legend>High Order Analysis</legend>
+       
+     <%
+     	//get the finding related HOA's
+     	//will use scriptlet, as we arent accessing a Struts related form
+     	//PresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
+		BusinessTierCache btc = ApplicationFactory.getBusinessTierCache();
+		Collection sessionFindings = btc.getAllSessionFindings(session.getId());
+		if(sessionFindings!=null)	{
+		
+			//looks like we have some findings, generate the JS to check the status of them
+			%>
+			<script language="javascript" src="js/a_functions.js"></script>
+			<script language="javascript">	
+				//testMap("testingtesting");
+			</script>
+			<%
+			
+			//why arent these in the backingbean?  - we need to check these directly from cache
+			// because they are dynamic - we can not look at a copy placed in the backing bean
+			//for(Object o : sessionFindings)	{ //no 1.5 stuff allowed
+			for(Iterator i = sessionFindings.iterator();i.hasNext();)	{
+	
+				// Finding f = (Finding) o;
+				Finding f = (Finding) i.next();
+				String qname = "N/A";
+				//q&d
+				try	{
+					qname =  f.getQueryDTO().getQueryName();
+				}
+				catch(Exception e)	{
+					qname = f.getTaskId();
+				}
+				
+				/* 
+				//cant use 1.5
+				String currentStatus = "running";
+				switch(f.getStatus())	{
+					case Completed:
+						currentStatus = "complete  <img src='images/check.png' alt='running'/>";
+					break;
+					case Running:
+						currentStatus = "running <img src='images/circle.gif' alt='running'/>";
+					break;
+					case Error:
+						currentStatus = "error";
+					break;
+					default:
+						currentStatus = f.getStatus().toString();
+					break;
+				
+				}
+				*/
+				
+				String currentStatus = "running";
+				if(f.getStatus() == FindingStatus.Completed)
+						currentStatus = "<b id=\"" +f.getTaskId() + "_status\">complete</b>  <img src='images/check.png' alt='running' id=\"" + f.getTaskId() + "_image\"/>";
+				else if(f.getStatus() == FindingStatus.Running)
+						currentStatus = "<b  id=\"" + f.getTaskId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
+				else if(f.getStatus() == FindingStatus.Error)
+						currentStatus = "error";
+
+
+				out.println("<span style='color:red; float:right'>" + currentStatus + "</span> ");
+				
+				if(f.getStatus() == Completed)
+					out.println("<li><a href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\">" + qname + "</a> ");
+				else
+					out.println("<li>" + qname + " ");
+				
+				out.println("(elapsed time: " + f.getElapsedTime() + ") ");
+
+				out.println("</li>");
+				out.println("<br clear=\"all\" />");
+				out.println("<br clear=\"all\" />");
+			}
+		}
+		else	{
+			//no findings yet
+			out.println("No HOA findings yet....c'mon, go make some");
+		}
+     
+     
+     %>
+</fieldset>
+<br /><br />
      

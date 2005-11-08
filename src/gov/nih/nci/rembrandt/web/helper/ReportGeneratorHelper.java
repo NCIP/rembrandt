@@ -30,8 +30,10 @@ import gov.nih.nci.rembrandt.web.xml.Transformer;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -481,7 +483,7 @@ public class ReportGeneratorHelper {
 		frb.setFinding(finding);
 		frb.setXmlDoc(xmlDocument);
 		//TODO: check cache for collision - second param is key
-		ApplicationFactory.getPresentationTierCache().addToSessionCache(finding.getSessionId(),"frb_test", frb);
+		ApplicationFactory.getPresentationTierCache().addToSessionCache(finding.getSessionId(),finding.getTaskId(), frb);
 	}
 	
 	/**
@@ -565,7 +567,15 @@ public class ReportGeneratorHelper {
 	     	if(!xsltFilename.equals(RembrandtConstants.DEFAULT_XSLT_CSV_FILENAME)){
 	            OutputFormat format = OutputFormat.createPrettyPrint();
 	            XMLWriter writer;
-	            writer = new XMLWriter( out, format );
+	            writer = new XMLWriter(out, format );
+	           
+	            /*
+	            StringWriter sw = new StringWriter();
+	            XMLWriter w = new XMLWriter(sw,format);
+	            w.write(transformedDoc);
+	            return w.toString();
+	            */
+	            
 	            writer.write( transformedDoc );
 	            writer.close();
 	        }
@@ -581,6 +591,47 @@ public class ReportGeneratorHelper {
 			logger.error("IOException");
 			logger.error(ioe);
 		}
+	}
+	
+	
+	public static String renderReport(HttpServletRequest request, Document reportXML, String xsltFilename) {
+		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
+		// load the transformer using JAXP
+		logger.debug("Applying XSLT "+xsltFilename);
+        Transformer transformer;
+		try {
+			transformer = new Transformer(styleSheet, (HashMap)request.getAttribute(RembrandtConstants.FILTER_PARAM_MAP));
+	     	Document transformedDoc = transformer.transform(reportXML);
+	        
+	     	/*
+	         * right now this assumes that we will only have one XSL for CSV
+	         * and it checks for that as we do not want to "pretty print" the CSV, we
+	         * only want to spit it out as a string, or formatting gets messed up
+	         * we will of course want to pretty print the XHTML for the graphical reports
+	         * later we can change this to handle mult XSL CSVs
+	         * RCL
+	         */
+	     	if(!xsltFilename.equals(RembrandtConstants.DEFAULT_XSLT_CSV_FILENAME)){
+	            OutputFormat format = OutputFormat.createPrettyPrint();	            
+	            StringWriter sw = new StringWriter();
+	            XMLWriter w = new XMLWriter(sw,format);
+	            w.write(transformedDoc);
+	            return w.toString();
+	        }
+	        else	{
+	            String csv = transformedDoc.getStringValue();
+	            csv.trim();
+	            return csv;
+	        }
+		}catch (UnsupportedEncodingException uee) {
+			logger.error("UnsupportedEncodingException");
+			logger.error(uee);
+		}catch (IOException ioe) {
+			logger.error("IOException");
+			logger.error(ioe);
+		}
+		
+		return "Reporting Error";
 	}
 	/**
 	 * 

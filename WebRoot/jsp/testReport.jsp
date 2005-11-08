@@ -5,11 +5,6 @@
 gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j.Document, gov.nih.nci.rembrandt.util.*" %>
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>
 <%@ page import="gov.nih.nci.rembrandt.cache.*" %>
-
-<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
-<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script>
-			
-
 <%
 
 	PresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
@@ -20,15 +15,15 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 	if(request.getParameter("key")!=null)
 		key = (String) request.getParameter("key");
 	
-//	if(ptc.getObjectFromSessionCache(session.getId(), "test") == null)	{
-		Object o = btc.getObjectFromSessionCache(session.getId(), "test");
+	//only generate XML if its not already cached...leave off for debug
+//	if(ptc.getObjectFromSessionCache(session.getId(), key) == null)	{
+		Object o = btc.getObjectFromSessionCache(session.getId(), key);
 		Finding finding = (Finding) o; 
 		//generate the XML and cached it
 		ReportGeneratorHelper.generateReportXML(finding);
 //	}
 	Object ob = ptc.getObjectFromSessionCache(session.getId(), key);
 	if(ob != null && ob instanceof FindingReportBean)	{
-		out.println("yes");
 		try	{
 			FindingReportBean frb = (FindingReportBean) ob;
 			Document reportXML = (Document) frb.getXmlDoc();

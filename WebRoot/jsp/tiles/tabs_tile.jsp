@@ -65,7 +65,11 @@
 							//"<li><a href=\"menu.do\">Build Query</a></li>\n" +
 							"<li><a href=\"refinecheck.do\">Refine Query</a></li>\n" +
 							"</ul>\n";
-							
+	String resultsSecondary = "<ul id=\"secondary\">\n" +
+							"<li><a href=\"viewResults.do\">View Findings</a></li>\n" +
+							"<li><a href=\"#\">Managed Saved Lists</a></li>\n" +
+							//"<li><a href=\"#\">Upload Lists</a></li>\n" +
+							"</ul>\n";				
 	String simpleSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"home.do\">Simple Search Home</a></li>\n" +
 							"</ul>\n";
@@ -95,7 +99,7 @@
 				//3 is view results
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>";
+				viewResults = "<span id=\"inboxStatus\">Manage Results&nbsp;&nbsp;</span>\n" + resultsSecondary;
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				break;
 			case 4:

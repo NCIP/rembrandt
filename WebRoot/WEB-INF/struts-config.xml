@@ -158,6 +158,7 @@
 		parameter="method">
 		<forward name="backToClassComparison" path="nautilus.classComparison" />
 		<forward name="classComparisonSetup" path="/classcomparisonInit.do?method=setup" />
+		<forward name="viewResults" path="/viewResults.do" />
 	</action>
 	
 	
