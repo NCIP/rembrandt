@@ -136,11 +136,13 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		logger.debug("AnalysisResult session: "+sessionId+" & task: "+taskId+" has been returned");
 		logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
 		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getSessionFinding(sessionId, taskId);
-		finding.setAnalysisResult(analysisResult);
-		finding.setStatus(FindingStatus.Completed);
-		logger.debug("Following task has been completed:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
-		_cacheManager.addToSessionCache(sessionId,taskId,finding);
-		logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
+		if(finding != null){
+			finding.setAnalysisResult(analysisResult);
+			finding.setStatus(FindingStatus.Completed);
+			logger.debug("Following task has been completed:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
+			_cacheManager.addToSessionCache(sessionId,taskId,finding);
+			logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
+		}
 	}
 
 	public void receiveException(AnalysisServerException analysisServerException) {
@@ -148,11 +150,13 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		String taskId = analysisServerException.getFailedRequest().getTaskId();
 		logger.debug("AnalysisServerException session: "+sessionId+" & task: "+taskId+" has been returned");
 		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getSessionFinding(sessionId, taskId);
-		finding.setStatus(FindingStatus.Error);
-		logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
-		_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);
-		logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
-		logger.error(analysisServerException);
+		if(finding != null){
+			finding.setStatus(FindingStatus.Error);
+			logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
+			_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);
+			logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
+			logger.error(analysisServerException);
+		}
 	}
 
 	/**
@@ -177,9 +181,10 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	/**
 	 * Send an AnalysisRequest to the JMS request queue. Note this method does not store anything
 	 * in the cache. 
+	 * @throws JMSException 
 	 * @see sendRequest(Query query, AnalysisRequest request)
 	 */
-	public void sendRequest(AnalysisRequest request) {
+	public void sendRequest(AnalysisRequest request) throws JMSException {
 		ObjectMessage msg;
 		try {
 		    // Create a message
@@ -189,6 +194,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 
 		} catch (JMSException e) {
 			logger.error(e);
+			throw e;
 		}
 	}
 	
