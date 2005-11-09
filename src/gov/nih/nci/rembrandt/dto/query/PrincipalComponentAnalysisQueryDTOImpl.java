@@ -9,7 +9,7 @@ import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
 import gov.nih.nci.caintegrator.dto.de.InstitutionNameDE;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
-import gov.nih.nci.caintegrator.dto.query.PrincipleComponentAnalysisQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 
 import java.util.Collection;
 
@@ -17,7 +17,7 @@ import java.util.Collection;
  * @author sahnih
  *
  */
-public class PrincipleComponentAnalysisQueryDTOImpl implements PrincipleComponentAnalysisQueryDTO {
+public class PrincipalComponentAnalysisQueryDTOImpl implements PrincipalComponentAnalysisQueryDTO {
 	private String queryName;
 	private ClinicalQueryDTO comparisonGroup;
 	private Collection<GeneIdentifierDE> geneIdentifierDEs;
@@ -33,7 +33,7 @@ public class PrincipleComponentAnalysisQueryDTOImpl implements PrincipleComponen
 	/**
 	 * 
 	 */
-	public PrincipleComponentAnalysisQueryDTOImpl() {
+	public PrincipalComponentAnalysisQueryDTOImpl() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

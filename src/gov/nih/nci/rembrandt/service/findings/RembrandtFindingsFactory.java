@@ -4,7 +4,7 @@
 package gov.nih.nci.rembrandt.service.findings;
 
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
-import gov.nih.nci.caintegrator.dto.query.PrincipleComponentAnalysisQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
@@ -19,7 +19,7 @@ import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.caintegrator.service.findings.KMFinding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.rembrandt.service.findings.strategies.ClassComparisonFindingStrategy;
-import gov.nih.nci.rembrandt.service.findings.strategies.PrincipleComponentAnalysisFindingStrategy;
+import gov.nih.nci.rembrandt.service.findings.strategies.PrincipalComponentAnalysisFindingStrategy;
 
 import org.apache.log4j.Logger;
 
@@ -59,10 +59,10 @@ public class RembrandtFindingsFactory implements FindingsFactory {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.service.findings.FindingsFactory#createPCAFinding(gov.nih.nci.caintegrator.dto.query.QueryDTOold)
 	 */
-	public PrincipalComponentAnalysisFinding createPCAFinding(PrincipleComponentAnalysisQueryDTO queryDTO, String sessionID, String taskID) throws FrameworkException {
+	public PrincipalComponentAnalysisFinding createPCAFinding(PrincipalComponentAnalysisQueryDTO queryDTO, String sessionID, String taskID) throws FrameworkException {
 	PrincipalComponentAnalysisFinding finding = null;
 		try {
-			PrincipleComponentAnalysisFindingStrategy strategy = new  PrincipleComponentAnalysisFindingStrategy(sessionID,queryDTO.getQueryName(),queryDTO );
+			PrincipalComponentAnalysisFindingStrategy strategy = new  PrincipalComponentAnalysisFindingStrategy(sessionID,queryDTO.getQueryName(),queryDTO );
 			strategy.createQuery();
 			strategy.executeQuery();
 			strategy.analyzeResultSet();

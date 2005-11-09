@@ -5,7 +5,7 @@ import gov.nih.nci.caintegrator.analysis.messaging.ReporterGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
-import gov.nih.nci.caintegrator.dto.query.PrincipleComponentAnalysisQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
@@ -44,10 +44,10 @@ import org.apache.log4j.Logger;
  * @author sahnih
  *
  */
-public class PrincipleComponentAnalysisFindingStrategy implements FindingStrategy {
-	private static Logger logger = Logger.getLogger(PrincipleComponentAnalysisFindingStrategy.class);	
+public class PrincipalComponentAnalysisFindingStrategy implements FindingStrategy {
+	private static Logger logger = Logger.getLogger(PrincipalComponentAnalysisFindingStrategy.class);	
 	@SuppressWarnings("unused")
-	private PrincipleComponentAnalysisQueryDTO myQueryDTO;
+	private PrincipalComponentAnalysisQueryDTO myQueryDTO;
 	private ReporterGroup reporterGroup; 
 	private SampleGroup sampleGroup;
 	private String sessionId;
@@ -59,7 +59,7 @@ public class PrincipleComponentAnalysisFindingStrategy implements FindingStrateg
 	private AnalysisServerClientManager analysisServerClientManager;
 	private BusinessTierCache cacheManager = ApplicationFactory.getBusinessTierCache();
 	
-	public PrincipleComponentAnalysisFindingStrategy(String sessionId, String taskId, PrincipleComponentAnalysisQueryDTO queryDTO) throws ValidationException {
+	public PrincipalComponentAnalysisFindingStrategy(String sessionId, String taskId, PrincipalComponentAnalysisQueryDTO queryDTO) throws ValidationException {
 		//Check if the passed query is valid
 		if(validate(queryDTO)){
 			myQueryDTO = queryDTO;
@@ -238,9 +238,9 @@ public class PrincipleComponentAnalysisFindingStrategy implements FindingStrateg
 
 	public boolean validate(QueryDTO queryDTO) throws ValidationException {
 		boolean _valid = false;
-		if(queryDTO instanceof PrincipleComponentAnalysisQueryDTO){
+		if(queryDTO instanceof PrincipalComponentAnalysisQueryDTO){
 			_valid = true;
-			PrincipleComponentAnalysisQueryDTO pcaQueryDTO = (PrincipleComponentAnalysisQueryDTO)queryDTO;
+			PrincipalComponentAnalysisQueryDTO pcaQueryDTO = (PrincipalComponentAnalysisQueryDTO)queryDTO;
 				
 			try {
 						//ValidationUtility.checkForNull(pcaQueryDTO.getInstitutionNameDE() != null));

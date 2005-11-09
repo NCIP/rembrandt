@@ -13,7 +13,7 @@ import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
-import gov.nih.nci.caintegrator.dto.query.PrincipleComponentAnalysisQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -49,7 +49,7 @@ import junit.framework.TestSuite;
 
 public class AnalysisQueryTest extends TestCase {
 	private ClassComparisonQueryDTO classComparisonQueryDTO;
-	private PrincipleComponentAnalysisQueryDTO pcaQueryDTO;
+	private PrincipalComponentAnalysisQueryDTO pcaQueryDTO;
 	private static BusinessTierCache businessTierCache  = ApplicationFactory.getBusinessTierCache();
 	public AnalysisQueryTest(String string) {
 		super(string);
@@ -130,7 +130,7 @@ public class AnalysisQueryTest extends TestCase {
 			
 	}
 	private void setUpPCAQuery(){
-		pcaQueryDTO = (PrincipleComponentAnalysisQueryDTO) ApplicationFactory.newQueryDTO(QueryType.PCA_QUERY);
+		pcaQueryDTO = (PrincipalComponentAnalysisQueryDTO) ApplicationFactory.newQueryDTO(QueryType.PCA_QUERY);
 		pcaQueryDTO.setQueryName("PCATestQuery");
 		pcaQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(70),Operator.GE));
 		pcaQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
