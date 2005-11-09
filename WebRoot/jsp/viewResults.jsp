@@ -74,7 +74,7 @@ String helpLinkClose = "', 350, 500);\">"+
      
      <fieldset>
      	<legend>High Order Analysis</legend>
-       
+       	<div id="loadingMsg" style="color:red;">&nbsp;</div>
      <%
      	//get the finding related HOA's
      	//will use scriptlet, as we arent accessing a Struts related form
@@ -88,6 +88,8 @@ String helpLinkClose = "', 350, 500);\">"+
 			<script language="javascript" src="js/a_functions.js"></script>
 			<script language="javascript">	
 				//testMap("testingtesting");
+				var vr_checker = setInterval("A_checkAllFindingStatus('<%=session.getId()%>')", 5000);
+
 			</script>
 			<%
 			
@@ -107,26 +109,6 @@ String helpLinkClose = "', 350, 500);\">"+
 					qname = f.getTaskId();
 				}
 				
-				/* 
-				//cant use 1.5
-				String currentStatus = "running";
-				switch(f.getStatus())	{
-					case Completed:
-						currentStatus = "complete  <img src='images/check.png' alt='running'/>";
-					break;
-					case Running:
-						currentStatus = "running <img src='images/circle.gif' alt='running'/>";
-					break;
-					case Error:
-						currentStatus = "error";
-					break;
-					default:
-						currentStatus = f.getStatus().toString();
-					break;
-				
-				}
-				*/
-				
 				String currentStatus = "running";
 				if(f.getStatus() == FindingStatus.Completed)
 						currentStatus = "<b id=\"" +f.getTaskId() + "_status\">complete</b>  <img src='images/check.png' alt='running' id=\"" + f.getTaskId() + "_image\"/>";
@@ -138,10 +120,10 @@ String helpLinkClose = "', 350, 500);\">"+
 
 				out.println("<span style='color:red; float:right'>" + currentStatus + "</span> ");
 				
-				if(f.getStatus() == Completed)
+				//if(f.getStatus() == FindingStatus.Completed)
 					out.println("<li><a href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\">" + qname + "</a> ");
-				else
-					out.println("<li>" + qname + " ");
+				//else
+				//	out.println("<li>" + qname + " ");
 				
 				out.println("(elapsed time: " + f.getElapsedTime() + ") ");
 
