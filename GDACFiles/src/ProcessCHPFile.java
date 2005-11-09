@@ -16,10 +16,10 @@ import java.io.*;
 import org.apache.log4j.Logger;
 
 public class ProcessCHPFile {
+    private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
+    
     public static GDACCHPFile GetCHPFile(String strCHPFileName) {
-        private static Logger logger = Logger
-                .getLogger(NautilusConstants.LOGGER);
-        logger.debug("Reading CHP file [" + strCHPFileName + "]");
+       logger.debug("Reading CHP file [" + strCHPFileName + "]");
         String strOutput;
         String strChipType = "";
 
