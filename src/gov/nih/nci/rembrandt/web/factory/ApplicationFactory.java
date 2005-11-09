@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
 import gov.nih.nci.rembrandt.cache.PresentationCacheManager;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClassComparisonQueryDTOImpl;
+import gov.nih.nci.rembrandt.dto.query.PrincipleComponentAnalysisQueryDTOImpl;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 
 public class ApplicationFactory{
@@ -15,6 +16,8 @@ public class ApplicationFactory{
 	public static QueryDTO newQueryDTO(QueryType queryType) {
 		if (queryType == QueryType.CLASS_COMPARISON_QUERY) {              
             return new ClassComparisonQueryDTOImpl();
+        }else if (queryType == QueryType.PCA_QUERY) {              
+            return new PrincipleComponentAnalysisQueryDTOImpl();
         }else {
         	return null;
         }
