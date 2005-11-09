@@ -1,7 +1,6 @@
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonRequest;
-import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
@@ -11,7 +10,6 @@ import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
-import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
@@ -21,6 +19,7 @@ import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
+import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
@@ -51,11 +50,10 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	@SuppressWarnings("unused")
 	private Collection<ClinicalDataQuery> clinicalQueries;
 	@SuppressWarnings({"unchecked"})
-	private Collection<SampleGroup> sampleGroups = testmethod();//new ArrayList();
-	private String sessionId = null;
-	private String taskId = null;
+	private Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>(); // = testmethod();
+	private String sessionId;
+	private String taskId;
 	private ClassComparisonRequest classComparisonRequest = null;
-	private ClassComparisonResult classComparisonResult = null;
 	private ClassComparisonFinding classComparisonFinding;
 	private AnalysisServerClientManager analysisServerClientManager;
 	private BusinessTierCache cacheManager = ApplicationFactory.getBusinessTierCache();
@@ -66,7 +64,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 			myQueryDTO = queryDTO;
 			this.sessionId = sessionId;
 			this.taskId = taskId;
-			classComparisonRequest = new ClassComparisonRequest(sessionId,taskId);
+			classComparisonRequest = new ClassComparisonRequest(this.sessionId,this.taskId);
             try {
                 analysisServerClientManager = AnalysisServerClientManager.getInstance();
             } catch (NamingException e) {               
@@ -190,14 +188,13 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					ExprFoldChangeDE foldChange = myQueryDTO.getExprFoldChangeDE();
 					classComparisonRequest.setFoldChangeThreshold(foldChange.getValueObject());
 					//set platform
-					//TODO:Covert ArrayPlatform String to Enum -Himanso 10/15/05
-					if(myQueryDTO.getArrayPlatformDE().getValueObject().equals(ArrayPlatformType.AFFY_OLIGO_PLATFORM)){
-						classComparisonRequest.setArrayPlatform(ArrayPlatformType.AFFY_OLIGO_PLATFORM); //TODO: Needs to change
-					}
+					//Covert ArrayPlatform String to Enum -Himanso 10/15/05
+						classComparisonRequest.setArrayPlatform(myQueryDTO.getArrayPlatformDE().getValueObjectAsArrayPlatformType()); 
+
 					// set SampleGroups
                     Object[] obj = sampleGroups.toArray();
 					//SampleGroup[] sampleGroupObjects =  (SampleGroup[]) sampleGroups.toArray();				
-					if (obj.length == 5) {
+					if (obj.length >= 2) {
 						classComparisonRequest.setGroup1((SampleGroup)obj[0]);
 						classComparisonRequest.setGroup2((SampleGroup)obj[1]);
 					}
@@ -207,8 +204,11 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
                     return true;
 				}
 			}
-			
-		}catch(Exception e){
+		} catch (JMSException e) {
+			logger.error(e.getMessage());
+  			throw new FindingsAnalysisException(e.getMessage());
+		} catch(Exception e){
+			logger.error(e.getMessage());
 			throw new FindingsAnalysisException("Error in setting ClassComparisonRequest object");
 		}
 
@@ -223,7 +223,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
     	 SampleGroup oligoGrp = new SampleGroup("OLIGO");
     	 SampleGroup mixedGrp = new SampleGroup("MIXED");
     	
-    	 String gbmHFids = "HF0024,HF0031,HF0048,HF0050,HF0066,HF0089,HF0138,HF0142,HF0180,HF0184,HF0212,HF0218,HF0244,HF0268,HF0300.3,HF0316,HF0350,HF0408,HF0435,HF0442.5,HF0445,HF0460,HF0505,HF0520,HF0543,HF0583,HF0627,HF0652.4,HF0654,HF0702,HF0790,HF0850,HF0855,HF0894,HF0936,HF0954.2,HF0963,HF0982,HF0986,HF0990,HF0992,HF0996,HF1057,HF1058,HF1077,HF1078,HF1097,HF1122,HF1137,HF1178,HF1186,HF1191,HF1220,HF1242,HF1255,HF1262,HF1280,HF1286,HF1292,HF1318,HF1326,HF1338,HF1356,HF1357,HF1382,HF1397,HF1409,HF1458,HF1475,HF1490,HF1492,HF1494,HF1509,HF1517,HF1534,HF1538,HF1540,HF1585,HF1589,HF1608,HF1618,HF1628,HF1640,HF1667,HF1671,HF1702";
+    	 String gbmHFids = "HF0024,HF0031,HF0048,HF0050"; //,HF0066,HF0089,HF0138,HF0142,HF0180,HF0184,HF0212,HF0218,HF0244,HF0268,HF0300.3,HF0316,HF0350,HF0408,HF0435,HF0442.5,HF0445,HF0460,HF0505,HF0520,HF0543,HF0583,HF0627,HF0652.4,HF0654,HF0702,HF0790,HF0850,HF0855,HF0894,HF0936,HF0954.2,HF0963,HF0982,HF0986,HF0990,HF0992,HF0996,HF1057,HF1058,HF1077,HF1078,HF1097,HF1122,HF1137,HF1178,HF1186,HF1191,HF1220,HF1242,HF1255,HF1262,HF1280,HF1286,HF1292,HF1318,HF1326,HF1338,HF1356,HF1357,HF1382,HF1397,HF1409,HF1458,HF1475,HF1490,HF1492,HF1494,HF1509,HF1517,HF1534,HF1538,HF1540,HF1585,HF1589,HF1608,HF1618,HF1628,HF1640,HF1667,HF1671,HF1702";
     	 String oligoHFids = "HF0087,HF0251,HF0285,HF0291,HF0327,HF0329,HF0332,HF0434,HF0453,HF0471,HF0488,HF0510,HF0599,HF0615,HF0639,HF0670,HF0726,HF0813,HF0816,HF0822,HF0828,HF0835,HF0897,HF0899,HF0914,HF0920,HF0931,HF0960,HF0962,HF0966,HF0975,HF1136,HF1150,HF1156,HF1167,HF1185,HF1219,HF1227,HF1235,HF1325,HF1334,HF1345,HF1348,HF1380,HF1381,HF1489,HF1493,HF1502,HF1551,HF1606,HF1613,HF1677";
     	 String astroHFids = "HF0017,HF0026,HF0108,HF0152,HF0189,HF0223,HF0450,HF0491,HF0608,HF0757,HF0778,HF0953,HF1000,HF1032,HF1139,HF1232,HF1246,HF1269,HF1295,HF1316,HF1344,HF1366,HF1407,HF1442,HF1469,HF1487,HF1511,HF1568,HF1581,HF1587,HF1708";
     	 String mixedHFids = "HF0022,HF0183,HF0252,HF0305,HF0606,HF0802,HF0844,HF0891,HF1090,HF1297,HF1319,HF1588";
@@ -262,37 +262,33 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	public boolean validate(QueryDTO queryDTO) throws ValidationException {
 		boolean _valid = false;
 		if(queryDTO instanceof ClassComparisonQueryDTO){
-			_valid = true;
 			ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)queryDTO;
-			boolean assertsEnabled = false;
-	        assert assertsEnabled = true; // Intentional side effect!!!
-			//		 Now assertsEnabled is set to the correct value 
-	        String errorMsg = " In ClassComparisonQueryDTO ";
 			try {
-				//assert(this.institutionNameDE != null);
-				assert classComparisonQueryDTO.getArrayPlatformDE() != null:errorMsg+"arrayPlatformDE cannot be Null";
-				assert classComparisonQueryDTO.getComparisonGroups() != null:errorMsg+"comparisonGroups cannot be Null";
-				assert classComparisonQueryDTO.getExprFoldChangeDE() != null:errorMsg+"exprFoldChangeDE cannot be Null";
-				assert classComparisonQueryDTO.getMultiGroupComparisonAdjustmentTypeDE() != null:errorMsg+"multiGroupComparisonAdjustmentTypeDE cannot be Null";
-				assert classComparisonQueryDTO.getQueryName() != null:errorMsg+"queryName cannot be Null";
-				assert classComparisonQueryDTO.getStatisticalSignificanceDE() != null:errorMsg+"statisticalSignificanceDE cannot be Null";
-				assert classComparisonQueryDTO.getStatisticTypeDE() != null:errorMsg+"statisticTypeDE cannot be Null";
+				//ValidationUtility.checkForNull(classComparisonQueryDTO.getInstitutionNameDE() != null));
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getArrayPlatformDE()) ;
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getComparisonGroups());
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getExprFoldChangeDE());
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getMultiGroupComparisonAdjustmentTypeDE());
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getQueryName());
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getStatisticalSignificanceDE());
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getStatisticTypeDE());
 					switch (classComparisonQueryDTO.getMultiGroupComparisonAdjustmentTypeDE().getValueObject()){
 						case NONE:
-							assert(classComparisonQueryDTO.getStatisticalSignificanceDE().getStatisticType() == StatisticalSignificanceType.pValue):
-								errorMsg+"When multiGroupComparisonAdjustmentTypeDE is NONE, Statistical Type cannot equal pValue";
+							if(classComparisonQueryDTO.getStatisticalSignificanceDE().getStatisticType() != StatisticalSignificanceType.pValue)
+								throw(new ValidationException("When multiGroupComparisonAdjustmentTypeDE is NONE, Statistical Type should be pValue"));
 							break;
 						case FWER:
 						case FDR:
-							assert(classComparisonQueryDTO.getStatisticalSignificanceDE().getStatisticType() == StatisticalSignificanceType.adjustedpValue):
-								errorMsg+"When multiGroupComparisonAdjustmentTypeDE is FWER or FDR, Statistical Type cannot equal adjusted pValue";
+							if(classComparisonQueryDTO.getStatisticalSignificanceDE().getStatisticType() != StatisticalSignificanceType.adjustedpValue)
+								throw(new ValidationException("When multiGroupComparisonAdjustmentTypeDE is FWER or FDR, Statistical Type should be adjusted pValue"));
 							break;
 						default:
-								throw(new ValidationException("multiGroupComparisonAdjustmentTypeDE is does not match any options"));					
+								throw(new ValidationException("multiGroupComparisonAdjustmentTypeDE is does not match any options"));
 					}
-				} catch (AssertionError e) {
-					e.printStackTrace();
-					throw(new ValidationException(e.getMessage()));
+					_valid = true;
+				} catch (ValidationException ex) {
+					logger.error(ex.getMessage());
+					throw ex;
 				}
 		}		
 		return _valid;
