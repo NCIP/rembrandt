@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- $Id: rembrandt-jbossmq-destinations-service.xml,v 1.1 2005-11-09 22:40:14 harrismic Exp $ -->
+<!-- $Id: rembrandt-jbossmq-destinations-service.xml,v 1.2 2005-11-09 22:43:36 harrismic Exp $ -->
 
 <!-- 
-   | This file defines the default Queues and Topics that JBossMQ
-   | ships with.  The default Queues and Topics are used by the 
-   | JBoss test suite and by the sample jms programs.
-   |
-   | You can add other destinations to this file, or you can create other
-   | *-service.xml files to contain your application's destinations.
+   | This file defines the JMS queues used to communicate with the analysis server.
+   | It should be placed in the  JBOSS_HOME\server\default\deploy\jms  directory.
  -->
 
 <server>
