@@ -74,7 +74,7 @@ String helpLinkClose = "', 350, 500);\">"+
      
      <fieldset>
      	<legend>High Order Analysis</legend>
-       	<div id="loadingMsg" style="color:red;">&nbsp;</div>
+       	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
      <%
      	//get the finding related HOA's
      	//will use scriptlet, as we arent accessing a Struts related form
@@ -88,6 +88,7 @@ String helpLinkClose = "', 350, 500);\">"+
 			<script language="javascript" src="js/a_functions.js"></script>
 			<script language="javascript">	
 				//testMap("testingtesting");
+				setTimeout("A_checkAllFindingStatus('<%=session.getId()%>')", 1000);
 				var vr_checker = setInterval("A_checkAllFindingStatus('<%=session.getId()%>')", 5000);
 
 			</script>

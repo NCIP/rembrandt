@@ -35,51 +35,44 @@ public class QueryInbox {
 	}
 	
 	
-	public HashMap checkSingle(String sid, String tid)	{
+	public String checkSingle(String sid, String tid)	{
 		//check the status of a single task
-		HashMap currentStatus = new HashMap();
+		String currentStatus = "";
 		
 		Finding f = (Finding) btc.getObjectFromSessionCache(sid, tid);
 		
 		switch(f.getStatus())	{
 			case Completed:
-				currentStatus.put(tid, "completed");
+				currentStatus = "completed";
 			break;
 			case Running:
-				currentStatus.put(tid, "running");
+				currentStatus = "running";
 			break;
 			case Error:
-				currentStatus.put(tid, "error");
+				currentStatus = "error";
 			break;
 			default:
-				currentStatus.put(tid, "running");
+				currentStatus = "running";
 			break;
 		}
 		
 		return currentStatus;
 	}
 	
-	public HashMap checkAllStatus(String sid)	{
-		HashMap currentStatuses = new HashMap();
+	public Map checkAllStatus(String sid)	{
+		Map currentStatuses = new HashMap();
 		
 		Collection<Finding> findings = btc.getAllSessionFindings(sid);
 		for(Finding f: findings){
-			HashMap tmp = new HashMap();
+			String tmp = new String();
 			tmp = this.checkSingle(sid, f.getTaskId());
-			currentStatuses.put(tmp.get("taskId"), tmp.get("status"));
+			currentStatuses.put(f.getTaskId(), tmp);
 		}
 		
 		return currentStatuses;
 	}
 	
-	
-	public Map mapTest(String testKey)	{
-		Map myMap = new HashMap();
-		myMap.put("firstKey", testKey);
-		myMap.put("secondKey", testKey+"_1");
-		return myMap;
-	}
-	
+		
 	public String checkStatus()	{
 		//simulate that the query is still running, assuming we have only 1 query for testing
 
@@ -91,6 +84,13 @@ public class QueryInbox {
 			return "true";
 	}
 
+	public Map mapTest(String testKey)	{
+		Map myMap = new HashMap();
+		myMap.put("firstKey", testKey);
+		myMap.put("secondKey", testKey+"_1");
+		return myMap;
+	}
+	
 	public String getQueryName()	{
 		String st = "nothing";
 		
