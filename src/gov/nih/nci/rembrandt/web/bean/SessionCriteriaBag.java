@@ -51,13 +51,17 @@ package gov.nih.nci.rembrandt.web.bean;
  */
 
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.Criteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -68,7 +72,7 @@ import java.util.TreeMap;
  */
 public class SessionCriteriaBag implements Serializable {
 	/*
-	 * This class stores the various sample, gene,  or reporter critria objects that a user
+	 * This class stores the various sample, gene,  or reporter DE objects that a user
 	 * have created during his or her  session.
 	 * These are the criteria that the user creates and later includes with 
 	 * other queries such as ClassComprision, PCA, GeneExpression etc.   
@@ -79,163 +83,166 @@ public class SessionCriteriaBag implements Serializable {
 	/**
 	 * Criteria Types supported by the SessionCriteriaBag
 	 */
-	public enum CriteriaType {GeneIDCriteriaType, SNPCriteriaType, SampleCriteriaType, CloneOrProbeIDCriteriaType};
+	public enum ListType {GeneIdentifierSet, SNPIdentifierSet, SampleIdentifierSet, CloneProbeSetIdentifierSet};
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 *  Holds the user defined name as key  and GeneIDCriteria Object as the value
+	 *  Holds the user defined name as key  and GeneID Object as the value
 	 */
-	private Map geneIDCriteriaMap = new TreeMap();
+	private Map<String,List<GeneIdentifierDE>> geneIDMap = new TreeMap<String,List<GeneIdentifierDE>>();
 	
 	/**
-	 *  Holds the user defined name as key   and CloneOrProbeIDCriteria as the value 
+	 *  Holds the user defined name as key   and CloneOrProbeID as the value 
 	 */
-	private Map cloneOrProbeIDCriteriaMap = new TreeMap();
+	private Map<String,List<CloneIdentifierDE>> cloneOrProbeIDMap = new TreeMap<String,List<CloneIdentifierDE>>();
 	
 	/**
-	 *  Holds the user defined name as key   and SNPCriteria as the value 
+	 *  Holds the user defined name as key   and SNP as the value 
 	 */
-	private Map sNPCriteriaMap = new TreeMap();
+	private Map<String,List<SNPIdentifierDE>> sNPMap = new TreeMap<String,List<SNPIdentifierDE>>();
 
 	/**
-	 *  Holds the user defined name as key  and Samplecriteria objects as the value 
+	 *  Holds the user defined name as key  and Sample objects as the value 
 	 */	
-	private Map sampleCriteriaMap = new TreeMap();
+	private Map<String,List<SampleIDDE>> sampleMap = new TreeMap<String,List<SampleIDDE>>();
 	
-	public Collection getCriteriaCollection(CriteriaType criteriaType){
+	public Collection getUserLists(ListType listType){
+		Collection collection = null;
+		switch (listType){
+		case GeneIdentifierSet:
+			collection = geneIDMap.values();
+			break;
+		case SNPIdentifierSet:
+			collection = sNPMap.values();
+			break;
+		case SampleIdentifierSet:
+			collection = sampleMap.values();
+			break;
+		case CloneProbeSetIdentifierSet:
+			collection = cloneOrProbeIDMap.values();
+			break;
+		}
+		return collection;
+	}
+	
+	public Collection getUsetListNames(ListType listType){
 		Collection myCollection = null;
-		switch (criteriaType){
-		case GeneIDCriteriaType:
-			myCollection = geneIDCriteriaMap.values();
+		switch (listType){
+		case GeneIdentifierSet:
+			myCollection = geneIDMap.keySet();
 			break;
-		case SNPCriteriaType:
-			myCollection = sNPCriteriaMap.values();
+		case SNPIdentifierSet:
+			myCollection = sNPMap.keySet();
 			break;
-		case SampleCriteriaType:
-			myCollection = sampleCriteriaMap.values();
+		case SampleIdentifierSet:
+			myCollection = sampleMap.keySet();
 			break;
-		case CloneOrProbeIDCriteriaType:
-			myCollection = cloneOrProbeIDCriteriaMap.values();
+		case CloneProbeSetIdentifierSet:
+			myCollection = cloneOrProbeIDMap.keySet();
 			break;
 		}
 		return myCollection;
 	}
 	
-	public Collection getCriteriaNames(CriteriaType criteriaType){
-		Collection myCollection = null;
-		switch (criteriaType){
-		case GeneIDCriteriaType:
-			myCollection = geneIDCriteriaMap.keySet();
-			break;
-		case SNPCriteriaType:
-			myCollection = sNPCriteriaMap.keySet();
-			break;
-		case SampleCriteriaType:
-			myCollection = sampleCriteriaMap.keySet();
-			break;
-		case CloneOrProbeIDCriteriaType:
-			myCollection = cloneOrProbeIDCriteriaMap.keySet();
-			break;
+	public void putUserList(ListType listType, String listName, List listOfDEs) throws ClassCastException{
+		try {
+			if (listOfDEs != null && !listOfDEs.isEmpty()) {
+				switch (listType){
+				case GeneIdentifierSet:
+						geneIDMap.put(listName, listOfDEs);
+					break;
+				case SNPIdentifierSet:
+						sNPMap.put(listName, listOfDEs);
+					break;
+				case SampleIdentifierSet:
+						sampleMap.put(listName, listOfDEs);
+					break;
+				case CloneProbeSetIdentifierSet:
+						cloneOrProbeIDMap.put(listName, listOfDEs);
+					break;
+				}
+			}
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			throw e;
 		}
-		return myCollection;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void putCriteria(CriteriaType criteriaType, String criteriaName, Criteria criteria) {
-		if (criteriaType != null && criteriaName != null && criteria != null && criteria.isEmpty() == false) {
-			switch (criteriaType){
-			case GeneIDCriteriaType:
-				if(criteria instanceof GeneIDCriteria){
-					geneIDCriteriaMap.put(criteriaName, (GeneIDCriteria) criteria);
-				}
+	public void removeUserList (ListType listType, String listName) {
+		if (listName != null) {
+			switch (listType){
+			case GeneIdentifierSet:
+				geneIDMap.remove(listName);
 				break;
-			case SNPCriteriaType:
-				if(criteria instanceof SNPCriteria){
-					sNPCriteriaMap.put(criteriaName, (SNPCriteria) criteria);
-				}
+			case SNPIdentifierSet:
+				sNPMap.remove(listName);
 				break;
-			case SampleCriteriaType:
-				if(criteria instanceof SampleCriteria){
-					sampleCriteriaMap.put(criteriaName, (SampleCriteria) criteria);
-				}
+			case SampleIdentifierSet:
+				sampleMap.remove(listName);
 				break;
-			case CloneOrProbeIDCriteriaType:
-				if(criteria instanceof CloneOrProbeIDCriteria){
-					cloneOrProbeIDCriteriaMap.put(criteriaName, (CloneOrProbeIDCriteria) criteria);
-				}
+			case CloneProbeSetIdentifierSet:
+				cloneOrProbeIDMap.remove(listName);
 				break;
 			}
 		}
 	}
-	
-	public void removeCriteria (CriteriaType criteriaType, String criteriaName) {
-		if (criteriaName != null) {
-			switch (criteriaType){
-			case GeneIDCriteriaType:
-				geneIDCriteriaMap.remove(criteriaName);
-				break;
-			case SNPCriteriaType:
-				sNPCriteriaMap.remove(criteriaName);
-				break;
-			case SampleCriteriaType:
-				sampleCriteriaMap.remove(criteriaName);
-				break;
-			case CloneOrProbeIDCriteriaType:
-				cloneOrProbeIDCriteriaMap.remove(criteriaName);
-				break;
-			}
-		}
-	}
-	
-	private Criteria getCriteria (CriteriaType criteriaType, String criteriaName) {
-		if (criteriaName != null) {
-			switch (criteriaType){
-			case GeneIDCriteriaType:
-				return (GeneIDCriteria) geneIDCriteriaMap.get(criteriaName);
-			case SNPCriteriaType:
-				return (SNPCriteria) sNPCriteriaMap.get(criteriaName);
-			case SampleCriteriaType:
-				return (SampleCriteria) sampleCriteriaMap.get(criteriaName);
-			case CloneOrProbeIDCriteriaType:
-				return (CloneOrProbeIDCriteria) cloneOrProbeIDCriteriaMap.get(criteriaName);
+	public List getUserList (ListType listType, String listName) {
+		if (listName != null) {
+			switch (listType){
+			case GeneIdentifierSet:
+				return (List<GeneIdentifierDE>) geneIDMap.get(listName);
+			case SNPIdentifierSet:
+				return (List<SNPIdentifierDE>) sNPMap.get(listName);
+			case SampleIdentifierSet:
+				return (List<SampleIDDE>) sampleMap.get(listName);
+			case CloneProbeSetIdentifierSet:
+				return (List<CloneIdentifierDE>) cloneOrProbeIDMap.get(listName);
 			}
 		}
 		return null;
 	}
-
-	public void removeAllCriterias(CriteriaType criteriaType) {
-			switch (criteriaType){
-			case GeneIDCriteriaType:
-				geneIDCriteriaMap.clear();
+	
+	public void removeAllFromUserList(ListType listType) {
+			switch (listType){
+			case GeneIdentifierSet:
+				geneIDMap.clear();
 				break;
-			case SNPCriteriaType:
-				sNPCriteriaMap.clear();
+			case SNPIdentifierSet:
+				sNPMap.clear();
 				break;
-			case SampleCriteriaType:
-				sampleCriteriaMap.clear();
+			case SampleIdentifierSet:
+				sampleMap.clear();
 				break;
-			case CloneOrProbeIDCriteriaType:
-				cloneOrProbeIDCriteriaMap.clear();
+			case CloneProbeSetIdentifierSet:
+				cloneOrProbeIDMap.clear();
 				break;
 			}
 	}
-	public SNPCriteria getSNPCriteria(String sNPCriteriaName) {
-		return (SNPCriteria) getCriteria (CriteriaType.SNPCriteriaType, sNPCriteriaName);
+	public SNPCriteria getSNPCriteria(String listName) {
+		SNPCriteria criteria = new SNPCriteria();
+		criteria.setSNPIdentifiers(getUserList (ListType.SNPIdentifierSet, listName));
+		return criteria;
 	}
 	
-	public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria(String cloneOrProbeIDCriteriaName) {
-		return (CloneOrProbeIDCriteria) getCriteria (CriteriaType.CloneOrProbeIDCriteriaType, cloneOrProbeIDCriteriaName);
+	public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria(String listName) {
+		CloneOrProbeIDCriteria criteria = new CloneOrProbeIDCriteria();
+		criteria.setIdentifiers(getUserList (ListType.CloneProbeSetIdentifierSet, listName));
+		return criteria;
 	}
 	
-	public SampleCriteria getSampleCriteria(String sampleCriteriaName) {
-		return (SampleCriteria) getCriteria (CriteriaType.SampleCriteriaType, sampleCriteriaName);
+	public SampleCriteria getSampleCriteria(String listName) {
+		SampleCriteria criteria = new SampleCriteria();
+		criteria.setSampleIDs(getUserList (ListType.SampleIdentifierSet, listName));
+		return criteria ;
 	}
 	
-	public GeneIDCriteria getGeneCriteria(String geneIDCriteriaName) {
-		return  (GeneIDCriteria) getCriteria (CriteriaType.GeneIDCriteriaType, geneIDCriteriaName);
+	public GeneIDCriteria getGeneCriteria(String listName) {
+		GeneIDCriteria criteria = new GeneIDCriteria();
+		criteria.setGeneIdentifiers(getUserList (ListType.GeneIdentifierSet, listName));
+		return criteria ;
 	}
 
 
