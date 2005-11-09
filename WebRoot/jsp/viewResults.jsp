@@ -81,7 +81,7 @@ String helpLinkClose = "', 350, 500);\">"+
      	//PresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
 		BusinessTierCache btc = ApplicationFactory.getBusinessTierCache();
 		Collection sessionFindings = btc.getAllSessionFindings(session.getId());
-		if(sessionFindings!=null)	{
+		if(sessionFindings!=null && !sessionFindings.isEmpty())	{
 		
 			//looks like we have some findings, generate the JS to check the status of them
 			%>
@@ -112,9 +112,9 @@ String helpLinkClose = "', 350, 500);\">"+
 				
 				String currentStatus = "running";
 				if(f.getStatus() == FindingStatus.Completed)
-						currentStatus = "<b id=\"" +f.getTaskId() + "_status\">complete</b>  <img src='images/check.png' alt='running' id=\"" + f.getTaskId() + "_image\"/>";
+						currentStatus = "<b id=\"" +f.getTaskId() + "_status\">completed</b>  <img src='images/check.png' alt='running' id=\"" + f.getTaskId() + "_image\"/>";
 				else if(f.getStatus() == FindingStatus.Running)
-						currentStatus = "<b  id=\"" + f.getTaskId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
+						currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
 				else if(f.getStatus() == FindingStatus.Error)
 						currentStatus = "error";
 
@@ -126,7 +126,7 @@ String helpLinkClose = "', 350, 500);\">"+
 				//else
 				//	out.println("<li>" + qname + " ");
 				
-				out.println("(elapsed time: " + f.getElapsedTime() + ") ");
+				out.println("(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime() + "</span>) ");
 
 				out.println("</li>");
 				out.println("<br clear=\"all\" />");

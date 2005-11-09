@@ -66,7 +66,11 @@ public class QueryInbox {
 		for(Finding f: findings){
 			String tmp = new String();
 			tmp = this.checkSingle(sid, f.getTaskId());
-			currentStatuses.put(f.getTaskId(), tmp);
+			
+			Map fdata = new HashMap();
+			fdata.put("time", String.valueOf(f.getElapsedTime()));
+			fdata.put("status", tmp);
+			currentStatuses.put(f.getTaskId(), fdata);
 		}
 		
 		return currentStatuses;
