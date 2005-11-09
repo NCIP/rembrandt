@@ -1,7 +1,7 @@
 <script language="javascript">
 
 	//start the checking
-	var checker = setInterval("Inbox.checkStatus(checkStatus_cb)", 5000);
+	//var checker = setInterval("Inbox.checkStatus(checkStatus_cb)", 5000);
 	var count = 0;
 	var totalRuns = 0;
 	var DEBUG = false;
@@ -99,7 +99,7 @@
 				//3 is view results
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<span id=\"inboxStatus\">Manage Results&nbsp;&nbsp;</span>\n" + resultsSecondary;
+				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n" + resultsSecondary;
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				break;
 			case 4:
