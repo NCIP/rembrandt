@@ -4,8 +4,17 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
+import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,7 +23,10 @@ import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 public class BaseForm extends ActionForm {
@@ -25,6 +37,14 @@ public class BaseForm extends ActionForm {
 	private ArrayList<LabelValueBean> diseaseType;
 	private ArrayList<LabelValueBean> geneTypeColl;
     private String method;
+    DiseaseOrGradeCriteria diseaseOrGradeCriteria;
+    SampleCriteria sampleCriteria;
+    String tumorType;   
+	String sampleList;
+	FormFile sampleFile;
+	HttpServletRequest thisRequest;	
+	String sampleGroup;
+
 
 
 	public BaseForm(){
@@ -145,5 +165,170 @@ public class BaseForm extends ActionForm {
 			
 			return cytobandCollections;
 	}
-	
+	 /**
+     * Returns the tumorType.
+     * 
+     * @return String
+     */
+    public String getTumorType() {
+        return tumorType;
+    }
+	/**
+     * Set the tumorType.
+     * 
+     * @param tumorType
+     *            The tumorType to set
+     */  
+	 public void setTumorType(String tumorType) {
+		  
+	        this.tumorType = tumorType;
+	        if(tumorType!=null){ 
+	        	
+	            diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();           	
+	             
+		        if (this.tumorType.equalsIgnoreCase("ALL")) {
+		            ArrayList allDiseases = this.getDiseaseType();
+		            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
+		                    .hasNext();) {
+		                LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter
+		                        .next();
+		                String thisDiseaseType = thisLabelBean.getValue();               
+		              
+		                if (!thisDiseaseType.equalsIgnoreCase("ALL")) {
+		                	DiseaseNameDE diseaseDE = new DiseaseNameDE(thisDiseaseType);
+		 	                diseaseOrGradeCriteria.setDisease(diseaseDE);
+		                }
+		            }
+		        }
+		        
+		        else {
+		        	DiseaseNameDE diseaseDE = new DiseaseNameDE(this.tumorType);
+		            diseaseOrGradeCriteria.setDisease(diseaseDE);
+		           
+		        }
+	          }
+	        }
+	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
+			return this.diseaseOrGradeCriteria;
+		}
+	 
+	 /**
+		 * Returns the sampleList.
+		 * 
+		 * @return String
+		 */
+		public String getSampleList() {
+
+			return sampleList;
+		}
+
+		/**
+		 * Set the sampleList.
+		 * 
+		 * @param sampleList
+		 *            The sampleList to set
+		 */
+		public void setSampleList(String sampleList) {
+			this.sampleList = sampleList;
+			if (thisRequest != null) {
+
+				String thisSampleGroup = this.thisRequest
+						.getParameter("sampleGroup");
+
+				if ((thisSampleGroup != null)
+						&& thisSampleGroup.equalsIgnoreCase("Specify")
+						&& (this.sampleList.length() > 0)) {
+					sampleCriteria = new SampleCriteria();
+
+					String[] splitSampleValue = this.sampleList.split("\\x2C");
+
+					for (int i = 0; i < splitSampleValue.length; i++) {
+					    SampleIDDE sampleIDDEObj = new SampleIDDE(splitSampleValue[i].trim());						                                       						
+					    sampleCriteria.setSampleID(sampleIDDEObj);	
+						
+					}
+				}
+
+			}
+		}
+
+		/**
+		 * Returns the sampleFile.
+		 * 
+		 * @return String
+		 */
+		public FormFile getSampleFile() {
+			return sampleFile;
+		}
+		/**
+		 * Set the sampleFile.
+		 * 
+		 * @param sampleFile
+		 *            The sampleFile to set
+		 */
+		public void setSampleFile(FormFile sampleFile) {
+			this.sampleFile = sampleFile;
+			if (thisRequest != null) {
+				String thisSampleGroup = this.thisRequest
+						.getParameter("sampleGroup");
+				// retrieve the file name & size
+				String fileName = sampleFile.getFileName();
+				int fileSize = sampleFile.getFileSize();
+				sampleCriteria = new SampleCriteria();
+
+				if ((thisSampleGroup != null)
+						&& thisSampleGroup.equalsIgnoreCase("Upload")
+						&& (this.sampleFile != null)
+						&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
+						&& (this.sampleFile.getContentType().equals("text/plain"))) {
+					try {
+						InputStream stream = sampleFile.getInputStream();
+						String inputLine = null;
+						BufferedReader inFile = new BufferedReader(
+								new InputStreamReader(stream));
+
+						int count = 0;
+						while ((inputLine = inFile.readLine()) != null
+								&& count < RembrandtConstants.MAX_FILEFORM_COUNT) {
+							if (UIFormValidator.isAscii(inputLine)) { // make sure
+																		// all data
+																		// is ASCII
+							    inputLine = inputLine.trim();
+							    count++;
+							    SampleIDDE sampleIDDEObj = new SampleIDDE(inputLine);						                                       						
+							    sampleCriteria.setSampleID(sampleIDDEObj);				    
+								
+							}
+						}// end of while
+
+						inFile.close();
+					} catch (IOException ex) {
+						logger.error("Errors when uploading sample file:"
+								+ ex.getMessage());
+					}
+
+				}
+			}
+		}
+		public SampleCriteria getSampleCriteria() {
+			return this.sampleCriteria;
+		}
+		
+		/**
+		 * Set the sampleGroup.
+		 * 
+		 * @param sampleGroup
+		 *            The sampleGroup to set
+		 */
+		public void setSampleGroup(String sampleGroup) {
+			this.sampleGroup = sampleGroup;
+		}
+		/**
+		 * Returns the geneGroup.
+		 * 
+		 * @return String
+		 */
+		public String getSampleGroup() {
+			return sampleGroup;
+		}
 }

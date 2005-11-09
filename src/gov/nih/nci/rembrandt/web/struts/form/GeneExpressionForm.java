@@ -61,9 +61,7 @@ public class GeneExpressionForm extends BaseForm {
 
 	/** pathwayName property */
 	private String[] pathwayName;
-
-	/** sampleList property */
-	private String sampleList;
+	
 
 	/** geneList property */
 	private String geneList;
@@ -101,8 +99,7 @@ public class GeneExpressionForm extends BaseForm {
 	/** pathways property */
 	private String pathways;
 
-	/** tumorType property */
-	private String tumorType;
+	
 
 	/** arrayPlatform property */
 	private String arrayPlatform;
@@ -142,9 +139,7 @@ public class GeneExpressionForm extends BaseForm {
 
 	/** geneFile property */
 	private FormFile geneFile;
-
-	/** sampleFile property */
-	private FormFile sampleFile;
+	
 
 	/** foldChangeValueUDDown property */
 	private String foldChangeValueUDDown = "2";
@@ -152,9 +147,7 @@ public class GeneExpressionForm extends BaseForm {
 	/** geneGroup property */
 	private String geneGroup;
 
-	/** sampleGroup property */
-	private String sampleGroup;
-
+	
 	/** cloneList property */
 	private String cloneList;
 
@@ -173,13 +166,13 @@ public class GeneExpressionForm extends BaseForm {
 
 	private ArrayList arrayPlatformTypeColl = new ArrayList();
 
-	private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
+	
 
 	private GeneIDCriteria geneCriteria;
 
 	private AllGenesCriteria allGenesCriteria;
 
-	private SampleCriteria sampleCriteria;
+	
 
 	private FoldChangeCriteria foldChangeCriteria;
 
@@ -196,30 +189,9 @@ public class GeneExpressionForm extends BaseForm {
 	// UntranslatedRegionCriteria: for both 5' and 3', "included" is used as
 	// default,
 	// on the jsp, it may be commented out for now
-	private UntranslatedRegionCriteria untranslatedRegionCriteria;
+	private UntranslatedRegionCriteria untranslatedRegionCriteria;		
 
-	// Hashmap to store Domain elements
-	private HashMap diseaseDomainMap = new HashMap();
-
-	private HashMap geneDomainMap = new HashMap();
-
-	private HashMap sampleDomainMap = new HashMap();
-
-	private HashMap foldUpDomainMap = new HashMap();
-
-	private HashMap foldDownDomainMap = new HashMap();
-
-	private HashMap regionDomainMap = new HashMap();
-
-	private HashMap cloneDomainMap = new HashMap();
-
-	private HashMap geneOntologyDomainMap = new HashMap();
-
-	private HashMap pathwayDomainMap = new HashMap();
-
-	private HashMap arrayPlatformDomainMap = new HashMap();
-
-	private HttpServletRequest thisRequest;
+	//private HttpServletRequest thisRequest;
 
 	private SessionQueryBag queryCollection;
 	
@@ -323,415 +295,11 @@ public class GeneExpressionForm extends BaseForm {
 			logger.debug("This isn't submit or preview report");
 		}
 
-		if (errors.isEmpty()) {
-			createDiseaseCriteriaObject();
-			createSampleCriteriaObject();
-			createAllGenesCriteriaObject();
-			createGeneCriteriaObject();
-			createFoldChangeCriteriaObject();
-			//createRegionCriteriaObject();
-			createCloneOrProbeCriteriaObject();
-			createGeneOntologyCriteriaObject();
-			createPathwayCriteriaObject();
-			createArrayPlatformCriteriaObject();
+	
+	 return errors;
 
-		} 
-		return errors;
+	}	
 
-	}
-
-	private void createAllGenesCriteriaObject() {
-		allGenesCriteria = new AllGenesCriteria(isAllGenes);
-	}
-
-	private void createDiseaseCriteriaObject() {
-		// look thorugh the diseaseDomainMap to extract out the domain elements
-		// and create respective Criteria Objects
-		Set keys = diseaseDomainMap.keySet();
-		Iterator iter = keys.iterator();
-		while (iter.hasNext()) {
-			Object key = iter.next();
-
-			try {
-				String strDiseaseDomainClass = (String) diseaseDomainMap
-						.get(key);// use key to get value
-				Constructor[] diseaseConstructors = Class.forName(
-						strDiseaseDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-				DiseaseNameDE diseaseNameDEObj = (DiseaseNameDE) diseaseConstructors[0]
-						.newInstance(parameterObjects);
-				diseaseOrGradeCriteria.setDisease(diseaseNameDEObj);
-
-			} catch (Exception ex) {
-				logger.error("Error in createDiseaseCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createDiseaseCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-		}
-	}
-
-	private void createGeneCriteriaObject() {
-
-		// Loop thru the HashMap, extract the Domain elements and create
-		// respective Criteria Objects
-		Set keys = geneDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + geneDomainMap.get(key));
-
-			try {
-				String strgeneDomainClass = (String) geneDomainMap.get(key);
-				Constructor[] geneConstructors = Class.forName(
-						strgeneDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-
-				GeneIdentifierDE geneSymbolDEObj = (GeneIdentifierDE) geneConstructors[0]
-						.newInstance(parameterObjects);
-				geneCriteria.setGeneIdentifier(geneSymbolDEObj);
-
-				logger.debug("Gene Domain Element Value==> "
-						+ geneSymbolDEObj.getValueObject());
-			} catch (Exception ex) {
-				logger.debug("Error in createGeneCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createGeneCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
-
-	private void createSampleCriteriaObject() {
-
-		// Loop thru the HashMap, extract the Domain elements and create
-		// respective Criteria Objects
-		Set keys = sampleDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + sampleDomainMap.get(key));
-
-			try {
-				String strSampleDomainClass = (String) sampleDomainMap.get(key);
-				Constructor[] sampleConstructors = Class.forName(
-						strSampleDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-
-				SampleIDDE sampleIDDEObj = (SampleIDDE) sampleConstructors[0]
-						.newInstance(parameterObjects);
-				sampleCriteria.setSampleID(sampleIDDEObj);
-
-				logger.debug("Sample Domain Element Value==> "
-						+ sampleIDDEObj.getValueObject());
-			} catch (Exception ex) {
-				logger.debug("Error in createSampleCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createSampleCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
-
-	private void createFoldChangeCriteriaObject() {
-
-		// For Fold Change Up
-		Set keys = foldUpDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + foldUpDomainMap.get(key));
-
-			try {
-				String strFoldDomainClass = (String) foldUpDomainMap.get(key);
-				Constructor[] foldConstructors = Class.forName(
-						strFoldDomainClass).getConstructors();
-				Object[] parameterObjects = { Float.valueOf((String) key) };
-
-				ExprFoldChangeDE foldChangeDEObj = (ExprFoldChangeDE) foldConstructors[0]
-						.newInstance(parameterObjects);
-				foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
-
-				logger.debug("Fold Change Domain Element Value is ==>"
-						+ foldChangeDEObj.getValueObject());
-
-			} catch (Exception ex) {
-				logger.error("Error in createFoldChangeCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createFoldChangeCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-		}
-
-		// For Fold Change Down
-		keys = foldDownDomainMap.keySet();
-		i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + foldDownDomainMap.get(key));
-
-			try {
-				String strFoldDomainClass = (String) foldDownDomainMap.get(key);
-				Constructor[] foldConstructors = Class.forName(
-						strFoldDomainClass).getConstructors();
-				Object[] parameterObjects = { Float.valueOf((String) key) };
-
-				ExprFoldChangeDE foldChangeDEObj = (ExprFoldChangeDE) foldConstructors[0]
-						.newInstance(parameterObjects);
-				foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
-
-				logger.debug("Fold Change Domain Element Value is ==>"
-						+ foldChangeDEObj.getValueObject());
-
-			} catch (Exception ex) {
-				logger.error("Error in createFoldChangeCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createFoldChangeCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-		}
-
-	}
-
-	private void createRegionCriteriaObject() {
-
-		Set keys = regionDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + regionDomainMap.get(key));
-
-			try {
-				String strRegionDomainClass = (String) regionDomainMap.get(key);
-				Constructor[] regionConstructors = Class.forName(
-						strRegionDomainClass).getConstructors();
-
-				if (strRegionDomainClass.endsWith("CytobandDE")) {
-					Object[] parameterObjects = { (String) key };
-					CytobandDE cytobandDEObj = (CytobandDE) regionConstructors[0]
-							.newInstance(parameterObjects);
-					regionCriteria.setCytoband(cytobandDEObj);
-					logger.debug("Test Start Cytoband Criteria"
-							+ regionCriteria.getCytoband().getValue());
-
-				}
-				if (strRegionDomainClass.endsWith("CytobandDE")) {
-					Object[] parameterObjects = { (String) key };
-					CytobandDE cytobandDEObj = (CytobandDE) regionConstructors[0]
-							.newInstance(parameterObjects);
-					regionCriteria.setEndCytoband(cytobandDEObj);
-					logger.debug("Test End Cytoband Criteria"
-							+ regionCriteria.getCytoband().getValue());
-
-				}
-				
-				if (strRegionDomainClass.endsWith("ChromosomeNumberDE")) {
-					Object[] parameterObjects = { (String) key };
-					ChromosomeNumberDE chromosomeDEObj = (ChromosomeNumberDE) regionConstructors[0]
-							.newInstance(parameterObjects);
-					regionCriteria.setChromNumber(chromosomeDEObj);
-					logger.debug("Test Chromosome Criteria "
-							+ regionCriteria.getChromNumber().getValue());
-				}
-				if (strRegionDomainClass.endsWith("StartPosition")) {
-					Object[] parameterObjects = { Integer.valueOf((String) key) };
-					BasePairPositionDE.StartPosition baseStartDEObj = (BasePairPositionDE.StartPosition) regionConstructors[0]
-							.newInstance(parameterObjects);
-					regionCriteria.setStart(baseStartDEObj);
-					logger.debug("Test Start Criteria"
-							+ regionCriteria.getStart().getValue());
-				}
-				if (strRegionDomainClass.endsWith("EndPosition")) {
-					Object[] parameterObjects = { Integer.valueOf((String) key) };
-					BasePairPositionDE.EndPosition baseEndDEObj = (BasePairPositionDE.EndPosition) regionConstructors[0]
-							.newInstance(parameterObjects);
-					regionCriteria.setEnd(baseEndDEObj);
-					logger.debug("Test End Criteria"
-							+ regionCriteria.getEnd().getValue());
-				}
-
-			} catch (Exception ex) {
-				logger.error("Error in createRegionCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createRegionCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
-
-	private void createCloneOrProbeCriteriaObject() {
-
-		// Loop thru the cloneDomainMap HashMap, extract the Domain elements and
-		// create respective Criteria Objects
-		Set keys = cloneDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + cloneDomainMap.get(key));
-
-			try {
-				String strCloneDomainClass = (String) cloneDomainMap.get(key);
-				Constructor[] cloneConstructors = Class.forName(
-						strCloneDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-
-				CloneIdentifierDE cloneIdentfierDEObj = (CloneIdentifierDE) cloneConstructors[0]
-						.newInstance(parameterObjects);
-				cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentfierDEObj);
-
-				logger.debug("Clone Domain Element Value==> "
-						+ cloneIdentfierDEObj.getValueObject());
-			} catch (Exception ex) {
-				logger.error("Error in createGeneCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createGeneCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
-
-	private void createGeneOntologyCriteriaObject() {
-
-		// Loop thru the geneOntologyDomainMap HashMap, extract the Domain
-		// elements and create respective Criteria Objects
-		Set keys = geneOntologyDomainMap.keySet();
-
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + geneOntologyDomainMap.get(key));
-
-			try {
-				String strGeneOntologyDomainClass = (String) geneOntologyDomainMap
-						.get(key);
-				Constructor[] geneOntologyConstructors = Class.forName(
-						strGeneOntologyDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-				GeneOntologyDE geneOntologyDEObj = (GeneOntologyDE) geneOntologyConstructors[0]
-						.newInstance(parameterObjects);
-				geneOntologyCriteria.setGOIdentifier(geneOntologyDEObj);
-
-				logger.debug("GO Domain Element Value==> "
-						+ geneOntologyDEObj.getValueObject());
-			} catch (Exception ex) {
-				logger.error("Error in createGeneOntologyCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger
-						.error("Linkage Error in createGeneOntologyCriteriaObject "
-								+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
-
-	private void createPathwayCriteriaObject() {
-
-		// Loop thru the pathwayDomainMap HashMap, extract the Domain elements
-		// and create respective Criteria Objects
-		Set keys = pathwayDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + pathwayDomainMap.get(key));
-
-			try {
-				String strPathwayDomainClass = (String) pathwayDomainMap
-						.get(key);
-				logger.debug("strPathwayDomainClass is for pathway:"
-						+ strPathwayDomainClass
-						+ strPathwayDomainClass.length());
-				Constructor[] pathwayConstructors = Class.forName(
-						strPathwayDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-
-				PathwayDE pathwayDEObj = (PathwayDE) pathwayConstructors[0]
-						.newInstance(parameterObjects);
-				pathwayCriteria.setPathwayName(pathwayDEObj);
-
-				logger.debug("GO Domain Element Value==> "
-						+ pathwayDEObj.getValueObject());
-			} catch (Exception ex) {
-				logger.error("Error in createGeneCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger.error("Linkage Error in createGeneCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-		}
-	}
-
-	private void createArrayPlatformCriteriaObject() {
-
-		// Loop thru the pathwayDomainMap HashMap, extract the Domain elements
-		// and create respective Criteria Objects
-		Set keys = arrayPlatformDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-
-			Object key = i.next();
-			logger.debug(key + "=>" + arrayPlatformDomainMap.get(key));
-
-			try {
-				String strArrayPlatformDomainClass = (String) arrayPlatformDomainMap
-						.get(key);
-				Constructor[] arrayPlatformConstructors = Class.forName(
-						strArrayPlatformDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-
-				ArrayPlatformDE arrayPlatformDEObj = (ArrayPlatformDE) arrayPlatformConstructors[0]
-						.newInstance(parameterObjects);
-				arrayPlatformCriteria.setPlatform(arrayPlatformDEObj);
-				logger.debug("GO Domain Element Value==> "
-						+ arrayPlatformDEObj.getValueObject());
-			} catch (Exception ex) {
-				logger.error("Error in createArrayPlatformCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-				logger
-						.error("Linkage Error in createArrayPlatformCriteriaObject "
-								+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
 
 	public void setGeneExpressionLookup() {
 
@@ -827,18 +395,8 @@ public class GeneExpressionForm extends BaseForm {
 		sampleFile = null;
 
 		// Set the Request Object
-		this.thisRequest = request;
-
-		diseaseDomainMap = new HashMap();
-		geneDomainMap = new HashMap();
-		foldUpDomainMap = new HashMap();
-		foldDownDomainMap = new HashMap();
-		regionDomainMap = new HashMap();
-		cloneDomainMap = new HashMap();
-		geneOntologyDomainMap = new HashMap();
-		pathwayDomainMap = new HashMap();
-		arrayPlatformDomainMap = new HashMap();
-
+		this.thisRequest = request;		
+		
 		diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
 		geneCriteria = new GeneIDCriteria();
 		sampleCriteria = new SampleCriteria();
@@ -911,6 +469,7 @@ public class GeneExpressionForm extends BaseForm {
                         geneIdentifierDE = new GeneIdentifierDE.LocusLink(splitValue[i].trim());
 					} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
                         geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(splitValue[i].trim());
+                        
 					} //else if (thisGeneType.equalsIgnoreCase("allgenes")) {
 						//geneDomainMap.put(splitValue[i].trim(),
 						//		GeneIdentifierDE.GeneSymbol.class.getName());
@@ -943,6 +502,7 @@ public class GeneExpressionForm extends BaseForm {
 			if (thisGeneOption != null
 					&& thisGeneOption.equalsIgnoreCase("allgenes")) {
 				isAllGenes = true;
+				allGenesCriteria = new AllGenesCriteria(isAllGenes);
 			}
 		}
 	}
@@ -956,44 +516,7 @@ public class GeneExpressionForm extends BaseForm {
 		return geneOption;
 	}
 
-	/**
-	 * Returns the sampleList.
-	 * 
-	 * @return String
-	 */
-	public String getSampleList() {
-
-		return sampleList;
-	}
-
-	/**
-	 * Set the sampleList.
-	 * 
-	 * @param sampleList
-	 *            The sampleList to set
-	 */
-	public void setSampleList(String sampleList) {
-		this.sampleList = sampleList;
-		if (thisRequest != null) {
-
-			String thisSampleGroup = this.thisRequest
-					.getParameter("sampleGroup");
-
-			if ((thisSampleGroup != null)
-					&& thisSampleGroup.equalsIgnoreCase("Specify")
-					&& (this.sampleList.length() > 0)) {
-
-				String[] splitSampleValue = this.sampleList.split("\\x2C");
-
-				for (int i = 0; i < splitSampleValue.length; i++) {
-					sampleDomainMap.put(splitSampleValue[i].trim(),
-							SampleIDDE.class.getName());
-				}
-			}
-
-		}
-	}
-
+	
 	/**
 	 * Returns the geneFile.
 	 * 
@@ -1003,14 +526,7 @@ public class GeneExpressionForm extends BaseForm {
 		return geneFile;
 	}
 
-	/**
-	 * Returns the sampleFile.
-	 * 
-	 * @return String
-	 */
-	public FormFile getSampleFile() {
-		return sampleFile;
-	}
+	
 
 	/**
 	 * Set the geneFile.
@@ -1079,56 +595,7 @@ public class GeneExpressionForm extends BaseForm {
 		}
 	}
 
-	/**
-	 * Set the sampleFile.
-	 * 
-	 * @param sampleFile
-	 *            The sampleFile to set
-	 */
-	public void setSampleFile(FormFile sampleFile) {
-		this.sampleFile = sampleFile;
-		if (thisRequest != null) {
-			String thisSampleGroup = this.thisRequest
-					.getParameter("sampleGroup");
-			// retrieve the file name & size
-			String fileName = sampleFile.getFileName();
-			int fileSize = sampleFile.getFileSize();
-
-			if ((thisSampleGroup != null)
-					&& thisSampleGroup.equalsIgnoreCase("Upload")
-					&& (this.sampleFile != null)
-					&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
-					&& (this.sampleFile.getContentType().equals("text/plain"))) {
-				try {
-					InputStream stream = sampleFile.getInputStream();
-					String inputLine = null;
-					BufferedReader inFile = new BufferedReader(
-							new InputStreamReader(stream));
-
-					int count = 0;
-					while ((inputLine = inFile.readLine()) != null
-							&& count < RembrandtConstants.MAX_FILEFORM_COUNT) {
-						if (UIFormValidator.isAscii(inputLine)) { // make sure
-																	// all data
-																	// is ASCII
-						    inputLine = inputLine.trim();
-						    count++;
-							sampleDomainMap.put(inputLine, SampleIDDE.class
-									.getName());
-						}
-					}// end of while
-
-					inFile.close();
-				} catch (IOException ex) {
-					logger.error("Errors when uploading sample file:"
-							+ ex.getMessage());
-				}
-
-			}
-		}
-	}
-
-	public GeneIDCriteria getGeneIDCriteria() {
+		public GeneIDCriteria getGeneIDCriteria() {
 		return this.geneCriteria;
 	}
 
@@ -1136,9 +603,7 @@ public class GeneExpressionForm extends BaseForm {
 		return this.allGenesCriteria;
 	}
 
-	public SampleCriteria getSampleCriteria() {
-		return this.sampleCriteria;
-	}
+	
 
 	public FoldChangeCriteria getFoldChangeCriteria() {
 		return this.foldChangeCriteria;
@@ -1148,9 +613,7 @@ public class GeneExpressionForm extends BaseForm {
 		return this.regionCriteria;
 	}
 
-	public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
-		return this.diseaseOrGradeCriteria;
-	}
+	
 
 	public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria() {
 		return this.cloneOrProbeIDCriteria;
@@ -1245,13 +708,15 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-
+			foldChangeCriteria = new FoldChangeCriteria();
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("down")
-					&& (this.foldChangeValueDown.length() > 0))
+					&& (this.foldChangeValueDown.length() > 0)){
+				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(Float.valueOf(this.foldChangeValueDown));
+				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
 
-				foldDownDomainMap.put(this.foldChangeValueDown,
-						ExprFoldChangeDE.DownRegulation.class.getName());
+				
+			}
 		}
 
 	}
@@ -1335,50 +800,16 @@ public class GeneExpressionForm extends BaseForm {
 
 		if (this.pathways != null && this.pathways.length() > 0) {
 			String[] splitValue = this.pathways.split("\\r\\n");
+			pathwayCriteria = new PathwayCriteria();
 			for (int i = 0; i < splitValue.length; i++) {
-				pathwayDomainMap.put(splitValue[i], PathwayDE.class.getName());
+				PathwayDE pathwayDEObj = new PathwayDE(splitValue[i]);
+				pathwayCriteria.setPathwayName(pathwayDEObj);				
 			}
 		}
 	}
 
-	/**
-	 * Returns the tumorType.
-	 * 
-	 * @return String
-	 */
-	public String getTumorType() {
-		return tumorType;
-	}
-
-	/**
-	 * Set the tumorType.
-	 * 
-	 * @param tumorType
-	 *            The tumorType to set
-	 */
-	public void setTumorType(String tumorType) {
-
-		this.tumorType = tumorType;
-		if (this.tumorType.equalsIgnoreCase("ALL")) {
-			ArrayList allDiseases = this.getDiseaseType();
-			for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
-					.hasNext();) {
-				LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter
-						.next();
-				String thisDiseaseType = thisLabelBean.getValue();
-				// stuff this in our DomainMap for later use !!
-				if (!thisDiseaseType.equalsIgnoreCase("ALL")
-						&& diseaseDomainMap != null) {
-					diseaseDomainMap.put(thisDiseaseType, DiseaseNameDE.class
-							.getName());
-				}
-			}
-		} else {
-			diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
-		}
-
-	}
-
+	
+	
 	/**
 	 * Returns the arrayPlatform.
 	 * 
@@ -1396,10 +827,12 @@ public class GeneExpressionForm extends BaseForm {
 	 */
 	public void setArrayPlatform(String arrayPlatform) {
 		this.arrayPlatform = arrayPlatform;
-		if (arrayPlatformDomainMap != null) {
-			arrayPlatformDomainMap.put(this.arrayPlatform,
-					ArrayPlatformDE.class.getName());
-		}
+		if(this.arrayPlatform  != null){
+			ArrayPlatformDE arrayPlatformDEObj = new ArrayPlatformDE(this.arrayPlatform);
+			arrayPlatformCriteria = new ArrayPlatformCriteria();
+			arrayPlatformCriteria.setPlatform(arrayPlatformDEObj);
+		}	
+		
 	}
 
 	/**
@@ -1470,21 +903,21 @@ public class GeneExpressionForm extends BaseForm {
 					&& !thisCloneList.equals("")) {
 				if (this.cloneListSpecify != null
 						&& !cloneListSpecify.equals("")) {
+					cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
+					CloneIdentifierDE cloneIdentfierDEObj = null;
 					String[] cloneStr = cloneListSpecify.split("\\x2C");
 					for (int i = 0; i < cloneStr.length; i++) {
 						if (thisCloneList.equalsIgnoreCase("imageId")) {
-							cloneDomainMap.put(cloneStr[i].trim(),
-									CloneIdentifierDE.IMAGEClone.class
-											.getName());
-						} else if (thisCloneList.equalsIgnoreCase("BACId")) {
-							cloneDomainMap.put(cloneStr[i].trim(),
-									CloneIdentifierDE.BACClone.class.getName());
-						} else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
-							cloneDomainMap.put(cloneStr[i].trim(),
-									CloneIdentifierDE.ProbesetID.class
-											.getName());
+							cloneIdentfierDEObj = new CloneIdentifierDE.IMAGEClone(cloneStr[i].trim());							
+						} 
+						else if (thisCloneList.equalsIgnoreCase("BACId")) {
+							cloneIdentfierDEObj = new CloneIdentifierDE.BACClone(cloneStr[i].trim());
+						} 
+						else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
+							cloneIdentfierDEObj = new CloneIdentifierDE.ProbesetID(cloneStr[i].trim());
 						}
-
+						
+					cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentfierDEObj);
 					} // end of for loop
 				}// end of if(this.cloneListSpecify != null &&
 				// !cloneListSpecify.equals("")){
@@ -1537,6 +970,8 @@ public class GeneExpressionForm extends BaseForm {
 					BufferedReader inFile = new BufferedReader(
 							new InputStreamReader(stream));
 					int count = 0;
+					cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
+					CloneIdentifierDE cloneIdentfierDEObj = null;
 					while ((inputLine = inFile.readLine()) != null
 							&& count < RembrandtConstants.MAX_FILEFORM_COUNT) {
 						if (UIFormValidator.isAscii(inputLine)) { // make sure
@@ -1545,16 +980,19 @@ public class GeneExpressionForm extends BaseForm {
 						    inputLine = inputLine.trim();
 						    count++; // increment
 							if (thisCloneList.equalsIgnoreCase("IMAGEId")) {
-								cloneDomainMap.put(inputLine,
-										CloneIdentifierDE.IMAGEClone.class
-												.getName());
-							} else if (thisCloneList
+								cloneIdentfierDEObj = new CloneIdentifierDE.IMAGEClone(inputLine);								
+								
+							} 
+							else if (thisCloneList.equalsIgnoreCase("BACId")) {
+								cloneIdentfierDEObj = new CloneIdentifierDE.BACClone(inputLine);
+							} 
+							else if (thisCloneList
 									.equalsIgnoreCase("probeSetId")) {
-								cloneDomainMap.put(inputLine,
-										CloneIdentifierDE.ProbesetID.class
-												.getName());
+								cloneIdentfierDEObj = new CloneIdentifierDE.ProbesetID(inputLine);	
+								
 							}
 						}
+						cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentfierDEObj);
 					}// end of while
 
 					inFile.close();
@@ -1588,8 +1026,9 @@ public class GeneExpressionForm extends BaseForm {
 			goSelect = (String) thisRequest.getParameter("goClassification");
 		}
 		if (goSelect != null && !goSelect.equals("")) {
-			geneOntologyDomainMap.put(this.goClassification,
-					GeneOntologyDE.class.getName());
+			geneOntologyCriteria = new GeneOntologyCriteria();
+			GeneOntologyDE geneOntologyDEObj = new GeneOntologyDE(this.goClassification);
+			geneOntologyCriteria.setGOIdentifier(geneOntologyDEObj);		
 		}
 
 	}
@@ -1718,14 +1157,16 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-
+			foldChangeCriteria = new FoldChangeCriteria();
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
-					&& (this.foldChangeValueUnchangeFrom.length() > 0))
+					&& (this.foldChangeValueUnchangeFrom.length() > 0)){
+			   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(Float.valueOf(this.foldChangeValueUnchangeFrom));
+			   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);		
+				
 
-				foldDownDomainMap.put(this.foldChangeValueUnchangeFrom,
-						ExprFoldChangeDE.UnChangedRegulationDownLimit.class
-								.getName());
+			
+			}
 		}
 	}
 
@@ -1754,13 +1195,16 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-
+			foldChangeCriteria = new FoldChangeCriteria();
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
 					&& (this.foldChangeValueUnchangeTo.length() > 0)) {
-				foldUpDomainMap.put(this.foldChangeValueUnchangeTo,
+				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(Float.valueOf(this.foldChangeValueUnchangeTo));
+				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
+
+				/*foldUpDomainMap.put(this.foldChangeValueUnchangeTo,
 						ExprFoldChangeDE.UnChangedRegulationUpperLimit.class
-								.getName());
+								.getName());*/
 			}
 		}
 	}
@@ -1786,13 +1230,16 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
+			foldChangeCriteria = new FoldChangeCriteria();
 
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("up")
-					&& (this.foldChangeValueUp.length() > 0))
+					&& (this.foldChangeValueUp.length() > 0)){
+				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUp));
+				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);						
+			}
 
-				foldUpDomainMap.put(this.foldChangeValueUp,
-						ExprFoldChangeDE.UpRegulation.class.getName());
+				
 		}
 	}
 
@@ -1839,14 +1286,13 @@ public class GeneExpressionForm extends BaseForm {
 			logger
 					.debug("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
 							+ thisRegulationStatus);
+			foldChangeCriteria = new FoldChangeCriteria();
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
 					&& (this.foldChangeValueUDUp.length() > 0)) {
-				foldUpDomainMap.put(this.foldChangeValueUDUp,
-						ExprFoldChangeDE.UpRegulation.class.getName());
-				logger
-						.debug("foldDomainMap size in the setFoldChangeValueUDUp() method:"
-								+ foldUpDomainMap.size());
+				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUDUp));
+				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);	
+			
 			}
 		}
 	}
@@ -1873,16 +1319,14 @@ public class GeneExpressionForm extends BaseForm {
 					.getParameter("regulationStatus");
 			logger.debug("I am in the setFoldChangeValueUDDown() methid: "
 					+ thisRegulationStatus);
-
+			foldChangeCriteria = new FoldChangeCriteria();
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
-					&& (this.foldChangeValueUDDown.length() > 0))
-
-				foldDownDomainMap.put(this.foldChangeValueUDDown,
-						ExprFoldChangeDE.DownRegulation.class.getName());
-			logger
-					.debug("foldDomainMap size in the setFoldChangeValueUDDown() method:"
-							+ foldDownDomainMap.size());
+					&& (this.foldChangeValueUDDown.length() > 0)){
+				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueUDDown));
+				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
+			}
+				
 		}
 
 	}
@@ -1925,24 +1369,9 @@ public class GeneExpressionForm extends BaseForm {
 		this.geneGroup = geneGroup;
 	}
 
-	/**
-	 * Returns the geneGroup.
-	 * 
-	 * @return String
-	 */
-	public String getSampleGroup() {
-		return sampleGroup;
-	}
+	
 
-	/**
-	 * Set the sampleGroup.
-	 * 
-	 * @param sampleGroup
-	 *            The sampleGroup to set
-	 */
-	public void setSampleGroup(String sampleGroup) {
-		this.sampleGroup = sampleGroup;
-	}
+	
 
 	/**
 	 * Returns the cloneList.

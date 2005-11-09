@@ -63,9 +63,7 @@ public class ComparativeGenomicForm extends BaseForm {
     /** geneList property */
     private String geneList;
     
-    /** sampleList property */
-	private String sampleList;
-
+  
     /** tumorGrade property */
     private String tumorGrade;
 
@@ -90,8 +88,7 @@ public class ComparativeGenomicForm extends BaseForm {
     /** cnAmplified property */
     private String cnAmplified;
 
-    /** tumorType property */
-    private String tumorType;
+   
 
     /** cloneListFile property */
     private String cloneListFile;
@@ -138,8 +135,7 @@ public class ComparativeGenomicForm extends BaseForm {
     /** geneFile property */
     private FormFile geneFile;
     
-    /** sampleFile property */
-	private FormFile sampleFile;
+   
 
     /** snpId property */
     private String snpId;
@@ -149,9 +145,7 @@ public class ComparativeGenomicForm extends BaseForm {
 
     /** geneGroup property */
     private String geneGroup;
-    
-    /** sampleGroup property */
-	private String sampleGroup;
+      
 
     /** cnUnchangeFrom property */
     private String cnUnchangeFrom;
@@ -183,36 +177,15 @@ public class ComparativeGenomicForm extends BaseForm {
 
     private ArrayList alleleTypes = new ArrayList();
 
-    private ArrayList assayTypes = new ArrayList();
+    private ArrayList assayTypes = new ArrayList();    
 
-    //HashMap to store Domain Elements
-    private HashMap diseaseDomainMap = new HashMap();
-
-    private HashMap geneDomainMap = new HashMap();
     
-    private HashMap sampleDomainMap = new HashMap();
 
-    private HashMap copyNoAmpDomainMap = new HashMap();
-
-    private HashMap copyNoDelDomainMap = new HashMap();
-
-    private HashMap regionDomainMap = new HashMap();
-
-    private HashMap cloneDomainMap = new HashMap();
-    
-    private HashMap snpDomainMap = new HashMap();
-
-    private HashMap alleleDomainMap = new HashMap();// this may be implemented this release.
-
-    private HashMap assayDomainMap = new HashMap();
-
-    private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
+ 
 
     private GeneIDCriteria geneCriteria;
     
-    private AllGenesCriteria allGenesCriteria;
-    
-    private SampleCriteria sampleCriteria;
+    private AllGenesCriteria allGenesCriteria;  
 
     private CopyNumberCriteria copyNumberCriteria;
 
@@ -226,7 +199,7 @@ public class ComparativeGenomicForm extends BaseForm {
 
     private AssayPlatformCriteria assayPlatformCriteria;
 
-    private HttpServletRequest thisRequest;
+ 
 
     //----------------------------constuctor()
 
@@ -327,6 +300,14 @@ public class ComparativeGenomicForm extends BaseForm {
         //errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
         //Validate snpId
         errors = UIFormValidator.validateSnpId(snpId, snpList, snpListFile, errors);
+         
+        // validate copy number,it has to be numeric
+        errors = UIFormValidator.validateCopyNo(copyNumber,cnADAmplified,"cnADAmplified",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,cnADDeleted,"cnADDeleted",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,cnAmplified,"cnAmplified",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,cnDeleted,"cnDeleted",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,cnUnchangeFrom,"cnUnchangeFrom",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,cnUnchangeTo,"cnUnchangeTo",errors);
         
         // Validate minimum criteria's for CGH Query
         if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
@@ -350,412 +331,12 @@ public class ComparativeGenomicForm extends BaseForm {
             }
           }
         }
-        //@TODO This should be moved to the action class
-        if (errors.isEmpty()) {// if there are no errors, then proceed.
-            createDiseaseCriteriaObject();
-            createGeneCriteriaObject();
-            createAllGenesCriteriaObject();
-            createSampleCriteriaObject();
-            createCopyNumberCriteriaObject();
-            //createRegionCriteriaObject();
-            createCloneOrProbeCriteriaObject();
-            createSNPCriteriaObject();
-            createAlleleFrequencyCriteriaObject();
-            createAssayPlatformCriteriaObject();
-        }
-        else
-		    logger.debug("This isn't submit or preview report"); 
+       
         return errors;
 
     }
     
-    private void createAllGenesCriteriaObject(){        
-        allGenesCriteria = new AllGenesCriteria(isAllGenes);
-      }
-
-    /*
-     * createDiseaseCriteriaObject() mtethod is to look through the
-     * diseaseDomainMap * and extract out the domain elements and create
-     * respective Criteria Objects
-     */
-    private void createDiseaseCriteriaObject() {
-        if (diseaseDomainMap != null) {
-            Set keySet = diseaseDomainMap.keySet();
-            Iterator iter = keySet.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) diseaseDomainMap.get(key);
-                    Constructor[] diseaseConstructors = Class
-                            .forName(className).getConstructors();
-                    String[] initargs = { key };
-                    DiseaseNameDE diseaseDE = (DiseaseNameDE) diseaseConstructors[0]
-                            .newInstance(initargs);
-                    diseaseOrGradeCriteria.setDisease(diseaseDE);
-                } // end of try
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createDiseaseCriteriaObject() method:  "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createDiseaseCriteriaObject() method: "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-
-            }// end of while
-
-        }// end of if
-    }
-
-    /*
-     * createGeneCriteriaObject() mtethod is to look through the geneDomainMap *
-     * and extract out the domain elements and create respective Criteria
-     * Objects
-     */
-    private void createGeneCriteriaObject() {
-        if (geneDomainMap.size() > 0) {
-            Set keys = geneDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) geneDomainMap.get(key);
-                    Constructor[] geneConstructors = Class.forName(className)
-                            .getConstructors();
-                    String[] initargs = { key };
-                    GeneIdentifierDE geneIdentifierDE = (GeneIdentifierDE) geneConstructors[0]
-                            .newInstance(initargs);
-                    geneCriteria.setGeneIdentifier(geneIdentifierDE);
-                }//end of try
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createGeneCriteriaObject() method:  "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createGeneCriteriaObject() method: "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-
-            } //end of while
-        } // end of if
-    }
-    
-    private void createSampleCriteriaObject() {
-
-		// Loop thru the HashMap, extract the Domain elements and create
-		// respective Criteria Objects
-		Set keys = sampleDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + sampleDomainMap.get(key));
-
-			try {
-				String strSampleDomainClass = (String) sampleDomainMap.get(key);
-				Constructor[] sampleConstructors = Class.forName(
-						strSampleDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-
-				SampleIDDE sampleIDDEObj = (SampleIDDE) sampleConstructors[0]
-						.newInstance(parameterObjects);
-				sampleCriteria.setSampleID(sampleIDDEObj);
-
-				logger.debug("Sample Domain Element Value==> "
-						+ sampleIDDEObj.getValueObject());
-			} catch (Exception ex) {
-			    logger.debug("Error in createSampleCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createSampleCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
-
-
-
-    /*
-     * createCopyNumberCriteriaObject() mtethod is to look through the
-     * copyNoDomainMap * and extract out the domain elements and create
-     * respective Criteria Objects
-     */
-    private void createCopyNumberCriteriaObject() {
-        if (copyNoAmpDomainMap.size() > 0) {
-            Set keys = copyNoAmpDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) copyNoAmpDomainMap.get(key);
-                    Constructor[] copyNoConstructors = Class.forName(className)
-                            .getConstructors();
-
-                    Object[] initargs = { Float.valueOf((String) key) };
-                    CopyNumberDE copyNumberDE = (CopyNumberDE) copyNoConstructors[0]
-                            .newInstance(initargs);
-                    copyNumberCriteria.setCopyNumber(copyNumberDE);
-                }// end of try
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createCopyNumberCriteriaObject() method:  "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createCopyNumberCriteriaObject() method: "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-
-            } //end of while
-        } // end of if
-        if (copyNoDelDomainMap.size() > 0) {
-            Set keys = copyNoDelDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) copyNoDelDomainMap.get(key);
-                    Constructor[] copyNoConstructors = Class.forName(className)
-                            .getConstructors();
-
-                    Object[] initargs = { Float.valueOf((String) key) };
-                    CopyNumberDE copyNumberDE = (CopyNumberDE) copyNoConstructors[0]
-                            .newInstance(initargs);
-                    copyNumberCriteria.setCopyNumber(copyNumberDE);
-                }// end of try
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createCopyNumberCriteriaObject() method:  "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createCopyNumberCriteriaObject() method: "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-
-            } //end of while
-        } // end of if
-    }
-
-    /*
-     * createRegionCriteriaObject() mtethod is to look through the
-     * regionDomainMap * and extract out the domain elements and create
-     * respective Criteria Objects
-     */
-    private void createRegionCriteriaObject() {
-        if (regionDomainMap.size() > 0) {
-            Set keys = regionDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) regionDomainMap.get(key);
-                    Constructor[] regionConstructors = Class.forName(className)
-                            .getConstructors();
-
-                    if (className.endsWith("CytobandDE")) {
-                        String[] initargs = { key };
-                        CytobandDE cytobandDE = (CytobandDE) regionConstructors[0]
-                                .newInstance(initargs);
-                        regionCriteria.setCytoband(cytobandDE);
-                    } else if (className.endsWith("ChromosomeNumberDE")) {
-                        String[] initargs = { key };
-                        ChromosomeNumberDE chromosomeNumberDE = (ChromosomeNumberDE) regionConstructors[0]
-                                .newInstance(initargs);
-                        regionCriteria.setChromNumber(chromosomeNumberDE);
-
-                    } else if (className.endsWith("StartPosition")) {
-                        Integer[] initargs = { new Integer(Integer
-                                .parseInt(key)) };
-                        BasePairPositionDE.StartPosition startPosition = (BasePairPositionDE.StartPosition) regionConstructors[0]
-                                .newInstance(initargs);
-                        regionCriteria.setStart(startPosition);
-                    }
-
-                    else if (className.endsWith("EndPosition")) {
-                        Integer[] initargs = { new Integer(Integer
-                                .parseInt(key)) };
-                        BasePairPositionDE.EndPosition endPosition = (BasePairPositionDE.EndPosition) regionConstructors[0]
-                                .newInstance(initargs);
-                        regionCriteria.setEnd(endPosition);
-                    }
-                }//end of try
-
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createRegionCriteriaObject() method: "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                    ;
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createRegionCriteriaObject() method: "
-                                    + le.getMessage());
-                    logger.error(le);
-                    ;
-                }
-
-            }// end of while
-        } // end of if
-    }
-
-    /*
-     * createCloneOrProbeCriteriaObject() mtethod is to look through the
-     * cloneDomainMap * and extract out the domain elements and create
-     * respective Criteria Objects
-     */
-    private void createCloneOrProbeCriteriaObject() {
-        if (cloneDomainMap.size() > 0) {
-            Set keys = cloneDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) cloneDomainMap.get(key);
-                    Constructor[] cloneConstructors = Class.forName(className)
-                            .getConstructors();
-                    String[] initargs = { key };
-                    CloneIdentifierDE cloneIdentifierDE = (CloneIdentifierDE) cloneConstructors[0]
-                            .newInstance(initargs);
-                    cloneOrProbeIDCriteria
-                            .setCloneIdentifier(cloneIdentifierDE);
-                }// end of try
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createCloneOrProbeCriteriaObject() method:  "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createCloneOrProbeCriteriaObject()method: "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-            } // end of while
-        } // end of if
-    }
-
-    /*
-     * createSNPCriteriaObject() mtethod is to look through the snpDomainMap *
-     * and extract out the domain elements and create respective Criteria
-     * Objects
-     */
-    private void createSNPCriteriaObject() {
-        if (snpDomainMap.size() > 0) {
-            logger.debug("snpDomainMap.size():" + snpDomainMap.size());
-            Set keys = snpDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) snpDomainMap.get(key);
-                    Constructor[] snpConstructors = Class.forName(className)
-                            .getConstructors();
-                    String[] initargs = { key };
-                    SNPIdentifierDE snpIdentifierDE = (SNPIdentifierDE) snpConstructors[0]
-                            .newInstance(initargs);
-                    snpCriteria.setSNPIdentifier(snpIdentifierDE);
-                }// end of try
-                catch (Exception ex) {
-                    logger.error("Error in createSNPCriteriaObject() method : "
-                            + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createSNPCriteriaObject() method:  "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-
-            }// end of while
-        } // end of if
-    }
-
-    /*
-     * createAlleleFrequencyCriteriaObject() mtethod is to look through the
-     * alleleDomainMap * and extract out the domain elements and create
-     * respective Criteria Objects
-     */
-    private void createAlleleFrequencyCriteriaObject() {
-        if (alleleDomainMap.size() > 0) {
-            Set keys = alleleDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) alleleDomainMap.get(key);
-                    Constructor[] geneConstructors = Class.forName(className)
-                            .getConstructors();
-                    String[] initargs = { key };
-                    AlleleFrequencyDE alleleFrequencyDE = (AlleleFrequencyDE) geneConstructors[0]
-                            .newInstance(initargs);
-                    alleleFrequencyCriteria
-                            .setAlleleFrequencyDE(alleleFrequencyDE);
-                }// end of try
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createAlleleFrequencyCriteriaObject() method : "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createAlleleFrequencyCriteriaObject() method:  "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-            } //end of while
-        }// end of if
-    }
-
-    /*
-     * createAssayPlatformCriteriaObject() mtethod is to look through the
-     * assayDomainMap * and extract out the domain elements and create
-     * respective Criteria Objects
-     */
-    private void createAssayPlatformCriteriaObject() {
-        if (assayDomainMap.size() > 0) {
-            Set keys = assayDomainMap.keySet();
-            Iterator iter = keys.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) assayDomainMap.get(key);
-                    Constructor[] geneConstructors = Class.forName(className)
-                            .getConstructors();
-                    String[] initargs = { key };
-                    AssayPlatformDE assayPlatformDE = (AssayPlatformDE) geneConstructors[0]
-                            .newInstance(initargs);
-                    assayPlatformCriteria.setAssayPlatformDE(assayPlatformDE);
-                }// end of try
-                catch (Exception ex) {
-                    logger
-                            .error("Error in createAssayPlatformCriteriaObject() method : "
-                                    + ex.getMessage());
-                    logger.error(ex);
-                } catch (LinkageError le) {
-                    logger
-                            .error("Linkage Error in createAssayPlatformCriteriaObject() method:  "
-                                    + le.getMessage());
-                    logger.error(le);
-                }
-            }// end of while
-        }// end of if
-    }
-
-    /**
+   /**
      * Method reset
      * 
      * @param ActionMapping
@@ -796,17 +377,11 @@ public class ComparativeGenomicForm extends BaseForm {
         cloneList = "";
         queryName = "";
         copyNumber = "";
-        basePairStart = "";
+        basePairStart = "";       
         sampleGroup = "";
-        diseaseDomainMap = new HashMap();
-        geneDomainMap = new HashMap();
-        copyNoAmpDomainMap = new HashMap();
-        copyNoDelDomainMap = new HashMap();
-        regionDomainMap = new HashMap();
-        cloneDomainMap = new HashMap();
-        snpDomainMap = new HashMap();
-        alleleDomainMap = new HashMap();// this may be implemented this release.
-        assayDomainMap = new HashMap();
+		sampleList = "";
+		sampleFile = null;
+       
 
         diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
         geneCriteria = new GeneIDCriteria();
@@ -874,36 +449,41 @@ public class ComparativeGenomicForm extends BaseForm {
             if (thisGeneGroup != null
                     && thisGeneGroup.equalsIgnoreCase("Specify")
                     && thisGeneType != null) {
+            	geneCriteria = new GeneIDCriteria();
 
                 if (!thisGeneType.equals("allgenes") && this.geneList != null
                         && !this.geneList.equals("")) {
                     String[] geneStr = this.geneList.split("\\x2C");
                     for (int i = 0; i < geneStr.length; i++) {
-                        if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-                            geneDomainMap
-                                    .put(geneStr[i].trim(),
-                                            GeneIdentifierDE.GeneSymbol.class
-                                                    .getName());
+                        if (thisGeneType.equalsIgnoreCase("genesymbol")) {                        	
+                        	
+                        	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(geneStr[i].trim());                          	
+                        	 geneCriteria.setGeneIdentifier(geneIdentifierDE);
+                        
                         } else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-                            geneDomainMap.put(geneStr[i].trim(),
-                                    GeneIdentifierDE.LocusLink.class.getName());
+                       	     GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.LocusLink(geneStr[i].trim());                          	
+                    	     geneCriteria.setGeneIdentifier(geneIdentifierDE);                    
+                          
                         } else if (thisGeneType
                                 .equalsIgnoreCase("genbankno")) {
-                            geneDomainMap
-                                    .put(
-                                            geneStr[i].trim(),
-                                            GeneIdentifierDE.GenBankAccessionNumber.class
-                                                    .getName());
+                        	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(geneStr[i].trim());                          	
+                     	     geneCriteria.setGeneIdentifier(geneIdentifierDE);                            	 
+                          
                         }
                     } // end of for loop
                 }// end of if(this.geneList != null &&
                  // !this.geneList.equals(""))
                 else if (thisGeneType.equals("allgenes")
                         && this.geneList == null) {
-                    geneDomainMap.put("allgenes",
-                            GeneIdentifierDE.GeneSymbol.class.getName());
+                	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol("allgenes");                          	
+                	 geneCriteria.setGeneIdentifier(geneIdentifierDE);
+                   
                 }
+                
+                
             }
+            
+            
         }
     }
     
@@ -919,7 +499,9 @@ public class ComparativeGenomicForm extends BaseForm {
 	        if (thisGeneOption != null
 	                && thisGeneOption.equalsIgnoreCase("allgenes")){
 	            //set all Genes query and give copyNumber default value
-	            isAllGenes = true;
+	            isAllGenes = true;	           
+	            allGenesCriteria = new AllGenesCriteria(isAllGenes);	            
+	            
 	            }
 	    }
 	}
@@ -933,48 +515,11 @@ public class ComparativeGenomicForm extends BaseForm {
 	    return geneOption;
 	}
     
-    /**
-	 * Returns the sampleList.
-	 * 
-	 * @return String
-	 */
-	public String getSampleList() {
-
-		return sampleList;
-	}
+   
 	
-	/**
-	 * Set the sampleList.
-	 * 
-	 * @param sampleList
-	 *            The sampleList to set
-	 */
-	public void setSampleList(String sampleList) {
-		this.sampleList = sampleList;
-		if(thisRequest!=null){
-
-			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
 	
-			if ((thisSampleGroup != null)
-					&& thisSampleGroup.equalsIgnoreCase("Specify")
-					&& (this.sampleList.length() > 0)) {
-	
-				String[] splitSampleValue = this.sampleList.split("\\x2C");
-				
-	
-				for (int i = 0; i < splitSampleValue.length; i++) {
-	                sampleDomainMap.put(splitSampleValue[i].trim(),
-					SampleIDDE.class.getName());	
-				}
-			 }
 
-		}
-	}
-
-
-    public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
-        return this.diseaseOrGradeCriteria;
-    }
+  
 
     public GeneIDCriteria getGeneIDCriteria() {
         return this.geneCriteria;
@@ -984,9 +529,7 @@ public class ComparativeGenomicForm extends BaseForm {
         return this.allGenesCriteria;
     }
     
-    public SampleCriteria getSampleCriteria(){
-	    return this.sampleCriteria;
-	}
+   
 
     public CopyNumberCriteria getCopyNumberCriteria() {
         return this.copyNumberCriteria;
@@ -1048,9 +591,10 @@ public class ComparativeGenomicForm extends BaseForm {
      */
     public void setAssayPlatform(String assayPlatform) {
         this.assayPlatform = assayPlatform;
-        if(assayDomainMap!=null){
-            assayDomainMap.put(this.assayPlatform, AssayPlatformDE.class.getName());
-        }
+        AssayPlatformDE assayPlatformDE = new AssayPlatformDE(this.assayPlatform);
+        assayPlatformCriteria = new AssayPlatformCriteria();
+        assayPlatformCriteria.setAssayPlatformDE(assayPlatformDE);                                                         
+      
     }
 
     /**
@@ -1208,51 +752,21 @@ public class ComparativeGenomicForm extends BaseForm {
             String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
             if (thisCopyNumber != null
                     && thisCopyNumber.equalsIgnoreCase("amplified")
-                    && (this.cnAmplified.length() > 0)) {
-                copyNoAmpDomainMap.put(this.cnAmplified,
-                        CopyNumberDE.Amplification.class.getName());
+                    && (this.cnAmplified != null && this.cnAmplified.trim().length() > 0)) {
+              try{
+           	         	
+              	 copyNumberCriteria = new CopyNumberCriteria();
+            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnAmplified));
+            	 copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
+           	    }
+             catch(NumberFormatException e){}
+            	
+              }
+               
             }
-        }
-    }
-
-    /**
-     * Returns the tumorType.
-     * 
-     * @return String
-     */
-    public String getTumorType() {
-        return tumorType;
-    }
-
-    /**
-     * Set the tumorType.
-     * 
-     * @param tumorType
-     *            The tumorType to set
-     */
-    public void setTumorType(String tumorType) {
-        this.tumorType = tumorType;
-        if(diseaseDomainMap!=null){
-	        if (tumorType!=null && this.tumorType.equalsIgnoreCase("ALL")) {
-	            ArrayList allDiseases = this.getDiseaseType();
-	            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
-	                    .hasNext();) {
-	                LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter
-	                        .next();
-	                String thisDiseaseType = thisLabelBean.getValue();
-	                // stuff this in our DomainMap for later use !!
-	                if (!thisDiseaseType.equalsIgnoreCase("ALL")) {
-	                    diseaseDomainMap.put(thisDiseaseType, DiseaseNameDE.class
-	                            .getName());
-	                }
-	            }
-	        } else {
-	            diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
-	        }
-        }
-
-    }
-
+         }
+        
+  
     /**
      * Returns the cloneListFile.
      * 
@@ -1283,6 +797,7 @@ public class ComparativeGenomicForm extends BaseForm {
 
                 File cloneFile = new File(this.cloneListFile);
                 String line = null;
+                cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
                 try {
                     FileReader editfr = new FileReader(cloneFile);
                     BufferedReader inFile = new BufferedReader(editfr);
@@ -1294,13 +809,12 @@ public class ComparativeGenomicForm extends BaseForm {
                         while (st.hasMoreTokens()) {
                             String token = st.nextToken();
                             if (thisCloneList.equalsIgnoreCase("imageId")) {
-                                cloneDomainMap.put(token,
-                                        CloneIdentifierDE.IMAGEClone.class
-                                                .getName());
+                              	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(token);                                                                            
+                                 cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);
+                               
                             } else if (thisCloneList.equalsIgnoreCase("BACId")) {
-                                cloneDomainMap.put(token,
-                                        CloneIdentifierDE.BACClone.class
-                                                .getName());
+	                           	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(token);                                                                            
+	                             cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);
                             }
 
                         }
@@ -1343,17 +857,19 @@ public class ComparativeGenomicForm extends BaseForm {
                     .getParameter("cloneList");
             if (thisCloneId != null && thisCloneList != null
                     && !thisCloneList.equals("")) {
+            	cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
                 if (this.cloneListSpecify != null
                         && !this.cloneListSpecify.equals("")) {
                     String[] cloneStr = this.cloneListSpecify.split("\\x2C");
                     for (int i = 0; i < cloneStr.length; i++) {
                         if (thisCloneList.equalsIgnoreCase("imageId")) {
-                            cloneDomainMap.put(cloneStr[i].trim(),
-                                    CloneIdentifierDE.IMAGEClone.class
-                                            .getName());
+                        	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(cloneStr[i].trim());                                                                            
+                             cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);                           
                         } else if (thisCloneList.equalsIgnoreCase("BACId")) {
-                            cloneDomainMap.put(cloneStr[i].trim(),
-                                    CloneIdentifierDE.BACClone.class.getName());
+	                       	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.BACClone(cloneStr[i].trim());                                                                            
+	                         cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);        
+	                
+                          
                         }
 
                     } // end of for loop
@@ -1388,24 +904,27 @@ public class ComparativeGenomicForm extends BaseForm {
 
             // this is to check the type of the SNP
             String thisSNPList = thisRequest.getParameter("snpList");
+            
 
             if (thisSNPId != null && thisSNPId.equalsIgnoreCase("specify")
                     && thisSNPList != null && !thisSNPList.equals("")) {
                 if (this.snpListSpecify != null
                         && !this.snpListSpecify.equals("")) {
                     String[] snpStr = this.snpListSpecify.split("\\x2C");
+                    snpCriteria = new SNPCriteria();
                     for (int i = 0; i < snpStr.length; i++) {
                         if (thisSNPList.equalsIgnoreCase("TSCId")) {
-                            snpDomainMap.put(snpStr[i].trim(),
-                                    SNPIdentifierDE.TSC.class.getName());
+                        	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.TSC(snpStr[i].trim());
+                        	  snpCriteria.setSNPIdentifier(snpIdentifierDE);
+                         
                         } else if (thisSNPList.equalsIgnoreCase("dBSNPId")) {
-                            snpDomainMap.put(snpStr[i].trim(),
-                                    SNPIdentifierDE.DBSNP.class.getName());
+	                      	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.DBSNP(snpStr[i].trim());
+	                    	  snpCriteria.setSNPIdentifier(snpIdentifierDE);	                     
+                         
                         } else if (thisSNPList.equalsIgnoreCase("probeSetId")) {
-                            snpDomainMap
-                                    .put(snpStr[i].trim(),
-                                            SNPIdentifierDE.SNPProbeSet.class
-                                                    .getName());
+                        	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.SNPProbeSet(snpStr[i].trim());
+	                    	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                       
+                        
                         }
                     } // end of for loop
                 }// end of if(thisSNPId != null && thisSNPList != null &&
@@ -1451,22 +970,26 @@ public class ComparativeGenomicForm extends BaseForm {
                     BufferedReader inFile = new BufferedReader(
                             new InputStreamReader(stream));
                     int count = 0;
+                    snpCriteria = new SNPCriteria();
                     while ((inputLine = inFile.readLine()) != null
                             && count < RembrandtConstants.MAX_FILEFORM_COUNT) {
                         if (UIFormValidator.isAscii(inputLine)) { //make sure all data is ASCII
                             count++; //increment
                             inputLine = inputLine.trim();
                             if (thisSNPList.equalsIgnoreCase("TSCId")) {
-                                snpDomainMap.put(inputLine,
-                                        SNPIdentifierDE.TSC.class.getName());
+                            	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.TSC(inputLine);
+                            	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                            
+                              
                             } else if (thisSNPList.equalsIgnoreCase("dBSNPId")) {
-                                snpDomainMap.put(inputLine,
-                                        SNPIdentifierDE.DBSNP.class.getName());
+                            	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.DBSNP(inputLine);
+                            	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                           
+                               
                             } else if (thisSNPList
                                     .equalsIgnoreCase("probeSetId")) {
-                                snpDomainMap.put(inputLine,
-                                        SNPIdentifierDE.SNPProbeSet.class
-                                                .getName());
+                            	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.SNPProbeSet(inputLine);
+                            	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                      
+                               
+                            	              
                             }
                         }
                     }// end of while
@@ -1505,9 +1028,15 @@ public class ComparativeGenomicForm extends BaseForm {
 
             if (thisCopyNumber != null
                     && thisCopyNumber.equalsIgnoreCase("ampdel")
-                    && (this.cnADAmplified.length() > 0)) {
-                copyNoAmpDomainMap.put(this.cnADAmplified,
-                        CopyNumberDE.Amplification.class.getName());
+                    && (this.cnADAmplified != null && this.cnADAmplified.trim().length() >=1)) {
+            	try{       		
+	                	
+	                 copyNumberCriteria = new CopyNumberCriteria();
+	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnADAmplified));
+	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
+	           	   
+            	 }
+               catch(NumberFormatException e){}
             }
         }
 
@@ -1642,9 +1171,15 @@ public class ComparativeGenomicForm extends BaseForm {
 
             if (thisCopyNumber != null
                     && thisCopyNumber.equalsIgnoreCase("ampdel")
-                    && (this.cnADDeleted.length() > 0)) {
-                copyNoDelDomainMap.put(this.cnADDeleted,
-                        CopyNumberDE.Deletion.class.getName());
+                    && (this.cnADDeleted != null && this.cnADDeleted.trim().length() >=1)) {
+            	try{ 
+            	
+	            	 copyNumberCriteria = new CopyNumberCriteria();
+	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnADDeleted));
+	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
+            	     
+            	  }
+            	 catch(NumberFormatException e){}
             }
         }
     }
@@ -1670,10 +1205,14 @@ public class ComparativeGenomicForm extends BaseForm {
             String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
             if (thisCopyNumber != null
                     && thisCopyNumber.equalsIgnoreCase("unchange")
-                    && (this.cnUnchangeTo.length() > 0)) {
-                copyNoDelDomainMap.put(this.cnUnchangeTo,
-                        CopyNumberDE.UnChangedCopyNumberUpperLimit.class
-                                .getName());
+                    && (this.cnUnchangeTo != null && this.cnUnchangeTo.trim().length() > 0)) {
+            	 try{
+	             	 copyNumberCriteria = new CopyNumberCriteria();
+		        	 CopyNumberDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(Float.valueOf(this.cnUnchangeTo));
+		        	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
+	            	 }
+
+            	 catch(NumberFormatException e){}
             }
         }
 
@@ -1696,8 +1235,10 @@ public class ComparativeGenomicForm extends BaseForm {
      */
     public void setAlleleFrequency(String alleleFrequency) {
         this.alleleFrequency = alleleFrequency;
-        alleleDomainMap.put(this.alleleFrequency, AlleleFrequencyDE.class
-                .getName());
+        AlleleFrequencyDE alleleFrequencyDE = new AlleleFrequencyDE(this.alleleFrequency);
+        alleleFrequencyCriteria = new AlleleFrequencyCriteria();
+        alleleFrequencyCriteria.setAlleleFrequencyDE(alleleFrequencyDE);
+     
     }
 
     /**
@@ -1766,21 +1307,8 @@ public class ComparativeGenomicForm extends BaseForm {
         return geneFile;
     }
     
-    /**
-	 * Returns the sampleFile.
-	 * 
-	 * @return String
-	 */
-	public FormFile getSampleFile() {
-		return sampleFile;
-	}
-
-    /**
-     * Set the geneFile.
-     * 
-     * @param geneFile
-     *            The geneFile to set
-     */
+   
+  
     public void setGeneFile(FormFile geneFile) {
         this.geneFile = geneFile;
         if (thisRequest != null) {
@@ -1800,6 +1328,7 @@ public class ComparativeGenomicForm extends BaseForm {
                     String inputLine = null;
                     BufferedReader inFile = new BufferedReader(
                             new InputStreamReader(stream));
+                    
 
                     int count = 0;
                     while ((inputLine = inFile.readLine()) != null
@@ -1808,26 +1337,27 @@ public class ComparativeGenomicForm extends BaseForm {
                             inputLine = inputLine.trim();
                             count++;
                             if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-                                geneDomainMap.put(inputLine,
-                                        GeneIdentifierDE.GeneSymbol.class
-                                                .getName());
+                            	
+                            	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine);                          	
+                            	 geneCriteria.setGeneIdentifier(geneIdentifierDE);
+                              
                             } else if (thisGeneType
                                     .equalsIgnoreCase("genelocus")) {
-                                geneDomainMap.put(inputLine,
-                                        GeneIdentifierDE.LocusLink.class
-                                                .getName());
+                            	
+                            	GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);                          	
+                           	    geneCriteria.setGeneIdentifier(geneIdentifierDE);
+                              
                             } else if (thisGeneType
                                     .equalsIgnoreCase("genbankno")) {
-                                geneDomainMap
-                                        .put(
-                                                inputLine,
-                                                GeneIdentifierDE.GenBankAccessionNumber.class
-                                                        .getName());
+                            	
+                            	GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(inputLine);                          	
+                           	    geneCriteria.setGeneIdentifier(geneIdentifierDE);                              
+                             
                             } else if (thisGeneType
                                     .equalsIgnoreCase("allgenes")) {
-                                geneDomainMap.put(inputLine,
-                                        GeneIdentifierDE.GeneSymbol.class
-                                                .getName());
+                            	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine); 
+                            	 geneCriteria.setGeneIdentifier(geneIdentifierDE); 
+                            
                             }
                         }
                     }// end of while
@@ -1842,47 +1372,9 @@ public class ComparativeGenomicForm extends BaseForm {
         }
     }
     
-    /**
-	 * Set the sampleFile.
-	 * 
-	 * @param sampleFile
-	 *            The sampleFile to set
-	 */
-	public void setSampleFile(FormFile sampleFile) {
-		this.sampleFile = sampleFile;
-		if(thisRequest!=null){
-			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
-	//		retrieve the file name & size
-	 		String fileName= sampleFile.getFileName();
-	 		int fileSize = sampleFile.getFileSize();
-	
-	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
-					&& (this.sampleFile != null)
-					&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
-					&& (this.sampleFile.getContentType().equals("text/plain"))) {
-				try {
-					InputStream stream = sampleFile.getInputStream();				
-					String inputLine = null;
-					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
-					
-					int count = 0;
-					while ((inputLine = inFile.readLine()) != null && count < RembrandtConstants.MAX_FILEFORM_COUNT)  {
-						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
-						    inputLine = inputLine.trim();	
-						    count++;
-								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
-						}
-					}// end of while
-	
-					inFile.close();
-				} catch (IOException ex) {
-				    logger.error("Errors when uploading sample file:"
-							+ ex.getMessage());
-				}
-	
-			}
-		}
-	}
+
+    
+   
 
 
     /**
@@ -1928,9 +1420,15 @@ public class ComparativeGenomicForm extends BaseForm {
             String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
             if (thisCopyNumber != null
                     && thisCopyNumber.equalsIgnoreCase("deleted")
-                    && (this.cnDeleted.length() > 0)) {
-                copyNoDelDomainMap.put(this.cnDeleted,
-                        CopyNumberDE.Deletion.class.getName());
+                    && (this.cnDeleted != null && this.cnDeleted.trim().length() > 0)) {
+           	try{
+                 		
+            	 copyNumberCriteria = new CopyNumberCriteria();
+            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnDeleted));
+            	 copyNumberCriteria.setCopyNumber(copyNumberDE); 
+           	 
+             }
+            catch(NumberFormatException e){}
             }
         }
     }
@@ -1954,24 +1452,9 @@ public class ComparativeGenomicForm extends BaseForm {
         this.geneGroup = geneGroup;
     }
     
-    /**
-	 * Returns the geneGroup.
-	 * 
-	 * @return String
-	 */
-	public String getSampleGroup() {
-		return sampleGroup;
-	}
+   
 	
-	/**
-	 * Set the sampleGroup.
-	 * 
-	 * @param sampleGroup
-	 *            The sampleGroup to set
-	 */
-	public void setSampleGroup(String sampleGroup) {
-		this.sampleGroup = sampleGroup;
-	}
+	
 	
 
 
@@ -1996,11 +1479,16 @@ public class ComparativeGenomicForm extends BaseForm {
             String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
             if (thisCopyNumber != null
                     && thisCopyNumber.equalsIgnoreCase("unchange")
-                    && (this.cnUnchangeFrom.length() > 0)) {
-                copyNoAmpDomainMap.put(this.cnUnchangeFrom,
-                        CopyNumberDE.UnChangedCopyNumberDownLimit.class
-                                .getName());
-            }
+                    && (this.cnUnchangeFrom != null && this.cnUnchangeFrom.trim().length() > 0)) {
+            	try{
+	            	
+			           	 copyNumberCriteria = new CopyNumberCriteria();
+			        	 CopyNumberDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(Float.valueOf(this.cnUnchangeFrom));
+			        	 copyNumberCriteria.setCopyNumber(copyNumberDE);           	                                            
+		           }
+            	    
+            	 catch(NumberFormatException e){}
+              }
         }
     }
 

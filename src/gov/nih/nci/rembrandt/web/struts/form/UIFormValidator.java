@@ -162,6 +162,22 @@ public class UIFormValidator {
     	return errors;
     }
     
+    
+    public static ActionErrors validateCopyNo(String copyNumber, String copyNo, String copyNoType, ActionErrors errors) {
+        if (copyNumber != null && copyNo!= null  && copyNo.trim().length() > 0) {
+        	copyNo = copyNo.trim();
+        	try{
+        		int n = Integer.parseInt(copyNo);
+        	}
+        	catch (NumberFormatException ne){
+        		    
+        		 errors.add(copyNoType,new ActionError("gov.nih.nci.nautilus.ui.struts.form.copyno.numeric.error"));
+        	 
+        	}
+        }
+    	return errors;
+    }
+    
     public static ActionErrors validate(String geneGroup, String geneList, FormFile geneFile, ActionErrors errors) {
         if (geneGroup!= null && geneGroup.trim().length() >= 1){
             if (geneList.trim().length() < 1 && geneFile == null){
@@ -209,6 +225,7 @@ public class UIFormValidator {
     	return errors;
     }
     
+   
     /**
      * <p>Checks whether the string is ASCII 7 bit.</p>
      *

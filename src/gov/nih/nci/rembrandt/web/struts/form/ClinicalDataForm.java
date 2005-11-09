@@ -49,13 +49,9 @@ public class ClinicalDataForm extends BaseForm {
     private String queryName;
 
     private String resultView;
-
-    /** tumorType property */
-    private String tumorType;
+  
     
-    /** sampleList property */
-	private String sampleList;
-
+ 
     /** tumorGrade property */
     private String tumorGrade;
 
@@ -101,11 +97,14 @@ public class ClinicalDataForm extends BaseForm {
     /** gender property */
     private String genderType;
     
-    /** sampleFile property */
-	private FormFile sampleFile;
+    private AgeAtDiagnosisDE.LowerAgeLimit lowerAgeLimit = null;
+    private AgeAtDiagnosisDE.UpperAgeLimit upperAgeLimit = null;
+    private SurvivalDE.UpperSurvivalRange upperSurvivalRange = null;
+    private SurvivalDE.LowerSurvivalRange lowerSurvivalRange = null;
+    
+   
 	
-	/** sampleGroup property */
-	private String sampleGroup;
+	
 
     // Collections used for Lookup values.
     //private ArrayList diseaseType;// moved to the upper class: BaseForm.java
@@ -127,10 +126,9 @@ public class ClinicalDataForm extends BaseForm {
 
     private ArrayList genderTypeColl = new ArrayList();
 
-    // criteria objects
-    private DiseaseOrGradeCriteria diseaseOrGradeCriteria;
+   
 
-    private OccurrenceCriteria occurrenceCriteria;
+    private OccurrenceCriteria occurrenceCriteria = new OccurrenceCriteria();
 
     private RadiationTherapyCriteria radiationTherapyCriteria;
 
@@ -138,362 +136,29 @@ public class ClinicalDataForm extends BaseForm {
 
     private SurgeryTypeCriteria surgeryTypeCriteria;
 
-    private SurvivalCriteria survivalCriteria;
+    private SurvivalCriteria survivalCriteria = new SurvivalCriteria();
 
-    private AgeCriteria ageCriteria;
+    private AgeCriteria ageCriteria = new AgeCriteria();
 
     private GenderCriteria genderCriteria;
     
-    private SampleCriteria sampleCriteria;
+   
 
-    // Hashmap to store Domain elements
-    private HashMap diseaseDomainMap = new HashMap();
+  
+  
 
-    private HashMap gradeDomainMap = new HashMap();// this one may not be used
-                                                   // for this release.
-
-    private HashMap occurrenceDomainMap = new HashMap();
-
-    private HashMap radiationDomainMap = new HashMap();
-
-    private HashMap chemoAgentDomainMap = new HashMap();
-
-    private HashMap surgeryDomainMap = new HashMap();
-
-    private HashMap survivalDomainMap = new HashMap();
-
-    private HashMap ageDomainMap = new HashMap();
-
-    private HashMap genderDomainMap = new HashMap();
     
-    private HashMap sampleDomainMap = new HashMap();
-
-    private HttpServletRequest thisRequest;
 
     // --------------------------------------------------------- Methods
     public ClinicalDataForm() {
         super();
         // Create Lookups for Clinical Data screens
         setClinicalDataLookup();
-
     }
-
    
 
-    private void createDiseaseCriteriaObject() {
-        if (diseaseDomainMap != null) {
-            Set keySet = diseaseDomainMap.keySet();
-            Iterator iter = keySet.iterator();
-            while (iter.hasNext()) {
-                try {
-                    String key = (String) iter.next();
-                    String className = (String) diseaseDomainMap.get(key);
-                    Constructor[] diseaseConstructors = Class
-                            .forName(className).getConstructors();
-                    String[] initargs = { key };
-                    DiseaseNameDE diseaseDE = (DiseaseNameDE) diseaseConstructors[0]
-                            .newInstance(initargs);
-                    diseaseOrGradeCriteria.setDisease(diseaseDE);
-
-                } // end of try
-                catch (Exception ex) {
-                  logger.error(ex);
-              } catch (LinkageError le) {
-                  logger.error(le);
-              }
-
-            }// end of while
-
-        }// end of if
-    }
-
-    private void createOccurrenceCriteriaObject() {
-
-        // Loop thru the HashMap, extract the Domain elements and create
-        // respective Criteria Objects
-        Set keys = occurrenceDomainMap.keySet();
-        logger.debug("occurrenceDomainMap.size() is :"
-                + occurrenceDomainMap.size());
-        Iterator i = keys.iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
-            try {
-                String strOccurenceClass = (String) occurrenceDomainMap
-                        .get(key);
-                Constructor[] occurrenceConstructors = Class.forName(
-                        strOccurenceClass).getConstructors();
-                Object[] parameterObjects = { key };
-
-                OccurrenceDE occurrenceDE = (OccurrenceDE) occurrenceConstructors[0]
-                        .newInstance(parameterObjects);
-
-                occurrenceCriteria.setOccurrence(occurrenceDE);
-     
-
-            } catch (Exception ex) {
-                logger.error(ex);
-
-            } catch (LinkageError le) {
-                logger.error(le);
-            }
-
-        }
-    }
-
-    private void createRadiationTherapyCriteriaObject() {
-
-        Set keys = radiationDomainMap.keySet();
-        Iterator i = keys.iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
-            try {
-                String strRadiationClass = (String) radiationDomainMap.get(key);
-                Constructor[] radiationConstructors = Class.forName(
-                        strRadiationClass).getConstructors();
-                Object[] parameterObjects = { (String) key };
-
-                RadiationTherapyDE radiationTherapyDE = (RadiationTherapyDE) radiationConstructors[0]
-                        .newInstance(parameterObjects);
-                radiationTherapyCriteria
-                        .setRadiationTherapyDE(radiationTherapyDE);
-
-            } catch (Exception ex) {
-                logger.error(ex);
-            } catch (LinkageError le) {
-                logger.error(le);
-            }
-
-        }
-    }
-
-    private void createChemoAgentCriteriaObject() {
-
-        Set keys = chemoAgentDomainMap.keySet();
-        Iterator i = keys.iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
-            try {
-                String strChemoDomainClass = (String) chemoAgentDomainMap
-                        .get(key);
-                Constructor[] chemoConstructors = Class.forName(
-                        strChemoDomainClass).getConstructors();
-                Object[] parameterObjects = { (String) key };
-
-                ChemoAgentDE chemoAgentDE = (ChemoAgentDE) chemoConstructors[0]
-                        .newInstance(parameterObjects);
-                chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
-
-            } catch (Exception ex) {
-                logger.error(ex);
-            } catch (LinkageError le) {
-                logger.error(le);
-            }
-
-        }
-
-    }
-
-    private void createSurgeryTypeCriteriaObject() {
-
-        // Loop thru the surgeryDomainMap HashMap, extract the Domain elements
-        // and create respective Criteria Objects
-        Set keys = surgeryDomainMap.keySet();
-        Iterator i = keys.iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
-
-            try {
-                String strSurgeryDomainClass = (String) surgeryDomainMap
-                        .get(key);
-                Constructor[] surgeryConstructors = Class.forName(
-                        strSurgeryDomainClass).getConstructors();
-                Object[] parameterObjects = { key };
-
-                SurgeryTypeDE surgeryTypeDE = (SurgeryTypeDE) surgeryConstructors[0]
-                        .newInstance(parameterObjects);
-                surgeryTypeCriteria.setSurgeryTypeDE(surgeryTypeDE);
-            
-
-            } catch (Exception ex) {
-                logger.error(ex);
-            } catch (LinkageError le) {
-                logger.error(le);
-            }
-
-        }
-
-    }
-
-    private void createSurvivalCriteriaObject() {
-
-        // Loop thru the survivalDomainMap HashMap, extract the Domain elements
-        // and create respective Criteria Objects
-        Set keys = survivalDomainMap.keySet();
-        Iterator i = keys.iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
-            logger.debug(key + "=>" + survivalDomainMap.get(key));
-
-            try {
-                String strSurvivalDomainClass = (String) survivalDomainMap
-                        .get(key);
-                Constructor[] survivalConstructors = Class.forName(
-                        strSurvivalDomainClass).getConstructors();
-
-                if (strSurvivalDomainClass.endsWith("LowerSurvivalRange")) {
-                    Object[] parameterObjects = { Integer.valueOf((String) key) };
-                    SurvivalDE.LowerSurvivalRange lowerSurvivalRange = (SurvivalDE.LowerSurvivalRange) survivalConstructors[0]
-                            .newInstance(parameterObjects);
-                    survivalCriteria.setLowerSurvivalRange(lowerSurvivalRange);
-                } else if (strSurvivalDomainClass
-                        .endsWith("UpperSurvivalRange")) {
-                    Object[] parameterObjects = { Integer.valueOf((String) key) };
-                    SurvivalDE.UpperSurvivalRange upperSurvivalRange = (SurvivalDE.UpperSurvivalRange) survivalConstructors[0]
-                            .newInstance(parameterObjects);
-                    survivalCriteria.setUpperSurvivalRange(upperSurvivalRange);
-                }
-            } catch (Exception ex) {
-
-                //LogEntry logEntry = new LogEntry(Level.ERROR,"Error in
-                // createSurvivalCriteriaObject() method: "+ ex.getMessage());
-                //Logging.add(logEntry);
-
-                //logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
-                //Logging.add(logEntry);
-
-            } catch (LinkageError le) {
-                //LogEntry logEntry = new LogEntry(Level.ERROR,"Linkage Error
-                // in createSurvivalCriteriaObject() method: "+
-                // le.getMessage());
-                //Logging.add(logEntry);
-
-                //logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
-                //Logging.add(logEntry);
-            }
-
-        }
-    }
-
-    private void createAgeCriteriaObject() {
-
-        // Loop thru the ageDomainMap HashMap, extract the Domain elements and
-        // create respective Criteria Objects
-        Set keys = ageDomainMap.keySet();
-        Iterator i = keys.iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
-
-            //LogEntry logEntry = new LogEntry(Level.DEBUG,key + "=>" +
-            // ageDomainMap.get(key));
-            //Logging.add(logEntry);
-
-            try {
-                String strAgeDomainClass = (String) ageDomainMap.get(key);
-                Constructor[] ageConstructors = Class
-                        .forName(strAgeDomainClass).getConstructors();
-
-                if (strAgeDomainClass.endsWith("LowerAgeLimit")) {
-                    Object[] parameterObjects = { Integer.valueOf((String) key) };
-                    AgeAtDiagnosisDE.LowerAgeLimit lowerAgeLimit = (AgeAtDiagnosisDE.LowerAgeLimit) ageConstructors[0]
-                            .newInstance(parameterObjects);
-                    ageCriteria.setLowerAgeLimit(lowerAgeLimit);
-                } else if (strAgeDomainClass.endsWith("UpperAgeLimit")) {
-                    Object[] parameterObjects = { Integer.valueOf((String) key) };
-                    AgeAtDiagnosisDE.UpperAgeLimit upperAgeLimit = (AgeAtDiagnosisDE.UpperAgeLimit) ageConstructors[0]
-                            .newInstance(parameterObjects);
-                    ageCriteria.setUpperAgeLimit(upperAgeLimit);
-                }
-            } catch (Exception ex) {
-
-                //logEntry = new LogEntry(Level.ERROR,"Error in
-                // createGeneCriteriaObject: "+ ex.getMessage());
-                //Logging.add(logEntry);
-
-                //logEntry = new LogEntry(Level.ERROR,ex.fillInStackTrace());
-                //Logging.add(logEntry);
-
-            } catch (LinkageError le) {
-
-                //logEntry = new LogEntry(Level.ERROR,"Linkage Error in
-                // createAgeCriteriaObject() method: "+ le.getMessage());
-                //Logging.add(logEntry);
-
-                //logEntry = new LogEntry(Level.ERROR,le.fillInStackTrace());
-                //Logging.add(logEntry);
-
-            }
-
-        }
-    }
-
-    private void createGenderCriteriaObject() {
-
-        // Loop thru the genderDomainMap HashMap, extract the Domain elements
-        // and create respective Criteria Objects
-        Set keys = genderDomainMap.keySet();
-        Iterator i = keys.iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
-            try {
-                String strGenderDomainClass = (String) genderDomainMap.get(key);
-                Constructor[] genderConstructors = Class.forName(
-                        strGenderDomainClass).getConstructors();
-                Object[] parameterObjects = { key };
-
-                GenderDE genderDE = (GenderDE) genderConstructors[0]
-                        .newInstance(parameterObjects);
-                genderCriteria.setGenderDE(genderDE);
-     
-
-            } catch (Exception ex) {
-                logger.error(ex);
- 
-            } catch (LinkageError le) {
-                logger.error(le);
-            }
-
-        }
-
-    }
-    
-    private void createSampleCriteriaObject() {
-
-		// Loop thru the HashMap, extract the Domain elements and create
-		// respective Criteria Objects
-		Set keys = sampleDomainMap.keySet();
-		Iterator i = keys.iterator();
-		while (i.hasNext()) {
-			Object key = i.next();
-			logger.debug(key + "=>" + sampleDomainMap.get(key));
-
-			try {
-				String strSampleDomainClass = (String) sampleDomainMap.get(key);
-				Constructor[] sampleConstructors = Class.forName(
-						strSampleDomainClass).getConstructors();
-				Object[] parameterObjects = { key };
-
-				SampleIDDE sampleIDDEObj = (SampleIDDE) sampleConstructors[0]
-						.newInstance(parameterObjects);
-				sampleCriteria.setSampleID(sampleIDDEObj);
-
-				logger.debug("Sample Domain Element Value==> "
-						+ sampleIDDEObj.getValueObject());
-			} catch (Exception ex) {
-			    logger.debug("Error in createSampleCriteriaObject  "
-						+ ex.getMessage());
-				ex.printStackTrace();
-			} catch (LinkageError le) {
-			    logger.error("Linkage Error in createSampleCriteriaObject "
-						+ le.getMessage());
-				le.printStackTrace();
-			}
-
-		}
-
-	}
-
-    
-    
+  
+   
 
     public void setClinicalDataLookup() {
 
@@ -623,87 +288,15 @@ public class ClinicalDataForm extends BaseForm {
         survivalCriteria = new SurvivalCriteria();
         ageCriteria = new AgeCriteria();
         genderCriteria = new GenderCriteria();
-        sampleCriteria = new SampleCriteria();
-
-        diseaseDomainMap = new HashMap();
-        gradeDomainMap = new HashMap();
-        occurrenceDomainMap = new HashMap();
-        radiationDomainMap = new HashMap();
-        chemoAgentDomainMap = new HashMap();
-        surgeryDomainMap = new HashMap();
-        survivalDomainMap = new HashMap();
-        ageDomainMap = new HashMap();
-        genderDomainMap = new HashMap();
+        sampleCriteria = new SampleCriteria();   
+       
 
         thisRequest = request;
 
     }
 
-    /**
-     * Set the tumorType.
-     * 
-     * @param tumorType
-     *            The tumorType to set
-     */
-    public void setTumorType(String tumorType) {
-
-        this.tumorType = tumorType;
-        if (this.tumorType.equalsIgnoreCase("ALL")) {
-            ArrayList allDiseases = this.getDiseaseType();
-            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
-                    .hasNext();) {
-                LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter
-                        .next();
-                String thisDiseaseType = thisLabelBean.getValue();
-                // stuff this in our DomainMap for later use !!
-                if (!thisDiseaseType.equalsIgnoreCase("ALL")) {
-                    diseaseDomainMap.put(thisDiseaseType, DiseaseNameDE.class
-                            .getName());
-                }
-            }
-        } else {
-            diseaseDomainMap.put(this.tumorType, DiseaseNameDE.class.getName());
-        }
-    }
-    
-    /**
-	 * Returns the sampleList.
-	 * 
-	 * @return String
-	 */
-	public String getSampleList() {
-
-		return sampleList;
-	}
-	
-	/**
-	 * Set the sampleList.
-	 * 
-	 * @param sampleList
-	 *            The sampleList to set
-	 */
-	public void setSampleList(String sampleList) {
-		this.sampleList = sampleList;
-		if(thisRequest!=null){
-
-			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
-	
-			if ((thisSampleGroup != null)
-					&& thisSampleGroup.equalsIgnoreCase("Specify")
-					&& (this.sampleList.length() > 0)) {
-	
-				String[] splitSampleValue = this.sampleList.split("\\x2C");
-				
-	
-				for (int i = 0; i < splitSampleValue.length; i++) {
-	                sampleDomainMap.put(splitSampleValue[i].trim(),
-					SampleIDDE.class.getName());	
-				}
-			 }
-
-		}
-	}
-
+  
+   
 	
 	
 
@@ -724,69 +317,13 @@ public class ClinicalDataForm extends BaseForm {
      */
     public void setTumorGrade(String tumorGrade) {
         this.tumorGrade = tumorGrade;
-        gradeDomainMap.put(this.tumorGrade, GradeDE.class.getName());
-    }
+        diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
+        GradeDE gradeDE = new GradeDE(this.tumorGrade);
+        //diseaseOrGradeCriteria.setGrade(gradeDE);// will implement this later
+     }
 
-    /**
-     * Returns the tumorType.
-     * 
-     * @return String
-     */
-    public String getTumorType() {
-        return tumorType;
-    }
-    
-    /**
-	 * Returns the sampleFile.
-	 * 
-	 * @return String
-	 */
-	public FormFile getSampleFile() {
-		return sampleFile;
-	}
-	
-	/**
-	 * Set the sampleFile.
-	 * 
-	 * @param sampleFile
-	 *            The sampleFile to set
-	 */
-	public void setSampleFile(FormFile sampleFile) {
-		this.sampleFile = sampleFile;
-		if(thisRequest!=null){
-			String thisSampleGroup = this.thisRequest.getParameter("sampleGroup");
-	//		retrieve the file name & size
-	 		String fileName= sampleFile.getFileName();
-	 		int fileSize = sampleFile.getFileSize();
-	
-	 		if ((thisSampleGroup != null) && thisSampleGroup.equalsIgnoreCase("Upload")
-					&& (this.sampleFile != null)
-					&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
-					&& (this.sampleFile.getContentType().equals("text/plain"))) {
-				try {
-					InputStream stream = sampleFile.getInputStream();				
-					String inputLine = null;
-					BufferedReader inFile = new BufferedReader( new InputStreamReader(stream));
-					
-					int count = 0;
-					while ((inputLine = inFile.readLine()) != null && count < RembrandtConstants.MAX_FILEFORM_COUNT)  {
-						if(UIFormValidator.isAscii(inputLine)){ //make sure all data is ASCII
-						    inputLine = inputLine.trim();	
-						    count++;
-								sampleDomainMap.put(inputLine,SampleIDDE.class.getName());				 
-						}
-					}// end of while
-	
-					inFile.close();
-				} catch (IOException ex) {
-				    logger.error("Errors when uploading sample file:"
-							+ ex.getMessage());
-				}
-	
-			}
-		}
-	}
-
+  
+  
 
     /**
      * Set the firstPresentation.
@@ -798,9 +335,11 @@ public class ClinicalDataForm extends BaseForm {
         if (firstPresentation != null) {
             if (firstPresentation.equalsIgnoreCase("on")) {
                 this.firstPresentation = "first presentation";
+                
             }
-            occurrenceDomainMap.put(this.firstPresentation, OccurrenceDE.class
-                    .getName());
+            OccurrenceDE occurrenceDE = new OccurrenceDE(this.firstPresentation );
+            occurrenceCriteria.setOccurrence(occurrenceDE);
+          
         }
     }
 
@@ -825,9 +364,10 @@ public class ClinicalDataForm extends BaseForm {
             String recurrenceStr = (String) thisRequest.getParameter("recur");
             String recurrenceSpecify = (String) thisRequest
                     .getParameter("recurrence");
-            if (recurrenceStr != null && recurrenceSpecify != null) {
-                occurrenceDomainMap.put(this.recurrence, OccurrenceDE.class
-                        .getName());
+            if (recurrenceStr != null && !recurrenceStr.equals("")&& recurrenceSpecify != null && !recurrenceSpecify.equals("")) {            	 
+           	     OccurrenceDE occurrenceDE = new OccurrenceDE(this.recurrence);
+                 occurrenceCriteria.setOccurrence(occurrenceDE);
+                
             }
         }
     }
@@ -849,8 +389,11 @@ public class ClinicalDataForm extends BaseForm {
      */
     public void setRecurrenceType(String recurrenceType) {
         this.recurrenceType = recurrenceType;
-        occurrenceDomainMap.put(this.recurrenceType, OccurrenceDE.class
-                .getName());
+        if(this.recurrenceType !=null && !this.recurrenceType.equals("")){
+           OccurrenceDE occurrenceDE = new OccurrenceDE(this.recurrenceType);
+           occurrenceCriteria.setOccurrence(occurrenceDE);
+        }
+       
     }
 
     /**
@@ -893,14 +436,16 @@ public class ClinicalDataForm extends BaseForm {
         if (thisRequest != null) {
             // this is to check if radiation option is selected
             String thisRadiation = thisRequest.getParameter("radiation");
-
+            radiationTherapyCriteria = new RadiationTherapyCriteria();
+            
             // this is to check the type of radiation
             String thisRadiationType = thisRequest.getParameter("radiationType");
 
             if (thisRadiation != null && thisRadiationType != null
                     && !thisRadiationType.equals("")) {
-                radiationDomainMap.put(this.radiationType,
-                        RadiationTherapyDE.class.getName());
+            	  RadiationTherapyDE radiationTherapyDE = new RadiationTherapyDE(this.radiationType);
+                  radiationTherapyCriteria.setRadiationTherapyDE(radiationTherapyDE);
+              
             }
         }
     }
@@ -945,16 +490,20 @@ public class ClinicalDataForm extends BaseForm {
         if (thisRequest != null) {
             // this is to check if the chemo option is selected
             String thisChemo = thisRequest.getParameter("chemo");
-
+            chemoAgentCriteria = new ChemoAgentCriteria();
             // this is to check the chemo type
             String thisChemoType = thisRequest.getParameter("chemoType");
             if (thisChemo != null && thisChemoType != null
-                    && !thisChemoType.equals("")) {
-                chemoAgentDomainMap.put(this.chemoType, ChemoAgentDE.class
-                        .getName());
+                    && !thisChemoType.equals("")) {            	
+              
+                    ChemoAgentDE chemoAgentDE = new ChemoAgentDE(this.chemoType);
+                    chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
+                  
+                }
+              
             }
         }
-    }
+   
 
     /**
      * Returns the chemoType.
@@ -996,11 +545,11 @@ public class ClinicalDataForm extends BaseForm {
         if (thisRequest != null) {
             String thisSurgery = thisRequest.getParameter("sugery");
             String thisSurgeryType = thisRequest.getParameter("surgeryType");
-
+            surgeryTypeCriteria = new SurgeryTypeCriteria();
             if (thisSurgery != null && thisSurgeryType != null
                     && !thisSurgeryType.equals("")) {
-                surgeryDomainMap.put(this.surgeryType, SurgeryTypeDE.class
-                        .getName());
+            	 SurgeryTypeDE surgeryTypeDE = new SurgeryTypeDE(this.surgeryType);
+          	     surgeryTypeCriteria.setSurgeryTypeDE(surgeryTypeDE);                
             }
         }
     }
@@ -1021,9 +570,15 @@ public class ClinicalDataForm extends BaseForm {
      *            The survivalLower to set
      */
     public void setSurvivalLower(String survivalLower) {
-        this.survivalLower = survivalLower;
-        survivalDomainMap.put(this.survivalLower,
-                SurvivalDE.LowerSurvivalRange.class.getName());
+        this.survivalLower = survivalLower;      
+        if(this.survivalLower != null && this.survivalLower.trim().length()>=1){
+        	try{
+		        lowerSurvivalRange = new SurvivalDE.LowerSurvivalRange(Integer.valueOf(this.survivalLower));
+		        survivalCriteria.setLowerSurvivalRange(lowerSurvivalRange);
+	        	}
+        	catch(NumberFormatException e){}
+	     } 
+        
     }
 
     /**
@@ -1042,9 +597,16 @@ public class ClinicalDataForm extends BaseForm {
      *            The survivalUpper to set
      */
     public void setSurvivalUpper(String survivalUpper) {
-        this.survivalUpper = survivalUpper;
-        survivalDomainMap.put(this.survivalUpper,
-                SurvivalDE.UpperSurvivalRange.class.getName());
+        this.survivalUpper = survivalUpper;       
+       
+        if(this.survivalUpper != null && this.survivalUpper.trim().length()>=1){
+        	try{
+	        upperSurvivalRange = new SurvivalDE.UpperSurvivalRange(Integer.valueOf(this.survivalUpper));
+	        survivalCriteria.setUpperSurvivalRange(upperSurvivalRange);
+           }
+        	catch(NumberFormatException e){}
+        }
+      
     }
 
     /**
@@ -1062,12 +624,22 @@ public class ClinicalDataForm extends BaseForm {
      * @param ageLower
      *            The ageLower to set
      */
+   
     public void setAgeLower(String ageLower) {
         this.ageLower = ageLower;
-        ageDomainMap.put(this.ageLower, AgeAtDiagnosisDE.LowerAgeLimit.class
-                .getName());
+        
+       if(this.ageLower  != null && this.ageLower.trim().length()>=1){
+        	try{        	
+	          lowerAgeLimit = new AgeAtDiagnosisDE.LowerAgeLimit(Integer.valueOf(this.ageLower));	       
+	          ageCriteria.setLowerAgeLimit(lowerAgeLimit);
+        	}      
+        
+           catch(NumberFormatException e){}       
+       
+        }
+  
     }
-
+  
     /**
      * Returns the ageLower.
      * 
@@ -1085,8 +657,17 @@ public class ClinicalDataForm extends BaseForm {
      */
     public void setAgeUpper(String ageUpper) {
         this.ageUpper = ageUpper;
-        ageDomainMap.put(this.ageUpper, AgeAtDiagnosisDE.UpperAgeLimit.class
-                .getName());
+        
+      if(this.ageUpper != null && this.ageUpper.trim().length()>=1){
+        	try{        	
+	         upperAgeLimit = new AgeAtDiagnosisDE.UpperAgeLimit(Integer.valueOf(this.ageUpper));	        	  
+	         ageCriteria.setUpperAgeLimit(upperAgeLimit);
+        	} 
+        	
+        catch(NumberFormatException e){}
+    }
+    
+    
     }
 
     /**
@@ -1107,9 +688,11 @@ public class ClinicalDataForm extends BaseForm {
     public void setGenderType(String genderType) {
         this.genderType = genderType;
 
-        if (this.genderType != null && !this.genderType.trim().equals("")) {
-            genderDomainMap.put(this.genderType, GenderDE.class.getName());
-        }
+        if (this.genderType != null && !this.genderType.trim().equals("")) {        	
+           	  genderCriteria = new GenderCriteria();
+           	  GenderDE genderDE = new GenderDE(this.genderType );
+           	  genderCriteria.setGenderDE(genderDE);
+         }
 
     }
 
@@ -1158,36 +741,8 @@ public class ClinicalDataForm extends BaseForm {
      */
     public void setResultView(String resultView) {
         this.resultView = resultView;
-    }
+    }    
     
-    /**
-	 * Returns the geneGroup.
-	 * 
-	 * @return String
-	 */
-	public String getSampleGroup() {
-		return sampleGroup;
-	}
-	
-	/**
-	 * Set the sampleGroup.
-	 * 
-	 * @param sampleGroup
-	 *            The sampleGroup to set
-	 */
-	public void setSampleGroup(String sampleGroup) {
-		this.sampleGroup = sampleGroup;
-	}
-	
-
-
-    public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
-        return this.diseaseOrGradeCriteria;
-    }
-    
-    public SampleCriteria getSampleCriteria(){
-	    return this.sampleCriteria;
-	}
 
     public OccurrenceCriteria getOccurrenceCriteria() {
         return this.occurrenceCriteria;
@@ -1328,18 +883,7 @@ public class ClinicalDataForm extends BaseForm {
             }
         }
 
-        if (errors.isEmpty()) {
-
-            createDiseaseCriteriaObject();
-            createOccurrenceCriteriaObject();
-            createRadiationTherapyCriteriaObject();
-            createChemoAgentCriteriaObject();
-            createSurgeryTypeCriteriaObject();
-            createSurvivalCriteriaObject();
-            createAgeCriteriaObject();
-            createGenderCriteriaObject();
-            createSampleCriteriaObject();
-        }
+       
 
         return errors;
     }
