@@ -83,6 +83,6 @@ public final class RembrandtConstants {
     
     public static final String[] FOLD_CHANGE_DEFAULTS = {"2","3","4","5","6","7","8","9","10"};
 	
-
+    public static final String USER_PREFERENCES = "userPreferences";
 
 }

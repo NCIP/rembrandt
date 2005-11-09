@@ -4,7 +4,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 import gov.nih.nci.caintegrator.enumeration.*;
-import gov.nih.nci.rembrandt.web.helper.DefaultsHelper;
+import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -105,7 +105,7 @@ public class PrincipalComponentForm extends ActionForm {
      * @return Returns the variancePercentile.
      */
     public int getVariancePercentile() {
-        return DefaultsHelper.getVariancePercentile();
+        return variancePercentile;
     }
 
     /**

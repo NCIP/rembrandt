@@ -20,7 +20,10 @@
    		<form-bean name="viewResultsForm" type="gov.nih.nci.rembrandt.web.struts.form.ViewResultsForm"/>
    		<form-bean name="classComparisonForm" type="gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm"/>
 		<form-bean name="principalComponentForm" type="gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm"/>
-		<form-bean name="hierarchicalClusteringForm" type="gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm"/>				
+		<form-bean name="userPreferencesBean" type="gov.nih.nci.rembrandt.web.struts.bean.UserPreferencesBean"/>				
+		<form-bean name="hierarchicalClusteringForm" type="gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm"/>
+		<form-bean name="uploadGeneSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadGeneSetForm"/>				
+		
 		<form-bean name="loginForm" type="gov.nih.nci.rembrandt.web.struts.form.LoginForm"/>
    		
   </form-beans>
@@ -118,6 +121,14 @@
     <forward name="success" path="/legal.jsp"/>
     <forward name="failure" path="/error.jsp"/>
     </action>
+    
+    <action path="/uploadGeneSet"
+		type="gov.nih.nci.rembrandt.web.struts.action.UploadGeneSetAction"
+		name="uploadGeneSetForm"
+		scope="request"
+		input="/jsp/uploadGeneSet.jsp">
+		<forward name="success" path="/jsp/uploadGeneSet.jsp" />
+	</action>
 
     <action path="/geneExpression"
     		forward="nautilus.geneExpression" />

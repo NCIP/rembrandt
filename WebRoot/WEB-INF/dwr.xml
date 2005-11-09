@@ -6,8 +6,8 @@
     <create creator="new" javascript="Inbox">
       <param name="class" value="gov.nih.nci.rembrandt.web.inbox.QueryInbox"/>
     </create>
-    <create creator="new" javascript="Defaults">
-      <param name="class" value="gov.nih.nci.rembrandt.web.helper.DefaultsHelper"/>
+    <create creator="new" javascript="UserPreferences">
+      <param name="class" value="gov.nih.nci.rembrandt.web.helper.UserPreferencesHelper"/>
     </create>
   </allow>
 </dwr>
