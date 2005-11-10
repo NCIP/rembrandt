@@ -60,6 +60,7 @@ import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -92,22 +93,22 @@ public class SessionCriteriaBag implements Serializable {
 	/**
 	 *  Holds the user defined name as key  and GeneID Object as the value
 	 */
-	private Map<String,List<GeneIdentifierDE>> geneIDMap = new TreeMap<String,List<GeneIdentifierDE>>();
+	private Map<String,ArrayList<GeneIdentifierDE>> geneIDMap = new TreeMap<String,ArrayList<GeneIdentifierDE>>();
 	
 	/**
 	 *  Holds the user defined name as key   and CloneOrProbeID as the value 
 	 */
-	private Map<String,List<CloneIdentifierDE>> cloneOrProbeIDMap = new TreeMap<String,List<CloneIdentifierDE>>();
+	private Map<String,ArrayList<CloneIdentifierDE>> cloneOrProbeIDMap = new TreeMap<String,ArrayList<CloneIdentifierDE>>();
 	
 	/**
 	 *  Holds the user defined name as key   and SNP as the value 
 	 */
-	private Map<String,List<SNPIdentifierDE>> sNPMap = new TreeMap<String,List<SNPIdentifierDE>>();
+	private Map<String,ArrayList<SNPIdentifierDE>> sNPMap = new TreeMap<String,ArrayList<SNPIdentifierDE>>();
 
 	/**
 	 *  Holds the user defined name as key  and Sample objects as the value 
 	 */	
-	private Map<String,List<SampleIDDE>> sampleMap = new TreeMap<String,List<SampleIDDE>>();
+	private Map<String,ArrayList<SampleIDDE>> sampleMap = new TreeMap<String,ArrayList<SampleIDDE>>();
 	
 	public Collection getUserLists(ListType listType){
 		Collection collection = null;
@@ -150,18 +151,19 @@ public class SessionCriteriaBag implements Serializable {
 	public void putUserList(ListType listType, String listName, List listOfDEs) throws ClassCastException{
 		try {
 			if (listOfDEs != null && !listOfDEs.isEmpty()) {
+				ArrayList arrayList = new ArrayList(listOfDEs);
 				switch (listType){
 				case GeneIdentifierSet:
-						geneIDMap.put(listName, listOfDEs);
+						geneIDMap.put(listName, arrayList);
 					break;
 				case SNPIdentifierSet:
-						sNPMap.put(listName, listOfDEs);
+						sNPMap.put(listName, arrayList);
 					break;
 				case SampleIdentifierSet:
-						sampleMap.put(listName, listOfDEs);
+						sampleMap.put(listName, arrayList);
 					break;
 				case CloneProbeSetIdentifierSet:
-						cloneOrProbeIDMap.put(listName, listOfDEs);
+						cloneOrProbeIDMap.put(listName, arrayList);
 					break;
 				}
 			}
@@ -192,14 +194,31 @@ public class SessionCriteriaBag implements Serializable {
 	public List getUserList (ListType listType, String listName) {
 		if (listName != null) {
 			switch (listType){
-			case GeneIdentifierSet:
-				return (List<GeneIdentifierDE>) geneIDMap.get(listName);
-			case SNPIdentifierSet:
-				return (List<SNPIdentifierDE>) sNPMap.get(listName);
-			case SampleIdentifierSet:
-				return (List<SampleIDDE>) sampleMap.get(listName);
-			case CloneProbeSetIdentifierSet:
-				return (List<CloneIdentifierDE>) cloneOrProbeIDMap.get(listName);
+			case GeneIdentifierSet:{
+				ArrayList<GeneIdentifierDE> newList = geneIDMap.get(listName);
+					if(newList != null){
+						return (List) newList.clone();
+					}
+				}
+				break;
+			case SNPIdentifierSet:{
+				ArrayList<SNPIdentifierDE> newList = sNPMap.get(listName);
+					if(newList != null){
+						return (List) newList.clone();
+					}
+				}
+			case SampleIdentifierSet:{
+					ArrayList<SampleIDDE> newList = sampleMap.get(listName);
+						if(newList != null){
+							return (List) newList.clone();
+						}
+					}
+			case CloneProbeSetIdentifierSet:{
+					ArrayList<CloneIdentifierDE> newList = cloneOrProbeIDMap.get(listName);
+						if(newList != null){
+							return (List) newList.clone();
+						}
+					}
 			}
 		}
 		return null;
