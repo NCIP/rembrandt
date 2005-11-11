@@ -15,6 +15,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
+import gov.nih.nci.rembrandt.web.helper.WebGenomeHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
@@ -390,56 +391,27 @@ public class ReportGeneratorAction extends DispatchAction {
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
-	/**
-	 * This method was placed here for Testing of the WebGenome interface by Dave
-	 * Bauer for Ram 
-	 * 8 September 05
-	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	public ActionForward webGenomeRequest(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-			/******
-			 * Ram you can add what ever parameters you want to the following
-			 * by editing the URL ( ?bioAssayIds=1,2,3,4,5,6,7,8...) unfortunatly
-			 * you will not be able to add parameters to the HttpServletRequest
-			 * from this point as the request is locked by the container so 
-			 * storing in the cache sure seems like a better idea to me...
-			 * 
-			 * Also, if you want the user to actually be able to select samples
-			 * from the viewable report I will need to modify the xsl and this 
-			 * action a little more.
-			 */
-			String url = "http://www.nci.nih.gov/";
-		    String sessionId = request.getSession().getId();
-		    String queryName = ((ReportGeneratorForm)form).getQueryName();
-		    String actualURL = url+"?sessionId="+sessionId+"&queryName="+queryName;
-		    /**
-		     * 1- Return to the CacheManager and extract out the original result
-		     * 		requires sessionId and queryName
-		     * 
-		     * 2- Determine what they wanted from the original report
-		     * 		a-
-		     * 
-		     * 		b-
-		     * 
-		     * 		c-
-		     * 
-		     * 3- Package everything up and store it in cache for later retieval
-		     * by web genome
-		     * 
-		     * 4- Write a business object that will take care of this
-		     * 	
-		     */
-		    
-			ActionForward forward = new ActionForward("webGenome",actualURL,true,false);
-			return forward;
-	}
-	
+
+    /*
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    * @throws Exception
+    */
+
+    public ActionForward webGenomeRequest(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+            String sessionID = request.getSession().getId();
+            String queryName = ((ReportGeneratorForm)form).getQueryName();
+
+            ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
+            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID);
+
+            logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
+            ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
+            return f2;
+    }
 }
