@@ -28,7 +28,7 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
  * User: Ram Bhattaru
  * Date: Nov 10, 2005
  * Time: 4:15:39 PM
- * To change this template use File | Settings | File Templates.
+
  */
 public class WebGenomeHelper {
     private static Logger _logger = Logger.getLogger(WebGenomeHelper.class);
