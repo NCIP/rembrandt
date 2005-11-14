@@ -21,9 +21,9 @@ String sessionId = request.getSession().getId();
 		<legend>High Order Analysis:</legend><br>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 			<table border="0" cellpadding="3" cellspacing="3">
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.do?method=setup';"></td></tr>
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.do?method=setup';"></td></tr>				
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponentInit.do?method=setup';"></td></tr>
 				
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponent.do?method=setup';"></td></tr>
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Hierarchical Clustering Analysis" onclick="javascript:location.href='hierarchicalclustering.do?method=setup';"></td></tr>			
 			</table>
 	</fieldset>

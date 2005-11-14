@@ -2,11 +2,14 @@ package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,12 +21,13 @@ import uk.ltd.getahead.dwr.ExecutionContext;
 public class UserPreferencesHelper{
       
     private PresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
-    private List geneSetList = new ArrayList();
-    private List reporterSetList = new ArrayList();
+    private Collection geneSetList = new ArrayList();
+    private Collection reporterSetList = new ArrayList();
     private HttpSession session;
     private String sessionId;
     private UserPreferencesBean userPreferencesBean;
     private String name;
+    private SessionCriteriaBag sessionCriteriaBag;
     
     public UserPreferencesHelper(HttpSession session){
         userPreferencesBean = (UserPreferencesBean) session.getAttribute(RembrandtConstants.USER_PREFERENCES);        
@@ -35,12 +39,14 @@ public class UserPreferencesHelper{
         userPreferencesBean = (UserPreferencesBean) session.getAttribute(RembrandtConstants.USER_PREFERENCES);        
                
     }
-    public List updateGeneSetList(){        
-            geneSetList = cacheManager.getSampleSetNames(sessionId);            
+    public Collection updateGeneSetList(){ 
+            sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
+            geneSetList = sessionCriteriaBag.getUsetListNames(ListType.GeneIdentifierSet);            
         return geneSetList;
     }
-    public List updateReporterSetList(){
-          reporterSetList = cacheManager.getSampleSetNames(sessionId);
+    public Collection updateReporterSetList(){
+          sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
+          reporterSetList = sessionCriteriaBag.getUsetListNames(ListType.CloneProbeSetIdentifierSet);
         return reporterSetList;
     }
    

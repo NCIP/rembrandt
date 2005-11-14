@@ -2,6 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
+<%@ page import="java.util.*"%>
 <% 
 /*
  * Gene Tile - used in: GeneExpression form, CGH form
@@ -22,24 +23,27 @@ String sessionId = request.getSession().getId();
 		var geneSetName = document.getElementById("geneList").value;
 		var reporterSetName = document.getElementById("reporterList").value;
 		
-		UserPreferences.setVariancePercentile(variance,nada);
-		UserPreferences.getVariancePercentile(putVariance);
-		UserPreferences.setGeneSetName(geneSetName,nada);
-		UserPreferences.getGeneSetName(putGeneSet);
-		UserPreferences.setReporterSetName(reporterSetName,nada);
-		UserPreferences.getReporterSetName(putReporterSet);
+		UserPreferences.setVariancePercentile(variance,getVariance);			
+		UserPreferences.setGeneSetName(geneSetName,getGeneSet);		
+		UserPreferences.setReporterSetName(reporterSetName,getReporterSet);
 		
 	}
-	function nada(data){}
+	function getVariance(data){
+		UserPreferences.getVariancePercentile(putVariance);
+	}
 	function putVariance(data){	    
-	    var variance = data;
 	    var varianceSetting = document.getElementById("varianceSetting");
-	    varianceSetting.innerHTML = variance;
+	    varianceSetting.innerHTML = data;
+	}
+	function getGeneSet(data){
+		UserPreferences.getGeneSetName(putGeneSet);
 	}
 	function putGeneSet(data){	    
-	    var geneSetName = data;
 	    var geneSetSetting = document.getElementById("geneSetSetting");
-	    geneSetSetting.innerHTML = geneSetName;
+	    geneSetSetting.innerHTML = data;
+	}
+	function getReporterSet(data){
+		UserPreferences.getReporterSetName(putReporterSet);
 	}
 	function putReporterSet(data){	    
 	    var reporterSetName = data;
@@ -49,8 +53,7 @@ String sessionId = request.getSession().getId();
 	function updateG(){
     	UserPreferences.updateGeneSetList(createGList);
 	}
-	function createGList(data){
-    	
+	function createGList(data){    	
     	DWRUtil.removeAllOptions("geneList", data);
     	DWRUtil.addOptions("geneList", data);
 	}
@@ -66,7 +69,7 @@ String sessionId = request.getSession().getId();
 <script type='text/javascript' src='/rembrandt/dwr/interface/UserPreferences.js'></script>
 <script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
 <script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
-
+<jsp:useBean id="userPreferences" class="gov.nih.nci.rembrandt.web.bean.UserPreferencesBean" scope="session"/>
 	
 <fieldset class="gray">
 <legend class="red">
@@ -93,21 +96,21 @@ String sessionId = request.getSession().getId();
 		<br><br>	
 		  	<html:checkbox property="diffExpGenes" styleClass="radio" value="diffExpGenes" />
 		  Use differentially expressed genes &nbsp;&nbsp;
-		      <html:select property="geneSetName" styleId="geneList" disabled="false" onclick="javascript:updateG()">
-					
+		      <html:select property="geneSetName" styleId="geneList" disabled="false" onfocus="javascript:updateG()">
+				 <option value="<jsp:getProperty name="userPreferences" property="geneSetName"/>"><jsp:getProperty name="userPreferences" property="geneSetName"/></option>
 			  </html:select>
-			  or <a href="#" onclick="javascript:spawnx('uploadGeneSet.do', 'upload', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=yes');return false;">Upload</a>
+			  or <a href="#" onclick="javascript:spawnx('uploadGeneSet.do', 'upload', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>
 						
 		<br><br>	  
 			<html:checkbox property="diffExpReporters" styleClass="radio" value="diffExpReporters" />
 		  Use differentially expressed reporters &nbsp;&nbsp;
-		      <html:select property="reporterSetName" styleId="reporterList" disabled="false" onclick="javascript:updateR()">
-				
+		      <html:select property="reporterSetName" styleId="reporterList" disabled="false" onfocus="javascript:updateR()">
+					 <option value="<jsp:getProperty name="userPreferences" property="reporterSetName"/>"><jsp:getProperty name="userPreferences" property="reporterSetName"/></option>
 			  </html:select>
-			  or <a href="#" onclick="window.open('uploadSamples.html', 'upload', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>
+			  or <a href="#" onclick="javascript:spawnx('uploadReporterSet.do', 'upload2', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>
 		<br><br>	
 			
-			<center><input type="button" value="SET THESE FILTERS AS DEFAULT" onclick="setUserDefaults()" /></center>
+			<center><html:button property="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults()" /></center>
 						
 		</div>	  
 	  

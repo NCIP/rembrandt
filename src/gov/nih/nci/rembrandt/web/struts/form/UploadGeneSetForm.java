@@ -9,13 +9,18 @@ import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,9 +40,9 @@ public class UploadGeneSetForm extends BaseForm {
     private FormFile geneSetFile;
     private String geneSetName;    
     private String geneType;
-    private Collection<DomainElement> domainElementCollection;
+    private List<DomainElement> domainElementList = new ArrayList();
     private HttpServletRequest thisRequest;
-    
+    private SessionCriteriaBag sessionCriteriaBag; 
 	
 
 
@@ -93,6 +98,8 @@ public class UploadGeneSetForm extends BaseForm {
         this.geneSetFile = geneSetFile;
         if (thisRequest != null) {
             String thisGeneType = this.thisRequest.getParameter("geneType");
+            String thisGeneSetName = this.thisRequest.getParameter("geneSetName");
+            String sessionId = this.thisRequest.getSession().getId();
             
             // retrieve the file name & size
             String fileName = geneSetFile.getFileName();
@@ -109,7 +116,7 @@ public class UploadGeneSetForm extends BaseForm {
 
                     int count = 0;
                     
-                    GeneIdentifierDE geneIdentifierDE = null;
+                    //GeneIdentifierDE geneIdentifierDE = null;
                     while ((inputLine = inFile.readLine()) != null
                             && count < RembrandtConstants.MAX_FILEFORM_COUNT) {
                         if (UIFormValidator.isAscii(inputLine)) { // make sure
@@ -118,11 +125,14 @@ public class UploadGeneSetForm extends BaseForm {
                             inputLine = inputLine.trim();
                             count++;
                             if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-                                geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine);
+                                GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine);
+                                domainElementList.add(geneIdentifierDE);
                             } else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-                                geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);
+                                GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);
+                                domainElementList.add(geneIdentifierDE);
                             } else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-                                geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(inputLine);
+                                GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(inputLine);
+                                domainElementList.add(geneIdentifierDE);
 
                             }
                             
@@ -134,8 +144,11 @@ public class UploadGeneSetForm extends BaseForm {
                     logger.error("Errors when uploading gene file:"
                             + ex.getMessage());
                 }
+                sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
+                sessionCriteriaBag.putUserList(ListType.GeneIdentifierSet,thisGeneSetName,domainElementList); 
+                cacheManager.putSessionCriteriaBag(sessionId,sessionCriteriaBag);
             }
-        }
+          }
             
         }
     

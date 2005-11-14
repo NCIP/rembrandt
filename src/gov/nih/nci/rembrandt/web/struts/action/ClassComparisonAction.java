@@ -94,12 +94,14 @@ public class ClassComparisonAction extends DispatchAction {
                 SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
                 for(int i=0; i<classComparisonQueryForm.getSelectedGroups().length; i++){
                     ClinicalDataQuery clinicalDataQuery= sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
+                    //add logic to if there is no predefined query.. use the given samples from the user
+                    //bag and construct a clinical query to add into the collection
                     clinicalQueryCollection.add(clinicalDataQuery);
                 }
                 classComparisonQueryDTO.setComparisonGroups(clinicalQueryCollection);
             }
         
-        //Create the foldChange criteria
+        //Create the foldChange DEs
        
             
             if (classComparisonQueryForm.getFoldChange().equals("list")){
@@ -112,13 +114,13 @@ public class ClassComparisonAction extends DispatchAction {
             }
             
         
-        //Create arrayPlatfrom criteria
+        //Create arrayPlatfrom DEs
             if(classComparisonQueryForm.getArrayPlatform() != "" || classComparisonQueryForm.getArrayPlatform().length() != 0){       
                 ArrayPlatformDE arrayPlatformDE = new ArrayPlatformDE(classComparisonQueryForm.getArrayPlatform());
                 classComparisonQueryDTO.setArrayPlatformDE(arrayPlatformDE);
             }
             
-        //Create class comparison criteria
+        //Create class comparison DEs
            if(!classComparisonQueryForm.getComparisonAdjustment().equalsIgnoreCase("NONE")){
                 MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
                 StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.adjustedpValue);

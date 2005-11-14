@@ -58,7 +58,7 @@ public class AnalysisQueryTest extends TestCase {
 
 	public static Test suite() {
 		TestSuite suite =  new TestSuite();
-        suite.addTest(new AnalysisQueryTest("testCCQueryCompleted"));       
+        //suite.addTest(new AnalysisQueryTest("testCCQueryCompleted"));       
         suite.addTest(new AnalysisQueryTest("testPCAQueryCompleted"));
         //suite.addTest(new AnalysisQueryTest("testCCQueryError")); 
         //suite.addTest(new AnalysisQueryTest("testHCQuery"));

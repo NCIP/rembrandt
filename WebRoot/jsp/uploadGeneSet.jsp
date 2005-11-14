@@ -3,7 +3,7 @@
 <%@ page import="java.util.*, java.lang.*, java.io.*" %>
 
 <html>
-<head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
+<head><title>Upload GeneSet</title>
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
 </head>
 
@@ -13,19 +13,19 @@
 <html:form action="uploadGeneSet.do" enctype="multipart/form-data">
 &nbsp;&nbsp;<html:select property="geneType" disabled="false">
 			<html:optionsCollection property="geneTypeColl" />
-		  </html:select><br />
-			
-			
-			Name the sample set that has been uploaded<br />
-			<html:text property="geneSetName" size="35"/><br /><br /><br />
+		  </html:select>
 			<html:file property="geneSetFile" /> <br /><br />
-			<span align="right">
+			&nbsp;&nbsp;Name the gene set<br />
+			&nbsp;&nbsp;<html:text property="geneSetName" size="35"/><br /><br /><br />
+			<html:errors property="geneGroup"/>
+			
+			<span align="right">&nbsp;&nbsp;
 			<html:reset styleClass="xbutton" value="clear"/>
 			<html:submit styleClass="xbutton" value="add this gene set" />
 			</span>
 
 </html:form>
-
+</div>
 <center><a href="#" onclick="window.close(); return false;">Close Window</a></center>
 </body>
 </html>

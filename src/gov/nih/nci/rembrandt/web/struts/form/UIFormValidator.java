@@ -85,6 +85,36 @@ public class UIFormValidator {
 		}
 		return errors;
 	}
+    
+    public static ActionErrors validateAnalysisName(String analysisResultName,
+            ActionErrors errors) {
+        if (analysisResultName.equals("")){
+            errors.add("analysisResultName", new ActionError(
+            "gov.nih.nci.nautilus.ui.struts.form.analysisResultName.no.error"));
+    
+        }
+        return errors;
+    }
+    
+    public static ActionErrors validateSelectedGroups(String[] selectedGroups, ActionErrors errors){
+        if (selectedGroups == null || selectedGroups.length != 2){
+            errors.add("selectedGroups", new ActionError(
+                    "gov.nih.nci.nautilus.ui.struts.form.groups.more.error"));
+        }
+       
+
+        return errors;
+    }
+    
+    public static ActionErrors validateSelectedGroup(String selectedGroupName, ActionErrors errors){
+        if (selectedGroupName == null || selectedGroupName.length() == 0){
+            errors.add("selectedGroups", new ActionError(
+                    "gov.nih.nci.nautilus.ui.struts.form.group.no.error"));
+        }
+       
+
+        return errors;
+    }
 
 	public static ActionErrors validateChromosomalRegion(String chrosomeNumber,
 			String region, String cytobandRegionStart, String basePairStart,

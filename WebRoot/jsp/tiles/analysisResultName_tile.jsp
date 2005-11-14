@@ -34,6 +34,7 @@ String act = request.getParameter("act");
 	<html:errors property="analysisResultName"/>
 <html:text styleId="analysisResultName" property="analysisResultName" size="50" /> (should be unique)
 <br />
+<html:errors property="queryName"/><br />
 </fieldset>
 <%
 

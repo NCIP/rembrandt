@@ -24,7 +24,7 @@ public class ClassComparisonForm extends ActionForm {
 	
     private String [] existingGroups;
     
-    private static List existingGroupsList;
+    private List existingGroupsList;
     
     private String [] selectedGroups;
     
@@ -96,7 +96,7 @@ public class ClassComparisonForm extends ActionForm {
      * @return Returns the existingGroupsList.
      */
     public List getExistingGroupsList() {
-        return ClassComparisonForm.existingGroupsList;
+        return this.existingGroupsList;
     }
 
 
@@ -105,7 +105,7 @@ public class ClassComparisonForm extends ActionForm {
      * @param existingGroupsList The existingGroupsList to set.
      */
     public void setExistingGroupsList(List existingGroupsList) {
-        ClassComparisonForm.existingGroupsList = existingGroupsList;
+        this.existingGroupsList = existingGroupsList;
     }
 
 
@@ -321,6 +321,22 @@ public class ClassComparisonForm extends ActionForm {
     public void setStatisticalSignificance(Double statisticalSignificance) {
         this.statisticalSignificance = statisticalSignificance;
     }
+    
+    /**
+     * @return Returns the foldChangeAutoList.
+     */
+    public List getFoldChangeAutoList() {
+        return foldChangeAutoList;
+    }
+
+
+
+    /**
+     * @param foldChangeAutoList The foldChangeAutoList to set.
+     */
+    public void setFoldChangeAutoList(List foldChangeAutoList) {
+        this.foldChangeAutoList = foldChangeAutoList;
+    }
         
 
     /**
@@ -340,18 +356,11 @@ public class ClassComparisonForm extends ActionForm {
         
         
         //Analysis Query Name cannot be blank
+        errors = UIFormValidator.validateAnalysisName(analysisResultName, errors);
         
-        if (analysisResultName.equals("")){
-            errors.add("analysisResultName", new ActionError(
-            "gov.nih.nci.nautilus.ui.struts.form.analysisResultName.no.error"));
- 
-        }
-
-        if (selectedGroups == null || selectedGroups.length != 2){
-            errors.add("selectedGroups", new ActionError(
-                    "gov.nih.nci.nautilus.ui.struts.form.groups.more.error"));
-        }
-       
+        //User must select exactly 2 comparison Groups
+        errors = UIFormValidator.validateSelectedGroups(selectedGroups, errors);
+        
 
         return errors;
     }
@@ -378,21 +387,7 @@ public class ClassComparisonForm extends ActionForm {
 
 
 
-    /**
-     * @return Returns the foldChangeAutoList.
-     */
-    public List getFoldChangeAutoList() {
-        return foldChangeAutoList;
-    }
-
-
-
-    /**
-     * @param foldChangeAutoList The foldChangeAutoList to set.
-     */
-    public void setFoldChangeAutoList(List foldChangeAutoList) {
-        this.foldChangeAutoList = foldChangeAutoList;
-    }
+   
 
 
 

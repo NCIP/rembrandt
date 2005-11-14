@@ -12,6 +12,8 @@ import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.Serializable;
@@ -39,6 +41,8 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	private Map<String,ClinicalDataQuery> predefinedQueryMap = new TreeMap();
 	private List allPredefinedAndSampleSetNames;
     private LabelValueBean lvb;
+    private SessionCriteriaBag sessionCriteriaBag;
+    
 	/**
 	 *  Constructor creates the PredefinedQueries Disease Queries
 	 */
@@ -98,17 +102,16 @@ public class SampleBasedQueriesRetriever implements Serializable {
      * list of SampleSetNames stored in. -KR
      */
     public List getAllPredefinedAndSampleSetNames(String sessionID){
+        sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionID);
         
-        //NEED to add sample set retrieval
-        //if(BusinessCacheManager.getInstance().getObjectFromSessionCache(sessionID,"predefinedDiseaseQueries") == null){
-                   List predefined = new ArrayList(getAllPredefinedDiseaseQueryNames());
-                   //List sampleSet = new ArrayList(getAllSampleSetNames(sessionID));
+         List predefined = new ArrayList(getAllPredefinedDiseaseQueryNames());
+         List sampleSet = new ArrayList(sessionCriteriaBag.getUsetListNames(ListType.SampleIdentifierSet));
                    allPredefinedAndSampleSetNames = new ArrayList();
                        for(int i =0; i < predefined.size(); i++){
                            lvb = new LabelValueBean((String)predefined.get(i),(String)predefined.get(i));
                            allPredefinedAndSampleSetNames.add(lvb);
                        }
-                       //cacheManager.addToSessionCache(sessionID,"predefinedDiseaseQueries",(Serializable) allPredefinedAndSampleSetNames);
+                       //get samples
         //}
         return allPredefinedAndSampleSetNames;
         }

@@ -42,17 +42,17 @@ public class PrincipalComponentForm extends ActionForm {
     
     private String filterType = "default";
     
-    private String geneSetName = "";
+    private String geneSetName;
     
-    private String reporterSetName = "";
+    private String reporterSetName;
     
     private String arrayPlatform = "";
     
-    private String diffExpGenes = "";
+    private String diffExpGenes = "diffExpGenes";
     
-    private String diffExpReporters = "";
+    private String diffExpReporters = "diffExpReporters";
     
-    private String constraintVariance = "";
+    private String constraintVariance = "constraintVariance";
 
 	public PrincipalComponentForm(){
 		
@@ -241,9 +241,12 @@ public class PrincipalComponentForm extends ActionForm {
 
         ActionErrors errors = new ActionErrors();
         
+       // Analysis name cannot be blank
+        errors = UIFormValidator.validateQueryName(analysisResultName, errors);
         
+       //User must select a comparison group
+        errors = UIFormValidator.validateSelectedGroup(selectedGroupName, errors);
         
-       
        
         return errors;
     }

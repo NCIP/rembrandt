@@ -23,6 +23,7 @@
 		<form-bean name="userPreferencesBean" type="gov.nih.nci.rembrandt.web.struts.bean.UserPreferencesBean"/>				
 		<form-bean name="hierarchicalClusteringForm" type="gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm"/>
 		<form-bean name="uploadGeneSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadGeneSetForm"/>				
+		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>				
 		
 		<form-bean name="loginForm" type="gov.nih.nci.rembrandt.web.struts.form.LoginForm"/>
    		
@@ -126,8 +127,20 @@
 		type="gov.nih.nci.rembrandt.web.struts.action.UploadGeneSetAction"
 		name="uploadGeneSetForm"
 		scope="request"
-		input="/jsp/uploadGeneSet.jsp">
-		<forward name="success" path="/jsp/uploadGeneSet.jsp" />
+		input="/jsp/uploadGeneSet.jsp"
+		validate="true">
+		<forward name="success" path="/jsp/uploadThankYou.jsp" />
+		<forward name="backToUpload" path="/jsp/uploadGeneSet.jsp" />
+	</action>
+	
+	<action path="/uploadReporterSet"
+		type="gov.nih.nci.rembrandt.web.struts.action.UploadReporterSetAction"
+		name="uploadReporterSetForm"
+		scope="request"
+		input="/jsp/uploadReporterSet.jsp"
+		validate="true">
+		<forward name="success" path="/jsp/uploadThankYou.jsp" />
+		<forward name="backToUpload" path="/jsp/uploadReporterSet.jsp" />
 	</action>
 
     <action path="/geneExpression"
@@ -149,8 +162,7 @@
 	<action path="/classComparison"
          forward="nautilus.classComparison" />
          
-    <action path="/classcomparisonInit"
-	    
+    <action path="/classcomparisonInit"    	    
 	    type="gov.nih.nci.rembrandt.web.struts.action.ClassComparisonAction"
 		name="classComparisonForm"
 		scope="request"
@@ -175,6 +187,16 @@
 	
 	<action path="/principalComponent"
          forward="nautilus.principalComponent" />
+         
+    <action path="/principalcomponentInit"
+		type="gov.nih.nci.rembrandt.web.struts.action.PrincipalComponentAction"
+		name="principalComponentForm"
+		scope="request"
+		validate="false"
+		parameter="method">
+		<forward name="backToPrincipalComponent" path="nautilus.principalComponent" />
+		<forward name="principalComponentSetup" path="/principalcomponent.do?method=setup" />
+	</action>
 	
 	<action path="/principalcomponent"
 	    input="nautilus.principalComponent"

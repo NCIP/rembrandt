@@ -288,7 +288,9 @@ public class PresentationCacheManager implements PresentationTierCache{
 			logger.error(e);
 		} catch (CacheException e) {
 			logger.error(e);
-		}
+		} catch (NullPointerException e){
+            logger.error(e);
+        }
     	return returnObject;
     }
  
