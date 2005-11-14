@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.dto.de.DistanceMatrixTypeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
 import gov.nih.nci.caintegrator.dto.de.InstitutionNameDE;
+import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.enumeration.LinkageMethodType;
 
@@ -27,7 +28,7 @@ public class HierarchicalClusteringQueryDTOImpl implements HierarchicalClusterin
 	private InstitutionNameDE institutionNameDE;
 	private GeneVectorPercentileDE geneVectorPercentileDE;
 	private DistanceMatrixTypeDE distanceMatrixTypeDE;
-	private LinkageMethodType linkageMethodTypeDE;
+	private LinkageMethodTypeDE linkageMethodTypeDE;
 	private ClusterTypeDE clusterTypeDE;
 	/**
 	 * 
@@ -176,7 +177,7 @@ public class HierarchicalClusteringQueryDTOImpl implements HierarchicalClusterin
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTO#getLinkageMethodTypeDE()
 	 */
-	public LinkageMethodType getLinkageMethodTypeDE() {
+	public LinkageMethodTypeDE getLinkageMethodTypeDE() {
 		return linkageMethodTypeDE;
 	}
 
@@ -184,7 +185,7 @@ public class HierarchicalClusteringQueryDTOImpl implements HierarchicalClusterin
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTO#setLinkageMethodTypeDE(gov.nih.nci.caintegrator.enumeration.LinkageMethodType)
 	 */
-	public void setLinkageMethodTypeDE(LinkageMethodType linkageMethodTypeDE) {
+	public void setLinkageMethodTypeDE(LinkageMethodTypeDE linkageMethodTypeDE) {
 		this.linkageMethodTypeDE = linkageMethodTypeDE;
 	}
 
