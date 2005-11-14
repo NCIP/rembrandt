@@ -18,7 +18,7 @@
 					<!-- Fully qualified class name-->
 				</authorization-provider-class>
 				<hibernate-config-file>
-					F:\Eclipse\Workspaces\Work\rembrandt_web\conf\csm
+					C:/devtools/jboss-4.0.2/server/default/deploy/rembrandt.war/csm
 				</hibernate-config-file>
 			</authorization>
 		</application>

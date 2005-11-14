@@ -13,8 +13,8 @@ import uk.ltd.getahead.dwr.ExecutionContext;
 
 public class UserPreferencesBean implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String geneSetName;
-    private String reporterSetName;
+    private String geneSetName = "";
+    private String reporterSetName = "";
     private int variancePercentile = 70;
     
     public UserPreferencesBean(){

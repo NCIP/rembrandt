@@ -20,7 +20,7 @@
            protocol="jdbc"
            subprotocol="oracle"
            dbalias="thin:@cbiodb2-d.nci.nih.gov:1521:RBTDEV"
-           username="nautilusdev"
+           username="rembdev"
            password="dev!234">
            <connection-pool
                maxActive="1000"

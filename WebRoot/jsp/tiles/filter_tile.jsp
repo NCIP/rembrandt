@@ -84,9 +84,9 @@ String sessionId = request.getSession().getId();
 </legend>
 <span id="confirm"></span>
 
-<input type="radio" class="radio" name="filterType" value="default" />Default<br /><br />
+<html:radio styleClass="radio" property="filterType" value="default" />Default<br /><br />
 
-<input type="radio" class="radio" name="filterType" value="advanced" />Advanced
+<html:radio styleClass="radio" property="filterType" value="advanced" />Advanced
 &nbsp;&nbsp;<a href='#' id="pm" class="exp" onclick="javascript:toggleSDiv('advFilter','pm');return false;">&nbsp;+&nbsp;</a>
 
 	<div id="advFilter" class="divHide">
