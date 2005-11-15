@@ -29,7 +29,7 @@ String helpLinkClose = "', 350, 500);\">"+
         <legend>
           Query Results
         </legend>
-        
+        <br/>
         <logic:notEmpty name="viewResultsForm" property="reportBeans">
         
         <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
@@ -121,8 +121,14 @@ String helpLinkClose = "', 350, 500);\">"+
 
 				out.println("<span style='color:red; float:right'>" + currentStatus + "</span> ");
 				
+				String onclick="";	
+				if(f.getStatus()!= FindingStatus.Completed)	{
+					onclick = "javascript:alert('Analysis Not yet complete');return false;";
+				}
+				
 				//if(f.getStatus() == FindingStatus.Completed)
-					out.println("<li><a href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\">" + qname + "</a> ");
+					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> ");
+				
 				//else
 				//	out.println("<li>" + qname + " ");
 				
@@ -135,7 +141,7 @@ String helpLinkClose = "', 350, 500);\">"+
 		}
 		else	{
 			//no findings yet
-			out.println("No HOA findings yet....c'mon, go make some");
+			out.println("<strong>No HOA Results at this time.</strong><br/><br/>");
 		}
      
      
