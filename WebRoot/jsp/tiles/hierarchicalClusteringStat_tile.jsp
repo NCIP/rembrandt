@@ -13,15 +13,14 @@ Step 2: Select Statistic
 %>
 	
 <br>
-<!--change so options come from database-->	
+Distance Matrix:
 &nbsp;&nbsp;<html:select property="distanceMatrix">
-					<html:option value="correlation">Correlation</html:option>
-					<html:option value="euclidean distance">Euclidean distance</html:option>
+					<html:optionsCollection property="distanceMatrixCollection" /> 
 			</html:select>
-&nbsp;&nbsp;&nbsp;<html:select property="linkageMethod">
-					<html:option value="average">Average</html:option>
-					<html:option value="single">Single</html:option>
-					<html:option value="complete">Complete</html:option>
+			&nbsp;&nbsp;
+Linkage Method:
+&nbsp;&nbsp;<html:select property="linkageMethod">
+					<html:optionsCollection property="linkageMethodCollection" /> 
 			</html:select>
 			
 			

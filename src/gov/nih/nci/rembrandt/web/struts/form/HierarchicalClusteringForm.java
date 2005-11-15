@@ -34,9 +34,13 @@ public class HierarchicalClusteringForm extends ActionForm {
 	
     private String analysisResultName = "";
     
-    private String distanceMatrix = "correlation";
+    private String distanceMatrix = "Correlation";
     
-    private String linkageMethod = "average";
+    private Collection distanceMatrixCollection = new ArrayList();
+    
+    private String linkageMethod = "Average";
+    
+    private Collection linkageMethodCollection = new ArrayList();
     
     private int variancePercentile = 70;
     
@@ -46,18 +50,27 @@ public class HierarchicalClusteringForm extends ActionForm {
     
     private String reporterSetName = "";
     
-    private String clusterBy = "samples";
+    private String clusterBy = "Samples";
     
     private String arrayPlatform = "";
     
-    private String diffExpGenes = "";
+    private String diffExpGenes = "diffExpGenes";
     
-    private String diffExpReporters = "";
+    private String diffExpReporters = "diffExpReporters";
     
-    private String constraintVariance = "";
+    private String constraintVariance = "constraintVariance";
 
 	public HierarchicalClusteringForm(){
-		
+       
+        //set up lookups for  HierarchicalClusteringForm
+        
+        for (DistanceMatrixType distanceMatrixType : DistanceMatrixType.values()){
+            distanceMatrixCollection.add(new LabelValueBean(distanceMatrixType.toString(),distanceMatrixType.name()));
+        }
+        for (LinkageMethodType linkageMethodType : LinkageMethodType.values()){
+            linkageMethodCollection.add(new LabelValueBean(linkageMethodType.toString(),linkageMethodType.name()));
+        }
+        
     }
 
     /**
@@ -155,7 +168,7 @@ public class HierarchicalClusteringForm extends ActionForm {
      * @return Returns the variancePercentile.
      */
     public int getVariancePercentile() {
-        return this.getVariancePercentile();
+        return variancePercentile;
     }
 
     /**
@@ -260,6 +273,36 @@ public class HierarchicalClusteringForm extends ActionForm {
     public void setReporterSetName(String reporterSetName) {
         this.reporterSetName = reporterSetName;
     }
+    
+    /**
+     * @return Returns the distanceMatrixCollection.
+     */
+    public Collection getDistanceMatrixCollection() {
+        return distanceMatrixCollection;
+    }
+
+    /**
+     * @param distanceMatrixCollection The distanceMatrixCollection to set.
+     */
+    public void setDistanceMatrixCollection(Collection distanceMatrixCollection) {
+        this.distanceMatrixCollection = distanceMatrixCollection;
+    }
+
+    /**
+     * @return Returns the linkageMethodCollection.
+     */
+    public Collection getLinkageMethodCollection() {
+        return linkageMethodCollection;
+    }
+
+    /**
+     * @param linkageMethodCollection The linkageMethodCollection to set.
+     */
+    public void setLinkageMethodCollection(Collection linkageMethodCollection) {
+        this.linkageMethodCollection = linkageMethodCollection;
+    }
+
+
 
     /**
      * Method validate
@@ -275,8 +318,8 @@ public class HierarchicalClusteringForm extends ActionForm {
 
         ActionErrors errors = new ActionErrors();
         
-        
-        
+        //Analysis name cannot be blank
+        errors = UIFormValidator.validateQueryName(analysisResultName, errors);   
        
        
         return errors;
@@ -297,10 +340,4 @@ public class HierarchicalClusteringForm extends ActionForm {
       
     }
 
-
-
-
-
-
-    
 }

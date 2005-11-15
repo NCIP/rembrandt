@@ -4,25 +4,24 @@ import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
+import gov.nih.nci.caintegrator.dto.de.ClusterTypeDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
+import gov.nih.nci.caintegrator.dto.de.DistanceMatrixTypeDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
+import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
-import gov.nih.nci.caintegrator.enumeration.FindingStatus;
-import gov.nih.nci.caintegrator.enumeration.MultiGroupComparisonAdjustmentType;
-import gov.nih.nci.caintegrator.enumeration.Operator;
-import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
-import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
+import gov.nih.nci.caintegrator.enumeration.*;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
@@ -50,6 +49,7 @@ import junit.framework.TestSuite;
 public class AnalysisQueryTest extends TestCase {
 	private ClassComparisonQueryDTO classComparisonQueryDTO;
 	private PrincipalComponentAnalysisQueryDTO pcaQueryDTO;
+    private HierarchicalClusteringQueryDTO hcQueryDTO;
 	private static BusinessTierCache businessTierCache  = ApplicationFactory.getBusinessTierCache();
 	public AnalysisQueryTest(String string) {
 		super(string);
@@ -59,9 +59,9 @@ public class AnalysisQueryTest extends TestCase {
 	public static Test suite() {
 		TestSuite suite =  new TestSuite();
         //suite.addTest(new AnalysisQueryTest("testCCQueryCompleted"));       
-        suite.addTest(new AnalysisQueryTest("testPCAQueryCompleted"));
+        //suite.addTest(new AnalysisQueryTest("testPCAQueryCompleted"));
         //suite.addTest(new AnalysisQueryTest("testCCQueryError")); 
-        //suite.addTest(new AnalysisQueryTest("testHCQuery"));
+        suite.addTest(new AnalysisQueryTest("testHCQueryCompleted"));
 
 
         return suite;
@@ -76,6 +76,7 @@ public class AnalysisQueryTest extends TestCase {
 		ApplicationContext.init();
 		setUpCCQuery();
 		setUpPCAQuery();
+        setUpHCQuery();
 		
 	}
 
@@ -155,6 +156,18 @@ public class AnalysisQueryTest extends TestCase {
 		
 			
 	}
+    private void setUpHCQuery(){
+        hcQueryDTO = (HierarchicalClusteringQueryDTO) ApplicationFactory.newQueryDTO(QueryType.HC_QUERY);
+        hcQueryDTO.setQueryName("HCTestQuery");
+        hcQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(70),Operator.GE));
+        hcQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
+        hcQueryDTO.setDistanceMatrixTypeDE(new DistanceMatrixTypeDE(DistanceMatrixType.Correlation));
+        hcQueryDTO.setLinkageMethodTypeDE(new LinkageMethodTypeDE(LinkageMethodType.Average));
+        hcQueryDTO.setClusterTypeDE(new ClusterTypeDE(ClusterByType.Samples));
+        
+            
+    }
+    
 	public void testCCQueryCompleted(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
 		Finding finding = null;
@@ -201,6 +214,29 @@ public class AnalysisQueryTest extends TestCase {
 		status = finding.getStatus();
 		assert(status == FindingStatus.Completed);
 	}
+    public void testHCQueryCompleted(){
+        RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
+        Finding finding = null;
+        try {
+            finding = factory.createHCAFinding(hcQueryDTO,"mySession",hcQueryDTO.getQueryName());
+        } catch (FrameworkException e) {
+            e.printStackTrace();
+        }
+        FindingStatus status = finding.getStatus();
+        assert(status == FindingStatus.Running);
+        
+        while(finding.getStatus() == FindingStatus.Running){
+             finding = businessTierCache.getSessionFinding(finding.getSessionId(),finding.getTaskId());
+             try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        status = finding.getStatus();
+        assert(status == FindingStatus.Completed);
+    }
 	public void testPCAQueryError(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
 		pcaQueryDTO.setQueryName("PCAQueryError");

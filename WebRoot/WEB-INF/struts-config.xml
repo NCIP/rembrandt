@@ -223,6 +223,16 @@
 		<forward name="hierarchicalClusteringSetup" path="/hierarchicalclustering.do?method=setup" />
 	</action>
 	
+	<action path="/hierarchicalclusteringInit"
+		type="gov.nih.nci.rembrandt.web.struts.action.HierarchicalClusteringAction"
+		name="hierarchicalClusteringForm"
+		scope="request"
+		validate="false"
+		parameter="method">
+		<forward name="backToHierarchicalClustering" path="nautilus.hierarchicalClustering" />
+		<forward name="hierarchicalClusteringSetup" path="/hierarchicalclustering.do?method=setup" />
+	</action>
+	
 	<action path="/previewGeneReport"
             forward="/previewgenereport.do" />
 

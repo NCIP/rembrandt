@@ -4,6 +4,7 @@
 package gov.nih.nci.rembrandt.service.findings;
 
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
@@ -19,6 +20,7 @@ import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.caintegrator.service.findings.KMFinding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.rembrandt.service.findings.strategies.ClassComparisonFindingStrategy;
+import gov.nih.nci.rembrandt.service.findings.strategies.HierarchicalClusteringFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.PrincipalComponentAnalysisFindingStrategy;
 
 import org.apache.log4j.Logger;
@@ -97,9 +99,26 @@ public class RembrandtFindingsFactory implements FindingsFactory {
 		return null;
 	}
 
-	public HCAFinding createHCAFinding(QueryDTO query) {
-		// TODO Auto-generated method stub
-		return null;
+	public HCAFinding createHCAFinding(HierarchicalClusteringQueryDTO queryDTO,String sessionID, String taskID) throws FrameworkException {
+        HCAFinding finding = null;
+        try {
+            HierarchicalClusteringFindingStrategy strategy = new  HierarchicalClusteringFindingStrategy(sessionID,queryDTO.getQueryName(),queryDTO );
+            strategy.createQuery();
+            strategy.executeQuery();
+            strategy.analyzeResultSet();
+            finding = (HCAFinding)strategy.getFinding();
+
+        } catch (ValidationException e) {
+            logger.error(e);
+            throw(e);
+        } catch (FindingsQueryException e) {
+            logger.error(e);
+            throw(e);
+        } catch (FindingsAnalysisException e) {
+            logger.error(e);
+            throw(e);
+        }
+        return finding;
 	}
 
 	public GEIntensityFinding createGEIntensityFinding(QueryDTO query) {
