@@ -15,6 +15,8 @@ import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caIntegrator.services.appState.dto.RBTReportStateDTO;
 import gov.nih.nci.caIntegrator.services.appState.ejb.RBTApplicationStateTracker;
 import gov.nih.nci.caIntegrator.services.appState.ejb.RBTApplicationStateTrackerHome;
+import gov.nih.nci.caIntegrator.services.appState.ApplicationStateTrackerHome;
+import gov.nih.nci.caIntegrator.services.appState.ApplicationStateTracker;
 import gov.nih.nci.caIntegrator.services.util.ServiceLocator;
 
 import java.util.*;
@@ -164,11 +166,10 @@ public class WebGenomeHelper {
         try {
             ServiceLocator locator = ServiceLocator.getInstance();
             Object h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
-                                            RBTApplicationStateTrackerHome.class);
-            RBTApplicationStateTrackerHome home = (RBTApplicationStateTrackerHome)h;
-            RBTApplicationStateTracker  service = home.create();
+                                            ApplicationStateTrackerHome.class);
+            ApplicationStateTrackerHome home = (RBTApplicationStateTrackerHome)h;
+            ApplicationStateTracker  service = home.create();
             stateID = service.publishReportState(dto);
-
         } catch(Throwable t) {
             _logger.error("Error in publishing the RBTApplicationState.  Error:", t);
             throw new Exception("Error in publishing the RBTApplicationState.  Error:" +
