@@ -28,12 +28,14 @@ function A_checkFindingStatus_cb(tasks)	{
 		var curElTime = document.getElementById(key+"_time");
 		var curEl = document.getElementById(key+"_status");
 		var curElImg = document.getElementById(key+"_image");
+		var curElLink = document.getElementById(key+"_link");
 		
 			if(tasks[key]["status"] == 'completed')	{
 				//its done, see if the innerhtml already says done	
 				if(curEl.innerHTML != "completed")	{
 					curEl.innerHTML = "completed";
 					curElImg.src = "images/check.png";
+					curElLink.removeAttribute("onclick");
 				}
 			}
 			else	{

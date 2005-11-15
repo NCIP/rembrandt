@@ -28,7 +28,9 @@ import gov.nih.nci.rembrandt.web.xml.ReportGenerator;
 import gov.nih.nci.rembrandt.web.xml.ReportGeneratorFactory;
 import gov.nih.nci.rembrandt.web.xml.Transformer;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -43,10 +45,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import javax.naming.OperationNotSupportedException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.HTMLWriter;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
@@ -568,13 +573,6 @@ public class ReportGeneratorHelper {
 	            OutputFormat format = OutputFormat.createPrettyPrint();
 	            XMLWriter writer;
 	            writer = new XMLWriter(out, format );
-	           
-	            /*
-	            StringWriter sw = new StringWriter();
-	            XMLWriter w = new XMLWriter(sw,format);
-	            w.write(transformedDoc);
-	            return w.toString();
-	            */
 	            
 	            writer.write( transformedDoc );
 	            writer.close();
@@ -611,12 +609,50 @@ public class ReportGeneratorHelper {
 	         * later we can change this to handle mult XSL CSVs
 	         * RCL
 	         */
+	     	
 	     	if(!xsltFilename.equals(RembrandtConstants.DEFAULT_XSLT_CSV_FILENAME)){
-	            OutputFormat format = OutputFormat.createPrettyPrint();	            
-	            StringWriter sw = new StringWriter();
-	            XMLWriter w = new XMLWriter(sw,format);
-	            w.write(transformedDoc);
-	            return w.toString();
+	            
+	     		StringBuffer sb = new StringBuffer();
+	     		
+	     		OutputFormat format = OutputFormat.createCompactFormat();
+		        //XMLWriter writer;
+//		        writer = new XMLWriter(out, format );
+		        StringWriter sw = new StringWriter(1024);
+		        //writer = new XMLWriter(sw, format);
+		        //writer.write( transformedDoc );
+		        //writer.flush();
+		        //writer.close();
+	            //sb = sw.getBuffer();
+
+	            //format.setXHTML(true);
+		        //ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		       // format.setTrimText(false);
+		        //format.setIndent(false);
+		       // format.setSuppressDeclaration(true);
+		       // format.setPadText(false);
+		        
+	            HTMLWriter writer = new HTMLWriter(sw, format);
+
+	            //Document document = DocumentHelper.parseText(html);
+	            writer.write(transformedDoc);
+	            //writer.flush();
+
+	            //sw.flush();
+	            sb=sw.getBuffer();
+	            /*
+	            int l = sb.length();
+	            int c = sb.capacity();
+	            char[] ch = new char[l];
+	            
+	            for(int i=0; i<l; i++){
+	            	sb.getChars(i, i+1, ch, i);
+	            }
+	            
+	            String st = new String(ch);
+	            return st;
+	            */
+	            return sb.toString();
+
 	        }
 	        else	{
 	            String csv = transformedDoc.getStringValue();
