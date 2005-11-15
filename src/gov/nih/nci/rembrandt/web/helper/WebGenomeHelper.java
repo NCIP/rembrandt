@@ -39,6 +39,8 @@ public class WebGenomeHelper {
         CopyNumberSingleViewResultsContainer copyNumberContainer = null;
         Collection groups = null;
         Map<ChromosomeNumberDE, StartEndPosition> positions = null;
+        List reporterNames =  null;
+          Collection sampleIds = null;
 
         if(resultsContainer instanceof DimensionalViewContainer)	{
             DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
@@ -50,22 +52,42 @@ public class WebGenomeHelper {
             copyNumberContainer = (CopyNumberSingleViewResultsContainer) resultsContainer;
         }
 
-        // 1. now format the data in to RBTReport DTOs
-        RBTReportStateDTO dto = buildReportStateDTO(copyNumberContainer, positions, groups,sessionID);
+        RBTReportStateDTO dto = new RBTReportStateDTO();
+        HashMap groupsWithSamples = new HashMap();
+        List cytobands=null;
+        if(copyNumberContainer != null)	{
+           // 1. convert cytobands in to respective start and end positions
+           cytobands = copyNumberContainer.getCytobandNames();
+           positions = convertCytobands(cytobands);
+                     // 2. format samples in to groups and store under groupName
+           reporterNames = copyNumberContainer.getReporterNames();
+           groups = copyNumberContainer.getGroupsLabels();
+            for (Object group : groups) {
+                String groupName = (String) group;
+                sampleIds = copyNumberContainer.getBiospecimenLabels(groupName);
+                String[] sampleIDArray = new String[sampleIds.size()];
+                sampleIDArray = (String[]) sampleIds.toArray(sampleIDArray);
+                groupsWithSamples.put(groupName, sampleIDArray);
+            }
+         }
+         dto.setCytobands(cytobands);
+         dto.setGroups(groupsWithSamples);
+         dto.setSelectedReporerNames(reporterNames);
+         dto.setUserID(sessionID);
 
-        // 2. build the URL params to be sent out to WebGenome request
-        String urlParams = buildURLParams(groups, positions, dto);
+         // 2. build the URL params to be sent out to WebGenome request
+         String urlParams = buildURLParams(groups, positions, dto);
 
-        // 3. retrieve the where webGenome app is hosted from property file
-        String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+         // 3. retrieve the where webGenome app is hosted from property file
+         String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
                          getProperty("webGenome.hostURL");
 
-        _logger.debug("Web Genome URL Retrieved: " + hostURL);
+         _logger.debug("Web Genome URL Retrieved: " + hostURL);
 
-        // 4. concatenate url & params
-        String webGenomeURL = hostURL + "?" + urlParams;
+         // 4. concatenate url & params
+         String webGenomeURL = hostURL + "?" + urlParams;
 
-        return webGenomeURL;
+         return webGenomeURL;
     }
 
     private static RBTReportStateDTO buildReportStateDTO(CopyNumberSingleViewResultsContainer copyNumberContainer, Map<ChromosomeNumberDE, StartEndPosition> positions, Collection groups,  String sessionID)
@@ -80,11 +102,11 @@ public class WebGenomeHelper {
           if(copyNumberContainer != null)	{
              // 1. convert cytobands in to respective start and end positions
               cytobands = copyNumberContainer.getCytobandNames();
-              positions = convertCytobands(cytobands);
+              positions.putAll(convertCytobands(cytobands));
 
               // 2. format samples in to groups and store under groupName
               reporterNames = copyNumberContainer.getReporterNames();
-              groups = copyNumberContainer.getGroupsLabels();
+              groups.add(copyNumberContainer.getGroupsLabels());
               for (Iterator groupNamesIterator = groups.iterator(); groupNamesIterator.hasNext();) {
                   String groupName = (String) groupNamesIterator.next();
                   sampleIds = copyNumberContainer.getBiospecimenLabels(groupName);
