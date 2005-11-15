@@ -167,8 +167,10 @@ public class WebGenomeHelper {
             ServiceLocator locator = ServiceLocator.getInstance();
             Object h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
                                             ApplicationStateTrackerHome.class);
-            ApplicationStateTrackerHome home = (RBTApplicationStateTrackerHome)h;
+            ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
+            _logger.debug("Home found:" + home.getClass().getName());
             ApplicationStateTracker  service = home.create();
+            _logger.debug("Service Created:" + service.getClass().getName());
             stateID = service.publishReportState(dto);
         } catch(Throwable t) {
             _logger.error("Error in publishing the RBTApplicationState.  Error:", t);
