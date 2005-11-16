@@ -25,7 +25,7 @@ log4j.appender.NautilusLogger=org.apache.log4j.RollingFileAppender
 log4j.appender.NautilusXMLLogger=org.apache.log4j.RollingFileAppender
 
 #This must be filtered by the ant build script to set the LOGDIR
-log4j.appender.NautilusLogger.File=@LOGDIR@/nautilus.log
+log4j.appender.NautilusLogger.File=@LOGDIR@/rembrandt.log
 log4j.appender.NautilusLogger.MaxFileSize=500KB
 
 log4j.appender.NautilusXMLLogger.File=@LOGDIR@/reportXML.log
