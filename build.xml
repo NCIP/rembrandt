@@ -71,11 +71,26 @@
 				<copy file="WebRoot/csm/rembrandt.hibernate.cfg.xml.template" tofile="WebRoot/csm/rembrandt.hibernate.cfg.xml"/>
 				<replaceregexp file = "WebRoot/csm/rembrandt.hibernate.cfg.xml" match="@CONTEXT_NAME@" replace="/${app.war.name}" flags="g"/>
 		</target>
-	<!--
-		TARGET: copy_resources
-		Copies all the bundle resources to the WEB-INF/classes/ folder
+
+   <!--
+		TARGET: config-webGenome
+		Configures the webGenome.properties file using the settings in the
+		build.properties file
 	-->
-	<target name="copy_resources" depends="compile">
+	<target name="config-webGenome">
+        <delete file="src/webGenome.properties"/>
+        <copy file="src/webGenome.properties.template" tofile="src/webGenome.properties"/>
+        <replaceregexp file = "src/webGenome.properties" match="@WEBGENOME-HOST-URL@" replace="${webGenome.url}" flags="g"/>
+        <delete file="src/jndi.properties"/>
+        <copy file="src/jndi.properties.template" tofile="src/jndi.properties"/>
+        <replaceregexp file = "src/jndi.properties" match="@JNDI-URL@" replace="${webGenomeJndi.url}" flags="g"/>
+    </target>
+
+    <!--
+        TARGET: copy_resources
+        Copies all the bundle resources to the WEB-INF/classes/ folder
+    -->
+	<target name="copy_resources" depends="compile, config-webGenome">
 		<copy todir="${build.classes.dir}">
 			<fileset dir="${source.dir}">
 				<include name="*.xml" />
@@ -109,5 +124,5 @@
 			<webinf dir="${webapp.dir}/WEB-INF"/>
 	   	</war>
 	</target>
-	
+
 </project>
