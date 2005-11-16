@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurgeryTypeCriteria;
@@ -13,6 +14,7 @@ import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
 import gov.nih.nci.caintegrator.dto.de.SurgeryTypeDE;
@@ -70,6 +72,8 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 	private SurgeryTypeCriteria surgeryTypeCriteria;
 
 	private SurvivalCriteria survivalCriteria;
+	
+	private RaceCriteria raceCriteria;
 
 	public QueryHandler getQueryHandler() throws Exception {
 		return (HANDLER == null) ? new ClinicalQueryHandler() : HANDLER;
@@ -322,6 +326,39 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				logger
 						.debug("GenderCriteria is empty or Application Resources file is missing.");
 			}// end of GenderCriteria
+			
+			
+			
+			// starting RaceCriteria
+			RaceCriteria thisRaceCriteria = this.getRaceCriteria();
+			if ((thisRaceCriteria != null)
+					&& !thisRaceCriteria.isEmpty() && labels != null) {
+				String thisCriteria = thisRaceCriteria.getClass()
+						.getName();				
+				
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";				
+				
+
+				Collection raceColl = thisRaceCriteria.getRaces();
+				Iterator iter = raceColl.iterator();
+
+				while (iter.hasNext()) {
+					RaceDE raceDE = (RaceDE) iter.next();
+					OutStr += "&nbsp;&nbsp;" + ((String) raceDE.getValue())
+					+ " ";
+
+				}		
+
+				
+			}
+
+			else {
+				logger
+						.debug("RaceCriteria is empty or Application Resources file is missing.");
+			}// end of RaceCriteria
+
 
 		}// end of try
 		catch (Exception ie) {
@@ -396,6 +433,14 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 
 	public void setGenderCrit(GenderCriteria genderCriteria) {
 		this.genderCriteria = genderCriteria;
+	}
+	
+	public RaceCriteria getRaceCriteria() {
+		return raceCriteria;
+	}
+	
+	public void setRaceCrit(RaceCriteria raceCriteria) {
+		this.raceCriteria = raceCriteria;
 	}
 	/**
 	 * Overrides the protected Object.clone() method exposing it as public.

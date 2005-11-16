@@ -70,4 +70,6 @@ public interface PatientDataLookup {
 	public abstract String getSampleId();
 
 	public abstract Long getSurvivalLength();
+	
+	public abstract String getRace();
 }

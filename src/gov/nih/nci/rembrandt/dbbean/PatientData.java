@@ -9,17 +9,44 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 
 public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLookup
 {
-  public final static String BIOSPECIMEN_ID = "biospecimenId";
+   public final static String BIOSPECIMEN_ID = "biospecimenId";
    public final static String SAMPLE_ID = "sampleId";  
-  public final static String SURVIVAL_LENGTH = "survivalLength";
-  public final static String AGE = "age";
-  public final static String GENDER = "gender";
-  public final static String AGE_GROUP = "ageGroup";
+   public final static String SURVIVAL_LENGTH = "survivalLength";
+   public final static String AGE = "age";
+   public final static String GENDER = "gender";
+   public final static String RACE = "race";
+   public final static String AGE_GROUP = "ageGroup";
    public final static String SURVIVAL_LENGTH_RANGE = "survivalLengthRange";
-     public final static String DISEASE_TYPE= "diseaseType";
+   public final static String DISEASE_TYPE= "diseaseType";
 
-  private Long age;
+    private Long age;
+    
     private String ageGroup;
+    
+    private Long biospecimenId;
+
+    private String censoringStatus;
+
+    private Long patientDid;
+
+    private Long populationTypeId;
+
+    private String sampleId;
+
+    private Long survivalLength;
+    
+    private String gender;
+    
+    private String race;
+    
+    
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
+    }
 
     public String getAgeGroup() {
         return ageGroup;
@@ -45,6 +72,7 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
         this.diseaseType = diseaseType;
     }
 
+    
     public String getGenderCode() {
         return getGender();
     }
@@ -58,17 +86,7 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
 
 
 
-  private Long biospecimenId;
-
-  private String censoringStatus;
-
-  private Long patientDid;
-
-  private Long populationTypeId;
-
-  private String sampleId;
-
-  private Long survivalLength;
+  
 
     public String getGender() {
         return gender;
@@ -78,7 +96,7 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
         this.gender = gender;
     }
 
-    private String gender;
+   
 
   public Long getAge()
   {

@@ -113,5 +113,12 @@ abstract public class DBEvent extends EventObject {
                 super(AGE_CRIT_EVENT);
             }
     }
+	
+	  public final static class RaceRetrieveEvent extends DBEvent {
+            private final static String RACE_CRIT_EVENT = "RaceRetrieveEvent";
+            public RaceRetrieveEvent () {
+                super(RACE_CRIT_EVENT);
+            }
+    }
 
 }
