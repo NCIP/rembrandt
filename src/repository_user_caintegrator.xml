@@ -46,7 +46,6 @@
 
  </class-descriptor>
 
-
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
        table="ARRAY_GENO_ABN_FACT">
@@ -548,6 +547,12 @@
         column="AGENT_ID"
         jdbc-type="BIGINT"
     />
+
+    <field-descriptor
+        name="agentId"
+        column="AGENT_ID"
+        jdbc-type="BIGINT"
+    />
     <field-descriptor
         name="ageGroup"
         column="AGE_GROUP"
@@ -844,6 +849,18 @@
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
         <field-descriptor
+                 name="institutionId"
+                 column="INSTITUTION_ID"
+                 jdbc-type="BIGINT"
+        />
+        <field-descriptor
+             name="race"
+             column="RACE"
+             jdbc-type="VARCHAR"
+        />
+
+
+        <field-descriptor
                name="age"
                column="AGE"
                jdbc-type="BIGINT"
@@ -905,6 +922,17 @@
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PT_DATA_GE">
+        <field-descriptor
+                 name="institutionId"
+                 column="INSTITUTION_ID"
+                 jdbc-type="BIGINT"
+        />
+        <field-descriptor
+             name="race"
+             column="RACE"
+             jdbc-type="VARCHAR"
+        />
+
         <field-descriptor
                name="age"
                column="AGE"
