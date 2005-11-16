@@ -76,6 +76,8 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
 		sampleCopyNumberValuesResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,copyNumberObj.getAgeGroup()));
 		sampleCopyNumberValuesResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,copyNumberObj.getSurvivalLengthRange()));
 		sampleCopyNumberValuesResultset.setGenderCode(new GenderDE(copyNumberObj.getGenderCode()));
+		
+  	
   		return sampleCopyNumberValuesResultset;
     }
 

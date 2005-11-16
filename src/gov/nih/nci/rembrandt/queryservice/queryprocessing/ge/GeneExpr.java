@@ -151,8 +151,22 @@ abstract public class GeneExpr implements ResultSet{
         private Long treatmentHistoryId;
         private String cytoband;
         private String genderCode;
+        private String race;       
+        
 
-        public String getSampleId() {
+        /**
+		 * @return Returns the race.
+		 */
+		public String getRace() {
+			return race;
+		}
+		/**
+		 * @param race The race to set.
+		 */
+		public void setRace(String race) {
+			this.race = race;
+		}
+		public String getSampleId() {
             return sampleId;
         }
         public void setSampleId(String sampleId) {

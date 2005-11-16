@@ -18,7 +18,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
         this.agaID = agaID;
     }
 
-    private Long agaID;
+  private Long agaID;
   private String ageGroup;
   private Long biospecimenId;
   private Double channelRatio;
@@ -28,6 +28,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String cytoband;
   private String diseaseType;
   private String genderCode;
+  private String race;
   private Double loh;
   private String lossGain;
   private Long snpProbesetId;
@@ -38,7 +39,23 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private SNPAnnotation annotations;
   private String chromosome;
 
-    public String getChromosome() {
+  
+  
+    /**
+ * @return Returns the race.
+ */
+public String getRace() {
+	return race;
+}
+
+/**
+ * @param race The race to set.
+ */
+public void setRace(String race) {
+	this.race = race;
+}
+
+	public String getChromosome() {
         return chromosome;
     }
 

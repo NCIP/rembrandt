@@ -53,6 +53,7 @@ import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
@@ -116,6 +117,7 @@ public class SampleViewHandler {
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));
 		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));
+		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
   		return sampleResultset;
     }
 	/**

@@ -72,6 +72,20 @@ public interface ClinicalResultSet {
 	 * @param survivalLengthRange The survivalLengthRange to set.
 	 */
 	public abstract void setSurvivalLengthRange(String survivalLengthRange);
+	
+	
+	/**
+	 * @return Returns the race.
+	 */
+	public abstract String getRace();
+
+	/**
+	 * @param Race The Race to set.
+	 */
+	public abstract void setRace(String race);
+	
+	
+	
 
 
 }

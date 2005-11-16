@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurgeryTypeCriteria;
@@ -190,6 +191,12 @@ public class ClinicalDataAction extends LookupDispatchAction {
         GenderCriteria genderCrit = clinicalDataForm.getGenderCriteria();
         if (!genderCrit.isEmpty()) {
             clinicalDataQuery.setGenderCrit(genderCrit);
+        }
+        
+        // Set race Criteria
+        RaceCriteria raceCrit = clinicalDataForm.getRaceCriteria();
+        if (!raceCrit.isEmpty()) {
+            clinicalDataQuery.setRaceCrit(raceCrit);
         }
         return clinicalDataQuery;
     }

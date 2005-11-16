@@ -111,6 +111,10 @@ public class ClinicalSampleReport implements ReportGenerator {
 				        data = cell.addElement("Data").addAttribute("type", "header").addText("DISEASE");
 				        data = null;
 			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        data = cell.addElement("Data").addAttribute("type", "header").addText("RACE");
+			        data = null;
+		        cell = null;
 		    //sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	
 		    
@@ -136,9 +140,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 
-   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-   				
-   	   			String sampleName = sampleResultset.getBiospecimen().getValue().toString();
+   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();   			
 				
 				dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "sample").addAttribute("group", "sample");
@@ -162,6 +164,10 @@ public class ClinicalSampleReport implements ReportGenerator {
    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getDisease().getValue().toString());
    					        	data = null;
    					        cell = null;
+   					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+				        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getRaceDE().getValue().toString());
+				        	data = null;
+				        cell = null;
 		   		/*
    	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +

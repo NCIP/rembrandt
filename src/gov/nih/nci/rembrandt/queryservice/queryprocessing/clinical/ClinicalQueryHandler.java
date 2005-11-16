@@ -1,8 +1,12 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing.clinical;
 
 import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
+import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
+import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
@@ -32,6 +36,7 @@ public class ClinicalQueryHandler extends QueryHandler {
         buildSurvivalRangeCrit(clinicalQuery, allCriteria);
         buildAgeRangeCrit(clinicalQuery, allCriteria);
         buildGenderCrit(clinicalQuery, allCriteria);
+        buildRaceCrit(clinicalQuery, allCriteria);
 
         PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
         Class targetFactClass = PatientData.class;
@@ -49,8 +54,8 @@ public class ClinicalQueryHandler extends QueryHandler {
         sampleQuery.setAttributes(new String[] {
                         PatientData.BIOSPECIMEN_ID, PatientData.GENDER,
                         PatientData.DISEASE_TYPE, PatientData.AGE_GROUP,
-                        PatientData.SAMPLE_ID,
-                        PatientData.SURVIVAL_LENGTH_RANGE} );
+                        PatientData.SAMPLE_ID, PatientData.SURVIVAL_LENGTH_RANGE,
+                        PatientData.RACE} );
 
         Iterator patientDataObjects =  pb.getReportQueryIteratorByQuery(sampleQuery );
         ArrayList results = new ArrayList();
@@ -74,13 +79,15 @@ public class ClinicalQueryHandler extends QueryHandler {
             String ageGroup = (String)objs[3];
             String sampleID = (String)objs[4];
             String survLenRange = (String)objs[5];
+            String race = (String)objs[6];
             PatientData p = new PatientData();
             p.setBiospecimenId(bspID);
-            p.setGender(gender);
+            p.setGender(gender);           
             p.setDiseaseType(diseaseType);
             p.setAgeGroup(ageGroup);
             p.setSampleId(sampleID);
-            p.setSurvivalLengthRange(survLenRange);
+            p.setSurvivalLengthRange(survLenRange);  
+			p.setRace(race);         
 
             results.add(p );
         }
@@ -110,4 +117,17 @@ public class ClinicalQueryHandler extends QueryHandler {
             genderCrit.addEqualTo(PatientData.GENDER, crit.getGenderDE().getValueObject());
         }
     }
-}
+    
+    private void buildRaceCrit(ClinicalDataQuery clinicalQuery, Criteria raceCrit){
+    	  RaceCriteria crit = clinicalQuery.getRaceCriteria();    	  
+    	  
+          if (crit != null) {
+        	  ArrayList raceTypes = new ArrayList();
+        	  for (Iterator iterator = crit.getRaces().iterator(); iterator.hasNext();) {
+        		  raceTypes.add(((RaceDE) iterator.next()).getValueObject());
+        	  }
+        	 raceCrit.addIn(PatientData.RACE, raceTypes);
+          }          
+         
+       }
+     }

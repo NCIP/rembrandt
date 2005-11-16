@@ -6,6 +6,7 @@ import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurgeryTypeCriteria;
@@ -16,6 +17,7 @@ import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.GradeDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
+import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.SurgeryTypeDE;
@@ -49,7 +51,21 @@ public class ClinicalDataForm extends BaseForm {
     private String queryName;
 
     private String resultView;
-  
+    
+    /** caucasion property */
+    private String caucasion;
+    
+    /** africanAmerican property */
+    private String africanAmerican;
+    
+    /** latino property */
+    private String latino;
+    
+    /** asianAmerican property */
+    private String asianAmerican;
+    
+    /** nativeAmerican property */
+    private String nativeAmerican;  
     
  
     /** tumorGrade property */
@@ -141,6 +157,8 @@ public class ClinicalDataForm extends BaseForm {
     private AgeCriteria ageCriteria = new AgeCriteria();
 
     private GenderCriteria genderCriteria;
+    
+    private  RaceCriteria raceCriteria = new RaceCriteria();
     
    
 
@@ -259,7 +277,12 @@ public class ClinicalDataForm extends BaseForm {
     public void reset(ActionMapping mapping, HttpServletRequest request) {
 
         queryName = "";
-        resultView = "";
+        resultView = "";    
+        caucasion= "";       
+        africanAmerican= "";      
+        latino= "";      
+        asianAmerican= "";       
+        nativeAmerican= "";
         tumorType = "";
         tumorGrade = "";
         firstPresentation = "";
@@ -288,12 +311,141 @@ public class ClinicalDataForm extends BaseForm {
         survivalCriteria = new SurvivalCriteria();
         ageCriteria = new AgeCriteria();
         genderCriteria = new GenderCriteria();
-        sampleCriteria = new SampleCriteria();   
+        sampleCriteria = new SampleCriteria();  
+        raceCriteria = new RaceCriteria();
        
 
         thisRequest = request;
 
     }
+
+    
+
+    /**
+	 * @return Returns the africanAmerican.
+	 */
+	public String getAfricanAmerican() {
+		return africanAmerican;
+	}
+
+
+
+
+
+	/**
+	 * @param africanAmerican The africanAmerican to set.
+	 */
+	public void setAfricanAmerican(String africanAmerican) {
+		this.africanAmerican = africanAmerican;
+		 if (africanAmerican != null) {
+	            if (africanAmerican.equalsIgnoreCase("on")) {
+	                //this.africanAmerican = "African American";
+	            	this.africanAmerican = "Black";
+	            }
+	            RaceDE raceDE = new RaceDE(this.africanAmerican );
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+	}
+
+
+	/**
+	 * @return Returns the asianAmerican.
+	 */
+	public String getAsianAmerican() {
+		return asianAmerican;
+	}
+
+	/**
+	 * @param asianAmerican The asianAmerican to set.
+	 */
+	public void setAsianAmerican(String asianAmerican) {
+		this.asianAmerican = asianAmerican;
+		  if (asianAmerican != null) {
+	            if (asianAmerican.equalsIgnoreCase("on")) {
+	                this.asianAmerican = "Asian American";
+	                
+	            }
+	            RaceDE raceDE = new RaceDE(this.asianAmerican );
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+	}
+
+
+	/**
+	 * @return Returns the caucasion.
+	 */
+	public String getCaucasion() {
+		return caucasion;
+	}
+
+	/**
+	 * @param caucasion The caucasion to set.
+	 */
+	public void setCaucasion(String caucasion) {
+		this.caucasion = caucasion;	
+		 if (caucasion != null) {
+	            if (caucasion.equalsIgnoreCase("on")) {
+	                //this.caucasion = "Caucasion";	     
+	            	this.caucasion = "White";	 
+	            }
+	            RaceDE raceDE = new RaceDE(this.caucasion );
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+	}
+
+	/**
+	 * @return Returns the latino.
+	 */
+	public String getLatino() {
+		return latino;
+	}
+	/**
+	 * @param latino The latino to set.
+	 */
+	public void setLatino(String latino) {
+		this.latino = latino;
+		 if (latino != null) {
+	            if (latino.equalsIgnoreCase("on")) {
+	                this.latino = "Latino";	                
+	            }
+	            RaceDE raceDE = new RaceDE(this.latino);
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+	}
+
+	/**
+	 * @return Returns the nativeAmerican.
+	 */
+	public String getNativeAmerican() {
+		return nativeAmerican;
+	}
+
+
+
+
+
+	/**
+	 * @param nativeAmerican The nativeAmerican to set.
+	 */
+	public void setNativeAmerican(String nativeAmerican) {
+		this.nativeAmerican = nativeAmerican;
+		if (nativeAmerican != null) {
+	            if (nativeAmerican.equalsIgnoreCase("on")) {
+	                this.nativeAmerican = "Native American";	                
+	            }
+	            RaceDE raceDE = new RaceDE(this.nativeAmerican);
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+	}
+
+
+
+
 
   
    
@@ -772,6 +924,10 @@ public class ClinicalDataForm extends BaseForm {
         return this.genderCriteria;
     }
 
+    public RaceCriteria getRaceCriteria() {
+        return this.raceCriteria;
+    }
+    
     public ArrayList getRecurrenceTypeColl() {
         return recurrenceTypeColl;
     }
@@ -831,6 +987,11 @@ public class ClinicalDataForm extends BaseForm {
         form.setSampleList(sampleList);
         form.setSampleFile(sampleFile);
         form.setSampleGroup(sampleGroup);
+        form.setAfricanAmerican(africanAmerican);
+        form.setCaucasion(caucasion);
+        form.setAsianAmerican(asianAmerican);
+        form.setLatino(latino);
+        form.setNativeAmerican(nativeAmerican);        
         return form;
     }
     /**

@@ -106,6 +106,7 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		sampleFoldChangeValuesResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,exprObj.getAgeGroup()));
 		sampleFoldChangeValuesResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,exprObj.getSurvivalLengthRange()));
 		sampleFoldChangeValuesResultset.setGenderCode(new GenderDE(exprObj.getGenderCode()));
+		
   		return sampleFoldChangeValuesResultset;
     }
 

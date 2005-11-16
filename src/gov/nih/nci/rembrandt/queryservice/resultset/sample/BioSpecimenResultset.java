@@ -8,6 +8,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.sample;
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.RaceDE;
 
 /**
  * @author SahniH
@@ -17,8 +18,23 @@ import gov.nih.nci.caintegrator.dto.de.GenderDE;
 public abstract class  BioSpecimenResultset {
 	private BioSpecimenIdentifierDE biospecimen = null;
 	private GenderDE genderCode = null;
+	private RaceDE raceDE = null;
 	private DatumDE ageGroup = null;
 	private DatumDE survivalLengthRange = null;
+	
+	
+	/**
+	 * @return Returns the raceDE.
+	 */
+	public RaceDE getRaceDE() {
+		return raceDE;
+	}
+	/**
+	 * @param raceDE The raceDE to set.
+	 */
+	public void setRaceDE(RaceDE raceDE) {
+		this.raceDE = raceDE;
+	}
 	/**
 	 * @return Returns the ageGroup.
 	 */
