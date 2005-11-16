@@ -6,7 +6,7 @@
  */
 package gov.nih.nci.rembrandt.web.helper;
 
-import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 
 import java.util.ArrayList;
@@ -24,10 +24,10 @@ public class KMDataSetHelper {
 		
 		if (_reporters != null && _plotType != null && _kmForm != null) {
 			reporters = _reporters;
-			if (_plotType.equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
-				reporters.add(0, RembrandtConstants.GRAPH_DEFAULT);
+			if (_plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
+				reporters.add(0, CaIntegratorConstants.GRAPH_DEFAULT);
 			}
-			if (_plotType.equals(RembrandtConstants.COPY_NUMBER_KMPLOT)
+			if (_plotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)
 					&& reporters.size() > 1) {
 				reporters.add(0, " ");
 

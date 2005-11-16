@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierDataController;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
+import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
@@ -108,7 +109,7 @@ public class QuickSearchAction extends DispatchAction {
 		kmForm.setPlotType(kmplotType);
 		KaplanMeierPlotContainer kmResultsContainer = null;
 		KaplanMeierSampleInfo[] kmSampleInfos = {new KaplanMeierSampleInfo(0,0,0)};
-		if (kmplotType.equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
+		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 			kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName);
 			if(kmResultsContainer!=null) {
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
@@ -117,7 +118,7 @@ public class QuickSearchAction extends DispatchAction {
 			kmForm.setDownOrDeleted("Down Regulated");
 			kmForm.setGeneOrCytoband(kmResultsContainer.getGeneSymbol().getValue().toString());
 			kmForm.setPlotVisible(true);
-		} else if (kmplotType.equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
+		} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			kmForm.setUpOrAmplified("Amplified");
 			kmForm.setDownOrDeleted("Deleted");
 			if(quickSearchType.equals(RembrandtConstants.GENE_SYMBOL)){
@@ -170,14 +171,14 @@ public class QuickSearchAction extends DispatchAction {
 		KaplanMeierPlotContainer kmResultsContainer = getKmResultsContainer(request.getSession().getId());
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
 			if ((kmForm.getSelectedReporter().trim().length() > 0)) {
-				if (kmplotType.equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
+				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 					if (kmForm.getSelectedReporter().equals(
-							RembrandtConstants.GRAPH_DEFAULT)) {
+							CaIntegratorConstants.GRAPH_DEFAULT)) {
 						kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 					} else {
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 					}
-				} else if (kmplotType.equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
+				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 					kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 				}
 				kmForm.setPlotVisible(true);
@@ -225,7 +226,7 @@ public class QuickSearchAction extends DispatchAction {
 				request.setAttribute("quickSearchType", qsForm
 						.getQuickSearchType());
 				request.setAttribute("plotType",
-						RembrandtConstants.GENE_EXP_KMPLOT);
+						CaIntegratorConstants.GENE_EXP_KMPLOT);
 				return mapping.findForward("kmplot");
 			}
 			if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
@@ -235,7 +236,7 @@ public class QuickSearchAction extends DispatchAction {
 				request.setAttribute("quickSearchName", qsForm
 						.getQuickSearchName());
 				request.setAttribute("plotType",
-						RembrandtConstants.COPY_NUMBER_KMPLOT);
+						CaIntegratorConstants.COPY_NUMBER_KMPLOT);
 				return mapping.findForward("kmplot");
 			}
 

@@ -1,8 +1,8 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
+import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
-import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -127,11 +127,11 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	 * @return Returns the chartTitle.
 	 */
 	public String getChartTitle() {
-		if (getPlotType().equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 			chartTitle = "Kaplan-Meier Survival Plot for Samples with Differential "
 					+ geneOrCytoband + " Gene Expression";
 		}
-		if (getPlotType().equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			chartTitle = "Kaplan-Meier Survival Plot for Samples with Copy Number Analysis for "
 					+ geneOrCytoband;
 		}
@@ -181,8 +181,8 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	 */
 	public void setPlotType(String plotType) {
 		if (plotType != null
-				&& (plotType.equals(RembrandtConstants.GENE_EXP_KMPLOT) || plotType
-						.equals(RembrandtConstants.COPY_NUMBER_KMPLOT))) {
+				&& (plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT) || plotType
+						.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT))) {
 			this.plotType = plotType;
 		}
 	}
@@ -191,10 +191,10 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	 * @return Returns the changeType.
 	 */
 	public String getChangeType() {
-		if (getPlotType().equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 			changeType = "Folds";
 		}
-		if (getPlotType().equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			changeType = "Copies";
 		}
 		return changeType;
@@ -204,10 +204,10 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	 * @return Returns the downOrDeleted.
 	 */
 	public String getDownOrDeleted() {
-		if (getPlotType().equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 			downOrDeleted = "Down-Regulated";
 		}
-		if (getPlotType().equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			downOrDeleted = "Deleted";
 		}
 		return downOrDeleted;
@@ -217,10 +217,10 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	 * @return Returns the upOrAmplified.
 	 */
 	public String getUpOrAmplified() {
-		if (getPlotType().equals(RembrandtConstants.GENE_EXP_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 			upOrAmplified = "Up-Regulated";
 		}
-		if (getPlotType().equals(RembrandtConstants.COPY_NUMBER_KMPLOT)) {
+		if (getPlotType().equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			upOrAmplified = "Amplified";
 		}
 		return upOrAmplified;
