@@ -20,7 +20,7 @@ public class Log4jInit extends HttpServlet {
     if(file != null) {
       PropertyConfigurator.configure(prefix+file);
       Logger logger = Logger.getLogger(Log4jInit.class);
-      logger.debug("Nautilus Logger Initialized");
+      logger.debug("Rembrandt Logger Initialized");
     }
   }
 
