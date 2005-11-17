@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.ajax;
 import java.util.Map;
 
 import gov.nih.nci.caintegrator.service.findings.Finding;
+import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
