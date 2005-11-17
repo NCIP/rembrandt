@@ -246,13 +246,26 @@ function doShowAllValues(q, state)	{
 }
 
 function goPage(p)	{
+	try	{
 	 	document.forms['paginate'].filter_value2.value = p;
+	 }
+	 catch(er)	{
+	 	document.forms['paginate'].p_page.value = p;
+	 }
 	 	document.forms['paginate'].submit();
 }
 function goPageChangeStep(p, s)	{
 	if(s != '')	{
-	 	document.forms['paginate'].filter_value2.value = 0; 
-	 	document.forms['paginate'].filter_value3.value = s; 
+		if(document.forms['paginate'].filter_value2)
+		 	document.forms['paginate'].filter_value2.value = 0; 
+		if(document.forms['paginate'].filter_value3)
+		 	document.forms['paginate'].filter_value3.value = s; 
+		
+		if(document.forms['paginate'].p_page)
+			document.forms['paginate'].p_page.value = 0; 
+		if(document.forms['paginate'].p_step)
+		 	document.forms['paginate'].p_step.value = s; 
+
 	 	document.forms['paginate'].submit(); 
 	}
 }
