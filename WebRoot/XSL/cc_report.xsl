@@ -141,7 +141,7 @@
 				<b><span class="lb">Select Reporters:</span></b> 
 				<xsl:text>&#160;</xsl:text>
 				<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$key}" />
-				<input type="button" name="filter_submit" value="Save Reporters" onclick="javascript:saveSamples();" />
+				<input type="button" name="filter_submit" value="Save Reporters" onclick="javascript:alert('i do nothing yet');/*saveSamples()*/;" />
 				<xsl:text>&#160;</xsl:text>
 				<a href="#" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));return false;">[Check All]</a>
 				<xsl:text>&#160;</xsl:text>
