@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 public class SessionTempReportCounter implements Serializable {
 	private Logger logger = Logger.getLogger(SessionTempReportCounter.class);
 	private int numberOfTempReports = 0;
-	
+	private int numberOfTempReporters = 0;
 	/**
 	 * Returns a unique name for a new tempReport
 	 * @return
@@ -30,6 +30,12 @@ public class SessionTempReportCounter implements Serializable {
 		String name = RembrandtConstants.TEMP_RESULTS+numberOfTempReports;
 		logger.debug("Creating a new Temp Result Set name: "+name);
 		numberOfTempReports++;
+		return name;
+	}
+	public String getNewTempReporterName() {
+		String name = RembrandtConstants.TEMP_REPORTER_GROUP+numberOfTempReporters;
+		logger.debug("Creating a new Temp Resulter Group name: "+name);
+		numberOfTempReporters++;
 		return name;
 	}
 }
