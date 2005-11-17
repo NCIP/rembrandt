@@ -3,11 +3,11 @@
 
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 
-<xsl:param name="filter_value1"></xsl:param>
-<xsl:param name="filter_value4">gt</xsl:param>
+<xsl:param name="p_highlight"></xsl:param>
+<xsl:param name="p_highlight_op">gt</xsl:param>
 
-<xsl:param name="filter_value2">0</xsl:param>
-<xsl:param name="filter_value3">25</xsl:param>
+<xsl:param name="p_page">0</xsl:param>
+<xsl:param name="p_step">25</xsl:param>
 
 <xsl:param name="key"></xsl:param>
 
@@ -52,9 +52,9 @@
 
 		<form action="testReport.do?key={$key}" name="paginate" method="post">
 			<input type="hidden" name="queryName" value="{$qName}" />
-			<input type="hidden" name="filter_value2" value="{$filter_value2}" />
-			<input type="hidden" name="filter_value3" value="{$filter_value3}" />
-			<input type="hidden" name="filter_value1" value="{$filter_value1}"/>
+			<input type="hidden" name="p_page" value="{$p_page}" />
+			<input type="hidden" name="p_step" value="{$p_step}" />
+			<input type="hidden" name="p_highlight" value="{$p_highlight}"/>
 			<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</form>
 	
@@ -114,77 +114,25 @@
 							</form>
 						</div>
 							  
-	<xsl:if test="$rType = 'Copy Number'">
-	<div class="filterForm" id="cNumberFilter" style="display:none">
-	<form style="margin-bottom:0;margin:0;" action="runReport.do?method=runFilterCopyNumber" method="post" name="cfilter_form">
-	<b><span class="lb">Filter Options:</span></b> 
-		<xsl:text>&#160;</xsl:text>
-		No. of Consecutive SNPs:
-		<select name="filter_value5">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>
-		</select>
-		<xsl:text>&#160;</xsl:text>
-		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
-		<xsl:text>&#160;</xsl:text>
-		% SNPs that match criteria
-		<select name="filter_value6">
-			<option value="0"></option>
-			<option value="10">10%</option>
-			<option value="20">20%</option>
-			<option value="30">30%</option>
-			<option value="40">40%</option>
-			<option value="50">50%</option>
-			<option value="60">60%</option>
-			<option value="70">70%</option>
-			<option value="80">80%</option>
-			<option value="90">90%</option>
-			<option value="100">100%</option>
-		</select>
-		<xsl:text>&#160;</xsl:text>
-		<input type="hidden" name="queryName" value="{$qName}"/>
-		<input type="submit" name="filter_submit" value="Submit" />
-		<input type="hidden" name="filter_element" value="copy_number"/>
-		<xsl:text>&#160;</xsl:text>
-		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('The Copy Number Filter allows you to filter the copy number report based on additional criteria such as No. of Consecutive SNPs and Percent of SNPs that match criteria.  These criteria will determine which SNPs are displayed on the report. The filtered Version of our report will now reflect the filter parameters we have filled out. For example, selecting “3” for the first filter and “50%” in the second filter will displays only those samples that had atleast 3 consecutive SNPs and 50% of the SNPs that met the criteria specified.');" onmouseout="return nd();">[?]</a></b>
-	  </form>
-	  </div>
-	  <!-- Added for WebGenome Testing -->
-	  <div class="filterForm">
-	  <form action="null" method="post" name="reportGeneratorForm">
-	 	 <button type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')">Testing WebGenome...</button>
-	  </form>
-	   </div>
-	  </xsl:if>	  
-	  
-			
 		<div class="filterForm">
 			<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="highlight_form">
 				<b><span class="lb">Highlight:</span></b> 
 				<xsl:text>&#160;</xsl:text>
 				highlight values 
-				<select name="filter_value4">
+				<select name="p_highlight_op">
 					<option value="gt">&gt;</option>
 					<option value="lt">&lt;</option>
 					<option value="eq">=</option>
 					<option value="lte">&lt;=</option>
 					<option value="gte">&gt;=</option>
 				</select>
-				<input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
+				<input type="text" name="p_highlight" size="4" value="{$p_highlight}" />
 				<input type="hidden" name="queryName" value="{$qName}"/>
-				<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
-				<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
+				<input type="hidden" name="p_page" value="{$p_page}"/>
+				<input type="hidden" name="p_step" value="{$p_step}"/>
 				<input type="submit" name="filter_submit" value="Highlight" />
 				<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
-				<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.filter_value1.value='';" />
+				<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.p_highlight.value='';" />
 			</form>
 		</div>
 	  
@@ -209,10 +157,10 @@
 	  <!-- <xsl:value-of select="$recordCount" /> records returned. -->
 	  <b><span class="lb">Displaying:</span></b> 
 	  <xsl:text>&#160;</xsl:text>
-	  <xsl:value-of select="$filter_value3 * $filter_value2+1" /> - 
+	  <xsl:value-of select="$p_step * $p_page+1" /> - 
 	  <xsl:choose>
-	  	<xsl:when test="$recordCount > ($filter_value3 * ($filter_value2+1))">
-		  <xsl:value-of select="$filter_value3 * ($filter_value2+1)" />
+	  	<xsl:when test="$recordCount > ($p_step * ($p_page+1))">
+		  <xsl:value-of select="$p_step * ($p_page+1)" />
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:value-of select="$recordCount" />
@@ -221,22 +169,22 @@
 	  of <xsl:value-of select="$recordCount" /> records
 	  <xsl:text>&#160;</xsl:text>
 	  <!-- if theres a next show it-->
-	  <xsl:if test="$filter_value2>0">
-	  	<xsl:variable name="ppage" select="$filter_value2 - 1"/> 
+	  <xsl:if test="$p_page>0">
+	  	<xsl:variable name="ppage" select="$p_page - 1"/> 
 	   	<a href="javascript:goPage('{$ppage}');">&lt;&lt;Prev</a>
 		<xsl:text>&#160;</xsl:text>
 	  </xsl:if>
-	  <xsl:if test = "$recordCount > ($filter_value3 * ($filter_value2 +1))">
-	   <xsl:variable name="npage" select="$filter_value2 + 1" />
+	  <xsl:if test = "$recordCount > ($p_step * ($p_page +1))">
+	   <xsl:variable name="npage" select="$p_page + 1" />
 	   <a href="javascript:goPage('{$npage}');">Next&gt;&gt;</a>
 	  </xsl:if>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
-	  <xsl:if test="ceiling($recordCount div $filter_value3) > 1">
-		  <b><xsl:value-of select="ceiling($recordCount div $filter_value3)" /> page(s):</b>
+	  <xsl:if test="ceiling($recordCount div $p_step) > 1">
+		  <b><xsl:value-of select="ceiling($recordCount div $p_step)" /> page(s):</b>
 		  <script language="javascript">
-		  	var records = <xsl:value-of select="ceiling($recordCount div $filter_value3)"/>;
-		  	var cPage = <xsl:value-of select="$filter_value2"/>;
+		  	var records = <xsl:value-of select="ceiling($recordCount div $p_step)"/>;
+		  	var cPage = <xsl:value-of select="$p_page"/>;
 		  	<![CDATA[	
 		  		for(i=0;records!=i; i++)	{
 		  			stupidXSL(i, cPage, records);
@@ -246,8 +194,8 @@
 	  </xsl:if>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
-	  <select name="changeStep" onchange="javascript: goPageChangeStep('{$filter_value2}', this.value);">
-	  	<option value=""><xsl:value-of select="$filter_value3"/> per page</option>
+	  <select name="changeStep" onchange="javascript: goPageChangeStep('{$p_page}', this.value);">
+	  	<option value=""><xsl:value-of select="$p_step"/> per page</option>
 	  	<option value="1">1</option>
 	  	<option value="5">5</option>
 	  	<option value="10">10</option>
@@ -289,44 +237,10 @@
 		
 		<form action="runReport.do?method=submitSamples" method="post" name="prbSamples">
 		<input type="hidden" name="queryName" value="{$qName}"/>
-		<xsl:for-each select="Row[@name='sampleRow']">
-			<tr class="sampleRow">
-		  	<xsl:for-each select="Cell[@class != 'csv']">
-			  <xsl:variable name="currentGroup" select="@group" />
-			  <xsl:variable name="sample" select="Data" />
-			  <xsl:choose>
-			  <xsl:when test="Data = ' '">
-			  	
-			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() != ' ' and $currentGroup = 'header'">
-			  	<td colspan="2" align="center">
-				  <input type="hidden" name="prbQueryName" value="{$qName}" size="10" />
-				  <!-- <input type="submit" name="prb_submitSamples" value="Save" style="width:40px" /> -->
-				 </td>
-			  	</xsl:if>
-			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() = ' ' and following::Cell[1]/Data[1]/text() != ' ' and $currentGroup = 'header'">
-				  
-			  	</xsl:if>
-			  </xsl:when>
-			  <xsl:otherwise>
-		      	<td class="{$currentGroup}">
-		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect != 'false' and contains($qName,'previewResults') = false">
-		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
-		      	</xsl:if>
-		      	<!--
-		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
-		      	-->
-		      		<a href="javascript:switchViews('Cl', '{$sample}')"><xsl:value-of select="Data" /></a>
-		      	
-		      	</td>
-		      </xsl:otherwise>
-		      </xsl:choose>
-		    </xsl:for-each>
-		    </tr>
-		</xsl:for-each>
 		
 		<!-- get each data row only -->
 		<xsl:for-each select="Row[(@name='dataRow')] ">
-			<xsl:if test="$filter_value3 + ($filter_value3 * $filter_value2)>=position() and position() > ($filter_value2 * $filter_value3)">	
+			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	
 					<tr>
 		  				<xsl:for-each select="Cell[@class != 'csv']">
 		  	  			<xsl:variable name="class" select="@group" />
@@ -339,28 +253,28 @@
 		      					<a href="#" onclick="javascript:spawnAnnot('gene', this); return false;"><xsl:value-of select="Data"/></a>
 		      				</xsl:when>
 		      				<xsl:when test="($styleclass = 'reporter' or $styleclass = 'cytoband') and $theData != '-'">
-		      						<a href="#" onclick="javascript:spawnAnnot('reporter',this); return false;"><xsl:value-of select="Data"/></a>	
+		      						<input type="checkbox" name="tmpReporter" value="{$theData}" onclick="javascript:saveReporter(this)" /><a href="#" onclick="javascript:spawnAnnot('reporter',this); return false;"><xsl:value-of select="Data"/></a>	
 		      				</xsl:when>
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
 			      				<xsl:value-of select="Data" />
 			      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
 							</xsl:when>
-			      			<xsl:when test="$filter_value1 != 000 and $filter_value4 != ''">
+			      			<xsl:when test="$p_highlight != 000 and $p_highlight_op != ''">
 			      				<xsl:choose>
-			      					<xsl:when test="$filter_value4 = 'gt' and Data > $filter_value1">
+			      					<xsl:when test="$p_highlight_op = 'gt' and Data > $p_highlight">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'lt' and $filter_value1 > Data">
+			      					<xsl:when test="$p_highlight_op = 'lt' and $p_highlight > Data">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'eq' and $filter_value1 = Data">
+			      					<xsl:when test="$p_highlight_op = 'eq' and $p_highlight = Data">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'lte' and $filter_value1 >= Data">
+			      					<xsl:when test="$p_highlight_op = 'lte' and $p_highlight >= Data">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'gte' and Data >= $filter_value1">
+			      					<xsl:when test="$p_highlight_op = 'gte' and Data >= $p_highlight">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
 			      					<xsl:when test="$theData = 'G' or $theData = 'C'">
@@ -399,7 +313,7 @@
 			</xsl:if>
 
 		</xsl:for-each>
-	</form>
+	</form> <!--  close PRB samples form -->
   	</table>
   	<div>
   	<script language="javascript">
@@ -414,7 +328,7 @@
 
   <script language="javascript">
   if(document.highlight_form){
- 	selectHOperand(document.highlight_form.filter_value4, '<xsl:value-of select="$filter_value4"/>');
+ 	selectHOperand(document.highlight_form.p_highlight_op, '<xsl:value-of select="$p_highlight_op"/>');
  	}
   </script>
 

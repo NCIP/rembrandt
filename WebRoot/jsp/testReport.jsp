@@ -12,7 +12,8 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		<script language="JavaScript" type="text/javascript" src="js/overlib.js"></script>
 		<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js"></script>
 		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
-		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script> 
+		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script>
+		<script language="JavaScript" type="text/javascript" src="XSL/a_js.js"></script> 
 		<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
 	</head>
 <body>
@@ -27,19 +28,19 @@ String key = "t2";
 if(request.getParameter("key")!=null)
 	key = (String) request.getParameter("key");
 
-String filter_value1 = "";
-if(request.getParameter("filter_value1")!=null)
-	filter_value1 = (String) request.getParameter("filter_value1");
-String filter_value4 = "gt";
-if(request.getParameter("filter_value4")!=null)
-	filter_value4 = (String) request.getParameter("filter_value4");
+String p_highlight = "";
+if(request.getParameter("p_highlight")!=null)
+	p_highlight = (String) request.getParameter("p_highlight");
+String p_highlight_op = "gt";
+if(request.getParameter("p_highlight_op")!=null)
+	p_highlight_op = (String) request.getParameter("p_highlight_op");
 
-String filter_value2 = "0";
-if(request.getParameter("filter_value2")!=null)
-	filter_value2 = (String) request.getParameter("filter_value2");
-String filter_value3 = "25";
-if(request.getParameter("filter_value3")!=null)
-	filter_value3 = (String) request.getParameter("filter_value3");
+String p_page = "0";
+if(request.getParameter("p_page")!=null)
+	p_page = (String) request.getParameter("p_page");
+String p_step = "25";
+if(request.getParameter("p_step")!=null)
+	p_step = (String) request.getParameter("p_step");
 
 
 String xhtml = "nada";
@@ -65,13 +66,13 @@ else	{
 		function A_getReport(key)	{
 			var a = new Object();
 			a["key"] = "<%=key%>";
-			a["filter_value1"] = "<%=filter_value1%>";
-			a["filter_value4"] = "<%=filter_value4%>";
+			a["p_highlight"] = "<%=p_highlight%>";
+			a["p_highlight_op"] = "<%=p_highlight_op%>";
 			
-			a["filter_value2"] = "<%=filter_value2%>";
-			a["filter_value3"] = "<%=filter_value3%>";
+			a["p_page"] = "<%=p_page%>";
+			a["p_step"] = "<%=p_step%>";
 			
-			a["two"] = "atwo";
+			//a["two"] = "atwo";
 			//var a = { key1:"value1", key2:"value2" };
 			DynamicReport.generateDynamicReport(key, a, A_getReport_cb);
 		}

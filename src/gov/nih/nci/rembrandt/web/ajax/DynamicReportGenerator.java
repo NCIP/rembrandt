@@ -33,12 +33,12 @@ public class DynamicReportGenerator {
 //		HttpServletResponse response = ExecutionContext.get().getHttpServletResponse();
 		
 		//only generate XML if its not already cached...leave off for debug
-		//if(ptc.getObjectFromSessionCache(session.getId(), key) == null)	{
+		if(ptc.getObjectFromSessionCache(session.getId(), key) == null)	{
 			Object o = btc.getObjectFromSessionCache(session.getId(), key);
 			Finding finding = (Finding) o; 
 			//generate the XML and cached it
 			ReportGeneratorHelper.generateReportXML(finding);
-		//}
+		}
 		Object ob = ptc.getObjectFromSessionCache(session.getId(), key);
 		if(ob != null && ob instanceof FindingReportBean)	{
 			try	{
@@ -48,13 +48,13 @@ public class DynamicReportGenerator {
 				html = ReportGeneratorHelper.renderReport(params, reportXML,"cc_report.xsl");
 			}
 			catch(Exception e)	{
-				html = "no worky";
+				html = "Error Generating the report.";
 			}
 		}
 		else	{
-			html = "this no worky";
+			html = "Error generating the report";
 		}
-		//out the XHTML in the session for reference in presentation
+		//out the XHTML in the session for reference in presentation...could store in Prescache
 		session.setAttribute(key+"_xhtml", html);
 		return;
 	}
