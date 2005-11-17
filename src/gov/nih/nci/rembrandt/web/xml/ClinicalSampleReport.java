@@ -5,6 +5,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.util.DEUtils;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -151,35 +152,23 @@ public class ClinicalSampleReport implements ReportGenerator {
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-								String ag = "N/A";
-								if(sampleResultset.getAgeGroup()!=null && sampleResultset.getAgeGroup().getValue()!=null)	{
-									ag = sampleResultset.getAgeGroup().getValue().toString();
-								}
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(ag);
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getAgeGroup()));
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-								String gen = "N/A";
-								if(sampleResultset.getGenderCode()!=null && sampleResultset.getGenderCode().getValue()!=null)	{
-									gen = sampleResultset.getGenderCode().getValue().toString();
-								}
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(gen);
+						    	data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getGenderCode()));
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-								String sl = "--";
-								if(sampleResultset.getSurvivalLengthRange()!=null && sampleResultset.getSurvivalLengthRange().getValue()!=null)	{
-									sl = sampleResultset.getSurvivalLengthRange().getValue().toString();
-								}
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sl);
+						    	data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getSurvivalLengthRange()));
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getDisease().getValue().toString());
+								data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getDisease()));
    					        	data = null;
    					        cell = null;
    					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-				        		data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getRaceDE().getValue().toString());
+	   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getRaceDE()));
 				        		data = null;
 				        	cell = null;
 		   		/*
