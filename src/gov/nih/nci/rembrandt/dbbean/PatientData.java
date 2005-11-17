@@ -18,9 +18,12 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
    public final static String AGE_GROUP = "ageGroup";
    public final static String SURVIVAL_LENGTH_RANGE = "survivalLengthRange";
    public final static String DISEASE_TYPE= "diseaseType";
+   public final static String INSTITUTION_ID = "institutionId";
 
     private Long age;
-    
+
+    private Long institutionId;
+
     private String ageGroup;
     
     private Long biospecimenId;
@@ -39,7 +42,14 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
     
     private String race;
     
-    
+    public Long getInstitutionId() {
+         return institutionId;
+     }
+
+     public void setInstitutionId(Long institutionId) {
+         this.institutionId = institutionId;
+     }
+
     public String getRace() {
         return race;
     }
