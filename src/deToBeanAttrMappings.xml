@@ -65,6 +65,19 @@
                    attribute="sampleId"/>
 
     </DomainElement>
+    <DomainElement name="gov.nih.nci.caintegrator.dto.de.InstitutionDE">
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact"
+                   attribute="institutionId"/>
+                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionGfact"
+                    attribute="institutionId"/>
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.PatientDim"
+                    attribute="institutionId"/>
+                      
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
+                   attribute="institutionId"/>
+
+    </DomainElement>
+
      <DomainElement name="gov.nih.nci.caintegrator.dto.de.DiseaseNameDE">
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact"
                    attribute="diseaseType"/>
@@ -92,5 +105,4 @@
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.ProbesetDim"
                    attribute="probesetName"/>
     </DomainElement>
-
 </mappings>
