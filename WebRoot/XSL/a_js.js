@@ -19,15 +19,15 @@ function A_saveTmpReporter_cb(txt)	{
 	//look9ing for txt["count"] and txt["reporters"]
 	//reporter has been added to the list,
 	//show how many we've saved,
-	if(txt["count"] > 0) {
+	if(txt["count"] > -1) {
 		$("reporterCount").innerHTML = txt["count"] + " reporters selected";
 		currentTmpReportersCount = txt["count"];
 		
-		//update the running tab for overlib 
+		//update the running tab for overlib if this is not an init call
 		currentTmpReporters = txt["reporters"];
 		
 		//highlight box in red with the tempReporterName if we have some waiting to be saved
-		if($("tmp_prb_queryName"))
+		if($("tmp_prb_queryName") && txt["count"] > 0)
 			$("tmp_prb_queryName").style.border = "1px solid red";
 	}
 	else	{
@@ -49,6 +49,8 @@ function A_clearTmpReporters_cb(txt)	{
 		currentTmpReporters = "";
 		if($("tmp_prb_queryName"))
 			$("tmp_prb_queryName").style.border = "1px solid";
+
+		A_uncheckAll(document.getElementsByName('tmpReporter'));
 }
 
 function A_checkAll(field)	{
@@ -71,4 +73,5 @@ function A_uncheckAll(field)	{
 	}
 	else
 		field.checked = false;
+		
 }
