@@ -221,6 +221,7 @@
 		parameter="method">
 		<forward name="backToHierarchicalClustering" path="nautilus.hierarchicalClustering" />
 		<forward name="hierarchicalClusteringSetup" path="/hierarchicalclustering.do?method=setup" />
+		<forward name="viewResults" path="/viewResults.do" />
 	</action>
 	
 	<action path="/hierarchicalclusteringInit"

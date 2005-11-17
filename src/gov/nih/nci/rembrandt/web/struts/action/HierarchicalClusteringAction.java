@@ -70,7 +70,7 @@ public class HierarchicalClusteringAction extends DispatchAction {
             e.printStackTrace();
         }
         
-        return mapping.findForward("hierarchicalClusteringSetup");
+        return mapping.findForward("viewResults");
     }
   
     public ActionForward setup(ActionMapping mapping, ActionForm form,
