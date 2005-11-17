@@ -58,6 +58,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	 */
 	@SuppressWarnings("unchecked")
 	private AnalysisServerClientManager() throws NamingException, JMSException {
+		logger.debug("Inside AnalysisServerClientManager");
 		messagingProps = ApplicationContext.getJMSProperties();
 		//Populate with needed properties
 		Hashtable props = new Hashtable();
@@ -191,6 +192,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 			msg = queueSession.createObjectMessage(request);
 			// Send the message
 		    requestSender.send(msg, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, Message.DEFAULT_TIME_TO_LIVE);
+			logger.debug("sendRequest session: "+request.getSessionId()+" & task: "+request.getTaskId()+" has been sent to the JMQ");
 
 		} catch (JMSException e) {
 			logger.error(e);
