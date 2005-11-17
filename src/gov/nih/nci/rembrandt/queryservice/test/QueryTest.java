@@ -57,6 +57,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -98,6 +99,7 @@ public class QueryTest extends TestCase {
 
 
     protected void setUp() throws Exception {
+        ApplicationContext.init();
         buildSampleIDCrit();
 
         // the following two are mutually exclusive
@@ -115,7 +117,7 @@ public class QueryTest extends TestCase {
 
         // the following two are mutually exclusive
         //buildGeneIDFromFileCrit();
-        //buildGeneIDCrit();
+        buildGeneIDCrit();
         buildAllGenesCriteria();
 
         buildOntologyCrit();
@@ -128,9 +130,9 @@ public class QueryTest extends TestCase {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
              //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-              q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-             //q.setGeneIDCrit(geneIDCrit);
-             q.setAllGenesCrit(allGenesCriteria);
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             q.setGeneIDCrit(geneIDCrit);
+             //q.setAllGenesCrit(allGenesCriteria);
              //q.setGeneOntologyCrit(ontologyCrit);
 
             //q.setPathwayCrit(pathwayCrit);
@@ -147,7 +149,7 @@ public class QueryTest extends TestCase {
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
             //q.setDiseaseOrGradeCrit(diseaseCrit);
-            q.setSampleIDCrit(sampleCrit);
+           // q.setSampleIDCrit(sampleCrit);
             q.setFoldChgCrit(foldCrit);
 
             try {
@@ -365,7 +367,7 @@ public class QueryTest extends TestCase {
             q.setGenderCrit(genderCrit);
             q.setAgeCrit(ageCriteria);
             q.setDiseaseOrGradeCrit(diseaseCrit);
-            q.setSampleIDCrit(sampleCrit);
+            //q.setSampleIDCrit(sampleCrit);
             try {
                 ResultSet[] patientDataObjects = QueryProcessor.execute(q);
                 print(patientDataObjects);
