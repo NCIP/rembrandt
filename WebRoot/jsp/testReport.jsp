@@ -6,8 +6,6 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>
 <%@ page import="gov.nih.nci.rembrandt.cache.*" %>
 
-
-
 <html>
 	<head>
 		<title>Rembrandt Report</title>
@@ -49,9 +47,10 @@ String xhtml = "nada";
 if(session.getAttribute(key+"_xhtml")!=null)	{
 	xhtml = (String) session.getAttribute(key+"_xhtml");
 	out.println(xhtml);
+	out.println("<script language='javascript'>A_initSaveReporter();</script>");
 	session.removeAttribute(key+"_xhtml");
 }
-
+else	{
 
 	%>
 	<div id="imgContainer" style="display:block; position:absolute;">

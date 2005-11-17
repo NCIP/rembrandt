@@ -1,9 +1,10 @@
 package gov.nih.nci.rembrandt.web.ajax;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
@@ -59,4 +60,53 @@ public class DynamicReportGenerator {
 		session.setAttribute(key+"_xhtml", html);
 		return;
 	}
+	
+	public Map saveTmpReporter(String rep)	{
+		Map results = new HashMap();
+		if(!rep.equals("")){
+			HttpSession session = ExecutionContext.get().getSession(false);
+			//put the reporter into an arraylist in the session...doenst exist? create it
+			ArrayList al = new ArrayList();
+			if(session.getAttribute("tmpReporterList") != null)	{
+				al = (ArrayList) session.getAttribute("tmpReporterList");
+			}
+			al.add(rep); // add it
+			session.setAttribute("tmpReporterList", al); //put back in session
+			String tmpReporters = "";
+			for(int i = 0; i<al.size(); i++)
+				tmpReporters += al.get(i) + "<br/>";
+		
+			results.put("count", al.size());
+			results.put("reporters", tmpReporters);
+		}
+		else	{
+			results.put("count", "");
+			results.put("reporters", "");
+		}
+		return results;
+	}
+	
+	public Map removeTmpReporter(String rep)	{
+		HttpSession session = ExecutionContext.get().getSession(false);
+		ArrayList al = new ArrayList();
+		if(session.getAttribute("tmpReporterList") != null)	{
+			al = (ArrayList) session.getAttribute("tmpReporterList");
+		}
+		al.remove(rep); // nuke it
+		session.setAttribute("tmpReporterList", al); //put back in session
+		String tmpReporters = "";
+		for(int i = 0; i<al.size(); i++)
+			tmpReporters += al.get(i) + "<br/>";
+		
+		Map results = new HashMap();
+		results.put("count", al.size());
+		results.put("reporters", tmpReporters);
+		return results;
+	}
+	
+	public void clearTmpReporters()	{
+		HttpSession session = ExecutionContext.get().getSession(false);
+		session.removeAttribute("tmpReporterList"); //put back in session
+	}
+
 }

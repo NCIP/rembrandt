@@ -140,14 +140,22 @@
 			<div class="filterForm">
 				<b><span class="lb">Select Reporters:</span></b> 
 				<xsl:text>&#160;</xsl:text>
-				<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$qName}" />
-				<input type="button" name="filter_submit" value="Save Samples" onclick="javascript:saveSamples();" />
+				<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$key}" />
+				<input type="button" name="filter_submit" value="Save Reporters" onclick="javascript:saveSamples();" />
 				<xsl:text>&#160;</xsl:text>
-				<a href="#" onclick="javascript:checkAll(document.prbSamples.samples);return false;">[Check All]</a>
+				<a href="#" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));return false;">[Check All]</a>
 				<xsl:text>&#160;</xsl:text>
-				<a href="#" onclick="javascript:uncheckAll(document.prbSamples.samples);return false;">[Uncheck All]</a>
+				<a href="#" onclick="javascript:A_uncheckAll(document.getElementsByName('tmpReporter'));return false;">[Uncheck All]</a>
+			 	<!-- 
 			 	<xsl:text>&#160;</xsl:text>
 			 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('You can select the samples of interest by clicking on each individual sample or a group and saving them with a unique name. This allows you to select this sample set to apply your future queries to.');" onmouseout="return nd();">[?]</a></b>
+			 	-->
+			 	<xsl:text>&#160;</xsl:text>
+			 	<a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp(savedHeader + currentTmpReporters);" onmouseout="return nd();" id="reporterCount"></a>
+			 	
+			 	<xsl:text>&#160;</xsl:text>
+			 	<a href="#" onclick="javascript:A_clearTmpReporters(); return false;" onmouseover="javascript:return showHelp('Clear these reporters');" onmouseout="return nd();">[clear reporters]</a>
+			 	
 		  	</div>
 		</xsl:if>
 	 
@@ -253,7 +261,7 @@
 		      					<a href="#" onclick="javascript:spawnAnnot('gene', this); return false;"><xsl:value-of select="Data"/></a>
 		      				</xsl:when>
 		      				<xsl:when test="($styleclass = 'reporter' or $styleclass = 'cytoband') and $theData != '-'">
-		      						<input type="checkbox" name="tmpReporter" value="{$theData}" onclick="javascript:saveReporter(this)" /><a href="#" onclick="javascript:spawnAnnot('reporter',this); return false;"><xsl:value-of select="Data"/></a>	
+		      						<input type="checkbox" id="tmpReporter" name="tmpReporter" value="{$theData}" onclick="javascript:A_saveTmpReporter(this);" /><a href="#" onclick="javascript:spawnAnnot('reporter',this); return false;"><xsl:value-of select="Data"/></a>	
 		      				</xsl:when>
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
