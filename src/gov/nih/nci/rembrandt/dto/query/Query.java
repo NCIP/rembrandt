@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.dto.query;
 
 import gov.nih.nci.caintegrator.dto.critieria.Criteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
@@ -41,6 +42,8 @@ abstract public class Query implements Queriable, Serializable, Cloneable, Valid
 	private Viewable associatedView;
     
     protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
+    
+    protected InstitutionCriteria institutionCriteria;
 
     protected SampleCriteria sampleIDCrit;
 
@@ -170,6 +173,14 @@ abstract public class Query implements Queriable, Serializable, Cloneable, Valid
 	public boolean validate() throws ValidationException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public InstitutionCriteria getInstitutionCriteria() {
+		return institutionCriteria;
+	}
+
+	public void setInstitutionCriteria(InstitutionCriteria institutionCriteria) {
+		this.institutionCriteria = institutionCriteria;
 	}
 
 }

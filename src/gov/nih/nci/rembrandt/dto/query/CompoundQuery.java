@@ -49,6 +49,7 @@
  */
 package gov.nih.nci.rembrandt.dto.query;
 
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -91,6 +92,8 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 	private Viewable associatedView = null;
 
 	private String queryName;
+	
+    private InstitutionCriteria institutionCriteria;
 
 	// Session that this compoundQuery is associated with
 	private String sessionId = null;
@@ -445,5 +448,13 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 			}
 		}
 		return false;
+	}
+
+	public InstitutionCriteria getInstitutionCriteria() {
+		return institutionCriteria;
+	}
+
+	public void setInstitutionCriteria(InstitutionCriteria institutionCriteria) {
+		this.institutionCriteria = institutionCriteria;
 	}
 }
