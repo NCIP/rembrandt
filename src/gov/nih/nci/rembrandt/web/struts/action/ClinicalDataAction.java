@@ -136,13 +136,13 @@ public class ClinicalDataAction extends LookupDispatchAction {
         }
         
         // Set sample Criteria
-        SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();
+        SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();       
 		if (!sampleIDCrit.isEmpty())
 		    clinicalDataQuery.setSampleIDCrit(sampleIDCrit);
 
         // Set disease criteria
         DiseaseOrGradeCriteria diseaseOrGradeCrit = clinicalDataForm
-                .getDiseaseOrGradeCriteria();
+                .getDiseaseOrGradeCriteria();      
         if (!diseaseOrGradeCrit.isEmpty()) {
             clinicalDataQuery.setDiseaseOrGradeCrit(diseaseOrGradeCrit);
         }

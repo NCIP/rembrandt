@@ -468,10 +468,8 @@ public class ClinicalDataForm extends BaseForm {
      *            The tumorGrade to set
      */
     public void setTumorGrade(String tumorGrade) {
-        this.tumorGrade = tumorGrade;
-        diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
-        GradeDE gradeDE = new GradeDE(this.tumorGrade);
-        //diseaseOrGradeCriteria.setGrade(gradeDE);// will implement this later
+    	this.tumorGrade = tumorGrade;    	
+     
      }
 
   

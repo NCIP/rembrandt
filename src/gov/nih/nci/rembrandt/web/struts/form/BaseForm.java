@@ -204,7 +204,7 @@ public class BaseForm extends ActionForm {
 		        else {
 		        	DiseaseNameDE diseaseDE = new DiseaseNameDE(this.tumorType);
 		            diseaseOrGradeCriteria.setDisease(diseaseDE);
-		           
+		          
 		        }
 	          }
 	        }
