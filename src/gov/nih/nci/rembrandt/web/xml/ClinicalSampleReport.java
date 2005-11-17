@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -39,6 +40,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 		
 			Document document = DocumentHelper.createDocument();
 
+			try	{
 			Element report = document.addElement( "Report" );
 			Element cell = null;
 			Element data = null;
@@ -112,9 +114,9 @@ public class ClinicalSampleReport implements ReportGenerator {
 				        data = null;
 			        cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("RACE");
-			        data = null;
-		        cell = null;
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("RACE");
+			        	data = null;
+		        	cell = null;
 		    //sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	
 		    
@@ -149,15 +151,27 @@ public class ClinicalSampleReport implements ReportGenerator {
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getAgeGroup().getValue().toString());
+								String ag = "N/A";
+								if(sampleResultset.getAgeGroup()!=null && sampleResultset.getAgeGroup().getValue()!=null)	{
+									ag = sampleResultset.getAgeGroup().getValue().toString();
+								}
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(ag);
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getGenderCode().getValue().toString());
+								String gen = "N/A";
+								if(sampleResultset.getGenderCode()!=null && sampleResultset.getGenderCode().getValue()!=null)	{
+									gen = sampleResultset.getGenderCode().getValue().toString();
+								}
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(gen);
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getSurvivalLengthRange().getValue().toString());
+								String sl = "--";
+								if(sampleResultset.getSurvivalLengthRange()!=null && sampleResultset.getSurvivalLengthRange().getValue()!=null)	{
+									sl = sampleResultset.getSurvivalLengthRange().getValue().toString();
+								}
+   					        	data = cell.addElement("Data").addAttribute("type", "data").addText(sl);
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
@@ -165,9 +179,9 @@ public class ClinicalSampleReport implements ReportGenerator {
    					        	data = null;
    					        cell = null;
    					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-				        	data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getRaceDE().getValue().toString());
-				        	data = null;
-				        cell = null;
+				        		data = cell.addElement("Data").addAttribute("type", "data").addText(sampleResultset.getRaceDE().getValue().toString());
+				        		data = null;
+				        	cell = null;
 		   		/*
    	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
@@ -211,6 +225,11 @@ public class ClinicalSampleReport implements ReportGenerator {
     		}
     		//sb.append("</table>\n<br>");
     		//return sb.toString(); 
+			}
+			catch(Exception e)	{
+				//asdf
+				System.out.println(e);
+			}
 		    return document;		     
 	}
 
