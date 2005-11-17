@@ -55,7 +55,6 @@ package gov.nih.nci.rembrandt.queryservice;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
-import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -70,8 +69,8 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.rembrandt.queryservice.resultset.AddConstrainsToQueriesHelper;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;
-import gov.nih.nci.rembrandt.queryservice.resultset.ConstrainedQueryWithSamplesHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -113,7 +112,6 @@ public class ResultsetManager {
 							resultant.setAssociatedQuery(queryToExecute);
 							resultant.setAssociatedView(associatedView);
 						} else if (resultsets instanceof GeneExprGroup[]) {
-							GeneExprDiseaseView geneExprDiseaseView = (GeneExprDiseaseView) associatedView;
 							ResultsContainer resultsContainer = ResultsetProcessor
 									.handleGeneExprDiseaseView(resultant,
 											(GeneExprGroup[]) resultsets);
@@ -218,9 +216,9 @@ public class ResultsetManager {
 	throws Exception {
 		Resultant resultant = null;
 		if (queryToExecute != null && sampleIDs != null) {
-			ConstrainedQueryWithSamplesHandler sampleHandler = new ConstrainedQueryWithSamplesHandler();
+			AddConstrainsToQueriesHelper sampleHandler = new AddConstrainsToQueriesHelper();
 			SampleCriteria sampleCriteria = sampleHandler.createSampleCriteria(sampleIDs);
-			CompoundQuery newCQuery = sampleHandler.constrainQuery(queryToExecute,sampleCriteria);
+			CompoundQuery newCQuery = sampleHandler.constrainQueryWithSamples(queryToExecute,sampleCriteria);
 			resultant = executeCompoundQuery(newCQuery);
 		}
 

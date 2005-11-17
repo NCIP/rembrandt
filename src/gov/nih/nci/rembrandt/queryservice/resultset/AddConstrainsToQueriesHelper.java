@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset;
 
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
@@ -29,9 +30,9 @@ import org.apache.log4j.Logger;
  * 
  */
 
-public class ConstrainedQueryWithSamplesHandler {
+public class AddConstrainsToQueriesHelper {
 	private static Logger logger = Logger
-			.getLogger(ConstrainedQueryWithSamplesHandler.class);
+			.getLogger(AddConstrainsToQueriesHelper.class);
 
 	public SampleCriteria createSampleCriteria(String[] sampleIDs) {
 		SampleCriteria sampleCrit = null;
@@ -46,7 +47,7 @@ public class ConstrainedQueryWithSamplesHandler {
 		return sampleCrit;
 	}
 
-	public CompoundQuery constrainQuery(CompoundQuery compoundQuery,
+	public CompoundQuery constrainQueryWithSamples(CompoundQuery compoundQuery,
 			SampleCriteria sampleCrit) throws Exception {
 		CompoundQuery newQuery = null;
 		Queriable leftQuery = compoundQuery.getLeftQuery();
@@ -56,7 +57,7 @@ public class ConstrainedQueryWithSamplesHandler {
 		try {
 			if (leftQuery != null) {
 				if (leftQuery instanceof CompoundQuery) {
-					leftQuery = constrainQuery((CompoundQuery) leftQuery,
+					leftQuery = constrainQueryWithSamples((CompoundQuery) leftQuery,
 							sampleCrit);
 				} else if (leftQuery instanceof Query) {
 					Query query = (Query) leftQuery;
@@ -66,11 +67,49 @@ public class ConstrainedQueryWithSamplesHandler {
 
 			if (rightQuery != null) {
 				if (rightQuery instanceof CompoundQuery) {
-					rightQuery = constrainQuery((CompoundQuery) rightQuery,
+					rightQuery = constrainQueryWithSamples((CompoundQuery) rightQuery,
 							sampleCrit);
 				} else if (rightQuery instanceof Query) {
 					Query query = (Query) rightQuery;
 					query.setSampleIDCrit(sampleCrit);
+				}
+			}
+			if (operator != null) {
+				newQuery = new CompoundQuery(operator, leftQuery, rightQuery);
+			} else { //then its the right query
+				newQuery = new CompoundQuery(rightQuery);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex);
+		}
+		return newQuery;
+	}
+	public CompoundQuery constrainQueryWithInstitution(CompoundQuery compoundQuery,
+			InstitutionCriteria institutionCrit) throws Exception {
+		CompoundQuery newQuery = null;
+		Queriable leftQuery = compoundQuery.getLeftQuery();
+		Queriable rightQuery = compoundQuery.getRightQuery();
+		OperatorType operator = compoundQuery.getOperatorType();
+
+		try {
+			if (leftQuery != null) {
+				if (leftQuery instanceof CompoundQuery) {
+					leftQuery = constrainQueryWithInstitution((CompoundQuery) leftQuery,
+							institutionCrit);
+				} else if (leftQuery instanceof Query) {
+					Query query = (Query) leftQuery;
+					query.setInstitutionCriteria(institutionCrit);
+				}
+			}
+
+			if (rightQuery != null) {
+				if (rightQuery instanceof CompoundQuery) {
+					rightQuery = constrainQueryWithInstitution((CompoundQuery) rightQuery,
+							institutionCrit);
+				} else if (rightQuery instanceof Query) {
+					Query query = (Query) rightQuery;
+					query.setInstitutionCriteria(institutionCrit);
 				}
 			}
 			if (operator != null) {

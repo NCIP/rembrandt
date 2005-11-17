@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
@@ -21,6 +22,7 @@ import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.PathwayDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
@@ -40,6 +42,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleV
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
 import java.text.DecimalFormat;
@@ -88,6 +91,7 @@ public class CompoundQueryTest extends TestCase {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
+		ApplicationContext.init();
         buildPlatformCrit();
         buildFoldChangeCrit();
         buildCopyChangeCrit();
@@ -294,6 +298,22 @@ public class CompoundQueryTest extends TestCase {
 			e.printStackTrace();
 		}
 		
+	}
+	public void testCompoundQuerywithInstitutionCrit(){
+		try {
+			//test CompoundQuery Query with InsitutionCrit
+			System.out.println("Testing CompoundQuery GeneQuery AND ProbeQuery>>>>>>>>>>>>>>>>>>>>>>>");
+			CompoundQuery myCompoundQuery = new CompoundQuery(OperatorType.AND,geneQuery,probeQuery);
+			InstitutionCriteria institutionCrit = new InstitutionCriteria();
+			institutionCrit.setInsitution(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
+			myCompoundQuery.setInstitutionCriteria(institutionCrit);
+			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
+			System.out.println("CompoundQuery:\n"+ myCompoundQuery.toString());
+			print(resultant);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+
 	}
 	public void testCopyNumberFilter() {
 		

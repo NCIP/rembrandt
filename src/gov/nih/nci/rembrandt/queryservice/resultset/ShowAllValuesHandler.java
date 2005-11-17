@@ -134,8 +134,8 @@ public class ShowAllValuesHandler {
 		   			sampleCrit = new SampleCriteria();
 		   			sampleCrit.setSampleIDs(sampleIDs);
 				}
-                ConstrainedQueryWithSamplesHandler constrainedSamplesHandler= new ConstrainedQueryWithSamplesHandler();
-                constrainedSamplesHandler.constrainQuery(newCompoundQuery,sampleCrit);
+                AddConstrainsToQueriesHelper constrainedSamplesHandler= new AddConstrainsToQueriesHelper();
+                constrainedSamplesHandler.constrainQueryWithSamples(newCompoundQuery,sampleCrit);
 				newCompoundQuery = getShowAllValuesQuery(newCompoundQuery);
 				newCompoundQuery.setAssociatedView(view);
 				
