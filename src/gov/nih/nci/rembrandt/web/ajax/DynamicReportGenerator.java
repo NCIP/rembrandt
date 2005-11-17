@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.ajax;
 
+import java.util.Map;
+
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
@@ -21,7 +23,7 @@ public class DynamicReportGenerator {
 		
 	public DynamicReportGenerator()	{}
 	
-	public void generateDynamicReport(String key)	{
+	public void generateDynamicReport(String key, Map<String, String> params)	{
 		String html = new String();
 
 		HttpSession session = ExecutionContext.get().getSession(false);
@@ -43,7 +45,7 @@ public class DynamicReportGenerator {
 				FindingReportBean frb = (FindingReportBean) ob;
 				Document reportXML = (Document) frb.getXmlDoc();
 			
-				html = ReportGeneratorHelper.renderReport(request, reportXML,"cc_report.xsl");
+				html = ReportGeneratorHelper.renderReport(params, reportXML,"cc_report.xsl");
 			}
 			catch(Exception e)	{
 				html = "no worky";

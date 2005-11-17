@@ -592,13 +592,15 @@ public class ReportGeneratorHelper {
 	}
 	
 	
-	public static String renderReport(HttpServletRequest request, Document reportXML, String xsltFilename) {
+	public static String renderReport(Map params, Document reportXML, String xsltFilename) {
+		//used only for finding based AJAX
+		
 		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
 		// load the transformer using JAXP
 		logger.debug("Applying XSLT "+xsltFilename);
         Transformer transformer;
 		try {
-			transformer = new Transformer(styleSheet, (HashMap)request.getAttribute(RembrandtConstants.FILTER_PARAM_MAP));
+			transformer = new Transformer(styleSheet, params);
 	     	Document transformedDoc = transformer.transform(reportXML);
 	        
 	     	/*
@@ -613,44 +615,11 @@ public class ReportGeneratorHelper {
 	     	if(!xsltFilename.equals(RembrandtConstants.DEFAULT_XSLT_CSV_FILENAME)){
 	            
 	     		StringBuffer sb = new StringBuffer();
-	     		
 	     		OutputFormat format = OutputFormat.createCompactFormat();
-		        //XMLWriter writer;
-//		        writer = new XMLWriter(out, format );
-		        StringWriter sw = new StringWriter(1024);
-		        //writer = new XMLWriter(sw, format);
-		        //writer.write( transformedDoc );
-		        //writer.flush();
-		        //writer.close();
-	            //sb = sw.getBuffer();
-
-	            //format.setXHTML(true);
-		        //ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		       // format.setTrimText(false);
-		        //format.setIndent(false);
-		       // format.setSuppressDeclaration(true);
-		       // format.setPadText(false);
-		        
+		        StringWriter sw = new StringWriter(1024);		        
 	            HTMLWriter writer = new HTMLWriter(sw, format);
-
-	            //Document document = DocumentHelper.parseText(html);
 	            writer.write(transformedDoc);
-	            //writer.flush();
-
-	            //sw.flush();
 	            sb=sw.getBuffer();
-	            /*
-	            int l = sb.length();
-	            int c = sb.capacity();
-	            char[] ch = new char[l];
-	            
-	            for(int i=0; i<l; i++){
-	            	sb.getChars(i, i+1, ch, i);
-	            }
-	            
-	            String st = new String(ch);
-	            return st;
-	            */
 	            return sb.toString();
 
 	        }

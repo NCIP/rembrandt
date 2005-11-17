@@ -4,11 +4,12 @@
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 
 <xsl:param name="filter_value1"></xsl:param>
+<xsl:param name="filter_value4">gt</xsl:param>
 
 <xsl:param name="filter_value2">0</xsl:param>
 <xsl:param name="filter_value3">25</xsl:param>
 
-<xsl:param name="filter_value4">gt</xsl:param>
+<xsl:param name="key"></xsl:param>
 
 <xsl:param name="filter_value5"></xsl:param>
 <xsl:param name="filter_value6"></xsl:param>
@@ -21,7 +22,7 @@
 <xsl:param name="showAllValues">false</xsl:param>
 <xsl:template match="/">
 
-<div>
+<span>
 
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
@@ -49,7 +50,7 @@
 		  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
 	  	</span>
 
-		<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
+		<form action="testReport.do?key={$key}" name="paginate" method="post">
 			<input type="hidden" name="queryName" value="{$qName}" />
 			<input type="hidden" name="filter_value2" value="{$filter_value2}" />
 			<input type="hidden" name="filter_value3" value="{$filter_value3}" />
@@ -165,73 +166,43 @@
 	  </xsl:if>	  
 	  
 			
-	  <div class="filterForm">
-	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="highlight_form">
-		<b><span class="lb">Highlight:</span></b> 
-		<xsl:text>&#160;</xsl:text>
-		highlight values 
-		<select name="filter_value4">
-			<option value="gt">&gt;</option>
-			<option value="lt">&lt;</option>
-			<option value="eq">=</option>
-			<option value="lte">&lt;=</option>
-			<option value="gte">&gt;=</option>
-		</select>
-		<input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
-		<input type="hidden" name="queryName" value="{$qName}"/>
-		<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
-		<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
-		<input type="submit" name="filter_submit" value="Highlight" />
-		<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
-		<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.filter_value1.value='';" />
-	  </form>
-	  </div>
+		<div class="filterForm">
+			<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="highlight_form">
+				<b><span class="lb">Highlight:</span></b> 
+				<xsl:text>&#160;</xsl:text>
+				highlight values 
+				<select name="filter_value4">
+					<option value="gt">&gt;</option>
+					<option value="lt">&lt;</option>
+					<option value="eq">=</option>
+					<option value="lte">&lt;=</option>
+					<option value="gte">&gt;=</option>
+				</select>
+				<input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
+				<input type="hidden" name="queryName" value="{$qName}"/>
+				<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
+				<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
+				<input type="submit" name="filter_submit" value="Highlight" />
+				<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
+				<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.filter_value1.value='';" />
+			</form>
+		</div>
 	  
-	  <xsl:if test="$showSampleSelect != 'false' and contains($qName, 'previewResults') = false">
-	  <div class="filterForm">
-		<b><span class="lb">Select Samples:</span></b> 
-		<xsl:text>&#160;</xsl:text>
-		<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$qName}" />
-		<input type="button" name="filter_submit" value="Save Samples" onclick="javascript:saveSamples();" />
-		<xsl:text>&#160;</xsl:text>
-		<a href="#" onclick="javascript:checkAll(document.prbSamples.samples);return false;">[Check All]</a>
-		<xsl:text>&#160;</xsl:text>
-		<a href="#" onclick="javascript:uncheckAll(document.prbSamples.samples);return false;">[Uncheck All]</a>
-	 	<xsl:text>&#160;</xsl:text>
-	 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('You can select the samples of interest by clicking on each individual sample or a group and saving them with a unique name. This allows you to select this sample set to apply your future queries to.');" onmouseout="return nd();">[?]</a></b>
-	  </div>
-	 </xsl:if>
+		<xsl:if test="$showSampleSelect != 'false' and contains($qName, 'previewResults') = false">
+			<div class="filterForm">
+				<b><span class="lb">Select Reporters:</span></b> 
+				<xsl:text>&#160;</xsl:text>
+				<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$qName}" />
+				<input type="button" name="filter_submit" value="Save Samples" onclick="javascript:saveSamples();" />
+				<xsl:text>&#160;</xsl:text>
+				<a href="#" onclick="javascript:checkAll(document.prbSamples.samples);return false;">[Check All]</a>
+				<xsl:text>&#160;</xsl:text>
+				<a href="#" onclick="javascript:uncheckAll(document.prbSamples.samples);return false;">[Uncheck All]</a>
+			 	<xsl:text>&#160;</xsl:text>
+			 	<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('You can select the samples of interest by clicking on each individual sample or a group and saving them with a unique name. This allows you to select this sample set to apply your future queries to.');" onmouseout="return nd();">[?]</a></b>
+		  	</div>
+		</xsl:if>
 	 
-	 <xsl:if test="$allowShowAllValues != 'false'"> 
-  	 <div class="filterForm">
-		<b><span class="lb">Show all Values:</span></b> 
-		<xsl:text>&#160;</xsl:text>
-		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
-		<xsl:text>&#160;</xsl:text>
-		<input type="button" name="filter_submit" value="View Previous Report" onclick="javascript:doShowAllValues('{$qName}', false);" />
-		<xsl:text>&#160;</xsl:text>
-		
-		<b><a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp('Clicking on this button lets you view the gene expression fold changes or copy number values (depending on the type of report) for all the reporters in the report. This allows you to see those values that did not match your query criteria.');" onmouseout="return nd();">[?]</a></b>
-	  </div>
-	  </xsl:if>
-	  
-	 <div class="filterForm">
-		<b><span class="lb">Hide Diseases:</span></b> 
-		<xsl:text>&#160;</xsl:text>
-		<xsl:for-each select="Row[@name='headerRow']">
-		  	<xsl:for-each select="Cell">
-			  	<xsl:if test="@group!='header'">
-						<xsl:variable name="currentGroup" select="@group" />
-						<input class="checkorradio" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
-						<xsl:value-of select="$currentGroup"/>
-						<xsl:text>&#160;</xsl:text>
-				</xsl:if>
-			</xsl:for-each>
-		</xsl:for-each>
-						
-		<xsl:text>&#160;</xsl:text>
-		<xsl:text>&#160;</xsl:text>
-	  </div>
 	  </xsl:if>
 	  
 	  <div class="pageControl" style="padding-bottom:1px;margin-bottom:0px;">
@@ -247,11 +218,13 @@
 			<xsl:value-of select="$recordCount" />
 		</xsl:otherwise>
 	  </xsl:choose>
-	   of <xsl:value-of select="$recordCount" /> records
-	   <!-- if theres a next show it-->
+	  of <xsl:value-of select="$recordCount" /> records
+	  <xsl:text>&#160;</xsl:text>
+	  <!-- if theres a next show it-->
 	  <xsl:if test="$filter_value2>0">
 	  	<xsl:variable name="ppage" select="$filter_value2 - 1"/> 
-	   <a href="javascript:goPage('{$ppage}');">&lt;&lt;Prev</a>
+	   	<a href="javascript:goPage('{$ppage}');">&lt;&lt;Prev</a>
+		<xsl:text>&#160;</xsl:text>
 	  </xsl:if>
 	  <xsl:if test = "$recordCount > ($filter_value3 * ($filter_value2 +1))">
 	   <xsl:variable name="npage" select="$filter_value2 + 1" />
@@ -286,9 +259,6 @@
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
-	  <xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical']" >
-	  	<xsl:value-of select="count(Row[@name='sampleRow']/Cell[@class != 'csv' and @class != 'header'])" /> samples returned.
-	  </xsl:if>
 	  </div>
 	  
 	 </div>
@@ -448,7 +418,7 @@
  	}
   </script>
 
-  </div>
+  </span>
 </xsl:template>
 
 </xsl:stylesheet>

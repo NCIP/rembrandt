@@ -106,7 +106,8 @@ public class ClassComparisonReport{
 			        data = null;
 		        cell = null;
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("P-Value");
+		        	String isAdj = ccf.arePvaluesAdjusted() ? " (Adjusted) " : "";
+			        data = cell.addElement("Data").addAttribute("type", "header").addText("P-Value"+isAdj);
 			        data = null;
 		        cell = null;
 		        /*
@@ -115,15 +116,16 @@ public class ClassComparisonReport{
 			        data = null;
 		        cell = null;
 		        */
-			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("Fold Change (log)");
-			    data = null;
-		        cell = null;			        
+			    cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        data = cell.addElement("Data").addAttribute("type", "header").addText("Fold Change");
+			        data = null;
+		        cell = null;	
+		        /*
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Fold Change (abs)");
 			        data = null;
 		        cell = null;
-			        
+			    */  
 		        //starting annotations...leave these here for now, as we may want them
 		        /*
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
@@ -178,27 +180,31 @@ public class ClassComparisonReport{
 		    	/* done with the headerRow and SampleRow Elements, time to add data rows */
 						        
 		        for(ClassComparisonResultEntry ccre : ccf.getResultEntries())	{
+
 		        	dataRow = report.addElement("Row").addAttribute("name", "dataRow");
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
+			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "reporter").addAttribute("group", "data");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(ccre.getReporterId());
 			        	data = null;
 			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "reporter").addAttribute("group", "header");
+			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(resultFormat.format(ccre.getMeanGrp1()) + " / " + resultFormat.format(ccre.getMeanGrp2()));
 			        	data = null;
 			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
+			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+			        	//String pv = (ccre.getPvalue() == null) ? String.valueOf(ccre.getPvalue()) : "N/A";
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getPvalue())));
 			        	data = null;
 			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
+			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getFoldChange())));
 			        	data = null;
 			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
+			        /*
+			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getFoldChange())));
 			        	data = null;
 			        cell = null;
+			        */
 		        }
 
 		        //TODO:  put the annotations in...make an annotations lookup?
