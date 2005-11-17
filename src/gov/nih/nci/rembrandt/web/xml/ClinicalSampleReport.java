@@ -143,7 +143,9 @@ public class ClinicalSampleReport implements ReportGenerator {
 			
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 
-   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();   			
+   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();   
+   				String diseaseStr = sampleResultset.getDisease().getValue().toString();
+   				String raceStr = sampleResultset.getRaceDE().getValue().toString();
 				
 				dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "sample").addAttribute("group", "sample");
@@ -167,10 +169,12 @@ public class ClinicalSampleReport implements ReportGenerator {
 								data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getDisease()));
    					        	data = null;
    					        cell = null;
+
    					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 	   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getRaceDE()));
 				        		data = null;
 				        	cell = null;
+
 		   		/*
    	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +
