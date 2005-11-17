@@ -183,7 +183,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 		 				try {
 							Collection<String> reporters = StrategyHelper.extractReporters(resultsContainer);
 							if(reporters != null){
-								this.reporterGroup = new ReporterGroup(clinicalDataQuery.getQueryName(),reporters.size());
+								this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
 								reporterGroup.addAll(reporters);
 								
 							}

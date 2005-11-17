@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.analysis.messaging.ReporterGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
@@ -95,7 +96,12 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 	public boolean createQuery() throws FindingsQueryException {
 		boolean flag = true;
 
+		//create a ClinicalDataQuery to contrain by Insitition group
+		clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+		InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+		institutionCriteria.setInsitution(myQueryDTO.getInstitutionDE());
 		
+
 		if(myQueryDTO.getGeneIdentifierDEs() != null ||
 				myQueryDTO.getReporterIdentifierDEs() != null){
 			geneExprQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
@@ -123,7 +129,42 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 	 * this methods queries the database to get back sample Ids for the groups
 	 */
 	public boolean executeQuery() throws FindingsQueryException {
-		
+		//Get Sample Ids from DB
+		if(clinicalDataQuery != null){
+			CompoundQuery compoundQuery;
+			Resultant resultant;
+			try {
+				compoundQuery = new CompoundQuery(clinicalDataQuery);
+				compoundQuery.setAssociatedView(ViewFactory
+	                .newView(ViewType.CLINICAL_VIEW));
+				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
+	  		}
+	  		catch (Throwable t)	{
+	  			logger.error("Error Executing the query/n"+ t.getMessage());
+	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
+	  		}
+
+			if(resultant != null) {      
+		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
+		 		Viewable view = resultant.getAssociatedView();
+		 		if(resultsContainer != null)	{
+		 			if(view instanceof ClinicalSampleView){
+		 				try {
+							Collection<String> sampleIDs = StrategyHelper.extractSampleIds(resultsContainer);
+							if(sampleIDs != null){
+								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),sampleIDs.size());
+								sampleGroup.addAll(sampleIDs);
+							}
+						} catch (OperationNotSupportedException e) {
+							logger.error(e.getMessage());
+				  			throw new FindingsQueryException(e.getMessage());
+						}
+
+	 				}	
+		 		}
+			}
+		}
+
 		//Get Reporters from DB
 		if(geneExprQuery != null){
 			CompoundQuery compoundQuery;
@@ -147,7 +188,7 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 		 				try {
 							Collection<String> reporters = StrategyHelper.extractReporters(resultsContainer);
 							if(reporters != null){
-								this.reporterGroup = new ReporterGroup(clinicalDataQuery.getQueryName(),reporters.size());
+								this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
 								reporterGroup.addAll(reporters);
 								
 							}
@@ -173,7 +214,9 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 		if(reporterGroup != null){
 			hcRequest.setReporterGroup(reporterGroup);
 		}
-		
+		if(sampleGroup != null){
+			hcRequest.setSampleGroup(sampleGroup);
+		}
         try {
 			analysisServerClientManager.sendRequest(hcRequest);
 		} catch (JMSException e) {
@@ -202,7 +245,7 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
             HierarchicalClusteringQueryDTO hcQueryDTO = (HierarchicalClusteringQueryDTO)queryDTO;
 				
 			try {
-						//ValidationUtility.checkForNull(pcaQueryDTO.getInstitutionNameDE() != null));
+						ValidationUtility.checkForNull(hcQueryDTO.getInstitutionDE());
 						ValidationUtility.checkForNull(hcQueryDTO.getArrayPlatformDE()) ;
 						ValidationUtility.checkForNull(hcQueryDTO.getQueryName());
 					

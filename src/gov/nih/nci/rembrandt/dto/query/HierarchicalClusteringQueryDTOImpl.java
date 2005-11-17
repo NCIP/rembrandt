@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.dto.de.ClusterTypeDE;
 import gov.nih.nci.caintegrator.dto.de.DistanceMatrixTypeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.InstitutionNameDE;
 import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
@@ -25,7 +26,7 @@ public class HierarchicalClusteringQueryDTOImpl implements HierarchicalClusterin
 	private Collection<GeneIdentifierDE> geneIdentifierDEs;
 	private Collection<CloneIdentifierDE> reporterIdentifierDEs;
 	private ArrayPlatformDE arrayPlatformDE;
-	private InstitutionNameDE institutionNameDE;
+	private InstitutionDE institutionDE;
 	private GeneVectorPercentileDE geneVectorPercentileDE;
 	private DistanceMatrixTypeDE distanceMatrixTypeDE;
 	private LinkageMethodTypeDE linkageMethodTypeDE;
@@ -79,16 +80,16 @@ public class HierarchicalClusteringQueryDTOImpl implements HierarchicalClusterin
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTO#getInstitutionNameDE()
 	 */
-	public InstitutionNameDE getInstitutionNameDE() {
-		return institutionNameDE;
+	public InstitutionDE getInstitutionDE() {
+		return institutionDE;
 	}
 
 
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTO#setInstitutionNameDE(gov.nih.nci.caintegrator.dto.de.InstitutionNameDE)
 	 */
-	public void setInstitutionNameDE(InstitutionNameDE institutionNameDE) {
-		this.institutionNameDE = institutionNameDE;
+	public void setInstitutionDE(InstitutionDE institutionDE) {
+		this.institutionDE = institutionDE;
 	}
 
 

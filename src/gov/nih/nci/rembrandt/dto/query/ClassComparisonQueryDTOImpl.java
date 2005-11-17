@@ -2,7 +2,7 @@ package gov.nih.nci.rembrandt.dto.query;
 
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
-import gov.nih.nci.caintegrator.dto.de.InstitutionNameDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
@@ -36,7 +36,7 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	private ArrayPlatformDE arrayPlatformDE;
 	private ExprFoldChangeDE exprFoldChangeDE;
 	private Collection<ClinicalQueryDTO> comparisonGroups;
-	private InstitutionNameDE institutionNameDE;
+	private InstitutionDE institutionDE;
 
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getMultiGroupComparisonAdjustmentTypeDE()
@@ -155,16 +155,16 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 		this.comparisonGroups = comparisonGroups;
 	}
 	/**
-	 * @return Returns the institutionNameDE.
+	 * @return Returns the institutionDE.
 	 */
-	public InstitutionNameDE getInstitutionNameDE() {
-		return institutionNameDE;
+	public InstitutionDE getInstitutionDE() {
+		return institutionDE;
 	}
 	/**
-	 * @param institutionNameDE The institutionNameDE to set.
+	 * @param institutionDE The institutionDE to set.
 	 */
-	public void setInstitutionNameDE(InstitutionNameDE institutionNameDE) {
-		this.institutionNameDE = institutionNameDE;
+	public void setInstitutionDE(InstitutionDE institutionDE) {
+		this.institutionDE = institutionDE;
 	}
 
 
