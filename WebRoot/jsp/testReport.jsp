@@ -85,7 +85,7 @@ else	{
 			//location.replace("/rembrandt/testReport.do?key=<%=key%>");
 		}
 		
-		setTimeout("A_getReport('<%=key%>')", 0250);
+		setTimeout("A_getReport('<%=key%>')", 0100);
 		
 	</script>
 

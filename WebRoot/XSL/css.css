@@ -97,7 +97,8 @@
 		padding: 1px; 
 		border-style: solid; 
 		border-width: 1px; 
-		border-color: #000000; 
+		border-color: #000000;
+		margin-left:3px; margin-right:3px;
 		}
 		.checkorradio	{
 			border: 0px;

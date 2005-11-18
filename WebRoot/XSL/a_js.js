@@ -1,7 +1,7 @@
 function A_saveTmpReporter(reporter)	{
 	var rep = reporter.value;
 	
-	if(reporter.checked == true)	{
+	if(reporter.checked == true)	{ // && currentTmpReporters.indexOf(reporter.value)==-1
 		DynamicReport.saveTmpReporter(rep, A_saveTmpReporter_cb);
 		//alert("Adding " + rep);
 	}
@@ -36,7 +36,23 @@ function A_saveTmpReporter_cb(txt)	{
 }
 
 function A_initSaveReporter()	{
-	DynamicReport.saveTmpReporter("", A_saveTmpReporter_cb);
+	DynamicReport.saveTmpReporter("", A_initTmpReporter_cb);
+}
+
+function A_initTmpReporter_cb(txt)	{
+	A_saveTmpReporter_cb(txt);
+	//now, check the ones if theyve been previously selected
+	var field = document.getElementsByName('tmpReporter');
+	if(field.length > 1 && currentTmpReporters != "")	{
+		for (i = 0; i < field.length; i++)	{
+			if(currentTmpReporters.indexOf(field[i].value) != -1 )
+				field[i].checked = true ;
+		}
+	}
+	else	{
+		if(currentTmpReporters.indexOf(field.value) != -1 )
+			field.checked = true;
+	}
 }
 
 function A_clearTmpReporters()	{
@@ -74,4 +90,39 @@ function A_uncheckAll(field)	{
 	else
 		field.checked = false;
 		
+	$("checkAll").checked = false;
+		
+}
+
+function manageCheckAll(box)	{
+	if(box.checked)	{
+		A_checkAll(document.getElementsByName('tmpReporter'));
+	}
+	else	{
+		A_uncheckAll(document.getElementsByName('tmpReporter'));
+	}
+}
+
+function A_saveReporters()	{
+	//get the name
+	var name = $("tmp_prb_queryName").value;
+	//convert the overlib list to a comma seperated list
+	var replaceme = "<br/>";
+	var commaSepList = currentTmpReporters.replace(/<br\/>/g, ",");
+	if(commaSepList.charAt(commaSepList.length-1) == ",")
+		commaSepList = commaSepList.substring(0, commaSepList.length-1);
+	//alert("="+commaSepList+"=");
+	DynamicReport.saveReporters(commaSepList, name, A_saveReporters_cb);
+}
+
+function A_saveReporters_cb(txt)	{
+	var results = txt == "pass" ? "Reporter List Saved" : "There was a problem saving your reporter list";
+	alert(results); //pass | fail
+	if(txt != "fail")	{
+		//erase the name
+		$("tmp_prb_queryName").value = "";
+		//clear the sample list
+		A_clearTmpReporters();
+	}
+	
 }

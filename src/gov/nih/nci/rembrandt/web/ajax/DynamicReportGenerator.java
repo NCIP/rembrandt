@@ -2,13 +2,19 @@ package gov.nih.nci.rembrandt.web.ajax;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
+import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.FindingReportBean;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
+import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 
@@ -64,22 +70,22 @@ public class DynamicReportGenerator {
 	public Map saveTmpReporter(String rep)	{
 		Map results = new HashMap();
 		
-			HttpSession session = ExecutionContext.get().getSession(false);
-			//put the reporter into an arraylist in the session...doenst exist? create it
-			ArrayList al = new ArrayList();
-			if(session.getAttribute("tmpReporterList") != null)	{
-				al = (ArrayList) session.getAttribute("tmpReporterList");
-			}
-		if(!rep.equals("")){
+		HttpSession session = ExecutionContext.get().getSession(false);
+		//put the reporter into an arraylist in the session...doenst exist? create it
+		ArrayList al = new ArrayList();
+		if(session.getAttribute("tmpReporterList") != null)	{
+			al = (ArrayList) session.getAttribute("tmpReporterList");
+		}
+		if(!rep.equals("") && !al.contains(rep)){
 			al.add(rep); // add it
 			session.setAttribute("tmpReporterList", al); //put back in session
 		}
-			String tmpReporters = "";
-			for(int i = 0; i<al.size(); i++)
-				tmpReporters += al.get(i) + "<br/>";
-		
-			results.put("count", al.size());
-			results.put("reporters", tmpReporters);
+		String tmpReporters = "";
+		for(int i = 0; i<al.size(); i++)
+			tmpReporters += al.get(i) + "<br/>";
+	
+		results.put("count", al.size());
+		results.put("reporters", tmpReporters);
 		
 		return results;
 	}
@@ -106,5 +112,37 @@ public class DynamicReportGenerator {
 		HttpSession session = ExecutionContext.get().getSession(false);
 		session.removeAttribute("tmpReporterList"); //put back in session
 	}
+	
+	public String saveReporters(String commaSepList, String name)	{
+		String success = "fail";
+		HttpSession session = ExecutionContext.get().getSession(false);
+		PresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
+		SessionCriteriaBag sessionCriteriaBag = ptc.getSessionCriteriaBag(session.getId());
+		
+		//hold the list of DE's
+		List<DomainElement> domainElementList = new ArrayList();
+		
+		try {
+			//break the comma list
+			StringTokenizer tk = new StringTokenizer(commaSepList, ",");
+			while (tk.hasMoreTokens()) {
+				String element = tk.nextToken();
+				//iterate through and create domain elements
+				CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.ProbesetID(element);
+				domainElementList.add(cloneIdentifierDE);
+			}
+
+			//check name for collision...or dont, so to enable overwriting
+			sessionCriteriaBag.putUserList(ListType.CloneProbeSetIdentifierSet,name,domainElementList); 
+			ptc.putSessionCriteriaBag(session.getId(),sessionCriteriaBag);
+			success = "pass";
+		} catch (ClassCastException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return success;
+	}
+
 
 }
