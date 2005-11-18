@@ -2,12 +2,15 @@ package gov.nih.nci.rembrandt.queryservice.queryprocessing;
 
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.dto.query.Query;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collection;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
@@ -50,4 +53,23 @@ public class CommonFactHandler {
             criteria.addAndCriteria(c);
         }
     }
+
+    public static void addAccessCriteria(Query query, Class beanClass, Criteria criteria)
+    throws Exception {
+        InstitutionCriteria institCrit = query.getInstitutionCriteria ();
+        if (institCrit  != null) {
+            ArrayList<Long> instIDs = new ArrayList<Long>();
+            Collection<InstitutionDE> institutes = institCrit.getInstitutes();
+
+            for (InstitutionDE institution : institutes) {
+               instIDs.add(institution.getValueObject());
+            }
+
+            String instIDAttr = QueryHandler.getAttrNameForTheDE(InstitutionDE.class.getName(), beanClass.getName());
+            Criteria c = new Criteria();
+            c.addIn(instIDAttr, instIDs);
+            criteria.addAndCriteria(c);
+        }
+    }
+
 }

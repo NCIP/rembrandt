@@ -97,12 +97,14 @@ abstract public class GEFactHandler {
         CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
         FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
         CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+        CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, sampleCrit);
 
     }
     private static void addGEFactCriteriaForAllGenes(GeneExpressionQuery geQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
         CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
         FoldChangeCriteriaHandler.addFoldChangeCriteriaForAllGenes(geQuery, targetFactClass, _BROKER, sampleCrit);
         CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+        CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, sampleCrit);
 
     }
     protected void executeCloneAnnotationQuery(Collection probeOrCloneIDs) throws Exception {

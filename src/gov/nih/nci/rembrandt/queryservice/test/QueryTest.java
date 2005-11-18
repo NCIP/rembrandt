@@ -1,38 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.test;
 
-import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.Constants;
-import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
-import gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE;
-import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
-import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
-import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
-import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
-import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
-import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
-import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
-import gov.nih.nci.caintegrator.dto.de.GenderDE;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
-import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
-import gov.nih.nci.caintegrator.dto.de.PathwayDE;
-import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
-import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
-import gov.nih.nci.caintegrator.dto.de.SurvivalDE;
+import gov.nih.nci.caintegrator.dto.critieria.*;
+import gov.nih.nci.caintegrator.dto.de.*;
 import gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE.UpperAgeLimit;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
@@ -96,11 +65,12 @@ public class QueryTest extends TestCase {
 	 AgeCriteria ageCriteria;
 	 GenderCriteria genderCrit;
      AllGenesCriteria allGenesCriteria;
-
+     InstitutionCriteria accessCrit;
 
     protected void setUp() throws Exception {
         ApplicationContext.init();
         buildSampleIDCrit();
+        buildAccessCrit();
 
         // the following two are mutually exclusive
         buildDiseaseTypeCrit();
@@ -129,8 +99,8 @@ public class QueryTest extends TestCase {
           public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
              q.setQueryName("Test Gene Query");
-             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
              q.setGeneIDCrit(geneIDCrit);
              //q.setAllGenesCrit(allGenesCriteria);
              //q.setGeneOntologyCrit(ontologyCrit);
@@ -151,7 +121,7 @@ public class QueryTest extends TestCase {
             //q.setDiseaseOrGradeCrit(diseaseCrit);
            // q.setSampleIDCrit(sampleCrit);
             q.setFoldChgCrit(foldCrit);
-
+            q.setInstitutionCriteria(accessCrit);
             try {
             	//CompoundQuery myCompoundQuery = new CompoundQuery(q);
                 ResultSet[] geneExprObjects = QueryProcessor.execute(q);
@@ -331,9 +301,12 @@ public class QueryTest extends TestCase {
             //q.setRegionCrit(regionCrit);
             //q.setSNPCrit(snpCrit);
             q.setAllGenesCrit(allGenesCriteria);
+           //q.setGeneIDCrit(geneIDCrit);
             q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setCopyNumberCrit(copyNumberCrit);
             q.setSampleIDCrit(sampleCrit);
+            q.setInstitutionCriteria(accessCrit);
+
             try {
                 //ResultSetInterface[] cghObjects = QueryManager.executeQuery(q);
                 ResultSet[] cghObjects = QueryProcessor.execute(q);
@@ -360,13 +333,14 @@ public class QueryTest extends TestCase {
     }
      public static class Clinical extends QueryTest {
        public void testClinicalQuery() {
-        ClinicalDataQuery q = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+            ClinicalDataQuery q = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
             q.setQueryName("Test Clinical Query");
 
             //q.setSurvivalCrit(survivalCrit);
             q.setGenderCrit(genderCrit);
             q.setAgeCrit(ageCriteria);
             q.setDiseaseOrGradeCrit(diseaseCrit);
+            q.setInstitutionCriteria(accessCrit);
             //q.setSampleIDCrit(sampleCrit);
             try {
                 ResultSet[] patientDataObjects = QueryProcessor.execute(q);
@@ -619,6 +593,14 @@ public class QueryTest extends TestCase {
         //sampleCrit.setSampleIDs(all52Samples);
     }
 
+    private void buildAccessCrit() {
+        accessCrit= new InstitutionCriteria();
+        Collection insts = new ArrayList<InstitutionDE>();
+        InstitutionDE inst = new InstitutionDE("HENRY FORD(RETRO)",new Long(1));
+        insts.add(inst);
+        accessCrit.setInstitutions(insts);
+    }
+
     private void buildSurvivalCrit() {
          survivalCrit  = new SurvivalCriteria();
          survivalCrit.setLowerSurvivalRange(
@@ -668,8 +650,8 @@ public class QueryTest extends TestCase {
 
         foldCrit = new FoldChangeCriteria();
         Collection objs = new ArrayList(4);
-        //objs.add(upRegObj);
-        objs.add(downRegObj);
+        objs.add(upRegObj);
+        //objs.add(downRegObj);
         //objs.add(upRegObj); //objs.add(downUnChangedRegObj);
         foldCrit.setFoldChangeObjects(objs);
     }
