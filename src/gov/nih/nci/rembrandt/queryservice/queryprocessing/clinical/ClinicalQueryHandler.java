@@ -42,6 +42,7 @@ public class ClinicalQueryHandler extends QueryHandler {
         Class targetFactClass = PatientData.class;
         CommonFactHandler.addDiseaseCriteria(clinicalQuery, targetFactClass, _BROKER, allCriteria);
         CommonFactHandler.addSampleIDCriteria(clinicalQuery, targetFactClass, allCriteria);
+        CommonFactHandler.addAccessCriteria(clinicalQuery, targetFactClass, allCriteria);
         _BROKER.close();
 
         PatientData[] results = executeQuery(allCriteria);
