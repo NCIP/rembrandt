@@ -63,3 +63,8 @@ look like:
 	</application-policy>
 	
 ****************************************
+
+8.  Lastly, until the CSM is upgraded you must delete the conficting folder that
+	is JBoss/server/default/deploy/jboss-hibernate.deployer.
+
+	Right now there is conflict between the different versions of hibernate.
