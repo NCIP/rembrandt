@@ -1,34 +1,56 @@
 Steps for setting up CSM:
-
 ************************************
 
-1. Modify ApplicationSecurityConfig.xml line 21 in "WEB_ROOT/CSM/" to change your JBoss Path
-	eg:
-	<hibernate-config-file> 
-  		X:/MY_JBOSS_DIR/server/default/deploy/rembrandt.war/csm
-	</hibernate-config-file>
- 
-*************************************
-2. Go to MY_JBOSS/server/default/deploy/properties-service.xml
-	 and add the attribute tag listed below INSIDE the tag that looks like the following:
-    <mbean code="org.jboss.varia.property.SystemPropertiesService"...: 
-   
-    <attribute name="Properties">
-   		gov.nih.nci.security.configFile=MY_JBOSS_DIR/server/default/deploy/rembrandt.war/csm/ApplicationSecurityConfig.xml
-    </attribute>
+1. Modify the following properties in the build.properties
+	csm.hibernate.config.file=
+	csm.application.config.file=
+	
+	Setting them equal to the location of your JBoss Server deploy directory
+	For instance:
+		csm.application.config.file=C:/JBoss/jboss-4.0.2/server/default/conf/ApplicationSecurityConfig.xml
+ 	and
+ 		csm.hibernate.config.file=C:/JBoss/jboss-4.0.2/server/default/conf/rembrandt.hibernate.cfg.xml
 
-   IMPORTANT: Make sure you modify the "MY_JBOSS_DIR" to point to your JBoss installation.
+*************************************
+
+2. Run the ant script task target "config_common_security_module"
 
 *************************************
     
-3. Place oracle-ds.xml in the jboss-4.0.2\server\default\deploy directory
-
-We actually aren't using this right now so don't worry about all the settings missing
-
+3. Go to the newly created "csm_deploy" folder and you should see the following
+ files:
+ 	ApplicationSecurityConfig.xml
+ 	oracle-ds.xml
+ 	properties-service.xml
+ 	rembrandt.hibernate.cfg.xml
 
 *************************************
 
-4. Add the following lines to jboss-4.0.2\server\default\conf\login-config.xml
+4. Grab the following files and place them in the location that you used to 
+configure the properties in step 1 of these instructions.
+	
+	ApplicationSecurityConfig.xml
+	rembrandt.hibernate.cfg.xml
+
+**************************************
+
+5. Grab oracle-ds.xml and place it in JBossDir/server/default/deploy/
+
+**************************************
+
+6. Grab the text that is inside the file properties-service.xml which should
+look like:
+	<attribute name="Properties">
+      gov.nih.nci.security.configFile=C:/JBoss/jboss-4.0.2/server/default/conf/ApplicationSecurityConfig.xml
+	</attribute>
+	
+	and add it to the <mbean code="org.jboss.varia.property.SystemPropertiesService"... tag 
+	inside the properties-services.xml file that you can find located in 
+	JBossDir/server/default/deploy/
+
+***************************************
+
+7. Add the following lines to jboss-4.0.2\server\default\conf\login-config.xml
 
     <application-policy name="rembrandt">
 		<authentication>
@@ -39,3 +61,5 @@ We actually aren't using this right now so don't worry about all the settings mi
 			</login-module>			
 		</authentication>
 	</application-policy>
+	
+****************************************

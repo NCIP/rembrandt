@@ -18,7 +18,7 @@
 					<!-- Fully qualified class name-->
 				</authorization-provider-class>
 				<hibernate-config-file>
-					@HIBERNATE_CONFIG_FILE@/rembrandt.hibernate.cfg.xml
+					@HIBERNATE_CONFIG_FILE@
 				</hibernate-config-file>
 			</authorization>
 		</application>

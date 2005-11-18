@@ -6,19 +6,18 @@
 <!--                                                                       -->
 <!-- ===================================================================== -->
 
-<!-- $Id: oracle-ds.xml,v 1.1 2005-09-23 14:51:09 rossok Exp $ -->
+<!-- $Id: oracle-ds.xml.template,v 1.1 2005-11-18 04:32:37 bauerd Exp $ -->
 <!-- ==================================================================== -->
 <!--  Datasource config for Oracle                                        -->
 <!-- ==================================================================== -->
-
-
 <datasources>
    <local-tx-datasource>
-      <jndi-name><<application_context_name>></jndi-name>
-      <connection-url><<database_url>></connection-url>
-      <user-name><<database_user_id>></user-name>
-      <password><<database_user_password>></password>
-      <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
-      <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
-    </local-tx-datasource>
+               <jndi-name>@DATASOURCE_JNDI@</jndi-name>
+               <connection-url>@DB_CONNECTION_URL@</connection-url>
+               <user-name>@DB_USERNAME@</user-name>
+               <password>@DB_PASSWORD@</password>
+               <driver-class>@ORACLE_DRIVER_CLASS@</driver-class>
+               <exception-sorter-class-name>@EXCEPTION_SORTER_CLASS@</exception-sorter-class-name>
+   </local-tx-datasource>
 </datasources>
+

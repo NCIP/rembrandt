@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gov.nih.nci.rembrandt.dto.query;
 
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
@@ -10,10 +7,8 @@ import gov.nih.nci.caintegrator.dto.de.DistanceMatrixTypeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
-import gov.nih.nci.caintegrator.dto.de.InstitutionNameDE;
 import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
-import gov.nih.nci.caintegrator.enumeration.LinkageMethodType;
 
 import java.util.Collection;
 
