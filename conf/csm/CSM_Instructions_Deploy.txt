@@ -1,19 +1,16 @@
-Steps for setting up CSM:
+Steps for setting up CSM for development:
 ************************************
 
-1. Ensure the following properties are in the build.properties
+1. Modify the following properties in the build.properties
+	csm.hibernate.config.file=
+	csm.application.config.file=
 
- your jboss.install.dir property points to your local jboss directory
- for example jboss.install.dir=C:/jboss-4.0.2
- and the following is in your build.properties file
- 
-###########################
-# CSM properties		  #
-###########################
-csm.application.config.file=${jboss.conf.dir}/ApplicationSecurityConfig.xml
-csm.hibernate.config.file=${jboss.conf.dir}/rembrandt.hibernate.cfg.xml
-csm.jndi.connection.datasource=rembrandtcsm
-csm.exception.sorter.class=org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter
+	Setting them equal to the location of your JBoss Server conf directory
+	For instance:
+		csm.application.config.file=C:/JBoss/jboss-4.0.2/server/default/conf/ApplicationSecurityConfig.xml
+ 	and
+ 		csm.hibernate.config.file=C:/JBoss/jboss-4.0.2/server/default/conf/rembrandt.hibernate.cfg.xml
+
 *************************************
 
 2. Run the ant script task target "config_common_security_module"
@@ -29,14 +26,15 @@ csm.exception.sorter.class=org.jboss.resource.adapter.jdbc.vendor.OracleExceptio
 
 *************************************
 
-4. Verify the following files have been placed in your JBossDir/server/default/conf
-	(for e.g. C:/JBoss/jboss-4.0.2/server/default/conf/)
+4. Grab the following files and place them in the location that you used to 
+configure the properties in step 1 of these instructions.
+	
 	ApplicationSecurityConfig.xml
 	rembrandt.hibernate.cfg.xml
 
 **************************************
 
-5. Verify that oracle-ds.xml has been placed it in JBossDir/server/default/deploy/
+5. Grab oracle-ds.xml and place it in JBossDir/server/default/deploy/
 
 **************************************
 
@@ -68,7 +66,5 @@ look like:
 
 8.  Lastly, until the CSM is upgraded you must delete the conficting folder that
 	is JBoss/server/default/deploy/jboss-hibernate.deployer.
-	
-	and that you DO NOT HAVE jta.jar file any where in your buildpath (please check your WEB_INF/lib)
 
-	Right now there is conflict between the different versions of hibernate .
+	Right now there is conflict between the different versions of hibernate.
