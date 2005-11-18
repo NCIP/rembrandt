@@ -46,7 +46,7 @@ public class RembrandtImageFileHandler {
 		if(!dirCreated) {
 			FileDeleter fd = new FileDeleter();
 			//This could probably be a * but I am not sure just yet, need to test
-			fd.deleteFiles(getSessionWebAppImagePath(), imageTypeExtension);
+			//fd.deleteFiles(getSessionWebAppImagePath(), imageTypeExtension);
 		 }
 	}
 

@@ -207,6 +207,7 @@
 		parameter="method">
 		<forward name="backToPrincipalComponent" path="nautilus.principalComponent" />
 		<forward name="principalComponentSetup" path="/principalcomponent.do?method=setup" />
+		<forward name="viewResults" path="/viewResults.do" />
 	</action>
 	
 	<action path="/hierarchicalClustering"
@@ -288,6 +289,12 @@
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
 		name="noForm">
 		<forward name="success" path="/jsp/testReport.jsp" />
+	</action>
+	
+	<action path="/pcaReport"
+		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
+		name="noForm">
+		<forward name="success" path="/jsp/pcaReport.jsp" />
 	</action>
 	
 	<action path="/homeAdvanced"

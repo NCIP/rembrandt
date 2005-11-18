@@ -24,6 +24,26 @@
 			<required>true</required>
 		</attribute>
 	</tag>
+	<tag>
+		<name>PCAPlot</name>
+		<tag-class>
+			gov.nih.nci.rembrandt.web.taglib.PCAPlotTag
+		</tag-class>
+		<bodycontent>empty</bodycontent>
+		<desciption>The Principal Component Analysis Plots</desciption>
+		<attribute>
+			<name>taskId</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>components</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>colorBy</name>
+			<required>false</required>
+		</attribute>
+	</tag>
 	
 	<tag>
 		<name>GenePlot</name>

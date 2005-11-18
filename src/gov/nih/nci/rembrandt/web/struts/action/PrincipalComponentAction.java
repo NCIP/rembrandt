@@ -75,7 +75,7 @@ public class PrincipalComponentAction extends DispatchAction {
             e.printStackTrace();
         }
                 
-        return mapping.findForward("principalComponentSetup");
+        return mapping.findForward("viewResults");
     }
     
     
