@@ -35,6 +35,7 @@ function A_checkFindingStatus_cb(tasks)	{
 				if(curEl.innerHTML != "completed")	{
 					curEl.innerHTML = "completed";
 					curElImg.src = "images/check.png";
+					curElLink.onclick = "";
 					curElLink.removeAttribute("onclick");
 				}
 			}
