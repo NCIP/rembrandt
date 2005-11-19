@@ -674,6 +674,128 @@
 </class-descriptor>
 
 <class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.DiffExpressionGeneGFact"
+       table="DIFF_EXPRESSION_GENE_GFACT">
+    <field-descriptor
+        name="deggId"
+        column="DEGG_ID"
+        jdbc-type="BIGINT"
+        primarykey="true"
+    />
+
+    <field-descriptor
+         name="ratioStd"
+         column="RATIO_STD"
+         jdbc-type="DOUBLE"
+     />
+
+    <field-descriptor
+         name="diseaseType"
+         column="DISEASE_TYPE"
+         jdbc-type="VARCHAR"
+     />
+    <field-descriptor
+         name="expressionRatio"
+         column="EXPRESSION_RATIO"
+         jdbc-type="DOUBLE"
+     />
+    <field-descriptor
+         name="unifiedGene"
+         column="UNIFIED_GENE"
+         jdbc-type="VARCHAR"
+     />
+    <field-descriptor
+         name="geneSymbol"
+         column="GENE_SYMBOL"
+         jdbc-type="VARCHAR"
+     />
+
+    <field-descriptor
+         name="normalIntensity"
+         column="NORMAL_INTENSITY"
+         jdbc-type="DOUBLE"
+     />
+    <field-descriptor
+         name="sampleIntensity"
+         column="SAMPLE_INTENSITY"
+         jdbc-type="DOUBLE"
+     />
+    <field-descriptor
+         name="deggId"
+         column="DEGG_ID"
+         jdbc-type="BIGINT"
+     />
+    <field-descriptor
+         name="ratioPval"
+         column="RATIO_PVAL"
+         jdbc-type="DOUBLE"
+     />
+    <field-descriptor
+       name="institutionId"
+       column="INSTITUTION_ID"
+       jdbc-type="BIGINT"
+   />
+
+</class-descriptor>
+
+
+<class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.DiffExpressionGeneSFact"
+       table="DIFF_EXPRESSION_GENE_SFACT">
+
+
+    <field-descriptor
+         name="diseaseType"
+         column="DISEASE_TYPE"
+         jdbc-type="VARCHAR"
+     />
+    <field-descriptor
+         name="expressionRatio"
+         column="EXPRESSION_RATIO"
+         jdbc-type="DOUBLE"
+     />
+    <field-descriptor
+         name="unifiedGene"
+         column="UNIFIED_GENE"
+         jdbc-type="VARCHAR"
+     />
+    <field-descriptor
+         name="geneSymbol"
+         column="GENE_SYMBOL"
+         jdbc-type="VARCHAR"
+     />
+
+    <field-descriptor
+         name="normalIntensity"
+         column="NORMAL_INTENSITY"
+         jdbc-type="DOUBLE"
+     />
+    <field-descriptor
+         name="sampleIntensity"
+         column="SAMPLE_INTENSITY"
+         jdbc-type="DOUBLE"
+     />
+    <field-descriptor
+         name="degsId"
+         column="DEGS_ID"
+         jdbc-type="BIGINT"
+         primarykey="true"
+     />
+    <field-descriptor
+       name="institutionId"
+       column="INSTITUTION_ID"
+       jdbc-type="BIGINT"
+   />
+    <field-descriptor
+       name="sampleId"
+       column="SAMPLE_ID"
+       jdbc-type="VARCHAR"
+   />
+
+</class-descriptor>
+
+
+<class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionGfact"
        table="DIFFERENTIAL_EXPRESSION_GFACT">
 
@@ -682,6 +804,13 @@
         column="CLONE_ID"
         jdbc-type="BIGINT"
     />
+
+    <field-descriptor
+        name="standardDeviationRatio"
+        column="RATIO_STD"
+        jdbc-type="DOUBLE"
+    />
+
     <field-descriptor
         name="datasetId"
         column="DATASET_ID"
@@ -844,7 +973,7 @@
         />
 
 </class-descriptor>
-<!-- temporary commented out
+<!-- temporary commented out -->
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
@@ -918,7 +1047,7 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
--->
+<!--
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PT_DATA_GE">
@@ -991,6 +1120,7 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
+-->
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim"
        table="DISEASE_TYPE_DIM">

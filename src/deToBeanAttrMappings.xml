@@ -70,6 +70,12 @@
                    attribute="institutionId"/>
                     <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionGfact"
                     attribute="institutionId"/>
+
+                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.DiffExpressionGeneGFact"
+                        attribute="institutionId"/>
+                         <mappedBean name="gov.nih.nci.rembrandt.dbbean.DiffExpressionGeneSFact"
+                         attribute="institutionId"/>
+
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.PatientDim"
                     attribute="institutionId"/>
                       
