@@ -15,7 +15,7 @@ public class DifferentialExpressionGfact
     //public final static String PROBE_NAME = "probesetName";
     //public final static String GENE_SYMBOL = "geneSymbol";
     //public final static String EXPRESSION_RATIO = "expressionRatio";
-
+  private Double standardDeviationRatio;
   private Long cloneId;
   private Long datasetId;
   private Long degId;
@@ -33,7 +33,16 @@ public class DifferentialExpressionGfact
   private Long timecourseId;
     private String probesetName;
     private String cloneName;
-     public String getDiseaseType() {
+
+    public Double getStandardDeviationRatio() {
+        return standardDeviationRatio;
+    }
+
+    public void setStandardDeviationRatio(Double standardDeviationRatio) {
+        this.standardDeviationRatio = standardDeviationRatio;
+    }
+
+    public String getDiseaseType() {
         return diseaseType;
     }
 

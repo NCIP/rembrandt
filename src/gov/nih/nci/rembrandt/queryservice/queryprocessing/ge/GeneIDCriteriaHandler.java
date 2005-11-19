@@ -36,7 +36,7 @@ public class GeneIDCriteriaHandler {
                             new TargetClass(GeneLlAccSnp.class, GeneSnp.SNP_PROBESET_ID));
         }
 
-     static ArrayList getGeneIDValues(GeneIDCriteria geneIDCrit) {
+     public static ArrayList getGeneIDValues(GeneIDCriteria geneIDCrit) {
         Collection geneIdDEs = geneIDCrit.getGeneIdentifiers();
         ArrayList geneIDs = new ArrayList();
         for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();) {
@@ -140,7 +140,7 @@ public class GeneIDCriteriaHandler {
     }
 
 
-    static Class getGeneIDClassName(GeneIDCriteria geneIDCrit ) {
+    public static Class getGeneIDClassName(GeneIDCriteria geneIDCrit ) {
             Collection geneIDs = geneIDCrit.getGeneIdentifiers();
             GeneIdentifierDE obj =  (GeneIdentifierDE) geneIDs.iterator().next();
             return obj.getClass();

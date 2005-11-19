@@ -433,7 +433,8 @@ abstract public class GEFactHandler {
     final static class GroupGEFactHanlder extends GEFactHandler {
             ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
             throws Exception {
-                //FoldChangeCriteria foldCrit = query.getFoldChgCrit();
+                if (query.getSampleIDCrit() != null)
+                    throw new Exception("Samples can not be applied to this gorup view ");
                 executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, query);
                 executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, query);
                 //sleepOnFactEvents();
@@ -476,6 +477,7 @@ abstract public class GEFactHandler {
                 groupExprObj.setSampleIntensity(exprObj.getSampleGIntensity());
                 groupExprObj.setRatioPval(exprObj.getRatioPval());
                 groupExprObj.setTimecourseId(exprObj.getTimecourseId());
+                groupExprObj.setStandardDeviationRatio(exprObj.getStandardDeviationRatio());
             }
         }
     }

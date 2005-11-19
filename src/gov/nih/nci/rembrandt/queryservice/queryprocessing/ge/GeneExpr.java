@@ -251,6 +251,15 @@ abstract public class GeneExpr implements ResultSet{
     final public static class GeneExprGroup extends GeneExpr {
         private Double ratioPval;
         private Long degId;
+        private Double standardDeviationRatio;
+
+        public Double getStandardDeviationRatio() {
+            return standardDeviationRatio;
+        }
+
+        public void setStandardDeviationRatio(Double standardDeviationRatio) {
+            this.standardDeviationRatio = standardDeviationRatio;
+        }
 
         public Long getID() {
             return getDegId();

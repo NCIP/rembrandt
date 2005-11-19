@@ -11,6 +11,7 @@ import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetProcessor;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryProcessor;
@@ -95,6 +96,31 @@ public class QueryTest extends TestCase {
         buildSNPCrit();
         buildCopyChangeCrit();
     }
+
+    public static class UnifiedGeneExpression extends QueryTest {
+          public void testGeneExprQuery() {
+             UnifiedGeneExpressionQuery q = (UnifiedGeneExpressionQuery) QueryManager.createQuery(QueryType.UNIFIED_GENE_EXPR_QUERY_TYPE);
+             q.setQueryName("Test Gene Query");
+             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             q.setGeneIDCrit(geneIDCrit);
+             //q.setFoldChgCrit(foldCrit);
+             q.setInstitutionCriteria(accessCrit);
+            try {
+                ResultSet[] geneExprObjects = QueryProcessor.execute(q);
+                System.out.println("NUMBER OF RECORDS: " + geneExprObjects.length);
+
+                //print(geneExprObjects);
+               //if (geneExprObjects.length > 0)
+                 //   testResultset(geneExprObjects);
+
+            } catch(Throwable t ) {
+                t.printStackTrace();
+            }
+
+    }
+  }
+
     public static class GeneExpression extends QueryTest {
           public void testGeneExprQuery() {
         GeneExpressionQuery q = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
@@ -119,7 +145,7 @@ public class QueryTest extends TestCase {
             //q.setCloneOrProbeIDCrit(cloneCrit);
             //q.setCloneProbeCrit(probeCrit);
             //q.setDiseaseOrGradeCrit(diseaseCrit);
-           // q.setSampleIDCrit(sampleCrit);
+            //q.setSampleIDCrit(sampleCrit);
             q.setFoldChgCrit(foldCrit);
             q.setInstitutionCriteria(accessCrit);
             try {
@@ -300,8 +326,8 @@ public class QueryTest extends TestCase {
             q.setAssayPlatformCrit(crit);
             //q.setRegionCrit(regionCrit);
             //q.setSNPCrit(snpCrit);
-            q.setAllGenesCrit(allGenesCriteria);
-           //q.setGeneIDCrit(geneIDCrit);
+            //q.setAllGenesCrit(allGenesCriteria);
+           q.setGeneIDCrit(geneIDCrit);
             q.setDiseaseOrGradeCrit(diseaseCrit);
             q.setCopyNumberCrit(copyNumberCrit);
             q.setSampleIDCrit(sampleCrit);
