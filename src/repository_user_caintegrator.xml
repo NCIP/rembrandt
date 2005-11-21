@@ -974,6 +974,7 @@
 
 </class-descriptor>
 <!-- temporary commented out -->
+<!-- 
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
@@ -1047,7 +1048,7 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
-<!--
+-->
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PT_DATA_GE">
@@ -1120,7 +1121,7 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
--->
+
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim"
        table="DISEASE_TYPE_DIM">
