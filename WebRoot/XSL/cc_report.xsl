@@ -144,7 +144,7 @@
 				<input type="button" name="filter_submit" value="Save Reporters" onclick="javascript:A_saveReporters();" />
 			
 				<xsl:text>&#160;</xsl:text>
-				<input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> All
+				<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> All on page</span>
 				<!-- 
 				<xsl:text>&#160;</xsl:text>
 				<a href="#" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));return false;">[Check All]</a>
@@ -215,6 +215,7 @@
 	  	<option value="25">25</option>
 	  	<option value="50">50</option>
 	  	<option value="100">100</option>
+	  	<option value="1000">1000</option>
 	  </select>
 	 
 	  <xsl:text>&#160;</xsl:text>
@@ -225,7 +226,7 @@
 	 </div>
 	</div>
 </div>
-    <table cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" id="dataTable">
 		<xsl:for-each select="Row[@name='headerRow']">
 			<tr class="headerRow">
 		  	<xsl:for-each select="Cell[@class != 'csv']">
@@ -252,9 +253,11 @@
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		
 		<!-- get each data row only -->
+		<!--  should be going filtering here, also copy to record count -->
 		<xsl:for-each select="Row[(@name='dataRow')] ">
 			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	
-					<tr>
+					<xsl:variable name="pvalue" select="Cell[3]/Data"/>
+					<tr id="{$pvalue}" name="{$pvalue}">
 		  				<xsl:for-each select="Cell[@class != 'csv']">
 		  	  			<xsl:variable name="class" select="@group" />
 		  	  			<xsl:variable name="styleclass" select="@class" />
@@ -316,13 +319,13 @@
 		      			</td>
 		    			</xsl:for-each>
 		    		</tr>
-
+		<xsl:comment>
 				<xsl:if test="/Report[@reportType != 'Clinical'] and ./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text() and following::Cell[1]/Data[1]/text() != ''">
 					<tr>
 		      			<td colspan="{$colCount}" class="geneSpacerStyle">--</td>
 		    		</tr>
 				</xsl:if>
-
+		</xsl:comment>
 			</xsl:if>
 
 		</xsl:for-each>

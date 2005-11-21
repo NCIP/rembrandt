@@ -126,3 +126,25 @@ function A_saveReporters_cb(txt)	{
 	}
 	
 }
+
+//not going to use this function for now
+function filterRow(pvalue)	{
+	pvalue = "0.0100";
+	var my_table = document.getElementById("dataTable");
+	var my_rows = my_table.rows;
+	//var rows = document.getElementsByTagName("tr");
+	for(i=1; i<my_rows.length; i++)	{ //dont look @ header
+		if(my_rows[i].id > pvalue)	{
+			//my_rows[i].style.display = "none";
+			my_table.deleteRow(i);
+		}
+	}
+}
+
+function checkStep()	{
+	var val = document.forms.paginate.p_step.value;
+	if(val > "500" || val > 500)	{
+		alert('too many');
+		$("checkAllBlock").innerHTML = "<i>reduce size to check all</i>";
+	}
+}
