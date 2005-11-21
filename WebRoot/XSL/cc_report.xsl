@@ -11,6 +11,10 @@
 
 <xsl:param name="key"></xsl:param>
 
+<xsl:param name="p_pval_filter_mode">show</xsl:param>
+<xsl:param name="p_pval_filter_value"></xsl:param>
+<xsl:param name="p_pval_filter_op"></xsl:param>
+
 <xsl:param name="filter_value5"></xsl:param>
 <xsl:param name="filter_value6"></xsl:param>
 
@@ -33,6 +37,8 @@
 
 	<xsl:variable name="helpLink" select="@reportType" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
+	
+
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
 	
 	<xsl:if test="$recordCount > 0">
@@ -55,6 +61,9 @@
 			<input type="hidden" name="p_page" value="{$p_page}" />
 			<input type="hidden" name="p_step" value="{$p_step}" />
 			<input type="hidden" name="p_highlight" value="{$p_highlight}"/>
+			<input type="hidden" name="p_pval_filter_mode" value="{$p_pval_filter_mode}"/>
+			<input type="hidden" name="p_pval_filter_value" value="{$p_pval_filter_value}"/>
+			<input type="hidden" name="p_pval_filter_op" value="{$p_pval_filter_op}"/>
 			<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</form>
 	
@@ -83,36 +92,25 @@
 			 	</div>
  	
  				<div id="hideme">
-	  				<xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
- 
-						<div class="filterForm">
-							<form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
-								<b><span class="lb">Filter:</span></b> 
-								<xsl:text>&#160;</xsl:text>
-								<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" id="showOnly_radio" value="show" />Show Only</span>
-								<span id="hideLabel"><input type="radio" class="checkorradio" name="filter_type" id="hide_radio" checked="true" value="hide"/>Hide</span>		
-								<select name="filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
-									<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
-									<option value="gene">Gene(s)</option>
-									</xsl:if>
-									<xsl:if test="$rType = 'Copy Number'">
-									<option value="cytoband">Cytoband(s)</option>
-									<option value="copy number">Copy Number</option>
-									</xsl:if>
-									<option value="reporter">Reporters</option>
-								</select>
-								<span id="fb">
-									<input type="text" name="filter_string"/>
-									<input type="hidden" name="queryName" value="{$qName}"/>
-									<input type="submit" name="filter_submit" value="Filter" onclick="javascript:return checkElement(filter_form.filter_string);"/>
-									
-									<input type="button" name="filter_submit" onclick="javascript:doShowAllValues('{$qName}', false);" value="Reset (show all)" />
-									<!--	<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" /> -->
-								
-									<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
-								</span>
-							</form>
-						</div>
+
+					<div class="filterForm">
+						<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="pval_filter_form">
+							<b><span class="lb">Filter:</span></b> 
+							<xsl:text>&#160;</xsl:text>
+							<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="p_pval_filter_mode" id="showOnly_radio" value="show" />Show Only</span>
+							<span id="hideLabel"><input type="radio" class="checkorradio" name="p_pval_filter_mode" id="hide_radio" checked="true" value="hide"/>Hide</span>		
+							<xsl:text>&#160;</xsl:text>
+							<xsl:text>&#160;</xsl:text>
+							P-Value 
+							<input type="text" name="p_pval_filter_value" size="4" value="{$p_pval_filter_value}" />
+							<input type="hidden" name="p_page" value="{$p_page}"/>
+							<input type="hidden" name="p_step" value="{$p_step}"/>
+							<input type="submit" name="filter_submit" value="Filter" />
+							<input type="submit" name="filter_submit" value="Reset (Show All)" onclick="javascript:document.pval_filter_form.p_pval_filter_value='';" />
+						</form>
+					</div>
+		
+						
 							  
 		<div class="filterForm">
 			<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="highlight_form">
@@ -136,7 +134,6 @@
 			</form>
 		</div>
 	  
-		<xsl:if test="$showSampleSelect != 'false' and contains($qName, 'previewResults') = false">
 			<div class="filterForm">
 				<b><span class="lb">Select Reporters:</span></b> 
 				<xsl:text>&#160;</xsl:text>
@@ -162,9 +159,7 @@
 			 	<a href="#" onclick="javascript:A_clearTmpReporters(); return false;" onmouseover="javascript:return showHelp('Clear these reporters');" onmouseout="return nd();">[clear reporters]</a>
 			 	
 		  	</div>
-		</xsl:if>
 	 
-	  </xsl:if>
 	  
 	  <div class="pageControl" style="padding-bottom:1px;margin-bottom:0px;">
 	  <!-- <xsl:value-of select="$recordCount" /> records returned. -->
@@ -255,8 +250,10 @@
 		<!-- get each data row only -->
 		<!--  should be going filtering here, also copy to record count -->
 		<xsl:for-each select="Row[(@name='dataRow')] ">
+			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
+			<xsl:if test="$p_pval_filter_value = '' or (($p_pval_filter_mode = 'hide' and $p_pval_filter_value != $pvalue) or ($p_pval_filter_mode = 'show' and $p_pval_filter_value = $pvalue))">
 			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	
-					<xsl:variable name="pvalue" select="Cell[3]/Data"/>
+				
 					<tr id="{$pvalue}" name="{$pvalue}">
 		  				<xsl:for-each select="Cell[@class != 'csv']">
 		  	  			<xsl:variable name="class" select="@group" />
@@ -327,7 +324,8 @@
 				</xsl:if>
 		</xsl:comment>
 			</xsl:if>
-
+<!--  close TR filter -->
+			</xsl:if>
 		</xsl:for-each>
 	</form> <!--  close PRB samples form -->
   	</table>

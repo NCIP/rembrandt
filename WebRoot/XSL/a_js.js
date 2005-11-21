@@ -20,7 +20,8 @@ function A_saveTmpReporter_cb(txt)	{
 	//reporter has been added to the list,
 	//show how many we've saved,
 	if(txt["count"] > -1) {
-		$("reporterCount").innerHTML = txt["count"] + " reporters selected";
+		if($("reporterCount"))
+			$("reporterCount").innerHTML = txt["count"] + " reporters selected";
 		currentTmpReportersCount = txt["count"];
 		
 		//update the running tab for overlib if this is not an init call
@@ -60,7 +61,8 @@ function A_clearTmpReporters()	{
 }
 
 function A_clearTmpReporters_cb(txt)	{
-		$("reporterCount").innerHTML = "";
+		if($("reporterCount"))
+			$("reporterCount").innerHTML = "";
 		currentTmpReportersCount = 0;
 		currentTmpReporters = "";
 		if($("tmp_prb_queryName"))
@@ -147,4 +149,10 @@ function checkStep()	{
 		alert('too many');
 		$("checkAllBlock").innerHTML = "<i>reduce size to check all</i>";
 	}
+}
+
+function initPagination()	{
+	var my_table = document.getElementById("dataTable");
+	var my_rows = my_table.rows;
+	//alert(my_rows.length-1);
 }

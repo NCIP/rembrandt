@@ -24,7 +24,11 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 
 <%
 
-String key = "t2";
+
+//get the main params from the request
+//these will actually be given to the XSL for transformation via AJAX
+
+String key = "test";
 if(request.getParameter("key")!=null)
 	key = (String) request.getParameter("key");
 
@@ -35,6 +39,7 @@ String p_highlight_op = "gt";
 if(request.getParameter("p_highlight_op")!=null)
 	p_highlight_op = (String) request.getParameter("p_highlight_op");
 
+//some times these are off, as they are dynamically set after this at times
 String p_page = "0";
 if(request.getParameter("p_page")!=null)
 	p_page = (String) request.getParameter("p_page");
@@ -42,12 +47,25 @@ String p_step = "25";
 if(request.getParameter("p_step")!=null)
 	p_step = (String) request.getParameter("p_step");
 
+//for p-value filtering
+String p_pval_filter_mode = "";
+if(request.getParameter("p_pval_filter_mode")!=null)
+	p_pval_filter_mode = (String) request.getParameter("p_pval_filter_mode");
+String p_pval_filter_value = "";
+if(request.getParameter("p_pval_filter_value")!=null)
+	p_pval_filter_value = (String) request.getParameter("p_pval_filter_value");
+
+String p_pval_filter_op = "lt";
+if(request.getParameter("p_pval_filter_op")!=null)
+	p_pval_filter_op = (String) request.getParameter("p_pval_filter_op");
+
 
 String xhtml = "nada";
 if(session.getAttribute(key+"_xhtml")!=null)	{
+	//display the report, and run some init JS functions on the page
 	xhtml = (String) session.getAttribute(key+"_xhtml");
 	out.println(xhtml);
-	out.println("<script language='javascript'>A_initSaveReporter();</script>");
+	out.println("<script language='javascript'>A_initSaveReporter(); checkStep();</script>");
 	session.removeAttribute(key+"_xhtml");
 }
 else	{
@@ -72,6 +90,10 @@ else	{
 			
 			a["p_page"] = "<%=p_page%>";
 			a["p_step"] = "<%=p_step%>";
+			
+			a["p_pval_filter_mode"] = "<%=p_pval_filter_mode%>";
+			a["p_pval_filter_value"] = "<%=p_pval_filter_value%>";
+			//a["p_pval_filter_op"] = "<%=p_pval_filter_op%>";
 			
 			//a["two"] = "atwo";
 			//var a = { key1:"value1", key2:"value2" };
