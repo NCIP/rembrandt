@@ -59,12 +59,8 @@
 	</target>
 	<!--
 			TARGET: config_common_security_module
-			Configures the common security module using the JBoss installation
-			directory. Once you run this target, you must manually place the 
-			files in the following locations:
-				
-				ApplicationSecurityConfig.xml will need to be placed in  
-				rembrandt.hibernate.cfg.xml goes
+			Configures the common security module creating the necesary files
+			for Authentication and Authorization
 	-->
 		<target name="config_common_security_module">
 				<echo message="Configuring Common Security Module"/>
@@ -74,17 +70,11 @@
 				<copy file="conf/csm/ApplicationSecurityConfig.xml.template" tofile="csm_deploy/ApplicationSecurityConfig.xml"/>
 				<replaceregexp file = "csm_deploy/ApplicationSecurityConfig.xml" match="@CONTEXT_NAME@" replace="${app.war.name}" flags="g"/>
 				<replaceregexp file = "csm_deploy/ApplicationSecurityConfig.xml" match="@HIBERNATE_CONFIG_FILE@" replace="${csm.hibernate.config.file}" flags="g"/>
-				<!-- Copy it to Jboss Conf folder -->
-		        <copy file="csm_deploy/ApplicationSecurityConfig.xml" todir="${jboss.conf.dir}"/>
-			
 				<!-- Configuring rembrandt.hibernate.cfg.xml -->
 				<echo message="Setting rembrandt.hibernate.cfg.xml"/>
 				<delete file="conf/csm/rembrandt.hibernate.cfg.xml"/>
 				<copy file="conf/csm/rembrandt.hibernate.cfg.xml.template" tofile="csm_deploy/rembrandt.hibernate.cfg.xml"/>
 				<replaceregexp file = "csm_deploy/rembrandt.hibernate.cfg.xml" match="@DATASOURCE_JNDI@" replace="${csm.jndi.connection.datasource}" flags="g"/>
-				<!-- Copy it to Jboss Conf folder -->
-		        <copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${jboss.conf.dir}"/>
-			
 				<!-- Configuring oracle-ds.xml -->
 				<echo message="Configuring oracle-ds.xml"/>
 				<delete file="csm_deploy/oracle-ds.xml"/>
@@ -95,15 +85,26 @@
 				<replaceregexp file = "csm_deploy/oracle-ds.xml" match="@DB_PASSWORD@" replace="${databasePassword}" flags="g"/>
 				<replaceregexp file = "csm_deploy/oracle-ds.xml" match="@ORACLE_DRIVER_CLASS@" replace="${jdbcRuntimeDriver}" flags="g"/>
 				<replaceregexp file = "csm_deploy/oracle-ds.xml" match="@EXCEPTION_SORTER_CLASS@" replace="${csm.exception.sorter.class}" flags="g"/>
-				<!-- Copy it to Jboss Deploy folder -->
-		        <copy file="csm_deploy/oracle-ds.xml" todir="${jboss.deploy.dir}"/>
-
 				<!-- Configuring properties-service.xml -->
 				<echo message="Configuring properties-service.xml"/>
 				<delete file="csm_deploy/properties-service.xml"/>
 				<copy file="conf/csm/properties-service.xml.template" tofile="csm_deploy/properties-service.xml"/>
 				<replaceregexp file = "csm_deploy/properties-service.xml" match="@CSM_APPLICATION_CONFIG_FILE@" replace="${csm.application.config.file}" flags="g"/>
 		</target>
+		<!--
+			TARGET: developement_config_common_security_module
+			Will create and configure the CSM for the current local development
+			environments. Depends on the "config_common_security_module"
+			to create the necesary files
+		-->
+		<target name="developement_config_common_security_module" depends="config_common_security_module">
+			<!-- Copy it to Jboss Deploy folder -->
+		        <copy file="csm_deploy/oracle-ds.xml" todir="${jboss.deploy.dir}"/>
+				<!-- Copy it to Jboss Conf folder -->
+		        <copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${jboss.conf.dir}"/>
+				<!-- Copy it to Jboss Conf folder -->
+		        <copy file="csm_deploy/ApplicationSecurityConfig.xml" todir="${jboss.conf.dir}"/>
+</target>
 
    <!--
 		TARGET: config-webGenome
