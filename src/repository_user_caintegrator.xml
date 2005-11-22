@@ -974,7 +974,7 @@
 
 </class-descriptor>
 <!-- temporary commented out -->
-<!-- 
+
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
@@ -1048,9 +1048,9 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
--->
+
 <class-descriptor
-       class="gov.nih.nci.rembrandt.dbbean.PatientData"
+       class="gov.nih.nci.rembrandt.dbbean.GEPatientData"
        table="PT_DATA_GE">
         <field-descriptor
                  name="institutionId"
