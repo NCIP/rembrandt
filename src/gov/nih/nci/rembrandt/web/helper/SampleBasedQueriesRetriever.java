@@ -4,13 +4,16 @@
 package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
@@ -111,7 +114,7 @@ public class SampleBasedQueriesRetriever implements Serializable {
                            lvb = new LabelValueBean((String)predefined.get(i),(String)predefined.get(i));
                            allPredefinedAndSampleSetNames.add(lvb);
                        }
-                       //get samples
+                       //getAllSampleSetNames();
         //}
         return allPredefinedAndSampleSetNames;
         }
@@ -133,11 +136,29 @@ public class SampleBasedQueriesRetriever implements Serializable {
 				return predefinedQueryMap.get(queryName);
 			}
 			else{
-				Queriable queriable = cacheManager.getQuery(sessionID, queryName);
-				if(queriable instanceof ClinicalDataQuery){
-					return (ClinicalDataQuery) queriable;
+				/*
+				 * This is where we will retrieve a result set of sample ids that was created 
+				 * when the report waas saved.
+
+				 */
+				CompoundQuery resultSetCompoundQuery = (CompoundQuery) cacheManager.getQuery(sessionID, queryName);
+	        	/*
+	    		 * At this time there is only a single query in any result set.
+	    		 * So let me grab that single query out of the compound query 
+	    		 * and extract it's sampleCriteria to apply to the compoundQuery
+	    		 */
+		    		Queriable query1 = resultSetCompoundQuery.getAssociatiedQueries()[0];
+		    		SampleCriteria sampleCrit = null;
+		    		if(query1 instanceof Query){
+		    			sampleCrit = ((Query)query1).getSampleIDCrit();
+				        ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+				        clinicalDataQuery.setQueryName(queryName);
+				        clinicalDataQuery.setSampleIDCrit(sampleCrit);
+
+						return clinicalDataQuery;
+		    		}
+
 				}
-			}
 		}
 		return null;
 	}
