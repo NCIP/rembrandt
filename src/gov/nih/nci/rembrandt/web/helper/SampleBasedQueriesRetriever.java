@@ -108,14 +108,23 @@ public class SampleBasedQueriesRetriever implements Serializable {
         sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionID);
         
          List predefined = new ArrayList(getAllPredefinedDiseaseQueryNames());
-         List sampleSet = new ArrayList(sessionCriteriaBag.getUsetListNames(ListType.SampleIdentifierSet));
+         List sampleSet = new ArrayList(getAllSampleSetNames(sessionID));
+         /*
+          * TODO:Change --- For now...we are using the "old way" of retrieving sampleSet names by calling
+          * the method getAllSampleSetNames(String) above. In the near future,
+          * sampleSets (lists) will be saved as a "type" and stored as a userList like so: 
+          * List sampleSet = new ArrayList(sessionCriteriaBag.getUsetListNames(ListType.SampleIdentifierSet));
+          */
                    allPredefinedAndSampleSetNames = new ArrayList();
                        for(int i =0; i < predefined.size(); i++){
                            lvb = new LabelValueBean((String)predefined.get(i),(String)predefined.get(i));
                            allPredefinedAndSampleSetNames.add(lvb);
                        }
-                       //getAllSampleSetNames();
-        //}
+                       for(int i =0; i < sampleSet.size(); i++){
+                           lvb = new LabelValueBean((String)sampleSet.get(i),(String)sampleSet.get(i));
+                           allPredefinedAndSampleSetNames.add(lvb);
+                       }
+        
         return allPredefinedAndSampleSetNames;
         }
     

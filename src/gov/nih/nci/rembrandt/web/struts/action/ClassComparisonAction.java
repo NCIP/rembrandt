@@ -95,6 +95,7 @@ public class ClassComparisonAction extends DispatchAction {
                 for(int i=0; i<classComparisonQueryForm.getSelectedGroups().length; i++){
                     ClinicalDataQuery clinicalDataQuery= sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
                     //add logic to if there is no predefined query.. use the given samples from the user
+                    
                     //bag and construct a clinical query to add into the collection
                     clinicalQueryCollection.add(clinicalDataQuery);
                 }

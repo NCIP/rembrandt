@@ -244,9 +244,6 @@ public class PrincipalComponentForm extends ActionForm {
        // Analysis name cannot be blank
         errors = UIFormValidator.validateQueryName(analysisResultName, errors);
         
-       //User must select a comparison group
-        errors = UIFormValidator.validateSelectedGroup(selectedGroupName, errors);
-        
        
         return errors;
     }

@@ -103,25 +103,26 @@ public class PrincipalComponentAction extends DispatchAction {
         
         
         //Create the clinical Query for this anlysisQuery DTO
+        
         ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-        group1.setQueryName(principalComponentForm.getSelectedGroupName());
+        
+        if(principalComponentForm.getSelectedGroupName().equals("")||principalComponentForm.getSelectedGroupName().length()==0){
+            group1.setQueryName("allSampleClinicalQuery");
+            principalComponentAnalysisQueryDTO.setComparisonGroup(group1);
+        }
         
         //get either predefined group or user selected
-        if(principalComponentForm.getSelectedGroupName()!=null){
+        else if(!principalComponentForm.getSelectedGroupName().equals("")||principalComponentForm.getSelectedGroupName().length()!=0){
             SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
-            ClinicalDataQuery clinicalDataQuery= sampleBasedQueriesRetriever.getQuery(sessionId, principalComponentForm.getSelectedGroupName());
-            if(clinicalDataQuery!=null){
-                DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
+            group1 = sampleBasedQueriesRetriever.getQuery(sessionId, principalComponentForm.getSelectedGroupName());
+            if(group1!=null){
+                /*DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
                 diseaseCrit.setDisease(new DiseaseNameDE(principalComponentForm.getSelectedGroupName()));
-                group1.setDiseaseOrGradeCrit(diseaseCrit);
+                group1.setDiseaseOrGradeCrit(diseaseCrit);*/
+                group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+                principalComponentAnalysisQueryDTO.setComparisonGroup(group1);
+                
             }
-            else{
-                //add sample functionality!
-                logger.debug("use a list of samples to construct criteria");
-                SampleCriteria sampleCriteria = new SampleCriteria();
-            }
-            group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-            principalComponentAnalysisQueryDTO.setComparisonGroup(group1);
             
         }
         
