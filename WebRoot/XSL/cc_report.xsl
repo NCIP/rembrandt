@@ -39,7 +39,17 @@
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 	
 
-	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
+	<xsl:variable name="filterNone" select = "Row[@name='dataRow']" />
+	<xsl:variable name="filterRecordOut" select="Row[@name='dataRow']/Cell[position() = 3 and Data != '0.0010']" />
+	<xsl:variable name="filterRecordIn" select="Row[@name='dataRow']/Cell[position() = 3 and Data = '0.0010']" />
+	
+	<xsl:variable name="recordCount" select="count($filterNone)" />
+	
+	<hr/>
+	<br/><br/>
+		<xsl:value-of select="count($filterRecordOut)"/> <b> - </b> 
+		<xsl:value-of select="count($filterRecordIn)"/>
+	<hr/>
 	
 	<xsl:if test="$recordCount > 0">
 	
