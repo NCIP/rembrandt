@@ -261,7 +261,7 @@
 		
 		<!-- get each data row only -->
 		<!--  should be going filtering here, also copy to record count -->
-		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and Cell[3]/Data = $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'] | (Row[@name='dataRow' and Cell[3]/Data != $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'show']">
+		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and Cell[3]/Data != $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'] | (Row[@name='dataRow' and Cell[3]/Data = $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'show']">
 			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
 
 			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	
@@ -348,7 +348,7 @@
   	</div>
   	</xsl:if><!-- no records -->
   	<xsl:if test="$recordCount = 0">
-  		<h3 style="text-align:center; margin-top:200px;">There was an error generating your report.  No records were returned.  Please try again later. <br/><a href="javascript:window.close()">Close</a></h3>
+  		<h3 style="text-align:center; margin-top:200px;">No records were returned.  Please try again later. <br/><a href="javascript:window.close()">Close</a><br/><a href="javascript:history.back()">Back</a></h3>
   	</xsl:if>
   </xsl:for-each>
 
