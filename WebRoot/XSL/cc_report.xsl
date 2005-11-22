@@ -40,17 +40,19 @@
 	
 
 	<xsl:variable name="filterNone" select = "Row[@name='dataRow']" />
-	<xsl:variable name="filterRecordOut" select="Row[@name='dataRow']/Cell[position() = 3 and Data != '0.0010']" />
-	<xsl:variable name="filterRecordIn" select="Row[@name='dataRow']/Cell[position() = 3 and Data = '0.0010']" />
+	<xsl:variable name="filterRecordOut" select="Row[@name='dataRow']/Cell[position() = 3 and Data != $p_pval_filter_value]" />
+	<xsl:variable name="filterRecordIn" select="Row[@name='dataRow']/Cell[position() = 3 and Data = $p_pval_filter_value]" />
 	
-	<xsl:variable name="recordCount" select="count($filterNone)" />
 	
-	<hr/>
-	<br/><br/>
-		<xsl:value-of select="count($filterRecordOut)"/> <b> - </b> 
-		<xsl:value-of select="count($filterRecordIn)"/>
-	<hr/>
+	<xsl:variable name="recordCount">
+		<xsl:choose>
+			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'show'"><xsl:value-of select="count($filterRecordIn)"/></xsl:when>
+			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'"><xsl:value-of select="count($filterRecordOut)"/></xsl:when>
+			<xsl:otherwise><xsl:value-of select="count($filterNone)"/></xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	
+		
 	<xsl:if test="$recordCount > 0">
 	
 		<xsl:variable name="qName" select="@queryName" />
@@ -113,10 +115,10 @@
 							<xsl:text>&#160;</xsl:text>
 							P-Value 
 							<input type="text" name="p_pval_filter_value" size="4" value="{$p_pval_filter_value}" />
-							<input type="hidden" name="p_page" value="{$p_page}"/>
-							<input type="hidden" name="p_step" value="{$p_step}"/>
+							<input type="hidden" name="p_page" value="0"/>
+							<input type="hidden" name="p_step" value="25"/>
 							<input type="submit" name="filter_submit" value="Filter" />
-							<input type="submit" name="filter_submit" value="Reset (Show All)" onclick="javascript:document.pval_filter_form.p_pval_filter_value='';" />
+							<input type="submit" name="filter_submit" value="Reset (Show All)" onclick="javascript:document.pval_filter_form.p_pval_filter_value.value='';" />
 						</form>
 					</div>
 		
@@ -259,9 +261,9 @@
 		
 		<!-- get each data row only -->
 		<!--  should be going filtering here, also copy to record count -->
-		<xsl:for-each select="Row[(@name='dataRow')] ">
+		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and Cell[3]/Data = $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'] | (Row[@name='dataRow' and Cell[3]/Data != $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'show']">
 			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
-			<xsl:if test="$p_pval_filter_value = '' or (($p_pval_filter_mode = 'hide' and $p_pval_filter_value != $pvalue) or ($p_pval_filter_mode = 'show' and $p_pval_filter_value = $pvalue))">
+
 			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	
 				
 					<tr id="{$pvalue}" name="{$pvalue}">
@@ -335,7 +337,7 @@
 		</xsl:comment>
 			</xsl:if>
 <!--  close TR filter -->
-			</xsl:if>
+			
 		</xsl:for-each>
 	</form> <!--  close PRB samples form -->
   	</table>
@@ -346,13 +348,16 @@
   	</div>
   	</xsl:if><!-- no records -->
   	<xsl:if test="$recordCount = 0">
-  		<h3 style="text-align:center; margin-top:200px;">There was an error generating your report.  Please try again later. <br/><a href="javascript:window.close()">Close</a></h3>
+  		<h3 style="text-align:center; margin-top:200px;">There was an error generating your report.  No records were returned.  Please try again later. <br/><a href="javascript:window.close()">Close</a></h3>
   	</xsl:if>
   </xsl:for-each>
 
   <script language="javascript">
   if(document.highlight_form){
- 	selectHOperand(document.highlight_form.p_highlight_op, '<xsl:value-of select="$p_highlight_op"/>');
+ 	selectHOperand(document.pval_filter_form.p_pval_filter_value, '<xsl:value-of select="$p_pval_filter_value"/>');
+ 	}
+  if(document.pval_filter_form){
+ 	selectHideShowOnly(document.pval_filter_form.p_pval_filter_mode, '<xsl:value-of select="$p_pval_filter_mode"/>');
  	}
   </script>
 

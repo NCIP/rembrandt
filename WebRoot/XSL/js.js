@@ -192,6 +192,16 @@ function selectHOperand(select, value)	{
 	select.value = value;
 }
 
+function selectHideShowOnly(select, value)	{
+	for(i=0; i<select.length; i++)	{
+
+		if(select[i].value == value)	{
+			select[i].checked = "true";
+			select[i].checked = true;
+		}
+	}
+}
+
 function showCNumberFilter(v, id)	{
 	if(v == 'copy number')	{
 		displayDiv(id, "block");
