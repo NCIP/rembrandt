@@ -15,10 +15,7 @@
 	 	      <fileset dir="${source.nondeploy.lib.dir}">
 	 	        <include name="*.jar"/>
 	 	      </fileset>
-             <fileset dir="${jboss.lib.dir}">
-                <include name="jboss-j2ee.jar"/>
-             </fileset>
-         </classpath>
+           </classpath>
 		</javac>
 	</target>
 	<!--
@@ -30,7 +27,7 @@
 		urlDbalias - The URL to the database that we are going to use
 		databasePassword - The database password
 	-->
-	<target name="config_database" depends="config_logging, config_analysis_server, config-jbossmq">
+	<target name="config_database" depends="config_logging, config_analysis_server">
 				<delete file="src/repository_database.xml"/>
 			    <copy file="src/repository_database.xml.template" tofile="src/repository_database.xml"/>
 				<replaceregexp file = "src/repository_database.xml" match="__DB_USER__" replace="${databaseUser}" flags="g"/>
@@ -52,7 +49,7 @@
 		Configures the JMS.properties file using the settings in the 
 		build.properties file
 	-->
-	<target name="config_analysis_server">
+	<target name="config_analysis_server" depends="config_common_security_module">
 				<delete file="src/jms.properties"/>
 			    <copy file="src/jms.properties.template" tofile="src/jms.properties"/>
 				<replaceregexp file = "src/jms.properties" match="@JBOSS_URL@" replace="${jboss.url}" flags="g"/>
@@ -62,7 +59,7 @@
 			Configures the common security module creating the necesary files
 			for Authentication and Authorization
 	-->
-		<target name="config_common_security_module">
+		<target name="config_common_security_module" >
 				<echo message="Configuring Common Security Module"/>
 				<!-- Configuring ApplicationSecurityConfig.xml -->
 				<echo message="Setting ApplicationSecurityConfig.xml"/>
