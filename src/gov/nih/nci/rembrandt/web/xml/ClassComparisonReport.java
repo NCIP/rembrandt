@@ -212,7 +212,7 @@ public class ClassComparisonReport{
 			}
 			else {
 				//TODO: handle this error
-				sb.append("<br><Br>Gene Container is empty<br>");
+				sb.append("<br><Br>Class Comparison is empty<br>");
 			}
 		    
 		    return document;
