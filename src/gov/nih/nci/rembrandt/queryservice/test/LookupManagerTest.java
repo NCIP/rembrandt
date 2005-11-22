@@ -12,6 +12,7 @@ import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.CytobandLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
+import gov.nih.nci.rembrandt.queryservice.validation.Validator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -229,8 +230,8 @@ public void testGeneSymbolAlias(){
     	for (Iterator iter = symbols.iterator(); iter.hasNext();) {
 			String symbol = (String) iter.next();
 			System.out.print("user Input: "+symbol+"\n");
-			if(!LookupManager.isGeneSymbolFound(symbol)){
-				AllGeneAliasLookup[] allGeneAlias = LookupManager.searchGeneKeyWord(symbol);
+			if(!Validator.isGeneSymbolFound(symbol)){
+				AllGeneAliasLookup[] allGeneAlias = Validator.searchGeneKeyWord(symbol);
 				if(allGeneAlias != null){
 					for(int i =0; i < allGeneAlias.length ; i++){
 						AllGeneAliasLookup alias = allGeneAlias[i];

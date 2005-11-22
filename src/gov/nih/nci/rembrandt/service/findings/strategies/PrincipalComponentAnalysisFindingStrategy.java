@@ -5,6 +5,9 @@ import gov.nih.nci.caintegrator.analysis.messaging.ReporterGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
@@ -23,6 +26,7 @@ import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -30,9 +34,13 @@ import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.validation.Validator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -54,6 +62,9 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 	private String taskId;
 	private ClinicalDataQuery clinicalDataQuery;
 	private GeneExpressionQuery geneExprQuery;
+	private Collection<CloneIdentifierDE> reportersNotFound;
+	private Collection<GeneIdentifierDE> genesNotFound;
+	private Collection<SampleIDDE> samplesNotFound;
 	private PrincipalComponentAnalysisRequest pcaRequest;
 	private PrincipalComponentAnalysisFinding pcaFinding;
 	private AnalysisServerClientManager analysisServerClientManager;
@@ -98,24 +109,6 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 		if(myQueryDTO.getComparisonGroup() != null){
 			clinicalDataQuery = (ClinicalDataQuery) myQueryDTO.getComparisonGroup();
 		}
-		if(myQueryDTO.getGeneIdentifierDEs() != null ||
-				myQueryDTO.getReporterIdentifierDEs() != null){
-			geneExprQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-	    	geneExprQuery.setQueryName(myQueryDTO.getQueryName());
-	    	geneExprQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-	    	
-		    if(myQueryDTO.getGeneIdentifierDEs() != null){
-		    	GeneIDCriteria geneCriteria = new GeneIDCriteria();
-		    	geneCriteria.setGeneIdentifiers(myQueryDTO.getGeneIdentifierDEs());
-		    	geneExprQuery.setGeneIDCrit(geneCriteria);
-		    }
-		    	
-		    if(myQueryDTO.getReporterIdentifierDEs() != null){
-		    	CloneOrProbeIDCriteria reporterCriteria = new CloneOrProbeIDCriteria();
-		    	reporterCriteria.setIdentifiers(myQueryDTO.getReporterIdentifierDEs()); 
-		    	geneExprQuery.setCloneOrProbeIDCrit(reporterCriteria);
-		    }    	
-		}
 	    
 		return flag;
 	}
@@ -146,12 +139,28 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 		 		if(resultsContainer != null)	{
 		 			if(view instanceof ClinicalSampleView){
 		 				try {
-							Collection<String> sampleIDs = StrategyHelper.extractSampleIds(resultsContainer);
+		 					//1. Get the sample Ids from the return Clinical query
+							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
+							//2. validate samples so that GE data exsists for these samples
+							Collection<SampleIDDE> validSampleIDDEs = Validator.validateSampleIds(sampleIDDEs);
+							//3. Extracts sampleIds as Strings
+							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
 							if(sampleIDs != null){
-								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),sampleIDs.size());
+								//3.1 add them to SampleGroup
+								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSampleIDDEs.size());
 								sampleGroup.addAll(sampleIDs);
+//								//3.2 Find out any samples that were not processed  
+								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
+								set.addAll(sampleIDDEs); //samples from the original query
+								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
+								samplesNotFound = set;
+								
 							}
 						} catch (OperationNotSupportedException e) {
+							logger.error(e.getMessage());
+				  			throw new FindingsQueryException(e.getMessage());
+						} catch (Exception e) {
+							e.printStackTrace();
 							logger.error(e.getMessage());
 				  			throw new FindingsQueryException(e.getMessage());
 						}
@@ -161,41 +170,65 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			}
 		}
 		//Get Reporters from DB
-		if(geneExprQuery != null){
-			CompoundQuery compoundQuery;
-			Resultant resultant;
-			try {
-				compoundQuery = new CompoundQuery(geneExprQuery);
-				compoundQuery.setAssociatedView(ViewFactory
-	                .newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
-	  		}
-	  		catch (Throwable t)	{
-	  			logger.error("Error Executing the query/n"+ t.getMessage());
-	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
-	  		}
+		if(myQueryDTO.getGeneIdentifierDEs() != null ||
+				myQueryDTO.getReporterIdentifierDEs() != null){
+			if(	myQueryDTO.getReporterIdentifierDEs() != null){
+					Collection<CloneIdentifierDE> validCloneDEs;
+					try {
+						validCloneDEs = Validator.validateReporters(myQueryDTO.getReporterIdentifierDEs());
 
-			if(resultant != null) {      
-		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
-		 		Viewable view = resultant.getAssociatedView();
-		 		if(resultsContainer != null)	{
-		 			if(view instanceof GeneSingleSampleView){
-		 				try {
-							Collection<String> reporters = StrategyHelper.extractReporters(resultsContainer);
-							if(reporters != null){
-								this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
-								reporterGroup.addAll(reporters);
-								
-							}
-						} catch (OperationNotSupportedException e) {
-							logger.error(e.getMessage());
-				  			throw new FindingsQueryException(e.getMessage());
-						}
+					//Create a set of submitted Reporters 
+					Set<CloneIdentifierDE> set = new HashSet<CloneIdentifierDE>();
+					set.addAll(myQueryDTO.getReporterIdentifierDEs());
+					// Find out if any reports were not validated
+					set.removeAll(validCloneDEs);
+					reportersNotFound = set;
+					
+					Collection<String> reporters = StrategyHelper.extractReporters(validCloneDEs);
+					if(reporters != null){
+						this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
+						reporterGroup.addAll(reporters);
+						
+					}
+					} catch (Exception e) {
+						e.printStackTrace();
+						logger.error(e.getMessage());
+			  			throw new FindingsQueryException(e.getMessage());
+					}
+				
+				}
+			if(	myQueryDTO.getGeneIdentifierDEs() != null){
+				Collection<GeneIdentifierDE> validGeneDEs;
+				try {
+					validGeneDEs = Validator.validateGenes(myQueryDTO.getGeneIdentifierDEs());
 
-	 				}	
-		 		}
+				//Create a set of submitted Reporters 
+				Set<GeneIdentifierDE> set = new HashSet<GeneIdentifierDE>();
+				set.addAll(myQueryDTO.getGeneIdentifierDEs());
+				// Find out if any reports were not validated
+				set.removeAll(validGeneDEs);
+				genesNotFound = set;
+				
+				Collection<String> reporters = StrategyHelper.extractGenes(validGeneDEs);
+				if(reporters != null){
+					this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
+					reporterGroup.addAll(reporters);
+					
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error(e.getMessage());
+		  			throw new FindingsQueryException(e.getMessage());
+				}
+			
 			}
-		}
+			}
+		
+
+
+
+
+
 			return true;
 	}
 

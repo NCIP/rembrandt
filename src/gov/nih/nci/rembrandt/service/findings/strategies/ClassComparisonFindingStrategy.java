@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.service.findings.strategies;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
@@ -22,15 +23,19 @@ import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.validation.Validator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.jms.JMSException;
@@ -51,6 +56,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	private Collection<ClinicalDataQuery> clinicalQueries;
 	@SuppressWarnings({"unchecked"})
 	private Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>(); // = testmethod();
+	private Collection<SampleIDDE> samplesNotFound;
 	private String sessionId;
 	private String taskId;
 	private ClassComparisonRequest classComparisonRequest = null;
@@ -149,13 +155,30 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 			 		if(resultsContainer != null)	{
 			 			if(view instanceof ClinicalSampleView){
 			 				try {
-								Collection<String> sampleIDs = StrategyHelper.extractSampleIds(resultsContainer);
+			 					//1. Get the sample Ids from the return Clinical query
+								Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
+								//2. validate samples so that GE data exsists for these samples
+								Collection<SampleIDDE> validSampleIDDEs = Validator.validateSampleIds(sampleIDDEs);
+								//3. Extracts sampleIds as Strings
+								Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
 								if(sampleIDs != null){
-									SampleGroup group = new SampleGroup(clinicalDataQuery.getQueryName(),sampleIDs.size());
-									group.addAll(sampleIDs);
-									sampleGroups.add(group);
+									//3.1 add them to SampleGroup
+									SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSampleIDDEs.size());
+									sampleGroup.addAll(sampleIDs);
+									sampleGroups.add(sampleGroup);
+//									//3.2 Find out any samples that were not processed  
+									Set<SampleIDDE> set = new HashSet<SampleIDDE>();
+									set.addAll(sampleIDDEs); //samples from the original query
+									//3.3 Remove all samples that are validated	
+									set.removeAll(validSampleIDDEs);
+									samplesNotFound = set;
+									
 								}
 							} catch (OperationNotSupportedException e) {
+								logger.error(e.getMessage());
+					  			throw new FindingsQueryException(e.getMessage());
+							} catch (Exception e) {
+								e.printStackTrace();
 								logger.error(e.getMessage());
 					  			throw new FindingsQueryException(e.getMessage());
 							}
@@ -163,10 +186,11 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 		 				}	
 			 		}
 				}
-		  }
-			    return true;
+			 }
 		}
-		return false;
+	    return true;
+
+
 	}
 
 	/* (non-Javadoc)

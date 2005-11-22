@@ -3,6 +3,9 @@
  */
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
+import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
@@ -28,8 +31,8 @@ public class StrategyHelper {
 	 * @return --A collection of all the ResultsContainer sampleId Domain Elements
 	 */
 	@SuppressWarnings("unchecked")
-	public static Collection<String> extractSampleIds(ResultsContainer container)throws OperationNotSupportedException{
-		Collection<String> sampleIds = new ArrayList();
+	public static Collection<SampleIDDE> extractSampleIDDEs(ResultsContainer container)throws OperationNotSupportedException{
+		Collection<SampleIDDE> sampleIds = new ArrayList<SampleIDDE>();
 		SampleViewResultsContainer svrContainer = null;
 		/*
 		 * These are currently the only two results containers that we have to
@@ -47,7 +50,7 @@ public class StrategyHelper {
 			Collection bioSpecimen = svrContainer.getBioSpecimenResultsets();
 			for(Iterator i = bioSpecimen.iterator();i.hasNext();) {
 				SampleResultset sampleResultset =  (SampleResultset)i.next();
-				sampleIds.add(sampleResultset.getBiospecimen().getValue().toString());
+				sampleIds.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
 			}
 		}else {
 			throw new OperationNotSupportedException("We are not able to able to extract SampleIds from: "+container.getClass());
@@ -76,5 +79,29 @@ public class StrategyHelper {
 			}
 		}
 		return reporters;
+	}
+	public static Collection<String> extractReporters(Collection<CloneIdentifierDE> reporterDEs)throws OperationNotSupportedException{
+		Collection<String> reporters = new ArrayList<String>();
+		for(CloneIdentifierDE reporter: reporterDEs){
+			reporters.add(reporter.getValueObject());
+		}
+		return reporters;
+	}
+	public static Collection<String> extractSamples(Collection<SampleIDDE> sampleDEs)throws OperationNotSupportedException{
+		Collection<String> samples = new ArrayList<String>();
+		for(SampleIDDE reporter: sampleDEs){
+			samples.add(reporter.getValueObject());
+		}
+		return samples;
+	}
+	public static Collection<String> extractSamples(ResultsContainer container)throws OperationNotSupportedException{
+		return extractSamples(extractSampleIDDEs( container));
+	}
+	public static Collection<String> extractGenes(Collection<GeneIdentifierDE> geneDEs)throws OperationNotSupportedException{
+		Collection<String> genes = new ArrayList<String>();
+		for(GeneIdentifierDE reporter: geneDEs){
+			genes.add(reporter.getValueObject());
+		}
+		return genes;
 	}
 }
