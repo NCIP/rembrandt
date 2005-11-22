@@ -50,13 +50,21 @@ public class RembrandtImageFileHandler {
 		 }
 	}
 
-	private String createUniqueChartName(String extension) {
+	public String createUniqueChartName(String extension) {
 		double time = (double)System.currentTimeMillis();
 		double random = (1-Math.random());
 		String one = String.valueOf(random*time);
 		String finalAnswer = one.substring(10);
 		return finalAnswer+"."+extension;
 	}
+    
+    public String createUniqueMapName() {
+        double time = (double)System.currentTimeMillis();
+        double random = (1-Math.random());
+        String one = String.valueOf(random*time);
+        String finalAnswer = one.substring(10);
+        return finalAnswer;
+    }
 	/**
 	 * @return Returns the uRLPath.
 	 */
@@ -76,4 +84,7 @@ public class RembrandtImageFileHandler {
 	public String getImageTag() {
 		return "<img src=\""+getFinalURLPath()+"\" width="+imageWidth+" height="+imageHeight+" border=0>";
 	}
+    public String getImageTag(String mapFileName){
+        return "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + "id=\"geneChart\"" + " border=0>";
+    }
 }

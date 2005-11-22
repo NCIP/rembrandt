@@ -34,6 +34,7 @@
 		<attribute>
 			<name>taskId</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<name>components</name>
@@ -42,6 +43,7 @@
 		<attribute>
 			<name>colorBy</name>
 			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 	

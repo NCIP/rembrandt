@@ -38,6 +38,13 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.StandardEntityCollection;
 
+/**
+ * this class generates a PCAPlot tag which will take a taskId, the components
+ * with which to compare, and possibly a colorBy attribute which colors the
+ * samples either by Disease or Gender. Disease is colored by default.
+ * @author rossok
+ *
+ */
 public class PCAPlotTag extends AbstractGraphingTag {
 
 	private String beanName = "";
@@ -74,7 +81,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
             
             //check the components to see which graph to get
 			if(components.equalsIgnoreCase("PC1vsPC2")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC1,PCAcomponent.PC2,PCAcolorByType.Disease);
+                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC1,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             if(components.equalsIgnoreCase("PC1vsPC3")){
                 chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC1,PCAcomponent.PC3,PCAcolorByType.Disease);
@@ -86,11 +93,13 @@ public class PCAPlotTag extends AbstractGraphingTag {
             RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
 			//The final complete path to be used by the webapplication
 			String finalPath = imageHandler.getFinalPath();
+            String finalURLpath = imageHandler.getFinalURLPath();
 			/*
 			 * Create the actual charts, writing it to the session temp folder
 			*/ 
             ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-            PrintWriter writer = new PrintWriter(new FileWriter("imageMap"));
+            String mapName = imageHandler.createUniqueMapName();
+            PrintWriter writer = new PrintWriter(new FileWriter(mapName));
 			ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 700,500,info);
             ImageMapUtil.writeBoundingRectImageMap(writer,"PCAimageMap",info,true);
             writer.close();
@@ -116,8 +125,11 @@ public class PCAPlotTag extends AbstractGraphingTag {
                 }
              }
             
-			
-		    out.print(imageHandler.getImageTag());
+            out.print(ImageMapUtil.returnBoundingRectImageMap(writer,mapName,true,info));
+		    out.print("<img src=\""+finalURLpath+"\" usemap=\"#"+mapName + "\"" + "id=\"geneChart\"" + " border=0>");
+            
+            
+            //(imageHandler.getImageTag(mapFileName));
         
 		}catch (IOException e) {
 			logger.error(e);

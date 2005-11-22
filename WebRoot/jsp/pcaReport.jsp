@@ -30,9 +30,9 @@ if(request.getParameter("key")!=null)
 	key = (String) request.getParameter("key");
 %>
 the task Id is <%=key%>.<br />
-<p><graphing:PCAPlot taskId="pcatest" components="PC1vsPC3" /></p>
-<p><graphing:PCAPlot taskId="pcatest" components="PC1vsPC2" /></p>
-<p><graphing:PCAPlot taskId="pcatest" components="PC2vsPC3" /></p>
+<p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC2" colorBy="Gender" /></p>
+<p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC3" /></p>
+<p><graphing:PCAPlot taskId="<%=key%>" components="PC2vsPC3" /></p>
 </p>
 
 </body>
