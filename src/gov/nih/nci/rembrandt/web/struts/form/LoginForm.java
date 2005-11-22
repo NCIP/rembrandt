@@ -61,6 +61,7 @@ public final class LoginForm extends ActionForm {
 
 		if (credentials != null && credentials.authenticated()) {
 			userLoggedIn = true;
+			request.getSession().setAttribute("UserCredentials",credentials);
 		} else {
 			errors.add("Authentication", new ActionError(
 					"User is not authenticated"));
