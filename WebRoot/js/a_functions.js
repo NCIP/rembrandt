@@ -1,15 +1,28 @@
 var vr_count = 0;
 var vr_totalRuns = 0;
 var vr_alldone = true;
-	
-var times_to_check = 10;	
+
+var vr_slow_checker;
+var slow_check_flag = false;
+var sid = "";
+
+var times_to_check = 3;	
 			
 function A_checkAllFindingStatus(sessionId)	{
+	if(sid=="") sid = sessionId;
 	showLoading(true);
 	vr_totalRuns++;
 	Inbox.checkAllStatus(sessionId, A_checkFindingStatus_cb);
 	if(vr_totalRuns > times_to_check) 	{ //avoid infinte loops
 		clearInterval(vr_checker);
+		
+		//lets slow the interval for checking...1 minute
+		if(!slow_check_flag)	{
+			slow_check_flag = true;
+			//alert("slow it down");
+			vr_slow_checker = setInterval("A_checkAllFindingStatus(sid)", 60000);
+		}
+		
 	}
 }
 
@@ -37,6 +50,15 @@ function A_checkFindingStatus_cb(tasks)	{
 					curElImg.src = "images/check.png";
 					curElLink.onclick = "";
 					curElLink.removeAttribute("onclick");
+				}
+			}
+			else if(tasks[key]["status"] == 'error')	{
+				//its done, see if the innerhtml already says done	
+				if(curEl.innerHTML != "error")	{
+					curEl.innerHTML = "error";
+					curElImg.src = "images/error.png";
+					//curElLink.onclick = "";
+					//curElLink.removeAttribute("onclick");
 				}
 			}
 			else	{

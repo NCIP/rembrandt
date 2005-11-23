@@ -88,7 +88,7 @@ String helpLinkClose = "', 350, 500);\">"+
 			<script language="javascript" src="js/a_functions.js"></script>
 			<script language="javascript">	
 				//testMap("testingtesting");
-				setTimeout("A_checkAllFindingStatus('<%=session.getId()%>')", 1000);
+				setTimeout("A_checkAllFindingStatus('<%=session.getId()%>')", 0200);
 				var vr_checker = setInterval("A_checkAllFindingStatus('<%=session.getId()%>')", 5000);
 
 			</script>
@@ -112,11 +112,11 @@ String helpLinkClose = "', 350, 500);\">"+
 				
 				String currentStatus = "running";
 				if(f.getStatus() == FindingStatus.Completed)
-						currentStatus = "<b id=\"" +f.getTaskId() + "_status\">completed</b>  <img src='images/check.png' alt='running' id=\"" + f.getTaskId() + "_image\"/>";
+						currentStatus = "<b id=\"" +f.getTaskId() + "_status\">completed</b>  <img src='images/check.png' alt='complete' id=\"" + f.getTaskId() + "_image\"/>";
 				else if(f.getStatus() == FindingStatus.Running)
 						currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
 				else if(f.getStatus() == FindingStatus.Error)
-						currentStatus = "error";
+						currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >error</b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
 
 
 				out.println("<span style='color:red; float:right'>" + currentStatus + "</span> ");
