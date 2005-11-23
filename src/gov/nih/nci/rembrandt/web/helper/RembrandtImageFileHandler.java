@@ -60,7 +60,7 @@ public class RembrandtImageFileHandler {
 			imageHeight = height;
 		}
 		//Path that will be used in the <img /> tag without the file name
-		URLPath = "\\images\\"+userSessionId+"\\";
+		URLPath = "images\\"+userSessionId+"\\";
 		//the actual unique chart name
 		chartName = createUniqueChartName(imageTypeExtension);
 		/*
