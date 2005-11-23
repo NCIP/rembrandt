@@ -26,7 +26,7 @@ public class RembrandtImageFileHandler {
 	//The specific temp directory for the application
 	private static String tempDir = "";
 	private static Logger logger = Logger.getLogger(RembrandtImageFileHandler.class);
-	private static String fileSeperator = File.pathSeparator;
+	private static String fileSeperator = File.separator;
 	
 	public RembrandtImageFileHandler(String userSessionId,String imageTypeExtension, int width, int height) {
 		if(tempDir.equals("")) {
