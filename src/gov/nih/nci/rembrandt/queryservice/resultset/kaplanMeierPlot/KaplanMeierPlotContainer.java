@@ -111,14 +111,16 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	    Collection samples = getBioSpecimenResultsets();
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
+			if(sample != null && sample.getSurvivalLength()!= null && sample.getCensor()!= null && sample.getCensor().getValue() != null){
 			ReporterResultset reporterResultset = sample.getReporterResultset(reporterName);
-			if (reporterResultset != null && reporterResultset.getValue() != null){
-				Long time = (Long) (sample.getSurvivalLength().getValue());
-				Integer censor = new Integer((sample.getCensor().getValue().toString()));
-				DatumDE datumDE = reporterResultset.getValue();
-                Double value = (Double) datumDE.getValue();
-                KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
-				kmSampleInfoArray.add(kmSampleInfo);
+				if (reporterResultset != null && reporterResultset.getValue() != null){
+					Long time = (Long) (sample.getSurvivalLength().getValue());
+					Integer censor = new Integer((sample.getCensor().getValue().toString()));
+					DatumDE datumDE = reporterResultset.getValue();
+	                Double value = (Double) datumDE.getValue();
+	                KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+					kmSampleInfoArray.add(kmSampleInfo);
+				}
 			}
 		}
 		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
