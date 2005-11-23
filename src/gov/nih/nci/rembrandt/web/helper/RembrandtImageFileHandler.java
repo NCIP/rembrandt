@@ -143,7 +143,7 @@ public class RembrandtImageFileHandler {
 	 * @return the final image tag
 	 */
     public String getImageTag(String mapFileName){
-    	String tag = "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + "id=\"geneChart\"" + " border=0>";
+    	String tag = "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + " id=\"geneChart\"" + " border=0>";
     	logger.debug("Returned Image Tag: "+tag);
     	return tag;
     }
