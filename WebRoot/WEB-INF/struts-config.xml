@@ -173,7 +173,7 @@
 	</action>
 	
 	<action path="/classcomparison"
-	    input="nautilus.classComparison"
+	    input="/classcomparisonInit.do?method=setup"
 		type="gov.nih.nci.rembrandt.web.struts.action.ClassComparisonAction"
 		name="classComparisonForm"
 		scope="request"
