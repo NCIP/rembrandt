@@ -17,6 +17,7 @@ import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
  *
  */
 public class RembrandtImageFileHandler {
+	private String finalPath = "";
 	private String URLPath;
 	private String chartName;
 	//default values
@@ -55,20 +56,23 @@ public class RembrandtImageFileHandler {
 				tempDir = RembrandtContextListener.getContextPath();
 			}
 		}
+		logger.debug("Temp Directory has been set to:"+tempDir);
 		if(width!=0&&height!=0) {
 			imageWidth = width;
 			imageHeight = height;
 		}
+		String sessionTempPath = tempDir+"/images/"+userSessionId+"/";
 		//Path that will be used in the <img /> tag without the file name
-		URLPath = "images\\"+userSessionId+"\\";
+		URLPath = "\\images\\"+userSessionId+"\\";
 		//the actual unique chart name
 		chartName = createUniqueChartName(imageTypeExtension);
 		/*
 		 * Creates the session image temp folder if the
 		 * folder does not already exist
 		 */
-		File dir = new File(getSessionWebAppImagePath());
+		File dir = new File(sessionTempPath);
 		boolean dirCreated = dir.mkdir();
+		setFinalPath(sessionTempPath+"/"+chartName);
 		/*
 		 * Cleans out the session image temp folder if it did already
 		 * exist.  However, because of threading issues it appears to work
@@ -102,13 +106,13 @@ public class RembrandtImageFileHandler {
 	public String getURLPath() {
 		return URLPath;
 	}
-	public String getSessionWebAppImagePath() {
-		return tempDir+URLPath;
+	private void setFinalPath(String path) {
+		this.finalPath = path;
 	}
 	public String getFinalPath() {
-		// TODO Auto-generated method stub
-		return getSessionWebAppImagePath() + chartName;
+		return this.finalPath;
 	}
+	
 	public String getFinalURLPath() {
 		return URLPath+chartName;
 	}
