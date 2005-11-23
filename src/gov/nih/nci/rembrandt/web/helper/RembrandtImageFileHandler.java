@@ -124,7 +124,16 @@ public class RembrandtImageFileHandler {
 		return URLPath+chartName;
 	}
 	public String getImageTag() {
-		String tag = "<img src=\""+getFinalURLPath()+"\" width="+imageWidth+" height="+imageHeight+" border=0>";
+		String tag = null;
+		
+		if ((imageWidth < 0)&&(imageHeight < 0)) {
+		  //this is for a case where the image width and height are not known.
+		  tag = "<img src=\""+getFinalURLPath()+"\"  border=0>";
+		}
+		else {
+		  tag = "<img src=\""+getFinalURLPath()+"\" width="+imageWidth+" height="+imageHeight+" border=0>";
+		}
+		
 		logger.debug("Returned Image Tag: "+tag);
 		return tag;
 	}
