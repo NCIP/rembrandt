@@ -63,7 +63,7 @@ public class ReporterFoldChangeValuesResultset implements FoldChange{
 	private DatumDE foldChangeNonTumorIntensity = null;
 	private DatumDE ratioPval = null;
 	private DatumDE reporter = null;
-
+	private DatumDE standardDeviationRatio = null;
 	/**
 	 * @param reporter
 	 */
@@ -130,5 +130,11 @@ public class ReporterFoldChangeValuesResultset implements FoldChange{
 	 */
 	public void setFoldChangeRatioValue(DatumDE foldChangeRatioValue) {
 		this.foldChangeRatioValue = foldChangeRatioValue;
+	}
+	public DatumDE getStandardDeviationRatio() {
+		return standardDeviationRatio;
+	}
+	public void setStandardDeviationRatio(DatumDE standardDeviationRatio) {
+		this.standardDeviationRatio = standardDeviationRatio;
 	}
 }

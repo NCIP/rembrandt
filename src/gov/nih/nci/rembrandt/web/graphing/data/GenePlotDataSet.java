@@ -44,6 +44,7 @@ public class GenePlotDataSet {
 
 	private Logger logger = Logger.getLogger(GenePlotDataSet.class);
 	protected HashMap pValues = new HashMap();
+	protected HashMap stdDevMap = new HashMap();
 	
 	   public GenePlotDataSet() throws ParseException {
 /*
@@ -175,9 +176,9 @@ public class GenePlotDataSet {
 						String reporterName = reporterResultset.getReporter().getValue().toString();
 						
 						Double intensityValue = (Double) reporterResultset.getFoldChangeIntensity().getValue();
-
 						Double pvalue = (Double) reporterResultset.getRatioPval().getValue();
-
+						//using 1.5 autoboxing to convert Double to double
+						double stdDev = (Double) reporterResultset.getStandardDeviationRatio().getValue();
 						//fill up our lists
 						probeSets[counter] = reporterName;
 						intensityValues[counter] = intensityValue.doubleValue();
@@ -188,8 +189,7 @@ public class GenePlotDataSet {
 							pValues.put(reporterName+"::"+diseaseName, pValueFormat.format(pvalue));
 						}
 						
-						
-						double stdDev = 200; //for testing purposes
+						stdDevMap.put(reporterName+"::"+diseaseName, pValueFormat.format(stdDev));
 						
 						//the money = actually build the jfree dataset
 						dataset.add(intensityValue.doubleValue(), stdDev, reporterName, diseaseName);
@@ -210,6 +210,10 @@ public class GenePlotDataSet {
 	   
 	   public HashMap getPValuesHashMap()	{
 		   return pValues;
+	   }
+	   
+	   public HashMap getStdDevMap()	{
+		   return stdDevMap;
 	   }
 
 	public DefaultCategoryDataset getFdataset() {

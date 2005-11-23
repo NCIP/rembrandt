@@ -110,13 +110,19 @@ public class GeneExpressionPlot {
 				public String generateToolTip(CategoryDataset dataset,
 						int series, int item) {
 					HashMap pv = gpds.getPValuesHashMap();
+					HashMap std_d = gpds.getStdDevMap();
+					
 					String currentPV = (String) pv.get(dataset
 							.getRowKey(series)
 							+ "::" + dataset.getColumnKey(item));
+					String stdDev = (String) std_d.get(dataset
+							.getRowKey(series)
+							+ "::" + dataset.getColumnKey(item));
+					
 					return "Probeset : " + dataset.getRowKey(series)
 							+ "<br/>Intensity : "
-							+ dataset.getValue(series, item) + "<br>PVALUE : "
-							+ currentPV + "<br/>";
+							+ dataset.getValue(series, item) + "<br/>PVALUE : "
+							+ currentPV + "<br/>Std. Dev.: " + stdDev + "<br/>";
 				}
 
 			});
@@ -131,13 +137,17 @@ public class GeneExpressionPlot {
 				public String generateToolTip(CategoryDataset dataset,
 						int series, int item) {
 					HashMap pv = gpds.getPValuesHashMap();
+					HashMap std_d = gpds.getStdDevMap();
 					String currentPV = (String) pv.get(dataset
+							.getRowKey(series)
+							+ "::" + dataset.getColumnKey(item));
+					String stdDev = (String) std_d.get(dataset
 							.getRowKey(series)
 							+ "::" + dataset.getColumnKey(item));
 					return "Probeset : " + dataset.getRowKey(series)
 							+ "<br/>Intensity : "
 							+ dataset.getValue(series, item) + "<br>PVALUE : "
-							+ currentPV + "<br/>";
+							+ currentPV + "<br/>Std. Dev.: " + stdDev + "<br/>";
 				}
 
 			});

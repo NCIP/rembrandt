@@ -98,6 +98,7 @@ public class GeneExprDiseasePlotHandler {
 	      			}
 	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getRatioPval()));
 	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
+	      		reporterResultset.setStandardDeviationRatio(new DatumDE(DatumDE.STD_DEVIATION_RATIO,exprObj.getStandardDeviationRatio()));
 	    		}
 	  		
 		}
