@@ -94,10 +94,11 @@ public class PCAPlotTag extends AbstractGraphingTag {
 			*/ 
             ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
             String mapName = imageHandler.createUniqueMapName();
-            PrintWriter writer = new PrintWriter(new FileWriter(mapName));
+            //PrintWriter writer = new PrintWriter(new FileWriter(mapName));
 			ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 700,500,info);
-            ImageMapUtil.writeBoundingRectImageMap(writer,"PCAimageMap",info,true);
-            writer.close();
+            //ImageMapUtil.writeBoundingRectImageMap(writer,"PCAimageMap",info,true);
+            //writer.close();
+			
 			/*	This is here to put the thread into a loop while it waits for the
 			 *	image to be available.  It has an unsophisticated timer but at 
 			 *	least it is something to avoid an endless loop.
