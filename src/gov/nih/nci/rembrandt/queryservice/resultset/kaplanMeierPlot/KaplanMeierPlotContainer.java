@@ -96,11 +96,13 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
         //Clear the Previous collection
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
-			Long time = (Long) (sample.getSurvivalLength().getValue());
-			Integer censor = new Integer((sample.getCensor().getValue().toString()));
-			Double value = (Double) sample.getSummaryReporterFoldChange().getValue();
-			KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
-			kmSampleInfoArray.add(kmSampleInfo);
+			if(sample != null && sample.getCensor()!= null && sample.getSurvivalLength() != null&& sample.getSummaryReporterFoldChange()!= null){
+				Long time = (Long) (sample.getSurvivalLength().getValue());
+				Integer censor = new Integer((sample.getCensor().getValue().toString()));
+				Double value = (Double) sample.getSummaryReporterFoldChange().getValue();
+				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+				kmSampleInfoArray.add(kmSampleInfo);
+			}
 		}
 		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
 	}
