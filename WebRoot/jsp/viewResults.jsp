@@ -130,6 +130,9 @@ String helpLinkClose = "', 350, 500);\">"+
 				if(f instanceof ClassComparisonFinding){
 				out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> ");
 				}
+				if(f instanceof HCAFinding){
+				out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> ");
+				}
 				if(f instanceof PrincipalComponentAnalysisFinding){
 				out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 800, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> ");
 				}

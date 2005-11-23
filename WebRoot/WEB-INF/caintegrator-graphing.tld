@@ -46,7 +46,19 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
-	
+	<tag>
+		<name>HCPlot</name>
+		<tag-class>
+			gov.nih.nci.rembrandt.web.taglib.HCPlotTag
+		</tag-class>
+		<bodycontent>empty</bodycontent>
+		<desciption>The Hierarchical Clustering Analysis Plot</desciption>
+		<attribute>
+			<name>taskId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 	<tag>
 		<name>GenePlot</name>
 		<tag-class>

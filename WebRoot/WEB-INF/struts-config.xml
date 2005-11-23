@@ -297,6 +297,12 @@
 		<forward name="success" path="/jsp/pcaReport.jsp" />
 	</action>
 	
+	<action path="/hcReport"
+		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
+		name="noForm">
+		<forward name="success" path="/jsp/hcReport.jsp" />
+	</action>
+	
 	<action path="/homeAdvanced"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
 		name="noForm">
