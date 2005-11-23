@@ -2,6 +2,8 @@ package gov.nih.nci.rembrandt.web.helper;
 
 import java.io.File;
 
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.caintegrator.ui.graphing.util.FileDeleter;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 /**
@@ -20,10 +22,39 @@ public class RembrandtImageFileHandler {
 	//default values
 	private int imageHeight = 400;
 	private int imageWidth = 600;
-	//	Path to webapp context with in the server
-	private static String contextPath = RembrandtContextListener.getContextPath();
+	//The specific temp directory for the application
+	private static String tempDir = "";
+	private static Logger logger = Logger.getLogger(RembrandtImageFileHandler.class);
 	
 	public RembrandtImageFileHandler(String userSessionId,String imageTypeExtension, int width, int height) {
+		if(tempDir.equals("")) {
+			/**
+			 * TOTAL HACK! Since I am not sure how to handle dynamic
+			 * image content when running in a compressed war I am grabbing
+			 * the temp directory from JBoss and walking through the directories
+			 * until I either find the expanded Rembrandt war or nothing. This is
+			 * always assuming that I am running in JBoss for now (but should be moved
+			 * out later).  If the expanded archive is not found, then it just sets
+			 * the temp directory to the Context.  
+			 */
+			String jbossTempDirPath = System.getProperty("jboss.server.temp.dir");
+	    	String jbossTempDeployDirPath = jbossTempDirPath+"/deploy/";
+	    	File directory = new File(jbossTempDeployDirPath);
+			String[] list = directory.list();
+			File[] fileList = directory.listFiles();
+			for(File file:fileList) {
+				if(file.isDirectory()) {
+					if(file.getName().contains("rembrandt")&&file.getName().contains(".war")){
+						tempDir = file.getPath();
+						break;
+					}
+				}
+			}
+			
+			if(tempDir.equals("")) {
+				tempDir = RembrandtContextListener.getContextPath();
+			}
+		}
 		if(width!=0&&height!=0) {
 			imageWidth = width;
 			imageHeight = height;
@@ -72,7 +103,7 @@ public class RembrandtImageFileHandler {
 		return URLPath;
 	}
 	public String getSessionWebAppImagePath() {
-		return contextPath+URLPath;
+		return tempDir+URLPath;
 	}
 	public String getFinalPath() {
 		// TODO Auto-generated method stub
