@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.ClusterTypeDE;
 import gov.nih.nci.caintegrator.dto.de.DistanceMatrixTypeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
@@ -18,6 +19,7 @@ import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.enumeration.DistanceMatrixType;
+import gov.nih.nci.caintegrator.enumeration.ClusterByType;
 import gov.nih.nci.caintegrator.enumeration.LinkageMethodType;
 import gov.nih.nci.caintegrator.enumeration.Operator;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
@@ -136,7 +138,9 @@ public class HierarchicalClusteringAction extends DispatchAction {
             hierarchicalClusteringQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(hierarchicalClusteringForm.getArrayPlatform()));
         }
         
-        
+        if(!hierarchicalClusteringForm.getClusterBy().equals("")){
+        	hierarchicalClusteringQueryDTO.setClusterTypeDE(new ClusterTypeDE(ClusterByType.valueOf(ClusterByType.class,hierarchicalClusteringForm.getClusterBy())));
+        }
         
         return hierarchicalClusteringQueryDTO;
     }
