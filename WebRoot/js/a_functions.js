@@ -2,7 +2,7 @@ var vr_count = 0;
 var vr_totalRuns = 0;
 var vr_alldone = true;
 	
-var times_to_check = 3;	
+var times_to_check = 10;	
 			
 function A_checkAllFindingStatus(sessionId)	{
 	showLoading(true);
