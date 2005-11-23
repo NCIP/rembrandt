@@ -154,7 +154,8 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		if(finding != null){
 			finding.setStatus(FindingStatus.Error);
 			logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
-			_cacheManager.addToSessionCache(sessionId,taskId,analysisServerException);
+			_cacheManager.addToSessionCache(sessionId,taskId+"_analysisServerException",analysisServerException);
+			_cacheManager.addToSessionCache(sessionId,taskId,finding);
 			logger.debug("Following finding has been placed in cache:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
 			logger.error(analysisServerException);
 		}
