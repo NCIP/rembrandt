@@ -4,8 +4,6 @@ import gov.nih.nci.caintegrator.analysis.messaging.PCAresultEntry;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.chart.plot.PrincipalComponentAnalysisPlot.PCAcolorByType;
-import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierPlotPointSeriesSet;
-import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
 import gov.nih.nci.caintegrator.ui.graphing.data.principalComponentAnalysis.PrincipalComponentAnalysisDataPoint;
 import gov.nih.nci.caintegrator.ui.graphing.data.principalComponentAnalysis.PrincipalComponentAnalysisDataPoint.PCAcomponent;
 import gov.nih.nci.caintegrator.ui.graphing.util.ImageMapUtil;
@@ -14,7 +12,6 @@ import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
 
-import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -123,7 +120,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
                 }
              }
             
-            out.print(ImageMapUtil.returnBoundingRectImageMap(writer,mapName,true,info));
+            out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,true,info));
             finalURLpath = finalURLpath.replace("\\", "/");
 		    out.print("<img src=\""+finalURLpath+"\" usemap=\"#"+mapName + "\"" + " id=\"geneChart\"" + " border=0>");
             
@@ -141,22 +138,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
 		return EVAL_BODY_INCLUDE;
 	}
 	
-	private String createLegend(KaplanMeierStoredData cacheData) {
-		/**********
-		 * This will create the legend with the color representations of the
-		 * each of the available data sets.  It will also create a selectable 
-		 * link to the underlying sample data.
-		 * 
-		 ****/
-		Collection<KaplanMeierPlotPointSeriesSet> plotPointSeriesSet = cacheData.getPlotPointSeriesCollection();
-		for(KaplanMeierPlotPointSeriesSet set: plotPointSeriesSet) {
-			Color setColor = set.getColor();
-			String title = set.getLegendTitle();
-		}
-		return "<br>This is where the legend will go<br>";
-	}
 
-	
 
 	public int doEndTag() throws JspException {
 		return doAfterEndTag(EVAL_PAGE);
