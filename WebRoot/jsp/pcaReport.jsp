@@ -23,13 +23,13 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 	</head>
 <body>
 
-this will hold the PCA graphs<br />
+
 <%
 String key = "taskId";
 if(request.getParameter("key")!=null)
 	key = (String) request.getParameter("key");
 %>
-the task Id is <%=key%>.<br />
+
 <p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC2" colorBy="Gender" /></p>
 <p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC3" /></p>
 <p><graphing:PCAPlot taskId="<%=key%>" components="PC2vsPC3" /></p>
