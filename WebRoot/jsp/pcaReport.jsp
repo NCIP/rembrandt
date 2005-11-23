@@ -33,7 +33,7 @@ if(request.getParameter("key")!=null)
 <p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC2" colorBy="Gender" /></p>
 <p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC3" /></p>
 <p><graphing:PCAPlot taskId="<%=key%>" components="PC2vsPC3" /></p>
-</p>
+
 
 </body>
 </html>

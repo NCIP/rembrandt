@@ -135,11 +135,11 @@ public class PrincipalComponentAction extends DispatchAction {
         the specified GeneIdentifierDECollection. The key is 
         the geneSet name that was uploaded by the user into the cache.*/
         
-        if(principalComponentForm.getGeneSetName()!=null || principalComponentForm.getGeneSetName().length()!=0){
+        if(principalComponentForm.getGeneSetName()!= null && (!principalComponentForm.getGeneSetName().equals("") || principalComponentForm.getGeneSetName().length()!=0)){
             geneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.GeneIdentifierSet,principalComponentForm.getGeneSetName());
             if (geneIdentifierDECollection!=null){
                 logger.debug("geneIdentifierDECollection was found in the cache");
-                //principalComponentAnalysisQueryDTO.setGeneIdentifierDEs(geneIdentifierDECollection);
+                principalComponentAnalysisQueryDTO.setGeneIdentifierDEs(geneIdentifierDECollection);
             }
             else{
                 logger.debug("geneIdentifierDECollection could not be found in the cache");
@@ -150,11 +150,11 @@ public class PrincipalComponentAction extends DispatchAction {
         the specified CloneIdentifierDECollection. The key is 
         the geneSet name that was uploaded by the user into the cache.
         The CloneIdentifierDEs will be set as "reporterDECollection" */
-        if(principalComponentForm.getReporterSetName()!=null || principalComponentForm.getReporterSetName().length()!=0){
+        if(principalComponentForm.getReporterSetName()!= null && (!principalComponentForm.getReporterSetName().equals("") || principalComponentForm.getReporterSetName().length()!=0)){
             cloneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.CloneProbeSetIdentifierSet,principalComponentForm.getReporterSetName());
             if (cloneIdentifierDECollection!=null){
                 logger.debug("cloneIdentifierDECollection was found in the cache");
-               //principalComponentAnalysisQueryDTO.setReporterIdentifierDEs(cloneIdentifierDECollection);
+                principalComponentAnalysisQueryDTO.setReporterIdentifierDEs(cloneIdentifierDECollection);
             }
             else{
                 logger.debug("cloneIdentifierDECollection could not be found in the cache");
