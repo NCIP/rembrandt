@@ -79,13 +79,13 @@ public class PCAPlotTag extends AbstractGraphingTag {
             
             //check the components to see which graph to get
 			if(components.equalsIgnoreCase("PC1vsPC2")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC1,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC2,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             if(components.equalsIgnoreCase("PC1vsPC3")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC1,PCAcomponent.PC3,PCAcolorByType.Disease);
+                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC1,PCAcolorByType.Disease);
             }
             if(components.equalsIgnoreCase("PC2vsPC3")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC2,PCAcomponent.PC3,PCAcolorByType.Disease);
+                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.Disease);
             }
             
             RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
