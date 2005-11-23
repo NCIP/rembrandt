@@ -46,15 +46,20 @@ public class PCAPlotTag extends AbstractGraphingTag {
 	private String taskId = "";
     private String colorBy = "";
     private String components ="";
-    private List<PCAresultEntry> pcaResults;
+    private List<PCAresultEntry> pcaResults = null;
     private Collection<PrincipalComponentAnalysisDataPoint> pcaData = new ArrayList();
 	private List<JFreeChart> jFreeChartsList;
-    private JFreeChart chart;
+    private JFreeChart chart = null;
     private Logger logger = Logger.getLogger(PCAPlotTag.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
     
 	public int doStartTag() {
+		chart = null;
+		pcaResults = null;
+		pcaData.clear();
+
+		
 		ServletRequest request = pageContext.getRequest();
 		HttpSession session = pageContext.getSession();
 		Object o = request.getAttribute(beanName);
