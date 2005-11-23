@@ -26,6 +26,7 @@ public class RembrandtImageFileHandler {
 	//The specific temp directory for the application
 	private static String tempDir = "";
 	private static Logger logger = Logger.getLogger(RembrandtImageFileHandler.class);
+	private static String fileSeperator = File.pathSeparator;
 	
 	public RembrandtImageFileHandler(String userSessionId,String imageTypeExtension, int width, int height) {
 		if(tempDir.equals("")) {
@@ -39,7 +40,7 @@ public class RembrandtImageFileHandler {
 			 * the temp directory to the Context.  
 			 */
 			String jbossTempDirPath = System.getProperty("jboss.server.temp.dir");
-	    	String jbossTempDeployDirPath = jbossTempDirPath+"/deploy/";
+	    	String jbossTempDeployDirPath = jbossTempDirPath+fileSeperator+"deploy"+fileSeperator;
 	    	File directory = new File(jbossTempDeployDirPath);
 			String[] list = directory.list();
 			File[] fileList = directory.listFiles();
@@ -61,18 +62,18 @@ public class RembrandtImageFileHandler {
 			imageWidth = width;
 			imageHeight = height;
 		}
-		String sessionTempPath = tempDir+"/images/"+userSessionId+"/";
+		String relativeSessionTempPath = tempDir+fileSeperator+"images"+fileSeperator+userSessionId+fileSeperator;
 		//Path that will be used in the <img /> tag without the file name
-		URLPath = "\\images\\"+userSessionId+"\\";
+		URLPath = "images"+fileSeperator+userSessionId+fileSeperator;
 		//the actual unique chart name
 		chartName = createUniqueChartName(imageTypeExtension);
 		/*
 		 * Creates the session image temp folder if the
 		 * folder does not already exist
 		 */
-		File dir = new File(sessionTempPath);
+		File dir = new File(relativeSessionTempPath);
 		boolean dirCreated = dir.mkdir();
-		setFinalPath(sessionTempPath+"/"+chartName);
+		setSessionTempFolder(relativeSessionTempPath+fileSeperator+chartName);
 		/*
 		 * Cleans out the session image temp folder if it did already
 		 * exist.  However, because of threading issues it appears to work
@@ -106,10 +107,16 @@ public class RembrandtImageFileHandler {
 	public String getURLPath() {
 		return URLPath;
 	}
-	private void setFinalPath(String path) {
+	private void setSessionTempFolder(String path) {
 		this.finalPath = path;
 	}
-	public String getFinalPath() {
+	/**
+	 * This will return the final complete local path to the folder
+	 * for storing any temporary files for the given session.
+	 * 
+	 * @return local path to store temp files
+	 */
+	public String getSessionTempFolder() {
 		return this.finalPath;
 	}
 	
@@ -117,9 +124,18 @@ public class RembrandtImageFileHandler {
 		return URLPath+chartName;
 	}
 	public String getImageTag() {
-		return "<img src=\""+getFinalURLPath()+"\" width="+imageWidth+" height="+imageHeight+" border=0>";
+		String tag = "<img src=\""+getFinalURLPath()+"\" width="+imageWidth+" height="+imageHeight+" border=0>";
+		logger.debug("Returned Image Tag: "+tag);
+		return tag;
 	}
+	/**
+	 * Returns an image tag adding the image map file name to the tag
+	 * @param mapFileName the name of the image map file name you want added
+	 * @return the final image tag
+	 */
     public String getImageTag(String mapFileName){
-        return "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + "id=\"geneChart\"" + " border=0>";
+    	String tag = "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + "id=\"geneChart\"" + " border=0>";
+    	logger.debug("Returned Image Tag: "+tag);
+    	return tag;
     }
 }

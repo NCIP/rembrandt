@@ -45,7 +45,7 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 			JFreeChart chart = CaIntegratorChartFactory.getKaplanMeierGraph(cacheData.getPlotPointSeriesCollection());
 			RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
 			//The final complete path to be used by the webapplication
-			String finalPath = imageHandler.getFinalPath();
+			String finalPath = imageHandler.getSessionTempFolder();
 			/**
 			 * Create the actual chart, writing it to the session temp folder
 			 */

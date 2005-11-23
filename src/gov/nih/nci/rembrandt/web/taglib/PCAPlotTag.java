@@ -20,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -91,7 +90,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
             
             RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
 			//The final complete path to be used by the webapplication
-			String finalPath = imageHandler.getFinalPath();
+			String finalPath = imageHandler.getSessionTempFolder();
             String finalURLpath = imageHandler.getFinalURLPath();
 			/*
 			 * Create the actual charts, writing it to the session temp folder
