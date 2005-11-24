@@ -108,8 +108,7 @@ function reset_handler(name, minx, miny, maxx, maxy) {
 }
 
 		function startup() {
-		alert("ya");
-   			// Step 4: Initialize the dBox object
+   			//Initialize the dBox object
    			main.initialize();
  		}
 </script>
@@ -223,7 +222,8 @@ if(request.getParameter("pcaView")!=null)
 				//alert("lasso has: " + theAreas[i].title);
 				
 				//RCL - write this to the pending list
-				addToPending(theAreas[i].title);
+				//addToPending(theAreas[i].title);
+				addToPending(theAreas[i].id);
 			}
 			//alert(theAreas[i].coords);
 		}
@@ -309,8 +309,10 @@ if(request.getParameter("pcaView")!=null)
 			}
 			
 			//get the center point
-			coordx[theAreas[i].title] = Math.ceil(s[0] + ((s[2]-s[0])/2));
-			coordy[theAreas[i].title] = Math.ceil(s[1] + ((s[3]-s[1])/2));
+			//coordx[theAreas[i].title] = Math.ceil(s[0] + ((s[2]-s[0])/2));
+			//coordy[theAreas[i].title] = Math.ceil(s[1] + ((s[3]-s[1])/2));
+			coordx[theAreas[i].id] = Math.ceil(s[0] + ((s[2]-s[0])/2));
+			coordy[theAreas[i].id] = Math.ceil(s[1] + ((s[3]-s[1])/2));
 		}
 	}
 	
