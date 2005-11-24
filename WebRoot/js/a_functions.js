@@ -6,7 +6,7 @@ var vr_slow_checker;
 var slow_check_flag = false;
 var sid = "";
 
-var times_to_check = 3;	
+var times_to_check = 10;	
 			
 function A_checkAllFindingStatus(sessionId)	{
 	if(sid=="") sid = sessionId;

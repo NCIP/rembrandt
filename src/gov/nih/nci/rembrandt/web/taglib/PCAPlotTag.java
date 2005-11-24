@@ -128,7 +128,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
             
             out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,true,info));
             finalURLpath = finalURLpath.replace("\\", "/");
-		    out.print("<img src=\""+finalURLpath+"\" usemap=\"#"+mapName + "\"" + " id=\"geneChart\"" + " border=0>");
+		    out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
             
             
             //(imageHandler.getImageTag(mapFileName));
