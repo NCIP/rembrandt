@@ -134,7 +134,7 @@ String helpLinkClose = "', 350, 500);\">"+
 				out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> ");
 				}
 				if(f instanceof PrincipalComponentAnalysisFinding){
-				out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 800, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> ");
+				out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 900, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> ");
 				}
 				
 				out.println("(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime() + "</span>) ");
