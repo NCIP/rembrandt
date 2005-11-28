@@ -42,9 +42,9 @@ public class GeneIDCriteriaHandler {
         for (Iterator iterator = geneIdDEs.iterator(); iterator.hasNext();) {
             GeneIdentifierDE obj  = (GeneIdentifierDE) iterator.next();
             String value = null;
-            if (obj.getGeneIDType().equals(GeneIdentifierDE.GENESYMBOL))
+           // if (obj.getGeneIDType().equals(GeneIdentifierDE.GENESYMBOL))
                value = obj.getValueObject().toUpperCase();
-            else value = obj.getValueObject();
+            //else value = obj.getValueObject();
             geneIDs.add(value);
         }
         return geneIDs;
@@ -58,7 +58,7 @@ public class GeneIDCriteriaHandler {
 
             if ( includeSNPs) {
                 TargetClass t = (TargetClass) data.get(deClass.getName());
-                snpProbeIDCrit = buildGeneSymbolCrit(deClass, geneIDs, t.target, t.attrToSearch);
+                snpProbeIDCrit = buildGeneSymbolCrit(pb, deClass, geneIDs, t.target, t.attrToSearch);
             }
             if (includeCGH)  {
                 // TODO: Post Nautilus
@@ -74,11 +74,13 @@ public class GeneIDCriteriaHandler {
         }
     }
 
-    private static CGHReporterIDCriteria buildGeneSymbolCrit(Class deClass, ArrayList geneIDs, Class targetClass, String attrToRetrieve) throws Exception {
+    private static CGHReporterIDCriteria buildGeneSymbolCrit(PersistenceBroker pb,Class deClass, ArrayList geneIDs, Class targetClass, String attrToRetrieve) throws Exception {
         CGHReporterIDCriteria snpProbeIDCrit = new CGHReporterIDCriteria();
-        String geneIDCol = QueryHandler.getAttrNameForTheDE(deClass.getName(), targetClass.getName());
+        String geneIDAttr = QueryHandler.getAttrNameForTheDE(deClass.getName(), targetClass.getName());
+        String geneIDCol = QueryHandler.getColumnNameForBean(pb, targetClass.getName(), geneIDAttr );
+
         Criteria snpProbesetIDCrit = new  Criteria();
-        snpProbesetIDCrit.addIn(geneIDCol, geneIDs);
+        snpProbesetIDCrit.addIn("UPPER(" + geneIDCol + ")", geneIDs);
         //String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, GeneSnp.class.getName(), );
         ReportQueryByCriteria snpSubQuery = QueryFactory.newReportQuery(targetClass,snpProbesetIDCrit, true );
         snpSubQuery.setAttributes(new String[] {attrToRetrieve}) ;
@@ -102,16 +104,18 @@ public class GeneIDCriteriaHandler {
                 if ( includeProbes) {
                     String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
                     String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), ProbesetDim.class.getName());
+                    String deMappingAttrColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), deMappingAttrName);
                     Criteria c = new Criteria();
-                    c.addIn(deMappingAttrName, geneIDValues);
+                    c.addColumnIn("UPPER(" + deMappingAttrColumn + ")", geneIDValues);
                     ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, true );
                     cloneIDProbeIDCrit.getMultipleProbeIDsSubQueries().add(probeIDSubQuery);
                 }
                 if (includeClones) {
                      String cloneIDColumn = QueryHandler.getColumnNameForBean(pb, GeneClone.class.getName(), GeneClone.CLONE_ID);
                      String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), GeneClone.class.getName());
+                     String deMappingAttrColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), deMappingAttrName);
                      Criteria c = new Criteria();
-                     c.addIn(deMappingAttrName, geneIDValues);
+                     c.addIn("UPPER(" + deMappingAttrName + ")", geneIDValues);
                      ReportQueryByCriteria cloneIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
                      cloneIDProbeIDCrit.getMultipleCloneIDsSubQueries().add(cloneIDSubQuery);
                 }
