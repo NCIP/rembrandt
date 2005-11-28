@@ -149,14 +149,15 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	 */
 	public ClinicalDataQuery getQuery(String sessionID, String queryName){
 		if( sessionID != null &&  queryName != null){
+            sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionID);
+            
 			if(predefinedQueryMap.containsKey(queryName)){
 				return predefinedQueryMap.get(queryName);
 			}
-			else if(cacheManager.getSessionCriteriaBag(sessionID) != null &&
-					cacheManager.getSessionCriteriaBag(sessionID).getSampleCriteria(queryName)!= null){
-		        ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+			else if(sessionCriteriaBag.getUserList(ListType.SampleIdentifierSet,queryName)!= null){
+                ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 		        clinicalDataQuery.setQueryName(queryName);
-		        clinicalDataQuery.setSampleIDCrit(cacheManager.getSessionCriteriaBag(sessionID).getSampleCriteria(queryName));
+		        clinicalDataQuery.setSampleIDCrit(sessionCriteriaBag.getSampleCriteria(queryName));
 
 				return clinicalDataQuery;
 			}
