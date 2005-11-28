@@ -58,7 +58,9 @@ function writePendings()	{
 	document.getElementById("pending_samples").innerHTML = "";
 	if(pendingSamples.length>0)	{
 		for(var j=0; j<pendingSamples.length; j++)	{
-				html += "<a href=\"#\" onmouseover=\"mapshow('"+pendingSamples[j]+"');return overlib('Some cool annotations about:<br>\\n "+pendingSamples[j]+"');\" onmouseout=\"maphide();return nd();\">"+ pendingSamples[j] + "</a><br/>\n";
+				html += "<span style=\"margin-left:5px;\">\n";
+				html += "<a href=\"#\" onmouseover=\"mapshow('"+pendingSamples[j]+"');return overlib('Sample:<br>\\n "+pendingSamples[j]+"');\" onmouseout=\"maphide();return nd();\">"+ pendingSamples[j] + "</a><br/>\n";
+				html += "</span>";
 		}
 	}
 	//html = pendingSamples;	
@@ -85,17 +87,10 @@ var main = new dBox("geneChart");
 main.box = true;
 main.color = "red";
 main.verbose = true;
+//main.thickness = Stroke.DOTTED;
 		
 //implement some methods	
-function setbox_handler(name, minx, miny, maxx, maxy) {
-	// document.mapserv.imgbox.value = minx + " " + miny + " " + maxx + " " + maxy;
-	// document.mapserv.imgxy.value = minx + " " + miny;
-	// document.mapserv.submit();
-
-	//if(minx != maxx && miny != maxy)
-		//alert("Your box: " + minx +", "+miny + ", "+maxx+", "+maxy);
-   		//alert(name); //which lasso, since we now have 3
-  
+function setbox_handler(name, minx, miny, maxx, maxy) {  
 	didSelectAnything(name, minx, miny, maxx, maxy);
 }
 
@@ -107,10 +102,10 @@ function reset_handler(name, minx, miny, maxx, maxy) {
 	//some thing goes here      
 }
 
-		function startup() {
-   			//Initialize the dBox object
-   			main.initialize();
- 		}
+function startup() {
+	//Initialize the dBox object
+	main.initialize();
+}
 </script>
 		
 		
@@ -126,6 +121,8 @@ if(request.getParameter("key")!=null)
 String pcaView = "PC1vsPC2"; // | PC1vsPC3 | PC2vsPC3
 if(request.getParameter("pcaView")!=null)
 	pcaView = (String) request.getParameter("pcaView");
+	
+//String pcaView = request.getParameter("pcaView")!=null ? (String) request.getParameter("pcaView") : "PC1vsPC2";
 %>
 
 
@@ -155,8 +152,11 @@ if(request.getParameter("pcaView")!=null)
 		%>
 	</ul>
 </div>
-<div id="main">
+<div id="main" style="font-family:arial; font-size:12px">
 
+<table>
+	<tr>
+		<td>
 <% if(pcaView.equals("PC1vsPC2"))	{ %>
 <graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC2" colorBy="Gender" />
 <% } %>
@@ -166,9 +166,26 @@ if(request.getParameter("pcaView")!=null)
 <% if(pcaView.equals("PC2vsPC3"))	{ %>
 <p><graphing:PCAPlot taskId="<%=key%>" components="PC2vsPC3" /></p>
 <% } %>
-
+		</td>
+		<td style="vertical-align:top">
+		<div style="border:1px dashed silver;height:300px;width:100px; margin-left:10px; margin-top:30px; overflow:auto;" id="sample_list">
+			<div style="background-color: #ffffff; width:100px; font-weight: bold; text-align:center;">Samples:</div><br/>
+			<span id="pending_samples" style="font-size:11px"></span>
+		</div>
+		<br/>
+		<div style="margin-left:10px; text-align:center">
+			<input type="text" name="sampleGroupName" style="width:95px"/><br/>
+			<input type="button" style="width:95px" value="save samples" onclick="javascript: if(confirm('save this sample list?')) { alert('not done yet'); } "/><br/>			
+		</div>
+		<div style="margin-left:10px; font-size:11px; text-decoration:none; text-align:center;">
+			<a href="#" onclick="javascript: if(confirm('clear samples?')) { clearPending(); } ">[clear samples]</a><br/>
+		</div>
+		</td>
+	</tr>
+</table>
 </div>
 
+<!-- 
 <br/>
 <div style="border:1px solid red; width:200px;height:200px; margin-left:10px;overflow:auto;" id="sample_list">
 	Samples:<br/>
@@ -178,7 +195,7 @@ if(request.getParameter("pcaView")!=null)
 <div style="margin-left:10px;">
 	<input type="button" value="clear" onclick="javascript: if(confirm('clear samples?')) { clearPending(); } "/><br/>
 </div>
-
+-->
 <script language="javascript">
 	
 	var DEBUG = true;
@@ -194,19 +211,10 @@ if(request.getParameter("pcaView")!=null)
 		
 		//get the map
 		var theMap = document.getElementsByTagName("map");
-		//alert(theMap[0].name);
 		
 		//get the areas
 		var theAreas = theMap[0].getElementsByTagName("area");
 
-		//var theAreas = theMap[mapMap[name]].getElementsByTagName("area");
-		/*
-		for(var i=0; i<theMap.length; i++)	{
-			alert(theMap[i].name + " = " + name);
-			if(theMap[i].name == name)
-				theAreas = theMap[i].getElementsByTagName("area");
-		}
-		*/
 		//look at each area
 		for(var i=0; i<theAreas.length; i++)	{
 			//parse the coords
@@ -214,12 +222,9 @@ if(request.getParameter("pcaView")!=null)
 			var s = theAreas[i].coords.replace(" ", "").split(",");
 			//so there could be N coords, unless we force Jfreechart to use a square
 			
-			//debug("_"+s[0]+"_"); //look at the 1st coord for testing
-			
 			if(s[0] >= minx && s[1] >= miny && s[2] <= maxx && s[3] <= maxy)	{
 				//we have lassoed this point
 				gotem += theAreas[i].title + "\n";
-				//alert("lasso has: " + theAreas[i].title);
 				
 				//RCL - write this to the pending list
 				//addToPending(theAreas[i].title);
@@ -245,48 +250,16 @@ if(request.getParameter("pcaView")!=null)
 		
 		var imgs = document.getElementsByTagName("img");
 		for(var i=0; i<imgs.length; i++)	{
-			//alert(imgs[i].useMap);
 			if(imgs[i].useMap != '')	{
-				//alert(imgs[i].name + " => " + imgs[i].useMap.substring(1, imgs[i].useMap.length));
 				mapMap[imgs[i].name] = imgs[i].useMap.substring(1, imgs[i].useMap.length);
 			}
-		}
-		
-		//alert(mapNames);
-		
-		/*
-		var t_tmp = "";
-		alert(mapMap.length);
-		for(var key in mapMap)	{
-		 t_tmp += "\n" + key +" => " + mapMap[key] + "\n";
-		}
-		 
-		document.write(t_tmp);
-		*/
-		
+		}		
 	}
 	
 	
 	//MAPMAP
 
 </script>
-
-<MAP NAME="chart_test">
-		<AREA SHAPE="RECT" COORDS="55,161,61,167" href="javascript:void(0);" onmouseover="return overlib('3M - 5.09878');" onmouseout="return nd();" title="3M - 5.09878">
-		<AREA SHAPE="RECT" COORDS="66,159,72,165" href="curvepoint_details.html?series=0&tenor=6M" title="6M - 5.15383">
-		<AREA SHAPE="RECT" COORDS="87,160,93,166" href="curvepoint_details.html?series=0&tenor=1Y" title="1Y - 5.11204">
-		<AREA SHAPE="RECT" COORDS="129,128,135,134" href="curvepoint_details.html?series=0&tenor=2Y" title="2Y - 5.92148">
-		<AREA SHAPE="RECT" COORDS="171,98,177,104" href="curvepoint_details.html?series=0&tenor=3Y" title="3Y - 6.67381">
-		<AREA SHAPE="RECT" COORDS="213,81,219,87" href="curvepoint_details.html?series=0&tenor=4Y" title="4Y - 7.11233">
-		<AREA SHAPE="RECT" COORDS="255,63,261,69" href="curvepoint_details.html?series=0&tenor=5Y" title="5Y - 7.55392">
-
-		<AREA SHAPE="RECT" COORDS="297,68,303,74" href="curvepoint_details.html?series=0&tenor=6Y" title="6Y - 7.43833">
-		<AREA SHAPE="RECT" COORDS="340,72,346,78" href="curvepoint_details.html?series=0&tenor=7Y" title="7Y - 7.32241">
-		<AREA SHAPE="RECT" COORDS="382,64,388,70" href="curvepoint_details.html?series=0&tenor=8Y" title="8Y - 7.52373">
-		<AREA SHAPE="RECT" COORDS="424,50,430,56" href="curvepoint_details.html?series=0&tenor=9Y" title="9Y - 7.87864">
-		<AREA SHAPE="RECT" COORDS="466,41,472,47" href="curvepoint_details.html?series=0&tenor=10Y" title="10Y - 8.12310">
-		
-</MAP>
 		
 <script language="javascript">
 
@@ -308,7 +281,7 @@ if(request.getParameter("pcaView")!=null)
 				s[eachs] = parseInt(s[eachs]);
 			}
 			
-			//get the center point
+			//get the center point...based on id now not title
 			//coordx[theAreas[i].title] = Math.ceil(s[0] + ((s[2]-s[0])/2));
 			//coordy[theAreas[i].title] = Math.ceil(s[1] + ((s[3]-s[1])/2));
 			coordx[theAreas[i].id] = Math.ceil(s[0] + ((s[2]-s[0])/2));

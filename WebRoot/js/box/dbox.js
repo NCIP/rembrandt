@@ -16,6 +16,8 @@ function dBox(name) {
   // some reasonable defaults  
   this.color = '#ffffff';
   this.thickness = 2;
+  //RCL- if you want a dotted line....but it makes things much slower
+  //this.thickness = Stroke.DOTTED;
 
   this.width = 0;
   this.height = 0;
@@ -73,8 +75,8 @@ if(mz7 || saf)	{
 	var tmp = this.anchor.src.lastIndexOf("images");
 	this.rclTest.src = this.anchor.src.substring(tmp, this.anchor.src.length);
 	//alert(this.rclTest.src);
-	
-	this.rclTest.useMap = "#chart_test";
+	this.rclTest.useMap = this.anchor.useMap;
+	//this.rclTest.useMap = "#chart_test";
 	this.rclTest.style.border="0px solid green";
 
 }
@@ -224,6 +226,9 @@ function dBox_paint() {
      
       this.graphics.clear();
       this.graphics.drawRect(x,y,w,h);
+      //RCL - filling the rect is not transparent, so dont do this
+      //this.graphics.fillRect(x,y,w,h);
+      
     } else if(this.line) {      
       this.graphics.clear();      
       for(var i=1; i<this.x.length; i++)
