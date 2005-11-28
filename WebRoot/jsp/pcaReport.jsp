@@ -12,23 +12,23 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <%@ page import="gov.nih.nci.rembrandt.cache.*" %>
 <html>
 	<head>
-		<title>Rembrandt Report</title>
+		<title>Rembrandt PCA Plots</title>
 		<LINK href="css/tabs.css" rel="stylesheet" type="text/css" />
 		
 		<script language="JavaScript" src="/rembrandt/js/box/browserSniff.js"></script>
 		<script language="Javascript">
-	    //some global vars for the  yellow marker
-		var marker, markersrc, markersize;
-		var coordx   = new Array();
-		var coordy   = new Array();
+		    //some global vars for the  yellow marker
+			var marker, markersrc, markersize;
+			var coordx   = new Array();
+			var coordy   = new Array();
 	  
-		  if (ie) {
-			markersrc = "/rembrandt/images/marker.gif";
-		  } else {
-			markersrc = "/rembrandt/images/marker.png";
-		  }
-		  
-		   markersize = 32;
+			if (ie) {
+				markersrc = "/rembrandt/images/marker.gif";
+			} else {
+				markersrc = "/rembrandt/images/marker.png";
+			}
+			
+			markersize = 32;
 	    </script>
 		<script language="JavaScript" src="/rembrandt/js/box/x_core.js"></script>
     	<script language="JavaScript" src="/rembrandt/js/box/x_event.js"></script>
@@ -117,12 +117,9 @@ function startup() {
 String key = "taskId";
 if(request.getParameter("key")!=null)
 	key = (String) request.getParameter("key");
-	
-String pcaView = "PC1vsPC2"; // | PC1vsPC3 | PC2vsPC3
-if(request.getParameter("pcaView")!=null)
-	pcaView = (String) request.getParameter("pcaView");
-	
-//String pcaView = request.getParameter("pcaView")!=null ? (String) request.getParameter("pcaView") : "PC1vsPC2";
+
+
+String pcaView = request.getParameter("pcaView")!=null ? (String) request.getParameter("pcaView") : "PC1vsPC2";
 %>
 
 
@@ -185,17 +182,6 @@ if(request.getParameter("pcaView")!=null)
 </table>
 </div>
 
-<!-- 
-<br/>
-<div style="border:1px solid red; width:200px;height:200px; margin-left:10px;overflow:auto;" id="sample_list">
-	Samples:<br/>
-	<span id="pending_samples"></span>
-</div>
-<br/>
-<div style="margin-left:10px;">
-	<input type="button" value="clear" onclick="javascript: if(confirm('clear samples?')) { clearPending(); } "/><br/>
-</div>
--->
 <script language="javascript">
 	
 	var DEBUG = true;
