@@ -90,8 +90,16 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	 * @param sessionId --identifies the sessionCache that you want a complete
 	 * list of SampleSetNames stored in.
 	 */
-	public List getAllSampleSetNames(String sessionID){
-		return  cacheManager.getSampleSetNames(sessionID);
+	@SuppressWarnings("unchecked")
+	public List<String> getAllSampleSetNames(String sessionID){
+		List<String> sampleSetList = new ArrayList<String>(); 
+		sampleSetList.addAll(cacheManager.getSampleSetNames(sessionID));
+		SessionCriteriaBag mySessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionID);
+		if(mySessionCriteriaBag != null){
+			
+			sampleSetList.addAll(mySessionCriteriaBag.getUsetListNames(SessionCriteriaBag.ListType.SampleIdentifierSet));
+		}
+		return  sampleSetList;
 	}
     
     /**This is the list of names of all the predefined queries and sample sets
@@ -144,7 +152,15 @@ public class SampleBasedQueriesRetriever implements Serializable {
 			if(predefinedQueryMap.containsKey(queryName)){
 				return predefinedQueryMap.get(queryName);
 			}
-			else{
+			else if(cacheManager.getSessionCriteriaBag(sessionID) != null &&
+					cacheManager.getSessionCriteriaBag(sessionID).getSampleCriteria(queryName)!= null){
+		        ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+		        clinicalDataQuery.setQueryName(queryName);
+		        clinicalDataQuery.setSampleIDCrit(cacheManager.getSessionCriteriaBag(sessionID).getSampleCriteria(queryName));
+
+				return clinicalDataQuery;
+			}
+			else {
 				/*
 				 * This is where we will retrieve a result set of sample ids that was created 
 				 * when the report waas saved.
@@ -171,6 +187,4 @@ public class SampleBasedQueriesRetriever implements Serializable {
 		}
 		return null;
 	}
-
-	
 }
