@@ -30,6 +30,12 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 			
 			markersize = 32;
 	    </script>
+	    
+	    <script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
+		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
+		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
+	    
+	    <script language="JavaScript" src="/rembrandt/js/a_saveSamples.js"></script>
 		<script language="JavaScript" src="/rembrandt/js/box/x_core.js"></script>
     	<script language="JavaScript" src="/rembrandt/js/box/x_event.js"></script>
     	<script language="JavaScript" src="/rembrandt/js/box/x_dom.js"></script>
@@ -46,13 +52,20 @@ var pendingSamples = new Array();
 		
 function addToPending(sample)	{
 	if(!pendingSamples.inArray(sample))	{
+		//add this to the JS array
 		pendingSamples[pendingSamples.length] = sample;
+		//add to array list
+		A_saveTmpSample(sample);
 	}
 }		
 function clearPending()	{
+	//clear the JS array
 	pendingSamples = new Array();
+	//clear the array list and a_js arrays
+	A_clearTmpSamples();
 	writePendings();
 }		
+
 function writePendings()	{
 	var html = "";	
 	document.getElementById("pending_samples").innerHTML = "";
@@ -167,12 +180,13 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 		<td style="vertical-align:top">
 		<div style="border:1px dashed silver;height:300px;width:100px; margin-left:10px; margin-top:30px; overflow:auto;" id="sample_list">
 			<div style="background-color: #ffffff; width:100px; font-weight: bold; text-align:center;">Samples:</div><br/>
+			<div style="font-size:9px; text-align:center;" id="sampleCount"></div><br/>
 			<span id="pending_samples" style="font-size:11px"></span>
 		</div>
 		<br/>
 		<div style="margin-left:10px; text-align:center">
-			<input type="text" name="sampleGroupName" style="width:95px"/><br/>
-			<input type="button" style="width:95px" value="save samples" onclick="javascript: if(confirm('save this sample list?')) { alert('not done yet'); } "/><br/>			
+			<input type="text" id="sampleGroupName" name="sampleGroupName" style="width:95px"/><br/>
+			<input type="button" style="width:95px" value="save samples" onclick="javascript:A_saveSamples();" /><br/>			
 		</div>
 		<div style="margin-left:10px; font-size:11px; text-decoration:none; text-align:center;">
 			<a href="#" onclick="javascript: if(confirm('clear samples?')) { clearPending(); } ">[clear samples]</a><br/>
@@ -298,6 +312,7 @@ function maphide () {
   //getSetMapNames();
   
   startup();
+  A_initSaveSample();
 </script>
 
 

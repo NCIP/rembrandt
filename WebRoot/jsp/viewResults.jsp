@@ -128,7 +128,7 @@ String helpLinkClose = "', 350, 500);\">"+
 				
 				//check the type of finding and create the appropriate link
 				if(f instanceof ClassComparisonFinding){
-					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(Class Comparison)</i> ");
+					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ");
 				}
 				if(f instanceof HCAFinding){
 					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=" + f.getTaskId() + "', 700, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + " </a> <i>(HC)</i> ");
@@ -137,7 +137,7 @@ String helpLinkClose = "', 350, 500);\">"+
 					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 900, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(PCA)</i> ");
 				}
 				
-				out.println("(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime() + "</span>) ");
+				out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime() + "</span>ms) </span>");
 				out.println("</li>");
 				out.println("<br clear=\"all\" />");
 				out.println("<br clear=\"all\" />");
@@ -150,6 +150,13 @@ String helpLinkClose = "', 350, 500);\">"+
      
      
      %>
+     <br/><br/>
+     <div style="font-size:9px;text-align:center;">
+     (CC) Class Comparison | 
+     (HC) Hierarchical Clustering | 
+     (PCA) Principal Component Analysis
+     </div>
+     
 </fieldset>
 <br /><br />
      

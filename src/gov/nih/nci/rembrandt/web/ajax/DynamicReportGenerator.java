@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
@@ -90,6 +91,33 @@ public class DynamicReportGenerator {
 		return results;
 	}
 	
+	public Map saveTmpGeneric(String type, String elem)	{
+		Map results = new HashMap();
+		
+		HttpSession session = ExecutionContext.get().getSession(false);
+		//put the element into an arraylist in the session...doesnt exist? create it
+		ArrayList al = new ArrayList();
+		if(session.getAttribute(type) != null)	{
+			al = (ArrayList) session.getAttribute(type);
+		}
+		if(!elem.equals("") && !al.contains(elem)){
+			al.add(elem); // add it
+			session.setAttribute(type, al); //put back in session
+		}
+		String tmpElems = "";
+		for(int i = 0; i<al.size(); i++)
+			tmpElems += al.get(i) + "<br/>";
+	
+		results.put("count", al.size());
+		results.put("elements", tmpElems);
+		
+		return results;
+	}
+	
+	public Map saveTmpSamples(String elem){
+		return saveTmpGeneric("pca_tmpSampleList", elem);
+	}
+	
 	public Map removeTmpReporter(String rep)	{
 		HttpSession session = ExecutionContext.get().getSession(false);
 		ArrayList al = new ArrayList();
@@ -108,9 +136,36 @@ public class DynamicReportGenerator {
 		return results;
 	}
 	
+	public Map removeTmpGeneric(String type, String elem)	{
+		HttpSession session = ExecutionContext.get().getSession(false);
+		ArrayList al = new ArrayList();
+		if(session.getAttribute(type) != null)	{
+			al = (ArrayList) session.getAttribute(type);
+		}
+		al.remove(elem); // nuke it
+		session.setAttribute(type, al); //put back in session
+		String tmpElems = "";
+		for(int i = 0; i<al.size(); i++)
+			tmpElems += al.get(i) + "<br/>";
+		
+		Map results = new HashMap();
+		results.put("count", al.size());
+		results.put("elements", tmpElems);
+		return results;
+	}
+	
+	public Map removeTmpSample(String elem)	{
+		return removeTmpGeneric("pca_tmpSampleList", elem);
+	}
+	
 	public void clearTmpReporters()	{
 		HttpSession session = ExecutionContext.get().getSession(false);
 		session.removeAttribute("tmpReporterList"); //put back in session
+	}
+	
+	public void clearTmpSamples()	{
+		HttpSession session = ExecutionContext.get().getSession(false);
+		session.removeAttribute("pca_tmpSampleList"); //put back in session
 	}
 	
 	public String saveReporters(String commaSepList, String name)	{
@@ -134,6 +189,37 @@ public class DynamicReportGenerator {
 
 			//check name for collision...or dont, so to enable overwriting
 			sessionCriteriaBag.putUserList(ListType.CloneProbeSetIdentifierSet,name,domainElementList); 
+			ptc.putSessionCriteriaBag(session.getId(),sessionCriteriaBag);
+			success = "pass";
+		} catch (ClassCastException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return success;
+	}
+	
+	public String saveSamples(String commaSepList, String name)	{
+		String success = "fail";
+		HttpSession session = ExecutionContext.get().getSession(false);
+		PresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
+		SessionCriteriaBag sessionCriteriaBag = ptc.getSessionCriteriaBag(session.getId());
+		
+		//hold the list of DE's
+		List<DomainElement> domainElementList = new ArrayList();
+		
+		try {
+			//break the comma list
+			StringTokenizer tk = new StringTokenizer(commaSepList, ",");
+			while (tk.hasMoreTokens()) {
+				String element = tk.nextToken();
+				//iterate through and create domain elements
+				SampleIDDE sampleDE = new SampleIDDE(element);
+				domainElementList.add(sampleDE);
+			}
+
+			//check name for collision...or dont, so to enable overwriting
+			sessionCriteriaBag.putUserList(ListType.SampleIdentifierSet,name,domainElementList); 
 			ptc.putSessionCriteriaBag(session.getId(),sessionCriteriaBag);
 			success = "pass";
 		} catch (ClassCastException e) {
