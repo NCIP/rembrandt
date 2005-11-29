@@ -59,7 +59,7 @@ public class CommonFactHandler {
         InstitutionCriteria institCrit = query.getInstitutionCriteria ();
         if (institCrit  != null) {
             ArrayList<Long> instIDs = new ArrayList<Long>();
-            Collection<InstitutionDE> institutes = institCrit.getInstitutes();
+            Collection<InstitutionDE> institutes = institCrit.getInstitutions();
 
             for (InstitutionDE institution : institutes) {
                instIDs.add(institution.getValueObject());

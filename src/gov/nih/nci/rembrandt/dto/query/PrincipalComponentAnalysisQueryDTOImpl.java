@@ -23,7 +23,7 @@ public class PrincipalComponentAnalysisQueryDTOImpl implements PrincipalComponen
 	private Collection<GeneIdentifierDE> geneIdentifierDEs;
 	private Collection<CloneIdentifierDE> reporterIdentifierDEs;
 	private ArrayPlatformDE arrayPlatformDE;
-	private InstitutionDE institutionDE;
+	private Collection<InstitutionDE> institutionDEs;
 	private GeneVectorPercentileDE geneVectorPercentileDE;
 	/**
 	 * 
@@ -88,20 +88,6 @@ public class PrincipalComponentAnalysisQueryDTOImpl implements PrincipalComponen
 
 
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.rembrandt.dto.query.PrincipalComponentAnalysisQueryDTO#getInstitutionNameDE()
-	 */
-	public InstitutionDE getInstitutionDE() {
-		return institutionDE;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.rembrandt.dto.query.PrincipalComponentAnalysisQueryDTO#setInstitutionNameDE(gov.nih.nci.caintegrator.dto.de.InstitutionNameDE)
-	 */
-	public void setInstitutionDE(InstitutionDE institutionDE) {
-		this.institutionDE = institutionDE;
-	}
 
 
 	/* (non-Javadoc)
@@ -151,6 +137,22 @@ public class PrincipalComponentAnalysisQueryDTOImpl implements PrincipalComponen
 	public void setReporterIdentifierDEs(
 			Collection<CloneIdentifierDE> reporterIdentifierDEs) {
 		this.reporterIdentifierDEs = reporterIdentifierDEs;
+	}
+
+
+	/**
+	 * @return Returns the institutionDEs.
+	 */
+	public Collection<InstitutionDE> getInstitutionDEs() {
+		return institutionDEs;
+	}
+
+
+	/**
+	 * @param institutionDEs The institutionDEs to set.
+	 */
+	public void setInstitutionDEs(Collection<InstitutionDE> institutionDEs) {
+		this.institutionDEs = institutionDEs;
 	}
 
 

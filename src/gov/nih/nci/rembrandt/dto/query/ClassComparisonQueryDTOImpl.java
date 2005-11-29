@@ -8,8 +8,7 @@ import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticalSignificanceDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
-import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
-import gov.nih.nci.caintegrator.exceptions.ValidationException;
+
 import java.util.Collection;
 /**
  * @author sahnih
@@ -36,7 +35,7 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	private ArrayPlatformDE arrayPlatformDE;
 	private ExprFoldChangeDE exprFoldChangeDE;
 	private Collection<ClinicalQueryDTO> comparisonGroups;
-	private InstitutionDE institutionDE;
+	private Collection<InstitutionDE> institutionDEs;
 
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getMultiGroupComparisonAdjustmentTypeDE()
@@ -83,41 +82,7 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	public String getQueryName() {
 		return queryName;
 	}
-	public boolean validate() throws ValidationException {
-		boolean _valid = true;
-		boolean assertsEnabled = false;
-        assert assertsEnabled = true; // Intentional side effect!!!
-		//		 Now assertsEnabled is set to the correct value 
-        String errorMsg = " In ClassComparisonQueryDTO ";
-		try {
-			//assert(this.institutionNameDE != null);
-			assert this.arrayPlatformDE != null:errorMsg+"arrayPlatformDE cannot be Null";
-			assert this.comparisonGroups != null:errorMsg+"comparisonGroups cannot be Null";
-			assert this.exprFoldChangeDE != null:errorMsg+"exprFoldChangeDE cannot be Null";
-			assert this.multiGroupComparisonAdjustmentTypeDE!= null:errorMsg+"multiGroupComparisonAdjustmentTypeDE cannot be Null";
-			assert this.queryName != null:errorMsg+"queryName cannot be Null";
-			assert this.statisticalSignificanceDE != null:errorMsg+"statisticalSignificanceDE cannot be Null";
-			assert this.statisticTypeDE != null:errorMsg+"statisticTypeDE cannot be Null";
-				switch (multiGroupComparisonAdjustmentTypeDE.getValueObject()){
-					case NONE:
-						assert(statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.pValue):
-							errorMsg+"When multiGroupComparisonAdjustmentTypeDE is NONE, Statistical Type cannot equal pValue";
-						break;
-					case FWER:
-					case FDR:
-						assert(statisticalSignificanceDE.getStatisticType() == StatisticalSignificanceType.adjustedpValue):
-							errorMsg+"When multiGroupComparisonAdjustmentTypeDE is FWER or FDR, Statistical Type cannot equal adjusted pValue";
-						break;
-					default:
-							throw(new ValidationException("multiGroupComparisonAdjustmentTypeDE is does not match any options"));					
-				}
-			} catch (AssertionError e) {
-				e.printStackTrace();
-				throw(new ValidationException(e.getMessage()));
-			}
-		
-		return _valid;
-	}
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getArrayPlatformDE()
 	 */
@@ -155,17 +120,19 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 		this.comparisonGroups = comparisonGroups;
 	}
 	/**
-	 * @return Returns the institutionDE.
+	 * @return Returns the institutionDEs.
 	 */
-	public InstitutionDE getInstitutionDE() {
-		return institutionDE;
+	public Collection<InstitutionDE> getInstitutionDEs() {
+		return institutionDEs;
 	}
 	/**
-	 * @param institutionDE The institutionDE to set.
+	 * @param institutionDEs The institutionDEs to set.
 	 */
-	public void setInstitutionDE(InstitutionDE institutionDE) {
-		this.institutionDE = institutionDE;
+	public void setInstitutionDEs(Collection<InstitutionDE> institutionDEs) {
+		this.institutionDEs = institutionDEs;
 	}
+
+
 
 
     

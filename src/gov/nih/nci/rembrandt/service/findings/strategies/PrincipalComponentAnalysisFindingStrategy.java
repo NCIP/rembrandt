@@ -3,19 +3,16 @@ package gov.nih.nci.rembrandt.service.findings.strategies;
 import gov.nih.nci.caintegrator.analysis.messaging.PrincipalComponentAnalysisRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.ReporterGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
-import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
-import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
-import gov.nih.nci.caintegrator.dto.view.ViewType.GeneSingleSampleView;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
@@ -26,11 +23,9 @@ import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
-import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -39,7 +34,6 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.jms.JMSException;
@@ -125,7 +119,10 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			try {
 				compoundQuery = new CompoundQuery(clinicalDataQuery);
 				compoundQuery.setAssociatedView(ViewFactory
-	                .newView(ViewType.CLINICAL_VIEW));
+		                .newView(ViewType.CLINICAL_VIEW));
+				InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+				institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
+				compoundQuery.setInstitutionCriteria( institutionCriteria);
 				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
 	  		}
 	  		catch (Throwable t)	{
@@ -276,7 +273,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			PrincipalComponentAnalysisQueryDTO pcaQueryDTO = (PrincipalComponentAnalysisQueryDTO)queryDTO;
 				
 			try {
-						//ValidationUtility.checkForNull(pcaQueryDTO.getInstitutionNameDE() != null));
+						ValidationUtility.checkForNull(pcaQueryDTO.getInstitutionDEs());
 						ValidationUtility.checkForNull(pcaQueryDTO.getArrayPlatformDE()) ;
 						ValidationUtility.checkForNull(pcaQueryDTO.getComparisonGroup());
 						ValidationUtility.checkForNull(pcaQueryDTO.getQueryName());

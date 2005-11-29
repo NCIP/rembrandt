@@ -3,8 +3,6 @@ package gov.nih.nci.rembrandt.service.findings.strategies;
 import gov.nih.nci.caintegrator.analysis.messaging.HierarchicalClusteringRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.ReporterGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
-import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
@@ -16,7 +14,6 @@ import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
-import gov.nih.nci.caintegrator.dto.view.ViewType.GeneSingleSampleView;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
@@ -27,7 +24,6 @@ import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -109,7 +105,8 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 		//create a ClinicalDataQuery to contrain by Insitition group
 		clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 		InstitutionCriteria institutionCriteria = new InstitutionCriteria();
-		institutionCriteria.setInsitution(myQueryDTO.getInstitutionDE());
+		institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
+		clinicalDataQuery.setInstitutionCriteria( institutionCriteria);
 		
 
     
@@ -272,7 +269,7 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
             HierarchicalClusteringQueryDTO hcQueryDTO = (HierarchicalClusteringQueryDTO)queryDTO;
 				
 			try {
-						//ValidationUtility.checkForNull(hcQueryDTO.getInstitutionDE());
+						ValidationUtility.checkForNull(hcQueryDTO.getInstitutionDEs());
 						ValidationUtility.checkForNull(hcQueryDTO.getArrayPlatformDE()) ;
 						ValidationUtility.checkForNull(hcQueryDTO.getQueryName());
 					

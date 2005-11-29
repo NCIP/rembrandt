@@ -21,7 +21,7 @@ public class HierarchicalClusteringQueryDTOImpl implements HierarchicalClusterin
 	private Collection<GeneIdentifierDE> geneIdentifierDEs;
 	private Collection<CloneIdentifierDE> reporterIdentifierDEs;
 	private ArrayPlatformDE arrayPlatformDE;
-	private InstitutionDE institutionDE;
+	private Collection<InstitutionDE> institutionDEs;
 	private GeneVectorPercentileDE geneVectorPercentileDE;
 	private DistanceMatrixTypeDE distanceMatrixTypeDE;
 	private LinkageMethodTypeDE linkageMethodTypeDE;
@@ -72,19 +72,20 @@ public class HierarchicalClusteringQueryDTOImpl implements HierarchicalClusterin
 	}
 
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTO#getInstitutionNameDE()
+
+	/**
+	 * @return Returns the institutionDEs.
 	 */
-	public InstitutionDE getInstitutionDE() {
-		return institutionDE;
+	public Collection<InstitutionDE> getInstitutionDEs() {
+		return institutionDEs;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTO#setInstitutionNameDE(gov.nih.nci.caintegrator.dto.de.InstitutionNameDE)
+	/**
+	 * @param institutionDEs The institutionDEs to set.
 	 */
-	public void setInstitutionDE(InstitutionDE institutionDE) {
-		this.institutionDE = institutionDE;
+	public void setInstitutionDEs(Collection<InstitutionDE> institutionDEs) {
+		this.institutionDEs = institutionDEs;
 	}
 
 

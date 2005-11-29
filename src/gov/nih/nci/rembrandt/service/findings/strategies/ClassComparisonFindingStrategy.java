@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.service.findings.strategies;
 
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
@@ -23,7 +24,6 @@ import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
@@ -142,6 +142,9 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					compoundQuery = new CompoundQuery(clinicalDataQuery);
 					compoundQuery.setAssociatedView(ViewFactory
 		                .newView(ViewType.CLINICAL_VIEW));
+					InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+					institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
+					compoundQuery.setInstitutionCriteria( institutionCriteria);
 					resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
 		  		}
 		  		catch (Throwable t)	{
@@ -288,7 +291,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 		if(queryDTO instanceof ClassComparisonQueryDTO){
 			ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)queryDTO;
 			try {
-				//ValidationUtility.checkForNull(classComparisonQueryDTO.getInstitutionNameDE() != null));
+				ValidationUtility.checkForNull(classComparisonQueryDTO.getInstitutionDEs());
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getArrayPlatformDE()) ;
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getComparisonGroups());
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getExprFoldChangeDE());
