@@ -16,7 +16,7 @@ var currentTmpReporters = "";
 var currentTmpReportersCount = 0;
 
 function A_saveTmpReporter_cb(txt)	{
-	//look9ing for txt["count"] and txt["reporters"]
+	//look9ing for txt["count"] and txt["reporters"]..txt["reporters"] is a <br/> delim string
 	//reporter has been added to the list,
 	//show how many we've saved,
 	if(txt["count"] > -1) {
