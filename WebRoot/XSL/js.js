@@ -238,6 +238,10 @@ function stupidXSLEscape(qname)	{
 	location.href = dest;
 }
 
+function runFindingCSV(key)	{
+	var dest = "jsp/csvWrapper.jsp?key="+ escape(key)+"&csv=true";
+	location.href = dest;
+}
 function doShowAllValues(q, state)	{
 	if(!state)	{
 		var oldq = "";
