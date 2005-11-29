@@ -3,7 +3,7 @@
 
 <xsl:output method="html" omit-xml-declaration="yes" /> 
 
-<xsl:param name="p_highlight"></xsl:param>
+<xsl:param name="p_highlight">0</xsl:param>
 <xsl:param name="p_highlight_op">gt</xsl:param>
 
 <xsl:param name="p_page">0</xsl:param>
@@ -285,7 +285,7 @@
 			      				<xsl:value-of select="Data" />
 			      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
 							</xsl:when>
-			      			<xsl:when test="$p_highlight != 000 and $p_highlight_op != ''">
+			      			<xsl:when test="$p_highlight_op != ''">
 			      				<xsl:choose>
 			      					<xsl:when test="$p_highlight_op = 'gt' and Data > $p_highlight">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
