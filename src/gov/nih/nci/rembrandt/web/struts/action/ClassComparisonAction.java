@@ -21,6 +21,7 @@ import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
@@ -37,10 +38,17 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class ClassComparisonAction extends DispatchAction {
-  
+	
+	private UserCredentials credentials;  
 	private Logger logger = Logger.getLogger(ClassComparisonAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-    private UserCredentials credentials;
+    /***
+     * These are the default error values used when an invalid enum type
+     * parameter has been passed to the action.  These default values should
+     * be verified as useful in all cases.
+     */
+    private MultiGroupComparisonAdjustmentType ERROR_MULTI_GROUP_COMPARE_ADJUSTMENT_TYPE = MultiGroupComparisonAdjustmentType.FWER;
+    private StatisticalMethodType ERROR_STATISTICAL_METHOD_TYPE = StatisticalMethodType.TTest;
     /**
      * Method submittal
      * 
@@ -100,6 +108,7 @@ public class ClassComparisonAction extends DispatchAction {
         ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
         classComparisonQueryDTO.setQueryName(classComparisonQueryForm.getAnalysisResultName());
         
+        
         //Create the clinical query DTO collection from the selected groups in the form
         Collection<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
         
@@ -134,25 +143,52 @@ public class ClassComparisonAction extends DispatchAction {
                 classComparisonQueryDTO.setArrayPlatformDE(arrayPlatformDE);
             }
             
-        //Create class comparison DEs
+           //Create class comparison DEs
+            /*
+             * This following code is here to deal with an observed problem with the changing 
+             * of case in request parameters.  See the class EnumCaseChecker for 
+             * enlightenment.
+             */
+           MultiGroupComparisonAdjustmentType mgAdjustmentType; 
+           String multiGroupComparisonAdjustmentTypeString= EnumCaseChecker.getEnumTypeName(classComparisonQueryForm.getComparisonAdjustment(),MultiGroupComparisonAdjustmentType.values());
+           if(multiGroupComparisonAdjustmentTypeString!=null) {
+        	   mgAdjustmentType = MultiGroupComparisonAdjustmentType.valueOf(multiGroupComparisonAdjustmentTypeString);
+           }else {
+        	   	logger.error("Invalid MultiGroupComparisonAdjustmentType value given in request");
+           		logger.error("Selected MultiGroupComparisonAdjustmentType value = "+classComparisonQueryForm.getComparisonAdjustment());
+           		logger.error("Using the default MultiGroupComparisonAdjustmentType value = "+ERROR_MULTI_GROUP_COMPARE_ADJUSTMENT_TYPE);
+           		mgAdjustmentType = ERROR_MULTI_GROUP_COMPARE_ADJUSTMENT_TYPE;
+           }
+           MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(mgAdjustmentType);  ;
            if(!classComparisonQueryForm.getComparisonAdjustment().equalsIgnoreCase("NONE")){
-                MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
                 StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.adjustedpValue);
                 classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
                 classComparisonQueryDTO.setStatisticalSignificanceDE(statisticalSignificanceDE);
-                
             }
             else{
-                MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE = new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.valueOf(MultiGroupComparisonAdjustmentType.class, classComparisonQueryForm.getComparisonAdjustment()));        
-                StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.pValue);  
+            	StatisticalSignificanceDE statisticalSignificanceDE = new StatisticalSignificanceDE(classComparisonQueryForm.getStatisticalSignificance(),Operator.LE,StatisticalSignificanceType.pValue);  
                 classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(multiGroupComparisonAdjustmentTypeDE);
                 classComparisonQueryDTO.setStatisticalSignificanceDE(statisticalSignificanceDE);
                 
             }
-            
-            
+           
             if(classComparisonQueryForm.getStatisticalMethod() != "" || classComparisonQueryForm.getStatisticalMethod().length() != 0){
-                StatisticTypeDE statisticTypeDE = new StatisticTypeDE(StatisticalMethodType.valueOf(StatisticalMethodType.class, classComparisonQueryForm.getStatisticalMethod()));
+            	/*
+                 * This following code is here to deal with an observed problem with the changing 
+                 * of case in request parameters.  See the class EnumCaseChecker for 
+                 * enlightenment.
+                 */
+            	StatisticalMethodType statisticalMethodType; 
+            	String statisticalMethodTypeString= EnumCaseChecker.getEnumTypeName(classComparisonQueryForm.getStatisticalMethod(),StatisticalMethodType.values());
+                 if(statisticalMethodTypeString!=null) {
+                	 statisticalMethodType = StatisticalMethodType.valueOf(statisticalMethodTypeString);
+                 }else {
+              	   	logger.error("Invalid StatisticalMethodType value given in request");
+             		logger.error("Selected StatisticalMethodType value = "+classComparisonQueryForm.getStatisticalMethod());
+             		logger.error("Using the default StatisticalMethodType type of :"+ERROR_STATISTICAL_METHOD_TYPE);
+             		statisticalMethodType = ERROR_STATISTICAL_METHOD_TYPE;
+                 }
+                StatisticTypeDE statisticTypeDE = new StatisticTypeDE(statisticalMethodType);
                 classComparisonQueryDTO.setStatisticTypeDE(statisticTypeDE);
             }
             

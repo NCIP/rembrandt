@@ -27,7 +27,7 @@
 		urlDbalias - The URL to the database that we are going to use
 		databasePassword - The database password
 	-->
-	<target name="config_database" depends="config_logging, config_analysis_server">
+	<target name="config_database" depends="config_analysis_server">
 				<delete file="src/repository_database.xml"/>
 			    <copy file="src/repository_database.xml.template" tofile="src/repository_database.xml"/>
 				<replaceregexp file = "src/repository_database.xml" match="__DB_USER__" replace="${databaseUser}" flags="g"/>
@@ -59,7 +59,7 @@
 			Configures the common security module creating the necesary files
 			for Authentication and Authorization
 	-->
-		<target name="config_common_security_module" >
+		<target name="config_common_security_module" depends="config_logging">
 				<echo message="Configuring Common Security Module"/>
 				<!-- Configuring ApplicationSecurityConfig.xml -->
 				<echo message="Setting ApplicationSecurityConfig.xml"/>

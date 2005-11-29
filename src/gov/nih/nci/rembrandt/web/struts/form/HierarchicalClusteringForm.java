@@ -142,6 +142,7 @@ public class HierarchicalClusteringForm extends ActionForm {
      * @param distanceMatrix The distanceMatrix to set.
      */
     public void setDistanceMatrix(String distanceMatrix) {
+    	logger.debug("Setting distanceMatrix to "+distanceMatrix);
         this.distanceMatrix = distanceMatrix;
     }
 

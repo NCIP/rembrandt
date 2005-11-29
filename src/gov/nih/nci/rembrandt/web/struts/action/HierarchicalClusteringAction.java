@@ -15,6 +15,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
 import gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
@@ -38,13 +39,21 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class HierarchicalClusteringAction extends DispatchAction {
-    private Logger logger = Logger.getLogger(ClassComparisonAction.class);
+    private Logger logger = Logger.getLogger(HierarchicalClusteringAction.class);
+    private UserCredentials credentials;
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;
     private Collection<CloneIdentifierDE> cloneIdentifierDECollection;
     private SessionCriteriaBag sessionCriteriaBag;
-    private UserCredentials credentials;
-  
+    /***
+     * These are the default error values used when an invalid enum type
+     * parameter has been passed to the action.  These default values should
+     * be verified as useful in all cases.
+     */
+    private DistanceMatrixType ERROR_DISTANCE_MATRIX_TYPE = DistanceMatrixType.Correlation;
+    private LinkageMethodType ERROR_LINKAGE_METHOD_TYPE = LinkageMethodType.Average;
+    private ClusterByType ERROR_CLUSTER_BY_TYPE = ClusterByType.Genes;
+   
     
     /**
      * Method submittal
@@ -64,6 +73,7 @@ public class HierarchicalClusteringAction extends DispatchAction {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         HierarchicalClusteringForm hierarchicalClusteringForm = (HierarchicalClusteringForm) form;
+        logger.debug("Selected Distance Matrix in HttpServletRequest: " + request.getParameter("distanceMatrix"));
         String sessionId = request.getSession().getId();
         HierarchicalClusteringQueryDTO hierarchicalClusteringQueryDTO = createHierarchicalClusteringQueryDTO(hierarchicalClusteringForm,sessionId); 
         /*Create the InstituteDEs using credentials from the local session.
@@ -138,11 +148,42 @@ public class HierarchicalClusteringAction extends DispatchAction {
         }
         
         // create distance matrix DEs
-        DistanceMatrixTypeDE distanceMatrixTypeDE = new DistanceMatrixTypeDE(DistanceMatrixType.valueOf(DistanceMatrixType.class,hierarchicalClusteringForm.getDistanceMatrix()));
+        logger.debug("Selected DistanceMatrixType in ActionForm:"+hierarchicalClusteringForm.getDistanceMatrix());
+        /*
+         * This code is here to deal with an observed problem with the changing 
+         * of case in request parameters.  See the class EnumCaseChecker for 
+         * enlightenment.
+         */
+        DistanceMatrixType distanceMatrixType = null;
+        String myTypeString = EnumCaseChecker.getEnumTypeName(hierarchicalClusteringForm.getDistanceMatrix(),DistanceMatrixType.values());
+        if(myTypeString!=null) {
+        	distanceMatrixType = DistanceMatrixType.valueOf(myTypeString);
+        }else {
+        	logger.error("Invalid DistanceMatrixType value given in request");
+        	logger.error("Selected DistanceMatrixType value = "+hierarchicalClusteringForm.getDistanceMatrix());
+        	logger.error("Using the safety DistanceMatrixType value = "+ERROR_DISTANCE_MATRIX_TYPE);
+        	distanceMatrixType = ERROR_DISTANCE_MATRIX_TYPE;
+        }
+        DistanceMatrixTypeDE distanceMatrixTypeDE = new DistanceMatrixTypeDE(distanceMatrixType);
         hierarchicalClusteringQueryDTO.setDistanceMatrixTypeDE(distanceMatrixTypeDE);
         
         // create linkageMethodDEs
-        LinkageMethodTypeDE linkageMethodTypeDE = new LinkageMethodTypeDE(LinkageMethodType.valueOf(LinkageMethodType.class,hierarchicalClusteringForm.getLinkageMethod()));
+        /*
+         * This code is here to deal with an observed problem with the changing 
+         * of case in request parameters.  See the class EnumCaseChecker for 
+         * enlightenment.
+         */
+        LinkageMethodType linkageMethodType = null;
+        String linkageMethodTypeName = EnumCaseChecker.getEnumTypeName(hierarchicalClusteringForm.getLinkageMethod(),LinkageMethodType.values());
+        if(linkageMethodTypeName!=null) {
+        	linkageMethodType = LinkageMethodType.valueOf(linkageMethodTypeName);
+        }else {
+        	logger.error("Invalid LinkageMethodType value given in request");
+        	logger.error("Selected LinkageMethodType value = "+hierarchicalClusteringForm.getLinkageMethod());
+        	logger.error("Using the safety LinkageMethodType value = "+ERROR_LINKAGE_METHOD_TYPE);
+        	linkageMethodType = ERROR_LINKAGE_METHOD_TYPE;
+        }
+        LinkageMethodTypeDE linkageMethodTypeDE = new LinkageMethodTypeDE(linkageMethodType);
         hierarchicalClusteringQueryDTO.setLinkageMethodTypeDE(linkageMethodTypeDE);
         
         //create ArrayPlatformDE
@@ -151,7 +192,22 @@ public class HierarchicalClusteringAction extends DispatchAction {
         }
         
         if(!hierarchicalClusteringForm.getClusterBy().equals("")){
-        	hierarchicalClusteringQueryDTO.setClusterTypeDE(new ClusterTypeDE(ClusterByType.valueOf(ClusterByType.class,hierarchicalClusteringForm.getClusterBy())));
+        	 /*
+             * This code is here to deal with an observed problem with the changing 
+             * of case in request parameters.  See the class EnumCaseChecker for 
+             * enlightenment.
+             */
+        	ClusterByType clusterByType = null;
+            String clusterByTypeName = EnumCaseChecker.getEnumTypeName(hierarchicalClusteringForm.getClusterBy(),ClusterByType.values());
+            if(clusterByTypeName!=null) {
+            	clusterByType = ClusterByType.valueOf(clusterByTypeName);
+            }else {
+            	logger.error("Invalid ClusterByType value given in request");
+            	logger.error("Selected ClusterByType value = "+hierarchicalClusteringForm.getClusterBy());
+            	logger.error("Using the safety ClusterByType value = "+ERROR_CLUSTER_BY_TYPE);
+            	clusterByType = ERROR_CLUSTER_BY_TYPE;
+            }
+        	hierarchicalClusteringQueryDTO.setClusterTypeDE(new ClusterTypeDE(clusterByType));
         }
         
         return hierarchicalClusteringQueryDTO;
