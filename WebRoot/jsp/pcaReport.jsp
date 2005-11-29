@@ -10,6 +10,7 @@
 gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j.Document, gov.nih.nci.rembrandt.util.*" %>
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>
 <%@ page import="gov.nih.nci.rembrandt.cache.*" %>
+
 <html>
 	<head>
 		<title>Rembrandt PCA Plots</title>
@@ -126,12 +127,14 @@ function startup() {
 	</head>
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+
+<span style="z-index:1000; float:right;"><a href="javascript:top.close()"><img src="images/close.png" border="0"></a></span>
+<div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
+ 
+
 <%
-String key = "taskId";
-if(request.getParameter("key")!=null)
-	key = (String) request.getParameter("key");
-
-
+String colorBy = request.getParameter("colorBy")!=null ? (String) request.getParameter("colorBy") : "Disease"; 
+String key = request.getParameter("key")!=null ? (String) request.getParameter("key") : "taskId";
 String pcaView = request.getParameter("pcaView")!=null ? (String) request.getParameter("pcaView") : "PC1vsPC2";
 %>
 
@@ -163,18 +166,34 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 	</ul>
 </div>
 <div id="main" style="font-family:arial; font-size:12px">
+<div style="margin-left:10px">
+<b>Color By: </b>
+<%
+if(colorBy.equals("Gender"))
+	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=Disease\">Disease</a>");		
+else
+	out.write("Disease");
+	
+out.write(" | ");
 
+if(colorBy.equals("Disease"))
+	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=Gender\">Gender</a>");		
+else
+	out.write("Gender");
+%>
+<br/>
+</div>
 <table>
 	<tr>
 		<td>
 <% if(pcaView.equals("PC1vsPC2"))	{ %>
-<graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC2" colorBy="Gender" />
+<graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC2" colorBy="<%=colorBy%>" />
 <% } %>
 <% if(pcaView.equals("PC1vsPC3"))	{ %>
-<p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC3" /></p>
+<p><graphing:PCAPlot taskId="<%=key%>" components="PC1vsPC3" colorBy="<%=colorBy%>" /></p>
 <% } %>
 <% if(pcaView.equals("PC2vsPC3"))	{ %>
-<p><graphing:PCAPlot taskId="<%=key%>" components="PC2vsPC3" /></p>
+<p><graphing:PCAPlot taskId="<%=key%>" components="PC2vsPC3" colorBy="<%=colorBy%>" /></p>
 <% } %>
 		</td>
 		<td style="vertical-align:top">
@@ -233,7 +252,7 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 			//alert(theAreas[i].coords);
 		}
 		if(gotem != "")	{
-			alert("lasso has: \n" + gotem);
+			//alert("lasso has: \n" + gotem);
 			writePendings();
 		}
 	
