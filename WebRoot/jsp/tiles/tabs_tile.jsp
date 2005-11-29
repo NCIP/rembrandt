@@ -99,7 +99,7 @@
 				//3 is view results
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n" + resultsSecondary;
+				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				break;
 			case 4:
