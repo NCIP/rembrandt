@@ -170,7 +170,10 @@ function spawnAnnot(type, element)	{
 		rbtFrame(page);
 	}
 	else if(type == 'reporter')	{
-		page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(el)+escape('&pix=620&hgsid=40518963&Submit=submit');
+		var annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
+		page = escape(annotLink + element);
+		//alert(page);		
+		//page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(el)+escape('&pix=620&hgsid=40518963&Submit=submit');
 		rbtFrame(page);
 	}
 }
