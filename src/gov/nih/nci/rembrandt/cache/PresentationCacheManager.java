@@ -26,7 +26,7 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.helper.SessionTempReportCounter;
 /**
  * PresentationCacheManager was written to provide a cache written specifically
- * for the Presentation tier.  At the time of writing methods have been removed
+ * for the Presentation tier.  At the time of writing, methods have been removed
  * from the ConvenientCache interface and added to the PresentationTierCache 
  * interface.  
  *  
@@ -95,7 +95,9 @@ public class PresentationCacheManager implements PresentationTierCache{
          */
         String uniqueSession = sessionId+"_presentation";
         if( manager!=null && !manager.cacheExists(uniqueSession) ) {
-        	//Programatically creates the a unique session cache for the sessionId passed
+        	//Programatically creates the a unique session cache for the sessionId
+        	//passed.   We will need to start using a newly created session
+        	//
             sessionCache = new Cache(uniqueSession, 1000, true, true, 0, 0, true, 120);
             logger.debug("New Presentation SessionCache created: "+sessionId);
             Element counter = new Element(RembrandtConstants.REPORT_COUNTER, new SessionTempReportCounter());

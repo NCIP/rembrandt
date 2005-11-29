@@ -84,9 +84,12 @@ public final class RembrandtConstants {
     public static final String[] FOLD_CHANGE_DEFAULTS = {"2","3","4","5","6","7","8","9","10"};
 	
     public static final String USER_PREFERENCES = "userPreferences";
+    
+    public static final String USER_CREDENTIALS = "UserCredentials";
 
     public static final String WEB_GENOMEAPP_PROPERTIES = "webGenome.properties";
-	public static final String TEMP_REPORTER_GROUP = "Reporter_Group";
+	
+    public static final String TEMP_REPORTER_GROUP = "Reporter_Group";
 
 
 }

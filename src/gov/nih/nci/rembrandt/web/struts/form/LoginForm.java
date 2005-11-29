@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.security.SecurityManager;
 import gov.nih.nci.caintegrator.security.UserCredentials;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +62,7 @@ public final class LoginForm extends ActionForm {
 
 		if (credentials != null && credentials.authenticated()) {
 			userLoggedIn = true;
-			request.getSession().setAttribute("UserCredentials",credentials);
+			request.getSession().setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
 		} else {
 			errors.add("Authentication", new ActionError(
 					"User is not authenticated"));
@@ -70,5 +71,4 @@ public final class LoginForm extends ActionForm {
 
 		return errors;
 	}
-
 }

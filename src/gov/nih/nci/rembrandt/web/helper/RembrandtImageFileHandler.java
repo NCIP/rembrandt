@@ -26,7 +26,7 @@ public class RembrandtImageFileHandler {
 	//The specific temp directory for the application
 	private static String tempDir = "";
 	private static Logger logger = Logger.getLogger(RembrandtImageFileHandler.class);
-	private static String fileSeperator = File.separator;
+	private static String SEPERATOR = File.separator;
 	
 	public RembrandtImageFileHandler(String userSessionId,String imageTypeExtension, int width, int height) {
 		if(tempDir.equals("")) {
@@ -40,7 +40,7 @@ public class RembrandtImageFileHandler {
 			 * the temp directory to the Context.  
 			 */
 			String jbossTempDirPath = System.getProperty("jboss.server.temp.dir");
-	    	String jbossTempDeployDirPath = jbossTempDirPath+fileSeperator+"deploy"+fileSeperator;
+	    	String jbossTempDeployDirPath = jbossTempDirPath+SEPERATOR+"deploy"+SEPERATOR;
 	    	File directory = new File(jbossTempDeployDirPath);
 			String[] list = directory.list();
 			File[] fileList = directory.listFiles();
@@ -62,9 +62,9 @@ public class RembrandtImageFileHandler {
 			imageWidth = width;
 			imageHeight = height;
 		}
-		String relativeSessionTempPath = tempDir+fileSeperator+"images"+fileSeperator+userSessionId+fileSeperator;
+		String relativeSessionTempPath = tempDir+SEPERATOR+"images"+SEPERATOR+userSessionId+SEPERATOR;
 		//Path that will be used in the <img /> tag without the file name
-		URLPath = "images"+fileSeperator+userSessionId+fileSeperator;
+		URLPath = "images"+SEPERATOR+userSessionId+SEPERATOR;
 		//the actual unique chart name
 		chartName = createUniqueChartName(imageTypeExtension);
 		/*
@@ -73,7 +73,7 @@ public class RembrandtImageFileHandler {
 		 */
 		File dir = new File(relativeSessionTempPath);
 		boolean dirCreated = dir.mkdir();
-		setSessionTempFolder(relativeSessionTempPath+fileSeperator+chartName);
+		setSessionTempFolder(relativeSessionTempPath+SEPERATOR+chartName);
 		/*
 		 * Cleans out the session image temp folder if it did already
 		 * exist.  However, because of threading issues it appears to work
