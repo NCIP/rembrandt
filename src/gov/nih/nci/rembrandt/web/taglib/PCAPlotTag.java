@@ -84,10 +84,10 @@ public class PCAPlotTag extends AbstractGraphingTag {
                 chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC2,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             if(components.equalsIgnoreCase("PC1vsPC3")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC1,PCAcolorByType.Disease);
+                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             if(components.equalsIgnoreCase("PC2vsPC3")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.Disease);
+                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             
             RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
@@ -128,7 +128,8 @@ public class PCAPlotTag extends AbstractGraphingTag {
             
             out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,true,info));
             finalURLpath = finalURLpath.replace("\\", "/");
-		    out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
+            long randomness = System.currentTimeMillis(); //prevent image caching
+		    out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"?"+randomness+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
             
             
             //(imageHandler.getImageTag(mapFileName));
