@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
@@ -13,10 +14,12 @@ import gov.nih.nci.caintegrator.enumeration.Operator;
 import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
@@ -37,6 +40,7 @@ public class ClassComparisonAction extends DispatchAction {
   
 	private Logger logger = Logger.getLogger(ClassComparisonAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private UserCredentials credentials;
     /**
      * Method submittal
      * 
@@ -57,6 +61,16 @@ public class ClassComparisonAction extends DispatchAction {
         ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
         String sessionId = request.getSession().getId();
         ClassComparisonQueryDTO classComparisonQueryDTO = createClassComparisonQueryDTO(classComparisonForm,sessionId);
+        
+        /*Create the InstituteDEs using credentials from the local session.
+         * May want to put these in the cache eventually.
+         */
+        
+        if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
+            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+            classComparisonQueryDTO.setInstitutionDEs(credentials.getInstitutes());
+        }
+        
         
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
         Finding finding = null;
@@ -85,7 +99,6 @@ public class ClassComparisonAction extends DispatchAction {
 
         ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
         classComparisonQueryDTO.setQueryName(classComparisonQueryForm.getAnalysisResultName());
-        
         
         //Create the clinical query DTO collection from the selected groups in the form
         Collection<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();

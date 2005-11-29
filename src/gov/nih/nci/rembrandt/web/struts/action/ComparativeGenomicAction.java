@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
@@ -15,6 +16,7 @@ import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
@@ -45,7 +47,7 @@ import org.apache.struts.actions.LookupDispatchAction;
 public class ComparativeGenomicAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-    
+    private UserCredentials credentials;
    //if multiUse button clicked (with styles de-activated) forward back to page
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -242,6 +244,14 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         logger.debug("This is a Comparative Genomic Submittal");
         //Create Query Objects
         ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
+        
+        if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
+            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+            InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+            institutionCriteria.setInstitutions(credentials.getInstitutes());
+            cghQuery.setInstitutionCriteria(institutionCriteria);
+        }
+        
         //This is required as struts resets the form.  It is later added back to the request
         request.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
        

@@ -11,6 +11,7 @@ import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
 import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -23,6 +24,7 @@ import gov.nih.nci.caintegrator.enumeration.ClusterByType;
 import gov.nih.nci.caintegrator.enumeration.LinkageMethodType;
 import gov.nih.nci.caintegrator.enumeration.Operator;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 
 
@@ -41,6 +43,7 @@ public class HierarchicalClusteringAction extends DispatchAction {
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;
     private Collection<CloneIdentifierDE> cloneIdentifierDECollection;
     private SessionCriteriaBag sessionCriteriaBag;
+    private UserCredentials credentials;
   
     
     /**
@@ -63,6 +66,15 @@ public class HierarchicalClusteringAction extends DispatchAction {
         HierarchicalClusteringForm hierarchicalClusteringForm = (HierarchicalClusteringForm) form;
         String sessionId = request.getSession().getId();
         HierarchicalClusteringQueryDTO hierarchicalClusteringQueryDTO = createHierarchicalClusteringQueryDTO(hierarchicalClusteringForm,sessionId); 
+        /*Create the InstituteDEs using credentials from the local session.
+         * May want to put these in the cache eventually.
+         */
+        
+        if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
+            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+            hierarchicalClusteringQueryDTO.setInstitutionDEs(credentials.getInstitutes());
+        }
+        
         
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
         Finding finding = null;

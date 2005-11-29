@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
@@ -15,6 +16,7 @@ import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -47,7 +49,7 @@ import org.apache.struts.actions.LookupDispatchAction;
 public class GeneExpressionAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(GeneExpressionAction.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-	
+    private UserCredentials credentials;
 	/**
      * Method setup
      * 
@@ -219,7 +221,14 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
-	    logger.debug("This is a Gene Expression Submital");
+	    
+        if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
+            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+            InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+            institutionCriteria.setInstitutions(credentials.getInstitutes());
+            geneExpQuery.setInstitutionCriteria(institutionCriteria);
+        }
+        logger.debug("This is a Gene Expression Submital");
 	   
 		if (!geneExpQuery.isEmpty()) {
 			SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
@@ -234,6 +243,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		    return mapping.findForward("backToGeneExp"); 
 		}
 		
+        
 		return mapping.findForward("advanceSearchMenu");
 	}
 
@@ -359,6 +369,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			arrayPlatformCriteria.setPlatform(new ArrayPlatformDE(Constants.ALL_PLATFROM));
 			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
 		}
+        
 	    return geneExpQuery;
 	}
 	
