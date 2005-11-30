@@ -624,6 +624,27 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
         if(survivalCriteria != null){
             myClone.survivalCriteria = (SurvivalCriteria) survivalCriteria.clone();
         }
+        
+        if(raceCriteria != null){
+            myClone.raceCriteria = (RaceCriteria) raceCriteria.clone();
+        }
+        
+        if(karnofskyCriteria != null){
+            myClone.karnofskyCriteria = (KarnofskyClinicalEvalCriteria) karnofskyCriteria.clone();
+        }
+        
+        if(lanskyCriteria != null){
+            myClone.lanskyCriteria = (LanskyClinicalEvalCriteria) lanskyCriteria.clone();
+        }
+        
+        if(neuroExamCriteria != null){
+            myClone.neuroExamCriteria = (NeuroExamClinicalEvalCriteria) neuroExamCriteria.clone();
+        }
+        
+        if(mriCriteria != null){
+            myClone.mriCriteria = (MRIClinicalEvalCriteria) mriCriteria.clone();
+        }
+        
 		return myClone;
 	}
 
