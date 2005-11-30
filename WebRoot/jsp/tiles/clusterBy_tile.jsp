@@ -14,9 +14,9 @@ Step 3: Cluster By
 	
 <br>
 
-			<html:radio styleClass="radio" property="clusterBy" value="samples"/>
+			<html:radio styleClass="radio" property="clusterBy" value="Samples"/>
 			&nbsp;samples<br />
-			<html:radio styleClass="radio" property="clusterBy" value="genes"/>
+			<html:radio styleClass="radio" property="clusterBy" value="Genes"/>
 			&nbsp;genes<br />			
 			
 </fieldset>
