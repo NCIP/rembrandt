@@ -974,7 +974,7 @@
 
 </class-descriptor>
 <!-- temporary commented out -->
-
+<!--
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
@@ -1048,15 +1048,11 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
-
+-->
 <class-descriptor
-<<<<<<< repository_user_caintegrator.xml
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
-=======
-       class="gov.nih.nci.rembrandt.dbbean.GEPatientData"
-       table="PT_DATA_GE">
->>>>>>> 1.8
+
         <field-descriptor
                  name="institutionId"
                  column="INSTITUTION_ID"
