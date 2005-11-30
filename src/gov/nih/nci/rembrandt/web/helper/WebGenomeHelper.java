@@ -174,11 +174,11 @@ public class WebGenomeHelper {
             stateID = service.publishReportState(dto);
         }catch(NoSuchObjectException e) {
             // means that container must have restared Hence the reference is stale
-            Object h = locator.relocateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
-                                            ApplicationStateTrackerHome.class);
-            ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
-            ApplicationStateTracker  service = home.create();
-            stateID = service.publishReportState(dto);
+           // Object h = locator.relocateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
+           //                                ApplicationStateTrackerHome.class);
+           // ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
+           // ApplicationStateTracker  service = home.create();
+           // stateID = service.publishReportState(dto);
         } catch(Throwable t) {
             _logger.error("Error in publishing the RBTApplicationState.  Error:", t);
             throw new Exception("Error in publishing the RBTApplicationState.  Error:" +
