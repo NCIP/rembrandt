@@ -22,8 +22,8 @@ import org.apache.ojb.broker.query.Criteria;
  * 
  * @author SahniH
  */
-public class Validator{
-    private static Logger logger = Logger.getLogger(Validator.class);
+public class DataValidator{
+    private static Logger logger = Logger.getLogger(DataValidator.class);
 
 	
 	

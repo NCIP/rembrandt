@@ -2,7 +2,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-import gov.nih.nci.rembrandt.queryservice.validation.Validator;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSException;
@@ -298,8 +298,8 @@ public class UIFormValidator {
     public static ActionErrors validateGeneSymbol(GeneValidator bean, ActionErrors errors) throws Exception{
         String gene = bean.getGeneSymbol();
 //      see if geneSymbol can't be found, if it cannot look for aliases
-	    if(!Validator.isGeneSymbolFound(gene)){
-			AllGeneAliasLookup[] allGeneAlias = Validator.searchGeneKeyWord(gene);
+	    if(!DataValidator.isGeneSymbolFound(gene)){
+			AllGeneAliasLookup[] allGeneAlias = DataValidator.searchGeneKeyWord(gene);
 			// if there are aliases , set the array to be displayed in the form and return the showAlias warning
 			if(allGeneAlias != null){
 			    bean.setAllGeneAlias(allGeneAlias);

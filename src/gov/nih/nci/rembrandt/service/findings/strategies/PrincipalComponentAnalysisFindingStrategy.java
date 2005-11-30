@@ -29,7 +29,7 @@ import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.validation.Validator;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.Collection;
@@ -139,7 +139,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 		 					//1. Get the sample Ids from the return Clinical query
 							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
 							//2. validate samples so that GE data exsists for these samples
-							Collection<SampleIDDE> validSampleIDDEs = Validator.validateSampleIds(sampleIDDEs);
+							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
 							//3. Extracts sampleIds as Strings
 							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
 							if(sampleIDs != null){
@@ -172,7 +172,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			if(	myQueryDTO.getReporterIdentifierDEs() != null){
 					Collection<CloneIdentifierDE> validCloneDEs;
 					try {
-						validCloneDEs = Validator.validateReporters(myQueryDTO.getReporterIdentifierDEs());
+						validCloneDEs = DataValidator.validateReporters(myQueryDTO.getReporterIdentifierDEs());
 
 					//Create a set of submitted Reporters 
 					Set<CloneIdentifierDE> set = new HashSet<CloneIdentifierDE>();
@@ -197,7 +197,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			if(	myQueryDTO.getGeneIdentifierDEs() != null){
 				Collection<GeneIdentifierDE> validGeneDEs;
 				try {
-					validGeneDEs = Validator.validateGenes(myQueryDTO.getGeneIdentifierDEs());
+					validGeneDEs = DataValidator.validateGenes(myQueryDTO.getGeneIdentifierDEs());
 
 				//Create a set of submitted Reporters 
 				Set<GeneIdentifierDE> set = new HashSet<GeneIdentifierDE>();
