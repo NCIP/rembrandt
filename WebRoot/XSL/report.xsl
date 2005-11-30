@@ -397,7 +397,7 @@
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
 			      				<xsl:value-of select="Data" />
-			      				<!-- <input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/> -->
+			      				<input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
 							</xsl:when>
 			      			<xsl:when test="$filter_value1 != 000 and $filter_value4 != ''">
 			      				<xsl:choose>

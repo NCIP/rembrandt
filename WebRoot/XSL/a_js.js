@@ -156,3 +156,48 @@ function initPagination()	{
 	var my_rows = my_table.rows;
 	//alert(my_rows.length-1);
 }
+
+function initSortArrows()	{
+
+	var element = document.forms['paginate'].p_sort_element.value;
+	var method = document.forms['paginate'].p_sort_method.value;
+
+	var imgsrc = "images/sort-none.png";
+	var upimgsrc = "images/openUpArrow.png";
+	var downimgsrc = "images/openDownArrow.png";
+	
+	if(method == "ascending")	{
+		downimgsrc = "images/openDownArrow.png";
+		upimgsrc = "images/closedUpArrow.png";
+	}
+	else if(method == "descending")	{
+		downimgsrc = "images/closedDownArrow.png";
+		upimgsrc = "images/openUpArrow.png";
+	}
+	if(document.getElementById(element+"_sort_img_up"))	{
+		if(document.getElementById(element+"_sort_img_up").src != upimgsrc)	{
+			document.getElementById(element+"_sort_img_up").src = upimgsrc;
+		}
+	}
+	if(document.getElementById(element+"_sort_img_down"))	{
+		if(document.getElementById(element+"_sort_img_down").src != downimgsrc)	{
+			document.getElementById(element+"_sort_img_down").src = downimgsrc;
+		}
+	}
+	
+}	
+
+function goSort(element, method, key)	{
+	//reuse the paginate form
+	if(document.forms['paginate'].p_sort_element)
+		 document.forms['paginate'].p_sort_element.value = element;
+	if(document.forms['paginate'].p_sort_method)
+		 document.forms['paginate'].p_sort_method.value = method;
+	//go back to the start
+	if(document.forms['paginate'].p_page)
+		 document.forms['paginate'].p_page.value = "0";
+	if(document.forms['paginate'].p_step)
+		 document.forms['paginate'].p_step.value = "25"; 
+
+	document.forms['paginate'].submit();
+}

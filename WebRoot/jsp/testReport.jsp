@@ -32,44 +32,48 @@ String key = "test";
 if(request.getParameter("key")!=null)
 	key = (String) request.getParameter("key");
 
-String p_highlight = "";
-if(request.getParameter("p_highlight")!=null)
-	p_highlight = (String) request.getParameter("p_highlight");
-String p_highlight_op = "gt";
-if(request.getParameter("p_highlight_op")!=null)
-	p_highlight_op = (String) request.getParameter("p_highlight_op");
-
-//some times these are off, as they are dynamically set after this at times
-String p_page = "0";
-if(request.getParameter("p_page")!=null)
-	p_page = (String) request.getParameter("p_page");
-String p_step = "25";
-if(request.getParameter("p_step")!=null)
-	p_step = (String) request.getParameter("p_step");
-
-//for p-value filtering
-String p_pval_filter_mode = "";
-if(request.getParameter("p_pval_filter_mode")!=null)
-	p_pval_filter_mode = (String) request.getParameter("p_pval_filter_mode");
-String p_pval_filter_value = "";
-if(request.getParameter("p_pval_filter_value")!=null)
-	p_pval_filter_value = (String) request.getParameter("p_pval_filter_value");
-
-String p_pval_filter_op = "lt";
-if(request.getParameter("p_pval_filter_op")!=null)
-	p_pval_filter_op = (String) request.getParameter("p_pval_filter_op");
-
 
 String xhtml = "nada";
 if(session.getAttribute(key+"_xhtml")!=null)	{
 	//display the report, and run some init JS functions on the page
 	xhtml = (String) session.getAttribute(key+"_xhtml");
 	out.println(xhtml);
-	out.println("<script language='javascript'>A_initSaveReporter(); checkStep();</script>");
+	out.println("<script language='javascript'>A_initSaveReporter(); checkStep(); initSortArrows();</script>");
 	session.removeAttribute(key+"_xhtml");
 }
 else	{
 
+	String p_highlight = "";
+	if(request.getParameter("p_highlight")!=null)
+		p_highlight = (String) request.getParameter("p_highlight");
+	String p_highlight_op = "gt";
+	if(request.getParameter("p_highlight_op")!=null)
+		p_highlight_op = (String) request.getParameter("p_highlight_op");
+	
+	//some times these are off, as they are dynamically set after this at times
+	String p_page = "0";
+	if(request.getParameter("p_page")!=null)
+		p_page = (String) request.getParameter("p_page");
+	String p_step = "25";
+	if(request.getParameter("p_step")!=null)
+		p_step = (String) request.getParameter("p_step");
+	
+	//for p-value filtering
+	String p_pval_filter_mode = "";
+	if(request.getParameter("p_pval_filter_mode")!=null)
+		p_pval_filter_mode = (String) request.getParameter("p_pval_filter_mode");
+	String p_pval_filter_value = "";
+	if(request.getParameter("p_pval_filter_value")!=null)
+		p_pval_filter_value = (String) request.getParameter("p_pval_filter_value");
+	
+	String p_pval_filter_op = "lt";
+	if(request.getParameter("p_pval_filter_op")!=null)
+		p_pval_filter_op = (String) request.getParameter("p_pval_filter_op");
+	
+	//for sorting
+	String p_sort_method = request.getParameter("p_sort_method")!=null ? (String) request.getParameter("p_sort_method") : "ascending";
+	String p_sort_element = request.getParameter("p_sort_element")!=null ? (String) request.getParameter("p_sort_element") : "3";
+	
 	%>
 	<div id="imgContainer" style="display:block; position:absolute;">
 		<center><img src="images/circleStatusGray200.gif" /></center>
@@ -94,6 +98,9 @@ else	{
 			a["p_pval_filter_mode"] = "<%=p_pval_filter_mode%>";
 			a["p_pval_filter_value"] = "<%=p_pval_filter_value%>";
 			//a["p_pval_filter_op"] = "<%=p_pval_filter_op%>";
+			
+			a["p_sort_element"] = "<%=p_sort_element%>";
+			a["p_sort_method"] = "<%=p_sort_method%>";
 			
 			//a["two"] = "atwo";
 			//var a = { key1:"value1", key2:"value2" };

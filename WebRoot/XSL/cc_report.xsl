@@ -15,6 +15,10 @@
 <xsl:param name="p_pval_filter_value"></xsl:param>
 <xsl:param name="p_pval_filter_op"></xsl:param>
 
+<xsl:param name="p_sort_element"></xsl:param>
+<xsl:param name="p_sort_method"></xsl:param>
+<xsl:param name="p_sort_dtype">number</xsl:param>
+
 <xsl:param name="filter_value5"></xsl:param>
 <xsl:param name="filter_value6"></xsl:param>
 
@@ -24,6 +28,14 @@
 <xsl:param name="queryDetails">N/A</xsl:param>
 <xsl:param name="statusMsg"></xsl:param>
 <xsl:param name="showAllValues">false</xsl:param>
+
+<xsl:variable name="dtype">
+	<xsl:choose>
+		<xsl:when test="$p_sort_element != '1'">number</xsl:when>
+		<xsl:otherwise>text</xsl:otherwise>		
+	</xsl:choose>
+</xsl:variable>
+
 <xsl:template match="/">
 
 <span>
@@ -52,7 +64,6 @@
 		</xsl:choose>
 	</xsl:variable>
 	
-		
 	<xsl:if test="$recordCount > 0">
 	
 		<xsl:variable name="qName" select="@queryName" />
@@ -76,6 +87,8 @@
 			<input type="hidden" name="p_pval_filter_mode" value="{$p_pval_filter_mode}"/>
 			<input type="hidden" name="p_pval_filter_value" value="{$p_pval_filter_value}"/>
 			<input type="hidden" name="p_pval_filter_op" value="{$p_pval_filter_op}"/>
+			<input type="hidden" name="p_sort_element" value="{$p_sort_element}"/>
+			<input type="hidden" name="p_sort_method" value="{$p_sort_method}"/>
 			<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</form>
 	
@@ -117,6 +130,8 @@
 							<input type="text" name="p_pval_filter_value" size="4" value="{$p_pval_filter_value}" />
 							<input type="hidden" name="p_page" value="0"/>
 							<input type="hidden" name="p_step" value="25"/>
+							<input type="hidden" name="p_sort_element" value="{$p_sort_element}"/>
+							<input type="hidden" name="p_sort_method" value="{$p_sort_method}"/>
 							<input type="submit" name="filter_submit" value="Filter" />
 							<input type="submit" name="filter_submit" value="Reset (Show All)" onclick="javascript:document.pval_filter_form.p_pval_filter_value.value='';" />
 						</form>
@@ -140,6 +155,8 @@
 				<input type="hidden" name="queryName" value="{$qName}"/>
 				<input type="hidden" name="p_page" value="{$p_page}"/>
 				<input type="hidden" name="p_step" value="{$p_step}"/>
+				<input type="hidden" name="p_sort_element" value="{$p_sort_element}"/>
+				<input type="hidden" name="p_sort_method" value="{$p_sort_method}"/>
 				<input type="submit" name="filter_submit" value="Highlight" />
 				<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 				<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.p_highlight.value='';" />
@@ -239,7 +256,12 @@
 		  	<xsl:for-each select="Cell[@class != 'csv']">
 			<xsl:choose>
 					<xsl:when test="@group='header'">
-						<td style="color:red"><xsl:value-of select="Data" /></td>
+					<xsl:variable name="currentone" select="position()"/>
+						<td style="color:red">
+							<xsl:value-of select="Data" />
+							<img id="{$currentone}_sort_img_up" style="margin-left:5px;" src="images/openUpArrow.png" onclick="javascript:goSort('{$currentone}','ascending', '{$key}');" />
+							<img id="{$currentone}_sort_img_down" style="margin-left:0px;" src="images/openDownArrow.png" onclick="javascript:goSort('{$currentone}','descending', '{$key}');" />
+						</td>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:variable name="currentGroup" select="@group" />
@@ -259,9 +281,14 @@
 		<form action="runReport.do?method=submitSamples" method="post" name="prbSamples">
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		
+		
+		
 		<!-- get each data row only -->
 		<!--  should be going filtering here, also copy to record count -->
 		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and Cell[3]/Data != $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'] | (Row[@name='dataRow' and Cell[3]/Data = $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'show']">
+			
+			<xsl:sort select="(Cell[3]/Data) [$p_sort_element = '3'] | (Cell[4]/Data) [$p_sort_element = '4'] | (Cell[1]/Data) [$p_sort_element = '1'] | (Cell[2]/Data) [$p_sort_element = '2'] | (Cell[1]/Data) [$p_sort_element = '']" order="{$p_sort_method}" data-type="{$dtype}" />
+	
 			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
 
 			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	
