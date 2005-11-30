@@ -3,25 +3,18 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 
-import gov.nih.nci.caintegrator.enumeration.*;
-import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
+import gov.nih.nci.caintegrator.enumeration.DistanceMatrixType;
+import gov.nih.nci.caintegrator.enumeration.LinkageMethodType;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.util.LabelValueBean;
 
 
@@ -112,6 +105,7 @@ public class HierarchicalClusteringForm extends ActionForm {
      * @return Returns the clusterBy.
      */
     public String getClusterBy() {
+    	logger.debug("cluserBy selection is: "+clusterBy);
         return clusterBy;
     }
 
