@@ -52,7 +52,7 @@ public class HierarchicalClusteringAction extends DispatchAction {
      */
     private DistanceMatrixType ERROR_DISTANCE_MATRIX_TYPE = DistanceMatrixType.Correlation;
     private LinkageMethodType ERROR_LINKAGE_METHOD_TYPE = LinkageMethodType.Average;
-    private ClusterByType ERROR_CLUSTER_BY_TYPE = ClusterByType.Genes;
+    private ClusterByType ERROR_CLUSTER_BY_TYPE = ClusterByType.Samples;
    
     
     /**
