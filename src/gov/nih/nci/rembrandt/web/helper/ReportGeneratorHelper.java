@@ -299,6 +299,8 @@ public class ReportGeneratorHelper {
 		}catch(Exception e) {
 			logger.error("Unable to create the ReportBean");
 			logger.error(e);
+		
+		  
 		}
 	}
 	

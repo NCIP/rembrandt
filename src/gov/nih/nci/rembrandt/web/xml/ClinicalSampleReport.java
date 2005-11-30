@@ -118,6 +118,56 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("RACE");
 			        	data = null;
 		        	cell = null;
+		        	
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Karnofsky");
+			        	data = null;
+		        	cell = null;
+		        	
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Lansky");
+			        	data = null;
+		        	cell = null;
+		        	
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Neuro Exam");
+			        	data = null;
+		        	cell = null;
+		        	
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("MRI");
+			        	data = null;
+		        	cell = null;
+		        	
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Time Point");
+			        	data = null;
+		        	cell = null;
+		        	
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Followup Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Followup Month");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Neuro Evaluation Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Steroid Dose Status");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Anti-Convulsant Status");
+			        	data = null;
+		        	 cell = null;
 		    //sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	
 		    
@@ -171,6 +221,56 @@ public class ClinicalSampleReport implements ReportGenerator {
 	   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getRaceDE()));
 				        		data = null;
 				        	cell = null;
+				        	
+				        	cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+	   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getKarnofskyClinicalEvalDE()));
+				        		data = null;
+				        	cell = null;
+				        	
+				        	cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+	   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getLanskyClinicalEvalDE()));
+				        		data = null;
+				        	cell = null;
+				        	
+				        	cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getNeuroExamClinicalEvalDE()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getMriClinicalEvalDE()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getTimePoints()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getFollowupDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getFollowupMonths()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getNeuroEvaluationDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getSteroidDoseStatuses()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getAntiConvulsantStatuses()));
+			        		data = null;
+			        	    cell = null;
 		   		/*
    	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +

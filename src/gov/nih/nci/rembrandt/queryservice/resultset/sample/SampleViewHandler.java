@@ -53,6 +53,10 @@ import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
@@ -118,7 +122,90 @@ public class SampleViewHandler {
 		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));
 		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
-  		return sampleResultset;
+		/*if(clinicalObj.getKarnofskyScore() != null) {
+		   sampleResultset.setKarnofskyClinicalEvalDE(new KarnofskyClinicalEvalDE(clinicalObj.getKarnofskyScore().toString()));
+		}*/
+		
+		if(clinicalObj.getKarnofskyScores() != null) {
+			   //sampleResultset.setKarnofskyScores(clinicalObj.getKarnofskyScores());
+			   sampleResultset.setKarnofskyClinicalEvalDE(new KarnofskyClinicalEvalDE(clinicalObj.getKarnofskyScores().toString()));
+				
+		}
+		
+		/*if(clinicalObj.getLanskyScore() != null) {
+			   sampleResultset.setLanskyClinicalEvalDE(new LanskyClinicalEvalDE(clinicalObj.getLanskyScore().toString()));
+			}*/
+			   
+	    if(clinicalObj.getLanskyScores() != null) {
+				//sampleResultset.setLanskyClinicalEvalDE(clinicalObj.getLanskyScores());
+				 sampleResultset.setLanskyClinicalEvalDE(new LanskyClinicalEvalDE(clinicalObj.getLanskyScores().toString()));
+					
+			}
+		/*if(clinicalObj.getNeuroExam() != null) {
+			   sampleResultset.setNeuroExamClinicalEvalDE(new NeuroExamClinicalEvalDE(clinicalObj.getNeuroExam().toString()));
+			}*/
+		
+		if(clinicalObj.getNeuroExams() != null) {
+			  // sampleResultset.setNeuroExamClinicalEvalDE(clinicalObj.getNeuroExams());
+			   sampleResultset.setNeuroExamClinicalEvalDE(new NeuroExamClinicalEvalDE(clinicalObj.getNeuroExams().toString()));
+				
+			}
+		
+		/*if(clinicalObj.getMriCtScore() != null) {
+			   sampleResultset.setMriClinicalEvalDE(new MRIClinicalEvalDE(clinicalObj.getMriCtScores().toString()));
+			}
+			*/
+		
+		if(clinicalObj.getMriCtScores() != null) {
+			  // sampleResultset.setMriClinicalEvalDE(clinicalObj.getMriCtScores());
+			   sampleResultset.setMriClinicalEvalDE(new MRIClinicalEvalDE(clinicalObj.getMriCtScores().toString()));
+				
+			}
+		
+		/*if(clinicalObj.getTimePoint() != null) {
+			   sampleResultset.setTimePoint(new String(clinicalObj.getTimePoint()));
+			}
+			*/
+		if(clinicalObj.getTimePoints() != null) {
+			   sampleResultset.setTimePoints(new String(clinicalObj.getTimePoints()));
+			}
+		/*
+		    if(clinicalObj.getFollowupDate() != null) {
+			   sampleResultset.setFollowupDate(clinicalObj.getFollowupDate());
+			}
+			*/
+		if(clinicalObj.getFollowupDates() != null) {
+			   sampleResultset.setFollowupDates(clinicalObj.getFollowupDates());
+			}
+		/*if(clinicalObj.getFollowupMonth() != null) {
+			   sampleResultset.setFollowupMonth(clinicalObj.getFollowupMonth());
+			}*/
+		
+		if(clinicalObj.getFollowupMonths() != null) {
+			   sampleResultset.setFollowupMonths(clinicalObj.getFollowupMonths());
+			}
+		/*if(clinicalObj.getNeuroEvaluationDate() != null) {
+			   sampleResultset.setNeuroEvaluationDate(clinicalObj.getNeuroEvaluationDate());
+			}*/
+		
+		if(clinicalObj.getNeuroEvaluationDates() != null) {
+			   sampleResultset.setNeuroEvaluationDates(clinicalObj.getNeuroEvaluationDates());
+			}
+		/*if(clinicalObj.getSteroidDoseStatus() != null) {
+			   sampleResultset.setSteroidDoseStatus(clinicalObj.getSteroidDoseStatus());
+			}*/
+		
+		if(clinicalObj.getSteroidDoseStatuses() != null) {
+			   sampleResultset.setSteroidDoseStatuses(clinicalObj.getSteroidDoseStatuses());
+			}
+		/*if(clinicalObj.getAntiConvulsantStatus() != null) {
+			   sampleResultset.setAntiConvulsantStatus(clinicalObj.getAntiConvulsantStatus());
+			}
+			*/
+		if(clinicalObj.getAntiConvulsantStatuses() != null) {
+			   sampleResultset.setAntiConvulsantStatuses(clinicalObj.getAntiConvulsantStatuses());
+			}
+		return sampleResultset;
     }
 	/**
 	 * @param sampleViewResultsContainer

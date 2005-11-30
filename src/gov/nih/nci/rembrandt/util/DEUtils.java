@@ -6,13 +6,22 @@ public class DEUtils {
 
 	
 	public static String checkNV(DomainElement element)	{
-		String str = "N/A";
+		String str = "--";
 		try	{
 			str = element.getValue().toString();
 		}
 		catch(Exception e){
 			//
 		}
+		return str;
+	}
+	
+	public static String checkNull(Object element)	{
+		String str = "--";
+		if(element != null) {
+			str = element.toString();
+		  }
+		
 		return str;
 	}
 }

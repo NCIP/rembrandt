@@ -4,6 +4,10 @@ import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.KarnofskyClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
@@ -198,6 +202,31 @@ public class ClinicalDataAction extends LookupDispatchAction {
         if (!raceCrit.isEmpty()) {
             clinicalDataQuery.setRaceCrit(raceCrit);
         }
+        
+       // set KarnofskyClinicalEvalCriteria 
+    	KarnofskyClinicalEvalCriteria karnofskyCriteria = clinicalDataForm.getKarnofskyCriteria();
+    	 if (!karnofskyCriteria.isEmpty()) {
+             clinicalDataQuery.setKarnofskyCriteria(karnofskyCriteria);
+         }
+    	
+    	 // set lanskyCriteria 
+    	 LanskyClinicalEvalCriteria lanskyCriteria = clinicalDataForm.getLanskyCriteria();
+     	 if (!lanskyCriteria.isEmpty()) {
+              clinicalDataQuery.setLanskyCriteria(lanskyCriteria);
+          }
+
+     	 // set lanskyCriteria 
+    	 MRIClinicalEvalCriteria mriCriteria = clinicalDataForm.getMriCriteria();
+     	 if (!mriCriteria.isEmpty()) {
+              clinicalDataQuery.setMriCriteria(mriCriteria);
+          }
+     	 
+     	 // set NeuroExamClinicalEvalCriteria 
+     	 NeuroExamClinicalEvalCriteria neuroExamCriteria = clinicalDataForm.getNeuroExamCriteria();
+     	 if (!neuroExamCriteria.isEmpty()) {
+              clinicalDataQuery.setNeuroExamCriteria(neuroExamCriteria);
+          }
+     	 
         return clinicalDataQuery;
     }
     

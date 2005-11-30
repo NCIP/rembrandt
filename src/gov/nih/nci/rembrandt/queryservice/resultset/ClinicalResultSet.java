@@ -6,6 +6,8 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset;
 
+import java.sql.Date;
+
 /**
  * @author Himanso
  *
@@ -83,6 +85,50 @@ public interface ClinicalResultSet {
 	 * @param Race The Race to set.
 	 */
 	public abstract void setRace(String race);
+	
+	public abstract Long getKarnofskyScore();
+	public abstract String getKarnofskyScores();
+	public abstract Long getLanskyScore();
+	public abstract String getLanskyScores();
+	public abstract Long getNeuroExam();
+	public abstract String getNeuroExams();
+	public abstract Long getMriCtScore();
+	public abstract String getMriCtScores();
+	public abstract String getTimePoint();
+	public abstract String getTimePoints();
+	public abstract Date getFollowupDate();	
+	public abstract String getFollowupDates();	
+	public abstract Long getFollowupMonth();
+	public abstract String getFollowupMonths();
+	public abstract Date getNeuroEvaluationDate();
+	public abstract String getNeuroEvaluationDates();
+	public abstract String getSteroidDoseStatus();
+	public abstract String getSteroidDoseStatuses();
+	public abstract String getAntiConvulsantStatus();
+	public abstract String getAntiConvulsantStatuses();
+	
+	
+	public abstract void setKarnofskyScore(Long arnofskyScore);	
+	public abstract void setKarnofskyScores(String arnofskyScore);	
+	public abstract void setLanskyScore(Long lanskyScore);	
+	public abstract void setLanskyScores(String lanskyScores);	
+	public abstract void setNeuroExam(Long neuroExam);
+	public abstract void setNeuroExams(String neuroExams);
+	public abstract void setMriCtScore(Long mriCtScore);
+	public abstract void setMriCtScores(String mriCtScores);
+	public abstract void setTimePoint(String timePoint);
+	public abstract void setTimePoints(String timePoints);
+	public abstract void setFollowupDate(Date followupDate);
+	public abstract void setFollowupDates(String followupDates);
+	public abstract void setFollowupMonth(Long followupMonth);
+	public abstract void setFollowupMonths(String followupMonths);
+	public abstract void setNeuroEvaluationDate(Date neuroEvaluationDate);
+	public abstract void setNeuroEvaluationDates( String neuroEvaluationDates);
+	public abstract void setSteroidDoseStatus(String steroidDoseStatus);
+	public abstract void setSteroidDoseStatuses(String steroidDoseStatuses);
+	public abstract void setAntiConvulsantStatus(String antiConvulsantStatus);
+	public abstract void setAntiConvulsantStatuses(String antiConvulsantStatuses);
+	
 	
 	
 	

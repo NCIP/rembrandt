@@ -5,6 +5,10 @@ import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.KarnofskyClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
@@ -16,6 +20,10 @@ import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.GradeDE;
+import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
@@ -51,6 +59,31 @@ public class ClinicalDataForm extends BaseForm {
     private String queryName;
 
     private String resultView;
+    
+    /** clinical_evaluation  lansky property */
+    private String lansky;
+
+    /** clinical_evaluation lansky type property */
+    private String lanskyType;
+    
+    /** clinical_evaluation  neuroExam property */
+    private String neuroExam;
+
+    /** clinical_evaluation neuroExam type property */
+    private String neuroExamType;
+    
+    /** clinical_evaluation  mri property */
+    private String mri;
+
+    /** clinical_evaluation mri type property */
+    private String mriType;
+    
+    /** clinical_evaluation  karnofsky property */
+    private String karnofsky;
+
+    /** clinical_evaluation karnofsky type property */
+    private String karnofskyType;
+
     
     /** caucasion property */
     private String caucasion;
@@ -141,7 +174,14 @@ public class ClinicalDataForm extends BaseForm {
     private ArrayList ageUpperColl = new ArrayList();
 
     private ArrayList genderTypeColl = new ArrayList();
-
+    
+    private ArrayList karnofskyTypeColl = new ArrayList();
+    
+    private ArrayList lanskyTypeColl = new ArrayList();
+    
+    private ArrayList neuroExamTypeColl = new ArrayList();
+    
+    private ArrayList mriTypeColl = new ArrayList();
    
 
     private OccurrenceCriteria occurrenceCriteria = new OccurrenceCriteria();
@@ -160,6 +200,14 @@ public class ClinicalDataForm extends BaseForm {
     
     private  RaceCriteria raceCriteria = new RaceCriteria();
     
+    private KarnofskyClinicalEvalCriteria karnofskyCriteria;
+    
+    private  LanskyClinicalEvalCriteria lanskyCriteria ;
+    
+    private  MRIClinicalEvalCriteria mriCriteria ;
+    
+    
+    private  NeuroExamClinicalEvalCriteria neuroExamCriteria ;    
    
 
   
@@ -262,6 +310,37 @@ public class ClinicalDataForm extends BaseForm {
         genderTypeColl.add(new LabelValueBean("Male", "M"));
         genderTypeColl.add(new LabelValueBean("Female", "F"));
         genderTypeColl.add(new LabelValueBean("Other", "O"));
+        
+        
+        karnofskyTypeColl.add(new LabelValueBean("", ""));
+        karnofskyTypeColl.add(new LabelValueBean("0", "0"));
+        karnofskyTypeColl.add(new LabelValueBean("20", "20"));
+        karnofskyTypeColl.add(new LabelValueBean("30", "30"));
+        karnofskyTypeColl.add(new LabelValueBean("40", "40"));
+        karnofskyTypeColl.add(new LabelValueBean("50", "50"));
+        karnofskyTypeColl.add(new LabelValueBean("60", "60"));
+        karnofskyTypeColl.add(new LabelValueBean("70", "70"));
+        karnofskyTypeColl.add(new LabelValueBean("80", "80"));
+        karnofskyTypeColl.add(new LabelValueBean("90", "90"));
+        karnofskyTypeColl.add(new LabelValueBean("100", "100"));
+        
+        lanskyTypeColl.add(new LabelValueBean("", ""));
+        
+        neuroExamTypeColl.add(new LabelValueBean("", ""));        
+        neuroExamTypeColl.add(new LabelValueBean("-2", "-2")); 
+        neuroExamTypeColl.add(new LabelValueBean("-1", "-1")); 
+        neuroExamTypeColl.add(new LabelValueBean("0", "0")); 
+        neuroExamTypeColl.add(new LabelValueBean("1", "1")); 
+        neuroExamTypeColl.add(new LabelValueBean("2", "2")); 
+        
+        mriTypeColl.add(new LabelValueBean("", "")); 
+        mriTypeColl.add(new LabelValueBean("-3", "-3"));  
+        mriTypeColl.add(new LabelValueBean("-2", "-2"));  
+        mriTypeColl.add(new LabelValueBean("-1", "-1"));  
+        mriTypeColl.add(new LabelValueBean("0", "0"));  
+        mriTypeColl.add(new LabelValueBean("1", "1"));  
+        mriTypeColl.add(new LabelValueBean("2", "2"));  
+        mriTypeColl.add(new LabelValueBean("3", "3")); 
 
     }
 
@@ -278,6 +357,15 @@ public class ClinicalDataForm extends BaseForm {
 
         queryName = "";
         resultView = "";    
+        lansky= "";     
+        lanskyType ="";   
+        neuroExam = "";      
+        neuroExamType = "";        
+        mri = "";       
+        mriType ="";        
+        karnofsky ="";    
+        karnofskyType = "";
+
         caucasion= "";       
         africanAmerican= "";      
         latino= "";      
@@ -318,10 +406,245 @@ public class ClinicalDataForm extends BaseForm {
         thisRequest = request;
 
     }
-
+ 
+    
     
 
-    /**
+   
+	/**
+	 * @return Returns the karnofsky.
+	 */
+	public String getKarnofsky() {
+		return karnofsky;
+	}
+
+
+
+
+
+	/**
+	 * @param karnofsky The karnofsky to set.
+	 */
+	public void setKarnofsky(String karnofsky) {
+		this.karnofsky = karnofsky;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the karnofskyType.
+	 */
+	public String getKarnofskyType() {
+		return karnofskyType;
+	}
+
+
+
+
+
+	/**
+	 * @param karnofskyType The karnofskyType to set.
+	 */
+	public void setKarnofskyType(String karnofskyType) {
+		this.karnofskyType = karnofskyType;
+		
+		   if (thisRequest != null) {
+	            // this is to check if thisKarnofsky option is selected
+	            String thisKarnofsky = thisRequest.getParameter("karnofsky");
+	            karnofskyCriteria = new KarnofskyClinicalEvalCriteria();
+	            
+	            // this is to check the type of Karnofsky
+	            String thisKarnofskyType = thisRequest.getParameter("karnofskyType");
+
+	            if (thisKarnofsky != null && thisKarnofskyType != null
+	                    && !thisKarnofskyType.equals("")) {
+	            	KarnofskyClinicalEvalDE karnofskyClinicalEvalDE = new KarnofskyClinicalEvalDE(this.karnofskyType);
+	            	karnofskyCriteria.setKarnofskyClinicalEvalDE(karnofskyClinicalEvalDE);	              
+	            }
+	        }
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the lansky.
+	 */
+	public String getLansky() {
+		return lansky;
+	}
+
+
+
+
+
+	/**
+	 * @param lansky The lansky to set.
+	 */
+	public void setLansky(String lansky) {
+		this.lansky = lansky;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the lanskyType.
+	 */
+	public String getLanskyType() {
+		return lanskyType;
+	}
+
+
+
+
+
+	/**
+	 * @param lanskyType The lanskyType to set.
+	 */
+	public void setLanskyType(String lanskyType) {
+		this.lanskyType = lanskyType;
+		
+		if (thisRequest != null) {
+            // this is to check if thisKarnofsky option is selected
+            String thisLansky = thisRequest.getParameter("lansky");
+            lanskyCriteria = new LanskyClinicalEvalCriteria();
+            
+            // this is to check the type of lanskyType
+            String thisLanskyType = thisRequest.getParameter("lanskyType");
+
+            if (thisLansky != null && thisLanskyType != null
+                    && !thisLanskyType.equals("")) {
+            	LanskyClinicalEvalDE lanskyClinicalEvalDE = new LanskyClinicalEvalDE(this.lanskyType);
+            	lanskyCriteria.setLanskyClinicalEvalDE(lanskyClinicalEvalDE);	              
+            }
+        }
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the mri.
+	 */
+	public String getMri() {
+		return mri;
+	}
+
+
+
+
+
+	/**
+	 * @param mri The mri to set.
+	 */
+	public void setMri(String mri) {
+		this.mri = mri;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the mriType.
+	 */
+	public String getMriType() {
+		return mriType;
+	}
+
+
+
+
+
+	/**
+	 * @param mriType The mriType to set.
+	 */
+	public void setMriType(String mriType) {
+		this.mriType = mriType;
+		
+		if (thisRequest != null) {
+            // this is to check if thisKarnofsky option is selected
+            String thisMRI= thisRequest.getParameter("mri");
+            mriCriteria = new MRIClinicalEvalCriteria();
+            
+            // this is to check the type of lanskyType
+            String thisMRIType = thisRequest.getParameter("mriType");
+
+            if (thisMRI != null && thisMRIType != null
+                    && !thisMRIType.equals("")) {
+            	MRIClinicalEvalDE mriClinicalEvalDE = new MRIClinicalEvalDE(this.mriType);
+            	mriCriteria.setMRIClinicalEvalDE(mriClinicalEvalDE);	              
+            }
+        }
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the neuroExam.
+	 */
+	public String getNeuroExam() {
+		return neuroExam;
+	}
+
+
+
+
+
+	/**
+	 * @param neuroExam The neuroExam to set.
+	 */
+	public void setNeuroExam(String neuroExam) {
+		this.neuroExam = neuroExam;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the neuroExamType.
+	 */
+	public String getNeuroExamType() {
+		return neuroExamType;
+	}
+
+
+	/**
+	 * @param neuroExamType The neuroExamType to set.
+	 */
+	public void setNeuroExamType(String neuroExamType) {
+		this.neuroExamType = neuroExamType;
+		
+		if (thisRequest != null) {
+            // this is to check if thisKarnofsky option is selected
+            String thisNeuroExam= thisRequest.getParameter("neuroExam");
+            neuroExamCriteria = new NeuroExamClinicalEvalCriteria();
+            
+            // this is to check the type of lanskyType
+            String thisNeuroExamType = thisRequest.getParameter("neuroExamType");
+
+            if (thisNeuroExam != null && thisNeuroExamType != null
+                    && !thisNeuroExamType.equals("")) {
+            	NeuroExamClinicalEvalDE neuroExamClinicalEvalDE = new NeuroExamClinicalEvalDE(this.neuroExamType);
+            	neuroExamCriteria.setNeuroExamClinicalEvalDE(neuroExamClinicalEvalDE);	              
+            }
+        }
+	}
+
+
+
+
+
+	/**
 	 * @return Returns the africanAmerican.
 	 */
 	public String getAfricanAmerican() {
@@ -926,7 +1249,42 @@ public class ClinicalDataForm extends BaseForm {
         return this.raceCriteria;
     }
     
-    public ArrayList getRecurrenceTypeColl() {
+    
+    
+    /**
+	 * @return Returns the karnofskyCriteria.
+	 */
+	public KarnofskyClinicalEvalCriteria getKarnofskyCriteria() {
+		return karnofskyCriteria;
+	}
+
+
+
+	/**
+	 * @return Returns the lanskyCriteria.
+	 */
+	public LanskyClinicalEvalCriteria getLanskyCriteria() {
+		return lanskyCriteria;
+	}
+
+
+	/**
+	 * @return Returns the mriCriteria.
+	 */
+	public MRIClinicalEvalCriteria getMriCriteria() {
+		return mriCriteria;
+	}
+
+	/**
+	 * @return Returns the neuroExamCriteria.
+	 */
+	public NeuroExamClinicalEvalCriteria getNeuroExamCriteria() {
+		return neuroExamCriteria;
+	}
+
+
+
+	public ArrayList getRecurrenceTypeColl() {
         return recurrenceTypeColl;
     }
 
@@ -962,6 +1320,37 @@ public class ClinicalDataForm extends BaseForm {
         return genderTypeColl;
     }
 
+
+	/**
+	 * @return Returns the karnofskyTypeColl.
+	 */
+	public ArrayList getKarnofskyTypeColl() {
+		return karnofskyTypeColl;
+	}
+/**
+	 * @return Returns the lanskyTypeColl.
+	 */
+	public ArrayList getLanskyTypeColl() {
+		return lanskyTypeColl;
+	}
+
+/**
+	 * @return Returns the mriTypeColl.
+	 */
+	public ArrayList getMriTypeColl() {
+		return mriTypeColl;
+	}
+
+
+
+
+	/**
+	 * @return Returns the neuroExamTypeColl.
+	 */
+	public ArrayList getNeuroExamTypeColl() {
+		return neuroExamTypeColl;
+	}
+    
     public ClinicalDataForm cloneMe() {
         ClinicalDataForm form = new ClinicalDataForm();
         form.setQueryName(queryName);
@@ -972,6 +1361,14 @@ public class ClinicalDataForm extends BaseForm {
         form.setRecurrence(recurrence);
         form.setRecurrenceType(recurrenceType);
         form.setRadiation(radiation);
+        form.setLansky(lansky);       
+        form.setLanskyType(lanskyType);        
+        form.setNeuroExam(neuroExam);        
+        form.setNeuroExamType(neuroExamType);
+        form.setMri(mri);        
+        form.setMriType(mriType);       
+        form.setKarnofsky(karnofsky);       
+        form.setKarnofskyType(karnofskyType);
         form.setRadiationType(radiationType);
         form.setChemo(chemo);
         form.setChemoType(chemoType);
@@ -1046,5 +1443,10 @@ public class ClinicalDataForm extends BaseForm {
 
         return errors;
     }
+
+
+
+
+
 
 }

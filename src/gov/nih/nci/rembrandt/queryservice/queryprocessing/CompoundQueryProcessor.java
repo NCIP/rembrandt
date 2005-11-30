@@ -115,6 +115,7 @@ public class CompoundQueryProcessor {
 					else if (rightQuery instanceof Query){
 						rightQuery.setAssociatedView(view);
 						rightResultSets = createCompoundResultset((ResultSet[]) QueryManager.executeQuery((Query)rightQuery));
+						
 						results.add(rightResultSets.getResults().toArray());
 					}
 					
@@ -150,6 +151,7 @@ public class CompoundQueryProcessor {
 	    		for(int i = 0; i < resultsets.length; i++){
 	    			ClinicalResultSet clinicalResultset = (ClinicalResultSet) resultsets[i];
 	    			ids.add(clinicalResultset.getBiospecimenId());
+	    			
 	    		}
 	    	}else if(resultsets instanceof GeneExpr.GeneExprGroup[]){
 	    		for(int i = 0; i < resultsets.length; i++){
@@ -157,6 +159,9 @@ public class CompoundQueryProcessor {
 	    			ids.add(groupResultset.getDiseaseTypeId());
 	    		}
 	    	}
+    		
+	    		
+	    	
     	}
     	return new CompoundResultSet(Arrays.asList(results),ids);
     }

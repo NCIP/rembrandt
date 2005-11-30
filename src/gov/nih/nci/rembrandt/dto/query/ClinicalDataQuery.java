@@ -4,6 +4,10 @@ import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.KarnofskyClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
@@ -14,6 +18,10 @@ import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
@@ -26,6 +34,7 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.clinical.ClinicalQuery
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
@@ -74,6 +83,15 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 	private SurvivalCriteria survivalCriteria;
 	
 	private RaceCriteria raceCriteria;
+	
+	
+	private  KarnofskyClinicalEvalCriteria karnofskyCriteria;
+	    
+	private  LanskyClinicalEvalCriteria lanskyCriteria ;
+	    
+	private  MRIClinicalEvalCriteria mriCriteria ;	    
+	    
+	private  NeuroExamClinicalEvalCriteria neuroExamCriteria ;    
 
 	public QueryHandler getQueryHandler() throws Exception {
 		return (HANDLER == null) ? new ClinicalQueryHandler() : HANDLER;
@@ -359,6 +377,77 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 						.debug("RaceCriteria is empty or Application Resources file is missing.");
 			}// end of RaceCriteria
 
+			
+			
+            //	starting karnofskyCriteria
+			KarnofskyClinicalEvalCriteria thisKarnofskyCriteria = this.getKarnofskyCriteria();
+			if ((thisKarnofskyCriteria != null)
+					&& !thisKarnofskyCriteria.isEmpty() && labels != null) {
+				KarnofskyClinicalEvalDE karnofskyDE = thisKarnofskyCriteria.getKarnofskyClinicalEvalDE();
+				String karnofskyStr = karnofskyDE.getClass().getName();
+				OutStr += "<BR>"
+						+ labels.getString(karnofskyStr.substring(karnofskyStr
+								.lastIndexOf(".") + 1)) + ": "
+						+ karnofskyDE.getValue() + "";
+			}
+
+			else {
+				logger
+						.debug("karnofskyCriteria is empty or Application Resources file is missing.");
+			}// end of karnofskyCriteria
+			
+			
+			 //	starting lanskyCriteria
+			LanskyClinicalEvalCriteria thisLanskyCriteria = this.getLanskyCriteria();
+			if ((thisLanskyCriteria != null)
+					&& !thisLanskyCriteria.isEmpty() && labels != null) {
+				LanskyClinicalEvalDE lanskyDE = thisLanskyCriteria.getLanskyClinicalEvalDE();
+				String lanskyStr = lanskyDE.getClass().getName();
+				OutStr += "<BR>"
+						+ labels.getString(lanskyStr.substring(lanskyStr
+								.lastIndexOf(".") + 1)) + ": "
+						+ lanskyDE.getValue() + "";
+			}
+
+			else {
+				logger
+						.debug("lanskyCriteria is empty or Application Resources file is missing.");
+			}// end of lanskyCriteria
+			
+			
+			 //	starting mriCriteria
+			MRIClinicalEvalCriteria thisMRICriteria = this.getMriCriteria();
+			if ((thisMRICriteria != null)
+					&& !thisMRICriteria.isEmpty() && labels != null) {
+				MRIClinicalEvalDE mriDE = thisMRICriteria.getMRIClinicalEvalDE();
+				String mriStr = mriDE.getClass().getName();
+				OutStr += "<BR>"
+						+ labels.getString(mriStr.substring(mriStr
+								.lastIndexOf(".") + 1)) + ": "
+						+ mriDE.getValue() + "";
+			}
+
+			else {
+				logger
+						.debug("mriCriteria is empty or Application Resources file is missing.");
+			}// end of mriCriteria
+    
+			// start NeuroExamClinicalEvalCriteria
+			NeuroExamClinicalEvalCriteria thisNeuroExamCriteria = this.getNeuroExamCriteria();
+			if ((thisNeuroExamCriteria != null)
+					&& !thisNeuroExamCriteria.isEmpty() && labels != null) {
+				NeuroExamClinicalEvalDE neuroExamDE = thisNeuroExamCriteria.getNeuroExamClinicalEvalDE();
+				String neuroExamStr = neuroExamDE.getClass().getName();
+				OutStr += "<BR>"
+						+ labels.getString(neuroExamStr.substring(neuroExamStr
+								.lastIndexOf(".") + 1)) + ": "
+						+ neuroExamDE.getValue() + "";
+			}
+
+			else {
+				logger
+						.debug("NeuroExamClinicalEvalCriteria is empty or Application Resources file is missing.");
+			}// end of NeuroExamClinicalEvalCriteria
 
 		}// end of try
 		catch (Exception ie) {
@@ -369,7 +458,8 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		OutStr += "<BR><BR>";
 		return OutStr;
 	}
-
+		
+	
 	public void setOccurrenceCrit(OccurrenceCriteria occurrenceCriteria) {
 		this.occurrenceCriteria = occurrenceCriteria;
 	}
@@ -442,6 +532,64 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 	public void setRaceCrit(RaceCriteria raceCriteria) {
 		this.raceCriteria = raceCriteria;
 	}
+	
+	
+	/**
+	 * @return Returns the karnofskyCriteria.
+	 */
+	public KarnofskyClinicalEvalCriteria getKarnofskyCriteria() {
+		return karnofskyCriteria;
+	}
+
+	/**
+	 * @param karnofskyCriteria The karnofskyCriteria to set.
+	 */
+	public void setKarnofskyCriteria(KarnofskyClinicalEvalCriteria karnofskyCriteria) {
+		this.karnofskyCriteria = karnofskyCriteria;
+	}
+
+	/**
+	 * @return Returns the lanskyCriteria.
+	 */
+	public LanskyClinicalEvalCriteria getLanskyCriteria() {
+		return lanskyCriteria;
+	}
+
+	/**
+	 * @param lanskyCriteria The lanskyCriteria to set.
+	 */
+	public void setLanskyCriteria(LanskyClinicalEvalCriteria lanskyCriteria) {
+		this.lanskyCriteria = lanskyCriteria;
+	}
+
+	/**
+	 * @return Returns the mriCriteria.
+	 */
+	public MRIClinicalEvalCriteria getMriCriteria() {
+		return mriCriteria;
+	}
+
+	/**
+	 * @param mriCriteria The mriCriteria to set.
+	 */
+	public void setMriCriteria(MRIClinicalEvalCriteria mriCriteria) {
+		this.mriCriteria = mriCriteria;
+	}
+
+	/**
+	 * @return Returns the neuroExamCriteria.
+	 */
+	public NeuroExamClinicalEvalCriteria getNeuroExamCriteria() {
+		return neuroExamCriteria;
+	}
+
+	/**
+	 * @param neuroExamCriteria The neuroExamCriteria to set.
+	 */
+	public void setNeuroExamCriteria(NeuroExamClinicalEvalCriteria neuroExamCriteria) {
+		this.neuroExamCriteria = neuroExamCriteria;
+	}
+
 	/**
 	 * Overrides the protected Object.clone() method exposing it as public.
 	 * It performs a 2 tier copy, that is, it does a memcopy of the instance
