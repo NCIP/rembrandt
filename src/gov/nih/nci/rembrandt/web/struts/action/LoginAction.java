@@ -18,7 +18,7 @@ import org.apache.struts.action.ActionMapping;
 public final class LoginAction extends Action
 {
     private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
-    public ActionForward perform(ActionMapping mapping, ActionForm form,
+    public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     {
     	/**

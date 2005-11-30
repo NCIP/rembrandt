@@ -9,7 +9,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 public class DoFirst extends Action {
-	public ActionForward perform(ActionMapping aMapping, ActionForm aForm,
+	public ActionForward execute(ActionMapping aMapping, ActionForm aForm,
 			HttpServletRequest aRequest, HttpServletResponse aResponse) {
 		aRequest.getSession().setAttribute("currentPage", "0");
 		return aMapping.findForward("success");

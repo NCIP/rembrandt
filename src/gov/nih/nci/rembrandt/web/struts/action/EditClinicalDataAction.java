@@ -28,7 +28,7 @@ public class EditClinicalDataAction extends Action {
     private Logger logger = Logger.getLogger(DeleteQueryAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
-    public ActionForward perform(
+    public ActionForward execute(
 			ActionMapping mapping,
 			ActionForm form,
 			HttpServletRequest request,
