@@ -20,6 +20,7 @@ import gov.nih.nci.caIntegrator.services.appState.ApplicationStateTracker;
 import gov.nih.nci.caIntegrator.services.util.ServiceLocator;
 
 import java.util.*;
+import java.rmi.NoSuchObjectException;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -163,14 +164,20 @@ public class WebGenomeHelper {
     private static Integer publishState(RBTReportStateDTO dto) throws Exception {
 
         Integer stateID = null;
+        ServiceLocator locator = null;
         try {
-            ServiceLocator locator = ServiceLocator.getInstance();
+            locator = ServiceLocator.getInstance();
             Object h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
                                             ApplicationStateTrackerHome.class);
             ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
-            _logger.debug("Home found:" + home.getClass().getName());
             ApplicationStateTracker  service = home.create();
-            _logger.debug("Service Created:" + service.getClass().getName());
+            stateID = service.publishReportState(dto);
+        }catch(NoSuchObjectException e) {
+            // means that container must have restared Hence the reference is stale
+            Object h = locator.relocateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
+                                            ApplicationStateTrackerHome.class);
+            ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
+            ApplicationStateTracker  service = home.create();
             stateID = service.publishReportState(dto);
         } catch(Throwable t) {
             _logger.error("Error in publishing the RBTApplicationState.  Error:", t);
