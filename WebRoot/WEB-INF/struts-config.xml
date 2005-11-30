@@ -26,7 +26,8 @@
 		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>				
 		
 		<form-bean name="loginForm" type="gov.nih.nci.rembrandt.web.struts.form.LoginForm"/>
-   		
+   		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
+   	
   </form-beans>
   <!-- ========== Global Exception Definitions ============================ -->
   <global-exceptions />
@@ -121,6 +122,18 @@
            input="/login.jsp">
     <forward name="success" path="/legal.jsp"/>
     <forward name="failure" path="/error.jsp"/>
+    </action>
+    
+    <action path="/logoutPage"
+    		forward="nautilus.logout" />
+    
+    <action path="/logout"
+           type="gov.nih.nci.rembrandt.web.struts.action.LogoutAction"
+           name="logoutForm"
+           scope="request"
+           input="nautilus.logout">
+    <forward name="logoutSaved" path="/login.jsp"/>
+    
     </action>
     
     <action path="/uploadGeneSet"

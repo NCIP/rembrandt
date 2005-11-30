@@ -108,6 +108,15 @@
    	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
     </definition>
     
+    <definition name="nautilus.logout" extends="baseDef">
+      <put name="mainForm" value="/logout.jsp" />
+	  <put name="formName" value="logoutForm" /> 		<!-- form name -->
+	  <put name="formAction" value="logout.do" />	<!-- form action -->
+	  <put name="title" value="Logout" />
+   	   <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
+   	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp" />
+    </definition>
+    
     <definition name="nautilus.home" path="/jsp/homeLayout.jsp">
 		<put name="title" value="REMBRANDT Quick Gene Search" />
 		<!--  the common criteria  -->

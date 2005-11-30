@@ -1,13 +1,30 @@
 <%@ page language="java" %>
-<%
-//null out the sesssion vars
-session.setAttribute("logged", null);
-// kill the session and unbinds any objects bound to it.
-session.invalidate();
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
 
-//redirect w/message
-response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-String newLocn = "login.jsp?m=1";
-response.setHeader("Location",newLocn);
 
-%>
+<html:form action="logout.do">
+	<fieldset class="gray">
+		<legend class="red">
+		Thank you for visiting the REMBRANDT application
+		</legend>
+	
+		<html:radio style="radio" property="procedure" value="logoutSave" />
+		Save my current session and logout. 
+		<app:help help="This will save all queries and preferences from your current browser session in addition to queries from your previous session(s)." />
+		<br />
+		<html:radio style="radio" property="procedure" value="logoutNoSave" />
+		Do not save my current session and logout. 
+		<app:help help="This will not save any queries or preferences from your current browser session." />
+		<br/>
+		<html:radio style="radio" property="procedure" value="logoutNoSave" />
+		Continue working in the application and do not logout. 
+		
+		<br /><br />
+		<html:submit styleClass="xbutton" /><br />
+   </fieldset>
+</html:form>
+
+
+
+

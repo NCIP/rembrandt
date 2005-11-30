@@ -11,7 +11,7 @@
     Welcome, &nbsp;
     <% out.println(session.getAttribute("name")); %>
     &nbsp;|&nbsp;
-    <a style="font-size:.85em;" href="logout.jsp">
+    <a style="font-size:.85em;" href="logoutPage.do">
       Logout
     </a>
   </span>
