@@ -485,7 +485,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 
 	public void persistUserSession(String userName, String sessionId) {
 		Cache persistedCache = null; 
-		if( manager!=null && !manager.cacheExists(sessionId) ) {
+		if( manager!=null && manager.cacheExists(sessionId) ) {
         	// Programatically creates the a unique persistable cache for the
 		 	// userName passed. Takes all the elements out of the original
 		 	// sessionCache and places them into the persistedCache.
