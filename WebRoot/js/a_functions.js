@@ -32,6 +32,7 @@ function A_checkSingleFindingStatus(taskId, sessionId)	{
 }
 */
 
+
 function A_checkFindingStatus_cb(tasks)	{
 	//looking for an assoc array arr[taskId]=arr[status, time]
 	var vr_alldone = true;
@@ -73,6 +74,14 @@ function A_checkFindingStatus_cb(tasks)	{
 		clearInterval(vr_checker);
 	}
 
+}
+
+function A_nukeFinding(key)	{
+	Inbox.deleteFinding(key, A_nukeFinding_cb);
+}
+function A_nukeFinding_cb(txt)	{
+	//its been nuked...refresh the page
+	location.replace(location.href);
 }
 
 function showLoading(showit)	{

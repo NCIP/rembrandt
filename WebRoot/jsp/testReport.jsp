@@ -72,7 +72,7 @@ else	{
 	
 	//for sorting
 	String p_sort_method = request.getParameter("p_sort_method")!=null ? (String) request.getParameter("p_sort_method") : "ascending";
-	String p_sort_element = request.getParameter("p_sort_element")!=null ? (String) request.getParameter("p_sort_element") : "3";
+	String p_sort_element = request.getParameter("p_sort_element")!=null ? (String) request.getParameter("p_sort_element") : "";
 	
 	%>
 	<div id="imgContainer" style="display:block; position:absolute;">

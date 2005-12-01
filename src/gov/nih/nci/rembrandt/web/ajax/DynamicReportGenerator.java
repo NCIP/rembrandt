@@ -118,6 +118,10 @@ public class DynamicReportGenerator {
 		return saveTmpGeneric("pca_tmpSampleList", elem);
 	}
 	
+	public Map saveTmpSamplesFromClinical(String elem){
+		return saveTmpGeneric("clinical_tmpSampleList", elem);
+	}
+	
 	public Map removeTmpReporter(String rep)	{
 		HttpSession session = ExecutionContext.get().getSession(false);
 		ArrayList al = new ArrayList();
@@ -156,6 +160,10 @@ public class DynamicReportGenerator {
 	
 	public Map removeTmpSample(String elem)	{
 		return removeTmpGeneric("pca_tmpSampleList", elem);
+	}
+	
+	public Map removeTmpSampleFromClinical(String elem)	{
+		return removeTmpGeneric("clinical_tmpSampleList", elem);
 	}
 	
 	public void clearTmpReporters()	{
