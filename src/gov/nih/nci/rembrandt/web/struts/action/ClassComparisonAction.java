@@ -77,7 +77,11 @@ public class ClassComparisonAction extends DispatchAction {
             credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
             classComparisonQueryDTO.setInstitutionDEs(credentials.getInstitutes());
         }
-        
+        if (classComparisonQueryDTO!=null) {
+            SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+            queryBag.putQueryDTO(classComparisonQueryDTO, classComparisonForm);
+            presentationTierCache.putSessionQueryBag(sessionId, queryBag);
+        }   
         
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
         Finding finding = null;

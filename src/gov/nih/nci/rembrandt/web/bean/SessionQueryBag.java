@@ -79,6 +79,8 @@ public class SessionQueryBag implements Serializable {
 	 * that was created by the user in the build query pages.
 	 */
 	private Map queryMap = new TreeMap();
+    //this map is strictly for queryDTOs
+    private Map queryDTOMap = new TreeMap();    
 	//this map is generated from the queryMap, storing only the allGenesQueries
 	private Map allGenesQueries = new HashMap();
 	//this map is generated from the queryMap, storing only the non-allGenesQueries
@@ -100,7 +102,7 @@ public class SessionQueryBag implements Serializable {
 	}
     public void putQueryDTO(QueryDTO queryDTO, ActionForm form) {
         if (queryDTO != null && queryDTO.getQueryName() != null) {
-            queryMap.put(queryDTO.getQueryName(), queryDTO);
+            queryDTOMap.put(queryDTO.getQueryName(), queryDTO);
             formBeanMap.put(queryDTO.getQueryName(), form);
         }
     }
@@ -112,6 +114,13 @@ public class SessionQueryBag implements Serializable {
 	public Collection getQueryNames() {
 		return queryMap.keySet();
 	}
+    public Collection getQueryDTOs() {
+        return queryDTOMap.values();
+    }
+
+    public Collection getQueryDTONames() {
+        return queryDTOMap.keySet();
+    }
 	
 	public void putQuery(Query query) {
 	  queryMap.put(query.getQueryName(), query);
@@ -132,7 +141,7 @@ public class SessionQueryBag implements Serializable {
 	}
     public QueryDTO getQueryDTO(String queryName) {
         if (queryName != null) {
-            return (QueryDTO) queryMap.get(queryName);
+            return (QueryDTO) queryDTOMap.get(queryName);
         }
         return null;
     }

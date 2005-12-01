@@ -14,6 +14,9 @@
 		<logic:present name="principalComponentForm">
 		Step 4: 
 		</logic:present>
+		<logic:present name="classComparisonForm">
+		Step 4: 
+		</logic:present>
 		<logic:present name="hierarchicalClusteringForm">
 		Step 5: 
 		</logic:present>
@@ -44,23 +47,24 @@ String act = request.getParameter("act");
 		
 		if (queryCollection != null) {
 			
-			Collection queryKeys = queryCollection.getQueryNames();
-				  
-			   Iterator iter = queryKeys.iterator();
+			Collection queryDTOKeys = queryCollection.getQueryDTONames();
+				
+			   if(queryDTOKeys != null){
+			   Iterator iter = queryDTOKeys.iterator();
 			   
 			   while(iter.hasNext()){
-				  String queryKey = (String) iter.next();
-				  String queryName = queryCollection.getQueryDTO(queryKey).getQueryName();
-
-				  if (returnQueryNames.length() > 0) returnQueryNames += ",";
-
-				  if (queryName != null && queryName.trim().length() > 0){
-					returnQueryNames += '"'+queryName+'"';
-					
+				  String queryDTOKey = (String) iter.next();
+				  String queryName = queryCollection.getQueryDTO(queryDTOKey).getQueryName();
+		
+						  if (returnQueryNames.length() > 0) returnQueryNames += ",";
+		
+						  if (queryName != null && queryName.trim().length() > 0){
+							returnQueryNames += '"'+queryName+'"';
+							
+						  }
 				  }
 				  
-				  
-				 }
+			}
 		}
 
 %>
