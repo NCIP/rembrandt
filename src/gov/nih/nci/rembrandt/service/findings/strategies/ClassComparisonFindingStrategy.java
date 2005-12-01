@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -55,7 +54,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	@SuppressWarnings("unused")
 	private Collection<ClinicalDataQuery> clinicalQueries;
 	@SuppressWarnings({"unchecked"})
-	private Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>(); // = testmethod();
+	private Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>(); 
 	private Collection<SampleIDDE> samplesNotFound;
 	private String sessionId;
 	private String taskId;
