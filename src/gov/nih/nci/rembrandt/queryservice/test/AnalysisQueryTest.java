@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.DistanceMatrixTypeDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
@@ -91,7 +92,9 @@ public class AnalysisQueryTest extends TestCase {
 		classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.FWER ));
 		classComparisonQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
 		classComparisonQueryDTO.setExprFoldChangeDE(new ExprFoldChangeDE.UpRegulation(new Float(2)));
-		
+		Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
+        insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
+		classComparisonQueryDTO.setInstitutionDEs(insts);
 		Collection<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
 		//Create ClinicalQueryDTO 1 (Class 1) for the class comparison
 		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
@@ -135,7 +138,9 @@ public class AnalysisQueryTest extends TestCase {
 		pcaQueryDTO.setQueryName("PCATestQuery");
 		pcaQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(70),Operator.GE));
 		pcaQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
-		
+		Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
+        insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
+        pcaQueryDTO.setInstitutionDEs(insts);
 		//Create ClinicalQueryDTO 1 (Class 1) for the pca
 		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 		group1.setQueryName("GBM_GROUP");
@@ -164,7 +169,9 @@ public class AnalysisQueryTest extends TestCase {
         hcQueryDTO.setDistanceMatrixTypeDE(new DistanceMatrixTypeDE(DistanceMatrixType.Correlation));
         hcQueryDTO.setLinkageMethodTypeDE(new LinkageMethodTypeDE(LinkageMethodType.Average));
         hcQueryDTO.setClusterTypeDE(new ClusterTypeDE(ClusterByType.Samples));
-        
+		Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
+        insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
+        hcQueryDTO.setInstitutionDEs(insts);
             
     }
     
