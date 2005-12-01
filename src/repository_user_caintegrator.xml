@@ -973,11 +973,9 @@
         />
 
 </class-descriptor>
-<!-- temporary commented out -->
-<!--
 <class-descriptor
-       class="gov.nih.nci.rembrandt.dbbean.PatientData"
-       table="PATIENT_DATA">
+       class="gov.nih.nci.rembrandt.dbbean.GEPatientData"
+       table="PT_DATA_GE">
         <field-descriptor
                  name="institutionId"
                  column="INSTITUTION_ID"
@@ -988,7 +986,6 @@
              column="RACE"
              jdbc-type="VARCHAR"
         />
-
 
         <field-descriptor
                name="age"
@@ -1048,7 +1045,6 @@
              jdbc-type="VARCHAR"
         />
 </class-descriptor>
--->
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PatientData"
        table="PATIENT_DATA">
