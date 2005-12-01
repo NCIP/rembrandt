@@ -50,6 +50,7 @@ package gov.nih.nci.rembrandt.web.bean;
  *	
  */
 
+import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -97,6 +98,12 @@ public class SessionQueryBag implements Serializable {
 			formBeanMap.put(query.getQueryName(), form);
 		}
 	}
+    public void putQueryDTO(QueryDTO queryDTO, ActionForm form) {
+        if (queryDTO != null && queryDTO.getQueryName() != null) {
+            queryMap.put(queryDTO.getQueryName(), queryDTO);
+            formBeanMap.put(queryDTO.getQueryName(), form);
+        }
+    }
 
 	public Collection getQueries() {
 		return queryMap.values();
@@ -123,6 +130,12 @@ public class SessionQueryBag implements Serializable {
 		}
 		return null;
 	}
+    public QueryDTO getQueryDTO(String queryName) {
+        if (queryName != null) {
+            return (QueryDTO) queryMap.get(queryName);
+        }
+        return null;
+    }
 
 	public void removeAllQueries() {
 		queryMap.clear();

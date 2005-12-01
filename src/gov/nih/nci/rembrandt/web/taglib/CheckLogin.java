@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -49,7 +51,7 @@ public final class CheckLogin extends TagSupport
     {
         boolean valid = false;
         HttpSession session = pageContext.getSession();
-        if(session != null && session.getAttribute(name) != null)
+        if(session != null && session.getAttribute(RembrandtConstants.USER_CREDENTIALS) != null)
             valid = true;
         if(valid)
             return 6;

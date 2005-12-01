@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.KarnofskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
@@ -17,6 +18,7 @@ import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
@@ -44,6 +46,7 @@ import org.apache.struts.actions.LookupDispatchAction;
 public class ClinicalDataAction extends LookupDispatchAction {
     private Logger logger = Logger.getLogger(ClinicalDataAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private UserCredentials credentials;
     
    //if multiUse button clicked (with styles de-activated) forward back to page
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
@@ -76,8 +79,18 @@ public class ClinicalDataAction extends LookupDispatchAction {
         String sessionId = request.getSession().getId();
         ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
         logger.debug("This is a Clinical Data Submittal");
+        
         //Create Query Objects
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
+        
+        //Check user credentials and constrain query by Institutions
+        if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
+            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+            InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+            institutionCriteria.setInstitutions(credentials.getInstitutes());
+            clinicalDataQuery.setInstitutionCriteria(institutionCriteria);
+        }
+        
         if (!clinicalDataQuery.isEmpty()) {
         	SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
             queryBag.putQuery(clinicalDataQuery, clinicalDataForm);

@@ -19,6 +19,7 @@ import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
@@ -71,8 +72,7 @@ public class ClassComparisonAction extends DispatchAction {
         
         /*Create the InstituteDEs using credentials from the local session.
          * May want to put these in the cache eventually.
-         */
-        
+         */        
         if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
             credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
             classComparisonQueryDTO.setInstitutionDEs(credentials.getInstitutes());

@@ -72,8 +72,7 @@ public class PrincipalComponentAction extends DispatchAction {
         
         /*Create the InstituteDEs using credentials from the local session.
          * May want to put these in the cache eventually.
-         */
-        
+         */        
         if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
             credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
             principalComponentAnalysisQueryDTO.setInstitutionDEs(credentials.getInstitutes());

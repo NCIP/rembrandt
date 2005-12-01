@@ -13,6 +13,7 @@ import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
@@ -78,13 +79,16 @@ public class HierarchicalClusteringAction extends DispatchAction {
         HierarchicalClusteringQueryDTO hierarchicalClusteringQueryDTO = createHierarchicalClusteringQueryDTO(hierarchicalClusteringForm,sessionId); 
         /*Create the InstituteDEs using credentials from the local session.
          * May want to put these in the cache eventually.
-         */
-        
+         */        
         if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
             credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
             hierarchicalClusteringQueryDTO.setInstitutionDEs(credentials.getInstitutes());
         }
-        
+        if (hierarchicalClusteringQueryDTO!=null) {
+            SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+            queryBag.putQueryDTO(hierarchicalClusteringQueryDTO, hierarchicalClusteringForm);
+            presentationTierCache.putSessionQueryBag(sessionId, queryBag);
+        }   
         
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
         Finding finding = null;

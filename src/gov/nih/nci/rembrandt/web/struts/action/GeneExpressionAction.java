@@ -222,6 +222,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
 	    
+        //Check user credentials and constrain query by Institutions
         if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
             credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
             InstitutionCriteria institutionCriteria = new InstitutionCriteria();

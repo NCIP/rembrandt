@@ -22,7 +22,7 @@ document.forms[0].target = "_self";
 </logic:notPresent>
 
 <logic:present name="hierarchicalClusteringForm">
-<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.getElementById('analysisResultName'))">
+<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].analysisResultName)">
      <bean:message key="buttons_tile.submittalButton"/>
 </html:submit>
 </logic:present>

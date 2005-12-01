@@ -50,7 +50,7 @@ String act = request.getParameter("act");
 			   
 			   while(iter.hasNext()){
 				  String queryKey = (String) iter.next();
-				  String queryName = queryCollection.getQuery(queryKey).getQueryName();
+				  String queryName = queryCollection.getQueryDTO(queryKey).getQueryName();
 
 				  if (returnQueryNames.length() > 0) returnQueryNames += ",";
 
