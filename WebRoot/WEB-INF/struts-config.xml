@@ -132,7 +132,8 @@
            name="logoutForm"
            scope="request"
            input="nautilus.logout">
-    <forward name="logoutSaved" path="/login.jsp"/>
+    <forward name="logout" path="/login.jsp"/>
+    <forward name="dontLogout" path="/viewResults.do"/>
     
     </action>
     

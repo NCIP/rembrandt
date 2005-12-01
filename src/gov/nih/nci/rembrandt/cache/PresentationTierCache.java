@@ -54,6 +54,10 @@ public interface PresentationTierCache {
 	public String[] getCacheList();
 	
 	public void addToSessionCache(String sessionId, Serializable key, Serializable object);
+
+	public void persistUserSession(String userName, String sessionId);
+
+	public boolean reloadSessionCache(String userName, String sessionId);
 }
 
 	

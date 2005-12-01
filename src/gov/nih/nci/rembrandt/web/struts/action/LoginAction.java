@@ -1,7 +1,9 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
 
 import javax.servlet.ServletContext;
@@ -18,6 +20,7 @@ import org.apache.struts.action.ActionMapping;
 public final class LoginAction extends Action
 {
     private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
+    private static PresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     {
@@ -36,7 +39,12 @@ public final class LoginAction extends Action
             session.setAttribute("name", f.getUserName());
             UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
             session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
-            
+            boolean reloadedCache = _cacheManager.reloadSessionCache(f.getUserName(),session.getId());
+            if(reloadedCache) {
+            	logger.debug("SessionCache reloaded");
+            }else{
+            	logger.debug("No persisted cache available.  Created new SessionCache");
+            }
             return (mapping.findForward("success"));
         }
         else

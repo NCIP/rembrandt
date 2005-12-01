@@ -43,7 +43,7 @@ public class HierarchicalClusteringForm extends ActionForm {
     
     private String reporterSetName = "";
     
-    private String clusterBy = "samples";
+    private String clusterBy = "Samples";
     
     private String arrayPlatform = "";
     

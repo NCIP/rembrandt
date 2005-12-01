@@ -79,6 +79,50 @@ public class PresentationCacheManager implements PresentationTierCache{
 		myInstance.addToSessionCache(sessionId,RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag );
 		
 	}
+	/**
+	 * If the userName has a previously persisted SessionCache it will
+	 * reload the old data into a new sessionCache
+	 * @param userName
+	 * @param sessionId
+	 */
+	public boolean reloadSessionCache(String userName, String sessionId) {
+		//Create a new Temporary SessionCache
+		Cache sessionCache = getSessionCache(sessionId);
+		Cache persistedCache = getPersistedCache(userName);
+		if(persistedCache!=null) {
+			try {
+				List keys = persistedCache.getKeys();
+				for(Object key: keys) {
+					Element element = persistedCache.get((Serializable)key);
+					sessionCache.put(element);
+				}
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CacheException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/*
+			 * There was a persisted cache available for that userName
+			 */
+			return true;
+		}else {
+			/*
+			 * There was not persisted cache for that userName available
+			 */
+			return false;
+		}
+	}
+	
+	private Cache getPersistedCache(String userName) {
+		Cache persistedCache = null;
+		if(manager!=null){
+			persistedCache = manager.getCache(userName);
+        }
+		return persistedCache;
+	}
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.rembrandt.cache.BusinessTierCache#getSessionCache(java.lang.String)
 	 */
@@ -438,6 +482,34 @@ public class PresentationCacheManager implements PresentationTierCache{
 				logger.error(iae);
 			}
 	}
-	
-	 
+
+	public void persistUserSession(String userName, String sessionId) {
+		Cache persistedCache = null; 
+		if( manager!=null && !manager.cacheExists(sessionId) ) {
+        	// Programatically creates the a unique persistable cache for the
+		 	// userName passed. Takes all the elements out of the original
+		 	// sessionCache and places them into the persistedCache.
+		 	persistedCache = new Cache(userName, 1000, true, true, 0, 0, true, 120);
+		 	
+            logger.debug("New PersistedCache created: "+userName);
+            //Grab the sessionCache for the user
+            Cache sessionCache = getSessionCache(sessionId);
+            if(sessionCache!=null) {
+	            try {
+	            	manager.addCache(persistedCache);
+					List keys = sessionCache.getKeys();
+					for(Object key: keys) {
+						Element element = sessionCache.get((Serializable)key);
+						persistedCache.put(element);
+					}
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CacheException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+		}
+	}
 }

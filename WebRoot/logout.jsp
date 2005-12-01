@@ -2,7 +2,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
 
-
 <html:form action="logout.do">
 	<fieldset class="gray">
 		<legend class="red">
@@ -17,7 +16,7 @@
 		Do not save my current session and logout. 
 		<app:help help="This will not save any queries or preferences from your current browser session." />
 		<br/>
-		<html:radio style="radio" property="procedure" value="logoutNoSave" />
+		<html:radio style="radio" property="procedure" value="dontLogout" />
 		Continue working in the application and do not logout. 
 		
 		<br /><br />
