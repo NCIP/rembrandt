@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
  */
 public class ThreadPool {
     static HashMap allThreads = new HashMap();
-    public final static long MAX_THREADS = 120;
+    public final static long MAX_THREADS = 900;
     public static long THREAD_COUNT = 0;
     private static Logger logger = Logger.getLogger(ThreadPool.class);
 
