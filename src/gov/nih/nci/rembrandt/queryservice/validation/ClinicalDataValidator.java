@@ -12,8 +12,6 @@ import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
@@ -24,7 +22,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -160,4 +157,8 @@ public class ClinicalDataValidator {
 		 	}
 	  		return sampleResultsets;
 		}
+		public static Collection<SampleResultset> getValidatedSampleResultsetsFromSampleIDs(Collection<String> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
+			return getValidatedSampleResultsets(StrategyHelper.convertToSampleIDDEs(sampleList), clinicalFactors); 
+		}
+
 }

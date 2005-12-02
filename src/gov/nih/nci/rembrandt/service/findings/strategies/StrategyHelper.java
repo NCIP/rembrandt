@@ -8,7 +8,6 @@ import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
@@ -103,5 +102,12 @@ public class StrategyHelper {
 			genes.add(reporter.getValueObject());
 		}
 		return genes;
+	}
+	public static Collection<SampleIDDE> convertToSampleIDDEs(Collection<String> sampleIDs)throws OperationNotSupportedException{
+		Collection<SampleIDDE> samplesDEs = new ArrayList<SampleIDDE>();
+		for(String sampleID: sampleIDs){
+			samplesDEs.add(new SampleIDDE(sampleID));
+		}
+		return samplesDEs;
 	}
 }
