@@ -87,6 +87,16 @@ public class QueryInbox {
 		else
 			return "true";
 	}
+	
+	public String deleteFinding(String key)	{
+		String success = "fail";
+		try	{
+		
+			success = "pass";
+		}
+		catch(Exception e){}
+		return success;
+	}
 
 	public Map mapTest(String testKey)	{
 		Map myMap = new HashMap();
