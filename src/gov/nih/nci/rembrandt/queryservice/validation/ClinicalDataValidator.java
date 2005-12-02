@@ -1,11 +1,14 @@
 package gov.nih.nci.rembrandt.queryservice.validation;
 
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.enumeration.ClinicalFactorType;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
@@ -91,15 +94,20 @@ public class ClinicalDataValidator {
 				clinicalFactorMap.put(clinicalFactor,samples);
 			}//for loop
 			sampleList = getValidSampleSet(sampleList,clinicalFactorMap);
-			
+			Map paitentDataLookup = LookupManager.getPatientDataMap();
 			for(SampleResultset sampleResultset: sampleResultsets) {
 				for(SampleIDDE sampleIDDE: sampleList) {
 					if(sampleIDDE != null  && sampleResultset != null  &&
 							sampleResultset.getBiospecimen().getValueObject().equals(sampleIDDE.getValueObject())){	
+			    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sampleIDDE.getValueObject());
+			    		if(patient != null  && patient.getSurvivalLength() != null){
+			    			sampleResultset.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
+			    		}
 						validSampleResultsets.add(sampleResultset);
 					}						
 				}
 			}
+			
 			
 		}
 	  return validSampleResultsets;

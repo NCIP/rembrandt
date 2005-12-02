@@ -43,7 +43,7 @@ public abstract class  BioSpecimenResultset {
 	private String neuroEvaluationDates;
 	private String steroidDoseStatuses;	
 	private String antiConvulsantStatuses;
-	
+	private DatumDE survivalLength ;
 	
 	
 	
@@ -308,6 +308,18 @@ public abstract class  BioSpecimenResultset {
 	 */
 	public void setBiospecimen(BioSpecimenIdentifierDE biospecimen) {
 		this.biospecimen = biospecimen;
+	}
+	/**
+	 * @return Returns the survivalLength.
+	 */
+	public DatumDE getSurvivalLength() {
+		return survivalLength;
+	}
+	/**
+	 * @param survivalLength The survivalLength to set.
+	 */
+	public void setSurvivalLength(DatumDE survivalLength) {
+		this.survivalLength = survivalLength;
 	}
 
 }

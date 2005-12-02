@@ -67,7 +67,6 @@ import java.util.Map;
  * 
  */
 public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
-	private DatumDE survivalLength = null;
 	private DatumDE censor = null;
 	private BioSpecimenIdentifierDE sampleID;
 	private Map reporters = new HashMap();
@@ -88,18 +87,6 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	 */
 	public void setCensor(DatumDE censor) {
 		this.censor = censor;
-	}
-	/**
-	 * @return Returns the survivalLength.
-	 */
-	public DatumDE getSurvivalLength() {
-		return this.survivalLength;
-	}
-	/**
-	 * @param survivalLength The survivalLength to set.
-	 */
-	public void setSurvivalLength(DatumDE survivalLength) {
-		this.survivalLength = survivalLength;
 	}
 	/**
 	 * @return Returns the sampleID.
@@ -194,6 +181,9 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	}
     
     public String toString() {
-    	return "Census: "+censor.getValue()+" Survival Length: "+survivalLength.getValue();
+    	if(censor != null && getSurvivalLength() != null){
+    		return "Census: "+censor.getValue()+" Survival Length: "+ getSurvivalLength().getValue();
+    	}
+    		return super.toString();
     }
 }
