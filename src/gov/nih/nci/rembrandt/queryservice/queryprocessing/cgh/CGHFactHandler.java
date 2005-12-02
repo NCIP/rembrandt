@@ -62,7 +62,7 @@ abstract public class CGHFactHandler {
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria IDs = new Criteria();
                 IDs.addIn(snpOrCGHAttr, values);
-                String threadID = "FoldChangeCriteriaHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
+                final String threadID = "CopyNumberChangeCriteriaHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
 
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
@@ -81,6 +81,7 @@ abstract public class CGHFactHandler {
                 new Thread(
                    new Runnable() {
                       public void run() {
+                          logger.debug("New Thread Started: " + threadID );
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           pb.clearCache();
                           sampleCrit.addAndCriteria(IDs);
