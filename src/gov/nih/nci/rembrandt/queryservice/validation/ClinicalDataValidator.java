@@ -45,8 +45,9 @@ public class ClinicalDataValidator {
 	 * @throws Exception 
 	 *
 	 */
-	public static Collection<SampleIDDE> getValidatedSamples(Collection<SampleIDDE> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
-		if(clinicalFactors != null && clinicalFactors.size() > 0){
+	public static Collection<SampleResultset> getValidatedSamples(Collection<SampleIDDE> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
+		Collection<SampleResultset> validSampleResultsets = new ArrayList<SampleResultset>();
+		if(sampleList != null && sampleList.size() > 0){
 			//Create a map of sample collections for each ClinicalFactorType that were passed
 			Map<ClinicalFactorType, Collection<SampleIDDE>> clinicalFactorMap = new HashMap<ClinicalFactorType,Collection<SampleIDDE>>();
 			//execute Clinical Query
@@ -54,7 +55,7 @@ public class ClinicalDataValidator {
 			for(ClinicalFactorType clinicalFactor: clinicalFactors){
 				//samples associated with each clinical factor are stored in a seperate collection
 				Collection<SampleIDDE> samples = new HashSet<SampleIDDE>();
-				for(BioSpecimenResultset sampleResultset: sampleResultsets) {
+				for(SampleResultset sampleResultset: sampleResultsets) {
 					if(sampleResultset != null){							
 						switch(clinicalFactor){
 							case AgeAtDx:
@@ -67,8 +68,8 @@ public class ClinicalDataValidator {
 								//	samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
 								//}
 								break;
-							case NeurologicalAssessment:
-								if( sampleResultset.getNeuroExamClinicalEvalDE()!= null && sampleResultset.getNeuroExamClinicalEvalDE().getValue() != null){
+							case KarnofskyAssessment:
+								if( sampleResultset.getKarnofskyClinicalEvalDE()!= null && sampleResultset.getKarnofskyClinicalEvalDE().getValue() != null){
 									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
 								}
 								break;
@@ -82,30 +83,43 @@ public class ClinicalDataValidator {
 									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
 								}
 								break;
+							case Disease:
+								if( sampleResultset.getDisease()!= null && sampleResultset.getDisease().getValue() != null){
+									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+								}
+								break;
 						}//switch
 					}//if
 				}//for loop
 				clinicalFactorMap.put(clinicalFactor,samples);
 			}//for loop
-			sampleList = createValidatedSampleSet(sampleList,clinicalFactorMap);
+			sampleList = getValidSampleSet(sampleList,clinicalFactorMap);
+			
+			for(SampleResultset sampleResultset: sampleResultsets) {
+				for(SampleIDDE sampleIDDE: sampleList) {
+					if(sampleIDDE != null  && sampleResultset != null  &&
+							sampleResultset.getBiospecimen().getValueObject().equals(sampleIDDE.getValueObject())){	
+						validSampleResultsets.add(sampleResultset);
+					}						
+				}
+			}
+			
 		}
-	  return sampleList;
+	  return validSampleResultsets;
 	}
-		private static Collection<SampleIDDE> createValidatedSampleSet(Collection<SampleIDDE> sampleList, Map<ClinicalFactorType, Collection<SampleIDDE>> clinicalFactorMap) throws OperationNotSupportedException {
-			Collection<SampleIDDE> validatedSampleSet = new ArrayList<SampleIDDE>();
-			validatedSampleSet.addAll(sampleList);
+		private static Collection<SampleIDDE> getValidSampleSet(Collection<SampleIDDE> sampleList, Map<ClinicalFactorType, Collection<SampleIDDE>> clinicalFactorMap) throws OperationNotSupportedException {
+			Collection<SampleIDDE> validSampleSet = new HashSet<SampleIDDE>();
+			validSampleSet.addAll(sampleList);
 			if(clinicalFactorMap != null){
 				//Create one large set of all valid samples that meet every ClinicalFactorType
 				Collection<ClinicalFactorType> keys = clinicalFactorMap.keySet();
 				for(ClinicalFactorType key: keys){
 					Collection<SampleIDDE> set= clinicalFactorMap.get(key);
-					validatedSampleSet.retainAll(set);
+					validSampleSet.retainAll(set);
 				}
 
 			}
-
-			
-		return validatedSampleSet;
+		return validSampleSet;
 	}
 		@SuppressWarnings("unchecked")
 		private static Collection<SampleResultset> executeQuery(Collection<SampleIDDE> sampleList) throws Exception{
