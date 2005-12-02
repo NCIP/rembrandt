@@ -1,3 +1,11 @@
+/****************
+SAVE REPORTERS
+*****************/
+
+var savedHeader = "Selected Reporters:\n<br/>";
+var currentTmpReporters = "";
+var currentTmpReportersCount = 0;
+
 function A_saveTmpReporter(reporter)	{
 	var rep = reporter.value;
 	
@@ -10,10 +18,6 @@ function A_saveTmpReporter(reporter)	{
 		//alert("removing " + rep);
 	}
 }
-
-var savedHeader = "Selected Reporters:\n<br/>";
-var currentTmpReporters = "";
-var currentTmpReportersCount = 0;
 
 function A_saveTmpReporter_cb(txt)	{
 	//look9ing for txt["count"] and txt["reporters"]..txt["reporters"] is a <br/> delim string
@@ -128,6 +132,10 @@ function A_saveReporters_cb(txt)	{
 	}
 	
 }
+
+/*********************
+END SAVE REPORTERS
+***********************/
 
 //not going to use this function for now
 function filterRow(pvalue)	{

@@ -77,7 +77,7 @@ function A_checkFindingStatus_cb(tasks)	{
 }
 
 function A_nukeFinding(key)	{
-	Inbox.deleteFinding(key, A_nukeFinding_cb);
+	//Inbox.deleteFinding(key, A_nukeFinding_cb);
 }
 function A_nukeFinding_cb(txt)	{
 	//its been nuked...refresh the page

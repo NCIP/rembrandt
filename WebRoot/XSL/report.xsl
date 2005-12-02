@@ -21,17 +21,19 @@
 <xsl:param name="showAllValues">false</xsl:param>
 <xsl:template match="/">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xml:lang="en" lang="en">
   	<head>
 		<title>My Report</title>
-		<script language="JavaScript" type="text/javascript" src="js/overlib.js">return false;
-		</script>
-		<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js">return false;
-		</script>
-		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js">return false;
-		</script> 
-		<script language="JavaScript" type="text/javascript" src="XSL/js.js">return false;
-		</script> 
+		<script language="JavaScript" type="text/javascript" src="js/overlib.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
+		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script> 
+		<script language="JavaScript" type="text/javascript" src="XSL/a_saveSamples.js"></script>
+		
+		<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
+		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
+		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
+		
 		<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
 	</head>
   <body>
@@ -257,6 +259,22 @@
 	  </div>
 	  </xsl:if>
 	  
+	  <xsl:if test="$rType = 'Clinical'">
+	  <div class="filterForm">
+	  	<input type="text" name="sampleGroupName" id="sampleGroupName" value="{$qName}_samples"/>
+	  	<xsl:text>&#160;</xsl:text>
+	  	<input type="button" value="save selected samples" onclick="javascript:A_saveSamples();" />
+	  	<xsl:text>&#160;</xsl:text>
+	  	<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> All on page</span>
+	  	<xsl:text>&#160;</xsl:text>
+	  	<a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp(savedHeader + currentTmpSamples);" onmouseout="return nd();" id="sampleCount"></a> 	
+	  	<xsl:text>&#160;</xsl:text>
+	  	<a href="#" onclick="javascript:A_clearTmpSamples(); return false;" onmouseover="javascript:return showHelp('Clear these samples');" onmouseout="return nd();">[clear samples]</a>
+		<xsl:text>&#160;</xsl:text>	 	
+		<script language="javascript">A_initSaveSample();</script>
+	  </div>
+	  </xsl:if>
+	  
 	  <div class="pageControl" style="padding-bottom:1px;margin-bottom:0px;">
 	  <!-- <xsl:value-of select="$recordCount" /> records returned. -->
 	  <b><span class="lb">Displaying:</span></b> 
@@ -396,8 +414,9 @@
 		      				</xsl:when>
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
-			      				<input class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
-			      				<xsl:value-of select="Data" />
+			      				<input type="checkbox" class="checkorradio" id="samples" name="samples" value="{$sample}" onclick="javascript:A_saveTmpSample(this);" />
+			      				<xsl:value-of select="Data"/>
+			   
 							</xsl:when>
 			      			<xsl:when test="$filter_value1 != 000 and $filter_value4 != ''">
 			      				<xsl:choose>

@@ -176,6 +176,11 @@ public class DynamicReportGenerator {
 		session.removeAttribute("pca_tmpSampleList"); //put back in session
 	}
 	
+	public void clearTmpSamplesFromClinical()	{
+		HttpSession session = ExecutionContext.get().getSession(false);
+		session.removeAttribute("clinical_tmpSampleList"); //put back in session
+	}
+	
 	public String saveReporters(String commaSepList, String name)	{
 		String success = "fail";
 		HttpSession session = ExecutionContext.get().getSession(false);
