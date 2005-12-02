@@ -45,7 +45,7 @@ public class ClinicalDataValidator {
 	 * @throws Exception 
 	 *
 	 */
-	public static Collection<SampleResultset> getValidatedSamples(Collection<SampleIDDE> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
+	public static Collection<SampleResultset> getValidatedSampleResultsets(Collection<SampleIDDE> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
 		Collection<SampleResultset> validSampleResultsets = new ArrayList<SampleResultset>();
 		if(sampleList != null && sampleList.size() > 0){
 			//Create a map of sample collections for each ClinicalFactorType that were passed
