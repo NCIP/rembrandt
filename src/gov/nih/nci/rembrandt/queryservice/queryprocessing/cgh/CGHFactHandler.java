@@ -85,6 +85,8 @@ abstract public class CGHFactHandler {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           pb.clearCache();
                           sampleCrit.addAndCriteria(IDs);
+                          logger.debug("Criteria To be exucuted for targetClass:" + targetFactClass.getName() + " " +
+                                  sampleCrit.toString());
                           Query sampleQuery =
                           QueryFactory.newQuery(targetFactClass,sampleCrit, true);
                           assert(sampleQuery != null);
