@@ -198,6 +198,7 @@ abstract public class CGHFactHandler {
         ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
         throws Exception {
             logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
+            System.out.println("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
             executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
 
             ThreadController.sleepOnEvents(factEventList);
