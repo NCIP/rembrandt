@@ -12,6 +12,7 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.util.PropertyLoader;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
@@ -392,14 +393,6 @@ public class ReportGeneratorAction extends DispatchAction {
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
 
-    /*
-    * @param mapping
-    * @param form
-    * @param request
-    * @param response
-    * @return
-    * @throws Exception
-    */
 
     public ActionForward webGenomeRequest(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
@@ -407,8 +400,28 @@ public class ReportGeneratorAction extends DispatchAction {
             String sessionID = request.getSession().getId();
             String queryName = ((ReportGeneratorForm)form).getQueryName();
 
+            // build WebGenome request URL
             ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
-            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID);
+            String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+                        getProperty("webGenome.hostURL");
+            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
+
+            logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
+            ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
+            return f2;
+    }
+
+    public ActionForward webGenomeRequestTest(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+            String sessionID = request.getSession().getId();
+            String queryName = ((ReportGeneratorForm)form).getQueryName();
+
+            // build WebGenome request URL
+            ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
+            String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+                        getProperty("webGenomeTest.hostURL");
+            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
 
             logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
             ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);

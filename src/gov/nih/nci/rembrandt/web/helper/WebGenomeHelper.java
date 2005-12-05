@@ -37,7 +37,7 @@ public class WebGenomeHelper {
 
     private static Logger _logger = Logger.getLogger(WebGenomeHelper.class);
 
-    public static String buildURL(ReportBean report, String sessionID) throws Exception {
+    public static String buildURL(ReportBean report, String sessionID, String hostURL) throws Exception {
         Resultant resultant = report.getResultant();
         ResultsContainer  resultsContainer = resultant.getResultsContainer();
 
@@ -87,8 +87,8 @@ public class WebGenomeHelper {
         String urlParams = buildURLParams(groups, positions, dto);
 
         // 3. retrieve the where webGenome app is hosted from property file
-        String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
-                        getProperty("webGenome.hostURL");
+        //String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+          //              getProperty("webGenome.hostURL");
 
         _logger.debug("Web Genome URL Retrieved: " + hostURL);
 
