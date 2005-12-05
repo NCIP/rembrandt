@@ -142,8 +142,8 @@ public class ResultsetProcessor {
 	public static ResultsContainer handleGeneExpressPlot(GeneExprGroup[] geneExprObjects) throws Exception {
 		ResultsContainer resultsContainer = null;
 		GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = new GeneExprDiseasePlotContainer();
-		DiseaseGeneExprPlotResultset normal = new DiseaseGeneExprPlotResultset( new DiseaseNameDE(RembrandtConstants.NORMAL));
-		geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(normal);
+		DiseaseGeneExprPlotResultset nonTumor = new DiseaseGeneExprPlotResultset( new DiseaseNameDE(RembrandtConstants.NON_TUMOR));
+		geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(nonTumor);
  		geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleDiseaseGeneExprPlotResultset(geneExprDiseasePlotContainer);
 		for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
