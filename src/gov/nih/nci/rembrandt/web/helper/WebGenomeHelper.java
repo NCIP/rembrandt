@@ -162,28 +162,33 @@ public class WebGenomeHelper {
     }
 
     private static Integer publishState(RBTReportStateDTO dto) throws Exception {
-
         Integer stateID = null;
         ServiceLocator locator = null;
         try {
-            locator = ServiceLocator.getInstance();
-            Object h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
-                                            ApplicationStateTrackerHome.class);
-            ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
-            ApplicationStateTracker  service = home.create();
-            stateID = service.publishReportState(dto);
+            stateID = publishReportState(dto);
         }catch(NoSuchObjectException e) {
-            // means that container must have restared Hence the reference is stale
-           Object h = locator.relocateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
-                                          ApplicationStateTrackerHome.class);
-           ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
-           ApplicationStateTracker  service = home.create();
-           stateID = service.publishReportState(dto);
+            /* means that EJB container must have restared Hence the old reference is stale
+               So clear the cahche by simply getting a new instance of ServiceLocator
+            */
+            ServiceLocator.getInstance().setInstance(null);
+            stateID = publishReportState(dto);
         } catch(Throwable t) {
             _logger.error("Error in publishing the RBTApplicationState.  Error:", t);
             throw new Exception("Error in publishing the RBTApplicationState.  Error:" +
                                 t.toString() );
         }
+        return stateID;
+    }
+
+    private static Integer publishReportState(RBTReportStateDTO dto) throws CreateException, Exception {
+        ServiceLocator locator;
+        Integer stateID;
+        locator = ServiceLocator.getInstance();
+        Object h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
+                                        ApplicationStateTrackerHome.class);
+        ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
+        ApplicationStateTracker  service = home.create();
+        stateID = service.publishReportState(dto);
         return stateID;
     }
 
