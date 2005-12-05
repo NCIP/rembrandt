@@ -982,13 +982,13 @@ tbox[c] = no;
 function saveMe(tbox,fbox) {
 
 var strValues = "";
+
 var boxLength = 0;
 if(tbox.length)	{ boxLength = tbox.length; }
 
-/*
 var fboxLength = 0;
-if(fbox!=null && fbox.length) { fboxLength = fbox.length;}
-*/
+if(fbox.length) { fboxLength = fbox.length;}
+
 var count = 0;
 if (boxLength != 0) {
 
