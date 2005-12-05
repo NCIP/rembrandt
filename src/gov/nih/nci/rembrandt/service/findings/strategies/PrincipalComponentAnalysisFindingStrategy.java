@@ -17,6 +17,7 @@ import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
+import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
@@ -142,7 +143,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
 							//3. Extracts sampleIds as Strings
 							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-							if(sampleIDs != null){
+							if(sampleIDs != null && sampleIDs.size()> 0) {
 								//3.1 add them to SampleGroup
 								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSampleIDDEs.size());
 								sampleGroup.addAll(sampleIDs);
@@ -151,7 +152,11 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 								set.addAll(sampleIDDEs); //samples from the original query
 								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
 								samplesNotFound = set;
-								
+								setSamplesNotFound(samplesNotFound);
+							}
+							else{ //No samples validated
+								sampleGroup = null;
+								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
 							}
 						} catch (OperationNotSupportedException e) {
 							logger.error(e.getMessage());
@@ -182,10 +187,14 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 					reportersNotFound = set;
 					
 					Collection<String> reporters = StrategyHelper.extractReporters(validCloneDEs);
-					if(reporters != null){
+					if(reporters != null  && reporters.size() > 0){
 						this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
 						reporterGroup.addAll(reporters);
 						
+					}
+					else{ //No reporters are valid
+						reporterGroup = null;
+						throw new FindingsQueryException("None of the selected reporters are valid for PCA Analysis");
 					}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -207,10 +216,14 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 				genesNotFound = set;
 				
 				Collection<String> reporters = StrategyHelper.extractGenes(validGeneDEs);
-				if(reporters != null){
+				if(reporters != null  && reporters.size() > 0){
 					this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
 					reporterGroup.addAll(reporters);
 					
+				}
+				else{ //No reporters are valid
+					reporterGroup = null;
+					throw new FindingsQueryException("No reporters founds for the selected genes for PCA Analysis");
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -290,5 +303,32 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 				}
 		}
 		return _valid;	
+	}
+	private void setSamplesNotFound(Collection<SampleIDDE>  samplesNotFound ){
+		pcaFinding = (PrincipalComponentAnalysisFinding) cacheManager.getSessionFinding(sessionId, taskId);
+		if(pcaFinding != null){
+			pcaFinding.setSamplesNotFound(samplesNotFound);
+			
+		}
+		cacheManager.addToSessionCache(sessionId, taskId, pcaFinding);
+
+	}
+	private void setReportsNotFound(Collection<CloneIdentifierDE> reportersNotFound){
+		pcaFinding = (PrincipalComponentAnalysisFinding) cacheManager.getSessionFinding(sessionId, taskId);
+		if(pcaFinding != null){
+			pcaFinding.setReportersNotFound(reportersNotFound);
+			
+		}
+		cacheManager.addToSessionCache(sessionId, taskId, pcaFinding);
+
+	}
+	private void setGenesNotFound(Collection<GeneIdentifierDE> genesNotFound ){
+		pcaFinding = (PrincipalComponentAnalysisFinding) cacheManager.getSessionFinding(sessionId, taskId);
+		if(pcaFinding != null){
+			pcaFinding.setGenesNotFound(genesNotFound);
+			
+		}
+		cacheManager.addToSessionCache(sessionId, taskId, pcaFinding);
+
 	}
 }

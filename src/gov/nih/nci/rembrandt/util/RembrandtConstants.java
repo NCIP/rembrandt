@@ -18,7 +18,7 @@ public final class RembrandtConstants {
 
 	public static final String VALID_QUERY_TYPES_KEY = "nautilus.request.validQuerytypes";
 
-	public static final String NORMAL = "NON_TUMOR";
+	
 
 	public static final String ASTRO = "ASTROCYTOMA";
 
@@ -90,6 +90,14 @@ public final class RembrandtConstants {
     public static final String WEB_GENOMEAPP_PROPERTIES = "webGenome.properties";
 	
     public static final String TEMP_REPORTER_GROUP = "Reporter_Group";
+    
+    public static final String ALL_GLIOMA = "ALL GLIOMA";
+    
+    public static final String NON_TUMOR = "NON_TUMOR";
+    
+    public static final String UNKNOWN = "UNKNOWN";
+	public static final String ALL = "ALL";
+    
 
 
 }
