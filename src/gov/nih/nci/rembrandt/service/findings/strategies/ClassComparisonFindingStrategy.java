@@ -55,7 +55,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	private Collection<ClinicalDataQuery> clinicalQueries;
 	@SuppressWarnings({"unchecked"})
 	private Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>(); 
-	private Collection<SampleIDDE> samplesNotFound;
+	private Collection<SampleIDDE> samplesNotFound = new HashSet<SampleIDDE>(); 
 	private String sessionId;
 	private String taskId;
 	private ClassComparisonRequest classComparisonRequest = null;
@@ -173,9 +173,8 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 									set.addAll(sampleIDDEs); //samples from the original query
 									//3.3 Remove all samples that are validated	
 									set.removeAll(validSampleIDDEs);
-									samplesNotFound = set;
-									
-								}
+									samplesNotFound.addAll(set);									
+							}
 							} catch (OperationNotSupportedException e) {
 								logger.error(e.getMessage());
 					  			throw new FindingsQueryException(e.getMessage());
@@ -189,6 +188,9 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 			 		}
 				}
 			 }
+		}
+		if(samplesNotFound != null && samplesNotFound.size() > 0){
+			setSamplesNotFound(samplesNotFound);
 		}
 	    return true;
 
@@ -282,4 +284,14 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 		}		
 		return _valid;
 	}
+	private void setSamplesNotFound(Collection<SampleIDDE>  samplesNotFound ){
+		classComparisonFinding = (ClassComparisonFinding) cacheManager.getSessionFinding(sessionId, taskId);
+		if(classComparisonFinding != null){
+			classComparisonFinding.setSamplesNotFound(samplesNotFound);
+			
+		}
+		cacheManager.addToSessionCache(sessionId, taskId, classComparisonFinding);
+
+	}
+
 }
