@@ -153,7 +153,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getSessionFinding(sessionId, taskId);
 		if(finding != null){
 			FindingStatus newStatus = FindingStatus.Error;
-			newStatus.setComment(analysisServerException.getMessage())
+			newStatus.setComment(analysisServerException.getMessage());
 			finding.setStatus(newStatus);
 			logger.debug("Retreiving finding for session: "+sessionId+" & task: "+taskId+" from cache");
 			_cacheManager.addToSessionCache(sessionId,taskId+"_analysisServerException",analysisServerException);
