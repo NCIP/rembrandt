@@ -34,7 +34,9 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
 
  */
 public class WebGenomeHelper {
+
     private static Logger _logger = Logger.getLogger(WebGenomeHelper.class);
+
     public static String buildURL(ReportBean report, String sessionID) throws Exception {
         Resultant resultant = report.getResultant();
         ResultsContainer  resultsContainer = resultant.getResultsContainer();
@@ -43,7 +45,7 @@ public class WebGenomeHelper {
         Collection groups = null;
         Map<ChromosomeNumberDE, StartEndPosition> positions = null;
         List reporterNames =  null;
-          Collection sampleIds = null;
+        Collection sampleIds = null;
 
         if(resultsContainer instanceof DimensionalViewContainer)	{
             DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
@@ -58,11 +60,14 @@ public class WebGenomeHelper {
         RBTReportStateDTO dto = new RBTReportStateDTO();
         HashMap groupsWithSamples = new HashMap();
         List cytobands=null;
+
         if(copyNumberContainer != null)	{
-           // 1. convert cytobands in to respective start and end positions
+
+            // 0. convert cytobands in to respective start and end positions
            cytobands = copyNumberContainer.getCytobandNames();
            positions = convertCytobands(cytobands);
-                     // 2. format samples in to groups and store under groupName
+
+           // 1. format samples in to groups and store under groupName
            reporterNames = copyNumberContainer.getReporterNames();
            groups = copyNumberContainer.getGroupsLabels();
             for (Object group : groups) {
@@ -72,65 +77,31 @@ public class WebGenomeHelper {
                 sampleIDArray = (String[]) sampleIds.toArray(sampleIDArray);
                 groupsWithSamples.put(groupName, sampleIDArray);
             }
-         }
-         dto.setCytobands(cytobands);
-         dto.setGroups(groupsWithSamples);
-         dto.setSelectedReporerNames(reporterNames);
-         dto.setUserID(sessionID);
+        }
+        dto.setCytobands(cytobands);
+        dto.setGroups(groupsWithSamples);
+        dto.setSelectedReporerNames(reporterNames);
+        dto.setUserID(sessionID);
 
-         // 2. build the URL params to be sent out to WebGenome request
-         String urlParams = buildURLParams(groups, positions, dto);
+        // 2. build the URL params to be sent out to WebGenome request
+        String urlParams = buildURLParams(groups, positions, dto);
 
-         // 3. retrieve the where webGenome app is hosted from property file
-         String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
-                         getProperty("webGenome.hostURL");
+        // 3. retrieve the where webGenome app is hosted from property file
+        String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+                        getProperty("webGenome.hostURL");
 
-         _logger.debug("Web Genome URL Retrieved: " + hostURL);
+        _logger.debug("Web Genome URL Retrieved: " + hostURL);
 
-         // 4. concatenate url & params
-         String webGenomeURL = hostURL + "?" + urlParams;
+        // 4. concatenate url & params
+        String webGenomeURL = hostURL + "?" + urlParams;
 
-         return webGenomeURL;
-    }
-
-    private static RBTReportStateDTO buildReportStateDTO(CopyNumberSingleViewResultsContainer copyNumberContainer, Map<ChromosomeNumberDE, StartEndPosition> positions, Collection groups,  String sessionID)
-    throws Exception {
-        List reporterNames =  null;
-        Collection sampleIds = null;
-
-        RBTReportStateDTO dto = new RBTReportStateDTO();
-
-        HashMap groupsWithSamples = new HashMap();
-          List cytobands=null;
-          if(copyNumberContainer != null)	{
-             // 1. convert cytobands in to respective start and end positions
-              cytobands = copyNumberContainer.getCytobandNames();
-              positions.putAll(convertCytobands(cytobands));
-
-              // 2. format samples in to groups and store under groupName
-              reporterNames = copyNumberContainer.getReporterNames();
-              groups.add(copyNumberContainer.getGroupsLabels());
-              for (Iterator groupNamesIterator = groups.iterator(); groupNamesIterator.hasNext();) {
-                  String groupName = (String) groupNamesIterator.next();
-                  sampleIds = copyNumberContainer.getBiospecimenLabels(groupName);
-
-                  String[] sampleIDArray = new String[sampleIds.size()];
-                  sampleIDArray = (String[]) sampleIds.toArray(sampleIDArray);
-                  groupsWithSamples.put(groupName, sampleIDArray);
-              }
-          }
-
-          dto.setCytobands(cytobands);
-          dto.setGroups(groupsWithSamples);
-          dto.setSelectedReporerNames(reporterNames);
-          dto.setUserID(sessionID);
-
-
-        return dto;
+        return webGenomeURL;
     }
 
     private static String buildURLParams(Collection groups,  Map<ChromosomeNumberDE, StartEndPosition> positions, RBTReportStateDTO dto) throws Exception {
+
         String urlParams = "";
+
         // a. append experiment IDS to urlParams
         if (groups != null && groups.size() > 0) {
             String exptIDs = "exptIDs=";
@@ -167,9 +138,7 @@ public class WebGenomeHelper {
         try {
             stateID = publishReportState(dto);
         }catch(NoSuchObjectException e) {
-            /* means that EJB container must have restared Hence the old reference is stale
-               So clear the cahche by simply getting a new instance of ServiceLocator
-            */
+            //* means that EJB container must have restared  Clear stale references with new instance */
             ServiceLocator.getInstance().setInstance(null);
             stateID = publishReportState(dto);
         } catch(Throwable t) {
@@ -180,15 +149,13 @@ public class WebGenomeHelper {
         return stateID;
     }
 
-    private static Integer publishReportState(RBTReportStateDTO dto) throws CreateException, Exception {
-        ServiceLocator locator;
-        Integer stateID;
-        locator = ServiceLocator.getInstance();
+    private static Integer publishReportState(RBTReportStateDTO dto) throws Exception {
+        ServiceLocator locator = ServiceLocator.getInstance();
         Object h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
                                         ApplicationStateTrackerHome.class);
         ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
         ApplicationStateTracker  service = home.create();
-        stateID = service.publishReportState(dto);
+        Integer stateID = service.publishReportState(dto);
         return stateID;
     }
 
