@@ -136,8 +136,10 @@ public class GenePlotDataSet {
 				diseaseSize = diseases.size();
 				for (Iterator diseasesIterator = diseases.iterator(); diseasesIterator.hasNext();) {
 					DiseaseGeneExprPlotResultset diseaseResultset = (DiseaseGeneExprPlotResultset) diseasesIterator.next();
-					Collection reporters = diseaseResultset.getReporterFoldChangeValuesResultsets(); //geneResultset.getReporterResultsets();
-					probeSetSize = reporters.size();
+					if(diseaseResultset != null){
+						Collection reporters = diseaseResultset.getReporterFoldChangeValuesResultsets(); //geneResultset.getReporterResultsets();
+						probeSetSize = reporters.size();
+					}
 				}
 				
 				//now we know how many diseases adn how many probeset/reporter per disease
@@ -183,7 +185,7 @@ public class GenePlotDataSet {
 						probeSets[counter] = reporterName;
 						intensityValues[counter] = intensityValue.doubleValue();
 						
-						if (diseaseResultset.getType().getValue().toString().compareTo(RembrandtConstants.NORMAL) == 0) {
+						if (diseaseResultset.getType().getValue().toString().compareTo(RembrandtConstants.NON_TUMOR) == 0) {
 							pValues.put(reporterName+"::"+diseaseName, "N/A");
 						} else {
 							pValues.put(reporterName+"::"+diseaseName, pValueFormat.format(pvalue));
