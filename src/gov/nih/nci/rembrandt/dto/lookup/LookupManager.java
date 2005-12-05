@@ -120,7 +120,7 @@ public class LookupManager{
 	public static PatientDataLookup[] getPatientData() throws Exception {
 		if(patientData == null){
 			Criteria crit = new Criteria();
-			patientData = (PatientDataLookup[])(QueryExecuter.executeQuery(PatientData.class,crit,LookupManager.PATIENT_DATA, true).toArray(new PatientDataLookup[1]));
+			patientData = (PatientDataLookup[])(QueryExecuter.executeQuery(PatientData.class,crit,QueryExecuter.NO_CACHE, true).toArray(new PatientDataLookup[1]));
 		}
 		return patientData;
 	}
@@ -150,7 +150,7 @@ public class LookupManager{
 		if(diseaseTypes == null){
 			Criteria crit = new Criteria();
 			crit.addOrderByAscending("diseaseTypeId");
-			diseaseTypes = (DiseaseTypeLookup[])(QueryExecuter.executeQuery(DiseaseTypeDim.class,crit,LookupManager.DISEASE_TYPE,true).toArray(new DiseaseTypeLookup[1]));
+			diseaseTypes = (DiseaseTypeLookup[])(QueryExecuter.executeQuery(DiseaseTypeDim.class,crit,QueryExecuter.NO_CACHE,true).toArray(new DiseaseTypeLookup[1]));
 		}
 		return diseaseTypes;
 	}
