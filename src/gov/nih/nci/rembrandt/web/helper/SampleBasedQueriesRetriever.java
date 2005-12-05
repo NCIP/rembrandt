@@ -15,14 +15,17 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
@@ -64,6 +67,25 @@ public class SampleBasedQueriesRetriever implements Serializable {
 			        clinicalDataQuery.setDiseaseOrGradeCrit(diseaseCrit);
 			        predefinedQueryMap.put(diseaseTypeLookup.getDiseaseDesc(),clinicalDataQuery);
 				}
+				//Logic to handle All Disease!
+		        
+				ClinicalDataQuery allDiseaseQuery = predefinedQueryMap.get(RembrandtConstants.ALL_GLIOMA);
+				if(allDiseaseQuery != null){
+				Collection<DiseaseNameDE> allDiseases = new ArrayList<DiseaseNameDE>();
+					for (DiseaseTypeLookup diseaseTypeLookup : myDiseaseTypes){
+						if((!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.NON_TUMOR)== 0) &&
+								!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN) == 0) &&
+								!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.ALL )== 0))){
+							allDiseases.add(new DiseaseNameDE(diseaseTypeLookup.getDiseaseType()));		
+						}
+						
+					}
+						DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
+				        diseaseCrit.setDiseases(allDiseases);	
+				        allDiseaseQuery.setDiseaseOrGradeCrit(diseaseCrit);
+				        predefinedQueryMap.put(RembrandtConstants.ALL_GLIOMA,allDiseaseQuery);
+				}
+
 			}
 		} catch (Exception e) {
 			logger.error("Error in SampleSetBag when calling createPredefinedDiseaseQueries method");
