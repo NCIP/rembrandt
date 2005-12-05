@@ -36,7 +36,7 @@
 	</target>
 	<!--
 		TARGET: config_logging
-		Configures the log4j.properties file using the settings in the 
+		Configures the log4j.properties file using the settings in the
 		build.properties file
 	-->
 	<target name="config_logging">
@@ -46,7 +46,7 @@
 	</target>
 	<!--
 		TARGET: config_analysis_server
-		Configures the JMS.properties file using the settings in the 
+		Configures the JMS.properties file using the settings in the
 		build.properties file
 	-->
 	<target name="config_analysis_server" depends="config_common_security_module">
@@ -112,6 +112,7 @@
         <delete file="src/webGenome.properties"/>
         <copy file="src/webGenome.properties.template" tofile="src/webGenome.properties"/>
         <replaceregexp file = "src/webGenome.properties" match="@WEBGENOME-HOST-URL@" replace="${webGenome.url}" flags="g"/>
+        <replaceregexp file = "src/webGenome.properties" match="@WEBGENOME-TEST-HOST-URL@" replace="${webGenomeTest.url}" flags="g"/>
         <delete file="src/jndi.properties"/>
         <copy file="src/jndi.properties.template" tofile="src/jndi.properties"/>
         <replaceregexp file = "src/jndi.properties" match="@JNDI-URL@" replace="${webGenomeJndi.url}" flags="g"/>
@@ -155,5 +156,6 @@
 			<webinf dir="${webapp.dir}/WEB-INF"/>
 	   	</war>
 	</target>
+
 
 </project>
