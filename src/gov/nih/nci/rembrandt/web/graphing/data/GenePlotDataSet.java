@@ -180,7 +180,7 @@ public class GenePlotDataSet {
 						Double intensityValue = (Double) reporterResultset.getFoldChangeIntensity().getValue();
 						Double pvalue = (Double) reporterResultset.getRatioPval().getValue();
 						//using 1.5 autoboxing to convert Double to double
-						double stdDev = (Double) reporterResultset.getStandardDeviationRatio().getValue();
+						double stdDev = reporterResultset.getStandardDeviationRatio()!=null ? (Double) reporterResultset.getStandardDeviationRatio().getValue() : 0;
 						//fill up our lists
 						probeSets[counter] = reporterName;
 						intensityValues[counter] = intensityValue.doubleValue();
