@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.taglib;
 import gov.nih.nci.caintegrator.analysis.messaging.PCAresultEntry;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.enumeration.ClinicalFactorType;
+import gov.nih.nci.caintegrator.enumeration.DiseaseType;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.chart.plot.PrincipalComponentAnalysisPlot.PCAcolorByType;
@@ -102,11 +103,19 @@ public class PCAPlotTag extends AbstractGraphingTag {
                         if(diseaseName!=null){
                             pcaPoint.setDiseaseName(diseaseName);
                         }
-                    GenderDE genderDE = rs.getGenderCode();
-                    GenderType genderType = GenderType.valueOf(genderDE.getValueObject());
-                        if(genderType!=null){
-                            pcaPoint.setGender(genderType);
+                        else{
+                        	pcaPoint.setDiseaseName(DiseaseType.NON_TUMOR.name());
                         }
+                    GenderDE genderDE = rs.getGenderCode();
+                    if(genderDE != null){
+                    	String gt =genderDE.getValueObject();
+                    	if(gt!=null){
+		                        GenderType genderType = GenderType.valueOf(gt);
+		                        if(genderType!=null){
+		                            pcaPoint.setGender(genderType);
+		                        }
+                    	}
+                    }
                     DatumDE survivalLength = rs.getSurvivalLength();
                         if(survivalLength !=null){
                             double sl = new Double(survivalLength.toString());
