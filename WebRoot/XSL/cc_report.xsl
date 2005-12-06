@@ -320,7 +320,7 @@
 			      					<xsl:when test="$p_highlight_op = 'lt' and $p_highlight > Data">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
-			      					<xsl:when test="$p_highlight_op = 'eq' and $p_highlight = Data">
+			      					<xsl:when test="$p_highlight_op = 'eq' and $p_highlight >= Data and Data >= $p_highlight">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 			      					</xsl:when>
 			      					<xsl:when test="$p_highlight_op = 'lte' and $p_highlight >= Data">
