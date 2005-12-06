@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.test;
 
+import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
+import gov.nih.nci.caintegrator.analysis.messaging.PCAresultEntry;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
@@ -24,16 +26,22 @@ import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.enumeration.*;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
+import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
+import gov.nih.nci.caintegrator.service.findings.HCAFinding;
+import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import junit.framework.Test;
@@ -177,7 +185,7 @@ public class AnalysisQueryTest extends TestCase {
         hcQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
         hcQueryDTO.setDistanceMatrixTypeDE(new DistanceMatrixTypeDE(DistanceMatrixType.Correlation));
         hcQueryDTO.setLinkageMethodTypeDE(new LinkageMethodTypeDE(LinkageMethodType.Average));
-        hcQueryDTO.setClusterTypeDE(new ClusterTypeDE(ClusterByType.Samples));
+        hcQueryDTO.setClusterTypeDE(new ClusterTypeDE(ClusterByType.Genes));
 		Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
         insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
         hcQueryDTO.setInstitutionDEs(insts);
@@ -200,12 +208,12 @@ public class AnalysisQueryTest extends TestCase {
 			 try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		status = finding.getStatus();
 		assert(status == FindingStatus.Completed);
+		displayAnnotations(finding);
 	}
 	public void testPCAQueryCompleted(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
@@ -232,7 +240,7 @@ public class AnalysisQueryTest extends TestCase {
 	}
     public void testHCQueryCompleted(){
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
-        Finding finding = null;
+        HCAFinding finding = null;
         try {
             finding = factory.createHCAFinding(hcQueryDTO,"mySession",hcQueryDTO.getQueryName());
         } catch (FrameworkException e) {
@@ -242,7 +250,7 @@ public class AnalysisQueryTest extends TestCase {
         assert(status == FindingStatus.Running);
         
         while(finding.getStatus() == FindingStatus.Running){
-             finding = businessTierCache.getSessionFinding(finding.getSessionId(),finding.getTaskId());
+             finding = (HCAFinding) businessTierCache.getSessionFinding(finding.getSessionId(),finding.getTaskId());
              try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -252,6 +260,7 @@ public class AnalysisQueryTest extends TestCase {
         }
         status = finding.getStatus();
         assert(status == FindingStatus.Completed);
+        displayAnnotations(finding);
     }
 	public void testPCAQueryError(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
@@ -306,5 +315,104 @@ public class AnalysisQueryTest extends TestCase {
 	}
 	public void testPCAQuery(){
 		
+	}
+	@SuppressWarnings("unchecked")
+	public void displayAnnotations(Finding finding){
+		if(finding instanceof HCAFinding){
+			HCAFinding hCAFinding = (HCAFinding) finding;
+			List<String> reportIds = hCAFinding.getClusteredReporterIDs();
+			if(reportIds != null){
+				try {
+					List<ReporterResultset> reporterResultsets = GeneExprAnnotationService.getAnnotationsForReporters(reportIds);
+					for(ReporterResultset reporterResultset: reporterResultsets){
+						if(reporterResultset != null){
+							System.out.println("ReporterID :" +reporterResultset.getReporter().getValue().toString());
+							Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
+							if(geneSymbols != null){
+								for(String geneSymbol: geneSymbols){
+									System.out.println("\tAssocitaed GeneSymbol :" +geneSymbol);
+								}
+							}
+							Collection<String> genBank_AccIDS = (Collection<String>)reporterResultset.getAssiciatedGenBankAccessionNos();
+							if(genBank_AccIDS != null){
+								for(String genBank_AccID: genBank_AccIDS){
+									System.out.println("\tAssocitaed GenBankAccessionNo :" +genBank_AccID);
+								}
+							}
+							Collection<String> locusLinkIDs = (Collection<String>)reporterResultset.getAssiciatedLocusLinkIDs();
+							if(locusLinkIDs != null){
+								for(String locusLinkID: locusLinkIDs){
+									System.out.println("\tAssocitaed LocusLinkID :" +locusLinkID);
+								}
+							}
+							Collection<String> goIds = (Collection<String>)reporterResultset.getAssociatedGOIds();
+							if(goIds != null){
+								for(String goId: goIds){
+									System.out.println("\tAssocitaed GO Id :" +goId);
+								}
+							}
+							Collection<String> pathways = (Collection<String>)reporterResultset.getAssociatedPathways();
+							if(pathways != null){
+								for(String pathway: pathways){
+									System.out.println("\tAssocitaed Pathway :" +pathway);
+								}
+							}
+						}
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(finding instanceof ClassComparisonFinding){
+			ClassComparisonFinding ccFinding = (ClassComparisonFinding)finding;
+			List<ClassComparisonResultEntry> classComparisonResultEntrys = ccFinding.getResultEntries();
+			for (ClassComparisonResultEntry classComparisonResultEntry: classComparisonResultEntrys){
+				String reportID = classComparisonResultEntry.getReporterId();
+				try {
+					ReporterResultset reporterResultset = GeneExprAnnotationService.getAnnotationsForReporter(reportID);
+					if(reporterResultset != null){
+						System.out.println("ReporterID :" +reporterResultset.getReporter().getValue().toString());
+						Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
+						if(geneSymbols != null){
+							for(String geneSymbol: geneSymbols){
+								System.out.println("\tAssocitaed GeneSymbol :" +geneSymbol);
+							}
+						}
+						Collection<String> genBank_AccIDS = (Collection<String>)reporterResultset.getAssiciatedGenBankAccessionNos();
+						if(genBank_AccIDS != null){
+							for(String genBank_AccID: genBank_AccIDS){
+								System.out.println("\tAssocitaed GenBankAccessionNo :" +genBank_AccID);
+							}
+						}
+						Collection<String> locusLinkIDs = (Collection<String>)reporterResultset.getAssiciatedLocusLinkIDs();
+						if(locusLinkIDs != null){
+							for(String locusLinkID: locusLinkIDs){
+								System.out.println("\tAssocitaed LocusLinkID :" +locusLinkID);
+							}
+						}
+						Collection<String> goIds = (Collection<String>)reporterResultset.getAssociatedGOIds();
+						if(goIds != null){
+							for(String goId: goIds){
+								System.out.println("\tAssocitaed GO Id :" +goId);
+							}
+						}
+						Collection<String> pathways = (Collection<String>)reporterResultset.getAssociatedPathways();
+						if(pathways != null){
+							for(String pathway: pathways){
+								System.out.println("\tAssocitaed Pathway :" +pathway);
+							}
+						}
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
+			}
+		}
 	}
 }
