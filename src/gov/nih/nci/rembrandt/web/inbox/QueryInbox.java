@@ -70,6 +70,9 @@ public class QueryInbox {
 			Map fdata = new HashMap();
 			fdata.put("time", String.valueOf(f.getElapsedTime()));
 			fdata.put("status", tmp);
+			if(f.getStatus()!=null && f.getStatus().getComment()!=null)	{
+				fdata.put("comments", f.getStatus().getComment());
+			}
 			currentStatuses.put(f.getTaskId(), fdata);
 		}
 		

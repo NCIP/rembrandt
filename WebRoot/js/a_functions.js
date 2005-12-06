@@ -55,8 +55,14 @@ function A_checkFindingStatus_cb(tasks)	{
 			}
 			else if(tasks[key]["status"] == 'error')	{
 				//its done, see if the innerhtml already says done	
-				if(curEl.innerHTML != "error")	{
-					curEl.innerHTML = "error";
+				if(curEl.innerHTML.indexOf('error') == -1)	{
+					var comments = "Unspecified Error";
+					
+					if(tasks[key]["comments"] && tasks[key]["comments"] != "")	{
+						comments = tasks[key]["comments"];
+					}
+					curEl.innerHTML = showErrorHelp(comments, "error");
+		
 					curElImg.src = "images/error.png";
 					//curElLink.onclick = "";
 					//curElLink.removeAttribute("onclick");
@@ -101,4 +107,16 @@ function testMap(k)	{
 function testMap_cb(map)	{
 	alert(map["firstKey"]);
 	alert(map["secondKey"]);
+}
+
+function showErrorHelp(txt, show)	{
+	var html = "<a href=\"#\"  style=\"text-decoration:none; border-bottom: 1px dashed #AB0303;\" onmouseover=\"return overlibWrapper('"+txt+"');return false;\" onmouseout=\"return nd();\" ><strong>"+show+"</strong></a>";
+	return html;
+}
+
+function overlibWrapper(txt)	{
+	//just get the first sentence
+	var err = txt.split(".");
+	var t = err[0]!="" ? err[0]+"." : "Unspecified Error.";
+	return overlib(t, CAPTION, "Error Details");
 }

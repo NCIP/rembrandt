@@ -110,15 +110,20 @@ String helpLinkClose = "', 350, 500);\">"+
 					qname = f.getTaskId();
 				}
 				
+				String comments = "";
+				
 				String currentStatus = "running";
 				if(f.getStatus() == FindingStatus.Completed)
-						currentStatus = "<b id=\"" +f.getTaskId() + "_status\">completed</b>  <img src='images/check.png' alt='complete' id=\"" + f.getTaskId() + "_image\"/>";
+					currentStatus = "<b id=\"" +f.getTaskId() + "_status\">completed</b>  <img src='images/check.png' alt='complete' id=\"" + f.getTaskId() + "_image\"/>";
 				else if(f.getStatus() == FindingStatus.Running)
-						currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
-				else if(f.getStatus() == FindingStatus.Error)
-						currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >error</b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
+					currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
+				else if(f.getStatus() == FindingStatus.Error)	{
+					comments = f.getStatus().getComment();
+					//currentStatus = "<b id=\"" + f.getTaskId() + "_status\" ><a href=\"#\" onmouseover=\"return overlibWrapper('"+comments+"');return false;\" onmouseout=\"return nd();\" ><strong>error</strong></a></b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
+					currentStatus = "<b id=\"" + f.getTaskId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','error'));</script></b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
 
-
+				}
+				
 				out.println("<span style='color:red; float:right'>" + currentStatus + "</span> ");
 				
 				String onclick="";	
