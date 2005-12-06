@@ -20,6 +20,7 @@ import java.util.Collection;
 public class PrincipalComponentAnalysisQueryDTOImpl implements PrincipalComponentAnalysisQueryDTO {
 	private String queryName;
 	private ClinicalQueryDTO comparisonGroup;
+    private Collection<ClinicalQueryDTO> comparisonGroups;
 	private Collection<GeneIdentifierDE> geneIdentifierDEs;
 	private Collection<CloneIdentifierDE> reporterIdentifierDEs;
 	private ArrayPlatformDE arrayPlatformDE;
@@ -86,7 +87,18 @@ public class PrincipalComponentAnalysisQueryDTOImpl implements PrincipalComponen
 		this.comparisonGroup = comparisonGroup;
 	}
 
-
+    /* (non-Javadoc)
+     * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getComparisonGroups()
+     */
+    public Collection<ClinicalQueryDTO> getComparisonGroups() {
+        return comparisonGroups;
+    }
+    /* (non-Javadoc)
+     * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#setComparisonGroups(java.util.Collection)
+     */
+    public void setComparisonGroups(Collection<ClinicalQueryDTO> comparisonGroups) {
+        this.comparisonGroups = comparisonGroups;
+    }
 
 
 

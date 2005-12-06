@@ -32,7 +32,13 @@ public class PrincipalComponentForm extends ActionForm {
  // -------------INSTANCE VARIABLES-----------------------------//
     private static Logger logger = Logger.getLogger(BaseForm.class);
 	
-    private static List existingGroupsList;
+    private String groupsOption = "allSamples";
+    
+    private String [] existingGroups;
+    
+    private List existingGroupsList;
+    
+    private String [] selectedGroups;
     
     private String selectedGroupName = "";
     
@@ -62,14 +68,14 @@ public class PrincipalComponentForm extends ActionForm {
      * @return Returns the existingGroupsList.
      */
     public List getExistingGroupsList() {
-        return PrincipalComponentForm.existingGroupsList;
+        return this.existingGroupsList;
     }
 
     /**
      * @param existingGroupsList The existingGroupsList to set.
      */
     public void setExistingGroupsList(List existingGroupsList) {
-        PrincipalComponentForm.existingGroupsList = existingGroupsList;
+        this.existingGroupsList = existingGroupsList;
     }
 
     /**
@@ -226,6 +232,48 @@ public class PrincipalComponentForm extends ActionForm {
     public void setSelectedGroupName(String selectedGroupName) {
         this.selectedGroupName = selectedGroupName;
     }
+    /**
+     * @return Returns the existingGroups.
+     */
+    public String[] getExistingGroups() {
+        return existingGroups;
+    }
+
+    /**
+     * @param existingGroups The existingGroups to set.
+     */
+    public void setExistingGroups(String[] existingGroups) {
+        this.existingGroups = existingGroups;
+    }
+
+    /**
+     * @return Returns the selectedGroups.
+     */
+    public String[] getSelectedGroups() {
+        return selectedGroups;
+    }
+
+    /**
+     * @param selectedGroups The selectedGroups to set.
+     */
+    public void setSelectedGroups(String[] selectedGroups) {
+        this.selectedGroups = selectedGroups;
+    }
+    
+
+    /**
+     * @return Returns the groupsOption.
+     */
+    public String getGroupsOption() {
+        return groupsOption;
+    }
+
+    /**
+     * @param groupsOption The groupsOption to set.
+     */
+    public void setGroupsOption(String groupsOption) {
+        this.groupsOption = groupsOption;
+    }
 
     /**
      * Method validate
@@ -243,7 +291,9 @@ public class PrincipalComponentForm extends ActionForm {
         
        // Analysis name cannot be blank
         errors = UIFormValidator.validateQueryName(analysisResultName, errors);
-        
+       
+       // Validate group field
+        errors = UIFormValidator.validateSelectedGroup(groupsOption, selectedGroups, errors);
        
         return errors;
     }
@@ -263,6 +313,7 @@ public class PrincipalComponentForm extends ActionForm {
         filterType = "default";
       
     }
+
     
 
 

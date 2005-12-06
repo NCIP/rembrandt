@@ -7,6 +7,7 @@ import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
@@ -33,6 +34,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,10 +54,10 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 	@SuppressWarnings("unused")
 	private PrincipalComponentAnalysisQueryDTO myQueryDTO;
 	private ReporterGroup reporterGroup; 
-	private SampleGroup sampleGroup;
+	private SampleGroup sampleGroup = new SampleGroup("validatedSamples");
 	private String sessionId;
 	private String taskId;
-	private ClinicalDataQuery clinicalDataQuery;
+    private Collection<ClinicalDataQuery> clinicalQueries;
 	private GeneExpressionQuery geneExprQuery;
 	private Collection<CloneIdentifierDE> reportersNotFound;
 	private Collection<GeneIdentifierDE> genesNotFound;
@@ -101,8 +103,12 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 	public boolean createQuery() throws FindingsQueryException {
 		boolean flag = true;
 
-		if(myQueryDTO.getComparisonGroup() != null){
-			clinicalDataQuery = (ClinicalDataQuery) myQueryDTO.getComparisonGroup();
+		if(myQueryDTO.getComparisonGroups() != null){
+            Collection<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
+            clinicalQueries = new ArrayList<ClinicalDataQuery>();
+            for(ClinicalQueryDTO clinicalQueryDTO: clinicalQueryDTOs) {
+                clinicalQueries.add((ClinicalDataQuery)clinicalQueryDTO);
+            }
 		}
 	    
 		return flag;
@@ -114,61 +120,62 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 	 */
 	public boolean executeQuery() throws FindingsQueryException {
 		//Get Sample Ids from DB
-		if(clinicalDataQuery != null){
+		if(clinicalQueries != null){
 			CompoundQuery compoundQuery;
-			Resultant resultant;
-			try {
-				compoundQuery = new CompoundQuery(clinicalDataQuery);
-				compoundQuery.setAssociatedView(ViewFactory
-		                .newView(ViewType.CLINICAL_VIEW));
-				InstitutionCriteria institutionCriteria = new InstitutionCriteria();
-				institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
-				compoundQuery.setInstitutionCriteria( institutionCriteria);
-				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
-	  		}
-	  		catch (Throwable t)	{
-	  			logger.error("Error Executing the query/n"+ t.getMessage());
-	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
-	  		}
-
-			if(resultant != null) {      
-		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
-		 		Viewable view = resultant.getAssociatedView();
-		 		if(resultsContainer != null)	{
-		 			if(view instanceof ClinicalSampleView){
-		 				try {
-		 					//1. Get the sample Ids from the return Clinical query
-							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
-							//2. validate samples so that GE data exsists for these samples
-							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-							//3. Extracts sampleIds as Strings
-							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-							if(sampleIDs != null && sampleIDs.size()> 0) {
-								//3.1 add them to SampleGroup
-								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSampleIDDEs.size());
-								sampleGroup.addAll(sampleIDs);
-//								//3.2 Find out any samples that were not processed  
-								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
-								set.addAll(sampleIDDEs); //samples from the original query
-								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
-								samplesNotFound = set;
-								setSamplesNotFound(samplesNotFound);
-							}
-							else{ //No samples validated
-								sampleGroup = null;
-								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
-							}
-						} catch (OperationNotSupportedException e) {
-							logger.error(e.getMessage());
-				  			throw new FindingsQueryException(e.getMessage());
-						} catch (Exception e) {
-							e.printStackTrace();
-							logger.error(e.getMessage());
-				  			throw new FindingsQueryException(e.getMessage());
-						}
-
-	 				}	
-		 		}
+            for (ClinicalDataQuery clinicalDataQuery: clinicalQueries){
+            Resultant resultant;            
+        			try {
+        				compoundQuery = new CompoundQuery(clinicalDataQuery);
+        				compoundQuery.setAssociatedView(ViewFactory
+        		                .newView(ViewType.CLINICAL_VIEW));
+        				InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+        				institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
+        				compoundQuery.setInstitutionCriteria( institutionCriteria);
+        				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
+        	  		}
+        	  		catch (Throwable t)	{
+        	  			logger.error("Error Executing the query/n"+ t.getMessage());
+        	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
+        	  		}
+        
+        			if(resultant != null) {      
+        		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
+        		 		Viewable view = resultant.getAssociatedView();
+        		 		if(resultsContainer != null)	{
+        		 			if(view instanceof ClinicalSampleView){
+        		 				try {
+        		 					//1. Get the sample Ids from the return Clinical query
+        							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
+        							//2. validate samples so that GE data exsists for these samples
+        							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
+        							//3. Extracts sampleIds as Strings
+        							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
+        							if(sampleIDs != null && sampleIDs.size()> 0) {
+        								//3.1 add them to SampleGroup
+        								sampleGroup.addAll(sampleIDs);
+            							//3.2 Find out any samples that were not processed  
+        								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
+        								set.addAll(sampleIDDEs); //samples from the original query
+        								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
+        								samplesNotFound = set;
+        								setSamplesNotFound(samplesNotFound);
+        							}
+        							else{ //No samples validated
+        								sampleGroup = null;
+        								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
+        							}
+        						} catch (OperationNotSupportedException e) {
+        							logger.error(e.getMessage());
+        				  			throw new FindingsQueryException(e.getMessage());
+        						} catch (Exception e) {
+        							e.printStackTrace();
+        							logger.error(e.getMessage());
+        				  			throw new FindingsQueryException(e.getMessage());
+        						}
+        
+        	 				}	
+        		 		}
+                    }
 			}
 		}
 		//Get Reporters from DB
@@ -288,7 +295,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			try {
 						ValidationUtility.checkForNull(pcaQueryDTO.getInstitutionDEs());
 						ValidationUtility.checkForNull(pcaQueryDTO.getArrayPlatformDE()) ;
-						ValidationUtility.checkForNull(pcaQueryDTO.getComparisonGroup());
+						ValidationUtility.checkForNull(pcaQueryDTO.getComparisonGroups());
 						ValidationUtility.checkForNull(pcaQueryDTO.getQueryName());
 					
 					if( pcaQueryDTO.getGeneVectorPercentileDE() == null && 

@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
@@ -9,6 +10,7 @@ import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
+import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -113,28 +115,32 @@ public class PrincipalComponentAction extends DispatchAction {
         sessionCriteriaBag = presentationTierCache.getSessionCriteriaBag(sessionId);
         
         
-        //Create the clinical Query for this anlysisQuery DTO
+        //Create the clinical queries,if any, for this anlysisQuery DTO
+        Collection<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
         
-        ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-        
-        if(principalComponentForm.getSelectedGroupName().equals("")||principalComponentForm.getSelectedGroupName().length()==0){
-            group1.setQueryName("allSampleClinicalQuery");
-            principalComponentAnalysisQueryDTO.setComparisonGroup(group1);
+        //If user selects all samples, populate an "empty" clinical query with no specified samples         
+        if(principalComponentForm.getGroupsOption().equalsIgnoreCase("allSamples")){
+            if(principalComponentForm.getSelectedGroups() == null || principalComponentForm.getSelectedGroups().length==0){
+            ClinicalDataQuery emptyClinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+            emptyClinicalDataQuery.setQueryName("allSampleClinicalQuery");
+            clinicalQueryCollection.add(emptyClinicalDataQuery);
+            principalComponentAnalysisQueryDTO.setComparisonGroups(clinicalQueryCollection);
+            }
         }
         
-        //get either predefined group or user selected
-        else if(!principalComponentForm.getSelectedGroupName().equals("")||principalComponentForm.getSelectedGroupName().length()!=0){
-            SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
-            group1 = sampleBasedQueriesRetriever.getQuery(sessionId, principalComponentForm.getSelectedGroupName());
-            if(group1!=null){
-                /*DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
-                diseaseCrit.setDisease(new DiseaseNameDE(principalComponentForm.getSelectedGroupName()));
-                group1.setDiseaseOrGradeCrit(diseaseCrit);*/
-                group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-                principalComponentAnalysisQueryDTO.setComparisonGroup(group1);
+        
+        //If user selects certain samples, get either predefined group or user selected
+        else if(principalComponentForm.getGroupsOption().equalsIgnoreCase("variousSamples")){   
+            if(principalComponentForm.getSelectedGroups() != null || principalComponentForm.getSelectedGroups().length<=0){
+            //Create the clinical query DTO collection from the selected groups in the form
                 
+                   SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
+                        for(int i=0; i<principalComponentForm.getSelectedGroups().length; i++){
+                            ClinicalDataQuery clinicalDataQuery= sampleBasedQueriesRetriever.getQuery(sessionId, principalComponentForm.getSelectedGroups()[i]);
+                            clinicalQueryCollection.add(clinicalDataQuery);
+                        }
+                        principalComponentAnalysisQueryDTO.setComparisonGroups(clinicalQueryCollection);               
             }
-            
         }
         
         //create GeneVectorPercentileDE

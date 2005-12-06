@@ -1,16 +1,22 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
 import gov.nih.nci.caintegrator.analysis.messaging.PCAresultEntry;
+import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.enumeration.ClinicalFactorType;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.chart.plot.PrincipalComponentAnalysisPlot.PCAcolorByType;
 import gov.nih.nci.caintegrator.ui.graphing.data.principalComponentAnalysis.PrincipalComponentAnalysisDataPoint;
 import gov.nih.nci.caintegrator.ui.graphing.data.principalComponentAnalysis.PrincipalComponentAnalysisDataPoint.PCAcomponent;
 import gov.nih.nci.caintegrator.ui.graphing.util.ImageMapUtil;
+import gov.nih.nci.caintegrator.enumeration.GenderType;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
+import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
+import gov.nih.nci.caintegrator.dto.de.DatumDE;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,7 +25,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -69,15 +77,46 @@ public class PCAPlotTag extends AbstractGraphingTag {
 		try {
             //retrieve the Finding from cache and build the list of PCAData points
             PrincipalComponentAnalysisFinding principalComponentAnalysisFinding = (PrincipalComponentAnalysisFinding)businessTierCache.getSessionFinding(session.getId(),taskId);
+            
+            Collection<ClinicalFactorType> clinicalFactors = new ArrayList<ClinicalFactorType>();
+            List<String> sampleIds = new ArrayList();
+            Map<String,PCAresultEntry> pcaResultMap = new HashMap<String, PCAresultEntry>();
+            
             pcaResults = principalComponentAnalysisFinding.getResultEntries();
-                if (pcaResults!=null || pcaResults.size()>0){
-                    for (int i=0;i<pcaResults.size();i++){
-                        PrincipalComponentAnalysisDataPoint pcaPoint = new PrincipalComponentAnalysisDataPoint(pcaResults.get(i).getSampleId(),pcaResults.get(i).getPc1(),pcaResults.get(i).getPc2(),pcaResults.get(i).getPc3());
-                        pcaPoint.setDiseaseName("ASTRO");
-                        pcaPoint.setSurvivalInMonths(new Double(12));
-                        pcaData.add(pcaPoint);
-                    }
+            for (PCAresultEntry pcaEntry : pcaResults) {
+                sampleIds.add(pcaEntry.getSampleId());
+                pcaResultMap.put(pcaEntry.getSampleId(), pcaEntry);
+            }
+            
+            Collection<SampleResultset> validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsetsFromSampleIDs(sampleIds, clinicalFactors);
+            
+            if (validatedSampleResultset!=null){
+                String id;                
+                PCAresultEntry entry;
+                
+                for (SampleResultset rs:validatedSampleResultset){
+                    id = rs.getBiospecimen().getValueObject();
+                    entry  = pcaResultMap.get(id); 
+                    PrincipalComponentAnalysisDataPoint pcaPoint = new PrincipalComponentAnalysisDataPoint(id,entry.getPc1(),entry.getPc2(),entry.getPc3());
+                    String diseaseName = rs.getDisease().getValueObject();
+                        if(diseaseName!=null){
+                            pcaPoint.setDiseaseName(diseaseName);
+                        }
+                    GenderDE genderDE = rs.getGenderCode();
+                    GenderType genderType = GenderType.valueOf(genderDE.getValueObject());
+                        if(genderType!=null){
+                            pcaPoint.setGender(genderType);
+                        }
+                    DatumDE survivalLength = rs.getSurvivalLength();
+                        if(survivalLength !=null){
+                            double sl = new Double(survivalLength.toString());
+                            pcaPoint.setSurvivalInMonths(sl);
+                        }
+                    pcaData.add(pcaPoint);
                 }
+            }
+            
+            
             
             //check the components to see which graph to get
 			if(components.equalsIgnoreCase("PC1vsPC2")){
