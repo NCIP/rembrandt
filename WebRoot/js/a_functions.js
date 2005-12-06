@@ -116,7 +116,8 @@ function showErrorHelp(txt, show)	{
 
 function overlibWrapper(txt)	{
 	//just get the first sentence
-	var err = txt.split(".");
-	var t = err[0]!="" ? err[0]+"." : "Unspecified Error.";
+	var err = "";
+	err = txt.indexOf(".") != -1 ? txt.split(".")[0] : txt;
+	var t = err != "" ? err +"." : "Unspecified Error.";
 	return overlib(t, CAPTION, "Error Details");
 }
