@@ -134,6 +134,24 @@ public class GeneExprResultsContainer implements ResultsContainer{
 		}
     		return null;
     }
+    /**
+     * @param reporterName
+	 * @return reporterResultset Returns reporterResultset for this geneSymbol.
+	 */
+    public ReporterResultset getReporterResultset(String reporterName){
+    	if(reporterName != null  && allReporterNames.contains(reporterName)){
+    		Collection geneResultsets = genes.values();
+    		for(Object obj :geneResultsets){
+    			if(obj instanceof GeneResultset){
+    				GeneResultset geneResultset = (GeneResultset) obj;
+    				if(geneResultset.getRepoterResultset(reporterName)!= null){
+    					return geneResultset.getRepoterResultset(reporterName);
+    				}
+    			}
+    		}
+		}
+    		return null;
+    }
 	/**
 	 * @param none Removes all geneResultset in this GeneExprSingleViewResultsContainer object.
 	 */
