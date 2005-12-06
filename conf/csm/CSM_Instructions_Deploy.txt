@@ -34,7 +34,7 @@ configure the properties in step 1 of these instructions.
 
 **************************************
 
-5. Grab oracle-ds.xml and place it in JBossDir/server/default/deploy/
+5. Grab oracle-ds.xml and place it in JBossDir/server/{instance}/deploy/
 
 **************************************
 
