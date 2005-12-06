@@ -8,9 +8,9 @@
 <legend class="red">Step 1: Select Group<b class="req">*</b><br />
 </legend>
 <logic:present name="principalComponentForm">
-<html:radio property="groupsOption" styleClass="radio" value="allSamples" />Show all samples<br /><br />
+<html:radio property="groupsOption" styleClass="radio" value="allSamples" onclick="onRadio(this,'allSamples');" />Show all samples<br /><br />
 
-<html:radio property="groupsOption" styleClass="radio" value="variousSamples" />Select samples<br />
+<html:radio property="groupsOption" styleClass="radio" value="variousSamples" onclick="onRadio(this,'variousSamples');" />Select samples<br />
 <table align="center" border="0">
     <tr style="vertical-align:top">
       <td>Existing Groups
@@ -20,8 +20,8 @@
 		</html:select>
       </td>
       <td style="vertical-align:middle">
-        <input onclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button"/><br />
-        <input onclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'))" value=">>" type="button"/>
+        <input id="button1" onclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button" disabled="true" /><br />
+        <input id="button2" onclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'))" value=">>" type="button" disabled="true" />
       </td>
       <td>Selected Groups
         <br/>

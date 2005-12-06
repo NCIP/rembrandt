@@ -657,6 +657,17 @@ function showQueryDetail(selectName){
      
    //selected index of the selected
 	var element = formElement.name;
+	
+	  if(element == "groupsOption"){
+	  	if (i == "allSamples"){
+	  		document.getElementById("button1").disabled = true;
+	  		document.getElementById("button2").disabled = true; 		
+	  	}
+	  	else if(i == "variousSamples"){
+	  		document.getElementById("button1").disabled = false;
+	  		document.getElementById("button2").disabled = false; 	
+	  	}
+	  }
 	  
 	  if(element == "tumorType" || formElement == "tumorType"){
 	    document.forms[0].tumorGrade.options.length = 1;
