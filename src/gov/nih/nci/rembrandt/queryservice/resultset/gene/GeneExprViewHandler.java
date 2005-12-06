@@ -49,6 +49,9 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
@@ -100,6 +103,12 @@ public abstract class GeneExprViewHandler {
 		  			reporterResultset.setAssiciatedGenBankAccessionNos(exprObj.getAnnotation().getAccessions());
 		  			reporterResultset.setAssiciatedLocusLinkIDs(exprObj.getAnnotation().getLocusLinks());
 		  		if(exprObj.getAnnotation().getGeneAnnotation() != null){
+		  			if(exprObj.getAnnotation().getGeneAnnotation().getGeneSymbol()!= null){
+			  			Collection geneSymbols = new ArrayList();
+			  			geneSymbols.add(exprObj.getAnnotation().getGeneAnnotation().getGeneSymbol());
+						reporterResultset.setAssiciatedGeneSymbols(geneSymbols);			  			
+		  			}
+
 		  			reporterResultset.setAssociatedPathways(exprObj.getAnnotation().getGeneAnnotation().getPathwayNames());
 		  		    reporterResultset.setAssociatedGOIds(exprObj.getAnnotation().getGeneAnnotation().getGoIDs());
 		  		}
