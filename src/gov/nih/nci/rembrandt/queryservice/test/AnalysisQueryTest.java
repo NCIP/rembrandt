@@ -181,7 +181,7 @@ public class AnalysisQueryTest extends TestCase {
     private void setUpHCQuery(){
         hcQueryDTO = (HierarchicalClusteringQueryDTO) ApplicationFactory.newQueryDTO(QueryType.HC_QUERY);
         hcQueryDTO.setQueryName("HCTestQuery");
-        hcQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(70),Operator.GE));
+        hcQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(99),Operator.GE));
         hcQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
         hcQueryDTO.setDistanceMatrixTypeDE(new DistanceMatrixTypeDE(DistanceMatrixType.Correlation));
         hcQueryDTO.setLinkageMethodTypeDE(new LinkageMethodTypeDE(LinkageMethodType.Average));

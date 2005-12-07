@@ -139,6 +139,7 @@ public class GeneExprAnnotationService {
 		 //diseaseCrit.setDisease(new DiseaseNameDE(RembrandtConstants.ALL));
 		 SampleCriteria sampleCrit = new SampleCriteria();
 		 sampleCrit.setSampleID(new SampleIDDE("HF1220"));
+		 geneExpressionQuery.setSampleIDCrit(sampleCrit);
 		 return geneExpressionQuery;
 	}
 	private static GeneExprResultsContainer executeGeneExprSampleQuery(GeneExpressionQuery geneExpressionQuery) throws Exception{
