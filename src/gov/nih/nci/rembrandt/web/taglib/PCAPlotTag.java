@@ -59,7 +59,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
     private Collection<PrincipalComponentAnalysisDataPoint> pcaData = new ArrayList();
 	private List<JFreeChart> jFreeChartsList;
     private JFreeChart chart = null;
-    private Logger logger = Logger.getLogger(PCAPlotTag.class);
+    private static Logger logger = Logger.getLogger(PCAPlotTag.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
     

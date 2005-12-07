@@ -29,7 +29,7 @@ abstract public class Query implements Queriable, Serializable, Cloneable, Valid
 	 * (Not necesary for primitives.)
 	 */
 	
-    private Logger logger = Logger.getLogger(Query.class);
+    private static Logger logger = Logger.getLogger(Query.class);
     
     //This attribute required for caching mechanism
     private String sessionId = null;

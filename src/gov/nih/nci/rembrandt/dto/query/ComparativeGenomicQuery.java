@@ -41,7 +41,7 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 	 */
 	private AllGenesCriteria allGenesCrit;
 
-	private Logger logger = Logger
+	private static Logger logger = Logger
 			.getLogger(ComparativeGenomicQuery.class);
 
 	private GeneIDCriteria geneIDCriteria;

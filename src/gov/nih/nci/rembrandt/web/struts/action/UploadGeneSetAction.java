@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionMapping;
 
 
 public class UploadGeneSetAction extends Action{
-    private Logger logger = Logger.getLogger(RefineQueryAction.class);
+    private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private SessionCriteriaBag sessionCriteriaBag;
     

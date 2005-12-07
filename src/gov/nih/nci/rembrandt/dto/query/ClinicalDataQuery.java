@@ -66,7 +66,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 	 * track down if you aren't ultra familiar with the code base, so add those
 	 * methods now! (Not necesary for primitives.)
 	 */
-	private Logger logger = Logger.getLogger(ClinicalDataQuery.class);
+	private static Logger logger = Logger.getLogger(ClinicalDataQuery.class);
 
 	private AgeCriteria ageCriteria;
 

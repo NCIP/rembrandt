@@ -42,7 +42,7 @@ public class UnifiedGeneExpressionQuery extends Query implements Serializable,Cl
 	 * methods now! (Not necesary for primitives.)
 	 */
 
-	private Logger logger = Logger.getLogger(UnifiedGeneExpressionQuery.class);
+	private static Logger logger = Logger.getLogger(UnifiedGeneExpressionQuery.class);
 
 	private GeneIDCriteria geneIDCrit;
 

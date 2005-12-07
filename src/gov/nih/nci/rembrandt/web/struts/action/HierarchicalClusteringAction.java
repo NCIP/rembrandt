@@ -40,7 +40,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class HierarchicalClusteringAction extends DispatchAction {
-    private Logger logger = Logger.getLogger(HierarchicalClusteringAction.class);
+    private static Logger logger = Logger.getLogger(HierarchicalClusteringAction.class);
     private UserCredentials credentials;
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;

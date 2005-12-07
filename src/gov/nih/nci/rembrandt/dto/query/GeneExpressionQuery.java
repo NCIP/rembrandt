@@ -42,7 +42,7 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 	 */
 	private AllGenesCriteria allGenesCrit;
 
-	private Logger logger = Logger.getLogger(GeneExpressionQuery.class);
+	private static Logger logger = Logger.getLogger(GeneExpressionQuery.class);
 
 	private GeneIDCriteria geneIDCrit;
 

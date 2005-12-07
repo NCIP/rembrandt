@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
 
 public class RefineQueryForm extends BaseForm implements Factory {
-	private Logger logger = Logger.getLogger(RefineQueryForm.class);
+	private static Logger logger = Logger.getLogger(RefineQueryForm.class);
 
 	private ActionErrors errors = new ActionErrors();;
 

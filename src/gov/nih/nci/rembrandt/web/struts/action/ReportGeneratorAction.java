@@ -39,7 +39,7 @@ import org.apache.struts.actions.DispatchAction;
 
 public class ReportGeneratorAction extends DispatchAction {
 
-    private Logger logger = Logger.getLogger(ReportGeneratorAction.class);
+    private static Logger logger = Logger.getLogger(ReportGeneratorAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
     public ActionForward compundReport(ActionMapping mapping, ActionForm form,

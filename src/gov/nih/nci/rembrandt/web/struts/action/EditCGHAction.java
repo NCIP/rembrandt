@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionMapping;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EditCGHAction extends Action {
-    private Logger logger = Logger.getLogger(DeleteQueryAction.class);
+    private static Logger logger = Logger.getLogger(DeleteQueryAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	public ActionForward execute(
 			ActionMapping mapping,

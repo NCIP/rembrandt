@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class SessionTempReportCounter implements Serializable {
-	private Logger logger = Logger.getLogger(SessionTempReportCounter.class);
+	private static Logger logger = Logger.getLogger(SessionTempReportCounter.class);
 	private int numberOfTempReports = 0;
 	private int numberOfTempReporters = 0;
 	/**

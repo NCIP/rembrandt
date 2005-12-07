@@ -21,11 +21,11 @@ import org.apache.log4j.Logger;
 public class BusinessCacheManager implements BusinessTierCache{
 	
     //This value must match the name of the cache in the configuration xml file
-    static final private String REMBRANDT_CACHE = "applicationCache"; 
-    static private transient List cacheListeners;
-    static private Logger logger = Logger.getLogger(BusinessCacheManager.class);
-    static private CacheManager manager = null;
-    static private BusinessCacheManager instance = null;       
+	private static final String REMBRANDT_CACHE = "applicationCache"; 
+    private static transient List cacheListeners;
+    private static Logger logger = Logger.getLogger(BusinessCacheManager.class);
+    private static CacheManager manager = null;
+    private static BusinessCacheManager instance = null;       
     //Create the CacheManager and the ApplicationCache
     static {
      	try {
@@ -44,7 +44,18 @@ public class BusinessCacheManager implements BusinessTierCache{
     private Cache getApplicationCache() {
         Cache applicationCache = null;
     	if(manager!=null && !manager.cacheExists(BusinessCacheManager.REMBRANDT_CACHE)) {
-        	applicationCache = new Cache(BusinessCacheManager.REMBRANDT_CACHE, 1, true, false, 5, 2);
+    		/**
+        	 * Here are the parameters that we are using for creating the business
+        	 * tier Application Cache
+        	 *  	CacheName = REMBRANDT_CACHE;
+        	 *  	Max Elements in Memory = 100;
+        	 *  	Overflow to disk = false;
+        	 *  	Make the cache eternal = true;
+        	 *  	Elements time to live in seconds = 0 (Special setting which means never check);
+        	 *  	Elements time to idle in seconds = 0 (Special setting which means never check);
+        	 *  
+        	 */
+        	applicationCache = new Cache(BusinessCacheManager.REMBRANDT_CACHE, 100, false, true, 0, 0);
             logger.debug("New ApplicationCache created");
             try {
             	manager.addCache(applicationCache);
@@ -67,7 +78,18 @@ public class BusinessCacheManager implements BusinessTierCache{
     public Cache getSessionCache(String sessionId) {
         Cache sessionCache = null; 
         if( manager!=null && !manager.cacheExists(sessionId) ) {
-            sessionCache = new Cache(sessionId, 1000, true, true, 1200, 600);
+        	/**
+        	 * Here are the parameters that we are using for creating the business
+        	 * tier session caches
+        	 *  	CacheName = the sessionId;
+        	 *  	Max Elements in Memory = 1000;
+        	 *  	Overflow to disk = false;
+        	 *  	make the cache eternal = true;
+        	 *  	elements time to live in seconds = 0 (Special setting which means never check);
+        	 *  	elements time to idle in seconds = 0 (Special setting which means never check);
+        	 *  
+        	 */
+            sessionCache = new Cache(sessionId, 1000, false, true, 0, 0);
             logger.debug("New SessionCache created: "+sessionId);
             Element counter = new Element(RembrandtConstants.REPORT_COUNTER, new SessionTempReportCounter());
             

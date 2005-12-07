@@ -49,7 +49,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
     private Collection<ClinicalDataPoint> clinicalData = new ArrayList();
 	private List<JFreeChart> jFreeChartsList;
     private JFreeChart chart = null;
-    private Logger logger = Logger.getLogger(ClinicalPlotTag.class);
+    private static Logger logger = Logger.getLogger(ClinicalPlotTag.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
     

@@ -45,7 +45,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.LookupDispatchAction;
 
 public class ClinicalDataAction extends LookupDispatchAction {
-    private Logger logger = Logger.getLogger(ClinicalDataAction.class);
+    private static Logger logger = Logger.getLogger(ClinicalDataAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private UserCredentials credentials;
     

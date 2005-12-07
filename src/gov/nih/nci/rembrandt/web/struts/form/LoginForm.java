@@ -23,7 +23,7 @@ public final class LoginForm extends ActionForm {
 	private static SecurityManager securityManager = SecurityManager
 			.getInstance();
 
-	private Logger logger = Logger.getLogger(LoginForm.class);
+	private static Logger logger = Logger.getLogger(LoginForm.class);
 
 	private UserCredentials credentials;
 

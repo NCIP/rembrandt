@@ -40,7 +40,7 @@ import org.apache.struts.actions.LookupDispatchAction;
  */
 
 public class RefineQueryAction extends LookupDispatchAction {
-    private Logger logger = Logger.getLogger(RefineQueryAction.class);
+    private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	/**
     *  Responsible for looking at the user constructed compound query from the

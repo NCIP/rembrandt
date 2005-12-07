@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionMapping;
 /**
  */
 public class CompoundCheckAction extends Action {
-    private Logger logger = Logger.getLogger(CompoundCheckAction.class);
+    private static Logger logger = Logger.getLogger(CompoundCheckAction.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	/**
 	 * Method execute

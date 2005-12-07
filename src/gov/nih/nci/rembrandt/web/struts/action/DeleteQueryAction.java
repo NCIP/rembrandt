@@ -22,7 +22,7 @@ import org.apache.struts.actions.DispatchAction;
 
 
 public class DeleteQueryAction extends DispatchAction {
-    private Logger logger = Logger.getLogger(DeleteQueryAction.class);
+    private static Logger logger = Logger.getLogger(DeleteQueryAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	// --------------------------------------------------------- Instance Variables
 

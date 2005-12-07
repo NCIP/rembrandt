@@ -48,7 +48,7 @@ public class HCPlotTag extends AbstractGraphingTag {
 
 
 	
-    private Logger logger = Logger.getLogger(HCPlotTag.class);
+    private static Logger logger = Logger.getLogger(HCPlotTag.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
     

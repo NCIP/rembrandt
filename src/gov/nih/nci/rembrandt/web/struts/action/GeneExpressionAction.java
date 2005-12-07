@@ -47,7 +47,7 @@ import org.apache.struts.actions.LookupDispatchAction;
 
 
 public class GeneExpressionAction extends LookupDispatchAction {
-    private Logger logger = Logger.getLogger(GeneExpressionAction.class);
+    private static Logger logger = Logger.getLogger(GeneExpressionAction.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private UserCredentials credentials;
 	/**

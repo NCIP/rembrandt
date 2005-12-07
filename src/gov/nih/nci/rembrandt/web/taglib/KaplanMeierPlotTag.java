@@ -29,7 +29,7 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 
 	private String beanName = "";
 	private String datasetName = "";
-	private Logger logger = Logger.getLogger(KaplanMeierPlotTag.class);
+	private static Logger logger = Logger.getLogger(KaplanMeierPlotTag.class);
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
 	public int doStartTag() {

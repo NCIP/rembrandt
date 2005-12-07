@@ -42,7 +42,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 public class PrincipalComponentAction extends DispatchAction {
-    private Logger logger = Logger.getLogger(ClassComparisonAction.class);
+    private static Logger logger = Logger.getLogger(ClassComparisonAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;
     private Collection<CloneIdentifierDE> cloneIdentifierDECollection;

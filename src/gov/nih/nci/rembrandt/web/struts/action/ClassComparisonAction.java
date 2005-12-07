@@ -40,7 +40,7 @@ import org.apache.struts.actions.DispatchAction;
 public class ClassComparisonAction extends DispatchAction {
 	
 	private UserCredentials credentials;  
-	private Logger logger = Logger.getLogger(ClassComparisonAction.class);
+	private static Logger logger = Logger.getLogger(ClassComparisonAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     /***
      * These are the default error values used when an invalid enum type

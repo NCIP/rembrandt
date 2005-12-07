@@ -45,7 +45,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.LookupDispatchAction;
 
 public class ComparativeGenomicAction extends LookupDispatchAction {
-    private Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
+    private static Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private UserCredentials credentials;
    //if multiUse button clicked (with styles de-activated) forward back to page

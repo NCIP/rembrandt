@@ -14,7 +14,7 @@ import org.apache.struts.util.LabelValueBean;
  * 
  */
 public class ChromosomeBean extends LabelValueBean{
-	private Logger logger = Logger.getLogger(ChromosomeBean.class);
+	private static Logger logger = Logger.getLogger(ChromosomeBean.class);
 	private String chromosome= "";
 	private int value = 0;
 	private ArrayList cytobands = new ArrayList();

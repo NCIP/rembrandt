@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionMapping;
 /**
  */
 public class RefineCheckAction extends Action {
-    private Logger logger = Logger.getLogger(RefineCheckAction.class);
+    private static Logger logger = Logger.getLogger(RefineCheckAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     /**
 	 * Method execute

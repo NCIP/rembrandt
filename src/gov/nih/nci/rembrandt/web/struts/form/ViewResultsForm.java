@@ -14,7 +14,7 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 
 public class ViewResultsForm extends BaseForm {
-	private Logger logger = Logger.getLogger(RefineQueryForm.class);
+	private static Logger logger = Logger.getLogger(RefineQueryForm.class);
 
 	private ActionErrors errors = new ActionErrors();;
 	

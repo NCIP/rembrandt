@@ -42,7 +42,7 @@ public class GenePlotDataSet {
 	protected DefaultStatisticalCategoryDataset dataset = new DefaultStatisticalCategoryDataset();
 	protected DefaultCategoryDataset fdataset = new DefaultCategoryDataset();
 
-	private Logger logger = Logger.getLogger(GenePlotDataSet.class);
+	private static Logger logger = Logger.getLogger(GenePlotDataSet.class);
 	protected HashMap pValues = new HashMap();
 	protected HashMap stdDevMap = new HashMap();
 	

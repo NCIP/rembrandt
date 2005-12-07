@@ -1,8 +1,10 @@
-/*
- * Created on Nov 21, 2004
- */
 package gov.nih.nci.rembrandt.logging;
 /**
+ *  This servlet makes sure that our preferences for log4j get loaded
+ *  and utilized as soon as possible.  We could have placed this code
+ *  anywhere in the codebase...  but we wanted it as soon as the system
+ *  was booted.
+ *  
  * @author David C Bauer
  */
 

@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  * Mar 14, 2005
  */
 public class ChromosomeHelper implements Factory{
-	private Logger logger = Logger.getLogger(ChromosomeHelper.class);
+	private static Logger logger = Logger.getLogger(ChromosomeHelper.class);
 	private static ChromosomeHelper instance;
 	private List chromosomes = LazyList.decorate(new ArrayList(), this);;
 	

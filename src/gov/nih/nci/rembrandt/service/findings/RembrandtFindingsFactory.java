@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class RembrandtFindingsFactory implements FindingsFactory {
-	private Logger logger = Logger.getLogger(RembrandtFindingsFactory.class);
+	private static Logger logger = Logger.getLogger(RembrandtFindingsFactory.class);
 	private BusinessTierCache cacheManager = ApplicationFactory.getBusinessTierCache();
 
 
