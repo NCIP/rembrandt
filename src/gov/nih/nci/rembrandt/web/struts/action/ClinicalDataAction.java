@@ -10,10 +10,11 @@ import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SurgeryTypeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -185,11 +186,18 @@ public class ClinicalDataAction extends LookupDispatchAction {
             clinicalDataQuery.setChemoAgentCrit(chemoAgentCrit);
         }
 
+
         // Set SurgeryType Criteria
-        SurgeryTypeCriteria surgeryTypeCrit = clinicalDataForm
-                .getSurgeryTypeCriteria();
-        if (!surgeryTypeCrit.isEmpty()) {
-            clinicalDataQuery.setSurgeryTypeCrit(surgeryTypeCrit);
+        SurgeryOutcomeCriteria surgeryOutcomeCrit = clinicalDataForm.getSurgeryOutcomeCriteria();
+        if (!surgeryOutcomeCrit.isEmpty()) {
+            clinicalDataQuery.setSurgeryOutcomeCrit(surgeryOutcomeCrit);
+        }
+
+
+        // Set SurgeryTitle Criteria
+        PriorSurgeryTitleCriteria priroSurgeryTitleCrit = clinicalDataForm.getPriorSurgeryTitleCriteria();
+        if (!priroSurgeryTitleCrit.isEmpty()) {
+            clinicalDataQuery.setPriorSurgeryTitleCrit(priroSurgeryTitleCrit);
         }
 
         // Set Survival Criteria

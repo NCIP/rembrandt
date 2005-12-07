@@ -12,7 +12,7 @@ public class PriorChemotherapy implements ResultSet{
 	public final static String DATASET_ID = "datasetId";
 	public final static String TIME_POINT = "timePoint";
 	public final static String AGENT_ID = "agentId";
-	public final static String AGENT_NAME = "agentName";
+	public final static String AGENT_NAME = "AGENT_NAME";
 	public final static String COURSE_COUNT = "courseCount";
 	public final static String DOSE_START_DATE = "doseStartDate";
 	public final static String DOSE_STOP_DATE = "doseStopDate";

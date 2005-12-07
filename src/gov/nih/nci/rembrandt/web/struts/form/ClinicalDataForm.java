@@ -10,10 +10,11 @@ import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SurgeryTypeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE;
 import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
@@ -25,10 +26,11 @@ import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
+import gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
-import gov.nih.nci.caintegrator.dto.de.SurgeryTypeDE;
+import gov.nih.nci.caintegrator.dto.de.SurgeryOutcomeDE;
 import gov.nih.nci.caintegrator.dto.de.SurvivalDE;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
@@ -91,14 +93,17 @@ public class ClinicalDataForm extends BaseForm {
     /** africanAmerican property */
     private String africanAmerican;
     
-    /** latino property */
-    private String latino;
+    /** nativeHawaiian property */
+    private String nativeHawaiian;
     
-    /** asianAmerican property */
-    private String asianAmerican;
+    /** asian property */
+    private String asian;
     
-    /** nativeAmerican property */
-    private String nativeAmerican;  
+    /** other property */
+    private String other;  
+    
+    /** other property */
+    private String unknown;  
     
  
     /** tumorGrade property */
@@ -128,8 +133,10 @@ public class ClinicalDataForm extends BaseForm {
     /** surgery group property */
     private String surgery;
 
-    /** surgery type property */
-    private String surgeryType;
+    /** surgery outcome property */
+    private String surgeryOutcome;
+    
+    private String surgeryTitle;
 
     /** survival lower property */
     private String survivalLower;
@@ -163,7 +170,8 @@ public class ClinicalDataForm extends BaseForm {
 
     private ArrayList chemoAgentTypeColl = new ArrayList();
 
-    private ArrayList surgeryTypeColl = new ArrayList();
+    private ArrayList surgeryOutcomeColl = new ArrayList();
+    private ArrayList surgeryTitleColl = new ArrayList();
 
     private ArrayList survivalLowerColl = new ArrayList();
 
@@ -190,7 +198,9 @@ public class ClinicalDataForm extends BaseForm {
 
     private ChemoAgentCriteria chemoAgentCriteria;
 
-    private SurgeryTypeCriteria surgeryTypeCriteria;
+    private SurgeryOutcomeCriteria surgeryOutcomeCriteria;
+    
+    private PriorSurgeryTitleCriteria priorSurgeryTitleCriteria;
 
     private SurvivalCriteria survivalCriteria = new SurvivalCriteria();
 
@@ -231,30 +241,87 @@ public class ClinicalDataForm extends BaseForm {
         recurrenceTypeColl = new ArrayList();
         radiationTypeColl = new ArrayList();
         chemoAgentTypeColl = new ArrayList();
-        surgeryTypeColl = new ArrayList();
+        surgeryOutcomeColl = new ArrayList();
+        surgeryTitleColl = new ArrayList();
         survivalLowerColl = new ArrayList();
         survivalUpperColl = new ArrayList();
         ageLowerColl = new ArrayList();
         ageUpperColl = new ArrayList();
         genderTypeColl = new ArrayList();
 
+        recurrenceTypeColl.add(new LabelValueBean("", ""));
         recurrenceTypeColl.add(new LabelValueBean("Any", "any"));
         recurrenceTypeColl.add(new LabelValueBean("1", "1"));
         recurrenceTypeColl.add(new LabelValueBean("2", "2"));
         recurrenceTypeColl.add(new LabelValueBean("3", "3"));
 
+        radiationTypeColl.add(new LabelValueBean("", ""));
         radiationTypeColl.add(new LabelValueBean("Any", "any"));
-        radiationTypeColl.add(new LabelValueBean("Photon", "photon"));
+        radiationTypeColl.add(new LabelValueBean("Photon", "PHOTON"));
+        radiationTypeColl.add(new LabelValueBean("3D conformal", "3D CONFORMAL"));
+        radiationTypeColl.add(new LabelValueBean("Brachytherapy", "BRACHYTHERAPY"));
+        radiationTypeColl.add(new LabelValueBean("Radiosurgery", "RADIOSURGERY"));
 
+        chemoAgentTypeColl.add(new LabelValueBean("", ""));
         chemoAgentTypeColl.add(new LabelValueBean("Any", "any"));
+        chemoAgentTypeColl.add(new LabelValueBean("13-cis retinoic acid", "13-CIS RETINOIC ACID"));
+        chemoAgentTypeColl.add(new LabelValueBean("AEE788", "AEE788"));
+        chemoAgentTypeColl.add(new LabelValueBean("Accutane (isotretinoin)", "ACCUTANE (ISOTRETINOIN)"));
+        chemoAgentTypeColl.add(new LabelValueBean("CCNU (carmustine)", "CCNU (CARMUSTINE)"));
+        chemoAgentTypeColl.add(new LabelValueBean("Carbogen", "CARBOGEN"));
+        chemoAgentTypeColl.add(new LabelValueBean("Celebrex(Celecoxib)", "CELEBREX(CELECOXIB)"));
+        chemoAgentTypeColl.add(new LabelValueBean("HBOC-201", "HBOC-201"));
+        chemoAgentTypeColl.add(new LabelValueBean("ST1480 (Gimatecan)", "ST1480 (GIMATECAN)"));
+        
+        chemoAgentTypeColl.add(new LabelValueBean("bcnu", "BCNU"));
+        chemoAgentTypeColl.add(new LabelValueBean("bromodeoxyuridine", "BROMODEOXYURIDINE"));
+        chemoAgentTypeColl.add(new LabelValueBean("carboplatin", "CARBOPLATIN"));
+        chemoAgentTypeColl.add(new LabelValueBean("cc-5013", "CC-5013"));
+        chemoAgentTypeColl.add(new LabelValueBean("cisplatin", "CISPLATIN"));
+        
+        chemoAgentTypeColl.add(new LabelValueBean("cpt-11", "CPT-11"));
+        chemoAgentTypeColl.add(new LabelValueBean("cyclophosphamide", "CYCLOPHOSPHAMIDE"));
+        chemoAgentTypeColl.add(new LabelValueBean("doxorubicin", "DOXORUBICIN"));
+        chemoAgentTypeColl.add(new LabelValueBean("etoposide", "ETOPOSIDE"));
+        chemoAgentTypeColl.add(new LabelValueBean("lomustine", "LOMUSTINE"));
 
-        surgeryTypeColl.add(new LabelValueBean("Any", "any"));
-        surgeryTypeColl.add(new LabelValueBean("Complete Resection(CR)",
-                "Complete Resection(CR)"));
-        surgeryTypeColl.add(new LabelValueBean("Partial Resection(PR)",
-                "Partial Resection(PR)"));
-        surgeryTypeColl.add(new LabelValueBean("Bioposy Only(BX)",
-                "Bioposy Only(BX)"));
+        chemoAgentTypeColl.add(new LabelValueBean("osi-774", "OSI-774"));
+        chemoAgentTypeColl.add(new LabelValueBean("poly iclc", "POLY ICLC"));
+        chemoAgentTypeColl.add(new LabelValueBean("procarbazine", "PROCARBAZINE"));
+        chemoAgentTypeColl.add(new LabelValueBean("r115777", "R115777"));
+        chemoAgentTypeColl.add(new LabelValueBean("tamoxifen citrate", "TAMOXIFEN CITRATE"));
+        
+        chemoAgentTypeColl.add(new LabelValueBean("tarceva", "TARCEVA"));
+        chemoAgentTypeColl.add(new LabelValueBean("taxol", "TAXOL"));
+        chemoAgentTypeColl.add(new LabelValueBean("temodal", "TEMODAL"));
+        chemoAgentTypeColl.add(new LabelValueBean("temozolomide", "TEMOZOLOMIDE"));
+        chemoAgentTypeColl.add(new LabelValueBean("thalidomide", "THALIDOMIDE"));
+        
+        chemoAgentTypeColl.add(new LabelValueBean("vincristine", "VINCRISTINE"));
+        chemoAgentTypeColl.add(new LabelValueBean("zarnestra", "ZARNESTRA"));
+
+
+        surgeryOutcomeColl.add(new LabelValueBean("", ""));
+        surgeryOutcomeColl.add(new LabelValueBean("Any", "any"));
+        surgeryOutcomeColl.add(new LabelValueBean("Complete Resection(CR)",
+                "CR - COMPLETE RESECTION"));
+        surgeryOutcomeColl.add(new LabelValueBean("Partial Resection(PR)",
+                "PR - PARTIAL RESECTION"));
+        surgeryOutcomeColl.add(new LabelValueBean("Bioposy Only(BX)",
+                "BX - BIOPSY ONLY"));
+        
+        surgeryTitleColl.add(new LabelValueBean("", ""));
+        surgeryTitleColl.add(new LabelValueBean("Any", "any"));
+        surgeryTitleColl.add(new LabelValueBean("Craniotomy Open Biopsy",
+        "CRANIOTOMY OPEN BIOPSY"));
+        surgeryTitleColl.add(new LabelValueBean("Craniotomy Open Resection",
+        "CRANIOTOMY OPEN RESECTION"));
+        surgeryTitleColl.add(new LabelValueBean("Stereotactic Biopsy",
+        "STEREOTACTIC BIOPSY"));
+        
+        
+        
+       
 
         survivalLowerColl.add(new LabelValueBean("", ""));
         survivalLowerColl.add(new LabelValueBean("0", "0"));
@@ -368,9 +435,10 @@ public class ClinicalDataForm extends BaseForm {
 
         caucasion= "";       
         africanAmerican= "";      
-        latino= "";      
-        asianAmerican= "";       
-        nativeAmerican= "";
+        other= "";      
+        asian= "";       
+        nativeHawaiian= "";
+        unknown= "";
         tumorType = "";
         tumorGrade = "";
         firstPresentation = "";
@@ -381,7 +449,8 @@ public class ClinicalDataForm extends BaseForm {
         chemo = "";
         chemoType = "";
         surgery = "";
-        surgeryType = "";
+        surgeryOutcome = "";
+        surgeryTitle = "";
         survivalLower = "";
         survivalUpper = "";
         ageLower = "";
@@ -395,7 +464,8 @@ public class ClinicalDataForm extends BaseForm {
         occurrenceCriteria = new OccurrenceCriteria();
         radiationTherapyCriteria = new RadiationTherapyCriteria();
         chemoAgentCriteria = new ChemoAgentCriteria();
-        surgeryTypeCriteria = new SurgeryTypeCriteria();
+        surgeryOutcomeCriteria = new SurgeryOutcomeCriteria();
+        priorSurgeryTitleCriteria = new PriorSurgeryTitleCriteria();
         survivalCriteria = new SurvivalCriteria();
         ageCriteria = new AgeCriteria();
         genderCriteria = new GenderCriteria();
@@ -663,7 +733,7 @@ public class ClinicalDataForm extends BaseForm {
 		 if (africanAmerican != null) {
 	            if (africanAmerican.equalsIgnoreCase("on")) {
 	                //this.africanAmerican = "African American";
-	            	this.africanAmerican = "Black";
+	            	this.africanAmerican = "BLACK";
 	            }
 	            RaceDE raceDE = new RaceDE(this.africanAmerican );
 	            raceCriteria.setRace(raceDE);
@@ -672,28 +742,7 @@ public class ClinicalDataForm extends BaseForm {
 	}
 
 
-	/**
-	 * @return Returns the asianAmerican.
-	 */
-	public String getAsianAmerican() {
-		return asianAmerican;
-	}
-
-	/**
-	 * @param asianAmerican The asianAmerican to set.
-	 */
-	public void setAsianAmerican(String asianAmerican) {
-		this.asianAmerican = asianAmerican;
-		  if (asianAmerican != null) {
-	            if (asianAmerican.equalsIgnoreCase("on")) {
-	                this.asianAmerican = "Asian American";
-	                
-	            }
-	            RaceDE raceDE = new RaceDE(this.asianAmerican );
-	            raceCriteria.setRace(raceDE);
-	          
-	        }
-	}
+	    
 
 
 	/**
@@ -711,7 +760,7 @@ public class ClinicalDataForm extends BaseForm {
 		 if (caucasion != null) {
 	            if (caucasion.equalsIgnoreCase("on")) {
 	                //this.caucasion = "Caucasion";	     
-	            	this.caucasion = "White";	 
+	            	this.caucasion = "WHITE";	 
 	            }
 	            RaceDE raceDE = new RaceDE(this.caucasion );
 	            raceCriteria.setRace(raceDE);
@@ -720,47 +769,27 @@ public class ClinicalDataForm extends BaseForm {
 	}
 
 	/**
-	 * @return Returns the latino.
+	 * @return Returns the asian.
 	 */
-	public String getLatino() {
-		return latino;
+	public String getAsian() {
+		return asian;
 	}
+
+
+
+
+
 	/**
-	 * @param latino The latino to set.
+	 * @param asian The asian to set.
 	 */
-	public void setLatino(String latino) {
-		this.latino = latino;
-		 if (latino != null) {
-	            if (latino.equalsIgnoreCase("on")) {
-	                this.latino = "Latino";	                
+	public void setAsian(String asian) {
+		this.asian = asian;
+		 if (asian != null) {
+	            if (asian.equalsIgnoreCase("on")) {
+	                //this.caucasion = "Caucasion";	     
+	            	this.asian = "ASIAN NOS";	 
 	            }
-	            RaceDE raceDE = new RaceDE(this.latino);
-	            raceCriteria.setRace(raceDE);
-	          
-	        }
-	}
-
-	/**
-	 * @return Returns the nativeAmerican.
-	 */
-	public String getNativeAmerican() {
-		return nativeAmerican;
-	}
-
-
-
-
-
-	/**
-	 * @param nativeAmerican The nativeAmerican to set.
-	 */
-	public void setNativeAmerican(String nativeAmerican) {
-		this.nativeAmerican = nativeAmerican;
-		if (nativeAmerican != null) {
-	            if (nativeAmerican.equalsIgnoreCase("on")) {
-	                this.nativeAmerican = "Native American";	                
-	            }
-	            RaceDE raceDE = new RaceDE(this.nativeAmerican);
+	            RaceDE raceDE = new RaceDE(this.asian );
 	            raceCriteria.setRace(raceDE);
 	          
 	        }
@@ -770,12 +799,103 @@ public class ClinicalDataForm extends BaseForm {
 
 
 
-  
-   
-	
-	
+	/**
+	 * @return Returns the nativeHawaiian.
+	 */
+	public String getNativeHawaiian() {
+		return nativeHawaiian;
+	}
 
-    /**
+
+
+
+
+	/**
+	 * @param nativeHawaiian The nativeHawaiian to set.
+	 */
+	public void setNativeHawaiian(String nativeHawaiian) {
+		this.nativeHawaiian = nativeHawaiian;
+		
+		 if (nativeHawaiian != null) {
+	            if (nativeHawaiian.equalsIgnoreCase("on")) {
+	                //this.caucasion = "Caucasion";	     
+	            	this.nativeHawaiian = "NATIVE HAWAIIAN";	 
+	            }
+	            RaceDE raceDE = new RaceDE(this.nativeHawaiian );
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the other.
+	 */
+	public String getOther() {
+		return other;
+	}
+
+
+
+
+
+	/**
+	 * @param other The other to set.
+	 */
+	public void setOther(String other) {
+		this.other = other;
+		
+		 if (other != null) {
+	            if (other.equalsIgnoreCase("on")) {	                   
+	            	this.other = "OTHER";	 
+	            }
+	            RaceDE raceDE = new RaceDE(this.other );
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the unknown.
+	 */
+	public String getUnknown() {
+		return unknown;
+	}
+
+
+
+
+
+	/**
+	 * @param unknown The unknown to set.
+	 */
+	public void setUnknown(String unknown) {
+		this.unknown = unknown;
+		 if (unknown != null) {
+	            if (unknown.equalsIgnoreCase("on")) {	                   
+	            	this.unknown = "UNKNOWN";	 
+	            }
+	            RaceDE raceDE = new RaceDE(this.unknown );
+	            raceCriteria.setRace(raceDE);
+	          
+	        }
+		 
+	}
+
+
+
+
+
+
+	  
+  /**
      * Returns the tumorGrade.
      * 
      * @return String
@@ -916,8 +1036,23 @@ public class ClinicalDataForm extends BaseForm {
 
             if (thisRadiation != null && thisRadiationType != null
                     && !thisRadiationType.equals("")) {
-            	  RadiationTherapyDE radiationTherapyDE = new RadiationTherapyDE(this.radiationType);
-                  radiationTherapyCriteria.setRadiationTherapyDE(radiationTherapyDE);
+            	
+            	  if(thisRadiationType.equalsIgnoreCase("ANY")) {
+          	    	ArrayList allRadiationTypes = this.getRadiationTypeColl();
+          	    	 for (Iterator radiationIter = allRadiationTypes.iterator(); radiationIter.hasNext();) {
+                            LabelValueBean thisLabelBean = (LabelValueBean) radiationIter.next();
+                            String thisRadiationSiteType = thisLabelBean.getValue();    
+                            if (!thisRadiationSiteType.equalsIgnoreCase("ANY")) {
+                            	RadiationTherapyDE radiationDE = new RadiationTherapyDE(thisRadiationSiteType);
+                            	radiationTherapyCriteria.setRadiationTherapyDE(radiationDE);
+    		                }
+          	    	
+                        }
+          	       }
+            	  else {
+            	    RadiationTherapyDE radiationTherapyDE = new RadiationTherapyDE(this.radiationType);
+                    radiationTherapyCriteria.setRadiationTherapyDE(radiationTherapyDE);
+            	  }
               
             }
         }
@@ -967,16 +1102,30 @@ public class ClinicalDataForm extends BaseForm {
             // this is to check the chemo type
             String thisChemoType = thisRequest.getParameter("chemoType");
             if (thisChemo != null && thisChemoType != null
-                    && !thisChemoType.equals("")) {            	
-              
-                    ChemoAgentDE chemoAgentDE = new ChemoAgentDE(this.chemoType);
-                    chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
+                    && !thisChemoType.equals("")) { 
+            	   if(thisChemoType.equalsIgnoreCase("ANY")) {
+            	    	ArrayList allAgents = this.getChemoAgentTypeColl();
+            	    	 for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
+                              LabelValueBean thisLabelBean = (LabelValueBean) agentIter.next();
+                              String thisAgentType = thisLabelBean.getValue();    
+                              if (!thisAgentType.equalsIgnoreCase("ANY")) {
+                            	  ChemoAgentDE chemoAgentDE = new ChemoAgentDE(thisAgentType);
+                            	  chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
+      		                }
+            	    	
+                          }
+            	       }	 
+            	   else {
+                       ChemoAgentDE chemoAgentDE = new ChemoAgentDE(thisChemoType);
+                       chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
+            	   }
                   
                 }
               
             }
         }
    
+    
 
     /**
      * Returns the chemoType.
@@ -1008,32 +1157,47 @@ public class ClinicalDataForm extends BaseForm {
     }
 
     /**
-     * Set the surgeryType.
+     * Set the surgeryOutcome.
      * 
-     * @param surgeryType
-     *            The surgeryType to set
+     * @param surgeryOutcome
+     *            The surgeryOutcome to set
      */
-    public void setSurgeryType(String surgeryType) {
-        this.surgeryType = surgeryType;
+    public void setSurgeryOutcome(String surgeryOutcome) {
+        this.surgeryOutcome = surgeryOutcome;
         if (thisRequest != null) {
             String thisSurgery = thisRequest.getParameter("sugery");
-            String thisSurgeryType = thisRequest.getParameter("surgeryType");
-            surgeryTypeCriteria = new SurgeryTypeCriteria();
-            if (thisSurgery != null && thisSurgeryType != null
-                    && !thisSurgeryType.equals("")) {
-            	 SurgeryTypeDE surgeryTypeDE = new SurgeryTypeDE(this.surgeryType);
-          	     surgeryTypeCriteria.setSurgeryTypeDE(surgeryTypeDE);                
+            String thisSurgeryOutcome = thisRequest.getParameter("surgeryOutcome");
+            surgeryOutcomeCriteria = new SurgeryOutcomeCriteria();
+            if (thisSurgery != null && thisSurgeryOutcome != null
+                    && !thisSurgeryOutcome.equals("")) {
+            	
+            	 if(thisSurgeryOutcome.equalsIgnoreCase("ANY")) {
+         	    	ArrayList allSurgeryOutcomes = this.getSurgeryOutcomeColl();
+         	    	 for (Iterator outcomeIter = allSurgeryOutcomes.iterator(); outcomeIter.hasNext();) {
+                           LabelValueBean thisLabelBean = (LabelValueBean) outcomeIter.next();
+                           String thisOutcomeType = thisLabelBean.getValue();    
+                           if (!thisOutcomeType.equalsIgnoreCase("ANY")) {
+                        	   SurgeryOutcomeDE surgeryOutcomeDE = new SurgeryOutcomeDE(thisOutcomeType);
+                        	   surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE);
+   		                }
+         	    	
+                       }
+         	       }
+            	 else {
+            	   SurgeryOutcomeDE surgeryOutcomeDE = new SurgeryOutcomeDE(this.surgeryOutcome);
+          	       surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE); 
+            	 }
             }
         }
     }
 
     /**
-     * Returns the surgeryType.
+     * Returns the surgeryOutcome.
      * 
      * @return String
      */
-    public String getSurgeryType() {
-        return surgeryType;
+    public String getSurgeryOutcome() {
+        return surgeryOutcome;
     }
 
     /**
@@ -1221,8 +1385,8 @@ public class ClinicalDataForm extends BaseForm {
         return this.occurrenceCriteria;
     }
 
-    public SurgeryTypeCriteria getSurgeryTypeCriteria() {
-        return this.surgeryTypeCriteria;
+    public SurgeryOutcomeCriteria getSurgeryOutcomeCriteria() {
+        return this.surgeryOutcomeCriteria;
     }
 
     public RadiationTherapyCriteria getRadiationTherapyCriteria() {
@@ -1296,8 +1460,8 @@ public class ClinicalDataForm extends BaseForm {
         return chemoAgentTypeColl;
     }
 
-    public ArrayList getSurgeryTypeColl() {
-        return surgeryTypeColl;
+    public ArrayList getSurgeryOutcomeColl() {
+        return surgeryOutcomeColl;
     }
 
     public ArrayList getSurvivalLowerColl() {
@@ -1351,7 +1515,68 @@ public class ClinicalDataForm extends BaseForm {
 		return neuroExamTypeColl;
 	}
     
-    public ClinicalDataForm cloneMe() {
+	
+    /**
+	 * @return Returns the surgeryTitle.
+	 */
+	public String getSurgeryTitle() {
+		return surgeryTitle;
+	}
+
+
+
+
+
+		/**
+	 * @param surgeryTitle The surgeryTitle to set.
+	 */
+	public void setSurgeryTitle(String surgeryTitle) {
+		this.surgeryTitle = surgeryTitle;		
+	        if (thisRequest != null) {
+	            String thisSurgery = thisRequest.getParameter("sugery");
+	            String thisSurgeryTitle = thisRequest.getParameter("surgeryTitle");
+	            priorSurgeryTitleCriteria = new PriorSurgeryTitleCriteria();
+	            if (thisSurgery != null && thisSurgeryTitle != null
+	                    && !thisSurgeryTitle.equals("")) {
+	            	
+	            	 if(thisSurgeryTitle.equalsIgnoreCase("ANY")) {
+	         	    	ArrayList allSurgeryTitles = this.getSurgeryTitleColl();
+	         	    	 for (Iterator titleIter = allSurgeryTitles.iterator(); titleIter.hasNext();) {
+	                           LabelValueBean thisLabelBean = (LabelValueBean) titleIter.next();
+	                           String thisTitleType = thisLabelBean.getValue();    
+	                           if (!thisTitleType.equalsIgnoreCase("ANY")) {
+	                        	   PriorSurgeryTitleDE priorSurgeryTitleDE = new PriorSurgeryTitleDE(thisTitleType);
+	                        	   priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE);
+	   		                }
+	         	    	
+	                       }
+	         	       }
+	            	 else {
+	            		 PriorSurgeryTitleDE priorSurgeryTitleDE = new PriorSurgeryTitleDE(this.surgeryTitle);
+	            		 priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE); 
+	            	 }
+	            }
+	        }
+	    }
+
+	
+
+
+
+
+
+	/**
+	 * @return Returns the surgeryTitleColl.
+	 */
+	public ArrayList getSurgeryTitleColl() {
+		return surgeryTitleColl;
+	}
+
+
+
+
+
+	public ClinicalDataForm cloneMe() {
         ClinicalDataForm form = new ClinicalDataForm();
         form.setQueryName(queryName);
         form.setTumorGrade(tumorGrade);
@@ -1373,7 +1598,7 @@ public class ClinicalDataForm extends BaseForm {
         form.setChemo(chemo);
         form.setChemoType(chemoType);
         form.setSurgery(surgery);
-        form.setSurgeryType(surgeryType);
+        form.setSurgeryOutcome(surgeryOutcome);
         form.setSurvivalLower(survivalLower);
         form.setSurvivalUpper(survivalUpper);
         form.setAgeLower(ageLower);
@@ -1384,9 +1609,11 @@ public class ClinicalDataForm extends BaseForm {
         form.setSampleGroup(sampleGroup);
         form.setAfricanAmerican(africanAmerican);
         form.setCaucasion(caucasion);
-        form.setAsianAmerican(asianAmerican);
-        form.setLatino(latino);
-        form.setNativeAmerican(nativeAmerican);        
+        form.setAsian(asian);
+        form.setOther(other);
+        form.setUnknown(unknown);
+        form.setNativeHawaiian(nativeHawaiian);        
+              
         return form;
     }
     /**
@@ -1443,6 +1670,17 @@ public class ClinicalDataForm extends BaseForm {
 
         return errors;
     }
+
+
+
+
+
+	/**
+	 * @return Returns the priorSurgeryTitleCriteria.
+	 */
+	public PriorSurgeryTitleCriteria getPriorSurgeryTitleCriteria() {
+		return priorSurgeryTitleCriteria;
+	}
 
 
 

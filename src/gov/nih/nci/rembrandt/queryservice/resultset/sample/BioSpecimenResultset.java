@@ -43,13 +43,278 @@ public abstract class  BioSpecimenResultset {
 	private String neuroEvaluationDates;
 	private String steroidDoseStatuses;	
 	private String antiConvulsantStatuses;
+
+	
+	private String priorRadiationTimePoints;
+	  private String priorRadiationRadiationSites;
+	  private String priorRadiationDoseStartDates;
+	  private String priorRadiationDoseStopDates;
+	  private String priorRadiationFractionDoses;
+	  private String priorRadiationFractionNumbers;
+	  private String priorRadiationRadiationTypes;
+	  
+	  
+	  private String priorChemoTimePoints;
+	  private String priorChemoagentIds ;
+	  private String priorChemoAgentNames ;							
+	  private String priorChemoCourseCounts ;
+	  private String priorChemoDoseStartDates;	
+	  private String priorChemoDoseStopDates ;
+	  private String priorChemoStudySources ;
+	  private String priorChemoProtocolNumbers ;
+	  
+	  private String priorSurgeryTimePoints ;
+	  private String priorSurgeryProcedureTitles ;
+	  private String priorSurgeryTumorHistologys ;							
+	  private String priorSurgerySurgeryDates ;
+	  private String priorSurgerySurgeryOutcomes ;	
+
 	private DatumDE survivalLength ;
+
 	
 	
 	
-	
-	
-	
+	/**
+	 * @return Returns the priorChemoagentIds.
+	 */
+	public String getPriorChemoagentIds() {
+		return priorChemoagentIds;
+	}
+	/**
+	 * @param priorChemoagentIds The priorChemoagentIds to set.
+	 */
+	public void setPriorChemoagentIds(String priorChemoagentIds) {
+		this.priorChemoagentIds = priorChemoagentIds;
+	}
+	/**
+	 * @return Returns the priorChemoAgentNames.
+	 */
+	public String getPriorChemoAgentNames() {
+		return priorChemoAgentNames;
+	}
+	/**
+	 * @param priorChemoAgentNames The priorChemoAgentNames to set.
+	 */
+	public void setPriorChemoAgentNames(String priorChemoAgentNames) {
+		this.priorChemoAgentNames = priorChemoAgentNames;
+	}
+	/**
+	 * @return Returns the priorChemoCourseCounts.
+	 */
+	public String getPriorChemoCourseCounts() {
+		return priorChemoCourseCounts;
+	}
+	/**
+	 * @param priorChemoCourseCounts The priorChemoCourseCounts to set.
+	 */
+	public void setPriorChemoCourseCounts(String priorChemoCourseCounts) {
+		this.priorChemoCourseCounts = priorChemoCourseCounts;
+	}
+	/**
+	 * @return Returns the priorChemoDoseStartDates.
+	 */
+	public String getPriorChemoDoseStartDates() {
+		return priorChemoDoseStartDates;
+	}
+	/**
+	 * @param priorChemoDoseStartDates The priorChemoDoseStartDates to set.
+	 */
+	public void setPriorChemoDoseStartDates(String priorChemoDoseStartDates) {
+		this.priorChemoDoseStartDates = priorChemoDoseStartDates;
+	}
+	/**
+	 * @return Returns the priorChemoDoseStopDates.
+	 */
+	public String getPriorChemoDoseStopDates() {
+		return priorChemoDoseStopDates;
+	}
+	/**
+	 * @param priorChemoDoseStopDates The priorChemoDoseStopDates to set.
+	 */
+	public void setPriorChemoDoseStopDates(String priorChemoDoseStopDates) {
+		this.priorChemoDoseStopDates = priorChemoDoseStopDates;
+	}
+	/**
+	 * @return Returns the priorChemoProtocolNumbers.
+	 */
+	public String getPriorChemoProtocolNumbers() {
+		return priorChemoProtocolNumbers;
+	}
+	/**
+	 * @param priorChemoProtocolNumbers The priorChemoProtocolNumbers to set.
+	 */
+	public void setPriorChemoProtocolNumbers(String priorChemoProtocolNumbers) {
+		this.priorChemoProtocolNumbers = priorChemoProtocolNumbers;
+	}
+	/**
+	 * @return Returns the priorChemoStudySources.
+	 */
+	public String getPriorChemoStudySources() {
+		return priorChemoStudySources;
+	}
+	/**
+	 * @param priorChemoStudySources The priorChemoStudySources to set.
+	 */
+	public void setPriorChemoStudySources(String priorChemoStudySources) {
+		this.priorChemoStudySources = priorChemoStudySources;
+	}
+	/**
+	 * @return Returns the priorChemoTimePoints.
+	 */
+	public String getPriorChemoTimePoints() {
+		return priorChemoTimePoints;
+	}
+	/**
+	 * @param priorChemoTimePoints The priorChemoTimePoints to set.
+	 */
+	public void setPriorChemoTimePoints(String priorChemoTimePoints) {
+		this.priorChemoTimePoints = priorChemoTimePoints;
+	}
+	/**
+	 * @return Returns the priorRadiationDoseStartDates.
+	 */
+	public String getPriorRadiationDoseStartDates() {
+		return priorRadiationDoseStartDates;
+	}
+	/**
+	 * @param priorRadiationDoseStartDates The priorRadiationDoseStartDates to set.
+	 */
+	public void setPriorRadiationDoseStartDates(String priorRadiationDoseStartDates) {
+		this.priorRadiationDoseStartDates = priorRadiationDoseStartDates;
+	}
+	/**
+	 * @return Returns the priorRadiationDoseStopDates.
+	 */
+	public String getPriorRadiationDoseStopDates() {
+		return priorRadiationDoseStopDates;
+	}
+	/**
+	 * @param priorRadiationDoseStopDates The priorRadiationDoseStopDates to set.
+	 */
+	public void setPriorRadiationDoseStopDates(String priorRadiationDoseStopDates) {
+		this.priorRadiationDoseStopDates = priorRadiationDoseStopDates;
+	}
+	/**
+	 * @return Returns the priorRadiationFractionDoses.
+	 */
+	public String getPriorRadiationFractionDoses() {
+		return priorRadiationFractionDoses;
+	}
+	/**
+	 * @param priorRadiationFractionDoses The priorRadiationFractionDoses to set.
+	 */
+	public void setPriorRadiationFractionDoses(String priorRadiationFractionDoses) {
+		this.priorRadiationFractionDoses = priorRadiationFractionDoses;
+	}
+	/**
+	 * @return Returns the priorRadiationFractionNumbers.
+	 */
+	public String getPriorRadiationFractionNumbers() {
+		return priorRadiationFractionNumbers;
+	}
+	/**
+	 * @param priorRadiationFractionNumbers The priorRadiationFractionNumbers to set.
+	 */
+	public void setPriorRadiationFractionNumbers(
+			String priorRadiationFractionNumbers) {
+		this.priorRadiationFractionNumbers = priorRadiationFractionNumbers;
+	}
+	/**
+	 * @return Returns the priorRadiationRadiationSites.
+	 */
+	public String getPriorRadiationRadiationSites() {
+		return priorRadiationRadiationSites;
+	}
+	/**
+	 * @param priorRadiationRadiationSites The priorRadiationRadiationSites to set.
+	 */
+	public void setPriorRadiationRadiationSites(String priorRadiationRadiationSites) {
+		this.priorRadiationRadiationSites = priorRadiationRadiationSites;
+	}
+	/**
+	 * @return Returns the priorRadiationRadiationTypes.
+	 */
+	public String getPriorRadiationRadiationTypes() {
+		return priorRadiationRadiationTypes;
+	}
+	/**
+	 * @param priorRadiationRadiationTypes The priorRadiationRadiationTypes to set.
+	 */
+	public void setPriorRadiationRadiationTypes(String priorRadiationRadiationTypes) {
+		this.priorRadiationRadiationTypes = priorRadiationRadiationTypes;
+	}
+	/**
+	 * @return Returns the priorRadiationTimePoints.
+	 */
+	public String getPriorRadiationTimePoints() {
+		return priorRadiationTimePoints;
+	}
+	/**
+	 * @param priorRadiationTimePoints The priorRadiationTimePoints to set.
+	 */
+	public void setPriorRadiationTimePoints(String priorRadiationTimePoints) {
+		this.priorRadiationTimePoints = priorRadiationTimePoints;
+	}
+	/**
+	 * @return Returns the priorSurgeryProcedureTitles.
+	 */
+	public String getPriorSurgeryProcedureTitles() {
+		return priorSurgeryProcedureTitles;
+	}
+	/**
+	 * @param priorSurgeryProcedureTitles The priorSurgeryProcedureTitles to set.
+	 */
+	public void setPriorSurgeryProcedureTitles(String priorSurgeryProcedureTitles) {
+		this.priorSurgeryProcedureTitles = priorSurgeryProcedureTitles;
+	}
+	/**
+	 * @return Returns the priorSurgerySurgeryDates.
+	 */
+	public String getPriorSurgerySurgeryDates() {
+		return priorSurgerySurgeryDates;
+	}
+	/**
+	 * @param priorSurgerySurgeryDates The priorSurgerySurgeryDates to set.
+	 */
+	public void setPriorSurgerySurgeryDates(String priorSurgerySurgeryDates) {
+		this.priorSurgerySurgeryDates = priorSurgerySurgeryDates;
+	}
+	/**
+	 * @return Returns the priorSurgerySurgeryOutcomes.
+	 */
+	public String getPriorSurgerySurgeryOutcomes() {
+		return priorSurgerySurgeryOutcomes;
+	}
+	/**
+	 * @param priorSurgerySurgeryOutcomes The priorSurgerySurgeryOutcomes to set.
+	 */
+	public void setPriorSurgerySurgeryOutcomes(String priorSurgerySurgeryOutcomes) {
+		this.priorSurgerySurgeryOutcomes = priorSurgerySurgeryOutcomes;
+	}
+	/**
+	 * @return Returns the priorSurgeryTimePoints.
+	 */
+	public String getPriorSurgeryTimePoints() {
+		return priorSurgeryTimePoints;
+	}
+	/**
+	 * @param priorSurgeryTimePoints The priorSurgeryTimePoints to set.
+	 */
+	public void setPriorSurgeryTimePoints(String priorSurgeryTimePoints) {
+		this.priorSurgeryTimePoints = priorSurgeryTimePoints;
+	}
+	/**
+	 * @return Returns the priorSurgeryTumorHistologys.
+	 */
+	public String getPriorSurgeryTumorHistologys() {
+		return priorSurgeryTumorHistologys;
+	}
+	/**
+	 * @param priorSurgeryTumorHistologys The priorSurgeryTumorHistologys to set.
+	 */
+	public void setPriorSurgeryTumorHistologys(String priorSurgeryTumorHistologys) {
+		this.priorSurgeryTumorHistologys = priorSurgeryTumorHistologys;
+	}
 	/**
 	 * @return Returns the antiConvulsantStatuses.
 	 */

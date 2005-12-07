@@ -140,7 +140,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 		        	cell = null;
 		        	
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Time Point");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Clinical Evaluation Time Point");
 			        	data = null;
 		        	cell = null;
 		        	
@@ -168,6 +168,110 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Anti-Convulsant Status");
 			        	data = null;
 		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Time Point");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Site");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Dose Start Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Dose Stop Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Fraction Dose");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Fraction Number");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Type");
+			        	data = null;
+		        	 cell = null;		        	 
+		        	
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Time Point");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Agent ID");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Agent Name");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Course Count");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Dose Start Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Dose Stop Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Study Source");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Protocol Number");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Time Point");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Procedure Title");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Tumor Histology");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Outcome");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 
+		        	 
 		    //sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	
 		    
@@ -269,6 +373,106 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getAntiConvulsantStatuses()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationTimePoints()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationRadiationSites()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationDoseStartDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationDoseStopDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationFractionDoses()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationFractionNumbers()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationRadiationTypes()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoTimePoints()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoagentIds()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoAgentNames()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoCourseCounts()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoDoseStartDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoDoseStopDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoStudySources()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoProtocolNumbers()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgeryTimePoints()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgeryProcedureTitles()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgeryTumorHistologys()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgerySurgeryDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgerySurgeryOutcomes()));
 			        		data = null;
 			        	    cell = null;
 		   		/*

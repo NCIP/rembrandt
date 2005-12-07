@@ -9,10 +9,11 @@ import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SurgeryTypeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
@@ -22,10 +23,11 @@ import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
-import gov.nih.nci.caintegrator.dto.de.SurgeryTypeDE;
+import gov.nih.nci.caintegrator.dto.de.SurgeryOutcomeDE;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
@@ -78,7 +80,9 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 
 	private RadiationTherapyCriteria radiationTherapyCriteria;
 
-	private SurgeryTypeCriteria surgeryTypeCriteria;
+	private SurgeryOutcomeCriteria surgeryOutcomeCriteria;
+	
+	private PriorSurgeryTitleCriteria priorSurgeryTitleCriteria;
 
 	private SurvivalCriteria survivalCriteria;
 	
@@ -204,58 +208,119 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 						.debug("Sample ID Criteria is empty or Application Resources file is missing");
 
 			// starting RadiationTherapyCriteria
-			RadiationTherapyCriteria thisRadiationTherapyCriteria = this
-					.getRadiationTherapyCriteria();
-			if ((thisRadiationTherapyCriteria != null)
-					&& !thisRadiationTherapyCriteria.isEmpty()
-					&& labels != null) {
-				RadiationTherapyDE radiationTherapyDE = thisRadiationTherapyCriteria
-						.getRadiationTherapyDE();
-				String radiationStr = radiationTherapyDE.getClass().getName();
-				OutStr += "<BR>"
-						+ labels.getString(radiationStr.substring(radiationStr
-								.lastIndexOf(".") + 1)) + ": "
-						+ radiationTherapyDE.getValue() + "";
+			RadiationTherapyCriteria thisRadiationTherapyCriteria = this.getRadiationTherapyCriteria();
+			if ((thisRadiationTherapyCriteria != null)&& !thisRadiationTherapyCriteria.isEmpty()&& labels != null) {
+				
+				
+				Collection radiationColl = thisRadiationTherapyCriteria.getRadiations();
 
-			} else {
-				logger
-						.debug("RadiationTherapyCriteria is empty or Application Resources file is missing.");
-			}// end of RadiationTherapyCriteria
+				String thisCriteria = thisRadiationTherapyCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";
 
-			// starting ChemoAgentCriteria
-			ChemoAgentCriteria thisChemoAgentCriteria = this
-					.getChemoAgentCriteria();
-			if ((thisChemoAgentCriteria != null)
-					&& !thisChemoAgentCriteria.isEmpty() && labels != null) {
-				ChemoAgentDE chemoAgentDE = thisChemoAgentCriteria
-						.getChemoAgentDE();
-				String chemoStr = chemoAgentDE.getClass().getName();
-				OutStr += "<BR>"
-						+ labels.getString(chemoStr.substring(chemoStr
-								.lastIndexOf(".") + 1)) + ": "
-						+ chemoAgentDE.getValue() + "";
+				Iterator iter = radiationColl.iterator();
+				while (iter.hasNext()) {
+					RadiationTherapyDE radiationTherapyDE = (RadiationTherapyDE) iter.next();
+					OutStr += "" + ((String) radiationTherapyDE.getValue())
+							+ " ";
+				}
+			
+					
 			}
 
 			else {
 				logger
-						.debug("ChemoAgentCriteria is empty or Application Resources file is missing.");
-			}// end of ChemoAgentCriteria
+						.debug("Radiation Criteria is empty or Application Resources file is missing.");
+			}// end of RadiationCriteria
+			
+			
+			
+			// starting chemoTherapyCriteria
+			ChemoAgentCriteria thisChemoTherapyCriteria = this.getChemoAgentCriteria();
+			if ((thisChemoTherapyCriteria != null)&& !thisChemoTherapyCriteria.isEmpty()&& labels != null) {
+				
+				
+				Collection chemoColl = thisChemoTherapyCriteria.getAgents();
+
+				String thisCriteria = thisChemoTherapyCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";
+
+				Iterator iter = chemoColl.iterator();
+				while (iter.hasNext()) {
+					ChemoAgentDE chemoAgentDE = (ChemoAgentDE) iter.next();
+					OutStr += "" + ((String) chemoAgentDE.getValue())
+							+ " ";
+				}
+			
+					
+			}
+
+			else {
+				logger
+						.debug("Chemo Agent Criteria is empty or Application Resources file is missing.");
+			}// end of Chemo Agent Criteria
+
+
 
 			// starting SurgeryTypeCriteria
-			SurgeryTypeCriteria thisSurgeryTypeCriteria = this
-					.getSurgeryTypeCriteria();
-			if ((thisSurgeryTypeCriteria != null)
-					&& !thisSurgeryTypeCriteria.isEmpty() && labels != null) {
-				SurgeryTypeDE surgeryTypeDE = thisSurgeryTypeCriteria
-						.getSurgeryTypeDE();
-				String surgeryStr = surgeryTypeDE.getClass().getName();
-				OutStr += "<BR>"
-						+ labels.getString(surgeryStr.substring(surgeryStr
-								.lastIndexOf(".") + 1)) + ": "
-						+ surgeryTypeDE.getValue() + "";
-			} else {
+			SurgeryOutcomeCriteria thisSurgeryOutcomeCriteria = this
+					.getSurgeryOutcomeCriteria();
+			if ((thisSurgeryOutcomeCriteria != null)
+					&& !thisSurgeryOutcomeCriteria.isEmpty() && labels != null) {
+				
+				Collection outcomeColl = thisSurgeryOutcomeCriteria.getOutcomes();
+
+				String thisCriteria = thisSurgeryOutcomeCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";
+
+				Iterator iter = outcomeColl.iterator();
+				while (iter.hasNext()) {
+					SurgeryOutcomeDE surgeryOutcomeDE = (SurgeryOutcomeDE) iter.next();
+					OutStr += "" + ((String) surgeryOutcomeDE.getValue())
+							+ " ";
+				}
+			
+					
+			}
+				
+				else {
 				logger
-						.debug("SurgeryTypeCriteria is empty or Application Resources file is missing.");
+						.debug("SurgeryOutcomeCriteria is empty or Application Resources file is missing.");
+			}// end of SurgeryTypeCriteria
+
+			
+			// starting PriorSurgeryTitleCriteria
+			PriorSurgeryTitleCriteria thisPriorSurgeryTitleCriteria = this
+					.getPriorSurgeryTitleCriteria();
+			if ((thisPriorSurgeryTitleCriteria != null)
+					&& !thisPriorSurgeryTitleCriteria.isEmpty() && labels != null) {
+				
+				Collection titleColl = thisPriorSurgeryTitleCriteria.getTitles();
+
+				String thisCriteria = thisPriorSurgeryTitleCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";
+
+				Iterator iter = titleColl.iterator();
+				while (iter.hasNext()) {
+					PriorSurgeryTitleDE priorSurgeryTitleDE = (PriorSurgeryTitleDE) iter.next();
+					OutStr += "" + ((String) priorSurgeryTitleDE.getValue())
+							+ " ";
+				}
+			
+					
+			}				
+				
+				
+		  else {
+				logger
+						.debug("PriorSurgeryTitleCriteria is empty or Application Resources file is missing.");
 			}// end of SurgeryTypeCriteria
 
 			SurvivalCriteria thisSurvivalCriteria = this.getSurvivalCriteria();
@@ -493,14 +558,17 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		this.sampleIDCrit = sampleIDCrit;
 	}
 
-	public SurgeryTypeCriteria getSurgeryTypeCriteria() {
-		return surgeryTypeCriteria;
+	public SurgeryOutcomeCriteria getSurgeryOutcomeCriteria() {
+		return surgeryOutcomeCriteria;
 	}
 
-	public void setSurgeryTypeCrit(SurgeryTypeCriteria surgeryTypeCriteria) {
-		this.surgeryTypeCriteria = surgeryTypeCriteria;
+	public void setSurgeryOutcomeCrit(SurgeryOutcomeCriteria surgeryOutcomeCriteria) {
+		this.surgeryOutcomeCriteria = surgeryOutcomeCriteria;
 	}
 
+	public void setPriorSurgeryTitleCrit(PriorSurgeryTitleCriteria priorSurgeryTitleCriteria) {
+		this.priorSurgeryTitleCriteria = priorSurgeryTitleCriteria;
+	}
 	public SurvivalCriteria getSurvivalCriteria() {
 		return survivalCriteria;
 	}
@@ -618,8 +686,8 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
         if(radiationTherapyCriteria != null){
             myClone.radiationTherapyCriteria = (RadiationTherapyCriteria) radiationTherapyCriteria.clone();
         }
-        if(surgeryTypeCriteria != null){
-            myClone.surgeryTypeCriteria = (SurgeryTypeCriteria) surgeryTypeCriteria.clone();
+        if(surgeryOutcomeCriteria != null){
+            myClone.surgeryOutcomeCriteria = (SurgeryOutcomeCriteria) surgeryOutcomeCriteria.clone();
         }
         if(survivalCriteria != null){
             myClone.survivalCriteria = (SurvivalCriteria) survivalCriteria.clone();
@@ -677,5 +745,12 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
      return false;
      */
 		return true;
+	}
+
+	/**
+	 * @return Returns the priorSurgeryTitleCriteria.
+	 */
+	public PriorSurgeryTitleCriteria getPriorSurgeryTitleCriteria() {
+		return priorSurgeryTitleCriteria;
 	}
 }

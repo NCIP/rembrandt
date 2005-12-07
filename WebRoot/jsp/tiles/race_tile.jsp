@@ -10,9 +10,10 @@
 	
 <input type="checkbox" name="caucasion" class="radio" >Caucasion 
 <input type="checkbox" name="africanAmerican" class="radio" >African American 
-<input type="checkbox" name="latino" class="radio"  >Latino 
-<input type="checkbox" name="asianAmerican" class="radio"  >Asian American 
-<input type="checkbox" name="nativeAmerican" class="radio"  >Native American 
+<input type="checkbox" name="nativeHawaiian" class="radio"  >Native Hawaiian 
+<input type="checkbox" name="asian" class="radio"  >Asian
+<input type="checkbox" name="other" class="radio"  >Other
+<input type="checkbox" name="unknown" class="radio"  >Unknown
 &nbsp;&nbsp;
 	
 

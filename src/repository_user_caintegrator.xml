@@ -1168,6 +1168,12 @@
                column="TIME_POINT"
                jdbc-type="VARCHAR"
           />
+          
+        <field-descriptor
+	                 name="radiationSite"
+	                 column="RADIATION_SITE"
+	                 jdbc-type="VARCHAR"
+          />
          <field-descriptor
              name="doseStartDate"
              column="DOSE_START_DATE"

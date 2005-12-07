@@ -11,10 +11,10 @@ public class PriorSurgery implements ResultSet {
 	public final static String INSTITUTION_ID = "institutionId";
 	public final static String DATASET_ID = "datasetId";
 	public final static String TIME_POINT = "timePoint";
-	public final static String PROCEDURE_TITLE = "procedureTitle";
+	public final static String PROCEDURE_TITLE = "PROCEDURE_TITLE";
 	public final static String TUMOR_HISTOLOGY = "tumorHistology";
 	public final static String SURGERY_DATE = "surgeryDate";
-	public final static String SURGERY_OUTCOME = "surgeryOutcome";
+	public final static String SURGERY_OUTCOME = "SURGERY_OUTCOME";
 	
 	
 	 private Long PriorSurgeryId;

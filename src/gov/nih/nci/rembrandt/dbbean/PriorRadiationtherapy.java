@@ -11,12 +11,12 @@ public class PriorRadiationtherapy implements ResultSet {
 	public final static String INSTITUTION_ID = "institutionId";
 	public final static String DATASET_ID = "datasetId";
 	public final static String TIME_POINT = "timePoint";
-	public final static String RADIATION_SITE = "RadiationSite";
+	public final static String RADIATION_SITE = "radiationSite";
 	public final static String DOSE_START_DATE = "doseStartDate";
 	public final static String DOSE_STOP_DATE = "doseStopDate";
 	public final static String FRACTION_DOSE = "fractionDose";
 	public final static String FRACTION_NUMBER = "fractionNumber";
-	public final static String RADIATION_TYPE = "radiationType";
+	public final static String RADIATION_TYPE = "RADIATION_TYPE";
 	
 	
 	 private Long priorRadiationtrxId;
@@ -24,12 +24,13 @@ public class PriorRadiationtherapy implements ResultSet {
 	 private Long institutionId;	    
 	 private Long datasetId;
 	 private String timePoint; 
-	 private String RadiationSite; 
+	 private String radiationSite; 
 	 private Date doseStartDate; 
 	 private Date doseStopDate; 
 	 private Long fractionDose;
 	 private Long fractionNumber;
 	 private String radiationType;
+	 
 	/**
 	 * @return Returns the datasetId.
 	 */
@@ -130,13 +131,13 @@ public class PriorRadiationtherapy implements ResultSet {
 	 * @return Returns the radiationSite.
 	 */
 	public String getRadiationSite() {
-		return RadiationSite;
+		return radiationSite;
 	}
 	/**
 	 * @param radiationSite The radiationSite to set.
 	 */
 	public void setRadiationSite(String radiationSite) {
-		RadiationSite = radiationSite;
+		radiationSite = radiationSite;
 	}
 	/**
 	 * @return Returns the radiationType.

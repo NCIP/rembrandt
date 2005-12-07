@@ -10,11 +10,7 @@
 <app:help help="Future implementation"/>
 </legend><br />	
 <input type="checkbox" name="radiation"  class="radio"  onclick="javascript:document.forms[0].rad.disabled=(!(document.forms[0].rad.disabled));">Radiation&nbsp;&nbsp;
-<!--- <select property="radiationType" name="rad" disabled="true">
-	<option>any</option>
-	<option>photon</option>
-</select> --->
-
+&nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;
 <html:select property="radiationType" >
 <html:optionsCollection property="radiationTypeColl" />
 </html:select><html:errors property="radiationType"/>
@@ -34,16 +30,15 @@
 <Br>
 <input name="sugery" type="checkbox" class="radio" 
  onclick="javascript:document.forms[0].surgery.disabled=(!(document.forms[0].surgery.disabled));">Surgery&nbsp;&nbsp;
-<!--- <select property="surgeryType" name="surgery" disabled="true">
-	<option>any</option>
-	<option>Complete Resection (CR)</option>
-	<option>Partial Resection (PR)</option>
-	<option>Biopsy Only (BX)</option>
-</select> --->
+&nbsp;&nbsp;&nbsp;&nbsp;- title:&nbsp;
+<html:select property="surgeryTitle" >
+<html:optionsCollection property="surgeryTitleColl" />
+</html:select><html:errors property="surgeryTitle"/>
 
-<html:select property="surgeryType" >
-<html:optionsCollection property="surgeryTypeColl" />
-</html:select><html:errors property="surgeryType"/>
+&nbsp;&nbsp;&nbsp;&nbsp;- Outcome:&nbsp;
+<html:select property="surgeryOutcome" >
+<html:optionsCollection property="surgeryOutcomeColl" />
+</html:select><html:errors property="surgeryOutcome"/>
 
 
 </fieldset>

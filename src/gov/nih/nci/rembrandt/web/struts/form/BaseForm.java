@@ -60,11 +60,21 @@ public class BaseForm extends ActionForm {
 		geneTypeColl = new ArrayList<LabelValueBean>();
 	
 		// These are hardcoded but will come from DB
-		diseaseType.add( new LabelValueBean( "All", "ALL" ) );
+		/*diseaseType.add( new LabelValueBean( "All", "ALL" ) );
 		diseaseType.add( new LabelValueBean( "Astrocytic", "ASTROCYTOMA" ) );
 		diseaseType.add( new LabelValueBean( "Oligodendroglial", "OLIG" ) );
 		diseaseType.add( new LabelValueBean( "Mixed gliomas", "MIXED" ) );
 		diseaseType.add( new LabelValueBean( "Glioblastoma", "GBM" ));
+		*/
+		
+		diseaseType.add( new LabelValueBean( "All", "ALL" ) );
+		diseaseType.add( new LabelValueBean( "Astrocytic", "ASTROCYTOMA" ) );
+		diseaseType.add( new LabelValueBean( "Oligodendroglial", "OLIGODENDROGLIOMA" ) );
+		diseaseType.add( new LabelValueBean( "Mixed gliomas", "MIXED" ) );
+		diseaseType.add( new LabelValueBean( "Glioblastoma", "GBM" ));
+		diseaseType.add( new LabelValueBean( "Unclassified", "UNCLASSIFIED" ) );
+		diseaseType.add( new LabelValueBean( "Non Tumor", "NON_TUMOR" ));
+		diseaseType.add( new LabelValueBean( "Unknown", "UNKNOWN" ));
 
 		//diseaseType.add( new LabelValueBean( "Ependymal cell", "Ependymal cell" ) );
 		//diseaseType.add( new LabelValueBean( "Neuroepithelial", "Neuroepithelial" ) );
@@ -194,7 +204,9 @@ public class BaseForm extends ActionForm {
 		                        .next();
 		                String thisDiseaseType = thisLabelBean.getValue();               
 		              
-		                if (!thisDiseaseType.equalsIgnoreCase("ALL")) {
+		                if (thisDiseaseType.equalsIgnoreCase("ASTROCYTOMA")|| thisDiseaseType.equalsIgnoreCase("GBM")
+		                    || thisDiseaseType.equalsIgnoreCase("MIXED")||thisDiseaseType.equalsIgnoreCase("OLIGODENDROGLIOMA")
+		                    ||thisDiseaseType.equalsIgnoreCase("UNCLASSIFIED") ) {
 		                	DiseaseNameDE diseaseDE = new DiseaseNameDE(thisDiseaseType);
 		 	                diseaseOrGradeCriteria.setDisease(diseaseDE);
 		                }

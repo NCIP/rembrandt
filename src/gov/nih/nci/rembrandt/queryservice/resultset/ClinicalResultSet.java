@@ -79,55 +79,105 @@ public interface ClinicalResultSet {
 	/**
 	 * @return Returns the race.
 	 */
-	public abstract String getRace();
+	public  String getRace();
 
 	/**
 	 * @param Race The Race to set.
 	 */
-	public abstract void setRace(String race);
+	public  void setRace(String race);
 	
-	public abstract Long getKarnofskyScore();
-	public abstract String getKarnofskyScores();
-	public abstract Long getLanskyScore();
-	public abstract String getLanskyScores();
-	public abstract Long getNeuroExam();
-	public abstract String getNeuroExams();
-	public abstract Long getMriCtScore();
-	public abstract String getMriCtScores();
-	public abstract String getTimePoint();
-	public abstract String getTimePoints();
-	public abstract Date getFollowupDate();	
-	public abstract String getFollowupDates();	
-	public abstract Long getFollowupMonth();
-	public abstract String getFollowupMonths();
-	public abstract Date getNeuroEvaluationDate();
-	public abstract String getNeuroEvaluationDates();
-	public abstract String getSteroidDoseStatus();
-	public abstract String getSteroidDoseStatuses();
-	public abstract String getAntiConvulsantStatus();
-	public abstract String getAntiConvulsantStatuses();
+	public  Long getKarnofskyScore();
+	public  String getKarnofskyScores();
+	public  Long getLanskyScore();
+	public  String getLanskyScores();
+	public  Long getNeuroExam();
+	public  String getNeuroExams();
+	public  Long getMriCtScore();
+	public  String getMriCtScores();
+	public  String getTimePoint();
+	public  String getTimePoints();
+	public  Date getFollowupDate();	
+	public  String getFollowupDates();	
+	public  Long getFollowupMonth();
+	public  String getFollowupMonths();
+	public  Date getNeuroEvaluationDate();
+	public  String getNeuroEvaluationDates();
+	public  String getSteroidDoseStatus();
+	public  String getSteroidDoseStatuses();
+	public  String getAntiConvulsantStatus();
+	public  String getAntiConvulsantStatuses();
+	
+	public  String getPriorRadiationTimePoints();
+	public  String getPriorRadiationRadiationSites();
+	public  String getPriorRadiationDoseStartDates();
+	public  String getPriorRadiationDoseStopDates();
+	public  String getPriorRadiationFractionDoses();
+	public  String getPriorRadiationFractionNumbers();
+	public  String getPriorRadiationRadiationTypes(); 
+	
+	public String getPriorChemoTimePoints();
+	public String getPriorChemoagentIds();
+	public String getPriorChemoAgentNames();
+	public String getPriorChemoCourseCounts() ;
+	public String getPriorChemoDoseStartDates() ;
+	public String getPriorChemoDoseStopDates();
+	public String getPriorChemoStudySources() ;
+	public String getPriorChemoProtocolNumbers();
+	
+	public String getPriorSurgeryTimePoints();
+	public String getPriorSurgeryProcedureTitles();
+	public String getPriorSurgeryTumorHistologys() ;
+	public String getPriorSurgerySurgeryDates();
+	public String getPriorSurgerySurgeryOutcomes();
+	   
+	  
+	   
 	
 	
-	public abstract void setKarnofskyScore(Long arnofskyScore);	
-	public abstract void setKarnofskyScores(String arnofskyScore);	
-	public abstract void setLanskyScore(Long lanskyScore);	
-	public abstract void setLanskyScores(String lanskyScores);	
-	public abstract void setNeuroExam(Long neuroExam);
-	public abstract void setNeuroExams(String neuroExams);
-	public abstract void setMriCtScore(Long mriCtScore);
-	public abstract void setMriCtScores(String mriCtScores);
-	public abstract void setTimePoint(String timePoint);
-	public abstract void setTimePoints(String timePoints);
-	public abstract void setFollowupDate(Date followupDate);
-	public abstract void setFollowupDates(String followupDates);
-	public abstract void setFollowupMonth(Long followupMonth);
-	public abstract void setFollowupMonths(String followupMonths);
-	public abstract void setNeuroEvaluationDate(Date neuroEvaluationDate);
-	public abstract void setNeuroEvaluationDates( String neuroEvaluationDates);
-	public abstract void setSteroidDoseStatus(String steroidDoseStatus);
-	public abstract void setSteroidDoseStatuses(String steroidDoseStatuses);
-	public abstract void setAntiConvulsantStatus(String antiConvulsantStatus);
-	public abstract void setAntiConvulsantStatuses(String antiConvulsantStatuses);
+	public  void setKarnofskyScore(Long arnofskyScore);	
+	public  void setKarnofskyScores(String arnofskyScore);	
+	public  void setLanskyScore(Long lanskyScore);	
+	public  void setLanskyScores(String lanskyScores);	
+	public  void setNeuroExam(Long neuroExam);
+	public  void setNeuroExams(String neuroExams);
+	public  void setMriCtScore(Long mriCtScore);
+	public  void setMriCtScores(String mriCtScores);
+	public  void setTimePoint(String timePoint);
+	public  void setTimePoints(String timePoints);
+	public  void setFollowupDate(Date followupDate);
+	public  void setFollowupDates(String followupDates);
+	public  void setFollowupMonth(Long followupMonth);
+	public  void setFollowupMonths(String followupMonths);
+	public  void setNeuroEvaluationDate(Date neuroEvaluationDate);
+	public  void setNeuroEvaluationDates( String neuroEvaluationDates);
+	public  void setSteroidDoseStatus(String steroidDoseStatus);
+	public  void setSteroidDoseStatuses(String steroidDoseStatuses);
+	public  void setAntiConvulsantStatus(String antiConvulsantStatus);
+	public  void setAntiConvulsantStatuses(String antiConvulsantStatuses);	
+	
+	
+	public  void setPriorRadiationTimePoints(String timePoints);
+	public  void setPriorRadiationRadiationSites(String radiationSites);
+	public  void setPriorRadiationDoseStartDates(String doseStartDates);
+	public  void setPriorRadiationDoseStopDates(String doseStopDates);
+	public  void setPriorRadiationFractionDoses(String fractionDoses);
+	public  void setPriorRadiationFractionNumbers(String fractionNumbers);
+	public  void setPriorRadiationRadiationTypes(String radiationTypes ); 
+	
+	public void setPriorChemoTimePoints(String priorChemoTimePoints);
+	public void setPriorChemoagentIds(String priorChemoagentIds);
+	public void setPriorChemoAgentNames(String priorChemoAgentNames);
+	public void setPriorChemoCourseCounts(String priorChemoCourseCounts);
+	public void setPriorChemoDoseStartDates(String priorChemoDoseStartDates) ;
+	public void setPriorChemoDoseStopDates(String priorChemoDoseStopDates);
+	public void setPriorChemoStudySources(String priorChemoStudySources) ;
+	public void setPriorChemoProtocolNumbers(String priorChemoProtocolNumbers);
+	
+	public void setPriorSurgeryTimePoints(String priorSurgeryTimePoints);
+	public void setPriorSurgeryProcedureTitles(String priorSurgeryProcedureTitles) ;
+	public void setPriorSurgeryTumorHistologys(String priorSurgeryTumorHistologys);
+	public void setPriorSurgerySurgeryDates(String priorSurgerySurgeryDates) ;
+	public void setPriorSurgerySurgeryOutcomes(String priorSurgerySurgeryOutcomes) ;
 	
 	
 	
