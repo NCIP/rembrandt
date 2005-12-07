@@ -88,7 +88,7 @@ abstract public class CGHFactHandler {
                           logger.debug("Criteria To be exucuted for targetClass:" + targetFactClass.getName() + " " +
                                   sampleCrit.toString());
                           Query sampleQuery =
-                          QueryFactory.newQuery(targetFactClass,sampleCrit, true);
+                          QueryFactory.newQuery(targetFactClass,sampleCrit, false);
                           assert(sampleQuery != null);
                           Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                           addToResults(exprObjects);
