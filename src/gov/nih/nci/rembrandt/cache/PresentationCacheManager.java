@@ -3,8 +3,10 @@ package gov.nih.nci.rembrandt.cache;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -34,6 +36,8 @@ import gov.nih.nci.rembrandt.web.helper.SessionTempReportCounter;
  */
 public class PresentationCacheManager implements PresentationTierCache{
 	private static final String PRESENTATION_CACHE = "PresentationTierCache";
+	//DO NOT change PERSISTED_SESSIONS_CACHE value without modifying ehcache.xml
+	private static final String PERSISTED_SESSIONS_CACHE = "persistedSessionsCache";
 	private static Logger logger = Logger.getLogger(PresentationCacheManager.class);
 	private static PresentationTierCache myInstance;
 	static private CacheManager manager = null;
@@ -106,8 +110,9 @@ public class PresentationCacheManager implements PresentationTierCache{
 	public boolean reloadSessionCache(String userName, String sessionId) {
 		//Create a new Temporary SessionCache
 		Cache sessionCache = getSessionCache(sessionId);
-		Cache persistedCache = getPersistedCache(userName);
-		if(persistedCache!=null) {
+		logger.debug("Created new sessionCache");
+		HashMap persistedElements = getPersistedElements(userName);
+		if(persistedElements!=null) {
 			/*
 			 * Throw out the new temp counter that gets placed
 			 * in every new session cache.  This is a hack and with
@@ -118,14 +123,12 @@ public class PresentationCacheManager implements PresentationTierCache{
 			 */
 			boolean removedTempCounter = sessionCache.remove(RembrandtConstants.REPORT_COUNTER);
 			try {
-				List keys = persistedCache.getKeys();
+				Set keys = persistedElements.keySet();
 				for(Object key: keys) {
-					Element element = persistedCache.get((Serializable)key);
+					Element element = (Element)persistedElements.get(key);
 					sessionCache.put(element);
 				}
 			} catch (IllegalStateException e) {
-				logger.error(e);
-			} catch (CacheException e) {
 				logger.error(e);
 			}
 			/*
@@ -146,12 +149,21 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param userName
 	 * @return
 	 */
-	private Cache getPersistedCache(String userName) {
-		Cache persistedCache = null;
+	private HashMap getPersistedElements(String userName) {
+		HashMap persistedElementsMap = null;
 		if(manager!=null){
-			persistedCache = manager.getCache(userName);
+			Cache persistedCache = manager.getCache(PresentationCacheManager.PERSISTED_SESSIONS_CACHE);
+			try {
+				Element persistedElements = persistedCache.get(userName);
+				if(persistedElements!=null)
+					persistedElementsMap = (HashMap)persistedElements.getValue();
+			} catch (IllegalStateException e) {
+				logger.error(e);
+			} catch (CacheException e) {
+				logger.error(e);
+			}
         }
-		return persistedCache;
+		return persistedElementsMap;
 	}
 	
 	/**
@@ -197,6 +209,7 @@ public class PresentationCacheManager implements PresentationTierCache{
                 logger.error(ce);
             }
         }else if(manager!=null){
+        	logger.debug("Returning an existing session cache");
         	sessionCache = manager.getCache(uniqueSession);
         }
         return sessionCache;
@@ -211,7 +224,16 @@ public class PresentationCacheManager implements PresentationTierCache{
 		SessionCriteriaBag theBag = null;
 		try {
 			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_CRITERIA_BAG_KEY);
-			theBag = (SessionCriteriaBag)cacheElement.getValue();
+			if(cacheElement!=null) {
+				theBag = (SessionCriteriaBag)cacheElement.getValue();
+			}
+			if(theBag==null){
+				logger.debug("There is no query bag for session: "+sessionId);
+				logger.debug("Creating new SessionCriteriaBag");
+				theBag = new SessionCriteriaBag();
+				Element element = new Element(RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag);
+				sessionCache.put(element);
+			}
 		}catch(CacheException ce) {
 			logger.error("Retreiving the SessionCriteriaBag threw an exception for session: "+sessionId);
 			logger.error(ce);
@@ -219,15 +241,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 			logger.error("Someone put something other than a SessionCriteriaBag in the cache as a SessionQueryBag");
 			logger.error(cce);
 		}catch(NullPointerException npe){
-			logger.debug("There is no query bag for session: "+sessionId);		
-		}
-		/**
-		 * There is no SessionQueryBag for this session, create one
-		 */
-		if(theBag==null) {
-			
-			logger.debug("Creating new SessionCriteriaBag");
-			theBag = new SessionCriteriaBag();
+			logger.error(npe);		
 		}
 		return theBag;
 	}
@@ -642,33 +656,15 @@ public class PresentationCacheManager implements PresentationTierCache{
 	  * @param sessionId
 	  * 
 	  */
-	public void persistUserSession(String userName, String rawSessionId) {
-		Cache persistedCache = null;
-		String safeSessionId = processSessionId(rawSessionId);
-		logger.debug("Temp Directoy used to persist session information:" +System.getProperty("java.io.tmpdir"));
-		if( manager!=null && manager.cacheExists(safeSessionId) ) {
-			/**
-        	 * Here are the parameters that we are using for creating a "Persisted
-        	 * User Cache".  These caches are stored in Memory and on Disk.
-        	 * 
-        	 *  	CacheName = the users login name;
-        	 *  	Max Elements in Memory = 1 (For Performance reasons this is set to 1 and not 0);
-        	 *  	Overflow to disk = true;
-        	 *  	Make the cache eternal = true;
-        	 *  	Elements time to live in seconds = 0 (Special setting which means never check);
-        	 *  	Elements time to idle in seconds = 0 (Special setting which means never check);
-        	 *  	Cache is Disk Persistent = true;
-        	 *  	Interval to check Disk Expiry = Integer.MAX_VALUE (Basicly never check)
-         	 */
-		 	persistedCache = new Cache(userName, 1000, true, true, 0, 0, true, Integer.MAX_VALUE);
-		 	
-            logger.debug("New PersistedCache created: "+userName);
+	public void persistUserSession(String userName, String sessionId) {
+			logger.debug("Temp Directoy used to persist session information:" +System.getProperty("java.io.tmpdir"));
+			logger.debug("Storing user session for later use: "+userName);
             //Grab the sessionCache for the user
-            Cache sessionCache = getSessionCache(rawSessionId);
+            Cache sessionCache = getSessionCache(sessionId);
             if(sessionCache!=null) {
+            	HashMap<Serializable, Element> persistedElements = new HashMap<Serializable, Element>();
 	            try {
-	            	manager.addCache(persistedCache);
-					List keys = sessionCache.getKeys();
+	            	List keys = sessionCache.getKeys();
 					for(Object key: keys) {
 						/**
 						 * Right now only store the query map or the Temp Report Counter
@@ -677,35 +673,29 @@ public class PresentationCacheManager implements PresentationTierCache{
 								//||
 							RembrandtConstants.REPORT_COUNTER.equals(key)) {
 							Element element = sessionCache.get((Serializable)key);
-							persistedCache.put(element);
+							persistedElements.put((Serializable)key, element);
 						}
 					}
-					/**
-					 * WRITE EVERYTHING TO DISK NOW!
-					 */
-					persistedCache.flush();			
+					Cache persistedCache = manager.getCache(PresentationCacheManager.PERSISTED_SESSIONS_CACHE);
+					if(persistedCache!=null) {
+						persistedCache.put(new Element(userName,persistedElements));
+						/**
+						 * WRITE EVERYTHING TO DISK NOW!
+						 */
+						persistedCache.flush();		
+					}else {
+						logger.error("THERE IS NO CACHE FOR STORING PERSISTED SESSIONS!");
+					}
+						
 				} catch (IllegalStateException e) {
 					logger.error(e);
-				}catch(ObjectExistsException e) {
-					logger.debug("Persisted Cache Collision for User: "+userName);
-					/*
-					 * This exception is thrown because the cache already existed.
-					 * So just delete the old cache and try again.
-					 */
-					logger.debug("Deleting old persisted Cache for the user: "+userName);
-					Cache tempCache = manager.getCache(userName);
-					manager.removeCache(userName);
-					
-					logger.debug("Trying again to persist the session for user: "+userName);
-					persistUserSession(userName,rawSessionId);
 				}catch (CacheException e) {
 					/**
-					 * Most likely an object stored in cache is not serializable
+					 * Most likely an object stored in the cache memory store is not serializable
 					 */
 					logger.error(e);
-					e.printStackTrace();
 				}
-            }
+            
 		}
 	}
 	/**
