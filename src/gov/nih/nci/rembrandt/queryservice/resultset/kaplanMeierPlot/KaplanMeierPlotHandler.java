@@ -98,7 +98,7 @@ public class KaplanMeierPlotHandler {
  			Map paitentDataLookup = LookupManager.getPatientDataMap();
 	    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
-	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getBiospecimen().getValue().toString());
+	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
 	    		if(patient != null  && patient.getSurvivalLength() != null && patient.getCensoringStatus()!=null){
 
 		    		sample.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
@@ -129,7 +129,7 @@ public class KaplanMeierPlotHandler {
  			Map paitentDataLookup = LookupManager.getPatientDataMap();
 	    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
-	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getBiospecimen().getValue().toString());
+	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
 	    		if(patient != null){
 		    		sample.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
 		    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));

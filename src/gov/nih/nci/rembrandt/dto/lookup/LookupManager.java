@@ -134,7 +134,7 @@ public class LookupManager{
 		Map<String,PatientDataLookup> patientDataMap = new HashMap<String,PatientDataLookup>();
 		if(patients != null){
 			for (int i = 0;i < patients.length;i++){
-				String key = patients[i].getBiospecimenId().toString();
+				String key = patients[i].getSampleId().toString();
 				PatientDataLookup patient = patients[i];				
 				patientDataMap.put(key,patient);				
 			}

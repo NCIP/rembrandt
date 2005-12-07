@@ -118,7 +118,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
                     }
                     DatumDE survivalLength = rs.getSurvivalLength();
                         if(survivalLength !=null){
-                            double sl = new Double(survivalLength.toString());
+                            double sl = (Long) survivalLength.getValue();
                             pcaPoint.setSurvivalInMonths(sl);
                         }
                     pcaData.add(pcaPoint);

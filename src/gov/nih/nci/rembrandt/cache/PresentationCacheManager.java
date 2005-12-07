@@ -319,7 +319,9 @@ public class PresentationCacheManager implements PresentationTierCache{
 		SessionQueryBag theBag = null;
 		try {
 			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_QUERY_BAG_KEY);
-			theBag = (SessionQueryBag)cacheElement.getValue();
+			if(cacheElement != null){
+				theBag = (SessionQueryBag)cacheElement.getValue();
+			}
 		}catch(CacheException ce) {
 			logger.error("Retreiving the SessionQueryBag threw an exception for session: "+sessionId);
 			logger.error(ce);
