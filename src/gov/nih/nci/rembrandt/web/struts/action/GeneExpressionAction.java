@@ -330,8 +330,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		AllGenesCriteria allGenesCrit = geneExpressionForm.getAllGenesCriteria();
 		if (!allGenesCrit.isEmpty())
 		    geneExpQuery.setAllGenesCrit(allGenesCrit);
-		FoldChangeCriteria foldChangeCrit = geneExpressionForm
-				.getFoldChangeCriteria();
+		FoldChangeCriteria foldChangeCrit = geneExpressionForm.getFoldChangeCriteria();
 		if (!foldChangeCrit.isEmpty())
 			geneExpQuery.setFoldChgCrit(foldChangeCrit);
 		RegionCriteria regionCrit = geneExpressionForm.getRegionCriteria();

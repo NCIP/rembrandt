@@ -702,7 +702,7 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-			foldChangeCriteria = new FoldChangeCriteria();
+			
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("down")
 					&& (this.foldChangeValueDown.length() > 0)){
@@ -1151,7 +1151,7 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-			foldChangeCriteria = new FoldChangeCriteria();
+			
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
 					&& (this.foldChangeValueUnchangeFrom.length() > 0)){
@@ -1189,7 +1189,7 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-			foldChangeCriteria = new FoldChangeCriteria();
+			
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
 					&& (this.foldChangeValueUnchangeTo.length() > 0)) {
@@ -1224,7 +1224,7 @@ public class GeneExpressionForm extends BaseForm {
 		if (thisRequest != null) {
 			String thisRegulationStatus = this.thisRequest
 					.getParameter("regulationStatus");
-			foldChangeCriteria = new FoldChangeCriteria();
+			
 
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("up")
@@ -1280,7 +1280,7 @@ public class GeneExpressionForm extends BaseForm {
 			logger
 					.debug("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
 							+ thisRegulationStatus);
-			foldChangeCriteria = new FoldChangeCriteria();
+			
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
 					&& (this.foldChangeValueUDUp.length() > 0)) {
@@ -1313,7 +1313,7 @@ public class GeneExpressionForm extends BaseForm {
 					.getParameter("regulationStatus");
 			logger.debug("I am in the setFoldChangeValueUDDown() methid: "
 					+ thisRegulationStatus);
-			foldChangeCriteria = new FoldChangeCriteria();
+			
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
 					&& (this.foldChangeValueUDDown.length() > 0)){
