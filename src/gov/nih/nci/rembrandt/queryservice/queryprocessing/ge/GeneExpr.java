@@ -25,6 +25,7 @@ abstract public class GeneExpr implements ResultSet{
     private Long timecourseId;
     private GeneExpr.Annotaion annotation;
 
+    
     public abstract Long getID();
 
     public GeneExpr.Annotaion getAnnotation() {
@@ -142,6 +143,8 @@ abstract public class GeneExpr implements ResultSet{
     }
 
     final public static class GeneExprSingle extends GeneExpr implements ClinicalResultSet{
+        private Long 	 survivalLength;
+        private String 	 censor;
         private Long agentId;
         private String ageGroup;
         private Long biospecimenId;
@@ -739,6 +742,25 @@ abstract public class GeneExpr implements ResultSet{
 		public void setSteroidDoseStatus(String steroidDoseStatus) {
 			this.steroidDoseStatus = steroidDoseStatus;
 		}
+		public String getCensoringStatus() {
+			return censor;
+		}
+		public void setCensoringStatus(String censor) {
+			this.censor = censor;
+			
+		}
+		/**
+		 * @return Returns the survivalLength.
+		 */
+		public Long getSurvivalLength() {
+			return survivalLength;
+		}
+		/**
+		 * @param survivalLength The survivalLength to set.
+		 */
+		public void setSurvivalLength(Long survivalLength) {
+			this.survivalLength = survivalLength;
+		}
     }
 
     final public static class GeneExprGroup extends GeneExpr {
@@ -904,4 +926,7 @@ abstract public class GeneExpr implements ResultSet{
             this.geneSymbol = geneSymbol;
         }
     }
+
+
+
 }

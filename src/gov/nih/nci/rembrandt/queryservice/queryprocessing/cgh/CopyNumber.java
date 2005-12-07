@@ -18,7 +18,8 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
     public void setAgaID(Long agaID) {
         this.agaID = agaID;
     }
-
+  private Long 	 survivalLength;
+  private String 	 censor;
   private Long agaID;
   private String ageGroup;
   private Long biospecimenId;
@@ -845,5 +846,27 @@ public void setRace(String race) {
     public void setPhysicalPosition(Long physicalPosition) {
         this.physicalPosition = physicalPosition;
     }
+	/**
+	 * @return Returns the survivalLength.
+	 */
+	public Long getSurvivalLength() {
+		return survivalLength;
+	}
+
+	/**
+	 * @param survivalLength The survivalLength to set.
+	 */
+	public void setSurvivalLength(Long survivalLength) {
+		this.survivalLength = survivalLength;
+	}
+
+	public String getCensoringStatus() {
+		return censor;
+	}
+
+	public void setCensoringStatus(String censor) {
+		this.censor = censor;
+		
+	}
 }
 

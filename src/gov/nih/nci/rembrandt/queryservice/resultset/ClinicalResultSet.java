@@ -179,7 +179,7 @@ public interface ClinicalResultSet {
 	public void setPriorSurgeryTumorHistologys(String priorSurgeryTumorHistologys);
 	public void setPriorSurgerySurgeryDates(String priorSurgerySurgeryDates) ;
 	public void setPriorSurgerySurgeryOutcomes(String priorSurgerySurgeryOutcomes) ;
-	
+	public void setCensoringStatus(String censor);
 	
 	
 	
