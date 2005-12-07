@@ -144,6 +144,7 @@ abstract public class GeneExpr implements ResultSet{
 
     final public static class GeneExprSingle extends GeneExpr implements ClinicalResultSet{
         private Long 	 survivalLength;
+        private Long age;
         private String 	 censor;
         private Long agentId;
         private String ageGroup;
@@ -760,6 +761,18 @@ abstract public class GeneExpr implements ResultSet{
 		 */
 		public void setSurvivalLength(Long survivalLength) {
 			this.survivalLength = survivalLength;
+		}
+		/**
+		 * @return Returns the age.
+		 */
+		public Long getAge() {
+			return age;
+		}
+		/**
+		 * @param age The age to set.
+		 */
+		public void setAge(Long age) {
+			this.age = age;
 		}
     }
 

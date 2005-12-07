@@ -157,7 +157,7 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
     
     public String toString() {
     	if(this.getCensor() != null && getSurvivalLength() != null){
-    		return "Census: "+this.getCensor().getValue()+" Survival Length: "+ getSurvivalLength().getValue();
+    		return "Census: "+this.getCensor().getValue()+" Survival Length: "+ getSurvivalLength();
     	}
     		return super.toString();
     }

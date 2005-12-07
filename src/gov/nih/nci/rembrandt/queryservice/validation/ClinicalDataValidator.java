@@ -74,7 +74,7 @@ public class ClinicalDataValidator {
 								}
 								break;
 							case SurvivalLength:
-								if( sampleResultset.getSurvivalLength()!= null && sampleResultset.getSurvivalLength().getValue() != null){
+								if( sampleResultset.getSurvivalLength()!= null && sampleResultset.getSurvivalLength() != null){
 									samples.add(sampleResultset.getSampleIDDE());
 								}
 								break;

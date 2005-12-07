@@ -116,11 +116,9 @@ public class PCAPlotTag extends AbstractGraphingTag {
 		                        }
                     	}
                     }
-                    DatumDE survivalLength = rs.getSurvivalLength();
-                        if(survivalLength !=null  &&
-                        		survivalLength.getValue() instanceof Long){
-                        	Long survivalL = (Long) survivalLength.getValue();
-                            double sl = survivalL;
+                    Long survivalLength = rs.getSurvivalLength();
+                        if(survivalLength !=null){
+                            double sl = survivalLength.doubleValue();
                             pcaPoint.setSurvivalInMonths(sl);
                         }
                     pcaData.add(pcaPoint);

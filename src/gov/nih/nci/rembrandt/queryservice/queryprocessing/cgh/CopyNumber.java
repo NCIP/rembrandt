@@ -19,6 +19,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
         this.agaID = agaID;
     }
   private Long 	 survivalLength;
+  private Long age;
   private String 	 censor;
   private Long agaID;
   private String ageGroup;
@@ -867,6 +868,20 @@ public void setRace(String race) {
 	public void setCensoringStatus(String censor) {
 		this.censor = censor;
 		
+	}
+
+	/**
+	 * @return Returns the age.
+	 */
+	public Long getAge() {
+		return age;
+	}
+
+	/**
+	 * @param age The age to set.
+	 */
+	public void setAge(Long age) {
+		this.age = age;
 	}
 }
 

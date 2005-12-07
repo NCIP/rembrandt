@@ -24,6 +24,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
  */
 public abstract class  BioSpecimenResultset {
 	private BioSpecimenIdentifierDE biospecimen = null;
+	private Long age = null;
 	private SampleIDDE sampleIDDE = null;
 	private DatumDE censor = null;
 	private GenderDE genderCode = null;
@@ -72,7 +73,7 @@ public abstract class  BioSpecimenResultset {
 	  private String priorSurgerySurgeryDates ;
 	  private String priorSurgerySurgeryOutcomes ;	
 
-	private DatumDE survivalLength ;
+	private Long survivalLength ;
 
 	
 	
@@ -580,13 +581,13 @@ public abstract class  BioSpecimenResultset {
 	/**
 	 * @return Returns the survivalLength.
 	 */
-	public DatumDE getSurvivalLength() {
+	public Long getSurvivalLength() {
 		return survivalLength;
 	}
 	/**
 	 * @param survivalLength The survivalLength to set.
 	 */
-	public void setSurvivalLength(DatumDE survivalLength) {
+	public void setSurvivalLength(Long survivalLength) {
 		this.survivalLength = survivalLength;
 	}
 	/**
@@ -612,6 +613,18 @@ public abstract class  BioSpecimenResultset {
 	 */
 	public void setCensor(DatumDE censor) {
 		this.censor = censor;
+	}
+	/**
+	 * @return Returns the age.
+	 */
+	public Long getAge() {
+		return age;
+	}
+	/**
+	 * @param age The age to set.
+	 */
+	public void setAge(Long age) {
+		this.age = age;
 	}
 
 }

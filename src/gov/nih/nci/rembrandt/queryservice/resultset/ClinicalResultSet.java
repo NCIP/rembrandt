@@ -15,6 +15,8 @@ import java.sql.Date;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public interface ClinicalResultSet {
+	public abstract Long getAge();
+	public abstract void setAge(Long age);
 	/**
 	 * @return Returns the ageGroup.
 	 */

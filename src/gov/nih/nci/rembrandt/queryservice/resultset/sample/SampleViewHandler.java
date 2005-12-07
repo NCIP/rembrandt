@@ -123,8 +123,12 @@ public class SampleViewHandler {
 		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));
 		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
+		if(clinicalObj.getAge() != null){
+			sampleResultset.setAge(clinicalObj.getAge());
+		}
+		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
 		if(clinicalObj.getSurvivalLength() != null){
-			sampleResultset.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,clinicalObj.getSurvivalLength()));
+			sampleResultset.setSurvivalLength(clinicalObj.getSurvivalLength());
 		}
 		if(clinicalObj.getCensoringStatus() != null){
 			sampleResultset.setCensor(new DatumDE(DatumDE.CENSOR,clinicalObj.getCensoringStatus()));
