@@ -60,7 +60,7 @@ public class ClinicalDataValidator {
 						switch(clinicalFactor){
 							case AgeAtDx:
 								if( sampleResultset.getAgeGroup()!= null &&  sampleResultset.getAgeGroup().getValue() != null){
-									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+									samples.add(sampleResultset.getSampleIDDE());
 								}
 								break;		 									
 							case Treatment:
@@ -70,22 +70,27 @@ public class ClinicalDataValidator {
 								break;
 							case KarnofskyAssessment:
 								if( sampleResultset.getKarnofskyClinicalEvalDE()!= null && sampleResultset.getKarnofskyClinicalEvalDE().getValue() != null){
-									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+									samples.add(sampleResultset.getSampleIDDE());
 								}
 								break;
-							case Survival:
-								if( sampleResultset.getSurvivalLengthRange()!= null && sampleResultset.getSurvivalLengthRange().getValue() != null){
-									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+							case SurvivalLength:
+								if( sampleResultset.getSurvivalLength()!= null && sampleResultset.getSurvivalLength().getValue() != null){
+									samples.add(sampleResultset.getSampleIDDE());
+								}
+								break;
+							case Censor:
+								if( sampleResultset.getCensor()!= null && sampleResultset.getCensor().getValue() != null){
+									samples.add(sampleResultset.getSampleIDDE());
 								}
 								break;
 							case Gender:
 								if( sampleResultset.getGenderCode()!= null && sampleResultset.getGenderCode().getValue() != null){
-									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+									samples.add(sampleResultset.getSampleIDDE());
 								}
 								break;
 							case Disease:
 								if( sampleResultset.getDisease()!= null && sampleResultset.getDisease().getValue() != null){
-									samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+									samples.add(sampleResultset.getSampleIDDE());
 								}
 								break;
 						}//switch
@@ -94,20 +99,21 @@ public class ClinicalDataValidator {
 				clinicalFactorMap.put(clinicalFactor,samples);
 			}//for loop
 			sampleList = getValidSampleSet(sampleList,clinicalFactorMap);
-			Map paitentDataLookup = LookupManager.getPatientDataMap();
-			for(SampleResultset sampleResultset: sampleResultsets) {
+			
+			   //Map paitentDataLookup = LookupManager.getPatientDataMap();
+			
+			  for(SampleResultset sampleResultset: sampleResultsets) {
 				for(SampleIDDE sampleIDDE: sampleList) {
 					if(sampleIDDE != null  && sampleResultset != null  &&
-							sampleResultset.getBiospecimen().getValueObject().equals(sampleIDDE.getValueObject())){	
-			    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sampleIDDE.getValueObject());
-			    		if(patient != null  && patient.getSurvivalLength() != null){
-			    			sampleResultset.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
-			    		}
+							sampleResultset.getSampleIDDE().getValueObject().equals(sampleIDDE.getValueObject())){	
+			    		//PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sampleIDDE.getValueObject());
+			    		//if(patient != null  && patient.getSurvivalLength() != null){
+			    		//	sampleResultset.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,patient.getSurvivalLength()));
+			    		//}
 						validSampleResultsets.add(sampleResultset);
 					}						
 				}
 			}
-			
 			
 		}
 	  return validSampleResultsets;
@@ -131,6 +137,7 @@ public class ClinicalDataValidator {
 			Collection<SampleResultset> sampleResultsets =  Collections.EMPTY_LIST;
 			//create a ClinicalDataQuery to contrain by Insitition group
 			 ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+			 clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			SampleCriteria sampleCriteria = new SampleCriteria();
 			sampleCriteria.setSampleIDs(sampleList);
 			clinicalDataQuery.setSampleIDCrit( sampleCriteria);

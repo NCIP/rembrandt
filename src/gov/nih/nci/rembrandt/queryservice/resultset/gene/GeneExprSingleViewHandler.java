@@ -52,6 +52,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
@@ -98,8 +99,8 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
 		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = new SampleFoldChangeValuesResultset();
-		BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(exprObj.getSampleId().toString());
-		sampleFoldChangeValuesResultset.setBiospecimen(biospecimenID);
+		sampleFoldChangeValuesResultset.setSampleIDDE(new SampleIDDE(exprObj.getSampleId()));
+		sampleFoldChangeValuesResultset.setBiospecimen(new BioSpecimenIdentifierDE(exprObj.getBiospecimenId()));
 		sampleFoldChangeValuesResultset.setFoldChangeRatioValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
 		sampleFoldChangeValuesResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
 		sampleFoldChangeValuesResultset.setFoldChangeNonTumorIntensity(new DatumDE(DatumDE.FOLD_CHANGE_NORMAL_INTENSITY,exprObj.getNormalIntensity()));

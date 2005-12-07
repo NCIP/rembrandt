@@ -74,6 +74,7 @@ public class QueryWithinResesultsHandler {
 	public QueryWithinResesultsHandler(Resultant resultant){
 		this.resultant = resultant;
 	}
+	@SuppressWarnings("unchecked")
 	public CompoundQuery getResultsetQuery() throws Exception{
 			CompoundQuery  queryWithinResesults = null;
 			if (this.resultant != null){
@@ -98,7 +99,7 @@ public class QueryWithinResesultsHandler {
 			   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 		
 			   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-			   	   			sampleIDs.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+			   	   			sampleIDs.add(sampleResultset.getSampleIDDE());
 			   			}
 			   			sampleCrit = new SampleCriteria();
 			   			sampleCrit.setSampleIDs(sampleIDs);

@@ -605,7 +605,8 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
                        PatientData.BIOSPECIMEN_ID, PatientData.GENDER,
                        PatientData.DISEASE_TYPE, PatientData.AGE_GROUP,
                        PatientData.SAMPLE_ID, PatientData.SURVIVAL_LENGTH_RANGE,
-                       PatientData.RACE,PatientData.PATIENT_DID} );        
+                       PatientData.RACE,PatientData.PATIENT_DID,
+                       PatientData.SURVIVAL_LENGTH,PatientData.CENSORING_STATUS} );        
    
 
         Iterator patientDataObjects =  pb.getReportQueryIteratorByQuery(sampleQuery);
@@ -799,6 +800,11 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
             String survLenRange = (String)objs[5];
             String race = (String)objs[6];
             Long ptDID = new Long(((BigDecimal)objs[7]).longValue());
+            Long survivalLength = null;
+            if(objs[8] != null){
+            	survivalLength = new Long(((BigDecimal)objs[8]).longValue());
+            }
+            String censor = (String)objs[9];
             PatientData p = new PatientData();
             p.setBiospecimenId(bspID);
             p.setGender(gender);           
@@ -808,7 +814,8 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
             p.setSurvivalLengthRange(survLenRange);  
 			p.setRace(race);   
 			p.setPatientDid(ptDID);
-			
+			p.setSurvivalLength(survivalLength);
+			p.setCensoringStatus(censor);
 			patientDIDs.add(ptDID);
 
             results.add(p );

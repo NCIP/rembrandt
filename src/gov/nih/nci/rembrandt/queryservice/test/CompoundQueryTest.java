@@ -357,7 +357,7 @@ public class CompoundQueryTest extends TestCase {
 		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
 
-			System.out.println(sampleResultset.getBiospecimen().getValue()+
+			System.out.println(sampleResultset.getSampleIDDE().getValue()+
 					"\t"+sampleResultset.getAgeGroup().getValue()+
 					"\t"+sampleResultset.getGenderCode().getValue()+
 					"\t"+sampleResultset.getSurvivalLengthRange().getValue()+

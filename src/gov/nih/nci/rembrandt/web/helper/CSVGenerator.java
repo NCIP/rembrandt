@@ -145,7 +145,7 @@ public class CSVGenerator  {
  		   	sb.append("\n");
    			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
    				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-	   			sb.append(sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "," +
+	   			sb.append(sampleResultset.getSampleIDDE().getValueObject().substring(2)+ "," +
    					sampleResultset.getAgeGroup().getValue()+ "," +
 					sampleResultset.getGenderCode().getValue()+ "," +
 					sampleResultset.getSurvivalLengthRange().getValue()+ "," +

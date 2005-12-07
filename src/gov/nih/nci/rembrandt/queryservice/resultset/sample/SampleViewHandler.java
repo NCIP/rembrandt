@@ -58,6 +58,7 @@ import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
@@ -115,13 +116,19 @@ public class SampleViewHandler {
   		}
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
-		BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(clinicalObj.getSampleId().toString());
-		sampleResultset.setBiospecimen(biospecimenID);
+		sampleResultset.setBiospecimen(new BioSpecimenIdentifierDE(clinicalObj.getBiospecimenId()));
+		sampleResultset.setSampleIDDE(new SampleIDDE(clinicalObj.getSampleId().toString()));
 		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,clinicalObj.getAgeGroup()));
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));
 		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));
 		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
+		if(clinicalObj.getSurvivalLength() != null){
+			sampleResultset.setSurvivalLength(new DatumDE(DatumDE.SURVIVAL_LENGTH,clinicalObj.getSurvivalLength()));
+		}
+		if(clinicalObj.getCensoringStatus() != null){
+			sampleResultset.setCensor(new DatumDE(DatumDE.CENSOR,clinicalObj.getCensoringStatus()));
+		}
 		/*if(clinicalObj.getKarnofskyScore() != null) {
 		   sampleResultset.setKarnofskyClinicalEvalDE(new KarnofskyClinicalEvalDE(clinicalObj.getKarnofskyScore().toString()));
 		}*/

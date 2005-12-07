@@ -336,7 +336,7 @@ public class ResultsetViewTest extends TestCase {
 		       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
 			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-				//String sampleId = sampleResultset.getBiospecimen().getValue().toString();
+				//String sampleId = sampleResultset.getSampleIDDE().getValue().toString();
 			    CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = sampleResultset.getCopyNumberSingleViewResultsContainer();
 			    if(copyNumberSingleViewResultsContainer != null){
 			    displayCopyNumberSingleView(copyNumberSingleViewResultsContainer);
@@ -590,7 +590,7 @@ public class ResultsetViewTest extends TestCase {
    		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
    			SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
 
-   			System.out.println(sampleResultset.getBiospecimen().getValue()+
+   			System.out.println(sampleResultset.getSampleIDDE().getValue()+
    					"\t"+sampleResultset.getAgeGroup().getValue()+
 					"\t"+sampleResultset.getGenderCode().getValue()+
 					"\t"+sampleResultset.getSurvivalLengthRange().getValue()+

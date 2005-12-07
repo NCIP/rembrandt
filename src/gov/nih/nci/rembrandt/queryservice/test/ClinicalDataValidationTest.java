@@ -30,8 +30,8 @@ public class ClinicalDataValidationTest extends TestCase {
 		ApplicationContext.init();
 		//create a ClinicalDataQuery to contrain by Insitition group
 		 ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-		 SampleCriteria sc = new SampleCriteria();
-		 sc.setSampleID(new SampleIDDE("HF0017"));
+		 //SampleCriteria sc = new SampleCriteria();
+		 //sc.setSampleID(new SampleIDDE("HF0017"));
 		 //clinicalDataQuery.setSampleIDCrit(sc);
 		Resultant resultant;
 		try {
@@ -84,7 +84,7 @@ public class ClinicalDataValidationTest extends TestCase {
 			System.out.println("AllSamples Query:"+sampleIds.size()+" Validated Sample Resultset :"+validatedSampleResultset.size() );
           
 			//Add gender And AgeAtDx and Survival
-			clinicalFactors.add(ClinicalFactorType.Survival);
+			clinicalFactors.add(ClinicalFactorType.SurvivalLength);
 			validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsets(sampleIds,clinicalFactors);
 			System.out.println("Test all samples with Gender, Disease , AgeAtDx and Survival as the ClinicalFactorTypes");
 			System.out.println("AllSamples Query:"+sampleIds.size()+" Validated Sample Resultset :"+validatedSampleResultset.size() );
@@ -93,6 +93,34 @@ public class ClinicalDataValidationTest extends TestCase {
 			clinicalFactors.add(ClinicalFactorType.KarnofskyAssessment);
 			validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsets(sampleIds,clinicalFactors);
 			System.out.println("Test all samples with Gender, Disease , AgeAtDx , Survival and KarnofskyAssessment as the ClinicalFactorTypes");
+			System.out.println("AllSamples Query:"+sampleIds.size()+" Validated Sample Resultset :"+validatedSampleResultset.size() );
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
+	public void testGetValidatedSamplesForKMPlot() {
+		Collection<ClinicalFactorType> clinicalFactors = new ArrayList<ClinicalFactorType>();
+		try {
+			//Test all samples with No ClinicalFactorTypes
+			validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsets(sampleIds,clinicalFactors);
+			assert(validatedSampleResultset.size() == sampleIds.size());
+			System.out.println("Test all samples with No ClinicalFactorTypes");
+			System.out.println("AllSamples Query:"+sampleIds.size()+" Validated Sample Resultset :"+validatedSampleResultset.size() );
+			//Add gender 
+			clinicalFactors.add(ClinicalFactorType.SurvivalLength);
+			validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsets(sampleIds,clinicalFactors);
+			System.out.println("Test all samples with Survival as the ClinicalFactorTypes");
+			System.out.println("AllSamples Query:"+sampleIds.size()+" Validated Sample Resultset :"+validatedSampleResultset.size() );
+
+			          
+			//Add gender And AgeAtDx and Survival
+			clinicalFactors.add(ClinicalFactorType.Censor);
+			validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsets(sampleIds,clinicalFactors);
+			System.out.println("Test all samples with Censor and Survival as the ClinicalFactorTypes");
 			System.out.println("AllSamples Query:"+sampleIds.size()+" Validated Sample Resultset :"+validatedSampleResultset.size() );
 
 		} catch (Exception e) {

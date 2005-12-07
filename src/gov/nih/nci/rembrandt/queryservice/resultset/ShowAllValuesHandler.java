@@ -104,6 +104,7 @@ public class ShowAllValuesHandler {
 			newCompoundQuery =  (CompoundQuery) originalQuery.clone();
 		}
 	}
+	@SuppressWarnings("unchecked")
 	private CompoundQuery handleQuery() throws Exception{
 		//CompoundQuery  compoundQuery = null;
 		if (this.resultant != null && this.resultant.getResultsContainer() != null){
@@ -129,7 +130,7 @@ public class ShowAllValuesHandler {
 		   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 	
 		   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-		   	   			sampleIDs.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+		   	   			sampleIDs.add(sampleResultset.getSampleIDDE());
 		   			}
 		   			sampleCrit = new SampleCriteria();
 		   			sampleCrit.setSampleIDs(sampleIDs);

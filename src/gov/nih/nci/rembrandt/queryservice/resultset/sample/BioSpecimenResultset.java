@@ -15,6 +15,7 @@ import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 
 /**
  * @author SahniH
@@ -23,6 +24,8 @@ import gov.nih.nci.caintegrator.dto.de.RaceDE;
  */
 public abstract class  BioSpecimenResultset {
 	private BioSpecimenIdentifierDE biospecimen = null;
+	private SampleIDDE sampleIDDE = null;
+	private DatumDE censor = null;
 	private GenderDE genderCode = null;
 	private KarnofskyClinicalEvalDE karnofskyClinicalEvalDE = null;
 	private LanskyClinicalEvalDE lanskyClinicalEvalDE = null;
@@ -585,6 +588,30 @@ public abstract class  BioSpecimenResultset {
 	 */
 	public void setSurvivalLength(DatumDE survivalLength) {
 		this.survivalLength = survivalLength;
+	}
+	/**
+	 * @return Returns the sampleIDDE.
+	 */
+	public SampleIDDE getSampleIDDE() {
+		return sampleIDDE;
+	}
+	/**
+	 * @param sampleIDDE The sampleIDDE to set.
+	 */
+	public void setSampleIDDE(SampleIDDE sampleIDDE) {
+		this.sampleIDDE = sampleIDDE;
+	}
+	/**
+	 * @return Returns the censor.
+	 */
+	public DatumDE getCensor() {
+		return this.censor;
+	}
+	/**
+	 * @param censor The censor to set.
+	 */
+	public void setCensor(DatumDE censor) {
+		this.censor = censor;
 	}
 
 }

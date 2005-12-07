@@ -145,7 +145,7 @@ public class KaplanMeierPlotContainerTest extends TestCase {
 
 		   	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
-	    		System.out.println(sample.getBiospecimen().getValue()+
+	    		System.out.println(sample.getSampleIDDE().getValue()+
 									" \t"+sample.getSurvivalLength().getValue()+
 	    							" \t"+sample.getCensor().getValue());
 		   	}

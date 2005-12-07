@@ -49,8 +49,8 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot;
 
-import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
 
@@ -67,39 +67,14 @@ import java.util.Map;
  * 
  */
 public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
-	private DatumDE censor = null;
-	private BioSpecimenIdentifierDE sampleID;
 	private Map reporters = new HashMap();
 	/**
 	 * @param biospecimenID
 	 */
-	public SampleKaplanMeierPlotResultset(BioSpecimenIdentifierDE biospecimenID) {		
-		setBiospecimen(biospecimenID);
+	public SampleKaplanMeierPlotResultset(SampleIDDE sampleIDDE) {		
+		this.setSampleIDDE(sampleIDDE);
 	}
-	/**
-	 * @return Returns the censor.
-	 */
-	public DatumDE getCensor() {
-		return this.censor;
-	}
-	/**
-	 * @param censor The censor to set.
-	 */
-	public void setCensor(DatumDE censor) {
-		this.censor = censor;
-	}
-	/**
-	 * @return Returns the sampleID.
-	 */
-	public BioSpecimenIdentifierDE getSampleID() {
-		return this.sampleID;
-	}
-	/**
-	 * @param sampleID The sampleID to set.
-	 */
-	public void setSampleID(BioSpecimenIdentifierDE sampleID) {
-		this.sampleID = sampleID;
-	}
+
 	/**
 	 * @param reporterResultset Adds reporterResultset to this DiseaseGeneExprPlotResultset object.
 	 */
@@ -181,8 +156,8 @@ public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
 	}
     
     public String toString() {
-    	if(censor != null && getSurvivalLength() != null){
-    		return "Census: "+censor.getValue()+" Survival Length: "+ getSurvivalLength().getValue();
+    	if(this.getCensor() != null && getSurvivalLength() != null){
+    		return "Census: "+this.getCensor().getValue()+" Survival Length: "+ getSurvivalLength().getValue();
     	}
     		return super.toString();
     }

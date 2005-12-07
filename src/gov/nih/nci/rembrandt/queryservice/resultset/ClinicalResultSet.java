@@ -85,7 +85,8 @@ public interface ClinicalResultSet {
 	 * @param Race The Race to set.
 	 */
 	public  void setRace(String race);
-	
+	public  Long  getSurvivalLength();
+	public  String getCensoringStatus();
 	public  Long getKarnofskyScore();
 	public  String getKarnofskyScores();
 	public  Long getLanskyScore();

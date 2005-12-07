@@ -9,6 +9,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.AgeGroupResultset;
@@ -67,8 +68,9 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
     	SampleCopyNumberValuesResultset sampleCopyNumberValuesResultset = new SampleCopyNumberValuesResultset();
-		BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(copyNumberObj.getSampleId().toString());
-		sampleCopyNumberValuesResultset.setBiospecimen(biospecimenID);
+		sampleCopyNumberValuesResultset.setBiospecimen(new BioSpecimenIdentifierDE(copyNumberObj.getBiospecimenId()));
+		sampleCopyNumberValuesResultset.setSampleIDDE(new SampleIDDE(copyNumberObj.getSampleId()));
+
 		sampleCopyNumberValuesResultset.setCopyNumber(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCopyNumber()));
 		sampleCopyNumberValuesResultset.setChannelRatioValue(new DatumDE(DatumDE.COPY_NUMBER_CHANNEL_RATIO,copyNumberObj.getChannelRatio()));
 		sampleCopyNumberValuesResultset.setCopyNumberPvalue(new DatumDE(DatumDE.COPY_NUMBER_RATIO_PVAL,copyNumberObj.getCopynoPval()));

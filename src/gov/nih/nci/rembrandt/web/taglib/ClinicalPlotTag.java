@@ -79,7 +79,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
 			
             //check the components to see which graph to get
 			if(components.equalsIgnoreCase("SurvivalvsAgeAtDx")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getClinicalGraph(clinicalData,ClinicalFactorType.Survival,ClinicalFactorType.AgeAtDx);
+                chart = (JFreeChart) CaIntegratorChartFactory.getClinicalGraph(clinicalData,ClinicalFactorType.SurvivalLength,ClinicalFactorType.AgeAtDx);
             }
             if(components.equalsIgnoreCase("NeuroAssesmentvsAgeAtDx")){
                 chart = (JFreeChart) CaIntegratorChartFactory.getClinicalGraph(clinicalData,ClinicalFactorType.KarnofskyAssessment, ClinicalFactorType.AgeAtDx);

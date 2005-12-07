@@ -22,7 +22,7 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
    public final static String SURVIVAL_LENGTH_RANGE = "survivalLengthRange";
    public final static String DISEASE_TYPE= "diseaseType";
    public final static String INSTITUTION_ID = "institutionId";
-
+   public final static String CENSORING_STATUS = "censoringStatus";
     private Long age;
 
     private Long institutionId;

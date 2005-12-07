@@ -665,7 +665,7 @@ public class ReportGeneratorHelper {
 			Collection bioSpecimen = svrContainer.getBioSpecimenResultsets();
 			for(Iterator i = bioSpecimen.iterator();i.hasNext();) {
 				SampleResultset sampleResultset =  (SampleResultset)i.next();
-				sampleIds.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+				sampleIds.add(new SampleIDDE(sampleResultset.getSampleIDDE().getValueObject()));
 			}
 		}else {
 			throw new OperationNotSupportedException("We are not able to able to extract SampleIds from: "+container.getClass());

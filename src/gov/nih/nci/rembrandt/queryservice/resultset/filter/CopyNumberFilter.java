@@ -44,12 +44,12 @@ public class CopyNumberFilter {
 					for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 						SampleResultset sampleResultset = (SampleResultset) sampleIterator.next();
 						if (processCopyNumberFilterPerSample(sampleResultset,reporterNames, noOfConsectiveCalls, percentCall, operator)) {
-							logger.debug(sampleResultset.getBiospecimen().getValue() + "\t"+ "TRUE");
-							sampleIDs.add(sampleResultset.getBiospecimen().getValue().toString());
+							logger.debug(sampleResultset.getSampleIDDE().getValue() + "\t"+ "TRUE");
+							sampleIDs.add(sampleResultset.getSampleIDDE().getValue().toString());
 						}
 						else{
-							logger.debug(sampleResultset.getBiospecimen().getValue() + "\t"+ "FALSE");
-							//sampleIDs.add(sampleResultset.getBiospecimen().getValue().toString());
+							logger.debug(sampleResultset.getSampleIDDE().getValue() + "\t"+ "FALSE");
+							//sampleIDs.add(sampleResultset.getSampleIDDE().getValue().toString());
 						}
 						
 					}
@@ -69,7 +69,7 @@ public class CopyNumberFilter {
 		if (sampleResultset.getCopyNumberSingleViewResultsContainer() != null
 				&& reporterNames != null) {
 			CopyNumberSingleViewResultsContainer copyNumberContainer = sampleResultset.getCopyNumberSingleViewResultsContainer();
-			String sampleId = sampleResultset.getBiospecimen().getValue()
+			String sampleId = sampleResultset.getSampleIDDE().getValue()
 					.toString();
 			Collection cytobands = copyNumberContainer.getCytobandResultsets();
 			Collection labels = copyNumberContainer.getGroupsLabels();

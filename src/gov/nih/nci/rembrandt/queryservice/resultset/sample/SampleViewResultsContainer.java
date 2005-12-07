@@ -71,16 +71,16 @@ public class SampleViewResultsContainer implements ResultsContainer{
 	 * @param bioSpecimenResultset Adds bioSpecimenResultset to this DiseaseTypeResultset object.
 	 */
 	public void addBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.put(bioSpecimenResultset.getBiospecimen().getValue().toString(), bioSpecimenResultset);
+		if(bioSpecimenResultset != null && bioSpecimenResultset.getSampleIDDE() != null){
+			samples.put(bioSpecimenResultset.getSampleIDDE().getValue().toString(), bioSpecimenResultset);
 		}
 	}
 	/**
 	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this DiseaseTypeResultset object.
 	 */
 	public void removeBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null){
-			samples.remove(bioSpecimenResultset.getBiospecimen());
+		if(bioSpecimenResultset != null && bioSpecimenResultset.getSampleIDDE() != null){
+			samples.remove(bioSpecimenResultset.getSampleIDDE());
 		}
 	}
 	/**

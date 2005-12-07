@@ -54,6 +54,7 @@ import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
@@ -244,10 +245,10 @@ public class KaplanMeierPlotHandler {
   		//populate the SampleKaplanMeierPlotResultset
 		SampleKaplanMeierPlotResultset sampleResultset = null;
   		if(kaplanMeierPlotContainer != null && clinicalObj != null &&  clinicalObj.getBiospecimenId() != null){
-  			BioSpecimenIdentifierDE biospecimenID = new BioSpecimenIdentifierDE(clinicalObj.getBiospecimenId().toString());
+  			SampleIDDE sampleID = new SampleIDDE(clinicalObj.getSampleId());
   			sampleResultset = (SampleKaplanMeierPlotResultset) kaplanMeierPlotContainer.getBioSpecimenResultset(clinicalObj.getBiospecimenId().toString());
   		    if (sampleResultset == null){
-  		    	sampleResultset= new SampleKaplanMeierPlotResultset(biospecimenID);
+  		    	sampleResultset= new SampleKaplanMeierPlotResultset(sampleID);
   		    }
       	}
   		return sampleResultset;
