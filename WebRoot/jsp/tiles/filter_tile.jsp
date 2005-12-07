@@ -92,7 +92,8 @@ String sessionId = request.getSession().getId();
 	<div id="advFilter" class="divHide">
 		<br>
 			<html:checkbox styleClass="radio" property="constraintVariance" value="constraintVariance" />Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;
-				<html:text property="variancePercentile" styleId="variancePercentile" size="4" />&nbsp;&nbsp;%
+				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="variancePercentile"/>" />&nbsp;&nbsp;%
+				
 		<br><br>	
 		  	<html:checkbox property="diffExpGenes" styleClass="radio" value="diffExpGenes" />
 		  Use differentially expressed genes &nbsp;&nbsp;
