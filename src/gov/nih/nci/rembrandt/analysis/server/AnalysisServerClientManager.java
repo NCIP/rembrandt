@@ -1,9 +1,8 @@
 package gov.nih.nci.rembrandt.analysis.server;
 
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisRequest;
+import gov.nih.nci.caintegrator.analysis.messaging.AnalysisRequestSender;
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisResult;
-import gov.nih.nci.caintegrator.analysis.server.AnalysisRequestSender;
-import gov.nih.nci.caintegrator.analysis.server.AnalysisResultReceiver;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.AnalysisServerException;
 import gov.nih.nci.caintegrator.service.findings.AnalysisFinding;
@@ -37,7 +36,7 @@ import org.apache.log4j.Logger;
  * @author sahnih
  * singleton object
  */
-public class AnalysisServerClientManager implements MessageListener, ExceptionListener, AnalysisRequestSender, AnalysisResultReceiver{
+public class AnalysisServerClientManager implements MessageListener, ExceptionListener, AnalysisRequestSender{
 	private static Logger logger = Logger.getLogger(AnalysisServerClientManager.class);
 	private BusinessTierCache _cacheManager = ApplicationFactory.getBusinessTierCache();
 	

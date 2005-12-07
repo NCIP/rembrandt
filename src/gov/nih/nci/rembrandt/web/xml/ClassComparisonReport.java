@@ -1,25 +1,11 @@
 package gov.nih.nci.rembrandt.web.xml;
 
-import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
-import gov.nih.nci.rembrandt.web.helper.FilterHelper;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.dom4j.Document;
