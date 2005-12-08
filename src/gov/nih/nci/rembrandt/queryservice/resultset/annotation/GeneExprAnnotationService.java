@@ -28,7 +28,9 @@ import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -79,6 +81,40 @@ public class GeneExprAnnotationService {
 		}
 		return getAnnotationsForCloneIdentifierDEs(reporterDEs);
 	}
+	public static Map <String,ReporterResultset> getAnnotationsMapForReporters(List<String> reporterIDs) throws Exception{
+		List<CloneIdentifierDE> reporterDEs = new ArrayList<CloneIdentifierDE>();
+		if( reporterIDs != null){
+				for(String reporterID:reporterIDs){
+					if(reporterID != null  && reporterID.indexOf("IMAGE")>0){
+						reporterDEs.add(new CloneIdentifierDE.IMAGEClone(reporterID));
+					}
+					else{
+						reporterDEs.add(new CloneIdentifierDE.ProbesetID(reporterID));
+					}
+				}
+		}
+		return getAnnotationsMapForCloneIdentifierDEs(reporterDEs);
+	}
+	public static Map <String,ReporterResultset> getAnnotationsMapForCloneIdentifierDEs(List<CloneIdentifierDE> reporters) throws Exception{
+		Map <String,ReporterResultset> reporterResultsetMap= new HashMap<String,ReporterResultset>();
+		GeneExpressionQuery geneExpressionQuery = createQuery();
+		List<ReporterResultset> reporterResultsetOrderedList = new ArrayList<ReporterResultset>();
+
+		 if(geneExpressionQuery != null  && reporters != null){
+			 CloneOrProbeIDCriteria reporterCriteria = new CloneOrProbeIDCriteria();
+			 reporterCriteria.setIdentifiers(reporters);
+			 geneExpressionQuery.setCloneOrProbeIDCrit(reporterCriteria);
+			 GeneExprResultsContainer geneExprResultsContainer = executeGeneExprSampleQuery(geneExpressionQuery);
+			  if(geneExprResultsContainer!=null) {
+					for(CloneIdentifierDE reporter: reporters){
+						String reporterID = reporter.getValueObject();
+						reporterResultsetMap.put(reporterID,geneExprResultsContainer.getReporterResultset(reporterID));
+					}
+					return reporterResultsetMap;
+				}
+		 }
+		 return null;
+	}
 	public static List<ReporterResultset> getAnnotationsForCloneIdentifierDEs(List<CloneIdentifierDE> reporters) throws Exception{
 			GeneExpressionQuery geneExpressionQuery = createQuery();
 			List<ReporterResultset> reporterResultsetOrderedList = new ArrayList<ReporterResultset>();
@@ -98,6 +134,7 @@ public class GeneExprAnnotationService {
 			 }
 		return null;
 	}
+	
 	public static ReporterResultset getAnnotationsForReporter(String reporterID) throws Exception{
 		if(reporterID != null){
 			CloneIdentifierDE cloneIdentifierDE = null ;

@@ -42,6 +42,7 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import junit.framework.Test;
@@ -368,40 +369,49 @@ public class AnalysisQueryTest extends TestCase {
 		else if(finding instanceof ClassComparisonFinding){
 			ClassComparisonFinding ccFinding = (ClassComparisonFinding)finding;
 			List<ClassComparisonResultEntry> classComparisonResultEntrys = ccFinding.getResultEntries();
+			List<String> reporterIds = new ArrayList<String>();
 			for (ClassComparisonResultEntry classComparisonResultEntry: classComparisonResultEntrys){
-				String reportID = classComparisonResultEntry.getReporterId();
+				if(classComparisonResultEntry.getReporterId() != null){
+					reporterIds.add(classComparisonResultEntry.getReporterId());
+				}
+			}	
 				try {
-					ReporterResultset reporterResultset = GeneExprAnnotationService.getAnnotationsForReporter(reportID);
-					if(reporterResultset != null){
-						System.out.println("ReporterID :" +reporterResultset.getReporter().getValue().toString());
-						Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
-						if(geneSymbols != null){
-							for(String geneSymbol: geneSymbols){
-								System.out.println("\tAssocitaed GeneSymbol :" +geneSymbol);
+					Map<String,ReporterResultset> reporterResultsetMap = GeneExprAnnotationService.getAnnotationsMapForReporters(reporterIds);
+
+					if(reporterResultsetMap != null  && reporterIds != null){
+						int count = 0;
+						for(String reporterId:reporterIds){
+							ReporterResultset reporterResultset = reporterResultsetMap.get(reporterId);
+							System.out.println(++count+" ReporterID :" +reporterResultset.getReporter().getValue().toString());
+							Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
+							if(geneSymbols != null){
+								for(String geneSymbol: geneSymbols){
+									System.out.println("\tAssocitaed GeneSymbol :" +geneSymbol);
+								}
 							}
-						}
-						Collection<String> genBank_AccIDS = (Collection<String>)reporterResultset.getAssiciatedGenBankAccessionNos();
-						if(genBank_AccIDS != null){
-							for(String genBank_AccID: genBank_AccIDS){
-								System.out.println("\tAssocitaed GenBankAccessionNo :" +genBank_AccID);
+							Collection<String> genBank_AccIDS = (Collection<String>)reporterResultset.getAssiciatedGenBankAccessionNos();
+							if(genBank_AccIDS != null){
+								for(String genBank_AccID: genBank_AccIDS){
+									System.out.println("\tAssocitaed GenBankAccessionNo :" +genBank_AccID);
+								}
 							}
-						}
-						Collection<String> locusLinkIDs = (Collection<String>)reporterResultset.getAssiciatedLocusLinkIDs();
-						if(locusLinkIDs != null){
-							for(String locusLinkID: locusLinkIDs){
-								System.out.println("\tAssocitaed LocusLinkID :" +locusLinkID);
+							Collection<String> locusLinkIDs = (Collection<String>)reporterResultset.getAssiciatedLocusLinkIDs();
+							if(locusLinkIDs != null){
+								for(String locusLinkID: locusLinkIDs){
+									System.out.println("\tAssocitaed LocusLinkID :" +locusLinkID);
+								}
 							}
-						}
-						Collection<String> goIds = (Collection<String>)reporterResultset.getAssociatedGOIds();
-						if(goIds != null){
-							for(String goId: goIds){
-								System.out.println("\tAssocitaed GO Id :" +goId);
+							Collection<String> goIds = (Collection<String>)reporterResultset.getAssociatedGOIds();
+							if(goIds != null){
+								for(String goId: goIds){
+									System.out.println("\tAssocitaed GO Id :" +goId);
+								}
 							}
-						}
-						Collection<String> pathways = (Collection<String>)reporterResultset.getAssociatedPathways();
-						if(pathways != null){
-							for(String pathway: pathways){
-								System.out.println("\tAssocitaed Pathway :" +pathway);
+							Collection<String> pathways = (Collection<String>)reporterResultset.getAssociatedPathways();
+							if(pathways != null){
+								for(String pathway: pathways){
+									System.out.println("\tAssocitaed Pathway :" +pathway);
+								}
 							}
 						}
 					}
@@ -410,9 +420,8 @@ public class AnalysisQueryTest extends TestCase {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				
-			}
+
 		}
 	}
 }
