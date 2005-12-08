@@ -1,6 +1,8 @@
 package gov.nih.nci.rembrandt.queryservice.validation;
 
+import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
@@ -11,10 +13,13 @@ import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
@@ -24,6 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.OperationNotSupportedException;
@@ -118,6 +124,25 @@ public class ClinicalDataValidator {
 		}
 	  return validSampleResultsets;
 	}
+	@SuppressWarnings("unchecked")
+	public static Map <String,SampleResultset> getClinicalAnnotationsMapForSamples(Collection<String> sampleIDs) throws Exception{
+		return getClinicalAnnotationsMapForSampleIDDEs(StrategyHelper.convertToSampleIDDEs(sampleIDs));
+	}
+	public static Map <String,SampleResultset> getClinicalAnnotationsMapForSampleIDDEs(Collection<SampleIDDE> sampleIDs) throws Exception{
+		Map <String,SampleResultset> sampleResultsetMap= new HashMap<String,SampleResultset>();
+		//execute Clinical Query
+		Collection<SampleResultset> sampleResultsets = executeQuery(sampleIDs);
+		if(sampleIDs != null && sampleResultsets != null){
+
+			for(SampleResultset sampleResultset: sampleResultsets) {
+				if(sampleResultset != null  && sampleResultset.getSampleIDDE()!= null){							
+					sampleResultsetMap.put(sampleResultset.getSampleIDDE().getValueObject(),sampleResultset);
+					}
+				}
+		 	}
+		return sampleResultsetMap;
+	}
+
 		private static Collection<SampleIDDE> getValidSampleSet(Collection<SampleIDDE> sampleList, Map<ClinicalFactorType, Collection<SampleIDDE>> clinicalFactorMap) throws OperationNotSupportedException {
 			Collection<SampleIDDE> validSampleSet = new HashSet<SampleIDDE>();
 			validSampleSet.addAll(sampleList);

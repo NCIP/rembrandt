@@ -105,8 +105,10 @@ public class StrategyHelper {
 	}
 	public static Collection<SampleIDDE> convertToSampleIDDEs(Collection<String> sampleIDs)throws OperationNotSupportedException{
 		Collection<SampleIDDE> samplesDEs = new ArrayList<SampleIDDE>();
-		for(String sampleID: sampleIDs){
-			samplesDEs.add(new SampleIDDE(sampleID));
+		if(sampleIDs != null){
+			for(String sampleID: sampleIDs){
+				samplesDEs.add(new SampleIDDE(sampleID));
+			}
 		}
 		return samplesDEs;
 	}

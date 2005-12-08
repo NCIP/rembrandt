@@ -35,6 +35,8 @@ import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
+import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -316,6 +318,50 @@ public class AnalysisQueryTest extends TestCase {
 	}
 	public void testPCAQuery(){
 		
+	}
+	public void testHCForSamplesQueryCompleted(){
+        RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
+        HCAFinding finding = null;
+        hcQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(70),Operator.GE));
+        hcQueryDTO.setClusterTypeDE(new ClusterTypeDE(ClusterByType.Samples));
+        try {
+            finding = factory.createHCAFinding(hcQueryDTO,"mySession",hcQueryDTO.getQueryName());
+        } catch (FrameworkException e) {
+            e.printStackTrace();
+        }
+        FindingStatus status = finding.getStatus();
+        assert(status == FindingStatus.Running);
+        
+        while(finding.getStatus() == FindingStatus.Running){
+             finding = (HCAFinding) businessTierCache.getSessionFinding(finding.getSessionId(),finding.getTaskId());
+             try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        status = finding.getStatus();
+        assert(status == FindingStatus.Completed);
+        displaySampleAnnotationsforHC((HCAFinding)finding);
+    }
+	public void displaySampleAnnotationsforHC(HCAFinding hCAFinding){
+			List<String> sampleIds = hCAFinding.getClusteredSampleIDs();
+			Map<String, SampleResultset> sampleResultsetMap;
+			try {
+				sampleResultsetMap = ClinicalDataValidator.getClinicalAnnotationsMapForSamples(sampleIds);
+				if(sampleResultsetMap != null  && sampleIds != null){
+					int count = 0;
+					for(String sampleId:sampleIds){
+						SampleResultset sampleResultset = sampleResultsetMap.get(sampleId);
+						if(sampleResultset != null && sampleResultset.getSampleIDDE()!= null)
+						System.out.println(++count+" SampleID :" +sampleResultset.getSampleIDDE().getValue().toString());
+					}
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	@SuppressWarnings("unchecked")
 	public void displayAnnotations(Finding finding){
