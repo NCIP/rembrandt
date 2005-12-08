@@ -706,7 +706,7 @@ public class GeneExpressionForm extends BaseForm {
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("down")
 					&& (this.foldChangeValueDown.length() > 0)){
-				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(Float.valueOf(this.foldChangeValueDown));
+				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueDown));
 				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
 
 				
