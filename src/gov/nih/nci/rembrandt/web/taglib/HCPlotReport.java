@@ -6,11 +6,14 @@ import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
+import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,7 +34,9 @@ public class HCPlotReport extends TagSupport {
 	
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
-
+	
+	private String dv = "--";
+	
 	public enum ClusterBy { Genes, Reporters }
 	
 	public int doStartTag() {
@@ -157,12 +162,62 @@ public class HCPlotReport extends TagSupport {
 		//return html;
 		return html.append(document.asXML());
 	}
-	public StringBuffer quickSampleReport(List<String> samples){
+	public StringBuffer quickSampleReport(List<String> sampleIds){
 		StringBuffer html = new StringBuffer();
-		if(samples != null)	{
-			
+		Document document = DocumentHelper.createDocument();
+		
+		if(sampleIds != null)	{
+			Map<String, SampleResultset> sampleResultsetMap;
+			try {
+				sampleResultsetMap = ClinicalDataValidator.getClinicalAnnotationsMapForSamples(sampleIds);
+				if(sampleResultsetMap != null  && sampleIds != null){
+					int count = 0;
+
+					Element table = document.addElement("table").addAttribute("id", "reportTable").addAttribute("class", "report");
+					Element tr = null;
+					Element td = null;
+					tr = table.addElement("tr").addAttribute("class", "header");
+					td = tr.addElement("td").addAttribute("class", "header").addText("Sample ID");
+					td = tr.addElement("td").addAttribute("class", "header").addText("Disease");
+					td = tr.addElement("td").addAttribute("class", "header").addText("Gender");
+					td = tr.addElement("td").addAttribute("class", "header").addText("Age");
+					td = tr.addElement("td").addAttribute("class", "header").addText("Survival Length");
+					
+					for(String sampleId:sampleIds){
+						SampleResultset sampleResultset = sampleResultsetMap.get(sampleId);
+						//lose this
+						if(sampleResultset != null && sampleResultset.getSampleIDDE()!= null)	{
+							System.out.println(++count+" SampleID :" +sampleResultset.getSampleIDDE().getValue().toString());
+						}
+						//end lose
+						if(sampleResultset!=null)	{
+							tr = table.addElement("tr").addAttribute("class", "data");
+							
+							String sid = sampleResultset.getSampleIDDE()!=null && sampleResultset.getSampleIDDE().getValue() != null ?sampleResultset.getSampleIDDE().getValue().toString() : dv;
+							td = tr.addElement("td").addText(sid);
+							
+							String dis = sampleResultset.getDisease() != null && sampleResultset.getDisease().getValue() != null ?sampleResultset.getDisease().getValue().toString() : dv;
+							td = tr.addElement("td").addText(dis);
+							
+							String gen = sampleResultset.getGenderCode() != null && sampleResultset.getGenderCode().getValue() != null ? sampleResultset.getGenderCode().getValue().toString() : dv;
+							td = tr.addElement("td").addText(gen);
+							
+							String age = sampleResultset.getAgeGroup() != null && sampleResultset.getAgeGroup().getValue() != null ? sampleResultset.getAgeGroup().getValue().toString() : dv;
+							td = tr.addElement("td").addText(age);
+							
+							String slength = sampleResultset.getSurvivalLength() != null ? String.valueOf(sampleResultset.getSurvivalLength()) : dv;
+							td = tr.addElement("td").addText(slength);
+							
+						}
+						
+					}
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		return html;
+		return html.append(document.asXML());
 	}
 	
 }
