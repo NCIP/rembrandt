@@ -21,7 +21,9 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 	<%String key = request.getParameter("taskId");
 	String sessionId = request.getSession().getId();
 	String componentStr = "SurvivalvsAgeAtDx";
+	String colorBy = "Disease";
 	%>
+	
 	
 	<graphing:ClinicalPlot taskId="<%=key%>" components="<%=componentStr%>" />
 
