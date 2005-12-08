@@ -36,7 +36,7 @@ abstract public class CGHFactHandler {
     private static Logger logger = Logger.getLogger(CGHFactHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
-    private final static int VALUES_PER_THREAD = 200;
+    private final static int VALUES_PER_THREAD = 20;
     List factEventList = Collections.synchronizedList(new ArrayList());
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
@@ -120,7 +120,7 @@ abstract public class CGHFactHandler {
                               public void codeToRun() {
                                   final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           ReportQueryByCriteria annotQuery =
-                          QueryFactory.newReportQuery(GeneLlAccSnp.class, annotCrit, true);
+                          QueryFactory.newReportQuery(GeneLlAccSnp.class, annotCrit, false);
                           annotQuery.setAttributes(new String[] {GeneLlAccSnp.SNP_PROBESET_ID, GeneLlAccSnp.GENE_SYMBOL, GeneLlAccSnp.LOCUS_LINK_ID, GeneLlAccSnp.ACCESSION});
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
