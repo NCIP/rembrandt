@@ -806,10 +806,10 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
             	survivalLength = new Long(((BigDecimal)objs[8]).longValue());
             }
             Long age = null;
-            if(objs[9] != null){
-            	age = new Long(((BigDecimal)objs[9]).longValue());
-            }
             String censor = (String)objs[9];
+            if(objs[10] != null){
+            	age = new Long(((BigDecimal)objs[10]).longValue());
+            }
             PatientData p = new PatientData();
             p.setBiospecimenId(bspID);
             p.setGender(gender);           
@@ -821,6 +821,7 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 			p.setPatientDid(ptDID);
 			p.setSurvivalLength(survivalLength);
 			p.setCensoringStatus(censor);
+			p.setAge(age);
 			patientDIDs.add(ptDID);
 
             results.add(p );

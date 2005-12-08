@@ -59,7 +59,7 @@ public class ClinicalDataValidator {
 					if(sampleResultset != null){							
 						switch(clinicalFactor){
 							case AgeAtDx:
-								if( sampleResultset.getAgeGroup()!= null &&  sampleResultset.getAgeGroup().getValue() != null){
+								if( sampleResultset.getAge()!= null &&  sampleResultset.getAge() != null){
 									samples.add(sampleResultset.getSampleIDDE());
 								}
 								break;		 									
