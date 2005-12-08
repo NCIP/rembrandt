@@ -31,7 +31,7 @@
 
 <xsl:variable name="dtype">
 	<xsl:choose>
-		<xsl:when test="$p_sort_element != '1'">number</xsl:when>
+		<xsl:when test="$p_sort_element != '1' and $p_sort_element != '5'">number</xsl:when>
 		<xsl:otherwise>text</xsl:otherwise>		
 	</xsl:choose>
 </xsl:variable>
@@ -287,7 +287,7 @@
 		<!--  should be going filtering here, also copy to record count -->
 		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and Cell[3]/Data != $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'] | (Row[@name='dataRow' and Cell[3]/Data = $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'show']">
 			
-			<xsl:sort select="(Cell[3]/Data) [$p_sort_element = '3'] | (Cell[4]/Data) [$p_sort_element = '4'] | (Cell[1]/Data) [$p_sort_element = '1'] | (Cell[2]/Data) [$p_sort_element = '2'] | (Cell[1]/Data) [$p_sort_element = '']" order="{$p_sort_method}" data-type="{$dtype}" />
+			<xsl:sort select="(Cell[3]/Data) [$p_sort_element = '3'] | (Cell[4]/Data) [$p_sort_element = '4'] | (Cell[1]/Data) [$p_sort_element = '1'] | (Cell[5]/Data) [$p_sort_element = '5'] | (Cell[2]/Data) [$p_sort_element = '2'] | (Cell[1]/Data) [$p_sort_element = '']" order="{$p_sort_method}" data-type="{$dtype}" />
 	
 			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
 
@@ -301,7 +301,7 @@
 		      			<td class="{$class}">
 
 		      			<xsl:choose>
-		      				<xsl:when test="$styleclass = 'gene' and $theData != '-'">
+		      				<xsl:when test="$styleclass = 'gene' and $theData != '--' and $theData != '-'">
 		      					<a href="#" onclick="javascript:spawnAnnot('gene', this); return false;"><xsl:value-of select="Data"/></a>
 		      				</xsl:when>
 		      				<xsl:when test="($styleclass = 'reporter' or $styleclass = 'cytoband') and $theData != '-'">

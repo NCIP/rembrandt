@@ -41,12 +41,18 @@ public class DynamicReportGenerator {
 		HttpServletRequest request = ExecutionContext.get().getHttpServletRequest();
 //		HttpServletResponse response = ExecutionContext.get().getHttpServletResponse();
 		
+		//lets hold a list of xml generating jobs, so we dont keep kicking off the same job
+		ArrayList jobs = session.getAttribute("xmlJobs")!=null ? (ArrayList) session.getAttribute("xmlJobs") : new ArrayList();
+		
 		//only generate XML if its not already cached...leave off for debug
-		if(ptc.getObjectFromSessionCache(session.getId(), key) == null)	{
+		if(ptc.getObjectFromSessionCache(session.getId(), key) == null && !jobs.contains(key))	{
 			Object o = btc.getObjectFromSessionCache(session.getId(), key);
 			Finding finding = (Finding) o; 
 			//generate the XML and cached it
 			ReportGeneratorHelper.generateReportXML(finding);
+			if(!jobs.contains(key))
+				jobs.add(key);
+			session.setAttribute("xmlJobs", jobs);
 		}
 		Object ob = ptc.getObjectFromSessionCache(session.getId(), key);
 		if(ob != null && ob instanceof FindingReportBean)	{
@@ -55,6 +61,9 @@ public class DynamicReportGenerator {
 				Document reportXML = (Document) frb.getXmlDoc();
 			
 				html = ReportGeneratorHelper.renderReport(params, reportXML,"cc_report.xsl");
+				
+				jobs.remove(key);
+				session.setAttribute("xmlJobs", jobs);
 			}
 			catch(Exception e)	{
 				html = "Error Generating the report.";
