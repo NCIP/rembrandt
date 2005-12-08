@@ -128,10 +128,10 @@ public class RembrandtImageFileHandler {
 		
 		if ((imageWidth < 0)&&(imageHeight < 0)) {
 		  //this is for a case where the image width and height are not known.
-		  tag = "<img src=\""+getFinalURLPath()+"\"  border=0>";
+		  tag = "<img src=\""+getFinalURLPath()+"\"  id=\"rbt_image\" onmouseover=\"\" onmouseout=\"\" name=\"rbt_image\" border=\"0\" />";
 		}
 		else {
-		  tag = "<img src=\""+getFinalURLPath()+"\" width="+imageWidth+" height="+imageHeight+" border=0>";
+		  tag = "<img src=\""+getFinalURLPath()+"\" width=\""+imageWidth+"\" height=\""+imageHeight+"\" border=\"0\" />";
 		}
 		
 		logger.debug("Returned Image Tag: "+tag);
@@ -143,8 +143,24 @@ public class RembrandtImageFileHandler {
 	 * @return the final image tag
 	 */
     public String getImageTag(String mapFileName){
-    	String tag = "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + " id=\"geneChart\"" + " border=0>";
+    	String tag = "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + " id=\"geneChart\"" + " border=\"0\" />";
     	logger.debug("Returned Image Tag: "+tag);
     	return tag;
     }
+
+	public int getImageHeight() {
+		return imageHeight;
+	}
+
+	public void setImageHeight(int imageHeight) {
+		this.imageHeight = imageHeight;
+	}
+
+	public int getImageWidth() {
+		return imageWidth;
+	}
+
+	public void setImageWidth(int imageWidth) {
+		this.imageWidth = imageWidth;
+	}
 }

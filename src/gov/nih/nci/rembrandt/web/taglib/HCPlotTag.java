@@ -8,7 +8,11 @@ import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.image.ImageObserver;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -64,6 +68,8 @@ public class HCPlotTag extends AbstractGraphingTag {
             HCAFinding hcaFinding = (HCAFinding)businessTierCache.getSessionFinding(session.getId(),taskId);
             byte[] imageCode = hcaFinding.getImageCode();
             
+            //int h = Toolkit.getDefaultToolkit().createImage(imageCode).getHeight(null);
+            
             //pass imageHeight=-1 and imageWidth=-1 because we don't know the size of the image
             RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",-1,-1);
 			//The final complete path to be used by the webapplication
@@ -102,6 +108,9 @@ public class HCPlotTag extends AbstractGraphingTag {
                     break;
                 }
              }
+            
+            int w =Toolkit.getDefaultToolkit().getImage(finalPath).getWidth(null);
+            
             
 		    jspOut.print(imageHandler.getImageTag());
         

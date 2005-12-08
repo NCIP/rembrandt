@@ -15,6 +15,11 @@
 		 		}
 		
 		a, a:visited {color:blue}
+
+		tr.header, td.header	{
+				color:red;
+				font-weight:bold;
+		}
 		
 		td.ASTROCYTOMA { background-color: #B6C5F2; }
 		td.GBM { background-color: #F2E3B5; }

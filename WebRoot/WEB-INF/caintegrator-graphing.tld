@@ -60,6 +60,19 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>HCPlotReport</name>
+		<tag-class>
+			gov.nih.nci.rembrandt.web.taglib.HCPlotReport
+		</tag-class>
+		<bodycontent>empty</bodycontent>
+		<description>The Hierarchical Clustering Analysis Report</description>
+		<attribute>
+			<name>taskId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<name>GenePlot</name>
 		<tag-class>
 			gov.nih.nci.rembrandt.web.taglib.GenePlotTag
