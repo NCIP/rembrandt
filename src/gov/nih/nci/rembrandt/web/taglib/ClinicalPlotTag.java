@@ -4,11 +4,19 @@ import gov.nih.nci.caintegrator.service.findings.ClinicalFinding;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.chart.plot.ClinicalPlot;
 import gov.nih.nci.caintegrator.ui.graphing.data.clinical.ClinicalDataPoint;
+import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.enumeration.ClinicalFactorType;
 
 import gov.nih.nci.caintegrator.ui.graphing.util.ImageMapUtil;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
+import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
 
@@ -69,7 +77,44 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
 			//
             //retrieve the Finding from cache and build the list of  Clinical Data points
             //ClinicalFinding clinicalFinding = (ClinicalFinding)businessTierCache.getSessionFinding(session.getId(),taskId);
-			
+            ReportBean clincalReportBean = presentationTierCache.getReportBean(session.getId(),taskId);
+            Resultant clinicalResultant = clincalReportBean.getResultant();
+            System.out.println("yo");
+            ResultsContainer  resultsContainer = clinicalResultant.getResultsContainer();
+            SampleViewResultsContainer sampleViewContainer = null;
+            if(resultsContainer instanceof DimensionalViewContainer){
+                DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+                sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+            }
+            if(sampleViewContainer!=null){
+                Collection<ClinicalFactorType> clinicalFactors = new ArrayList<ClinicalFactorType>();
+                    clinicalFactors.add(ClinicalFactorType.AgeAtDx);
+                    //clinicalFactors.add(ClinicalFactorType.Survival);
+                    Collection<SampleResultset> samples = sampleViewContainer.getBioSpecimenResultsets();
+                
+                if(samples!=null){
+                    for (SampleResultset rs:samples){
+                        //String id = rs.getBiospecimen().getValueObject();
+                        ClinicalDataPoint clinicalDataPoint = new ClinicalDataPoint(id);
+                        Object sl = rs.getSurvivalLength();
+                        Object dx = rs.getAgeGroup();
+                            if(sl !=null && dx !=null){
+                                clinicalDataPoint.setSurvival(new Double(sl.toString()));
+                                clinicalDataPoint.setAgeAtDx(new Double(dx.toString()));
+                            }
+//                        Object ks = rs.getKarnofskyClinicalEvalDE();
+//                        Object dx = rs.getAgeGroup();
+//                            if(ks !=null && dx !=null){
+//                                clinicalDataPoint.setNeurologicalAssessment(new Double(ks.toString()));
+//                                clinicalDataPoint.setAgeAtDx(new Double(dx.toString()));
+//                            }
+                            
+                       
+                    }
+                }
+            }
+           
+                
 			
 			//-------------------------------------------------------------
 			//GET THE CLINICAL DATA AND POPULATE THE clinicalData list

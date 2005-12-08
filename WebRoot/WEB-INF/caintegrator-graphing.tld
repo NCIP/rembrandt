@@ -67,4 +67,17 @@
 		<bodycontent>empty</bodycontent>
 		<description>The Gene Expression Plot</description>
 	</tag>
+	<tag>
+		<name>ClinicalPlot</name>
+		<tag-class>
+			gov.nih.nci.rembrandt.web.taglib.ClinicalPlotTag
+		</tag-class>
+		<bodycontent>empty</bodycontent>
+		<description>The Clinical Plot</description>
+		<attribute>
+			<name>taskId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 </taglib>
