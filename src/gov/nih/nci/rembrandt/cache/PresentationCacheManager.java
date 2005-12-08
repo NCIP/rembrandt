@@ -271,6 +271,8 @@ public class PresentationCacheManager implements PresentationTierCache{
 				logger.error(e);
 			}catch(ClassCastException cce) {
 				logger.error(cce);
+			}catch(NullPointerException e) {
+				logger.debug("There was no Session Graphing Data under the key: "+graphId+" for the session: "+sessionId);
 			}
 			return graphData;
 	}
@@ -293,6 +295,8 @@ public class PresentationCacheManager implements PresentationTierCache{
 			}
 		}catch(CacheException ce) {
 			logger.error(ce);
+		}catch(NullPointerException e) {
+			logger.debug("The SessionCache is empty for the session: "+sessionId);
 		}
 		return beans;
 	}
