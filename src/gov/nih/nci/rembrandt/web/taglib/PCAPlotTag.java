@@ -118,8 +118,10 @@ public class PCAPlotTag extends AbstractGraphingTag {
                     }
                     Long survivalLength = rs.getSurvivalLength();
                         if(survivalLength !=null){
-                            double sl = survivalLength.doubleValue();
-                            pcaPoint.setSurvivalInMonths(sl);
+                        	//survival length is stored in days in the DB so divide by 30 to get the 
+                        	//approx survival in months
+                            double survivalInMonths = survivalLength.doubleValue()/30.0;
+                            pcaPoint.setSurvivalInMonths(survivalInMonths);
                         }
                     pcaData.add(pcaPoint);
                 }
