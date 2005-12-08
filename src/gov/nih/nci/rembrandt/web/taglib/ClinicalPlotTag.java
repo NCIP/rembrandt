@@ -5,7 +5,9 @@ import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.chart.plot.ClinicalPlot;
 import gov.nih.nci.caintegrator.ui.graphing.data.clinical.ClinicalDataPoint;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
+import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.enumeration.ClinicalFactorType;
+import gov.nih.nci.caintegrator.enumeration.DiseaseType;
 
 import gov.nih.nci.caintegrator.ui.graphing.util.ImageMapUtil;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
@@ -93,15 +95,68 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
                     Collection<SampleResultset> samples = sampleViewContainer.getBioSpecimenResultsets();
                 
                 if(samples!=null){
+                int numDxvsKa=0;
+                int numDxvsSl = 0;
                     for (SampleResultset rs:samples){
                         //String id = rs.getBiospecimen().getValueObject();
+                    	String id = rs.getSampleIDDE().getValueObject();
                         ClinicalDataPoint clinicalDataPoint = new ClinicalDataPoint(id);
-                        Object sl = rs.getSurvivalLength();
-                        Object dx = rs.getAgeGroup();
-                            if(sl !=null && dx !=null){
-                                clinicalDataPoint.setSurvival(new Double(sl.toString()));
-                                clinicalDataPoint.setAgeAtDx(new Double(dx.toString()));
-                            }
+                       
+                        
+                        
+                       
+                        String diseaseName = rs.getDisease().getValueObject();
+                        if(diseaseName!=null){
+                            clinicalDataPoint.setDiseaseName(diseaseName);
+                        }
+                        else{
+                        	clinicalDataPoint.setDiseaseName(DiseaseType.NON_TUMOR.name());
+                        }
+                        
+                        
+                        Long sl = rs.getSurvivalLength();
+                        if (sl != null) {
+                          clinicalDataPoint.setSurvival(sl.doubleValue());
+                        }
+                        
+                        Long dxAge = rs.getAge();
+                        if (dxAge != null) {
+                          clinicalDataPoint.setAgeAtDx(dxAge.doubleValue());
+                        }
+                        
+                        KarnofskyClinicalEvalDE ka = rs.getKarnofskyClinicalEvalDE();
+                        if (ka != null) {
+                          String kaStr = ka.getValueObject();
+                          if (kaStr != null) {
+                        	if(kaStr.contains(",")) { 
+                        		String [] kaStrArray = kaStr.split(",");
+	                        	for(int i =0;i<kaStrArray.length;i++){
+	                        		double kaVal = Double.parseDouble(kaStrArray[i].trim());
+	                        		clinicalDataPoint.setKarnofskyScore(kaVal);
+	                        	}	                            
+                        	}
+                        	else{
+                        		double kaVal = Double.parseDouble(kaStr);
+                        		clinicalDataPoint.setKarnofskyScore(kaVal);
+                        	}
+                        	
+                          }
+                        }
+                        
+                        if ((dxAge!= null)&&(ka!=null)) {
+                          numDxvsKa++;
+                        }
+                        
+                        if ((dxAge!=null) && (sl!=null)) {
+                          numDxvsSl++;
+                        }
+                        
+                        
+//                        Object dx = rs.getAgeGroup();
+//                            if(sl !=null && dx !=null){
+//                                clinicalDataPoint.setSurvival(new Double(sl.toString()));
+//                                clinicalDataPoint.setAgeAtDx(new Double(dx.toString()));
+//                            }
 //                        Object ks = rs.getKarnofskyClinicalEvalDE();
 //                        Object dx = rs.getAgeGroup();
 //                            if(ks !=null && dx !=null){
@@ -109,13 +164,13 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
 //                                clinicalDataPoint.setAgeAtDx(new Double(dx.toString()));
 //                            }
                             
-                       
+                       clinicalData.add(clinicalDataPoint);
                     }
                 }
             }
+            
+            System.out.println("Done creating points!");
            
-                
-			
 			//-------------------------------------------------------------
 			//GET THE CLINICAL DATA AND POPULATE THE clinicalData list
 			//Note the ClinicalFinding is currently an empty class
@@ -167,9 +222,12 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
              }
             
             out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,true,info));
+            //finalURLpath = finalURLpath.replace("\\", "/");
             finalURLpath = finalURLpath.replace("\\", "/");
             long randomness = System.currentTimeMillis(); //prevent image caching
 		    out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"?"+randomness+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
+          
+		    //out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
             
         
 		}catch (IOException e) {

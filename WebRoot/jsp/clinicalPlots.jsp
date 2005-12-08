@@ -16,16 +16,14 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 	<head>
 		<title>Rembrandt Clinical Plots</title>
 		<LINK href="css/tabs.css" rel="stylesheet" type="text/css" />
+	</head>
 <body>	
 	<%String key = request.getParameter("taskId");
 	String sessionId = request.getSession().getId();
+	String componentStr = "SurvivalvsAgeAtDx";
 	%>
 	
-	
-	task id is: <%= key %> <br />
-	sessionid is: <%= sessionId %>
-	
-	<graphing:ClinicalPlot taskId="<%=key%>" />
+	<graphing:ClinicalPlot taskId="<%=key%>" components="<%=componentStr%>" />
 
 </body>
 </html>
