@@ -87,8 +87,11 @@ public class SampleViewResultsContainer implements ResultsContainer{
 	 * @return bioSpecimenResultset Returns bioSpecimenResultset to this DiseaseTypeResultset object.
 	 */
     public Collection getBioSpecimenResultsets(){
-    		return samples.values();
+    	Collection sampleValues = samples.values();	
+        return sampleValues;
     }
+   
+    
     /**
      * @param samplId
 	 * @return bioSpecimenResultset Returns reporterResultset for this GeneResultset.
