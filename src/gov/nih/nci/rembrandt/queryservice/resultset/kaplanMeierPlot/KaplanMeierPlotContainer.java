@@ -96,11 +96,15 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
         //Clear the Previous collection
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
-			if(sample != null && sample.getCensor()!= null && sample.getSurvivalLength() != null&& sample.getSummaryReporterFoldChange()!= null){
+			if(sample != null &&
+					sample.getSampleIDDE()!= null &&
+					sample.getSurvivalLength()!= null &&
+					sample.getCensor()!= null &&
+					sample.getCensor().getValue() != null){
 				Long time = sample.getSurvivalLength();
 				Integer censor = new Integer((sample.getCensor().getValue().toString()));
 				Double value = (Double) sample.getSummaryReporterFoldChange().getValue();
-				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(sample.getSampleIDDE().getValueObject(),time.intValue(), censor.intValue(), value.doubleValue());
 				kmSampleInfoArray.add(kmSampleInfo);
 			}
 		}
@@ -111,14 +115,18 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	    Collection samples = getBioSpecimenResultsets();
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
-			if(sample != null && sample.getSurvivalLength()!= null && sample.getCensor()!= null && sample.getCensor().getValue() != null){
+			if(sample != null &&
+					sample.getSampleIDDE()!= null &&
+					sample.getSurvivalLength()!= null &&
+					sample.getCensor()!= null &&
+					sample.getCensor().getValue() != null){
 			ReporterResultset reporterResultset = sample.getReporterResultset(reporterName);
 				if (reporterResultset != null && reporterResultset.getValue() != null){
 					Long time = sample.getSurvivalLength();
 					Integer censor = new Integer((sample.getCensor().getValue().toString()));
 					DatumDE datumDE = reporterResultset.getValue();
 	                Double value = (Double) datumDE.getValue();
-	                KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(time.intValue(), censor.intValue(), value.doubleValue());
+	                KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(sample.getSampleIDDE().getValueObject(),time.intValue(), censor.intValue(), value.doubleValue());
 					kmSampleInfoArray.add(kmSampleInfo);
 				}
 			}
