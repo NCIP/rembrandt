@@ -192,7 +192,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
             }
           
             
-            RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
+            RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",600,500);
 			//The final complete path to be used by the webapplication
 			String finalPath = imageHandler.getSessionTempFolder();
             String finalURLpath = imageHandler.getFinalURLPath();
