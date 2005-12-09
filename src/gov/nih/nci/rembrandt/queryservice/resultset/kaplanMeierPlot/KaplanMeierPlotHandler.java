@@ -82,7 +82,7 @@ public class KaplanMeierPlotHandler {
 	 */
 	public static KaplanMeierPlotContainer handleKMGeneExprPlotContainer(GeneExpr.GeneExprSingle[] geneExprObjects) throws Exception{
  		KaplanMeierPlotContainer kaplanMeierPlotContainer = new KaplanMeierPlotContainer();
- 		if(geneExprObjects != null){
+ 		if(geneExprObjects != null  ){
  			for (int i = 0; i < geneExprObjects.length; i++) {
  				if(geneExprObjects[i] != null) {
  					ResultSet obj = geneExprObjects[i];
@@ -93,19 +93,21 @@ public class KaplanMeierPlotHandler {
  					}
  				}
           	}//for
- 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(geneExprObjects[0].getGeneSymbol()));
- 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
- 			Map paitentDataLookup = LookupManager.getPatientDataMap();
-	    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
-	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
-	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
-	    		if(patient != null  && patient.getSurvivalLength() != null && patient.getCensoringStatus()!=null){
-
-		    		sample.setSurvivalLength(patient.getSurvivalLength());
-		    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
-		    		kaplanMeierPlotContainer.addBioSpecimenResultset(sample);  //update sample resultset
-	    		}
-	    	}
+ 			if(geneExprObjects.length == 1){
+	 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(geneExprObjects[0].getGeneSymbol()));
+	 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
+	 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+		    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+		    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
+		    		if(patient != null  && patient.getSurvivalLength() != null && patient.getCensoringStatus()!=null){
+	
+			    		sample.setSurvivalLength(patient.getSurvivalLength());
+			    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
+			    		kaplanMeierPlotContainer.addBioSpecimenResultset(sample);  //update sample resultset
+		    		}
+		    	}	
+ 			}
 
  		}
         return kaplanMeierPlotContainer;

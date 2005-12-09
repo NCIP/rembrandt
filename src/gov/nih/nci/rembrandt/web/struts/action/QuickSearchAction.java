@@ -111,12 +111,15 @@ public class QuickSearchAction extends DispatchAction {
 		KaplanMeierSampleInfo[] kmSampleInfos = {new KaplanMeierSampleInfo(0,0,0)};
 		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 			kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName);
+			
 			if(kmResultsContainer!=null) {
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+				if(kmResultsContainer.getGeneSymbol()!= null){
+					kmForm.setGeneOrCytoband(kmResultsContainer.getGeneSymbol().getValue().toString());
+				}
 			}
 			kmForm.setUpOrAmplified("Up Regulated");
-			kmForm.setDownOrDeleted("Down Regulated");
-			kmForm.setGeneOrCytoband(kmResultsContainer.getGeneSymbol().getValue().toString());
+			kmForm.setDownOrDeleted("Down Regulated");			
 			kmForm.setPlotVisible(true);
 		} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			kmForm.setUpOrAmplified("Amplified");
