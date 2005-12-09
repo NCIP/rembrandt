@@ -997,6 +997,12 @@
              column="RACE"
              jdbc-type="VARCHAR"
         />
+        
+         <field-descriptor
+             name="whoGrade"
+             column="WHO_GRADE"
+             jdbc-type="VARCHAR"
+        />
 
         <field-descriptor
                name="age"
@@ -1205,6 +1211,79 @@
 
 
 <class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.OnStudyRadiationtherapy"
+       table="PT_RADIATIONTHERAPY">
+       
+        <field-descriptor
+                     name="ptRadiationtrxId"
+                     column="PT_RADIATIONTRX_ID"
+                     jdbc-type="BIGINT"
+        />
+        <field-descriptor
+                    name="patientDid"
+                    column="PATIENT_DID"
+                    jdbc-type="BIGINT"
+        />
+        <field-descriptor
+                 name="institutionId"
+                 column="INSTITUTION_ID"
+                 jdbc-type="BIGINT"
+        />
+        <field-descriptor
+             name="datasetId"
+             column="DATASET_ID"
+             jdbc-type="BIGINT"
+        />
+
+        <field-descriptor
+               name="timePoint"
+               column="TIME_POINT"
+               jdbc-type="VARCHAR"
+          />
+          
+        <field-descriptor
+	                 name="radiationSite"
+	                 column="RADIATION_SITE"
+	                 jdbc-type="VARCHAR"
+          />
+         <field-descriptor
+             name="doseStartDate"
+             column="DOSE_START_DATE"
+             jdbc-type="DATE"                                
+        /> 
+        <field-descriptor
+             name="doseStopDate"
+             column="DOSE_STOP_DATE"
+             jdbc-type="DATE"
+        />
+    <field-descriptor
+             name="fractionDose"
+             column="FRACTION_DOSE"
+             jdbc-type="BIGINT"
+        />
+     <field-descriptor
+             name="fractionNumber"
+             column="FRACTION_NUMBER"
+             jdbc-type="BIGINT"
+        />
+    <field-descriptor
+             name="radiationType"
+             column="RADIATION_TYPE"
+             jdbc-type="VARCHAR"
+        />  
+        
+   <field-descriptor
+             name="neurosisStatus"
+             column="NEUROSIS_STATUS"
+             jdbc-type="VARCHAR"
+       />  
+   
+   
+</class-descriptor>
+
+
+
+<class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PriorChemotherapy"
        table="PRIOR_CHEMOTHERAPY">
        
@@ -1282,13 +1361,98 @@
 
 
 
+<class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.OnStudyChemotherapy"
+       table="PT_CHEMOTHERAPY">
+       
+        <field-descriptor
+                     name="ptChemotrxId"
+                     column="PT_CHEMOTRX_ID"
+                     jdbc-type="BIGINT"
+        />
+        <field-descriptor
+                    name="patientDid"
+                    column="PATIENT_DID"
+                    jdbc-type="BIGINT"
+        />
+        <field-descriptor
+                 name="institutionId"
+                 column="INSTITUTION_ID"
+                 jdbc-type="BIGINT"
+        />
+        <field-descriptor
+             name="datasetId"
+             column="DATASET_ID"
+             jdbc-type="BIGINT"
+        />
+
+        <field-descriptor
+               name="timePoint"
+               column="TIME_POINT"
+               jdbc-type="VARCHAR"
+          />
+          
+         <field-descriptor
+             name="agentId"
+             column="AGENT_ID"
+             jdbc-type="BIGINT"
+        />  
+              
+         <field-descriptor
+               name="agentName"
+               column="AGENT_NAME"
+               jdbc-type="VARCHAR"
+          />
+          
+          
+        <field-descriptor
+             name="regimenNumber"
+             column="REGIMEN_NUMBER"
+             jdbc-type="BIGINT"
+        />   
+          <field-descriptor
+             name="courseCount"
+             column="COURSE_COUNT"
+             jdbc-type="BIGINT"
+        />   
+        
+         <field-descriptor
+             name="doseStartDate"
+             column="DOSE_START_DATE"
+             jdbc-type="DATE"
+        /> 
+        <field-descriptor
+             name="doseStopDate"
+             column="DOSE_STOP_DATE"
+             jdbc-type="DATE"
+        />
+        
+      <field-descriptor
+               name="studySource"
+               column="STUDY_SOURCE"
+               jdbc-type="VARCHAR"
+          />
+          
+     <field-descriptor
+             name="protocolNumber"
+             column="PROTOCOL_NUMBER"
+             jdbc-type="VARCHAR"
+        />   
+   
+   
+</class-descriptor>
+
+
+
+
+
 
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.PriorSurgery"
        table="PRIOR_SURGERY">
        
         <field-descriptor
-                     name="PriorSurgeryId"
+                     name="priorSurgeryId"
                      column="PRIOR_SURGERY_ID"
                      jdbc-type="BIGINT"
         />
@@ -1340,6 +1504,74 @@
           />
     
 </class-descriptor>
+
+
+
+<class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.OnStudySurgery"
+       table="PT_SURGERY">
+       
+        <field-descriptor
+                     name="ptSurgeryId"
+                     column="PT_SURGERY_ID"
+                     jdbc-type="BIGINT"
+        />
+        <field-descriptor
+                    name="patientDid"
+                    column="PATIENT_DID"
+                    jdbc-type="BIGINT"
+        />
+        <field-descriptor
+                 name="institutionId"
+                 column="INSTITUTION_ID"
+                 jdbc-type="BIGINT"
+        />
+        <field-descriptor
+             name="datasetId"
+             column="DATASET_ID"
+             jdbc-type="BIGINT"
+        />
+
+        <field-descriptor
+               name="timePoint"
+               column="TIME_POINT"
+               jdbc-type="VARCHAR"
+          />
+          
+         <field-descriptor
+             name="procedureTitle"
+             column="PROCEDURE_TITLE"
+             jdbc-type="VARCHAR"
+        />  
+              
+         <field-descriptor
+               name="indication"
+               column="INDICATION"
+               jdbc-type="VARCHAR"
+          />
+          
+               
+         <field-descriptor
+             name="surgeryDate"
+             column="SURGERY_DATE"
+             jdbc-type="DATE"
+        /> 
+               
+      <field-descriptor
+               name="surgeryOutcome"
+               column="SURGERY_OUTCOME"
+               jdbc-type="VARCHAR"
+          />
+          
+        <field-descriptor
+               name="histoDiagnosis"
+               column="HISTO_DIAGNOSIS"
+               jdbc-type="VARCHAR"
+          />    
+    
+</class-descriptor>
+
+
 
 
 <class-descriptor

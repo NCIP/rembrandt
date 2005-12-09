@@ -10,6 +10,10 @@ import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyChemoAgentCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyRadiationTherapyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryOutcomeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
@@ -26,6 +30,10 @@ import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudyChemoAgentDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudyRadiationTherapyDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudySurgeryOutcomeDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudySurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
@@ -137,6 +145,29 @@ public class ClinicalDataForm extends BaseForm {
     private String surgeryOutcome;
     
     private String surgeryTitle;
+    
+    
+    /** radiation group property */
+    private String onStudyRadiation;
+
+    /** radiation type property */
+    private String onStudyRadiationType;
+
+    /** chemo agent group property */
+    private String onStudyChemo;
+
+    /** chemo agent type property */
+    private String onStudyChemoType;
+
+    /** surgery group property */
+    private String onStudySurgery;
+
+    /** surgery outcome property */
+    private String onStudySurgeryOutcome;
+    
+    private String onStudySurgeryTitle;
+
+
 
     /** survival lower property */
     private String survivalLower;
@@ -171,7 +202,16 @@ public class ClinicalDataForm extends BaseForm {
     private ArrayList chemoAgentTypeColl = new ArrayList();
 
     private ArrayList surgeryOutcomeColl = new ArrayList();
+    
     private ArrayList surgeryTitleColl = new ArrayList();
+    
+    private ArrayList onStudyRadiationTypeColl = new ArrayList();
+
+    private ArrayList onStudyChemoAgentTypeColl = new ArrayList();
+
+    private ArrayList onStudySurgeryOutcomeColl = new ArrayList();
+    
+    private ArrayList onStudySurgeryTitleColl = new ArrayList();
 
     private ArrayList survivalLowerColl = new ArrayList();
 
@@ -201,6 +241,14 @@ public class ClinicalDataForm extends BaseForm {
     private SurgeryOutcomeCriteria surgeryOutcomeCriteria;
     
     private PriorSurgeryTitleCriteria priorSurgeryTitleCriteria;
+    
+    private OnStudyRadiationTherapyCriteria onStudyRadiationTherapyCriteria;
+
+    private OnStudyChemoAgentCriteria onStudyChemoAgentCriteria;
+
+    private OnStudySurgeryOutcomeCriteria onStudySurgeryOutcomeCriteria;
+    
+    private OnStudySurgeryTitleCriteria onStudySurgeryTitleCriteria;
 
     private SurvivalCriteria survivalCriteria = new SurvivalCriteria();
 
@@ -243,6 +291,10 @@ public class ClinicalDataForm extends BaseForm {
         chemoAgentTypeColl = new ArrayList();
         surgeryOutcomeColl = new ArrayList();
         surgeryTitleColl = new ArrayList();
+        onStudyRadiationTypeColl = new ArrayList();
+        onStudyChemoAgentTypeColl = new ArrayList();
+        onStudySurgeryOutcomeColl = new ArrayList();
+        onStudySurgeryTitleColl = new ArrayList();
         survivalLowerColl = new ArrayList();
         survivalUpperColl = new ArrayList();
         ageLowerColl = new ArrayList();
@@ -261,7 +313,12 @@ public class ClinicalDataForm extends BaseForm {
         radiationTypeColl.add(new LabelValueBean("3D conformal", "3D CONFORMAL"));
         radiationTypeColl.add(new LabelValueBean("Brachytherapy", "BRACHYTHERAPY"));
         radiationTypeColl.add(new LabelValueBean("Radiosurgery", "RADIOSURGERY"));
-
+        
+        onStudyRadiationTypeColl.add(new LabelValueBean("", ""));
+        onStudyRadiationTypeColl.add(new LabelValueBean("Any", "any"));
+        onStudyRadiationTypeColl.add(new LabelValueBean("Photon", "PHOTON"));
+        onStudyRadiationTypeColl.add(new LabelValueBean("3D conformal", "3D CONFORMAL"));
+     
         chemoAgentTypeColl.add(new LabelValueBean("", ""));
         chemoAgentTypeColl.add(new LabelValueBean("Any", "any"));
         chemoAgentTypeColl.add(new LabelValueBean("13-cis retinoic acid", "13-CIS RETINOIC ACID"));
@@ -299,6 +356,34 @@ public class ClinicalDataForm extends BaseForm {
         
         chemoAgentTypeColl.add(new LabelValueBean("vincristine", "VINCRISTINE"));
         chemoAgentTypeColl.add(new LabelValueBean("zarnestra", "ZARNESTRA"));
+        
+        
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("", ""));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("Any", "any"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("13-cis retinoic acid", "13-CIS RETINOIC ACID"));        
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("AEE788", "AEE788"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("Ara-c", "ARA-C"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("bcnu", "BCNU"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("carboplatin", "CARBOPLATIN"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("CCNU (carmustine)", "CCNU (CARMUSTINE)"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("Celebrex(Celecoxib)", "CELEBREX(CELECOXIB)"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("cpt-11", "CPT-11"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("cyclophosphamide", "CYCLOPHOSPHAMIDE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("etoposide", "ETOPOSIDE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("lomustine", "LOMUSTINE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("osi-774", "OSI-774"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("procarbazine", "PROCARBAZINE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("R115777", "R115777"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("tamoxifen citrate", "TAMOXIFEN CITRATE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("temodal", "TEMODAL"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("temozolomide", "TEMOZOLOMIDE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("thalidomide", "THALIDOMIDE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("vincristine", "VINCRISTINE"));
+        onStudyChemoAgentTypeColl.add(new LabelValueBean("Zd1839", "ZD1839"));   
+        
+       
+       
+
 
 
         surgeryOutcomeColl.add(new LabelValueBean("", ""));
@@ -310,6 +395,15 @@ public class ClinicalDataForm extends BaseForm {
         surgeryOutcomeColl.add(new LabelValueBean("Bioposy Only(BX)",
                 "BX - BIOPSY ONLY"));
         
+        onStudySurgeryOutcomeColl.add(new LabelValueBean("", ""));
+        onStudySurgeryOutcomeColl.add(new LabelValueBean("Any", "any"));
+        onStudySurgeryOutcomeColl.add(new LabelValueBean("Complete Resection(CR)",
+                "CR - COMPLETE RESECTION"));
+        onStudySurgeryOutcomeColl.add(new LabelValueBean("Partial Resection(PR)",
+                "PR - PARTIAL RESECTION"));
+        onStudySurgeryOutcomeColl.add(new LabelValueBean("Bioposy Only(BX)",
+                "BX - BIOPSY ONLY"));
+        
         surgeryTitleColl.add(new LabelValueBean("", ""));
         surgeryTitleColl.add(new LabelValueBean("Any", "any"));
         surgeryTitleColl.add(new LabelValueBean("Craniotomy Open Biopsy",
@@ -319,6 +413,13 @@ public class ClinicalDataForm extends BaseForm {
         surgeryTitleColl.add(new LabelValueBean("Stereotactic Biopsy",
         "STEREOTACTIC BIOPSY"));
         
+        onStudySurgeryTitleColl.add(new LabelValueBean("", ""));
+        onStudySurgeryTitleColl.add(new LabelValueBean("Any", "any"));
+        onStudySurgeryTitleColl.add(new LabelValueBean("Craniotomy Open Biopsy",
+        "CRANIOTOMY OPEN BIOPSY"));
+        onStudySurgeryTitleColl.add(new LabelValueBean("Craniotomy Open Resection",
+        "CRANIOTOMY OPEN RESECTION"));
+       
         
         
        
@@ -451,6 +552,13 @@ public class ClinicalDataForm extends BaseForm {
         surgery = "";
         surgeryOutcome = "";
         surgeryTitle = "";
+        onStudyRadiation = "";
+        onStudyRadiationType = "";
+        onStudyChemo = "";
+        onStudyChemoType = "";
+        onStudySurgery = "";
+        onStudySurgeryOutcome = "";
+        onStudySurgeryTitle = "";
         survivalLower = "";
         survivalUpper = "";
         ageLower = "";
@@ -466,6 +574,10 @@ public class ClinicalDataForm extends BaseForm {
         chemoAgentCriteria = new ChemoAgentCriteria();
         surgeryOutcomeCriteria = new SurgeryOutcomeCriteria();
         priorSurgeryTitleCriteria = new PriorSurgeryTitleCriteria();
+        onStudyRadiationTherapyCriteria = new OnStudyRadiationTherapyCriteria();
+        onStudyChemoAgentCriteria = new OnStudyChemoAgentCriteria();
+        onStudySurgeryOutcomeCriteria = new OnStudySurgeryOutcomeCriteria();
+        onStudySurgeryTitleCriteria = new OnStudySurgeryTitleCriteria();
         survivalCriteria = new SurvivalCriteria();
         ageCriteria = new AgeCriteria();
         genderCriteria = new GenderCriteria();
@@ -1200,7 +1312,281 @@ public class ClinicalDataForm extends BaseForm {
         return surgeryOutcome;
     }
 
+    
+    
+    
     /**
+	 * @return Returns the onStudyChemo.
+	 */
+	public String getOnStudyChemo() {
+		return onStudyChemo;
+	}
+
+
+
+
+
+	/**
+	 * @param onStudyChemo The onStudyChemo to set.
+	 */
+	public void setOnStudyChemo(String onStudyChemo) {
+		this.onStudyChemo = onStudyChemo;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudyChemoType.
+	 */
+	public String getOnStudyChemoType() {
+		return onStudyChemoType;
+	}
+
+
+
+
+
+	/**
+	 * @param onStudyChemoType The onStudyChemoType to set.
+	 */
+	public void setOnStudyChemoType(String onStudyChemoType) {
+		this.onStudyChemoType = onStudyChemoType;
+		
+		if (thisRequest != null) {
+            // this is to check if the chemo option is selected
+            String thisOnStudyChemo = thisRequest.getParameter("onStudyChemo");
+            onStudyChemoAgentCriteria = new OnStudyChemoAgentCriteria();
+            // this is to check the chemo type
+            String thisOnStudyChemoType = thisRequest.getParameter("onStudyChemoType");
+            if (thisOnStudyChemo != null && thisOnStudyChemoType != null
+                    && !thisOnStudyChemoType.equals("")) { 
+            	   if(thisOnStudyChemoType.equalsIgnoreCase("ANY")) {
+            	    	ArrayList allAgents = this.getOnStudyChemoAgentTypeColl();
+            	    	 for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
+                              LabelValueBean thisLabelBean = (LabelValueBean) agentIter.next();
+                              String thisAgentType = thisLabelBean.getValue();    
+                              if (!thisAgentType.equalsIgnoreCase("ANY")) {
+                            	  OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisAgentType);
+                            	  onStudyChemoAgentCriteria.setOnStudyChemoAgentDE(chemoAgentDE);
+      		                }
+            	    	
+                          }
+            	       }	 
+            	   else {
+            		   OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisOnStudyChemoType);
+            		   onStudyChemoAgentCriteria.setOnStudyChemoAgentDE(chemoAgentDE);
+            	   }
+                  
+                }
+              
+            }
+        }
+   
+	
+
+
+
+
+
+	/**
+	 * @return Returns the onStudyRadiation.
+	 */
+	public String getOnStudyRadiation() {
+		return onStudyRadiation;
+	}
+
+
+
+
+
+	/**
+	 * @param onStudyRadiation The onStudyRadiation to set.
+	 */
+	public void setOnStudyRadiation(String onStudyRadiation) {
+		this.onStudyRadiation = onStudyRadiation;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudyRadiationType.
+	 */
+	public String getOnStudyRadiationType() {
+		return onStudyRadiationType;
+	}
+
+
+
+
+
+	/**
+	 * @param onStudyRadiationType The onStudyRadiationType to set.
+	 */
+	public void setOnStudyRadiationType(String onStudyRadiationType) {
+		this.onStudyRadiationType = onStudyRadiationType;
+		
+		if (thisRequest != null) {
+            // this is to check if the chemo option is selected
+            String thisOnStudyRadiation = thisRequest.getParameter("onStudyRadiation");
+            onStudyRadiationTherapyCriteria = new OnStudyRadiationTherapyCriteria();
+            // this is to check the chemo type
+            String thisOnStudyRadiationType = thisRequest.getParameter("onStudyRadiationType");
+            if (thisOnStudyRadiation != null && thisOnStudyRadiationType != null
+                    && !thisOnStudyRadiationType.equals("")) { 
+            	   if(thisOnStudyRadiationType.equalsIgnoreCase("ANY")) {
+            	    	ArrayList allRadiationTypes = this.getOnStudyRadiationTypeColl();
+            	    	 for (Iterator radiationTypeIter = allRadiationTypes.iterator(); radiationTypeIter.hasNext();) {
+                              LabelValueBean thisLabelBean = (LabelValueBean) radiationTypeIter.next();
+                              String thisRadiationType = thisLabelBean.getValue();    
+                              if (!thisRadiationType.equalsIgnoreCase("ANY")) {
+                            	  OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = new OnStudyRadiationTherapyDE(thisRadiationType);
+                            	  onStudyRadiationTherapyCriteria.setOnStudyRadiationTherapyDE(onStudyRadiationTherapyDE);
+      		                }
+            	    	
+                          }
+            	       }	 
+            	   else {
+            		   OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = new OnStudyRadiationTherapyDE(thisOnStudyRadiationType);
+            		   onStudyRadiationTherapyCriteria.setOnStudyRadiationTherapyDE(onStudyRadiationTherapyDE);
+            	   }
+                  
+                }
+              
+            }
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudySurgery.
+	 */
+	public String getOnStudySurgery() {
+		return onStudySurgery;
+	}
+
+
+
+
+
+	/**
+	 * @param onStudySurgery The onStudySurgery to set.
+	 */
+	public void setOnStudySurgery(String onStudySurgery) {
+		this.onStudySurgery = onStudySurgery;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudySurgeryOutcome.
+	 */
+	public String getOnStudySurgeryOutcome() {
+		return onStudySurgeryOutcome;
+	}
+
+
+
+
+
+	/**
+	 * @param onStudySurgeryOutcome The onStudySurgeryOutcome to set.
+	 */
+	public void setOnStudySurgeryOutcome(String onStudySurgeryOutcome) {
+		this.onStudySurgeryOutcome = onStudySurgeryOutcome;
+		
+		if (thisRequest != null) {
+            // this is to check if the chemo option is selected
+            String thisOnStudySurgery = thisRequest.getParameter("onStudySurgery");
+            onStudySurgeryOutcomeCriteria = new OnStudySurgeryOutcomeCriteria();
+            // this is to check the chemo type
+            String thisOnStudySurgeryOutcome = thisRequest.getParameter("onStudySurgeryOutcome");
+            if (thisOnStudySurgery != null && thisOnStudySurgeryOutcome != null
+                    && !thisOnStudySurgeryOutcome.equals("")) { 
+            	   if(thisOnStudySurgeryOutcome.equalsIgnoreCase("ANY")) {
+            	    	ArrayList allSurgeryOutcomes = this.getOnStudySurgeryOutcomeColl();
+            	    	 for (Iterator surgeryOutcomeIter = allSurgeryOutcomes.iterator(); surgeryOutcomeIter.hasNext();) {
+                              LabelValueBean thisLabelBean = (LabelValueBean) surgeryOutcomeIter.next();
+                              String thisSurgeryOutcome = thisLabelBean.getValue();    
+                              if (!thisSurgeryOutcome.equalsIgnoreCase("ANY")) {
+                            	  OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = new OnStudySurgeryOutcomeDE(thisSurgeryOutcome);
+                            	  onStudySurgeryOutcomeCriteria.setOnStudySurgeryOutcomeDE(onStudySurgeryOutcomeDE);
+      		                }
+            	    	
+                          }
+            	       }	 
+            	   else {
+            			  OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = new OnStudySurgeryOutcomeDE(thisOnStudySurgeryOutcome);
+                      	  onStudySurgeryOutcomeCriteria.setOnStudySurgeryOutcomeDE(onStudySurgeryOutcomeDE);
+              		  }
+                  
+                }
+              
+            }
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudySurgeryTitle.
+	 */
+	public String getOnStudySurgeryTitle() {
+		return onStudySurgeryTitle;
+	}
+
+
+
+
+
+	/**
+	 * @param onStudySurgeryTitle The onStudySurgeryTitle to set.
+	 */
+	public void setOnStudySurgeryTitle(String onStudySurgeryTitle) {
+		this.onStudySurgeryTitle = onStudySurgeryTitle;
+		
+		if (thisRequest != null) {
+            // this is to check if the chemo option is selected
+            String thisOnStudySurgery = thisRequest.getParameter("onStudySurgery");
+            onStudySurgeryTitleCriteria = new OnStudySurgeryTitleCriteria();
+            // this is to check the chemo type
+            String thisOnStudySurgeryTitle = thisRequest.getParameter("onStudySurgeryTitle");
+            if (thisOnStudySurgery != null && thisOnStudySurgeryTitle != null
+                    && !thisOnStudySurgeryTitle.equals("")) { 
+            	   if(thisOnStudySurgeryTitle.equalsIgnoreCase("ANY")) {
+            	    	ArrayList allSurgeryTitles = this.getOnStudySurgeryTitleColl();
+            	    	 for (Iterator surgeryTitleIter = allSurgeryTitles.iterator(); surgeryTitleIter.hasNext();) {
+                              LabelValueBean thisLabelBean = (LabelValueBean) surgeryTitleIter.next();
+                              String thisSurgeryTitle = thisLabelBean.getValue();    
+                              if (!thisSurgeryTitle.equalsIgnoreCase("ANY")) {
+                            	  OnStudySurgeryTitleDE onStudySurgeryTitleDE = new OnStudySurgeryTitleDE(thisSurgeryTitle);
+                            	  onStudySurgeryTitleCriteria.setOnStudySurgeryTitleDE(onStudySurgeryTitleDE);
+      		                }
+            	    	
+                          }
+            	       }	 
+            	   else {
+                   	  OnStudySurgeryTitleDE onStudySurgeryTitleDE = new OnStudySurgeryTitleDE(thisOnStudySurgeryTitle);
+                	  onStudySurgeryTitleCriteria.setOnStudySurgeryTitleDE(onStudySurgeryTitleDE);
+	     		  }
+                  
+                }
+		}
+	}
+
+
+
+
+
+	/**
      * Set the survivalLower.
      * 
      * @param survivalLower
@@ -1397,7 +1783,52 @@ public class ClinicalDataForm extends BaseForm {
         return this.chemoAgentCriteria;
     }
 
-    public SurvivalCriteria getSurvivalCriteria() {
+    
+    /**
+	 * @return Returns the onStudyChemoAgentCriteria.
+	 */
+	public OnStudyChemoAgentCriteria getOnStudyChemoAgentCriteria() {
+		return onStudyChemoAgentCriteria;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudyRadiationTherapyCriteria.
+	 */
+	public OnStudyRadiationTherapyCriteria getOnStudyRadiationTherapyCriteria() {
+		return onStudyRadiationTherapyCriteria;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudySurgeryOutcomeCriteria.
+	 */
+	public OnStudySurgeryOutcomeCriteria getOnStudySurgeryOutcomeCriteria() {
+		return onStudySurgeryOutcomeCriteria;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudySurgeryTitleCriteria.
+	 */
+	public OnStudySurgeryTitleCriteria getOnStudySurgeryTitleCriteria() {
+		return onStudySurgeryTitleCriteria;
+	}
+
+
+
+
+
+	public SurvivalCriteria getSurvivalCriteria() {
         return this.survivalCriteria;
     }
 
@@ -1576,6 +2007,50 @@ public class ClinicalDataForm extends BaseForm {
 
 
 
+	/**
+	 * @return Returns the onStudyChemoAgentTypeColl.
+	 */
+	public ArrayList getOnStudyChemoAgentTypeColl() {
+		return onStudyChemoAgentTypeColl;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudyRadiationTypeColl.
+	 */
+	public ArrayList getOnStudyRadiationTypeColl() {
+		return onStudyRadiationTypeColl;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudySurgeryOutcomeColl.
+	 */
+	public ArrayList getOnStudySurgeryOutcomeColl() {
+		return onStudySurgeryOutcomeColl;
+	}
+
+
+
+
+
+	/**
+	 * @return Returns the onStudySurgeryTitleColl.
+	 */
+	public ArrayList getOnStudySurgeryTitleColl() {
+		return onStudySurgeryTitleColl;
+	}
+
+
+
+
+
 	public ClinicalDataForm cloneMe() {
         ClinicalDataForm form = new ClinicalDataForm();
         form.setQueryName(queryName);
@@ -1584,8 +2059,7 @@ public class ClinicalDataForm extends BaseForm {
         form.setResultView(resultView);
         form.setFirstPresentation(firstPresentation);
         form.setRecurrence(recurrence);
-        form.setRecurrenceType(recurrenceType);
-        form.setRadiation(radiation);
+        form.setRecurrenceType(recurrenceType);        
         form.setLansky(lansky);       
         form.setLanskyType(lanskyType);        
         form.setNeuroExam(neuroExam);        
@@ -1594,11 +2068,20 @@ public class ClinicalDataForm extends BaseForm {
         form.setMriType(mriType);       
         form.setKarnofsky(karnofsky);       
         form.setKarnofskyType(karnofskyType);
+        form.setRadiation(radiation);
         form.setRadiationType(radiationType);
         form.setChemo(chemo);
         form.setChemoType(chemoType);
         form.setSurgery(surgery);
         form.setSurgeryOutcome(surgeryOutcome);
+        form.setSurgeryTitle(surgeryTitle);
+        form.setOnStudyRadiation(onStudyRadiation);
+        form.setOnStudyRadiationType(onStudyRadiationType);
+        form.setOnStudyChemo(onStudyChemo);
+        form.setOnStudyChemoType(onStudyChemoType);
+        form.setOnStudySurgery(onStudySurgery);
+        form.setOnStudySurgeryOutcome(onStudySurgeryOutcome);
+        form.setOnStudySurgeryTitle(onStudySurgeryTitle);
         form.setSurvivalLower(survivalLower);
         form.setSurvivalUpper(survivalUpper);
         form.setAgeLower(ageLower);
