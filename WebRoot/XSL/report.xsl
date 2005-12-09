@@ -71,8 +71,7 @@
 	  <a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
 	  <a href="#queryInfo"><img align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
 	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-  	  <a href="#" onclick="javascript:spawnx('clinicalPlots.do?taskId={$qName}',700,500,'clinicalPlots');">Show Clinical Plots for these samples</a>
-  	</span>
+   	</span>
 
 	<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
 	<input type="hidden" name="queryName" value="{$qName}" />
@@ -103,8 +102,15 @@
 			<span style="font-weight:normal; font-size:12px">
 				(Query Name:<xsl:value-of select="@queryName" />)
 			</span>
-		</b>
 		
+			<xsl:if test="$rType = 'Clinical'">
+			<span style="margin-left:15px; ">
+				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.do?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
+				 <img src="images/plotSmall.png" style="padding:1px;border:1px solid red; vertical-align:middle; margin-left:1px;margin-right:5px; height:13px; width: 28px;" />
+				 </a>
+			 </span>
+			</xsl:if>
+		</b>
  	</div>
  	
  	<div id="hideme">
