@@ -95,27 +95,32 @@ public class ClinicalSampleReport implements ReportGenerator {
 			//	set up the headers for this table 
 			Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("Data").addAttribute("type", "header").addText("SAMPLE");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Sample");
 				        data = null;
 			        cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("Data").addAttribute("type", "header").addText("AGE at Dx (years)");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Age at Dx (years)");
 				        data = null;
 			        cell = null;
 					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("Data").addAttribute("type", "header").addText("GENDER");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Gender");
 				        data = null;
 			        cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("Data").addAttribute("type", "header").addText("SURVIVAL (months)");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Survival (months)");
 				        data = null;
 			        cell = null;
 					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("Data").addAttribute("type", "header").addText("DISEASE");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Disease");
 				        data = null;
 			        cell = null;
+			        
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("RACE");
+		        	data = cell.addElement("Data").addAttribute("type", "header").addText("Grade");
+		        	data = null;
+	        	   cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Race");
 			        	data = null;
 		        	cell = null;
 		        	
@@ -270,7 +275,132 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = null;
 		        	 cell = null;
 		        	 
+		        	 // starting Prior areas
 		        	 
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Time Point");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Site");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Dose Start Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Dose Stop Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Neurosis Status");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Fraction Dose");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Fraction Number");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Type");
+			        	data = null;
+		        	 cell = null;		        	 
+		        	
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Time Point");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Agent ID");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Agent Name");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Regimen Number");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Course Count");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Dose Start Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Dose Stop Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Study Source");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Protocol Number");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Time Point");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Procedure Title");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Indication ");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Histo Diagnosis ");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Date");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Outcome");
+			        	data = null;
+		        	 cell = null;
+		        	 
+		        	 
+		    
 		        	 
 		    //sb.append("<Tr><Td id=\"header\">SAMPLE</td><td id=\"header\">AGE at Dx (years)</td><td id=\"header\">GENDER</td><td id=\"header\">SURVIVAL (months)</td><td id=\"header\">DISEASE</td>");
  		   	
@@ -320,6 +450,11 @@ public class ClinicalSampleReport implements ReportGenerator {
 								data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getDisease()));
    					        	data = null;
    					        cell = null;
+   					        
+   					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getWhoGrade()));
+			        		data = null;
+			        	   cell = null;
    					        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 	   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getRaceDE()));
 				        		data = null;
@@ -474,6 +609,128 @@ public class ClinicalSampleReport implements ReportGenerator {
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgerySurgeryOutcomes()));
 			        		data = null;
 			        	    cell = null;
+			        	    
+			        	    
+			        	    // starting onstudy
+			        	    
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationTimePoints()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationRadiationSites()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationDoseStartDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationDoseStopDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationFractionDoses()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationFractionNumbers()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationNeurosisStatuses()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationRadiationTypes()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoTimePoints()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoagentIds()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoAgentNames()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoRegimenNumbers()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoCourseCounts()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoDoseStartDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoDoseStopDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoStudySources()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoProtocolNumbers()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgeryTimePoints()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgeryProcedureTitles()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgeryIndications()));
+			        		data = null;
+			        	    cell = null;			        	    
+			        	  
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgeryHistoDiagnoses()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgerySurgeryDates()));
+			        		data = null;
+			        	    cell = null;
+			        	    
+			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgerySurgeryOutcomes()));
+			        		data = null;
+			        	    cell = null;
+		   		
 		   		/*
    	   			sb.append("<tr><td>"+sampleResultset.getBiospecimen().getValue().toString().substring(2)+ "</td>" +
    					"<Td>"+sampleResultset.getAgeGroup().getValue()+ "</td>" +

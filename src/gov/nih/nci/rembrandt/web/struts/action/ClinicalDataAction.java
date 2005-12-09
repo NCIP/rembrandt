@@ -9,6 +9,10 @@ import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyChemoAgentCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyRadiationTherapyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryOutcomeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
@@ -199,12 +203,42 @@ public class ClinicalDataAction extends LookupDispatchAction {
         if (!priroSurgeryTitleCrit.isEmpty()) {
             clinicalDataQuery.setPriorSurgeryTitleCrit(priroSurgeryTitleCrit);
         }
+        
+        
+        //Set onStudyChemoAgentCrit Criteria
+        OnStudyChemoAgentCriteria onStudyChemoAgentCrit = clinicalDataForm
+                .getOnStudyChemoAgentCriteria();
+        if (!onStudyChemoAgentCrit.isEmpty()) {
+            clinicalDataQuery.setOnStudyChemoAgentCriteria(onStudyChemoAgentCrit);
+        }
 
+        
+        // Set OnStudyRadiationTherapy criteria
+        OnStudyRadiationTherapyCriteria onStudyRadiationTherapyCrit = clinicalDataForm
+                .getOnStudyRadiationTherapyCriteria();
+        if (!onStudyRadiationTherapyCrit.isEmpty()) {
+            clinicalDataQuery.setOnStudyRadiationTherapyCriteria(onStudyRadiationTherapyCrit);
+        }
+        
+        
+        // Set OnStudySurgeryType Criteria
+        OnStudySurgeryOutcomeCriteria onStudySurgeryOutcomeCrit = clinicalDataForm.getOnStudySurgeryOutcomeCriteria();
+        if (!onStudySurgeryOutcomeCrit.isEmpty()) {
+            clinicalDataQuery.setOnStudySurgeryOutcomeCriteria(onStudySurgeryOutcomeCrit);
+        }
+        
+        // Set OnStudySurgeryTitle Criteria
+        OnStudySurgeryTitleCriteria onStudySurgeryTitleCrit = clinicalDataForm.getOnStudySurgeryTitleCriteria();
+        if (!onStudySurgeryTitleCrit.isEmpty()) {
+            clinicalDataQuery.setOnStudySurgeryTitleCriteria(onStudySurgeryTitleCrit);
+        }
         // Set Survival Criteria
         SurvivalCriteria survivalCrit = clinicalDataForm.getSurvivalCriteria();
         if (!survivalCrit.isEmpty()) {
             clinicalDataQuery.setSurvivalCrit(survivalCrit);
         }
+        
+       
 
         // Set Age Criteria
         AgeCriteria ageCrit = clinicalDataForm.getAgeCriteria();
