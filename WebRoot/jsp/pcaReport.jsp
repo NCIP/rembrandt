@@ -16,7 +16,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		<title>Rembrandt PCA Plots</title>
 		<LINK href="css/tabs.css" rel="stylesheet" type="text/css" />
 		
-		<script language="JavaScript" src="/rembrandt/js/box/browserSniff.js"></script>
+		<script language="JavaScript" src="js/box/browserSniff.js"></script>
 		<script language="Javascript">
 		    //some global vars for the  yellow marker
 			var marker, markersrc, markersize;
@@ -24,29 +24,29 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 			var coordy   = new Array();
 	  
 			if (ie) {
-				markersrc = "/rembrandt/images/marker.gif";
+				markersrc = "images/marker.gif";
 			} else if(saf) {
-				markersrc = "/rembrandt/images/blank.gif";
+				markersrc = "images/blank.gif";
 			} else {
-				markersrc = "/rembrandt/images/marker.png";
+				markersrc = "images/marker.png";
 			}
 			
 			markersize = 32;
 	    </script>
 	    
-	    <script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
-		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
-		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
+	    <script type='text/javascript' src='dwr/interface/DynamicReport.js'></script>
+		<script type='text/javascript' src='dwr/engine.js'></script>
+		<script type='text/javascript' src='dwr/util.js'></script>
 	    
-	    <script language="JavaScript" src="/rembrandt/js/a_saveSamples.js"></script>
-		<script language="JavaScript" src="/rembrandt/js/box/x_core.js"></script>
-    	<script language="JavaScript" src="/rembrandt/js/box/x_event.js"></script>
-    	<script language="JavaScript" src="/rembrandt/js/box/x_dom.js"></script>
-    	<script language="JavaScript" src="/rembrandt/js/box/x_drag.js"></script>
-    	<script language="JavaScript" src="/rembrandt/js/box/wz_jsgraphics.js"></script>
+	    <script language="JavaScript" src="js/a_saveSamples.js"></script>
+		<script language="JavaScript" src="js/box/x_core.js"></script>
+    	<script language="JavaScript" src="js/box/x_event.js"></script>
+    	<script language="JavaScript" src="js/box/x_dom.js"></script>
+    	<script language="JavaScript" src="js/box/x_drag.js"></script>
+    	<script language="JavaScript" src="js/box/wz_jsgraphics.js"></script>
     
-		<script language="JavaScript" src="/rembrandt/js/box/dbox.js"></script>
-		<script type="text/javascript" src="/rembrandt/js/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
+		<script language="JavaScript" src="js/box/dbox.js"></script>
+		<script type="text/javascript" src="js/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
 
 <script language="javascript">
 		//saved sample management - incorporate AJAX here
