@@ -77,7 +77,15 @@ public interface ClinicalResultSet {
 	 */
 	public abstract void setSurvivalLengthRange(String survivalLengthRange);
 	
-	
+	  /**
+	 * @return Returns the whoGrade.
+	 */
+	public String getWhoGrade() ;
+
+	/**
+	 * @param whoGrade The whoGrade to set.
+	 */
+	public void setWhoGrade(String whoGrade);
 	/**
 	 * @return Returns the race.
 	 */
@@ -132,6 +140,35 @@ public interface ClinicalResultSet {
 	public String getPriorSurgeryTumorHistologys() ;
 	public String getPriorSurgerySurgeryDates();
 	public String getPriorSurgerySurgeryOutcomes();
+	
+	
+	
+	
+	public  String getOnStudyRadiationTimePoints();
+	public  String getOnStudyRadiationRadiationSites();
+	public  String getOnStudyRadiationDoseStartDates();
+	public  String getOnStudyRadiationDoseStopDates();
+	public  String getOnStudyRadiationFractionDoses();
+	public  String getOnStudyRadiationFractionNumbers();
+	public  String getOnStudyRadiationRadiationTypes(); 
+	public  String getOnStudyRadiationNeurosisStatuses(); 
+	
+	public String getOnStudyChemoTimePoints();
+	public String getOnStudyChemoagentIds();
+	public String getOnStudyChemoAgentNames();
+	public String getOnStudyChemoCourseCounts() ;
+	public String getOnStudyChemoDoseStartDates() ;
+	public String getOnStudyChemoDoseStopDates();
+	public String getOnStudyChemoStudySources() ;
+	public String getOnStudyChemoProtocolNumbers();
+	public String getOnStudyChemoRegimenNumbers();
+	
+	public String getOnStudySurgeryTimePoints();
+	public String getOnStudySurgeryProcedureTitles();
+	public String getOnStudySurgeryIndications() ;
+	public String getOnStudySurgerySurgeryDates();
+	public String getOnStudySurgerySurgeryOutcomes();
+	public String getOnStudySurgeryHistoDiagnoses();
 	   
 	  
 	   
@@ -182,6 +219,37 @@ public interface ClinicalResultSet {
 	public void setPriorSurgerySurgeryDates(String priorSurgerySurgeryDates) ;
 	public void setPriorSurgerySurgeryOutcomes(String priorSurgerySurgeryOutcomes) ;
 	public void setCensoringStatus(String censor);
+	
+	
+	
+	
+	public  void setOnStudyRadiationTimePoints(String timePoints);
+	public  void setOnStudyRadiationRadiationSites(String radiationSites);
+	public  void setOnStudyRadiationDoseStartDates(String doseStartDates);
+	public  void setOnStudyRadiationDoseStopDates(String doseStopDates);
+	public  void setOnStudyRadiationFractionDoses(String fractionDoses);
+	public  void setOnStudyRadiationFractionNumbers(String fractionNumbers);
+	public  void setOnStudyRadiationRadiationTypes(String radiationTypes); 
+	public  void setOnStudyRadiationNeurosisStatuses(String neurosisStatus); 
+	
+	public void setOnStudyChemoTimePoints(String onStudyChemoTimePoints);
+	public void setOnStudyChemoagentIds(String onStudyChemoagentIds);
+	public void setOnStudyChemoAgentNames(String onStudyChemoAgentNames);
+	public void setOnStudyChemoCourseCounts(String onStudyChemoCourseCounts);
+	public void setOnStudyChemoDoseStartDates(String onStudyChemoDoseStartDates) ;
+	public void setOnStudyChemoDoseStopDates(String onStudyChemoDoseStopDates);
+	public void setOnStudyChemoStudySources(String onStudyChemoStudySources) ;
+	public void setOnStudyChemoProtocolNumbers(String onStudyChemoProtocolNumbers);
+	public void setOnStudyChemoRegimenNumbers(String onStudyChemoRegimenNumbers);
+	
+	public void setOnStudySurgeryTimePoints(String onStudySurgeryTimePoints);
+	public void setOnStudySurgeryProcedureTitles(String onStudySurgeryProcedureTitles) ;
+	public void setOnStudySurgeryIndications(String onStudySurgeryTumorIndications);
+	public void setOnStudySurgerySurgeryDates(String onStudySurgerySurgeryDates) ;
+	public void setOnStudySurgerySurgeryOutcomes(String onStudySurgerySurgeryOutcomes) ;
+	public void setOnStudySurgeryHistoDiagnoses(String onStudySurgeryTumorHistoDiagnoses);
+	
+	
 	
 	
 	

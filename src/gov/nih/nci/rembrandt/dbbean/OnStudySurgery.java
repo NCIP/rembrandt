@@ -4,28 +4,30 @@ import java.sql.Date;
 
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 
-public class PriorSurgery implements ResultSet {
+public class OnStudySurgery implements ResultSet {
 	
-	public final static String PRIOR_SURGERY_ID = "priorSurgeryId";
+	public final static String PT_SURGERY_ID = "ptSurgeryId";
 	public final static String PATIENT_DID = "patientDid";  
 	public final static String INSTITUTION_ID = "institutionId";
 	public final static String DATASET_ID = "datasetId";
 	public final static String TIME_POINT = "timePoint";
 	public final static String PROCEDURE_TITLE = "PROCEDURE_TITLE";
-	public final static String TUMOR_HISTOLOGY = "tumorHistology";
+	public final static String INDICATION = "indication";
 	public final static String SURGERY_DATE = "surgeryDate";
 	public final static String SURGERY_OUTCOME = "SURGERY_OUTCOME";
+	public final static String HISTO_DIAGNOSIS = "histoDiagnosis";
 	
 	
-	 private Long priorSurgeryId;
+	 private Long ptSurgeryId;
 	 private Long patientDid;
 	 private Long institutionId;	    
 	 private Long datasetId;
 	 private String timePoint; 
 	 private String procedureTitle; 
-	 private String tumorHistology; 
+	 private String indication; 
 	 private Date surgeryDate;
 	 private String surgeryOutcome;
+	 private String histoDiagnosis;
 	/**
 	 * @return Returns the datasetId.
 	 */
@@ -65,14 +67,14 @@ public class PriorSurgery implements ResultSet {
 	/**
 	 * @return Returns the priorSurgeryId.
 	 */
-	public Long getPriorSurgeryId() {
-		return priorSurgeryId;
+	public Long getPtSurgeryId() {
+		return ptSurgeryId;
 	}
 	/**
 	 * @param priorSurgeryId The priorSurgeryId to set.
 	 */
-	public void setPriorSurgeryId(Long priorSurgeryId) {
-		this.priorSurgeryId = priorSurgeryId;
+	public void setPtSurgeryId(Long ptSurgeryId) {
+		ptSurgeryId = ptSurgeryId;
 	}
 	/**
 	 * @return Returns the procedureTitle.
@@ -123,17 +125,30 @@ public class PriorSurgery implements ResultSet {
 		this.timePoint = timePoint;
 	}
 	/**
-	 * @return Returns the tumorHistology.
+	 * @return Returns the histoDiagnosis.
 	 */
-	public String getTumorHistology() {
-		return tumorHistology;
+	public String getHistoDiagnosis() {
+		return histoDiagnosis;
 	}
 	/**
-	 * @param tumorHistology The tumorHistology to set.
+	 * @param histoDiagnosis The histoDiagnosis to set.
 	 */
-	public void setTumorHistology(String tumorHistology) {
-		this.tumorHistology = tumorHistology;
-	} 
+	public void setHistoDiagnosis(String histoDiagnosis) {
+		this.histoDiagnosis = histoDiagnosis;
+	}
+	/**
+	 * @return Returns the indication.
+	 */
+	public String getIndication() {
+		return indication;
+	}
+	/**
+	 * @param indication The indication to set.
+	 */
+	public void setIndication(String indication) {
+		this.indication = indication;
+	}
+	
 	 
 	 
 

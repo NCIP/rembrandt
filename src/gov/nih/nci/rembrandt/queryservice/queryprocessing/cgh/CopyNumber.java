@@ -32,6 +32,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String diseaseType;
   private String genderCode;
   private String race;
+  private String whoGrade;
   private Double loh;
   private String lossGain;
   private Long snpProbesetId;
@@ -96,10 +97,383 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String priorSurgerySurgeryDates ;
   private String priorSurgerySurgeryOutcomes ;	
   
+  private String onStudyRadiationTimePoints;
+  private String onStudyRadiationRadiationSites;
+  private String onStudyRadiationDoseStartDates;
+  private String onStudyRadiationDoseStopDates;
+  private String onStudyRadiationFractionDoses;
+  private String onStudyRadiationFractionNumbers;
+  private String onStudyRadiationRadiationTypes;
+  private String onStudyRadiationNeurosisStatuses;
+  
+  
+  private String onStudyChemoTimePoints;
+  private String onStudyChemoagentIds ;
+  private String onStudyChemoAgentNames ;							
+  private String onStudyChemoCourseCounts ;
+  private String onStudyChemoDoseStartDates;	
+  private String onStudyChemoDoseStopDates ;
+  private String onStudyChemoStudySources ;
+  private String onStudyChemoProtocolNumbers ;
+  private String onStudyChemoRegimenNumbers;
+  
+  private String onStudySurgeryTimePoints ;
+  private String onStudySurgeryProcedureTitles ;
+  private String onStudySurgeryHistoDiagnoses ;							
+  private String onStudySurgerySurgeryDates ;
+  private String onStudySurgerySurgeryOutcomes ;
+  private String onStudySurgeryIndications ;
+  
+  
   
   
    
     /**
+ * @return Returns the whoGrade.
+ */
+public String getWhoGrade() {
+	return whoGrade;
+}
+
+/**
+ * @param whoGrade The whoGrade to set.
+ */
+public void setWhoGrade(String whoGrade) {
+	this.whoGrade = whoGrade;
+}
+
+	/**
+ * @return Returns the onStudyChemoagentIds.
+ */
+public String getOnStudyChemoagentIds() {
+	return onStudyChemoagentIds;
+}
+
+/**
+ * @param onStudyChemoagentIds The onStudyChemoagentIds to set.
+ */
+public void setOnStudyChemoagentIds(String onStudyChemoagentIds) {
+	this.onStudyChemoagentIds = onStudyChemoagentIds;
+}
+
+/**
+ * @return Returns the onStudyChemoAgentNames.
+ */
+public String getOnStudyChemoAgentNames() {
+	return onStudyChemoAgentNames;
+}
+
+/**
+ * @param onStudyChemoAgentNames The onStudyChemoAgentNames to set.
+ */
+public void setOnStudyChemoAgentNames(String onStudyChemoAgentNames) {
+	this.onStudyChemoAgentNames = onStudyChemoAgentNames;
+}
+
+/**
+ * @return Returns the onStudyChemoCourseCounts.
+ */
+public String getOnStudyChemoCourseCounts() {
+	return onStudyChemoCourseCounts;
+}
+
+/**
+ * @param onStudyChemoCourseCounts The onStudyChemoCourseCounts to set.
+ */
+public void setOnStudyChemoCourseCounts(String onStudyChemoCourseCounts) {
+	this.onStudyChemoCourseCounts = onStudyChemoCourseCounts;
+}
+
+/**
+ * @return Returns the onStudyChemoDoseStartDates.
+ */
+public String getOnStudyChemoDoseStartDates() {
+	return onStudyChemoDoseStartDates;
+}
+
+/**
+ * @param onStudyChemoDoseStartDates The onStudyChemoDoseStartDates to set.
+ */
+public void setOnStudyChemoDoseStartDates(String onStudyChemoDoseStartDates) {
+	this.onStudyChemoDoseStartDates = onStudyChemoDoseStartDates;
+}
+
+/**
+ * @return Returns the onStudyChemoDoseStopDates.
+ */
+public String getOnStudyChemoDoseStopDates() {
+	return onStudyChemoDoseStopDates;
+}
+
+/**
+ * @param onStudyChemoDoseStopDates The onStudyChemoDoseStopDates to set.
+ */
+public void setOnStudyChemoDoseStopDates(String onStudyChemoDoseStopDates) {
+	this.onStudyChemoDoseStopDates = onStudyChemoDoseStopDates;
+}
+
+/**
+ * @return Returns the onStudyChemoProtocolNumbers.
+ */
+public String getOnStudyChemoProtocolNumbers() {
+	return onStudyChemoProtocolNumbers;
+}
+
+/**
+ * @param onStudyChemoProtocolNumbers The onStudyChemoProtocolNumbers to set.
+ */
+public void setOnStudyChemoProtocolNumbers(String onStudyChemoProtocolNumbers) {
+	this.onStudyChemoProtocolNumbers = onStudyChemoProtocolNumbers;
+}
+
+/**
+ * @return Returns the onStudyChemoRegimenNumbers.
+ */
+public String getOnStudyChemoRegimenNumbers() {
+	return onStudyChemoRegimenNumbers;
+}
+
+/**
+ * @param onStudyChemoRegimenNumbers The onStudyChemoRegimenNumbers to set.
+ */
+public void setOnStudyChemoRegimenNumbers(String onStudyChemoRegimenNumbers) {
+	this.onStudyChemoRegimenNumbers = onStudyChemoRegimenNumbers;
+}
+
+/**
+ * @return Returns the onStudyChemoStudySources.
+ */
+public String getOnStudyChemoStudySources() {
+	return onStudyChemoStudySources;
+}
+
+/**
+ * @param onStudyChemoStudySources The onStudyChemoStudySources to set.
+ */
+public void setOnStudyChemoStudySources(String onStudyChemoStudySources) {
+	this.onStudyChemoStudySources = onStudyChemoStudySources;
+}
+
+/**
+ * @return Returns the onStudyChemoTimePoints.
+ */
+public String getOnStudyChemoTimePoints() {
+	return onStudyChemoTimePoints;
+}
+
+/**
+ * @param onStudyChemoTimePoints The onStudyChemoTimePoints to set.
+ */
+public void setOnStudyChemoTimePoints(String onStudyChemoTimePoints) {
+	this.onStudyChemoTimePoints = onStudyChemoTimePoints;
+}
+
+/**
+ * @return Returns the onStudyRadiationDoseStartDates.
+ */
+public String getOnStudyRadiationDoseStartDates() {
+	return onStudyRadiationDoseStartDates;
+}
+
+/**
+ * @param onStudyRadiationDoseStartDates The onStudyRadiationDoseStartDates to set.
+ */
+public void setOnStudyRadiationDoseStartDates(
+		String onStudyRadiationDoseStartDates) {
+	this.onStudyRadiationDoseStartDates = onStudyRadiationDoseStartDates;
+}
+
+/**
+ * @return Returns the onStudyRadiationDoseStopDates.
+ */
+public String getOnStudyRadiationDoseStopDates() {
+	return onStudyRadiationDoseStopDates;
+}
+
+/**
+ * @param onStudyRadiationDoseStopDates The onStudyRadiationDoseStopDates to set.
+ */
+public void setOnStudyRadiationDoseStopDates(
+		String onStudyRadiationDoseStopDates) {
+	this.onStudyRadiationDoseStopDates = onStudyRadiationDoseStopDates;
+}
+
+/**
+ * @return Returns the onStudyRadiationFractionDoses.
+ */
+public String getOnStudyRadiationFractionDoses() {
+	return onStudyRadiationFractionDoses;
+}
+
+/**
+ * @param onStudyRadiationFractionDoses The onStudyRadiationFractionDoses to set.
+ */
+public void setOnStudyRadiationFractionDoses(
+		String onStudyRadiationFractionDoses) {
+	this.onStudyRadiationFractionDoses = onStudyRadiationFractionDoses;
+}
+
+/**
+ * @return Returns the onStudyRadiationFractionNumbers.
+ */
+public String getOnStudyRadiationFractionNumbers() {
+	return onStudyRadiationFractionNumbers;
+}
+
+/**
+ * @param onStudyRadiationFractionNumbers The onStudyRadiationFractionNumbers to set.
+ */
+public void setOnStudyRadiationFractionNumbers(
+		String onStudyRadiationFractionNumbers) {
+	this.onStudyRadiationFractionNumbers = onStudyRadiationFractionNumbers;
+}
+
+/**
+ * @return Returns the onStudyRadiationNeurosisStatuses.
+ */
+public String getOnStudyRadiationNeurosisStatuses() {
+	return onStudyRadiationNeurosisStatuses;
+}
+
+/**
+ * @param onStudyRadiationNeurosisStatuses The onStudyRadiationNeurosisStatuses to set.
+ */
+public void setOnStudyRadiationNeurosisStatuses(
+		String onStudyRadiationNeurosisStatuses) {
+	this.onStudyRadiationNeurosisStatuses = onStudyRadiationNeurosisStatuses;
+}
+
+/**
+ * @return Returns the onStudyRadiationRadiationSites.
+ */
+public String getOnStudyRadiationRadiationSites() {
+	return onStudyRadiationRadiationSites;
+}
+
+/**
+ * @param onStudyRadiationRadiationSites The onStudyRadiationRadiationSites to set.
+ */
+public void setOnStudyRadiationRadiationSites(
+		String onStudyRadiationRadiationSites) {
+	this.onStudyRadiationRadiationSites = onStudyRadiationRadiationSites;
+}
+
+/**
+ * @return Returns the onStudyRadiationRadiationTypes.
+ */
+public String getOnStudyRadiationRadiationTypes() {
+	return onStudyRadiationRadiationTypes;
+}
+
+/**
+ * @param onStudyRadiationRadiationTypes The onStudyRadiationRadiationTypes to set.
+ */
+public void setOnStudyRadiationRadiationTypes(
+		String onStudyRadiationRadiationTypes) {
+	this.onStudyRadiationRadiationTypes = onStudyRadiationRadiationTypes;
+}
+
+/**
+ * @return Returns the onStudyRadiationTimePoints.
+ */
+public String getOnStudyRadiationTimePoints() {
+	return onStudyRadiationTimePoints;
+}
+
+/**
+ * @param onStudyRadiationTimePoints The onStudyRadiationTimePoints to set.
+ */
+public void setOnStudyRadiationTimePoints(String onStudyRadiationTimePoints) {
+	this.onStudyRadiationTimePoints = onStudyRadiationTimePoints;
+}
+
+/**
+ * @return Returns the onStudySurgeryHistoDiagnoses.
+ */
+public String getOnStudySurgeryHistoDiagnoses() {
+	return onStudySurgeryHistoDiagnoses;
+}
+
+/**
+ * @param onStudySurgeryHistoDiagnoses The onStudySurgeryHistoDiagnoses to set.
+ */
+public void setOnStudySurgeryHistoDiagnoses(String onStudySurgeryHistoDiagnoses) {
+	this.onStudySurgeryHistoDiagnoses = onStudySurgeryHistoDiagnoses;
+}
+
+/**
+ * @return Returns the onStudySurgeryIndications.
+ */
+public String getOnStudySurgeryIndications() {
+	return onStudySurgeryIndications;
+}
+
+/**
+ * @param onStudySurgeryIndications The onStudySurgeryIndications to set.
+ */
+public void setOnStudySurgeryIndications(String onStudySurgeryIndications) {
+	this.onStudySurgeryIndications = onStudySurgeryIndications;
+}
+
+/**
+ * @return Returns the onStudySurgeryProcedureTitles.
+ */
+public String getOnStudySurgeryProcedureTitles() {
+	return onStudySurgeryProcedureTitles;
+}
+
+/**
+ * @param onStudySurgeryProcedureTitles The onStudySurgeryProcedureTitles to set.
+ */
+public void setOnStudySurgeryProcedureTitles(
+		String onStudySurgeryProcedureTitles) {
+	this.onStudySurgeryProcedureTitles = onStudySurgeryProcedureTitles;
+}
+
+/**
+ * @return Returns the onStudySurgerySurgeryDates.
+ */
+public String getOnStudySurgerySurgeryDates() {
+	return onStudySurgerySurgeryDates;
+}
+
+/**
+ * @param onStudySurgerySurgeryDates The onStudySurgerySurgeryDates to set.
+ */
+public void setOnStudySurgerySurgeryDates(String onStudySurgerySurgeryDates) {
+	this.onStudySurgerySurgeryDates = onStudySurgerySurgeryDates;
+}
+
+/**
+ * @return Returns the onStudySurgerySurgeryOutcomes.
+ */
+public String getOnStudySurgerySurgeryOutcomes() {
+	return onStudySurgerySurgeryOutcomes;
+}
+
+/**
+ * @param onStudySurgerySurgeryOutcomes The onStudySurgerySurgeryOutcomes to set.
+ */
+public void setOnStudySurgerySurgeryOutcomes(
+		String onStudySurgerySurgeryOutcomes) {
+	this.onStudySurgerySurgeryOutcomes = onStudySurgerySurgeryOutcomes;
+}
+
+/**
+ * @return Returns the onStudySurgeryTimePoints.
+ */
+public String getOnStudySurgeryTimePoints() {
+	return onStudySurgeryTimePoints;
+}
+
+/**
+ * @param onStudySurgeryTimePoints The onStudySurgeryTimePoints to set.
+ */
+public void setOnStudySurgeryTimePoints(String onStudySurgeryTimePoints) {
+	this.onStudySurgeryTimePoints = onStudySurgeryTimePoints;
+}
+
+	/**
  * @return Returns the antiConvulsantStatuses.
  */
 public String getAntiConvulsantStatuses() {

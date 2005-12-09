@@ -8,6 +8,10 @@ import gov.nih.nci.caintegrator.dto.critieria.KarnofskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyChemoAgentCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyRadiationTherapyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryOutcomeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria;
@@ -15,11 +19,18 @@ import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudyChemoAgentDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudyRadiationTherapyDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudySurgeryOutcomeDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudySurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
 import gov.nih.nci.caintegrator.dto.de.SurgeryOutcomeDE;
 import gov.nih.nci.rembrandt.dbbean.NeuroEvaluation;
+import gov.nih.nci.rembrandt.dbbean.OnStudyChemotherapy;
+import gov.nih.nci.rembrandt.dbbean.OnStudyRadiationtherapy;
+import gov.nih.nci.rembrandt.dbbean.OnStudySurgery;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dbbean.PriorChemotherapy;
 import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
@@ -53,6 +64,10 @@ public class ClinicalQueryHandler extends QueryHandler {
 	private ResultSet[] priorRadiationResult = null;	
 	private ResultSet[] priorChemoResult = null;	
 	private ResultSet[] priorSurgeryResult = null;	
+	
+	private ResultSet[] onStudyRadiationResult = null;	
+	private ResultSet[] onStudyChemoResult = null;	
+	private ResultSet[] onStudySurgeryResult = null;	
    
 
 	public ResultSet[] handle(Query query) throws Exception {
@@ -76,11 +91,23 @@ public class ClinicalQueryHandler extends QueryHandler {
         ReportQueryByCriteria priorRadiationQuery = getPriorRadiationTherapySubQuery(clinicalQuery,_BROKER,PriorRadiationtherapy.class,PriorRadiationtherapy.PATIENT_DID);
         ReportQueryByCriteria priorChemoQuery = getPriorChemoTherapySubQuery(clinicalQuery,_BROKER,PriorChemotherapy.class,PriorChemotherapy.PATIENT_DID);
         ReportQueryByCriteria priorSurgeryQuery = getPriorSurgeryTherapySubQuery(clinicalQuery,_BROKER,PriorSurgery.class,PriorSurgery.PATIENT_DID);
+        ReportQueryByCriteria onStudyRadiationQuery = getOnStudyRadiationTherapySubQuery(clinicalQuery,_BROKER,OnStudyRadiationtherapy.class,OnStudyRadiationtherapy.PATIENT_DID);
+        ReportQueryByCriteria onStudyChemoQuery = getOnStudyChemoTherapySubQuery(clinicalQuery,_BROKER,OnStudyChemotherapy.class,OnStudyChemotherapy.PATIENT_DID);
+        ReportQueryByCriteria onStudySurgeryQuery = getOnStudySurgeryTherapySubQuery(clinicalQuery,_BROKER,OnStudySurgery.class,OnStudySurgery.PATIENT_DID);
+        
         
         Criteria priorTherapy = new Criteria();
-        Criteria c1 = new Criteria();
-        Criteria c2= new Criteria();
-        Criteria c3 = new Criteria();
+        Criteria priorRadiationCrit = new Criteria();
+        Criteria priorChemoCrit= new Criteria();
+        Criteria priorSurgeryCrit = new Criteria();
+        
+        
+        Criteria   onStudyTherapy = new Criteria();
+        Criteria   onStudyRadiationCrit = new Criteria();
+        Criteria   onStudyChemoCrit = new Criteria();
+        Criteria   onStudySurgeryCrit = new Criteria();
+        
+        
         
         _BROKER.close();
         
@@ -90,43 +117,78 @@ public class ClinicalQueryHandler extends QueryHandler {
         
         if(priorRadiationQuery != null) {
            // allCriteria.addIn(PatientData.PATIENT_DID, priorRadiationQuery); //this is for "AND"  
-        	c1.addIn(PatientData.PATIENT_DID, priorRadiationQuery); 
-           priorTherapy.addOrCriteria(c1);    
+        	priorRadiationCrit.addIn(PatientData.PATIENT_DID, priorRadiationQuery); 
+           priorTherapy.addOrCriteria(priorRadiationCrit);    
         }
         
         if(priorChemoQuery != null) {
            // allCriteria.addIn(PatientData.PATIENT_DID, priorChemoQuery);  // this is for "AND"
         	
-        	c2.addIn(PatientData.PATIENT_DID, priorChemoQuery); 
-        	priorTherapy.addOrCriteria(c2);   
+        	priorChemoCrit.addIn(PatientData.PATIENT_DID, priorChemoQuery); 
+        	priorTherapy.addOrCriteria(priorChemoCrit);   
           
          }
         
         if(priorSurgeryQuery != null) {
            //allCriteria.addIn(PatientData.PATIENT_DID, priorSurgeryQuery);   // this is for "AND" 
-        	c3.addIn(PatientData.PATIENT_DID, priorSurgeryQuery);    
-        	priorTherapy.addOrCriteria(c3);  
+        	priorSurgeryCrit.addIn(PatientData.PATIENT_DID, priorSurgeryQuery);    
+        	priorTherapy.addOrCriteria(priorSurgeryCrit);  
          }
+        
+        
        
+        if(onStudyRadiationQuery != null) {
+            // allCriteria.addIn(PatientData.PATIENT_DID, priorRadiationQuery); //this is for "AND"  
+         	onStudyRadiationCrit.addIn(PatientData.PATIENT_DID, onStudyRadiationQuery); 
+            onStudyTherapy.addOrCriteria(onStudyRadiationCrit);    
+         }
+         
+         if(onStudyChemoQuery != null) {
+            // allCriteria.addIn(PatientData.PATIENT_DID, priorChemoQuery);  // this is for "AND"
+         	
+        	 onStudyChemoCrit.addIn(PatientData.PATIENT_DID, onStudyChemoQuery); 
+        	 onStudyTherapy.addOrCriteria(onStudyChemoCrit);   
+           
+          }
+         
+         if(onStudySurgeryQuery != null) {
+            //allCriteria.addIn(PatientData.PATIENT_DID, priorSurgeryQuery);   // this is for "AND" 
+        	 onStudySurgeryCrit.addIn(PatientData.PATIENT_DID, onStudySurgeryQuery);    
+        	 onStudyTherapy.addOrCriteria(onStudySurgeryCrit);  
+          }
+        
+         
         
        if(!priorTherapy.isEmpty()){
                allCriteria.addAndCriteria(priorTherapy);
        }
         
+       if(!onStudyTherapy.isEmpty()){
+           allCriteria.addAndCriteria(onStudyTherapy);
+         }
+       
         PatientData[] results = executeQuery(allCriteria);
         
-        if(clinicalEvalQuery != null || !priorTherapy.isEmpty() || results.length >=1) {
+        if(clinicalEvalQuery != null || !priorTherapy.isEmpty() || !onStudyTherapy.isEmpty()|| results.length >=1) {
         	
             clinicalEvalDataResult = populateClinicalEval(clinicalQuery,patientDIDs); 
             priorRadiationResult = populatePriorRadiation(clinicalQuery,patientDIDs); 
             priorChemoResult = populatePriorChemo(clinicalQuery,patientDIDs); 
             priorSurgeryResult = populatePriorSurgery(clinicalQuery,patientDIDs); 
             
+            onStudyRadiationResult = populateOnStudyRadiation(clinicalQuery,patientDIDs); 
+            onStudyChemoResult = populateOnStudyChemo(clinicalQuery,patientDIDs); 
+            onStudySurgeryResult = populateOnStudySurgery(clinicalQuery,patientDIDs); 
+            
             
             results = addClinicalEvalToPatientData(results,clinicalEvalDataResult);
             results = addPriorRadiationToPatientData(results,priorRadiationResult);
             results = addPriorChemoToPatientData(results,priorChemoResult);
             results = addPriorSurgeryToPatientData(results,priorSurgeryResult);
+            
+            results = addOnStudyRadiationToPatientData(results,onStudyRadiationResult);
+            results = addOnStudyChemoToPatientData(results,onStudyChemoResult);
+            results = addOnStudySurgeryToPatientData(results,onStudySurgeryResult);
             
         }
         
@@ -392,6 +454,123 @@ private PatientData[] addPriorRadiationToPatientData(PatientData[] patientDataRe
 	}
 
 
+private PatientData[] addOnStudyRadiationToPatientData(PatientData[] patientDataResults, ResultSet[] onStudyRadiationDataResult) {
+	
+	if(patientDataResults instanceof PatientData[]) {
+		
+		
+		for(int i=0; i< patientDataResults.length;i++) {
+			PatientData ptData = (PatientData)patientDataResults[i];
+			
+			Long patientDid = ptData.getPatientDid();
+			StringBuffer timePoints = new StringBuffer();
+			StringBuffer radiationSites = new StringBuffer();
+			StringBuffer doseStartDates = new StringBuffer();							
+			StringBuffer doseStopDates = new StringBuffer();
+			StringBuffer fractionDoses = new StringBuffer();	
+			StringBuffer fractionNumbers = new StringBuffer();
+			StringBuffer radiationTypes = new StringBuffer();
+			StringBuffer neurosisStatuses = new StringBuffer();
+			
+			for (int j=0; j<onStudyRadiationDataResult.length;j++) {
+				OnStudyRadiationtherapy onStudyRadiationData = (OnStudyRadiationtherapy)onStudyRadiationDataResult[j];		
+				
+				Long ptDid = onStudyRadiationData.getPatientDid();
+				if(patientDid.toString().equals(ptDid.toString())) {
+					if(onStudyRadiationData.getTimePoint()!= null) {
+					   timePoints.append(onStudyRadiationData.getTimePoint());
+					   timePoints.append(", ");
+					}
+					if(onStudyRadiationData.getRadiationSite() != null) {
+						radiationSites.append(onStudyRadiationData.getRadiationSite());	
+						radiationSites.append(", ");
+					}
+					
+					if(onStudyRadiationData.getDoseStartDate() != null) {
+						doseStartDates.append(onStudyRadiationData.getDoseStartDate());
+						doseStartDates.append(", ");
+					}
+					
+					if(onStudyRadiationData.getDoseStopDate() != null) {
+						doseStopDates.append(onStudyRadiationData.getDoseStopDate());
+					    doseStopDates.append(", ");
+					}
+					
+					if(onStudyRadiationData.getFractionDose() != null) {
+						fractionDoses.append(onStudyRadiationData.getFractionDose());
+						fractionDoses.append(", ");
+					}
+					
+					if(onStudyRadiationData.getFractionNumber() != null) {
+						fractionNumbers.append(onStudyRadiationData.getFractionNumber());
+						fractionNumbers.append(", ");
+					}
+					
+					if(onStudyRadiationData.getRadiationType() != null) {
+						radiationTypes.append(onStudyRadiationData.getRadiationType());
+						radiationTypes.append(", ");
+					}
+					if(onStudyRadiationData.getNeurosisStatus() != null) {
+						neurosisStatuses.append(onStudyRadiationData.getNeurosisStatus());
+						neurosisStatuses.append(", ");
+					}	
+					
+				}					 
+				
+			}
+			
+			if(timePoints.length() >0) {
+			   timePoints.deleteCharAt(timePoints.length()-2);
+			   ptData.setOnStudyRadiationTimePoints(timePoints.toString());
+			}
+			
+			if(radiationSites.length()>0) {
+			   radiationSites.deleteCharAt(radiationSites.length()-2);
+			   ptData.setOnStudyRadiationRadiationSites(radiationSites.toString());
+			}
+			
+			if(doseStartDates.length()>0) {
+				doseStartDates.deleteCharAt(doseStartDates.length()-2);
+			    ptData.setOnStudyRadiationDoseStartDates(doseStartDates.toString());
+			}
+			
+			if(doseStopDates.length()>0) {				
+				doseStopDates.deleteCharAt(doseStopDates.length()-2);
+			   ptData.setOnStudyRadiationDoseStopDates(doseStopDates.toString());
+			}
+			
+			if(fractionDoses.length()>0) {	
+				fractionDoses.deleteCharAt(fractionDoses.length()-2);
+			   ptData.setOnStudyRadiationFractionDoses(fractionDoses.toString());
+			}
+			
+			if(fractionNumbers.length()>0) {					
+				fractionNumbers.deleteCharAt(fractionNumbers.length()-2);
+			  ptData.setOnStudyRadiationFractionNumbers(fractionNumbers.toString());
+			}
+			
+			if(radiationTypes.length()>0) {					
+				radiationTypes.deleteCharAt(radiationTypes.length()-2);
+			    ptData.setOnStudyRadiationRadiationTypes(radiationTypes.toString());
+			}
+			
+			if(neurosisStatuses.length()>0) {					
+				neurosisStatuses.deleteCharAt(neurosisStatuses.length()-2);
+			    ptData.setOnStudyRadiationNeurosisStatuses(neurosisStatuses.toString());
+			}
+			
+			
+		}
+		
+		
+	 }
+	
+	return patientDataResults;
+
+}
+
+
+
 
 private PatientData[] addPriorChemoToPatientData(PatientData[] patientDataResults, ResultSet[] priorChemoDataResult) {
 		
@@ -512,6 +691,137 @@ private PatientData[] addPriorChemoToPatientData(PatientData[] patientDataResult
 	
 	}
 
+private PatientData[] addOnStudyChemoToPatientData(PatientData[] patientDataResults, ResultSet[] onStudyChemoDataResult) {
+	
+	if(patientDataResults instanceof PatientData[]) {
+		
+		
+		for(int i=0; i< patientDataResults.length;i++) {
+			PatientData ptData = (PatientData)patientDataResults[i];
+			
+			Long patientDid = ptData.getPatientDid();
+			StringBuffer timePoints = new StringBuffer();
+			StringBuffer agentIds = new StringBuffer();
+			StringBuffer agentNames = new StringBuffer();							
+			StringBuffer courseCounts = new StringBuffer();
+			StringBuffer doseStartDates = new StringBuffer();	
+			StringBuffer doseStopDates = new StringBuffer();
+			StringBuffer studySources = new StringBuffer();
+			StringBuffer protocolNumbers = new StringBuffer();
+			StringBuffer regimenNumbers = new StringBuffer();
+			
+			for (int j=0; j<onStudyChemoDataResult.length;j++) {
+				OnStudyChemotherapy onStudyChemoData = (OnStudyChemotherapy)onStudyChemoDataResult[j];		
+				
+				Long ptDid = onStudyChemoData.getPatientDid();
+				if(patientDid.toString().equals(ptDid.toString())) {
+					if(onStudyChemoData.getTimePoint()!= null) {
+					   timePoints.append(onStudyChemoData.getTimePoint());
+					   timePoints.append(", ");
+					}
+					if(onStudyChemoData.getAgentId() != null) {
+						agentIds.append(onStudyChemoData.getAgentId());	
+						agentIds.append(", ");
+					}
+					
+					if(onStudyChemoData.getAgentName() != null) {
+						agentNames.append(onStudyChemoData.getAgentName());
+						agentNames.append(", ");
+					}
+					
+					if(onStudyChemoData.getCourseCount() != null) {
+						courseCounts.append(onStudyChemoData.getCourseCount());
+						courseCounts.append(", ");
+					}
+					
+					if(onStudyChemoData.getDoseStartDate() != null) {
+						doseStartDates.append(onStudyChemoData.getDoseStartDate());
+						doseStartDates.append(", ");
+					}
+					
+					if(onStudyChemoData.getDoseStopDate() != null) {
+						doseStopDates.append(onStudyChemoData.getDoseStopDate());
+						doseStopDates.append(", ");
+					}
+					
+					if(onStudyChemoData.getStudySource() != null) {
+						studySources.append(onStudyChemoData.getStudySource());
+						studySources.append(", ");
+					}
+					
+					if(onStudyChemoData.getProtocolNumber() != null) {
+						protocolNumbers.append(onStudyChemoData.getProtocolNumber());
+						protocolNumbers.append(", ");
+					}
+						
+					if(onStudyChemoData.getRegimenNumber() != null) {
+						regimenNumbers.append(onStudyChemoData.getRegimenNumber());
+						regimenNumbers.append(", ");
+					}
+					
+				}					 
+				
+			}
+			
+			if(timePoints.length() >0) {
+			   timePoints.deleteCharAt(timePoints.length()-2);
+			   ptData.setOnStudyChemoTimePoints(timePoints.toString());
+			}
+			
+			if(agentIds.length()>0) {
+				agentIds.deleteCharAt(agentIds.length()-2);
+			    ptData.setOnStudyChemoagentIds(agentIds.toString());
+			}
+			
+			if(agentNames.length()>0) {
+				agentNames.deleteCharAt(agentNames.length()-2);
+			    ptData.setOnStudyChemoAgentNames(agentNames.toString());
+			}
+			
+			if(courseCounts.length()>0) {	
+				courseCounts.deleteCharAt(courseCounts.length()-2);
+			   ptData.setOnStudyChemoCourseCounts(courseCounts.toString());
+			}
+			
+			if(doseStartDates.length()>0) {
+				doseStartDates.deleteCharAt(doseStartDates.length()-2);
+			    ptData.setOnStudyChemoDoseStartDates(doseStartDates.toString());
+			}
+			
+			
+			if(doseStopDates.length()>0) {				
+				doseStopDates.deleteCharAt(doseStopDates.length()-2);
+			   ptData.setOnStudyChemoDoseStopDates(doseStopDates.toString());
+			}
+			
+			
+			
+			if(studySources.length()>0) {					
+				studySources.deleteCharAt(studySources.length()-2);
+			    ptData.setOnStudyChemoStudySources(studySources.toString());
+			}
+			
+			if(protocolNumbers.length()>0) {					
+				protocolNumbers.deleteCharAt(protocolNumbers.length()-2);
+			    ptData.setOnStudyChemoProtocolNumbers(protocolNumbers.toString());
+			}	
+			
+			if(regimenNumbers.length()>0) {					
+				regimenNumbers.deleteCharAt(regimenNumbers.length()-2);
+			    ptData.setOnStudyChemoRegimenNumbers(regimenNumbers.toString());
+			}	
+			
+		}
+		
+		
+	 }
+	
+	return patientDataResults;
+
+}
+
+
+
 
 
 
@@ -597,6 +907,101 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 		return patientDataResults;
 	
 	}
+
+
+private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataResults, ResultSet[] onStudySurgeryDataResult) {
+	
+	if(patientDataResults instanceof PatientData[]) {
+		
+		
+		for(int i=0; i< patientDataResults.length;i++) {
+			PatientData ptData = (PatientData)patientDataResults[i];
+			
+			Long patientDid = ptData.getPatientDid();
+			StringBuffer timePoints = new StringBuffer();
+			StringBuffer procedureTitles = new StringBuffer();
+			StringBuffer histoDiagnoses = new StringBuffer();							
+			StringBuffer surgeryDates = new StringBuffer();
+			StringBuffer surgeryOutcomes = new StringBuffer();	
+			StringBuffer indications = new StringBuffer();	
+			
+			for (int j=0; j<onStudySurgeryDataResult.length;j++) {
+				OnStudySurgery onStudySurgeryData = (OnStudySurgery)onStudySurgeryDataResult[j];		
+				
+				Long ptDid = onStudySurgeryData.getPatientDid();
+				if(patientDid.toString().equals(ptDid.toString())) {
+					if(onStudySurgeryData.getTimePoint()!= null) {
+					   timePoints.append(onStudySurgeryData.getTimePoint());
+					   timePoints.append(", ");
+					}
+					if(onStudySurgeryData.getProcedureTitle() != null) {
+						procedureTitles.append(onStudySurgeryData.getProcedureTitle());	
+						procedureTitles.append(", ");
+					}
+					
+					if(onStudySurgeryData.getHistoDiagnosis() != null) {
+						histoDiagnoses.append(onStudySurgeryData.getHistoDiagnosis());
+						histoDiagnoses.append(", ");
+					}
+					
+					if(onStudySurgeryData.getSurgeryDate() != null) {
+						surgeryDates.append(onStudySurgeryData.getSurgeryDate());
+						surgeryDates.append(", ");
+					}
+					
+					if(onStudySurgeryData.getSurgeryOutcome() != null) {
+						surgeryOutcomes.append(onStudySurgeryData.getSurgeryOutcome());
+						surgeryOutcomes.append(", ");
+					}
+					
+					if(onStudySurgeryData.getIndication() != null) {
+						indications.append(onStudySurgeryData.getIndication());
+						indications.append(", ");
+					}
+					
+				}					 
+				
+			}
+			
+			if(timePoints.length() >0) {
+			   timePoints.deleteCharAt(timePoints.length()-2);
+			   ptData.setOnStudySurgeryTimePoints(timePoints.toString());
+			}
+			
+			if(procedureTitles.length()>0) {
+				procedureTitles.deleteCharAt(procedureTitles.length()-2);
+			    ptData.setOnStudySurgeryProcedureTitles(procedureTitles.toString());
+			}
+			
+			if(histoDiagnoses.length()>0) {
+				histoDiagnoses.deleteCharAt(histoDiagnoses.length()-2);
+			    ptData.setOnStudySurgeryHistoDiagnoses(histoDiagnoses.toString());
+			}
+			
+			if(surgeryDates.length()>0) {	
+				surgeryDates.deleteCharAt(surgeryDates.length()-2);
+			    ptData.setOnStudySurgerySurgeryDates(surgeryDates.toString());
+			}
+	
+			if(surgeryOutcomes.length()>0) {
+				surgeryOutcomes.deleteCharAt(surgeryOutcomes.length()-2);
+			    ptData.setOnStudySurgerySurgeryOutcomes(surgeryOutcomes.toString());
+			}
+				
+			if(indications.length()>0) {
+				indications.deleteCharAt(indications.length()-2);
+			    ptData.setOnStudySurgeryIndications(indications.toString());
+			}
+			
+		}
+		
+		
+	 }
+	
+	return patientDataResults;
+
+}
+
 	private PatientData[] executeQuery(Criteria allCriteria) throws Exception {
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
         ReportQueryByCriteria sampleQuery = QueryFactory.newReportQuery(PatientData.class, allCriteria, true);
@@ -607,7 +1012,8 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
                        PatientData.SAMPLE_ID, PatientData.SURVIVAL_LENGTH_RANGE,
                        PatientData.RACE,PatientData.PATIENT_DID,
                        PatientData.SURVIVAL_LENGTH,PatientData.CENSORING_STATUS,
-                       PatientData.AGE} );        
+                       PatientData.AGE,PatientData.WHO_GRADE} );        
+
    
 
         Iterator patientDataObjects =  pb.getReportQueryIteratorByQuery(sampleQuery);
@@ -707,6 +1113,48 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 	             }
 	  
 	     }
+	  
+	  private OnStudyRadiationtherapy[] populateOnStudyRadiation(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
+	    	 
+			 if(patientDIDs.size()>=1) {
+			  Criteria  onStudyRadiationCrit = buildOnStudyRadiationCriteria(clinicalQuery);
+	    	  if(onStudyRadiationCrit== null) {
+	    		  onStudyRadiationCrit = new Criteria();
+	    	  }
+	    	   		  
+	    	      onStudyRadiationCrit.addIn(OnStudyRadiationtherapy.PATIENT_DID, patientDIDs);
+	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+	    	      ReportQueryByCriteria onStudyRadiationQuery = QueryFactory.newReportQuery(OnStudyRadiationtherapy.class, onStudyRadiationCrit, false);
+	    	       
+	    	      onStudyRadiationQuery.setAttributes(new String[] {
+	    	    		  OnStudyRadiationtherapy.TIME_POINT, OnStudyRadiationtherapy.RADIATION_SITE,
+	    	    		  OnStudyRadiationtherapy.DOSE_START_DATE, OnStudyRadiationtherapy.DOSE_STOP_DATE,
+	    	    		  OnStudyRadiationtherapy.FRACTION_DOSE,   OnStudyRadiationtherapy.FRACTION_NUMBER,
+	    	    		  OnStudyRadiationtherapy.RADIATION_TYPE, OnStudyRadiationtherapy.PATIENT_DID,
+	    	    		  OnStudyRadiationtherapy.NEUROSIS_STATUS} ); 
+	    	      
+	    	   
+	    	        Iterator onStudyRadiationDataObjects =  pb.getReportQueryIteratorByQuery(onStudyRadiationQuery);
+	    	        
+	    	        ArrayList results = new ArrayList();
+	    	        populateOnStudyRadiationResults(onStudyRadiationDataObjects, results);
+	    	        
+	    	      
+	    	        OnStudyRadiationtherapy[] finalResult = new OnStudyRadiationtherapy[results.size()];
+	    	        for (int i = 0; i < results.size(); i++) {
+	    	        	OnStudyRadiationtherapy onStudyRadiationData = (OnStudyRadiationtherapy) results.get(i);
+	    	            finalResult[i]  = onStudyRadiationData ;
+	    	        }
+	    	        pb.close();
+	    	        
+	    	       return finalResult;  
+	              }
+	             else {
+	               return null;
+	             }
+	  
+	     }
+	
 	
 	  private PriorChemotherapy[] populatePriorChemo(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
 	    	 
@@ -749,7 +1197,48 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 	  
 	     }
 	  
+	  private OnStudyChemotherapy[] populateOnStudyChemo(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
+	    	 
+			 if(patientDIDs.size()>=1) {
+			  Criteria  onStudyChemoCrit = buildOnStudyChemoCriteria(clinicalQuery);
+	    	  if(onStudyChemoCrit== null) {
+	    		  onStudyChemoCrit = new Criteria();
+	    	  }
+	    	   		  
+	    	  onStudyChemoCrit.addIn(OnStudyChemotherapy.PATIENT_DID, patientDIDs);
+	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+	    	      ReportQueryByCriteria onStudyChemoQuery = QueryFactory.newReportQuery(OnStudyChemotherapy.class, onStudyChemoCrit, false);
+	    	       
+	    	      onStudyChemoQuery.setAttributes(new String[] {
+	    	    		  OnStudyChemotherapy.TIME_POINT, OnStudyChemotherapy.AGENT_ID,
+	    	    		  OnStudyChemotherapy.AGENT_NAME, OnStudyChemotherapy.COURSE_COUNT,
+	    	    		  OnStudyChemotherapy.DOSE_START_DATE, OnStudyChemotherapy.DOSE_STOP_DATE,
+	    	    		  OnStudyChemotherapy.STUDY_SOURCE,OnStudyChemotherapy.PROTOCOL_NUMBER,
+	    	    		  OnStudyChemotherapy.PATIENT_DID,OnStudyChemotherapy.REGIMEN_NUMBER} ); 
+	    	      
+	    	   
+	    	        Iterator onStudyRadiationDataObjects =  pb.getReportQueryIteratorByQuery(onStudyChemoQuery);
+	    	        
+	    	        ArrayList results = new ArrayList();
+	    	        populateOnStudyChemoResults(onStudyRadiationDataObjects, results);
+	    	        
+	    	      
+	    	        OnStudyChemotherapy[] finalResult = new OnStudyChemotherapy[results.size()];
+	    	        for (int i = 0; i < results.size(); i++) {
+	    	        	OnStudyChemotherapy onStudyChemoData = (OnStudyChemotherapy) results.get(i);
+	    	            finalResult[i]  = onStudyChemoData ;
+	    	        }
+	    	        pb.close();
+	    	        
+	    	       return finalResult;  
+	              }
+	             else {
+	               return null;
+	             }
 	  
+	     }
+	  
+	
 	  
 
 	  private PriorSurgery[] populatePriorSurgery(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
@@ -790,6 +1279,47 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 	             }
 	  
 	     }
+	  
+	  private OnStudySurgery[] populateOnStudySurgery(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
+	    	 
+			 if(patientDIDs.size()>=1) {
+			  Criteria  onStudySurgeryCrit = buildOnStudySurgeryCriteria(clinicalQuery);
+	    	  if(onStudySurgeryCrit== null) {
+	    		  onStudySurgeryCrit = new Criteria();
+	    	  }
+	    	   		  
+	    	  onStudySurgeryCrit.addIn(OnStudySurgery.PATIENT_DID, patientDIDs);
+	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+	    	      ReportQueryByCriteria onStudySurgeryQuery = QueryFactory.newReportQuery(OnStudySurgery.class, onStudySurgeryCrit, false);
+	    	       
+	    	      onStudySurgeryQuery.setAttributes(new String[] {
+	    	    		  OnStudySurgery.TIME_POINT, OnStudySurgery.PROCEDURE_TITLE,
+	    	    		  OnStudySurgery.INDICATION,OnStudySurgery.SURGERY_DATE, 
+	    	    		  OnStudySurgery.SURGERY_OUTCOME,OnStudySurgery.PATIENT_DID,
+	    	    		  OnStudySurgery.HISTO_DIAGNOSIS} ); 
+	    	      
+	    	   
+	    	        Iterator onStudySurgeryDataObjects =  pb.getReportQueryIteratorByQuery(onStudySurgeryQuery);
+	    	        
+	    	        ArrayList results = new ArrayList();
+	    	        populateOnStudySurgeryResults(onStudySurgeryDataObjects, results);
+	    	        
+	    	      
+	    	        OnStudySurgery[] finalResult = new OnStudySurgery[results.size()];
+	    	        for (int i = 0; i < results.size(); i++) {
+	    	        	OnStudySurgery onStudySurgeryData = (OnStudySurgery) results.get(i);
+	    	            finalResult[i]  = onStudySurgeryData ;
+	    	        }
+	    	        pb.close();
+	    	        
+	    	       return finalResult;  
+	              }
+	             else {
+	               return null;
+	             }
+	  
+	     }
+ 
     private void populateResults(Iterator patientDataObjects, ArrayList results) {
         while(patientDataObjects.hasNext()) {
             Object[] objs = (Object[]) patientDataObjects.next();
@@ -810,6 +1340,7 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
             if(objs[10] != null){
             	age = new Long(((BigDecimal)objs[10]).longValue());
             }
+            String whoGrade = (String)objs[11];
             PatientData p = new PatientData();
             p.setBiospecimenId(bspID);
             p.setGender(gender);           
@@ -819,9 +1350,11 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
             p.setSurvivalLengthRange(survLenRange);  
 			p.setRace(race);   
 			p.setPatientDid(ptDID);
+			p.setWhoGrade(whoGrade);
 			p.setSurvivalLength(survivalLength);
 			p.setCensoringStatus(censor);
 			p.setAge(age);
+			
 			patientDIDs.add(ptDID);
 
             results.add(p );
@@ -830,6 +1363,79 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
     
     
 
+    private void populateOnStudyRadiationResults(Iterator onStudyRadiationObjects, ArrayList results) {
+		  while(onStudyRadiationObjects.hasNext()) {
+	            Object[] objs = (Object[]) onStudyRadiationObjects.next();          
+	       
+	            String timePoint = null;
+	            String RadiationSite = null;
+	            Date doseStartDate = null;
+	            Date doseStopDate = null;
+	            Long fractionDose = null;	           
+	            Long fractionNumber = null;	          
+	            String radiationType = null;	          
+	            Long patientDid = null;
+	            String neurosisStatus = null;
+	            
+	            
+	            
+	            OnStudyRadiationtherapy  onStudyRadiation = new OnStudyRadiationtherapy();
+	            
+	            if(objs[0] != null) {
+	               timePoint = (String)objs[0];
+	               onStudyRadiation.setTimePoint(timePoint);
+	            }	
+	            
+	            if(objs[1] != null) {
+	            	RadiationSite = (String)objs[1];
+	            	onStudyRadiation.setRadiationSite(RadiationSite);
+		            }	
+	            
+	            if(objs[2]!=null){
+	            	doseStartDate = new java.sql.Date(((java.util.Date)objs[2]).getTime());	
+	            	onStudyRadiation.setDoseStartDate(doseStartDate);   
+	            }
+	            	           
+	            if(objs[3] != null) {
+	            	 doseStopDate = new java.sql.Date(((java.util.Date)objs[3]).getTime());	
+	            	 onStudyRadiation.setDoseStopDate(doseStopDate);
+	            }
+	            	           
+	                  
+	            if(objs[4] != null) {
+	            	fractionDose = new Long(((BigDecimal)objs[4]).longValue());
+	            	onStudyRadiation.setFractionDose(fractionDose);
+	             }
+	             
+	            if(objs[5] != null) {
+	            	fractionNumber = new Long(((BigDecimal)objs[5]).longValue());
+	            	onStudyRadiation.setFractionNumber(fractionNumber);  
+	             }
+	               
+	            
+	            if(objs[6] != null) {
+	            	radiationType = (String)objs[6];
+	            	onStudyRadiation.setRadiationType(radiationType);  
+	            }
+	           
+	          
+	            if(objs[7] != null) {    	
+	            	
+	               patientDid =  new Long(((BigDecimal)objs[7]).longValue());
+	               onStudyRadiation.setPatientDid(patientDid);
+	            }
+	            
+	            if(objs[8] != null) {    	
+	            	
+	            	neurosisStatus =  (String)objs[8];
+		               onStudyRadiation.setNeurosisStatus(neurosisStatus);
+		            }
+		            
+	            results.add(onStudyRadiation);
+	        }
+		  
+	  }
+    
     private void populatePriorRadiationResults(Iterator priorRadiationObjects, ArrayList results) {
 		  while(priorRadiationObjects.hasNext()) {
 	            Object[] objs = (Object[]) priorRadiationObjects.next();          
@@ -895,7 +1501,7 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 	        }
 		  
 	  }
-    
+  
     private void populatePriorChemoResults(Iterator priorChemoObjects, ArrayList results) {
 		  while(priorChemoObjects.hasNext()) {
 	            Object[] objs = (Object[]) priorChemoObjects.next();      
@@ -961,7 +1567,82 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 		  
 	  }
   
-    
+    private void populateOnStudyChemoResults(Iterator onStudyChemoObjects, ArrayList results) {
+		  while(onStudyChemoObjects.hasNext()) {
+	            Object[] objs = (Object[]) onStudyChemoObjects.next();      
+	       	
+	       
+	            String timePoint = null;
+	            Long agentId = null;
+	            String agentName = null; 
+	            Long courseCount = null;	           
+	            Date doseStartDate = null;
+	            Date doseStopDate = null;
+	            String studySource = null;
+	            String protocolNumber= null;	                 
+	            Long patientDid = null;
+	            Long regimenNumber= null;	
+	            
+	            OnStudyChemotherapy  onStudyChemo = new OnStudyChemotherapy();
+	            
+	            if(objs[0] != null) {
+	               timePoint = (String)objs[0];
+	               onStudyChemo.setTimePoint(timePoint);
+	            }	
+	            
+	            if(objs[1] != null) {
+	            	agentId = new Long(((BigDecimal)objs[1]).longValue());
+	            	onStudyChemo.setAgentId(agentId);
+		            }	
+	            if(objs[2] != null) {
+	            	agentName = (String)objs[2];
+	            	onStudyChemo.setAgentName(agentName);  
+	            }
+	            
+	            if(objs[3] != null) {
+	            	courseCount = new Long(((BigDecimal)objs[3]).longValue());
+	            	onStudyChemo.setCourseCount(courseCount);
+		            }
+	            if(objs[4]!=null){
+	            	doseStartDate = new java.sql.Date(((java.util.Date)objs[4]).getTime());	
+	            	onStudyChemo.setDoseStartDate(doseStartDate);   
+	            }
+	            	           
+	            if(objs[5] != null) {
+	            	 doseStopDate = new java.sql.Date(((java.util.Date)objs[5]).getTime());	
+	            	 onStudyChemo.setDoseStopDate(doseStopDate);
+	            }
+	            	           
+	            if(objs[6] != null) {
+	            	studySource = (String)objs[6];
+	            	onStudyChemo.setStudySource(studySource);  
+	            }    
+	        
+	            if(objs[7] != null) {
+	            	protocolNumber = (String)objs[7];
+	            	onStudyChemo.setProtocolNumber(protocolNumber);  
+	            }  
+	            if(objs[8] != null) {    	
+	            	
+	               patientDid =  new Long(((BigDecimal)objs[8]).longValue());
+	               onStudyChemo.setPatientDid(patientDid);
+	            }
+	            
+	            if(objs[9] != null) {    	
+	            	
+	            	   regimenNumber =  new Long(((BigDecimal)objs[9]).longValue());
+	            	   onStudyChemo.setRegimenNumber(regimenNumber);
+		            }
+		            
+	            
+	            results.add(onStudyChemo);
+	        }
+		 
+	  }
+
+  
+  
+  
     
     
     private void populatePriorSurgeryResults(Iterator priorSurgeryObjects, ArrayList results) {
@@ -1012,6 +1693,63 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 	        }
 		  
 	  }
+    
+    private void populateOnStudySurgeryResults(Iterator onStudySurgeryObjects, ArrayList results) {
+		  while(onStudySurgeryObjects.hasNext()) {
+	            Object[] objs = (Object[]) onStudySurgeryObjects.next();     	
+	       
+	            String timePoint = null;	           
+	            String procedureTitle = null; 
+	            String indication = null; 	                
+	            Date surgeryDate = null;          
+	            String surgeryOutcome= null;	                 
+	            Long patientDid = null;  	
+	            String histoDiagnosis = null;	
+	          
+	            OnStudySurgery  onStudySurgery = new OnStudySurgery();
+	            
+	            if(objs[0] != null) {
+	               timePoint = (String)objs[0];
+	               onStudySurgery.setTimePoint(timePoint);
+	            }	
+	            
+	            if(objs[1] != null) {
+	            	procedureTitle = (String)objs[1];
+	            	onStudySurgery.setProcedureTitle(procedureTitle);
+		            }
+	            
+	            if(objs[2] != null) {
+	            	indication = (String)objs[2];
+	            	onStudySurgery.setIndication(indication);  
+	            }	            
+	          
+	            if(objs[3]!=null){
+	            	surgeryDate = new java.sql.Date(((java.util.Date)objs[3]).getTime());	
+	            	onStudySurgery.setSurgeryDate(surgeryDate);   
+	            }
+	            	            	           
+	            if(objs[4] != null) {
+	            	surgeryOutcome = (String)objs[4];
+	            	onStudySurgery.setSurgeryOutcome(surgeryOutcome);  
+	            }    
+	        	        
+	            if(objs[5] != null) {    	
+	            	
+	               patientDid =  new Long(((BigDecimal)objs[5]).longValue());
+	               onStudySurgery.setPatientDid(patientDid);
+	            }
+	            if(objs[6] != null) {    	
+	            	
+	            	histoDiagnosis =  (String)objs[6];
+		               onStudySurgery.setHistoDiagnosis(histoDiagnosis);
+		            }
+	            
+	            results.add(onStudySurgery);
+	        }
+		  
+	  }
+
+
 
     private void populateClinicalEvalResults(Iterator clinicalEvalDataObjects, ArrayList results) {
 		  while(clinicalEvalDataObjects.hasNext()) {
@@ -1259,6 +1997,26 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
     	 
      }
      
+ private Criteria buildOnStudyRadiationCriteria(ClinicalDataQuery clinicalQuery) {
+    	 
+    	 OnStudyRadiationTherapyCriteria crit = clinicalQuery.getOnStudyRadiationTherapyCriteria(); 	 
+         Criteria c = new Criteria();    	
+     		 
+     	if (crit != null) {     		 
+         	ArrayList radiationTypes = new ArrayList();
+                 for (Iterator iterator = crit.getRadiations().iterator(); iterator.hasNext();)
+                	 radiationTypes.add(((OnStudyRadiationTherapyDE) iterator.next()).getValueObject());     	    
+                 
+         		c.addColumnIn(OnStudyRadiationtherapy.RADIATION_TYPE, radiationTypes);
+         		return c;  
+     	 
+     	   }
+     	 else {
+     		 return null;
+     	  }	
+    	 
+     }
+     
      private ReportQueryByCriteria getPriorRadiationTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	 Criteria c = buildPriorRadiationCriteria (clinicalQuery);      	 
      	 if(c != null) {     		   
@@ -1266,6 +2024,21 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
      	    org.apache.ojb.broker.query.ReportQueryByCriteria priorRadiationTherapyQuery =
             QueryFactory.newReportQuery(subQueryClass, new String[]{ptIDCol}, c , true);    
      	    return priorRadiationTherapyQuery;
+     	  }     	 
+     	 
+     	 else {
+     		 return  null;
+     	 }  
+   
+   	}
+     
+     private ReportQueryByCriteria getOnStudyRadiationTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
+    	 Criteria c = buildOnStudyRadiationCriteria (clinicalQuery);      	 
+     	 if(c != null) {     		   
+     	    String ptIDCol = getColumnNameForBean(_BROKER, subQueryClass.getName(), fieldToSelect);
+     	    org.apache.ojb.broker.query.ReportQueryByCriteria onStudyRadiationTherapyQuery =
+            QueryFactory.newReportQuery(subQueryClass, new String[]{ptIDCol}, c , true);    
+     	    return onStudyRadiationTherapyQuery;
      	  }     	 
      	 
      	 else {
@@ -1293,6 +2066,25 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
      	  }	
     	 
      }
+      
+      private Criteria buildOnStudyChemoCriteria (ClinicalDataQuery clinicalQuery) {
+     	 
+     	 OnStudyChemoAgentCriteria crit = clinicalQuery.getOnStudyChemoAgentCriteria(); 	 
+          Criteria c = new Criteria();      
+          
+      	 if (crit != null) {     		 
+      		 ArrayList agentTypes = new ArrayList();
+              for (Iterator iterator = crit.getAgents().iterator(); iterator.hasNext();)
+             	 agentTypes.add(((OnStudyChemoAgentDE) iterator.next()).getValueObject());     	    
+              
+      		c.addColumnIn(OnStudyChemotherapy.AGENT_NAME, agentTypes);
+      		return c;   
+      	   }
+      	 else {
+      		 return null;
+      	  }	
+     	 
+      }
      
      private ReportQueryByCriteria getPriorChemoTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	
@@ -1302,6 +2094,23 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
      	    org.apache.ojb.broker.query.ReportQueryByCriteria priorChemoTherapyQuery =
             QueryFactory.newReportQuery(subQueryClass, new String[]{ptIDCol}, c , true);    
      	    return priorChemoTherapyQuery;
+     	  }
+     	 
+     	 
+     	 else {
+     		 return  null;
+     	 }  
+   
+     }
+     
+     private ReportQueryByCriteria getOnStudyChemoTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
+     	
+     	 Criteria c = buildOnStudyChemoCriteria(clinicalQuery);       	 
+     	 if(c != null) {     		   
+     	    String ptIDCol = getColumnNameForBean(_BROKER, subQueryClass.getName(), fieldToSelect);
+     	    org.apache.ojb.broker.query.ReportQueryByCriteria onStudyChemoTherapyQuery =
+            QueryFactory.newReportQuery(subQueryClass, new String[]{ptIDCol}, c , true);    
+     	    return onStudyChemoTherapyQuery;
      	  }
      	 
      	 
@@ -1345,6 +2154,42 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
      	  }	
     	 
      }
+ 
+ private Criteria buildOnStudySurgeryCriteria (ClinicalDataQuery clinicalQuery) {
+	 
+     OnStudySurgeryOutcomeCriteria crit = clinicalQuery.getOnStudySurgeryOutcomeCriteria(); 
+     OnStudySurgeryTitleCriteria crit2 = clinicalQuery.getOnStudySurgeryTitleCriteria(); 
+     
+     Criteria c = new Criteria();    	 
+ 	 if (crit != null || crit2 != null ) {
+ 		 
+ 		 if(crit != null) {
+ 		 
+ 		    ArrayList outcomes = new ArrayList();
+            for (Iterator iterator = crit.getOutcomes().iterator(); iterator.hasNext();)
+        	   outcomes.add(((OnStudySurgeryOutcomeDE) iterator.next()).getValueObject());     	    
+     	    c.addColumnIn(OnStudySurgery.SURGERY_OUTCOME, outcomes);
+ 		 }
+ 		 
+ 		 if(crit2 != null) {
+ 			 
+ 			 ArrayList titles = new ArrayList();
+             for (Iterator iterator = crit2.getTitles().iterator(); iterator.hasNext();)
+            	 titles.add(((OnStudySurgeryTitleDE) iterator.next()).getValueObject());     	    
+      	     c.addColumnIn(OnStudySurgery.PROCEDURE_TITLE, titles);
+  	
+ 		 }
+     	
+ 		return c;   
+ 	 
+ 	   }
+ 	 else {
+ 		 return null;
+ 	  }	
+	 
+ }
+
+ 
      private ReportQueryByCriteria getPriorSurgeryTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	
      	 Criteria c = buildPriorSurgeryCriteria(clinicalQuery);       	 
@@ -1363,8 +2208,28 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
    
      }
      
-    }
     
+    
+
+private ReportQueryByCriteria getOnStudySurgeryTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
+	
+	 Criteria c = buildOnStudySurgeryCriteria(clinicalQuery);       	 
+	 if(c != null) {     
+		
+	    String ptIDCol = getColumnNameForBean(_BROKER, subQueryClass.getName(), fieldToSelect);
+	    org.apache.ojb.broker.query.ReportQueryByCriteria onStudyChemoTherapyQuery =
+       QueryFactory.newReportQuery(subQueryClass, new String[]{ptIDCol}, c , true);    
+	    return onStudyChemoTherapyQuery;
+	  }
+	 
+	 
+	 else {
+		 return  null;
+	 }  
+
+ }
+
+}
     
     
   

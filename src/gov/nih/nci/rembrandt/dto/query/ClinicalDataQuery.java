@@ -9,6 +9,10 @@ import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.NeuroExamClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.OccurrenceCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyChemoAgentCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudyRadiationTherapyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryOutcomeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RaceCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
@@ -23,6 +27,10 @@ import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.NeuroExamClinicalEvalDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudyChemoAgentDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudyRadiationTherapyDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudySurgeryOutcomeDE;
+import gov.nih.nci.caintegrator.dto.de.OnStudySurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.OccurrenceDE;
@@ -68,21 +76,29 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 	 */
 	private static Logger logger = Logger.getLogger(ClinicalDataQuery.class);
 
-	private AgeCriteria ageCriteria;
-
-	private ChemoAgentCriteria chemoAgentCriteria;
+	private AgeCriteria ageCriteria;	
 
 	private GenderCriteria genderCriteria;
 
 	private OccurrenceCriteria occurrenceCriteria;
 
 	private QueryHandler HANDLER;
+	
+	private ChemoAgentCriteria chemoAgentCriteria;
 
 	private RadiationTherapyCriteria radiationTherapyCriteria;
 
 	private SurgeryOutcomeCriteria surgeryOutcomeCriteria;
 	
 	private PriorSurgeryTitleCriteria priorSurgeryTitleCriteria;
+	
+	private OnStudyChemoAgentCriteria onStudyChemoAgentCriteria;
+
+	private OnStudyRadiationTherapyCriteria onStudyRadiationTherapyCriteria;
+
+	private OnStudySurgeryOutcomeCriteria onStudySurgeryOutcomeCriteria;
+	
+	private OnStudySurgeryTitleCriteria onStudySurgeryTitleCriteria;
 
 	private SurvivalCriteria survivalCriteria;
 	
@@ -236,6 +252,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 			
 			
 			
+			
 			// starting chemoTherapyCriteria
 			ChemoAgentCriteria thisChemoTherapyCriteria = this.getChemoAgentCriteria();
 			if ((thisChemoTherapyCriteria != null)&& !thisChemoTherapyCriteria.isEmpty()&& labels != null) {
@@ -263,6 +280,8 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 						.debug("Chemo Agent Criteria is empty or Application Resources file is missing.");
 			}// end of Chemo Agent Criteria
 
+			
+			
 
 
 			// starting SurgeryTypeCriteria
@@ -294,6 +313,10 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 			}// end of SurgeryTypeCriteria
 
 			
+		
+
+			
+			
 			// starting PriorSurgeryTitleCriteria
 			PriorSurgeryTitleCriteria thisPriorSurgeryTitleCriteria = this
 					.getPriorSurgeryTitleCriteria();
@@ -322,6 +345,122 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				logger
 						.debug("PriorSurgeryTitleCriteria is empty or Application Resources file is missing.");
 			}// end of SurgeryTypeCriteria
+			
+			
+//			 starting OnStudyRadiationTherapyCriteria
+			OnStudyRadiationTherapyCriteria thisOnStudyRadiationTherapyCriteria = this.getOnStudyRadiationTherapyCriteria();
+			if ((thisOnStudyRadiationTherapyCriteria != null)&& !thisOnStudyRadiationTherapyCriteria.isEmpty()&& labels != null) {
+				
+				
+				Collection radiationColl = thisOnStudyRadiationTherapyCriteria.getRadiations();
+
+				String thisCriteria = thisOnStudyRadiationTherapyCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";
+
+				Iterator iter = radiationColl.iterator();
+				while (iter.hasNext()) {
+					OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = (OnStudyRadiationTherapyDE) iter.next();
+					OutStr += "" + ((String) onStudyRadiationTherapyDE.getValue())
+							+ " ";
+				}
+			
+					
+			}
+
+			else {
+				logger
+						.debug("OnStudyRadiation Criteria is empty or Application Resources file is missing.");
+			}// end of OnStudyRadiationCriteria
+
+
+			
+//			 starting onStudyChemoTherapyCriteria
+			OnStudyChemoAgentCriteria thisOnStudyChemoTherapyCriteria = this.getOnStudyChemoAgentCriteria();
+			if ((thisOnStudyChemoTherapyCriteria != null)&& !thisOnStudyChemoTherapyCriteria.isEmpty()&& labels != null) {
+				
+				
+				Collection chemoColl = thisOnStudyChemoTherapyCriteria.getAgents();
+
+				String thisCriteria = thisOnStudyChemoTherapyCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";
+
+				Iterator iter = chemoColl.iterator();
+				while (iter.hasNext()) {
+					OnStudyChemoAgentDE onStudyChemoAgentDE = (OnStudyChemoAgentDE) iter.next();
+					OutStr += "" + ((String) onStudyChemoAgentDE.getValue())
+							+ " ";
+				}
+			
+					
+			}
+
+			else {
+				logger
+						.debug("OnStudy Chemo Agent Criteria is empty or Application Resources file is missing.");
+			}// end of Chemo Agent Criteria
+
+
+			// starting OnStudySurgeryTypeCriteria
+				OnStudySurgeryOutcomeCriteria thisOnStudySurgeryOutcomeCriteria = this
+						.getOnStudySurgeryOutcomeCriteria();
+				if ((thisOnStudySurgeryOutcomeCriteria != null)
+						&& !thisOnStudySurgeryOutcomeCriteria.isEmpty() && labels != null) {
+					
+					Collection outcomeColl = thisOnStudySurgeryOutcomeCriteria.getOutcomes();
+
+					String thisCriteria = thisOnStudySurgeryOutcomeCriteria.getClass().getName();
+					OutStr += "<BR><B class='otherBold'>"
+							+ labels.getString(thisCriteria.substring(thisCriteria
+									.lastIndexOf(".") + 1)) + "</B><BR>";
+
+					Iterator iter = outcomeColl.iterator();
+					while (iter.hasNext()) {
+						OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = (OnStudySurgeryOutcomeDE) iter.next();
+						OutStr += "" + ((String) onStudySurgeryOutcomeDE.getValue())
+								+ " ";
+					}
+				
+						
+				}
+					
+					else {
+					logger
+							.debug("OnStudySurgeryOutcomeCriteria is empty or Application Resources file is missing.");
+				}// end of SurgeryTypeCriteria
+
+			
+//			 starting OnStudySurgeryTitleCriteria
+			OnStudySurgeryTitleCriteria thisOnStudySurgeryTitleCriteria = this
+					.getOnStudySurgeryTitleCriteria();
+			if ((thisOnStudySurgeryTitleCriteria != null)
+					&& !thisOnStudySurgeryTitleCriteria.isEmpty() && labels != null) {
+				
+				Collection titleColl = thisOnStudySurgeryTitleCriteria.getTitles();
+
+				String thisCriteria = thisOnStudySurgeryTitleCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+						+ labels.getString(thisCriteria.substring(thisCriteria
+								.lastIndexOf(".") + 1)) + "</B><BR>";
+
+				Iterator iter = titleColl.iterator();
+				while (iter.hasNext()) {
+					OnStudySurgeryTitleDE onStudySurgeryTitleDE = (OnStudySurgeryTitleDE) iter.next();
+					OutStr += "" + ((String) onStudySurgeryTitleDE.getValue())
+							+ " ";
+				}
+			
+					
+			}				
+				
+				
+		  else {
+				logger
+						.debug("OnStudySurgeryTitleCriteria is empty or Application Resources file is missing.");
+			}// end of OnStudySurgeryTitleCriteria
 
 			SurvivalCriteria thisSurvivalCriteria = this.getSurvivalCriteria();
 			if ((thisSurvivalCriteria != null)
@@ -569,6 +708,68 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 	public void setPriorSurgeryTitleCrit(PriorSurgeryTitleCriteria priorSurgeryTitleCriteria) {
 		this.priorSurgeryTitleCriteria = priorSurgeryTitleCriteria;
 	}
+	
+	
+	/**
+	 * @return Returns the onStudyChemoAgentCriteria.
+	 */
+	public OnStudyChemoAgentCriteria getOnStudyChemoAgentCriteria() {
+		return onStudyChemoAgentCriteria;
+	}
+
+	/**
+	 * @param onStudyChemoAgentCriteria The onStudyChemoAgentCriteria to set.
+	 */
+	public void setOnStudyChemoAgentCriteria(
+			OnStudyChemoAgentCriteria onStudyChemoAgentCriteria) {
+		this.onStudyChemoAgentCriteria = onStudyChemoAgentCriteria;
+	}
+
+	/**
+	 * @return Returns the onStudyRadiationTherapyCriteria.
+	 */
+	public OnStudyRadiationTherapyCriteria getOnStudyRadiationTherapyCriteria() {
+		return onStudyRadiationTherapyCriteria;
+	}
+
+	/**
+	 * @param onStudyRadiationTherapyCriteria The onStudyRadiationTherapyCriteria to set.
+	 */
+	public void setOnStudyRadiationTherapyCriteria(
+			OnStudyRadiationTherapyCriteria onStudyRadiationTherapyCriteria) {
+		this.onStudyRadiationTherapyCriteria = onStudyRadiationTherapyCriteria;
+	}
+
+	/**
+	 * @return Returns the onStudySurgeryOutcomeCriteria.
+	 */
+	public OnStudySurgeryOutcomeCriteria getOnStudySurgeryOutcomeCriteria() {
+		return onStudySurgeryOutcomeCriteria;
+	}
+
+	/**
+	 * @param onStudySurgeryOutcomeCriteria The onStudySurgeryOutcomeCriteria to set.
+	 */
+	public void setOnStudySurgeryOutcomeCriteria(
+			OnStudySurgeryOutcomeCriteria onStudySurgeryOutcomeCriteria) {
+		this.onStudySurgeryOutcomeCriteria = onStudySurgeryOutcomeCriteria;
+	}
+
+	/**
+	 * @return Returns the onStudySurgeryTitleCriteria.
+	 */
+	public OnStudySurgeryTitleCriteria getOnStudySurgeryTitleCriteria() {
+		return onStudySurgeryTitleCriteria;
+	}
+
+	/**
+	 * @param onStudySurgeryTitleCriteria The onStudySurgeryTitleCriteria to set.
+	 */
+	public void setOnStudySurgeryTitleCriteria(
+			OnStudySurgeryTitleCriteria onStudySurgeryTitleCriteria) {
+		this.onStudySurgeryTitleCriteria = onStudySurgeryTitleCriteria;
+	}
+
 	public SurvivalCriteria getSurvivalCriteria() {
 		return survivalCriteria;
 	}
