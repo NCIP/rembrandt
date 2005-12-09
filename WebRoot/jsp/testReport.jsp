@@ -78,6 +78,7 @@ else	{
 	
 	%>
 	<div id="imgContainer" style="display:block; position:absolute;">
+		<br/>
 		<center><img src="images/circleStatusGray200.gif" /></center>
 	</div>
 	<script language="javascript">
@@ -85,8 +86,14 @@ else	{
 		var reportC = document.getElementById("reportContainer");
 		var imgC = document.getElementById("imgContainer");
 		//center the img
-		imgC.style.top = document.body.clientHeight/2-100;
-		imgC.style.left = document.body.clientWidth/2-100;
+		if(!saf)	{
+			imgC.style.top = document.body.clientHeight/2-100;
+			imgC.style.left = document.body.clientWidth/2-100;
+		}
+		
+		if(saf)	{
+			imgC.style.width = "100%";
+		}
 		
 		function A_getReport(key)	{
 			var a = new Object();
