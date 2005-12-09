@@ -9,6 +9,8 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <html>
 	<head>
 		<title>Rembrandt Report</title>
+		<script language="JavaScript" src="js/box/browserSniff.js"></script>
+		
 		<script language="JavaScript" type="text/javascript" src="js/overlib.js"></script>
 		<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js"></script>
 		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
