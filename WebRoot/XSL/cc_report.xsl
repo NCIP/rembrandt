@@ -370,7 +370,7 @@
   	</table>
   	<div>
   	<script language="javascript">
-  		goQueryDetails("<xsl:copy-of select="$queryDetails" />");
+  		//goQueryDetails("<xsl:copy-of select="$queryDetails" />");
   	</script>
   	</div>
   	</xsl:if><!-- no records -->
