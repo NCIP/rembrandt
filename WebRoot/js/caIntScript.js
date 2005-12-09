@@ -948,6 +948,17 @@ function toggleGenePlot(a, b)	{
 	} 
 }
 
+
+function preMove(test, fbox, tbox)	{
+
+	if(test)	{
+		move(fbox, tbox);
+	}
+	else	{
+		//alert("Invalid Selection");	
+	}
+}
+
 function move(fbox, tbox) {
 
 var arrFbox = new Array();

@@ -10,7 +10,7 @@
 <logic:present name="principalComponentForm">
 <html:radio property="groupsOption" styleClass="radio" value="allSamples" onclick="onRadio(this,'allSamples');" />Show all samples<br /><br />
 
-<html:radio property="groupsOption" styleClass="radio" value="variousSamples" onclick="onRadio(this,'variousSamples');" />Select samples<br />
+<html:radio property="groupsOption" styleId="variousSamplesRadio" styleClass="radio" value="variousSamples" onclick="onRadio(this,'variousSamples');" />Select samples<br />
 <table align="center" border="0">
     <tr style="vertical-align:top">
       <td>Existing Groups
@@ -20,8 +20,8 @@
 		</html:select>
       </td>
       <td style="vertical-align:middle">
-        <input id="button1" onclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button" disabled="true" /><br />
-        <input id="button2" onclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'))" value=">>" type="button" disabled="true" />
+        <input id="button1" onclick="preMove(document.getElementById('variousSamplesRadio').checked, document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button" disabled="true" /><br />
+        <input id="button2" onclick="preMove(document.getElementById('variousSamplesRadio').checked, document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'))" value=">>" type="button" disabled="true" />
       </td>
       <td>Selected Groups
         <br/>
