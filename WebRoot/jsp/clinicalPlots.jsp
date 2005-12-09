@@ -42,11 +42,31 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 	<%
 	String key = request.getParameter("taskId")!=null? (String) request.getParameter("taskId") : "noKey";
 	String sessionId = session.getId();
-	String componentStr = "SurvivalvsAgeAtDx";
+	String componentStr = request.getParameter("comp")!=null ? (String) request.getParameter("comp") : "SurvivalvsAgeAtDx";
+	if(componentStr.equals("ks"))
+		componentStr = "KarnofskyScorevsAgeAtDx";
+		
 	//String colorBy = "Disease";
 	%>
 
 <div id="main" style="font-family:arial; font-size:12px">	
+<div style="margin-left:10px">
+<b>Component: </b>
+<%
+if(componentStr.equals("KarnofskyScorevsAgeAtDx"))
+	out.write("<a href=\"clinicalPlots.do?taskId="+key+"&comp=SurvivalvsAgeAtDx\">SurvivalvsAgeAtDx</a>");		
+else
+	out.write("SurvivalvsAgeAtDx");
+	
+out.write(" | ");
+
+if(componentStr.equals("SurvivalvsAgeAtDx"))
+	out.write("<a href=\"clinicalPlots.do?taskId="+key+"&comp=KarnofskyScorevsAgeAtDx\">KarnofskyScorevsAgeAtDx</a>");		
+else
+	out.write("KarnofskyScorevsAgeAtDx");
+%>
+<br/><br/>
+</div>
 <table>
 	<tr>
 		<td>	
