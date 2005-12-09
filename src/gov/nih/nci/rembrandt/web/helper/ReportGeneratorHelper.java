@@ -429,6 +429,10 @@ public class ReportGeneratorHelper {
 			if(resultant!=null) {
 				try {
 					Viewable oldView = resultant.getAssociatedView();
+                    //make sure old view is not null, if so, set it to the same as new view.
+                    if(oldView == null){
+                        oldView = _cQuery.getAssociatedView();
+                    }
 					Viewable newView = _cQuery.getAssociatedView();
 					Map filterParams = _reportBean.getFilterParams();
 					/*
@@ -556,7 +560,7 @@ public class ReportGeneratorHelper {
 	 */
 	public static void renderReport(HttpServletRequest request, Document reportXML, String xsltFilename, JspWriter out) {
 		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
-		// load the transformer using JAXP
+		// load the transformer using JAX
 		logger.debug("Applying XSLT "+xsltFilename);
         Transformer transformer;
 		try {

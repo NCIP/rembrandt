@@ -209,18 +209,18 @@
 		validate="false"
 		parameter="method">
 		<forward name="backToPrincipalComponent" path="nautilus.principalComponent" />
-		<forward name="principalComponentSetup" path="/principalcomponent.do?method=setup" />
+		<forward name="principalComponentSetup" path="/principalcomponentInit.do?method=setup" />
 	</action>
 	
 	<action path="/principalcomponent"
-	    input="nautilus.principalComponent"
+	    input="/principalcomponentInit.do?method=setup"
 		type="gov.nih.nci.rembrandt.web.struts.action.PrincipalComponentAction"
 		name="principalComponentForm"
 		scope="request"
 		validate="true"
 		parameter="method">
 		<forward name="backToPrincipalComponent" path="nautilus.principalComponent" />
-		<forward name="principalComponentSetup" path="/principalcomponent.do?method=setup" />
+		<forward name="principalComponentSetup" path="/principalcomponentInit.do?method=setup" />
 		<forward name="viewResults" path="/viewResults.do" />
 	</action>
 	
@@ -309,6 +309,12 @@
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
 		name="noForm">
 		<forward name="success" path="/jsp/pcaReport.jsp" />
+	</action>
+	
+	<action path="/clinicalViaKMReport"
+		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
+		name="noForm">
+		<forward name="success" path="/jsp/clinicalViaKMReport.jsp" />
 	</action>
 	
 	<action path="/clinicalPlots"

@@ -108,7 +108,7 @@ public class UIFormValidator {
     }
     
     public static ActionErrors validateSelectedGroup(String groupsOption, String[] selectedGroups, ActionErrors errors){
-        if (groupsOption.equalsIgnoreCase("variousSamples") && selectedGroups.length < 1){
+        if (groupsOption.equalsIgnoreCase("variousSamples") && selectedGroups == null){
             errors.add("selectedGroups", new ActionError(
                     "gov.nih.nci.nautilus.ui.struts.form.group.no.error"));
         }

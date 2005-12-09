@@ -69,6 +69,13 @@
 		<graphing:KaplanMeierPlot bean="kmDataSetForm" dataset="selectedDataset" /></p>
 		<p>
 		<br>
+		
+		View Clinical Reports<br />
+			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Up Samples</a>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Down Samples</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
+		
+		
 		<!-- Statistical Data  STARTS HERE --></p>
 		<fieldset class="gray" style="text-align:left">
 		<legend class="red">Statistical	Report:</legend>

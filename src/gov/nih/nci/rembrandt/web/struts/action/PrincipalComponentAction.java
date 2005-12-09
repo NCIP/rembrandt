@@ -120,12 +120,11 @@ public class PrincipalComponentAction extends DispatchAction {
         
         //If user selects all samples, populate an "empty" clinical query with no specified samples         
         if(principalComponentForm.getGroupsOption().equalsIgnoreCase("allSamples")){
-            if(principalComponentForm.getSelectedGroups() == null || principalComponentForm.getSelectedGroups().length==0){
             ClinicalDataQuery emptyClinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
             emptyClinicalDataQuery.setQueryName("allSampleClinicalQuery");
             clinicalQueryCollection.add(emptyClinicalDataQuery);
             principalComponentAnalysisQueryDTO.setComparisonGroups(clinicalQueryCollection);
-            }
+            
         }
         
         
