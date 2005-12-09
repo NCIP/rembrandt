@@ -93,7 +93,7 @@ public class KaplanMeierPlotHandler {
  					}
  				}
           	}//for
- 			if(geneExprObjects.length == 1){
+ 			if(geneExprObjects.length > 1){
 	 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(geneExprObjects[0].getGeneSymbol()));
 	 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
 	 			Map paitentDataLookup = LookupManager.getPatientDataMap();
