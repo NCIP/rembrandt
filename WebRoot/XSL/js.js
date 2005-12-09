@@ -161,7 +161,12 @@ function showHelp(help)	{
 
 function spawnAnnot(type, element)	{
 
-	var el = element.innerHTML;
+	var el; //either accept and object or a string
+	if(element.innerHTML)
+		el = element.innerHTML;
+	else
+		el = element;
+		
 	var winw = 800;
 	var winh = 550;
 	var page = "";
