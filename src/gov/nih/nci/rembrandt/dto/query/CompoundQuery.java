@@ -175,6 +175,7 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		// The right query's AssociatedView is always the "winning view"
 		if (rightQuery != null && rightQuery.getAssociatedView() != null) {
 			setAssociatedView(rightQuery.getAssociatedView());
+			setQueryName(rightQuery.getQueryName());
 		}
 		if (validateProjectResultsBy() == false) {// if invalide Query
 			throw new Exception(

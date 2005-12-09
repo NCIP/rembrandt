@@ -26,6 +26,7 @@ import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
@@ -223,12 +224,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
 	    
         //Check user credentials and constrain query by Institutions
-        if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
-            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            InstitutionCriteria institutionCriteria = new InstitutionCriteria();
-            institutionCriteria.setInstitutions(credentials.getInstitutes());
-            geneExpQuery.setInstitutionCriteria(institutionCriteria);
-        }
+        if(geneExpQuery != null){
+        	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+            }
         logger.debug("This is a Gene Expression Submital");
 	   
 		if (!geneExpQuery.isEmpty()) {
@@ -274,6 +272,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		logger.debug("This is a Gene Expression Preview");
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
+        if(geneExpQuery != null){
+        	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+            }
 	    request.setAttribute("previewForm",geneExpressionForm.cloneMe());
         logger.debug("This is a Preview Report");
 	    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);

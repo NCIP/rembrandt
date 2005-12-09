@@ -8,7 +8,6 @@ import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
@@ -16,7 +15,6 @@ import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
@@ -26,6 +24,7 @@ import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 
@@ -47,7 +46,6 @@ import org.apache.struts.actions.LookupDispatchAction;
 public class ComparativeGenomicAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-    private UserCredentials credentials;
    //if multiUse button clicked (with styles de-activated) forward back to page
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -246,12 +244,9 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
         
         //Check user credentials and constrain query by Institutions
-        if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
-            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            InstitutionCriteria institutionCriteria = new InstitutionCriteria();
-            institutionCriteria.setInstitutions(credentials.getInstitutes());
-            cghQuery.setInstitutionCriteria(institutionCriteria);
-        }
+        if(cghQuery != null){
+        	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+            }
         
         //This is required as struts resets the form.  It is later added back to the request
         request.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
@@ -302,6 +297,9 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         logger.debug("This is a Comparative Genomic Preview");
         //Create Query Objects
         ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
+        if(cghQuery != null){
+        	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+            }
         //This is required as struts resets the form.  It is later added back to the request
         request.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
         CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
