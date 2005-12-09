@@ -52,7 +52,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 var pendingSamples = new Array();
 		
 function addToPending(sample)	{
-	if(!pendingSamples.inArray(sample))	{
+	if((saf && !safInArray(pendingSamples, sample)) || !pendingSamples.inArray(sample))	{
 		//add this to the JS array
 		pendingSamples[pendingSamples.length] = sample;
 		//add to array list
@@ -95,6 +95,18 @@ Array.prototype.inArray = function (value)	{
 	}
 	return false;
 };
+
+//saf doesnt like the above inArray
+function safInArray(ar, value)	{
+	var i;
+	for (i=0; i < ar.length; i++) {
+		// Matches identical (===), not just similar (==).
+		if (ar[i] == value) {
+			return true;
+		}
+	}
+	return false;
+}
 
 //Create the dBox object (initialize a few things)
 var main = new dBox("geneChart");
@@ -226,14 +238,19 @@ else
 	
 	function didSelectAnything(name, minx, miny, maxx, maxy)	{
 	
+		//alert(minx + ", " + miny + ", " +maxx + ", " +maxy );
+
 		var gotem = "";
 		
 		//get the map
 		var theMap = document.getElementsByTagName("map");
-		
+				
 		//get the areas
 		var theAreas = theMap[0].getElementsByTagName("area");
 
+		//alert(theAreas[0].coords.replace(" ", "").split(","));
+		//alert(minx + ", " + miny + ", " +maxx + ", " +maxy );
+		
 		//look at each area
 		for(var i=0; i<theAreas.length; i++)	{
 			//parse the coords
@@ -242,6 +259,7 @@ else
 			//so there could be N coords, unless we force Jfreechart to use a square
 			
 			if(s[0] >= minx && s[1] >= miny && s[2] <= maxx && s[3] <= maxy)	{
+			
 				//we have lassoed this point
 				gotem += theAreas[i].title + "\n";
 				

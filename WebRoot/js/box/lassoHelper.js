@@ -23,7 +23,7 @@ markersize = 32;
 var pendingSamples = new Array();
 		
 function addToPending(sample)	{
-	if(!pendingSamples.inArray(sample))	{
+	if((saf && !safInArray(pendingSamples, sample)) || !pendingSamples.inArray(sample))	{
 		//add this to the JS array
 		pendingSamples[pendingSamples.length] = sample;
 		//add to array list
@@ -66,6 +66,18 @@ Array.prototype.inArray = function (value)	{
 	}
 	return false;
 };
+
+//saf doesnt like the above inArray
+function safInArray(ar, value)	{
+	var i;
+	for (i=0; i < ar.length; i++) {
+		// Matches identical (===), not just similar (==).
+		if (ar[i] == value) {
+			return true;
+		}
+	}
+	return false;
+}
 
 //Create the dBox object (initialize a few things)
 var main = new dBox("geneChart");
