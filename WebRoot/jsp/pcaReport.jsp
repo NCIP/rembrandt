@@ -25,6 +25,8 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 	  
 			if (ie) {
 				markersrc = "/rembrandt/images/marker.gif";
+			} else if(saf) {
+				markersrc = "/rembrandt/images/blank.gif";
 			} else {
 				markersrc = "/rembrandt/images/marker.png";
 			}
@@ -334,7 +336,7 @@ function maphide () {
   }
   
   function mapshow (city) {
-  main.reset();
+  	main.reset();
     var offset = 0 - (markersize/2);
     var x = coordx[city] + offset;
     var y = coordy[city] + offset;
