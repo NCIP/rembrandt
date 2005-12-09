@@ -115,8 +115,12 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
                         
                         
                         Long sl = rs.getSurvivalLength();
+                        double survivalDays = -1.0;
+                        double survivalMonths = -1.0;
                         if (sl != null) {
-                          clinicalDataPoint.setSurvival(sl.doubleValue());
+                          survivalDays = sl.doubleValue();
+                          survivalMonths = survivalDays/30.0;
+                          clinicalDataPoint.setSurvival(survivalMonths);
                         }
                         
                         Long dxAge = rs.getAge();
