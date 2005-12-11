@@ -43,7 +43,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
     private Properties messagingProps;
 	private QueueSession queueSession;
  
-	private QueueSender requestSender;
+	//private QueueSender requestSender;
 	private QueueReceiver resultReceiver;
 
 	private Queue requestQueue;
@@ -93,7 +93,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 
 	    
 	    // Create a publisher
-	    requestSender = queueSession.createSender(requestQueue);
+	    //requestSender = queueSession.createSender(requestQueue);
 		resultReceiver = queueSession.createReceiver(resultQueue);
 		resultReceiver.setMessageListener(this);
 		
@@ -190,16 +190,26 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	public void sendRequest(AnalysisRequest request) throws JMSException {
 		ObjectMessage msg;
 		try {
+			
+			QueueSession requestSession = queueConnection.createQueueSession(
+				      // No transaction
+				      false,
+				      // Auto ack
+				      Session.AUTO_ACKNOWLEDGE);
+			
 		    // Create a message
-			msg = queueSession.createObjectMessage(request);
+			msg = requestSession.createObjectMessage(request);
+			QueueSender requestSender = requestSession.createSender(requestQueue);
 			// Send the message
 		    requestSender.send(msg, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, Message.DEFAULT_TIME_TO_LIVE);
+		    requestSender.close();
+		    requestSession.close();
 			logger.debug("sendRequest session: "+request.getSessionId()+" & task: "+request.getTaskId()+" has been sent to the JMQ");
 
 		} catch (JMSException e) {
 			logger.error(e);
 			throw e;
-		}
+		} 
 	}
 	
 }
