@@ -31,7 +31,7 @@ import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 public class GeneExpressionPlot {
 
 	public static HashMap generateBarChart(String gene, HttpSession session,
-			PrintWriter pw) {
+			PrintWriter pw, GeneExpressionDataSetType geType) {
 		String filename = null;
 		String ffilename = null;
 		String legendHtml = null;
@@ -39,10 +39,11 @@ public class GeneExpressionPlot {
 
 		try {
 			InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(session);
-			final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria,GeneExpressionDataSetType.GeneExpressionDataSet );
 
-			DefaultStatisticalCategoryDataset dataset = (DefaultStatisticalCategoryDataset) gpds
-					.getDataSet();
+			final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria, geType);
+			//final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria,GeneExpressionDataSetType.GeneExpressionDataSet );
+
+			DefaultStatisticalCategoryDataset dataset = (DefaultStatisticalCategoryDataset) gpds.getDataSet();
 			CategoryDataset fdataset = (CategoryDataset) gpds.getFdataset();
 
 			// create the chart...

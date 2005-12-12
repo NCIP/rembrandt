@@ -5,13 +5,10 @@
 <%@ page import = "java.util.Date" %>
 <%@ page import = "java.util.Iterator" %>
 <%@ page import = "java.util.Locale" %>
-<%@ page import = "gov.nih.nci.caintegrator.ui.graphing.data.geneExpression.*" %>
 <%@ page import = "gov.nih.nci.rembrandt.dto.lookup.*" %>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
 <%
 
-//	String geneSymbol = (String) request.getAttribute("geneSymbol");
-String geneSymbol = "";
 String filename="";
 String graphURL= "";
 
@@ -41,7 +38,12 @@ String graphURL= "";
 	<img src="<%= graphURL %>" border=0 usemap="#<%= filename %>">
 	-->
 
-	<graphing:GenePlot/>
+<%
+//String geneSymbol = request.getAttribute("geneSymbol")!=null ? (String) request.getAttribute("geneSymbol") : "N/A";
+String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : "regular"; 
+
+%>
+	<graphing:GenePlot algorithm="<%=alg%>" />
 	
 	
 	<Br/>

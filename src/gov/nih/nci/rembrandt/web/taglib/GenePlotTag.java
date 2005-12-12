@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
+import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
 import gov.nih.nci.rembrandt.web.graphing.data.GeneExpressionPlot;
 
 import java.io.IOException;
@@ -12,18 +13,43 @@ import javax.servlet.jsp.JspWriter;
 
 public class GenePlotTag extends AbstractGraphingTag {
 	
+	public String algorithm = "";
+	
 	public int doStartTag() {
 		JspWriter out = pageContext.getOut();
 		try {
 			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-			String geneSymbol = (String) request.getAttribute("geneSymbol");
-			HashMap charts = GeneExpressionPlot.generateBarChart(geneSymbol, pageContext.getSession(), new PrintWriter(out));
+			String geneSymbol = "";
+			//can come from the action or via a get param..never both, never neither
+			if(request.getAttribute("geneSymbol") != null)	{
+				geneSymbol = (String) request.getAttribute("geneSymbol");
+			}
+			else if(request.getParameter("geneSymbol") != null)	{
+				geneSymbol = (String) request.getParameter("geneSymbol");
+			}
+			
+			GeneExpressionDataSetType geType = algorithm.equals("regular") ? GeneExpressionDataSetType.GeneExpressionDataSet : GeneExpressionDataSetType.UnifiedGeneExpressionDataSet;
+			
+			HashMap charts = GeneExpressionPlot.generateBarChart(geneSymbol, pageContext.getSession(), new PrintWriter(out), geType);
 			String filename = (String) charts.get("errorBars");
 			String ffilename = (String) charts.get("noErrorBars");
 			String legendHtml = (String) charts.get("legend");
 			
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
+			
+			if(algorithm.equals("regular"))
+				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg=unified\">Unified Gene</a>");		
+			else
+				out.print("Unified Gene");
+				
+			out.print(" | ");
+
+			if(algorithm.equals("unified"))
+				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg=regular\">Regular</a>");		
+			else
+				out.print("Regular");
+			
 			
 			out.print("<img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\">");
 			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend
@@ -41,5 +67,11 @@ public class GenePlotTag extends AbstractGraphingTag {
 	}
 	public void reset() {
 		//nada
+	}
+	public String getAlgorithm() {
+		return algorithm;
+	}
+	public void setAlgorithm(String algorithm) {
+		this.algorithm = algorithm;
 	}
 }

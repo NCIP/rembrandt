@@ -39,6 +39,7 @@
 		<attribute>
 			<name>components</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<name>colorBy</name>
@@ -79,6 +80,11 @@
 		</tag-class>
 		<bodycontent>empty</bodycontent>
 		<description>The Gene Expression Plot</description>
+		<attribute>
+			<name>algorithm</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 	<tag>
 		<name>ClinicalPlot</name>
