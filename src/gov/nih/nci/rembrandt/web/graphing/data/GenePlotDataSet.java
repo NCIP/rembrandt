@@ -117,7 +117,7 @@ public class GenePlotDataSet {
 					   	UnifiedGeneExpressionQuery unifiedGeneQuery;
 						GeneIDCriteria geneCrit = new GeneIDCriteria();
 						geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(gene));
-						unifiedGeneQuery = (UnifiedGeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+						unifiedGeneQuery = (UnifiedGeneExpressionQuery) QueryManager.createQuery(QueryType.UNIFIED_GENE_EXPR_QUERY_TYPE);
 						unifiedGeneQuery.setQueryName("UnifiedGeneExpressionPlot");
 						unifiedGeneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
 						unifiedGeneQuery.setGeneIDCrit(geneCrit);
