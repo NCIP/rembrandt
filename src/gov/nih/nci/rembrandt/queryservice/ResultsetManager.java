@@ -72,8 +72,10 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
+import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprGroup;
@@ -199,6 +201,17 @@ public class ResultsetManager {
 				resultant.setResultsContainer(resultsContainer);
 				resultant.setAssociatedQuery(queryToExecute);
 				resultant.setAssociatedView(associatedView);
+			}else	if (queryToExecute instanceof UnifiedGeneExpressionQuery) {
+					Viewable associatedView = ViewFactory
+							.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW);
+					queryToExecute.setAssociatedView(associatedView);
+					ResultSet[] resultsets = QueryManager
+							.executeQuery(queryToExecute);
+					ResultsContainer resultsContainer = KaplanMeierPlotHandler
+							.handleKMUnifiedGeneExprPlotContainer((UnifiedGeneExpr.UnifiedGeneExprSingle[]) resultsets);
+					resultant.setResultsContainer(resultsContainer);
+					resultant.setAssociatedQuery(queryToExecute);
+					resultant.setAssociatedView(associatedView);
 			} else if (queryToExecute instanceof ComparativeGenomicQuery) {
 				Viewable associatedView = ViewFactory
 						.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW);

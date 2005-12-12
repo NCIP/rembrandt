@@ -75,10 +75,13 @@ abstract public class UnifiedGeneExpr implements ResultSet{
         this.sampleIntensity = sampleIntensity;
     }
 
-    final public static class UnifiedGeneExprSingle extends UnifiedGeneExpr {
+    final public static class UnifiedGeneExprSingle extends UnifiedGeneExpr implements ClinicalResultSet{
         private String sampleId;
-
-
+        private String ageGroup;
+        private Long biospecimenId;
+        private String genderCode;
+        private String survivalLengthRange;
+        
         public String getSampleId() {
             return sampleId;
         }
@@ -86,6 +89,64 @@ abstract public class UnifiedGeneExpr implements ResultSet{
         public void setSampleId(String sampleId) {
             this.sampleId = sampleId;
         }
+
+		/**
+		 * @return Returns the ageGroup.
+		 */
+		public String getAgeGroup() {
+			return ageGroup;
+		}
+
+		/**
+		 * @param ageGroup The ageGroup to set.
+		 */
+		public void setAgeGroup(String ageGroup) {
+			this.ageGroup = ageGroup;
+		}
+
+		/**
+		 * @return Returns the biospecimenId.
+		 */
+		public Long getBiospecimenId() {
+			return biospecimenId;
+		}
+
+		/**
+		 * @param biospecimenId The biospecimenId to set.
+		 */
+		public void setBiospecimenId(Long biospecimenId) {
+			this.biospecimenId = biospecimenId;
+		}
+
+		/**
+		 * @return Returns the genderCode.
+		 */
+		public String getGenderCode() {
+			return genderCode;
+		}
+
+		/**
+		 * @param genderCode The genderCode to set.
+		 */
+		public void setGenderCode(String genderCode) {
+			this.genderCode = genderCode;
+		}
+
+		/**
+		 * @return Returns the survivalLengthRange.
+		 */
+		public String getSurvivalLengthRange() {
+			return survivalLengthRange;
+		}
+
+		/**
+		 * @param survivalLengthRange The survivalLengthRange to set.
+		 */
+		public void setSurvivalLengthRange(String survivalLengthRange) {
+			this.survivalLengthRange = survivalLengthRange;
+		}
+
+
     }
 
     final public static class UnifiedGeneExprGroup extends UnifiedGeneExpr {

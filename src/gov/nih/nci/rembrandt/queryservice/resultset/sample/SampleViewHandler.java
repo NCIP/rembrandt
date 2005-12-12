@@ -122,7 +122,7 @@ public class SampleViewHandler {
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));
 		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));			
-	    sampleResultset.setWhoGrade(clinicalObj.getWhoGrade());	
+/*	    sampleResultset.setWhoGrade(clinicalObj.getWhoGrade());	
 		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
 		if(clinicalObj.getAge() != null){
 			sampleResultset.setAge(clinicalObj.getAge());
@@ -135,9 +135,9 @@ public class SampleViewHandler {
 			sampleResultset.setCensor(new DatumDE(DatumDE.CENSOR,clinicalObj.getCensoringStatus()));
 		}
 
-		/*if(clinicalObj.getKarnofskyScore() != null) {
+		if(clinicalObj.getKarnofskyScore() != null) {
 		   sampleResultset.setKarnofskyClinicalEvalDE(new KarnofskyClinicalEvalDE(clinicalObj.getKarnofskyScore().toString()));
-		}*/
+		}
 		
 		if(clinicalObj.getKarnofskyScores() != null) {
 			   //sampleResultset.setKarnofskyScores(clinicalObj.getKarnofskyScores());
@@ -145,18 +145,18 @@ public class SampleViewHandler {
 				
 		}
 		
-		/*if(clinicalObj.getLanskyScore() != null) {
+		if(clinicalObj.getLanskyScore() != null) {
 			   sampleResultset.setLanskyClinicalEvalDE(new LanskyClinicalEvalDE(clinicalObj.getLanskyScore().toString()));
-			}*/
+			}
 			   
 	    if(clinicalObj.getLanskyScores() != null) {
 				//sampleResultset.setLanskyClinicalEvalDE(clinicalObj.getLanskyScores());
 				 sampleResultset.setLanskyClinicalEvalDE(new LanskyClinicalEvalDE(clinicalObj.getLanskyScores().toString()));
 					
 			}
-		/*if(clinicalObj.getNeuroExam() != null) {
+		if(clinicalObj.getNeuroExam() != null) {
 			   sampleResultset.setNeuroExamClinicalEvalDE(new NeuroExamClinicalEvalDE(clinicalObj.getNeuroExam().toString()));
-			}*/
+			}
 		
 		if(clinicalObj.getNeuroExams() != null) {
 			  // sampleResultset.setNeuroExamClinicalEvalDE(clinicalObj.getNeuroExams());
@@ -164,10 +164,10 @@ public class SampleViewHandler {
 				
 			}
 		
-		/*if(clinicalObj.getMriCtScore() != null) {
+		if(clinicalObj.getMriCtScore() != null) {
 			   sampleResultset.setMriClinicalEvalDE(new MRIClinicalEvalDE(clinicalObj.getMriCtScores().toString()));
 			}
-			*/
+			
 		
 		if(clinicalObj.getMriCtScores() != null) {
 			  // sampleResultset.setMriClinicalEvalDE(clinicalObj.getMriCtScores());
@@ -175,46 +175,46 @@ public class SampleViewHandler {
 				
 			}
 		
-		/*if(clinicalObj.getTimePoint() != null) {
+		if(clinicalObj.getTimePoint() != null) {
 			   sampleResultset.setTimePoint(new String(clinicalObj.getTimePoint()));
 			}
-			*/
+			
 		if(clinicalObj.getTimePoints() != null) {
 			   sampleResultset.setTimePoints(new String(clinicalObj.getTimePoints()));
 			}
-		/*
+		
 		    if(clinicalObj.getFollowupDate() != null) {
 			   sampleResultset.setFollowupDate(clinicalObj.getFollowupDate());
 			}
-			*/
+			
 		if(clinicalObj.getFollowupDates() != null) {
 			   sampleResultset.setFollowupDates(clinicalObj.getFollowupDates());
 			}
-		/*if(clinicalObj.getFollowupMonth() != null) {
+		if(clinicalObj.getFollowupMonth() != null) {
 			   sampleResultset.setFollowupMonth(clinicalObj.getFollowupMonth());
-			}*/
+			}
 		
 		if(clinicalObj.getFollowupMonths() != null) {
 			   sampleResultset.setFollowupMonths(clinicalObj.getFollowupMonths());
 			}
-		/*if(clinicalObj.getNeuroEvaluationDate() != null) {
+		if(clinicalObj.getNeuroEvaluationDate() != null) {
 			   sampleResultset.setNeuroEvaluationDate(clinicalObj.getNeuroEvaluationDate());
-			}*/
+			}
 		
 		if(clinicalObj.getNeuroEvaluationDates() != null) {
 			   sampleResultset.setNeuroEvaluationDates(clinicalObj.getNeuroEvaluationDates());
 			}
-		/*if(clinicalObj.getSteroidDoseStatus() != null) {
+		if(clinicalObj.getSteroidDoseStatus() != null) {
 			   sampleResultset.setSteroidDoseStatus(clinicalObj.getSteroidDoseStatus());
-			}*/
+			}
 		
 		if(clinicalObj.getSteroidDoseStatuses() != null) {
 			   sampleResultset.setSteroidDoseStatuses(clinicalObj.getSteroidDoseStatuses());
 			}
-		/*if(clinicalObj.getAntiConvulsantStatus() != null) {
+		if(clinicalObj.getAntiConvulsantStatus() != null) {
 			   sampleResultset.setAntiConvulsantStatus(clinicalObj.getAntiConvulsantStatus());
 			}
-			*/
+			
 		if(clinicalObj.getAntiConvulsantStatuses() != null) {
 			   sampleResultset.setAntiConvulsantStatuses(clinicalObj.getAntiConvulsantStatuses());
 			}
@@ -395,7 +395,7 @@ public class SampleViewHandler {
 		if(clinicalObj.getOnStudySurgeryIndications() != null) {
 			   sampleResultset.setOnStudySurgeryIndications(clinicalObj.getOnStudySurgeryIndications());
 			}
-		
+		*/
 		
 		return sampleResultset;
     }
