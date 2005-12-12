@@ -114,7 +114,7 @@ final public class ChrRegionCriteriaHandler {
         c.addGreaterOrEqualThan(positionCol, new Long(posObj.getStartPosition().getValueObject().longValue()));
         c.addLessOrEqualThan(positionCol, new Long(posObj.getEndPosition().getValueObject().longValue()));
 
-        ReportQueryByCriteria snpProbeIDQuery = QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, c, true );
+        ReportQueryByCriteria snpProbeIDQuery = QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, c, false );
         return snpProbeIDQuery;
     }
 
