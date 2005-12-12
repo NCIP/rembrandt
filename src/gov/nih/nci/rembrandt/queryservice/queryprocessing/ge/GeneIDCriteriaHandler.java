@@ -82,7 +82,7 @@ public class GeneIDCriteriaHandler {
         Criteria snpProbesetIDCrit = new  Criteria();
         snpProbesetIDCrit.addIn("UPPER(" + geneIDCol + ")", geneIDs);
         //String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, GeneSnp.class.getName(), );
-        ReportQueryByCriteria snpSubQuery = QueryFactory.newReportQuery(targetClass,snpProbesetIDCrit, true );
+        ReportQueryByCriteria snpSubQuery = QueryFactory.newReportQuery(targetClass,snpProbesetIDCrit, false );
         snpSubQuery.setAttributes(new String[] {attrToRetrieve}) ;
         snpProbeIDCrit.setSnpProbeIDsSubQuery(snpSubQuery);
         return  snpProbeIDCrit;

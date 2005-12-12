@@ -147,7 +147,7 @@ final public class ChrRegionCriteriaHandler {
              }
         }
 
-        ReportQueryByCriteria coleIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
+        ReportQueryByCriteria coleIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, false );
         return coleIDSubQuery;
     }
     public static StartEndPosition getStartEndPostions(PersistenceBroker pb, RegionCriteria regionCrit, ChromosomeNumberDE chrNumber) throws Exception {
