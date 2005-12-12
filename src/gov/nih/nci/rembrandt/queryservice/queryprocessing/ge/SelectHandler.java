@@ -79,28 +79,22 @@ public abstract class SelectHandler implements Runnable {
     }
 
     public void run() {
-           //PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
 
-
-           //ReportQueryByCriteria c = reporterIDCritObj.getCloneIDsSubQuery();
            Collection probeIDS = Collections.synchronizedCollection(new HashSet());
            Collection cloneIDS = Collections.synchronizedCollection(new HashSet());
 
            Collection probeQueries = reporterIDCritObj.getMultipleProbeIDsSubQueries();
            executeSubQueries(probeQueries, probeIDS);
-           //ReportQueryByCriteria p = reporterIDCritObj.getProbeIDsSubQuery();
            Collection cloneQueries = reporterIDCritObj.getMultipleCloneIDsSubQueries();
            executeSubQueries(cloneQueries, cloneIDS);
+
            try {
                 ThreadController.sleepOnEvents(eventList);
            } catch (InterruptedException e) {
-               // should never happen.  If happens log it and continue
+               // No big deal.  If happens log it and continue
                e.printStackTrace();
            }
 
-
-           //executeProbeCloneIDSubQuery(c, cloneIDS);
-           //_BROKER.close();
            allProbeIDS.addAll(probeIDS);
            allCloneIDS.addAll(cloneIDS);
            getDbEvent().setCompleted(true);
@@ -114,8 +108,8 @@ public abstract class SelectHandler implements Runnable {
             String threadID = new Long(System.currentTimeMillis()).toString();
             final DBEvent.SubQueryEvent event = new DBEvent.SubQueryEvent(threadID);
             eventList.add(event);
-            logger.debug("NEW THREADS: " + threadID);
-            //new Thread(new Executor(query, probeIDS, event)).start();
+            logger.debug("NEW THREAD: " + threadID);
+
             ThreadPool.AppThread t = ThreadPool.newAppThread(
                        new ThreadPool.MyRunnable() {
                           public void codeToRun() {

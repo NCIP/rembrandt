@@ -104,7 +104,7 @@ public class CGHQueryHandler extends QueryHandler {
         sCrit.addColumnIn(nameCol, inputIDs);
         String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.SNP_PROBESET_ID);
 
-        snpProbeIDsQuery =  QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, sCrit, true);
+        snpProbeIDsQuery =  QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, sCrit, false);
         CGHReporterIDCriteria reporterIDCrit = new CGHReporterIDCriteria ();
         if (includeSNPs) {
             reporterIDCrit.setSnpProbeIDsSubQuery(snpProbeIDsQuery);
