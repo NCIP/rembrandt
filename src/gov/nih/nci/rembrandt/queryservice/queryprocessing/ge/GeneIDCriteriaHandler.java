@@ -107,7 +107,7 @@ public class GeneIDCriteriaHandler {
                     String deMappingAttrColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), deMappingAttrName);
                     Criteria c = new Criteria();
                     c.addColumnIn("UPPER(" + deMappingAttrColumn + ")", geneIDValues);
-                    ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, true );
+                    ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, false );
                     cloneIDProbeIDCrit.getMultipleProbeIDsSubQueries().add(probeIDSubQuery);
                 }
                 if (includeClones) {
@@ -116,29 +116,11 @@ public class GeneIDCriteriaHandler {
                      String deMappingAttrColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), deMappingAttrName);
                      Criteria c = new Criteria();
                      c.addIn("UPPER(" + deMappingAttrName + ")", geneIDValues);
-                     ReportQueryByCriteria cloneIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
+                     ReportQueryByCriteria cloneIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, false );
                      cloneIDProbeIDCrit.getMultipleCloneIDsSubQueries().add(cloneIDSubQuery);
                 }
         }
 
-        /*  BEFORE MULITTHREADING
-        if ( includeProbes) {
-            String probeIDColumn = QueryHandler.getColumnNameForBean(pb, ProbesetDim.class.getName(), ProbesetDim.PROBESET_ID);
-            String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), ProbesetDim.class.getName());
-            Criteria c = new Criteria();
-            c.addIn(deMappingAttrName, geneIDs);
-            ReportQueryByCriteria probeIDSubQuery = QueryFactory.newReportQuery(ProbesetDim.class, new String[] {probeIDColumn}, c, true );
-            cloneIDProbeIDCrit.setProbeIDsSubQuery(probeIDSubQuery);
-        }
-        if (includeClones) {
-            String cloneIDColumn = QueryHandler.getColumnNameForBean(pb, GeneClone.class.getName(), GeneClone.CLONE_ID);
-            String deMappingAttrName = QueryHandler.getAttrNameForTheDE(deClass.getName(), GeneClone.class.getName());
-            Criteria c = new Criteria();
-            c.addIn(deMappingAttrName, geneIDs);
-            ReportQueryByCriteria cloneIDSubQuery = QueryFactory.newReportQuery(GeneClone.class, new String[] {cloneIDColumn}, c, true );
-            cloneIDProbeIDCrit.setCloneIDsSubQuery(cloneIDSubQuery);
-        }
-        */
        	pb.close(); // Release broker instance to the broker-pool
         return cloneIDProbeIDCrit;
     }
