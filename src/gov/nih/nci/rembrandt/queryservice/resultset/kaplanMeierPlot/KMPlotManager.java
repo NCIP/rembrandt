@@ -64,6 +64,7 @@ import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -99,6 +100,38 @@ public class KMPlotManager {
 				geneQuery.setGeneIDCrit(geneCrit);
 				geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
 						new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+				Resultant resultant = ResultsetManager
+						.executeKaplanMeierPlotQuery(geneQuery);
+				resultsContainer = resultant.getResultsContainer();
+			}
+
+		} catch (Exception e) {
+			logger.error("KMPlotManager has thrown an exception");
+			logger.error(e);
+		}
+		return resultsContainer;
+	}
+	/***************************************************************************
+	 * 
+	 * @return @throws
+	 *         Exception
+	 */
+	public ResultsContainer performUnifiedKMGeneExpressionQuery(String geneSymbol)
+			throws Exception {
+		ResultsContainer resultsContainer = null;
+		try {
+			if (geneSymbol != null) {
+				GeneIDCriteria geneCrit = new GeneIDCriteria();
+				geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(
+						geneSymbol));
+				UnifiedGeneExpressionQuery geneQuery = (UnifiedGeneExpressionQuery) QueryManager
+						.createQuery(QueryType.UNIFIED_GENE_EXPR_QUERY_TYPE);
+				geneQuery.setQueryName("UnifiedKaplanMeierPlot");
+				geneQuery.setAssociatedView(ViewFactory
+						.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+				geneQuery.setGeneIDCrit(geneCrit);
+				//geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
+				//		new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
 				Resultant resultant = ResultsetManager
 						.executeKaplanMeierPlotQuery(geneQuery);
 				resultsContainer = resultant.getResultsContainer();

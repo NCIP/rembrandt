@@ -50,19 +50,21 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot;
 
 import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
-import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprSingle;
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -246,13 +248,76 @@ public class KaplanMeierPlotHandler {
 //		find out the sample associated with the exprObj
   		//populate the SampleKaplanMeierPlotResultset
 		SampleKaplanMeierPlotResultset sampleResultset = null;
-  		if(kaplanMeierPlotContainer != null && clinicalObj != null &&  clinicalObj.getBiospecimenId() != null){
+  		if(kaplanMeierPlotContainer != null && clinicalObj != null &&  clinicalObj.getSampleId() != null){
   			SampleIDDE sampleID = new SampleIDDE(clinicalObj.getSampleId());
-  			sampleResultset = (SampleKaplanMeierPlotResultset) kaplanMeierPlotContainer.getBioSpecimenResultset(clinicalObj.getBiospecimenId().toString());
+  			sampleResultset = (SampleKaplanMeierPlotResultset) kaplanMeierPlotContainer.getBioSpecimenResultset(clinicalObj.getSampleId().toString());
   		    if (sampleResultset == null){
   		    	sampleResultset= new SampleKaplanMeierPlotResultset(sampleID);
   		    }
       	}
   		return sampleResultset;
 	}
+	public static ResultsContainer handleKMUnifiedGeneExprPlotContainer(UnifiedGeneExprSingle[] unifiedGeneExprObjects) throws Exception {
+	 		KaplanMeierPlotContainer kaplanMeierPlotContainer = new KaplanMeierPlotContainer();
+	 		if(unifiedGeneExprObjects != null  ){
+	 			for (int i = 0; i < unifiedGeneExprObjects.length; i++) {
+	 				if(unifiedGeneExprObjects[i] != null) {
+	 					ResultSet obj = unifiedGeneExprObjects[i];
+	 					if (obj instanceof UnifiedGeneExpr.UnifiedGeneExprSingle)  {
+	 						//Propulate the KaplanMeierPlotContainer
+	 						UnifiedGeneExpr.UnifiedGeneExprSingle  exprObj = (UnifiedGeneExpr.UnifiedGeneExprSingle) obj;
+	 						kaplanMeierPlotContainer = handleKMUnifiedGeneExpPlotContainer(kaplanMeierPlotContainer,exprObj);
+	 					}
+	 				}
+	          	}//for
+	 			if(unifiedGeneExprObjects.length > 1){
+		 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(unifiedGeneExprObjects[0].getGeneSymbol()));
+		 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
+		 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+			    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+			    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+			    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
+			    		if(patient != null  && patient.getSurvivalLength() != null && patient.getCensoringStatus()!=null){
+		
+				    		sample.setSurvivalLength(patient.getSurvivalLength());
+				    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
+				    		kaplanMeierPlotContainer.addBioSpecimenResultset(sample);  //update sample resultset
+			    		}
+			    	}	
+	 			}
+
+	 		}
+	        return kaplanMeierPlotContainer;
+
+		}
+	private static KaplanMeierPlotContainer handleKMUnifiedGeneExpPlotContainer(KaplanMeierPlotContainer kaplanMeierPlotContainer, UnifiedGeneExprSingle exprObj) {
+		SampleKaplanMeierPlotResultset sampleResultset = null;
+		ReporterResultset reporterResultset = null;
+      	if (kaplanMeierPlotContainer != null && exprObj != null){
+      		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol (exprObj.getGeneSymbol()));
+      		sampleResultset = handleSampleKaplanMeierPlotResultset(kaplanMeierPlotContainer, exprObj);
+      		reporterResultset = handleUnifiedReporterFoldChangeValuesResultset(sampleResultset,exprObj);
+      		sampleResultset.addReporterResultset(reporterResultset);
+      		kaplanMeierPlotContainer.addBioSpecimenResultset(sampleResultset); 
+      	}
+		return kaplanMeierPlotContainer;
+
+	}
+	private static ReporterResultset handleUnifiedReporterFoldChangeValuesResultset(SampleKaplanMeierPlotResultset sampleResultset, UnifiedGeneExprSingle exprObj) {
+ 		// find out if it has a probeset or a clone associated with it
+  		//populate ReporterResultset with the approciate one
+		ReporterResultset reporterResultset = null;
+		if(sampleResultset != null && exprObj != null){
+	    	if(exprObj.getUnifiedGeneID() != null){
+	  			DatumDE reporter = new DatumDE(DatumDE.UNIFIED_GENE_ID,exprObj.getUnifiedGeneID());
+	       		reporterResultset = sampleResultset.getReporterResultset(reporter.getValue().toString());
+	      		if(reporterResultset == null){
+	      		 	reporterResultset = new ReporterResultset(reporter);
+	      			}
+	      		reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
+	    		}	  		
+		}
+        return reporterResultset;
+	}
+
 }

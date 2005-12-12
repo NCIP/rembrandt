@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
+import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierDataController;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
@@ -110,7 +111,7 @@ public class QuickSearchAction extends DispatchAction {
 		KaplanMeierPlotContainer kmResultsContainer = null;
 		KaplanMeierSampleInfo[] kmSampleInfos = {new KaplanMeierSampleInfo(0,0,0)};
 		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-			kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName);
+			kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet);
 			
 			if(kmResultsContainer!=null) {
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
@@ -264,10 +265,21 @@ public class QuickSearchAction extends DispatchAction {
 	 * @throws Exception
 	 */
 	private KaplanMeierPlotContainer performKMGeneExpressionQuery(
-			String geneSymbol) throws Exception {
+			String geneSymbol,GeneExpressionDataSetType geneExpressionDataSetType) throws Exception {
 		KMPlotManager kmPlotManager = new KMPlotManager();
-		return (KaplanMeierPlotContainer) kmPlotManager
-				.performKMGeneExpressionQuery(geneSymbol);
+		KaplanMeierPlotContainer kaplanMeierPlotContainer = null;
+		switch(geneExpressionDataSetType){
+		case GeneExpressionDataSet:
+		default:
+			kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
+			.performKMGeneExpressionQuery(geneSymbol);
+			break;
+		case UnifiedGeneExpressionDataSet:
+			kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
+			.performUnifiedKMGeneExpressionQuery(geneSymbol);
+			break;
+		}
+		return kaplanMeierPlotContainer;
 	}
 
 	/**

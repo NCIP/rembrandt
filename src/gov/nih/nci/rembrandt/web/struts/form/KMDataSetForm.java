@@ -33,9 +33,9 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 
 	private String changeType = "";
 	
-	private double upFold = 3;
+	private double upFold = 2;
 	
-	private double downFold = 3;
+	private double downFold = 2;
 
 	private String upOrAmplified = "Up Regulated";
 

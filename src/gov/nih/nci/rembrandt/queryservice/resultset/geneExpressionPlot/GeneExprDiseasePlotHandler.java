@@ -196,5 +196,28 @@ public class GeneExprDiseasePlotHandler {
 		}
   		return geneExprDiseasePlotContainer;
 	}
+	public static GeneExprDiseasePlotContainer handleNoramlAsDisease(GeneExprDiseasePlotContainer geneExprDiseasePlotContainer, UnifiedGeneExprGroup exprObj) {
+  		// find out if it has a probeset or a clone associated with it
+  		//populate ReporterResultset with the approciate one
+		ReporterFoldChangeValuesResultset reporterResultset = null;
+		DiseaseGeneExprPlotResultset non_tumor = null;
+		if(geneExprDiseasePlotContainer != null && exprObj != null){
+			//TODO:only Affy Probesets for now
+	    	if(exprObj.getUnifiedGeneID() != null){
+	    		non_tumor = geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(RembrandtConstants.NON_TUMOR);
+	  			DatumDE reporter = new DatumDE(DatumDE.UNIFIED_GENE_ID,exprObj.getUnifiedGeneID());
+	       		reporterResultset = non_tumor.getReporterFoldChangeValuesResultset(exprObj.getUnifiedGeneID().toString());
+	      		if(reporterResultset == null){
+	      		 	reporterResultset = new ReporterFoldChangeValuesResultset(reporter);
+	      			}
+	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,new Double("0.00")));//TODO: Should be changed to repecial value
+	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getNormalIntensity()));
+	    		}
+   			geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(non_tumor);     		
+   			non_tumor.addReporterFoldChangeValuesResultset(reporterResultset);
+	  		
+		}
+        return geneExprDiseasePlotContainer;
+	}
 
 }
