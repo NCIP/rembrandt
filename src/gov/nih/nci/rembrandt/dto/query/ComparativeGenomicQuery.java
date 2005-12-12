@@ -7,6 +7,7 @@ import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
@@ -15,6 +16,7 @@ import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
@@ -99,7 +101,7 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 				while (iter.hasNext()) {
 					DiseaseNameDE diseaseDE = (DiseaseNameDE) iter.next();
 					OutStr += "&nbsp;&nbsp;" + ((String) diseaseDE.getValue())
-							+ " ";
+							+ " <BR>";
 				}
 			} else {
 				logger
@@ -365,6 +367,28 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 				logger
 						.debug("AssayPlatform Criteria is empty or Application Resources file is missing.");
 			}
+//			 start institution Criteria
+			InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
+			if ((thisInstitutionCriteria != null)&& !thisInstitutionCriteria.isEmpty() && labels != null) {
+				Collection institutionColl = thisInstitutionCriteria.getInstitutions();
+				String thisCriteria = thisInstitutionCriteria.getClass().getName();
+				OutStr += "<BR><B class='otherBold'>"
+					+ labels.getString(thisCriteria.substring(thisCriteria
+							.lastIndexOf(".") + 1)) + "</B><BR>";
+				Iterator iter = institutionColl.iterator();
+				while (iter.hasNext()) {
+					InstitutionDE institutionDE= (InstitutionDE) iter.next();
+					OutStr += "" + ((String) institutionDE.getInstituteName())
+							+ "<BR>";
+				}
+			
+			}
+
+			else {
+				logger.debug("institution Criteria is empty or Application Resources file is missing.");
+			}// end of institution Criteria
+			
+
 		}// end of try
 		catch (Exception ie) {
 			logger.error("Error in ResourceBundle in CGH query - ");

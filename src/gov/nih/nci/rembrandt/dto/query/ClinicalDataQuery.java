@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GenderCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.KarnofskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.LanskyClinicalEvalCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.MRIClinicalEvalCriteria;
@@ -23,6 +24,7 @@ import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
@@ -152,7 +154,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					DiseaseNameDE diseaseDE = (DiseaseNameDE) iter.next();
 					OutStr += "&nbsp;&nbsp;" + ((String) diseaseDE.getValue())
-							+ " ";
+							+ "<BR> ";
 				}
 			} else {
 				logger
@@ -239,7 +241,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					RadiationTherapyDE radiationTherapyDE = (RadiationTherapyDE) iter.next();
 					OutStr += "" + ((String) radiationTherapyDE.getValue())
-							+ " ";
+							+ " <BR>";
 				}
 			
 					
@@ -269,7 +271,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					ChemoAgentDE chemoAgentDE = (ChemoAgentDE) iter.next();
 					OutStr += "" + ((String) chemoAgentDE.getValue())
-							+ " ";
+							+ "<BR> ";
 				}
 			
 					
@@ -301,7 +303,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					SurgeryOutcomeDE surgeryOutcomeDE = (SurgeryOutcomeDE) iter.next();
 					OutStr += "" + ((String) surgeryOutcomeDE.getValue())
-							+ " ";
+							+ " <BR>";
 				}
 			
 					
@@ -334,7 +336,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					PriorSurgeryTitleDE priorSurgeryTitleDE = (PriorSurgeryTitleDE) iter.next();
 					OutStr += "" + ((String) priorSurgeryTitleDE.getValue())
-							+ " ";
+							+ " <BR>";
 				}
 			
 					
@@ -363,7 +365,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = (OnStudyRadiationTherapyDE) iter.next();
 					OutStr += "" + ((String) onStudyRadiationTherapyDE.getValue())
-							+ " ";
+							+ "<BR> ";
 				}
 			
 					
@@ -392,7 +394,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					OnStudyChemoAgentDE onStudyChemoAgentDE = (OnStudyChemoAgentDE) iter.next();
 					OutStr += "" + ((String) onStudyChemoAgentDE.getValue())
-							+ " ";
+							+ "<BR> ";
 				}
 			
 					
@@ -421,7 +423,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 					while (iter.hasNext()) {
 						OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = (OnStudySurgeryOutcomeDE) iter.next();
 						OutStr += "" + ((String) onStudySurgeryOutcomeDE.getValue())
-								+ " ";
+								+ " <BR>";
 					}
 				
 						
@@ -450,7 +452,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 				while (iter.hasNext()) {
 					OnStudySurgeryTitleDE onStudySurgeryTitleDE = (OnStudySurgeryTitleDE) iter.next();
 					OutStr += "" + ((String) onStudySurgeryTitleDE.getValue())
-							+ " ";
+							+ "<BR> ";
 				}
 			
 					
@@ -653,11 +655,36 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 						.debug("NeuroExamClinicalEvalCriteria is empty or Application Resources file is missing.");
 			}// end of NeuroExamClinicalEvalCriteria
 
-		}// end of try
-		catch (Exception ie) {
-			logger.error("Error in ResourceBundle in clinical Data Query - ");
-			logger.error(ie);
+		
+		
+//		 start institution Criteria
+		InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
+		if ((thisInstitutionCriteria != null)&& !thisInstitutionCriteria.isEmpty() && labels != null) {
+			Collection institutionColl = thisInstitutionCriteria.getInstitutions();
+			String thisCriteria = thisInstitutionCriteria.getClass().getName();
+			OutStr += "<BR><B class='otherBold'>"
+				+ labels.getString(thisCriteria.substring(thisCriteria
+						.lastIndexOf(".") + 1)) + "</B><BR>";
+			Iterator iter = institutionColl.iterator();
+			while (iter.hasNext()) {
+				InstitutionDE institutionDE= (InstitutionDE) iter.next();
+				OutStr += "" + ((String) institutionDE.getInstituteName())
+						+ "<BR>";
+			}
+		
 		}
+
+		else {
+			logger.debug("institution Criteria is empty or Application Resources file is missing.");
+		}// end of institution Criteria
+		
+
+	}// end of try
+		
+	catch (Exception ie) {
+		logger.error("Error in ResourceBundle in clinical Data Query - ");
+		logger.error(ie);
+	}
 
 		OutStr += "<BR><BR>";
 		return OutStr;
