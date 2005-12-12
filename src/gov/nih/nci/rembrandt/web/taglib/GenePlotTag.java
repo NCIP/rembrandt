@@ -38,6 +38,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
 			
+			out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Algorithm:</span> ");
 			if(algorithm.equals("regular"))
 				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg=unified\">Unified Gene</a>");		
 			else
@@ -50,7 +51,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 			else
 				out.print("Regular");
 			
-			
+			out.print("</div><br/>");
 			out.print("<img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\">");
 			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend
 			out.print("<br/><a href=\"javascript:toggleGenePlot('"+filename+"','"+ffilename+"');\">Toggle Error Bars</a><br/> ");
