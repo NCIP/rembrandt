@@ -32,7 +32,6 @@ String graphURL= "";
 	<div>
 		<%=helpLink%>?sect=gplot<%=helpLinkClose%>
 	</div>
-	<br/>
 
 	<!-- 
 	<img src="<%= graphURL %>" border=0 usemap="#<%= filename %>">

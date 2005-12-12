@@ -180,6 +180,7 @@ function spawnAnnot(type, element)	{
 			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
 		}
 		else	{
+			//annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
 			annotLink = "https://www.affymetrix.com/LinkServlet?probeset=";
 		}
 		
@@ -188,6 +189,18 @@ function spawnAnnot(type, element)	{
 		//page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(el)+escape('&pix=620&hgsid=40518963&Submit=submit');
 		rbtFrame(page);
 	}
+	else if(type == 'reporterFromGene') {
+		var annotLink = "";	
+		if(el.indexOf("IMAGE")!= -1)	{
+			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
+		}
+		else	{
+			annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
+		}
+		page = escape(annotLink + el);
+		rbtFrame(page);
+	}
+	
 }
 
 function spawn(url,winw,winh) {

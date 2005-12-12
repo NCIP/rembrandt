@@ -418,7 +418,7 @@
 		      					<a href="#" onclick="javascript:spawnAnnot('gene', this); return false;"><xsl:value-of select="Data"/></a>
 		      				</xsl:when>
 		      				<xsl:when test="($styleclass = 'reporter' or $styleclass = 'cytoband') and $theData != '-'">
-		      						<a href="#" onclick="javascript:spawnAnnot('reporter',this); return false;"><xsl:value-of select="Data"/></a>	
+		      						<a href="#" onclick="javascript:spawnAnnot('reporterFromGene',this); return false;"><xsl:value-of select="Data"/></a>	
 		      				</xsl:when>
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
