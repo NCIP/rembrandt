@@ -7,8 +7,10 @@ import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -153,6 +155,31 @@ public class ResultsetProcessor {
                	//Propulate the GeneExprSingleResultsContainer
               	geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleGeneExprDiseaseView(geneExprDiseasePlotContainer,exprObj);
               	geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleNoramlAsDisease(geneExprDiseasePlotContainer,exprObj);
+              	resultsContainer = geneExprDiseasePlotContainer;
+              }
+    		}
+        }//for
+		return resultsContainer;
+	}
+	/**
+	 * @param groups
+	 * @return
+	 * @throws Exception
+	 */
+	public static ResultsContainer handleUnifiedGeneExpressPlot(UnifiedGeneExprGroup[] geneExprObjects) throws Exception {
+		ResultsContainer resultsContainer = null;
+		GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = new GeneExprDiseasePlotContainer();
+		DiseaseGeneExprPlotResultset nonTumor = new DiseaseGeneExprPlotResultset( new DiseaseNameDE(RembrandtConstants.NON_TUMOR));
+		geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(nonTumor);
+ 		geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleDiseaseGeneExprPlotResultset(geneExprDiseasePlotContainer);
+		for (int i = 0; i < geneExprObjects.length; i++) {
+    		if(geneExprObjects[i] != null) {
+            ResultSet obj = geneExprObjects[i];
+              if (obj instanceof UnifiedGeneExpr.UnifiedGeneExprGroup)  {
+            	  UnifiedGeneExpr.UnifiedGeneExprGroup exprObj = (UnifiedGeneExpr.UnifiedGeneExprGroup) obj;
+               	//Propulate the GeneExprSingleResultsContainer
+              	geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleUnifiedGeneExprDiseaseView(geneExprDiseasePlotContainer,exprObj);
+              	//geneExprDiseasePlotContainer = GeneExprDiseasePlotHandler.handleNoramlAsDisease(geneExprDiseasePlotContainer,exprObj);
               	resultsContainer = geneExprDiseasePlotContainer;
               }
     		}

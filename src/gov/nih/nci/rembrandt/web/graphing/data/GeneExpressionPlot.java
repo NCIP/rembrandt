@@ -1,5 +1,8 @@
 package gov.nih.nci.rembrandt.web.graphing.data;
 
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
+import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 
 import java.awt.Color;
@@ -35,7 +38,8 @@ public class GeneExpressionPlot {
 		HashMap charts = new HashMap();
 
 		try {
-			final GenePlotDataSet gpds = new GenePlotDataSet(gene);
+			InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(session);
+			final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria,GeneExpressionDataSetType.GeneExpressionDataSet );
 
 			DefaultStatisticalCategoryDataset dataset = (DefaultStatisticalCategoryDataset) gpds
 					.getDataSet();

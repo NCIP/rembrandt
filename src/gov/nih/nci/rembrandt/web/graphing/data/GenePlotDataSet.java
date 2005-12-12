@@ -3,14 +3,17 @@ package gov.nih.nci.rembrandt.web.graphing.data;
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -91,22 +94,41 @@ public class GenePlotDataSet {
 	    * real deal, takes in the gene and build the jfree data set
 	    * @param gene
 	    */
-	   public GenePlotDataSet(String sgene)	{
-		   
-		   	String gene = sgene;
-		   	String geneSymbol = "";
-
-			GeneExpressionQuery geneQuery;
-			GeneIDCriteria geneCrit = new GeneIDCriteria();
-			geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(gene));
-			geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
-			geneQuery.setQueryName("GeneExpressionPlot");
-			geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
-			geneQuery.setGeneIDCrit(geneCrit);
-			geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+	   public GenePlotDataSet(String gene,InstitutionCriteria institutionCriteria ,GeneExpressionDataSetType geneExpressionDataSetType )	{
 			Resultant resultant = null;
-			try {
-				resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
+			try{
+			    switch (geneExpressionDataSetType){
+			    case GeneExpressionDataSet:
+			    default:{  
+					   	GeneExpressionQuery geneQuery;
+						GeneIDCriteria geneCrit = new GeneIDCriteria();
+						geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(gene));
+						geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+						geneQuery.setQueryName("GeneExpressionPlot");
+						geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+						geneQuery.setGeneIDCrit(geneCrit);
+						geneQuery.setInstitutionCriteria(institutionCriteria);
+						geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+		
+						resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
+				    	break;
+				    }
+			    case UnifiedGeneExpressionDataSet:{
+					   	UnifiedGeneExpressionQuery unifiedGeneQuery;
+						GeneIDCriteria geneCrit = new GeneIDCriteria();
+						geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(gene));
+						unifiedGeneQuery = (UnifiedGeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+						unifiedGeneQuery.setQueryName("UnifiedGeneExpressionPlot");
+						unifiedGeneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+						unifiedGeneQuery.setGeneIDCrit(geneCrit);
+						unifiedGeneQuery.setInstitutionCriteria(institutionCriteria);
+						//unifiedGeneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+		
+						resultant = ResultsetManager.executeGeneExpressPlotQuery(unifiedGeneQuery);
+				    	break;
+		
+				    }
+			    }
 			} catch (Exception e) {
 				logger.error("Resultset Manager Threw an Exception in gene plot");
 				logger.error(e);
@@ -116,10 +138,9 @@ public class GenePlotDataSet {
 			
 				//if instanceof ...
 				GeneExprDiseasePlotContainer geneExprDiseasePlotContainer = (GeneExprDiseasePlotContainer) resultsContainer;
-				final DecimalFormat resultFormat = new DecimalFormat("0.00");
 				final DecimalFormat pValueFormat = new DecimalFormat("0.0000");
 				logger.debug("Gene:"+ geneExprDiseasePlotContainer.getGeneSymbol());
-				geneSymbol = geneExprDiseasePlotContainer.getGeneSymbol().getValue().toString();
+				String geneSymbol = geneExprDiseasePlotContainer.getGeneSymbol().getValue().toString();
 				
 				//hold our categories and series
 				//ArrayList catArrayList = new ArrayList();

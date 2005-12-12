@@ -225,7 +225,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	    
         //Check user credentials and constrain query by Institutions
         if(geneExpQuery != null){
-        	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+        	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
         logger.debug("This is a Gene Expression Submital");
 	   
@@ -273,7 +273,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
         if(geneExpQuery != null){
-        	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+        	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
 	    request.setAttribute("previewForm",geneExpressionForm.cloneMe());
         logger.debug("This is a Preview Report");

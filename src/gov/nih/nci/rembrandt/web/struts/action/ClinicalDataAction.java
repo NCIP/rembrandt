@@ -89,7 +89,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
         
         //Check user credentials and constrain query by Institutions
         if(clinicalDataQuery != null){
-            clinicalDataQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+            clinicalDataQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }        
         
         if (!clinicalDataQuery.isEmpty()) {
@@ -120,7 +120,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
         //Create Query Objects
         ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
         if(clinicalDataQuery != null){
-            clinicalDataQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+            clinicalDataQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
 
         request.setAttribute("previewForm",clinicalDataForm.cloneMe());

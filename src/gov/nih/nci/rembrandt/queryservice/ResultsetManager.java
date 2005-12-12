@@ -52,8 +52,14 @@
  */
 package gov.nih.nci.rembrandt.queryservice;
 
+import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.Constants;
+import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
+import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
@@ -65,10 +71,12 @@ import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.resultset.AddConstrainsToQueriesHelper;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
@@ -149,19 +157,26 @@ public class ResultsetManager {
 		return resultant;
 	}
 
-	public static Resultant executeGeneExpressPlotQuery(Queriable queryToExecute)
+	public static Resultant executeGeneExpressPlotQuery(Query geneQuery)
 			throws Exception {
+
+		//ExecuteQuery
 		Resultant resultant = new Resultant();
-		if (queryToExecute != null) {
-			Viewable associatedView = ViewFactory
-					.newView(ViewType.GENE_GROUP_SAMPLE_VIEW);
-			queryToExecute.setAssociatedView(associatedView);
-			ResultSet[] resultsets = QueryManager.executeQuery(queryToExecute);
-			ResultsContainer resultsContainer = ResultsetProcessor
+		ResultsContainer resultsContainer = null;
+		if (geneQuery != null){
+			ResultSet[] resultsets = QueryManager.executeQuery(geneQuery);
+			if(resultsets instanceof GeneExprGroup[]){
+				 resultsContainer = ResultsetProcessor
 					.handleGeneExpressPlot((GeneExprGroup[]) resultsets);
+			}
+			else if(resultsets instanceof UnifiedGeneExprGroup[]){
+				 resultsContainer = ResultsetProcessor
+					.handleUnifiedGeneExpressPlot((UnifiedGeneExprGroup[]) resultsets);
+			}
 			resultant.setResultsContainer(resultsContainer);
-			resultant.setAssociatedQuery(queryToExecute);
-			resultant.setAssociatedView(associatedView);
+			resultant.setAssociatedQuery(geneQuery);
+			resultant.setAssociatedView(geneQuery.getAssociatedView());
+			
 		}
 		if(resultant.getResultsContainer()==null) {
 			resultant = null;

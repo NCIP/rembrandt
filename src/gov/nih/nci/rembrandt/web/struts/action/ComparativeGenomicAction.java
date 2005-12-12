@@ -245,7 +245,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         
         //Check user credentials and constrain query by Institutions
         if(cghQuery != null){
-        	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+        	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
         
         //This is required as struts resets the form.  It is later added back to the request
@@ -298,7 +298,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         //Create Query Objects
         ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
         if(cghQuery != null){
-        	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request));
+        	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
         //This is required as struts resets the form.  It is later added back to the request
         request.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
