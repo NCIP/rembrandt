@@ -37,7 +37,7 @@ public class ThreadPool {
                 THREAD_COUNT--;
                 allThreads.remove(this.getID());
              };
-            logger.debug("END: Thred completed.  Thread Count: " + ThreadPool.THREAD_COUNT);
+            logger.debug("END: Thread completed.  Thread Count: " + ThreadPool.THREAD_COUNT);
         }
         private  AppThread(MyRunnable appRunnable) {
             this.ar = appRunnable;

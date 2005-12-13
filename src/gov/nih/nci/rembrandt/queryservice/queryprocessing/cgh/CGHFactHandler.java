@@ -62,7 +62,7 @@ abstract public class CGHFactHandler {
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria IDs = new Criteria();
                 IDs.addIn(snpOrCGHAttr, values);
-                final String threadID = "CopyNumberChangeCriteriaHandler.ThreadID:" + snpOrCGHAttr + ":" +i;
+                final String threadID = "CopyNumberChangeCriteriaHandler.ThreadID:" + i;
 
                 final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
                 factEventList.add(dbEvent);
@@ -74,21 +74,17 @@ abstract public class CGHFactHandler {
                 CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
                 CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
                 CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);
-
-
                 _BROKER.close();
 
                 new Thread(
                    new Runnable() {
                       public void run() {
-                          logger.debug("New Thread Started: " + threadID );
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           pb.clearCache();
                           sampleCrit.addAndCriteria(IDs);
-                          logger.debug("Criteria To be exucuted for targetClass:" + targetFactClass.getName() + " " +
-                                  sampleCrit.toString());
-                          Query sampleQuery =
-                          QueryFactory.newQuery(targetFactClass,sampleCrit, false);
+                          logger.debug("Criteria To be exucuted for " + targetFactClass.getName() + ": ");
+                          logger.debug(sampleCrit.toString());
+                          Query sampleQuery = QueryFactory.newQuery(targetFactClass,sampleCrit, false);
                           assert(sampleQuery != null);
                           Collection exprObjects =  pb.getCollectionByQuery(sampleQuery );
                           addToResults(exprObjects);
