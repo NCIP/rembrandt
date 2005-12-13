@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+  <!-- Destination without a configured SecurityManager or without a 
+       a SecurityConf will default to role guest with read=true, write=true,
+       create=false.
+  -->
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="jboss.mq.destination:service=Queue,name=AnalysisRequest">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+    <attribute name="ReceiversImpl">org.jboss.mq.server.ReceiversImplLinkedList</attribute>
+  </mbean>
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="jboss.mq.destination:service=Queue,name=AnalysisResponse">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+  </mbean>
+</server>
