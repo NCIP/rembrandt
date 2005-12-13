@@ -128,18 +128,20 @@ public class KaplanMeierPlotHandler {
  					}
  				}
           	}//for
- 	 		kaplanMeierPlotContainer.setCytobandDE(new CytobandDE(copyNumberObjects[0].getCytoband()));//TODO NEED GeneSymbol in CopyNumber
- 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
- 			Map paitentDataLookup = LookupManager.getPatientDataMap();
-	    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
-	    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
-	    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
-	    		if(patient != null){
-		    		sample.setSurvivalLength(patient.getSurvivalLength());
-		    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
-		    		kaplanMeierPlotContainer.addBioSpecimenResultset(sample);  //update sample resultset
-	    		}
-	    	}
+ 			if(copyNumberObjects.length > 0){
+	 	 		kaplanMeierPlotContainer.setCytobandDE(new CytobandDE(copyNumberObjects[0].getCytoband()));//TODO NEED GeneSymbol in CopyNumber
+	 			Collection samples = kaplanMeierPlotContainer.getBioSpecimenResultsets();
+	 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+		    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+		    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
+		    		if(patient != null){
+			    		sample.setSurvivalLength(patient.getSurvivalLength());
+			    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
+			    		kaplanMeierPlotContainer.addBioSpecimenResultset(sample);  //update sample resultset
+		    		}
+		    	}
+ 			}
 
  		}
  		

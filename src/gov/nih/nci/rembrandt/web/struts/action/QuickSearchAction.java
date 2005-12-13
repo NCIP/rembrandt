@@ -95,6 +95,7 @@ public class QuickSearchAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
+		ActionErrors errors = new ActionErrors();
 		String quickSearchVariableName = (String) request.getAttribute("quickSearchName");
 		if (quickSearchVariableName != null) {
 			quickSearchVariableName = quickSearchVariableName.toUpperCase();
@@ -127,38 +128,45 @@ public class QuickSearchAction extends DispatchAction {
 			kmForm.setDownOrDeleted("Deleted");
 			if(quickSearchType.equals(RembrandtConstants.GENE_SYMBOL)){
 			   kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType);
-			   String cytobandGeneSymbol = kmResultsContainer.getCytobandDE().getValue().toString();
-			   kmForm.setGeneOrCytoband(quickSearchVariableName+"("+cytobandGeneSymbol+")");
-			   kmForm.setPlotVisible(false); 
+			   if(kmResultsContainer != null  && kmResultsContainer.getCytobandDE()!= null){
+				   String cytobandGeneSymbol = kmResultsContainer.getCytobandDE().getValue().toString();
+				   kmForm.setGeneOrCytoband(quickSearchVariableName+"("+cytobandGeneSymbol+")");
+				   kmForm.setPlotVisible(false); 
+			   }
 			 }else if(quickSearchType.equals(RembrandtConstants.SNP_PROBESET_ID)){
 				 kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType);
+				 if(kmResultsContainer != null){
 				 kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(quickSearchVariableName);
 				 kmForm.setGeneOrCytoband(quickSearchVariableName); 
 				 kmForm.setPlotVisible(true); 
+				 }
 			 }
 
 		}
-		KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upFold, downFold, quickSearchVariableName, kmSampleInfos, kmplotType);
-		KaplanMeierStoredData storedData = dataGenerator.getStoredData();
-		storedData.setId("KAPLAN");
-		kmForm.setStoredData(storedData);
-		kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
-		kmForm.setSelectedDataset("KAPLAN");
-		presentationTierCache.addToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
-		presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
-		
-
-		/**
-		 * Select the mapping to follow
-		 */
-		ActionErrors errors = new ActionErrors();
-		if (errors.isEmpty()) {
-			return mapping.findForward("kmplot");
-		} else {
+		if(kmSampleInfos != null && kmSampleInfos.length <= 1 ){
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
 					"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
 					quickSearchType, quickSearchVariableName));
 			this.saveErrors(request, errors);
+		}
+		else{
+			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upFold, downFold, quickSearchVariableName, kmSampleInfos, kmplotType);
+			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
+			storedData.setId("KAPLAN");
+			kmForm.setStoredData(storedData);
+			kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
+			kmForm.setSelectedDataset("KAPLAN");
+			presentationTierCache.addToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
+			presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
+		
+		}
+		/**
+		 * Select the mapping to follow
+		 */
+		
+		if (errors.isEmpty()) {
+			return mapping.findForward("kmplot");
+		} else {
 			return mapping.findForward("badgraph");
 		}
 	}
