@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,12 +53,14 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
 	    ActionErrors errors = new ActionErrors();
-	    UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
-		try {
-			UIFormValidator.validateGeneSymbol(this, errors);
-		} catch (Exception e) {
-			logger.error(e);
-		}
+	    if(getQuickSearchType().compareTo(RembrandtConstants.GENE_SYMBOL)==0){
+		    UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
+			try {
+				UIFormValidator.validateGeneSymbol(this, errors);
+			} catch (Exception e) {
+				logger.error(e);
+			}
+	    }
 		return errors;
 
 	}
