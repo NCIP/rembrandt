@@ -68,8 +68,12 @@ function A_checkFindingStatus_cb(tasks)	{
 					//curElLink.removeAttribute("onclick");
 				}
 			}
+			else if(tasks[key]["status"] == 'running' && curEl.innerHTML.indexOf('completed') != -1 )	{
+				//handle overlapping AJAX calls...this ones already completed...dont reset to running
+				//basically just ignore it
+			}
 			else	{
-				//its running or errored, need to continue
+				//its running, need to continue
 				vr_alldone = false;
 			}
 			curElTime.innerHTML = tasks[key]["time"];
