@@ -48,7 +48,9 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	private Integer numberOfPlots = null;
 
 	private String selectedDataset;
-
+    
+    private String algorithm = "regular";
+    
 	private static Logger logger = Logger.getLogger(KMDataSetForm.class);
 
 	public KMDataSetForm() {
@@ -306,4 +308,18 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	public void setUpOrAmplified(String upOrAmplified) {
 		this.upOrAmplified = upOrAmplified;
 	}
+
+    /**
+     * @return Returns the algorithm.
+     */
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    /**
+     * @param algorithm The algorithm to set.
+     */
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
 }

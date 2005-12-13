@@ -36,27 +36,31 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 			 else if (sampleGroup.equals("inter")){
 			  samples = cacheData.getIntSamples();
 			 }
-			Collection upa=new ArrayList();
+			Collection samplesList=new ArrayList();
+			// if there are samples, iterate over the collection and cast them to info objects so
+			// that we can get the sampleIDs, and add them into a new arraylist
 			if(!samples.isEmpty()){
 					for (Iterator it=samples.iterator(); it.hasNext(); ) {
        					 Object element = it.next();
    					     KaplanMeierSampleInfo kaplanMeierSampleInfo = (KaplanMeierSampleInfo)element;
-   					     upa.add(kaplanMeierSampleInfo.getSampleID());
+   					     samplesList.add(kaplanMeierSampleInfo.getSampleID());
    					     
 					}
-			
+					//create a compund query using an empty clinical query
 					ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 		    		clinicalDataQuery.setQueryName("clinical");
 		    		CompoundQuery cquery = new CompoundQuery(clinicalDataQuery);		
 					cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 					cquery.setQueryName("clinicalViaKM");
 					cquery.setSessionId(sessionId);		    
-		    		String[] x = (String[]) upa.toArray(new String[0]);
-					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, x);
+		    		String[] samplesArray = (String[]) samplesList.toArray(new String[0]);
+					//generate the reportBean with the reportXML using the compQury and samples Array
+					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray);
 					ReportBean clincalReportBean = presentationTierCache.getReportBean(sessionId,cquery.getQueryName());
 						if(clincalReportBean!=null){
 							Document reportXML = clincalReportBean.getReportXML();
 							String report = reportGeneratorHelper.renderReport(params,reportXML,"report.xsl");
+							//return the string buffer and print
 							out.write(report);
 						}
 						else{

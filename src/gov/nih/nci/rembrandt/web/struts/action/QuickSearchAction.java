@@ -99,6 +99,7 @@ public class QuickSearchAction extends DispatchAction {
 		if (quickSearchVariableName != null) {
 			quickSearchVariableName = quickSearchVariableName.toUpperCase();
 		}
+       
 		String quickSearchType = (String) request.getAttribute("quickSearchType");
 		if (quickSearchType == null) {
 			quickSearchType = RembrandtConstants.GENE_SYMBOL;
@@ -107,13 +108,12 @@ public class QuickSearchAction extends DispatchAction {
 		double downFold = kmForm.getDownFold();
 
 		String kmplotType = (String) request.getAttribute("plotType");
-		kmForm.setPlotType(kmplotType);
+       	kmForm.setPlotType(kmplotType);
 		KaplanMeierPlotContainer kmResultsContainer = null;
 		KaplanMeierSampleInfo[] kmSampleInfos = {new KaplanMeierSampleInfo(0,0,0)};
-		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-			kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet);
-			
-			if(kmResultsContainer!=null) {
+		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {			
+            kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet);
+           	if(kmResultsContainer!=null) {
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 				if(kmResultsContainer.getGeneSymbol()!= null){
 					kmForm.setGeneOrCytoband(kmResultsContainer.getGeneSymbol().getValue().toString());
@@ -172,7 +172,14 @@ public class QuickSearchAction extends DispatchAction {
 		String kmplotType = kmForm.getPlotType();
 		double upRegulation = kmForm.getUpFold();
 		double downRegulation = kmForm.getDownFold();
-		KaplanMeierPlotContainer kmResultsContainer = getKmResultsContainer(request.getSession().getId());
+        String algorithm = kmForm.getAlgorithm(); 
+        KaplanMeierPlotContainer kmResultsContainer = null;
+        if(algorithm.equals("unified")){
+            kmResultsContainer = performKMGeneExpressionQuery(kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet);
+        }
+        else{
+            kmResultsContainer = getKmResultsContainer(request.getSession().getId());
+        }
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
 			if ((kmForm.getSelectedReporter().trim().length() > 0)) {
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
@@ -268,10 +275,12 @@ public class QuickSearchAction extends DispatchAction {
 			String geneSymbol,GeneExpressionDataSetType geneExpressionDataSetType) throws Exception {
 		KMPlotManager kmPlotManager = new KMPlotManager();
 		KaplanMeierPlotContainer kaplanMeierPlotContainer = null;
+            
 		switch(geneExpressionDataSetType){
 		case GeneExpressionDataSet:
 		default:
-			kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
+			
+            kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
 			.performKMGeneExpressionQuery(geneSymbol);
 			break;
 		case UnifiedGeneExpressionDataSet:

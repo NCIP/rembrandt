@@ -28,6 +28,7 @@
          (request.getParameter("plotType").equalsIgnoreCase("COPY_NUM_KM_PLOT"))) ){
         km = "kmplotCN";
    }
+   
 	
 %> <%=helpLink%>?sect=<%=km%><%=helpLinkClose%></div>
 
@@ -35,36 +36,54 @@
 	<html:hidden property="geneOrCytoband" />
 	<html:hidden property="plotType" />
 	<div>
-	<b> 
-	<bean:write name="kmDataSetForm" property="upOrAmplified" />
-	 <!-- Upregulated/Amplified  -->
-	&nbsp;&ge;&nbsp; 
-	<html:select property="upFold">
-		<html:options property="folds" />
-	</html:select> &nbsp; 
-	<bean:write name="kmDataSetForm" property="changeType" /> 
-	<!--Fold/Copies -->
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	<bean:write name="kmDataSetForm" property="downOrDeleted" /> 
-	<!-- Downregulated/Deleted -->
-	&nbsp;&ge;&nbsp; 
-	<html:select property="downFold">
-		<html:options property="folds" />
-	</html:select> 
-	&nbsp;
-	<bean:write name="kmDataSetForm" property="changeType" /> 
-	<!--Fold/Copies --> &nbsp;&nbsp;Reporters 
-	<html:select property="selectedReporter">
-		<html:options property="reporters" />
-	</html:select> 
-	&nbsp; &nbsp;&nbsp; 
-	</b> 
-	<html:submit value="Redraw Graph" /></div>
+	
+		<div style="border:1px solid silver;width:90%">
+		<table border="0">
+			<tr>
+			<td>
+			<span style="font-size:.9em">Algorithm</span>
+			<!--Unified or regular algorithm-->
+			<html:select property="algorithm">
+				<option value="regular" />regular</option>
+				<option value="unified" />unified</option>
+			</html:select> &nbsp; 
+			</td>
+			<td>
+			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="upOrAmplified" /></span>	
+			 <!-- Upregulated/Amplified  -->
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
+			<html:select property="upFold">
+				<html:options property="folds" />
+			</html:select> &nbsp; 
+			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
+			<!--Fold/Copies -->
+			<br />
+			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="downOrDeleted" /></span> 
+			<!-- Downregulated/Deleted -->
+			&nbsp;&ge;&nbsp; 
+			<html:select property="downFold">
+				<html:options property="folds" />
+			</html:select> 
+			&nbsp;
+			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span> 
+			</td>
+			<td>
+			<!--Fold/Copies --> &nbsp;&nbsp;<span style="font-size:.9em">Reporters</span>
+			<html:select property="selectedReporter">
+				<html:options property="reporters" />
+			</html:select> 
+			</td>
+			</tr>
+			</table>
+			</div>
+			<html:submit value="Redraw Graph" /></div>
 	<div>
 	<logic:equal name="kmDataSetForm" property="plotVisible" value="true">
 		<hr>
 		<b> <font size="+1"> 
 		<bean:write name="kmDataSetForm" property="chartTitle" /> </font>
+		<br />
+		
 		<p><!-- INSERT CHART HERE --> 
 		<graphing:KaplanMeierPlot bean="kmDataSetForm" dataset="selectedDataset" /></p>
 		<p>
