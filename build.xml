@@ -117,7 +117,6 @@
         <copy file="src/jndi.properties.template" tofile="src/jndi.properties"/>
         <replaceregexp file = "src/jndi.properties" match="@JNDI-URL@" replace="${webGenomeJndi.url}" flags="g"/>
     </target>
-
     <!--
         TARGET: copy_resources
         Copies all the bundle resources to the WEB-INF/classes/ folder
@@ -137,7 +136,6 @@
        <copy file="${source.dir}\rembrandt-jbossmq-destinations-service.xml"
            todir="${jboss.deploy.dir}"/>
    </target>
-
 	<!--
 		TARGET: build_war
 		This will build the war file
@@ -156,6 +154,4 @@
 			<webinf dir="${webapp.dir}/WEB-INF"/>
 	   	</war>
 	</target>
-
-
 </project>
