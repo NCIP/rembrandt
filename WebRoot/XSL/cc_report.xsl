@@ -305,7 +305,7 @@
 		      					<a href="#" onclick="javascript:spawnAnnot('gene', this); return false;"><xsl:value-of select="Data"/></a>
 		      				</xsl:when>
 		      				<xsl:when test="($styleclass = 'reporter' or $styleclass = 'cytoband') and $theData != '-'">
-		      						<input type="checkbox" class="checkorradio" id="tmpReporter" name="tmpReporter" value="{$theData}" onclick="javascript:A_saveTmpReporter(this);" /><a href="#" onclick="javascript:spawnAnnot('reporter',this); return false;"><xsl:value-of select="Data"/></a>	
+		      						<input type="checkbox" class="checkorradio" id="tmpReporter" name="tmpReporter" value="{$theData}" onclick="javascript:A_saveTmpReporter(this);" /><a href="#" onclick="javascript:spawnAnnot('reporterFromCC',this); return false;"><xsl:value-of select="Data"/></a>	
 		      				</xsl:when>
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />

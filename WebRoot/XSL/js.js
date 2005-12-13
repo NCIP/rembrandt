@@ -174,10 +174,13 @@ function spawnAnnot(type, element)	{
 		page = escape('http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM=')+escape(el);
 		rbtFrame(page);
 	}
-	else if(type == 'reporter')	{
+	else if(type == 'reporter' || type == 'reporterFromGene' || type == 'cytoband' || type == 'reporterFromCC')	{
 		var annotLink = "";
-		if(el.indexOf("IMAGE")!= -1)	{
+		if(el.indexOf("IMAGE")!= -1 || type == 'cytoband')	{
 			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
+		}
+		else if(type == 'reporterFromGene' || type == 'reporterFromCC')	{
+			annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
 		}
 		else	{
 			//annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
@@ -189,6 +192,29 @@ function spawnAnnot(type, element)	{
 		//page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(el)+escape('&pix=620&hgsid=40518963&Submit=submit');
 		rbtFrame(page);
 	}
+	else if(type == 'reporterFromGeneQS')	{
+		var annotLink = "http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&ORG=Hs&SYM=&PATH=&TERM=";
+		
+		if(el.indexOf("IMAGE")!= -1)	{
+			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
+		}
+		else if(/^\d+$/.test(el))	{
+			//llink
+		}		
+		else if(/^\d+_{1}a{1}\d+/.test(el))	{
+			//need to snip the el
+			el = el.substring(0, el.indexOf("_a"));
+		}
+		else if(/^(H{1}s{1}(\.){1})/i.test(el))	{
+			// access no
+		}
+		else	{
+			annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
+		}
+		page = escape(annotLink + el);
+		rbtFrame(page);
+	}
+	/*
 	else if(type == 'reporterFromGene') {
 		var annotLink = "";	
 		if(el.indexOf("IMAGE")!= -1)	{
@@ -200,6 +226,7 @@ function spawnAnnot(type, element)	{
 		page = escape(annotLink + el);
 		rbtFrame(page);
 	}
+	*/
 	
 }
 
