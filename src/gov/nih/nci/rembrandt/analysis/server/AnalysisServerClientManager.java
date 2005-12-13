@@ -57,47 +57,53 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	 */
 	@SuppressWarnings("unchecked")
 	private AnalysisServerClientManager() throws NamingException, JMSException {
-		logger.debug("Inside AnalysisServerClientManager");
-		messagingProps = ApplicationContext.getJMSProperties();
-		//Populate with needed properties
-		Hashtable props = new Hashtable();
-		props.put(Context.INITIAL_CONTEXT_FACTORY,
-		    "org.jnp.interfaces.NamingContextFactory");
-		props.put(Context.PROVIDER_URL, messagingProps.getProperty("JBOSS_URL"));
-		props.put("java.naming.rmi.security.manager", "yes");
-		props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming");
-		
-//		   Get the initial context with given properties
-		Context context = new InitialContext(props);  
-		  
-	    // Get the connection factory
+		 try {
+			logger.debug("Inside AnalysisServerClientManager");
+			messagingProps = ApplicationContext.getJMSProperties();
+			// Populate with needed properties
+			Hashtable props = new Hashtable();
+			props.put(Context.INITIAL_CONTEXT_FACTORY,
+					"org.jnp.interfaces.NamingContextFactory");
+			props.put(Context.PROVIDER_URL, messagingProps
+					.getProperty("JBOSS_URL"));
+			props.put("java.naming.rmi.security.manager", "yes");
+			props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming");
 
-	    QueueConnectionFactory queueConnectionFactory =
-	      (QueueConnectionFactory)context.lookup(messagingProps.getProperty("FACTORY_JNDI"));
+			// Get the initial context with given properties
+			Context context = new InitialContext(props);
 
-	    // Create the connection
-	    queueConnection = queueConnectionFactory.createQueueConnection();
+			// Get the connection factory
 
-	    queueConnection.setExceptionListener(this);
-	    
-	    // Create the session
-	    queueSession = queueConnection.createQueueSession(
-	      // No transaction
-	      false,
-	      // Auto ack
-	      Session.AUTO_ACKNOWLEDGE);
+			QueueConnectionFactory queueConnectionFactory = (QueueConnectionFactory) context
+					.lookup(messagingProps.getProperty("FACTORY_JNDI"));
 
-	    // Look up the destination
-	    requestQueue = (Queue)context.lookup("queue/AnalysisRequest");
-	    resultQueue = (Queue)context.lookup("queue/AnalysisResponse");
+			// Create the connection
 
-	    
-	    // Create a publisher
-	    //requestSender = queueSession.createSender(requestQueue);
-		resultReceiver = queueSession.createReceiver(resultQueue);
-		resultReceiver.setMessageListener(this);
-		
-		queueConnection.start();
+			queueConnection = queueConnectionFactory.createQueueConnection();
+
+			queueConnection.setExceptionListener(this);
+
+			// Create the session
+			queueSession = queueConnection.createQueueSession(
+			// No transaction
+					false,
+					// Auto ack
+					Session.AUTO_ACKNOWLEDGE);
+
+			// Look up the destination
+			requestQueue = (Queue) context.lookup("queue/AnalysisRequest");
+			resultQueue = (Queue) context.lookup("queue/AnalysisResponse");
+
+			// Create a publisher
+			// requestSender = queueSession.createSender(requestQueue);
+			resultReceiver = queueSession.createReceiver(resultQueue);
+			resultReceiver.setMessageListener(this);
+
+			queueConnection.start();
+	    }catch(Throwable t) {
+	    	logger.error("Constructor has thrown an exception of type:"+t.getClass());
+	    	logger.error(t);
+	    }
 	}
 	
 	/**
@@ -105,6 +111,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	 */
 	public void onMessage(Message message) {
 		 //String msg = ((TextMessage)m).getText();
+		  logger.debug("onMessage has been called");
 	      ObjectMessage msg = (ObjectMessage) message;
 	      try {
 			Object result = msg.getObject();
