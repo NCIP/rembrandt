@@ -368,7 +368,7 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 						.debug("AssayPlatform Criteria is empty or Application Resources file is missing.");
 			}
 //			 start institution Criteria
-			InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
+	/*		InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
 			if ((thisInstitutionCriteria != null)&& !thisInstitutionCriteria.isEmpty() && labels != null) {
 				Collection institutionColl = thisInstitutionCriteria.getInstitutions();
 				String thisCriteria = thisInstitutionCriteria.getClass().getName();
@@ -387,7 +387,7 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 			else {
 				logger.debug("institution Criteria is empty or Application Resources file is missing.");
 			}// end of institution Criteria
-			
+			*/
 
 		}// end of try
 		catch (Exception ie) {

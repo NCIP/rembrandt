@@ -658,7 +658,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		
 		
 //		 start institution Criteria
-		InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
+		/*InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
 		if ((thisInstitutionCriteria != null)&& !thisInstitutionCriteria.isEmpty() && labels != null) {
 			Collection institutionColl = thisInstitutionCriteria.getInstitutions();
 			String thisCriteria = thisInstitutionCriteria.getClass().getName();
@@ -677,7 +677,7 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		else {
 			logger.debug("institution Criteria is empty or Application Resources file is missing.");
 		}// end of institution Criteria
-		
+		*/
 
 	}// end of try
 		
