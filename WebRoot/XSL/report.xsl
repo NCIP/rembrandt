@@ -35,6 +35,8 @@
 		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
 		
 		<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
+		<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE" />
+		<META HTTP-EQUIV="Expires" CONTENT="-1" />
 	</head>
   <body>
   

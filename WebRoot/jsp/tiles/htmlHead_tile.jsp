@@ -4,6 +4,9 @@
 	*/
 
 %>
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="-1">
+
 	<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
 	<script language="javascript" src="js/caIntScript.js"></script>
 	<script type="text/javascript" src="js/overlib.js"></script>

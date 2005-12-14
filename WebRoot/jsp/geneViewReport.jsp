@@ -4,6 +4,15 @@ gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 gov.nih.nci.rembrandt.util.RembrandtConstants,
 org.dom4j.Document,org.dom4j.io.XMLWriter,org.dom4j.io.OutputFormat"
 %><%
+
+response.setHeader("Cache-Control","no-cache"); //HTTP 1.1 
+response.setHeader("Pragma","no-cache"); //HTTP 1.0 
+//response.setDateHeader ("Expires", 0); 
+response.setDateHeader ("Expires", -1);
+//prevents caching 
+response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+
+
 String csv = "false";
 if(request.getParameter("csv")!=null)
 	csv = (String) request.getParameter("csv");

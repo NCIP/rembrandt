@@ -17,6 +17,9 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script>
 		<script language="JavaScript" type="text/javascript" src="XSL/a_js.js"></script> 
 		<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<META HTTP-EQUIV="Expires" CONTENT="-1">
+		
 	</head>
 <body>
 
