@@ -6,6 +6,7 @@ import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
@@ -53,36 +54,35 @@ public class BaseForm extends ActionForm {
 		setLookups();
 
 	}
-
+	
+	
+	private ArrayList addDiseaseTypes( DiseaseTypeLookup diseaseTypeLookup) {
+		String diseaseTypeStr = diseaseTypeLookup.getDiseaseType();
+		String diseaseDesc = diseaseTypeLookup.getDiseaseDesc();
+		diseaseType.add(new LabelValueBean(diseaseTypeStr,diseaseDesc ) );
+		return diseaseType;	
+		
+	}
+	private void setDiseaseTypes() {
+		try {
+			
+			DiseaseTypeLookup[] diseaseTypeLookup = LookupManager.getDiseaseType();
+			for(int i = 0; i<diseaseTypeLookup.length;i++) {
+				addDiseaseTypes(diseaseTypeLookup[i]);
+			
+			}
+		}catch(Exception e) {
+			diseaseType = null;
+			logger.error("Unable to get disease names  from the LookupManager");
+			logger.error(e);
+		}
+	}
 	public void setLookups() {
 
 		diseaseType = new ArrayList<LabelValueBean>();
 		geneTypeColl = new ArrayList<LabelValueBean>();
-	
-		// These are hardcoded but will come from DB
-		/*diseaseType.add( new LabelValueBean( "All", "ALL" ) );
-		diseaseType.add( new LabelValueBean( "Astrocytic", "ASTROCYTOMA" ) );
-		diseaseType.add( new LabelValueBean( "Oligodendroglial", "OLIG" ) );
-		diseaseType.add( new LabelValueBean( "Mixed gliomas", "MIXED" ) );
-		diseaseType.add( new LabelValueBean( "Glioblastoma", "GBM" ));
-		*/
 		
-		diseaseType.add( new LabelValueBean( "All", "ALL" ) );
-		diseaseType.add( new LabelValueBean( "Astrocytic", "ASTROCYTOMA" ) );
-		diseaseType.add( new LabelValueBean( "Oligodendroglial", "OLIGODENDROGLIOMA" ) );
-		diseaseType.add( new LabelValueBean( "Mixed gliomas", "MIXED" ) );
-		diseaseType.add( new LabelValueBean( "Glioblastoma", "GBM" ));
-		diseaseType.add( new LabelValueBean( "Unclassified", "UNCLASSIFIED" ) );
-		diseaseType.add( new LabelValueBean( "Non Tumor", "NON_TUMOR" ));
-		diseaseType.add( new LabelValueBean( "Unknown", "UNKNOWN" ));
-
-		//diseaseType.add( new LabelValueBean( "Ependymal cell", "Ependymal cell" ) );
-		//diseaseType.add( new LabelValueBean( "Neuroepithelial", "Neuroepithelial" ) );
-		//diseaseType.add( new LabelValueBean( "Choroid Plexus", "Choroid Plexus" ) );
-		//diseaseType.add( new LabelValueBean( "Neuronal and mixed neuronal-glial", "neuronal-glial" ) );
-		//diseaseType.add( new LabelValueBean( "Pineal Parenchyma", "Pineal Parenchyma" ));
-		//diseaseType.add( new LabelValueBean( "Embryonal", "Embryonal" ));
-
+		setDiseaseTypes();
 		
 		//geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" ) );
 		geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" ) );
@@ -196,7 +196,7 @@ public class BaseForm extends ActionForm {
 	        	
 	            diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();           	
 	             
-		        if (this.tumorType.equalsIgnoreCase("ALL")) {
+		        if (this.tumorType.equalsIgnoreCase("ALL GLIOMA")) {
 		            ArrayList allDiseases = this.getDiseaseType();
 		            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
 		                    .hasNext();) {

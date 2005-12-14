@@ -17,10 +17,10 @@ public class NeuroEvaluation implements ResultSet
    public final static String FOLLOWUP_DATE = "followupDate";
    public final static String FOLLOWUP_MONTH = "followupMonth";
    public final static String NEURO_EVALUATION_DATE = "neuroEvaluationDate";
-   public final static String KARNOFSKY_SCORE = "karnofskyScore";
-   public final static String LANSKY_SCORE = "lanskyScore";
-   public final static String NEURO_EXAM= "neuroExam";
-   public final static String MRI_CT_SCORE= "mriCtScore";
+   public final static String KARNOFSKY_SCORE = "KARNOFSKY_SCORE";
+   public final static String LANSKY_SCORE = "LANSKY_SCORE";
+   public final static String NEURO_EXAM= "NEURO_EXAM";
+   public final static String MRI_CT_SCORE= "MRI_CT_SCORE";
    public final static String STEROID_DOSE_STATUS= "steroidDoseStatus"; 
    public final static String ANTI_CONVULSANT_STATUS= "antiConvulsantStatus";
   

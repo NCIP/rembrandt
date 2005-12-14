@@ -382,7 +382,7 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 						.debug("ArrayPlatformCriteria is empty or Application Resources file is missing.");
 			} // end of PathwayCriteria
 //			 start institution Criteria
-			InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
+	/*		InstitutionCriteria thisInstitutionCriteria = this.getInstitutionCriteria();
 			if ((thisInstitutionCriteria != null)&& !thisInstitutionCriteria.isEmpty() && labels != null) {
 				Collection institutionColl = thisInstitutionCriteria.getInstitutions();
 				String thisCriteria = thisInstitutionCriteria.getClass().getName();
@@ -402,7 +402,7 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 				logger.debug("institution Criteria is empty or Application Resources file is missing.");
 			}// end of institution Criteria
 			
-
+*/
 		}// end of try
 		catch (Exception ie) {
 			logger.error("Error in ResourceBundle - ");

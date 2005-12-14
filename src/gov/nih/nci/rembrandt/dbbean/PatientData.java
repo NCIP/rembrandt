@@ -16,7 +16,7 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
    public final static String SAMPLE_ID = "sampleId";  
    public final static String SURVIVAL_LENGTH = "survivalLength";
    public final static String AGE = "age";
-   public final static String GENDER = "gender";
+   public final static String GENDER = "GENDER";
    public final static String RACE = "race";
    public final static String AGE_GROUP = "ageGroup";
    public final static String SURVIVAL_LENGTH_RANGE = "survivalLengthRange";

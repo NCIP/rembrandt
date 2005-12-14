@@ -12,14 +12,20 @@ import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
 import gov.nih.nci.rembrandt.dbbean.GEPatientData;
+import gov.nih.nci.rembrandt.dbbean.Gender;
 import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
+import gov.nih.nci.rembrandt.dbbean.PriorChemotherapy;
+import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
+import gov.nih.nci.rembrandt.dbbean.PriorSurgery;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
 import gov.nih.nci.rembrandt.queryservice.validation.QueryExecuter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +49,8 @@ public class LookupManager{
 	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
-    //private static GeneAliasMap aliasMap = null;
+	
+	 //private static GeneAliasMap aliasMap = null;
     //private static Set geneSymbols = null;
     
 	
@@ -57,7 +64,7 @@ public class LookupManager{
 	private static final String GENE_SYMBOLS = "geneSymbols";
 	private static final String PATIENT_DATA = "patientData";
 	private static final String PATIENT_DATA_MAP = "patientDataMap";
-	private static final String PATHWAYS = "pathways";
+	private static final String PATHWAYS = "pathways";	
 	private static PresentationTierCache presentationTierCache;
 	
 	
@@ -149,11 +156,46 @@ public class LookupManager{
 	public static DiseaseTypeLookup[] getDiseaseType() throws Exception {
 		if(diseaseTypes == null){
 			Criteria crit = new Criteria();
-			crit.addOrderByAscending("diseaseTypeId");
+			//crit.addOrderByAscending("diseaseTypeId");
+			crit.addOrderByAscending("diseaseType");
 			diseaseTypes = (DiseaseTypeLookup[])(QueryExecuter.executeQuery(DiseaseTypeDim.class,crit,QueryExecuter.NO_CACHE,true).toArray(new DiseaseTypeLookup[1]));
 		}
 		return diseaseTypes;
 	}
+	
+	
+	
+	/**
+	 * @return Returns the lookUpClinicalQueryTermValues List.
+	 * @throws Exception
+	 */
+	public static List lookUpClinicalQueryTermValues(Class bean,String fieldToSelect) throws Exception {
+		Criteria crit = new Criteria();	
+		Collection col = QueryExecuter.lookUpClinicalQueryTermValues(bean,crit,fieldToSelect, true);
+		
+		List list = new ArrayList();            
+		if(col != null){
+			Iterator e = col.iterator();   
+			while(e.hasNext()){
+				Object ojb = e.next();
+				if(ojb instanceof String) {
+			       	  String termToLookup = (String)ojb;
+			     	  if(termToLookup != null && !termToLookup.equals("")){
+			   		  list.add(new String(termToLookup));
+			   	   }
+				  }
+				else if(ojb instanceof BigDecimal) {
+					 Long termToLookup = new Long(((BigDecimal)ojb).longValue());
+					 if(termToLookup != null && !termToLookup.equals("")){
+				   		  list.add(termToLookup.toString());
+				  }
+			    }
+			}
+		}
+		return list;
+	}
+	 
+	
 	/**
 	 * @return Returns the patientDataMap.
 	 * @throws Exception

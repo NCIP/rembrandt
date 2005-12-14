@@ -4,10 +4,10 @@ import java.sql.Date;
 
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 
-public class PriorRadiationtherapy implements ResultSet {
-	
+public class PriorRadiationtherapy implements ResultSet{
+
 	public final static String PRIOR_RADIATIONTRX_ID = "priorRadiationtrxId";
-	public final static String PATIENT_DID = "patientDid";  
+	public final static String PATIENT_DID = "patientDid";
 	public final static String INSTITUTION_ID = "institutionId";
 	public final static String DATASET_ID = "datasetId";
 	public final static String TIME_POINT = "timePoint";
@@ -17,20 +17,20 @@ public class PriorRadiationtherapy implements ResultSet {
 	public final static String FRACTION_DOSE = "fractionDose";
 	public final static String FRACTION_NUMBER = "fractionNumber";
 	public final static String RADIATION_TYPE = "RADIATION_TYPE";
-	
-	
+
+
 	 private Long priorRadiationtrxId;
 	 private Long patientDid;
-	 private Long institutionId;	    
+	 private Long institutionId;
 	 private Long datasetId;
-	 private String timePoint; 
-	 private String radiationSite; 
-	 private Date doseStartDate; 
-	 private Date doseStopDate; 
+	 private String timePoint;
+	 private String radiationSite;
+	 private Date doseStartDate;
+	 private Date doseStopDate;
 	 private Long fractionDose;
 	 private Long fractionNumber;
 	 private String radiationType;
-	 
+
 	/**
 	 * @return Returns the datasetId.
 	 */
@@ -162,12 +162,12 @@ public class PriorRadiationtherapy implements ResultSet {
 	 */
 	public void setTimePoint(String timePoint) {
 		this.timePoint = timePoint;
-	} 
-	 
-	 
-	 
-	
-	
-	
+	}
+
+
+
+
+
+
 
 }

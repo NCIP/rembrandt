@@ -3,8 +3,10 @@
 
 package gov.nih.nci.rembrandt.dbbean;
 
-public class Gender
+
+public class Gender 
 {
+	
   private String genderCode;
 
   private String genderDesc;

@@ -40,6 +40,17 @@ import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.SurgeryOutcomeDE;
 import gov.nih.nci.caintegrator.dto.de.SurvivalDE;
+import gov.nih.nci.rembrandt.dbbean.Gender;
+import gov.nih.nci.rembrandt.dbbean.NeuroEvaluation;
+import gov.nih.nci.rembrandt.dbbean.OnStudyChemotherapy;
+import gov.nih.nci.rembrandt.dbbean.OnStudyRadiationtherapy;
+import gov.nih.nci.rembrandt.dbbean.OnStudySurgery;
+import gov.nih.nci.rembrandt.dbbean.PatientData;
+import gov.nih.nci.rembrandt.dbbean.PriorChemotherapy;
+import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
+import gov.nih.nci.rembrandt.dbbean.PriorSurgery;
+import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.BufferedReader;
@@ -50,6 +61,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -280,10 +292,298 @@ public class ClinicalDataForm extends BaseForm {
         setClinicalDataLookup();
     }
    
-
   
-   
+  
+    private void setPriorRadiationTypes() {
+		try {
+						
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(PriorRadiationtherapy.class,PriorRadiationtherapy.RADIATION_TYPE);
+			
+			radiationTypeColl.add(new LabelValueBean("",""));
+			radiationTypeColl.add(new LabelValueBean("ANY","Any"));  
+			
+			for(int i = 0; i<list.size();i++) {				
+				radiationTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			radiationTypeColl = null;
+			logger.error("Unable to get prior radiation types names  from the LookupManager");
+			logger.error(e);
+		}
+	}
 
+    
+    
+    private void setPriorChemoNames() {
+		try {
+						
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(PriorChemotherapy.class,PriorChemotherapy.AGENT_NAME);
+			
+		    chemoAgentTypeColl.add(new LabelValueBean("",""));
+		    chemoAgentTypeColl.add(new LabelValueBean("ANY","Any"));  
+			
+			for(int i = 0; i<list.size();i++) {				
+				chemoAgentTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			chemoAgentTypeColl = null;
+			logger.error("Unable to get prior agent names  from the LookupManager");
+			logger.error(e);
+		}
+	}
+
+    private void  setPriorSurgeryTitles() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(PriorSurgery.class,PriorSurgery.PROCEDURE_TITLE);
+			
+		    surgeryTitleColl.add(new LabelValueBean("", ""));
+	        surgeryTitleColl.add(new LabelValueBean("ANY", "any"));
+			
+			for(int i = 0; i<list.size();i++) {				
+				surgeryTitleColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			surgeryTitleColl = null;
+			logger.error("Unable to get prior surgery titles  from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+    
+    private void  setPriorSurgeryOutcomes() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(PriorSurgery.class, PriorSurgery.SURGERY_OUTCOME);
+			
+		    surgeryOutcomeColl.add(new LabelValueBean("", ""));
+		    surgeryOutcomeColl.add(new LabelValueBean("ANY", "any"));
+			
+			for(int i = 0; i<list.size();i++) {				
+				surgeryOutcomeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			surgeryOutcomeColl = null;
+			logger.error("Unable to get prior surgery outcomes  from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+    
+    
+    private void  setOnStudyRadiationTypes() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(OnStudyRadiationtherapy.class, OnStudyRadiationtherapy.RADIATION_TYPE);
+			
+		    onStudyRadiationTypeColl.add(new LabelValueBean("", ""));
+	        onStudyRadiationTypeColl.add(new LabelValueBean("ANY", "any"));
+			
+			for(int i = 0; i<list.size();i++) {				
+				onStudyRadiationTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			onStudyRadiationTypeColl = null;
+			logger.error("Unable to get onstudy radiation types from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+    
+    private void  setOnStudyChemoNames() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(OnStudyChemotherapy.class, OnStudyChemotherapy.AGENT_NAME);
+			
+		    onStudyChemoAgentTypeColl.add(new LabelValueBean("", ""));
+		    onStudyChemoAgentTypeColl.add(new LabelValueBean("ANY", "any"));
+			
+			for(int i = 0; i<list.size();i++) {				
+				onStudyChemoAgentTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			onStudyChemoAgentTypeColl = null;
+			logger.error("Unable to get onstudy chemo names  from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+    
+    private void  setOnStudySurgeryTitles() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(OnStudySurgery.class, OnStudySurgery.PROCEDURE_TITLE);
+			
+		    onStudySurgeryTitleColl.add(new LabelValueBean("", ""));
+		    onStudySurgeryTitleColl.add(new LabelValueBean("ANY", "any"));
+			
+			for(int i = 0; i<list.size();i++) {				
+				onStudySurgeryTitleColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			onStudySurgeryTitleColl = null;
+			logger.error("Unable to get prior surgery titles  from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+    
+    private void  setOnStudySurgeryOutcomes() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(OnStudySurgery.class, OnStudySurgery.SURGERY_OUTCOME);
+			
+		    onStudySurgeryOutcomeColl.add(new LabelValueBean("", ""));
+		    onStudySurgeryOutcomeColl.add(new LabelValueBean("ANY", "any"));
+			
+			for(int i = 0; i<list.size();i++) {				
+				onStudySurgeryOutcomeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			onStudySurgeryOutcomeColl = null;
+			logger.error("Unable to get prior surgery outcomes  from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+    
+    
+    
+    private void  setKarnofskyScores() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(NeuroEvaluation.class, NeuroEvaluation.KARNOFSKY_SCORE);
+			
+		    karnofskyTypeColl.add(new LabelValueBean("", "")); 
+			
+			for(int i = 0; i<list.size();i++) {				
+				karnofskyTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			karnofskyTypeColl = null;
+			logger.error("Unable to get karnofsky scores  from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+    
+    
+    
+    
+     private void  setLanskyScores() {
+    	try {
+			
+			List list = new ArrayList();
+		    list =	LookupManager.lookUpClinicalQueryTermValues(NeuroEvaluation.class, NeuroEvaluation.LANSKY_SCORE);
+			
+		    lanskyTypeColl.add(new LabelValueBean("", "")); 
+			
+			for(int i = 0; i<list.size();i++) {				
+				lanskyTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+			
+			}
+		}catch(Exception e) {
+			lanskyTypeColl = null;
+			logger.error("Unable to get lansky scores  from the LookupManager");
+			logger.error(e);
+		}
+    	
+    }
+     
+     
+     private void  setNeuroExams() {
+     	try {
+ 			
+ 			List list = new ArrayList();
+ 		    list =	LookupManager.lookUpClinicalQueryTermValues(NeuroEvaluation.class, NeuroEvaluation.NEURO_EXAM);
+ 			
+ 		   neuroExamTypeColl.add(new LabelValueBean("", "")); 
+ 			
+ 			for(int i = 0; i<list.size();i++) {				
+ 				neuroExamTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+ 			
+ 			}
+ 		}catch(Exception e) {
+ 			neuroExamTypeColl = null;
+ 			logger.error("Unable to get prior neuroExams   from the LookupManager");
+ 			logger.error(e);
+ 		}
+     	
+     }
+     
+ 
+     
+      private void  setMRITypes() {
+     	try {
+ 			
+ 			List list = new ArrayList();
+ 		    list =	LookupManager.lookUpClinicalQueryTermValues(NeuroEvaluation.class, NeuroEvaluation.MRI_CT_SCORE);
+ 			
+ 		   mriTypeColl.add(new LabelValueBean("", "")); 
+ 			
+ 			for(int i = 0; i<list.size();i++) {				
+ 				mriTypeColl.add(new LabelValueBean((String)list.get(i),(String)list.get(i)));  
+ 			
+ 			}
+ 		}catch(Exception e) {
+ 			mriTypeColl = null;
+ 			logger.error("Unable to get MRI   from the LookupManager");
+ 			logger.error(e);
+ 		}
+     	
+     }
+     
+      private void setGenderTypes() {
+    	  
+    	  
+    	  try {
+   			
+   			List list = new ArrayList();
+   		    list =	LookupManager.lookUpClinicalQueryTermValues(PatientData.class, PatientData.GENDER);
+   			
+   		    genderTypeColl.add(new LabelValueBean("", "")); 
+   			
+   			for(int i = 0; i<list.size();i++) {		
+   				String genderCode = (String)list.get(i);   				
+   				String genderDesc = null;
+   				if(genderCode.equalsIgnoreCase("M")) {
+   					genderDesc = "Male";
+   				 }
+   				else if(genderCode.equalsIgnoreCase("F")) {
+   					genderDesc = "Female";
+  				 }
+   				else if(genderCode.equalsIgnoreCase("O")) {
+   					genderDesc = "Other";
+  				 }
+   				genderTypeColl.add(new LabelValueBean(genderDesc,genderCode));  
+   			
+   			}
+   		}catch(Exception e) {
+   			mriTypeColl = null;
+   			logger.error("Unable to get gender  from the LookupManager");
+   			logger.error(e);
+   		}
+      }
+      
+    
     public void setClinicalDataLookup() {
 
         recurrenceTypeColl = new ArrayList();
@@ -306,123 +606,24 @@ public class ClinicalDataForm extends BaseForm {
         recurrenceTypeColl.add(new LabelValueBean("1", "1"));
         recurrenceTypeColl.add(new LabelValueBean("2", "2"));
         recurrenceTypeColl.add(new LabelValueBean("3", "3"));
-
-        radiationTypeColl.add(new LabelValueBean("", ""));
-        radiationTypeColl.add(new LabelValueBean("Any", "any"));
-        radiationTypeColl.add(new LabelValueBean("Photon", "PHOTON"));
-        radiationTypeColl.add(new LabelValueBean("3D conformal", "3D CONFORMAL"));
-        radiationTypeColl.add(new LabelValueBean("Brachytherapy", "BRACHYTHERAPY"));
-        radiationTypeColl.add(new LabelValueBean("Radiosurgery", "RADIOSURGERY"));
         
-        onStudyRadiationTypeColl.add(new LabelValueBean("", ""));
-        onStudyRadiationTypeColl.add(new LabelValueBean("Any", "any"));
-        onStudyRadiationTypeColl.add(new LabelValueBean("Photon", "PHOTON"));
-        onStudyRadiationTypeColl.add(new LabelValueBean("3D conformal", "3D CONFORMAL"));
-     
-        chemoAgentTypeColl.add(new LabelValueBean("", ""));
-        chemoAgentTypeColl.add(new LabelValueBean("Any", "any"));
-        chemoAgentTypeColl.add(new LabelValueBean("13-cis retinoic acid", "13-CIS RETINOIC ACID"));
-        chemoAgentTypeColl.add(new LabelValueBean("AEE788", "AEE788"));
-        chemoAgentTypeColl.add(new LabelValueBean("Accutane (isotretinoin)", "ACCUTANE (ISOTRETINOIN)"));
-        chemoAgentTypeColl.add(new LabelValueBean("CCNU (carmustine)", "CCNU (CARMUSTINE)"));
-        chemoAgentTypeColl.add(new LabelValueBean("Carbogen", "CARBOGEN"));
-        chemoAgentTypeColl.add(new LabelValueBean("Celebrex(Celecoxib)", "CELEBREX(CELECOXIB)"));
-        chemoAgentTypeColl.add(new LabelValueBean("HBOC-201", "HBOC-201"));
-        chemoAgentTypeColl.add(new LabelValueBean("ST1480 (Gimatecan)", "ST1480 (GIMATECAN)"));
+        setPriorRadiationTypes();
+        setPriorChemoNames();
+        setPriorSurgeryTitles();
+        setPriorSurgeryOutcomes();
         
-        chemoAgentTypeColl.add(new LabelValueBean("bcnu", "BCNU"));
-        chemoAgentTypeColl.add(new LabelValueBean("bromodeoxyuridine", "BROMODEOXYURIDINE"));
-        chemoAgentTypeColl.add(new LabelValueBean("carboplatin", "CARBOPLATIN"));
-        chemoAgentTypeColl.add(new LabelValueBean("cc-5013", "CC-5013"));
-        chemoAgentTypeColl.add(new LabelValueBean("cisplatin", "CISPLATIN"));
-        
-        chemoAgentTypeColl.add(new LabelValueBean("cpt-11", "CPT-11"));
-        chemoAgentTypeColl.add(new LabelValueBean("cyclophosphamide", "CYCLOPHOSPHAMIDE"));
-        chemoAgentTypeColl.add(new LabelValueBean("doxorubicin", "DOXORUBICIN"));
-        chemoAgentTypeColl.add(new LabelValueBean("etoposide", "ETOPOSIDE"));
-        chemoAgentTypeColl.add(new LabelValueBean("lomustine", "LOMUSTINE"));
-
-        chemoAgentTypeColl.add(new LabelValueBean("osi-774", "OSI-774"));
-        chemoAgentTypeColl.add(new LabelValueBean("poly iclc", "POLY ICLC"));
-        chemoAgentTypeColl.add(new LabelValueBean("procarbazine", "PROCARBAZINE"));
-        chemoAgentTypeColl.add(new LabelValueBean("r115777", "R115777"));
-        chemoAgentTypeColl.add(new LabelValueBean("tamoxifen citrate", "TAMOXIFEN CITRATE"));
-        
-        chemoAgentTypeColl.add(new LabelValueBean("tarceva", "TARCEVA"));
-        chemoAgentTypeColl.add(new LabelValueBean("taxol", "TAXOL"));
-        chemoAgentTypeColl.add(new LabelValueBean("temodal", "TEMODAL"));
-        chemoAgentTypeColl.add(new LabelValueBean("temozolomide", "TEMOZOLOMIDE"));
-        chemoAgentTypeColl.add(new LabelValueBean("thalidomide", "THALIDOMIDE"));
-        
-        chemoAgentTypeColl.add(new LabelValueBean("vincristine", "VINCRISTINE"));
-        chemoAgentTypeColl.add(new LabelValueBean("zarnestra", "ZARNESTRA"));
-        
-        
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("", ""));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("Any", "any"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("13-cis retinoic acid", "13-CIS RETINOIC ACID"));        
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("AEE788", "AEE788"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("Ara-c", "ARA-C"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("bcnu", "BCNU"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("carboplatin", "CARBOPLATIN"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("CCNU (carmustine)", "CCNU (CARMUSTINE)"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("Celebrex(Celecoxib)", "CELEBREX(CELECOXIB)"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("cpt-11", "CPT-11"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("cyclophosphamide", "CYCLOPHOSPHAMIDE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("etoposide", "ETOPOSIDE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("lomustine", "LOMUSTINE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("osi-774", "OSI-774"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("procarbazine", "PROCARBAZINE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("R115777", "R115777"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("tamoxifen citrate", "TAMOXIFEN CITRATE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("temodal", "TEMODAL"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("temozolomide", "TEMOZOLOMIDE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("thalidomide", "THALIDOMIDE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("vincristine", "VINCRISTINE"));
-        onStudyChemoAgentTypeColl.add(new LabelValueBean("Zd1839", "ZD1839"));   
-        
-       
-       
+        setOnStudyRadiationTypes();
+        setOnStudyChemoNames();
+        setOnStudySurgeryTitles();
+        setOnStudySurgeryOutcomes();     
+        setKarnofskyScores();   
+        setLanskyScores(); 
+        setNeuroExams(); 
+        setMRITypes(); 
+        setGenderTypes();
 
 
-
-        surgeryOutcomeColl.add(new LabelValueBean("", ""));
-        surgeryOutcomeColl.add(new LabelValueBean("Any", "any"));
-        surgeryOutcomeColl.add(new LabelValueBean("Complete Resection(CR)",
-                "CR - COMPLETE RESECTION"));
-        surgeryOutcomeColl.add(new LabelValueBean("Partial Resection(PR)",
-                "PR - PARTIAL RESECTION"));
-        surgeryOutcomeColl.add(new LabelValueBean("Bioposy Only(BX)",
-                "BX - BIOPSY ONLY"));
-        
-        onStudySurgeryOutcomeColl.add(new LabelValueBean("", ""));
-        onStudySurgeryOutcomeColl.add(new LabelValueBean("Any", "any"));
-        onStudySurgeryOutcomeColl.add(new LabelValueBean("Complete Resection(CR)",
-                "CR - COMPLETE RESECTION"));
-        onStudySurgeryOutcomeColl.add(new LabelValueBean("Partial Resection(PR)",
-                "PR - PARTIAL RESECTION"));
-        onStudySurgeryOutcomeColl.add(new LabelValueBean("Bioposy Only(BX)",
-                "BX - BIOPSY ONLY"));
-        
-        surgeryTitleColl.add(new LabelValueBean("", ""));
-        surgeryTitleColl.add(new LabelValueBean("Any", "any"));
-        surgeryTitleColl.add(new LabelValueBean("Craniotomy Open Biopsy",
-        "CRANIOTOMY OPEN BIOPSY"));
-        surgeryTitleColl.add(new LabelValueBean("Craniotomy Open Resection",
-        "CRANIOTOMY OPEN RESECTION"));
-        surgeryTitleColl.add(new LabelValueBean("Stereotactic Biopsy",
-        "STEREOTACTIC BIOPSY"));
-        
-        onStudySurgeryTitleColl.add(new LabelValueBean("", ""));
-        onStudySurgeryTitleColl.add(new LabelValueBean("Any", "any"));
-        onStudySurgeryTitleColl.add(new LabelValueBean("Craniotomy Open Biopsy",
-        "CRANIOTOMY OPEN BIOPSY"));
-        onStudySurgeryTitleColl.add(new LabelValueBean("Craniotomy Open Resection",
-        "CRANIOTOMY OPEN RESECTION"));
-       
-        
-        
-       
+      
 
         survivalLowerColl.add(new LabelValueBean("", ""));
         survivalLowerColl.add(new LabelValueBean("0", "0"));
@@ -474,41 +675,7 @@ public class ClinicalDataForm extends BaseForm {
         ageUpperColl.add(new LabelValueBean("90", "90"));
         //	ageUpperColl.add( new LabelValueBean( "90+", "90+" ) );
 
-        genderTypeColl.add(new LabelValueBean("", ""));
-        genderTypeColl.add(new LabelValueBean("Male", "M"));
-        genderTypeColl.add(new LabelValueBean("Female", "F"));
-        genderTypeColl.add(new LabelValueBean("Other", "O"));
-        
-        
-        karnofskyTypeColl.add(new LabelValueBean("", ""));
-        karnofskyTypeColl.add(new LabelValueBean("0", "0"));
-        karnofskyTypeColl.add(new LabelValueBean("20", "20"));
-        karnofskyTypeColl.add(new LabelValueBean("30", "30"));
-        karnofskyTypeColl.add(new LabelValueBean("40", "40"));
-        karnofskyTypeColl.add(new LabelValueBean("50", "50"));
-        karnofskyTypeColl.add(new LabelValueBean("60", "60"));
-        karnofskyTypeColl.add(new LabelValueBean("70", "70"));
-        karnofskyTypeColl.add(new LabelValueBean("80", "80"));
-        karnofskyTypeColl.add(new LabelValueBean("90", "90"));
-        karnofskyTypeColl.add(new LabelValueBean("100", "100"));
-        
-        lanskyTypeColl.add(new LabelValueBean("", ""));
-        
-        neuroExamTypeColl.add(new LabelValueBean("", ""));        
-        neuroExamTypeColl.add(new LabelValueBean("-2", "-2")); 
-        neuroExamTypeColl.add(new LabelValueBean("-1", "-1")); 
-        neuroExamTypeColl.add(new LabelValueBean("0", "0")); 
-        neuroExamTypeColl.add(new LabelValueBean("1", "1")); 
-        neuroExamTypeColl.add(new LabelValueBean("2", "2")); 
-        
-        mriTypeColl.add(new LabelValueBean("", "")); 
-        mriTypeColl.add(new LabelValueBean("-3", "-3"));  
-        mriTypeColl.add(new LabelValueBean("-2", "-2"));  
-        mriTypeColl.add(new LabelValueBean("-1", "-1"));  
-        mriTypeColl.add(new LabelValueBean("0", "0"));  
-        mriTypeColl.add(new LabelValueBean("1", "1"));  
-        mriTypeColl.add(new LabelValueBean("2", "2"));  
-        mriTypeColl.add(new LabelValueBean("3", "3")); 
+    
 
     }
 
