@@ -76,9 +76,9 @@ abstract public class CGHFactHandler {
                 CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);
                 _BROKER.close();
 
-                new Thread(
-                   new Runnable() {
-                      public void run() {
+                 ThreadPool.AppThread t = ThreadPool.newAppThread(
+                           new ThreadPool.MyRunnable() {
+                              public void codeToRun() {
                           final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           pb.clearCache();
                           sampleCrit.addAndCriteria(IDs);
@@ -92,7 +92,8 @@ abstract public class CGHFactHandler {
                           dbEvent.setCompleted(true);
                       }
                    }
-               ).start();
+               );
+               t.start();
             }
     }
 
