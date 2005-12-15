@@ -3,14 +3,21 @@ package gov.nih.nci.rembrandt.analysis.server;
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisRequestSender;
 import gov.nih.nci.caintegrator.analysis.messaging.AnalysisResult;
+import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.AnalysisServerException;
 import gov.nih.nci.caintegrator.service.findings.AnalysisFinding;
+import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.rembrandt.cache.BusinessTierCache;
+import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.jms.DeliveryMode;
@@ -31,6 +38,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
+
+import sun.security.krb5.internal.crypto.f;
 
 /**
  * @author sahnih
@@ -145,6 +154,23 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		AnalysisFinding finding = (AnalysisFinding)_cacheManager.getSessionFinding(sessionId, taskId);
 		if(finding != null){
 			finding.setAnalysisResult(analysisResult);
+			if(finding instanceof ClassComparisonFinding){
+				//generate the annotations
+				List<ClassComparisonResultEntry> classComparisonResultEntrys = ((ClassComparisonFinding) finding).getResultEntries();
+				List<String> reporterIds = new ArrayList<String>();
+				Map<String,ReporterResultset> reporterResultsetMap = null;
+				for (ClassComparisonResultEntry classComparisonResultEntry: classComparisonResultEntrys){
+					if(classComparisonResultEntry.getReporterId() != null){
+						reporterIds.add(classComparisonResultEntry.getReporterId());
+					}
+				}
+		        try {
+		        	reporterResultsetMap = GeneExprAnnotationService.getAnnotationsMapForReporters(reporterIds);
+		        }
+		        catch(Exception e){}
+		        
+		        ((ClassComparisonFinding) finding).setReporterAnnotationsMap(reporterResultsetMap);
+			}
 			finding.setStatus(FindingStatus.Completed);
 			logger.debug("Following task has been completed:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
 			_cacheManager.addToSessionCache(sessionId,taskId,finding);
