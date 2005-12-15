@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -43,7 +44,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 
 		//String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
-		
+		String delim = " | ";
 		ArrayList filter_string = new ArrayList();	// hashmap of genes | reporters | cytobands
 		String filter_type = "show"; 		// show | hide
 		String filter_element = "none"; 	// none | gene | reporter | cytoband
@@ -214,17 +215,8 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        			try	{
 					        		HashSet geneSymbols = new HashSet(reporterResultset.getAssiciatedGeneSymbols());
 					        		if(geneSymbols != null){
-					        			for(Iterator geneIterator = geneSymbols.iterator(); geneIterator.hasNext();)
-					        			{
-					        				try	{
-						        				Object geneObj = geneIterator.next();
-						        				if(geneObj != null){
-							        				genes += geneObj.toString();
-							        				genes += " | ";
-						        				}
-					        				}
-					        				catch(Exception e)	{ }
-					        			}
+					        			genes = StringUtils.join(geneSymbols.toArray(), delim);
+					        			
 					        		}
 					        		else	{
 					        			genes = "-";

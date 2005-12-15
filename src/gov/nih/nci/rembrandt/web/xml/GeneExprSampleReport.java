@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -44,7 +45,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 	public Document getReportXML(Resultant resultant, Map filterMapParams) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
-		
+		String delim = " | ";
 		/* testing hardcoded vals - these will be params of this method soon */
 		/*
 		ArrayList g = new ArrayList();
@@ -263,21 +264,11 @@ public class GeneExprSampleReport implements ReportGenerator{
 							         * RCL
 							         * 
 							         */
-							        String ll = "";
+							        String ll = "";							        
 				        			try	{
 						        		HashSet locusLinkIds = new HashSet(reporterResultset.getAssiciatedLocusLinkIDs());
 						        		if(locusLinkIds != null){
-						        			for(Iterator LLIterator = locusLinkIds.iterator(); LLIterator.hasNext();)
-						        			{
-						        				try	{
-							        				Object llObj = LLIterator.next();
-							        				if(llObj!=null){
-							        					ll += llObj.toString();
-							        					ll += " | ";
-							        				}
-						        				}
-						        				catch(Exception e) { }
-						        			}	
+						        			ll = StringUtils.join(locusLinkIds.toArray(), delim);
 						        		}
 						        		else	{
 						        			ll = "-";
@@ -292,18 +283,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        			try	{
 						        		HashSet accNumbers = new HashSet(reporterResultset.getAssiciatedGenBankAccessionNos());
 						        		if(accNumbers!=null)	{
-						        			for(Iterator accIterator = accNumbers.iterator(); accIterator.hasNext();)
-						        			{
-						        				try	{
-							        				Object accObj = accIterator.next();
-							        				if(accObj!=null){
-							        					acc += accObj.toString();
-							        					acc += " | ";
-							        				}	
-						        				}
-						        				catch(Exception e){	}
-						        			}
-		
+						        			acc = StringUtils.join(accNumbers.toArray(), delim);		
 						        		}
 						        		else	{
 						        			acc = "-";
@@ -315,18 +295,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        			try	{
 						        		HashSet go_idsHS = new HashSet(reporterResultset.getAssociatedGOIds());
 						        		if(go_idsHS!=null)	{
-						        			for(Iterator goIterator = go_idsHS.iterator(); goIterator.hasNext();)
-						        			{
-						        				try	{
-							        				Object goObj = goIterator.next();
-							        				if(goObj!=null){
-							        				    go_ids += goObj.toString();
-							        				    go_ids += " | ";
-							        				}	
-						        				}
-						        				catch(Exception e){	}
-						        			}
-		
+						        			go_ids = StringUtils.join(go_idsHS.toArray(), delim);
 						        		}
 						        		else	{
 						        		    go_ids = "-";
@@ -338,18 +307,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 				        			try	{
 						        		HashSet pathwaysHS = new HashSet(reporterResultset.getAssociatedPathways());
 						        		if(pathwaysHS!=null)	{
-						        			for(Iterator pathwaysIterator = pathwaysHS.iterator(); pathwaysIterator.hasNext();)
-						        			{
-						        				try	{
-							        				Object pathwaysObj = pathwaysIterator.next();
-							        				if(pathwaysObj!=null){
-							        				    pathways += pathwaysObj.toString();
-							        				    pathways += " | ";
-							        				}	
-						        				}
-						        				catch(Exception e){	}
-						        			}
-		
+						        			pathways = StringUtils.join(pathwaysHS.toArray(), delim);
 						        		}
 						        		else	{
 						        		    pathways = "-";
