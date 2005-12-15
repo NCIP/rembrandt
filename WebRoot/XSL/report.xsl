@@ -193,7 +193,6 @@
 	  <!-- Added for WebGenome Testing -->
 	  <div class="filterForm">
 	  <form action="null" method="post" name="reportGeneratorForm">
-	 	 <button type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequestTest&amp;queryName={$qName}')">Test WebGenome</button>
 	     <button type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')">View Plots (in WebGenome)</button>
       </form>
 	   </div>
