@@ -59,6 +59,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsCont
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -134,7 +135,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
 	}
 	public List getAssociatedReporters(){
-		List reporterNames = null;
+		List reporterNames = Collections.EMPTY_LIST;
 	    Collection samples = getBioSpecimenResultsets();
 	    
 	    if(!samples.isEmpty()){

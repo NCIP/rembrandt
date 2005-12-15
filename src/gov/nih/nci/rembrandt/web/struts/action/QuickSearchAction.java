@@ -143,7 +143,7 @@ public class QuickSearchAction extends DispatchAction {
 			 }
 
 		}
-		if(kmSampleInfos != null && kmSampleInfos.length <= 1 ){
+		if(kmResultsContainer != null && kmResultsContainer.getAssociatedReporters().size() == 0 ){
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
 					"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
 					quickSearchType, quickSearchVariableName));
@@ -184,18 +184,21 @@ public class QuickSearchAction extends DispatchAction {
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals("unified")){
             kmResultsContainer = performKMGeneExpressionQuery(kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet);
-            kmForm.setSelectedReporter("");
+            if (kmForm.getSelectedReporter().equals(
+					CaIntegratorConstants.GRAPH_DEFAULT)){
+            	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
+            }
         }
         else{
             kmResultsContainer = getKmResultsContainer(request.getSession().getId());
         }
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
 			if ((kmForm.getSelectedReporter().trim().length() > 0)) {                
-				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT )) {
+				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 					if (kmForm.getSelectedReporter().equals(
 							CaIntegratorConstants.GRAPH_DEFAULT)) {
 						kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
-					} else {
+					} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_BLANK)){
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 					}
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {

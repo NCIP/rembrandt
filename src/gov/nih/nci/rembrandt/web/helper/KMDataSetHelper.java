@@ -25,11 +25,16 @@ public class KMDataSetHelper {
 		if (_reporters != null && _plotType != null && _kmForm != null) {
 			reporters = _reporters;
 			if (_plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-				reporters.add(0, CaIntegratorConstants.GRAPH_DEFAULT);
+				if(_kmForm.getAlgorithm()!= null &&
+						_kmForm.getAlgorithm().equals("unified")){
+					reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
+				}else{
+					reporters.add(0, CaIntegratorConstants.GRAPH_DEFAULT);
+				}
 			}
 			if (_plotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)
 					&& reporters.size() > 1) {
-				reporters.add(0, " ");
+				reporters.add(0, CaIntegratorConstants.GRAPH_BLANK);
 
 			}
 			_kmForm.setReporters(reporters);

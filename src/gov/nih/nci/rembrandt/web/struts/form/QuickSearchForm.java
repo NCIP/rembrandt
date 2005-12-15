@@ -53,7 +53,8 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
 	    ActionErrors errors = new ActionErrors();
-	    if(getQuickSearchType().compareTo(RembrandtConstants.GENE_SYMBOL)==0){
+	    if(getQuickSearchType() != null  &&
+	    		getQuickSearchType().compareTo(RembrandtConstants.GENE_SYMBOL)==0){
 		    UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
 			try {
 				UIFormValidator.validateGeneSymbol(this, errors);
