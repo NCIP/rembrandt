@@ -38,6 +38,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 
 		//String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
+		String defaultV = "-";
 		
 			Document document = DocumentHelper.createDocument();
 
@@ -438,8 +439,11 @@ public class ClinicalSampleReport implements ReportGenerator {
    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getAgeGroup()));
    					        	data = null;
    					        cell = null;
+   					        String theGender = defaultV;
+   					        if(!DEUtils.checkNV(sampleResultset.getGenderCode()).equalsIgnoreCase("O"))
+   					        	theGender = DEUtils.checkNV(sampleResultset.getGenderCode());
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-						    	data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getGenderCode()));
+						    	data = cell.addElement("Data").addAttribute("type", "data").addText(theGender);
    					        	data = null;
    					        cell = null;
 							cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
