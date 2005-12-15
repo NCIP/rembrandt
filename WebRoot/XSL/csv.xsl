@@ -16,21 +16,7 @@
 				</xsl:if>	
 			</xsl:for-each>
 	</xsl:for-each>
-	<xsl:for-each select="Row[@name='sampleRow']">
-		<xsl:for-each select="Cell">
-		<xsl:if test="Data != ' ' and Data != ''">
-			<xsl:if test="@group != 'header'">
-				<xsl:value-of select="substring(@group, 0, 6)" />
-			</xsl:if>
-			<xsl:if test="position() != last()">
-				<xsl:value-of select="', '"/>
-			</xsl:if>
-			<xsl:if test="position() = last()">
-				<xsl:text>&#10;</xsl:text>
-			</xsl:if>
-		</xsl:if>
-		</xsl:for-each>
-	</xsl:for-each>
+	
 	<xsl:for-each select="Row[@name='sampleRow']">
 		<xsl:for-each select="Cell">
 		  <xsl:choose>
