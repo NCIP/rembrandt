@@ -1,9 +1,30 @@
-<project name="rembrandt" default="build_war" basedir=".">
+<project name="rembrandt" default="build_war_anthill" basedir=".">
 	<property file="build.properties"/>
 	<!--
 	TARGET: COMPILE
-		Compiles the source directory
+		Compiles the source directory with anthill dependencies
 	-->
+	<target name="compile_anthill" depends="config_database">
+			<delete dir="${build.classes.dir}"/>
+			<mkdir dir="${build.classes.dir}"/>
+			<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
+				<classpath>
+					<fileset dir="${source.lib.dir}">
+						<include name="*.jar"/>
+					</fileset>
+					<fileset dir="${source.nondeploy.lib.dir}">
+						<include name="*.jar"/>
+					</fileset>
+					<fileset dir="${anthill.dependency.artifacts.dir}">
+						<include name="*.jar"/>
+					</fileset>
+				</classpath>
+			</javac>
+	</target>
+	<!--
+		TARGET: COMPILE
+			Compiles the source directory without anthill dependencies
+		-->
 	<target name="compile" depends="config_database">
 		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
@@ -13,9 +34,6 @@
 					<include name="*.jar"/>
 				</fileset>
 				<fileset dir="${source.nondeploy.lib.dir}">
-					<include name="*.jar"/>
-				</fileset>
-				<fileset dir="${anthill.dependency.artifacts.dir}">
 					<include name="*.jar"/>
 				</fileset>
 			</classpath>
@@ -134,14 +152,50 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="config-jbossmq">
-		<copy file="${source.dir}\rembrandt-jbossmq-destinations-service.xml" todir="${jboss.deploy.dir}"/>
-	</target>
+	<!--
+        TARGET: copy_resources_anthill
+        Copies all the bundle resources to the WEB-INF/classes/ folder
+        This task is intended to be a dependency for the build_war_anthill task
+    -->
+		<target name="copy_resources_anthill" depends="compile_anthill, config-webGenome">
+			<copy todir="${build.classes.dir}">
+				<fileset dir="${source.dir}">
+					<include name="*.xml"/>
+					<exclude name="rembrandt-jbossmq-destinations-service.xml"/>
+					<include name="*.properties"/>
+					<include name="*.dtd"/>
+					<include name="*.xsd"/>
+				</fileset>
+			</copy>
+		</target>
+	
+		<target name="config-jbossmq">
+			<copy file="${source.dir}\rembrandt-jbossmq-destinations-service.xml" todir="${jboss.deploy.dir}"/>
+		</target>
 	<!--
 		TARGET: build_war
-		This will build the war file
+		This will build the war file and should be used instead of the 
+		build_war_anthill task (which is intended to be used by SCM)
 	-->
 	<target name="build_war" depends="copy_resources">
+		<delete file="${app.war.name}.war"/>
+		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
+			<fileset file="${webapp.dir}/*.*"/>
+			<zipfileset dir="${webapp.dir}/css" prefix="css"/>
+			<zipfileset dir="${webapp.dir}/images" prefix="images"/>
+			<zipfileset dir="${webapp.dir}/js" prefix="js"/>
+			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp"/>
+			<zipfileset dir="${webapp.dir}/log" prefix="log"/>
+			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials"/>
+			<zipfileset dir="${webapp.dir}/XSL" prefix="XSL"/>
+			<webinf dir="${webapp.dir}/WEB-INF"/>
+		</war>
+	</target>
+	<!--
+		TARGET: build_war_anthill
+		This task is intended to be used to by anthill when built be SCM.
+	-->
+	<target name="build_war_anthill" depends="copy_resources_anthill">
 		<delete file="${app.war.name}.war"/>
 		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.*"/>
