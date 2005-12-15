@@ -56,11 +56,12 @@ String alg = request.getParameter("alg")!=null ? (String) request.getParameter("
 		DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
 		if(diseaseTypes != null)	{
 			for (int i = 0; i< diseaseTypes.length ; i++) {
-				String diseaseType = diseaseTypes[i].getDiseaseType();
+				String diseaseType = diseaseTypes[i].getDiseaseType()!=null ? diseaseTypes[i].getDiseaseType() : "N/A";
+				String diseaseDesc = diseaseTypes[i].getDiseaseDesc() != null ? diseaseTypes[i].getDiseaseDesc() : "N/A";
 				if(diseaseType.equalsIgnoreCase(gov.nih.nci.rembrandt.util.RembrandtConstants.ASTRO))	{
 			    	diseaseType = diseaseType.substring(0,6);
 			    }	
-			 	out.println("<tr><Td>"+diseaseType+":</td><Td>"+diseaseTypes[i].getDiseaseDesc() + "</td></tr>\n" );
+			 	out.println("<tr><Td>"+diseaseType+":</td><Td>" + diseaseDesc + "</td></tr>\n" );
 			}
 			out.println("</table>\n");
 		}
