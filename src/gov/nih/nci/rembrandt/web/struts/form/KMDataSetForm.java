@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.util.LabelValueBean;
 
 public class KMDataSetForm extends ActionForm implements Serializable {
 
@@ -43,18 +45,21 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 
 	private boolean plotVisible = false;
 
-	private ArrayList<Integer> folds = new ArrayList<Integer>();
+	private ArrayList<Double> folds = new ArrayList<Double>();
+    
+    private ArrayList algorithms = new ArrayList();  
 
 	private Integer numberOfPlots = null;
 
 	private String selectedDataset;
     
-    private String algorithm = "regular";
+    private String algorithm = "default";
     
 	private static Logger logger = Logger.getLogger(KMDataSetForm.class);
 
 	public KMDataSetForm() {
-
+        algorithms.add("default");
+        algorithms.add("unified");
 	}
 
 	public KMDataSetForm(String _plotType) {
@@ -109,10 +114,10 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	/**
 	 * @return Returns the folds.
 	 */
-	public ArrayList<Integer> getFolds() {
+	public ArrayList<Double> getFolds() {
 		if (folds.isEmpty()) {
 			for (int i = 2; i < 11; i++) {
-				folds.add(new Integer(i));
+				folds.add(new Double(i));
 			}
 		}
 		return folds;
@@ -322,4 +327,13 @@ public class KMDataSetForm extends ActionForm implements Serializable {
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
     }
+
+    /**
+     * @return Returns the algorithms.
+     */
+    public ArrayList getAlgorithms() {          
+        return algorithms;
+    }
+
+   
 }

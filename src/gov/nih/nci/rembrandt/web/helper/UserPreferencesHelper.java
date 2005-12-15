@@ -53,16 +53,30 @@ public class UserPreferencesHelper{
     /**
      * @return Returns the variancePercentile.
      */
-    public int getVariancePercentile() {
-        return userPreferencesBean.getVariancePercentile();
+    public int getPCAVariancePercentile() {
+        return userPreferencesBean.getPcaVariancePercentile();
     }
 
     /**
      * @param variancePercentile The variancePercentile to set.
      */
-    public void setVariancePercentile(int variancePercentile) {
-        userPreferencesBean.setVariancePercentile(variancePercentile);
+    public void setPCAVariancePercentile(int pcaVariancePercentile) {
+        userPreferencesBean.setPcaVariancePercentile(pcaVariancePercentile);
     }
+    /**
+     * @return Returns the variancePercentile.
+     */
+    public int getHCVariancePercentile() {
+        return userPreferencesBean.getHcVariancePercentile();
+    }
+
+    /**
+     * @param variancePercentile The variancePercentile to set.
+     */
+    public void setHCVariancePercentile(int hcVariancePercentile) {
+        userPreferencesBean.setHcVariancePercentile(hcVariancePercentile);
+    }
+
 
 
     /**

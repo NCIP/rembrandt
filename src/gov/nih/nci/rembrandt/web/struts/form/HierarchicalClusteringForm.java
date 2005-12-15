@@ -35,7 +35,7 @@ public class HierarchicalClusteringForm extends ActionForm {
     
     private Collection linkageMethodCollection = new ArrayList();
     
-    private int variancePercentile = 70;
+    private int variancePercentile = 95;
     
     private String filterType = "default";
     

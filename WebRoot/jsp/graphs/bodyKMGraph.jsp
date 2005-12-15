@@ -44,8 +44,7 @@
 			<span style="font-size:.9em">Algorithm</span>
 			<!--Unified or regular algorithm-->
 			<html:select property="algorithm">
-				<option value="regular" />regular</option>
-				<option value="unified" />unified</option>
+				<html:options property="algorithms" />
 			</html:select> &nbsp; 
 			</td>
 			<td>

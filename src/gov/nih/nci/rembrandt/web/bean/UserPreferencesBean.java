@@ -15,7 +15,8 @@ public class UserPreferencesBean implements Serializable{
     private static final long serialVersionUID = 1L;
     private String geneSetName = "";
     private String reporterSetName = "";
-    private int variancePercentile = 70;
+    private int pcaVariancePercentile = 70;
+    private int hcVariancePercentile = 95;
     
     public UserPreferencesBean(){
         
@@ -56,30 +57,34 @@ public class UserPreferencesBean implements Serializable{
         this.reporterSetName = reporterSetName;
     }
 
-
-
     /**
-     * @return Returns the variancePercentile.
+     * @return Returns the hcVariancePercentile.
      */
-    public int getVariancePercentile() {
-        return variancePercentile;
+    public int getHcVariancePercentile() {
+        return hcVariancePercentile;
     }
 
-
-
     /**
-     * @param variancePercentile The variancePercentile to set.
+     * @param hcVariancePercentile The hcVariancePercentile to set.
      */
-    public void setVariancePercentile(int variancePercentile) {
-        this.variancePercentile = variancePercentile;
+    public void setHcVariancePercentile(int hcVariancePercentile) {
+        this.hcVariancePercentile = hcVariancePercentile;
     }
 
+    /**
+     * @return Returns the pcaVariancePercentile.
+     */
+    public int getPcaVariancePercentile() {
+        return pcaVariancePercentile;
+    }
 
-
-    
+    /**
+     * @param pcaVariancePercentile The pcaVariancePercentile to set.
+     */
+    public void setPcaVariancePercentile(int pcaVariancePercentile) {
+        this.pcaVariancePercentile = pcaVariancePercentile;
+    }
 
    
-    
-    
     
 }

@@ -3,33 +3,28 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*"%>
-<% 
-/*
- * Gene Tile - used in: GeneExpression form, CGH form
- */
-
-String act = request.getParameter("act");
-String sessionId = request.getSession().getId();  
-
-%>
-
-<script type='text/javascript' src='/rembrandt/dwr/interface/UserPreferences.js'></script>
-<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
-<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
 
 <script language="javascript">
-	function setUserDefaults(){
+	function setUserDefaults(analysis){
 		var variance = document.getElementById("variancePercentile").value;
 		var geneSetName = document.getElementById("geneList").value;
 		var reporterSetName = document.getElementById("reporterList").value;
 		
-		UserPreferences.setVariancePercentile(variance,getVariance);			
+		if(analysis=="pca"){
+			UserPreferences.setPCAVariancePercentile(variance,getPCAVariance);
+		}
+		else if(analysis=="hc"){
+			UserPreferences.setHCVariancePercentile(variance,getHCVariance);
+		}			
 		UserPreferences.setGeneSetName(geneSetName,getGeneSet);		
 		UserPreferences.setReporterSetName(reporterSetName,getReporterSet);
 		
 	}
-	function getVariance(data){
-		UserPreferences.getVariancePercentile(putVariance);
+	function getPCAVariance(data){
+		UserPreferences.getPCAVariancePercentile(putVariance);
+	}
+	function getHCVariance(data){
+		UserPreferences.getHCVariancePercentile(putVariance);
 	}
 	function putVariance(data){	    
 	    var varianceSetting = document.getElementById("varianceSetting");
@@ -91,9 +86,15 @@ String sessionId = request.getSession().getId();
 
 	<div id="advFilter" class="divHide">
 		<br>
+			<logic:present name="principalComponentForm"> 
 			<html:checkbox styleClass="radio" property="constraintVariance" value="constraintVariance" />Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;
-				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="variancePercentile"/>" />&nbsp;&nbsp;%
-				
+				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="pcaVariancePercentile"/>" />&nbsp;&nbsp;%
+			</logic:present>
+			<logic:present name="hierarchicalClusteringForm"> 
+			<html:checkbox styleClass="radio" property="constraintVariance" value="constraintVariance" />Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;
+				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="hcVariancePercentile"/>" />&nbsp;&nbsp;%
+			</logic:present>
+			
 		<br><br>	
 		  	<html:checkbox property="diffExpGenes" styleClass="radio" value="diffExpGenes" />
 		  Use differentially expressed genes &nbsp;&nbsp;
@@ -110,8 +111,12 @@ String sessionId = request.getSession().getId();
 			  </html:select>
 			  or <a href="#" onclick="javascript:spawnx('uploadReporterSet.do', 'upload2', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>
 		<br><br>	
-			
-			<center><html:button property="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults()" /></center>
+			<logic:present name="principalComponentForm"> 
+			<center><html:button property="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults('pca')" /></center>
+			</logic:present>
+			<logic:present name="hierarchicalClusteringForm"> 
+			<center><html:button property="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults('hc')" /></center>
+			</logic:present>
 						
 		</div>	  
 	  

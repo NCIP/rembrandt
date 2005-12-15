@@ -104,7 +104,7 @@ public class PrincipalComponentAction extends DispatchAction {
         principalComponentForm.setExistingGroupsList(sampleBasedQueriesRetriever.getAllPredefinedAndSampleSetNames(sessionId));
         principalComponentForm.setGeneSetName(userPreferencesHelper.getGeneSetName());
         principalComponentForm.setReporterSetName(userPreferencesHelper.getReporterSetName());
-        principalComponentForm.setVariancePercentile(userPreferencesHelper.getVariancePercentile());
+        //principalComponentForm.setVariancePercentile(userPreferencesHelper.getVariancePercentile());
         
         return mapping.findForward("backToPrincipalComponent");
     }

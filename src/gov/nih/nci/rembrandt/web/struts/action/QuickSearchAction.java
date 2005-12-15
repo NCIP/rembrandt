@@ -154,7 +154,7 @@ public class QuickSearchAction extends DispatchAction {
 			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 			storedData.setId("KAPLAN");
 			kmForm.setStoredData(storedData);
-			kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
+            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 			kmForm.setSelectedDataset("KAPLAN");
 			presentationTierCache.addToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
 			presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
@@ -184,13 +184,14 @@ public class QuickSearchAction extends DispatchAction {
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals("unified")){
             kmResultsContainer = performKMGeneExpressionQuery(kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet);
+            kmForm.setSelectedReporter("");
         }
         else{
             kmResultsContainer = getKmResultsContainer(request.getSession().getId());
         }
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
-			if ((kmForm.getSelectedReporter().trim().length() > 0)) {
-				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
+			if ((kmForm.getSelectedReporter().trim().length() > 0)) {                
+				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT )) {
 					if (kmForm.getSelectedReporter().equals(
 							CaIntegratorConstants.GRAPH_DEFAULT)) {
 						kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
