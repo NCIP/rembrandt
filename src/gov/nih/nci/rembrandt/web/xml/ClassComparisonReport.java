@@ -95,7 +95,7 @@ public class ClassComparisonReport{
 			
 			//TODO: instance of
 			ClassComparisonFinding ccf = (ClassComparisonFinding) finding;
-			
+
 			if(ccf != null)	{
 					
 				Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
@@ -144,19 +144,24 @@ public class ClassComparisonReport{
 		        
 		        
 		    	/* done with the headerRow and SampleRow Elements, time to add data rows */
-					
+		        Map<String,ReporterResultset> reporterResultsetMap = null;
+		        reporterResultsetMap = ccf.getReporterAnnotationsMap();
+		        
 		        List<ClassComparisonResultEntry> classComparisonResultEntrys = ccf.getResultEntries();
 				List<String> reporterIds = new ArrayList<String>();
-				Map<String,ReporterResultset> reporterResultsetMap = null;
+				
 				for (ClassComparisonResultEntry classComparisonResultEntry: classComparisonResultEntrys){
 					if(classComparisonResultEntry.getReporterId() != null){
 						reporterIds.add(classComparisonResultEntry.getReporterId());
 					}
 				}
-		        try {
-		        	reporterResultsetMap = GeneExprAnnotationService.getAnnotationsMapForReporters(reporterIds);
+				
+				if(reporterResultsetMap == null)	{
+			        try {
+			        	reporterResultsetMap = GeneExprAnnotationService.getAnnotationsMapForReporters(reporterIds);
+			        }
+			        catch(Exception e){}
 		        }
-		        catch(Exception e){}
 		        
 		        for(ClassComparisonResultEntry ccre : ccf.getResultEntries())	{
 
