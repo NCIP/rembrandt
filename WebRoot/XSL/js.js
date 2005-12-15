@@ -170,6 +170,24 @@ function spawnAnnot(type, element)	{
 	var winw = 800;
 	var winh = 550;
 	var page = "";
+	/*
+		params
+		types:
+		gene - comes from gene view report, or CC report, goes to CGAP always
+		reporter - a generic affy reporter where we do nothing special, goes to affy always
+		reporterFromGene - comes from a gene view report, goes to LPG
+		cytoband - comes from a copy # report, goes to UCSC
+		reporterFromCC - comes from a CC report, goes to LPG
+		reporterFromGeneQS - comes from a Gene Quick Search (most complicated)
+		
+		elements:
+		gene symbol
+		reporter name
+		
+		hope this clears it up
+		 -RCL
+	
+	*/
 	if(type == 'gene')	{
 		page = escape('http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM=')+escape(el);
 		rbtFrame(page);
@@ -199,14 +217,14 @@ function spawnAnnot(type, element)	{
 			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
 		}
 		else if(/^\d+$/.test(el))	{
-			//llink
+			//this is a llink
 		}		
 		else if(/^\d+_{1}a{1}\d+/.test(el))	{
-			//need to snip the el
+			//this is a llink special - need to snip the _aXX
 			el = el.substring(0, el.indexOf("_a"));
 		}
 		else if(/^(H{1}s{1}(\.){1})/i.test(el))	{
-			// access no
+			//this is an acc no
 		}
 		else	{
 			annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
