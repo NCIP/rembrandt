@@ -11,6 +11,11 @@
 <%@ page import="gov.nih.nci.caintegrator.service.findings.*" %>
 <%@ page import="gov.nih.nci.caintegrator.enumeration.*" %>
 
+<script language="javascript">
+	if(location.href.indexOf("viewResults") == -1)	{
+		location.replace("viewResults.do");
+	}
+</script>
 <%
 String helpLink = "<a href=\"javascript: spawn('help.jsp";
 String helpLinkClose = "', 350, 500);\">"+
