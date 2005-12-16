@@ -36,46 +36,50 @@
 	<html:hidden property="geneOrCytoband" />
 	<html:hidden property="plotType" />
 	<div>
-	
-		<div style="border:1px solid silver;width:90%">
-		<table border="0">
-			<tr>
+		<table style="border:1px solid silver" cellpadding="4" cellspacing="4">
+			<tr>			
 			<td>
-			<span style="font-size:.9em">Algorithm</span>
-			<!--Unified or regular algorithm-->
-			<html:select property="algorithm">
-				<html:options property="algorithms" />
-			</html:select> &nbsp; 
-			</td>
-			<td>
-			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="upOrAmplified" /></span>	
-			 <!-- Upregulated/Amplified  -->
+			<!-- Upregulated/Amplified  -->
+			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="upOrAmplified" /></span>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
 			<html:select property="upFold">
 				<html:options property="folds" />
-			</html:select> &nbsp; 
+			</html:select>
 			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
-			<!--Fold/Copies -->
-			<br />
-			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="downOrDeleted" /></span> 
+			</td>
+			
+			<!--Reporters-->
+			<td>
+			<span style="font-size:.9em;margin-left:10px">Reporters</span>
+			<html:select property="selectedReporter">
+				<html:options property="reporters" />
+			</html:select></td>
+			</tr>
+			
+			<tr>
+			<td>
 			<!-- Downregulated/Deleted -->
+			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="downOrDeleted" /></span>			
 			&nbsp;&ge;&nbsp; 
 			<html:select property="downFold">
 				<html:options property="folds" />
-			</html:select> 
-			&nbsp;
+			</html:select> 			
 			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span> 
 			</td>
-			<td>
-			<!--Fold/Copies --> &nbsp;&nbsp;<span style="font-size:.9em">Reporters</span>
-			<html:select property="selectedReporter">
-				<html:options property="reporters" />
-			</html:select> 
+			<td>			
+			<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
+			<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
+			<!--Unified or regular algorithm-->
+			<span style="font-size:.9em;margin-left:10px">Algorithm</span>			
+			<html:select property="algorithm">
+				<html:options property="algorithms" />
+			</html:select> &nbsp; 	
+			</logic:equal>		
 			</td>
 			</tr>
 			</table>
 			</div>
-			<html:submit value="Redraw Graph" /></div>
+			<html:submit value="Redraw Graph" />
 	<div>
 	<logic:equal name="kmDataSetForm" property="plotVisible" value="true">
 		<hr>
@@ -89,8 +93,8 @@
 		<br>
 		
 		View Clinical Reports<br />
-			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Up Samples</a>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Down Samples</a>
+			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Up-Regulated Samples</a>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Down-Regulated Samples</a>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
 		
 		

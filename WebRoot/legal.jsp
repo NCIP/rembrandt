@@ -24,40 +24,40 @@
 </div>
 <!--end all headers-->
 
-
 <fieldset style="border: 1px solid #000066;width:765px">
 <legend style="text-align:center;background-color:#ffffff">LEGAL RULES OF THE ROAD</legend>
-<p style="text-align:left">The Repository of Molecular Brain Neoplasia DaTa (REMBRANDT)
-		Database is provided as a public service by the National
-		Cancer Institute (NCI) to foster the rapid dissemination
-		of information to the scientific community and the
-		public.  This first release of the Database is intended
-		as an evaluation (Beta) version to solicit feedback and
-		input on the interface and the content from the
-		scientific community at large.  The samples used to
-		produce the data here presented were provided by the
-		Hermelin Brain Tumor Center and the Henry Ford Hospital.
-		All data may be subject to copyright provisions.
-		The data used for this evaluation version is confidential
-		information which has not yet been published. Thus,
-		you may browse, and use the data for the purposes of
-		familiarizing yourself with the structure of the database
-		and interface, evaluate its usefulness and provide
-		<a href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a> to the development team. You may not use the data provided
-		here for research projects in which you are involved at
-		present, or to test hypothesis to develop future research
-		projects. Although the raw data will be available for
-		download in the upcoming public release of the Database, 
-		this functionality is disabled in the evaluation version
-		you are about to enter. You may encounter documents or
-		portions of documents contributed by private institutions
-		or organizations.  Other parties may retain all rights
-		to publish or produce these documents. Commercial use
-		of the documents on this site may be protected under
-		United States and foreign copyright laws.  In addition,
-		some of the data may be the subject of patent applications
-		or issued patents, and you may need to seek a license
-		for its commercial use. </p>
+<p style="text-align:left">The Repository of Molecular Brain
+ Neoplasia DaTa (REMBRANDT) Database is provided as
+  a public service by the National Cancer Institute
+   (NCI) to foster the rapid dissemination of information
+    to the scientific community and the public. The
+     samples used to produce the data here presented
+      were provided by the Hermelin Brain Tumor Center,
+       Henry Ford Hospital and the Neuro-Oncology Branch
+        of the National Cancer Institute. All data may be
+subject to copyright provisions. The data used for this
+ version is to be considered public domain. You may browse,
+  and use the data for the purposes of familiarizing yourself
+   with the structure of the database and interface, evaluate 
+   its usefulness and provide <a href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a>
+ to the development team.
+    You also may use the data provided here for research 
+    projects in which you are involved at present, or to test
+     hypothesis to develop future research projects. Although
+      the raw data will be available for download in an
+       upcoming release of the Database, this functionality 
+       is disabled at the moment. You may encounter documents 
+       or portions of documents contributed by private
+        institutions or organizations. Other parties may
+         retain all rights to publish or produce these 
+         documents. Commercial use of the documents on
+          this site may be protected under United States
+           and foreign copyright laws. In addition, some
+            of the data may be the subject of patent
+             applications or issued patents, and you may
+              need to seek a license for its commercial use.
+
+</p>
 		
 		<p style="color:#002185;font-weight:bold;text-align:left">I HAVE READ AND UNDERSTOOD THE ABOVE PROVISIONS,
 		AND SIGNIFY MY AGREEMENT BY <a href="home.do">CLICKING HERE</a> </p>

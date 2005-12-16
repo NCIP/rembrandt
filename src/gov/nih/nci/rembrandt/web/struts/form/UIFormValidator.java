@@ -31,7 +31,8 @@ public class UIFormValidator {
             loggedIn = am.login(username, password);
 
         } catch (CSException e) {
-            logger.debug("loginFail");
+            logger.debug("loginFail");           
+    
         }
         /**the following  if clause will only be used until the 
          * app is released as a backdoor for developers and non NIH
@@ -44,9 +45,9 @@ public class UIFormValidator {
         if(loggedIn) {
             logger.debug("loginSuccess");
         } else {
-            logger.debug("loginFail");
-            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-                "gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
+            logger.debug("loginFail"); 
+            errors.add("invalidLogin", new ActionError(
+            "gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
         }
         return errors;
     }

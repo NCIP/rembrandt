@@ -104,10 +104,8 @@ response.setHeader("Location",newLocn);
          </p>
 		 
 		 <!--begin login section-->
-           <html:errors/>
-           <% if(request.getParameter("m") != null)
-	       out.println("<p style='color:red'>You have been logged out." + "</p>");
-	       %>
+           <html:errors property="invalidLogin" />
+           
 	       <!--login form/table begins--> 
 	       <html:form action="login.do">  
 		   <table border="0" style="margin: 0px 0px 0px 60px;font-size:8pt">

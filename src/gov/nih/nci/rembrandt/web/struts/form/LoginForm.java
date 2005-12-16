@@ -64,8 +64,8 @@ public final class LoginForm extends ActionForm {
 			userLoggedIn = true;
 			request.getSession().setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
 		} else {
-			errors.add("Authentication", new ActionError(
-					"User is not authenticated"));
+			errors.add("invalidLogin", new ActionError(
+					"gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
 			request.getSession().invalidate();
 		}
 
