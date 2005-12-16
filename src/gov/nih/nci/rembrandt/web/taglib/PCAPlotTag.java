@@ -140,7 +140,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
                 chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             
-            RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",700,500);
+            RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",650,600);
 			//The final complete path to be used by the webapplication
 			String finalPath = imageHandler.getSessionTempFolder();
             String finalURLpath = imageHandler.getFinalURLPath();
@@ -150,7 +150,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
             ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
             String mapName = imageHandler.createUniqueMapName();
             //PrintWriter writer = new PrintWriter(new FileWriter(mapName));
-			ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 700,500,info);
+			ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 650,600,info);
             //ImageMapUtil.writeBoundingRectImageMap(writer,"PCAimageMap",info,true);
             //writer.close();
 			
