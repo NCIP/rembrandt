@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
@@ -12,6 +13,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManage
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.KMDataSetHelper;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 import gov.nih.nci.rembrandt.web.struts.form.QuickSearchForm;
@@ -95,6 +97,7 @@ public class QuickSearchAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
+		InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(request.getSession());
 		ActionErrors errors = new ActionErrors();
 		String quickSearchVariableName = (String) request.getAttribute("quickSearchName");
 		if (quickSearchVariableName != null) {
@@ -113,7 +116,7 @@ public class QuickSearchAction extends DispatchAction {
 		KaplanMeierPlotContainer kmResultsContainer = null;
 		KaplanMeierSampleInfo[] kmSampleInfos = {new KaplanMeierSampleInfo(0,0,0)};
 		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {			
-            kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet);
+            kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet, institutionCriteria);
            	if(kmResultsContainer!=null) {
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 				if(kmResultsContainer.getGeneSymbol()!= null){
@@ -127,14 +130,14 @@ public class QuickSearchAction extends DispatchAction {
 			kmForm.setUpOrAmplified("Amplified");
 			kmForm.setDownOrDeleted("Deleted");
 			if(quickSearchType.equals(RembrandtConstants.GENE_SYMBOL)){
-			   kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType);
+			   kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType, institutionCriteria);
 			   if(kmResultsContainer != null  && kmResultsContainer.getCytobandDE()!= null){
 				   String cytobandGeneSymbol = kmResultsContainer.getCytobandDE().getValue().toString();
 				   kmForm.setGeneOrCytoband(quickSearchVariableName+"("+cytobandGeneSymbol+")");
 				   kmForm.setPlotVisible(false); 
 			   }
 			 }else if(quickSearchType.equals(RembrandtConstants.SNP_PROBESET_ID)){
-				 kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType);
+				 kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType, institutionCriteria);
 				 if(kmResultsContainer != null){
 				 kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(quickSearchVariableName);
 				 kmForm.setGeneOrCytoband(quickSearchVariableName); 
@@ -174,6 +177,8 @@ public class QuickSearchAction extends DispatchAction {
 	public ActionForward redrawKMPlot(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(request.getSession());
+
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KaplanMeierSampleInfo[] kmSampleInfos = null;
 		// kmForm.setReporters(populateReporters());
@@ -183,7 +188,7 @@ public class QuickSearchAction extends DispatchAction {
         String algorithm = kmForm.getAlgorithm(); 
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals("unified")){
-            kmResultsContainer = performKMGeneExpressionQuery(kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet);
+            kmResultsContainer = performKMGeneExpressionQuery(kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
             if (kmForm.getSelectedReporter().equals(
 					CaIntegratorConstants.GRAPH_DEFAULT)){
             	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
@@ -284,7 +289,7 @@ public class QuickSearchAction extends DispatchAction {
 	 * @throws Exception
 	 */
 	private KaplanMeierPlotContainer performKMGeneExpressionQuery(
-			String geneSymbol,GeneExpressionDataSetType geneExpressionDataSetType) throws Exception {
+			String geneSymbol,GeneExpressionDataSetType geneExpressionDataSetType, InstitutionCriteria institutionCriteria) throws Exception {
 		KMPlotManager kmPlotManager = new KMPlotManager();
 		KaplanMeierPlotContainer kaplanMeierPlotContainer = null;
             
@@ -293,11 +298,11 @@ public class QuickSearchAction extends DispatchAction {
 		default:
 			
             kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
-			.performKMGeneExpressionQuery(geneSymbol);
+			.performKMGeneExpressionQuery(geneSymbol,institutionCriteria);
 			break;
 		case UnifiedGeneExpressionDataSet:
 			kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
-			.performUnifiedKMGeneExpressionQuery(geneSymbol);
+			.performUnifiedKMGeneExpressionQuery(geneSymbol, institutionCriteria);
 			break;
 		}
 		return kaplanMeierPlotContainer;
@@ -308,14 +313,14 @@ public class QuickSearchAction extends DispatchAction {
 	 * @throws Exception
 	 */
 	private KaplanMeierPlotContainer performKMCopyNumberQuery(String name,
-			String type) throws Exception {
+			String type,InstitutionCriteria institutionCriteria) throws Exception {
 		KMPlotManager kmPlotManager = new KMPlotManager();
 		KaplanMeierPlotContainer kmResultsContainer = null;
 		if (type.equals(RembrandtConstants.GENE_SYMBOL)) {
 			GeneIdentifierDE.GeneSymbol genesymbolDE = new GeneIdentifierDE.GeneSymbol(
 					name);
 			kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager
-					.performKMCopyNumberQuery(genesymbolDE);
+					.performKMCopyNumberQuery(genesymbolDE, institutionCriteria);
 
 		}
 		/**
@@ -327,7 +332,7 @@ public class QuickSearchAction extends DispatchAction {
 			SNPIdentifierDE.SNPProbeSet snpDE = new SNPIdentifierDE.SNPProbeSet(
 					name);
 			kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager
-					.performKMCopyNumberQuery(snpDE);
+					.performKMCopyNumberQuery(snpDE, institutionCriteria);
 
 		}
 		return kmResultsContainer;

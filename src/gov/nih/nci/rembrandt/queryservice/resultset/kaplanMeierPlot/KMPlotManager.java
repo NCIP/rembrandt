@@ -53,6 +53,7 @@ import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
@@ -84,16 +85,17 @@ public class KMPlotManager {
 	 * @return @throws
 	 *         Exception
 	 */
-	public ResultsContainer performKMGeneExpressionQuery(String geneSymbol)
+	public ResultsContainer performKMGeneExpressionQuery(String geneSymbol,InstitutionCriteria instCrit)
 			throws Exception {
 		ResultsContainer resultsContainer = null;
 		try {
-			if (geneSymbol != null) {
+			if (geneSymbol != null  && instCrit != null) {
 				GeneIDCriteria geneCrit = new GeneIDCriteria();
 				geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(
 						geneSymbol));
 				GeneExpressionQuery geneQuery = (GeneExpressionQuery) QueryManager
 						.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+				geneQuery.setInstitutionCriteria(instCrit);
 				geneQuery.setQueryName("KaplanMeierPlot");
 				geneQuery.setAssociatedView(ViewFactory
 						.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
@@ -116,11 +118,11 @@ public class KMPlotManager {
 	 * @return @throws
 	 *         Exception
 	 */
-	public ResultsContainer performUnifiedKMGeneExpressionQuery(String geneSymbol)
-			throws Exception {
+	public ResultsContainer performUnifiedKMGeneExpressionQuery(String geneSymbol,InstitutionCriteria instCrit)
+	throws Exception {
 		ResultsContainer resultsContainer = null;
 		try {
-			if (geneSymbol != null) {
+			if (geneSymbol != null  && instCrit != null) {
 				GeneIDCriteria geneCrit = new GeneIDCriteria();
 				geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(
 						geneSymbol));
@@ -130,6 +132,7 @@ public class KMPlotManager {
 				geneQuery.setAssociatedView(ViewFactory
 						.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 				geneQuery.setGeneIDCrit(geneCrit);
+				geneQuery.setInstitutionCriteria(instCrit);
 				//geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(
 				//		new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
 				Resultant resultant = ResultsetManager
@@ -144,7 +147,7 @@ public class KMPlotManager {
 		return resultsContainer;
 	}
 
-	public ResultsContainer performKMCopyNumberQuery(ComparativeGenomicQuery copyNumberQuery)
+	public ResultsContainer performKMCopyNumberQuery(ComparativeGenomicQuery copyNumberQuery )
 			throws Exception {
 		ResultsContainer resultsContainer = null;
 		try {
@@ -161,13 +164,15 @@ public class KMPlotManager {
 		return resultsContainer;
 	}
 
-    public ResultsContainer performKMCopyNumberQuery(GeneSymbol geneSymbolDE) throws Exception {
-        if (geneSymbolDE != null) {
+    public ResultsContainer performKMCopyNumberQuery(GeneSymbol geneSymbolDE,InstitutionCriteria instCrit)
+	throws Exception {
+        if (geneSymbolDE != null  && instCrit != null) {
             GeneIDCriteria geneCrit = new GeneIDCriteria();
             geneCrit.setGeneIdentifier(geneSymbolDE);
             ComparativeGenomicQuery copyNumberQuery = (ComparativeGenomicQuery) QueryManager
                     .createQuery(QueryType.CGH_QUERY_TYPE);
             copyNumberQuery.setQueryName("CopyNumberKMPlot");
+            copyNumberQuery.setInstitutionCriteria(instCrit);
             copyNumberQuery.setAssociatedView(ViewFactory
                     .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
             copyNumberQuery.setGeneIDCrit(geneCrit);
@@ -180,8 +185,9 @@ public class KMPlotManager {
     }
 
 
-    public ResultsContainer performKMCopyNumberQuery(SNPProbeSet snpDE) throws Exception {
-        if (snpDE != null) {
+    public ResultsContainer performKMCopyNumberQuery(SNPProbeSet snpDE,InstitutionCriteria instCrit)
+			throws Exception {
+        if (snpDE != null  && instCrit != null) {
             SNPCriteria snpCrit = new SNPCriteria();
             snpCrit.setSNPIdentifier(snpDE);
             ComparativeGenomicQuery copyNumberQuery = (ComparativeGenomicQuery) QueryManager
@@ -190,6 +196,7 @@ public class KMPlotManager {
             copyNumberQuery.setAssociatedView(ViewFactory
                     .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
             copyNumberQuery.setSNPCrit(snpCrit);
+            copyNumberQuery.setInstitutionCriteria(instCrit);
             copyNumberQuery.setAssayPlatformCrit(new AssayPlatformCriteria(
                     new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY)));
             return performKMCopyNumberQuery(copyNumberQuery);
