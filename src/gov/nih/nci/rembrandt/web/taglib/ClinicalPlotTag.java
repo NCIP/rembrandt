@@ -185,10 +185,10 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
 			
             //check the components to see which graph to get
 			if(components.equalsIgnoreCase("SurvivalvsAgeAtDx")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getClinicalGraph(clinicalData,ClinicalFactorType.SurvivalLength,ClinicalFactorType.AgeAtDx);
+                chart = (JFreeChart) CaIntegratorChartFactory.getClinicalGraph(clinicalData,ClinicalFactorType.SurvivalLength, "Survival Length (Months)",ClinicalFactorType.AgeAtDx, "Age At Diagnosis (Years)");
             }
             if(components.equalsIgnoreCase("KarnofskyScorevsAgeAtDx")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getClinicalGraph(clinicalData,ClinicalFactorType.KarnofskyAssessment, ClinicalFactorType.AgeAtDx);
+                chart = (JFreeChart) CaIntegratorChartFactory.getClinicalGraph(clinicalData,ClinicalFactorType.KarnofskyAssessment, "Karnofsky Score", ClinicalFactorType.AgeAtDx, "Age At Diagnosis (Years)");
             }
           
             
@@ -202,7 +202,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
             ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
             String mapName = imageHandler.createUniqueMapName();
            
-			ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 700,500,info);
+			ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 600,500,info);
            
 			
 			/*	This is here to put the thread into a loop while it waits for the
