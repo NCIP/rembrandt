@@ -206,7 +206,10 @@
 			<zipfileset dir="${webapp.dir}/log" prefix="log"/>
 			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials"/>
 			<zipfileset dir="${webapp.dir}/XSL" prefix="XSL"/>
+			<zipfileset dir="${anthill.dependency.artifacts.dir}" prefix="WEB-INF/lib"/>
 			<webinf dir="${webapp.dir}/WEB-INF"/>
 		</war>
 	</target>
+	
+	<target name="noop"/>
 </project>
