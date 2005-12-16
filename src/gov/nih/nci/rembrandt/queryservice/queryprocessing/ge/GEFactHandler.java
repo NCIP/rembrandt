@@ -391,7 +391,7 @@ abstract public class GEFactHandler {
                 else if (obj.getCloneId() != null) {
                     obj.setAnnotation((GeneExpr.CloneAnnotaion)cloneAnnotations.get(obj.getCloneId()));
                 }
-                if (obj.getGeneSymbol() != null) {
+                if (obj.getGeneSymbol() != null  && obj.getAnnotation()!= null  && geneAnnotations != null) {
                     obj.getAnnotation().setGeneAnnotation((GeneExpr.GeneAnnotation)geneAnnotations.get(obj.getGeneSymbol()));
                 }
                 results[i] = obj;
