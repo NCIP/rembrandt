@@ -81,7 +81,6 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
             //ClinicalFinding clinicalFinding = (ClinicalFinding)businessTierCache.getSessionFinding(session.getId(),taskId);
             ReportBean clincalReportBean = presentationTierCache.getReportBean(session.getId(),taskId);
             Resultant clinicalResultant = clincalReportBean.getResultant();
-            System.out.println("yo");
             ResultsContainer  resultsContainer = clinicalResultant.getResultsContainer();
             SampleViewResultsContainer sampleViewContainer = null;
             if(resultsContainer instanceof DimensionalViewContainer){
@@ -101,10 +100,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
                         //String id = rs.getBiospecimen().getValueObject();
                     	String id = rs.getSampleIDDE().getValueObject();
                         ClinicalDataPoint clinicalDataPoint = new ClinicalDataPoint(id);
-                       
-                        
-                        
-                       
+                               
                         String diseaseName = rs.getDisease().getValueObject();
                         if(diseaseName!=null){
                             clinicalDataPoint.setDiseaseName(diseaseName);
@@ -137,8 +133,12 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
                         	if(kaStr.contains(",")) { 
                         		String [] kaStrArray = kaStr.split(",");
 	                        	for(int i =0;i<kaStrArray.length;i++){
-	                        		double kaVal = Double.parseDouble(kaStrArray[i].trim());
-	                        		clinicalDataPoint.setKarnofskyScore(kaVal);
+	                        		if (i==0) {
+	                        		  //first score is baseline just use this for now
+	                        		 //later we will need to use all score in a series for each patient
+	                        		  double kaVal = Double.parseDouble(kaStrArray[i].trim());
+	                        		  clinicalDataPoint.setKarnofskyScore(kaVal);
+	                        		}
 	                        	}	                            
                         	}
                         	else{
