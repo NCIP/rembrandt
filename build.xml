@@ -210,4 +210,6 @@
 			<webinf dir="${webapp.dir}/WEB-INF"/>
 		</war>
 	</target>
+	
+	<target name="noop"/>
 </project>
