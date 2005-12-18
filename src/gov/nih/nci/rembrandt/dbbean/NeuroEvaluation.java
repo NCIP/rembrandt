@@ -23,6 +23,8 @@ public class NeuroEvaluation implements ResultSet
    public final static String MRI_CT_SCORE= "MRI_CT_SCORE";
    public final static String STEROID_DOSE_STATUS= "steroidDoseStatus"; 
    public final static String ANTI_CONVULSANT_STATUS= "antiConvulsantStatus";
+   public final static String NEURO_EXAM_DESC= "neuroExamDesc";
+   public final static String MRI_CT_SCORE_DESC= "mriScoreDesc";
   
 
     private Long neuroEvaluationId;
@@ -52,6 +54,41 @@ public class NeuroEvaluation implements ResultSet
     private String steroidDoseStatus;
     
     private String antiConvulsantStatus;
+    
+    private String neuroExamDesc;
+    
+    private String mriScoreDesc;  
+    
+   
+    
+
+	/**
+	 * @return Returns the mriScoreDesc.
+	 */
+	public String getMriScoreDesc() {
+		return mriScoreDesc;
+	}
+
+	/**
+	 * @param mriScoreDesc The mriScoreDesc to set.
+	 */
+	public void setMriScoreDesc(String mriScoreDesc) {
+		this.mriScoreDesc = mriScoreDesc;
+	}
+
+	/**
+	 * @return Returns the neuroExamDesc.
+	 */
+	public String getNeuroExamDesc() {
+		return neuroExamDesc;
+	}
+
+	/**
+	 * @param neuroExamDesc The neuroExamDesc to set.
+	 */
+	public void setNeuroExamDesc(String neuroExamDesc) {
+		this.neuroExamDesc = neuroExamDesc;
+	}
 
 	/**
 	 * @return Returns the antiConvulsantStatus.

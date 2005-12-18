@@ -44,8 +44,10 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -215,10 +217,41 @@ public class ClinicalQueryHandler extends QueryHandler {
 				StringBuffer mriCtScores = new StringBuffer();
 				StringBuffer steroidDoseStatuses = new StringBuffer();
 				StringBuffer antiConvulsantStatuses = new StringBuffer();
+				StringBuffer neuroExamDescs = new StringBuffer();
+				StringBuffer mriCtScoreDescs = new StringBuffer();
+				int followMonthCompare = 0;
+				int count = 0;
+				Vector v = new Vector();
+				v.clear();
+				
+				for (int j=0; j<clinicalEvalDataResult.length;j++) {
+					NeuroEvaluation clinicalEvalData = (NeuroEvaluation)clinicalEvalDataResult[j];
+					Long ptDid = clinicalEvalData.getPatientDid();
+					if(patientDid.toString().equals(ptDid.toString())) {
+						count++;
+					
+					Long followUpMonth = clinicalEvalData.getFollowupMonth();
+					if(followUpMonth != null) {
+						v.add(followUpMonth.intValue());
+						
+					  }
+					}
+				}
+				
+				int[] followUpMonths = new int[count];
+				
+				for(int p=0; p<v.size();p++) {
+					followUpMonths[p]=((Integer)v.elementAt(p)).intValue();					
+				}
+				
+				Arrays.sort(followUpMonths);
+				
 				for (int j=0; j<clinicalEvalDataResult.length;j++) {
 					NeuroEvaluation clinicalEvalData = (NeuroEvaluation)clinicalEvalDataResult[j];		
 					
 					Long ptDid = clinicalEvalData.getPatientDid();
+					Long followUpMonth = clinicalEvalData.getFollowupMonth();
+					
 					if(patientDid.toString().equals(ptDid.toString())) {
 						
 						/** this commented out code we will need if we decide to create a view to contain 
@@ -235,6 +268,8 @@ public class ClinicalQueryHandler extends QueryHandler {
 						//ptData.setMriCtScore(clinicalEvalData.getMriCtScore());
 						//ptData.setSteroidDoseStatus(clinicalEvalData.getSteroidDoseStatus());
 						//ptData.setAntiConvulsantStatus(clinicalEvalData.getAntiConvulsantStatus());	
+						
+						if(followUpMonth == null) {
 						if(clinicalEvalData.getTimePoint()!= null) {
 						   timePoints.append(clinicalEvalData.getTimePoint());
 						   timePoints.append(", ");
@@ -284,10 +319,105 @@ public class ClinicalQueryHandler extends QueryHandler {
 						   antiConvulsantStatuses.append(", ");		
 						}
 						
-					}					 
-					
+						if(clinicalEvalData.getNeuroExamDesc()!= null) {
+							neuroExamDescs.append(clinicalEvalData.getNeuroExamDesc());
+							neuroExamDescs.append(", ");
+						}
+							
+						if(clinicalEvalData.getMriScoreDesc()!= null) {
+							mriCtScoreDescs.append(clinicalEvalData.getMriScoreDesc());
+							mriCtScoreDescs.append(", ");
+						}						
+						
+					}
+					}	
+				}
+					 for(int q=0;q<followUpMonths.length;q++) {
+							for (int j=0; j<clinicalEvalDataResult.length;j++) {
+								NeuroEvaluation clinicalEvalData = (NeuroEvaluation)clinicalEvalDataResult[j];		
+								
+								Long ptDid = clinicalEvalData.getPatientDid();
+								Long followUpMonth = clinicalEvalData.getFollowupMonth();
+								
+								if(patientDid.toString().equals(ptDid.toString())) {
+						
+						 
+					 
+					 if (followUpMonth != null ) {
+						  boolean status = false;
+						
+						   if(followUpMonth.intValue()==(int)followUpMonths[q]) {
+							if(clinicalEvalData.getTimePoint()!= null) {
+								   timePoints.append(clinicalEvalData.getTimePoint());
+								   timePoints.append(", ");
+								}
+								if(clinicalEvalData.getFollowupDate() != null) {
+								   followUpdates.append(clinicalEvalData.getFollowupDate());	
+								   followUpdates.append(", ");
+								}
+								
+								if(clinicalEvalData.getFollowupMonth() != null) {
+								   followupMonths.append(clinicalEvalData.getFollowupMonth());
+								   followupMonths.append(", ");
+								}
+								
+								if(clinicalEvalData.getNeuroEvaluationDate() != null) {
+								    neuroEvaluationDates.append(clinicalEvalData.getNeuroEvaluationDate());
+								    neuroEvaluationDates.append(", ");
+								}
+								
+								if(clinicalEvalData.getKarnofskyScore() != null) {
+								    karnofskyScores.append(clinicalEvalData.getKarnofskyScore());
+								    karnofskyScores.append(", ");
+								}
+								
+								if(clinicalEvalData.getLanskyScore() != null) {
+								   lanskyScores.append(clinicalEvalData.getLanskyScore());
+								   lanskyScores.append(", ");
+								}
+								
+								if(clinicalEvalData.getNeuroExam() != null) {
+								    neuroExams.append(clinicalEvalData.getNeuroExam());
+								    neuroExams.append(", ");
+								}
+								
+								if(clinicalEvalData.getMriCtScore() != null) {
+								   mriCtScores.append(clinicalEvalData.getMriCtScore());
+								   mriCtScores.append(", ");
+								}
+								
+								if(clinicalEvalData.getSteroidDoseStatus() != null) {
+								   steroidDoseStatuses.append(clinicalEvalData.getSteroidDoseStatus());
+								   steroidDoseStatuses.append(", ");
+								}
+								
+								if(clinicalEvalData.getAntiConvulsantStatus() != null) {
+								   antiConvulsantStatuses.append(clinicalEvalData.getAntiConvulsantStatus());
+								   antiConvulsantStatuses.append(", ");		
+								}
+								
+								if(clinicalEvalData.getNeuroExamDesc()!= null) {
+									neuroExamDescs.append(clinicalEvalData.getNeuroExamDesc());
+									neuroExamDescs.append(", ");
+								}
+									
+								if(clinicalEvalData.getMriScoreDesc()!= null) {
+									mriCtScoreDescs.append(clinicalEvalData.getMriScoreDesc());
+									mriCtScoreDescs.append(", ");
+								}						
+								
+							
+							
+						  }
+							
+							
+							
+						}
+						
+						}
 				}
 				
+					 }
 				if(timePoints.length() >0) {
 				   timePoints.deleteCharAt(timePoints.length()-2);
 				   ptData.setTimePoints(timePoints.toString());
@@ -337,12 +467,20 @@ public class ClinicalQueryHandler extends QueryHandler {
 				  antiConvulsantStatuses.deleteCharAt(antiConvulsantStatuses.length()-2);
 				  ptData.setAntiConvulsantStatuses(antiConvulsantStatuses.toString());
 				}
+				if(neuroExamDescs.length()>0) {	
+					neuroExamDescs.deleteCharAt(neuroExamDescs.length()-2);
+					ptData.setNeuroExamDescs(neuroExamDescs.toString());
+					}
+				if(mriCtScoreDescs.length()>0) {	
+					mriCtScoreDescs.deleteCharAt(mriCtScoreDescs.length()-2);
+					ptData.setMriScoreDescs(mriCtScoreDescs.toString());
+					}		
 				
 			}
 			
 			
 		 }
-		
+	
 		return patientDataResults;
 	
 	}
@@ -1049,7 +1187,8 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     	    		  NeuroEvaluation.KARNOFSKY_SCORE, NeuroEvaluation.LANSKY_SCORE,
     	    		  NeuroEvaluation.NEURO_EXAM,NeuroEvaluation.MRI_CT_SCORE,
     	    		  NeuroEvaluation.STEROID_DOSE_STATUS,NeuroEvaluation.ANTI_CONVULSANT_STATUS,
-    	    		  NeuroEvaluation.PATIENT_DID} ); 
+    	    		  NeuroEvaluation.PATIENT_DID,NeuroEvaluation.NEURO_EXAM_DESC,
+    	    		  NeuroEvaluation.MRI_CT_SCORE_DESC} ); 
     	      
     	   
     	        Iterator clinicalEvalDataObjects =  pb.getReportQueryIteratorByQuery(clinicalEvalQuery);
@@ -1765,6 +1904,8 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	            String steroidDoseStatus = null;
 	            String antiConvulsantStatus = null;
 	            Long patientDid = null;
+	            String neuroExamDesc = null;
+	            String mriScoreDesc = null;
 	            
 	            NeuroEvaluation clinicalEval = new NeuroEvaluation();
 	            
@@ -1821,6 +1962,16 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	               patientDid =  new Long(((BigDecimal)objs[10]).longValue());
 		           clinicalEval.setPatientDid(patientDid);
 	            }
+	           
+	            if(objs[11] != null) {
+	            	neuroExamDesc = (String)objs[11];
+		               clinicalEval.setNeuroExamDesc(neuroExamDesc); 
+		            } 
+	            
+	            if(objs[12] != null) {
+	            	mriScoreDesc = (String)objs[12];
+		               clinicalEval.setMriScoreDesc(mriScoreDesc);
+		            } 
 	            
 	            results.add(clinicalEval);
 	        }

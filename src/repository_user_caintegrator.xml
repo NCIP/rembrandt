@@ -1141,6 +1141,18 @@
              column="ANTI_CONVULSANT_STATUS"
              jdbc-type="VARCHAR"            
         />
+        
+    <field-descriptor
+             name="neuroExamDesc"
+             column="NEURO_EXAM_DESC"
+             jdbc-type="VARCHAR"            
+        />
+        
+     <field-descriptor
+             name="mriScoreDesc"
+             column="MRI_CT_SCORE_DESC"
+             jdbc-type="VARCHAR"            
+        />
    
 </class-descriptor>
 

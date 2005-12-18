@@ -48,6 +48,8 @@ public abstract class  BioSpecimenResultset {
 	private String neuroEvaluationDates;
 	private String steroidDoseStatuses;	
 	private String antiConvulsantStatuses;
+	private String neuroExamDescs;
+	private String mriScoreDescs;
 
 	
 	  private String priorRadiationTimePoints;
@@ -103,11 +105,33 @@ public abstract class  BioSpecimenResultset {
 	    private String onStudySurgeryIndications ;
 	    //private DatumDE survivalLength ;
 	    private Long survivalLength ;
-
-
 	
 	
 	
+	/**
+		 * @return Returns the mriScoreDescs.
+		 */
+		public String getMriScoreDescs() {
+			return mriScoreDescs;
+		}
+		/**
+		 * @param mriScoreDescs The mriScoreDescs to set.
+		 */
+		public void setMriScoreDescs(String mriScoreDescs) {
+			this.mriScoreDescs = mriScoreDescs;
+		}
+		/**
+		 * @return Returns the neuroExamDescs.
+		 */
+		public String getNeuroExamDescs() {
+			return neuroExamDescs;
+		}
+		/**
+		 * @param neuroExamDescs The neuroExamDescs to set.
+		 */
+		public void setNeuroExamDescs(String neuroExamDescs) {
+			this.neuroExamDescs = neuroExamDescs;
+		}
 	/**
 	 * @return Returns the priorChemoagentIds.
 	 */

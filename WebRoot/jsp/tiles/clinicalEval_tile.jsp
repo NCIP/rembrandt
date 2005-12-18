@@ -8,27 +8,27 @@
 	String act = request.getParameter("act");
 %>
 	
-<input type="checkbox" name="karnofsky" class="radio" >Karnofsky
+<html:checkbox property="karnofsky" value="Specify"/>Karnofsky
  <app:help help="Future implementation"/>
     <html:select property="karnofskyType">
 	<html:optionsCollection property="karnofskyTypeColl" />
     </html:select>
 	&nbsp;&nbsp;
 	
-<input type="checkbox" name="lansky" class="radio" disabled="true" >lansky
+<html:checkbox property="lansky" disabled="true" value="Specify"/>lansky
     <app:help help="Future implementation"/>
     <html:select property="lanskyType">
 	<html:optionsCollection property="lanskyTypeColl" />
     </html:select>	
 	&nbsp;&nbsp;
 	
-<input type="checkbox" name="neuroExam" class="radio" >Neuro Exam
+<html:checkbox property="neuroExam" value="Specify"/>Neuro Exam
     <app:help help="Future implementation"/>
     <html:select property="neuroExamType">
 	<html:optionsCollection property="neuroExamTypeColl" />
     </html:select>
 	&nbsp;&nbsp;
-<input type="checkbox" name="mri" class="radio" >MRI
+<html:checkbox property="mri" value="Specify"/>MRI
     <app:help help="Future implementation"/>
     <html:select property="mriType">
 	<html:optionsCollection property="mriTypeColl" />

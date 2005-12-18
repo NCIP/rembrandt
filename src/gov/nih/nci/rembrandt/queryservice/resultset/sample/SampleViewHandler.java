@@ -451,9 +451,13 @@ public class SampleViewHandler {
 			}
 		
 		if(clinicalObj.getNeuroExams() != null) {
-			  // sampleResultset.setNeuroExamClinicalEvalDE(clinicalObj.getNeuroExams());
+			  //sampleResultset.setNeuroExamClinicalEvalDE(clinicalObj.getNeuroExams());
 			   sampleResultset.setNeuroExamClinicalEvalDE(new NeuroExamClinicalEvalDE(clinicalObj.getNeuroExams().toString()));
 				
+			}
+		
+		if(clinicalObj.getNeuroExamDescs() != null) {
+			   sampleResultset.setNeuroExamDescs(new String(clinicalObj.getNeuroExamDescs()));	
 			}
 		
 		if(clinicalObj.getMriCtScore() != null) {
@@ -465,6 +469,10 @@ public class SampleViewHandler {
 			  // sampleResultset.setMriClinicalEvalDE(clinicalObj.getMriCtScores());
 			   sampleResultset.setMriClinicalEvalDE(new MRIClinicalEvalDE(clinicalObj.getMriCtScores().toString()));
 				
+			}
+		
+		if(clinicalObj.getMriScoreDescs() != null) {
+			   sampleResultset.setMriScoreDescs(new String(clinicalObj.getMriScoreDescs()));	
 			}
 		
 		if(clinicalObj.getTimePoint() != null) {

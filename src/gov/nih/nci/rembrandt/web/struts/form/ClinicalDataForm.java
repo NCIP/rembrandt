@@ -1010,12 +1010,13 @@ public class ClinicalDataForm extends BaseForm {
 	public void setAfricanAmerican(String africanAmerican) {
 		this.africanAmerican = africanAmerican;
 		 if (africanAmerican != null) {
-	            if (africanAmerican.equalsIgnoreCase("on")) {
-	                //this.africanAmerican = "African American";
+	            if (africanAmerican.equalsIgnoreCase("Specify")) {	               
 	            	this.africanAmerican = "BLACK";
+	            	RaceDE raceDE = new RaceDE(this.africanAmerican );
+		            raceCriteria.setRace(raceDE);
+		            this.africanAmerican ="Specify";
 	            }
-	            RaceDE raceDE = new RaceDE(this.africanAmerican );
-	            raceCriteria.setRace(raceDE);
+	            
 	          
 	        }
 	}
@@ -1037,13 +1038,15 @@ public class ClinicalDataForm extends BaseForm {
 	public void setCaucasion(String caucasion) {
 		this.caucasion = caucasion;	
 		 if (caucasion != null) {
-	            if (caucasion.equalsIgnoreCase("on")) {
+	            if (caucasion.equalsIgnoreCase("Specify")) {
 	                //this.caucasion = "Caucasion";	     
 	            	this.caucasion = "WHITE";	 
+	            	 RaceDE raceDE = new RaceDE(this.caucasion );
+	 	             raceCriteria.setRace(raceDE);
+	 	            this.caucasion ="Specify";
+	 	          
 	            }
-	            RaceDE raceDE = new RaceDE(this.caucasion );
-	            raceCriteria.setRace(raceDE);
-	          
+	           
 	        }
 	}
 
@@ -1064,12 +1067,14 @@ public class ClinicalDataForm extends BaseForm {
 	public void setAsian(String asian) {
 		this.asian = asian;
 		 if (asian != null) {
-	            if (asian.equalsIgnoreCase("on")) {
+	            if (asian.equalsIgnoreCase("Specify")) {
 	                //this.caucasion = "Caucasion";	     
 	            	this.asian = "ASIAN NOS";	 
+	            	RaceDE raceDE = new RaceDE(this.asian );
+	 	            raceCriteria.setRace(raceDE);
+	 	           this.asian ="Specify";
 	            }
-	            RaceDE raceDE = new RaceDE(this.asian );
-	            raceCriteria.setRace(raceDE);
+	           
 	          
 	        }
 	}
@@ -1096,13 +1101,14 @@ public class ClinicalDataForm extends BaseForm {
 		this.nativeHawaiian = nativeHawaiian;
 		
 		 if (nativeHawaiian != null) {
-	            if (nativeHawaiian.equalsIgnoreCase("on")) {
+	            if (nativeHawaiian.equalsIgnoreCase("Specify")) {
 	                //this.caucasion = "Caucasion";	     
-	            	this.nativeHawaiian = "NATIVE HAWAIIAN";	 
+	            	this.nativeHawaiian = "NATIVE HAWAIIAN";	
+	            	RaceDE raceDE = new RaceDE(this.nativeHawaiian );
+		            raceCriteria.setRace(raceDE);
+		            this.nativeHawaiian="Specify";		          
 	            }
-	            RaceDE raceDE = new RaceDE(this.nativeHawaiian );
-	            raceCriteria.setRace(raceDE);
-	          
+	            
 	        }
 	}
 
@@ -1128,11 +1134,13 @@ public class ClinicalDataForm extends BaseForm {
 		this.other = other;
 		
 		 if (other != null) {
-	            if (other.equalsIgnoreCase("on")) {	                   
-	            	this.other = "OTHER";	 
+	            if (other.equalsIgnoreCase("Specify")) {	                   
+	            	this.other = "OTHER";	
+	            	RaceDE raceDE = new RaceDE(this.other );
+	 	            raceCriteria.setRace(raceDE);
+	 	            this.other="Specify";
 	            }
-	            RaceDE raceDE = new RaceDE(this.other );
-	            raceCriteria.setRace(raceDE);
+	          
 	          
 	        }
 	}
@@ -1158,12 +1166,14 @@ public class ClinicalDataForm extends BaseForm {
 	public void setUnknown(String unknown) {
 		this.unknown = unknown;
 		 if (unknown != null) {
-	            if (unknown.equalsIgnoreCase("on")) {	                   
-	            	this.unknown = "UNKNOWN";	 
+	            if (unknown.equalsIgnoreCase("Specify")) {	                   
+	            	this.unknown = "UNKNOWN";	
+	            	RaceDE raceDE = new RaceDE(this.unknown );
+		            raceCriteria.setRace(raceDE);
+		            this.unknown = "Specify";
+		          
 	            }
-	            RaceDE raceDE = new RaceDE(this.unknown );
-	            raceCriteria.setRace(raceDE);
-	          
+	            
 	        }
 		 
 	}
@@ -1444,7 +1454,7 @@ public class ClinicalDataForm extends BaseForm {
     public void setSurgeryOutcome(String surgeryOutcome) {
         this.surgeryOutcome = surgeryOutcome;
         if (thisRequest != null) {
-            String thisSurgery = thisRequest.getParameter("sugery");
+            String thisSurgery = thisRequest.getParameter("surgery");
             String thisSurgeryOutcome = thisRequest.getParameter("surgeryOutcome");
             surgeryOutcomeCriteria = new SurgeryOutcomeCriteria();
             if (thisSurgery != null && thisSurgeryOutcome != null
@@ -2131,7 +2141,7 @@ public class ClinicalDataForm extends BaseForm {
 	public void setSurgeryTitle(String surgeryTitle) {
 		this.surgeryTitle = surgeryTitle;		
 	        if (thisRequest != null) {
-	            String thisSurgery = thisRequest.getParameter("sugery");
+	            String thisSurgery = thisRequest.getParameter("surgery");
 	            String thisSurgeryTitle = thisRequest.getParameter("surgeryTitle");
 	            priorSurgeryTitleCriteria = new PriorSurgeryTitleCriteria();
 	            if (thisSurgery != null && thisSurgeryTitle != null

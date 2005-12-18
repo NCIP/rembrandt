@@ -81,6 +81,14 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
     private Long mriCtScore;
     private String mriCtScores;
     
+    private String neuroExamDesc;
+    private String neuroExamDescs;
+    
+    private String mriScoreDesc;
+    private String mriScoreDescs;
+    
+    
+    
     private String steroidDoseStatus;
     private String steroidDoseStatuses;
     
@@ -146,6 +154,62 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
     
     
     /**
+	 * @return Returns the mriScoreDesc.
+	 */
+	public String getMriScoreDesc() {
+		return mriScoreDesc;
+	}
+
+	/**
+	 * @param mriScoreDesc The mriScoreDesc to set.
+	 */
+	public void setMriScoreDesc(String mriScoreDesc) {
+		this.mriScoreDesc = mriScoreDesc;
+	}
+
+	/**
+	 * @return Returns the mriScoreDescs.
+	 */
+	public String getMriScoreDescs() {
+		return mriScoreDescs;
+	}
+
+	/**
+	 * @param mriScoreDescs The mriScoreDescs to set.
+	 */
+	public void setMriScoreDescs(String mriScoreDescs) {
+		this.mriScoreDescs = mriScoreDescs;
+	}
+
+	/**
+	 * @return Returns the neuroExamDesc.
+	 */
+	public String getNeuroExamDesc() {
+		return neuroExamDesc;
+	}
+
+	/**
+	 * @param neuroExamDesc The neuroExamDesc to set.
+	 */
+	public void setNeuroExamDesc(String neuroExamDesc) {
+		this.neuroExamDesc = neuroExamDesc;
+	}
+
+	/**
+	 * @return Returns the neuroExamDescs.
+	 */
+	public String getNeuroExamDescs() {
+		return neuroExamDescs;
+	}
+
+	/**
+	 * @param neuroExamDescs The neuroExamDescs to set.
+	 */
+	public void setNeuroExamDescs(String neuroExamDescs) {
+		this.neuroExamDescs = neuroExamDescs;
+	}
+
+	/**
 	 * @return Returns the whoGrade.
 	 */
 	public String getWhoGrade() {
