@@ -91,7 +91,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
                 Collection<ClinicalFactorType> clinicalFactors = new ArrayList<ClinicalFactorType>();
                     clinicalFactors.add(ClinicalFactorType.AgeAtDx);
                     //clinicalFactors.add(ClinicalFactorType.Survival);
-                    Collection<SampleResultset> samples = sampleViewContainer.getBioSpecimenResultsets();
+                    Collection<SampleResultset> samples = sampleViewContainer.getSampleResultsets();
                 
                 if(samples!=null){
                 int numDxvsKa=0;

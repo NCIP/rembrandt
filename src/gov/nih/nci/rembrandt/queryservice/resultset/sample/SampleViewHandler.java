@@ -49,6 +49,13 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.sample;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
@@ -68,6 +75,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleV
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 
 /**
@@ -76,11 +84,16 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
  * 
  */
 public class SampleViewHandler {
+	private static Logger logger = Logger.getLogger(SampleViewHandler.class);
     public static SampleViewResultsContainer handleSampleView(SampleViewResultsContainer sampleViewContainer, ResultSet resultObj, GroupType groupType){
     	SampleResultset sampleResultset = null;
     	if (sampleViewContainer != null && resultObj instanceof GeneExpr.GeneExprSingle){
     		GeneExpr.GeneExprSingle geneExprObj = (GeneExpr.GeneExprSingle)resultObj;
-      		sampleResultset = handleBioSpecimenResultset(sampleViewContainer,geneExprObj);
+      		//sampleResultset = handleBioSpecimenResultset(sampleViewContainer,geneExprObj);
+    	   	sampleResultset = (SampleResultset) sampleViewContainer.getSampleResultset(geneExprObj.getSampleId());
+      		if(sampleResultset == null){ // no record found
+      			sampleResultset = new SampleResultset();
+      		}
           	//Propulate the GeneExprSingleResultsContainer
       		GeneExprSingleViewResultsContainer geneExprSingleViewContainer = sampleResultset.getGeneExprSingleViewResultsContainer();
         	if(geneExprSingleViewContainer == null){
@@ -89,11 +102,17 @@ public class SampleViewHandler {
         	geneExprSingleViewContainer = GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleViewContainer,geneExprObj, groupType);
       		sampleResultset.setGeneExprSingleViewResultsContainer(geneExprSingleViewContainer);
            	//Populate the SampleViewResultsContainer
-      		sampleViewContainer.addBioSpecimenResultset(sampleResultset);
+      		sampleViewContainer.addSampleResultset(sampleResultset);
     	}
       	else if(sampleViewContainer != null && resultObj instanceof CopyNumber){
       		CopyNumber copyNumberObj = (CopyNumber)resultObj;
-      		sampleResultset = handleBioSpecimenResultset(sampleViewContainer,copyNumberObj);
+      		//sampleResultset = handleBioSpecimenResultset(sampleViewContainer,copyNumberObj);
+    	   	sampleResultset = (SampleResultset) sampleViewContainer.getSampleResultset(copyNumberObj.getSampleId());
+      		if(sampleResultset == null){ // no record found
+      			sampleResultset = new SampleResultset();
+      		}
+          	//Propulate the GeneExprSingleResultsContainer
+   
           	//Propulate the GeneExprSingleResultsContainer
       		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = sampleResultset.getCopyNumberSingleViewResultsContainer();
         	if(copyNumberSingleViewResultsContainer == null){
@@ -102,7 +121,7 @@ public class SampleViewHandler {
         	copyNumberSingleViewResultsContainer = CopyNumberSingleViewHandler.handleCopyNumberSingleView(copyNumberSingleViewResultsContainer,copyNumberObj, groupType);
       		sampleResultset.setCopyNumberSingleViewResultsContainer(copyNumberSingleViewResultsContainer);
            	//Populate the SampleViewResultsContainer
-      		sampleViewContainer.addBioSpecimenResultset(sampleResultset);
+      		sampleViewContainer.addSampleResultset(sampleResultset);
     	}
 
       	return sampleViewContainer;
@@ -110,7 +129,7 @@ public class SampleViewHandler {
     public static SampleResultset handleBioSpecimenResultset(SampleViewResultsContainer sampleViewContainer, ClinicalResultSet clinicalObj){
  		//get the gene accessesion number for this record
   		//check if the gene exsists in the GeneExprSingleViewResultsContainer, otherwise add a new one.
-    	SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getBioSpecimenResultset(clinicalObj.getSampleId());
+    	SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getSampleResultset(clinicalObj.getSampleId());
   		if(sampleResultset == null){ // no record found
   			sampleResultset = new SampleResultset();
   		}
@@ -402,7 +421,7 @@ public class SampleViewHandler {
     public static SampleResultset handleBioSpecimenResultset(SampleViewResultsContainer sampleViewContainer, PatientData clinicalObj){
  		//get the gene accessesion number for this record
   		//check if the gene exsists in the GeneExprSingleViewResultsContainer, otherwise add a new one.
-    	SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getBioSpecimenResultset(clinicalObj.getSampleId());
+    	SampleResultset sampleResultset = (SampleResultset) sampleViewContainer.getSampleResultset(clinicalObj.getSampleId());
   		if(sampleResultset == null){ // no record found
   			sampleResultset = new SampleResultset();
   		}
@@ -709,8 +728,30 @@ public class SampleViewHandler {
     	if (sampleViewResultsContainer != null && patientDataObj != null){
       		sampleResultset = handleBioSpecimenResultset(sampleViewResultsContainer,patientDataObj);
            	//Populate the SampleViewResultsContainer
-      		sampleViewResultsContainer.addBioSpecimenResultset(sampleResultset);
+      		sampleViewResultsContainer.addSampleResultset(sampleResultset);
     	}
     	return sampleViewResultsContainer;
+	}
+	public static SampleViewResultsContainer populateWithClinicalData(ClinicalResultSet[] clinicalObjs ) throws Exception {
+		SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
+		if(clinicalObjs !=null){
+			Set<String> sampleIDset = new HashSet<String>();			
+			for (int i = 0; i < clinicalObjs.length; i++) {
+				if(clinicalObjs[i] != null){
+					sampleIDset.add(clinicalObjs[i].getSampleId());
+				}
+			}
+			try {
+				Collection <SampleResultset> sampleResultsets = ClinicalDataValidator.executeClinicalQueryForSampleList(sampleIDset);
+				for(SampleResultset sampleResultset:sampleResultsets){
+					sampleViewResultsContainer.addSampleResultset(sampleResultset);
+				}
+				
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				throw e;
+			}
+		}
+		return sampleViewResultsContainer;
 	}
 }

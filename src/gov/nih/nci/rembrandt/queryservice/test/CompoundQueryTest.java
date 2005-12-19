@@ -351,7 +351,7 @@ public class CompoundQueryTest extends TestCase {
 	}
 	private void displaySampleView(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Printing Sample View for the Query >>>>>>>>>>>>>>>>>>>>>>>");
-	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+	       Collection samples = sampleViewContainer.getSampleResultsets();
 		   System.out.println("SAMPLE\tAGE\tGENDER\tSURVIVAL\tDISEASE");
 		   StringBuffer stringBuffer = new StringBuffer();
 		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {

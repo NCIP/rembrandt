@@ -87,7 +87,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 				
 			}
 			
-			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+			Collection samples = sampleViewContainer.getSampleResultsets();
 			/*
 			sb.append("<div class=\"rowCount\">"+helpFul+samples.size()+" records returned &nbsp;&nbsp;&nbsp;" + links + "</div>\n");
 			sb.append("<table cellpadding=\"0\" cellspacing=\"0\">\n");

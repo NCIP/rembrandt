@@ -24,7 +24,7 @@ public class DimensionalViewContainer implements ResultsContainer {
 	 * @return
 	 */
 	public CopyNumberSingleViewResultsContainer getCopyNumberSingleViewContainerForSample(String sampleID){
-		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getBioSpecimenResultset(sampleID);
+		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getSampleResultset(sampleID);
 		return sampleResultset.getCopyNumberSingleViewResultsContainer();
 	}
 	/**
@@ -32,7 +32,7 @@ public class DimensionalViewContainer implements ResultsContainer {
 	 * @return
 	 */
 	public GeneExprSingleViewResultsContainer getGeneExprSingleViewResultsContainerForSample(String sampleID){
-		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getBioSpecimenResultset(sampleID);
+		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getSampleResultset(sampleID);
 		return sampleResultset.getGeneExprSingleViewResultsContainer();
 	}
 	/**
@@ -41,7 +41,7 @@ public class DimensionalViewContainer implements ResultsContainer {
 	 */
 	public SampleViewResultsContainer getSampleViewResultsContainerForSample(String sampleID){
 		SampleViewResultsContainer sampleContainer = new SampleViewResultsContainer();
-		sampleContainer.addBioSpecimenResultset(getSampleViewResultsContainer().getBioSpecimenResultset(sampleID));
+		sampleContainer.addSampleResultset(getSampleViewResultsContainer().getSampleResultset(sampleID));
 		return sampleContainer;
 	}
 	/**

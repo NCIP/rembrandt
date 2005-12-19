@@ -46,7 +46,7 @@ public class StrategyHelper {
 		}
 		//Handle the SampleViewResultsContainers if that is what we got
 		if(svrContainer!=null) {
-			Collection bioSpecimen = svrContainer.getBioSpecimenResultsets();
+			Collection bioSpecimen = svrContainer.getSampleResultsets();
 			for(Iterator i = bioSpecimen.iterator();i.hasNext();) {
 				SampleResultset sampleResultset =  (SampleResultset)i.next();
 				sampleIds.add(sampleResultset.getSampleIDDE());

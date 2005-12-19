@@ -3,6 +3,8 @@
  *
  */
 package gov.nih.nci.rembrandt.queryservice;
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
@@ -35,7 +37,8 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
  * This class takes a DifferentialExpressionSfact and DifferentialExpressionGfact object and helps create a GeneCentricViewHandler or a SampleCentricViewHandler classes.
  */
 public class ResultsetProcessor {
- 	public static ResultsContainer handleGeneExprSingleView(Resultant resultant, GeneExpr.GeneExprSingle[] geneExprObjects, GroupType groupType){
+	private static Logger logger = Logger.getLogger(ResultsetProcessor.class);
+ 	public static ResultsContainer handleGeneExprSingleView(Resultant resultant, GeneExpr.GeneExprSingle[] geneExprObjects, GroupType groupType) throws Exception{
  		DimensionalViewContainer dimensionalViewContainer;
       	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer;
     	SampleViewResultsContainer sampleViewResultsContainer;
@@ -52,6 +55,13 @@ public class ResultsetProcessor {
   			geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
   	    	sampleViewResultsContainer = new SampleViewResultsContainer();
   		}
+        //Populate sampleViewResultsContainer with ClinicalData
+        try {
+			sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( geneExprObjects);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw e;
+		}
  		ResultsContainer resultsContainer = null;
           for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
@@ -100,7 +110,7 @@ public class ResultsetProcessor {
         }//for
         return resultsContainer;
 	}
-	public static ResultsContainer handleCopyNumberSingleView(Resultant resultant, CopyNumber[] copyNumberObjects, GroupType groupType){
+	public static ResultsContainer handleCopyNumberSingleView(Resultant resultant, CopyNumber[] copyNumberObjects, GroupType groupType) throws Exception{
  		ResultsContainer resultsContainer = null;
  		DimensionalViewContainer dimensionalViewContainer;
  		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer;
@@ -118,6 +128,14 @@ public class ResultsetProcessor {
   			copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
   	    	sampleViewResultsContainer = new SampleViewResultsContainer();
   		}
+        //Populate sampleViewResultsContainer with ClinicalData
+        try {
+			sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( copyNumberObjects);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw e;
+		}
+
           for (int i = 0; i < copyNumberObjects.length; i++) {
     		if(copyNumberObjects[i] != null) {
             ResultSet obj = copyNumberObjects[i];
@@ -133,6 +151,7 @@ public class ResultsetProcessor {
                }
     		}
         }//for
+
         return resultsContainer;
 	}
 

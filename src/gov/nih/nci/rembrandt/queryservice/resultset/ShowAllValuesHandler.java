@@ -120,11 +120,11 @@ public class ShowAllValuesHandler {
 					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 					///TO NEED TO RUN IT FOR NOW handleReporters(dimensionalViewContainer);
 					SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-					samples = sampleViewContainer.getBioSpecimenResultsets();
+					samples = sampleViewContainer.getSampleResultsets();
 				}else if (resultsContainer instanceof SampleViewResultsContainer){
 	
 					SampleViewResultsContainer sampleViewContainer = (SampleViewResultsContainer) resultsContainer;
-					samples = sampleViewContainer.getBioSpecimenResultsets();
+					samples = sampleViewContainer.getSampleResultsets();
 				}
 				if(samples != null && samples.size() > 0){
 		   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {

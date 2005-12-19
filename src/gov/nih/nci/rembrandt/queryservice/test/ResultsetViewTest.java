@@ -333,7 +333,7 @@ public class ResultsetViewTest extends TestCase {
 		 */
 		private void doCopyNumberForEverySample(SampleViewResultsContainer sampleViewContainer) {
 			   System.out.println("Testing CopyNumber View for Every Sample >>>>>>>>>>>>>>>>>>>>>>>");
-		       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+		       Collection samples = sampleViewContainer.getSampleResultsets();
 			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
 				//String sampleId = sampleResultset.getSampleIDDE().getValue().toString();
@@ -584,7 +584,7 @@ public class ResultsetViewTest extends TestCase {
 	}
 	private void displaySampleView(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Testing Sample View for entire Query >>>>>>>>>>>>>>>>>>>>>>>");
-	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+	       Collection samples = sampleViewContainer.getSampleResultsets();
  		   System.out.println("SAMPLE\tAGE\tGENDER\tSURVIVAL\tDISEASE");
   		   StringBuffer stringBuffer = new StringBuffer();
    		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
@@ -599,7 +599,7 @@ public class ResultsetViewTest extends TestCase {
 	}
 	private void doGeneViewForEverySample(SampleViewResultsContainer sampleViewContainer){
 		   System.out.println("Testing Gene View for Every Sample >>>>>>>>>>>>>>>>>>>>>>>");
-	       Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+	       Collection samples = sampleViewContainer.getSampleResultsets();
 		for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
 			//String sampleId = sampleResultset.getBiospecimen().getValue().toString();

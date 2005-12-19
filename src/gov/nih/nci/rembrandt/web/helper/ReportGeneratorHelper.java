@@ -666,7 +666,7 @@ public class ReportGeneratorHelper {
 		}
 		//Handle the SampleViewResultsContainers if that is what we got
 		if(svrContainer!=null) {
-			Collection bioSpecimen = svrContainer.getBioSpecimenResultsets();
+			Collection<SampleResultset> bioSpecimen = svrContainer.getSampleResultsets();
 			for(Iterator i = bioSpecimen.iterator();i.hasNext();) {
 				SampleResultset sampleResultset =  (SampleResultset)i.next();
 				sampleIds.add(new SampleIDDE(sampleResultset.getSampleIDDE().getValueObject()));

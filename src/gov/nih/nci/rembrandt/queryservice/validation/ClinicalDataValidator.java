@@ -57,7 +57,7 @@ public class ClinicalDataValidator {
 			//Create a map of sample collections for each ClinicalFactorType that were passed
 			Map<ClinicalFactorType, Collection<SampleIDDE>> clinicalFactorMap = new HashMap<ClinicalFactorType,Collection<SampleIDDE>>();
 			//execute Clinical Query
-			Collection<SampleResultset> sampleResultsets = executeQuery(sampleList);
+			Collection<SampleResultset> sampleResultsets = executeClinicalQuery(sampleList);
 			for(ClinicalFactorType clinicalFactor: clinicalFactors){
 				//samples associated with each clinical factor are stored in a seperate collection
 				Collection<SampleIDDE> samples = new HashSet<SampleIDDE>();
@@ -131,7 +131,7 @@ public class ClinicalDataValidator {
 	public static Map <String,SampleResultset> getClinicalAnnotationsMapForSampleIDDEs(Collection<SampleIDDE> sampleIDs) throws Exception{
 		Map <String,SampleResultset> sampleResultsetMap= new HashMap<String,SampleResultset>();
 		//execute Clinical Query
-		Collection<SampleResultset> sampleResultsets = executeQuery(sampleIDs);
+		Collection<SampleResultset> sampleResultsets = executeClinicalQuery(sampleIDs);
 		if(sampleIDs != null && sampleResultsets != null){
 
 			for(SampleResultset sampleResultset: sampleResultsets) {
@@ -158,7 +158,7 @@ public class ClinicalDataValidator {
 		return validSampleSet;
 	}
 		@SuppressWarnings("unchecked")
-		private static Collection<SampleResultset> executeQuery(Collection<SampleIDDE> sampleList) throws Exception{
+		public static Collection<SampleResultset> executeClinicalQuery(Collection<SampleIDDE> sampleList) throws Exception{
 			Collection<SampleResultset> sampleResultsets =  Collections.EMPTY_LIST;
 			//create a ClinicalDataQuery to contrain by Insitition group
 			 ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
@@ -192,10 +192,13 @@ public class ClinicalDataValidator {
 	  				svrContainer = (SampleViewResultsContainer)resultant.getResultsContainer();
 	  			}						//Handle the SampleViewResultsContainers if that is what we got
 	 					if(svrContainer!=null) {
-	 						sampleResultsets = svrContainer.getBioSpecimenResultsets();
+	 						sampleResultsets = svrContainer.getSampleResultsets();
 	 					}
 		 	}
 	  		return sampleResultsets;
+		}
+		public static Collection<SampleResultset> executeClinicalQueryForSampleList(Collection<String> sampleList) throws Exception{
+			return executeClinicalQuery(StrategyHelper.convertToSampleIDDEs(sampleList)); 
 		}
 		public static Collection<SampleResultset> getValidatedSampleResultsetsFromSampleIDs(Collection<String> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
 			return getValidatedSampleResultsets(StrategyHelper.convertToSampleIDDEs(sampleList), clinicalFactors); 

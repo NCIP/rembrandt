@@ -242,7 +242,7 @@ public class QueryTest extends TestCase {
             System.out.println("Total Number Genes: " + gsCount);
             return ;
     }
-      public void testResultset(ResultSet[] geneExprObjects){
+      public void testResultset(ResultSet[] geneExprObjects) throws Exception{
     	assertNotNull(geneExprObjects);
         assertTrue(geneExprObjects.length > 0);
         ResultsContainer resultsContainer = ResultsetProcessor.handleGeneExprSingleView(new Resultant(),(GeneExprSingle[]) geneExprObjects, GroupType.DISEASE_TYPE_GROUP);

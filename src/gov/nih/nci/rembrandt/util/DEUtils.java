@@ -7,11 +7,8 @@ public class DEUtils {
 	
 	public static String checkNV(DomainElement element)	{
 		String str = "--";
-		try	{
-			str = element.getValue().toString();
-		}
-		catch(Exception e){
-			//
+		if(element != null  && element.getValue() != null){
+			str =  element.getValue().toString();
 		}
 		return str;
 	}

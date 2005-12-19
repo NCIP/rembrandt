@@ -28,7 +28,7 @@ public class CopyNumberFilter {
 			List reporterNames;
 			//Get the samples from the resultset object
 			if (resultsContainer != null) {
-				Collection samples = null;
+				Collection<SampleResultset> samples = null;
 				CopyNumberSingleViewResultsContainer copyNumberContainer = null;
 				SampleViewResultsContainer sampleViewContainer = null;
 
@@ -36,7 +36,7 @@ public class CopyNumberFilter {
 					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 					sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
 					copyNumberContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
-					samples = sampleViewContainer.getBioSpecimenResultsets();
+					samples = sampleViewContainer.getSampleResultsets();
 				}
 				if (copyNumberContainer != null && samples != null
 						&& samples.size() > 0) {

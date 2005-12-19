@@ -136,7 +136,7 @@ public class CSVGenerator  {
 				
 			}
 			
-			Collection samples = sampleViewContainer.getBioSpecimenResultsets();
+			Collection samples = sampleViewContainer.getSampleResultsets();
 			sb.append("SAMPLE,AGE at Dx,GENDER,SURVIVAL,DISEASE");
  		   	if(gLinks)
  		   		sb.append(",GeneExp");

@@ -54,6 +54,7 @@ import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
 
 
@@ -93,7 +94,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	}
 	public KaplanMeierSampleInfo[] getSummaryKMPlotSamples() {
 	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
-	    Collection samples = getBioSpecimenResultsets();
+	    Collection samples = this.getSampleKaplanMeierPlotResultsets();
         //Clear the Previous collection
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
@@ -113,7 +114,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	}
 	public KaplanMeierSampleInfo[] getKMPlotSamplesForReporter(String reporterName){
 	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
-	    Collection samples = getBioSpecimenResultsets();
+	    Collection samples = this.getSampleKaplanMeierPlotResultsets();
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
 			if(sample != null &&
@@ -136,7 +137,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	}
 	public List getAssociatedReporters(){
 		List reporterNames = Collections.EMPTY_LIST;
-	    Collection samples = getBioSpecimenResultsets();
+	    Collection samples = this.getSampleKaplanMeierPlotResultsets();
 	    
 	    if(!samples.isEmpty()){
 	    	Iterator sampleIterator = samples.iterator();	    	
@@ -158,4 +159,10 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	public void setCytobandDE(CytobandDE cytobandDE) {
 		this.cytobandDE = cytobandDE;
 	}
+	Collection<SampleKaplanMeierPlotResultset> getSampleKaplanMeierPlotResultsets(){
+		Collection<SampleKaplanMeierPlotResultset> sampleKMPlotResultsetCollection = new ArrayList<SampleKaplanMeierPlotResultset>();
+		sampleKMPlotResultsetCollection.addAll((Collection<? extends SampleKaplanMeierPlotResultset>) this.getSampleResultsets());
+		return sampleKMPlotResultsetCollection;
+	}
+	
 }

@@ -53,6 +53,7 @@ import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,7 +67,7 @@ import java.util.Map;
  * Date: Nov 11, 2004
  * 
  */
-public class SampleKaplanMeierPlotResultset extends BioSpecimenResultset{
+public class SampleKaplanMeierPlotResultset extends SampleResultset{
 	private Map reporters = new HashMap();
 	/**
 	 * @param biospecimenID

@@ -85,15 +85,15 @@ public class QueryWithinResesultsHandler {
 		        Collection sampleIDs = new ArrayList();
 				//Get the samples from the resultset object
 				if(resultsContainer!= null){
-					Collection samples = null;
+					Collection<SampleResultset> samples = null;
 					if(resultsContainer instanceof DimensionalViewContainer){				
 						DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
 						SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-						samples = sampleViewContainer.getBioSpecimenResultsets();
+						samples = sampleViewContainer.getSampleResultsets();
 					}else if (resultsContainer instanceof SampleViewResultsContainer){
 		
 						SampleViewResultsContainer sampleViewContainer = (SampleViewResultsContainer) resultsContainer;
-						samples = sampleViewContainer.getBioSpecimenResultsets();
+						samples = sampleViewContainer.getSampleResultsets();
 					}
 					if(samples != null && samples.size() > 0){
 			   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
