@@ -112,13 +112,18 @@ function manageCheckAll(box)	{
 function A_saveReporters()	{
 	//get the name
 	var name = $("tmp_prb_queryName").value;
-	//convert the overlib list to a comma seperated list
-	var replaceme = "<br/>";
-	var commaSepList = currentTmpReporters.replace(/<br\/>/g, ",");
-	if(commaSepList.charAt(commaSepList.length-1) == ",")
-		commaSepList = commaSepList.substring(0, commaSepList.length-1);
-	//alert("="+commaSepList+"=");
-	DynamicReport.saveReporters(commaSepList, name, A_saveReporters_cb);
+	if(name != "")	{
+		//convert the overlib list to a comma seperated list
+		var replaceme = "<br/>";
+		var commaSepList = currentTmpReporters.replace(/<br\/>/g, ",");
+		if(commaSepList.charAt(commaSepList.length-1) == ",")
+			commaSepList = commaSepList.substring(0, commaSepList.length-1);
+		//alert("="+commaSepList+"=");
+		DynamicReport.saveReporters(commaSepList, name, A_saveReporters_cb);
+	}
+	else	{
+		alert("Please enter a name for your reporter group");
+	}
 }
 
 function A_saveReporters_cb(txt)	{
@@ -154,7 +159,7 @@ function filterRow(pvalue)	{
 function checkStep()	{
 	var val = document.forms.paginate.p_step.value;
 	if(val > "500" || val > 500)	{
-		alert('too many');
+		//alert('too many');
 		$("checkAllBlock").innerHTML = "<i>reduce size to check all</i>";
 	}
 }
