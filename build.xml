@@ -4,7 +4,7 @@
 	TARGET: COMPILE
 		Compiles the source directory with anthill dependencies
 	-->
-	<target name="compile_anthill" depends="config_database">
+	<target name="compile_anthill" depends="config_common_security_module">
 			<delete dir="${build.classes.dir}"/>
 			<mkdir dir="${build.classes.dir}"/>
 			<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -25,7 +25,7 @@
 		TARGET: COMPILE
 			Compiles the source directory without anthill dependencies
 		-->
-	<target name="compile" depends="config_database">
+	<target name="compile" depends="config_common_security_module">
 		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
 		<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -70,7 +70,7 @@
 		Configures the JMS.properties file using the settings in the
 		build.properties file
 	-->
-	<target name="config_analysis_server" depends="config_common_security_module">
+	<target name="config_analysis_server" depends="config_logging">
 		<delete file="src/jms.properties"/>
 		<copy file="src/jms.properties.template" tofile="src/jms.properties"/>
 		<replaceregexp file="src/jms.properties" match="@JBOSS_URL@" replace="${jboss.url}" flags="g"/>
@@ -80,7 +80,7 @@
 			Configures the common security module creating the necesary files
 			for Authentication and Authorization
 	-->
-	<target name="config_common_security_module" depends="config_logging">
+	<target name="config_common_security_module" depends="config_database">
 		<echo message="Configuring Common Security Module"/>
 		<!-- Configuring ApplicationSecurityConfig.xml -->
 		<echo message="Setting ApplicationSecurityConfig.xml"/>
