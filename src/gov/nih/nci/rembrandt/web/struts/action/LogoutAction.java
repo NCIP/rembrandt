@@ -30,16 +30,17 @@ public final class LogoutAction extends Action
         String logoutSelection = f.getProcedure();
         String forward = "logout";
         if("logoutSave".equals(logoutSelection)) {
-        	//null out the sesssion vars
-            session.setAttribute("logged", null);
-        	//kill the session and unbinds any objects bound to it.
-            session.invalidate();
+
         	/*
         	 * User has selected to save the current session and log out of the
         	 * application
         	 */
         	UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
         	_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
+        	//null out the sesssion vars
+            session.setAttribute("logged", null);
+        	//kill the session and unbinds any objects bound to it.
+            session.invalidate();
         }else if("logoutNoSave".equals(logoutSelection)) {
         	//null out the sesssion vars
             session.setAttribute("logged", null);
