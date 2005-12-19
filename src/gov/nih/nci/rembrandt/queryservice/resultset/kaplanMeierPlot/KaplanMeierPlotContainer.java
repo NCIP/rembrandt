@@ -94,7 +94,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	}
 	public KaplanMeierSampleInfo[] getSummaryKMPlotSamples() {
 	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
-	    Collection samples = this.getSampleKaplanMeierPlotResultsets();
+	    Collection samples = this.getSampleResultsets();
         //Clear the Previous collection
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
@@ -114,7 +114,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	}
 	public KaplanMeierSampleInfo[] getKMPlotSamplesForReporter(String reporterName){
 	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
-	    Collection samples = this.getSampleKaplanMeierPlotResultsets();
+	    Collection samples = this.getSampleResultsets();
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
 			if(sample != null &&
@@ -137,7 +137,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	}
 	public List getAssociatedReporters(){
 		List reporterNames = Collections.EMPTY_LIST;
-	    Collection samples = this.getSampleKaplanMeierPlotResultsets();
+	    Collection samples = this.getSampleResultsets();
 	    
 	    if(!samples.isEmpty()){
 	    	Iterator sampleIterator = samples.iterator();	    	
@@ -159,10 +159,10 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	public void setCytobandDE(CytobandDE cytobandDE) {
 		this.cytobandDE = cytobandDE;
 	}
-	Collection<SampleKaplanMeierPlotResultset> getSampleKaplanMeierPlotResultsets(){
-		Collection<SampleKaplanMeierPlotResultset> sampleKMPlotResultsetCollection = new ArrayList<SampleKaplanMeierPlotResultset>();
-		sampleKMPlotResultsetCollection.addAll((Collection<? extends SampleKaplanMeierPlotResultset>) this.getSampleResultsets());
-		return sampleKMPlotResultsetCollection;
-	}
+//	Collection<SampleKaplanMeierPlotResultset> getSampleKaplanMeierPlotResultsets(){
+//		Collection<SampleKaplanMeierPlotResultset> sampleKMPlotResultsetCollection = new ArrayList<SampleKaplanMeierPlotResultset>();
+//		sampleKMPlotResultsetCollection.addAll((Collection<? extends SampleKaplanMeierPlotResultset>) this.getSampleResultsets());
+//		return sampleKMPlotResultsetCollection;
+//	}
 	
 }
