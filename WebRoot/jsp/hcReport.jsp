@@ -28,6 +28,8 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		
 	</head>
 <body>
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+
 <span style="z-index:1000; float:right;">
 	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	<a href="javascript:top.close()"><img align="right" src="images/close.png" border="0"></a>
