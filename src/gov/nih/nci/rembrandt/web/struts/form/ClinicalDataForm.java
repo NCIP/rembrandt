@@ -2297,7 +2297,7 @@ public class ClinicalDataForm extends BaseForm {
                     "gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
 
         // survival range validations
-        if (this.survivalLower != null && !this.survivalLower.equals("") && this.survivalUpper != null && !this.survivalUpper.equals("")) {
+        if ((this.survivalLower != null && !this.survivalLower.equals("")) || (this.survivalUpper != null && !this.survivalUpper.equals(""))) {
             try {
                 if((survivalLower.trim().length() > 0 && !(survivalUpper.trim().length() > 0)) ||
                         (survivalUpper.trim().length() > 0 && !(survivalLower.trim().length() > 0))){
@@ -2311,7 +2311,7 @@ public class ClinicalDataForm extends BaseForm {
             }
         }
 
-        if (this.ageLower != null &&!this.ageLower.equals("")&& this.ageUpper != null && !this.ageUpper.equals("")) {
+        if ((this.ageLower != null &&!this.ageLower.equals(""))||( this.ageUpper != null &&!this.ageUpper.equals(""))) {
             try {
                 if((ageLower.trim().length() > 0 && !(ageUpper.trim().length() > 0)) ||
                         (ageUpper.trim().length() > 0 && !(ageLower.trim().length() > 0))){
