@@ -15,7 +15,9 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <head>
 	<title>Rembrandt PCA Plots</title>
 	<LINK href="css/tabs.css" rel="stylesheet" type="text/css" />
-		
+	
+	<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
+	
 	<script language="JavaScript" src="js/box/browserSniff.js"></script>
 		
     <script type='text/javascript' src='dwr/interface/DynamicReport.js'></script>
