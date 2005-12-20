@@ -35,7 +35,14 @@ public final class LogoutAction extends Action
         	 * application
         	 */
         	UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-        	_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
+        	
+        	/*******************************************************************
+        	 * HACK! This is only here to prevent a user logged in on the public
+        	 * account "RBTuser" from persisting their session
+        	 *******************************************************************/
+        	if(!"RBTuser".equals(credentials.getUserName())) {
+        		_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
+        	}
         	_cacheManager.deleteSessionCache(session.getId());
         	//null out the sesssion vars
             session.setAttribute("logged", null);
