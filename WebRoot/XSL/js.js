@@ -365,9 +365,11 @@ function checkForBack()	{
 }
 
 function goQueryDetails(str)	{
-	var newstr;
-	newstr = str.replace(/\{/g, "<").replace(/\}/g, ">");
-	document.write(newstr);
+	if(str!="N/A" && str!= "")	{
+		var newstr;
+		newstr = str.replace(/\{/g, "<").replace(/\}/g, ">");
+		document.write(newstr);
+	}
 }
 
 function switchViews(view, sample)	{
