@@ -73,7 +73,7 @@
 	<target name="config_analysis_server" depends="config_logging">
 		<delete file="src/jms.properties"/>
 		<copy file="src/jms.properties.template" tofile="src/jms.properties"/>
-		<replaceregexp file="src/jms.properties" match="@JBOSS_URL@" replace="${jboss.url}" flags="g"/>
+		<replaceregexp file="src/jms.properties" match="@JBOSS_URL@" replace="${analytical.jboss.jndi}" flags="g"/>
 	</target>
 	<!--
 			TARGET: config_common_security_module

@@ -30,13 +30,13 @@ public final class LogoutAction extends Action
         String logoutSelection = f.getProcedure();
         String forward = "logout";
         if("logoutSave".equals(logoutSelection)) {
-
         	/*
         	 * User has selected to save the current session and log out of the
         	 * application
         	 */
         	UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
         	_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
+        	_cacheManager.deleteSessionCache(session.getId());
         	//null out the sesssion vars
             session.setAttribute("logged", null);
         	//kill the session and unbinds any objects bound to it.
@@ -46,6 +46,7 @@ public final class LogoutAction extends Action
             session.setAttribute("logged", null);
         	//kill the session and unbinds any objects bound to it.
             session.invalidate();
+            _cacheManager.deleteSessionCache(session.getId());
         	/*
         	 * User has selected to not save the session data and log out of the
         	 * application
@@ -61,9 +62,7 @@ public final class LogoutAction extends Action
         	forward = "dontLogout";
         	return (mapping.findForward(forward));
         }
-        
-        
-      
+  
         return (mapping.findForward(forward));
     }
 }

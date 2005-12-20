@@ -253,7 +253,6 @@ public class ReportGeneratorHelper {
 	
 
 	/**
-	 * This constructor will generate a 
 	 * This constructor uses a TemplateMethod pattern to perform the following
 	 * tasks (They must happen in this order, though some may be omitted if the
 	 * use case does not require it): 
