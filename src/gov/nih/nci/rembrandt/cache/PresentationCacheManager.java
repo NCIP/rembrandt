@@ -718,4 +718,15 @@ public class PresentationCacheManager implements PresentationTierCache{
 		String returnedSessionId = givenSessionId+"_presentation";
 		return returnedSessionId;
 	}
+	/**
+	 * Removes the session cache for the sessionId that was passed.  This should
+	 * be called whenever a user logs out of the applicaiton.  Else if they log
+	 * in from the same browser no matter what username, they will get the previous
+	 * sessions information.
+	 * 
+	 * @param  the session that wants to be logged out.
+	 */
+	public void deleteSessionCache(String id) {
+		manager.removeCache(processSessionId(id));
+	}
 }

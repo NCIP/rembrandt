@@ -58,6 +58,8 @@ public interface PresentationTierCache {
 	public void persistUserSession(String userName, String sessionId);
 
 	public boolean reloadSessionCache(String userName, String sessionId);
+
+	public void deleteSessionCache(String id);
 }
 
 	
