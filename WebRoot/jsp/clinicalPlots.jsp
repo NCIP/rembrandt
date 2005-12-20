@@ -36,7 +36,13 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <body>	
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
-<span style="z-index:1000; float:right;"><a href="javascript:top.close()"><img src="images/close.png" border="0"></a></span>
+<span style="z-index:1000; float:right;">
+	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
+	<a href="javascript:top.close()"><img align="right" src="images/close.png" border="0"></a>
+	<a href="javascript: spawn('help.jsp?sect=clinicalPlot', 350, 500);"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+	<a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help');" onmouseout="return nd();"/> </a> 	
+</span>
+
 <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
 <br/><br/>
 	<%

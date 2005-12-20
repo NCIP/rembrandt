@@ -59,7 +59,7 @@ var i = document.getElementById("rbt_image");
 
 
 function init()	{
-	i.style.width = "200%";
+	i.style.width = "100%";
 }
 
 function shrink()	{
