@@ -112,13 +112,23 @@ function manageCheckAll(box)	{
 function A_saveSamples()	{
 	//get the name
 	var name = $("sampleGroupName").value;
-	//convert the overlib list to a comma seperated list
-	var replaceme = "<br/>";
-	var commaSepList = currentTmpSamples.replace(/<br\/>/g, ",");
-	if(commaSepList.charAt(commaSepList.length-1) == ",")
-		commaSepList = commaSepList.substring(0, commaSepList.length-1);
-	//alert(name + " = '"+commaSepList+"' ");
-	DynamicReport.saveSamples(commaSepList, name, A_saveSamples_cb);
+	if(name != "")	{
+		if(currentTmpSamples != "")	{
+			//convert the overlib list to a comma seperated list
+			var replaceme = "<br/>";
+			var commaSepList = currentTmpSamples.replace(/<br\/>/g, ",");
+			if(commaSepList.charAt(commaSepList.length-1) == ",")
+				commaSepList = commaSepList.substring(0, commaSepList.length-1);
+			//alert(name + " = '"+commaSepList+"' ");
+			DynamicReport.saveSamples(commaSepList, name, A_saveSamples_cb);
+		}
+		else	{
+			alert("Please select some samples to save");
+		}
+	}
+	else	{
+		alert("Please enter a name for your sample group");
+	}
 }
 
 function A_saveSamples_cb(txt)	{
