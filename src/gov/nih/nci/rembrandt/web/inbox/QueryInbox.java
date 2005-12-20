@@ -14,6 +14,7 @@ import java.util.Random;
 import javax.servlet.http.HttpSession;
 
 import uk.ltd.getahead.dwr.ExecutionContext;
+import org.apache.commons.lang.StringEscapeUtils;
 
 public class QueryInbox {
 	
@@ -71,7 +72,7 @@ public class QueryInbox {
 			fdata.put("time", String.valueOf(f.getElapsedTime()));
 			fdata.put("status", tmp);
 			if(f.getStatus()!=null && f.getStatus().getComment()!=null)	{
-				fdata.put("comments", f.getStatus().getComment());
+				fdata.put("comments", StringEscapeUtils.escapeJavaScript(f.getStatus().getComment()));
 			}
 			currentStatuses.put(f.getTaskId(), fdata);
 		}

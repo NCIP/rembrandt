@@ -114,7 +114,11 @@ function testMap_cb(map)	{
 }
 
 function showErrorHelp(txt, show)	{
-	var html = "<a href=\"#\"  style=\"text-decoration:none; border-bottom: 1px dashed #AB0303;\" onmouseover=\"return overlibWrapper('"+txt+"');return false;\" onmouseout=\"return nd();\" ><strong>"+show+"</strong></a>";
+	txt = txt.replace("\n", " ");
+	txt = txt.replace("/n", " ");
+	txt = txt.replace("\"", "\\\"");
+	txt = txt.replace("\'", "\\\'");
+	var html = "<a href=\"#\"  style=\"text-decoration:none; border-bottom: 1px dashed #AB0303;\" onmouseover=\"return overlibWrapper('"+escape(txt)+"');return false;\" onmouseout=\"return nd();\" ><strong>"+show+"</strong></a>";
 	return html;
 }
 
@@ -123,5 +127,6 @@ function overlibWrapper(txt)	{
 	var err = "";
 	err = txt.indexOf(".") != -1 ? txt.split(".")[0] : txt;
 	var t = err != "" ? err +"." : "Unspecified Error.";
+	t=unescape(t);
 	return overlib(t, CAPTION, "Error Details");
 }
