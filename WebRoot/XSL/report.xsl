@@ -83,7 +83,7 @@
 	<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 	</form>
 	
-	<form action="runReport.do?method=switchViews" method="post" name="switchViewsForm">
+	<form action="runReport.do?method=switchViews" method="post" target="_blank" name="switchViewsForm">
 	     <input type="hidden" name= "reportView" value="" />
 	     <input type="hidden" name="queryName" value="{$qName}" />
 	     <input type="hidden" name="samples" value="" />			
