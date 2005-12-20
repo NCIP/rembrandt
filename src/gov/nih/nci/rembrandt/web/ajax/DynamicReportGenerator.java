@@ -241,6 +241,11 @@ public class DynamicReportGenerator {
 			}
 
 			//check name for collision...or dont, so to enable overwriting
+			if(sessionCriteriaBag.getUserList(ListType.SampleIdentifierSet,name) != null)	{
+				//make a new name
+	            long randomness = System.currentTimeMillis(); //prevent image caching
+	            name = name + "_" + randomness;
+			}
 			sessionCriteriaBag.putUserList(ListType.SampleIdentifierSet,name,domainElementList); 
 			ptc.putSessionCriteriaBag(session.getId(),sessionCriteriaBag);
 			success = "pass";
