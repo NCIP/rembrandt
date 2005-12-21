@@ -69,7 +69,7 @@ else	{ %>
 		<script language="javascript">
 			if(document.getElementById('spnLoading') != null &&	document.getElementById('spnLoading').style.display != "none")	{
 				hideLoadingMessage();
-				document.write("<h3 style=\"text-align:center; margin-top:200px;\">There was an error generating your report.  Please try again later. <br><a href=\"javascript:window.close()\">Close</a></h3>");
+				document.write("<h3 style=\"text-align:center; margin-top:200px;\">There was an error generating your report.  <!--Please try again later. --><br><a href=\"javascript:window.close()\">Close</a></h3>");
 			}
 		</script>
 <% 

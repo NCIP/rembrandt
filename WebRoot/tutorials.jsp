@@ -58,30 +58,63 @@
  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">1. Gene Expression Plot</legend>
 <br>
 	<a href="javascript:spawnm('tutorials/qs_gplot.htm');">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) 
-	or <a href="tutorials/qs_gplot.exe">download</a> the tutorial for offline viewing.
+	<!--  or <a href="tutorials/qs_gplot.exe">download</a> the tutorial for offline viewing. -->
 </fieldset>
  <Br><br>
  <fieldset>
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">2. Kaplan-Meier Survival Plot</legend>
   <br>
 	<a href="javascript:spawnm('tutorials/qs_kmplot.htm');">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) 
-	or <a href="tutorials/qs_kmplot.exe">download</a> the tutorial for offline viewing (.exe file).
+	<!--  or <a href="tutorials/qs_kmplot.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
  <br><br>
   <fieldset>
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">3. Advanced Search (Gene Expression)</legend>
   <br>
 	<a href="javascript:spawnm('tutorials/advanced_search_1.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
-	or <a href="tutorials/advanced_search_1.exe">download</a> the tutorial for offline viewing (.exe file).
+	<!--  or <a href="tutorials/advanced_search_1.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
  <br><br>
   <fieldset>
   <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">4. Advanced Search (Copy Number)</legend>
   <br>
 	<a href="javascript:spawnm('tutorials/advanced_search_2.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
-	or <a href="tutorials/advanced_search_2.exe">download</a> the tutorial for offline viewing (.exe file).
+	<!--  or <a href="tutorials/advanced_search_2.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
  <br><br>
+ 
+  <fieldset>
+  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">5. High Order Analysis (PCA)</legend>
+  <br>
+	<a href="javascript:spawnm('tutorials/pca.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
+	<!--  or <a href="tutorials/pca.exe">download</a> the tutorial for offline viewing (.exe file). -->
+ </fieldset>
+ <br><br>
+ 
+  <fieldset>
+  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">6. High Order Analysis (Hierarchical Clustering)</legend>
+  <br>
+	<a href="javascript:spawnm('tutorials/hc.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
+	<!--  or <a href="tutorials/hc.exe">download</a> the tutorial for offline viewing (.exe file). -->
+ </fieldset>
+ <br><br>
+ 
+  <fieldset>
+  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">7. Advanced Search/High Order Analysis (Class Comparison)</legend>
+  <br>
+	<a href="javascript:spawnm('tutorials/ccX.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
+	<!--  or <a href="tutorials/ccX.exe">download</a> the tutorial for offline viewing (.exe file). -->
+ </fieldset>
+ <br><br>
+ 
+  <fieldset>
+  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">8. Web Genome Integration (Copy Number)</legend>
+  <br>
+	<a href="javascript:spawnm('tutorials/webgenome.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
+	<!--  or <a href="tutorials/webgenome.exe">download</a> the tutorial for offline viewing (.exe file). -->
+ </fieldset>
+ <br><br>
+ 
  <fieldset>
  <legend style="padding:0px;background-color:#ffffff;">*Requirements</legend>
  <br>
