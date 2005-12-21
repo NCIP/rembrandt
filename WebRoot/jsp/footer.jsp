@@ -1,5 +1,6 @@
 <!-- Start Footer Table -->
 <div class="content">
+<div style="padding:5px" align="left"><img src="images/caIntegratorLogoPower.png" alt="powered by caIntegrator" /></div>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 		<td valign="top"><div align="center">
