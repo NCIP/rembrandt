@@ -94,6 +94,10 @@ String helpLinkClose = "', 350, 500);\">"+
 			<script language="javascript" src="js/a_functions.js"></script>
 			<script language="javascript">	
 				//testMap("testingtesting");
+				var customError = function(message)	{};
+				DWREngine.setWarningHandler(customError);
+				DWREngine.setErrorHandler(customError);
+				
 				setTimeout("A_checkAllFindingStatus('<%=session.getId()%>')", 0200);
 				var vr_checker = setInterval("A_checkAllFindingStatus('<%=session.getId()%>')", 5000);
 
