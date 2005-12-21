@@ -57,8 +57,43 @@ public String kmPlotHelpCN()	{
 public String clinicalHelp()	{
 	String help = "<div><a name=\"clinical\"></a>\n"+
 	"<B>Clinical report (sample report): </b><Br>\n"+
-	"<li>For samples that matched the criteria specified by the user (either in just a single domain, such as Gene Expression, or, a combination of queries from multiple domains such as Gene expression, Chromosomal aberrations and clinical areas), clinical information including gender of the patient, age at diagnosis, tumor subtype is displayed in this report.\n"+
+	"<li>Clinical information including patient demographics, therapy and outcome data (either in just a single domain such as Gene Expression or by including a combination of queries from multiple domains such as Gene expression, Chromosomal aberrations and clinical areas) is displayed in this report.\n"+
 	"<li>When either a gene expression filter and/or a copy number filter are applied, hyperlinks are provided in this report to display the gene expression and/or copy number data for a particular sample.\n"+
+	"</div>\n";
+	return help;
+}
+
+public String clinicalPlotHelp() {
+	String help = "<div><a name=\"clinicalPlot\"></a>\n"+
+	"<B> Clinical plot: </b><br />\n" +
+	"<p>You can plot the clinical data from a report on two kinds of graphs:</p>\n" +
+	"<li><i>Survival (months) vs Age at diagnosis (years):</i> The data points are colored by disease type. You can select the samples of interest by clicking on the graph and drawing a rectangle around the samples that you would like to save for future use.</li>\n" +
+	"<li><i>Karnowsky score (Neurological assessment) vs Age at diagnosis (years):</i> The data points are colored by disease type. You can select the samples of interest by clicking on the graph and drawing a rectangle around the samples that you would like to save for future use.</li>\n" +
+	"</div>\n";
+	return help;
+}
+
+public String classComparisonHelp(){
+	String help = "<div><a name=\"CC\"></a>\n"+
+	"<B> Class Comparison report: </b><br />\n" +
+	"<p>This report shows the results from the class comparison performed using the parameters (statistical methods and constraints) set by the user. The report displays group average, where the numerator is the mean of log(base 2) expression signals (geometric mean) from the samples in the first group and the denominator is the mean of log(base 2) expression signals (geometric mean) from the samples in the second group.</p>\n" + 
+	"<p>Absolute fold change for the reporter between the selected groups is also displayed along with p-value. If multiple-comparison adjustment is chosen, then adjusted p-value is displayed. Gene symbol annotations are displayed for each reporter. Extensive annotations can be obtained by clicking the <i>excel</i> download button on the upper right-hand corner of the report.</p>\n" + 
+	"</div>\n";
+	return help;
+}
+
+public String pcaHelp(){
+	String help = "<div><a name=\"pcaPlot\"></a>\n"+
+	"<B> Principal Component Analysis report: </b><br />\n" +
+	"<p>This two-dimensional graph plots the various principal components from the analyses. You can click on the three tabs at the top of the graph to display either PC1 vs PC2, or PC1 vs PC3, or PC2 vs PC3. Each point on the graph represents a sample. The samples are colored by disease type. You can color by gender by clicking on the link on the upper left-hand corner of the graph. Patients with different survival ranges are indicated by different shapes on the graph. You can select the samples of interest by clicking on the graph and drawing a rectangle around the samples that you would like to save for future use.</p>\n" + 
+	"</div>\n";
+	return help;
+}
+public String hcHelp(){
+	String help = "<div><a name=\"hcPlot\"></a>\n"+
+	"<B> Hierarchical Clustering report: </b><br />\n" +
+	"<p>The Hierarchical Clustering report displays a dendrogram from hierarchical clustering analysis.</p>\n" +
+	"<p>Clicking on full size at the top left-hand corner of the graph displays the image at full resolution. Based on the cluster parameter selected by the user, either sample or reporter annotations are displayed beneath the dendrogram.</p>\n" +
 	"</div>\n";
 	return help;
 }
@@ -139,6 +174,14 @@ String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 			out.println(kmPlotHelpCN());
 		if(sect.equals("viewResults"))
 			out.println(viewResultsHelp()); 
+		if(sect.equals("CC"))
+			out.println(classComparisonHelp());
+		if(sect.equals("clinicalPlot"))
+			out.println(clinicalPlotHelp()); 
+		if(sect.equals("hcPlot"))
+			out.println(hcHelp()); 
+		if(sect.equals("pcaPlot"))
+			out.println(pcaHelp()); 	 	 	
 		if(sect.equals("refineQuery"))
 			out.println(refineQueryHelp()); 
 		if(sect.equals("clinical") || sect.equals("Clinical"))
@@ -155,6 +198,10 @@ String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 		out.println(genePlotHelp() + "<Br>\n" + topLink);
 		out.println(kmPlotHelpGE() + "<Br>\n" + topLink);
 		out.println(kmPlotHelpCN() + "<Br>\n" + topLink);
+		out.println(clinicalPlotHelp() + "<Br>\n" + topLink); 
+		out.println(classComparisonHelp() + "<Br>\n" + topLink); 
+		out.println(hcHelp() + "<Br>\n" + topLink);  
+		out.println(pcaHelp() + "<Br>\n" + topLink);  	 	
 		out.println(viewResultsHelp() + "<Br>\n" + topLink);
 		out.println(refineQueryHelp() + "<Br>\n" + topLink);
 		out.println(clinicalHelp() + "<Br>\n" + topLink);

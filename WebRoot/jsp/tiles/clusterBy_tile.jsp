@@ -6,7 +6,7 @@
 <fieldset class="gray">
 <legend class="red">
 Step 3: Cluster By
-<app:help help="Select to cluster by samples or cluster by genes"/>
+<app:help help="Leave the default to cluster on samples or change the radio button to cluster by genes."/>
 </legend>
 <%
 	String act = request.getParameter("act");

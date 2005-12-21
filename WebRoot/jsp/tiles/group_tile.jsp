@@ -5,9 +5,11 @@
 
 
 <fieldset class="gray">
-<legend class="red">Step 1: Select Group<b class="req">*</b><br />
-</legend>
+<legend class="red">Step 1: Select Group<b class="req">*</b>
+
 <logic:present name="principalComponentForm">
+<app:help help="Select either Show all samples or Select samples by clicking the pertinent radio button. If you chose Select samples, choose one or more groups from the Existing Groups box and click the right-arrow button to move your selection(s) to the Selected Groups box." />
+</legend>
 <html:radio property="groupsOption" styleClass="radio" value="allSamples" onclick="onRadio(this,'allSamples');" />Show all samples<br /><br />
 
 <html:radio property="groupsOption" styleId="variousSamplesRadio" styleClass="radio" value="variousSamples" onclick="onRadio(this,'variousSamples');" />Select samples<br />
@@ -37,8 +39,8 @@
 
 
 <logic:present name="classComparisonForm">
-<a href="javascript:void(0);" onmouseover="return overlib('Select ONLY two groups for class comparison.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
-</legend><br>
+<app:help help="Choose two groups from the Existing Groups box and click the right-arrow button to move your selection(s) to the Selected Groups box." />
+</legend>
 	<em>choose 2 groups</em>
 	<html:errors property="selectedGroups"/>
 	<table align="center" border="0">

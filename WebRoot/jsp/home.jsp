@@ -72,7 +72,7 @@
         <html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
         </logic:notEmpty>
         
-        <app:help help="Enter a HUGO gene symbol (such as EGFR) to plot either a gene expression profile or a Kaplan-Meier survival plot for the gene" />
+        <app:help help="Select either the Gene Keyword or SNP Probe set ID option, as applicable, from the drop-down list and enter the keyword or ID in the text box.The SNP Probe set ID option is available only for the Copy Number-based Graph format." />
         <br />
         
       </fieldset>

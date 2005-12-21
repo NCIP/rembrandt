@@ -75,7 +75,7 @@
 	Step 2: 
 	</logic:present>
 	Filter Genes/Reporters
-<app:help help=" ...Optionally, you can upload a text file containing Gene identifiers by clicking the browse button. There must only be one entry per line and a return must be added at the end of the file. Choose “All Genes query” if you do not wish to specify a list of genes, but would like to see the data for all the genes analyzed. You must apply the “All Genes query” to a pre-existing result set. (see help on Refine query page for more details)" />
+<app:help help="Select either Default or Advanced by clicking the pertinent radio button. If you choose Advanced, click the + to access the following options:  1.Constrain reporters by variance (Gene Vector) percentile: The reporters whose variances of the log ratio (or Log2 signals) across all experiments were among the top percentile of variance of all reporters were identified. Select the check box and enter the percentage into the text box. If you enter 70% into the text box, it means that you choose reporters with top 30 (100 - 70) percentile of variance of all reporters.  2.Use differentially expressed genes: Choose saved differentially expressed genes identified by class comparison. Choose an option (gene list1 or gene list2) from the drop-down list or click the Upload link to upload a file.  3.Use differentially expressed reporters: Choose saved differentially expressed reporters identified by class comparison. Choose an option (reporter list1 or reporter list2) from the drop-down list or click the Upload link to upload a file.  4.If desired, click the Set These Filters As Default button." />
 </legend>
 <span id="confirm"></span>
 

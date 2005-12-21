@@ -47,6 +47,7 @@ response.setHeader("Location",newLocn);
 <a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">help</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="docs/rembrandt1.0_ug_12_20_05_nsn.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
 </div>
 <!--end nav bar-->
 
@@ -67,7 +68,7 @@ response.setHeader("Location",newLocn);
 	  <td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
          <p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
 		 About this application	
-		 <br /><span style="font-size:.7em;text-align:right;">Release 0.51</span>
+		 <br /><span style="font-size:.7em;text-align:right;">Release 1.0</span>
 		 </p>
 		 
 	
@@ -89,6 +90,9 @@ response.setHeader("Location",newLocn);
 	     a variety of contexts. Tools that link data to other
 	     annotations such as cellular pathways, gene ontology
 	     terms and genomic information will be embedded.</p>
+	     
+	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">For optimal
+	     performance, IE 6.0+ is recommended. 
 	     
 	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">Please visit <a href="http://rembrandt.nci.nih.gov">http://rembrandt.nci.nih.gov</a>
 	         for more information.</p>

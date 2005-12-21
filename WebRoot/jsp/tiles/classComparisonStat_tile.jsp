@@ -4,7 +4,7 @@
 <fieldset class="gray">
 <legend class="red">Step 2: Select Statistic
 
-<app:help help="Select a statistic" />
+<app:help help="Leave Default as is or select Advanced by click­ing the pertinent radio button. If you choose Advanced, click the + to access the fol­lowing options: 1.Statistical Method: Choose a test (t-test:two sample test or Wilcoxin Test: Mann-Whitney Test) from the drop-down list. 2. Multiple Comparison Adjustment: Choose an adjustment (Family-wise Error Rate (FWER): Bonferroni or False Discovery Rate (FDR): Benjamini-Hochberg) from the drop-down list. 3.Select Constraint: Select the Fold Change (2, 3, 4, 5, 6, 7, 8, 9 or 10) from the drop-down list or enter another fold change into the adjacent text box. Enter the p-value into the text box." />
 </legend>
 <input type="radio" class="radio" name="statistic" value="default" checked />Default<br /><br />
 

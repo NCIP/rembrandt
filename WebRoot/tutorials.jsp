@@ -43,9 +43,9 @@
 <!--navigation bar-->
 <div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left">
 <a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="#">contact</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">support</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">help</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="docs/rembrandt1.0_ug_12_20_05_nsn.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
 </div>
 <!--end nav bar-->
 

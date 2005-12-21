@@ -26,36 +26,64 @@
 
 <fieldset style="border: 1px solid #000066;width:765px">
 <legend style="text-align:center;background-color:#ffffff">LEGAL RULES OF THE ROAD</legend>
-<p style="text-align:left">The Repository of Molecular Brain
- Neoplasia DaTa (REMBRANDT) Database is provided as
-  a public service by the National Cancer Institute
-   (NCI) to foster the rapid dissemination of information
-    to the scientific community and the public. The
-     samples used to produce the data here presented
-      were provided by the Hermelin Brain Tumor Center,
-       Henry Ford Hospital and the Neuro-Oncology Branch
-        of the National Cancer Institute. All data may be
-subject to copyright provisions. The data used for this
- version is to be considered public domain. You may browse,
-  and use the data for the purposes of familiarizing yourself
-   with the structure of the database and interface, evaluate 
-   its usefulness and provide <a href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a>
- to the development team.
-    You also may use the data provided here for research 
-    projects in which you are involved at present, or to test
-     hypothesis to develop future research projects. Although
-      the raw data will be available for download in an
-       upcoming release of the Database, this functionality 
-       is disabled at the moment. You may encounter documents 
-       or portions of documents contributed by private
-        institutions or organizations. Other parties may
-         retain all rights to publish or produce these 
-         documents. Commercial use of the documents on
-          this site may be protected under United States
-           and foreign copyright laws. In addition, some
-            of the data may be the subject of patent
-             applications or issued patents, and you may
-              need to seek a license for its commercial use.
+<p style="text-align:left">The Repository of Molecular
+ Brain Neoplasia DaTa (REMBRANDT) Database is provided
+  as a public service by the Neuro-Oncology Branch of
+   the National Cancer Institute (NCI) and the National
+    Institute of Neurological Disorders and Stroke (NINDS)
+     to foster the rapid dissemination of information
+      to the scientific community and the public. The
+       samples used to produce the data presented here
+        were provided by the Neuro-Oncology Branch of
+         the National Cancer Institute and other
+          institutions that are collaborating on the
+           Glioma Molecular Diagnostic Initiative (GMDI)
+            study. New datasets from the GMDI study and
+             other brain tumor molecular and genetic
+              studies will be added to the Rembrandt
+               database on an incremental basis. All
+                data may be subject to copyright
+                 provisions. The data used for this 
+                 version is to be considered public
+                  domain. You may browse, and use the
+                   data for the purposes of familiarizing
+                    yourself with the structure of the
+                     database and interface, evaluate its
+                      usefulness and provide <a href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a> to
+                       the development team. You also may
+                        use the data provided here for
+                         research projects in which you
+                          are involved at present, or to
+                           test hypothesis to develop
+                            future research projects.
+                             Although the raw data will
+                              be available for download 
+                              in an upcoming release of 
+                              the Database, this 
+                              functionality is disabled 
+                              at the moment. It is
+                               requested that reference to,
+                                and acknowledgement of, the
+                                 GMDI and REMBRANDT be
+                                  made in any manuscripts
+                                   that result from the
+                                    direct use of the data 
+                                    contained within. You
+                                     may encounter
+                                      documents or
+                                       portions of
+                                        documents contributed by 
+                                        private institutions or organizations.
+                                         Other parties may retain all rights to
+                                          publish or produce these documents.
+                                           Commercial use of the documents on 
+                                           this site may be protected under United
+                                            States and foreign copyright laws. In
+                                             addition, some of the data may be the 
+                                             subject of patent applications or
+                                              issued patents, and you may need 
+                                              to seek a license for its commercial 
+                                              use. 
 
 </p>
 		
