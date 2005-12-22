@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
-public class GeneExpressionForm extends BaseForm {
+public class GeneExpressionForm extends BaseForm implements Serializable {
 
 	// --------------------------------------------------------- Instance
 	// Variables
@@ -99,7 +100,7 @@ public class GeneExpressionForm extends BaseForm {
 	private String arrayPlatform;
 
 	/** cloneListFile property */
-	private FormFile cloneListFile;
+	private transient FormFile cloneListFile;
 
 	/** cloneListSpecify property */
 	private String cloneListSpecify;
@@ -132,7 +133,7 @@ public class GeneExpressionForm extends BaseForm {
 	private String resultView;
 
 	/** geneFile property */
-	private FormFile geneFile;
+	private transient FormFile geneFile;
 	
 
 	/** foldChangeValueUDDown property */
@@ -151,11 +152,6 @@ public class GeneExpressionForm extends BaseForm {
 	/** basePairStart property */
 	private String basePairStart;
 
-	// Collections used for Lookup values.
-	// private ArrayList diseaseType;// moved this to the upperclass:
-	// BaseForm.java
-	// private ArrayList geneTypeColl;// move this to the upperclass:
-	// BaseForm.java
 	private ArrayList cloneTypeColl = new ArrayList();
 
 	private ArrayList arrayPlatformTypeColl = new ArrayList();
@@ -181,13 +177,10 @@ public class GeneExpressionForm extends BaseForm {
 	private ArrayPlatformCriteria arrayPlatformCriteria;
 
 	// UntranslatedRegionCriteria: for both 5' and 3', "included" is used as
-	// default,
-	// on the jsp, it may be commented out for now
+	// default, on the jsp, it may be commented out for now
 	private UntranslatedRegionCriteria untranslatedRegionCriteria;		
 
-	//private HttpServletRequest thisRequest;
-
-	private SessionQueryBag queryCollection;
+	private transient SessionQueryBag queryCollection;
 	
 	private boolean isAllGenes = false;
 

@@ -671,13 +671,17 @@ public class PresentationCacheManager implements PresentationTierCache{
             	HashMap<Serializable, Element> persistedElements = new HashMap<Serializable, Element>();
 	            try {
 	            	List keys = sessionCache.getKeys();
+					logger.debug("The list of Object from the users session cache:");
+	            	int i = 1;
 					for(Object key: keys) {
+						logger.debug("Key "+i+": "+key);
+						i++;
 						/**
 						 * Right now only store the query map or the Temp Report Counter
 						 */
-						if(//RembrandtConstants.SESSION_QUERY_BAG_KEY.equals(key)) {
-								//||
+						if(RembrandtConstants.SESSION_QUERY_BAG_KEY.equals(key)||	
 							RembrandtConstants.REPORT_COUNTER.equals(key)) {
+							logger.debug("Key "+i+" being persisted: "+key);
 							Element element = sessionCache.get((Serializable)key);
 							persistedElements.put((Serializable)key, element);
 						}

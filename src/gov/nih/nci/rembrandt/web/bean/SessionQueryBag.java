@@ -56,6 +56,7 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -80,19 +81,14 @@ public class SessionQueryBag implements Serializable {
 	 */
 	private Map queryMap = new TreeMap();
     //this map is strictly for queryDTOs
-    private Map queryDTOMap = new TreeMap();    
-	//this map is generated from the queryMap, storing only the allGenesQueries
-	private Map allGenesQueries = new HashMap();
-	//this map is generated from the queryMap, storing only the non-allGenesQueries
-	private Map nonAllGeneQueries = new HashMap();
-	
+    private transient Map queryDTOMap = new TreeMap();    
 	//hold form beans
 	private Map formBeanMap = new HashMap();
 	
 	/* This is the current compound query that has been validated and is ready
 	 * to run...
 	 */
-	private CompoundQuery compoundQuery = null;
+	private transient CompoundQuery compoundQuery = null;
 
 	public void putQuery(Query query, ActionForm form) {
 		if (query != null && query.getQueryName() != null) {
@@ -185,9 +181,10 @@ public class SessionQueryBag implements Serializable {
 	 * @return -- a current Map of all the All Genes Queries
 	 */
 	public Map getAllGenesQueries() {
+		//this map is generated from the queryMap, storing only the allGenesQueries
+		Map allGenesQueries = new HashMap();
 		Set keys = queryMap.keySet();
 		for(Iterator i = keys.iterator();i.hasNext();) {
-			
 			Query query = (Query)queryMap.get(i.next());
 			boolean possibleAllGeneQuery = false;
 			if(query instanceof ComparativeGenomicQuery) {
@@ -213,6 +210,8 @@ public class SessionQueryBag implements Serializable {
 	 * @return  -- a current Map of all non all genes queries.
 	 */
 	public Map getNonAllGeneQueries() {
+		//this map is generated from the queryMap, storing only the non-allGenesQueries
+		Map nonAllGeneQueries = new HashMap();
 		Set keys = queryMap.keySet();
 		for(Iterator i = keys.iterator();i.hasNext();) {
 			Query query = (Query)queryMap.get(i.next());
@@ -247,4 +246,4 @@ public class SessionQueryBag implements Serializable {
     public void setFormBeanMap(Map formBeanMap) {
         this.formBeanMap = formBeanMap;
     }
-}
+ }

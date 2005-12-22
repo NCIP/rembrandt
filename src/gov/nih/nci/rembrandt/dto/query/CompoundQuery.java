@@ -81,7 +81,7 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 	 * track down if you aren't ultra familiar with the code base, so add those
 	 * methods now! (Not necesary for primitives.)
 	 */
-	private static Logger logger = Logger.getLogger(CompoundQuery.class);
+	private transient static Logger logger = Logger.getLogger(CompoundQuery.class);
 
 	private Queriable leftQuery = null;
 

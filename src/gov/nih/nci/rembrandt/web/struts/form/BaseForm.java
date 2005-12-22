@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ import org.apache.struts.util.LabelValueBean;
 import javax.servlet.http.HttpServletRequest;
 
 
-public class BaseForm extends ActionForm {
+public class BaseForm extends ActionForm implements Serializable{
     
     private static Logger logger = Logger.getLogger(BaseForm.class);
 		
@@ -38,13 +39,13 @@ public class BaseForm extends ActionForm {
 	private ArrayList<LabelValueBean> diseaseType;
 	private ArrayList<LabelValueBean> geneTypeColl;
     private String method;
-    DiseaseOrGradeCriteria diseaseOrGradeCriteria;
-    SampleCriteria sampleCriteria;
-    String tumorType;   
-	String sampleList;
-	FormFile sampleFile;
-	HttpServletRequest thisRequest;	
-	String sampleGroup;
+    protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
+    protected SampleCriteria sampleCriteria;
+    protected String tumorType;   
+	protected String sampleList;
+	protected transient FormFile sampleFile;
+	protected transient HttpServletRequest thisRequest;	
+	protected String sampleGroup;
 
 
 

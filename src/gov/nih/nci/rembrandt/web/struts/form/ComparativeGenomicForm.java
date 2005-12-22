@@ -17,10 +17,8 @@ import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
-import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 
@@ -30,12 +28,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +42,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
-public class ComparativeGenomicForm extends BaseForm {
+public class ComparativeGenomicForm extends BaseForm implements Serializable{
     private static Logger logger = Logger
             .getLogger(ComparativeGenomicForm.class);
 
@@ -94,7 +89,7 @@ public class ComparativeGenomicForm extends BaseForm {
     private String cloneListFile;
 
     /** snpListFile property */
-    private FormFile snpListFile;
+    private transient FormFile snpListFile;
 
     /** cloneListSpecify property */
     private String cloneListSpecify;
@@ -133,7 +128,7 @@ public class ComparativeGenomicForm extends BaseForm {
     private String resultView;
 
     /** geneFile property */
-    private FormFile geneFile;
+    private transient FormFile geneFile;
     
    
 

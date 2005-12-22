@@ -22,9 +22,7 @@ import gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE;
 import gov.nih.nci.caintegrator.dto.de.ChemoAgentDE;
-import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
-import gov.nih.nci.caintegrator.dto.de.GradeDE;
 import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.MRIClinicalEvalDE;
@@ -37,10 +35,8 @@ import gov.nih.nci.caintegrator.dto.de.OnStudySurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE;
 import gov.nih.nci.caintegrator.dto.de.RaceDE;
 import gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE;
-import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.SurgeryOutcomeDE;
 import gov.nih.nci.caintegrator.dto.de.SurvivalDE;
-import gov.nih.nci.rembrandt.dbbean.Gender;
 import gov.nih.nci.rembrandt.dbbean.NeuroEvaluation;
 import gov.nih.nci.rembrandt.dbbean.OnStudyChemotherapy;
 import gov.nih.nci.rembrandt.dbbean.OnStudyRadiationtherapy;
@@ -49,20 +45,12 @@ import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dbbean.PriorChemotherapy;
 import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
 import gov.nih.nci.rembrandt.dbbean.PriorSurgery;
-import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -70,10 +58,9 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
-public class ClinicalDataForm extends BaseForm {
+public class ClinicalDataForm extends BaseForm implements Serializable{
 
     private static Logger logger = Logger.getLogger(ClinicalDataForm.class);
 
