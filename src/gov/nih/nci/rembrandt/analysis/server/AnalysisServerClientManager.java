@@ -47,7 +47,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	private static Logger logger = Logger.getLogger(AnalysisServerClientManager.class);
 	private BusinessTierCache _cacheManager = ApplicationFactory.getBusinessTierCache();
 	
-    private Properties messagingProps;
+    //private Properties messagingProps;
 	private QueueSession queueSession;
  
 	//private QueueSender requestSender;
@@ -57,6 +57,7 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	private Queue resultQueue;
 	private QueueConnection queueConnection;
     private static AnalysisServerClientManager instance = null;
+    private static final long reconnectWaitTimeMS = 5000L;
 	/**
 	 * @param properties
 	 * @throws NamingException 
@@ -65,52 +66,151 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	@SuppressWarnings("unchecked")
 	private AnalysisServerClientManager() throws NamingException, JMSException {
 		 try {
-			logger.debug("Inside AnalysisServerClientManager");
-			messagingProps = ApplicationContext.getJMSProperties();
-			// Populate with needed properties
-			Hashtable props = new Hashtable();
-			props.put(Context.INITIAL_CONTEXT_FACTORY,
-					"org.jnp.interfaces.NamingContextFactory");
-			props.put(Context.PROVIDER_URL, messagingProps
-					.getProperty("JBOSS_URL"));
-			props.put("java.naming.rmi.security.manager", "yes");
-			props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming");
-
-			// Get the initial context with given properties
-			Context context = new InitialContext(props);
-
-			// Get the connection factory
-
-			QueueConnectionFactory queueConnectionFactory = (QueueConnectionFactory) context
-					.lookup(messagingProps.getProperty("FACTORY_JNDI"));
-
-			// Create the connection
-
-			queueConnection = queueConnectionFactory.createQueueConnection();
-
-			queueConnection.setExceptionListener(this);
-
-			// Create the session
-			queueSession = queueConnection.createQueueSession(
-			// No transaction
-					false,
-					// Auto ack
-					Session.AUTO_ACKNOWLEDGE);
-
-			// Look up the destination
-			requestQueue = (Queue) context.lookup("queue/AnalysisRequest");
-			resultQueue = (Queue) context.lookup("queue/AnalysisResponse");
-
-			// Create a publisher
-			// requestSender = queueSession.createSender(requestQueue);
-			resultReceiver = queueSession.createReceiver(resultQueue);
-			resultReceiver.setMessageListener(this);
-
-			queueConnection.start();
+			logger.debug("AnalysisServerClientManager constructor start");
+//			messagingProps = ApplicationContext.getJMSProperties();
+//			// Populate with needed properties
+//			Hashtable props = new Hashtable();
+//			props.put(Context.INITIAL_CONTEXT_FACTORY,
+//					"org.jnp.interfaces.NamingContextFactory");
+//			props.put(Context.PROVIDER_URL, messagingProps
+//					.getProperty("JBOSS_URL"));
+//			props.put("java.naming.rmi.security.manager", "yes");
+//			props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming");
+//
+//			// Get the initial context with given properties
+//			Context context = new InitialContext(props);
+//
+//			// Get the connection factory
+//
+//			QueueConnectionFactory queueConnectionFactory = (QueueConnectionFactory) context
+//					.lookup(messagingProps.getProperty("FACTORY_JNDI"));
+//
+//			// Create the connection
+//
+//			queueConnection = queueConnectionFactory.createQueueConnection();
+//
+//			queueConnection.setExceptionListener(this);
+//
+//			// Create the session
+//			queueSession = queueConnection.createQueueSession(
+//			// No transaction
+//					false,
+//					// Auto ack
+//					Session.AUTO_ACKNOWLEDGE);
+//
+//			// Look up the destination
+//			requestQueue = (Queue) context.lookup("queue/AnalysisRequest");
+//			resultQueue = (Queue) context.lookup("queue/AnalysisResponse");
+//
+//			// Create a publisher
+//			// requestSender = queueSession.createSender(requestQueue);
+//			resultReceiver = queueSession.createReceiver(resultQueue);
+//			resultReceiver.setMessageListener(this);
+//
+//			queueConnection.start();
+			
+			establishQueueConnection();
+			
+			logger.debug("AnalysisServerClientManager constructor finished successfully");
 	    }catch(Throwable t) {
 	    	logger.error("Constructor has thrown an exception of type:"+t.getClass());
 	    	logger.error(t);
 	    }
+	}
+	
+	
+	/**
+	 * Establish a connection to the JMS queues.  If it is not possible
+	 * to connect then this method will sleep for reconnectWaitTimeMS milliseconds and
+	 * then try to connect again.  
+	 *
+	 */
+	private void establishQueueConnection() {
+        
+		boolean connected = false;
+		int numConnectAttempts = 0;
+		Properties messagingProps = ApplicationContext.getJMSProperties();
+		
+		while (!connected) {
+		
+			try {
+					
+				//logger.debug("AnalysisServerClientManager constructor start");
+				//Properties messagingProps = ApplicationContext.getJMSProperties();
+				
+				logger.info("Attempting to establish queue connection with provider: " + messagingProps.getProperty("JBOSS_URL"));
+				
+				// Populate with needed properties
+				Hashtable props = new Hashtable();
+				props.put(Context.INITIAL_CONTEXT_FACTORY,
+						"org.jnp.interfaces.NamingContextFactory");
+				props.put(Context.PROVIDER_URL, messagingProps
+						.getProperty("JBOSS_URL"));
+				props.put("java.naming.rmi.security.manager", "yes");
+				props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming");
+			
+				// Get the initial context with given properties
+				Context context = new InitialContext(props);
+			
+				// Get the connection factory
+			
+				QueueConnectionFactory queueConnectionFactory = (QueueConnectionFactory) context
+						.lookup(messagingProps.getProperty("FACTORY_JNDI"));
+			
+				// Create the connection
+			
+				queueConnection = queueConnectionFactory.createQueueConnection();
+			
+				queueConnection.setExceptionListener(this);
+			
+				// Create the session
+				queueSession = queueConnection.createQueueSession(
+				// No transaction
+						false,
+						// Auto ack
+						Session.AUTO_ACKNOWLEDGE);
+			
+				// Look up the destination
+				requestQueue = (Queue) context.lookup("queue/AnalysisRequest");
+				resultQueue = (Queue) context.lookup("queue/AnalysisResponse");
+			
+				// Create a publisher
+				// requestSender = queueSession.createSender(requestQueue);
+				resultReceiver = queueSession.createReceiver(resultQueue);
+				resultReceiver.setMessageListener(this);
+			
+				queueConnection.start();
+		
+			    connected = true;
+			    numConnectAttempts = 0;
+			  
+			    logger.info("  successfully established queue connection with provider=" + messagingProps.getProperty("JBOSS_URL"));
+			    logger.info("Now listening for requests...");
+			}
+			catch (Exception ex) {
+			    numConnectAttempts++;
+			  
+			    if (numConnectAttempts <= 10) {
+			      logger.warn("  could not establish connection with provider=" + messagingProps.getProperty("JBOSS_URL") + " after numAttempts=" + numConnectAttempts + "  Will try again in  " + Long.toString(reconnectWaitTimeMS/1000L) + " seconds...");
+			      if (numConnectAttempts == 10) {
+			        logger.warn("  Will only print connection attempts every 600 atttempts to reduce log size.");
+			      }
+			    }
+			    else if ((numConnectAttempts % 600) == 0) {
+				  logger.info("  could not establish connection after numAttempts=" + numConnectAttempts + " will keep trying every " + Long.toString(reconnectWaitTimeMS/1000L) + " seconds...");
+			    }
+			  
+			    try { 
+			      Thread.sleep(reconnectWaitTimeMS);
+			    }
+			    catch (Exception ex2) {
+			      logger.error("Caugh exception while trying to sleep.." + ex2.getMessage());
+			      logger.error(ex2);
+			      //ex2.printStackTrace(System.out);
+			      return;
+			    }
+		    }
+		}
 	}
 	
 	/**
@@ -139,7 +239,25 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	 * JMS notification about an exception
 	 */
     public void onException(JMSException jmsException) {
-	  logger.error(jmsException);	
+    	 //System.out.println("onException: caught JMSexception: " + exception.getMessage());
+  	  logger.error("onException: caught JMSexception: " + jmsException.getMessage());
+  	  try
+        {
+  		 if (queueConnection != null) {
+             queueConnection.setExceptionListener(null);
+             //close();
+             queueConnection.close();
+  		 }
+        }
+        catch (JMSException c)
+        {
+      	logger.info("Ignoring exception thrown when closing broken connection msg=" + c.getMessage());
+          //System.out.println("Ignoring exception thrown when closing broken connection msg=" + c.getMessage());
+          //c.printStackTrace(System.out);
+        }
+  	  
+  	    //attempt to re-establish the queue connection
+  	    establishQueueConnection();
 	}
     /***
      * @param analysisResult is the result 
