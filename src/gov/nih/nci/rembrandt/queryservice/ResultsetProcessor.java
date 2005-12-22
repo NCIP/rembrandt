@@ -53,15 +53,15 @@ public class ResultsetProcessor {
   		else{
   			dimensionalViewContainer = new DimensionalViewContainer();
   			geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
-  	    	sampleViewResultsContainer = new SampleViewResultsContainer();
+  	    	//sampleViewResultsContainer = new SampleViewResultsContainer();
+	        //Populate sampleViewResultsContainer with ClinicalData
+	        try {
+				sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( geneExprObjects);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				throw e;
+			}
   		}
-        //Populate sampleViewResultsContainer with ClinicalData
-        try {
-			sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( geneExprObjects);
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw e;
-		}
  		ResultsContainer resultsContainer = null;
           for (int i = 0; i < geneExprObjects.length; i++) {
     		if(geneExprObjects[i] != null) {
@@ -126,15 +126,15 @@ public class ResultsetProcessor {
   		else{
   			dimensionalViewContainer = new DimensionalViewContainer();
   			copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
-  	    	sampleViewResultsContainer = new SampleViewResultsContainer();
+  	    	//sampleViewResultsContainer = new SampleViewResultsContainer();
+	         //Populate sampleViewResultsContainer with ClinicalData
+	        try {
+				sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( copyNumberObjects);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				throw e;
+			}
   		}
-        //Populate sampleViewResultsContainer with ClinicalData
-        try {
-			sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( copyNumberObjects);
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw e;
-		}
 
           for (int i = 0; i < copyNumberObjects.length; i++) {
     		if(copyNumberObjects[i] != null) {
