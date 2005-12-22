@@ -761,13 +761,15 @@ public class ClinicalSampleReport implements ReportGenerator {
    					cell = null;
 	   				//sb.append("<td><a href=\"report.do?s="+sampleName+"_gene&report=gene\">G</a></td>");
 	   			}
+	   			/*
 		   		else if (gLinks){
 	   				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   						data = cell.addElement("Data").addAttribute("type", "data").addText(" ");
+   						data = cell.addElement("Data").addAttribute("type", "data").addText("-");
    					    data = null;
    					cell = null;
 		   			//sb.append("<td>&nbsp;</td>"); //empty cell
 		   		}
+		   		*/
 	   			if(sampleResultset.getCopyNumberSingleViewResultsContainer()!= null)	{
 	   				//	TODO: create the links
 	   				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
@@ -776,13 +778,15 @@ public class ClinicalSampleReport implements ReportGenerator {
    					cell = null;
 	   				//sb.append("<Td><a href=\"report.do?s="+sampleName +"_copy&report=copy\">C</a></td>");
 	   			}
+	   			/*
 	   			else if (cLinks){
 	   				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   						data = cell.addElement("Data").addAttribute("type", "data").addText(" ");
+   						data = cell.addElement("Data").addAttribute("type", "data").addText("-");
    					    data = null;
    					cell = null;
 		   			//sb.append("<td>&nbsp;</td>"); //empty cell
 		   		}
+		   		*/
 	   			
 	   			//report.append("row", row);
 	   			//sb.append("</tr>\n");
