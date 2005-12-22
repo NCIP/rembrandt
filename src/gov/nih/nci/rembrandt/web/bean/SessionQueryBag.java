@@ -56,7 +56,6 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -79,11 +78,11 @@ public class SessionQueryBag implements Serializable {
 	 * Each query is stored where key=queryName and value=some Queriable object
 	 * that was created by the user in the build query pages.
 	 */
-	private Map queryMap = new TreeMap();
+	private Map<String, Query> queryMap = new TreeMap<String, Query>();
     //this map is strictly for queryDTOs
-    private transient Map queryDTOMap = new TreeMap();    
+    private transient Map<String, QueryDTO> queryDTOMap = new TreeMap<String, QueryDTO>();    
 	//hold form beans
-	private Map formBeanMap = new HashMap();
+	private Map<String,ActionForm> formBeanMap = new HashMap<String,ActionForm>();
 	
 	/* This is the current compound query that has been validated and is ready
 	 * to run...
@@ -182,7 +181,7 @@ public class SessionQueryBag implements Serializable {
 	 */
 	public Map getAllGenesQueries() {
 		//this map is generated from the queryMap, storing only the allGenesQueries
-		Map allGenesQueries = new HashMap();
+		Map<String, Query> allGenesQueries = new HashMap<String, Query>();
 		Set keys = queryMap.keySet();
 		for(Iterator i = keys.iterator();i.hasNext();) {
 			Query query = (Query)queryMap.get(i.next());
@@ -211,7 +210,7 @@ public class SessionQueryBag implements Serializable {
 	 */
 	public Map getNonAllGeneQueries() {
 		//this map is generated from the queryMap, storing only the non-allGenesQueries
-		Map nonAllGeneQueries = new HashMap();
+		Map<String, Query> nonAllGeneQueries = new HashMap<String, Query>();
 		Set keys = queryMap.keySet();
 		for(Iterator i = keys.iterator();i.hasNext();) {
 			Query query = (Query)queryMap.get(i.next());
@@ -243,7 +242,7 @@ public class SessionQueryBag implements Serializable {
     /**
      * @param formBeanMap The formBeanMap to set.
      */
-    public void setFormBeanMap(Map formBeanMap) {
+    public void setFormBeanMap(Map<String,ActionForm> formBeanMap) {
         this.formBeanMap = formBeanMap;
     }
  }
