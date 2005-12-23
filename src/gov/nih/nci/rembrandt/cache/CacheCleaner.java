@@ -112,7 +112,7 @@ public class CacheCleaner extends Thread {
 						long idleTime = System.currentTimeMillis() - session.getLastAccessedTime();
 						if(idleTime > CACHE_TIME_OUT) {
 							logger.debug("Session "+sessionId+" idle too long. Removing cache");
-							BusinessCacheManager.getInstance().removeSessionCache(sessionId);
+							PresentationCacheManager.getInstance().removeSessionCache(sessionId);
 						}
 					}else {
 						logger.error("Somehow the Sessions are not in synch with the session caches");

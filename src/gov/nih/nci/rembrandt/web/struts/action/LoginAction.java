@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import java.util.Enumeration;
+
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
@@ -42,7 +44,9 @@ public final class LoginAction extends Action
             boolean reloadedCache = _cacheManager.reloadSessionCache(f.getUserName(),session.getId());
             if(reloadedCache) {
             	logger.debug("SessionCache reloaded");
-            }else{
+            	Enumeration names = session.getAttributeNames();
+            	System.out.println(names);
+           }else{
             	logger.debug("No persisted cache available.  Created new SessionCache");
             }
             return (mapping.findForward("success"));

@@ -5,7 +5,8 @@
 <%@ page import="gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
 	 			 gov.nih.nci.rembrandt.cache.PresentationTierCache,
-	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %> 	 
+	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory,
+	 			 gov.nih.nci.rembrandt.dto.query.Query" %> 	 
 
 <fieldset class="gray">
 <legend class="red">
@@ -35,26 +36,22 @@
 		String sessionId = request.getSession().getId();
   		SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
  		String returnQueryNames = "";
-		
 		if (queryCollection != null) {
-			
 			Collection queryKeys = queryCollection.getQueryNames();
-				  
 			   Iterator iter = queryKeys.iterator();
-			   
 			   while(iter.hasNext()){
 				  String queryKey = (String) iter.next();
-				  String queryName = queryCollection.getQuery(queryKey).getQueryName();
-
-				  if (returnQueryNames.length() > 0) returnQueryNames += ",";
-
-				  if (queryName != null && queryName.trim().length() > 0){
-					returnQueryNames += '"'+queryName+'"';
-					
-				  }
-				  
-				  
+				  Query query = queryCollection.getQuery(queryKey);
+				  if(query!=null){
+				    String queryName = query.getQueryName();
+				    if (returnQueryNames.length() > 0){
+				    	returnQueryNames += ",";
+				    }
+				    if (queryName != null && queryName.trim().length() > 0){
+						returnQueryNames += '"'+queryName+'"';
+					}
 				 }
+			 }
 		}
 
 %>

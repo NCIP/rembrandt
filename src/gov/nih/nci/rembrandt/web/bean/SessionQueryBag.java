@@ -50,11 +50,22 @@ package gov.nih.nci.rembrandt.web.bean;
  *	
  */
 
+import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
+import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
+import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
+import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -64,12 +75,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 
 /**
  * @author SahniH, BauerD, LandyR, RossoK 
  */
-public class SessionQueryBag implements Serializable {
+public class SessionQueryBag implements Serializable,Cloneable {
+	private static transient Logger logger = Logger.getLogger(SessionQueryBag.class);
 	/*
 	 * queryMap is the current map of all queries the user has created, these
 	 * are not the compoundQueries and resultants that are stored in the cache.
@@ -245,4 +258,61 @@ public class SessionQueryBag implements Serializable {
     public void setFormBeanMap(Map<String,ActionForm> formBeanMap) {
         this.formBeanMap = formBeanMap;
     }
+    /**
+	 * Overrides the protected Object.clone() method exposing it as public.
+	 * It performs a 2 tier copy, that is, it does a memcopy of the instance
+	 * and then sets all the non-primitive data fields to clones of themselves.
+	 * 
+	 * @return -A minimum 2 deep copy of this object.
+	 */
+	public Object clone() {
+		SessionQueryBag myClone = null;
+		
+		myClone = new SessionQueryBag();
+		Map<String, Query> clonedQueryMap = null;
+	    if(queryMap != null){
+	    	clonedQueryMap = new TreeMap<String, Query>();
+        	Set keys = queryMap.keySet(); 
+    		for(Object elementKey: keys) {
+    			Query it = queryMap.get(elementKey);
+    			Query q = (Query)it;
+    			Query itClone = (Query)q.clone();
+    			clonedQueryMap.put((String)elementKey,itClone);
+    		}
+        }
+	    myClone.queryMap = clonedQueryMap;
+	    Map<String,ActionForm> clonedformBeanMap = null;
+	    if(formBeanMap != null){
+	    	clonedformBeanMap = new HashMap<String,ActionForm>();
+        	Set keys = formBeanMap.keySet(); 
+    		for(Object elementKey: keys) {
+    			ActionForm it = formBeanMap.get(elementKey);
+    			ActionForm itClone = null;
+    			if(it instanceof GeneExpressionForm) {
+    				GeneExpressionForm gef = (GeneExpressionForm)it;
+    				itClone = gef.cloneMe();
+    			}else if(it instanceof ClinicalDataForm) {
+    				ClinicalDataForm cdf = (ClinicalDataForm)it;
+    				itClone = cdf.cloneMe();
+    			}else if(it instanceof ComparativeGenomicForm) {
+    				ComparativeGenomicForm cgf = (ComparativeGenomicForm)it;
+    				itClone = cgf.cloneMe();
+    			}else {
+    				logger.error("Unsupported FormType to clone");
+    			}
+    			clonedformBeanMap.put((String)elementKey,itClone);
+    		}
+    		 myClone.formBeanMap = clonedformBeanMap;
+        }
+		return myClone;
+	}
+
+	private Map cloneMap(Map thisQueryMap) {
+		HashMap myClone = new HashMap();
+		
+		return myClone;
+	}
+
+	class Handler {
+	}
  }

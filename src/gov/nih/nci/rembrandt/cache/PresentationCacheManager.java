@@ -75,7 +75,7 @@ public class PresentationCacheManager implements PresentationTierCache{
         	 *  	Elements time to live in seconds = 12000 (200 minutes, this not eternal in case the data changes);
         	 *  	Elements time to idle in seconds = 0 (Special setting which means never check);
          	 */
-    		presentationCache = new Cache(PresentationCacheManager.PRESENTATION_CACHE, 100, false, true, 120000, 0);
+    		presentationCache = new Cache(PresentationCacheManager.PRESENTATION_CACHE, 100, false, true, 0, 0);
             logger.debug("New ApplicationCache created");
             try {
             	manager.addCache(presentationCache);
@@ -111,8 +111,8 @@ public class PresentationCacheManager implements PresentationTierCache{
 		//Create a new Temporary SessionCache
 		Cache sessionCache = getSessionCache(sessionId);
 		logger.debug("Created new sessionCache");
-		HashMap persistedElements = getPersistedElements(userName);
-		if(persistedElements!=null) {
+		HashMap<String, Element> persistedElements = getPersistedElements(userName);
+		if(persistedElements!=null||!persistedElements.isEmpty()) {
 			/*
 			 * Throw out the new temp counter that gets placed
 			 * in every new session cache.  This is a hack and with
@@ -121,15 +121,13 @@ public class PresentationCacheManager implements PresentationTierCache{
 			 * for every new session.
 			 * -DB
 			 */
-			boolean removedTempCounter = sessionCache.remove(RembrandtConstants.REPORT_COUNTER);
-			try {
-				Set keys = persistedElements.keySet();
-				for(Object key: keys) {
-					Element element = (Element)persistedElements.get(key);
-					sessionCache.put(element);
-				}
-			} catch (IllegalStateException e) {
-				logger.error(e);
+			if(persistedElements.containsKey(RembrandtConstants.REPORT_COUNTER)) {
+				boolean removedTempCounter = sessionCache.remove(RembrandtConstants.REPORT_COUNTER);
+			}
+			Set keys = persistedElements.keySet();
+			for(Object key: keys) {
+				sessionCache.put(persistedElements.get(key));
+				
 			}
 			/*
 			 * There was a persisted cache available for that userName
@@ -149,21 +147,40 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param userName
 	 * @return
 	 */
-	private HashMap getPersistedElements(String userName) {
-		HashMap persistedElementsMap = null;
+	private HashMap<String, Element> getPersistedElements(String userName) {
+		HashMap<String, Element> newElementMap = null;
 		if(manager!=null){
 			Cache persistedCache = manager.getCache(PresentationCacheManager.PERSISTED_SESSIONS_CACHE);
 			try {
-				Element persistedElements = persistedCache.get(userName);
-				if(persistedElements!=null)
-					persistedElementsMap = (HashMap)persistedElements.getValue();
+				newElementMap = new HashMap<String, Element>();
+				Element persistedMapElement = persistedCache.get(userName);
+				if(persistedMapElement!=null) {
+				HashMap oldElementMap = (HashMap)persistedMapElement.getValue();
+				if(oldElementMap!=null)
+					try {
+						Set keys = oldElementMap.keySet();
+						for(Object key: keys) {
+							Element element = (Element)oldElementMap.get(key);
+							//Clones the session query bag
+							if(RembrandtConstants.SESSION_QUERY_BAG_KEY.equals(key.toString())) {
+								SessionQueryBag oldBag = (SessionQueryBag)element.getValue();
+								SessionQueryBag newBag = (SessionQueryBag)oldBag.clone();
+								element = new Element((String)key,(SessionQueryBag)newBag);
+							}
+							newElementMap.put(key.toString(),element);
+						}
+					} catch (IllegalStateException e) {
+						logger.error(e);
+					}
+				}
+					
 			} catch (IllegalStateException e) {
 				logger.error(e);
 			} catch (CacheException e) {
 				logger.error(e);
 			}
         }
-		return persistedElementsMap;
+		return newElementMap;
 	}
 	
 	/**
@@ -191,11 +208,11 @@ public class PresentationCacheManager implements PresentationTierCache{
         	 *  	CacheName = the sessionId;
         	 *  	Max Elements in Memory = 1000;
         	 *  	Overflow to disk = false;
-        	 *  	Make the cache eternal = false;
+        	 *  	Make the cache eternal = true;
         	 *  	Elements time to live in seconds = 12000 (200 minutes, this not eternal in case the data changes);
         	 *  	Elements time to idle in seconds = 0 (Special setting which means never check);
          	 */
-            sessionCache = new Cache(uniqueSession, 1000, false, false, 12000, 12000);
+            sessionCache = new Cache(uniqueSession, 10000, true, true, 0, 0);
             logger.debug("New Presentation SessionCache created: "+sessionId);
             try {
             	manager.addCache(sessionCache);
@@ -320,6 +337,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 */
 	public SessionQueryBag getSessionQueryBag(String sessionId) {
 		Cache sessionCache =  this.getSessionCache(sessionId);
+		System.out.print("");
 		SessionQueryBag theBag = null;
 		try {
 			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_QUERY_BAG_KEY);
@@ -465,6 +483,17 @@ public class PresentationCacheManager implements PresentationTierCache{
 			if(element!=null) {
 				tempReportName = ((SessionTempReportCounter)element.getValue()).getNewTempReportName();
 			}
+			if(tempReportName == null) {
+				/**
+				 * HACK! Somehow the old counter got blitzed!  This requires more
+				 * looking into by us.  But this should resolve it short term.  This
+				 * found....
+				 */
+				SessionTempReportCounter resetCounter = new SessionTempReportCounter();
+				tempReportName = resetCounter.getNewTempReporterName();
+				sessionCache.put(new Element(RembrandtConstants.REPORT_COUNTER, resetCounter));
+			}
+			
 		}catch(IllegalStateException ise) {
 			logger.error("Getting the ReportBean from cache threw IllegalStateException");
 			logger.error(ise);
@@ -518,9 +547,22 @@ public class PresentationCacheManager implements PresentationTierCache{
 		 */
 		String safeSessionId = processSessionId(rawSessionId);
     	if(manager!=null && manager.cacheExists(safeSessionId)) {
+    		String[] beforeCaches = manager.getCacheNames();
+    		logger.debug("Current Caches");
+    		logger.debug("--------------------------------------");
+    		for(String name:beforeCaches) {
+    			logger.debug("cache: "+name);
+    		}
+    		logger.debug("--------------------------------------");
     		manager.removeCache(safeSessionId);
-            logger.debug("SessionCache removed: "+ rawSessionId);
-            //cache found and removed
+    		logger.debug("Removing Cache: "+safeSessionId);
+    		String[] remainingCaches = manager.getCacheNames();
+    		logger.debug("Remaining Caches");
+    		logger.debug("--------------------------------------");
+    		for(String name:remainingCaches) {
+    			logger.debug("cache: "+name);
+    		}
+    		logger.debug("--------------------------------------");
             return true;
         }else {
         	//there was no sessionCache to remove
@@ -731,6 +773,21 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param  the session that wants to be logged out.
 	 */
 	public void deleteSessionCache(String id) {
+		String[] beforeCaches = manager.getCacheNames();
+		logger.debug("Current Caches");
+		logger.debug("--------------------------------------");
+		for(String name:beforeCaches) {
+			logger.debug("cache: "+name);
+		}
+		logger.debug("--------------------------------------");
 		manager.removeCache(processSessionId(id));
+		logger.debug("Removing Cache: "+processSessionId(id));
+		String[] remainingCaches = manager.getCacheNames();
+		logger.debug("Remaining Caches");
+		logger.debug("--------------------------------------");
+		for(String name:remainingCaches) {
+			logger.debug("cache: "+name);
+		}
+		logger.debug("--------------------------------------");
 	}
 }
