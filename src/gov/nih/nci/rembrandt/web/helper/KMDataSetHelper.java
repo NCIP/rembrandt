@@ -21,10 +21,11 @@ public class KMDataSetHelper {
 	public static KMDataSetForm populateReporters(List _reporters,
 			String _plotType, KMDataSetForm _kmForm) {
 		List reporters = new ArrayList();
-		
-		if (_reporters != null && _plotType != null && _kmForm != null) {
+		if (_reporters != null && !_reporters.isEmpty()){
 			reporters = _reporters;
-			if (_plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
+		}
+		if (_plotType != null && _kmForm != null) {		
+			if ( _plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 				if(_kmForm.getAlgorithm()!= null &&
 						_kmForm.getAlgorithm().equals("unified")){
 					reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
