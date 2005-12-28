@@ -47,6 +47,8 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 
 	private ArrayList<Double> folds = new ArrayList<Double>();
     
+    private ArrayList<Double> copyNumberDownFolds = new ArrayList<Double>();
+    
     private ArrayList algorithms = new ArrayList();  
 
 	private Integer numberOfPlots = null;
@@ -122,6 +124,21 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 		}
 		return folds;
 	}
+    
+    /**
+     * @return Returns the copyNumberDownFolds.
+     */
+    public ArrayList<Double> getCopyNumberDownFolds() {
+        if (copyNumberDownFolds.isEmpty()) {
+            copyNumberDownFolds.add(0.1);
+            copyNumberDownFolds.add(0.3);
+            copyNumberDownFolds.add(0.5);
+            copyNumberDownFolds.add(1.0);
+            copyNumberDownFolds.add(1.5);
+            copyNumberDownFolds.add(2.0);                    
+        }
+        return copyNumberDownFolds;
+    }
 
 	/**
 	 * @return Returns the downFold.

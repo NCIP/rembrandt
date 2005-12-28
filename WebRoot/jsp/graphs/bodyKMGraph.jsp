@@ -60,10 +60,22 @@
 			<td>
 			<!-- Downregulated/Deleted -->
 			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="downOrDeleted" /></span>			
+			
+			<!--check to see if it is copy number km plot or GE km plot. if it is, change the deleted fold change values-->
+			<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
 			&nbsp;&ge;&nbsp; 
 			<html:select property="downFold">
 				<html:options property="folds" />
-			</html:select> 			
+			</html:select>
+			</logic:equal>
+			<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">						
+			&nbsp;&le;&nbsp; 
+			<html:select property="downFold">
+				<html:options property="copyNumberDownFolds" />
+			</html:select>
+			</logic:equal>
+			<!--end after deleted fold change values have been determined-->
+			 			
 			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span> 
 			</td>
 			<td>			
@@ -93,8 +105,8 @@
 		<br>
 		
 		View Clinical Reports<br />
-			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Up-Regulated Samples</a>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Down-Regulated Samples</a>
+			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
 		
 		
