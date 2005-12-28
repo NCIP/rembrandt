@@ -7,16 +7,16 @@
 
 <fieldset class="gray">
 <legend class="red">Prior Therapy
-<app:help help="Future implementation"/>
+<app:help help="Therapy received by the patient before enrollment on the current study"/>
 </legend><br />	
-<html:checkbox property="radiation" value="Specify"/>Radiation&nbsp;&nbsp;
+<html:checkbox styleClass="radio" property="radiation" value="Specify"/>Radiation&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;
 <html:select property="radiationType" >
 <html:optionsCollection property="radiationTypeColl" />
 </html:select><html:errors property="radiationType"/>
 
 <br>
-<html:checkbox property="chemo"  value="Specify"/>Chemo&nbsp;&nbsp;
+<html:checkbox styleClass="radio" property="chemo"  value="Specify"/>Chemo&nbsp;&nbsp;
 - agent:&nbsp;
 <!--- <select property="chemoType" name="chemo" disabled="true">
 	<option>any</option>
@@ -28,7 +28,7 @@
 </html:select><html:errors property="chemoType"/>
 
 <Br>
-<html:checkbox property="surgery"  value="Specify"/>Surgery&nbsp;&nbsp;
+<html:checkbox styleClass="radio" property="surgery"  value="Specify"/>Surgery&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;- title:&nbsp;
 <html:select property="surgeryTitle" >
 <html:optionsCollection property="surgeryTitleColl" />

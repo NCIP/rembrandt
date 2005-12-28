@@ -138,9 +138,13 @@ String menu = "<a href=\"#gplot\">Gene Expression Plot</a><br>\n"+
 				"<a href=\"#viewResults\">View Results Page</a><br>\n"+
 				"<a href=\"#refineQuery\">Refine Query Page</a><br>\n"+
 				"<a href=\"#clinical\">Clinical report</a><br>\n"+
+				"<a href=\"#clinicalPlot\">Clinical Plot</a><br>\n"+
 				"<a href=\"#sample\">Gene Expression data per sample view</a><br>\n"+
 				"<a href=\"#diseaseGroup\">Gene Expression data per Disease Group view</a><br>\n"+
-				"<a href=\"#copyNumber\">Copy Number data per Sample view</a><br>\n";
+				"<a href=\"#copyNumber\">Copy Number data per Sample view</a><br>\n"+
+				"<a href=\"#hcPlot\">Hierarchical Clustering report</a><br>\n"+
+				"<a href=\"#CC\">Class Comparison report</a><br>\n"+
+				"<a href=\"#pcaPlot\">Principal Component Analysis report</a><br>\n";
 %>
 
 <html>

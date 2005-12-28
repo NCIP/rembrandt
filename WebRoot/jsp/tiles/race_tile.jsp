@@ -10,12 +10,12 @@
 
 
 	
-<html:checkbox property="caucasion" value="Specify" />Caucasion 
-<html:checkbox property="africanAmerican" value="Specify" />African American 
-<html:checkbox property="nativeHawaiian"  value="Specify" />Native Hawaiian 
-<html:checkbox property="asian" value="Specify" />Asian
-<html:checkbox property="other" value="Specify" />Other
-<html:checkbox property="unknown" value="Specify"  />Unknown
+<html:checkbox styleClass="radio" property="caucasion" value="Specify" />Caucasion 
+<html:checkbox styleClass="radio" property="africanAmerican" value="Specify" />African American 
+<html:checkbox styleClass="radio" property="nativeHawaiian"  value="Specify" />Native Hawaiian 
+<html:checkbox styleClass="radio" property="asian" value="Specify" />Asian
+<html:checkbox styleClass="radio" property="other" value="Specify" />Other
+<html:checkbox styleClass="radio" property="unknown" value="Specify"  />Unknown
 &nbsp;&nbsp;
 	
 
