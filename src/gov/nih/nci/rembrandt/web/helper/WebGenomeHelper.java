@@ -179,6 +179,7 @@ public class WebGenomeHelper {
                 regCrit.setCytoband(new CytobandDE(cytobandWithoutChrNumber));
                 StartEndPosition position = ChrRegionCriteriaHandler.getStartEndPostions(pb, regCrit, chromosomeDE);
                 cytoStartEndPos.put(chromosomeDE, position);
+                pb.close();
             }
 
             return cytoStartEndPos;
