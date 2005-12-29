@@ -131,6 +131,7 @@ public class KMDataSetForm extends ActionForm implements Serializable {
     public ArrayList<Double> getCopyNumberDownFolds() {
         if (copyNumberDownFolds.isEmpty()) {
             copyNumberDownFolds.add(0.1);
+            copyNumberDownFolds.add(0.2);
             copyNumberDownFolds.add(0.3);
             copyNumberDownFolds.add(0.5);
             copyNumberDownFolds.add(1.0);
