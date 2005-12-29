@@ -173,12 +173,14 @@ public class WebGenomeHelper {
                 String chrNumber = cytoband.substring(0, index);
                 String cytobandWithoutChrNumber = cytoband.substring(index, cytoband.length());
 
+                // TODO: move this getting pb instance to out side  loop
                 final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                 RegionCriteria regCrit = new RegionCriteria();
                 ChromosomeNumberDE chromosomeDE = new ChromosomeNumberDE(chrNumber);
                 regCrit.setCytoband(new CytobandDE(cytobandWithoutChrNumber));
                 StartEndPosition position = ChrRegionCriteriaHandler.getStartEndPostions(pb, regCrit, chromosomeDE);
                 cytoStartEndPos.put(chromosomeDE, position);
+                pb.close();
             }
 
             return cytoStartEndPos;
