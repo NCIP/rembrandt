@@ -742,9 +742,11 @@ public class SampleViewHandler {
 				}
 			}
 			try {
-				Collection <SampleResultset> sampleResultsets = ClinicalDataValidator.executeClinicalQueryForSampleList(sampleIDset);
-				for(SampleResultset sampleResultset:sampleResultsets){
-					sampleViewResultsContainer.addSampleResultset(sampleResultset);
+				if(sampleIDset != null  && sampleIDset.size() > 0){
+					Collection <SampleResultset> sampleResultsets = ClinicalDataValidator.executeClinicalQueryForSampleList(sampleIDset);
+					for(SampleResultset sampleResultset:sampleResultsets){
+						sampleViewResultsContainer.addSampleResultset(sampleResultset);
+					}
 				}
 				
 			} catch (Exception e) {
