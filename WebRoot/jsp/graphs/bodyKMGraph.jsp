@@ -105,8 +105,15 @@
 		<br>
 		
 		View Clinical Reports<br />
+		<!--check what type of plot it is as to display the correct link text-->
+		<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">		
+			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
+		</logic:equal>
+		<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">		
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
 		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
+		</logic:equal>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
 		
 		
