@@ -19,6 +19,14 @@
 <xsl:param name="queryDetails">N/A</xsl:param>
 <xsl:param name="statusMsg"></xsl:param>
 <xsl:param name="showAllValues">false</xsl:param>
+
+<xsl:variable name="showSaveSamples">
+	<xsl:choose>
+		<xsl:when test="$statusMsg != '' and contains($statusMsg, 'aved')">false</xsl:when>
+		<xsl:otherwise>true</xsl:otherwise>		
+	</xsl:choose>
+</xsl:variable>
+
 <xsl:template match="/">
 
 <html xml:lang="en" lang="en">
@@ -46,11 +54,11 @@
   <p align="center" style="background:red; color:#ffffff; font-size:12px; font-weight:bold;"><xsl:value-of select="$statusMsg" /></p>
  
    <xsl:for-each select="Report">
-    
+
     <!--
     <fieldset>
     <legend>DEBUG USE ONLY, PLEASE IGNORE THIS</legend>
-    <h3>Test: <xsl:value-of select="$filter_value1"/>,
+    <h3>Test: <xsl:value-of select="$showSaveSamples"/>,
     <xsl:value-of select="$filter_value2"/>,
     <xsl:value-of select="$filter_value3"/>
     </h3>
@@ -268,7 +276,7 @@
 	  </div>
 	  </xsl:if>
 	  
-	  <xsl:if test="$rType = 'Clinical'">
+	  <xsl:if test="$rType = 'Clinical' and $showSaveSamples != 'false'">
 	  <div class="filterForm">
 	  	<input type="text" name="sampleGroupName" id="sampleGroupName" value="{$qName}_samples"/>
 	  	<xsl:text>&#160;</xsl:text>
@@ -429,7 +437,9 @@
 		      				</xsl:when>
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
-			      				<input type="checkbox" class="checkorradio" id="samples" name="samples" value="{$sample}" onclick="javascript:A_saveTmpSample(this);" />
+			      				<xsl:if test="$showSaveSamples != 'false'">
+				      				<input type="checkbox" class="checkorradio" id="samples" name="samples" value="{$sample}" onclick="javascript:A_saveTmpSample(this);" />
+				      			</xsl:if>
 			      				<xsl:value-of select="Data"/>
 			   
 							</xsl:when>
