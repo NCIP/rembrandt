@@ -99,6 +99,6 @@ public final class RembrandtConstants {
 	public static final String ALL = "ALL";
     
 	public static final String REPORTER_SELECTION_AFFY = "Affymetrix";
-    public static final String REPORTER_SELECTION_UNI = "Unified";
+    public static final String REPORTER_SELECTION_UNI = "Unified Gene";
 
 }
