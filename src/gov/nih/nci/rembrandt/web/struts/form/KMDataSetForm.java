@@ -55,13 +55,13 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 
 	private String selectedDataset;
     
-    private String algorithm = "default";
+    private String reporterSelection = RembrandtConstants.REPORTER_SELECTION_AFFY;
     
 	private static Logger logger = Logger.getLogger(KMDataSetForm.class);
 
 	public KMDataSetForm() {
-        algorithms.add("default");
-        algorithms.add("unified");
+        algorithms.add(RembrandtConstants.REPORTER_SELECTION_AFFY);
+        algorithms.add(RembrandtConstants.REPORTER_SELECTION_UNI);
 	}
 
 	public KMDataSetForm(String _plotType) {
@@ -333,17 +333,17 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	}
 
     /**
-     * @return Returns the algorithm.
+     * @return Returns the reporterSelection.
      */
-    public String getAlgorithm() {
-        return algorithm;
+    public String getReporterSelection() {
+        return reporterSelection;
     }
 
     /**
-     * @param algorithm The algorithm to set.
+     * @param reporterSelection The reporterSelection to set.
      */
-    public void setAlgorithm(String algorithm) {
-        this.algorithm = algorithm;
+    public void setReporterSelection(String algorithm) {
+        this.reporterSelection = algorithm;
     }
 
     /**

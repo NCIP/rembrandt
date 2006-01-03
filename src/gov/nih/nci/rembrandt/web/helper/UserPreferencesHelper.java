@@ -41,12 +41,12 @@ public class UserPreferencesHelper{
     }
     public Collection updateGeneSetList(){ 
             sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
-            geneSetList = sessionCriteriaBag.getUsetListNames(ListType.GeneIdentifierSet);            
+            geneSetList = sessionCriteriaBag.getUserListNames(ListType.GeneIdentifierSet);            
         return geneSetList;
     }
     public Collection updateReporterSetList(){
           sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
-          reporterSetList = sessionCriteriaBag.getUsetListNames(ListType.CloneProbeSetIdentifierSet);
+          reporterSetList = sessionCriteriaBag.getUserListNames(ListType.CloneProbeSetIdentifierSet);
         return reporterSetList;
     }
    

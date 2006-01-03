@@ -119,7 +119,7 @@ public class SampleBasedQueriesRetriever implements Serializable {
 		SessionCriteriaBag mySessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionID);
 		if(mySessionCriteriaBag != null){
 			
-			sampleSetList.addAll(mySessionCriteriaBag.getUsetListNames(SessionCriteriaBag.ListType.SampleIdentifierSet));
+			sampleSetList.addAll(mySessionCriteriaBag.getUserListNames(SessionCriteriaBag.ListType.SampleIdentifierSet));
 		}
 		return  sampleSetList;
 	}

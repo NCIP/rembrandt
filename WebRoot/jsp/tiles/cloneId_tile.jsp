@@ -25,7 +25,7 @@
 				
 &nbsp;
 <html:radio property="cloneId" value="list" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
-	<html:text property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);" value="" />
+	<html:text property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);" />
 	&nbsp;-or-&nbsp;
 <html:radio property="cloneId" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
 			<html:file property="cloneListFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].cloneId[1]);" onfocus="javascript:document.forms[0].cloneId[1].checked = true;" />

@@ -129,7 +129,7 @@ public class SessionCriteriaBag implements Serializable {
 		return collection;
 	}
 	
-	public Collection getUsetListNames(ListType listType){
+	public Collection getUserListNames(ListType listType){
 		Collection myCollection = null;
 		switch (listType){
 		case GeneIdentifierSet:

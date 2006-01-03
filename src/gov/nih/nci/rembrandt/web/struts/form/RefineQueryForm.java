@@ -4,6 +4,7 @@ import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,6 +50,8 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private Collection resultSets = new ArrayList();
 
 	private String selectedResultSet = null;
+    
+    SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
 	
 	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private boolean isAllGenesQuery = false ;
@@ -329,8 +332,10 @@ public class RefineQueryForm extends BaseForm implements Factory {
 				}
 			}
 		//Now setup all of the current result sets
-		setResultSets(presentationTierCache.getSampleSetNames(sessionId));
-			
+		//setResultSets(presentationTierCache.getSampleSetNames(sessionId));
+        
+        setResultSets(sampleBasedQueriesRetriever.getAllSampleSetNames(sessionId));    
+            	
 		} else {
 			logger.debug("No Query Collection Object in Session");
 		}

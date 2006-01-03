@@ -82,8 +82,8 @@
 			<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
 			<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
 			<!--Unified or regular algorithm-->
-			<span style="font-size:.9em;margin-left:10px">Algorithm</span>			
-			<html:select property="algorithm">
+			<span style="font-size:.9em;margin-left:10px">Reporter Selection</span>			
+			<html:select property="reporterSelection">
 				<html:options property="algorithms" />
 			</html:select> &nbsp; 	
 			</logic:equal>		

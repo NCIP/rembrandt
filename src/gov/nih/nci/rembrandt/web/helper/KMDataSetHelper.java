@@ -7,6 +7,7 @@
 package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ public class KMDataSetHelper {
 		}
 		if (_plotType != null && _kmForm != null) {		
 			if ( _plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-				if(_kmForm.getAlgorithm()!= null &&
-						_kmForm.getAlgorithm().equals("unified")){
+				if(_kmForm.getReporterSelection()!= null &&
+						_kmForm.getReporterSelection().equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
 					reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
 				}else{
 					reporters.add(0, CaIntegratorConstants.GRAPH_DEFAULT);

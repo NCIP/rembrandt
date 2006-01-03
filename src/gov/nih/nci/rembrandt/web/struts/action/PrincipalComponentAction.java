@@ -25,6 +25,7 @@ import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
@@ -79,6 +80,11 @@ public class PrincipalComponentAction extends DispatchAction {
             credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
             principalComponentAnalysisQueryDTO.setInstitutionDEs(credentials.getInstitutes());
         }
+        if (principalComponentAnalysisQueryDTO!=null) {
+            SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+            queryBag.putQueryDTO(principalComponentAnalysisQueryDTO, principalComponentForm);
+            presentationTierCache.putSessionQueryBag(sessionId, queryBag);
+        } 
         
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
         Finding finding = null;

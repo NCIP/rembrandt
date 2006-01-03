@@ -185,9 +185,9 @@ public class QuickSearchAction extends DispatchAction {
 		String kmplotType = kmForm.getPlotType();
 		double upRegulation = kmForm.getUpFold();
 		double downRegulation = kmForm.getDownFold();
-        String algorithm = kmForm.getAlgorithm(); 
+        String algorithm = kmForm.getReporterSelection(); 
         KaplanMeierPlotContainer kmResultsContainer = null;
-        if(algorithm.equals("unified")){
+        if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
             kmResultsContainer = performKMGeneExpressionQuery(kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
             if (kmForm.getSelectedReporter().equals(
 					CaIntegratorConstants.GRAPH_DEFAULT)){
