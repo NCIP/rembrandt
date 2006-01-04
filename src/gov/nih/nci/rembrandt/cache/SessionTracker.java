@@ -1,9 +1,14 @@
 package gov.nih.nci.rembrandt.cache;
 
+import java.util.Properties;
+
+import gov.nih.nci.rembrandt.util.PropertyLoader;
+
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 /**
  *	SessionTracker is notified whenever an HttpSession is created or destroyed
@@ -29,6 +34,8 @@ public class SessionTracker implements HttpSessionListener {
 	private static boolean appplicationRunning = false;
 	
 	public SessionTracker() {
+		Properties loggerProperties = PropertyLoader.loadProperties("log4j.properties");
+	        PropertyConfigurator.configure(loggerProperties);
 		theCacheTracker = new CacheTracker();	
 		BusinessCacheManager.getInstance().addCacheListener(theCacheTracker);
 		new CacheCleaner(theCacheTracker, this).start();
@@ -69,15 +76,5 @@ public class SessionTracker implements HttpSessionListener {
 	public static void setAppplicationRunning(boolean appplicationRunning) {
 		SessionTracker.appplicationRunning = appplicationRunning;
 	}
-	/**
-	 * @ToDo
-	 * Create a new method here that will serialize the active sessionIds
-	 * to disk when the context is killed, so that we can later check to see
-	 * if they are still active when the context is brought back up again.  This
-	 * is important because in the instance that the context is bounced there
-	 * will still be active sessions when the context comes alive again.  It is
-	 * very possible that losing track of sessions could cause a memory leak in
-	 * the cache and in other places.
-	 * 
-	 */
+	
 }
