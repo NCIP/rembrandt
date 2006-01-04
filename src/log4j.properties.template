@@ -3,14 +3,13 @@
 # it will override any subsequent loggers of a lower level.
 log4j.threshold=DEBUG
 
-#this is the root logger. It is always there.
-log4j.rootLogger=WARN
-
+#------------------------------------------------------------------------------
 #This is the default Rembrandt logger and assignes the RembrandtLogger appender
 #	Set the level to OFF if you want to just turn off all loggers
 #	but the one specific to your package.
-log4j.logger.gov.nih.nci.rembrandt=WARN,RembrandtLogger
-log4j.logger.gov.nih.nci.caintegrator=WARN,RembrandtLogger
+#------------------------------------------------------------------------------
+log4j.logger.gov.nih.nci.rembrandt=DEBUG,RembrandtLogger
+log4j.logger.gov.nih.nci.caintegrator=DEBUG,RembrandtLogger
 
 #This is specifying the appender, stdout as a ConsoleAppender
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
@@ -47,13 +46,6 @@ log4j.appender.RembrandtXMLLogger.layout.ConversionPattern=%d %-5p %c - %m%n
 #	log4j.logger.gov.nih.nci.rembrandt.web.struts=DEBUG,stdout,RembrandtLogger
 #------------------------------------------------------------------------
 
-#log4j.logger.gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm=DEBUG,RembrandtLogger
-#log4j.logger.gov.nih.nci.rembrandt.cache = DEBUG,RembrandtLogger
-#log4j.logger.gov.nih.nci.rembrandt.dto.lookup = DEBUG,RembrandtLogger
-log4j.logger.XML_LOGGER = DEBUG,RembrandtXMLLogger
-
-log4j.logger.gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager = DEBUG,RembrandtLogger
-
 #----------------------------------------------------------------------------------------
 #OJB Logging
 #----------------------------------------------------------------------------------------
@@ -76,7 +68,7 @@ log4j.logger.org.apache.ojb.broker.accesslayer.RsIterator=WARN,RembrandtLogger
 log4j.logger.org.apache.ojb.broker.accesslayer.StatementsForClassImpl=WARN,RembrandtLogger
 
 # Logger for SqlGenerator, useful for debugging generation of SQL
-log4j.logger.org.apache.ojb.broker.accesslayer.sql.SqlGeneratorDefaultImpl=WARN,stdout,RembrandtLogger
+log4j.logger.org.apache.ojb.broker.accesslayer.sql.SqlGeneratorDefaultImpl=WARN,RembrandtLogger
 
 # Logger for RepositoryPersistor
 log4j.logger.org.apache.ojb.broker.metadata.RepositoryPersistor=WARN,RembrandtLogger
@@ -100,3 +92,7 @@ performance.LogLevel=INFO
 soda.LogLevel=WARN
 # Logger for the factory service
 ConfigurableFactory.LogLevel=WARN
+#--------------------------------------------------------------
+# ehCache properties
+#--------------------------------------------------------------
+log4j.logger.net.sf.ehcache=DEBUG,RembrandtLogger
