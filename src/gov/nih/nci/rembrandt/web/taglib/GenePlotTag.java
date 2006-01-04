@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.graphing.data.GeneExpressionPlot;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 				geneSymbol = (String) request.getParameter("geneSymbol");
 			}
 			
-			GeneExpressionDataSetType geType = algorithm.equals("regular") ? GeneExpressionDataSetType.GeneExpressionDataSet : GeneExpressionDataSetType.UnifiedGeneExpressionDataSet;
+			GeneExpressionDataSetType geType = algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY) ? GeneExpressionDataSetType.GeneExpressionDataSet : GeneExpressionDataSetType.UnifiedGeneExpressionDataSet;
 			
 			HashMap charts = GeneExpressionPlot.generateBarChart(geneSymbol, pageContext.getSession(), new PrintWriter(out), geType);
 			String filename = (String) charts.get("errorBars");
@@ -38,19 +39,20 @@ public class GenePlotTag extends AbstractGraphingTag {
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
 			
-			out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Algorithm:</span> ");
-			if(algorithm.equals("regular"))
-				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg=unified\">Unified Gene</a>");		
-			else
-				out.print("Unified Gene");
-				
-			out.print(" | ");
-
-			if(algorithm.equals("unified"))
-				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg=regular\">Regular</a>");		
-			else
-				out.print("Regular");
+			out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Reporter Selection:</span> ");
 			
+			if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI))
+				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_AFFY+"\">"+RembrandtConstants.REPORTER_SELECTION_AFFY+"</a>");		
+			else
+				out.print(RembrandtConstants.REPORTER_SELECTION_AFFY);
+			
+			out.print(" | ");
+			
+			if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY))
+				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_UNI+"\">"+RembrandtConstants.REPORTER_SELECTION_UNI+"</a>");		
+			else
+				out.print(RembrandtConstants.REPORTER_SELECTION_UNI);
+
 			out.print("</div><br/>");
 			out.print("<img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\">");
 			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend

@@ -5,6 +5,7 @@
 <%@ page import = "java.util.Date" %>
 <%@ page import = "java.util.Iterator" %>
 <%@ page import = "java.util.Locale" %>
+<%@ page import = "gov.nih.nci.rembrandt.util.RembrandtConstants" %>
 <%@ page import = "gov.nih.nci.rembrandt.dto.lookup.*" %>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
 <%
@@ -39,7 +40,7 @@ String graphURL= "";
 
 <%
 //String geneSymbol = request.getAttribute("geneSymbol")!=null ? (String) request.getAttribute("geneSymbol") : "N/A";
-String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : "regular"; 
+String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : RembrandtConstants.REPORTER_SELECTION_AFFY; 
 
 %>
 	<graphing:GenePlot algorithm="<%=alg%>" />
