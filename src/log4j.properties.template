@@ -4,13 +4,13 @@
 log4j.threshold=DEBUG
 
 #this is the root logger. It is always there.
-log4j.rootLogger=OFF
+log4j.rootLogger=WARN
 
 #This is the default Rembrandt logger and assignes the RembrandtLogger appender
 #	Set the level to OFF if you want to just turn off all loggers
 #	but the one specific to your package.
-log4j.logger.gov.nih.nci.rembrandt=DEBUG,RembrandtLogger
-log4j.logger.gov.nih.nci.caintegrator=DEBUG,RembrandtLogger
+log4j.logger.gov.nih.nci.rembrandt=WARN,RembrandtLogger
+log4j.logger.gov.nih.nci.caintegrator=WARN,RembrandtLogger
 
 #This is specifying the appender, stdout as a ConsoleAppender
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
@@ -100,5 +100,3 @@ performance.LogLevel=INFO
 soda.LogLevel=WARN
 # Logger for the factory service
 ConfigurableFactory.LogLevel=WARN
-#
-#
