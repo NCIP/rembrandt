@@ -214,4 +214,29 @@
 	</target>
 	
 	<target name="noop"/>
+	<!--
+		TARGET: build_jar_for_WebGenome_anthill
+		This task is intended to be used to by anthill when built be SCM.
+	-->
+	<target name="build_jar_for_WebGenome_anthill" depends="copy_resources_anthill">
+		<delete file="${app.jar.name}.jar"/>
+		<jar jarfile="${app.jar.name}.jar">
+			<fileset dir="${build.classes.dir}">
+				<exclude name="**/web/**"/>
+				<exclude name="*template*"/>
+			</fileset>
+		  <!-- 1. include ojb jars -->
+          <fileset dir="${source.lib.dir}">
+              <include name="commons-collections-3.1.jar"/>
+              <include name="commons-dbcp.jar"/>
+              <include name="commons-lang-2.0.jar"/>
+              <include name="commons-pool.jar"/>
+              <include name="db-ojb-1.0.rc7.jar"/>
+              <include name="jcs.jar"/>
+              <include name="jdo.jar"/>
+              <include name="jdori.jar"/>
+              <include name="oracle.jar"/>
+          </fileset>
+		</jar>
+	</target>
 </project>
