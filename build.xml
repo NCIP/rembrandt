@@ -237,6 +237,7 @@
               <include name="jdori.jar"/>
               <include name="oracle.jar"/>
           </fileset>
+          <copy file="${app.jar.name}.jar" todir="${anthill.artifacts.dir}"/>
 		</jar>
 	</target>
 </project>
