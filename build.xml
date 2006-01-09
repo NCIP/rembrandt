@@ -1,5 +1,6 @@
-<project name="rembrandt" default="build_war_anthill" basedir=".">
-	<property file="build.properties"/>
+<project name="rembrandt" default="build_war" basedir=".">
+	<property file="build.properties" />
+
 	<!--
 	TARGET: COMPILE
 		Compiles the source directory with anthill dependencies
