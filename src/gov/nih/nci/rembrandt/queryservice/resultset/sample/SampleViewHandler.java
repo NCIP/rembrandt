@@ -141,281 +141,6 @@ public class SampleViewHandler {
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));
 		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));			
-/*	    sampleResultset.setWhoGrade(clinicalObj.getWhoGrade());	
-		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
-		if(clinicalObj.getAge() != null){
-			sampleResultset.setAge(clinicalObj.getAge());
-		}
-		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
-		if(clinicalObj.getSurvivalLength() != null){
-			sampleResultset.setSurvivalLength(clinicalObj.getSurvivalLength());
-		}
-		if(clinicalObj.getCensoringStatus() != null){
-			sampleResultset.setCensor(new DatumDE(DatumDE.CENSOR,clinicalObj.getCensoringStatus()));
-		}
-
-		if(clinicalObj.getKarnofskyScore() != null) {
-		   sampleResultset.setKarnofskyClinicalEvalDE(new KarnofskyClinicalEvalDE(clinicalObj.getKarnofskyScore().toString()));
-		}
-		
-		if(clinicalObj.getKarnofskyScores() != null) {
-			   //sampleResultset.setKarnofskyScores(clinicalObj.getKarnofskyScores());
-			   sampleResultset.setKarnofskyClinicalEvalDE(new KarnofskyClinicalEvalDE(clinicalObj.getKarnofskyScores().toString()));
-				
-		}
-		
-		if(clinicalObj.getLanskyScore() != null) {
-			   sampleResultset.setLanskyClinicalEvalDE(new LanskyClinicalEvalDE(clinicalObj.getLanskyScore().toString()));
-			}
-			   
-	    if(clinicalObj.getLanskyScores() != null) {
-				//sampleResultset.setLanskyClinicalEvalDE(clinicalObj.getLanskyScores());
-				 sampleResultset.setLanskyClinicalEvalDE(new LanskyClinicalEvalDE(clinicalObj.getLanskyScores().toString()));
-					
-			}
-		if(clinicalObj.getNeuroExam() != null) {
-			   sampleResultset.setNeuroExamClinicalEvalDE(new NeuroExamClinicalEvalDE(clinicalObj.getNeuroExam().toString()));
-			}
-		
-		if(clinicalObj.getNeuroExams() != null) {
-			  // sampleResultset.setNeuroExamClinicalEvalDE(clinicalObj.getNeuroExams());
-			   sampleResultset.setNeuroExamClinicalEvalDE(new NeuroExamClinicalEvalDE(clinicalObj.getNeuroExams().toString()));
-				
-			}
-		
-		if(clinicalObj.getMriCtScore() != null) {
-			   sampleResultset.setMriClinicalEvalDE(new MRIClinicalEvalDE(clinicalObj.getMriCtScores().toString()));
-			}
-			
-		
-		if(clinicalObj.getMriCtScores() != null) {
-			  // sampleResultset.setMriClinicalEvalDE(clinicalObj.getMriCtScores());
-			   sampleResultset.setMriClinicalEvalDE(new MRIClinicalEvalDE(clinicalObj.getMriCtScores().toString()));
-				
-			}
-		
-		if(clinicalObj.getTimePoint() != null) {
-			   sampleResultset.setTimePoint(new String(clinicalObj.getTimePoint()));
-			}
-			
-		if(clinicalObj.getTimePoints() != null) {
-			   sampleResultset.setTimePoints(new String(clinicalObj.getTimePoints()));
-			}
-		
-		    if(clinicalObj.getFollowupDate() != null) {
-			   sampleResultset.setFollowupDate(clinicalObj.getFollowupDate());
-			}
-			
-		if(clinicalObj.getFollowupDates() != null) {
-			   sampleResultset.setFollowupDates(clinicalObj.getFollowupDates());
-			}
-		if(clinicalObj.getFollowupMonth() != null) {
-			   sampleResultset.setFollowupMonth(clinicalObj.getFollowupMonth());
-			}
-		
-		if(clinicalObj.getFollowupMonths() != null) {
-			   sampleResultset.setFollowupMonths(clinicalObj.getFollowupMonths());
-			}
-		if(clinicalObj.getNeuroEvaluationDate() != null) {
-			   sampleResultset.setNeuroEvaluationDate(clinicalObj.getNeuroEvaluationDate());
-			}
-		
-		if(clinicalObj.getNeuroEvaluationDates() != null) {
-			   sampleResultset.setNeuroEvaluationDates(clinicalObj.getNeuroEvaluationDates());
-			}
-		if(clinicalObj.getSteroidDoseStatus() != null) {
-			   sampleResultset.setSteroidDoseStatus(clinicalObj.getSteroidDoseStatus());
-			}
-		
-		if(clinicalObj.getSteroidDoseStatuses() != null) {
-			   sampleResultset.setSteroidDoseStatuses(clinicalObj.getSteroidDoseStatuses());
-			}
-		if(clinicalObj.getAntiConvulsantStatus() != null) {
-			   sampleResultset.setAntiConvulsantStatus(clinicalObj.getAntiConvulsantStatus());
-			}
-			
-		if(clinicalObj.getAntiConvulsantStatuses() != null) {
-			   sampleResultset.setAntiConvulsantStatuses(clinicalObj.getAntiConvulsantStatuses());
-			}
-		if(clinicalObj.getPriorRadiationTimePoints() != null) {
-			   sampleResultset.setPriorRadiationTimePoints(clinicalObj.getPriorRadiationTimePoints());
-			}
-		
-		if(clinicalObj.getPriorRadiationRadiationSites() != null) {
-			   sampleResultset.setPriorRadiationRadiationSites(clinicalObj.getPriorRadiationRadiationSites());
-			}
-		
-		if(clinicalObj.getPriorRadiationDoseStartDates() != null) {
-			   sampleResultset.setPriorRadiationDoseStartDates(clinicalObj.getPriorRadiationDoseStartDates());
-			}
-		
-		if(clinicalObj.getPriorRadiationDoseStopDates() != null) {
-			   sampleResultset.setPriorRadiationDoseStopDates(clinicalObj.getPriorRadiationDoseStopDates());
-			}
-		
-		if(clinicalObj.getPriorRadiationFractionDoses() != null) {
-			   sampleResultset.setPriorRadiationFractionDoses(clinicalObj.getPriorRadiationFractionDoses());
-			}
-		
-		if(clinicalObj.getPriorRadiationFractionNumbers() != null) {
-			   sampleResultset.setPriorRadiationFractionNumbers(clinicalObj.getPriorRadiationFractionNumbers());
-			}
-		
-		if(clinicalObj.getPriorRadiationRadiationTypes() != null) {
-			   sampleResultset.setPriorRadiationRadiationTypes(clinicalObj.getPriorRadiationRadiationTypes());
-			}
-		
-		if(clinicalObj.getPriorChemoTimePoints() != null) {
-			   sampleResultset.setPriorChemoTimePoints(clinicalObj.getPriorChemoTimePoints());
-			}
-		
-		if(clinicalObj.getPriorChemoagentIds() != null) {
-			   sampleResultset.setPriorChemoagentIds(clinicalObj.getPriorChemoagentIds());
-			}
-		
-		if(clinicalObj.getPriorChemoAgentNames() != null) {
-			   sampleResultset.setPriorChemoAgentNames(clinicalObj.getPriorChemoAgentNames());
-			}
-		
-		if(clinicalObj.getPriorChemoCourseCounts() != null) {
-			   sampleResultset.setPriorChemoCourseCounts(clinicalObj.getPriorChemoCourseCounts());
-			}
-		
-		if(clinicalObj.getPriorChemoDoseStartDates() != null) {
-			   sampleResultset.setPriorChemoDoseStartDates(clinicalObj.getPriorChemoDoseStartDates());
-			}
-		
-		if(clinicalObj.getPriorChemoDoseStopDates() != null) {
-			   sampleResultset.setPriorChemoDoseStopDates(clinicalObj.getPriorChemoDoseStopDates());
-			}
-		
-		if(clinicalObj.getPriorChemoStudySources() != null) {
-			   sampleResultset.setPriorChemoStudySources(clinicalObj.getPriorChemoStudySources());
-			}
-		
-		if(clinicalObj.getPriorChemoProtocolNumbers() != null) {
-			   sampleResultset.setPriorChemoProtocolNumbers(clinicalObj.getPriorChemoProtocolNumbers());
-			}
-		
-		if(clinicalObj.getPriorSurgeryTimePoints() != null) {
-			   sampleResultset.setPriorSurgeryTimePoints(clinicalObj.getPriorSurgeryTimePoints());
-			}
-		
-		if(clinicalObj.getPriorSurgeryProcedureTitles() != null) {
-			   sampleResultset.setPriorSurgeryProcedureTitles(clinicalObj.getPriorSurgeryProcedureTitles());
-			}
-		
-		if(clinicalObj.getPriorSurgeryTumorHistologys() != null) {
-			   sampleResultset.setPriorSurgeryTumorHistologys(clinicalObj.getPriorSurgeryTumorHistologys());
-			}
-		
-		if(clinicalObj.getPriorSurgerySurgeryDates() != null) {
-			   sampleResultset.setPriorSurgerySurgeryDates(clinicalObj.getPriorSurgerySurgeryDates());
-			}
-		
-		if(clinicalObj.getPriorSurgerySurgeryOutcomes() != null) {
-			   sampleResultset.setPriorSurgerySurgeryOutcomes(clinicalObj.getPriorSurgerySurgeryOutcomes());
-			}
-		
-		
-		if(clinicalObj.getOnStudyRadiationTimePoints() != null) {
-			   sampleResultset.setOnStudyRadiationTimePoints(clinicalObj.getOnStudyRadiationTimePoints());
-			}
-		
-		if(clinicalObj.getOnStudyRadiationRadiationSites() != null) {
-			   sampleResultset.setOnStudyRadiationRadiationSites(clinicalObj.getOnStudyRadiationRadiationSites());
-			}
-		
-		if(clinicalObj.getOnStudyRadiationDoseStartDates() != null) {
-			   sampleResultset.setOnStudyRadiationDoseStartDates(clinicalObj.getOnStudyRadiationDoseStartDates());
-			}
-		
-		if(clinicalObj.getOnStudyRadiationDoseStopDates() != null) {
-			   sampleResultset.setOnStudyRadiationDoseStopDates(clinicalObj.getOnStudyRadiationDoseStopDates());
-			}
-		
-		if(clinicalObj.getOnStudyRadiationFractionDoses() != null) {
-			   sampleResultset.setOnStudyRadiationFractionDoses(clinicalObj.getOnStudyRadiationFractionDoses());
-			}
-		
-		if(clinicalObj.getOnStudyRadiationFractionNumbers() != null) {
-			   sampleResultset.setOnStudyRadiationFractionNumbers(clinicalObj.getOnStudyRadiationFractionNumbers());
-			}
-		
-		if(clinicalObj.getOnStudyRadiationNeurosisStatuses() != null) {
-			   sampleResultset.setOnStudyRadiationNeurosisStatuses(clinicalObj.getOnStudyRadiationNeurosisStatuses());
-			}
-		if(clinicalObj.getOnStudyRadiationRadiationTypes() != null) {
-			   sampleResultset.setOnStudyRadiationRadiationTypes(clinicalObj.getOnStudyRadiationRadiationTypes());
-			}
-		
-		//starts onstudy chemo
-		if(clinicalObj.getOnStudyChemoTimePoints() != null) {
-			   sampleResultset.setOnStudyChemoTimePoints(clinicalObj.getOnStudyChemoTimePoints());
-			}
-		
-		if(clinicalObj.getOnStudyChemoagentIds() != null) {
-			   sampleResultset.setOnStudyChemoagentIds(clinicalObj.getOnStudyChemoagentIds());
-			}
-		
-		if(clinicalObj.getOnStudyChemoAgentNames() != null) {
-			   sampleResultset.setOnStudyChemoAgentNames(clinicalObj.getOnStudyChemoAgentNames());
-			}
-		
-		if(clinicalObj.getOnStudyChemoRegimenNumbers() != null) {
-			   sampleResultset.setOnStudyChemoRegimenNumbers(clinicalObj.getOnStudyChemoRegimenNumbers());
-			}
-		
-		if(clinicalObj.getOnStudyChemoCourseCounts() != null) {
-			   sampleResultset.setOnStudyChemoCourseCounts(clinicalObj.getOnStudyChemoCourseCounts());
-			}
-		
-		if(clinicalObj.getOnStudyChemoDoseStartDates() != null) {
-			   sampleResultset.setOnStudyChemoDoseStartDates(clinicalObj.getOnStudyChemoDoseStartDates());
-			}
-		
-		if(clinicalObj.getOnStudyChemoDoseStopDates() != null) {
-			   sampleResultset.setOnStudyChemoDoseStopDates(clinicalObj.getOnStudyChemoDoseStopDates());
-			}
-		
-		if(clinicalObj.getOnStudyChemoStudySources() != null) {
-			   sampleResultset.setOnStudyChemoStudySources(clinicalObj.getOnStudyChemoStudySources());
-			}
-		
-		if(clinicalObj.getOnStudyChemoProtocolNumbers() != null) {
-			   sampleResultset.setOnStudyChemoProtocolNumbers(clinicalObj.getOnStudyChemoProtocolNumbers());
-			}
-		
-		
-		
-	 // starts onstudy surgery
-		
-		
-		if(clinicalObj.getOnStudySurgeryTimePoints() != null) {
-			   sampleResultset.setOnStudySurgeryTimePoints(clinicalObj.getOnStudySurgeryTimePoints());
-			}
-		
-		if(clinicalObj.getOnStudySurgeryProcedureTitles() != null) {
-			   sampleResultset.setOnStudySurgeryProcedureTitles(clinicalObj.getOnStudySurgeryProcedureTitles());
-			}
-		
-		if(clinicalObj.getOnStudySurgeryHistoDiagnoses() != null) {
-			   sampleResultset.setOnStudySurgeryHistoDiagnoses(clinicalObj.getOnStudySurgeryHistoDiagnoses());
-			}
-		
-		if(clinicalObj.getOnStudySurgerySurgeryDates() != null) {
-			   sampleResultset.setOnStudySurgerySurgeryDates(clinicalObj.getOnStudySurgerySurgeryDates());
-			}
-		
-		if(clinicalObj.getOnStudySurgerySurgeryOutcomes() != null) {
-			   sampleResultset.setOnStudySurgerySurgeryOutcomes(clinicalObj.getOnStudySurgerySurgeryOutcomes());
-			}
-		
-		if(clinicalObj.getOnStudySurgeryIndications() != null) {
-			   sampleResultset.setOnStudySurgeryIndications(clinicalObj.getOnStudySurgeryIndications());
-			}
-		*/
-		
 		return sampleResultset;
     }
     public static SampleResultset handleBioSpecimenResultset(SampleViewResultsContainer sampleViewContainer, PatientData clinicalObj){
@@ -451,7 +176,7 @@ public class SampleViewHandler {
 		}
 		
 		if(clinicalObj.getKarnofskyScores() != null) {
-			   //sampleResultset.setKarnofskyScores(clinicalObj.getKarnofskyScores());
+			   
 			   sampleResultset.setKarnofskyClinicalEvalDE(new KarnofskyClinicalEvalDE(clinicalObj.getKarnofskyScores().toString()));
 				
 		}
@@ -461,7 +186,7 @@ public class SampleViewHandler {
 			}
 			   
 	    if(clinicalObj.getLanskyScores() != null) {
-				//sampleResultset.setLanskyClinicalEvalDE(clinicalObj.getLanskyScores());
+				
 				 sampleResultset.setLanskyClinicalEvalDE(new LanskyClinicalEvalDE(clinicalObj.getLanskyScores().toString()));
 					
 			}
@@ -470,7 +195,7 @@ public class SampleViewHandler {
 			}
 		
 		if(clinicalObj.getNeuroExams() != null) {
-			  //sampleResultset.setNeuroExamClinicalEvalDE(clinicalObj.getNeuroExams());
+			  
 			   sampleResultset.setNeuroExamClinicalEvalDE(new NeuroExamClinicalEvalDE(clinicalObj.getNeuroExams().toString()));
 				
 			}
@@ -485,7 +210,7 @@ public class SampleViewHandler {
 			
 		
 		if(clinicalObj.getMriCtScores() != null) {
-			  // sampleResultset.setMriClinicalEvalDE(clinicalObj.getMriCtScores());
+			  
 			   sampleResultset.setMriClinicalEvalDE(new MRIClinicalEvalDE(clinicalObj.getMriCtScores().toString()));
 				
 			}
