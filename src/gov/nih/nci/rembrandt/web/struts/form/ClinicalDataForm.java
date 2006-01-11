@@ -161,8 +161,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     /** surgery group property */
     private String onStudySurgery;
 
-    /** surgery outcome property */
+    /** onStudy surgery outcome property */
     private String onStudySurgeryOutcome;
+    
+    /** onStudy surgery title property */
     
     private String onStudySurgeryTitle;
 
@@ -183,17 +185,21 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     /** gender property */
     private String genderType;
     
+    /** age upper and lower limit property */
     private AgeAtDiagnosisDE.LowerAgeLimit lowerAgeLimit = null;
     private AgeAtDiagnosisDE.UpperAgeLimit upperAgeLimit = null;
-    private SurvivalDE.UpperSurvivalRange upperSurvivalRange = null;
-    private SurvivalDE.LowerSurvivalRange lowerSurvivalRange = null;
     
+    /** survival upper and lower limit property */
+    private SurvivalDE.UpperSurvivalRange upperSurvivalRange = null;
+    private SurvivalDE.LowerSurvivalRange lowerSurvivalRange = null;    
    
 	
 	
 
-    // Collections used for Lookup values.
-    //private ArrayList diseaseType;// moved to the upper class: BaseForm.java
+    /**
+     * private Collections used for Lookup values.
+     */ 
+   
     private ArrayList recurrenceTypeColl = new ArrayList();
 
     private ArrayList radiationTypeColl = new ArrayList();
@@ -230,7 +236,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     
     private ArrayList mriTypeColl = new ArrayList();
    
-
+    /**
+     * private search criteria objects used to contain data element objects
+     */
     private OccurrenceCriteria occurrenceCriteria = new OccurrenceCriteria();
 
     private RadiationTherapyCriteria radiationTherapyCriteria;
@@ -280,7 +288,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     }
    
   
-  
+   /**
+    * private method to look up the prior therapy radiationTypes from the database
+    *
+    */
     private void setPriorRadiationTypes() {
 		try {
 						
@@ -302,6 +313,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 	}
 
     
+    /**
+     * private method to look up the prior therapy chemo agent names from the database
+     *
+     */
     
     private void setPriorChemoNames() {
 		try {
@@ -323,6 +338,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 		}
 	}
 
+    /**
+     * private method to look up the prior therapy surgery titles from the database
+     *
+     */
     private void  setPriorSurgeryTitles() {
     	try {
 			
@@ -344,6 +363,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     	
     }
     
+    /**
+     * private method to look up the prior therapy surgery outcomes from the database
+     *
+     */
     private void  setPriorSurgeryOutcomes() {
     	try {
 			
@@ -365,7 +388,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     	
     }
     
-    
+    /**
+     * private method to look up the onStudy therapy radiationTypes from the database
+     *
+     */
     private void  setOnStudyRadiationTypes() {
     	try {
 			
@@ -387,6 +413,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     	
     }
     
+    /**
+     * private method to look up the onStudy therapy chemo agent names from the database
+     *
+     */
     private void  setOnStudyChemoNames() {
     	try {
 			
@@ -408,6 +438,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     	
     }
     
+    /**
+     * private method to look up the onStudy therapy surgery titles from the database
+     *
+     */
     private void  setOnStudySurgeryTitles() {
     	try {
 			
@@ -429,6 +463,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     	
     }
     
+    /**
+     * private method to look up the onStudy therapy surgery outcomes from the database
+     *
+     */
     private void  setOnStudySurgeryOutcomes() {
     	try {
 			
@@ -451,7 +489,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     }
     
     
-    
+    /**
+     * private method to look up the KarnofskyScores from the database
+     *
+     */
     private void  setKarnofskyScores() {
     	try {
 			
@@ -474,7 +515,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     
     
     
-    
+    /**
+     * private method to look up the LanskyScores from the database
+     *
+     */
      private void  setLanskyScores() {
     	try {
 			
@@ -495,6 +539,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
     	
     }
      
+     /**
+      * private method to look up the NeuroExams from the database
+      *
+      */
      
      private void  setNeuroExams() {
      	try {
@@ -516,7 +564,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
      	
      }
      
- 
+     /**
+      * private method to look up the MRI types from the database
+      *
+      */
      
       private void  setMRITypes() {
      	try {
@@ -538,6 +589,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
      	
      }
      
+      /**
+       * private method to look up the gender types from the database
+       *
+       */
       private void setGenderTypes() {
     	  
     	  
@@ -570,7 +625,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
    		}
       }
       
-    
+    /**
+     * Used to load the look up values for the clinical query page
+     *
+     */
     public void setClinicalDataLookup() {
 
         recurrenceTypeColl = new ArrayList();
@@ -1314,6 +1372,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                     && !thisRadiationType.equals("")) {
             	
             	  if(thisRadiationType.equalsIgnoreCase("ANY")) {
+            		  
+            		   // This is to deal with adding a collection of all the prior therapy radiation types if any is selected            	
+                	  
           	    	ArrayList allRadiationTypes = this.getRadiationTypeColl();
           	    	 for (Iterator radiationIter = allRadiationTypes.iterator(); radiationIter.hasNext();) {
                             LabelValueBean thisLabelBean = (LabelValueBean) radiationIter.next();
@@ -1326,6 +1387,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                         }
           	       }
             	  else {
+            		  // This is to deal with adding a single prior therapy radiation type    
             	    RadiationTherapyDE radiationTherapyDE = new RadiationTherapyDE(this.radiationType);
                     radiationTherapyCriteria.setRadiationTherapyDE(radiationTherapyDE);
             	  }
@@ -1380,6 +1442,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
             if (thisChemo != null && thisChemoType != null
                     && !thisChemoType.equals("")) { 
             	   if(thisChemoType.equalsIgnoreCase("ANY")) {
+            		   
+             		   // This is to deal with adding a collection of all the prior therapy chemo types if any is selected            	
+            	        
             	    	ArrayList allAgents = this.getChemoAgentTypeColl();
             	    	 for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
                               LabelValueBean thisLabelBean = (LabelValueBean) agentIter.next();
@@ -1392,6 +1457,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                           }
             	       }	 
             	   else {
+            		   // This is to deal with adding a single prior therapy chemo type    
                        ChemoAgentDE chemoAgentDE = new ChemoAgentDE(thisChemoType);
                        chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
             	   }
@@ -1448,6 +1514,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                     && !thisSurgeryOutcome.equals("")) {
             	
             	 if(thisSurgeryOutcome.equalsIgnoreCase("ANY")) {
+            		   // This is to deal with adding a collection of all the prior therapy surgery outcomes if any is selected            	
+                 	
          	    	ArrayList allSurgeryOutcomes = this.getSurgeryOutcomeColl();
          	    	 for (Iterator outcomeIter = allSurgeryOutcomes.iterator(); outcomeIter.hasNext();) {
                            LabelValueBean thisLabelBean = (LabelValueBean) outcomeIter.next();
@@ -1460,6 +1528,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                        }
          	       }
             	 else {
+            		   // This is to deal with adding a single prior therapy surgery outcome       	
+                 	
             	   SurgeryOutcomeDE surgeryOutcomeDE = new SurgeryOutcomeDE(this.surgeryOutcome);
           	       surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE); 
             	 }
@@ -1526,6 +1596,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
             String thisOnStudyChemoType = thisRequest.getParameter("onStudyChemoType");
             if (thisOnStudyChemo != null && thisOnStudyChemoType != null
                     && !thisOnStudyChemoType.equals("")) { 
+            	   // This is to deal with adding a collection of all the onStudy chemo types if any is selected            	
             	   if(thisOnStudyChemoType.equalsIgnoreCase("ANY")) {
             	    	ArrayList allAgents = this.getOnStudyChemoAgentTypeColl();
             	    	 for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
@@ -1539,7 +1610,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                           }
             	       }	 
             	   else {
-            		   OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisOnStudyChemoType);
+            		   // This is to deal with adding a single onStudy chemo type
+                   		   OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisOnStudyChemoType);
             		   onStudyChemoAgentCriteria.setOnStudyChemoAgentDE(chemoAgentDE);
             	   }
                   
@@ -1601,6 +1673,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
             String thisOnStudyRadiationType = thisRequest.getParameter("onStudyRadiationType");
             if (thisOnStudyRadiation != null && thisOnStudyRadiationType != null
                     && !thisOnStudyRadiationType.equals("")) { 
+            	   // This is to deal with adding a collection of all the radiation types if any is selected
             	   if(thisOnStudyRadiationType.equalsIgnoreCase("ANY")) {
             	    	ArrayList allRadiationTypes = this.getOnStudyRadiationTypeColl();
             	    	 for (Iterator radiationTypeIter = allRadiationTypes.iterator(); radiationTypeIter.hasNext();) {
@@ -1613,7 +1686,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
             	    	
                           }
             	       }	 
-            	   else {
+            	   else {// this is to deal with adding a single entry of radiation type
             		   OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = new OnStudyRadiationTherapyDE(thisOnStudyRadiationType);
             		   onStudyRadiationTherapyCriteria.setOnStudyRadiationTherapyDE(onStudyRadiationTherapyDE);
             	   }
@@ -1675,6 +1748,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
             if (thisOnStudySurgery != null && thisOnStudySurgeryOutcome != null
                     && !thisOnStudySurgeryOutcome.equals("")) { 
             	   if(thisOnStudySurgeryOutcome.equalsIgnoreCase("ANY")) {
+            		   
+            		   // This is to deal with adding a collection of all the onstudy surgery outcomes if any is selected
+                   	
             	    	ArrayList allSurgeryOutcomes = this.getOnStudySurgeryOutcomeColl();
             	    	 for (Iterator surgeryOutcomeIter = allSurgeryOutcomes.iterator(); surgeryOutcomeIter.hasNext();) {
                               LabelValueBean thisLabelBean = (LabelValueBean) surgeryOutcomeIter.next();
@@ -1687,6 +1763,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                           }
             	       }	 
             	   else {
+                          // this is to deal with adding a single entry of onstudy surgery outcome
             			  OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = new OnStudySurgeryOutcomeDE(thisOnStudySurgeryOutcome);
                       	  onStudySurgeryOutcomeCriteria.setOnStudySurgeryOutcomeDE(onStudySurgeryOutcomeDE);
               		  }
@@ -1725,6 +1802,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
             String thisOnStudySurgeryTitle = thisRequest.getParameter("onStudySurgeryTitle");
             if (thisOnStudySurgery != null && thisOnStudySurgeryTitle != null
                     && !thisOnStudySurgeryTitle.equals("")) { 
+            	   // This is to deal with adding a collection of all the onstudy surgery titles if any is selected
             	   if(thisOnStudySurgeryTitle.equalsIgnoreCase("ANY")) {
             	    	ArrayList allSurgeryTitles = this.getOnStudySurgeryTitleColl();
             	    	 for (Iterator surgeryTitleIter = allSurgeryTitles.iterator(); surgeryTitleIter.hasNext();) {
@@ -1738,6 +1816,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
                           }
             	       }	 
             	   else {
+            		   // this is to deal with adding a single entry of onstudy surgery title
                    	  OnStudySurgeryTitleDE onStudySurgeryTitleDE = new OnStudySurgeryTitleDE(thisOnStudySurgeryTitle);
                 	  onStudySurgeryTitleCriteria.setOnStudySurgeryTitleDE(onStudySurgeryTitleDE);
 	     		  }
@@ -2135,6 +2214,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 	                    && !thisSurgeryTitle.equals("")) {
 	            	
 	            	 if(thisSurgeryTitle.equalsIgnoreCase("ANY")) {
+	            		  // This is to deal with adding a collection of all the prior therapy surgery titles if any is selected
 	         	    	ArrayList allSurgeryTitles = this.getSurgeryTitleColl();
 	         	    	 for (Iterator titleIter = allSurgeryTitles.iterator(); titleIter.hasNext();) {
 	                           LabelValueBean thisLabelBean = (LabelValueBean) titleIter.next();
@@ -2147,6 +2227,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 	                       }
 	         	       }
 	            	 else {
+	            		 
+	          		     // This is to deal with adding a single entry of  prior therapy surgery title
+	   	         	  
 	            		 PriorSurgeryTitleDE priorSurgeryTitleDE = new PriorSurgeryTitleDE(this.surgeryTitle);
 	            		 priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE); 
 	            	 }
@@ -2214,7 +2297,10 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 
 
 
-
+  /**
+   * Method used to copy individual values when called
+   * 
+   */
 	public ClinicalDataForm cloneMe() {
         ClinicalDataForm form = new ClinicalDataForm();
         form.setQueryName(queryName);
