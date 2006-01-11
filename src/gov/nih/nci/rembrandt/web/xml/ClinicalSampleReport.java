@@ -130,10 +130,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = null;
 		        	cell = null;
 		        	
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Lansky");
-			        	data = null;
-		        	cell = null;*/
+		       
 		        	
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Neurological Exam Outcome");
@@ -145,26 +142,14 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = null;
 		        	cell = null;
 		        	
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Clinical Evaluation Time Point");
-			        	data = null;
-		        	cell = null;
-		        	
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Followup Date");
-			        	data = null;
-		        	 cell = null;*/
+		        
 		        	 
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Followup Month");
 			        	data = null;
 		        	 cell = null;
 		        	 
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Neuro Evaluation Date");
-			        	data = null;
-		        	 cell = null;*/
-		        	 
+		        
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Steroid Dose Status");
 			        	data = null;
@@ -175,25 +160,13 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = null;
 		        	 cell = null;
 		        	 
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Time Point");
-			        	data = null;
-		        	 cell = null;*/
-		        	 
+		        	
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Site");
 			        	data = null;
 		        	 cell = null;
 		        	 
-		        	 /*cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Dose Start Date");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Dose Stop Date");
-			        	data = null;
-		        	 cell = null;*/
+		        	
 		        	 
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Radiation Fraction Dose");
@@ -211,16 +184,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 		        	 cell = null;		        	 
 		        	
 		        	 
-		        	 /*cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Time Point");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Agent ID");
-			        	data = null;
-		        	 cell = null;
-		        	 */
+		        	
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Agent Name");
 			        	data = null;
@@ -230,32 +194,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Course Count");
 			        	data = null;
 		        	 cell = null;
-		        	 
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Dose Start Date");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Dose Stop Date");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Study Source");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Chemo Protocol Number");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Time Point");
-			        	data = null;
-		        	 cell = null;*/
-		        	 
+		        
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Procedure Title");
 			        	data = null;
@@ -266,10 +205,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = null;
 		        	 cell = null;
 		        	 
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Date");
-			        	data = null;
-		        	 cell = null;*/
+		        
 		        	 
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("Prior Therapy Surgery Outcome");
@@ -279,25 +215,13 @@ public class ClinicalSampleReport implements ReportGenerator {
 		        	 // starting onstudy areas
 		        	 
 		        	 
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Time Point");
-			        	data = null;
-		        	 cell = null;*/
-		        	 
+		        
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Site");
 			        	data = null;
 		        	 cell = null;
 		        	 
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Dose Start Date");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Dose Stop Date");
-			        	data = null;
-		        	 cell = null;*/
+		        
 		        	 
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Radiation Neurosis Status");
@@ -321,26 +245,13 @@ public class ClinicalSampleReport implements ReportGenerator {
 		        	 cell = null;		        	 
 		        	
 		        	 
-		        	 /*cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Time Point");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Agent ID");
-			        	data = null;
-		        	 cell = null;
-		        	 */
+		        
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Agent Name");
 			        	data = null;
 		        	 cell = null;
 		        	 
-		        	/* cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Regimen Number");
-			        	data = null;
-		        	 cell = null;*/
-		        	 
+		        
 		        	 
 		        	 
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
@@ -348,31 +259,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	data = null;
 		        	 cell = null;
 		        	 
-		        	 /*cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Dose Start Date");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Dose Stop Date");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Study Source");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Chemo Protocol Number");
-			        	data = null;
-		        	 cell = null;
-		        	 
-		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Time Point");
-			        	data = null;
-		        	 cell = null;*/
-		        	 
+		        	
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Procedure Title");
 			        	data = null;
@@ -389,11 +276,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 		        	 cell = null;
 		        	 
 		        	 
-		        	 
-		        	 /*cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Date");
-			        	data = null;
-		        	 cell = null;*/
+		        	
 		        	 
 		        	 cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText("OnStudy Therapy Surgery Outcome");
@@ -469,20 +352,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 				        		data = null;
 				        	cell = null;
 				        	
-				        	/*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-	   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getLanskyClinicalEvalDE()));
-				        		data = null;
-				        	cell = null;*/
 				        	
-				        	/*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getNeuroExamClinicalEvalDE()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNV(sampleResultset.getMriClinicalEvalDE()));
-			        		data = null;
-			        	    cell = null;*/
 				        	
 				        	cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getNeuroExamDescs()));
@@ -494,26 +364,13 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	  /*  cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getTimePoints()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getFollowupDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    */
+			        	
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getFollowupMonths()));
 			        		data = null;
 			        	    cell = null;
-			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getNeuroEvaluationDates()));
-			        		data = null;
-			        	    cell = null;*/
+			        	 
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getSteroidDoseStatuses()));
@@ -525,25 +382,14 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	   /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationTimePoints()));
-			        		data = null;
-			        	    cell = null;*/
+			        	 
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationRadiationSites()));
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	   /* cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationDoseStartDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationDoseStopDates()));
-			        		data = null;
-			        	    cell = null;*/
+			        	
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorRadiationFractionDoses()));
@@ -560,15 +406,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoTimePoints()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoagentIds()));
-			        		data = null;
-			        	    cell = null;*/
+			        	  
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoAgentNames()));
@@ -580,31 +418,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoDoseStartDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoDoseStopDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoStudySources()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorChemoProtocolNumbers()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgeryTimePoints()));
-			        		data = null;
-			        	    cell = null;
-			        	    */
+			        	  
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgeryProcedureTitles()));
 			        		data = null;
@@ -615,10 +429,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgerySurgeryDates()));
-			        		data = null;
-			        	    cell = null;*/
+			        	 
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getPriorSurgerySurgeryOutcomes()));
@@ -629,26 +440,14 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        	    // starting onstudy
 			        	    
 			        	    
-			        	   /* cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationTimePoints()));
-			        		data = null;
-			        	    cell = null;*/
+			        	 
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationRadiationSites()));
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationDoseStartDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationDoseStopDates()));
-			        		data = null;
-			        	    cell = null;*/
-			        	    
+			        	  
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyRadiationFractionDoses()));
 			        		data = null;
@@ -669,25 +468,14 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoTimePoints()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoagentIds()));
-			        		data = null;
-			        	    cell = null;*/
+			        	
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoAgentNames()));
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoRegimenNumbers()));
-			        		data = null;
-			        	    cell = null;*/
+			        	  
 			        	    
 			        	    
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
@@ -695,31 +483,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoDoseStartDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoDoseStopDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoStudySources()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudyChemoProtocolNumbers()));
-			        		data = null;
-			        	    cell = null;
-			        	    
-			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgeryTimePoints()));
-			        		data = null;
-			        	    cell = null;
-			        	    */
+			        	  
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgeryProcedureTitles()));
 			        		data = null;
@@ -736,11 +500,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 			        		data = null;
 			        	    cell = null;
 			        	    
-			        	    /*cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-   					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgerySurgeryDates()));
-			        		data = null;
-			        	    cell = null;
-			        	    */
+			        	 
 			        	    cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
    					        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(sampleResultset.getOnStudySurgerySurgeryOutcomes()));
 			        		data = null;
