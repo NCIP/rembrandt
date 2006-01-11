@@ -31,6 +31,16 @@ import org.apache.struts.util.LabelValueBean;
 import javax.servlet.http.HttpServletRequest;
 
 
+ /**
+ * This class encapsulates the properties of an caintergator
+ * BaseForm object, it is a parent class for all form objects 
+ * 
+ * 
+ * @author BhattarR,ZhangD
+ *
+ */
+
+
 public class BaseForm extends ActionForm implements Serializable{
     
     private static Logger logger = Logger.getLogger(BaseForm.class);
@@ -38,6 +48,7 @@ public class BaseForm extends ActionForm implements Serializable{
 	// Collections used for Lookup values.  
 	private ArrayList<LabelValueBean> diseaseType;
 	private ArrayList<LabelValueBean> geneTypeColl;
+	
     private String method;
     protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
     protected SampleCriteria sampleCriteria;

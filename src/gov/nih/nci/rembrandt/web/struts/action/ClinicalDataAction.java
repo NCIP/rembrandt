@@ -107,6 +107,10 @@ public class ClinicalDataAction extends LookupDispatchAction {
     }
 
     
+    /**
+     * 
+     * This method is called when preview button is clicked on the clincial query page
+     */
     public ActionForward preview(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -137,7 +141,11 @@ public class ClinicalDataAction extends LookupDispatchAction {
         ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery,new HashMap());
         return mapping.findForward("previewReport");
 	}
-        
+       
+    /**
+     * 
+     * private method used to create clincial queries
+     */
     private ClinicalDataQuery createClinicalDataQuery(ClinicalDataForm clinicalDataForm){
 
         String thisView = clinicalDataForm.getResultView();
