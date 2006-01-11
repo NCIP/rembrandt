@@ -72,10 +72,16 @@ public class ClinicalQueryHandler extends QueryHandler {
 	private ResultSet[] onStudySurgeryResult = null;	
    
 
+	/**
+	 * This methos takes query as a parameter, then go to the database to perform retrieval function,
+	 * including processing patient data, prior/onstudy therapy data, and clinical evaluation information.
+	 */
 	public ResultSet[] handle(Query query) throws Exception {
         ClinicalDataQuery clinicalQuery = (ClinicalDataQuery) query;
         Criteria allCriteria = new Criteria();
 
+        
+        // add suvival range, age range, gender and race info to the OJB where clause criteria
         buildSurvivalRangeCrit(clinicalQuery, allCriteria);
         buildAgeRangeCrit(clinicalQuery, allCriteria);
         buildGenderCrit(clinicalQuery, allCriteria);
@@ -85,10 +91,18 @@ public class ClinicalQueryHandler extends QueryHandler {
         PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();     
         
         Class targetFactClass = PatientData.class;
+        
+        // build common factors disease types, sample ids, and institution access to the OJB where clause criteria 
+        // for the patient_data table
         CommonFactHandler.addDiseaseCriteria(clinicalQuery, targetFactClass, _BROKER, allCriteria);
         CommonFactHandler.addSampleIDCriteria(clinicalQuery, targetFactClass, allCriteria);
         CommonFactHandler.addAccessCriteria(clinicalQuery, targetFactClass, allCriteria);
         
+        // build nested query for any clinical data which is not located in the patient_data table
+        // and from the patient_data table to those are 1 to many relationship, and the link from
+        // patient_data table to "many" table is based on patient dids
+        // in order to build nested queries, OJB requires ReportQueryByCriteria type.
+       
         ReportQueryByCriteria clinicalEvalQuery = getClinicalEvalSubQuery(clinicalQuery,_BROKER,NeuroEvaluation.class,NeuroEvaluation.PATIENT_DID);
         ReportQueryByCriteria priorRadiationQuery = getPriorRadiationTherapySubQuery(clinicalQuery,_BROKER,PriorRadiationtherapy.class,PriorRadiationtherapy.PATIENT_DID);
         ReportQueryByCriteria priorChemoQuery = getPriorChemoTherapySubQuery(clinicalQuery,_BROKER,PriorChemotherapy.class,PriorChemotherapy.PATIENT_DID);
@@ -118,13 +132,13 @@ public class ClinicalQueryHandler extends QueryHandler {
         }
         
         if(priorRadiationQuery != null) {
-           // allCriteria.addIn(PatientData.PATIENT_DID, priorRadiationQuery); //this is for "AND"  
+           
         	priorRadiationCrit.addIn(PatientData.PATIENT_DID, priorRadiationQuery); 
            priorTherapy.addOrCriteria(priorRadiationCrit);    
         }
         
         if(priorChemoQuery != null) {
-           // allCriteria.addIn(PatientData.PATIENT_DID, priorChemoQuery);  // this is for "AND"
+          
         	
         	priorChemoCrit.addIn(PatientData.PATIENT_DID, priorChemoQuery); 
         	priorTherapy.addOrCriteria(priorChemoCrit);   
@@ -132,7 +146,7 @@ public class ClinicalQueryHandler extends QueryHandler {
          }
         
         if(priorSurgeryQuery != null) {
-           //allCriteria.addIn(PatientData.PATIENT_DID, priorSurgeryQuery);   // this is for "AND" 
+         
         	priorSurgeryCrit.addIn(PatientData.PATIENT_DID, priorSurgeryQuery);    
         	priorTherapy.addOrCriteria(priorSurgeryCrit);  
          }
@@ -140,13 +154,13 @@ public class ClinicalQueryHandler extends QueryHandler {
         
        
         if(onStudyRadiationQuery != null) {
-            // allCriteria.addIn(PatientData.PATIENT_DID, priorRadiationQuery); //this is for "AND"  
+             
          	onStudyRadiationCrit.addIn(PatientData.PATIENT_DID, onStudyRadiationQuery); 
             onStudyTherapy.addOrCriteria(onStudyRadiationCrit);    
          }
          
          if(onStudyChemoQuery != null) {
-            // allCriteria.addIn(PatientData.PATIENT_DID, priorChemoQuery);  // this is for "AND"
+           
          	
         	 onStudyChemoCrit.addIn(PatientData.PATIENT_DID, onStudyChemoQuery); 
         	 onStudyTherapy.addOrCriteria(onStudyChemoCrit);   
@@ -154,13 +168,12 @@ public class ClinicalQueryHandler extends QueryHandler {
           }
          
          if(onStudySurgeryQuery != null) {
-            //allCriteria.addIn(PatientData.PATIENT_DID, priorSurgeryQuery);   // this is for "AND" 
-        	 onStudySurgeryCrit.addIn(PatientData.PATIENT_DID, onStudySurgeryQuery);    
+           onStudySurgeryCrit.addIn(PatientData.PATIENT_DID, onStudySurgeryQuery);    
         	 onStudyTherapy.addOrCriteria(onStudySurgeryCrit);  
           }
         
          
-        
+      // make sure if the user selects therapy entries or not  
        if(!priorTherapy.isEmpty()){
                allCriteria.addAndCriteria(priorTherapy);
        }
@@ -169,7 +182,14 @@ public class ClinicalQueryHandler extends QueryHandler {
            allCriteria.addAndCriteria(onStudyTherapy);
          }
        
+       // excute the whole clinical query after the whole query has been constructed, then formatted to 
+       // a PatientData[] array for later use, PatientData implements ResultSet interface
         PatientData[] results = executeQuery(allCriteria);
+        
+        // after data has been retrieved from patient_data table, the next step is to retrieve child tables info 
+        // such as NEUROLOGICAL_EVALUATION , PRIOR_CHEMOTHERAPY, PRIOR_RADIATIONTHERAPY, PRIOR_SURGERY,
+        // PT_RADIATIONTHERAPY, PT_SURGERY, PT_CHEMOTHERAPY tables which are 1 to many relationship with the
+        // PATIENT_DATA table based on patientDIDs
         
         if(clinicalEvalQuery != null || !priorTherapy.isEmpty() || !onStudyTherapy.isEmpty()|| results.length >=1) {
         	
@@ -182,7 +202,8 @@ public class ClinicalQueryHandler extends QueryHandler {
             onStudyChemoResult = populateOnStudyChemo(clinicalQuery,patientDIDs); 
             onStudySurgeryResult = populateOnStudySurgery(clinicalQuery,patientDIDs); 
             
-            
+            // after the data has been retrieved, the next step is to format them to the 
+            // PatientData[] array for later display
             results = addClinicalEvalToPatientData(results,clinicalEvalDataResult);
             results = addPriorRadiationToPatientData(results,priorRadiationResult);
             results = addPriorChemoToPatientData(results,priorChemoResult);
@@ -198,7 +219,11 @@ public class ClinicalQueryHandler extends QueryHandler {
         return results;
     }
 
-	
+	/**
+	 * private method to add clinicalEvaluation including Karnofsky, Lansky,Neuro Exam, and MRI results 
+	 * to the patientData array for later display
+	 * 
+	 */
 	private PatientData[] addClinicalEvalToPatientData(PatientData[] patientDataResults, ResultSet[] clinicalEvalDataResult) {
 		
 		if(patientDataResults instanceof PatientData[]) {
@@ -252,22 +277,7 @@ public class ClinicalQueryHandler extends QueryHandler {
 					Long ptDid = clinicalEvalData.getPatientDid();
 					Long followUpMonth = clinicalEvalData.getFollowupMonth();
 					
-					if(patientDid.toString().equals(ptDid.toString())) {
-						
-						/** this commented out code we will need if we decide to create a view to contain 
-						 *  all the clinical data, then we would not have to combine the result sets
-						 *  any more						 
-						 */
-						//ptData.setTimePoint(clinicalEvalData.getTimePoint());
-						//ptData.setFollowupDate(clinicalEvalData.getFollowupDate());
-						//ptData.setFollowupMonth(clinicalEvalData.getFollowupMonth());
-						//ptData.setNeuroEvaluationDate(clinicalEvalData.getNeuroEvaluationDate());
-						//ptData.setKarnofskyScore(clinicalEvalData.getKarnofskyScore());
-						//ptData.setLanskyScore(clinicalEvalData.getLanskyScore());
-						//ptData.setNeuroExam(clinicalEvalData.getNeuroExam());
-						//ptData.setMriCtScore(clinicalEvalData.getMriCtScore());
-						//ptData.setSteroidDoseStatus(clinicalEvalData.getSteroidDoseStatus());
-						//ptData.setAntiConvulsantStatus(clinicalEvalData.getAntiConvulsantStatus());	
+					if(patientDid.toString().equals(ptDid.toString())) {						
 						
 						if(followUpMonth == null) {
 						if(clinicalEvalData.getTimePoint()!= null) {
@@ -485,7 +495,13 @@ public class ClinicalQueryHandler extends QueryHandler {
 	
 	}
 	
-	
+	/**
+	 * 
+	 * private method to add prior therapy radiation result
+	 * to the patientData array for later display
+	 * 
+	 */
+	 
 private PatientData[] addPriorRadiationToPatientData(PatientData[] patientDataResults, ResultSet[] priorRadiationDataResult) {
 		
 		if(patientDataResults instanceof PatientData[]) {
@@ -592,6 +608,11 @@ private PatientData[] addPriorRadiationToPatientData(PatientData[] patientDataRe
 	}
 
 
+/**
+ * 
+ * private method to add onstudy therapy radiation result
+ * to the patientData array for later display
+ */
 private PatientData[] addOnStudyRadiationToPatientData(PatientData[] patientDataResults, ResultSet[] onStudyRadiationDataResult) {
 	
 	if(patientDataResults instanceof PatientData[]) {
@@ -708,7 +729,11 @@ private PatientData[] addOnStudyRadiationToPatientData(PatientData[] patientData
 }
 
 
-
+/**
+ * 
+ * private method to add prior therapy chemo agent result
+ * to the patientData array for later display
+ */
 
 private PatientData[] addPriorChemoToPatientData(PatientData[] patientDataResults, ResultSet[] priorChemoDataResult) {
 		
@@ -829,6 +854,11 @@ private PatientData[] addPriorChemoToPatientData(PatientData[] patientDataResult
 	
 	}
 
+/**
+ * 
+ * private method to add onstudy therapy chemo agent result
+ * to the patientData array for later display
+ */
 private PatientData[] addOnStudyChemoToPatientData(PatientData[] patientDataResults, ResultSet[] onStudyChemoDataResult) {
 	
 	if(patientDataResults instanceof PatientData[]) {
@@ -961,7 +991,11 @@ private PatientData[] addOnStudyChemoToPatientData(PatientData[] patientDataResu
 
 
 
-
+/**
+ * 
+ * private method to add prior therapy surgery including surgery title and outcome result
+ * to the patientData array for later display
+ */
 
 private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResults, ResultSet[] priorSurgeryDataResult) {
 		
@@ -1046,6 +1080,12 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 	
 	}
 
+
+/**
+ * 
+ * private method to add onstudy therapy surgery including surgery title and outcome result
+ * to the patientData array for later display
+ */
 
 private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataResults, ResultSet[] onStudySurgeryDataResult) {
 	
@@ -1140,6 +1180,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 
 }
 
+/**
+ * 
+ * private method to perform clinical query to retrive patient data from Patient_data table
+ * then have the result pupolated to the patientData[] array
+ * 
+ */
 	private PatientData[] executeQuery(Criteria allCriteria) throws Exception {
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
         ReportQueryByCriteria sampleQuery = QueryFactory.newReportQuery(PatientData.class, allCriteria, true);
@@ -1168,7 +1214,14 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
         pb.close();
         return finalResult;
     }
-
+  
+	/**
+	 * 
+	 * private method to perform clinicaleval query including Karnofsky, Lansky, Neuro Exam and MRI  to retrive clinicalEval data
+	 * from NEUROLOGICAL_EVALUATION table, and have the result formatted to the NeuroEvaluation[] which impelments 
+	 * ResultSet, then the result will be added to the patientData[] array
+	 * 
+	 */
 	  private NeuroEvaluation[] populateClinicalEval(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
     	 
 		 if(patientDIDs.size()>=1) {
@@ -1211,7 +1264,14 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
              }
   
      }
-	  
+	 
+	  /**
+		 * 
+		 * private method to perform prior therapy radiation type query to retrive prior therapy radtiation data
+		 * from PRIOR_RADIATIONTHERAPY table, and have the result formatted to the PriorRadiationtherapy[] which impelments 
+		 * ResultSet, then the result will be added to the patientData[] array
+		 * 
+		 */
 	  
 	  private PriorRadiationtherapy[] populatePriorRadiation(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
 	    	 
@@ -1252,6 +1312,14 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	             }
 	  
 	     }
+	  
+	  /**
+		 * 
+		 * private method to perform onstudy therapy radiation type query to retrive onstudy therapy radtiation data
+		 * from PT_RADIATIONTHERAPY table, and have the result formatted to the OnStudyRadiationtherapy[] which impelments 
+		 * ResultSet, then the result will be added to the patientData[] array
+		 * 
+		 */
 	  
 	  private OnStudyRadiationtherapy[] populateOnStudyRadiation(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
 	    	 
@@ -1295,6 +1363,13 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	     }
 	
 	
+	  /**
+		 * 
+		 * private method to perform prior therapy chemo agent  type query to retrive prior therapy chmeo agent data
+		 * from PRIOR_CHEMOTHERAPY table, and have the result formatted to the PriorChemotherapy[] which impelments 
+		 * ResultSet, then the result will be added to the patientData[] array
+		 * 
+		 */
 	  private PriorChemotherapy[] populatePriorChemo(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
 	    	 
 			 if(patientDIDs.size()>=1) {
@@ -1335,6 +1410,14 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	             }
 	  
 	     }
+	  
+	  /**
+		 * 
+		 * private method to perform onstudy therapy chemo agent  type query to retrive onstudy therapy chmeo agent data
+		 * from PT_CHEMOTHERAPY table, and have the result formatted to the OnStudyChemotherapy[] which impelments 
+		 * ResultSet, then the result will be added to the patientData[] array
+		 * 
+		 */
 	  
 	  private OnStudyChemotherapy[] populateOnStudyChemo(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
 	    	 
@@ -1378,7 +1461,13 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	     }
 	  
 	
-	  
+	  /**
+		 * 
+		 * private method to perform prior therapy surgery title and outcome query to retrive prior therapy chmeo agent data
+		 * from PRIOR_SURGERY table, and have the result formatted to the PriorSurgery[] which impelments 
+		 * ResultSet, then the result will be added to the patientData[] array
+		 * 
+		 */  
 
 	  private PriorSurgery[] populatePriorSurgery(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
 	    	 
@@ -1419,6 +1508,15 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	  
 	     }
 	  
+	  /**
+		 * 
+		 * private method to perform onstudy therapy surgery title and outcome query to retrive onstudy therapy chmeo agent data
+		 * from PT_SURGERY table, and have the result formatted to the OnStudySurgery[] which impelments 
+		 * ResultSet, then the result will be added to the patientData[] array
+		 * 
+		 */  
+
+	  
 	  private OnStudySurgery[] populateOnStudySurgery(ClinicalDataQuery clinicalQuery, Collection patientDIDs)throws Exception {
 	    	 
 			 if(patientDIDs.size()>=1) {
@@ -1458,6 +1556,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	             }
 	  
 	     }
+	  
+	  /**
+	   * private method to add individual column data retrieved from patient_data to a arraylist
+	   * 
+	   */
  
     private void populateResults(Iterator patientDataObjects, ArrayList results) {
         while(patientDataObjects.hasNext()) {
@@ -1501,6 +1604,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     }
     
     
+    /**
+	   * private method to add individual column data retrieved from PT_RADIATIONTHERAPY to a arraylist
+	   * 
+	   */
 
     private void populateOnStudyRadiationResults(Iterator onStudyRadiationObjects, ArrayList results) {
 		  while(onStudyRadiationObjects.hasNext()) {
@@ -1575,6 +1682,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 		  
 	  }
     
+    /**
+	   * private method to add individual column data retrieved from PRIOR_RADIATIONTHERAPY to a arraylist
+	   * 
+	   */
+    
     private void populatePriorRadiationResults(Iterator priorRadiationObjects, ArrayList results) {
 		  while(priorRadiationObjects.hasNext()) {
 	            Object[] objs = (Object[]) priorRadiationObjects.next();          
@@ -1641,6 +1753,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 		  
 	  }
   
+    /**
+	   * private method to add individual column data retrieved from PRIOR_CHEMOTHERAPY to a arraylist
+	   * 
+	   */
     private void populatePriorChemoResults(Iterator priorChemoObjects, ArrayList results) {
 		  while(priorChemoObjects.hasNext()) {
 	            Object[] objs = (Object[]) priorChemoObjects.next();      
@@ -1705,6 +1821,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	        }
 		  
 	  }
+    
+    /**
+	   * private method to add individual column data retrieved from PT_CHEMOTHERAPY to a arraylist
+	   * 
+	   */
   
     private void populateOnStudyChemoResults(Iterator onStudyChemoObjects, ArrayList results) {
 		  while(onStudyChemoObjects.hasNext()) {
@@ -1783,7 +1904,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
   
   
     
-    
+    /**
+	   * private method to add individual column data retrieved from PRIOR_SURGERY to a arraylist
+	   * 
+	   */
+
     private void populatePriorSurgeryResults(Iterator priorSurgeryObjects, ArrayList results) {
 		  while(priorSurgeryObjects.hasNext()) {
 	            Object[] objs = (Object[]) priorSurgeryObjects.next();     	
@@ -1833,6 +1958,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 		  
 	  }
     
+    /**
+	   * private method to add individual column data retrieved from PT_SURGERY to a arraylist
+	   * 
+	   */
     private void populateOnStudySurgeryResults(Iterator onStudySurgeryObjects, ArrayList results) {
 		  while(onStudySurgeryObjects.hasNext()) {
 	            Object[] objs = (Object[]) onStudySurgeryObjects.next();     	
@@ -1889,7 +2018,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	  }
 
 
-
+    /**
+	   * private method to add individual column data retrieved from NEUROLOGICAL_EVALUATION to a arraylist
+	   * 
+	   */
     private void populateClinicalEvalResults(Iterator clinicalEvalDataObjects, ArrayList results) {
 		  while(clinicalEvalDataObjects.hasNext()) {
 	            Object[] objs = (Object[]) clinicalEvalDataObjects.next(); 
@@ -1977,7 +2109,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	        }
 		  
 	  }
-  
+  /**
+   * 
+   * private method used to add the survival range to  OJB criteria
+   */
     private void buildSurvivalRangeCrit(ClinicalDataQuery cghQuery, Criteria survivalCrit) {
         SurvivalCriteria crit = cghQuery.getSurvivalCriteria();
         if (crit != null) {
@@ -1988,6 +2123,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
             survivalCrit.addBetween(PatientData.SURVIVAL_LENGTH, new Long(lowerLmtInDays), new Long(upperLmtInDays));
         }
     }
+    
+    /**
+     * 
+     * private method used to add the age range to  OJB criteria
+     */
     private void buildAgeRangeCrit(ClinicalDataQuery cghQuery, Criteria ageCrit ) {
         AgeCriteria crit = cghQuery.getAgeCriteria();
         if (crit != null) {
@@ -1996,6 +2136,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
             ageCrit.addBetween(PatientData.AGE, new Long(lowerLmtInYrs), new Long(upperLmtInYrs));
         }
     }
+    
+    /**
+     * 
+     * private method used to add the gender to  OJB criteria
+     */
     private void buildGenderCrit(ClinicalDataQuery cghQuery, Criteria genderCrit) {
         GenderCriteria crit = cghQuery.getGenderCriteria();
         if (crit != null) {
@@ -2003,12 +2148,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
         }
     }
     
-    private void buildPTDIDs(ClinicalDataQuery cghQuery, Criteria genderCrit) {
-         GenderCriteria crit = cghQuery.getGenderCriteria();
-        if (crit != null) {
-            genderCrit.addEqualTo(PatientData.GENDER, crit.getGenderDE().getValueObject());
-        }
-    }
+    
+  
+    /**
+     * 
+     * private method used to add the race to  OJB criteria
+     */
     private void buildRaceCrit(ClinicalDataQuery clinicalQuery, Criteria raceCrit){
     	  RaceCriteria crit = clinicalQuery.getRaceCriteria();   
     	  
@@ -2022,7 +2167,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
          
        }
     
-    
+    /**
+     * 
+     * private method used to add the Karnofsky scores to  OJB criteria
+     */
     private Criteria buildKarnofskyClinicalEvalCrit(ClinicalDataQuery clinicalQuery) {    	 
 
     	KarnofskyClinicalEvalCriteria crit = clinicalQuery.getKarnofskyCriteria();    	 
@@ -2036,6 +2184,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     	  }    	   
         }
     
+    /**
+     * 
+     * private method used to add the Lansky scores to  OJB criteria
+     */
     private Criteria  buildLanskyClinicalEvalCrit(ClinicalDataQuery clinicalQuery) {    	 
 
     	LanskyClinicalEvalCriteria crit = clinicalQuery.getLanskyCriteria();
@@ -2049,6 +2201,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    	     }
        }
     
+    /**
+     * 
+     * private method used to add the MRI scores to  OJB criteria
+     */
     private Criteria  buildMRIClinicalEvalCrit(ClinicalDataQuery clinicalQuery) {    	 
 
     	MRIClinicalEvalCriteria crit = clinicalQuery.getMriCriteria();
@@ -2064,6 +2220,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    	       }   	   
        }
     
+    /**
+     * 
+     * private method used to add the neuro exam scores to  OJB criteria
+     */
     private Criteria  buildNeuroExamClinicalEvalCrit(ClinicalDataQuery clinicalQuery) {    	 
 
     	NeuroExamClinicalEvalCriteria crit = clinicalQuery.getNeuroExamCriteria();   
@@ -2078,7 +2238,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    	    
        }    
    
-    
+    /**
+     * private method to build a nested query based on patient DIDs, so the nested query would look like something like this:
+     * where patient_did in (select patient_did from buildClinicalEvalCriteria where KARNOFSKY_SCORE =90 or LANSKY_SCORE=0
+     * or NEURO_EXAM =-1 or MRI_CT_SCORE=2)
+     *
+     */
     private ReportQueryByCriteria getClinicalEvalSubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	  Criteria clinalEvalCrit = buildClinicalEvalCriteria(clinicalQuery);
     	  if(clinalEvalCrit != null) {
@@ -2095,6 +2260,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     
     	}
     
+    /**
+     * private method to build ClinicalEvalCriteria for OJB by "OR"ing Karnofsky scores, 
+     * lanskyCrit scores, neuro exam scores and MRI scores' criteria together
+     * 
+     */
      private Criteria buildClinicalEvalCriteria(ClinicalDataQuery clinicalQuery){
     	 
     	 Criteria karnofskyCrit = buildKarnofskyClinicalEvalCrit(clinicalQuery);
@@ -2128,6 +2298,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	       }
   
      }
+     
+     
+     /**
+      * 
+      * private method used to add prior radiation type query to  OJB criteria
+      */
      private Criteria buildPriorRadiationCriteria(ClinicalDataQuery clinicalQuery) {
     	 
     	 RadiationTherapyCriteria crit = clinicalQuery.getRadiationTherapyCriteria(); 	 
@@ -2147,6 +2323,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
      	  }	
     	 
      }
+     
+     /**
+      * 
+      * private method used to add onstudy radiation type query to  OJB criteria
+      */
      
  private Criteria buildOnStudyRadiationCriteria(ClinicalDataQuery clinicalQuery) {
     	 
@@ -2168,6 +2349,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     	 
      }
      
+ /**
+  * 
+  * private method used to build prior radiation type query to  OJB ReportQueryByCriteria in order to 
+  * construct a nested query based on patient DIDs
+  * 
+  */
      private ReportQueryByCriteria getPriorRadiationTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	 Criteria c = buildPriorRadiationCriteria (clinicalQuery);      	 
      	 if(c != null) {     		   
@@ -2183,6 +2370,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    
    	}
      
+     /**
+      * 
+      * private method used to build onstudy radiation type query to  OJB ReportQueryByCriteria in order to 
+      * construct a nested query based on patient DIDs
+      * 
+      */
      private ReportQueryByCriteria getOnStudyRadiationTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	 Criteria c = buildOnStudyRadiationCriteria (clinicalQuery);      	 
      	 if(c != null) {     		   
@@ -2198,7 +2391,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    
    	}
      
-     
+     /**
+      * 
+      * private method used to add prior chemo agent query to OJB criteria
+      * 
+      */
       private Criteria buildPriorChemoCriteria (ClinicalDataQuery clinicalQuery) {
     	 
     	 ChemoAgentCriteria crit = clinicalQuery.getChemoAgentCriteria(); 	 
@@ -2218,6 +2415,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     	 
      }
       
+      /**
+       * 
+       * private method used to add onstudy chemo agent query to OJB criteria
+       * 
+       */
       private Criteria buildOnStudyChemoCriteria (ClinicalDataQuery clinicalQuery) {
      	 
      	 OnStudyChemoAgentCriteria crit = clinicalQuery.getOnStudyChemoAgentCriteria(); 	 
@@ -2236,7 +2438,13 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
       	  }	
      	 
       }
-     
+
+      /**
+       * 
+       * private method used to build prior chemo agent query to  OJB ReportQueryByCriteria in order to 
+       * construct a nested query based on patient DIDs
+       * 
+       */
      private ReportQueryByCriteria getPriorChemoTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	
      	 Criteria c = buildPriorChemoCriteria(clinicalQuery);       	 
@@ -2254,6 +2462,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    
      }
      
+     /**
+      * 
+      * private method used to build onstudy chemo agent query to  OJB ReportQueryByCriteria in order to 
+      * construct a nested query based on patient DIDs
+      * 
+      */
      private ReportQueryByCriteria getOnStudyChemoTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
      	
      	 Criteria c = buildOnStudyChemoCriteria(clinicalQuery);       	 
@@ -2271,7 +2485,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    
      }
      
-     
+     /**
+      * 
+      * private method used to add prior therapy surgery title and outcome query to OJB criteria
+      * 
+      */
  private Criteria buildPriorSurgeryCriteria (ClinicalDataQuery clinicalQuery) {
     	 
 	     SurgeryOutcomeCriteria crit = clinicalQuery.getSurgeryOutcomeCriteria(); 
@@ -2306,6 +2524,11 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     	 
      }
  
+ /**
+  * 
+  * private method used to add onstudy therapy surgery title and outcome query to OJB criteria
+  * 
+  */
  private Criteria buildOnStudySurgeryCriteria (ClinicalDataQuery clinicalQuery) {
 	 
      OnStudySurgeryOutcomeCriteria crit = clinicalQuery.getOnStudySurgeryOutcomeCriteria(); 
@@ -2340,7 +2563,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	 
  }
 
- 
+ /**
+  * 
+  * private method used to build prior therapy surgery title and outcome query to  OJB ReportQueryByCriteria in order to 
+  * construct a nested query based on patient DIDs
+  * 
+  */
      private ReportQueryByCriteria getPriorSurgeryTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
     	
      	 Criteria c = buildPriorSurgeryCriteria(clinicalQuery);       	 
@@ -2360,7 +2588,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
      }
      
     
-    
+     /**
+      * 
+      * private method used to build onstudy therapy surgery title and outcome query to  OJB ReportQueryByCriteria in order to 
+      * construct a nested query based on patient DIDs
+      * 
+      */
 
 private ReportQueryByCriteria getOnStudySurgeryTherapySubQuery(ClinicalDataQuery clinicalQuery,PersistenceBroker _BROKER,Class subQueryClass, String fieldToSelect) throws Exception {
 	
