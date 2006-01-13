@@ -40,8 +40,13 @@ import javax.naming.NamingException;
 import org.apache.log4j.Logger;
 
 /**
- * @author sahnih
- * singleton object
+ * This object is used by the Rembrandt application send analysis requests to and receive results from the 
+ * analysis server(s). There is only one instance of this object (singleton object) for the application. 
+ * Communication with the analysis server(s) is implemented using the JBossMQ JMS implementation. Requests are sent to the
+ * AnalysisRequest JMS queue and results are returned to the AnalysisResponse JMS queue. 
+ * 
+ * @author sahnih, harrismic
+ * 
  */
 public class AnalysisServerClientManager implements MessageListener, ExceptionListener, AnalysisRequestSender{
 	private static Logger logger = Logger.getLogger(AnalysisServerClientManager.class);
@@ -67,47 +72,6 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 	private AnalysisServerClientManager() throws NamingException, JMSException {
 		 try {
 			logger.debug("AnalysisServerClientManager constructor start");
-//			messagingProps = ApplicationContext.getJMSProperties();
-//			// Populate with needed properties
-//			Hashtable props = new Hashtable();
-//			props.put(Context.INITIAL_CONTEXT_FACTORY,
-//					"org.jnp.interfaces.NamingContextFactory");
-//			props.put(Context.PROVIDER_URL, messagingProps
-//					.getProperty("JBOSS_URL"));
-//			props.put("java.naming.rmi.security.manager", "yes");
-//			props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming");
-//
-//			// Get the initial context with given properties
-//			Context context = new InitialContext(props);
-//
-//			// Get the connection factory
-//
-//			QueueConnectionFactory queueConnectionFactory = (QueueConnectionFactory) context
-//					.lookup(messagingProps.getProperty("FACTORY_JNDI"));
-//
-//			// Create the connection
-//
-//			queueConnection = queueConnectionFactory.createQueueConnection();
-//
-//			queueConnection.setExceptionListener(this);
-//
-//			// Create the session
-//			queueSession = queueConnection.createQueueSession(
-//			// No transaction
-//					false,
-//					// Auto ack
-//					Session.AUTO_ACKNOWLEDGE);
-//
-//			// Look up the destination
-//			requestQueue = (Queue) context.lookup("queue/AnalysisRequest");
-//			resultQueue = (Queue) context.lookup("queue/AnalysisResponse");
-//
-//			// Create a publisher
-//			// requestSender = queueSession.createSender(requestQueue);
-//			resultReceiver = queueSession.createReceiver(resultQueue);
-//			resultReceiver.setMessageListener(this);
-//
-//			queueConnection.start();
 			
 			establishQueueConnection();
 			
@@ -175,7 +139,6 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 				resultQueue = (Queue) context.lookup("queue/AnalysisResponse");
 			
 				// Create a publisher
-				// requestSender = queueSession.createSender(requestQueue);
 				resultReceiver = queueSession.createReceiver(resultQueue);
 				resultReceiver.setMessageListener(this);
 			
@@ -260,6 +223,8 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
   	    establishQueueConnection();
 	}
     /***
+     * Receive an analysis result
+     * 
      * @param analysisResult is the result 
      */
     public void receiveResult(AnalysisResult analysisResult) {
@@ -294,6 +259,13 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 		}
 	}
 
+    /**
+     * Receive an analysis exception.  Analysis exceptions can be returned from an analysis server
+     * where there is a problem completing the computation.  Exceptions can be caused by invalid request parameters or parameters
+     * that would produce statistically invalid results.
+     *  
+     * @param analysisServerException the exception.
+     */
 	public void receiveException(AnalysisServerException analysisServerException) {
 		String sessionId = analysisServerException.getFailedRequest().getSessionId();
 		String taskId = analysisServerException.getFailedRequest().getTaskId();
