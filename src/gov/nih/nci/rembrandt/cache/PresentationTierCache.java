@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+
 /**
 * caIntegrator License
 * 
@@ -67,7 +68,6 @@ import java.util.List;
 *    OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * 
 */
-
 
 public interface PresentationTierCache {
 

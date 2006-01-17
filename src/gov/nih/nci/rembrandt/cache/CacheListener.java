@@ -11,6 +11,7 @@ package gov.nih.nci.rembrandt.cache;
  * 
  */
 
+
 /**
 * caIntegrator License
 * 
@@ -67,7 +68,6 @@ package gov.nih.nci.rembrandt.cache;
 *    OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * 
 */
-
 
 public interface CacheListener {
 	public void cacheCreated(String cacheId);

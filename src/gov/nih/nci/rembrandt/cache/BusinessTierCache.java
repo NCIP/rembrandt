@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import net.sf.ehcache.Cache;
 
+
 /**
 * caIntegrator License
 * 
@@ -63,8 +64,6 @@ import net.sf.ehcache.Cache;
 *    OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * 
 */
-
-
 
 public interface BusinessTierCache {
 
