@@ -1,6 +1,5 @@
 <project name="rembrandt" default="build_zip_file_anthill" basedir=".">
-	<property file="basic_build.properties"/>
-
+	<property file="./download/download_build.properties"/>
 	<target name="build_dependency" if="${anthill.artifacts.dir}" depends="build_zip_file_anthill">
 		<echo>
 			Artifacts copied to ${anthill.artifacts.dir}
@@ -12,8 +11,10 @@
 		Zip the source code and compiled caintegrator-spec.jar
 	-->
 	<target name="build_zip_file" >
-     	 <delete file="${module_name}.zip"/>
-	     <zip destfile="${module_name}.zip">
+     	<delete file="${module_name}.zip"/>
+		<delete file="download/build.properties"/>
+		<copy file="download/download_build.properties" tofile="download/build.properties"/>
+	    <zip destfile="${module_name}.zip">
 			 <zipfileset dir="${source.dir}" prefix="${project_name}/${module_name}/${source.dir}">
 				<exclude name="jms.properties"/>
 			 	<exclude name="jndi.properties"/>
@@ -33,10 +34,12 @@
 			 </zipfileset>
 			 <zipfileset dir="." prefix="${project_name}/${module_name}/.">
                 <include name="build.xml"/>
-                <include name="basic_build.properties"/>
-             </zipfileset>		
+              </zipfileset>
+              <zipfileset dir="download" prefix="${project_name}/${module_name}/.">
+                <include name="build.properties"/>
+              </zipfileset>		
          </zip>
-     </target>
+	  </target>
 	<target name="noop"/>
 	<!--
 	TARGET: Zip
@@ -57,9 +60,9 @@
 			 </zipfileset>
 			 <zipfileset dir="." prefix="${project_name}/${module_name}/.">
                 <include name="build.xml"/>
-                <include name="basic_build.properties"/>
                 <include name="${module_name}.jar"/>
              </zipfileset>		
          </zip>
+		<copy file="download/basic_build.properties" tofile="download/build.propeties"/>
      </target>
 </project>
