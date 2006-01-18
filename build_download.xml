@@ -8,7 +8,7 @@
 	</target>
 	<!--
 	TARGET: Zip
-		Zip the source code and compiled caintegrator-spec.jar
+		Zip the source code 
 	-->
 	<target name="build_zip_file" >
      	<delete file="${module_name}.zip"/>
@@ -40,29 +40,45 @@
               </zipfileset>		
          </zip>
 	  </target>
-	<target name="noop"/>
 	<!--
 	TARGET: Zip
-		Zip the source code and compiled caintegrator-spec.jar
+		Zip the source code and compiled caintegrator-spec.jar and caintegrator-analysis-commons.jar
 	-->
 	<target name="build_zip_file_anthill" >
-		<delete file="${module_name}.zip"/>
-		<zip destfile="${module_name}.zip">
-			 <zipfileset dir="${build.source.dir}" prefix="${project_name}/${module_name}/${build.source.dir}"/>
-			 <zipfileset dir="${build.deploy.lib.dir}" prefix="${project_name}/${module_name}/${build.deploy.lib.dir}">
+     	<delete file="${module_name}.zip"/>
+		<delete file="download/build.properties"/>
+		<copy file="download/download_build.properties" tofile="download/build.properties"/>
+	    <zip destfile="${module_name}.zip">
+			 <zipfileset dir="${source.dir}" prefix="${project_name}/${module_name}/${source.dir}">
+				<exclude name="jms.properties"/>
+			 	<exclude name="jndi.properties"/>
+			 	<exclude name="log4j.properties"/>
+			 	<exclude name="webGenome.properties"/>
+			 	<exclude name="repository_database.xml"/>
+			 </zipfileset>
+			 <zipfileset dir="${conf.dir}" prefix="${project_name}/${module_name}/${conf.dir}"/>
+			 <zipfileset dir="${webapp.dir}" prefix="${project_name}/${module_name}/${webapp.dir}">
+				<exclude name="/log/*.log"/>
+			</zipfileset>
+			 <zipfileset dir="${source.lib.dir}" prefix="${project_name}/${module_name}/${source.lib.dir}">
 			 	<include name="*.jar"/>
 			 </zipfileset>
 			 <zipfileset dir="${anthill.dependency.artifacts.dir}" prefix="${project_name}/${module_name}/${build.deploy.lib.dir}">
 			 	<include name="*caintegrator-analysis-commons.jar"/>
+			 	<include name="*caintegrator-spec.jar"/>
 			 </zipfileset>
-			 <zipfileset dir="${build.do.not.deploy.lib.dir}" prefix="${project_name}/${module_name}/${build.do.not.deploy.lib.dir}">
+
+			 <zipfileset dir="${source.nondeploy.lib.dir}" prefix="${project_name}/${module_name}/${source.nondeploy.lib.dir}">
 			 	<include name="*.jar"/>
 			 </zipfileset>
 			 <zipfileset dir="." prefix="${project_name}/${module_name}/.">
                 <include name="build.xml"/>
-                <include name="${module_name}.jar"/>
-             </zipfileset>		
+              </zipfileset>
+              <zipfileset dir="download" prefix="${project_name}/${module_name}/.">
+                <include name="build.properties"/>
+              </zipfileset>		
          </zip>
-		<copy file="download/basic_build.properties" tofile="download/build.propeties"/>
-     </target>
+	  </target>
+	<target name="noop"/>
+
 </project>
