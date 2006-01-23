@@ -5,7 +5,7 @@
 	TARGET: COMPILE
 		Compiles the source directory with anthill dependencies
 	-->
-	<target name="compile_anthill" depends="config_common_security_module">
+	<target name="compile_anthill" depends="warning, config_common_security_module">
 			<delete dir="${build.classes.dir}"/>
 			<mkdir dir="${build.classes.dir}"/>
 			<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -26,7 +26,7 @@
 		TARGET: COMPILE
 			Compiles the source directory without anthill dependencies
 		-->
-	<target name="compile" depends="config_common_security_module">
+	<target name="compile" depends="warning, config_common_security_module">
 		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
 		<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -243,5 +243,17 @@
           </fileset>          
 		</jar>
 		<copy file="${app.jar.name}.jar" todir="${anthill.artifacts.dir}"/>
+	</target>
+	<target name="jar_check">
+		<property name="weka.jar" value="${source.lib.dir}/weka.jar" />
+		<available file="${weka.jar}" property="required_jars.present"/>
+		<condition property="required_jars.not.present">
+			<not>
+				<istrue value="${required_jars.present}"/>
+			</not>
+		</condition>
+	</target>
+	<target name="warning" if="required_jars.not.present" depends="jar_check">
+		<fail message="Build Failed! The required ${weka.jar} is not present to compile!  Please see ${source.lib.dir}/readme.txt" />
 	</target>
 </project>

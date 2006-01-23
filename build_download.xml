@@ -24,11 +24,9 @@
 			 </zipfileset>
 			 <zipfileset dir="${conf.dir}" prefix="${project_name}/${module_name}/${conf.dir}"/>
 			 <zipfileset dir="${webapp.dir}" prefix="${project_name}/${module_name}/${webapp.dir}">
-				<exclude name="/log/*.log"/>
+				<exclude name="/log/*.log"/>	
+			 	<exclude name="/WEB-INF/lib/weka.jar"/>
 			</zipfileset>
-			 <zipfileset dir="${source.lib.dir}" prefix="${project_name}/${module_name}/${source.lib.dir}">
-			 	<include name="*.jar"/>
-			 </zipfileset>
 			 <zipfileset dir="${source.nondeploy.lib.dir}" prefix="${project_name}/${module_name}/${source.nondeploy.lib.dir}">
 			 	<include name="*.jar"/>
 			 </zipfileset>
@@ -58,12 +56,10 @@
 			 </zipfileset>
 			 <zipfileset dir="${conf.dir}" prefix="${project_name}/${module_name}/${conf.dir}"/>
 			 <zipfileset dir="${webapp.dir}" prefix="${project_name}/${module_name}/${webapp.dir}">
-				<exclude name="/log/*.log"/>
+				<exclude name="/log/*.log"/>	
+			 	<exclude name="/WEB-INF/lib/weka.jar"/>
 			</zipfileset>
-			 <zipfileset dir="${source.lib.dir}" prefix="${project_name}/${module_name}/${source.lib.dir}">
-			 	<include name="*.jar"/>
-			 </zipfileset>
-			 <zipfileset dir="${anthill.dependency.artifacts.dir}" prefix="${project_name}/${module_name}/${build.deploy.lib.dir}">
+			 <zipfileset dir="${anthill.dependency.artifacts.dir}" prefix="${project_name}/${module_name}/${source.lib.dir}">
 			 	<include name="*caintegrator-analysis-commons.jar"/>
 			 	<include name="*caintegrator-spec.jar"/>
 			 </zipfileset>
