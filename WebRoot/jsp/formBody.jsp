@@ -70,6 +70,10 @@ String param = request.getParameter("s");
         	if(fsi != null)
 		      	fsi.close();
         }
+        finally	{
+	  	  	if(fsi != null)
+		      	fsi.close();
+		}
      }
   	 else	{ // this denoted that the query is not all genes and is specified right from request as 'param'
       try {
@@ -80,6 +84,10 @@ String param = request.getParameter("s");
   	  catch (IOException e) {
       	out.println("cant read props");
       	if(fsi != null)
+	      	fsi.close();
+  	  }
+  	  finally	{
+  	  	if(fsi != null)
 	      	fsi.close();
   	  }
 
