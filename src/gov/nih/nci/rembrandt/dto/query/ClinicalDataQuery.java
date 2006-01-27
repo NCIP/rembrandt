@@ -535,23 +535,35 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 						.getLowerSurvivalRange();
 				DomainElement survivalUpperDE = thisSurvivalCriteria
 						.getUpperSurvivalRange();
-				if (survivalLowerDE != null && survivalUpperDE != null) {
-					String survivalLowerStr = survivalLowerDE.getClass()
+				if (survivalLowerDE != null || survivalUpperDE != null) {
+					
+					if(survivalLowerDE != null) {
+					   String survivalLowerStr = survivalLowerDE.getClass()
 							.getName();
-					String survivalUpperStr = survivalUpperDE.getClass()
+					   if(survivalLowerStr != null) {
+						   OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;"
+								+ labels.getString(survivalLowerStr
+										.substring(survivalLowerStr
+												.lastIndexOf(".") + 1))
+								+ ":</b><br />&nbsp;&nbsp;&nbsp;"
+								+ survivalLowerDE.getValue() + " (months)";
+						   
+					   }
+					}
+					
+					if(survivalUpperDE != null) {
+					  String survivalUpperStr = survivalUpperDE.getClass()
 							.getName();
-					OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;"
-							+ labels.getString(survivalLowerStr
-									.substring(survivalLowerStr
-											.lastIndexOf(".") + 1))
-							+ ":</b><br />&nbsp;&nbsp;&nbsp;"
-							+ survivalLowerDE.getValue() + " (months)";
-					OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;"
-							+ labels.getString(survivalUpperStr
+					  if(survivalUpperStr != null) {
+					
+					      OutStr += "<BR><B class='otherBold'>&nbsp;&nbsp;"
+							      + labels.getString(survivalUpperStr
 									.substring(survivalUpperStr
 											.lastIndexOf(".") + 1))
-							+ ":</b><br />&nbsp;&nbsp;&nbsp;"
-							+ survivalUpperDE.getValue() + " (months)";
+							      + ":</b><br />&nbsp;&nbsp;&nbsp;"
+							      + survivalUpperDE.getValue() + " (months)";
+					  }
+					}
 				}
 			} else {
 				logger
@@ -570,23 +582,35 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 						.getLowerAgeLimit();
 				DomainElement UpperAgeLimit = thisAgeCriteria
 						.getUpperAgeLimit();
-				if (LowerAgeLimit != null && UpperAgeLimit != null) {
-					String ageLowerStr = LowerAgeLimit.getClass().getName();
-					String ageUpperStr = UpperAgeLimit.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>"
-							+ labels
-									.getString(ageLowerStr
-											.substring(ageLowerStr
-													.lastIndexOf(".") + 1))
-							+ ":</b><br />&nbsp;&nbsp;&nbsp;"
-							+ LowerAgeLimit.getValue() + " (years)";
-					OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>"
-							+ labels
-									.getString(ageUpperStr
-											.substring(ageUpperStr
-													.lastIndexOf(".") + 1))
-							+ ":</b><br />&nbsp;&nbsp;&nbsp;"
-							+ UpperAgeLimit.getValue() + " (years)";
+				if (LowerAgeLimit != null || UpperAgeLimit != null) {
+					if(LowerAgeLimit != null) {
+					   String ageLowerStr = LowerAgeLimit.getClass().getName();
+					   if(ageLowerStr != null) {
+						   OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>"
+								     + labels
+										.getString(ageLowerStr
+												.substring(ageLowerStr
+														.lastIndexOf(".") + 1))
+								+ ":</b><br />&nbsp;&nbsp;&nbsp;"
+								+ LowerAgeLimit.getValue() + " (years)";
+						}
+						
+					}
+					if(UpperAgeLimit != null) {
+					  String ageUpperStr = UpperAgeLimit.getClass().getName();
+					  if(ageUpperStr != null) {
+						   OutStr += "<BR>&nbsp;&nbsp;<B class='otherBold'>"
+								    + labels
+										.getString(ageUpperStr
+												.substring(ageUpperStr
+														.lastIndexOf(".") + 1))
+								+ ":</b><br />&nbsp;&nbsp;&nbsp;"
+								+ UpperAgeLimit.getValue() + " (years)";
+						}
+					}
+
+					
+					
 
 				}
 			} else {

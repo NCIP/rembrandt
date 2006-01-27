@@ -2174,11 +2174,29 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
    */
     private void buildSurvivalRangeCrit(ClinicalDataQuery cghQuery, Criteria survivalCrit) {
         SurvivalCriteria crit = cghQuery.getSurvivalCriteria();
+        
         if (crit != null) {
-            long lowerLmtInMons = crit.getLowerSurvivalRange().getValueObject().longValue();
-            long lowerLmtInDays  = lowerLmtInMons * 30;
-            long upperLmtInMons = crit.getUpperSurvivalRange().getValueObject().longValue();
-            long upperLmtInDays = upperLmtInMons * 30;
+        	long lowerLmtInMons = 0;
+        	long upperLmtInMons = 0;
+        	long lowerLmtInDays  = 0;
+        	long upperLmtInDays = 0;
+        	
+        	if(crit.getLowerSurvivalRange() != null && crit.getUpperSurvivalRange() != null) {        	
+	            lowerLmtInMons = crit.getLowerSurvivalRange().getValueObject().longValue();
+	            lowerLmtInDays  = lowerLmtInMons * 30;
+	            upperLmtInMons = crit.getUpperSurvivalRange().getValueObject().longValue();
+	            upperLmtInDays = upperLmtInMons * 30;
+        	}
+        	if(crit.getLowerSurvivalRange() == null && crit.getUpperSurvivalRange() != null) {    
+        		upperLmtInMons = crit.getUpperSurvivalRange().getValueObject().longValue();
+	            upperLmtInDays = upperLmtInMons * 30;        		
+        	}
+        	if(crit.getLowerSurvivalRange() != null && crit.getUpperSurvivalRange() == null) {  
+        		lowerLmtInMons = crit.getLowerSurvivalRange().getValueObject().longValue();
+ 	            lowerLmtInDays  = lowerLmtInMons * 30; 	           
+        		upperLmtInMons = 90;
+	            upperLmtInDays = upperLmtInMons * 30;        		
+        	}
             survivalCrit.addBetween(PatientData.SURVIVAL_LENGTH, new Long(lowerLmtInDays), new Long(upperLmtInDays));
         }
     }
@@ -2189,9 +2207,21 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
      */
     private void buildAgeRangeCrit(ClinicalDataQuery cghQuery, Criteria ageCrit ) {
         AgeCriteria crit = cghQuery.getAgeCriteria();
+        long lowerLmtInYrs = 0;
+        long upperLmtInYrs = 0;
         if (crit != null) {
-            long lowerLmtInYrs= crit.getLowerAgeLimit().getValueObject().longValue();
-            long upperLmtInYrs  = crit.getUpperAgeLimit().getValueObject().longValue();
+        	 if(crit.getLowerAgeLimit() != null && crit.getUpperAgeLimit() != null) {
+                lowerLmtInYrs= crit.getLowerAgeLimit().getValueObject().longValue();
+                upperLmtInYrs  = crit.getUpperAgeLimit().getValueObject().longValue();                
+        	 }
+             if(crit.getLowerAgeLimit() != null && crit.getUpperAgeLimit() == null) {
+                 lowerLmtInYrs= crit.getLowerAgeLimit().getValueObject().longValue();
+                 upperLmtInYrs  = 90;          
+            	 
+             }
+            if(crit.getLowerAgeLimit() == null && crit.getUpperAgeLimit() != null) {                
+            	upperLmtInYrs  = crit.getUpperAgeLimit().getValueObject().longValue();
+            }
             ageCrit.addBetween(PatientData.AGE, new Long(lowerLmtInYrs), new Long(upperLmtInYrs));
         }
     }
