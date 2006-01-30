@@ -52,7 +52,7 @@
 		</html:select>
       </td>
       <td style="vertical-align:middle">
-        <input onclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button"/><br />
+        <input onclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="&lt;&lt;" type="button"/><br />
         <input onclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'))" value=">>" type="button"/>
       </td>
       <td>Selected Groups
