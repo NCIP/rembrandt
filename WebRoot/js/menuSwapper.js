@@ -28,8 +28,8 @@ arrFbox[fLength] = fbox.options[i].text;
 fLength++;
    }
 }
-arrFbox.sort();
-arrTbox.sort();
+//arrFbox.sort();
+//arrTbox.sort();
 fbox.length = 0;
 tbox.length = 0;
 var c;
