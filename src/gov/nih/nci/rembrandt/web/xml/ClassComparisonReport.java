@@ -230,7 +230,7 @@ public class ClassComparisonReport{
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(resultFormat.format(ccre.getMeanGrp1()) + " / " + resultFormat.format(ccre.getMeanGrp2()));
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(resultFormat.format(ccre.getMeanGrp1()) + " / " + resultFormat.format(ccre.getMeanBaselineGrp()));
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
