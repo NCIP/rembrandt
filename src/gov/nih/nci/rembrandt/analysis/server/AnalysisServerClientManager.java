@@ -306,11 +306,21 @@ public class AnalysisServerClientManager implements MessageListener, ExceptionLi
 				}
 		        try {
 		        	reporterResultsetMap = GeneExprAnnotationService.getAnnotationsMapForReporters(reporterIds);
+		        	((ClassComparisonFinding) finding).setReporterAnnotationsMap(reporterResultsetMap);
 		        }
-		        catch(Exception e){}
-		        
-		        ((ClassComparisonFinding) finding).setReporterAnnotationsMap(reporterResultsetMap);
+		        catch(Exception e){
+		          logger.error("Caught exception trying to get annotations for reporters sessionId=" + sessionId + " taskId=" + taskId);
+		          logger.error(e);
+		         
+		          //Set the finding status to error and store in the cache
+		          FindingStatus newStatus = FindingStatus.Error;
+				  newStatus.setComment("Internal error getting annotations for reporters.");
+				  finding.setStatus(newStatus);
+				  _cacheManager.addToSessionCache(sessionId,taskId,finding);
+		          return;
+		        }
 			}
+			
 			finding.setStatus(FindingStatus.Completed);
 			logger.debug("Following task has been completed:/n  SessionId: "+sessionId+"/n  TaskId: "+taskId);
 			_cacheManager.addToSessionCache(sessionId,taskId,finding);
