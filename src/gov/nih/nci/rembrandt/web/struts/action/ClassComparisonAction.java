@@ -27,6 +27,7 @@ import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -172,17 +173,28 @@ public class ClassComparisonAction extends DispatchAction {
         
         
         //Create the clinical query DTO collection from the selected groups in the form
-        Collection<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
+        List<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
         
             if(classComparisonQueryForm.getSelectedGroups() != null && classComparisonQueryForm.getSelectedGroups().length == 2 ){
                 SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
+            	
+                ClinicalDataQuery clinicalDataQuery = null;
+            	
                 for(int i=0; i<classComparisonQueryForm.getSelectedGroups().length; i++){
-                    ClinicalDataQuery clinicalDataQuery= sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
-                    //add logic to if there is no predefined query.. use the given samples from the user
                     
-                    //bag and construct a clinical query to add into the collection
-                    clinicalQueryCollection.add(clinicalDataQuery);
+                    //lets ensure the that the baseline is added last
+                    if(!classComparisonQueryForm.getSelectedGroups()[i].equals(classComparisonQueryForm.getBaselineGroup()))	{
+                    	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
+                        //add logic to if there is no predefined query.. use the given samples from the user
+                        	
+                    	//bag and construct a clinical query to add into the collection
+                        clinicalQueryCollection.add(clinicalDataQuery);
+                    }  
                 }
+                //now process the baseline
+            	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getBaselineGroup());
+            	clinicalQueryCollection.add(clinicalDataQuery);
+
                 classComparisonQueryDTO.setComparisonGroups(clinicalQueryCollection);
             }
         

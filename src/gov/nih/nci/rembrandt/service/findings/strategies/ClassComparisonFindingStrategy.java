@@ -35,6 +35,7 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.jms.JMSException;
@@ -176,7 +177,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 			 * The ClinicalDataQuery was an exsisting Query that we could not change 
 			 * in the interest of time.
 			 */
-			Collection<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
+			List<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
 			clinicalQueries = new ArrayList<ClinicalDataQuery>();
 			for(ClinicalQueryDTO clinicalQueryDTO: clinicalQueryDTOs) {
 				clinicalQueries.add((ClinicalDataQuery)clinicalQueryDTO);

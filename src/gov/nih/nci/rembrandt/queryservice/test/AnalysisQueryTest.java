@@ -166,7 +166,7 @@ public class AnalysisQueryTest extends TestCase {
         insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
         insts.add(new InstitutionDE("PUBLIC",new Long(8)));
 		classComparisonQueryDTO.setInstitutionDEs(insts);
-		Collection<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
+		List<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
 		//Create ClinicalQueryDTO 1 (Class 1) for the class comparison
 		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 		group1.setQueryName("OLIGO_GROUP");

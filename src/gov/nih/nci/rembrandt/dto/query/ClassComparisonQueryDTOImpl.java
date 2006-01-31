@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 
 import java.util.Collection;
+import java.util.List;
 /**
  * @author sahnih
  */
@@ -73,6 +74,7 @@ import java.util.Collection;
 */
 
 public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
+	
 	/**
 	 * This class captures the significance and/or magnitude of the difference between groups of biological
 	 * specimen of which the gene expression is measured by BioAssays.
@@ -93,7 +95,7 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	private MultiGroupComparisonAdjustmentTypeDE multiGroupComparisonAdjustmentTypeDE ;
 	private ArrayPlatformDE arrayPlatformDE;
 	private ExprFoldChangeDE exprFoldChangeDE;
-	private Collection<ClinicalQueryDTO> comparisonGroups;
+	private List<ClinicalQueryDTO> comparisonGroups;
 	private Collection<InstitutionDE> institutionDEs;
 
 	/* (non-Javadoc)
@@ -169,13 +171,13 @@ public class ClassComparisonQueryDTOImpl implements ClassComparisonQueryDTO {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#getComparisonGroups()
 	 */
-	public Collection<ClinicalQueryDTO> getComparisonGroups() {
+	public List<ClinicalQueryDTO> getComparisonGroups() {
 		return comparisonGroups;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.dto.critieria.ClassComparisonQueryDTO#setComparisonGroups(java.util.Collection)
 	 */
-	public void setComparisonGroups(Collection<ClinicalQueryDTO> comparisonGroups) {
+	public void setComparisonGroups(List<ClinicalQueryDTO> comparisonGroups) {
 		this.comparisonGroups = comparisonGroups;
 	}
 	/**
