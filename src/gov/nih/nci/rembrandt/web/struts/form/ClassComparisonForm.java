@@ -87,6 +87,8 @@ public class ClassComparisonForm extends ActionForm {
     
     private String [] selectedGroups;
     
+    private String baselineGroup;
+    
     private String analysisResultName = "";
     
     private String statistic = "default";
@@ -185,6 +187,15 @@ public class ClassComparisonForm extends ActionForm {
         this.selectedGroups = selectedGroups;
     }
 
+	public String getBaselineGroup() {
+		return baselineGroup;
+	}
+
+
+
+	public void setBaselineGroup(String baselineGroup) {
+		this.baselineGroup = baselineGroup;
+	}
 
     /**
      * @return Returns the analysisResultName.
@@ -255,11 +266,6 @@ public class ClassComparisonForm extends ActionForm {
     public void setFoldChange(String foldChange) {
         this.foldChange = foldChange;
     }
-
-
-
-   
-
 
 
     /**
@@ -443,15 +449,6 @@ public class ClassComparisonForm extends ActionForm {
         arrayPlatform = "";             
         statisticalMethod = "TTest";
     }
-
-
-
-   
-
-
-
-   
-
 
     
 }
