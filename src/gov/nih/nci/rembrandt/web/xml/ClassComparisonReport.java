@@ -110,7 +110,8 @@ public class ClassComparisonReport{
 	public static Document getReportXML(Finding finding, Map filterMapParams) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
-		
+		DecimalFormat sciFormat = new DecimalFormat("0.00E0");
+		DecimalFormat tmpsciFormat = new DecimalFormat("0.0000#####################");
 		
 		/*
 		 *  this is for filtering, we will want a p-value filter for CC
@@ -233,9 +234,9 @@ public class ClassComparisonReport{
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(resultFormat.format(ccre.getMeanGrp1()) + " / " + resultFormat.format(ccre.getMeanBaselineGrp()));
 			        	data = null;
 			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+			        cell = dataRow.addElement("Cell").addAttribute("type", "pval").addAttribute("class", "data").addAttribute("group", "data");
 			        	//String pv = (ccre.getPvalue() == null) ? String.valueOf(ccre.getPvalue()) : "N/A";
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getPvalue())));
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(tmpsciFormat.format(ccre.getPvalue())));
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");

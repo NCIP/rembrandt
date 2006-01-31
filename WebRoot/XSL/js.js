@@ -380,3 +380,74 @@ function switchViews(view, sample)	{
 	
 
 }
+
+
+//for scientific notation conversion
+//http://www.actionscript.org/forums/showthread.php3?s=&threadid=2652
+
+//format a number into specified number of decimal places
+Math.formatDecimals = function (num, digits) {
+        //if no decimal places needed, we're done
+        if (digits <= 0) {
+                return Math.round(num); 
+        } 
+        //round the number to specified decimal places
+        //e.g. 12.3456 to 3 digits (12.346) -> mult. by 1000, round, div. by 1000
+        var tenToPower = Math.pow(10, digits);
+        var cropped = String(Math.round(num * tenToPower) / tenToPower);
+
+        //add decimal point if missing
+        if (cropped.indexOf(".") == -1) {
+                cropped += ".0";  //e.g. 5 -> 5.0 (at least one zero is needed)
+        }
+
+        //finally, force correct number of zeroes; add some if necessary
+        var halves = cropped.split("."); //grab numbers to the right of the decimal
+        //compare digits in right half of string to digits wanted
+        var zerosNeeded = digits - halves[1].length; //number of zeros to add
+        for (var i=1; i <= zerosNeeded; i++) {
+                cropped += "0";
+        }
+        return(cropped);
+} //Robert Penner May 2001 - source@robertpenner.com
+
+
+//convert any number to scientific notation with specified significant digits
+//e.g. .012345 -> 1.2345e-2 -- but 6.34e0 is displayed "6.34"
+//requires function formatDecimals()
+Math.toScientific = function (num, sigDigs) {
+        //deal with messy input values
+        num = Number(num); //try to convert to a number
+        if (isNaN(num)) return num; //garbage in, NaN out
+
+        //find exponent using logarithm
+        //e.g. log10(150) = 2.18 -- round down to 2 using floor()
+        var exponent = Math.floor(Math.log(Math.abs(num)) / Math.LN10); 
+        if (num == 0) exponent = 0; //handle glitch if the number is zero
+
+        //find mantissa (e.g. "3.47" is mantissa of 3470; need to divide by 1000)
+        var tenToPower = Math.pow(10, exponent);
+        var mantissa = num / tenToPower;
+
+        //force significant digits in mantissa
+        //e.g. 3 sig digs: 5 -> 5.00, 7.1 -> 7.10, 4.2791 -> 4.28
+        mantissa = Math.formatDecimals(mantissa, sigDigs-1); //use custom function
+        var output = mantissa;
+        //if exponent is zero, don't include e
+        if (exponent != 0) {
+                output += "e" + exponent;
+        }
+        return(output);
+} //Robert Penner May 2001 - source@robertpenner.com
+
+
+function convertSci()	{
+	//get all elements with id=pval and convert to # by parseFloat then back to sci for readability
+	var els = document.getElementsByName("pval");
+	//alert(els.length);
+	for(var i=0; i<els.length; i++)	{
+		var tmp = parseFloat(els[i].innerHTML);
+		els[i].innerHTML = Math.toScientific(tmp, 3);
+	}
+		
+}

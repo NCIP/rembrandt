@@ -298,8 +298,9 @@
 		  	  			<xsl:variable name="class" select="@group" />
 		  	  			<xsl:variable name="styleclass" select="@class" />
 		  	  			<xsl:variable name="theData" select="Data"/>
-		      			<td class="{$class}">
-
+		  	  			<xsl:variable name="theType" select="@type"/>
+		      			<td class="{$class}" id="{$theType}" name="{$theType}">
+						
 		      			<xsl:choose>
 		      				<xsl:when test="$styleclass = 'gene' and $theData != '--' and $theData != '-'">
 		      					<a href="#" onclick="javascript:spawnAnnot('gene', this); return false;"><xsl:value-of select="Data"/></a>
@@ -371,6 +372,7 @@
   	<div>
   	<script language="javascript">
   		//goQueryDetails("<xsl:copy-of select="$queryDetails" />");
+  		convertSci();
   	</script>
   	</div>
   	</xsl:if><!-- no records -->
