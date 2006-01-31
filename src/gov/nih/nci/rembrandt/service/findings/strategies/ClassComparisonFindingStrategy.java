@@ -283,7 +283,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					//SampleGroup[] sampleGroupObjects =  (SampleGroup[]) sampleGroups.toArray();				
 					if (obj.length >= 2) {
 						classComparisonRequest.setGroup1((SampleGroup)obj[0]);
-						classComparisonRequest.setGroup2((SampleGroup)obj[1]);
+						classComparisonRequest.setBaselineGroup((SampleGroup)obj[1]);
 					}
 					// set PvalueThreshold
 					classComparisonRequest.setPvalueThreshold(myQueryDTO.getStatisticalSignificanceDE().getValueObject());
