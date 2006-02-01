@@ -30,6 +30,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+import java.math.BigDecimal;
+
 /**
  * @author LandyR
  * Feb 8, 2005
@@ -111,7 +113,7 @@ public class ClassComparisonReport{
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		DecimalFormat sciFormat = new DecimalFormat("0.00E0");
-		DecimalFormat tmpsciFormat = new DecimalFormat("0.0000#####################");
+		DecimalFormat tmpsciFormat = new DecimalFormat("###0.0000#####################");
 		
 		/*
 		 *  this is for filtering, we will want a p-value filter for CC
@@ -236,7 +238,8 @@ public class ClassComparisonReport{
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "pval").addAttribute("class", "data").addAttribute("group", "data");
 			        	//String pv = (ccre.getPvalue() == null) ? String.valueOf(ccre.getPvalue()) : "N/A";
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(tmpsciFormat.format(ccre.getPvalue())));
+			        	BigDecimal bigd = new BigDecimal(ccre.getPvalue());
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(bigd.toPlainString());
 			        	data = null;
 			        cell = null;
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
