@@ -417,7 +417,8 @@ Math.formatDecimals = function (num, digits) {
 //requires function formatDecimals()
 Math.toScientific = function (num, sigDigs) {
         //deal with messy input values
-        num = Number(num); //try to convert to a number
+        num = Number(parseFloat(num)); //try to convert to a number
+        //alert(num);
         if (isNaN(num)) return num; //garbage in, NaN out
 
         //find exponent using logarithm
@@ -444,9 +445,9 @@ Math.toScientific = function (num, sigDigs) {
 function convertSci()	{
 	//get all elements with id=pval and convert to # by parseFloat then back to sci for readability
 	var els = document.getElementsByName("pval");
-	//alert(els.length);
 	for(var i=0; i<els.length; i++)	{
-		var tmp = parseFloat(els[i].innerHTML);
+		//var tmp = parseFloat(els[i].innerHTML);
+		var tmp = els[i].innerHTML;
 		els[i].innerHTML = Math.toScientific(tmp, 3);
 	}
 		
