@@ -15,6 +15,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.rembrandt.web.helper.FilterHelper;
+import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -157,9 +158,37 @@ public class ClassComparisonReport{
 			
 			//TODO: instance of
 			ClassComparisonFinding ccf = (ClassComparisonFinding) finding;
-
+			ArrayList<String> queryDetails = new ArrayList();
+			ClassComparisonForm ccform = (ClassComparisonForm)ccf.getCcForm();
+			queryDetails.add("Analysis Result name: " + ccform.getAnalysisResultName());
+			queryDetails.add("Array Platform: " + ccform.getArrayPlatform());
+			queryDetails.add("Baseline group: " + ccform.getBaselineGroup());
+			queryDetails.add("Comparison Groups: " + ccform.getSelectedGroups()[0].toString());
+			queryDetails.add("Comparison Adjustment: " + ccform.getComparisonAdjustment());
+			//queryDetails.add("Comp. Adj. Coll: " + ccform.getComparisonAdjustmentCollection());
+			//queryDetails.add("Existing Groups: " + ccform.getExistingGroups());
+			//queryDetails.add("Existing group list: " + ccform.getExistingGroupsList());
+			//queryDetails.add("Fold Change: " + ccform.getFoldChange());
+			queryDetails.add("Fold Change auto: " + ccform.getFoldChangeAuto());
+			//queryDetails.add("Fold change auto list: " + ccform.getFoldChangeAutoList());
+			//queryDetails.add("Fold change manual: " + ccform.getFoldChangeManual());
+			queryDetails.add("Stastic: " + ccform.getStatistic());
+			queryDetails.add("Stastical method: " + ccform.getStatisticalMethod());
+			//queryDetails.add("Stastical method coll.: " + ccform.getStatisticalMethodCollection());
+			queryDetails.add("Stastical significance: " + ccform.getStatisticalSignificance());
+			
+			String qd = "";
+			for(String q : queryDetails){
+				qd += q + " ||| ";
+			}
+			
 			if(ccf != null)	{
-					
+				
+				Element details = report.addElement("Query_details");
+				cell = details.addElement("Data");
+				cell.addText(qd);
+				cell = null;
+				
 				Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Reporter");

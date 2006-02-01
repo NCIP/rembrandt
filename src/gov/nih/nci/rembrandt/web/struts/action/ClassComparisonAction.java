@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
+import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
@@ -144,9 +145,10 @@ public class ClassComparisonAction extends DispatchAction {
         }   
         
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
-        Finding finding = null;
+        ClassComparisonFinding finding = null;
         try {
             finding = factory.createClassComparisonFinding(classComparisonQueryDTO,sessionId,classComparisonQueryDTO.getQueryName());
+            finding.setCcForm(classComparisonForm);
         } catch (FrameworkException e) {
             e.printStackTrace();
         }
