@@ -341,10 +341,10 @@
 									</xsl:when>
 			      					<xsl:otherwise>
 			      						<xsl:if test="$styleclass = 'highlighted'">
-			      							<span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      							<span class="missing" style="color:gray;"><xsl:value-of select="Data"  /></span>
 			      						</xsl:if>
 				      					<xsl:if test="$styleclass != 'highlighted'">
-				      						<xsl:value-of select="Data" disable-output-escaping="yes" />
+				      						<xsl:value-of select="Data" />
 				      					</xsl:if>
 			      					</xsl:otherwise>
 			      				</xsl:choose>
