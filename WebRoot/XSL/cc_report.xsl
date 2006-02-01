@@ -369,10 +369,17 @@
 		</xsl:for-each>
 	</form> <!--  close PRB samples form -->
   	</table>
+  	
+  	<div id="query_details">
+  	<xsl:for-each select="Query_details">
+  		<xsl:value-of select="Data" />
+  	</xsl:for-each>
+  	</div>
   	<div>
   	<script language="javascript">
   		//goQueryDetails("<xsl:copy-of select="$queryDetails" />");
   		convertSci();
+  		fixQueryDetails();
   	</script>
   	</div>
   	</xsl:if><!-- no records -->

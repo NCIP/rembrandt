@@ -452,3 +452,13 @@ function convertSci()	{
 	}
 		
 }
+
+function fixQueryDetails()	{
+
+	if(document.getElementById("query_details"))	{
+		var rExp = /\|\|\|/g;
+		var qd = document.getElementById("query_details");
+		var tmp = qd.innerHTML;
+		qd.innerHTML = "<b>Query Details: </b><br/>" + tmp.replace(rExp, "<br/>");
+	}
+}
