@@ -3,8 +3,12 @@ package gov.nih.nci.rembrandt.web.xml;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
+import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
+import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -159,7 +163,40 @@ public class ClassComparisonReport{
 			//TODO: instance of
 			ClassComparisonFinding ccf = (ClassComparisonFinding) finding;
 			ArrayList<String> queryDetails = new ArrayList();
-
+			ClassComparisonQueryDTO ccdto = (ClassComparisonQueryDTO)ccf.getQueryDTO();
+			
+			if(ccdto != null)	{
+				String tmp = "";
+				tmp = ccdto.getQueryName()!=null ? ccdto.getQueryName() : "";
+				queryDetails.add("Query Name: " + tmp);
+				tmp = ccdto.getArrayPlatformDE() != null ? ccdto.getArrayPlatformDE().getValue().toString() : "";
+				queryDetails.add("Array Platform: " + tmp);
+				
+				tmp = "";
+				List<ClinicalQueryDTO> grps = ccdto.getComparisonGroups()!=null ? ccdto.getComparisonGroups() : new ArrayList();
+				Collection grs = new ArrayList();
+				for(ClinicalQueryDTO cdto : grps)	{
+					if(cdto.getQueryName()!=null)
+						grs.add(cdto.getQueryName());
+				}
+				
+				tmp += StringUtils.join(grs.toArray(), ", ") + " (baseline)";
+				queryDetails.add("Groups: " + tmp);
+					/*
+					 noHTMLString = noHTMLString.replaceAll("<", "{");
+					 noHTMLString = noHTMLString.replaceAll(">", "}");
+					 noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
+					 */
+				tmp = ccdto.getExprFoldChangeDE() != null ? ccdto.getExprFoldChangeDE().getValue().toString() : "";
+				queryDetails.add("Fold Change: " + tmp);
+				//queryDetails.add("Institutions: " + ccdto.getInstitutionDEs());
+				tmp = ccdto.getMultiGroupComparisonAdjustmentTypeDE()!=null ? ccdto.getMultiGroupComparisonAdjustmentTypeDE().getValue().toString() : "";
+				queryDetails.add("Multi Group: " + tmp);			
+				tmp = ccdto.getStatisticalSignificanceDE()!=null ? ccdto.getStatisticalSignificanceDE().getValue().toString() : "";
+				queryDetails.add("Stat Sig.: " + tmp);
+				tmp = ccdto.getStatisticTypeDE()!=null ? ccdto.getStatisticTypeDE().getValue().toString() : "";
+				queryDetails.add("Stat Type: " + tmp);
+			}
 			/*
 			queryDetails.add("Analysis Result name: " + ccform.getAnalysisResultName());
 			queryDetails.add("Array Platform: " + ccform.getArrayPlatform());
@@ -177,20 +214,20 @@ public class ClassComparisonReport{
 			queryDetails.add("Stastical method: " + ccform.getStatisticalMethod());
 			//queryDetails.add("Stastical method coll.: " + ccform.getStatisticalMethodCollection());
 			queryDetails.add("Stastical significance: " + ccform.getStatisticalSignificance());
-			
+			*/
 			String qd = "";
 			for(String q : queryDetails){
 				qd += q + " ||| ";
 			}
-			*/
+			
 			
 			if(ccf != null)	{
-				/*
+				
 				Element details = report.addElement("Query_details");
 				cell = details.addElement("Data");
 				cell.addText(qd);
 				cell = null;
-				*/
+				
 				Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Reporter");
@@ -237,8 +274,11 @@ public class ClassComparisonReport{
 		        
 		        
 		    	/* done with the headerRow and SampleRow Elements, time to add data rows */
+		       
+		        /*
 		        Map<String,ReporterResultset> reporterResultsetMap = null;
 		        reporterResultsetMap = ccf.getReporterAnnotationsMap();
+		        */
 		        
 		        List<ClassComparisonResultEntry> classComparisonResultEntrys = ccf.getResultEntries();
 				List<String> reporterIds = new ArrayList<String>();
@@ -249,13 +289,28 @@ public class ClassComparisonReport{
 					}
 				}
 				
+				//new stuff
+				AnnotationHandler h = new AnnotationHandler();
+				Map<String, ReporterAnnotations> reporterResultsetMap = null;
+				try {
+					System.out.println("start:" + System.currentTimeMillis());
+					reporterResultsetMap = h.getAllAnnotationsFor(reporterIds);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("stop:" + System.currentTimeMillis());
+				
+				/*
+				//this looks like a failsafe for the old method
 				if(reporterResultsetMap == null)	{
 			        try {
 			        	reporterResultsetMap = GeneExprAnnotationService.getAnnotationsMapForReporters(reporterIds);
 			        }
 			        catch(Exception e){}
 		        }
-		        
+		        */
+				
 		        for(ClassComparisonResultEntry ccre : ccf.getResultEntries())	{
 
 		        	dataRow = report.addElement("Row").addAttribute("name", "dataRow");
@@ -291,24 +346,31 @@ public class ClassComparisonReport{
 						if(reporterResultsetMap != null  && reporterIds != null){
 							//int count = 0;
 							String reporterId = ccre.getReporterId();
-							ReporterResultset reporterResultset = reporterResultsetMap.get(reporterId);
-							Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
+							//ReporterResultset reporterResultset = reporterResultsetMap.get(reporterId);
+							ReporterAnnotations ra = reporterResultsetMap.get(reporterId);
+							
+							//Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
+							String geneSymbols = ra.getGeneSymbol();
+							if(geneSymbols != null)	
+								genes = geneSymbols;
+							/*
 							if(geneSymbols != null){
 								genes = StringUtils.join(geneSymbols.toArray(), delim);
 							}
-							Collection<String> genBank_AccIDS = (Collection<String>)reporterResultset.getAssiciatedGenBankAccessionNos();
+							*/
+							Collection<String> genBank_AccIDS = (Collection<String>)ra.getAccessions();
 							if(genBank_AccIDS != null){
 								accIds = StringUtils.join(genBank_AccIDS.toArray(), delim);
 							}
-							Collection<String> locusLinkIDs = (Collection<String>)reporterResultset.getAssiciatedLocusLinkIDs();
+							Collection<String> locusLinkIDs = (Collection<String>)ra.getLocusLinks();
 							if(locusLinkIDs != null){
 								llink = StringUtils.join(locusLinkIDs.toArray(), delim);
 							}
-							Collection<String> goIds = (Collection<String>)reporterResultset.getAssociatedGOIds();
+							Collection<String> goIds = (Collection<String>)ra.getGoIDS();
 							if(goIds != null){
 								go = StringUtils.join(goIds.toArray(), delim);
 							}
-							Collection<String> pathways = (Collection<String>)reporterResultset.getAssociatedPathways();
+							Collection<String> pathways = (Collection<String>)ra.getPathways();
 							if(pathways != null){
 								pw = StringUtils.join(pathways.toArray(), delim);
 							}
