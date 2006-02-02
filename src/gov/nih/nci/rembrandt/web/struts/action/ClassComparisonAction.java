@@ -148,7 +148,6 @@ public class ClassComparisonAction extends DispatchAction {
         ClassComparisonFinding finding = null;
         try {
             finding = factory.createClassComparisonFinding(classComparisonQueryDTO,sessionId,classComparisonQueryDTO.getQueryName());
-            finding.setCcForm(classComparisonForm);
         } catch (FrameworkException e) {
             e.printStackTrace();
         }

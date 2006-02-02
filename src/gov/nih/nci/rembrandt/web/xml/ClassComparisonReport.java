@@ -159,7 +159,8 @@ public class ClassComparisonReport{
 			//TODO: instance of
 			ClassComparisonFinding ccf = (ClassComparisonFinding) finding;
 			ArrayList<String> queryDetails = new ArrayList();
-			ClassComparisonForm ccform = (ClassComparisonForm)ccf.getCcForm();
+
+			/*
 			queryDetails.add("Analysis Result name: " + ccform.getAnalysisResultName());
 			queryDetails.add("Array Platform: " + ccform.getArrayPlatform());
 			queryDetails.add("Baseline group: " + ccform.getBaselineGroup());
@@ -181,14 +182,15 @@ public class ClassComparisonReport{
 			for(String q : queryDetails){
 				qd += q + " ||| ";
 			}
+			*/
 			
 			if(ccf != null)	{
-				
+				/*
 				Element details = report.addElement("Query_details");
 				cell = details.addElement("Data");
 				cell.addText(qd);
 				cell = null;
-				
+				*/
 				Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Reporter");
