@@ -148,6 +148,7 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 		
 		FindingStatus currentStatus = FindingStatus.Running;
 		classComparisonFinding = new ClassComparisonFinding(sessionId, taskId, currentStatus, null);
+		classComparisonFinding.setQueryDTO(myQueryDTO);
 		cacheManager.addToSessionCache(sessionId, taskId, classComparisonFinding);
 	}
 

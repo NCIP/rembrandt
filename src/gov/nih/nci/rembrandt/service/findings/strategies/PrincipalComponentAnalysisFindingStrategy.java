@@ -151,6 +151,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 		
 		FindingStatus currentStatus = FindingStatus.Running;
 		pcaFinding = new PrincipalComponentAnalysisFinding(sessionId, taskId, currentStatus, null);
+		pcaFinding.setQueryDTO(myQueryDTO);
 		cacheManager.addToSessionCache(sessionId, taskId, pcaFinding);
 	}
 

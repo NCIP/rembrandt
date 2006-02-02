@@ -150,6 +150,7 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 		
 		FindingStatus currentStatus = FindingStatus.Running;
 		hcFinding = new HCAFinding(sessionId, taskId, currentStatus, null);
+		hcFinding.setQueryDTO(myQueryDTO);
 		cacheManager.addToSessionCache(sessionId, taskId, hcFinding);
 	}
 
