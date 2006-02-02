@@ -28,7 +28,7 @@ public class AnnotationHandler {
      * @param reporters Reporters to be queried
      * @return This method retunrs a Map using reporter as key and corresponding gene symbols as value
      */
-    public Map getGeneSymbolsFor(List reporters) throws Exception{
+    public Map<String, String> getGeneSymbolsFor(List reporters) throws Exception{
         List annotationsEventList = Collections.synchronizedList(new ArrayList());
         Map h = execQueryGeneSymbols(reporters, annotationsEventList);
         try {
@@ -121,8 +121,8 @@ public class AnnotationHandler {
         return allAnnotations;
     }
 
-    private Map execQueryGeneSymbols(List reporters, List annotationsEventList) {
-        final Map genesAndReporters = Collections.synchronizedMap(new HashMap());
+    private Map<String, String> execQueryGeneSymbols(List reporters, List annotationsEventList) {
+        final Map<String, String> genesAndReporters = Collections.synchronizedMap(new HashMap<String, String>());
         for (int i = 0; i < reporters.size();)   {
             Collection values = new ArrayList();
             int begIndex = i;
