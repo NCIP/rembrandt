@@ -21,7 +21,7 @@ import gov.nih.nci.rembrandt.util.ThreadPool;
  */
 public class ReporterAnnotationsHandler {
 
-    private static Logger logger = Logger.getLogger(AnnotationsHelper.class);
+    private static Logger logger = Logger.getLogger(ReporterAnnotationsHandler.class);
     private final static int VALUES_PER_THREAD = 50;
 
 
@@ -70,7 +70,7 @@ public class ReporterAnnotationsHandler {
                       }
                    }
                );
-               logger.debug("BEGIN (from AnnotationsHelper.executeProbeAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
+               logger.debug("BEGIN (from AnnotationHandler.executeProbeAnnotationQuery()): Thread Count: " + ThreadPool.THREAD_COUNT);
                t.start();
             }
 

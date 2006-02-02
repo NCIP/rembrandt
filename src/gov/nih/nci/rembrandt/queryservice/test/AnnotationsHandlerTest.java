@@ -3,7 +3,7 @@ package gov.nih.nci.rembrandt.queryservice.test;
 import junit.framework.TestCase;
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationsHelper;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
@@ -20,7 +20,7 @@ import org.apache.ojb.broker.query.Query;
  * Date: Feb 1, 2006 <BR>
  * Version: 1.0 <BR>
  */
-public class AnnotationsHelperTest extends TestCase {
+public class AnnotationsHandlerTest extends TestCase {
     List reporters;
     protected void setUp() throws Exception {
         ApplicationContext.init();
@@ -40,7 +40,7 @@ public class AnnotationsHelperTest extends TestCase {
     }
 
     public void testgetGeneSymbolsFor() throws Exception{
-        AnnotationsHelper h = new AnnotationsHelper();
+        AnnotationHandler h = new AnnotationHandler();
         Map results = h.getGeneSymbolsFor(reporters);
 
        // loop through and print all reporters and associated gene symbols
@@ -52,7 +52,7 @@ public class AnnotationsHelperTest extends TestCase {
     }
 
      public void testgetAllAnnotationsFor() throws Exception{
-         AnnotationsHelper h = new AnnotationsHelper();
+         AnnotationHandler h = new AnnotationHandler();
          Map<String, ReporterAnnotations> results = h.getAllAnnotationsFor(reporters);
 
         // loop through and print all reporters and associated gene symbols
@@ -116,7 +116,7 @@ public class AnnotationsHelperTest extends TestCase {
 
     public static Test suite() {
 		TestSuite suit =  new TestSuite();
-        suit.addTest(new TestSuite(AnnotationsHelperTest.class));
+        suit.addTest(new TestSuite(AnnotationsHandlerTest.class));
         return suit;
 	}
 
