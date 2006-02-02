@@ -379,7 +379,7 @@
   	<script language="javascript">
   		//goQueryDetails("<xsl:copy-of select="$queryDetails" />");
   		convertSci();
-  		//fixQueryDetails();
+  		fixQueryDetails();
   	</script>
   	</div>
   	</xsl:if><!-- no records -->
