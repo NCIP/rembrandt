@@ -18,7 +18,7 @@ import org.xml.sax.InputSource;
 import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 /**
  * @todo comment this!
- * @author BauerD
+ * @author BhattarR, BauerD
  *
  */
 
@@ -120,7 +120,7 @@ public class ApplicationContext{
 	         logger.error(new IllegalStateException("Error parsing deToBeanAttrMappings.xml file: Exception: " + t));
 	      }
       //Start the JMS Lister
-      try {
+        try {
 		@SuppressWarnings("unused") AnalysisServerClientManager analysisServerClientManager = AnalysisServerClientManager.getInstance();
 		} catch (NamingException e) {
 	        logger.error(new IllegalStateException("Error getting an instance of AnalysisServerClientManager" ));
@@ -135,5 +135,6 @@ public class ApplicationContext{
 			logger.error(t.getMessage());
 			logger.error(t);
 		}
+
     }
 }
