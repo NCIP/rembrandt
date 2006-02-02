@@ -186,7 +186,6 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 						+ labels.getString(thisCriteria.substring(thisCriteria
 								.lastIndexOf(".") + 1)) + "</B>";
 				Collection copyNoObjects = thisCopyNumberCrit.getCopyNummbers();
-
 				for (Iterator iter = copyNoObjects.iterator(); iter.hasNext();) {
 					DomainElement de = (DomainElement) iter.next();
 					String thisDomainElement = de.getClass().getName();

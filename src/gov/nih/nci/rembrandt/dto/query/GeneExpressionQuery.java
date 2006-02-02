@@ -154,7 +154,7 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 								.lastIndexOf(".") + 1)) + "</B>";
 				Collection foldChangeObjects = thisFoldChangeCrit
 						.getFoldChangeObjects();
-
+		
 				for (Iterator iter = foldChangeObjects.iterator(); iter
 						.hasNext();) {
 					DomainElement de = (DomainElement) iter.next();

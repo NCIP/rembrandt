@@ -1085,7 +1085,6 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
                     && (this.cnADAmplified != null && this.cnADAmplified.trim().length() >=1)) {
             	try{       		
 	                	
-	                 copyNumberCriteria = new CopyNumberCriteria();
 	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnADAmplified));
 	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
 	           	   
@@ -1228,7 +1227,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
                     && (this.cnADDeleted != null && this.cnADDeleted.trim().length() >=1)) {
             	try{ 
             	
-	            	 copyNumberCriteria = new CopyNumberCriteria();
+	            	
 	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnADDeleted));
 	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
             	     
@@ -1261,8 +1260,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
                     && thisCopyNumber.equalsIgnoreCase("unchange")
                     && (this.cnUnchangeTo != null && this.cnUnchangeTo.trim().length() > 0)) {
             	 try{
-	             	 copyNumberCriteria = new CopyNumberCriteria();
-		        	 CopyNumberDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(Float.valueOf(this.cnUnchangeTo));
+            		 
+	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(Float.valueOf(this.cnUnchangeTo));
 		        	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
 	            	 }
 
@@ -1536,7 +1535,6 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
                     && (this.cnUnchangeFrom != null && this.cnUnchangeFrom.trim().length() > 0)) {
             	try{
 	            	
-			           	 copyNumberCriteria = new CopyNumberCriteria();
 			        	 CopyNumberDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(Float.valueOf(this.cnUnchangeFrom));
 			        	 copyNumberCriteria.setCopyNumber(copyNumberDE);           	                                            
 		           }

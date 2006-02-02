@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.dto.query;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
 
@@ -103,6 +104,8 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 
 	private String queryName;
 	
+	private static boolean isClinicalSampleSet = false;
+	
     private InstitutionCriteria institutionCriteria;
 
 	// Session that this compoundQuery is associated with
@@ -183,7 +186,8 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 	public void setRightQuery(Queriable rightQuery) throws Exception {
 		this.rightQuery = rightQuery;
 		// The right query's AssociatedView is always the "winning view"
-		if (rightQuery != null && rightQuery.getAssociatedView() != null) {
+		if (rightQuery != null && rightQuery.getAssociatedView() != null) {			
+			
 			setAssociatedView(rightQuery.getAssociatedView());
 			setQueryName(rightQuery.getQueryName());
 		}
@@ -281,12 +285,19 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 			if (thisQuery == QueryType.CLINICAL_DATA_QUERY_TYPE)
 				isClinical = true;
 		}
+		
+		if(isClinical== false) {			
+			isClinical = isClinicalSampleSet;
+			isClinicalSampleSet = false;
+			} 
 		// Gene Expression Only
 		if (isGEQuery && !isCGHQuery && !isClinical) {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
 					ViewType.GENE_SINGLE_SAMPLE_VIEW,
 					ViewType.GENE_GROUP_SAMPLE_VIEW };
 		}
+		
+		
 		// Genomic Only
 		else if (!isGEQuery && isCGHQuery && !isClinical) {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
@@ -306,6 +317,8 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
 					ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW };
 		}
+		
+      
 		// The rest compound queries
 		else {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
@@ -350,6 +363,7 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 	public Query[] getAssociatiedQueries() {
 		Queriable leftQuery = this.getLeftQuery();
 		Queriable rightQuery = this.getRightQuery();
+		
 		Collection queries = new Vector();
 
 		try {
@@ -358,9 +372,15 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 						.getAssociatiedQueries()));
 			}
 			if (rightQuery != null) {
+				
 				queries.addAll(Arrays.asList((Query[]) rightQuery
 						.getAssociatiedQueries()));
+				// This is to take care of cinical sample set
+				if(rightQuery instanceof ClinicalDataQuery ) {						
+					isClinicalSampleSet = true;					
+				}
 			}
+			
 		} catch (Exception ex) {
 			logger.error(ex);
 		}
