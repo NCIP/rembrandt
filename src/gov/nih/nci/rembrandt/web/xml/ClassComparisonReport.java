@@ -110,11 +110,16 @@ public class ClassComparisonReport{
 		//super();
 	}
 
+	public static Document getReportXML(Finding finding, Map filterMapParams) {
+		//changed the sig to include an allannotation flag, hence this wrapper method is born
+		return getReportXML(finding, filterMapParams, false);
+	}
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
 	
-	public static Document getReportXML(Finding finding, Map filterMapParams) {
+	public static Document getReportXML(Finding finding, Map filterMapParams, boolean allAnnotations) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		DecimalFormat sciFormat = new DecimalFormat("0.00E0");
@@ -162,6 +167,9 @@ public class ClassComparisonReport{
 			
 			//TODO: instance of
 			ClassComparisonFinding ccf = (ClassComparisonFinding) finding;
+			
+			
+			//process the query details
 			ArrayList<String> queryDetails = new ArrayList();
 			ClassComparisonQueryDTO ccdto = (ClassComparisonQueryDTO)ccf.getQueryDTO();
 			
@@ -253,25 +261,25 @@ public class ClassComparisonReport{
 			        data = null;
 		        cell = null;
 		        
-		        //starting annotations...leave these here for now, as we may want them
-		        
-		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("GenBank Acc");
-			        data = null;
-		        cell = null;
-		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("Locus link");
-			        data = null;
-		        cell = null;
-		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("GO Id");
-			        data = null;
-		        cell = null;
-		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("Pathways");
-			        data = null;
-		        cell = null;
-		        
+		        //starting annotations...get them only if allAnnotations == true
+		        if(allAnnotations)	{
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("GenBank Acc");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Locus link");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("GO Id");
+				        data = null;
+			        cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Pathways");
+				        data = null;
+			        cell = null;
+		        }
 		        
 		    	/* done with the headerRow and SampleRow Elements, time to add data rows */
 		       
@@ -291,15 +299,24 @@ public class ClassComparisonReport{
 				
 				//new stuff
 				AnnotationHandler h = new AnnotationHandler();
-				Map<String, ReporterAnnotations> reporterResultsetMap = null;
-				try {
-					System.out.println("start:" + System.currentTimeMillis());
-					reporterResultsetMap = h.getAllAnnotationsFor(reporterIds);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				Map reporterResultsetMap = null;
+				if(allAnnotations){
+					//Map<String, ReporterAnnotations> reporterResultsetMap = null;
+					try {
+						reporterResultsetMap = h.getAllAnnotationsFor(reporterIds);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-				System.out.println("stop:" + System.currentTimeMillis());
+				else	{
+					//Map<String, String> reporterResultsetMap = null;
+					try {
+						reporterResultsetMap = h.getGeneSymbolsFor(reporterIds);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				
 				/*
 				//this looks like a failsafe for the old method
@@ -333,72 +350,83 @@ public class ClassComparisonReport{
 			        	data = null;
 			        cell = null;
 			        
-			        //get the gene symbols for this reporter
-			        //ccre.getReporterId()
-			        String genes = defaultV;
 			        
-			        //start annotations
-			        String accIds = defaultV;
-			        String llink = defaultV;
-			        String go = defaultV;
-			        String pw = defaultV;
-			          
-						if(reporterResultsetMap != null  && reporterIds != null){
-							//int count = 0;
-							String reporterId = ccre.getReporterId();
-							//ReporterResultset reporterResultset = reporterResultsetMap.get(reporterId);
-							ReporterAnnotations ra = reporterResultsetMap.get(reporterId);
-							
-							//Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
-							String geneSymbols = ra.getGeneSymbol();
-							if(geneSymbols != null)	
-								genes = geneSymbols;
-							/*
-							if(geneSymbols != null){
-								genes = StringUtils.join(geneSymbols.toArray(), delim);
+			        //if only showing genes
+			        if(!allAnnotations && reporterResultsetMap != null)	{
+			        	String reporterId = ccre.getReporterId();
+			        	String genes = reporterResultsetMap.get(reporterId)!=null ? (String)reporterResultsetMap.get(reporterId) : defaultV;
+				        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "data");
+				        	data = cell.addElement("Data").addAttribute("type", "header").addText(genes);
+				        	data = null;
+				        cell = null;
+			        }
+			        else	{
+				        //get the gene symbols for this reporter
+				        //ccre.getReporterId()
+				        String genes = defaultV;
+				        
+				        //start annotations
+				        String accIds = defaultV;
+				        String llink = defaultV;
+				        String go = defaultV;
+				        String pw = defaultV;
+				          
+							if(reporterResultsetMap != null ){ // && reporterIds != null
+								//int count = 0;
+								String reporterId = ccre.getReporterId();
+								//ReporterResultset reporterResultset = reporterResultsetMap.get(reporterId);
+								ReporterAnnotations ra = (ReporterAnnotations) reporterResultsetMap.get(reporterId);
+								
+								//Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
+								String geneSymbols = ra.getGeneSymbol();
+								if(geneSymbols != null)	
+									genes = geneSymbols;
+								/*
+								if(geneSymbols != null){
+									genes = StringUtils.join(geneSymbols.toArray(), delim);
+								}
+								*/
+								Collection<String> genBank_AccIDS = (Collection<String>)ra.getAccessions();
+								if(genBank_AccIDS != null){
+									accIds = StringUtils.join(genBank_AccIDS.toArray(), delim);
+								}
+								Collection<String> locusLinkIDs = (Collection<String>)ra.getLocusLinks();
+								if(locusLinkIDs != null){
+									llink = StringUtils.join(locusLinkIDs.toArray(), delim);
+								}
+								Collection<String> goIds = (Collection<String>)ra.getGoIDS();
+								if(goIds != null){
+									go = StringUtils.join(goIds.toArray(), delim);
+								}
+								Collection<String> pathways = (Collection<String>)ra.getPathways();
+								if(pathways != null){
+									pw = StringUtils.join(pathways.toArray(), delim);
+								}
 							}
-							*/
-							Collection<String> genBank_AccIDS = (Collection<String>)ra.getAccessions();
-							if(genBank_AccIDS != null){
-								accIds = StringUtils.join(genBank_AccIDS.toArray(), delim);
-							}
-							Collection<String> locusLinkIDs = (Collection<String>)ra.getLocusLinks();
-							if(locusLinkIDs != null){
-								llink = StringUtils.join(locusLinkIDs.toArray(), delim);
-							}
-							Collection<String> goIds = (Collection<String>)ra.getGoIDS();
-							if(goIds != null){
-								go = StringUtils.join(goIds.toArray(), delim);
-							}
-							Collection<String> pathways = (Collection<String>)ra.getPathways();
-							if(pathways != null){
-								pw = StringUtils.join(pathways.toArray(), delim);
-							}
-						}
-
-					cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "data");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(genes);
-			        	data = null;
-			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(accIds);
-			        	data = null;
-			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(llink);
-			        	data = null;
-			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(go);
-			        	data = null;
-			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(pw);
-			        	data = null;
-			        cell = null;
-			        
+	
+						cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "data");
+				        	data = cell.addElement("Data").addAttribute("type", "header").addText(genes);
+				        	data = null;
+				        cell = null;
+				        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
+				        	data = cell.addElement("Data").addAttribute("type", "header").addText(accIds);
+				        	data = null;
+				        cell = null;
+				        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
+				        	data = cell.addElement("Data").addAttribute("type", "header").addText(llink);
+				        	data = null;
+				        cell = null;
+				        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
+				        	data = cell.addElement("Data").addAttribute("type", "header").addText(go);
+				        	data = null;
+				        cell = null;
+				        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "csv").addAttribute("group", "data");
+				        	data = cell.addElement("Data").addAttribute("type", "header").addText(pw);
+				        	data = null;
+				        cell = null;
+				        
+			        }
 		        }
- 
 			}
 			else {
 				//TODO: handle this error
