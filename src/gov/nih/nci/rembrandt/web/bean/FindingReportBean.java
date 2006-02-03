@@ -69,6 +69,7 @@ public class FindingReportBean implements Serializable {
 	
 	private Document xmlDoc;
 	private Finding finding;
+	private Document xmlDocCSV;
 	
 	public FindingReportBean()	{}
 
@@ -86,5 +87,13 @@ public class FindingReportBean implements Serializable {
 
 	public void setXmlDoc(Document xmlDoc) {
 		this.xmlDoc = xmlDoc;
+	}
+
+	public Document getXmlDocCSV() {
+		return xmlDocCSV;
+	}
+
+	public void setXmlDocCSV(Document xmlDocCSV) {
+		this.xmlDocCSV = xmlDocCSV;
 	}
 }
