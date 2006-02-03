@@ -30,7 +30,8 @@ Down-regulation &nbsp;&nbsp; &ge;
 <html:radio property="regulationStatus" value="unchange" styleClass="radio" />Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<html:text property="foldChangeValueUnchangeFrom" size="3" onfocus="javascript:radioFold(this);" />-to-
 				<html:text property="foldChangeValueUnchangeTo" size="3" onfocus="javascript:radioFold(this);" />&nbsp;fold(s)
-<html:errors property="foldChangeValueUnchange"/>
+<html:errors property="foldChangeValueUnchangeFrom"/>
+<html:errors property="foldChangeValueUnchangeTo"/>
 <html:errors property="regulationStatus"/>
 <html:errors property="foldChangeValueUp"/>
 <html:errors property="foldChangeValueDown"/>
