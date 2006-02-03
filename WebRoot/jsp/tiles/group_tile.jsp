@@ -79,6 +79,8 @@
   
   <script language="javascript">
 	var lst = document.getElementById('selectedGroups');
+	var nonlst = document.getElementById('nonselectedGroups');
+	
 	var bltag = " (baseline)";
 
 	function initBaseline()	{
@@ -93,7 +95,16 @@
 				currentBaseline.style.color = '';
 				currentBaseline.style.border = '';
 			}
-		}	
+		}
+		
+		for(var i=0; i<nonlst.length; i++)	{
+			var currentBaseline = nonlst[i];
+			if(currentBaseline.text.indexOf(bltag) != -1)	{
+				currentBaseline.text = currentBaseline.text.substring(0, currentBaseline.text.indexOf(bltag));
+				currentBaseline.style.color = '';
+				currentBaseline.style.border = '';
+			}
+		}		
 		
 		
 		//add the tag to the new baseline
