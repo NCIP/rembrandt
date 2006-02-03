@@ -254,15 +254,30 @@ public class UIFormValidator {
     }
     
     
-    public static ActionErrors validateCopyNo(String copyNumber, String copyNo, String copyNoType, ActionErrors errors) {
-        if (copyNumber != null && copyNo!= null  && copyNo.trim().length() > 0) {
+    public static ActionErrors validateCopyNo(String copyNumber, String actualCopyNoType,String copyNo, String copyNoType, ActionErrors errors) {
+        if (copyNumber != null && copyNumber.equalsIgnoreCase(actualCopyNoType)&& copyNo!= null  && copyNo.trim().length() > 0) {
         	copyNo = copyNo.trim();
         	try{
-        		int n = Integer.parseInt(copyNo);
+        		float n = Float.parseFloat(copyNo);
         	}
         	catch (NumberFormatException ne){
         		    
         		 errors.add(copyNoType,new ActionError("gov.nih.nci.nautilus.ui.struts.form.copyno.numeric.error"));
+        	 
+        	}
+        }
+    	return errors;
+    }
+    
+    public static ActionErrors validateFoldChange(String regulationStatus, String actualRegulationStatus,String foldChangeNo, String foldChangeType, ActionErrors errors) {
+        if (regulationStatus != null && regulationStatus.equalsIgnoreCase(actualRegulationStatus)&& foldChangeNo!= null  && foldChangeNo.trim().length() > 0) {
+        	foldChangeNo = foldChangeNo.trim();
+        	try{
+        		float n = Float.parseFloat(foldChangeNo);
+        	}
+        	catch (NumberFormatException ne){
+        		    
+        		 errors.add(foldChangeType,new ActionError("gov.nih.nci.nautilus.ui.struts.form.foldChangeno.numeric.error"));
         	 
         	}
         }

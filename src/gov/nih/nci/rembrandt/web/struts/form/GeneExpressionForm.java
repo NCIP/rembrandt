@@ -314,6 +314,18 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			// Validate CloneId
 			errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify,
 					cloneListFile, errors);
+			
+			
+			  // validate fold change,it has to be numeric
+	        errors = UIFormValidator.validateFoldChange(regulationStatus,"up",foldChangeValueUp,"foldChangeValueUp",errors);
+	        errors = UIFormValidator.validateFoldChange(regulationStatus,"updown",foldChangeValueUDUp,"foldChangeValueUDUp",errors);
+	        errors = UIFormValidator.validateFoldChange(regulationStatus,"down",foldChangeValueDown,"foldChangeValueDown",errors);
+	        errors = UIFormValidator.validateFoldChange(regulationStatus,"updown",foldChangeValueUDDown,"foldChangeValueUDDown",errors);
+	        errors = UIFormValidator.validateFoldChange(regulationStatus,"unchange",foldChangeValueUnchangeFrom,"foldChangeValueUnchangeFrom",errors);
+	        errors = UIFormValidator.validateFoldChange(regulationStatus,"unchange",foldChangeValueUnchangeTo,"foldChangeValueUnchangeTo",errors);
+	    
+	        
+	        
 
 			// Validate minimum criteria's for GE Query
 			if (this.getQueryName() != null
@@ -758,9 +770,12 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("down")
 					&& (this.foldChangeValueDown.length() > 0)){
+				
+				try {
 				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueDown));
 				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
-
+			        }
+			    catch(NumberFormatException e){}
 				
 			}
 		}
@@ -1207,10 +1222,12 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
 					&& (this.foldChangeValueUnchangeFrom.length() > 0)){
+			try {	
 			   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(Float.valueOf(this.foldChangeValueUnchangeFrom));
 			   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);		
 				
-
+			  }
+			 catch(NumberFormatException e){}
 			
 			}
 		}
@@ -1245,12 +1262,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("unchange")
 					&& (this.foldChangeValueUnchangeTo.length() > 0)) {
+				try {
 				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(Float.valueOf(this.foldChangeValueUnchangeTo));
 				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
-
-				/*foldUpDomainMap.put(this.foldChangeValueUnchangeTo,
-						ExprFoldChangeDE.UnChangedRegulationUpperLimit.class
-								.getName());*/
+				}
+				 catch(NumberFormatException e){}
 			}
 		}
 	}
@@ -1281,11 +1297,16 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("up")
 					&& (this.foldChangeValueUp.length() > 0)){
-				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUp));
-				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);						
-			}
-
 				
+				try {
+			
+				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUp));
+				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);		
+				
+			     }
+    
+				 catch(NumberFormatException e){}
+		   }
 		}
 	}
 
@@ -1336,9 +1357,12 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
 					&& (this.foldChangeValueUDUp.length() > 0)) {
+				try {
 				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUDUp));
 				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);	
 			
+			       }
+			   catch(NumberFormatException e){}
 			}
 		}
 	}
@@ -1369,8 +1393,13 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			if (thisRegulationStatus != null
 					&& thisRegulationStatus.equalsIgnoreCase("updown")
 					&& (this.foldChangeValueUDDown.length() > 0)){
+				
+				try {
 				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueUDDown));
 				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
+				    
+			     }
+			    catch(NumberFormatException e){}
 			}
 				
 		}

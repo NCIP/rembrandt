@@ -354,14 +354,14 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
         //errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
         //Validate snpId
         errors = UIFormValidator.validateSnpId(snpId, snpList, snpListFile, errors);
-         
-        // validate copy number,it has to be numeric
-        errors = UIFormValidator.validateCopyNo(copyNumber,cnADAmplified,"cnADAmplified",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,cnADDeleted,"cnADDeleted",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,cnAmplified,"cnAmplified",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,cnDeleted,"cnDeleted",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,cnUnchangeFrom,"cnUnchangeFrom",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,cnUnchangeTo,"cnUnchangeTo",errors);
+      
+        // validate copy number,it has to be        
+        errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADAmplified,"cnADAmplified",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADDeleted,"cnADDeleted",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,"amplified",cnAmplified,"cnAmplified",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,"deleted",cnDeleted,"cnDeleted",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeFrom,"cnUnchangeFrom",errors);
+        errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeTo,"cnUnchangeTo",errors);
         
         // Validate minimum criteria's for CGH Query
         if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {

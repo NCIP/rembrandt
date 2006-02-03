@@ -153,12 +153,12 @@ public class CopyNumberCriteriaHandler {
         Double lowerLimit;
 
         if (type1.equals(CopyNumberDE.UNCHANGED_COPYNUMBER_UPPER_LIMIT)) {
-            upperLimit = new Double(((CopyNumberDE) copyObjs[1]).getValueObject().floatValue());
-            lowerLimit = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
+            upperLimit = new Double(((CopyNumberDE) copyObjs[0]).getValueObject().floatValue());
+            lowerLimit = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
         }
         else {
-            upperLimit = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
-            lowerLimit = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
+            upperLimit = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
+            lowerLimit = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
         }
         criteria.addBetween(columnName, lowerLimit, upperLimit);
     }
