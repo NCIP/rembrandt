@@ -51,7 +51,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		    		clinicalDataQuery.setQueryName("clinical");
 		    		CompoundQuery cquery = new CompoundQuery(clinicalDataQuery);		
 					cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-					cquery.setQueryName("clinicalViaKM");
+					cquery.setQueryName(presentationTierCache.getTempReportName(request.getSession().getId()));
 					cquery.setSessionId(sessionId);		    
 		    		String[] samplesArray = (String[]) samplesList.toArray(new String[0]);
 					//generate the reportBean with the reportXML using the compQury and samples Array
