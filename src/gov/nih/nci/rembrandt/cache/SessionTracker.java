@@ -114,6 +114,8 @@ public class SessionTracker implements HttpSessionListener {
 		logger.debug("Total Active Sessions: " + activeSessions.size());
 		//remove the cache for the dead session
 		BusinessCacheManager.getInstance().removeSessionCache(evt.getSession().getId());
+		PresentationCacheManager.getInstance().removeSessionCache(evt.getSession().getId());
+
 	}
 
 	/**
