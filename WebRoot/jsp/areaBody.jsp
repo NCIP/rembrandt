@@ -8,13 +8,20 @@
 %>
 <%String act = request.getParameter("area").toLowerCase();%>
 <%Properties  props = new Properties ();
-try {
-props.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+request.getParameter("area")+".properties"));
-}
-catch (IOException e) {
-out.println("cant read props");
-}
-//FileReader reader = new FileReader(props);
+        try {
+	        fsi = new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+request.getParameter("area")+".properties");
+            props.load(fsi);
+            fsi.close();
+        }
+        catch (IOException e) {
+        	out.println("cant read props");
+        	if(fsi != null)
+		      	fsi.close();
+        }
+        finally	{
+	  	  	if(fsi != null)
+		      	fsi.close();
+		}
 out.print("<div>");
 out.print(props);
 out.print("</div>");

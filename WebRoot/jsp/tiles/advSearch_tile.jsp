@@ -10,12 +10,20 @@
 
   <% 
   Properties props1 = new Properties();
-    try {
-    props1.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"geneExpressionAreas.properties"));
-    } 
-	catch (IOException e) {
-    out.println("cant read props");
-	}
+	  try {
+      	fsi = new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"geneExpressionAreas.properties");
+      	props1.load(fsi);
+      	fsi.close();
+      }
+  	  catch (IOException e) {
+      	out.println("cant read props");
+      	if(fsi != null)
+	      	fsi.close();
+  	  }
+  	  finally	{
+  	  	if(fsi != null)
+	      	fsi.close();
+  	  }
 	for (int t=1; t<props1.size()+1; t++){
 		String Props = props1.getProperty(String.valueOf(t));
 		out.print(Props);
@@ -28,12 +36,20 @@
 	<strong>Comparative Genomic Analysis</strong><br />
 	<% 
 	  Properties props2 = new Properties();
-	    try {
-	    props2.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"comparitiveGenomicAreas.properties"));
-	    } 
-		catch (IOException e) {
-	    out.println("cant read props");
-		}
+	  try {
+      	fsi = new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"comparitiveGenomicAreas.properties");
+      	props2.load(fsi);
+      	fsi.close();
+      }
+  	  catch (IOException e) {
+      	out.println("cant read props");
+      	if(fsi != null)
+	      	fsi.close();
+  	  }
+  	  finally	{
+  	  	if(fsi != null)
+	      	fsi.close();
+  	  }		
 		for (int t=1; t<props2.size()+1; t++){
 			String Props = props2.getProperty(String.valueOf(t));
 			out.print(Props);
@@ -48,11 +64,19 @@
 	<% 
 	  Properties props3 = new Properties();
 	    try {
-	    props3.load(new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"clinicalAreas.properties"));
-	    } 
-		catch (IOException e) {
-	    out.println("cant read props");
-		}
+      	fsi = new FileInputStream(getServletConfig().getServletContext().getRealPath("WEB-INF")+"/"+"clinicalAreas.properties");
+      	props3.load(fsi);
+      	fsi.close();
+      }
+  	  catch (IOException e) {
+      	out.println("cant read props");
+      	if(fsi != null)
+	      	fsi.close();
+  	  }
+  	  finally	{
+  	  	if(fsi != null)
+	      	fsi.close();
+  	  }		
 		for (int t=1; t<props3.size()+1; t++){
 			String Props = props3.getProperty(String.valueOf(t));
 			out.print(Props);

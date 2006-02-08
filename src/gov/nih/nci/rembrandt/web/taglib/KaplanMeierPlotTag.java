@@ -122,23 +122,27 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 			 *	least it is something to avoid an endless loop.
 			 *  
 			 */
-			boolean imageReady = false;
-			int timeout = 1000;
-			while(!imageReady) {
-				timeout--;
-				try {
-					FileInputStream inputStream = new FileInputStream(finalPath);
-					inputStream.available();
-					imageReady = true;
-					inputStream.close();
-				}catch(IOException ioe) {
-					imageReady = false;					
-				}
-				if(timeout <= 1) {
-					
-					break;
-				}
-			}
+            boolean imageReady = false;
+            int timeout = 1000;
+            FileInputStream inputStream = null;
+            while(!imageReady) {
+                timeout--;
+                try {
+                    inputStream = new FileInputStream(finalPath);
+                    inputStream.available();
+                    imageReady = true;
+                    inputStream.close();
+                }catch(IOException ioe) {
+                    imageReady = false;  
+                    if(inputStream != null){
+                    	inputStream.close();
+                    }
+                }
+                if(timeout <= 1) {
+                    
+                    break;
+                }
+             }
 		    out.print(imageHandler.getImageTag());
 		    out.print(createLegend(cacheData));
 		}catch (IllegalAccessException e1) {
