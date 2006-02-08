@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.util;
 
+import java.io.Serializable;
+
 /**
 * caIntegrator License
 * 
@@ -157,5 +159,6 @@ public final class RembrandtConstants {
     
 	public static final String REPORTER_SELECTION_AFFY = "Affymetrix";
     public static final String REPORTER_SELECTION_UNI = "Unified Gene";
+	public static final String SESSION_TEMP_FOLDER_PATH = "SessionTempFolderPath";
 
 }

@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.cache;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,6 +94,10 @@ import gov.nih.nci.rembrandt.web.helper.SessionTempReportCounter;
 * 
 */
 
+/**
+ * @author bauerd, sahnih
+ *
+ */
 public class PresentationCacheManager implements PresentationTierCache{
 	private static final String PRESENTATION_CACHE = "PresentationTierCache";
 	//DO NOT change PERSISTED_SESSIONS_CACHE value without modifying ehcache.xml
@@ -516,7 +521,9 @@ public class PresentationCacheManager implements PresentationTierCache{
     	Object returnObject = null;
     	try {
 			Element element = sessionCache.get(key);
-			returnObject = element.getValue();
+			if(element != null){
+				returnObject = element.getValue();
+			}
 		} catch (IllegalStateException e) {
 			logger.error(e);
 		} catch (CacheException e) {
@@ -595,8 +602,11 @@ public class PresentationCacheManager implements PresentationTierCache{
 	}
 	 
 	/**
-	 * Comment this!
-	 * @param sessionId
+	/**
+	 * Removes the session cache for the sessionId that was passed.  This should
+	 * be called whenever a user session times out.  
+	 * 
+	 * @param  the session that wants to be logged out.
 	 * @return
 	 */
 	public boolean removeSessionCache(String rawSessionId) {
@@ -612,6 +622,13 @@ public class PresentationCacheManager implements PresentationTierCache{
     		for(String name:beforeCaches) {
     			logger.debug("cache: "+name);
     		}
+    		logger.debug("--------------------------------------");
+    		logger.debug("removing all temp files associated with session");
+    		String sessionTempFolder = getSessionTempFolderPath(rawSessionId);
+    		/*
+    		 * remove the temp folder if the folder exist
+    		 */
+    		deleteAllFiles(sessionTempFolder);
     		logger.debug("--------------------------------------");
     		manager.removeCache(safeSessionId);
     		logger.debug("Removing Cache: "+safeSessionId);
@@ -839,6 +856,13 @@ public class PresentationCacheManager implements PresentationTierCache{
 			logger.debug("cache: "+name);
 		}
 		logger.debug("--------------------------------------");
+		logger.debug("removing all temp files associated with session");
+		String sessionTempFolder = getSessionTempFolderPath(id);
+		/*
+		 * remove the temp folder if the folder exist
+		 */
+		deleteAllFiles(sessionTempFolder);
+		logger.debug("--------------------------------------");
 		manager.removeCache(processSessionId(id));
 		logger.debug("Removing Cache: "+processSessionId(id));
 		String[] remainingCaches = manager.getCacheNames();
@@ -849,4 +873,30 @@ public class PresentationCacheManager implements PresentationTierCache{
 		}
 		logger.debug("--------------------------------------");
 	}
+	/* Stores the path name where temporary files such as image files are stored for this session
+	 * @see gov.nih.nci.rembrandt.cache.PresentationTierCache#addSessionTempFolderPath(java.lang.String, java.lang.String)
+	 */
+	public void addSessionTempFolderPath(String sessionId, String sessionTempFolderPath) {
+		myInstance.addToSessionCache(sessionId,RembrandtConstants.SESSION_TEMP_FOLDER_PATH,sessionTempFolderPath);
+		
+	}
+	/* Returns the path name where temporary files such as image files are stored for this session
+	 * @see gov.nih.nci.rembrandt.cache.PresentationTierCache#addSessionTempFolderPath(java.lang.String, java.lang.String)
+	 */
+	public String getSessionTempFolderPath(String sessionId) {
+		return (String) myInstance.getObjectFromSessionCache(sessionId,RembrandtConstants.SESSION_TEMP_FOLDER_PATH);
+	}
+	/*
+	 * remove the temp folder if the folder exist
+	 */
+	private void deleteAllFiles(String filePath){
+		if(filePath != null){
+			File dir = new File(filePath);
+			File[] list = dir.listFiles();
+			for(File fileToDelete:list){
+					fileToDelete.delete();
+				}
+			dir.delete();
+			}
+		}
 }

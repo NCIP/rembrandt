@@ -5,7 +5,9 @@ import java.io.File;
 import org.apache.log4j.Logger;
 
 import gov.nih.nci.caintegrator.ui.graphing.util.FileDeleter;
+import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 /**
  * This class handles image files for the rembrandt application.  Since this 
  * effort should be application specific, it is named RembrandtImageFileHandler.
@@ -86,7 +88,8 @@ public class RembrandtImageFileHandler {
 	private static String tempDir = "";
 	private static Logger logger = Logger.getLogger(RembrandtImageFileHandler.class);
 	private static String SEPERATOR = File.separator;
-	
+	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+
 	public RembrandtImageFileHandler(String userSessionId,String imageTypeExtension, int width, int height) {
 		if(tempDir.equals("")) {
 			/**
@@ -132,6 +135,8 @@ public class RembrandtImageFileHandler {
 		 */
 		File dir = new File(relativeSessionTempPath);
 		boolean dirCreated = dir.mkdir();
+		// add path for the temp files
+		presentationTierCache.addSessionTempFolderPath(userSessionId, relativeSessionTempPath);
 		setSessionTempFolder(relativeSessionTempPath+SEPERATOR+chartName);
 		/*
 		 * Cleans out the session image temp folder if it did already

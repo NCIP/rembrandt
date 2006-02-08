@@ -270,15 +270,19 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
 			 **/ 
             boolean imageReady = false;
             int timeout = 1000;
+            FileInputStream inputStream = null;
             while(!imageReady) {
                 timeout--;
                 try {
-                    FileInputStream inputStream = new FileInputStream(finalPath);
+                    inputStream = new FileInputStream(finalPath);
                     inputStream.available();
                     imageReady = true;
                     inputStream.close();
                 }catch(IOException ioe) {
-                    imageReady = false;                 
+                    imageReady = false;  
+                    if(inputStream != null){
+                    	inputStream.close();
+                    }
                 }
                 if(timeout <= 1) {
                     

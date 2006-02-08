@@ -82,6 +82,11 @@ public interface PresentationTierCache {
 	public CachableGraphData getSessionGraphingData(String sessionId,
 			String graphId);
 
+	public void addSessionTempFolderPath(String sessionId,
+			String sessionTempFolderPath);
+
+	public String getSessionTempFolderPath(String sessionId);
+	
 	public Collection<ReportBean> getAllReportBeans(String sessionId);
 
 	public Collection getAllSampleSetReportBeans(String sessionId);
