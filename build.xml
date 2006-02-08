@@ -67,11 +67,21 @@
 		<replaceregexp file="src/log4j.properties" match="@LOGDIR@" replace="${logging.dir}" flags="g"/>
 	</target>
 	<!--
+		TARGET: config_cache
+		Configures the echache.xml file using the settings in the
+		build.properties file
+	-->
+	<target name="config_cache">
+		<delete file="src/ehcache.xml"/>
+		<copy file="src/ehcache.xml.templates" tofile="src/ehcache.xml"/>
+		<replaceregexp file="src/ehcache.xml" match="@echache_path@" replace="${jboss.install.dir}server/${jboss.server.name}/tmp/${app.war.name}" flags="g"/>
+	</target>
+	<!--
 		TARGET: config_analysis_server
 		Configures the JMS.properties file using the settings in the
 		build.properties file
 	-->
-	<target name="config_analysis_server" depends="config_logging">
+	<target name="config_analysis_server" depends="config_logging, config_cache">
 		<delete file="src/jms.properties"/>
 		<copy file="src/jms.properties.template" tofile="src/jms.properties"/>
 		<replaceregexp file="src/jms.properties" match="@JBOSS_URL@" replace="${analytical.jboss.jndi}" flags="g"/>
