@@ -7,6 +7,8 @@ import gov.nih.nci.system.applicationservice.ApplicationService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -40,14 +42,27 @@ public class GOTreeServlet extends HttpServlet	{
 		ApplicationService appService = ApplicationService.getRemoteInstance(serverURL);
 		List results = null;
 		
-		evsQuery.getTree("GO", term, true, false, 0, 1, null);
+		evsQuery.getTree("GO", term, true, false, 0, 3, null);
+         long l1 = 0;
 		try {
+            GregorianCalendar gc1 = new GregorianCalendar();
+            Date d1 = gc1.getTime();
+            l1 = d1.getTime();
+            
 			results =(List) appService.evsSearch(evsQuery);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+        GregorianCalendar gc2 = new GregorianCalendar();
+        Date d2 = gc2.getTime();
+        long l2 = d2.getTime();
+        
+        long difference = l2 - l1;
+        long seconds = difference/1000;
+        System.out.println("Elapsed seconds: " + seconds);
+        
 		DefaultMutableTreeNode dn = (DefaultMutableTreeNode)results.get(0);
 		DescLogicConcept theUserObject = (DescLogicConcept) dn.getUserObject();
 		out.println(theUserObject.getName() + " : " + theUserObject.getCode());
