@@ -55,7 +55,7 @@ look like:
     <application-policy name="rembrandt">
 		<authentication>
 			<login-module code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="required">
-				<module-option name="ldapHost">ldaps://ncids2b.nci.nih.gov:636</module-option>
+				<module-option name="ldapHost">ldaps://ncids4a.nci.nih.gov:636</module-option>
 				<module-option name="ldapSearchableBase">ou=nci,o=nih</module-option>
 				<module-option name="ldapUserIdLabel">cn</module-option>
 			</login-module>			
