@@ -622,7 +622,19 @@ public class ReportGeneratorHelper {
 		logger.debug("Applying XSLT "+xsltFilename);
         Transformer transformer;
 		try {
-			transformer = new Transformer(styleSheet, (HashMap)request.getAttribute(RembrandtConstants.FILTER_PARAM_MAP));
+			
+			// if the xsltFiname is pathway xlst, then do this
+			if((xsltFilename.equals(RembrandtConstants.DEFAULT_PATHWAY_XSLT_FILENAME))||
+			   (xsltFilename.equals(RembrandtConstants.DEFAULT_PATHWAY_DESC_XSLT_FILENAME))
+			   ||(xsltFilename.equals(RembrandtConstants.DEFAULT_GENE_XSLT_FILENAME))){
+			   transformer = new Transformer(styleSheet);
+			 }
+			// otherwise do this
+			
+			else {
+			   transformer = new Transformer(styleSheet, (HashMap)request.getAttribute(RembrandtConstants.FILTER_PARAM_MAP));
+			}
+			
 	     	Document transformedDoc = transformer.transform(reportXML);
 	        
 	     	/*
@@ -636,10 +648,11 @@ public class ReportGeneratorHelper {
 	     	if(!xsltFilename.equals(RembrandtConstants.DEFAULT_XSLT_CSV_FILENAME)){
 	            OutputFormat format = OutputFormat.createPrettyPrint();
 	            XMLWriter writer;
-	            writer = new XMLWriter(out, format );
-	            
+	            writer = new XMLWriter(out, format );	            
 	            writer.write( transformedDoc );
-	            writer.close();
+	            if(!xsltFilename.equals(RembrandtConstants.DEFAULT_PATHWAY_DESC_XSLT_FILENAME)) {
+	               writer.close();
+	            }
 	        }
 	        else	{
 	            String csv = transformedDoc.getStringValue();
@@ -664,7 +677,7 @@ public class ReportGeneratorHelper {
 		logger.debug("Applying XSLT "+xsltFilename);
         Transformer transformer;
 		try {
-			transformer = new Transformer(styleSheet, params);
+			transformer = new Transformer(styleSheet, params);			
 	     	Document transformedDoc = transformer.transform(reportXML);
 	        
 	     	/*

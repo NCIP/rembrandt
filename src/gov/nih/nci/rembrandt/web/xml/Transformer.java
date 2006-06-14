@@ -140,23 +140,20 @@ public class Transformer {
      */
     public Document transform(Document document) throws IOException {
  
-        String renderedHTML="";            
- 
-        javax.xml.transform.Transformer transformer;
-        
+        String renderedHTML="";  
+        javax.xml.transform.Transformer transformer;        
         Document transformedDoc = null;
 		
-        try {
+        try {        
     
-            transformer = m_template.newTransformer();
-            assignParameters(transformer,m_params);
+            transformer = m_template.newTransformer();           
+            assignParameters(transformer,m_params);           
             DocumentSource fileSource = new DocumentSource( document );
+           
             //Source fileSource = new StreamSource(xml);
             //Result result = new StreamResult(renderedHTML);
-            DocumentResult result = new DocumentResult();
-            
-            transformer.transform(fileSource,result); 
-            
+            DocumentResult result = new DocumentResult();            
+            transformer.transform(fileSource,result);             
             transformedDoc = result.getDocument();
             
         } catch (TransformerConfigurationException e) {
