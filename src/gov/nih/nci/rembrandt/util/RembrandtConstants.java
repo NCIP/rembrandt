@@ -95,6 +95,12 @@ public final class RembrandtConstants {
 	
 	public static final String DEFAULT_XSLT_FILENAME ="report.xsl";
 	
+	public static final String DEFAULT_PATHWAY_XSLT_FILENAME ="pathwayFormat.xsl";
+	
+	public static final String DEFAULT_PATHWAY_DESC_XSLT_FILENAME ="pathwayDescFormat.xsl";
+	
+	public static final String DEFAULT_GENE_XSLT_FILENAME ="geneFormat.xsl";	
+	
 	public static final String DEFAULT_XSLT_CSV_FILENAME ="csv.xsl";
 	
 	public static final String XSLT_FILE_NAME ="xsltFileName";
