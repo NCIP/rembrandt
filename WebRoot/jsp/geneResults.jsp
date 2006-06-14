@@ -1,7 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, java.lang.*, java.io.*" %> 
-<%@ page import="gov.nih.nci.caBIO.search.*, gov.nih.nci.caBIO.bean.*" %> 
+<%@ page import="java.util.*, java.lang.*, java.io.*,java.net.*,javax.xml.parsers.*" %> 
+<%@ page import="
+gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper,
+gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+gov.nih.nci.rembrandt.util.RembrandtConstants,org.xml.sax.*,org.xml.sax.helpers.DefaultHandler,
+org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.OutputFormat"
+%>
   <script language="javascript">
  
  function closePage(){
@@ -29,22 +34,7 @@
  <!--end all headers-->
 
 	
-  <%
- try {
-      String id = request.getParameter("id");   
-	  
-      PathwaySearchCriteria pathwaySearch = new PathwaySearchCriteria();
-      pathwaySearch.setId(new Long(id));  //human species is 5 and mouse 6
-      Pathway pathway = new Pathway();
-	  Pathway[] myPathways;
-	  String pathwayName = null;
- 	  SearchResult pathwayResult = pathway.search(pathwaySearch);
-	        
-		  if (pathwayResult != null)	  
-		  
-		  {  %>
-		  <p>
-		<table width="95%" border="0"  align="center">
+	<table width="95%" border="0"  align="center">
     			 
     <tr>				
 	  <td align="right">
@@ -54,70 +44,33 @@
 	<tr>
 	 <td>&nbsp;&nbsp;&nbsp;</td>
 	</tr>	
-	</table>		
-		  
-		    <table align="center" width="85%" cellpadding="5" cellspacing="0" border="1"> 
-		    
-		 
-		  <% myPathways = (Pathway[]) pathwayResult.getResultSet();	 
-		       for (int i = 0; i < myPathways.length; i++) 
-				{
-				 pathwayName = myPathways[i].getName();
-				  if(pathwayName != null){
-				    pathwayName = pathwayName.trim();												   
-				    pathwayName = pathwayName.substring(2);
-				      }
-				%>
-				  <tr>
-			        <td style="background-color:#D5E0E9"><b>Pathway Description for "<%=pathwayName%>"</b> </td>
-			      </tr>
-				  <tr>
-				     <TD><%=myPathways[i].getDescription()%></TD>
-				   </tr>
-				 </table>
-		 <% }
-	  }%>
-	  <p>
-	  <div><b>Gene Information for "<%=pathwayName%>"</b></div>  
-	  <p>
-	  
-	 <% GeneSearchCriteria geneSearch = new GeneSearchCriteria();
-      geneSearch.setPathwayId(new Long(id));  
-      Gene gene = new Gene();
-	  Gene[] myGenes;
- 	  SearchResult result = gene.search(geneSearch);
-	        
-	  if (result != null)	{ %>
-	     Your search returned <b><%=result.getCount()%> </b> genes. 
-		 <br>
-		 <br>
-		  <table align="center" width="85%" cellpadding="5" cellspacing="0" border="1">
+	</table>	
 	 
-	 <tr>	 
-	  <td style="background-color:#D5E0E9"><b>Gene Symbol</b></td>
-	  <td style="background-color:#D5E0E9"><b>Gene Name</b></td>	 
-	  </tr>
-		<%  myGenes = (Gene[]) result.getResultSet();	  		           
-		  for (int i = 0; i < myGenes.length; i++) { 		
-			
-				%>
-				<tr>
-		          <TD><%=myGenes[i].getName()%></TD>					         
-		          <TD><%=myGenes[i].getTitle()%></TD>				  
-				 </tr>
-					<%}
-			}
-	  
-        
+		
+	<%
+  response.flushBuffer();	
+  try{
+    String id = (String)request.getParameter("id");    
+    URL url = new URL("http://cabio.nci.nih.gov/cacore31/GetXML?query=Pathway[@id="+id+"]");     
+    SAXReader reader = new SAXReader();    
+    Document reportXML = reader.read(url);    
+    ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_PATHWAY_DESC_XSLT_FILENAME,out);
     
-	  }// end of try
-	 catch(Exception ex){
-	   ex.printStackTrace();
-	  }       
-		
-		  %>	
-		
- </table>
+    response.flushBuffer();
+    url = new URL("http://cabio.nci.nih.gov/cacore31/GetXML?query=Gene&Pathway[@id="+id+"]"); 
+    reader = new SAXReader();    
+    reportXML = reader.read(url);    
+    ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_GENE_XSLT_FILENAME,out);
+     
+   
+    }
+    catch(Exception e){}			
+  	
+ 	
+  	%>
+ 
+ 
+   
  
  <table width="95%" border="0"  align="center">
     <tr>
