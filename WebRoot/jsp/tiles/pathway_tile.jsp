@@ -19,7 +19,7 @@
 <!--- <input class="sbutton" type="button" style="width:150px" value="Pathway Browser..." disabled="true"> --->
 <script language="javascript">
 
- function browseData(){
+ function browseData(){ 	
      window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,dependent,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
    }
 </script>
