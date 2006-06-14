@@ -1,10 +1,13 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ page import="java.util.*, java.lang.*, java.io.*" %> 
-<%@ page import="gov.nih.nci.caBIO.search.*,
-	 gov.nih.nci.caBIO.bean.*,
-	 org.apache.log4j.Logger,
-	 gov.nih.nci.rembrandt.util.RembrandtConstants" %> 
+<%@ page import="java.util.*, java.lang.*, java.io.*,java.net.*,javax.xml.parsers.*" %> 
+ <%@ page import="
+gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper,
+gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+gov.nih.nci.rembrandt.util.RembrandtConstants,org.xml.sax.*,org.xml.sax.helpers.DefaultHandler,
+org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.OutputFormat"
+%>
+	 
 
 
  <script language="javascript">
@@ -48,7 +51,13 @@
 <img src="../images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>
 <!--end all headers-->
-
+<%response.setHeader("Cache-Control","no-cache"); //HTTP 1.1 
+response.setHeader("Pragma","no-cache"); //HTTP 1.0 
+//response.setDateHeader ("Expires", 0); 
+response.setDateHeader ("Expires", -1);
+//prevents caching 
+response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+%>
  
  <div><b>Browse Pathway - Name</b></div>
 
@@ -59,75 +68,36 @@
   
  </p>
  
- <% 
- Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
- try {
  
-      PathwaySearchCriteria pathwaySearch = new PathwaySearchCriteria();
-      pathwaySearch.setTaxonId(new Long(5));  //human species is 5 and mouse 6
-      Pathway pathway = new Pathway();
-	  Pathway[] myPathways;
- 	  SearchResult result = pathway.search(pathwaySearch);
-	        
-		  if (result != null)	  
-		  
-		  {  logger.debug("result.getCount():"+	result.getCount());	  
-		  %>
 	
  <div >
-  Your search returned <b><%=result.getCount()%> </b> pathways.   
-
- </div>	
- <div style="width:700px;height:400px;overflow:auto">
  
-	 <table border="1" cellpadding="5" cellspacing="0" style="border">
-	 
-	 <tr style="background-color:#D5E0E9">
-	  <td><b>No</b></td>
-	  <td><b>Pathway Name</b></td>
-	  <td><b>Pathway Title</b></td>	  
-	  <!--<td><b>Genes & Pathway Description </b> </td>-->
-	  </tr>
+  <div style="width:700px;height:400px;overflow:auto">
+    
+  <%
+  response.flushBuffer();	
+  try{  
+     URL url = new URL("http://cabio.nci.nih.gov/cacore31/GetXML?query=Pathway&Taxon[@abbreviation=Hs]");  
+     
+     String urlLink = (String)request.getParameter("url");      
+     if(urlLink != null && urlLink.equals("2")){
+        url = new URL("http://cabio.nci.nih.gov/cacore31/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&resultCounter=1000&startIndex=0"); 
+      }
+   
+    SAXReader reader = new SAXReader();    
+    Document reportXML = reader.read(url);    
+    ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_PATHWAY_XSLT_FILENAME,out);
+    }
+    catch(Exception e){}  	
+ 	
+  	%>
+ 
+ </div>	
 
-	
-		
-      
-		  <%    myPathways = (Pathway[]) result.getResultSet();	   
-		        int k=0;    
-				for (int i = 0; i < myPathways.length; i++) 
-				{  
-				  k++;
-				  
-				  String pathwayName = myPathways[i].getName();
-				  if(pathwayName != null){
-				    pathwayName = pathwayName.trim();												   
-				    pathwayName = pathwayName.substring(2);
-				      }
-				     
-				  
-					%>
-				<tr>
-		          <TD><%=k%></TD>
-		          <TD><html:checkbox property="pathwayName" value="<%=pathwayName%>"/> <a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"><%=pathwayName%></a></TD>
-		          <TD><%=myPathways[i].getDisplayValue()%></TD>				
-				  <!--<TD><a href="geneResults.jsp?id=<%=myPathways[i].getId()%>" target="_blank"> Genes & Pathway Description</a></TD>-->
-				</tr>
-					<%}
-		      }
-		   }
-		
-		catch(Exception ex){
-		 logger.error(ex);
-		}%>
-	
-		
- </table>
- </div>
  <p>
-  <div></div><input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;
-  
+  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;  
  </p>
-
+ 
 
  </html:form>
  
