@@ -7,6 +7,14 @@ import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
 import gov.nih.nci.rembrandt.cache.PresentationCacheManager;
 import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+
+//UNCOMMENT THESE LINES WHEN READY TO SWITCH OVER TO THE app commons business tier cache.
+//import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
+//import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
+//import gov.nih.nci.caintegrator.application.cache.CacheFactory;
+//import gov.nih.nci.caintegrator.application.cache.PresentationCacheManager;
+//import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
+
 import gov.nih.nci.rembrandt.dto.query.ClassComparisonQueryDTOImpl;
 import gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTOImpl;
 import gov.nih.nci.rembrandt.dto.query.PrincipalComponentAnalysisQueryDTOImpl;
