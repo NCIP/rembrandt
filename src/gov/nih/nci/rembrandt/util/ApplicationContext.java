@@ -1,10 +1,13 @@
 package gov.nih.nci.rembrandt.util;
 
-import gov.nih.nci.rembrandt.analysis.server.AnalysisServerClientManager;
+import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -122,6 +125,46 @@ public class ApplicationContext{
       //Start the JMS Lister
         try {
 		@SuppressWarnings("unused") AnalysisServerClientManager analysisServerClientManager = AnalysisServerClientManager.getInstance();
+		//set the AnalysisServerClientManager properties
+		//Get the jms properties for this application
+		//analysisServerClientManager.setJMSparameters();
+		
+		  //Get the application properties from the properties file
+		  String propertiesFileName = System.getProperty("gov.nih.nci.rembrandt.propertiesFile");
+		
+		  //Load the the application properties and set them as system properties
+		  Properties rembrandtProperties = new Properties();
+		  
+		  
+		  logger.info("Attempting to load application system properties from file: " + propertiesFileName);
+		   
+		  FileInputStream in = new FileInputStream(propertiesFileName);
+		  rembrandtProperties.load(in);
+		   
+		  if (rembrandtProperties.isEmpty()) {
+		     logger.error("Error: no properties found when loading properties file: " + propertiesFileName);
+		  }
+		    		   
+		  String key = null;
+		  String val = null;
+		  for (Iterator i = rembrandtProperties.keySet().iterator(); i.hasNext(); ) {
+			  key = (String) i.next();
+			  val = rembrandtProperties.getProperty(key);
+		      System.setProperty(key, val);
+		  }
+		  
+		  String jmsProviderURL = System.getProperty("gov.nih.nci.rembrandt.jms.jboss_url");
+		  String jndiFactoryName = System.getProperty("gov.nih.nci.rembrandt.jms.factory_jndi");
+		  String requestQueueName = System.getProperty("gov.nih.nci.rembrandt.jms.analysis_request_queue");
+		  String responseQueueName = System.getProperty("gov.nih.nci.rembrandt.jms.analysis_response_queue");
+		
+		 
+		  analysisServerClientManager.setJMSparameters(jmsProviderURL, jndiFactoryName,requestQueueName, responseQueueName);
+		  
+//        ANALYSIS SERVER  SET the CACHE and GeneExpressionAnnotationService 
+//		  analysisServerClientManager.setCache(ApplicationFactory.getBusinessTierCache());
+//		  analysisServerClientManager.setGeneExprAnnotationService();
+		
 		} catch (NamingException e) {
 	        logger.error(new IllegalStateException("Error getting an instance of AnalysisServerClientManager" ));
 			logger.error(e.getMessage());
