@@ -12,6 +12,7 @@ import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
@@ -289,6 +290,16 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					}
 					// set PvalueThreshold
 					classComparisonRequest.setPvalueThreshold(myQueryDTO.getStatisticalSignificanceDE().getValueObject());
+					
+					if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {
+					  String affyDataFileName = System.getProperty("gov.nih.nci.rembrandt.data_directory") + System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
+					  classComparisonRequest.setDataFileName(affyDataFileName);
+					}
+					else {
+					  logger.warn("Unrecognized array platform type for ClassComparisionRequest");
+					}
+					
+					
                     analysisServerClientManager.sendRequest(classComparisonRequest);
                     return true;
 				}

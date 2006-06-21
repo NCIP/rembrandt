@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
@@ -326,6 +327,15 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			throw new FindingsAnalysisException("PC Analysis requires a set of samples");
 		}
         try {
+        	
+        	if (pcaRequest.getPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {
+			  String affyDataFileName = System.getProperty("gov.nih.nci.rembrandt.data_directory") + System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
+			  pcaRequest.setDataFileName(affyDataFileName);
+			}
+			else {
+			  logger.warn("Unrecognized array platform type for pcaRequest");
+			}
+        	
 			analysisServerClientManager.sendRequest(pcaRequest);
 		} catch (JMSException e) {
 			logger.error(e.getMessage());
@@ -337,14 +347,9 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
         return true;
 	}
 
-    
-
-
 	public Finding getFinding() {
 		return pcaFinding;
 	}
-
-
 
 	public boolean validate(QueryDTO queryDTO) throws ValidationException {
 		boolean _valid = false;

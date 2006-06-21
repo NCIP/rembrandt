@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
@@ -302,6 +303,15 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 			hcRequest.setSampleGroup(sampleGroup);
 		}
         try {
+        	
+        	if (hcRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {
+			  String affyDataFileName = System.getProperty("gov.nih.nci.rembrandt.data_directory") + System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
+			  hcRequest.setDataFileName(affyDataFileName);
+			}
+			else {
+			  logger.warn("Unrecognized array platform type for hcRequest");
+		    }
+        	
 			analysisServerClientManager.sendRequest(hcRequest);
 		} catch (JMSException e) {
 			logger.error(e.getMessage());
