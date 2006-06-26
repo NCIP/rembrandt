@@ -811,7 +811,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
         asian= "";       
         nativeHawaiian= "";
         unknown= "";
-        tumorType = "";
+        //tumorType = "";
         tumorGrade = "";
         firstPresentation = "";
         recurrence = "";

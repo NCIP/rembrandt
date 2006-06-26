@@ -10,20 +10,20 @@
 <logic:present name="principalComponentForm">
 <app:help help="Select either Show all samples or Select samples by clicking the pertinent radio button. If you chose Select samples, choose one or more groups from the Existing Groups box and click the right-arrow button to move your selection(s) to the Selected Groups box." />
 </legend>
-<html:radio property="groupsOption" styleClass="radio" value="allSamples" onclick="onRadio(this,'allSamples');" />Show all samples<br /><br />
+<html:radio property="groupsOption" styleId="allSamplesRadio" styleClass="radio" value="allSamples" />Show all samples<br /><br />
 
-<html:radio property="groupsOption" styleId="variousSamplesRadio" styleClass="radio" value="variousSamples" onclick="onRadio(this,'variousSamples');" />Select samples<br />
+<html:radio property="groupsOption" styleId="variousSamplesRadio" styleClass="radio" value="variousSamples" />Select samples<br />
 <table align="center" border="0">
     <tr style="vertical-align:top">
       <td>Existing Groups
         <br/>
-        <html:select styleId="nonselectedGroups" size="5" multiple="true" style="width:200px" property="existingGroups" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));">
+        <html:select styleId="nonselectedGroups" size="5" multiple="true" style="width:200px" property="existingGroups" onclick="radioFold(this);" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));">
            <html:optionsCollection property="existingGroupsList"/>
 		</html:select>
       </td>
       <td style="vertical-align:middle">
-        <input id="button1" onclick="preMove(document.getElementById('variousSamplesRadio').checked, document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button" disabled="true" /><br />
-        <input id="button2" onclick="preMove(document.getElementById('variousSamplesRadio').checked, document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'))" value=">>" type="button" disabled="true" />
+        <input id="button1" onclick="preMove(document.getElementById('variousSamplesRadio').checked, document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button"  /><br />
+        <input id="button2" onclick="preMove(document.getElementById('variousSamplesRadio').checked, document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'))" value=">>" type="button"  />
       </td>
       <td>Selected Groups
         <br/>

@@ -176,9 +176,8 @@ public class HierarchicalClusteringAction extends DispatchAction {
         sessionCriteriaBag = presentationTierCache.getSessionCriteriaBag(sessionId);
         
         // create GeneVectorPercentileDE
-        if(hierarchicalClusteringForm.getConstraintVariance().equalsIgnoreCase("constraintVariance") && hierarchicalClusteringForm.getConstraintVariance()!=null){
             hierarchicalClusteringQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(hierarchicalClusteringForm.getVariancePercentile()),Operator.GE));
-        }
+        
         
         /*create GeneIdentifierDEs by looking in the cache for 
         the specified GeneIdentifierDECollection. The key is 
@@ -186,7 +185,7 @@ public class HierarchicalClusteringAction extends DispatchAction {
         
         if(hierarchicalClusteringForm.getGeneSetName()!=null || hierarchicalClusteringForm.getGeneSetName().length()!=0){
             geneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.GeneIdentifierSet,hierarchicalClusteringForm.getGeneSetName());
-            if (geneIdentifierDECollection!=null){
+            if (geneIdentifierDECollection!=null && !geneIdentifierDECollection.isEmpty()){
                 logger.debug("geneIdentifierDECollection was found in the cache");
                 //hierarchicalClusteringQueryDTO.setGeneIdentifierDEs(geneIdentifierDECollection);
             }
@@ -201,7 +200,7 @@ public class HierarchicalClusteringAction extends DispatchAction {
         The CloneIdentifierDEs will be set as "reporterDECollection" */
         if(hierarchicalClusteringForm.getReporterSetName()!=null || hierarchicalClusteringForm.getReporterSetName().length()!=0){
             cloneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.CloneProbeSetIdentifierSet,hierarchicalClusteringForm.getReporterSetName());
-            if (cloneIdentifierDECollection!=null){
+            if (cloneIdentifierDECollection!=null && !cloneIdentifierDECollection.isEmpty()){
                 logger.debug("cloneIdentifierDECollection was found in the cache");
                //hierarchicalClusteringQueryDTO.setReporterIdentifierDEs(cloneIdentifierDECollection);
             }

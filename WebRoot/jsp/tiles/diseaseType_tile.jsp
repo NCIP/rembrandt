@@ -7,7 +7,7 @@
 <br>
 
 	
-	 &nbsp;&nbsp;&nbsp;<html:select property="tumorType" onchange="javascript:onRadio(this, this.value);">
+	 &nbsp;&nbsp;&nbsp;<html:select multiple="true" property="tumorType" onchange="javascript:onRadio(this, this.value);">
    <html:optionsCollection property="diseaseType" />
 </html:select><html:errors property="tumorType"/>
 

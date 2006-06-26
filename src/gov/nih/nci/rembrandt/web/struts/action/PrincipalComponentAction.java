@@ -208,17 +208,15 @@ public class PrincipalComponentAction extends DispatchAction {
         }
         
         //create GeneVectorPercentileDE
-        if(principalComponentForm.getConstraintVariance().equalsIgnoreCase("constraintVariance") && principalComponentForm.getConstraintVariance()!=null){
             principalComponentAnalysisQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(principalComponentForm.getVariancePercentile()),Operator.GE));
-        }
-        
+       
         /*create GeneIdentifierDEs by looking in the cache for 
         the specified GeneIdentifierDECollection. The key is 
         the geneSet name that was uploaded by the user into the cache.*/
         
         if(principalComponentForm.getGeneSetName()!= null && (!principalComponentForm.getGeneSetName().equals("") || principalComponentForm.getGeneSetName().length()!=0)){
             geneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.GeneIdentifierSet,principalComponentForm.getGeneSetName());
-            if (geneIdentifierDECollection!=null){
+            if (geneIdentifierDECollection!=null && !geneIdentifierDECollection.isEmpty()){
                 logger.debug("geneIdentifierDECollection was found in the cache");
                 principalComponentAnalysisQueryDTO.setGeneIdentifierDEs(geneIdentifierDECollection);
             }
@@ -233,7 +231,7 @@ public class PrincipalComponentAction extends DispatchAction {
         The CloneIdentifierDEs will be set as "reporterDECollection" */
         if(principalComponentForm.getReporterSetName()!= null && (!principalComponentForm.getReporterSetName().equals("") || principalComponentForm.getReporterSetName().length()!=0)){
             cloneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.CloneProbeSetIdentifierSet,principalComponentForm.getReporterSetName());
-            if (cloneIdentifierDECollection!=null){
+            if (cloneIdentifierDECollection!=null && !cloneIdentifierDECollection.isEmpty()){
                 logger.debug("cloneIdentifierDECollection was found in the cache");
                 principalComponentAnalysisQueryDTO.setReporterIdentifierDEs(cloneIdentifierDECollection);
             }

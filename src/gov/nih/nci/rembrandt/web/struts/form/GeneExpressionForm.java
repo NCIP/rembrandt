@@ -426,7 +426,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		cytobandRegionStart = "";
 		cloneId = "";
 		pathways = "";
-		tumorType = "";
+		//tumorType = "";
 		arrayPlatform = "";
 		cloneListFile = null;
 		goCellularComp = "";

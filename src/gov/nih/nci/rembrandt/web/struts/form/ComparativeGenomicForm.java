@@ -408,7 +408,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
         snpList = "";
         cloneId = "";
         cnAmplified = "";
-        tumorType = "";
+        //tumorType = "";
         cloneListFile = "";
         snpListFile = null;
         cloneListSpecify = "";

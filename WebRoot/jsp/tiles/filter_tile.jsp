@@ -87,16 +87,15 @@
 	<div id="advFilter" class="divHide">
 		<br>
 			<logic:present name="principalComponentForm"> 
-			<html:checkbox styleClass="radio" property="constraintVariance" value="constraintVariance" />Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;
+			Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;			
 				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="pcaVariancePercentile"/>" />&nbsp;&nbsp;%
 			</logic:present>
 			<logic:present name="hierarchicalClusteringForm"> 
-			<html:checkbox styleClass="radio" property="constraintVariance" value="constraintVariance" />Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;
+			Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;
 				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="hcVariancePercentile"/>" />&nbsp;&nbsp;%
 			</logic:present>
 			
 		<br><br>	
-		  	<html:checkbox property="diffExpGenes" styleClass="radio" value="diffExpGenes" />
 		  Use differentially expressed genes &nbsp;&nbsp;
 		      <html:select property="geneSetName" styleId="geneList" disabled="false" onfocus="javascript:updateG()">
 				 <option value="<jsp:getProperty name="userPreferences" property="geneSetName"/>"><jsp:getProperty name="userPreferences" property="geneSetName"/></option>
@@ -104,7 +103,6 @@
 			  or <a href="#" onclick="javascript:spawnx('uploadGeneSet.do', 'upload', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>
 						
 		<br><br>	  
-			<html:checkbox property="diffExpReporters" styleClass="radio" value="diffExpReporters" />
 		  Use differentially expressed reporters &nbsp;&nbsp;
 		      <html:select property="reporterSetName" styleId="reporterList" disabled="false" onfocus="javascript:updateR()">
 					 <option value="<jsp:getProperty name="userPreferences" property="reporterSetName"/>"><jsp:getProperty name="userPreferences" property="reporterSetName"/></option>

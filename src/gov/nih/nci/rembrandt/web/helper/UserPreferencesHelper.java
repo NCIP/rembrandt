@@ -76,6 +76,15 @@ import uk.ltd.getahead.dwr.ExecutionContext;
 *    OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * 
 */
+/**
+ * This class is mostly accessed via AJAX to retrieve user preferences
+ * that have been stored in the UserPreferenceBean.java 
+ * for the current session. There are two contstructors depending
+ * on where the class is constructed. If the class is not called from AJAX it needs a handle on the 
+ * session in order to obtain the preferences.
+ * @author rossok
+ *
+ */
 
 public class UserPreferencesHelper{
       

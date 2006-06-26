@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
@@ -111,7 +112,7 @@ public class BaseForm extends ActionForm implements Serializable{
     private String method;
     protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
     protected SampleCriteria sampleCriteria;
-    protected String tumorType;   
+    protected String[] tumorType;   
 	protected String sampleList;
 	protected transient FormFile sampleFile;
 	protected transient HttpServletRequest thisRequest;	
@@ -251,7 +252,7 @@ public class BaseForm extends ActionForm implements Serializable{
      * 
      * @return String
      */
-    public String getTumorType() {
+    public String[] getTumorType() {
         return tumorType;
     }
 	/**
@@ -260,37 +261,48 @@ public class BaseForm extends ActionForm implements Serializable{
      * @param tumorType
      *            The tumorType to set
      */  
-	 public void setTumorType(String tumorType) {
+	 public void setTumorType(String[] tumorType) {
 		  
 	        this.tumorType = tumorType;
 	        if(tumorType!=null){ 
 	        	
 	            diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();           	
 	             
-		        if (this.tumorType.equalsIgnoreCase("ALL GLIOMA")) {
-		            ArrayList allDiseases = this.getDiseaseType();
-		            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
-		                    .hasNext();) {
-		                LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter
-		                        .next();
-		                String thisDiseaseType = thisLabelBean.getValue();               
-		              
-		                if (thisDiseaseType.equalsIgnoreCase("ASTROCYTOMA")|| thisDiseaseType.equalsIgnoreCase("GBM")
-		                    || thisDiseaseType.equalsIgnoreCase("MIXED")||thisDiseaseType.equalsIgnoreCase("OLIGODENDROGLIOMA")
-		                    ||thisDiseaseType.equalsIgnoreCase("UNCLASSIFIED") ) {
-		                	DiseaseNameDE diseaseDE = new DiseaseNameDE(thisDiseaseType);
-		 	                diseaseOrGradeCriteria.setDisease(diseaseDE);
-		                }
-		            }
-		        }
-		        
-		        else {
-		        	DiseaseNameDE diseaseDE = new DiseaseNameDE(this.tumorType);
-		            diseaseOrGradeCriteria.setDisease(diseaseDE);
-		          
-		        }
-	          }
-	        }
+	            if(tumorType.length == 1){
+        		        if (this.tumorType[0].equalsIgnoreCase("ALL GLIOMA")) {
+        		            ArrayList allDiseases = this.getDiseaseType();
+        		            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
+        		                    .hasNext();) {
+        		                LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter
+        		                        .next();
+        		                String thisDiseaseType = thisLabelBean.getValue();               
+        		              
+        		                if (thisDiseaseType.equalsIgnoreCase("ASTROCYTOMA")|| thisDiseaseType.equalsIgnoreCase("GBM")
+        		                    || thisDiseaseType.equalsIgnoreCase("MIXED")||thisDiseaseType.equalsIgnoreCase("OLIGODENDROGLIOMA")
+        		                    ||thisDiseaseType.equalsIgnoreCase("UNCLASSIFIED") ) {
+        		                	DiseaseNameDE diseaseDE = new DiseaseNameDE(thisDiseaseType);
+        		 	                diseaseOrGradeCriteria.setDisease(diseaseDE);
+        		                }
+        		            }
+        		        }
+        		        
+        		        else {
+        		        	DiseaseNameDE diseaseDE = new DiseaseNameDE(this.tumorType[0]);
+        		            diseaseOrGradeCriteria.setDisease(diseaseDE);
+        		          
+        		        }
+        	       }
+	            
+                else{
+                    List<String> tumorTypes = new ArrayList<String>();
+                    for(String t: tumorType){
+                        tumorTypes.add(t);
+                    }
+                    diseaseOrGradeCriteria.setDiseases(tumorTypes);
+                }
+            }
+     
+	       }
 	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
 			return this.diseaseOrGradeCriteria;
 		}

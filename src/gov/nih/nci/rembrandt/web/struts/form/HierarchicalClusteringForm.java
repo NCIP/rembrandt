@@ -106,12 +106,7 @@ public class HierarchicalClusteringForm extends ActionForm {
     
     private String arrayPlatform = "";
     
-    private String diffExpGenes = "diffExpGenes";
     
-    private String diffExpReporters = "diffExpReporters";
-    
-    private String constraintVariance = "constraintVariance";
-
 	public HierarchicalClusteringForm(){
        
         //set up lookups for  HierarchicalClusteringForm
@@ -230,54 +225,6 @@ public class HierarchicalClusteringForm extends ActionForm {
      */
     public void setVariancePercentile(int variancePercentile) {
         this.variancePercentile = variancePercentile;
-    }
-
-
-    /**
-     * @return Returns the constraintVariance.
-     */
-    public String getConstraintVariance() {
-        return constraintVariance;
-    }
-
-
-    /**
-     * @param constraintVariance The constraintVariance to set.
-     */
-    public void setConstraintVariance(String constraintVariance) {
-        this.constraintVariance = constraintVariance;
-    }
-
-
-    /**
-     * @return Returns the diffExpGenes.
-     */
-    public String getDiffExpGenes() {
-        return diffExpGenes;
-    }
-
-
-    /**
-     * @param diffExpGenes The diffExpGenes to set.
-     */
-    public void setDiffExpGenes(String diffExpGenes) {
-        this.diffExpGenes = diffExpGenes;
-    }
-
-
-    /**
-     * @return Returns the diffExpReporters.
-     */
-    public String getDiffExpReporters() {
-        return diffExpReporters;
-    }
-
-
-    /**
-     * @param diffExpReporters The diffExpReporters to set.
-     */
-    public void setDiffExpReporters(String diffExpReporters) {
-        this.diffExpReporters = diffExpReporters;
     }
 
 

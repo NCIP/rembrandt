@@ -70,6 +70,21 @@ import uk.ltd.getahead.dwr.ExecutionContext;
 * 
 */
 
+/**
+ * The UserPreferenceBean manages user-defined settings 
+ * and preferences relating to the user's current session. An  
+ * example of when this class may be used is for filters 
+ * in HOA analyses, where the user uploads a set of genes
+ * and/or reporters that they which to carry around in their 
+ * session. If the user decides to make their uploaded set part
+ * of the "default" filter settings, this class is notified and
+ * will carry this default information during the session. The information
+ * is cleared upon logout and is not persisted. It is accessed 
+ * currently through AJAX using a helper class called UserPreferencesHelper. *
+ * @author rossok
+ *
+ */
+
 public class UserPreferencesBean implements Serializable{
     private static final long serialVersionUID = 1L;
     private String geneSetName = "";
