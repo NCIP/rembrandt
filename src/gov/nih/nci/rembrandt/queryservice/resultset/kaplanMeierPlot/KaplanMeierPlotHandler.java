@@ -331,5 +331,43 @@ public class KaplanMeierPlotHandler {
 		}
         return reporterResultset;
 	}
+	/**
+	 * @param clinicalResultObjects
+	 * @return
+	 * @throws Exception
+	 */
+	public static KaplanMeierPlotContainer handleKMSamplePlotContainer(ClinicalResultSet[] clinicalObjects) throws Exception{
+		KaplanMeierPlotContainer kaplanMeierPlotContainer = new KaplanMeierPlotContainer();
+ 		if(clinicalObjects != null){
+ 			for (int i = 0; i < clinicalObjects.length; i++) {
+ 				if(clinicalObjects[i] != null) {
+ 					ResultSet obj = (ResultSet) clinicalObjects[i];
+ 					if (obj != null && obj instanceof ClinicalResultSet)  {
+ 						//Propulate the KaplanMeierPlotContainer
+ 						ClinicalResultSet  clinicalObj = (ClinicalResultSet) obj;
+ 						SampleKaplanMeierPlotResultset sampleResultset = null;
+			       		sampleResultset = handleSampleKaplanMeierPlotResultset(kaplanMeierPlotContainer, clinicalObj);
+			      		kaplanMeierPlotContainer.addSampleResultset(sampleResultset); 
+ 				    }
+ 				}
+          	}//for
+ 			if(clinicalObjects.length > 0){
+	 			Collection samples = kaplanMeierPlotContainer.getSampleResultsets();
+	 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+		    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
+		    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
+		    		if(patient != null){
+			    		sample.setSurvivalLength(patient.getSurvivalLength());
+			    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
+			    		kaplanMeierPlotContainer.addSampleResultset(sample);  //update sample resultset
+		    		}
+		    	}
+ 			}
 
+ 		}
+ 		
+        return kaplanMeierPlotContainer;
+
+	}
 }

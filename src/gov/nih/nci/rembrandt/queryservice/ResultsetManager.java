@@ -52,14 +52,8 @@
  */
 package gov.nih.nci.rembrandt.queryservice;
 
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.Constants;
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
-import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
-import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
@@ -67,6 +61,7 @@ import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -80,6 +75,7 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGr
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.resultset.AddConstrainsToQueriesHelper;
+import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -279,6 +275,17 @@ public class ResultsetManager {
 						.executeQuery(queryToExecute);
 				ResultsContainer resultsContainer = KaplanMeierPlotHandler
 						.handleKMCopyNumberPlotContainer((CopyNumber[]) resultsets);
+				resultant.setResultsContainer(resultsContainer);
+				resultant.setAssociatedQuery(queryToExecute);
+				resultant.setAssociatedView(associatedView);
+			}else if (queryToExecute instanceof ClinicalDataQuery) {
+				Viewable associatedView = ViewFactory
+						.newView(ViewType.CLINICAL_VIEW);
+				queryToExecute.setAssociatedView(associatedView);
+				ResultSet[] resultsets = QueryManager
+						.executeQuery(queryToExecute);
+				ResultsContainer resultsContainer = KaplanMeierPlotHandler
+						.handleKMSamplePlotContainer((ClinicalResultSet[]) resultsets);
 				resultant.setResultsContainer(resultsContainer);
 				resultant.setAssociatedQuery(queryToExecute);
 				resultant.setAssociatedView(associatedView);

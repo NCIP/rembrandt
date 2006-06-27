@@ -1,19 +1,24 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot;
 
+import java.util.List;
+
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE.SNPProbeSet;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
@@ -87,6 +92,14 @@ import org.apache.log4j.Logger;
 * 
 */
 
+/**
+ * @author sahnih
+ *
+ */
+/**
+ * @author sahnih
+ *
+ */
 public class KMPlotManager {
 	private static Logger logger = Logger.getLogger(KMPlotManager.class);
 
@@ -213,5 +226,40 @@ public class KMPlotManager {
         }
         return null;
     }
+	/**
+	 * @param SampleList1
+	 * @param SampleList2
+	 * @param instCrit
+	 * @return
+	 * @throws Exception
+	 */
+	public ResultsContainer performKMSampleQuery(List<SampleIDDE> sampleList, InstitutionCriteria instCrit)
+	throws Exception {
+ResultsContainer resultsContainer = null;
+try {
+	if (instCrit != null) {
+
+		ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager
+				.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+		clinicalDataQuery.setInstitutionCriteria(instCrit);
+		clinicalDataQuery.setQueryName("KaplanMeierPlot");
+		clinicalDataQuery.setAssociatedView(ViewFactory
+				.newView(ViewType.CLINICAL_VIEW));
+		if(sampleList != null){
+			SampleCriteria sampleCriteria = new SampleCriteria();
+			sampleCriteria.setSampleIDs(sampleList);
+			clinicalDataQuery.setSampleIDCrit(sampleCriteria);
+		}
+		Resultant resultant = ResultsetManager
+				.executeKaplanMeierPlotQuery(clinicalDataQuery);
+		resultsContainer = resultant.getResultsContainer();
+	}
+
+} catch (Exception e) {
+	logger.error("KMPlotManager has thrown an exception");
+	logger.error(e);
+}
+return resultsContainer;
+}
 }
 

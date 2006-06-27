@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
@@ -12,8 +13,10 @@ import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsCont
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -115,7 +118,46 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 					sample.getCensor().getValue() != null){
 				Long time = sample.getSurvivalLength();
 				Integer censor = new Integer((sample.getCensor().getValue().toString()));
-				Double value = (Double) sample.getSummaryReporterFoldChange().getValue();
+				Double value = 0.0;
+				if(sample.getSummaryReporterFoldChange()!= null){
+				value = (Double) sample.getSummaryReporterFoldChange().getValue();
+				}
+				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(sample.getSampleIDDE().getValueObject(),time.intValue(), censor.intValue(), value.doubleValue());
+				kmSampleInfoArray.add(kmSampleInfo);
+			}
+		}
+		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
+	}
+	public KaplanMeierSampleInfo[] getRestOfSummaryKMPlotSamples(Collection<SampleIDDE> excludeSampleIds) {
+	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>();
+	    //Get all SampleIDDEs
+	    Collection<SampleResultset> samples = this.getSampleResultsets();
+	    Collection<SampleIDDE>sampleIds = new ArrayList<SampleIDDE>();
+	    for (SampleResultset sampleResultset: samples){
+	    	sampleIds.add(sampleResultset.getSampleIDDE());
+	    }
+	    //remove the sampleIDs in the "excludeSampleIds" from "sampleIds" list
+		//This will help us get the plot for the rest of the samples
+		Set<SampleIDDE> restofSampleSet = new HashSet<SampleIDDE>();
+		restofSampleSet.addAll(sampleIds);
+		restofSampleSet.removeAll(excludeSampleIds);
+		
+        //Clear the Previous collection
+	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
+			if(sample != null &&
+					sample.getSampleIDDE()!= null &&
+					sample.getSurvivalLength()!= null &&
+					sample.getCensor()!= null &&
+					sample.getCensor().getValue() != null  &&
+					// make sure its part of the restOfSampleSet 
+					restofSampleSet.contains(sample.getSampleIDDE())){
+				Long time = sample.getSurvivalLength();
+				Integer censor = new Integer((sample.getCensor().getValue().toString()));
+				Double value = 0.0;
+				if(sample.getSummaryReporterFoldChange()!= null){
+				value = (Double) sample.getSummaryReporterFoldChange().getValue();
+				}
 				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(sample.getSampleIDDE().getValueObject(),time.intValue(), censor.intValue(), value.doubleValue());
 				kmSampleInfoArray.add(kmSampleInfo);
 			}
