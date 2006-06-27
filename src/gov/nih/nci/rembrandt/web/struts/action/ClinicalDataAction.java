@@ -22,7 +22,7 @@ import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
@@ -108,7 +108,7 @@ import org.apache.struts.actions.LookupDispatchAction;
 
 public class ClinicalDataAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ClinicalDataAction.class);
-    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
     
    //if multiUse button clicked (with styles de-activated) forward back to page

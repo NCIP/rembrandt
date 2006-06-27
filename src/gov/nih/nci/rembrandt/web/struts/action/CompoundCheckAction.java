@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
@@ -81,7 +81,7 @@ import org.apache.struts.action.ActionMapping;
 
 public class CompoundCheckAction extends Action {
     private static Logger logger = Logger.getLogger(CompoundCheckAction.class);
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	/**
 	 * Method execute
 	 * @param ActionMapping mapping

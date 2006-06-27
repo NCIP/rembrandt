@@ -3,7 +3,7 @@ package gov.nih.nci.rembrandt.web.taglib;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierPlotPointSeriesSet;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
 import gov.nih.nci.rembrandt.web.legend.LegendCreator;
@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import gov.nih.nci.rembrandt.web.legend.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -26,7 +25,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.LegendItemCollection;
 
 
 
@@ -93,7 +91,7 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
     private String beanName = "";
 	private String datasetName = "";
 	private static Logger logger = Logger.getLogger(KaplanMeierPlotTag.class);
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
 	public int doStartTag() {
         

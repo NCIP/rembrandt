@@ -8,13 +8,13 @@
 	 gov.nih.nci.rembrandt.util.RembrandtConstants,
 	 org.apache.log4j.Logger,
 	 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
-	 gov.nih.nci.rembrandt.cache.PresentationTierCache,
+	 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
 	 gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %> 
 
 
 <%
 Logger logger = Logger.getLogger(RembrandtConstants.JSP_LOGGER);
-PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 int geQueryNum = 0;
 String geQueryString = "0";
 int cpQueryNum = 0;

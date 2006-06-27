@@ -3,11 +3,11 @@
  */ 
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -99,7 +99,7 @@ import org.apache.struts.actions.DispatchAction;
 public class ReportGeneratorAction extends DispatchAction {
 
     private static Logger logger = Logger.getLogger(ReportGeneratorAction.class);
-    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
     public ActionForward compundReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)

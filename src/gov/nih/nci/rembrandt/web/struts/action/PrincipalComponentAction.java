@@ -1,25 +1,17 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
-import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.caintegrator.dto.view.ViewFactory;
-import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.enumeration.Operator;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
@@ -31,6 +23,9 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.helper.UserPreferencesHelper;
 import gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -103,7 +98,7 @@ import org.apache.struts.actions.DispatchAction;
 
 public class PrincipalComponentAction extends DispatchAction {
     private static Logger logger = Logger.getLogger(ClassComparisonAction.class);
-    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;
     private Collection<CloneIdentifierDE> cloneIdentifierDECollection;
     private SessionCriteriaBag sessionCriteriaBag;

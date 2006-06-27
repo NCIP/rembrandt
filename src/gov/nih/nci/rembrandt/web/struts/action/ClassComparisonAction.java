@@ -14,9 +14,8 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
 import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
-import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
@@ -27,7 +26,6 @@ import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,7 +100,7 @@ public class ClassComparisonAction extends DispatchAction {
 	
 	private UserCredentials credentials;  
 	private static Logger logger = Logger.getLogger(ClassComparisonAction.class);
-    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     /***
      * These are the default error values used when an invalid enum type
      * parameter has been passed to the action.  These default values should

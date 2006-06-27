@@ -1,32 +1,25 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
-import gov.nih.nci.caintegrator.service.findings.ClinicalFinding;
-import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
-import gov.nih.nci.caintegrator.ui.graphing.chart.plot.ClinicalPlot;
-import gov.nih.nci.caintegrator.ui.graphing.data.clinical.ClinicalDataPoint;
-import gov.nih.nci.caintegrator.dto.de.DatumDE;
+import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.enumeration.ClinicalFactorType;
 import gov.nih.nci.caintegrator.enumeration.DiseaseType;
-
+import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
+import gov.nih.nci.caintegrator.ui.graphing.data.clinical.ClinicalDataPoint;
 import gov.nih.nci.caintegrator.ui.graphing.util.ImageMapUtil;
-import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -119,7 +112,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
 	private List<JFreeChart> jFreeChartsList;
     private JFreeChart chart = null;
     private static Logger logger = Logger.getLogger(ClinicalPlotTag.class);
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
     
 	public int doStartTag() {

@@ -1,9 +1,8 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
-import gov.nih.nci.caintegrator.enumeration.ClusterByType;
+import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.service.findings.HCAFinding;
-import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
@@ -91,7 +90,7 @@ public class HCPlotReport extends TagSupport {
 	//private Logger logger = Logger.getLogger(HCPlotReport.class);
 	private static Logger logger = Logger.getLogger(HCPlotReport.class);	
 	
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
 	
 	private String dv = "--";

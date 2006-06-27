@@ -3,6 +3,7 @@
  */
 package gov.nih.nci.rembrandt.service.findings;
 
+import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
@@ -21,7 +22,6 @@ import gov.nih.nci.caintegrator.service.findings.GEIntensityFinding;
 import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.caintegrator.service.findings.KMFinding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
-import gov.nih.nci.rembrandt.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.service.findings.strategies.ClassComparisonFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.HierarchicalClusteringFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.PrincipalComponentAnalysisFindingStrategy;

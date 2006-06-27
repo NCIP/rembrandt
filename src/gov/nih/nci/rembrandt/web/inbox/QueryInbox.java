@@ -1,9 +1,8 @@
 package gov.nih.nci.rembrandt.web.inbox;
 
+import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
-import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.Collection;
@@ -13,8 +12,9 @@ import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
-import uk.ltd.getahead.dwr.ExecutionContext;
 import org.apache.commons.lang.StringEscapeUtils;
+
+import uk.ltd.getahead.dwr.ExecutionContext;
 
 
 
@@ -79,7 +79,7 @@ public class QueryInbox {
 	
 	private HttpSession session;
 	private BusinessTierCache btc;
-	private PresentationTierCache ptc;
+	private RembrandtPresentationTierCache ptc;
 	
 	public QueryInbox()	{
 		//get some common stuff

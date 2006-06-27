@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -77,7 +77,7 @@ import org.apache.struts.action.ActionMapping;
 
 public class UploadGeneSetAction extends Action{
     private static Logger logger = Logger.getLogger(RefineQueryAction.class);
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private SessionCriteriaBag sessionCriteriaBag;
     
 	/**

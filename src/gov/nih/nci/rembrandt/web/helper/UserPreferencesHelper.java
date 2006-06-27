@@ -1,20 +1,16 @@
 package gov.nih.nci.rembrandt.web.helper;
 
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
-
-import org.apache.struts.util.LabelValueBean;
 
 import uk.ltd.getahead.dwr.ExecutionContext;
 
@@ -88,7 +84,7 @@ import uk.ltd.getahead.dwr.ExecutionContext;
 
 public class UserPreferencesHelper{
       
-    private PresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
     private Collection geneSetList = new ArrayList();
     private Collection reporterSetList = new ArrayList();
     private HttpSession session;

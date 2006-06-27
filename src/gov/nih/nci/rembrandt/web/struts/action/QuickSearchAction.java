@@ -1,20 +1,28 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierDataController;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.KMDataSetHelper;
+import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 import gov.nih.nci.rembrandt.web.struts.form.QuickSearchForm;
 import gov.nih.nci.rembrandt.web.struts.form.UIFormValidator;
@@ -91,7 +99,7 @@ import org.apache.struts.actions.DispatchAction;
 
 public class QuickSearchAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(QuickSearchAction.class);
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	/**
 	 * Method execute
 	 * 
@@ -152,9 +160,11 @@ public class QuickSearchAction extends DispatchAction {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public ActionForward doKMPlot(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		String sessionId = request.getSession().getId();
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(request.getSession());
 		ActionErrors errors = new ActionErrors();
@@ -169,8 +179,10 @@ public class QuickSearchAction extends DispatchAction {
 		}
 		double upFold = kmForm.getUpFold();
 		double downFold = kmForm.getDownFold();
-
+		//TEMP COMENTED OUT
 		String kmplotType = (String) request.getAttribute("plotType");
+		//String kmplotType = CaIntegratorConstants.SAMPLE_KMPLOT;
+
        	kmForm.setPlotType(kmplotType);
 		KaplanMeierPlotContainer kmResultsContainer = null;
 		KaplanMeierSampleInfo[] kmSampleInfos = {new KaplanMeierSampleInfo(0,0,0)};
@@ -204,23 +216,71 @@ public class QuickSearchAction extends DispatchAction {
 				 }
 			 }
 
-		}
-		if(kmResultsContainer != null && kmResultsContainer.getAssociatedReporters().size() == 0 ){
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-					"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
-					quickSearchType, quickSearchVariableName));
-			this.saveErrors(request, errors);
-		}
-		else{
-			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upFold, downFold, quickSearchVariableName, kmSampleInfos, kmplotType);
-			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
-			storedData.setId("KAPLAN");
-			kmForm.setStoredData(storedData);
-            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
-			kmForm.setSelectedDataset("KAPLAN");
-			presentationTierCache.addToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
-			presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
-		
+		}else if (kmplotType.equals(CaIntegratorConstants.SAMPLE_KMPLOT)) {
+			KaplanMeierSampleInfo[] restofKMSampleInfos = null;
+			ClinicalDataQuery clinicalDataQuery = getSelectedQuery(sessionId,"TARGET_LIST");
+			List<SampleIDDE> sampleList = new ArrayList<SampleIDDE>();
+			sampleList.addAll(clinicalDataQuery.getSampleIDCrit().getSampleIDs());
+
+
+			   kmResultsContainer = performKMClinicalQuery(sampleList, institutionCriteria);
+			   if(kmResultsContainer != null  ){
+				    kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+			   }
+			   //perform a query to get back all samples
+			   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(null,institutionCriteria);
+			   if(allSampleKMResultsContainer != null  ){
+				   restofKMSampleInfos = allSampleKMResultsContainer.getRestOfSummaryKMPlotSamples(sampleList);
+				   
+			   }
+					KaplanMeierDataController dataGenerator = new KaplanMeierDataController( kmSampleInfos, restofKMSampleInfos, kmplotType);
+					KaplanMeierStoredData storedData = dataGenerator.getStoredData();
+					storedData.setId("KAPLAN");
+//					storedData.setUpSampleCount(0);
+//					storedData.setDownSampleCount(0);
+//					storedData.setIntSampleCount(0);
+//					storedData.setUpVsDownPvalue(new Double(0));
+//					storedData.setUpVsIntPvalue(new Double(0));
+//					storedData.setUpVsRest(new Double(0));
+//					storedData.setDownVsIntPvalue(new Double(0));
+//					storedData.setDownVsRest(new Double(0));
+//					storedData.setUpVsRestPvalue(new Double(0));
+//					storedData.setDownVsRestPvalue(new Double(0));
+//					storedData.setIntVsRest(new Double(0));
+//					storedData.setIntVsRestPvalue(new Double(0));
+//					storedData.setNumberOfPlots(0);
+					kmForm.setStoredData(storedData);
+					kmForm.setSelectedDataset("KAPLAN");
+					presentationTierCache.addNonPersistableToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
+					presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
+					kmForm.setUpOrAmplified("Up Regulated");
+					kmForm.setDownOrDeleted("Down Regulated");	
+					kmForm.setGeneOrCytoband("   ");
+					kmForm.setReporters(new ArrayList());
+					kmForm.setDownFold(1.0);
+					kmForm.setUpFold(100.0);
+					kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
+					kmForm.setPlotVisible(true);
+		 }
+
+		if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT) || kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){
+			if(kmResultsContainer != null && kmResultsContainer.getAssociatedReporters().size() == 0 ){
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+						"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
+						quickSearchType, quickSearchVariableName));
+				this.saveErrors(request, errors);
+			}
+			else{
+				KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upFold, downFold, quickSearchVariableName, kmSampleInfos, kmplotType);
+				KaplanMeierStoredData storedData = dataGenerator.getStoredData();
+				storedData.setId("KAPLAN");
+				kmForm.setStoredData(storedData);
+	            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
+				kmForm.setSelectedDataset("KAPLAN");
+				presentationTierCache.addNonPersistableToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
+				presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
+			
+			}
 		}
 		/**
 		 * Select the mapping to follow
@@ -290,7 +350,7 @@ public class QuickSearchAction extends DispatchAction {
 	}
 	
 	private KaplanMeierPlotContainer getKmResultsContainer(String sessionId) {
-		return (KaplanMeierPlotContainer)presentationTierCache.getObjectFromSessionCache(sessionId,"MyKaplainMeierContainer");
+		return (KaplanMeierPlotContainer)presentationTierCache.getNonPersistableObjectFromSessionCache(sessionId,"MyKaplainMeierContainer");
 	}
 
 	public ActionForward quickSearch(ActionMapping mapping, ActionForm form,
@@ -396,7 +456,21 @@ public class QuickSearchAction extends DispatchAction {
 		}
 		return kmResultsContainer;
 	}
-
+	/**
+	 * @return Returns the kmResultsContainer.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unused")
+	private KaplanMeierPlotContainer performKMClinicalQuery(
+			List<SampleIDDE> sampleList, InstitutionCriteria institutionCriteria) throws Exception {
+		KMPlotManager kmPlotManager = new KMPlotManager();
+		KaplanMeierPlotContainer kaplanMeierPlotContainer = null;
+            
+		kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
+			.performKMSampleQuery(sampleList, institutionCriteria);			
+		
+		return kaplanMeierPlotContainer;
+	}
 	public ActionForward redrawKaplanMeierGeneExpressionPlot(
 			ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -405,6 +479,11 @@ public class QuickSearchAction extends DispatchAction {
 		 * copy number and gene expression km plots
 		 */
 		return mapping.findForward("kmplot");
+	}
+	private ClinicalDataQuery getSelectedQuery(String sessionId, String queryName){
+	       SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
+	       ClinicalDataQuery clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, queryName);
+        return clinicalDataQuery;       
 	}
 
 }

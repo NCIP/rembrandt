@@ -4,11 +4,9 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
@@ -18,9 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,7 +92,7 @@ public class UploadReporterSetForm extends ActionForm {
     
     private static Logger logger = Logger.getLogger(BaseForm.class);
     
-    private PresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
     private FormFile reporterSetFile;
     private String reporterSetName;    
     private String reporterType;

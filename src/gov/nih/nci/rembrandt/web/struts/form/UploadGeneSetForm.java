@@ -4,10 +4,9 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
@@ -95,7 +94,7 @@ public class UploadGeneSetForm extends BaseForm {
     
     private static Logger logger = Logger.getLogger(BaseForm.class);
     
-    private PresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
     private FormFile geneSetFile;
     private String geneSetName;    
     private String geneType;

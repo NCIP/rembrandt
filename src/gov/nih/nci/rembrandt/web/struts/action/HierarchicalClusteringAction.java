@@ -9,7 +9,7 @@ import gov.nih.nci.caintegrator.dto.de.DistanceMatrixTypeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneVectorPercentileDE;
 import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
@@ -101,7 +101,7 @@ import org.apache.struts.actions.DispatchAction;
 public class HierarchicalClusteringAction extends DispatchAction {
     private static Logger logger = Logger.getLogger(HierarchicalClusteringAction.class);
     private UserCredentials credentials;
-    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;
     private Collection<CloneIdentifierDE> cloneIdentifierDECollection;
     private SessionCriteriaBag sessionCriteriaBag;

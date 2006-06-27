@@ -2,7 +2,7 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
@@ -100,7 +100,7 @@ import org.apache.struts.actions.LookupDispatchAction;
 
 public class RefineQueryAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(RefineQueryAction.class);
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	/**
     *  Responsible for looking at the user constructed compound query from the
     *  refine_tile.jsp.  If the Selected queries and operations are correct

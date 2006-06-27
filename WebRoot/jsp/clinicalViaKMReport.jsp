@@ -10,11 +10,11 @@
 <%@ page import="gov.nih.nci.caintegrator.service.findings.*, gov.nih.nci.rembrandt.web.helper.*,gov.nih.nci.rembrandt.queryservice.QueryManager,gov.nih.nci.caintegrator.dto.query.QueryType,
 gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j.Document, gov.nih.nci.rembrandt.util.*,java.util.Collection,gov.nih.nci.rembrandt.dto.query.*" %>
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory, gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData,org.apache.commons.beanutils.BeanUtils" %>
-<%@ page import="gov.nih.nci.rembrandt.web.bean.*,gov.nih.nci.rembrandt.cache.*,java.util.*,java.lang.*,gov.nih.nci.caintegrator.dto.view.ViewFactory,gov.nih.nci.caintegrator.dto.view.ViewType,gov.nih.nci.rembrandt.cache.PresentationTierCache,gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo" %>
+<%@ page import="gov.nih.nci.rembrandt.web.bean.*,gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,java.util.*,java.lang.*,gov.nih.nci.caintegrator.dto.view.ViewFactory,gov.nih.nci.caintegrator.dto.view.ViewType,gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo" %>
 
 
 	<%
-	PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	String sampleGroup = request.getParameter("sampleGroup");
 	String dataName = request.getParameter("dataName");
 	String sessionId = request.getSession().getId();

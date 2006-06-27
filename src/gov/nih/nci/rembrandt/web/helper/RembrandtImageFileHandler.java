@@ -1,13 +1,13 @@
 package gov.nih.nci.rembrandt.web.helper;
 
+import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
+import gov.nih.nci.caintegrator.ui.graphing.util.FileDeleter;
+import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+
 import java.io.File;
 
 import org.apache.log4j.Logger;
-
-import gov.nih.nci.caintegrator.ui.graphing.util.FileDeleter;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
-import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
-import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 /**
  * This class handles image files for the rembrandt application.  Since this 
  * effort should be application specific, it is named RembrandtImageFileHandler.

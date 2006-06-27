@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class ViewResultsForm extends BaseForm {
 
 	private String selectedResultSet = null;
 	
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	 
 	public ViewResultsForm() {
 		super();

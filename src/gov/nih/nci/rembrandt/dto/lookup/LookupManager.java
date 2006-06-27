@@ -1,24 +1,12 @@
 package gov.nih.nci.rembrandt.dto.lookup;
 
+import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
-import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
-import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
-import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
-import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
-import gov.nih.nci.rembrandt.dbbean.GEPatientData;
-import gov.nih.nci.rembrandt.dbbean.Gender;
-import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
-import gov.nih.nci.rembrandt.dbbean.PriorChemotherapy;
-import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
-import gov.nih.nci.rembrandt.dbbean.PriorSurgery;
-import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
 import gov.nih.nci.rembrandt.queryservice.validation.QueryExecuter;
 
 import java.math.BigDecimal;

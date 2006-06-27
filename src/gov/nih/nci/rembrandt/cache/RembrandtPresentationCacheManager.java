@@ -1,21 +1,6 @@
 package gov.nih.nci.rembrandt.cache;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.ObjectExistsException;
+import gov.nih.nci.caintegrator.application.cache.SessionTempReportCounter;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -26,9 +11,26 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
-import gov.nih.nci.rembrandt.web.helper.SessionTempReportCounter;
+
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheException;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+import net.sf.ehcache.ObjectExistsException;
+
+import org.apache.log4j.Logger;
 /**
- * PresentationCacheManager was written to provide a cache written specifically
+ * RembrandtPresentationCacheManager was written to provide a cache written specifically
  * for the Presentation tier.  At the time of writing, methods have been removed
  * from the ConvenientCache interface and added to the PresentationTierCache 
  * interface.  
@@ -98,17 +100,17 @@ import gov.nih.nci.rembrandt.web.helper.SessionTempReportCounter;
  * @author bauerd, sahnih
  *
  */
-public class PresentationCacheManager implements PresentationTierCache{
+public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator.application.cache.PresentationCacheManager implements RembrandtPresentationTierCache{
 	private static final String PRESENTATION_CACHE = "PresentationTierCache";
 	//DO NOT change PERSISTED_SESSIONS_CACHE value without modifying ehcache.xml
 	private static final String PERSISTED_SESSIONS_CACHE = "persistedSessionsCache";
-	private static Logger logger = Logger.getLogger(PresentationCacheManager.class);
-	private static PresentationTierCache myInstance;
+	private static Logger logger = Logger.getLogger(RembrandtPresentationCacheManager.class);
+	private static RembrandtPresentationTierCache myInstance;
 	static private CacheManager manager = null;
 	static private Cache presentationCache = null;
 	static {
 	   	try {
-     		myInstance = new PresentationCacheManager();
+     		myInstance = new RembrandtPresentationCacheManager();
      	   //Create the cacheManager and the application cache
            //as specified in the configurationFile.xml 
      		logger.debug("Getting ehCache manager instance");
@@ -120,7 +122,9 @@ public class PresentationCacheManager implements PresentationTierCache{
             throw new ExceptionInInitializerError(t);
         }
  	}
-	private PresentationCacheManager() {}
+	private RembrandtPresentationCacheManager() {
+		super();
+	}
 	/**
 	 * Returns the Cache that is intended to be used to store application scoped
 	 * variables 
@@ -128,7 +132,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 */
 	private Cache getApplicationCache() {
         Cache applicationCache = null;
-    	if(manager!=null && !manager.cacheExists(PresentationCacheManager.PRESENTATION_CACHE)) {
+    	if(manager!=null && !manager.cacheExists(RembrandtPresentationCacheManager.PRESENTATION_CACHE)) {
     		/**
         	 * Here are the parameters that we are using for creating the presentation
         	 * tier Application Cache
@@ -139,7 +143,7 @@ public class PresentationCacheManager implements PresentationTierCache{
         	 *  	Elements time to live in seconds = 12000 (200 minutes, this not eternal in case the data changes);
         	 *  	Elements time to idle in seconds = 0 (Special setting which means never check);
          	 */
-    		presentationCache = new Cache(PresentationCacheManager.PRESENTATION_CACHE, 100, false, true, 0, 0);
+    		presentationCache = new Cache(RembrandtPresentationCacheManager.PRESENTATION_CACHE, 100, false, true, 0, 0);
             logger.debug("New ApplicationCache created");
             try {
             	manager.addCache(presentationCache);
@@ -151,7 +155,7 @@ public class PresentationCacheManager implements PresentationTierCache{
                 logger.error(ce);
             }
         }else if(manager!=null){
-        	presentationCache = manager.getCache(PresentationCacheManager.PRESENTATION_CACHE);
+        	presentationCache = manager.getCache(RembrandtPresentationCacheManager.PRESENTATION_CACHE);
         }
       
     	return presentationCache;
@@ -162,7 +166,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param the Bag
 	 */
 	public void putSessionCriteriaBag(String sessionId, SessionCriteriaBag theBag) {
-		addToSessionCache(sessionId,RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag );
+		addPersistableToSessionCache(sessionId,RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag );
 		
 	}
 	/**
@@ -214,7 +218,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	private HashMap<String, Element> getPersistedElements(String userName) {
 		HashMap<String, Element> newElementMap = null;
 		if(manager!=null){
-			Cache persistedCache = manager.getCache(PresentationCacheManager.PERSISTED_SESSIONS_CACHE);
+			Cache persistedCache = manager.getCache(RembrandtPresentationCacheManager.PERSISTED_SESSIONS_CACHE);
 			try {
 				newElementMap = new HashMap<String, Element>();
 				Element persistedMapElement = persistedCache.get(userName);
@@ -248,7 +252,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	}
 	
 	/**
-	 * This method is the workhorse of the PresentationCacheManager, almost
+	 * This method is the workhorse of the RembrandtPresentationCacheManager, almost
 	 * every other mehtod makes use of this method to retrieve and create all
 	 * session caches for the cache manager.
 	 * 
@@ -256,45 +260,45 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param createTempCounter 
 	 * @return
 	 */
-    private Cache getSessionCache(String sessionId) {
-        Cache sessionCache = null;
-        /*
-         * Process the sessionId to make sure that we have a unique sessionName for
-         * the presentation tier cache
-         */
-        String uniqueSession = processSessionId(sessionId);
-        if( manager!=null && !manager.cacheExists(uniqueSession) ) {
-        	/**
-        	 * Here are the parameters that we are using for creating the presentation
-        	 * tier session caches.  These caches are only stored in Memory and 
-        	 * never persisted out to disk
-        	 * 
-        	 *  	CacheName = the sessionId;
-        	 *  	Max Elements in Memory = 1000;
-        	 *  	Overflow to disk = false;
-        	 *  	Make the cache eternal = true;
-        	 *  	Elements time to live in seconds = 12000 (200 minutes, this not eternal in case the data changes);
-        	 *  	Elements time to idle in seconds = 0 (Special setting which means never check);
-         	 */
-            sessionCache = new Cache(uniqueSession, 10000, true, true, 0, 0);
-            logger.debug("New Presentation SessionCache created: "+sessionId);
-            try {
-            	manager.addCache(sessionCache);
-            	Element counter = new Element(RembrandtConstants.REPORT_COUNTER, new SessionTempReportCounter());
-            	sessionCache.put(counter);
-            }catch(ObjectExistsException oee) {
-                logger.error("Attempted to create the same session cache twice.");
-                logger.error(oee);
-            }catch(CacheException ce) {
-                logger.error("Attempt to create session cache failed.");
-                logger.error(ce);
-            }
-        }else if(manager!=null){
-        	logger.debug("Returning an existing session cache");
-        	sessionCache = manager.getCache(uniqueSession);
-        }
-        return sessionCache;
-    }
+//    private Cache getSessionCache(String sessionId) {
+//        Cache sessionCache = null;
+//        /*
+//         * Process the sessionId to make sure that we have a unique sessionName for
+//         * the presentation tier cache
+//         */
+//        String uniqueSession = processSessionId(sessionId);
+//        if( manager!=null && !manager.cacheExists(uniqueSession) ) {
+//        	/**
+//        	 * Here are the parameters that we are using for creating the presentation
+//        	 * tier session caches.  These caches are only stored in Memory and 
+//        	 * never persisted out to disk
+//        	 * 
+//        	 *  	CacheName = the sessionId;
+//        	 *  	Max Elements in Memory = 1000;
+//        	 *  	Overflow to disk = false;
+//        	 *  	Make the cache eternal = true;
+//        	 *  	Elements time to live in seconds = 12000 (200 minutes, this not eternal in case the data changes);
+//        	 *  	Elements time to idle in seconds = 0 (Special setting which means never check);
+//         	 */
+//            sessionCache = new Cache(uniqueSession, 10000, true, true, 0, 0);
+//            logger.debug("New Presentation SessionCache created: "+sessionId);
+//            try {
+//            	manager.addCache(sessionCache);
+//            	Element counter = new Element(RembrandtConstants.REPORT_COUNTER, new SessionTempReportCounter());
+//            	sessionCache.put(counter);
+//            }catch(ObjectExistsException oee) {
+//                logger.error("Attempted to create the same session cache twice.");
+//                logger.error(oee);
+//            }catch(CacheException ce) {
+//                logger.error("Attempt to create session cache failed.");
+//                logger.error(ce);
+//            }
+//        }else if(manager!=null){
+//        	logger.debug("Returning an existing session cache");
+//        	sessionCache = manager.getCache(uniqueSession);
+//        }
+//        return sessionCache;
+//    }
     /**
      * Comment this!
      * @param sessionId
@@ -304,9 +308,9 @@ public class PresentationCacheManager implements PresentationTierCache{
 		Cache sessionCache =  this.getSessionCache(sessionId);
 		SessionCriteriaBag theBag = null;
 		try {
-			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_CRITERIA_BAG_KEY);
+			Object cacheElement = getPersistableObjectFromSessionCache(sessionId, RembrandtConstants.SESSION_CRITERIA_BAG_KEY);
 			if(cacheElement!=null) {
-				theBag = (SessionCriteriaBag)cacheElement.getValue();
+				theBag = (SessionCriteriaBag)cacheElement;
 			}
 			if(theBag==null){
 				logger.debug("There is no query bag for session: "+sessionId);
@@ -315,9 +319,6 @@ public class PresentationCacheManager implements PresentationTierCache{
 				Element element = new Element(RembrandtConstants.SESSION_CRITERIA_BAG_KEY, theBag);
 				sessionCache.put(element);
 			}
-		}catch(CacheException ce) {
-			logger.error("Retreiving the SessionCriteriaBag threw an exception for session: "+sessionId);
-			logger.error(ce);
 		}catch(ClassCastException cce) {
 			logger.error("Someone put something other than a SessionCriteriaBag in the cache as a SessionQueryBag");
 			logger.error(cce);
@@ -332,7 +333,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param graphData
 	 */
 	public void addSessionGraphingData(String sessionId, CachableGraphData graphData) {
-		myInstance.addToSessionCache(sessionId,graphData.getId(),graphData);
+		myInstance.addNonPersistableToSessionCache(sessionId,graphData.getId(),graphData);
 	}
 	/**
 	 * Comment this!
@@ -404,13 +405,11 @@ public class PresentationCacheManager implements PresentationTierCache{
 		System.out.print("");
 		SessionQueryBag theBag = null;
 		try {
-			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_QUERY_BAG_KEY);
+//			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_QUERY_BAG_KEY);
+			Object cacheElement = getPersistableObjectFromSessionCache(sessionId,RembrandtConstants.SESSION_QUERY_BAG_KEY);
 			if(cacheElement != null){
-				theBag = (SessionQueryBag)cacheElement.getValue();
+				theBag = (SessionQueryBag)cacheElement;
 			}
-		}catch(CacheException ce) {
-			logger.error("Retreiving the SessionQueryBag threw an exception for session: "+sessionId);
-			logger.error(ce);
 		}catch(ClassCastException cce) {
 			logger.error("Someone put something other than a SessionQueryBag in the cache as a SessionQueryBag");
 			logger.error(cce);
@@ -516,23 +515,23 @@ public class PresentationCacheManager implements PresentationTierCache{
      * @param key
      * @return
      */
-    public Object getObjectFromSessionCache(String sessionId, String key) {
-    	Cache sessionCache = getSessionCache(sessionId);
-    	Object returnObject = null;
-    	try {
-			Element element = sessionCache.get(key);
-			if(element != null){
-				returnObject = element.getValue();
-			}
-		} catch (IllegalStateException e) {
-			logger.error(e);
-		} catch (CacheException e) {
-			logger.error(e);
-		} catch (NullPointerException e){
-            logger.error(e);
-        }
-    	return returnObject;
-    }
+//    public Object getObjectFromSessionCache(String sessionId, String key) {
+//    	Cache sessionCache = getSessionCache(sessionId);
+//    	Object returnObject = null;
+//    	try {
+//			Element element = sessionCache.get(key);
+//			if(element != null){
+//				returnObject = element.getValue();
+//			}
+//		} catch (IllegalStateException e) {
+//			logger.error(e);
+//		} catch (CacheException e) {
+//			logger.error(e);
+//		} catch (NullPointerException e){
+//            logger.error(e);
+//        }
+//    	return returnObject;
+//    }
     /**
      * This will return a previously unused Report Name that can be applied to
      * unnamed result sets.
@@ -561,45 +560,19 @@ public class PresentationCacheManager implements PresentationTierCache{
 			}
 			
 		}catch(IllegalStateException ise) {
-			logger.error("Getting the ReportBean from cache threw IllegalStateException");
+			logger.error("Getting the SessionTempReportCounter from cache threw IllegalStateException");
 			logger.error(ise);
 		}
 		catch(CacheException ce) {
-			logger.error("Getting the ReportBean from cache threw a new CacheException");
+			logger.error("Getting the SessionTempReportCounter from cache threw a new CacheException");
 			logger.error(ce);
 		}catch(ClassCastException cce) {
-			logger.error("CacheElement was not a ReportBean");
+			logger.error("CacheElement was not a SessionTempReportCounter");
 			logger.error(cce);
 		}
 		return tempReportName;
 	}
-	/**
-	 * This should be the only place that the PresentationCache delegates the
-	 * work to the _businessTier
-	 * 
-	 * @return
-	 */
-	public Collection checkLookupCache(String lookupType) {
-		Cache applicationCache = this.getApplicationCache();
-		Collection lookpCollection = null;
-		try {
-			Element element = applicationCache.get(lookupType);
-			if(element!=null) {
-				if(element.getValue() instanceof Collection)
-					lookpCollection = (Collection)element.getValue();
-			}
-		}catch(IllegalStateException ise) {
-			logger.error("Getting the FindingsResultset from cache threw IllegalStateException");
-			logger.error(ise);
-		}catch(CacheException ce) {
-			logger.error("Getting the FindingsResultset from cache threw a new CacheException");
-			logger.error(ce);
-		}catch(ClassCastException cce) {
-			logger.error("CacheElement was not a FindingsResultset");
-			logger.error(cce);
-		}
-		return lookpCollection;
-	}
+
 	 
 	/**
 	/**
@@ -609,43 +582,43 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param  the session that wants to be logged out.
 	 * @return
 	 */
-	public boolean removeSessionCache(String rawSessionId) {
-		/*
-		 * process the sessionId to make sure that we have a session id
-		 * unique to the presentation tier cache
-		 */
-		String safeSessionId = processSessionId(rawSessionId);
-    	if(manager!=null && manager.cacheExists(safeSessionId)) {
-    		String[] beforeCaches = manager.getCacheNames();
-    		logger.debug("Current Caches");
-    		logger.debug("--------------------------------------");
-    		for(String name:beforeCaches) {
-    			logger.debug("cache: "+name);
-    		}
-    		logger.debug("--------------------------------------");
-    		logger.debug("removing all temp files associated with session");
-    		String sessionTempFolder = getSessionTempFolderPath(rawSessionId);
-    		/*
-    		 * remove the temp folder if the folder exist
-    		 */
-    		deleteAllFiles(sessionTempFolder);
-    		logger.debug("--------------------------------------");
-    		manager.removeCache(safeSessionId);
-    		logger.debug("Removing Cache: "+safeSessionId);
-    		String[] remainingCaches = manager.getCacheNames();
-    		logger.debug("Remaining Caches");
-    		logger.debug("--------------------------------------");
-    		for(String name:remainingCaches) {
-    			logger.debug("cache: "+name);
-    		}
-    		logger.debug("--------------------------------------");
-            return true;
-        }else {
-        	//there was no sessionCache to remove
-        	logger.debug("There was no sessionCache for : "+ rawSessionId+" to remove.");
-        	return false;
-        }
-    }
+//	public boolean removeSessionCache(String rawSessionId) {
+//		/*
+//		 * process the sessionId to make sure that we have a session id
+//		 * unique to the presentation tier cache
+//		 */
+//		String safeSessionId = processSessionId(rawSessionId);
+//    	if(manager!=null && manager.cacheExists(safeSessionId)) {
+//    		String[] beforeCaches = manager.getCacheNames();
+//    		logger.debug("Current Caches");
+//    		logger.debug("--------------------------------------");
+//    		for(String name:beforeCaches) {
+//    			logger.debug("cache: "+name);
+//    		}
+//    		logger.debug("--------------------------------------");
+//    		logger.debug("removing all temp files associated with session");
+//    		String sessionTempFolder = getSessionTempFolderPath(rawSessionId);
+//    		/*
+//    		 * remove the temp folder if the folder exist
+//    		 */
+//    		deleteAllFiles(sessionTempFolder);
+//    		logger.debug("--------------------------------------");
+//    		manager.removeCache(safeSessionId);
+//    		logger.debug("Removing Cache: "+safeSessionId);
+//    		String[] remainingCaches = manager.getCacheNames();
+//    		logger.debug("Remaining Caches");
+//    		logger.debug("--------------------------------------");
+//    		for(String name:remainingCaches) {
+//    			logger.debug("cache: "+name);
+//    		}
+//    		logger.debug("--------------------------------------");
+//            return true;
+//        }else {
+//        	//there was no sessionCache to remove
+//        	logger.debug("There was no sessionCache for : "+ rawSessionId+" to remove.");
+//        	return false;
+//        }
+//    }
 	
 	/***
 	 * Comment this!
@@ -653,7 +626,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param theBag
 	 */
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag) {
-		addToSessionCache(sessionId,RembrandtConstants.SESSION_QUERY_BAG_KEY, theBag );
+		addPersistableToSessionCache(sessionId,RembrandtConstants.SESSION_QUERY_BAG_KEY, theBag );
 	}
 	
 	/**
@@ -663,19 +636,19 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param key
 	 * @param value
 	 */
-	public void addToPresentationCache(Serializable key, Serializable value) {
-		Cache applicationCache = getApplicationCache();
-		try {
-			Element element = new Element(key, value);
-			applicationCache.put(element);
-		}catch(IllegalStateException ise) {
-			logger.error("Checking applicationCache threw IllegalStateException");
-			logger.error(ise);
-		}catch(ClassCastException cce) {
-			logger.error("CacheElement was not a Collection");
-			logger.error(cce);
-		}
-	}
+//	public void addToPresentationCache(Serializable key, Serializable value) {
+//		Cache applicationCache = getApplicationCache();
+//		try {
+//			Element element = new Element(key, value);
+//			applicationCache.put(element);
+//		}catch(IllegalStateException ise) {
+//			logger.error("Checking applicationCache threw IllegalStateException");
+//			logger.error(ise);
+//		}catch(ClassCastException cce) {
+//			logger.error("CacheElement was not a Collection");
+//			logger.error(cce);
+//		}
+//	}
 	/***
 	 * Comment this!
 	 * @param sessionId
@@ -740,7 +713,7 @@ public class PresentationCacheManager implements PresentationTierCache{
 	  * 
 	  * @return The singleton instance of the PresentationTierCache
 	  */
-	 public static PresentationTierCache getInstance() {
+	 public static RembrandtPresentationTierCache getInstance() {
 		 return myInstance;
 	 }
 	 /***
@@ -754,19 +727,19 @@ public class PresentationCacheManager implements PresentationTierCache{
 	  *  
 	  *  @return void
 	  */
-	 public void addToSessionCache(String sessionId, Serializable key, Serializable value) {
-			Cache sessionCache = getSessionCache(sessionId);
-			Element element = new Element(key, value);
-			try {	
-				sessionCache.put(element);
-			}catch(IllegalStateException ise) {
-				logger.error("Placing object in SessionCache threw IllegalStateException");
-				logger.error(ise);
-			}catch(IllegalArgumentException iae) {
-				logger.error("Placing object in SessionCache threw IllegalArgumentException");
-				logger.error(iae);
-			}
-	}
+//	 public void addToSessionCache(String sessionId, Serializable key, Serializable value) {
+//			Cache sessionCache = getSessionCache(sessionId);
+//			Element element = new Element(key, value);
+//			try {	
+//				sessionCache.put(element);
+//			}catch(IllegalStateException ise) {
+//				logger.error("Placing object in SessionCache threw IllegalStateException");
+//				logger.error(ise);
+//			}catch(IllegalArgumentException iae) {
+//				logger.error("Placing object in SessionCache threw IllegalArgumentException");
+//				logger.error(iae);
+//			}
+//	}
 	 /**
 	  * This is the method that is responsible for persisting a users session 
 	  * across log outs.  It will check to see if the user actually has anything
@@ -797,14 +770,15 @@ public class PresentationCacheManager implements PresentationTierCache{
 						/**
 						 * Right now only store the query map or the Temp Report Counter
 						 */
-						if(RembrandtConstants.SESSION_QUERY_BAG_KEY.equals(key)||	
+						
+						if((RembrandtConstants.SESSION_QUERY_BAG_KEY+this.PERSISTED_SUFFIX).equals(key)||	
 							RembrandtConstants.REPORT_COUNTER.equals(key)) {
 							logger.debug("Key "+i+" being persisted: "+key);
 							Element element = sessionCache.get((Serializable)key);
 							persistedElements.put((Serializable)key, element);
 						}
 					}
-					Cache persistedCache = manager.getCache(PresentationCacheManager.PERSISTED_SESSIONS_CACHE);
+					Cache persistedCache = manager.getCache(RembrandtPresentationCacheManager.PERSISTED_SESSIONS_CACHE);
 					if(persistedCache!=null) {
 						persistedCache.put(new Element(userName,persistedElements));
 						/**
@@ -836,10 +810,10 @@ public class PresentationCacheManager implements PresentationTierCache{
 	 * @param givenSessionId
 	 * @return
 	 */
-	private String processSessionId(String givenSessionId) {
-		String returnedSessionId = givenSessionId+"_presentation";
-		return returnedSessionId;
-	}
+//	private String processSessionId(String givenSessionId) {
+//		String returnedSessionId = givenSessionId+"_presentation";
+//		return returnedSessionId;
+//	}
 	/**
 	 * Removes the session cache for the sessionId that was passed.  This should
 	 * be called whenever a user logs out of the applicaiton.  Else if they log
@@ -876,27 +850,28 @@ public class PresentationCacheManager implements PresentationTierCache{
 	/* Stores the path name where temporary files such as image files are stored for this session
 	 * @see gov.nih.nci.rembrandt.cache.PresentationTierCache#addSessionTempFolderPath(java.lang.String, java.lang.String)
 	 */
-	public void addSessionTempFolderPath(String sessionId, String sessionTempFolderPath) {
-		myInstance.addToSessionCache(sessionId,RembrandtConstants.SESSION_TEMP_FOLDER_PATH,sessionTempFolderPath);
-		
-	}
+//	public void addSessionTempFolderPath(String sessionId, String sessionTempFolderPath) {
+//		myInstance.addNonPersistableToSessionCache(sessionId,RembrandtConstants.SESSION_TEMP_FOLDER_PATH,sessionTempFolderPath);
+//		
+//	}
 	/* Returns the path name where temporary files such as image files are stored for this session
 	 * @see gov.nih.nci.rembrandt.cache.PresentationTierCache#addSessionTempFolderPath(java.lang.String, java.lang.String)
 	 */
-	public String getSessionTempFolderPath(String sessionId) {
-		return (String) myInstance.getObjectFromSessionCache(sessionId,RembrandtConstants.SESSION_TEMP_FOLDER_PATH);
-	}
+//	public String getSessionTempFolderPath(String sessionId) {
+//		return (String) myInstance.getNonPersistableObjectFromSessionCache(sessionId,RembrandtConstants.SESSION_TEMP_FOLDER_PATH);
+//	}
 	/*
 	 * remove the temp folder if the folder exist
 	 */
-	private void deleteAllFiles(String filePath){
-		if(filePath != null){
-			File dir = new File(filePath);
-			File[] list = dir.listFiles();
-			for(File fileToDelete:list){
-					fileToDelete.delete();
-				}
-			dir.delete();
-			}
-		}
+//	private void deleteAllFiles(String filePath){
+//		if(filePath != null){
+//			File dir = new File(filePath);
+//			File[] list = dir.listFiles();
+//			for(File fileToDelete:list){
+//					fileToDelete.delete();
+//				}
+//			dir.delete();
+//			}
+//		}
+
 }

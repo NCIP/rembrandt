@@ -7,7 +7,7 @@
 
 <%@ page import="java.util.*, java.lang.*, java.io.*, java.net.URLEncoder " %>
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>
-<%@ page import="gov.nih.nci.rembrandt.cache.*" %>
+<%@ page import="gov.nih.nci.caintegrator.application.cache.BusinessTierCache" %>
 <%@ page import="gov.nih.nci.caintegrator.service.findings.*" %>
 <%@ page import="gov.nih.nci.caintegrator.enumeration.*" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>

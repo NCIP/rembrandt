@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
+import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.FindingReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
@@ -104,7 +105,7 @@ public class DynamicReportGenerator {
 		ArrayList jobs = session.getAttribute("xmlJobs")!=null ? (ArrayList) session.getAttribute("xmlJobs") : new ArrayList();
 		
 		//only generate XML if its not already cached...leave off for debug
-		if(ptc.getObjectFromSessionCache(session.getId(), key) == null && !jobs.contains(key))	{
+		if(ptc.getNonPersistableObjectFromSessionCache(session.getId(), key) == null && !jobs.contains(key))	{
 			Object o = btc.getObjectFromSessionCache(session.getId(), key);
 			Finding finding = (Finding) o; 
 			//generate the XML and cached it
@@ -113,7 +114,7 @@ public class DynamicReportGenerator {
 				jobs.add(key);
 			session.setAttribute("xmlJobs", jobs);
 		}
-		Object ob = ptc.getObjectFromSessionCache(session.getId(), key);
+		Object ob = ptc.getNonPersistableObjectFromSessionCache(session.getId(), key);
 		if(ob != null && ob instanceof FindingReportBean)	{
 			try	{
 				FindingReportBean frb = (FindingReportBean) ob;
@@ -252,7 +253,7 @@ public class DynamicReportGenerator {
 	public String saveReporters(String commaSepList, String name)	{
 		String success = "fail";
 		HttpSession session = ExecutionContext.get().getSession(false);
-		PresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
+		RembrandtPresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
 		SessionCriteriaBag sessionCriteriaBag = ptc.getSessionCriteriaBag(session.getId());
 		
 		//hold the list of DE's
@@ -283,7 +284,7 @@ public class DynamicReportGenerator {
 	public String saveSamples(String commaSepList, String name)	{
 		String success = "fail";
 		HttpSession session = ExecutionContext.get().getSession(false);
-		PresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
+		RembrandtPresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
 		SessionCriteriaBag sessionCriteriaBag = ptc.getSessionCriteriaBag(session.getId());
 		
 		//hold the list of DE's

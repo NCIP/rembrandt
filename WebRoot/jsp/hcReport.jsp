@@ -9,7 +9,7 @@
 <%@ page import="gov.nih.nci.caintegrator.service.findings.*, gov.nih.nci.rembrandt.web.helper.*,
 gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j.Document, gov.nih.nci.rembrandt.util.*" %>
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>
-<%@ page import="gov.nih.nci.rembrandt.cache.*" %>
+<%@ page import="gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache" %>
 
 <html>
 	<head>

@@ -4,7 +4,7 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
-	 			 gov.nih.nci.rembrandt.cache.PresentationTierCache,
+	 			 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
 	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory,
 	 			 gov.nih.nci.rembrandt.dto.query.Query" %> 	 
 
@@ -17,7 +17,7 @@
 </legend>
 <%
  String act = request.getParameter("act");
- PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+ RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
  String format = "H:mm:ss";
  Date today = new Date();
  SimpleDateFormat formatter = new SimpleDateFormat(format);

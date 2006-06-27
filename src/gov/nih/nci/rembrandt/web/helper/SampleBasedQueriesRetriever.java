@@ -7,7 +7,7 @@ import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
@@ -100,7 +99,7 @@ public class SampleBasedQueriesRetriever implements Serializable {
 	 * 
 	 */
     private static Logger logger = Logger.getLogger(SampleBasedQueriesRetriever.class);
-    private PresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache cacheManager = ApplicationFactory.getPresentationTierCache();
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unchecked")
 	private Map<String,ClinicalDataQuery> predefinedQueryMap = new TreeMap();

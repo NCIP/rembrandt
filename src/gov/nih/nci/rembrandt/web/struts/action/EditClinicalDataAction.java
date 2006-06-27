@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
@@ -85,7 +85,7 @@ import org.apache.struts.action.ActionMapping;
 
 public class EditClinicalDataAction extends Action {
     private static Logger logger = Logger.getLogger(DeleteQueryAction.class);
-    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
     public ActionForward execute(
 			ActionMapping mapping,

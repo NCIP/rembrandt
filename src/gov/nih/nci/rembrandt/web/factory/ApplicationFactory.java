@@ -1,20 +1,17 @@
 package gov.nih.nci.rembrandt.web.factory;
 
+import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
+import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
+import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.service.findings.FindingsFactory;
-import gov.nih.nci.rembrandt.cache.BusinessTierCache;
-import gov.nih.nci.rembrandt.cache.BusinessCacheManager;
-import gov.nih.nci.rembrandt.cache.PresentationCacheManager;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 
-//UNCOMMENT THESE LINES WHEN READY TO SWITCH OVER TO THE app commons business tier cache.
-//import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
-//import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
-//import gov.nih.nci.caintegrator.application.cache.CacheFactory;
-//import gov.nih.nci.caintegrator.application.cache.PresentationCacheManager;
-//import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 
+
+
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationCacheManager;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClassComparisonQueryDTOImpl;
 import gov.nih.nci.rembrandt.dto.query.HierarchicalClusteringQueryDTOImpl;
 import gov.nih.nci.rembrandt.dto.query.PrincipalComponentAnalysisQueryDTOImpl;
@@ -92,8 +89,8 @@ public class ApplicationFactory{
         	return null;
         }
 	}
-	public static PresentationTierCache getPresentationTierCache() {
-		return PresentationCacheManager.getInstance();
+	public static RembrandtPresentationTierCache getPresentationTierCache() {
+		return RembrandtPresentationCacheManager.getInstance();
 	}
 	
 	public static BusinessTierCache getBusinessTierCache() {

@@ -1,6 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -82,7 +82,7 @@ import org.apache.struts.actions.DispatchAction;
 
 public class DeleteQueryAction extends DispatchAction {
     private static Logger logger = Logger.getLogger(DeleteQueryAction.class);
-    private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	// --------------------------------------------------------- Instance Variables
 
 	// --------------------------------------------------------- Methods

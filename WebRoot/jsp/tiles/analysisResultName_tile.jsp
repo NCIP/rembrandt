@@ -4,7 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.query.QueryDTO,
-				 gov.nih.nci.rembrandt.cache.PresentationTierCache,
+				 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.web.factory.ApplicationFactory"%> 
 
@@ -31,7 +31,7 @@
 <html:errors property="queryName"/><br />
 </fieldset>
 <%
-		PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+		RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 		String returnQueryNames = "";
 		if(presentationTierCache!=null){
 			String sessionId = request.getSession().getId();

@@ -6,8 +6,8 @@ import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
@@ -28,14 +28,10 @@ import gov.nih.nci.rembrandt.web.xml.ReportGenerator;
 import gov.nih.nci.rembrandt.web.xml.ReportGeneratorFactory;
 import gov.nih.nci.rembrandt.web.xml.Transformer;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,13 +40,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
 import javax.naming.OperationNotSupportedException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
+
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 import org.dom4j.io.HTMLWriter;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
@@ -139,7 +135,7 @@ public class ReportGeneratorHelper {
 	private String _queryName = null;
 	private String _sessionId = null;
 	private static Properties applicationResources = applicationResources = ApplicationContext.getLabelProperties();
-	private PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	//Check the applications resource file and turn on report xml logging if 
 	//property nautilus.xml_logging = true, else then no xml report logging.
 	private static boolean xmlLogging;
@@ -241,7 +237,7 @@ public class ReportGeneratorHelper {
 			generateReportXML();
 			//drop this ReportBean in the session cache, use the _queryName as the 
 			//parameter
-			presentationTierCache.addToSessionCache(_sessionId,_queryName,_reportBean);
+			presentationTierCache.addNonPersistableToSessionCache(_sessionId,_queryName,_reportBean);
 		
 		}catch(Exception e) {
 			logger.error("Exception when trying to generate a Show All Values Report");
@@ -535,7 +531,7 @@ public class ReportGeneratorHelper {
 				}
 			}
 			_reportBean.setReportXML(reportXML);
-			presentationTierCache.addToSessionCache(_sessionId,_queryName,_reportBean);
+			presentationTierCache.addNonPersistableToSessionCache(_sessionId,_queryName,_reportBean);
 		   			   
 		    	
 		}else {
@@ -552,7 +548,7 @@ public class ReportGeneratorHelper {
 		frb.setFinding(finding);
 		frb.setXmlDoc(xmlDocument);
 		//TODO: check cache for collision - second param is key
-		ApplicationFactory.getPresentationTierCache().addToSessionCache(finding.getSessionId(),finding.getTaskId(), frb);
+		ApplicationFactory.getPresentationTierCache().addNonPersistableToSessionCache(finding.getSessionId(),finding.getTaskId(), frb);
 	}
 	
 	/**
@@ -563,7 +559,7 @@ public class ReportGeneratorHelper {
 	 */
 	private void executeQuery() throws Exception{
 		//empty the cache before executing the query again
-		presentationTierCache.addToSessionCache(_sessionId,_queryName,null);
+		presentationTierCache.addNonPersistableToSessionCache(_sessionId,_queryName,null);
 		
 		if(_cQuery!=null) {
 			Resultant resultant = ResultsetManager.executeCompoundQuery(_cQuery);

@@ -1,7 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.security.UserCredentials;
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LogoutForm;
@@ -78,7 +78,7 @@ import org.apache.struts.action.ActionMapping;
 public final class LogoutAction extends Action
 {
     private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
-    private static PresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+    private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
     public ActionForward execute(ActionMapping mapping, ActionForm form,
     								HttpServletRequest request, HttpServletResponse response)
     {

@@ -3,7 +3,7 @@
 <%@ page import="java.util.*,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
-	 			 gov.nih.nci.rembrandt.cache.PresentationTierCache,
+	 			 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
 	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %> 
 <div width="100%">
 <h3>Queries</h3>
@@ -19,7 +19,7 @@
 		
 		 
 			<%
-			   PresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+			   RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 			   String  query = "";	
 			   int j = 0;	
 			   String queryKey = null;

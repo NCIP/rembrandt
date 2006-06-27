@@ -4,13 +4,13 @@
 
 <web-app>
 	<!--Register SessionListener
-		This is used by the gov.nih.nci.rembrandt.cache package to 
+		This is used by the caintegrator.application.cache package to 
 		watch for dead sessions and remove the caches.  For more
 		more information check the java files for comments. 
 	-->
 	<listener>
 		<listener-class>
-			gov.nih.nci.rembrandt.cache.SessionTracker
+			gov.nih.nci.caintegrator.application.cache.SessionTracker
 		</listener-class>
 	</listener>
 	<!-- Register ContextListener

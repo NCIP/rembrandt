@@ -1,8 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.validation;
 
 
-import gov.nih.nci.rembrandt.cache.PresentationTierCache;
-import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.Serializable;
@@ -13,9 +12,6 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.DescriptorRepository;
-import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -94,7 +90,7 @@ public class QueryExecuter{
     private static Logger logger = Logger.getLogger(QueryExecuter.class);
 
 	public static final String NO_CACHE = "NoCache";
-	private static PresentationTierCache presentationTierCache;
+	private static RembrandtPresentationTierCache presentationTierCache;
 	
 	
 	/**
@@ -109,14 +105,14 @@ public class QueryExecuter{
 	public  static Collection executeQuery(Class bean, Criteria crit, String lookupType, boolean distinct)throws Exception{
 		  
 		presentationTierCache = ApplicationFactory.getPresentationTierCache();
-		Collection resultsetObjs = presentationTierCache.checkLookupCache(lookupType);
+		Collection resultsetObjs = presentationTierCache.checkApplicationCache(lookupType);
 		if(resultsetObjs == null) {
 			logger.debug("LookupType "+lookupType+" was not found in ApplicationCache");
 			PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
 			broker.clearCache();
 		    resultsetObjs = createQuery(bean, crit, broker, distinct);
             if(!lookupType.equals(QueryExecuter.NO_CACHE)){  //Never cache Quick search type queries
-            	presentationTierCache.addToPresentationCache(lookupType,(Serializable)resultsetObjs);
+            	presentationTierCache.addToApplicationCache(lookupType,(Serializable)resultsetObjs);
             }
 		    broker.close();
 		    
