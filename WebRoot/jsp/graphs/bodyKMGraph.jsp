@@ -28,7 +28,13 @@
          (request.getParameter("plotType").equalsIgnoreCase("COPY_NUM_KM_PLOT"))) ){
         km = "kmplotCN";
    }
-   
+   if(  ((request.getParameter("plot") != null) && 
+         (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotGE")))
+           || 
+        ((request.getParameter("plot") == null) && 
+         (request.getParameter("plotType").equalsIgnoreCase("SAMPLE_KM_PLOT"))) ){//HACK FOR NOW
+         km = "kmplotGE";
+   }
 	
 %> <%=helpLink%>?sect=<%=km%><%=helpLinkClose%></div>
 
@@ -162,6 +168,20 @@
 					<td><bean:write name="kmDataSetForm" property="storedData.intSampleCount" /></td>
 				</tr>
 			</logic:greaterThan>
+			<logic:greaterThan name="kmDataSetForm" property="storedData.sampleList1Count"
+				value="0">
+				<tr>
+					<td><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /></td>
+					<td><bean:write name="kmDataSetForm" property="storedData.sampleList1Count" /></td>
+				</tr>
+			</logic:greaterThan>
+			<logic:greaterThan name="kmDataSetForm" property="storedData.sampleList2Count"
+				value="0">
+				<tr>
+					<td><bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" /></td>
+					<td><bean:write name="kmDataSetForm" property="storedData.sampleList2Count" /></td>
+				</tr>
+			</logic:greaterThan>
 			<tr>
 				<td colspan="2">
 				<hr width="100%" size="1" color="black" />
@@ -228,6 +248,14 @@
 					</tr>
 				</logic:greaterThan>
 			</logic:greaterThan>
+				<logic:greaterThan name="kmDataSetForm" property="storedData.sampleList1VsSampleList2"
+					value="-100">
+					<tr>
+						<td><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /> vs. <bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" />:</td>
+						<td><bean:write name="kmDataSetForm" property="storedData.sampleList1VsSampleList2" /></td>
+					</tr>
+				</logic:greaterThan>
+
 			<logic:lessEqual name="kmDataSetForm" property="storedData.numberOfPlots"
 				value="1">
 				<td>N/A ( Not Applicable )</td>

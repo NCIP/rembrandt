@@ -219,6 +219,10 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 			chartTitle = "Kaplan-Meier Survival Plot for Samples with Copy Number Analysis for "
 					+ geneOrCytoband;
 		}
+		if (getPlotType().equals(CaIntegratorConstants.SAMPLE_KMPLOT)) {
+			chartTitle = "Kaplan-Meier Survival Plot for Samples with Differential "
+					+ geneOrCytoband + " Gene Expression";
+		}
 		return chartTitle;
 	}
 
@@ -266,7 +270,8 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	public void setPlotType(String plotType) {
 		if (plotType != null
 				&& (plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT) || plotType
-						.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT))) {
+						.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)|| plotType
+						.equals(CaIntegratorConstants.SAMPLE_KMPLOT))) {
 			this.plotType = plotType;
 		}
 	}
@@ -281,6 +286,9 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 		if (getPlotType().equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			changeType = "Copies";
 		}
+		if (getPlotType().equals(CaIntegratorConstants.SAMPLE_KMPLOT)) {
+			changeType = "Folds";
+		}
 		return changeType;
 	}
 
@@ -294,6 +302,9 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 		if (getPlotType().equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			downOrDeleted = "Deleted";
 		}
+		if (getPlotType().equals(CaIntegratorConstants.SAMPLE_KMPLOT)) {
+			downOrDeleted = "Down-Regulated";
+		}
 		return downOrDeleted;
 	}
 
@@ -306,6 +317,9 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 		}
 		if (getPlotType().equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 			upOrAmplified = "Amplified";
+		}
+		if (getPlotType().equals(CaIntegratorConstants.SAMPLE_KMPLOT)) {
+			upOrAmplified = "Up-Regulated";
 		}
 		return upOrAmplified;
 	}
