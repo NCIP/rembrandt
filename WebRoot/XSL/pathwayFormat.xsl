@@ -20,7 +20,22 @@
 			
 			
 			</font>
+			
 			<xsl:apply-templates select="/xlink:httpQuery/queryRequest" mode="req"/>
+			<br>
+			<table cellpadding="3" border="2">
+								<tr>
+									<xsl:apply-templates select="/xlink:httpQuery/queryResponse/previous" mode="previous"/>
+									<xsl:apply-templates select="/xlink:httpQuery/queryResponse/next" mode="next"/>
+									<xsl:apply-templates select="/xlink:httpQuery/queryResponse/pages" mode="page"/>
+								</tr>
+									
+			
+			</table>
+			
+		 
+			</br>
+			
 			<xsl:apply-templates select="/xlink:httpQuery/queryResponse/class" mode="res"/>
 			<br>
 			
@@ -40,11 +55,12 @@
 		</html>
 	</xsl:template>
 	<xsl:template name="request" match="/xlink:httpQuery/queryRequest" mode="req">
+		
 		<!--  -#003333 #99C68E #FDEEF4 -->
 		<font color="#000033" size="3">
 			<xsl:for-each select="/xlink:httpQuery/queryRequest">
 				
-			
+			<br>
 				<xsl:choose>
 					<xsl:when test="$recordCounter > 0">
 					
@@ -58,11 +74,13 @@
 						</b>
 					</xsl:otherwise>
 				</xsl:choose>
-				<br/>
+			</br>
 				
 			</xsl:for-each>
 		</font>
 	</xsl:template>
+	
+	
 	<xsl:template name="response" match="/xlink:httpQuery/queryResponse/class" mode="res">
 	
 		<table border="2" style="table-layout:fixed" cellpadding="0" cellspacing="0" bgcolor="#FAF8CC">
@@ -96,7 +114,7 @@
 							<xsl:for-each select="field">	
 							              <xsl:if test="@name = 'id'">    		  							    
 								       	 <th width="40">
-										No	
+										No
 									 </th>									
 									</xsl:if>
 							                 
@@ -122,7 +140,7 @@
 						<xsl:for-each select="field">				
 	
 	 				      <xsl:variable name="pathId" select="../field[position()=1]"/>	
-	 				      <xsl:variable name="pathName" select="../field[position()=4]" />
+	 				      <xsl:variable name="pathName" select="substring(../field[position()=4],3)" />
 	 							<xsl:if test ="@name = 'id'" >
 								  
 								   <td width="40" nowrap="off">
@@ -136,7 +154,7 @@
 									 
 								      <input type="checkbox" value="{$pathName}" name="pathwayName"/>
 									   <a href="geneResults.jsp?id={$pathId}" target="_blank">									  						
-									    <xsl:value-of select="."/>
+									     <xsl:value-of select="substring(.,3)"/>
 									   </a>
 									
 									   

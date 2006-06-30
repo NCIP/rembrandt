@@ -87,14 +87,14 @@
 							    <xsl:choose>       
 									
 									 <xsl:when test="position() = 2">									 
-									   <th width="200">
+									   <th width="100">
 										Gene Symbol		
 									    </th>
 									 </xsl:when>
 									 
 									 <xsl:when test="position() = 4">
 									 
-									   <th width="800">
+									   <th width="700">
 										Gene Name		
 									    </th>
 									 </xsl:when>         
@@ -112,13 +112,13 @@
 								
 								<xsl:choose>
 								   <xsl:when test="position() = 2">
-								       <td width="200" nowrap="off">
+								       <td width="100" nowrap="off">
 								         <xsl:value-of select="../field[position()=4]"/>								    
 								       </td>										
 								  </xsl:when>
 								
 								 <xsl:when test="position() = 4">
-								       <td width="800" nowrap="off">
+								       <td width="700" nowrap="off">
 								         <xsl:value-of select="../field[position()=2]"/>								    
 								       </td>										
 								 </xsl:when>								

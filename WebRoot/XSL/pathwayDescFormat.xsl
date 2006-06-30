@@ -68,8 +68,8 @@
 						  <tr bgcolor="#D5E0E9">
 							   <xsl:for-each select="field">										
 									<xsl:if test="@name = 'description'">
-									    <th align ="left" width="400">
-										Pathway Description for "<xsl:value-of select="../field[position()=4]"/>"
+									    <th align ="left" width="800">
+										Pathway Description for "<xsl:value-of select="substring(../field[position()=4],3)"/>"
 										<!--
 										   <xsl:value-of select="@name = 'name"/></xls>
 										 -->
@@ -83,7 +83,7 @@
 					
 						   <xsl:for-each select="field">								
 								<xsl:if test ="@name = 'description'" >
-									<td width="1000" nowrap="off">
+									<td width="800" nowrap="off">
 									<xsl:value-of select="."/>
 									</td>
 								</xsl:if>
@@ -92,15 +92,15 @@
 						
 				  </table>
 				  <tr bgcolor="#FFFFFF" align="left" valign="top">
-						 <th align ="left" width="400">
+						 <th align ="left" width="300">
 							<br></br>
 						 </th>
 				  </tr>
 				  <tr bgcolor="#FFFFFF" align="left" valign="top">					
 					 <xsl:for-each select="field">								
 							<xsl:if test="@name = 'description'">
-								<th align ="middle" width="400">
-								    <b>Gene Information for "<xsl:value-of select="../field[position()=4]"/>"</b>									
+								<th align ="middle" width="800">
+								    <b>Gene Information for "<xsl:value-of select="substring(../field[position()=4],3)"/>"</b>									
 								</th>
 							</xsl:if>
 					</xsl:for-each>
