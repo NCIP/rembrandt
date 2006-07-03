@@ -300,9 +300,8 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					}
 					else {
 					  logger.warn("Unrecognized array platform type for ClassComparisionRequest");
-					  return false;
+					  //may want to return false and show an error on the page.
 					}
-					
 					
                     analysisServerClientManager.sendRequest(classComparisonRequest);
                     return true;

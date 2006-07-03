@@ -313,7 +313,7 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 			}
 			else {
 			  logger.warn("Unrecognized array platform type for HCRequest");
-			  return false;
+			  //may want to return false and show an error on the page
 			}
         	
 			analysisServerClientManager.sendRequest(hcRequest);

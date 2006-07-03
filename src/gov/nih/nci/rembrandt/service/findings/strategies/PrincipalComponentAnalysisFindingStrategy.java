@@ -337,7 +337,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 			}
 			else {
 			  logger.warn("Unrecognized array platform type for PCARequest");
-			  return false;
+			  //may want to return false and  show an error on the page.
 			}
         	
 			analysisServerClientManager.sendRequest(pcaRequest);
