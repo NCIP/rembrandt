@@ -305,15 +305,19 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 		}
         try {
         	
-        	if (hcRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {
-			  String affyDataFileName = System.getProperty("gov.nih.nci.rembrandt.data_directory") + System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
-			  hcRequest.setDataFileName(affyDataFileName);
+        	if (hcRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {					 
+			  hcRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix"));
+			}
+			else if (hcRequest.getArrayPlatform() == ArrayPlatformType.CDNA_ARRAY_PLATFORM) {
+			  hcRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.cdna_data_matrix"));
 			}
 			else {
-			  logger.warn("Unrecognized array platform type for hcRequest");
-		    }
+			  logger.warn("Unrecognized array platform type for HCRequest");
+			  return false;
+			}
         	
 			analysisServerClientManager.sendRequest(hcRequest);
+		
 		} catch (JMSException e) {
 			logger.error(e.getMessage());
   			throw new FindingsAnalysisException(e.getMessage());

@@ -329,12 +329,15 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 		}
         try {
         	
-        	if (pcaRequest.getPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {
-			  String affyDataFileName = System.getProperty("gov.nih.nci.rembrandt.data_directory") + System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
-			  pcaRequest.setDataFileName(affyDataFileName);
+        	if (pcaRequest.getPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {					 
+		      pcaRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix"));
+			}
+			else if (pcaRequest.getPlatform() == ArrayPlatformType.CDNA_ARRAY_PLATFORM) {
+			  pcaRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.cdna_data_matrix"));
 			}
 			else {
-			  logger.warn("Unrecognized array platform type for pcaRequest");
+			  logger.warn("Unrecognized array platform type for PCARequest");
+			  return false;
 			}
         	
 			analysisServerClientManager.sendRequest(pcaRequest);

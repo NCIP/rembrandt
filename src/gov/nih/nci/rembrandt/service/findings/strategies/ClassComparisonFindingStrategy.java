@@ -295,8 +295,12 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {					 
 					  classComparisonRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix"));
 					}
+					else if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.CDNA_ARRAY_PLATFORM) {
+					  classComparisonRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.cdna_data_matrix"));
+					}
 					else {
 					  logger.warn("Unrecognized array platform type for ClassComparisionRequest");
+					  return false;
 					}
 					
 					
