@@ -162,9 +162,13 @@ public class ApplicationContext{
 		  analysisServerClientManager.setJMSparameters(jmsProviderURL, jndiFactoryName,requestQueueName, responseQueueName);
 		  
 //        ANALYSIS SERVER  SET the CACHE and GeneExpressionAnnotationService 
-//		  analysisServerClientManager.setCache(ApplicationFactory.getBusinessTierCache());
+
+		  analysisServerClientManager.setCache(ApplicationFactory.getBusinessTierCache());
 //		  analysisServerClientManager.setGeneExprAnnotationService();
 		
+		  analysisServerClientManager.establishQueueConnection();
+		  
+		  
 		} catch (NamingException e) {
 	        logger.error(new IllegalStateException("Error getting an instance of AnalysisServerClientManager" ));
 			logger.error(e.getMessage());
