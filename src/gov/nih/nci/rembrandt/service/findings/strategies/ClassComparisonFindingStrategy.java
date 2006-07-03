@@ -292,9 +292,8 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 					// set PvalueThreshold
 					classComparisonRequest.setPvalueThreshold(myQueryDTO.getStatisticalSignificanceDE().getValueObject());
 					
-					if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {
-					  String affyDataFileName = System.getProperty("gov.nih.nci.rembrandt.data_directory") + System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
-					  classComparisonRequest.setDataFileName(affyDataFileName);
+					if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {					 
+					  classComparisonRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix"));
 					}
 					else {
 					  logger.warn("Unrecognized array platform type for ClassComparisionRequest");
