@@ -69,7 +69,7 @@ public final class RembrandtConstants {
  	//log4j.properties
  	public static final String LOGGING_PROPERTIES = "log4j.properties";
 
-    public static final String CACHE_PROPERTIES = "rembrandtCache";
+    public static final String CACHE_PROPERTIES = "rembrandtCache.properties";
 
 	public static final String SESSION_QUERY_BAG_KEY = "nautilus.queryMap";
 
