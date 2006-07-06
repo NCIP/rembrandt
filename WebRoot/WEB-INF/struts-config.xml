@@ -42,6 +42,8 @@
     
   <action-mappings>
   
+	<action path="/manageLists" forward="nautilus.manageLists" />
+  	
   	<action path="/analysisHome"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
 		parameter="method">
