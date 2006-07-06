@@ -151,6 +151,8 @@ public final class RembrandtConstants {
     public static final String USER_PREFERENCES = "userPreferences";
     
     public static final String USER_CREDENTIALS = "UserCredentials";
+    
+    public static final String USER_LISTS = "userLists";
 
     public static final String WEB_GENOMEAPP_PROPERTIES = "webGenome.properties";
 	

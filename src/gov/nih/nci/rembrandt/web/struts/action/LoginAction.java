@@ -1,7 +1,9 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
@@ -108,6 +110,11 @@ public final class LoginAction extends Action
            }else{
             	logger.debug("No persisted cache available.  Created new SessionCache");
             }
+         UserListBean userListBean = new UserListBean();
+         userListBean = RembrandtListLoader.loadDiseaseGroups(userListBean, session);
+         //add userListBean to session...for now
+         session.setAttribute(RembrandtConstants.USER_LISTS,userListBean);
+         
             return (mapping.findForward("success"));
         }
         else

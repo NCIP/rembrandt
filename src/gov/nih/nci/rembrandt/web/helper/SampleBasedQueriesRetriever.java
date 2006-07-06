@@ -268,4 +268,10 @@ public class SampleBasedQueriesRetriever implements Serializable {
 		}
 		return null;
 	}
+    /**
+     * @return Returns the predefinedQueryMap.
+     */
+    public Map<String, ClinicalDataQuery> getPredefinedQueryMap() {
+        return predefinedQueryMap;
+    }
 }
