@@ -9,12 +9,12 @@ public class RembrandtListValidator implements ListValidator{
 
     public List getValidList(ListType listType, List<String> unvalidatedList) {
         // TODO Auto-generated method stub
-        return null;
+        return unvalidatedList;
     }
 
     public List getInvalidList(ListType listType, List<String> unvalidatedList) {
         // TODO Auto-generated method stub
-        return null;
+        return unvalidatedList;
     }
 
 }
