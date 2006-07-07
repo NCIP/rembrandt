@@ -4,90 +4,94 @@
 *	// also dependent on browserSniff.js, SidebarHelper.js, and prototype.js 1.5.x
 */
 	var ManageListHelper = {
+		/*
 		'getPatientLists' : function()	{
 			if (window.DynamicListHelper.getAllPatientLists&&(typeof window.DynamicListHelper.getAllPatientLists=="function")) {
 				DynamicListHelper.getAllPatientLists(ManageListHelper.getGenericLists_cb );
 			}
 		},
-		'getDefaultPatientLists' : function()	{
-			alert("doesnt exist");
-			//DynamicListHelper.getAllDefaultPatientLists(ManageListHelper.getGenericLists_cb );	
-		},
 		'getGeneLists' : function()	{
 			DynamicListHelper.getAllGeneLists(ManageListHelper.getGenericLists_cb );			
 		},
+		*/
+		'getGenericLists' : function(listType)	{
+			DynamicListHelper.getGenericLists(listType, ManageListHelper.getGenericLists_cb);
+		},
 		'getAllLists' : function()	{
 			//assumes browserSniff.js has already been included and declared the browser specific vars
+			DynamicListHelper.getAllLists(ManageListHelper.getGenericLists_cb);
+			/*
 			if(!saf)	{
 				ManageListHelper.getGeneLists();
 				ManageListHelper.getPatientLists();
-				//ManageListHelper.getDefaultPatientLists();
 			}
 			else	{ //timing issue w/safari..go figure
 				setTimeout(function()	{ManageListHelper.getGeneLists();}, 100);
 				setTimeout(function()	{ManageListHelper.getPatientLists();}, 200);
-				//setTimeout(function()	{ManageListHelper.getDefaultPatientLists();}, 300);
 			}
+			*/
 		},
 		'getGenericLists_cb' : function(txt)	{
-			//accepts a JSON object	
+			//accepts a JSON object	<- now accepts a json array
 			// String listType : patient | gene | defaultPatient		
 			// Array<Object> listItems : { listName, listDate, itemCount, invalidItems }
 			try	{
-				var listContainer = eval('(' + txt + ')');
-				
-				var listType = listContainer.listType ? listContainer.listType : "none";
-				if(listType == "none") return;
-				
-				var lists = listContainer.listItems;
-				
-				//Note:  $('..'+"ListDiv") needs be be defined in the HTML src
-				// ^ now, should be auto generated 
-				
-				if(lists.length == 0)	{
-					//because we have default lists, do report that patient lists are empty
-					if($(listType+'ListDiv')){
-						$(listType+'ListDiv').innerHTML = "<b>No "+ listType + " lists currently saved</b><br/><br/>";
-				    }
-				    if($(listType+'UniteDiv')){
-				    	$(listType+'UniteDiv').style.display = "none";
-				    }
-					return;
-				}
-
-				if($(listType+'ListDiv'))
-					$(listType+'ListDiv').innerHTML = "";  //clear it, and repopulate
-				
-				var tst = "";
-				for(var t=0; t<lists.length; t++)	{
-				
-					var status = "<span id=\""+lists[t].listName+"status\" style=\"display:none\"><img src=\"images/indicator.gif\"/></span>";
-					var shortName = lists[t].listName.length>25 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
-					var theName = lists[t].listName;
+				var listContainerArray = eval('(' + txt + ')');
+				for(var i=0; i<listContainerArray.length; i++)	{
+					var listContainer = listContainerArray[i];
+					var listType = listContainer.listType ? listContainer.listType : "none";
+					if(listType == "none") return;
 					
-					var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : Array();
-					var lstyle = listSubTypes.indexOf(listContainer.highlightType)!= -1 ? "color:#000000;" : "";			
-					// += or =
-					tst +=  "<div id='"
-	                	+ theName
-	                    + "' class='listListing'>" 
-	                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
-	                    + "<b style='"+lstyle+"' title='"+theName+"'>"
-	                    + shortName + "</b>"
-	                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
-	                    + theName
-	                    + "\");return false;'>"
-	                    + "<img src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>show/hide details" + status + "</div>"
-	                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;'  onclick='ManageListHelper.deleteList(\""
-	                    + theName
-	                    + "\");return false;'>"
-	                    + "<img src='images/deleteCross20.png' border='0' style='vertical-align:text-bottom;'/>delete</div>"
-	                    + "</div><br /><div id='"
-	                    + theName
-	                    + "details'></div>\n\n";    
+					var lists = listContainer.listItems;
+					
+					//Note:  $('..'+"ListDiv") needs be be defined in the HTML src
+					// ^ now, should be auto generated 
+					
+					if(lists.length == 0)	{
+						//because we have default lists, do report that patient lists are empty
+						if($(listType+'ListDiv')){
+							$(listType+'ListDiv').innerHTML = "<b>No "+ listType + " lists currently saved</b><br/><br/>";
+					    }
+					    if($(listType+'UniteDiv')){
+					    	$(listType+'UniteDiv').style.display = "none";
+					    }
+						continue;
+					}
+	
+					if($(listType+'ListDiv'))
+						$(listType+'ListDiv').innerHTML = "";  //clear it, and repopulate
+					
+					var tst = "";
+					for(var t=0; t<lists.length; t++)	{
+					
+						var status = "<span id=\""+lists[t].listName+"status\" style=\"display:none\"><img src=\"images/indicator.gif\"/></span>";
+						var shortName = lists[t].listName.length>25 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
+						var theName = lists[t].listName;
+						
+						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : Array();
+						var lstyle = listSubTypes.indexOf(listContainer.highlightType)!= -1 ? "color:#000000;" : "";			
+						// += or =
+						tst +=  "<div id='"
+		                	+ theName
+		                    + "' class='listListing'>" 
+		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
+		                    + "<b style='"+lstyle+"' title='"+theName+"'>"
+		                    + shortName + "</b>"
+		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
+		                    + theName
+		                    + "\");return false;'>"
+		                    + "<img src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>show/hide details" + status + "</div>"
+		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;'  onclick='ManageListHelper.deleteList(\""
+		                    + theName
+		                    + "\");return false;'>"
+		                    + "<img src='images/deleteCross20.png' border='0' style='vertical-align:text-bottom;'/>delete</div>"
+		                    + "</div><br /><div id='"
+		                    + theName
+		                    + "details'></div>\n\n";    
+					}
+					if($(listType+'ListDiv'))
+						$(listType+'ListDiv').innerHTML = tst;
 				}
-				if($(listType+'ListDiv'))
-					$(listType+'ListDiv').innerHTML = tst;
 			}
 			catch(err)	{
 				//alert("ERR: " + err);

@@ -43,13 +43,17 @@ public class DynamicListHelper {
  */
 	
 	public DynamicListHelper() {}
-	
+	/*
     public static String getPatientListAsList()	{
 		return CommonListFunctions.getListAsList(ListType.PatientDID);
 	}
 	
 	public static String getGeneListAsList()	{
 		return CommonListFunctions.getListAsList(ListType.GeneSymbol);
+	}
+	*/
+	public static String getGenericListAsList(String listType)	{
+		return CommonListFunctions.getListAsList(ListType.valueOf(listType));
 	}
 	
 	public static String createGenericList(String listType, String[] list, String name)	{
@@ -75,15 +79,34 @@ public class DynamicListHelper {
 	public static String exportListasTxt(String name, HttpSession session){
 		return CommonListFunctions.exportListasTxt(name, session);
 	}
-
+	
+	public static String getAllLists()	{
+		//create a list of allowable types
+		ArrayList listTypesList = new ArrayList();
+		for(ListType l  : ListType.values())	{
+			listTypesList.add(l.toString());
+		}
+		//call CommonListFunctions.getAllLists(listTypesList);
+		return CommonListFunctions.getAllLists(listTypesList);
+	}
+	public static String getGenericList(String listType)	{
+		//just want one type
+		ArrayList<String> listTypesList = new ArrayList();
+		listTypesList.add(listType);
+		return CommonListFunctions.getAllLists(listTypesList);
+	}
+	
+	/*
 	public static String getAllPatientLists()	{
 		return CommonListFunctions.getAllLists(ListType.PatientDID.toString());
 	}
-	
-	
+	*/
+
+	/*
 	public static String getAllGeneLists()	{
 		return CommonListFunctions.getAllLists(ListType.GeneSymbol.toString());
 	}
+	*/
 	
 	public static String uniteLists(String[] sLists, String groupName, String groupType, String action)	{	
 		return CommonListFunctions.uniteLists(sLists, groupName, groupType, action);

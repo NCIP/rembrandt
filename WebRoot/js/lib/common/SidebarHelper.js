@@ -4,65 +4,34 @@ var SidebarHelper = {
 	'loadingImg' : "<img src=\"images/indicator.gif\"/>",
 	'loadSidebar' : function()	{
 		SidebarHelper.loadPatientUL();
-		//SidebarHelper.loadDefaultPatientUL();
 		SidebarHelper.loadGeneUL();
+		SidebarHelper.loadGenericUL("Reporter");
+		
 	},
 	'loadPatientUL' : function()	{
 		if($('sidebarPatientDIDUL'))	{
 			$('sidebarPatientDIDUL').innerHTML = this.loadingImg;
 			setTimeout( function()	{
-				DynamicListHelper.getPatientListAsList(SidebarHelper.loadGenericUL_cb);
+				DynamicListHelper.getGenericListAsList("PatientDID", SidebarHelper.loadGenericUL_cb);
 				},SidebarHelper.delay);
 		}
 	},
-	'loadDefaultPatientUL' : function()	{
-		/*
-		$('sidebarDefaultPatientDIDUL').innerHTML = this.loadingImg;
-		setTimeout( function()	{
-			DynamicListHelper.getDefaultPatientListAsList(SidebarHelper.loadGenericUL_cb);
-			},SidebarHelper.delay);
-		*/
-		alert("not here 2");
-	},
-	/*
-	'loadPatientUL_cb' : function(txt)	{
-		if(txt != "")	{
-			$('sidebarPatientUL').innerHTML = "<ul>" + txt + "</ul>";
-			SidebarHelper.createOnClicks('sidebarPatientUL');
-		}
-		else	
-			$('sidebarPatientUL').innerHTML = "<ul><li>No Lists Available</li></ul>";
-	},
-	'loadDefaultPatientUL_cb' : function(txt)	{
-		if(txt != "")	{
-			$('sidebarDPatientUL').innerHTML = "<ul>" + txt + "</ul>";
-			SidebarHelper.createOnClicks('sidebarDPatientUL');
-		}
-		else	
-			$('sidebarDPatientUL').innerHTML = "No Lists Available";
-	},
-	*/
 	'loadGeneUL' : function()	{
 		if($('sidebarGeneSymbolUL'))	{
 			$('sidebarGeneSymbolUL').innerHTML = this.loadingImg;
 			setTimeout( function()	{
-				DynamicListHelper.getGeneListAsList(SidebarHelper.loadGenericUL_cb);
+				DynamicListHelper.getGenericListAsList("GeneSymbol", SidebarHelper.loadGenericUL_cb);
 			},SidebarHelper.delay);
 		}
 	},
-	/*
-	'loadGeneUL_cb' : function(txt)	{
-		if($('sidebarGeneUL'))	{
-			if(txt != "")	{
-				$('sidebarGeneUL').innerHTML = "<ul>" + txt + "</ul>";
-				SidebarHelper.createOnClicks('sidebarGeneUL');
-			}
-			else	{
-				$('sidebarGeneUL').innerHTML = "No Lists Available";
-			}
+	'loadGenericUL' : function(listType)	{
+		if($('sidebar'+listType+'UL'))	{
+			$('sidebar'+listType+'UL').innerHTML = this.loadingImg;
+			setTimeout( function()	{
+				DynamicListHelper.getGenericListAsList(listType, SidebarHelper.loadGenericUL_cb);
+			},SidebarHelper.delay);
 		}
 	},
-	*/
 	'loadGenericUL_cb' : function(txt)	{
 		var lists = eval('(' + txt + ')');
 		//expecting an HTML element w/ id = "sidebar"+listType+"UL"
@@ -108,7 +77,5 @@ var SidebarHelper = {
 			if(lis[i].innerHTML.length > 15)
 				lis[i].innerHTML = lis[i].innerHTML.substring(0,14) + "...";
 		}
-	
 	}
-
 };
