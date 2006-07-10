@@ -56,26 +56,37 @@ public class DynamicListHelper {
 		return CommonListFunctions.getListAsList(ListType.valueOf(listType));
 	}
 	
-	public static String createGenericList(String listType, String[] list, String name)	{
+	public static String createGenericList(String listType, List<String> list, String name)	{
 		try	{
-			ListType lt = ListType.valueOf(listType);
-			return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator());
+			String[] tps = CommonListFunctions.parseListType(listType);
+			//tps[0] = ListType
+			//tps[1] = ListSubType (if not null)
+			ListType lt = ListType.valueOf(tps[0]);
+			if(tps.length > 1 && tps[1] != null){
+				//create a list out of [1]
+				ArrayList<ListSubType> lst = new ArrayList();
+				lst.add(ListSubType.valueOf(tps[1]));
+				return CommonListFunctions.createGenericList(lt, lst, list, name, new RembrandtListValidator());
+			}
+			else	{
+				return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator());
+			}
 		}
 		catch(Exception e)	{
 			//try as a patient list as default, will fail validation if its not accepted
 			return CommonListFunctions.createGenericList(ListType.PatientDID, list, name, new RembrandtListValidator());
 		}
 	}
-
+/*
 	public static String createPatientList(String[] list, String name){
 		return CommonListFunctions.createGenericList(ListType.PatientDID, list, name, new RembrandtListValidator());
 	}
-
-	
+*/
+/*	
 	public static String createGeneList(String[] list, String name){
-		return CommonListFunctions.createGenericList(ListType.GeneSymbol, list, name, new RembrandtListValidator());
+		return CommonListFunctions.createGenericList(ListType.Gene, list, name, new RembrandtListValidator());
 	}
-
+*/
 	public static String exportListasTxt(String name, HttpSession session){
 		return CommonListFunctions.exportListasTxt(name, session);
 	}

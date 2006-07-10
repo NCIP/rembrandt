@@ -1,4 +1,5 @@
 <%@ page import="gov.nih.nci.caintegrator.application.lists.ListType,
+				gov.nih.nci.caintegrator.application.lists.ListSubType,
 				gov.nih.nci.caintegrator.application.lists.UserList,
 				gov.nih.nci.caintegrator.application.lists.UserListBean,
 				gov.nih.nci.caintegrator.application.lists.ListManager,
@@ -7,8 +8,10 @@
 				java.io.File,
 				java.util.Map,
 				java.util.HashMap,
-				java.util.List,org.
-				dom4j.Document"%>				
+				java.util.List,
+				java.util.ArrayList,
+				gov.nih.nci.rembrandt.util.RembrandtListFilter,
+				org.dom4j.Document"%>				
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <script type='text/javascript' src='js/lib/scriptaculous/effects.js'></script>
 
@@ -127,15 +130,28 @@ function addLoadEvent(func) {
 					<select id="typeSelector" name="type">
 <%
 					for(int i=0; i<lts.length; i++)	{
+						
 						String label = lts[i].toString();			
+
+						//process the subtypes associated with this ListType
+						List subtypes = RembrandtListFilter.getSubTypesForType(lts[i]);	
+						if(subtypes!=null && subtypes.size()>0)	{
+							for(int s=0; s<subtypes.size(); s++)	{
+								String lsts =((ListSubType)subtypes.get(s)).toString();
+%>
+								<option value="<%=label%>|<%=lsts%>"><%=label%>-<%=lsts%></option>								
+<%
+							}
+						}	
+						else	{
 %>
 						<option value="<%=label%>"><%=label%></option>
 <%
+						}		
 					}					
 %>
 					</select>
 					<app:help help="There must only be one entry (id) per line." />
-					
 				</td>
 			</tr>
 			<tr id="uploadRow">

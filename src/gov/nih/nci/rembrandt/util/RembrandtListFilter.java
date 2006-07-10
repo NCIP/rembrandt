@@ -14,7 +14,7 @@ public class RembrandtListFilter {
 	
 	public static ListType[] values()	{
 
-		ListType[] lsa = {ListType.GeneSymbol, ListType.PatientDID, ListType.Reporter}; //no duplicates here
+		ListType[] lsa = {ListType.Gene, ListType.PatientDID, ListType.Reporter}; //no duplicates here
 		
 		return lsa;
 	}
@@ -31,7 +31,7 @@ public class RembrandtListFilter {
 			lsta.add(ListSubType.DBSNP);
 			lsta.add(ListSubType.SNPProbeSet);
 		}
-		else if(lt == ListType.GeneSymbol){
+		else if(lt == ListType.Gene){
 			//ListSubType[] lsta = {ListSubType.GENBANK_ACCESSION_NUMBER, ListSubType.GENESYMBOL, ListSubType.LOCUS_LINK};
 			lsta.add(ListSubType.GENBANK_ACCESSION_NUMBER);
 			lsta.add(ListSubType.GENESYMBOL);

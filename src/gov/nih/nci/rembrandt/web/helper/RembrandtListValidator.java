@@ -17,4 +17,14 @@ public class RembrandtListValidator implements ListValidator{
         return unvalidatedList;
     }
 
+	public List getValidList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List getInvalidList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
