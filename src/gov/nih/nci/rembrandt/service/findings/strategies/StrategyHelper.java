@@ -3,10 +3,18 @@
  */
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
+import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
@@ -114,6 +122,26 @@ public class StrategyHelper {
 			throw new OperationNotSupportedException("We are not able to able to extract SampleIds from: "+container.getClass());
 		}
 		return sampleIds;
+	}
+	public static Collection<String> extractReportersFromGene(Collection<GeneIdentifierDE> geneDEs)throws OperationNotSupportedException{
+		Collection<String> reporters = new ArrayList<String>();
+		
+		Resultant resultant;
+		GeneIDCriteria geneIDCrit = new GeneIDCriteria();
+        geneIDCrit.setGeneIdentifiers(geneDEs);
+        GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+        geneExpressionQuery.setQueryName("EXTRACT REPORTERS");
+        geneExpressionQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+        geneExpressionQuery.setGeneIDCrit(geneIDCrit);
+		try {
+			resultant = ResultsetManager.executeGeneExpressPlotQuery(geneExpressionQuery);
+		} catch (Exception e) {
+			throw new OperationNotSupportedException( "We are not able to extract Reporters "+e.getMessage());
+		}
+		if (resultant!= null){
+			reporters = extractReporters(resultant.getResultsContainer());
+		}
+		return reporters;
 	}
 	public static Collection<String> extractReporters(ResultsContainer container)throws OperationNotSupportedException{
 		Collection<String> reporters = new ArrayList<String>();
