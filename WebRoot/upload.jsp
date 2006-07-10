@@ -15,6 +15,8 @@
 	java.util.HashMap,
 	java.util.Iterator,
 	java.util.List,
+	java.util.ArrayList,
+	gov.nih.nci.caintegrator.application.lists.ajax.*,
 	org.dom4j.Document"%>
 <html>
 	<head>
@@ -58,35 +60,38 @@
         } catch (Exception e) {
             System.out.println(e);
         }
-		List myUndefinedList = listGenerator.generateList(formFile);
-            
-            ListManager uploadManager = (ListManager) ListManager
-                    .getInstance();
-            Map paramMap = new HashMap();
-            UserList myList = new UserList();
 
+			List myUndefinedList = listGenerator.generateList(formFile);
+             
+            ListManager uploadManager = (ListManager) ListManager.getInstance();
+          	UserList myList = new UserList();
             UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
+            
+            String[] tps = CommonListFunctions.parseListType(type);
+            
             try	{
-	            myList = uploadManager.createList(ListType.valueOf(type), name, myUndefinedList, listValidator);
+	            myList = uploadManager.createList(ListType.valueOf(tps[0]), name, myUndefinedList, listValidator);
     		}
     		catch(Exception e)	{
     			//myList = null;
     		}        
 	        
             if (myList != null) {
-            	myList.setListSubType(ListSubType.Custom);
-                paramMap = uploadManager.getParams(myList);
+            	ArrayList subs = new ArrayList();
+            	subs.add(ListSubType.Custom);
+            	if(tps.length > 1 && tps[1]!=null)	{
+            		subs.add(ListSubType.valueOf(tps[1]));
+            	}
+            	myList.setListSubType(subs);
+                //paramMap = uploadManager.getParams(myList);
                 helper.addList(myList);
             }
 
+			
             %>
 		<script type="text/javascript">
 			var my_params= new Array()
-			my_params["name"]="<%=paramMap.get("listName")%>";
-			my_params["date"]="<%=paramMap.get("date")%>";
-			my_params["count"]="<%=paramMap.get("items")%>";
-			my_params["icount"]="<%=paramMap.get("invalidItems")%>";
-			my_params["type"]="<%=paramMap.get("type")%>";
+
 			window.parent.handleResponse(my_params);
 		</script>
 	</body>
