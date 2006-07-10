@@ -11,6 +11,7 @@ public class RembrandtListValidator implements ListValidator{
 	private ListSubType listSubType;
 	private List<String> unvalidatedList;
 	private List<String> validatedList;
+	public RembrandtListValidator(){};
 	public RembrandtListValidator(ListSubType listSubType, ListType listType, List<String> unvalidatedList) {
 		super();
 		this.listSubType = listSubType;
