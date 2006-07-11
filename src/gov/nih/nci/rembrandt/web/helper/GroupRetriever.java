@@ -11,8 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts.util.LabelValueBean;
 
-public class ClinicalGroupRetriever {
-    private static List<LabelValueBean> clinicalGroupsCollection = new ArrayList<LabelValueBean>();
+public class GroupRetriever {
+    private List<LabelValueBean> clinicalGroupsCollection = new ArrayList<LabelValueBean>();
+    private static List<String> geneGroupsCollection = new ArrayList<String>();
+    
     
     /**
      * retrieves all current clinical groups after cycling through all the clinical
@@ -20,7 +22,7 @@ public class ClinicalGroupRetriever {
      * @return collection of LabelValueBeans to populate an ActionForm 
      * -KR
      */
-    public static List<LabelValueBean> getClinicalGroupsCollection(HttpSession session){
+    public List<LabelValueBean> getClinicalGroupsCollection(HttpSession session){
         UserListBeanHelper helper = new UserListBeanHelper(session);
         List<UserList> patientLists = helper.getLists(ListType.PatientDID);
         
@@ -28,6 +30,17 @@ public class ClinicalGroupRetriever {
             clinicalGroupsCollection.add(new LabelValueBean(patientList.getName(),patientList.getClass().getCanonicalName() + "#" + patientList.getName()));
         }
         return clinicalGroupsCollection;
+    
+    }
+    
+    public static List<String> getGeneGroupsCollection(HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
+        List<UserList> geneLists = helper.getLists(ListType.Gene);
+        
+        for(UserList geneList: geneLists){
+            geneGroupsCollection.add(geneList.getName());
+        }
+        return geneGroupsCollection;
     
     }
 }

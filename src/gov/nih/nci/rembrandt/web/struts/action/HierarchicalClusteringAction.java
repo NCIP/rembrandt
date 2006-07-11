@@ -1,7 +1,12 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import java.util.Collection;
+import java.util.List;
 
+import gov.nih.nci.caintegrator.application.lists.ListSubType;
+import gov.nih.nci.caintegrator.application.lists.ListType;
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.ClusterTypeDE;
@@ -12,11 +17,13 @@ import gov.nih.nci.caintegrator.dto.de.LinkageMethodTypeDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.util.RembrandtListFilter;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
-import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
+
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
+import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
@@ -32,6 +39,7 @@ import gov.nih.nci.caintegrator.service.findings.Finding;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -134,8 +142,9 @@ public class HierarchicalClusteringAction extends DispatchAction {
             throws Exception {
         HierarchicalClusteringForm hierarchicalClusteringForm = (HierarchicalClusteringForm) form;
         logger.debug("Selected Distance Matrix in HttpServletRequest: " + request.getParameter("distanceMatrix"));
+        HttpSession session = request.getSession();
         String sessionId = request.getSession().getId();
-        HierarchicalClusteringQueryDTO hierarchicalClusteringQueryDTO = createHierarchicalClusteringQueryDTO(hierarchicalClusteringForm,sessionId); 
+        HierarchicalClusteringQueryDTO hierarchicalClusteringQueryDTO = createHierarchicalClusteringQueryDTO(hierarchicalClusteringForm,session); 
         /*Create the InstituteDEs using credentials from the local session.
          * May want to put these in the cache eventually.
          */        
@@ -169,11 +178,11 @@ public class HierarchicalClusteringAction extends DispatchAction {
         return mapping.findForward("backToHierarchicalClustering");
     }
         
-    private HierarchicalClusteringQueryDTO createHierarchicalClusteringQueryDTO(HierarchicalClusteringForm hierarchicalClusteringForm, String sessionId) {
+    private HierarchicalClusteringQueryDTO createHierarchicalClusteringQueryDTO(HierarchicalClusteringForm hierarchicalClusteringForm, HttpSession session) {
         HierarchicalClusteringQueryDTO hierarchicalClusteringQueryDTO = (HierarchicalClusteringQueryDTO)ApplicationFactory.newQueryDTO(QueryType.HC_QUERY);
         
-        hierarchicalClusteringQueryDTO.setQueryName(hierarchicalClusteringForm.getAnalysisResultName());
-        sessionCriteriaBag = presentationTierCache.getSessionCriteriaBag(sessionId);
+        hierarchicalClusteringQueryDTO.setQueryName(hierarchicalClusteringForm.getAnalysisResultName());        
+        UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session);
         
         // create GeneVectorPercentileDE
             hierarchicalClusteringQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(hierarchicalClusteringForm.getVariancePercentile()),Operator.GE));
@@ -183,11 +192,24 @@ public class HierarchicalClusteringAction extends DispatchAction {
         the specified GeneIdentifierDECollection. The key is 
         the geneSet name that was uploaded by the user into the cache.*/
         
-        if(hierarchicalClusteringForm.getGeneSetName()!=null || hierarchicalClusteringForm.getGeneSetName().length()!=0){
-            geneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.GeneIdentifierSet,hierarchicalClusteringForm.getGeneSetName());
+        if(hierarchicalClusteringForm.getGeneSetName()!=null || hierarchicalClusteringForm.getGeneSetName().length()!=0 && !hierarchicalClusteringForm.getGeneSetName().equals("none")){
+            UserList geneList = userListBeanHelper.getUserList(hierarchicalClusteringForm.getGeneSetName());
+            if(geneList!=null){
+                List<ListSubType> geneListSubTypes = geneList.getListSubType();
+                List<ListSubType> allSubTypes = RembrandtListFilter.getSubTypesForType(ListType.Gene);
+                int i = 0;
+                while(i<geneListSubTypes.size()){
+                        for(ListSubType sb : allSubTypes){                
+                            if(sb.equals(geneListSubTypes.get(i))){
+                                geneIdentifierDECollection = ListConvertor.convertToGeneIdentifierDE(geneList.getList(),sb);
+                            }
+                        }
+                   i++;
+                }
+            }
             if (geneIdentifierDECollection!=null && !geneIdentifierDECollection.isEmpty()){
                 logger.debug("geneIdentifierDECollection was found in the cache");
-                //hierarchicalClusteringQueryDTO.setGeneIdentifierDEs(geneIdentifierDECollection);
+                hierarchicalClusteringQueryDTO.setGeneIdentifierDEs(geneIdentifierDECollection);
             }
             else{
                 logger.debug("geneIdentifierDECollection could not be found in the cache");
@@ -199,10 +221,23 @@ public class HierarchicalClusteringAction extends DispatchAction {
         the geneSet name that was uploaded by the user into the cache.
         The CloneIdentifierDEs will be set as "reporterDECollection" */
         if(hierarchicalClusteringForm.getReporterSetName()!=null || hierarchicalClusteringForm.getReporterSetName().length()!=0){
-            cloneIdentifierDECollection = sessionCriteriaBag.getUserList(ListType.CloneProbeSetIdentifierSet,hierarchicalClusteringForm.getReporterSetName());
+            UserList reporterList = userListBeanHelper.getUserList(hierarchicalClusteringForm.getReporterSetName());
+            if(reporterList!=null){
+                List<ListSubType> reporterListSubTypes = reporterList.getListSubType();
+                List<ListSubType> allSubTypes = RembrandtListFilter.getSubTypesForType(ListType.Reporter);
+                int i = 0;
+                while(i<reporterListSubTypes.size()){
+                    for(ListSubType sb : allSubTypes){
+                        if(sb.equals(reporterListSubTypes.get(i))){
+                            cloneIdentifierDECollection = ListConvertor.convertToCloneIdentifierDE(reporterList.getList(),sb);
+                        }
+                    }
+                    i++;
+                }
+            }
             if (cloneIdentifierDECollection!=null && !cloneIdentifierDECollection.isEmpty()){
                 logger.debug("cloneIdentifierDECollection was found in the cache");
-               //hierarchicalClusteringQueryDTO.setReporterIdentifierDEs(cloneIdentifierDECollection);
+               hierarchicalClusteringQueryDTO.setReporterIdentifierDEs(cloneIdentifierDECollection);
             }
             else{
                 logger.debug("cloneIdentifierDECollection could not be found in the cache");

@@ -30,6 +30,7 @@ import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -39,6 +40,7 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.jms.JMSException;
@@ -165,13 +167,13 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 	public boolean createQuery() throws FindingsQueryException {
 		boolean flag = true;
 
-		if(myQueryDTO.getComparisonGroups() != null){
-            Collection<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
-            clinicalQueries = new ArrayList<ClinicalDataQuery>();
-            for(ClinicalQueryDTO clinicalQueryDTO: clinicalQueryDTOs) {
-                clinicalQueries.add((ClinicalDataQuery)clinicalQueryDTO);
-            }
-		}
+//		if(myQueryDTO.getComparisonGroups() != null){
+//            Collection<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
+//            clinicalQueries = new ArrayList<ClinicalDataQuery>();
+//            for(ClinicalQueryDTO clinicalQueryDTO: clinicalQueryDTOs) {
+//                clinicalQueries.add((ClinicalDataQuery)clinicalQueryDTO);
+//            }
+//		}
 	    
 		return flag;
 	}
@@ -181,65 +183,87 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 	 * this methods queries the database to get back sample Ids for the groups
 	 */
 	public boolean executeQuery() throws FindingsQueryException {
-		//Get Sample Ids from DB
-		if(clinicalQueries != null){
-			CompoundQuery compoundQuery;
-            for (ClinicalDataQuery clinicalDataQuery: clinicalQueries){
-            Resultant resultant;            
-        			try {
-        				compoundQuery = new CompoundQuery(clinicalDataQuery);
-        				compoundQuery.setAssociatedView(ViewFactory
-        		                .newView(ViewType.CLINICAL_VIEW));
-        				InstitutionCriteria institutionCriteria = new InstitutionCriteria();
-        				institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
-        				compoundQuery.setInstitutionCriteria( institutionCriteria);
-        				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
-        	  		}
-        	  		catch (Throwable t)	{
-        	  			logger.error("Error Executing the query/n"+ t.getMessage());
-        	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
-        	  		}
+        List<ClinicalQueryDTO> clinicalQueries = (List<ClinicalQueryDTO>) myQueryDTO.getComparisonGroups();
+        for (ClinicalQueryDTO clinicalDataQuery: clinicalQueries){
+            if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
+                try{
+                 PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
+                    List<String> validPatientDIDs = pQuery.getPatientDIDs();
+                            if(validPatientDIDs != null){
+                                //3.1 add them to SampleGroup
+                               sampleGroup.addAll(validPatientDIDs);
+                                
+                                                        
+                        }
+                } catch (Exception e) {
+                            e.printStackTrace();
+                            logger.error(e.getMessage());
+                            throw new FindingsQueryException(e.getMessage());
+                }
+
+            }   
+        }
+  
         
-        			if(resultant != null) {      
-        		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
-        		 		Viewable view = resultant.getAssociatedView();
-        		 		if(resultsContainer != null)	{
-        		 			if(view instanceof ClinicalSampleView){
-        		 				try {
-        		 					//1. Get the sample Ids from the return Clinical query
-        							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
-        							//2. validate samples so that GE data exsists for these samples
-        							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-        							//3. Extracts sampleIds as Strings
-        							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-        							if(sampleIDs != null && sampleIDs.size()> 0) {
-        								//3.1 add them to SampleGroup
-        								sampleGroup.addAll(sampleIDs);
-            							//3.2 Find out any samples that were not processed  
-        								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
-        								set.addAll(sampleIDDEs); //samples from the original query
-        								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
-        								samplesNotFound = set;
-        								setSamplesNotFound(samplesNotFound);
-        							}
-        							else{ //No samples validated
-        								sampleGroup = null;
-        								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
-        							}
-        						} catch (OperationNotSupportedException e) {
-        							logger.error(e.getMessage());
-        				  			throw new FindingsQueryException(e.getMessage());
-        						} catch (Exception e) {
-        							e.printStackTrace();
-        							logger.error(e.getMessage());
-        				  			throw new FindingsQueryException(e.getMessage());
-        						}
-        
-        	 				}	
-        		 		}
-                    }
-			}
-		}
+//		//Get Sample Ids from DB
+//		if(clinicalQueries != null){
+//			CompoundQuery compoundQuery;
+//            for (ClinicalDataQuery clinicalDataQuery: clinicalQueries){
+//            Resultant resultant;            
+//        			try {
+//        				compoundQuery = new CompoundQuery(clinicalDataQuery);
+//        				compoundQuery.setAssociatedView(ViewFactory
+//        		                .newView(ViewType.CLINICAL_VIEW));
+//        				InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+//        				institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
+//        				compoundQuery.setInstitutionCriteria( institutionCriteria);
+//        				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
+//        	  		}
+//        	  		catch (Throwable t)	{
+//        	  			logger.error("Error Executing the query/n"+ t.getMessage());
+//        	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
+//        	  		}
+//        
+//        			if(resultant != null) {      
+//        		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
+//        		 		Viewable view = resultant.getAssociatedView();
+//        		 		if(resultsContainer != null)	{
+//        		 			if(view instanceof ClinicalSampleView){
+//        		 				try {
+//        		 					//1. Get the sample Ids from the return Clinical query
+//        							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
+//        							//2. validate samples so that GE data exsists for these samples
+//        							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
+//        							//3. Extracts sampleIds as Strings
+//        							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
+//        							if(sampleIDs != null && sampleIDs.size()> 0) {
+//        								//3.1 add them to SampleGroup
+//        								sampleGroup.addAll(sampleIDs);
+//            							//3.2 Find out any samples that were not processed  
+//        								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
+//        								set.addAll(sampleIDDEs); //samples from the original query
+//        								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
+//        								samplesNotFound = set;
+//        								setSamplesNotFound(samplesNotFound);
+//        							}
+//        							else{ //No samples validated
+//        								sampleGroup = null;
+//        								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
+//        							}
+//        						} catch (OperationNotSupportedException e) {
+//        							logger.error(e.getMessage());
+//        				  			throw new FindingsQueryException(e.getMessage());
+//        						} catch (Exception e) {
+//        							e.printStackTrace();
+//        							logger.error(e.getMessage());
+//        				  			throw new FindingsQueryException(e.getMessage());
+//        						}
+//        
+//        	 				}	
+//        		 		}
+//                    }
+//			}
+//		}
 		//Get Reporters from DB
 		if(myQueryDTO.getGeneIdentifierDEs() != null ||
 				myQueryDTO.getReporterIdentifierDEs() != null){
@@ -272,28 +296,22 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
 					}
 				
 				}
-			if(	myQueryDTO.getGeneIdentifierDEs() != null){
-				Collection<GeneIdentifierDE> validGeneDEs;
-				try {
-					validGeneDEs = DataValidator.validateGenes(myQueryDTO.getGeneIdentifierDEs());
+             if( myQueryDTO.getGeneIdentifierDEs() != null){
+                 try {
+                 Collection<String> reporters = StrategyHelper.extractReportersFromGene(myQueryDTO.getGeneIdentifierDEs(),myQueryDTO.getArrayPlatformDE()); 
+              
+                 if(reporters != null  && reporters.size() > 0){
+                  if(this.reporterGroup == null){
+                  this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
+                  }
+                  reporterGroup.addAll(reporters);
+                  
+                 }
+                 else{ //No reporters are valid
+                  reporterGroup = null;
+                  throw new FindingsQueryException("No reporters founds for the selected genes for PCA Analysis");
+                 }
 
-				//Create a set of submitted Reporters 
-				Set<GeneIdentifierDE> set = new HashSet<GeneIdentifierDE>();
-				set.addAll(myQueryDTO.getGeneIdentifierDEs());
-				// Find out if any reports were not validated
-				set.removeAll(validGeneDEs);
-				genesNotFound = set;
-				
-				Collection<String> reporters = StrategyHelper.extractGenes(validGeneDEs);
-				if(reporters != null  && reporters.size() > 0){
-					this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
-					reporterGroup.addAll(reporters);
-					
-				}
-				else{ //No reporters are valid
-					reporterGroup = null;
-					throw new FindingsQueryException("No reporters founds for the selected genes for PCA Analysis");
-				}
 				} catch (Exception e) {
 					e.printStackTrace();
 					logger.error(e.getMessage());

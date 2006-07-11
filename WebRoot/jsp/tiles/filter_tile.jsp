@@ -46,21 +46,26 @@
 	    reporterSetSetting.innerHTML = reporterSetName;
 	}
 	function updateG(){
-    	UserPreferences.updateGeneSetList(createGList);
+    	UserListHelper.getGenericListNamesFromString("Gene",createGeneList);
 	}
-	function createGList(data){    	
+	function createGeneList(data){   	
     	DWRUtil.removeAllOptions("geneList", data);
+    	DWRUtil.addOptions("geneList", ['none']) 
     	DWRUtil.addOptions("geneList", data);
 	}
 	function updateR(){
-    	UserPreferences.updateReporterSetList(createRList);
+    	UserListHelper.getGenericListNamesFromString("Reporter",createRList);
 	}
 	function createRList(data){
     	DWRUtil.removeAllOptions("reporterList", data);
+    	DWRUtil.addOptions("reporterList", ['none']) 
     	DWRUtil.addOptions("reporterList", data);
 	}
 	
 </script>
+<script type='text/javascript' src='dwr/interface/UserListHelper.js'></script>
+<script type='text/javascript' src='dwr/engine.js'></script>
+<script type='text/javascript' src='dwr/util.js'></script>
 <script type='text/javascript' src='/rembrandt/dwr/interface/UserPreferences.js'></script>
 <script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
 <script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
@@ -79,9 +84,9 @@
 </legend>
 <span id="confirm"></span>
 
-<html:radio styleClass="radio" property="filterType" value="default" />Default<br /><br />
+<!--<html:radio styleClass="radio" property="filterType" value="default" />Default<br /><br />-->
 
-<html:radio styleClass="radio" property="filterType" value="advanced" />Advanced
+<!--<html:radio styleClass="radio" property="filterType" value="advanced" />-->&nbsp;&nbsp;View Filter Settings
 &nbsp;&nbsp;<a href='#' id="pm" class="exp" onclick="javascript:toggleSDiv('advFilter','pm');return false;">&nbsp;+&nbsp;</a>
 
 	<div id="advFilter" class="divHide">

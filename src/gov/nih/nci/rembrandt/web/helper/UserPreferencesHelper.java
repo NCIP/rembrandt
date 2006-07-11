@@ -1,11 +1,12 @@
 package gov.nih.nci.rembrandt.web.helper;
 
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
-import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.caintegrator.application.lists.ListType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,25 +93,22 @@ public class UserPreferencesHelper{
     private UserPreferencesBean userPreferencesBean;
     private String name;
     private SessionCriteriaBag sessionCriteriaBag;
+    private UserListBeanHelper userListBeanHelper;
     
     public UserPreferencesHelper(HttpSession session){
         userPreferencesBean = (UserPreferencesBean) session.getAttribute(RembrandtConstants.USER_PREFERENCES);        
-        
+        userListBeanHelper = new UserListBeanHelper(session);
     }
     public UserPreferencesHelper(){       
         session = ExecutionContext.get().getSession(false); 
         sessionId = ExecutionContext.get().getSession(false).getId(); 
         userPreferencesBean = (UserPreferencesBean) session.getAttribute(RembrandtConstants.USER_PREFERENCES);        
-               
+        userListBeanHelper = new UserListBeanHelper(session);       
     }
-    public Collection updateGeneSetList(){ 
-            sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
-            geneSetList = sessionCriteriaBag.getUserListNames(ListType.GeneIdentifierSet);            
-        return geneSetList;
-    }
+   
     public Collection updateReporterSetList(){
-          sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
-          reporterSetList = sessionCriteriaBag.getUserListNames(ListType.CloneProbeSetIdentifierSet);
+//          sessionCriteriaBag = cacheManager.getSessionCriteriaBag(sessionId);
+//          reporterSetList = sessionCriteriaBag.getUserListNames(ListType.CloneProbeSetIdentifierSet);
         return reporterSetList;
     }
    

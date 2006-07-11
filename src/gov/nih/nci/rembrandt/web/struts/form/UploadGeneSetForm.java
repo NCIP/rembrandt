@@ -191,7 +191,6 @@ public class UploadGeneSetForm extends BaseForm {
                             } else if (thisGeneType.equalsIgnoreCase("genbankno")) {
                                 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(inputLine);
                                 domainElementList.add(geneIdentifierDE);
-
                             }
                             
                         }

@@ -28,6 +28,7 @@ import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -174,17 +175,17 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 			default:
 				throw new FindingsQueryException("No StatisticalMethodType selected");
 			}
-			/**
-			 * We have to convert from ClinicalQueryDTO to ClinicalDataQuery (a rembrandt class)
-			 * because at the time of this writing the DTO was only a marker interface.
-			 * The ClinicalDataQuery was an exsisting Query that we could not change 
-			 * in the interest of time.
-			 */
-			List<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
-			clinicalQueries = new ArrayList<ClinicalDataQuery>();
-			for(ClinicalQueryDTO clinicalQueryDTO: clinicalQueryDTOs) {
-				clinicalQueries.add((ClinicalDataQuery)clinicalQueryDTO);
-			}
+//			/**
+//			 * We have to convert from ClinicalQueryDTO to ClinicalDataQuery (a rembrandt class)
+//			 * because at the time of this writing the DTO was only a marker interface.
+//			 * The ClinicalDataQuery was an exsisting Query that we could not change 
+//			 * in the interest of time.
+//			 */
+//			List<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
+//			clinicalQueries = new ArrayList<ClinicalDataQuery>();
+//			for(ClinicalQueryDTO clinicalQueryDTO: clinicalQueryDTOs) {
+//				clinicalQueries.add((ClinicalDataQuery)clinicalQueryDTO);
+//			}
 			
 			return true;	
 		}
@@ -196,68 +197,29 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
 	 * this methods queries the database to get back sample Ids for the groups
 	 */
 	public boolean executeQuery() throws FindingsQueryException {
-		if(clinicalQueries != null){
-		CompoundQuery compoundQuery;
-			    for (ClinicalDataQuery clinicalDataQuery: clinicalQueries){
-			    Resultant resultant;
-				try {
-					compoundQuery = new CompoundQuery(clinicalDataQuery);
-					compoundQuery.setAssociatedView(ViewFactory
-		                .newView(ViewType.CLINICAL_VIEW));
-					InstitutionCriteria institutionCriteria = new InstitutionCriteria();
-					institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
-					compoundQuery.setInstitutionCriteria( institutionCriteria);
-					resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
-		  		}
-		  		catch (Throwable t)	{
-		  			logger.error("Error Executing the query/n"+ t.getMessage());
-		  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
-		  		}
 
-				if(resultant != null) {      
-			 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
-			 		Viewable view = resultant.getAssociatedView();
-			 		if(resultsContainer != null)	{
-			 			if(view instanceof ClinicalSampleView){
-			 				try {
-			 					//1. Get the sample Ids from the return Clinical query
-								Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
-								//2. validate samples so that GE data exsists for these samples
-								Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-								//3. Extracts sampleIds as Strings
-								Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-								if(sampleIDs != null){
+        List<ClinicalQueryDTO> clinicalQueries = myQueryDTO.getComparisonGroups();
+            for (ClinicalQueryDTO clinicalDataQuery: clinicalQueries){
+                if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
+       	            try{
+                     PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
+                        List<String> validPatientDIDs = pQuery.getPatientDIDs();
+								if(validPatientDIDs != null){
 									//3.1 add them to SampleGroup
-									SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSampleIDDEs.size());
-									sampleGroup.addAll(sampleIDs);
+									SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validPatientDIDs.size());
+									sampleGroup.addAll(validPatientDIDs);
 									sampleGroups.add(sampleGroup);
-//									//3.2 Find out any samples that were not processed  
-									Set<SampleIDDE> set = new HashSet<SampleIDDE>();
-									set.addAll(sampleIDDEs); //samples from the original query
-									//3.3 Remove all samples that are validated	
-									set.removeAll(validSampleIDDEs);
-									samplesNotFound.addAll(set);									
+															
 							}
-							} catch (OperationNotSupportedException e) {
-								logger.error(e.getMessage());
-					  			throw new FindingsQueryException(e.getMessage());
-							} catch (Exception e) {
+                    } catch (Exception e) {
 								e.printStackTrace();
 								logger.error(e.getMessage());
 					  			throw new FindingsQueryException(e.getMessage());
-							}
+					}
 
-		 				}	
-			 		}
-				}
-			 }
-		}
-		if(samplesNotFound != null && samplesNotFound.size() > 0){
-			setSamplesNotFound(samplesNotFound);
-		}
-	    return true;
-
-
+		 		}	
+            }
+      return true;
 	}
 
 	/* (non-Javadoc)

@@ -261,23 +261,20 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 				
 				}
 			if(	myQueryDTO.getGeneIdentifierDEs() != null){
-				Collection<GeneIdentifierDE> validGeneDEs;
-				try {
-					validGeneDEs = DataValidator.validateGenes(myQueryDTO.getGeneIdentifierDEs());
-
-				//Create a set of submitted Reporters 
-				Set<GeneIdentifierDE> set = new HashSet<GeneIdentifierDE>();
-				set.addAll(myQueryDTO.getGeneIdentifierDEs());
-				// Find out if any reports were not validated
-				set.removeAll(validGeneDEs);
-				genesNotFound = set;
-				
-				Collection<String> reporters = StrategyHelper.extractGenes(validGeneDEs);
-				if(reporters != null){
-					this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
-					reporterGroup.addAll(reporters);
-					
-				}
+                try {
+                     Collection<String> reporters = StrategyHelper.extractReportersFromGene(myQueryDTO.getGeneIdentifierDEs(),myQueryDTO.getArrayPlatformDE()); 
+                  
+                     if(reporters != null  && reporters.size() > 0){
+                      if(this.reporterGroup == null){
+                      this.reporterGroup = new ReporterGroup(myQueryDTO.getQueryName(),reporters.size());
+                      }
+                      reporterGroup.addAll(reporters);
+                      
+                     }
+                     else{ //No reporters are valid
+                      reporterGroup = null;
+                      throw new FindingsQueryException("No reporters founds for the selected genes for PCA Analysis");
+                     }
 				} catch (Exception e) {
 					e.printStackTrace();
 					logger.error(e.getMessage());

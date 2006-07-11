@@ -3,19 +3,24 @@
  */
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
+import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
@@ -123,18 +128,22 @@ public class StrategyHelper {
 		}
 		return sampleIds;
 	}
-	public static Collection<String> extractReportersFromGene(Collection<GeneIdentifierDE> geneDEs)throws OperationNotSupportedException{
+	public static Collection<String> extractReportersFromGene(Collection<GeneIdentifierDE> geneDEs, ArrayPlatformDE platform)throws OperationNotSupportedException{
 		Collection<String> reporters = new ArrayList<String>();
-		
 		Resultant resultant;
 		GeneIDCriteria geneIDCrit = new GeneIDCriteria();
         geneIDCrit.setGeneIdentifiers(geneDEs);
         GeneExpressionQuery geneExpressionQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
         geneExpressionQuery.setQueryName("EXTRACT REPORTERS");
-        geneExpressionQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+        geneExpressionQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
         geneExpressionQuery.setGeneIDCrit(geneIDCrit);
-		try {
-			resultant = ResultsetManager.executeGeneExpressPlotQuery(geneExpressionQuery);
+        ArrayPlatformCriteria arrayPlatformCriteria = new ArrayPlatformCriteria();
+        arrayPlatformCriteria.setPlatform(platform);
+        geneExpressionQuery.setArrayPlatformCrit(arrayPlatformCriteria);
+        try {
+        CompoundQuery compoundQuery = new CompoundQuery(geneExpressionQuery);
+	
+			resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
 		} catch (Exception e) {
 			throw new OperationNotSupportedException( "We are not able to extract Reporters "+e.getMessage());
 		}
@@ -146,6 +155,7 @@ public class StrategyHelper {
 	public static Collection<String> extractReporters(ResultsContainer container)throws OperationNotSupportedException{
 		Collection<String> reporters = new ArrayList<String>();
 		DimensionalViewContainer dvContainer = null;
+        GeneExprResultsContainer geneExprVContainer = null;
 		/*
 		 * These are currently the only two results containers that we have to
 		 * worry about at this time, I believe.
@@ -164,6 +174,19 @@ public class StrategyHelper {
 				throw new OperationNotSupportedException("We are not able to able to extract Reporters from: "+container.getClass());
 			}
 		}
+        if(container instanceof GeneExprResultsContainer) {
+            //Get the DimensionalViewContainer
+            geneExprVContainer = (GeneExprResultsContainer)container;
+    
+            if(geneExprVContainer!=null) {
+                List reporterList =geneExprVContainer.getAllReporterNames();
+                for(Iterator i = reporterList.iterator();i.hasNext();) {
+                    reporters.add((String)i.next());
+                }
+            }else {
+                throw new OperationNotSupportedException("We are not able to able to extract Reporters from: "+container.getClass());
+            }
+        }
 		return reporters;
 	}
 	public static Collection<String> extractReporters(Collection<CloneIdentifierDE> reporterDEs)throws OperationNotSupportedException{

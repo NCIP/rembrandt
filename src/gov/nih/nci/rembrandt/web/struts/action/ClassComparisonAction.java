@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.util.ClassHelper;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
 import gov.nih.nci.caintegrator.dto.de.StatisticTypeDE;
@@ -15,12 +17,16 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.caintegrator.service.findings.Finding;
+import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
+
+
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
@@ -30,6 +36,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -127,7 +134,7 @@ public class ClassComparisonAction extends DispatchAction {
             throws Exception {
         ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
         String sessionId = request.getSession().getId();
-        ClassComparisonQueryDTO classComparisonQueryDTO = createClassComparisonQueryDTO(classComparisonForm,sessionId);
+        ClassComparisonQueryDTO classComparisonQueryDTO = createClassComparisonQueryDTO(classComparisonForm,request.getSession());
         
         /*Create the InstituteDEs using credentials from the local session.
          * May want to put these in the cache eventually.
@@ -157,15 +164,14 @@ public class ClassComparisonAction extends DispatchAction {
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
-        /*setup the defined Disease query names and the list of samples selected from a Resultset*/
-        String sessionId = request.getSession().getId();        
-        SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
-        classComparisonForm.setExistingGroupsList(sampleBasedQueriesRetriever.getAllPredefinedAndSampleSetNames(sessionId));
+        /*setup the defined Disease query names and the list of samples selected from a Resultset*/  
+        GroupRetriever groupRetriever = new GroupRetriever();
+        classComparisonForm.setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));
         
         return mapping.findForward("backToClassComparison");
     }
         
-    private ClassComparisonQueryDTO createClassComparisonQueryDTO(ClassComparisonForm classComparisonQueryForm, String sessionId){
+    private ClassComparisonQueryDTO createClassComparisonQueryDTO(ClassComparisonForm classComparisonQueryForm, HttpSession session){
 
         ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
         classComparisonQueryDTO.setQueryName(classComparisonQueryForm.getAnalysisResultName());
@@ -175,26 +181,40 @@ public class ClassComparisonAction extends DispatchAction {
         List<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
         
             if(classComparisonQueryForm.getSelectedGroups() != null && classComparisonQueryForm.getSelectedGroups().length == 2 ){
-                SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
-            	
-                ClinicalDataQuery clinicalDataQuery = null;
-            	
                 for(int i=0; i<classComparisonQueryForm.getSelectedGroups().length; i++){
                     
-                    //lets ensure the that the baseline is added last
-                    if(!classComparisonQueryForm.getSelectedGroups()[i].equals(classComparisonQueryForm.getBaselineGroup()))	{
-                    	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
-                        //add logic to if there is no predefined query.. use the given samples from the user
-                        	
-                    	//bag and construct a clinical query to add into the collection
-                        clinicalQueryCollection.add(clinicalDataQuery);
-                    }  
+//                    //lets ensure the that the baseline is added last
+//                    if(!classComparisonQueryForm.getSelectedGroups()[i].equals(classComparisonQueryForm.getBaselineGroup()))	{
+//                    	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
+//                        //add logic to if there is no predefined query.. use the given samples from the user
+//                        	
+//                    	//bag and construct a clinical query to add into the collection
+//                        clinicalQueryCollection.add(clinicalDataQuery);
+//                    }  
+//                }
+//                //now process the baseline
+//            	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getBaselineGroup());
+//            	clinicalQueryCollection.add(clinicalDataQuery);
+                    
+                    /*
+                     * parse the selected groups, create the appropriate EnumType and add it
+                     * to its respective EnumSet
+                     */
+                    String[] uiDropdownString = classComparisonQueryForm.getSelectedGroups()[i].split("#");
+                    String myClassName = uiDropdownString[0];
+                    String myValueName = uiDropdownString[1];
+                   
+                    Class myClass = ClassHelper.createClass(myClassName);
+                    
+                    if(myClass.isInstance(new UserList())){
+                        PatientUserListQueryDTO patientQueryDTO = new PatientUserListQueryDTO(session,myValueName);
+                        clinicalQueryCollection.add(patientQueryDTO);
+                        if(i==1){//the second group is always baseline
+                            patientQueryDTO.setBaseline(true);
+                        }
+                    }
                 }
-                //now process the baseline
-            	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getBaselineGroup());
-            	clinicalQueryCollection.add(clinicalDataQuery);
-
-                classComparisonQueryDTO.setComparisonGroups(clinicalQueryCollection);
+              classComparisonQueryDTO.setComparisonGroups(clinicalQueryCollection);
             }
         
         //Create the foldChange DEs

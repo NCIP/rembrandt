@@ -17,10 +17,10 @@ var SidebarHelper = {
 		}
 	},
 	'loadGeneUL' : function()	{
-		if($('sidebarGeneSymbolUL'))	{
-			$('sidebarGeneSymbolUL').innerHTML = this.loadingImg;
+		if($('sidebarGeneUL'))	{
+			$('sidebarGeneUL').innerHTML = this.loadingImg;
 			setTimeout( function()	{
-				DynamicListHelper.getGenericListAsList("GeneSymbol", SidebarHelper.loadGenericUL_cb);
+				DynamicListHelper.getGenericListAsList("Gene", SidebarHelper.loadGenericUL_cb);
 			},SidebarHelper.delay);
 		}
 	},

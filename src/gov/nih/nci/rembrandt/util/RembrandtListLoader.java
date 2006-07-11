@@ -16,19 +16,24 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+
+import com.sun.jdori.common.sco.HashSet;
 
 public class RembrandtListLoader extends ListLoader {
     private static Logger logger = Logger.getLogger(RembrandtListLoader.class);    
@@ -62,19 +67,29 @@ public class RembrandtListLoader extends ListLoader {
                     if(resultsContainer != null)    {
                         if(view instanceof ClinicalSampleView){
                             try {
+                                
                                 //1. Get the sample Ids from the return Clinical query
                                 Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
                                 //2. validate samples so that GE data exsists for these samples
-                                //Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
+                                Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
                                 //3. Extracts sampleIds as Strings
-                                List<String> sampleIDs = (List<String>) StrategyHelper.extractSamples(sampleIDDEs);
+                                Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
+                                List<String> pdids = new ArrayList<String>(sampleIDs);
                                 if(sampleIDs != null){
-                                    //3.1 add them to new userList
-                                    UserList myList = listManager.createList(ListType.PatientDID,queryName,sampleIDs,listValidator);
+                                    //3.1 add them to SampleGroup
+                                    UserList myList = listManager.createList(ListType.PatientDID,queryName,pdids,listValidator);
                                     if(!myList.getList().isEmpty()){
                                        myList.setListSubType(ListSubType.Default);
                                         userListBean.addList(myList);
                                     }
+                                    /**the next segment removes all valid ids and keeps the invalid ids
+                                     * 
+                                     */
+//                                    //3.2 Find out any samples that were not processed  
+//                                    Set<SampleIDDE> set = new HashSet<SampleIDDE>();
+//                                    set.addAll(sampleIDDEs); //samples from the original query
+//                                    //3.3 Remove all samples that are validated 
+//                                    set.removeAll(validSampleIDDEs);
                                 }
                             }catch (Exception e) {
                                 // TODO Auto-generated catch block
