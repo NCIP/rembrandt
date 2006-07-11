@@ -3,10 +3,61 @@ var SidebarHelper = {
 	'delay' : 250,
 	'loadingImg' : "<img src=\"images/indicator.gif\"/>",
 	'loadSidebar' : function()	{
-		SidebarHelper.loadPatientUL();
-		SidebarHelper.loadGeneUL();
-		SidebarHelper.loadGenericUL("Reporter");
+		//SidebarHelper.loadPatientUL();
+		//SidebarHelper.loadGeneUL();
+		//SidebarHelper.loadGenericUL("Reporter");
+		//should pass in a comma sep list(or array), split, then call loadGeneric for each
 		
+		//ideally, call some getAllLists() from dynlisthlpr and update cb to accept json array
+		DynamicListHelper.getAllLists(SidebarHelper.loadSidebar_cb);
+	},
+	'loadSidebar_cb' : function(txt)	{
+			try	{
+				var listContainerArray = eval('(' + txt + ')');
+				for(var i=0; i<listContainerArray.length; i++)	{
+					var listContainer = listContainerArray[i];
+					var listType = listContainer.listType ? listContainer.listType : "none";
+					if(listType == "none") {
+						continue;
+					}
+					
+					var lists = listContainer.listItems;
+					if(lists.length == 0)	{
+						if($('sidebar'+listType+'UL'))	{
+							$('sidebar'+listType+'UL').innerHTML = "<br/>No lists currently saved";
+					    }
+						continue;
+					}
+	
+					if($('sidebar'+listType+'UL'))
+						$('sidebar'+listType+'UL').innerHTML = ""; //wipe it first
+					
+					var tst = "";
+					tst = "<ul>";
+					for(var t=0; t<lists.length; t++)	{
+					
+					//	var status = "<span id=\""+lists[t].listName+"status\" style=\"display:none\"><img src=\"images/indicator.gif\"/></span>";
+						var shortName = lists[t].listName.length>25 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
+						var theName = lists[t].listName;
+						var listItems = lists[t].listItems ? lists[t].listItems : "none";
+						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : "";
+						var lstyle = listSubTypes.indexOf(listContainer.highlightType)== -1 ? "color:#A90101;" : "";			
+						//generate the LIs
+						tst += "<li style=\""+lstyle+"\" id=\"'"+theName+"\" title=\""+listItems+"\">" + shortName + "</li>\n";
+					}
+					tst += "</ul>";
+					
+					if($('sidebar'+listType+'UL'))
+						$('sidebar'+listType+'UL').innerHTML += tst;
+						
+					//create the onclicks
+					SidebarHelper.createOnClicks('sidebar'+listType+'UL');
+				}
+			}
+			catch(err)	{
+				alert("ERR: " + err);
+			}	
+	
 	},
 	'loadPatientUL' : function()	{
 		if($('sidebarPatientDIDUL'))	{
@@ -33,6 +84,7 @@ var SidebarHelper = {
 		}
 	},
 	'loadGenericUL_cb' : function(txt)	{
+		//accepts 1 list only, make so it will accept an array
 		var lists = eval('(' + txt + ')');
 		//expecting an HTML element w/ id = "sidebar"+listType+"UL"
 		if($('sidebar'+lists.listType+'UL'))	{
