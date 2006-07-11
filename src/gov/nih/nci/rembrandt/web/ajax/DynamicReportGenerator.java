@@ -258,6 +258,16 @@ public class DynamicReportGenerator {
 	
 	public String saveReporters(String commaSepList, String name)	{
 		String success = "fail";
+		String[] listArr = StringUtils.split(commaSepList, ",");
+		List<String> list = Arrays.asList(listArr);
+		//TODO:  Need to take ListSubType into consideration here, below we are NOT setting one
+		try	{
+			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.Reporter, list, name, new RembrandtListValidator());
+		}
+		catch(Exception e) {
+			//most likely cant access the session
+		}
+		/*
 		HttpSession session = ExecutionContext.get().getSession(false);
 		RembrandtPresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
 		SessionCriteriaBag sessionCriteriaBag = ptc.getSessionCriteriaBag(session.getId());
@@ -283,7 +293,7 @@ public class DynamicReportGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		return success;
 	}
 	
