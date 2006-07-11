@@ -294,6 +294,21 @@
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
          <forward name="showAllGenes" path="nautilus.allGenesCGH" />
 	</action>
+	
+	<action  path="/clinicalData"
+              forward="nautilus.clinical" />
+
+	<action path="/clinical"
+            input="nautilus.clinical"
+            name="clinicaldataForm"
+            type="gov.nih.nci.rembrandt.web.struts.action.ClinicalDataAction"
+            scope="request"
+            parameter="method"
+            validate="true">
+         <forward name="advanceSearchMenu" path="nautilus.menu" />
+         <forward name="previewReport" path="/previewClinicalReport.do?method=previewReport"/>
+         <forward name="backToClinical" path="nautilus.clinical" />
+	</action>
 
 	<action path="/menu"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
@@ -347,21 +362,6 @@
             parameter="method"
             validate="false">
          <forward name="failure" path="/menu.do" /> 
-         <forward name="backToClinical" path="nautilus.clinical" />
-	</action>
-
-	 <action  path="/clinicalData"
-              forward="nautilus.clinical" />
-
-	<action path="/clinical"
-            input="nautilus.clinical"
-            name="clinicaldataForm"
-            type="gov.nih.nci.rembrandt.web.struts.action.ClinicalDataAction"
-            scope="request"
-            parameter="method"
-            validate="true">
-         <forward name="advanceSearchMenu" path="nautilus.menu" />
-         <forward name="previewReport" path="/previewClinicalReport.do?method=previewReport"/>
          <forward name="backToClinical" path="nautilus.clinical" />
 	</action>
 

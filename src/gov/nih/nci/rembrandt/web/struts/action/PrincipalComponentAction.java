@@ -1,8 +1,8 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
-import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.ListType;
+import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.util.ClassHelper;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
@@ -28,8 +28,6 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
-import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
-import gov.nih.nci.rembrandt.web.helper.UserPreferencesHelper;
 import gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm;
 
 import java.util.ArrayList;

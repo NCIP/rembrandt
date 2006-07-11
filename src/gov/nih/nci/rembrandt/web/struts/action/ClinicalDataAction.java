@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.AgeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
@@ -19,6 +21,7 @@ import gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -26,18 +29,27 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
+import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
+
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -110,7 +122,6 @@ public class ClinicalDataAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ClinicalDataAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
-    
    //if multiUse button clicked (with styles de-activated) forward back to page
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -118,6 +129,31 @@ public class ClinicalDataAction extends LookupDispatchAction {
 		
 		return mapping.findForward("backToClinical");
     }
+    
+    /**
+     * Method setup
+     * 
+     * @param ActionMapping
+     *            mapping
+     * @param ActionForm
+     *            form
+     * @param HttpServletRequest
+     *            request
+     * @param HttpServletResponse
+     *            response
+     * @return ActionForward
+     * @throws Exception
+     */
+    
+    public ActionForward setup(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
+        GroupRetriever groupRetriever = new GroupRetriever();
+        clinicalDataForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+        return mapping.findForward("backToClinical");
+    }
+    
     
     /**
      * Method submittal
@@ -144,7 +180,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
         logger.debug("This is a Clinical Data Submittal");
         
         //Create Query Objects
-        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
+        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm, request.getSession());
         
         //Check user credentials and constrain query by Institutions
         if(clinicalDataQuery != null){
@@ -181,7 +217,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
         
         logger.debug("This is a Clinical Data Preview");
         //Create Query Objects
-        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm);
+        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm, request.getSession());
         if(clinicalDataQuery != null){
             clinicalDataQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
@@ -205,8 +241,8 @@ public class ClinicalDataAction extends LookupDispatchAction {
      * 
      * private method used to create clincial queries
      */
-    private ClinicalDataQuery createClinicalDataQuery(ClinicalDataForm clinicalDataForm){
-
+    private ClinicalDataQuery createClinicalDataQuery(ClinicalDataForm clinicalDataForm, HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
         String thisView = clinicalDataForm.getResultView();
         // Create Query Objects
         ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager
@@ -225,7 +261,23 @@ public class ClinicalDataAction extends LookupDispatchAction {
         }
         
         // Set sample Criteria
-        SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();       
+        SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();
+        Collection<SampleIDDE> sampleIds = null;
+         if(sampleIDCrit.isEmpty() && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Upload")){
+            UserList sampleList = helper.getUserList(clinicalDataForm.getSampleFile());
+            if(sampleList!=null){
+                try {
+                    sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
+                } catch (OperationNotSupportedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                if(!sampleIds.isEmpty()){
+                    sampleIDCrit.setSampleIDs(sampleIds);
+                }
+            }
+        
+        }
 		if (!sampleIDCrit.isEmpty())
 		    clinicalDataQuery.setSampleIDCrit(sampleIDCrit);
 
@@ -356,11 +408,16 @@ public class ClinicalDataAction extends LookupDispatchAction {
 		 
      HashMap<String,String> map = new HashMap<String,String>();
      
-     //Submit Query Button using comparative genomic submittal method
+     
+     
+     //Submit Query Button using clinical submittal method
      map.put("buttons_tile.submittalButton", "submittal");
      
-     //Preview Query Button using comparative genomic preview method
+     //Preview Query Button using clinical preview method
      map.put("buttons_tile.previewButton", "preview");
+     
+     //setup clinical query
+     map.put("ClinicalDataAction.setupButton", "setup");
      
      //Submit nothing if multiuse button entered if css turned off
      map.put("buttons_tile.multiUseButton", "multiUse");

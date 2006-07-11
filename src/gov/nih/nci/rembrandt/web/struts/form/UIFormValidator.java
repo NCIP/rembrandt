@@ -112,7 +112,7 @@ public class UIFormValidator {
     }
     
     public static ActionErrors validateFormFieldsWithRegion(FormFile geneFile, String geneGroup, FormFile cloneListFile,
-	        String cloneId, FormFile sampleFile, String sampleGroup, ActionErrors errors){
+	        String cloneId, String sampleFile, String sampleGroup, ActionErrors errors){
 	    if (geneGroup.equalsIgnoreCase("Upload") && geneFile != null
 	            || cloneId.equalsIgnoreCase("Upload") && cloneListFile != null
 	               || sampleGroup.equalsIgnoreCase("Upload") && sampleFile != null){

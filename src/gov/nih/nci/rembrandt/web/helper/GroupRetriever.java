@@ -33,6 +33,23 @@ public class GroupRetriever {
     
     }
     
+    /**
+     * retrieves all current clinical groups after cycling through all the clinical
+     * group types, but does not list value in canonical form like the method above.
+     * @return collection of LabelValueBeans to populate an ActionForm 
+     * -KR
+     */
+    public List<LabelValueBean> getClinicalGroupsCollectionNoPath(HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
+        List<UserList> patientLists = helper.getLists(ListType.PatientDID);
+        
+        for(UserList patientList: patientLists){
+            clinicalGroupsCollection.add(new LabelValueBean(patientList.getName(),patientList.getName()));
+        }
+        return clinicalGroupsCollection;
+    
+    }
+    
     public static List<String> getGeneGroupsCollection(HttpSession session){
         UserListBeanHelper helper = new UserListBeanHelper(session);
         List<UserList> geneLists = helper.getLists(ListType.Gene);

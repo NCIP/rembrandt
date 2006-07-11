@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 
 import java.lang.reflect.InvocationTargetException;
@@ -124,8 +125,9 @@ public class EditClinicalDataAction extends Action {
                 }
 			     //  cdForm = origCdForm.cloneMe();
 			     
-				}  	
-			   
+				} 
+               GroupRetriever groupRetriever = new GroupRetriever();
+               cdForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
 			   String editForward = "";
 			   if(request.getAttribute("copy")!=null && ((String) request.getAttribute("copy")).equals("true"))
 			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");

@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AlleleFrequencyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
@@ -12,6 +14,7 @@ import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -19,21 +22,26 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -140,6 +148,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 			logger.debug("Setup the chromosome values for the form");
 			comparativeGenomicForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
 		}
+        GroupRetriever groupRetriever = new GroupRetriever();
+        comparativeGenomicForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
 		return mapping.findForward("backToCGH");
     }
     
@@ -300,7 +310,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         
         logger.debug("This is a Comparative Genomic Submittal");
         //Create Query Objects
-        ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
+        ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm, request.getSession());
         
         //Check user credentials and constrain query by Institutions
         if(cghQuery != null){
@@ -355,7 +365,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
         logger.debug("This is a Comparative Genomic Preview");
         //Create Query Objects
-        ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm);
+        ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm,request.getSession());
         if(cghQuery != null){
         	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
@@ -376,7 +386,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     }
             
     
-    private ComparativeGenomicQuery createCGHQuery(ComparativeGenomicForm comparativeGenomicForm){
+    private ComparativeGenomicQuery createCGHQuery(ComparativeGenomicForm comparativeGenomicForm, HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
         //Create Query Objects
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) QueryManager
                 .createQuery(QueryType.CGH_QUERY_TYPE);
@@ -409,7 +420,24 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		if (!allGenesCrit.isEmpty())
 		    cghQuery.setAllGenesCrit(allGenesCrit);
         
+        // Set sample Criteria
         SampleCriteria sampleIDCrit = comparativeGenomicForm.getSampleCriteria();
+        Collection<SampleIDDE> sampleIds = null;
+         if(sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Upload")){
+            UserList sampleList = helper.getUserList(comparativeGenomicForm.getSampleFile());
+            if(sampleList!=null){
+                try {
+                    sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
+                } catch (OperationNotSupportedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                if(!sampleIds.isEmpty()){
+                    sampleIDCrit.setSampleIDs(sampleIds);
+                }
+            }
+        
+        }
 		if (!sampleIDCrit.isEmpty())
 		    cghQuery.setSampleIDCrit(sampleIDCrit);
 

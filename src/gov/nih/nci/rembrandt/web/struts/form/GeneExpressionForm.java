@@ -300,9 +300,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			// Validate Go Classification
 			errors = UIFormValidator.validateGOClassification(goClassification,
 					errors);
-			// Validate Gene List, Gene File and Gene Group
+			/* Validate Gene List, Gene File and Gene Group
 			errors = UIFormValidator.validateTextFileType(sampleFile, 
 			        "sampleGroup", errors);
+                    */
 			// Make sure the cloneListFile uploaded is of type txt and MIME type
 			// is text/plain
 			errors = UIFormValidator.validateTextFileType(cloneListFile,

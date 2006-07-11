@@ -70,12 +70,14 @@ if(queryCollection == null){
 			       </html:submit>
 			        &nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b></td></tr>
 			     </html:form>
-			     
-			     
-			
-				
-			<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Clinical Study Analysis" onclick="javascript:location.href='clinicalData.do';">
+					
+			<tr><td>
+				<html:form action="/clinical">
+			       <html:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
+			          <bean:message key="ClinicalDataAction.setupButton"/>
+			       </html:submit>
 				&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b></td></tr>
+				</html:form>
 			</table>
 	</fieldset>
 	</td></tr>

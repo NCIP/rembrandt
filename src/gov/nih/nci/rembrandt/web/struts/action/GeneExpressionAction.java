@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
@@ -12,6 +14,7 @@ import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -20,21 +23,26 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -136,6 +144,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			logger.debug("Setup the chromosome values for the form");
 			geneExpressionForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
 		}
+        GroupRetriever groupRetriever = new GroupRetriever();
+        geneExpressionForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
 		return mapping.findForward("backToGeneExp");
     }
     
@@ -279,7 +289,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		   
 		
 		// Create Query Objects
-		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
+		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm, request.getSession());
 	    
         //Check user credentials and constrain query by Institutions
         if(geneExpQuery != null){
@@ -329,7 +339,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
 		logger.debug("This is a Gene Expression Preview");
 		// Create Query Objects
-		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm);
+		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(geneExpressionForm, request.getSession());
         if(geneExpQuery != null){
         	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(request.getSession()));
             }
@@ -367,8 +377,10 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			
 	
 	
-	private GeneExpressionQuery createGeneExpressionQuery(GeneExpressionForm geneExpressionForm){
-	    GeneExpressionQuery geneExpQuery = (GeneExpressionQuery)QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+	private GeneExpressionQuery createGeneExpressionQuery(GeneExpressionForm geneExpressionForm, HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
+        
+        GeneExpressionQuery geneExpQuery = (GeneExpressionQuery)QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
 	    geneExpQuery.setQueryName(geneExpressionForm.getQueryName());
 		// Change this code later to get view type directly from Form !!
 	    String thisView = geneExpressionForm.getResultView();
@@ -383,9 +395,28 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
 		if (!geneIDCrit.isEmpty())
 			geneExpQuery.setGeneIDCrit(geneIDCrit);
-		SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
+        
+		//Set sample Criteria
+        SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
+        Collection<SampleIDDE> sampleIds = null;
+         if(sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
+            UserList sampleList = helper.getUserList(geneExpressionForm.getSampleFile());
+            if(sampleList!=null){
+                try {
+                    sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
+                } catch (OperationNotSupportedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                if(!sampleIds.isEmpty()){
+                    sampleIDCrit.setSampleIDs(sampleIds);
+                }
+            }
+        
+        }
 		if (!sampleIDCrit.isEmpty())
 			geneExpQuery.setSampleIDCrit(sampleIDCrit);
+        
 		AllGenesCriteria allGenesCrit = geneExpressionForm.getAllGenesCriteria();
 		if (!allGenesCrit.isEmpty())
 		    geneExpQuery.setAllGenesCrit(allGenesCrit);

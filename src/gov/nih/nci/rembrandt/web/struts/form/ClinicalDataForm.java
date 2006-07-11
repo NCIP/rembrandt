@@ -344,6 +344,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
         super();
         // Create Lookups for Clinical Data screens
         setClinicalDataLookup();
+        
     }
    
   
@@ -778,6 +779,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
         ageUpperColl.add(new LabelValueBean("80", "80"));
         ageUpperColl.add(new LabelValueBean("90", "90"));
         //	ageUpperColl.add( new LabelValueBean( "90+", "90+" ) );
+        
+        
 
     
 
@@ -837,7 +840,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
         genderType = "";
         sampleGroup = "";
 		sampleList = "";
-		sampleFile = null;
+		
 
         diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
         occurrenceCriteria = new OccurrenceCriteria();
@@ -2423,11 +2426,13 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
         ActionErrors errors = new ActionErrors();
 
         // Query Name cannot be blank
-
-        if ((queryName == null || queryName.length() < 1))
-            errors.add("queryName", new ActionError(
-                    "gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
-
+//      if the method of the button is "submit" or "run report", validate
+        if(this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview")){
+            logger.debug("Validating Form");
+            if ((queryName == null || queryName.length() < 1))
+                errors.add("queryName", new ActionError(
+                        "gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
+        }
         // survival range validations
       /*  if ((this.survivalLower != null && !this.survivalLower.equals("")) || (this.survivalUpper != null && !this.survivalUpper.equals(""))) {
             try {

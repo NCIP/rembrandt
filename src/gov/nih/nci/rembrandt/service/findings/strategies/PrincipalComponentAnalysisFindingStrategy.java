@@ -3,41 +3,29 @@ package gov.nih.nci.rembrandt.service.findings.strategies;
 import gov.nih.nci.caintegrator.analysis.messaging.PrincipalComponentAnalysisRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.ReporterGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
-import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
+import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
+import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
-import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
-import gov.nih.nci.caintegrator.dto.view.ViewFactory;
-import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
-import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
-import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
-import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
-
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
-import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
-import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
-import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -45,7 +33,6 @@ import java.util.Set;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
-import javax.naming.OperationNotSupportedException;
 
 import org.apache.log4j.Logger;
 

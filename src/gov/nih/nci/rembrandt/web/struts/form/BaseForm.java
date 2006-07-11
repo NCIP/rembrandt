@@ -114,17 +114,18 @@ public class BaseForm extends ActionForm implements Serializable{
     protected SampleCriteria sampleCriteria;
     protected String[] tumorType;   
 	protected String sampleList;
-	protected transient FormFile sampleFile;
+	protected transient String sampleFile;
 	protected transient HttpServletRequest thisRequest;	
-	protected String sampleGroup;
+    protected List savedSampleList;
+   protected String sampleGroup;
 
 
 
 	public BaseForm(){
 			
 		// Create Lookups for Gene Expression screens 
-		setLookups();
-
+        setLookups();       
+        
 	}
 	
 	
@@ -352,7 +353,7 @@ public class BaseForm extends ActionForm implements Serializable{
 		 * 
 		 * @return String
 		 */
-		public FormFile getSampleFile() {
+		public String getSampleFile() {
 			return sampleFile;
 		}
 		/**
@@ -361,49 +362,8 @@ public class BaseForm extends ActionForm implements Serializable{
 		 * @param sampleFile
 		 *            The sampleFile to set
 		 */
-		public void setSampleFile(FormFile sampleFile) {
+		public void setSampleFile(String sampleFile) {
 			this.sampleFile = sampleFile;
-			if (thisRequest != null) {
-				String thisSampleGroup = this.thisRequest
-						.getParameter("sampleGroup");
-				// retrieve the file name & size
-				String fileName = sampleFile.getFileName();
-				int fileSize = sampleFile.getFileSize();
-				sampleCriteria = new SampleCriteria();
-
-				if ((thisSampleGroup != null)
-						&& thisSampleGroup.equalsIgnoreCase("Upload")
-						&& (this.sampleFile != null)
-						&& (this.sampleFile.getFileName().endsWith(".txt") || this.sampleFile.getFileName().endsWith(".TXT"))
-						&& (this.sampleFile.getContentType().equals("text/plain"))) {
-					try {
-						InputStream stream = sampleFile.getInputStream();
-						String inputLine = null;
-						BufferedReader inFile = new BufferedReader(
-								new InputStreamReader(stream));
-
-						int count = 0;
-						while ((inputLine = inFile.readLine()) != null
-								&& count < RembrandtConstants.MAX_FILEFORM_COUNT) {
-							if (UIFormValidator.isAscii(inputLine)) { // make sure
-																		// all data
-																		// is ASCII
-							    inputLine = inputLine.trim();
-							    count++;
-							    SampleIDDE sampleIDDEObj = new SampleIDDE(inputLine);						                                       						
-							    sampleCriteria.setSampleID(sampleIDDEObj);				    
-								
-							}
-						}// end of while
-
-						inFile.close();
-					} catch (IOException ex) {
-						logger.error("Errors when uploading sample file:"
-								+ ex.getMessage());
-					}
-
-				}
-			}
 		}
 		public SampleCriteria getSampleCriteria() {
 			return this.sampleCriteria;
@@ -426,4 +386,20 @@ public class BaseForm extends ActionForm implements Serializable{
 		public String getSampleGroup() {
 			return sampleGroup;
 		}
+
+
+        /**
+         * @return Returns the savedSampleList.
+         */
+        public List getSavedSampleList() {
+            return savedSampleList;
+        }
+
+
+        /**
+         * @param savedSampleList The savedSampleList to set.
+         */
+        public void setSavedSampleList(List savedSampleList) {
+            this.savedSampleList = savedSampleList;
+        }
 }
