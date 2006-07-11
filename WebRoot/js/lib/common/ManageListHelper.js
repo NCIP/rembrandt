@@ -4,32 +4,12 @@
 *	// also dependent on browserSniff.js, SidebarHelper.js, and prototype.js 1.5.x
 */
 	var ManageListHelper = {
-		/*
-		'getPatientLists' : function()	{
-			if (window.DynamicListHelper.getAllPatientLists&&(typeof window.DynamicListHelper.getAllPatientLists=="function")) {
-				DynamicListHelper.getAllPatientLists(ManageListHelper.getGenericLists_cb );
-			}
-		},
-		'getGeneLists' : function()	{
-			DynamicListHelper.getAllGeneLists(ManageListHelper.getGenericLists_cb );			
-		},
-		*/
 		'getGenericLists' : function(listType)	{
 			DynamicListHelper.getGenericLists(listType, ManageListHelper.getGenericLists_cb);
 		},
 		'getAllLists' : function()	{
 			//assumes browserSniff.js has already been included and declared the browser specific vars
 			DynamicListHelper.getAllLists(ManageListHelper.getGenericLists_cb);
-			/*
-			if(!saf)	{
-				ManageListHelper.getGeneLists();
-				ManageListHelper.getPatientLists();
-			}
-			else	{ //timing issue w/safari..go figure
-				setTimeout(function()	{ManageListHelper.getGeneLists();}, 100);
-				setTimeout(function()	{ManageListHelper.getPatientLists();}, 200);
-			}
-			*/
 		},
 		'getGenericLists_cb' : function(txt)	{
 			//accepts a JSON object	<- now accepts a json array
@@ -68,7 +48,7 @@
 						var shortName = lists[t].listName.length>25 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
 						var theName = lists[t].listName;
 						
-						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : Array();
+						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : "";
 						var lstyle = listSubTypes.indexOf(listContainer.highlightType)!= -1 ? "color:#000000;" : "";			
 						// += or =
 						tst +=  "<div id='"
@@ -76,7 +56,7 @@
 		                    + "' class='listListing'>" 
 		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
 		                    + "<b style='"+lstyle+"' title='"+theName+"'>"
-		                    + shortName + "</b>"
+		                    + shortName + "</b> (" + listSubTypes + ") "
 		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName
 		                    + "\");return false;'>"
@@ -276,7 +256,7 @@
 							wDiv.innerHTML += invalidItemId;
 						}
 						else{
-							wDiv.innerHTML += invalidItemId + ",";
+							wDiv.innerHTML += invalidItemId + ", ";
 						}
 					}
 							
