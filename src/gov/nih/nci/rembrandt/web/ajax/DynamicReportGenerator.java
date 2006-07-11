@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.web.ajax;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.StringTokenizer;
 
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
+import gov.nih.nci.caintegrator.application.lists.ajax.CommonListFunctions;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
@@ -18,13 +20,17 @@ import gov.nih.nci.rembrandt.web.bean.FindingReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag.ListType;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
+
+import com.sun.jdori.common.Logger;
 
 import uk.ltd.getahead.dwr.ExecutionContext;
 
@@ -283,6 +289,15 @@ public class DynamicReportGenerator {
 	
 	public String saveSamples(String commaSepList, String name)	{
 		String success = "fail";
+		String[] listArr = StringUtils.split(commaSepList, ",");
+		List<String> list = Arrays.asList(listArr);
+		try	{
+			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.PatientDID, list, name, new RembrandtListValidator());
+		}
+		catch(Exception e) {
+			//most likely cant access the session
+		}
+		/*
 		HttpSession session = ExecutionContext.get().getSession(false);
 		RembrandtPresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
 		SessionCriteriaBag sessionCriteriaBag = ptc.getSessionCriteriaBag(session.getId());
@@ -313,7 +328,7 @@ public class DynamicReportGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		return success;
 	}
 
