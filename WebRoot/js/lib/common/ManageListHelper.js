@@ -20,7 +20,9 @@
 				for(var i=0; i<listContainerArray.length; i++)	{
 					var listContainer = listContainerArray[i];
 					var listType = listContainer.listType ? listContainer.listType : "none";
-					if(listType == "none") return;
+					if(listType == "none") {
+						continue;
+					}
 					
 					var lists = listContainer.listItems;
 					
@@ -28,7 +30,6 @@
 					// ^ now, should be auto generated 
 					
 					if(lists.length == 0)	{
-						//because we have default lists, do report that patient lists are empty
 						if($(listType+'ListDiv')){
 							$(listType+'ListDiv').innerHTML = "<b>No "+ listType + " lists currently saved</b><br/><br/>";
 					    }

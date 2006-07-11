@@ -3,12 +3,6 @@ var SidebarHelper = {
 	'delay' : 250,
 	'loadingImg' : "<img src=\"images/indicator.gif\"/>",
 	'loadSidebar' : function()	{
-		//SidebarHelper.loadPatientUL();
-		//SidebarHelper.loadGeneUL();
-		//SidebarHelper.loadGenericUL("Reporter");
-		//should pass in a comma sep list(or array), split, then call loadGeneric for each
-		
-		//ideally, call some getAllLists() from dynlisthlpr and update cb to accept json array
 		DynamicListHelper.getAllLists(SidebarHelper.loadSidebar_cb);
 	},
 	'loadSidebar_cb' : function(txt)	{
@@ -59,22 +53,7 @@ var SidebarHelper = {
 			}	
 	
 	},
-	'loadPatientUL' : function()	{
-		if($('sidebarPatientDIDUL'))	{
-			$('sidebarPatientDIDUL').innerHTML = this.loadingImg;
-			setTimeout( function()	{
-				DynamicListHelper.getGenericListAsList("PatientDID", SidebarHelper.loadGenericUL_cb);
-				},SidebarHelper.delay);
-		}
-	},
-	'loadGeneUL' : function()	{
-		if($('sidebarGeneUL'))	{
-			$('sidebarGeneUL').innerHTML = this.loadingImg;
-			setTimeout( function()	{
-				DynamicListHelper.getGenericListAsList("Gene", SidebarHelper.loadGenericUL_cb);
-			},SidebarHelper.delay);
-		}
-	},
+/*
 	'loadGenericUL' : function(listType)	{
 		if($('sidebar'+listType+'UL'))	{
 			$('sidebar'+listType+'UL').innerHTML = this.loadingImg;
@@ -97,6 +76,7 @@ var SidebarHelper = {
 			}
 		}
 	},
+*/
 	'createOnClicks' : function(theId)	{
 		var lis = $(theId).getElementsByTagName("li");
 
