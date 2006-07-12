@@ -321,7 +321,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
 		    if ((this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup().equalsIgnoreCase("Upload"))	
 		        || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSnpId().equalsIgnoreCase("Upload"))
 		          || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup().equalsIgnoreCase("Upload"))){
-		    errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, snpListFile, snpId, sampleFile, sampleGroup, errors);
+		    //errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, snpListFile, snpId, sampleFile, sampleGroup, errors);
 		    if(this.getGeneGroup().equalsIgnoreCase("Upload")){
 		        this.setGeneGroup("");
 		    }
@@ -432,9 +432,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
         queryName = "";
         copyNumber = "";
         basePairStart = "";       
-        sampleGroup = "";
+        //sampleGroup = "";
 		sampleList = "";
-		sampleFile = null;
+		//sampleFile = null;
        
 
         diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();

@@ -189,10 +189,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	private String foldChangeValueUDUp;
 
 	/** resultView property */
-	private String resultView;
+	private String resultView="";
 
 	/** geneFile property */
-	private transient FormFile geneFile;
+	private transient String geneFile;
 	
 
 	/** foldChangeValueUDDown property */
@@ -309,9 +309,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			errors = UIFormValidator.validateTextFileType(cloneListFile,
 					"cloneId", errors);
 			// Make sure the geneGroup uploaded file is of type txt and MIME
-			// type is text/plain
+			/* type is text/plain
 			errors = UIFormValidator.validateTextFileType(geneFile,
 					"geneGroup", errors);
+                    */
 			// Validate CloneId
 			errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify,
 					cloneListFile, errors);
@@ -418,7 +419,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		// geneOption = "";
-		pathwayName = new String[0];
+		//pathwayName = new String[0];
 		geneList = "";
 		goBiologicalProcess = "";
 		tumorGrade = "";
@@ -447,11 +448,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		foldChangeValueUDDown = "2";
 		geneGroup = "";
 		cloneList = "";
-		queryName = "";
+		//queryName = "";
 		basePairStart = "";
-		sampleGroup = "";
+		//sampleGroup = "";
 		sampleList = "";
-		sampleFile = null;
+		//sampleFile = null;
 
 		// Set the Request Object
 		this.thisRequest = request;		
@@ -581,7 +582,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	 * 
 	 * @return String
 	 */
-	public FormFile getGeneFile() {
+	public String getGeneFile() {
 		return geneFile;
 	}
 
@@ -593,68 +594,15 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	 * @param geneFile
 	 *            The geneFile to set
 	 */
-	public void setGeneFile(FormFile geneFile) {
-		this.geneFile = geneFile;
-		if (thisRequest != null) {
-			String thisGeneType = this.thisRequest.getParameter("geneType");
-			String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-			// retrieve the file name & size
-			String fileName = geneFile.getFileName();
-			int fileSize = geneFile.getFileSize();
-
-			if ((thisGeneGroup != null)
-					&& thisGeneGroup.equalsIgnoreCase("Upload")
-					&& (thisGeneType.length() > 0) && (this.geneFile != null)
-					&& (this.geneFile.getFileName().endsWith(".txt")|| this.geneFile.getFileName().endsWith(".TXT"))
-					&& (this.geneFile.getContentType().equals("text/plain"))) {
-				try {
-					InputStream stream = geneFile.getInputStream();
-					String inputLine = null;
-					BufferedReader inFile = new BufferedReader(
-							new InputStreamReader(stream));
-
-					int count = 0;
+	public void setGeneFile(String geneFile) {
+		
                     geneCriteria = new GeneIDCriteria();
-                    GeneIdentifierDE geneIdentifierDE = null;
-					while ((inputLine = inFile.readLine()) != null
-							&& count < RembrandtConstants.MAX_FILEFORM_COUNT) {
-						if (UIFormValidator.isAscii(inputLine)) { // make sure
-																	// all data
-																	// is ASCII
-						    inputLine = inputLine.trim();
-						    count++;
-                            if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-                                geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine);
-							} else if (thisGeneType
-									.equalsIgnoreCase("genelocus")) {
-                                geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);
-
-							} else if (thisGeneType
-									.equalsIgnoreCase("genbankno")) {
-                                geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(inputLine);
-
-							}// else if (thisGeneType
-							//		.equalsIgnoreCase("allgenes")) {
-                                //geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);
-								//geneDomainMap.put(inputLine,
-								//		GeneIdentifierDE.GeneSymbol.class
-								//				.getName());
-							//}
-                            geneCriteria.setGeneIdentifier(geneIdentifierDE);
-						}
-					}// end of while
-
-					inFile.close();
-				} catch (IOException ex) {
-					logger.error("Errors when uploading gene file:"
-							+ ex.getMessage());
-				}
-
-			}
-		}
+                    GeneIdentifierDE geneIdentifierDE = null;					
+                     geneCriteria.setGeneIdentifier(geneIdentifierDE);
+					
 	}
 
-		public GeneIDCriteria getGeneIDCriteria() {
+	public GeneIDCriteria getGeneIDCriteria() {
 		return this.geneCriteria;
 	}
 

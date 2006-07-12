@@ -154,7 +154,13 @@ public class ClinicalDataAction extends LookupDispatchAction {
         return mapping.findForward("backToClinical");
     }
     
-    
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        this.setup(mapping,form,request,response);
+        
+        return mapping.findForward("backToClinical");
+    }
     /**
      * Method submittal
      * 
@@ -242,7 +248,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
      * private method used to create clincial queries
      */
     private ClinicalDataQuery createClinicalDataQuery(ClinicalDataForm clinicalDataForm, HttpSession session){
-        UserListBeanHelper helper = new UserListBeanHelper(session);
+        UserListBeanHelper helper = new UserListBeanHelper(session); 
         String thisView = clinicalDataForm.getResultView();
         // Create Query Objects
         ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager
@@ -263,21 +269,21 @@ public class ClinicalDataAction extends LookupDispatchAction {
         // Set sample Criteria
         SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
-         if(sampleIDCrit.isEmpty() && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Upload")){
-            UserList sampleList = helper.getUserList(clinicalDataForm.getSampleFile());
-            if(sampleList!=null){
-                try {
-                    sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
-                } catch (OperationNotSupportedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                if(!sampleIds.isEmpty()){
-                    sampleIDCrit.setSampleIDs(sampleIds);
-                }
-            }
-        
-        }
+        if(sampleIDCrit.isEmpty() && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Upload")){
+           UserList sampleList = helper.getUserList(clinicalDataForm.getSampleFile());
+           if(sampleList!=null){
+               try {
+                   sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
+               } catch (OperationNotSupportedException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }
+               if(!sampleIds.isEmpty()){
+                   sampleIDCrit.setSampleIDs(sampleIds);
+               }
+           }
+       
+       }
 		if (!sampleIDCrit.isEmpty())
 		    clinicalDataQuery.setSampleIDCrit(sampleIDCrit);
 

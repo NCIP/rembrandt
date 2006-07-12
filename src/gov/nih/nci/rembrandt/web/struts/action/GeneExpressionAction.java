@@ -146,7 +146,18 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		}
         GroupRetriever groupRetriever = new GroupRetriever();
         geneExpressionForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-		return mapping.findForward("backToGeneExp");
+        UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
+        
+        return mapping.findForward("backToGeneExp");
+    }
+    
+//  Setup the gene Expression form from menu page
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        this.setup(mapping,form,request,response);
+        
+        return mapping.findForward("backToGeneExp");
     }
     
    //if multiUse button clicked (with styles de-activated) forward back to page
@@ -399,21 +410,21 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		//Set sample Criteria
         SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
-         if(sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
-            UserList sampleList = helper.getUserList(geneExpressionForm.getSampleFile());
-            if(sampleList!=null){
-                try {
-                    sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
-                } catch (OperationNotSupportedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                if(!sampleIds.isEmpty()){
-                    sampleIDCrit.setSampleIDs(sampleIds);
-                }
-            }
-        
-        }
+        if(sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
+           UserList sampleList = helper.getUserList(geneExpressionForm.getSampleFile());
+           if(sampleList!=null){
+               try {
+                   sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
+               } catch (OperationNotSupportedException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }
+               if(!sampleIds.isEmpty()){
+                   sampleIDCrit.setSampleIDs(sampleIds);
+               }
+           }
+       
+       }
 		if (!sampleIDCrit.isEmpty())
 			geneExpQuery.setSampleIDCrit(sampleIDCrit);
         

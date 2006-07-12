@@ -153,6 +153,14 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		return mapping.findForward("backToCGH");
     }
     
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        this.setup(mapping,form,request,response);
+        
+        return mapping.findForward("backToCGH");
+    }
+    
     public ActionForward getCytobands(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -387,7 +395,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
             
     
     private ComparativeGenomicQuery createCGHQuery(ComparativeGenomicForm comparativeGenomicForm, HttpSession session){
-        UserListBeanHelper helper = new UserListBeanHelper(session);
+        UserListBeanHelper helper = new UserListBeanHelper(session); 
         //Create Query Objects
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) QueryManager
                 .createQuery(QueryType.CGH_QUERY_TYPE);
@@ -423,21 +431,21 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         // Set sample Criteria
         SampleCriteria sampleIDCrit = comparativeGenomicForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
-         if(sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Upload")){
-            UserList sampleList = helper.getUserList(comparativeGenomicForm.getSampleFile());
-            if(sampleList!=null){
-                try {
-                    sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
-                } catch (OperationNotSupportedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                if(!sampleIds.isEmpty()){
-                    sampleIDCrit.setSampleIDs(sampleIds);
-                }
-            }
-        
-        }
+        if(sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Upload")){
+           UserList sampleList = helper.getUserList(comparativeGenomicForm.getSampleFile());
+           if(sampleList!=null){
+               try {
+                   sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
+               } catch (OperationNotSupportedException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }
+               if(!sampleIds.isEmpty()){
+                   sampleIDCrit.setSampleIDs(sampleIds);
+               }
+           }
+       
+       }
 		if (!sampleIDCrit.isEmpty())
 		    cghQuery.setSampleIDCrit(sampleIDCrit);
 

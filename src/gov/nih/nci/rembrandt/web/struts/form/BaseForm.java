@@ -2,12 +2,15 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
@@ -29,7 +32,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
  /**
@@ -363,7 +368,7 @@ public class BaseForm extends ActionForm implements Serializable{
 		 *            The sampleFile to set
 		 */
 		public void setSampleFile(String sampleFile) {
-			this.sampleFile = sampleFile;
+            this.sampleFile = sampleFile;
 		}
 		public SampleCriteria getSampleCriteria() {
 			return this.sampleCriteria;
