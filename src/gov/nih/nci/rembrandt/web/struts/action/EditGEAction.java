@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.ListType;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -126,10 +128,13 @@ public class EditGEAction extends Action {
                 }
 			    
 				}  	
+               /*
+                * resets the dropdowns that the saved form will need in order to render the page
+                * and save the value.
+                */
                GroupRetriever groupRetriever = new GroupRetriever();
                cdForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-                
-			   String editForward = "";
+               String editForward = "";
 			   if(request.getAttribute("copy")!=null && ((String) request.getAttribute("copy")).equals("true"))
 			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
 

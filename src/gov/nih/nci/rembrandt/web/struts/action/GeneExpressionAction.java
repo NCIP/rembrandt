@@ -151,7 +151,18 @@ public class GeneExpressionAction extends LookupDispatchAction {
         return mapping.findForward("backToGeneExp");
     }
     
-//  Setup the gene Expression form from menu page
+    /*This method is needed for the apparant problem with LookupDispatchAction class in Struts
+     *  (non-Javadoc)
+     * Doesn't appear that the developer can make a call to any of the methods in this
+     * class via a url path (e.g. myaction.do?method=setup). The work around is not specifying
+     * a method, in which case struts will call the following "unspecified" method call below.
+     * In this case the desired effect is to reset the form(setup) with the prefilled dropdowns...
+     * so ALL this method does is call the setup method.
+     */
+    /**TODO change the action to a DispatchAction for more flexibility in the future.
+     * -KR
+     */
+    
     public ActionForward unspecified(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {

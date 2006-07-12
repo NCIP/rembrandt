@@ -2,23 +2,15 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 
-import gov.nih.nci.caintegrator.application.lists.UserList;
-import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
-import gov.nih.nci.rembrandt.util.RembrandtConstants;
-import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,14 +19,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
-
-import javax.naming.OperationNotSupportedException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 
  /**
@@ -121,7 +110,7 @@ public class BaseForm extends ActionForm implements Serializable{
 	protected String sampleList;
 	protected transient String sampleFile;
 	protected transient HttpServletRequest thisRequest;	
-    protected List savedSampleList;
+    protected Collection savedSampleList;
    protected String sampleGroup;
 
 
@@ -396,7 +385,7 @@ public class BaseForm extends ActionForm implements Serializable{
         /**
          * @return Returns the savedSampleList.
          */
-        public List getSavedSampleList() {
+        public Collection getSavedSampleList() {
             return savedSampleList;
         }
 
@@ -404,7 +393,7 @@ public class BaseForm extends ActionForm implements Serializable{
         /**
          * @param savedSampleList The savedSampleList to set.
          */
-        public void setSavedSampleList(List savedSampleList) {
+        public void setSavedSampleList(Collection savedSampleList) {
             this.savedSampleList = savedSampleList;
         }
 }
