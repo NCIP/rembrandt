@@ -15,21 +15,26 @@
 <!-- <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b> -->
 <br />
 
-	
-	
-	
-	
-	<html:select property="cloneList" disabled="false">
-	<html:optionsCollection property="cloneTypeColl" />
-	</html:select>
-				
-&nbsp;
+
 <html:radio property="cloneId" value="list" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
-	<html:text property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);" />
-	&nbsp;-or-&nbsp;
-<html:radio property="cloneId" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
-			<html:file property="cloneListFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].cloneId[1]);" onfocus="javascript:document.forms[0].cloneId[1].checked = true;" />
-			<!--<app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." /></br>-->
-			<html:errors property="cloneId"/></br>
+Type Clones:&nbsp;&nbsp;
+<html:select property="cloneList" disabled="false">
+	<html:optionsCollection property="cloneTypeColl" />
+</html:select>
+&nbsp;
+<html:text property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);" />
+	
+<br/>
+
+<html:radio property="cloneId" value="cloneList" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
+Choose a saved Clone List:&nbsp;&nbsp;
+<html:select property="cloneListFile" disabled="false">
+	<html:optionsCollection property="savedCloneList" />
+</html:select>
+<br/>
+
+<!--  <html:file property="cloneListFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].cloneId[1]);" onfocus="javascript:document.forms[0].cloneId[1].checked = true;" /> -->
+<!--<app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." /></br>-->
+<html:errors property="cloneId"/><br/>
 </fieldset>
 

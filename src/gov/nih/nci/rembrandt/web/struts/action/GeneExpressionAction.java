@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
@@ -14,6 +15,8 @@ import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
+import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -31,6 +34,7 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
@@ -144,10 +148,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			logger.debug("Setup the chromosome values for the form");
 			geneExpressionForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
 		}
-//        GroupRetriever groupRetriever = new GroupRetriever();
-//        geneExpressionForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-//        UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
-        
+       //GroupRetriever groupRetriever = new GroupRetriever();
+      // geneExpressionForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+               
         return mapping.findForward("backToGeneExp");
     }
     
@@ -415,13 +418,34 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		}
 		// Set gene criteria
 		GeneIDCriteria geneIDCrit = geneExpressionForm.getGeneIDCriteria();
-		if (!geneIDCrit.isEmpty())
+		//for some reason the gene converter is not with the sample convertor
+		//see ListConvertor
+		
+		if(geneIDCrit.isEmpty() && geneExpressionForm.getGeneOption().equalsIgnoreCase("geneList")){
+			Collection<GeneIdentifierDE> genes = null;
+			UserList geneList = helper.getUserList(geneExpressionForm.getGeneFile());
+			if(geneList!=null){
+				try {	
+					//assumes geneList.getListSubType!=null && geneList.getListSubType().get(0) !=null
+					genes = ListConvertor.convertToGeneIdentifierDE(geneList.getList(), geneList.getListSubType().get(0)); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(!genes.isEmpty()){
+					geneIDCrit.setGeneIdentifiers(genes);
+				}
+			}
+		}
+		
+		if (!geneIDCrit.isEmpty())	{
 			geneExpQuery.setGeneIDCrit(geneIDCrit);
-        
+		}
+		
 		//Set sample Criteria
-         SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
+        SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
-        if(sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
+        if(sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup()!=null && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
            UserList sampleList = helper.getUserList(geneExpressionForm.getSampleFile());
            if(sampleList!=null){
                try {
@@ -434,7 +458,6 @@ public class GeneExpressionAction extends LookupDispatchAction {
                    sampleIDCrit.setSampleIDs(sampleIds);
                }
            }
-       
        }
 		if (!sampleIDCrit.isEmpty())
 			geneExpQuery.setSampleIDCrit(sampleIDCrit);
@@ -452,10 +475,29 @@ public class GeneExpressionAction extends LookupDispatchAction {
 				.getDiseaseOrGradeCriteria();
 		if (!diseaseOrGradeCriteria.isEmpty())
 			geneExpQuery.setDiseaseOrGradeCrit(diseaseOrGradeCriteria);
-		CloneOrProbeIDCriteria cloneOrProbeIDCriteria = geneExpressionForm
-				.getCloneOrProbeIDCriteria();
-		if (!cloneOrProbeIDCriteria.isEmpty())
+		
+		CloneOrProbeIDCriteria cloneOrProbeIDCriteria = geneExpressionForm.getCloneOrProbeIDCriteria();
+		if(cloneOrProbeIDCriteria.isEmpty() && geneExpressionForm.getCloneId().equalsIgnoreCase("cloneList")){
+			Collection<CloneIdentifierDE> clones = null;
+			UserList cList = helper.getUserList(geneExpressionForm.getCloneListFile());
+			if(cList!=null){
+				try {	
+					//assumes geneList.getListSubType!=null && geneList.getListSubType().get(0) !=null
+					clones = ListConvertor.convertToCloneIdentifierDE(cList.getList(), cList.getListSubType().get(0)); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(!clones.isEmpty()){
+					cloneOrProbeIDCriteria.setIdentifiers(clones);
+				}
+			}
+		}
+		if(!cloneOrProbeIDCriteria.isEmpty())	{
 			geneExpQuery.setCloneOrProbeIDCrit(cloneOrProbeIDCriteria);
+		}
+		
+		
 		GeneOntologyCriteria geneOntologyCriteria = geneExpressionForm
 				.getGeneOntologyCriteria();
 		if (!geneOntologyCriteria.isEmpty())

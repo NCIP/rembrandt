@@ -116,8 +116,12 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	/** geneOption property */
 	private String geneOption = "standard";
     
-    private Collection savedSampleList;
-
+    //private Collection savedSampleList;
+    
+    private static Collection savedGeneList;
+    
+    private static Collection savedCloneList;
+    
 	/** pathwayName property */
 	private String[] pathwayName;
 	
@@ -164,7 +168,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	private String arrayPlatform;
 
 	/** cloneListFile property */
-	private transient FormFile cloneListFile;
+	private transient String cloneListFile;
 
 	/** cloneListSpecify property */
 	private String cloneListSpecify;
@@ -279,7 +283,9 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		    if ((this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup().equalsIgnoreCase("Upload"))
 		        || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getCloneId().equalsIgnoreCase("Upload"))
 		          || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup().equalsIgnoreCase("Upload"))){
-		    errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, cloneListFile, cloneId, sampleFile, sampleGroup, errors);
+
+		    //errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, cloneListFile, cloneId, sampleFile, sampleGroup, errors);
+		    	
 		    if(this.getGeneGroup().equalsIgnoreCase("Upload")){
 		        this.setGeneGroup("");
 		    }
@@ -306,22 +312,23 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			// Validate Go Classification
 			errors = UIFormValidator.validateGOClassification(goClassification,
 					errors);
+			//why is this commented out ?
 			/* Validate Gene List, Gene File and Gene Group
 			errors = UIFormValidator.validateTextFileType(sampleFile, 
 			        "sampleGroup", errors);
-                    */
+            */
+			
+			
 			// Make sure the cloneListFile uploaded is of type txt and MIME type
 			// is text/plain
-			errors = UIFormValidator.validateTextFileType(cloneListFile,
-					"cloneId", errors);
+			//errors = UIFormValidator.validateTextFileType(cloneListFile,"cloneId", errors);
+			
 			// Make sure the geneGroup uploaded file is of type txt and MIME
 			/* type is text/plain
-			errors = UIFormValidator.validateTextFileType(geneFile,
-					"geneGroup", errors);
-                    */
+			errors = UIFormValidator.validateTextFileType(geneFile,"geneGroup", errors);
+             */
 			// Validate CloneId
-			errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify,
-					cloneListFile, errors);
+			//errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify,cloneListFile, errors);
 			
 			
 			  // validate fold change,it has to be numeric
@@ -339,8 +346,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			if (this.getQueryName() != null
 					&& this.getQueryName().length() >= 1
 					&& this.getGeneOption().equalsIgnoreCase("standard")) {
-				if ((this.getGeneGroup() == null || this.getGeneGroup().trim()
-						.length() < 1)
+				if (
+						(this.getGeneList() == null || this.getGeneList().trim().length() < 1)
 						&& (this.getCloneId() == null || this.getCloneId()
 								.trim().length() < 1)
 						&& (this.getChromosomeNumber() == null || this
@@ -424,19 +431,26 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	 */
 
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
-		// geneOption = "";
+		//geneOption = "";
 		//pathwayName = new String[0];
+		GroupRetriever groupRetriever = new GroupRetriever();
+	    savedGeneList = groupRetriever.getGeneGroupsCollection(request.getSession());
+	    savedCloneList = groupRetriever.getCloneGroupsCollection(request.getSession());
+	    
 		geneList = "";
 		goBiologicalProcess = "";
 		tumorGrade = "";
 		region = "";
 		foldChangeValueDown = "2";
 		cytobandRegionStart = "";
-		cloneId = "";
+		
 		pathways = "";
 		//tumorType = "";
 		arrayPlatform = "";
-		cloneListFile = null;
+		
+		cloneId = "";
+		cloneListFile = "";
+		
 		goCellularComp = "";
 		goMolecularFunction = "";
 		cloneListSpecify = "";
@@ -450,9 +464,9 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		geneType = "";
 		foldChangeValueUDUp = "2";
 		resultView = "";
-		geneFile = null;
+		//geneFile = "";
 		foldChangeValueUDDown = "2";
-		geneGroup = "";
+		//geneGroup = "";
 		cloneList = "";
 		//queryName = "";
 		basePairStart = "";
@@ -517,11 +531,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		if (thisRequest != null) {
 
 			String thisGeneType = this.thisRequest.getParameter("geneType");
-			String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+			//String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
             geneCriteria = new GeneIDCriteria();
             GeneIdentifierDE geneIdentifierDE = null;
-			if ((thisGeneGroup != null)
-					&& thisGeneGroup.equalsIgnoreCase("Specify")
+			if ((geneList != null)
+					//&& thisGeneGroup.equalsIgnoreCase("Specify")
 					&& (thisGeneType.length() > 0)
 					&& (this.geneList.length() > 0)) {
 
@@ -601,11 +615,13 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	 *            The geneFile to set
 	 */
 	public void setGeneFile(String geneFile) {
-		
+		this.geneFile = geneFile;
+		//What is below?
+		/*
                     geneCriteria = new GeneIDCriteria();
                     GeneIdentifierDE geneIdentifierDE = null;					
                      geneCriteria.setGeneIdentifier(geneIdentifierDE);
-					
+		*/		
 	}
 
 	public GeneIDCriteria getGeneIDCriteria() {
@@ -912,8 +928,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 			String thisCloneId = (String) thisRequest.getParameter("cloneId");
 
 			// this is to check the type of the clone
-			String thisCloneList = (String) thisRequest
-					.getParameter("cloneList");
+			String thisCloneList = (String) thisRequest.getParameter("cloneList");
 
 			if (thisCloneId != null && thisCloneList != null
 					&& !thisCloneList.equals("")) {
@@ -947,7 +962,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	 * 
 	 * @return String
 	 */
-	public FormFile getCloneListFile() {
+	public String getCloneListFile() {
 		return cloneListFile;
 	}
 
@@ -957,67 +972,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	 * @param cloneListFile
 	 *            The cloneListFile to set
 	 */
-	public void setCloneListFile(FormFile cloneListFile) {
+	public void setCloneListFile(String cloneListFile) {
 		this.cloneListFile = cloneListFile;
-		if (thisRequest != null) {
-			// this is to check if the radio button is selected for the clone
-			// category
-			String thisCloneId = (String) thisRequest.getParameter("cloneId");
-			// this is to check the type of the clone
-			String thisCloneList = (String) thisRequest
-					.getParameter("cloneList");
-
-			//
-			// retrieve the file name & size
-			String fileName = cloneListFile.getFileName();
-			int fileSize = cloneListFile.getFileSize();
-
-			if ((thisCloneId != null)
-					&& thisCloneId.equalsIgnoreCase("Upload")
-					&& (thisCloneList.length() > 0)
-					&& (this.cloneListFile != null)
-					&& (this.cloneListFile.getFileName().endsWith(".txt") || this.cloneListFile.getFileName().endsWith(".TXT"))
-					&& (this.getCloneListFile().getContentType()
-							.equals("text/plain"))) {
-
-				try {
-					InputStream stream = cloneListFile.getInputStream();
-					String inputLine = null;
-					BufferedReader inFile = new BufferedReader(
-							new InputStreamReader(stream));
-					int count = 0;
-					cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
-					CloneIdentifierDE cloneIdentfierDEObj = null;
-					while ((inputLine = inFile.readLine()) != null
-							&& count < RembrandtConstants.MAX_FILEFORM_COUNT) {
-						if (UIFormValidator.isAscii(inputLine)) { // make sure
-																	// all data
-																	// is ASCII
-						    inputLine = inputLine.trim();
-						    count++; // increment
-							if (thisCloneList.equalsIgnoreCase("IMAGEId")) {
-								cloneIdentfierDEObj = new CloneIdentifierDE.IMAGEClone(inputLine);								
-								
-							} 
-							else if (thisCloneList.equalsIgnoreCase("BACId")) {
-								cloneIdentfierDEObj = new CloneIdentifierDE.BACClone(inputLine);
-							} 
-							else if (thisCloneList
-									.equalsIgnoreCase("probeSetId")) {
-								cloneIdentfierDEObj = new CloneIdentifierDE.ProbesetID(inputLine);	
-								
-							}
-						}
-						cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentfierDEObj);
-					}// end of while
-
-					inFile.close();
-				} catch (IOException ex) {
-					logger.error("Errors when uploading clone/probeset file:"
-							+ ex.getMessage());
-				}
-			}
-		}
 	}
 
 	/**
@@ -1509,6 +1465,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 
 	public GeneExpressionForm cloneMe() {
 		GeneExpressionForm form = new GeneExpressionForm();
+
+		form.setGeneOption(geneOption);
 		form.setPathwayName(pathwayName);
 		form.setGeneList(geneList);
 		form.setSampleList(sampleList);
@@ -1620,4 +1578,24 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		
 
     }
+
+
+	public Collection getSavedGeneList() {
+		return savedGeneList;
+	}
+
+
+	public void setSavedGeneList(Collection savedGeneList) {
+		this.savedGeneList = savedGeneList;
+	}
+
+
+	public Collection getSavedCloneList() {
+		return savedCloneList;
+	}
+
+
+	public static void setSavedCloneList(Collection savedCloneList) {
+		GeneExpressionForm.savedCloneList = savedCloneList;
+	}
 }

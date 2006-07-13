@@ -14,6 +14,8 @@ import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -30,6 +32,7 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 
@@ -430,9 +433,27 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
        
         // Set gene criteria
         GeneIDCriteria geneIDCrit = comparativeGenomicForm.getGeneIDCriteria();
-        if (!geneIDCrit.isEmpty()) {
-            cghQuery.setGeneIDCrit(geneIDCrit);
-        }
+        
+        if(geneIDCrit.isEmpty() && comparativeGenomicForm.getGeneOption().equalsIgnoreCase("geneList")){
+			Collection<GeneIdentifierDE> genes = null;
+			UserList geneList = helper.getUserList(comparativeGenomicForm.getGeneFile());
+			if(geneList!=null){
+				try {	
+					//assumes geneList.getListSubType!=null && geneList.getListSubType().get(0) !=null
+					genes = ListConvertor.convertToGeneIdentifierDE(geneList.getList(), geneList.getListSubType().get(0)); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(!genes.isEmpty()){
+					geneIDCrit.setGeneIdentifiers(genes);
+				}
+			}
+		}
+		
+		if (!geneIDCrit.isEmpty())	{
+			cghQuery.setGeneIDCrit(geneIDCrit);
+		}
         
         // Set all genes criteria
         AllGenesCriteria allGenesCrit = comparativeGenomicForm.getAllGenesCriteria();
@@ -442,7 +463,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         // Set sample Criteria
         SampleCriteria sampleIDCrit = comparativeGenomicForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
-        if(sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Upload")){
+        if(sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup()!=null && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Upload")){
            UserList sampleList = helper.getUserList(comparativeGenomicForm.getSampleFile());
            if(sampleList!=null){
                try {
@@ -455,7 +476,6 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
                    sampleIDCrit.setSampleIDs(sampleIds);
                }
            }
-       
        }
 		if (!sampleIDCrit.isEmpty())
 		    cghQuery.setSampleIDCrit(sampleIDCrit);
@@ -482,6 +502,22 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 
         // set snp criteria
         SNPCriteria snpCrit = comparativeGenomicForm.getSNPCriteria();
+        if(snpCrit.isEmpty() && comparativeGenomicForm.getSnpId().equalsIgnoreCase("snpList")){
+			Collection<SNPIdentifierDE> snps = null;
+			UserList sList = helper.getUserList(comparativeGenomicForm.getSnpListFile());
+			if(sList!=null){
+				try {	
+					//assumes list.getListSubType!=null && list.getListSubType().get(0) !=null
+					snps = ListConvertor.convertToSNPIdentifierDE(sList.getList(), sList.getListSubType().get(0));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(!snps.isEmpty()){
+					snpCrit.setSNPIdentifiers(snps);
+				}
+			}
+		}
         if (!snpCrit.isEmpty()) {
             cghQuery.setSNPCrit(snpCrit);
         }

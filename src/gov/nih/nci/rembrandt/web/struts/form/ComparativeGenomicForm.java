@@ -21,6 +21,7 @@ import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,6 +31,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -117,7 +119,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
     /** geneList property */
     private String geneList;
     
-  
+    private static Collection savedGeneList;
+    
+    private static Collection savedSnpList;
+    
     /** tumorGrade property */
     private String tumorGrade;
 
@@ -148,7 +153,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
     private String cloneListFile;
 
     /** snpListFile property */
-    private transient FormFile snpListFile;
+    private transient String snpListFile;
 
     /** cloneListSpecify property */
     private String cloneListSpecify;
@@ -187,7 +192,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
     private String resultView;
 
     /** geneFile property */
-    private transient FormFile geneFile;
+    private String geneFile;
     
    
 
@@ -344,16 +349,20 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
         errors = UIFormValidator.validateQueryName(queryName, errors);
         // Chromosomal region validations
         errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber, region, cytobandRegionStart, basePairStart,basePairEnd, errors);
+        
         //Validate Gene List, Gene File and Gene Group
-        errors = UIFormValidator.validate(geneGroup, geneList, geneFile, errors);
+        //errors = UIFormValidator.validate(geneGroup, geneList, geneFile, errors);
+        
         //Make sure the snpListFile uploaded is of type txt and MIME type is text/plain
-        errors = UIFormValidator.validateTextFileType(snpListFile, "snpId", errors);
+       // errors = UIFormValidator.validateTextFileType(snpListFile, "snpId", errors);
+       
         //Make sure the geneGroup uploaded file is of type txt and MIME type is text/plain
-        errors = UIFormValidator.validateTextFileType(geneFile, "geneGroup", errors);
+        //errors = UIFormValidator.validateTextFileType(geneFile, "geneGroup", errors);
+        
         //Validate CloneId
         //errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify, cloneListFile, errors);
         //Validate snpId
-        errors = UIFormValidator.validateSnpId(snpId, snpList, snpListFile, errors);
+       // errors = UIFormValidator.validateSnpId(snpId, snpList, snpListFile, errors);
       
         // validate copy number,it has to be        
         errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADAmplified,"cnADAmplified",errors);
@@ -365,7 +374,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
         
         // Validate minimum criteria's for CGH Query
         if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
-            if ((this.getGeneGroup() == null || this.getGeneGroup().trim()
+            if ((this.getGeneList() == null || this.getGeneList().trim()
                     .length() < 1)
                     && (this.getChromosomeNumber() == null || this
                             .getChromosomeNumber().trim().length() < 1)) {
@@ -399,6 +408,11 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
      *            request
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
+    	
+    	GroupRetriever groupRetriever = new GroupRetriever();
+	    savedGeneList = groupRetriever.getGeneGroupsCollection(request.getSession());
+	    savedSnpList = groupRetriever.getSnpGroupsCollection(request.getSession());
+	    
         geneList = "";
         tumorGrade = "";
         assayPlatform = "";
@@ -490,6 +504,37 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
     public void setGeneList(String geneList) {
         this.geneList = geneList;
         if (thisRequest != null) {
+        	
+        	String thisGeneType = this.thisRequest.getParameter("geneType");
+			//String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+            geneCriteria = new GeneIDCriteria();
+            GeneIdentifierDE geneIdentifierDE = null;
+			if ((geneList != null)
+					//&& thisGeneGroup.equalsIgnoreCase("Specify")
+					&& (thisGeneType.length() > 0)
+					&& (this.geneList.length() > 0)) {
+
+				String[] splitValue = this.geneList.split("\\x2C");
+
+				for (int i = 0; i < splitValue.length; i++) {
+
+					if (thisGeneType.equalsIgnoreCase("genesymbol")) {
+                        geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(splitValue[i].trim());
+					} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
+                        geneIdentifierDE = new GeneIdentifierDE.LocusLink(splitValue[i].trim());
+					} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
+                        geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(splitValue[i].trim());
+                        
+					} //else if (thisGeneType.equalsIgnoreCase("allgenes")) {
+						//geneDomainMap.put(splitValue[i].trim(),
+						//		GeneIdentifierDE.GeneSymbol.class.getName());
+                        
+					//}
+                    geneCriteria.setGeneIdentifier(geneIdentifierDE);
+				}
+			}
+			
+			/*
             // this is the ratio button indicating gene choice has been seleted.
             String thisGeneGroup = (String) this.thisRequest
                     .getParameter("geneGroup");
@@ -537,7 +582,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
                 
             }
             
-            
+          */  
         }
     }
     
@@ -993,7 +1038,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
      * 
      * @return String
      */
-    public FormFile getSnpListFile() {
+    public String getSnpListFile() {
         return snpListFile;
     }
 
@@ -1003,58 +1048,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
      * @param snpListFile
      *            The snpListFile to set
      */
-    public void setSnpListFile(FormFile snpListFile) {
+    public void setSnpListFile(String snpListFile) {
         this.snpListFile = snpListFile;
-        if (thisRequest != null) {
-            // this is to check if the radio button is selected for the SNP
-            // category
-            String thisSNPId = thisRequest.getParameter("snpId");
-            // this is to check the type of the SNP
-            String thisSNPList = thisRequest.getParameter("snpList");
-
-            //retrieve the file name & size
-            if ((thisSNPId != null) && thisSNPId.equalsIgnoreCase("Upload")
-                    && (thisSNPList.length() > 0) && (this.snpListFile != null)
-                    && (this.snpListFile.getFileName().endsWith(".txt") || this.snpListFile.getFileName().endsWith(".TXT"))
-                    && (this.snpListFile.getContentType().equals("text/plain"))) {
-
-                try {
-                    InputStream stream = snpListFile.getInputStream();
-                    String inputLine = null;
-                    BufferedReader inFile = new BufferedReader(
-                            new InputStreamReader(stream));
-                    int count = 0;
-                    snpCriteria = new SNPCriteria();
-                    while ((inputLine = inFile.readLine()) != null
-                            && count < RembrandtConstants.MAX_FILEFORM_COUNT) {
-                        if (UIFormValidator.isAscii(inputLine)) { //make sure all data is ASCII
-                            count++; //increment
-                            inputLine = inputLine.trim();
-                            if (thisSNPList.equalsIgnoreCase("TSCId")) {
-                            	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.TSC(inputLine);
-                            	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                            
-                              
-                            } else if (thisSNPList.equalsIgnoreCase("dBSNPId")) {
-                            	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.DBSNP(inputLine);
-                            	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                           
-                               
-                            } else if (thisSNPList
-                                    .equalsIgnoreCase("probeSetId")) {
-                            	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.SNPProbeSet(inputLine);
-                            	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                      
-                               
-                            	              
-                            }
-                        }
-                    }// end of while
-
-                    inFile.close();
-                } catch (IOException ex) {
-                    logger.error("Errors when uploading snp file:"
-                            + ex.getMessage());
-                }
-            }
-        }
     }
 
     /**
@@ -1356,79 +1351,15 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
      * 
      * @return FormFile
      */
-    public FormFile getGeneFile() {
+    public String getGeneFile() {
         return geneFile;
     }
     
    
   
-    public void setGeneFile(FormFile geneFile) {
+    public void setGeneFile(String geneFile) {
         this.geneFile = geneFile;
-        if (thisRequest != null) {
-            String thisGeneType = this.thisRequest.getParameter("geneType");
-            String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-            //		retrieve the file name & size
-            String fileName = geneFile.getFileName();
-            int fileSize = geneFile.getFileSize();
-
-            if ((thisGeneGroup != null)
-                    && thisGeneGroup.equalsIgnoreCase("Upload")
-                    && (thisGeneType.length() > 0) && (this.geneFile != null)
-                    && (this.geneFile.getFileName().endsWith(".txt") || this.geneFile.getFileName().endsWith(".TXT"))
-                    && (this.geneFile.getContentType().equals("text/plain"))) {
-                try {
-                    InputStream stream = geneFile.getInputStream();
-                    String inputLine = null;
-                    BufferedReader inFile = new BufferedReader(
-                            new InputStreamReader(stream));
-                    
-
-                    int count = 0;
-                    while ((inputLine = inFile.readLine()) != null
-                            && count < RembrandtConstants.MAX_FILEFORM_COUNT) {
-                        if(UIFormValidator.isAscii(inputLine)) { //make sure all data is ASCII
-                            inputLine = inputLine.trim();
-                            count++;
-                            if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-                            	
-                            	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine);                          	
-                            	 geneCriteria.setGeneIdentifier(geneIdentifierDE);
-                              
-                            } else if (thisGeneType
-                                    .equalsIgnoreCase("genelocus")) {
-                            	
-                            	GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.LocusLink(inputLine);                          	
-                           	    geneCriteria.setGeneIdentifier(geneIdentifierDE);
-                              
-                            } else if (thisGeneType
-                                    .equalsIgnoreCase("genbankno")) {
-                            	
-                            	GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(inputLine);                          	
-                           	    geneCriteria.setGeneIdentifier(geneIdentifierDE);                              
-                             
-                            } else if (thisGeneType
-                                    .equalsIgnoreCase("allgenes")) {
-                            	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(inputLine); 
-                            	 geneCriteria.setGeneIdentifier(geneIdentifierDE); 
-                            
-                            }
-                        }
-                    }// end of while
-
-                    inFile.close();
-                } catch (IOException ex) {
-                    logger.error("Errors when uploading gene file:"
-                            + ex.getMessage());
-                }
-
-            }
-        }
     }
-    
-
-    
-   
-
 
     /**
      * Returns the snpId.
@@ -1717,4 +1648,20 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
         form.setCopyNumber(copyNumber);
         return form;
     }
+
+	public Collection getSavedGeneList() {
+		return savedGeneList;
+	}
+
+	public void setSavedGeneList(Collection savedGeneList) {
+		this.savedGeneList = savedGeneList;
+	}
+
+	public Collection getSavedSnpList() {
+		return savedSnpList;
+	}
+
+	public void setSavedSnpList(Collection savedSnpList) {
+		this.savedSnpList = savedSnpList;
+	}
 }

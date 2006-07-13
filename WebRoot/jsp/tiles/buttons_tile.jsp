@@ -21,6 +21,11 @@ document.forms[0].target = "_self";
    <bean:message key="buttons_tile.previewButton"/>
   </html:submit>&nbsp;&nbsp;
  </logic:equal>
+ <logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="geneList">
+  <html:submit styleId="previewButton" styleClass="xbutton" property="method">
+   <bean:message key="buttons_tile.previewButton"/>
+  </html:submit>&nbsp;&nbsp;
+ </logic:equal>
 </logic:present>
 <logic:present name="comparitivegenomicForm">
 <logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="standard">
@@ -28,6 +33,11 @@ document.forms[0].target = "_self";
   <bean:message key="buttons_tile.previewButton"/>
  </html:submit>&nbsp;&nbsp;
 </logic:equal>
+<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="geneList">
+  <html:submit styleId="previewButton" styleClass="xbutton" property="method">
+   <bean:message key="buttons_tile.previewButton"/>
+  </html:submit>&nbsp;&nbsp;
+ </logic:equal>
 </logic:present>
 <logic:present name="clinicaldataForm">
 	<html:submit styleId="previewButton" styleClass="xbutton" property="method">

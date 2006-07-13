@@ -114,7 +114,7 @@ public class BaseForm extends ActionForm implements Serializable{
 	protected transient String sampleFile;
 	protected transient HttpServletRequest thisRequest;	
     protected static Collection savedSampleList;
-   protected String sampleGroup;
+    protected String sampleGroup;
 
 
 

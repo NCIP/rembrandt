@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.helper;
 
+import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.ListType;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
@@ -13,8 +14,10 @@ import org.apache.struts.util.LabelValueBean;
 
 public class GroupRetriever {
     private List<LabelValueBean> clinicalGroupsCollection = new ArrayList<LabelValueBean>();
-    private static List<String> geneGroupsCollection = new ArrayList<String>();
-    
+    private List<LabelValueBean> geneGroupsCollection = new ArrayList<LabelValueBean>();
+    private List<LabelValueBean> cloneGroupsCollection = new ArrayList<LabelValueBean>();
+    private List<LabelValueBean> snpGroupsCollection = new ArrayList<LabelValueBean>();
+
     
     /**
      * retrieves all current clinical groups after cycling through all the clinical
@@ -50,14 +53,42 @@ public class GroupRetriever {
     
     }
     
-    public static List<String> getGeneGroupsCollection(HttpSession session){
+    public List<LabelValueBean> getGeneGroupsCollection(HttpSession session){
         UserListBeanHelper helper = new UserListBeanHelper(session);
         List<UserList> geneLists = helper.getLists(ListType.Gene);
         
         for(UserList geneList: geneLists){
-            geneGroupsCollection.add(geneList.getName());
+            geneGroupsCollection.add(new LabelValueBean(geneList.getName(),geneList.getName()));
+            
         }
         return geneGroupsCollection;
+    
+    }
+    
+    public List<LabelValueBean> getCloneGroupsCollection(HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
+        List<ListSubType> lst = new ArrayList();
+        lst.add(ListSubType.IMAGE_CLONE);
+        lst.add(ListSubType.PROBE_SET);
+        List<UserList> rLists = helper.getLists(ListType.Reporter,lst);
+        
+        for(UserList rList: rLists){
+            cloneGroupsCollection.add(new LabelValueBean(rList.getName(),rList.getName()));
+        }
+        return cloneGroupsCollection;
+    
+    }
+    
+    public List<LabelValueBean> getSnpGroupsCollection(HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
+        List<ListSubType> lst = new ArrayList();
+        lst.add(ListSubType.SNPProbeSet);
+        lst.add(ListSubType.DBSNP);
+        List<UserList> rLists = helper.getLists(ListType.Reporter,lst);
+        for(UserList rList: rLists){
+            snpGroupsCollection.add(new LabelValueBean(rList.getName(),rList.getName()));
+        }
+        return snpGroupsCollection;
     
     }
 }
