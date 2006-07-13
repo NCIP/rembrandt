@@ -163,7 +163,7 @@
     		forward="nautilus.geneExpression" />
 
 	<action path="/geneexpression"
-            input="/geneexpression.do?method="
+            input="nautilus.geneExpression"
             name="geneexpressionForm"
             type="gov.nih.nci.rembrandt.web.struts.action.GeneExpressionAction"
             scope="request"
@@ -261,7 +261,7 @@
             parameter="method"
             validate="false">
          <forward name="failure" path="/menu.do" /> 
-         <forward name="backToGeneExp" path="/geneexpression.do?method=" />
+         <forward name="backToGeneExp" path="nautilus.geneExpression" />
     </action>
     
 	<action path="/previewCGReport"
@@ -274,7 +274,7 @@
             parameter="method"
             validate="false">
          <forward name="failure" path="/menu.do" /> 
-         <forward name="backToCGH" path="/comparitivegenomic.do?method=" />
+         <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 	
 	
@@ -283,7 +283,7 @@
             forward="nautilus.comparitiveGenomic" />
 
 	<action path="/comparitivegenomic"
-            input="/comparitivegenomic.do?method="
+            input="nautilus.comparitiveGenomic"
             name="comparitivegenomicForm"
             type="gov.nih.nci.rembrandt.web.struts.action.ComparativeGenomicAction"
             scope="request"
@@ -299,7 +299,7 @@
               forward="nautilus.clinical" />
 
 	<action path="/clinical"
-            input="/clinical.do?method="
+            input="nautilus.clinical"
             name="clinicaldataForm"
             type="gov.nih.nci.rembrandt.web.struts.action.ClinicalDataAction"
             scope="request"
@@ -362,7 +362,7 @@
             parameter="method"
             validate="false">
          <forward name="failure" path="/menu.do" /> 
-         <forward name="backToClinical" path="/clinical.do?method=" />
+         <forward name="backToClinical" path="nautilus.clinical" />
 	</action>
 
 	<action path="/home"

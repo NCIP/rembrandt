@@ -26,7 +26,7 @@
 <html:text property="sampleList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
 &nbsp;-or-&nbsp;
 <html:radio property="sampleGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
-<html:select property="sampleFile" styleId="sampleFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()">
+<html:select property="sampleFile" styleId="sampleFile" disabled="false"  onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()">
  	<html:optionsCollection property="savedSampleList" />
 </html:select>
 

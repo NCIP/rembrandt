@@ -130,8 +130,8 @@ public class EditClinicalDataAction extends Action {
                 * resets the dropdowns that the saved form will need in order to render the page
                 * and save the value.
                 */
-               GroupRetriever groupRetriever = new GroupRetriever();
-               cdForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+//               GroupRetriever groupRetriever = new GroupRetriever();
+//               cdForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
 			   String editForward = "";
 			   if(request.getAttribute("copy")!=null && ((String) request.getAttribute("copy")).equals("true"))
 			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");

@@ -23,6 +23,7 @@ import gov.nih.nci.caintegrator.dto.de.PathwayDE;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,9 +31,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -112,6 +115,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 
 	/** geneOption property */
 	private String geneOption = "standard";
+    
+    private Collection savedSampleList;
 
 	/** pathwayName property */
 	private String[] pathwayName;
@@ -242,6 +247,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	private transient SessionQueryBag queryCollection;
 	
 	private boolean isAllGenes = false;
+    protected transient HttpServletRequest thisRequest; 
 
 	private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
 
@@ -250,10 +256,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 
 		// Create Lookups for Gene Expression screens
 		super();
-		setGeneExpressionLookup();
-
+		setGeneExpressionLookup();        
 	}
-
+    
+     
 	/**
 	 * Method validate
 	 * 
@@ -455,8 +461,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		//sampleFile = null;
 
 		// Set the Request Object
-		this.thisRequest = request;		
-		
+		this.thisRequest = request;	 
+
 		diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
 		geneCriteria = new GeneIDCriteria();
 		sampleCriteria = new SampleCriteria();

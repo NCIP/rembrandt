@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,9 +21,11 @@ import java.util.List;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
 
 
@@ -110,7 +113,7 @@ public class BaseForm extends ActionForm implements Serializable{
 	protected String sampleList;
 	protected transient String sampleFile;
 	protected transient HttpServletRequest thisRequest;	
-    protected Collection savedSampleList;
+    protected static Collection savedSampleList;
    protected String sampleGroup;
 
 
@@ -118,10 +121,29 @@ public class BaseForm extends ActionForm implements Serializable{
 	public BaseForm(){
 			
 		// Create Lookups for Gene Expression screens 
-        setLookups();       
-        
+        setLookups(); 
+       
 	}
-	
+    
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        GroupRetriever groupRetriever = new GroupRetriever();
+        savedSampleList = groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession());
+    }
+    
+    /**
+     * @return Returns the savedSampleList.
+     */
+    public Collection getSavedSampleList() {
+        return BaseForm.savedSampleList;
+    }
+
+
+    /**
+     * @param savedSampleList The savedSampleList to set.
+     */
+    public void setSavedSampleList(Collection savedSampleList) {
+        BaseForm.savedSampleList = savedSampleList;
+    }
 	
 	private ArrayList addDiseaseTypes( DiseaseTypeLookup diseaseTypeLookup) {
 		String diseaseTypeStr = diseaseTypeLookup.getDiseaseType();
@@ -358,6 +380,7 @@ public class BaseForm extends ActionForm implements Serializable{
 		 */
 		public void setSampleFile(String sampleFile) {
             this.sampleFile = sampleFile;
+            
 		}
 		public SampleCriteria getSampleCriteria() {
 			return this.sampleCriteria;
@@ -380,20 +403,7 @@ public class BaseForm extends ActionForm implements Serializable{
 		public String getSampleGroup() {
 			return sampleGroup;
 		}
+		
 
-
-        /**
-         * @return Returns the savedSampleList.
-         */
-        public Collection getSavedSampleList() {
-            return savedSampleList;
-        }
-
-
-        /**
-         * @param savedSampleList The savedSampleList to set.
-         */
-        public void setSavedSampleList(Collection savedSampleList) {
-            this.savedSampleList = savedSampleList;
-        }
+       
 }

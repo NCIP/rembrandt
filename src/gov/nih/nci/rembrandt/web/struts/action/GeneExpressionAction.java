@@ -144,9 +144,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			logger.debug("Setup the chromosome values for the form");
 			geneExpressionForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
 		}
-        GroupRetriever groupRetriever = new GroupRetriever();
-        geneExpressionForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-        UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
+//        GroupRetriever groupRetriever = new GroupRetriever();
+//        geneExpressionForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+//        UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
         
         return mapping.findForward("backToGeneExp");
     }
@@ -419,7 +419,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			geneExpQuery.setGeneIDCrit(geneIDCrit);
         
 		//Set sample Criteria
-        SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
+         SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
         if(sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
            UserList sampleList = helper.getUserList(geneExpressionForm.getSampleFile());
