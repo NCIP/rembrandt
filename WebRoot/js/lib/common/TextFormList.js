@@ -38,9 +38,11 @@
 			    		listName = "";
 			    		$(listNameLabel).value = "";
 			    	}
+			    	/*
 			    	if(uploadStatus != ""){
 			    		uploadStatus.style.display = "none";
 			    	}
+			    	*/
 			    	}, 200);
 			    } 
 		     }
@@ -57,6 +59,10 @@
 			else	{
 				//StatusMessage.showStatus("List Saved...");
 			}    		
+			if( $('uploadStatus') && $('uploadStatus').style.display != 'none'){
+				$('uploadStatus').style.display = "none";
+			}
+				
 	    	ManageListHelper.generic_cb("none");
 	    }
 	};
