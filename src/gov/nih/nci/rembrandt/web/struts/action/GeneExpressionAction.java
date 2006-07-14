@@ -26,7 +26,6 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
-import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -449,7 +448,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
            UserList sampleList = helper.getUserList(geneExpressionForm.getSampleFile());
            if(sampleList!=null){
                try {
-                   sampleIds = StrategyHelper.convertToSampleIDDEs(sampleList.getList());
+                   sampleIds = ListConvertor.convertToSampleIDDEs(sampleList.getList());
                } catch (OperationNotSupportedException e) {
                    // TODO Auto-generated catch block
                    e.printStackTrace();

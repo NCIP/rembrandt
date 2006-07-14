@@ -22,7 +22,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContaine
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
-import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
+import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -185,7 +185,7 @@ public class ClinicalDataValidator {
 	}
 	@SuppressWarnings("unchecked")
 	public static Map <String,SampleResultset> getClinicalAnnotationsMapForSamples(Collection<String> sampleIDs) throws Exception{
-		return getClinicalAnnotationsMapForSampleIDDEs(StrategyHelper.convertToSampleIDDEs(sampleIDs));
+		return getClinicalAnnotationsMapForSampleIDDEs(ListConvertor.convertToSampleIDDEs(sampleIDs));
 	}
 	public static Map <String,SampleResultset> getClinicalAnnotationsMapForSampleIDDEs(Collection<SampleIDDE> sampleIDs) throws Exception{
 		Map <String,SampleResultset> sampleResultsetMap= new HashMap<String,SampleResultset>();
@@ -257,10 +257,10 @@ public class ClinicalDataValidator {
 	  		return sampleResultsets;
 		}
 		public static Collection<SampleResultset> executeClinicalQueryForSampleList(Collection<String> sampleList) throws Exception{
-			return executeClinicalQuery(StrategyHelper.convertToSampleIDDEs(sampleList)); 
+			return executeClinicalQuery(ListConvertor.convertToSampleIDDEs(sampleList)); 
 		}
 		public static Collection<SampleResultset> getValidatedSampleResultsetsFromSampleIDs(Collection<String> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
-			return getValidatedSampleResultsets(StrategyHelper.convertToSampleIDDEs(sampleList), clinicalFactors); 
+			return getValidatedSampleResultsets(ListConvertor.convertToSampleIDDEs(sampleList), clinicalFactors); 
 		}
 
 }
