@@ -7,10 +7,13 @@ import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.naming.OperationNotSupportedException;
 
 /**
  * @author sahnih
@@ -80,12 +83,21 @@ public static List<CloneIdentifierDE> convertToCloneIdentifierDE(List<String> li
 				snpIdentifierDE.add(new SNPIdentifierDE.DBSNP(listItem));
 			}
 			break;
-		case SNPProbeSet:
+		case SNP_PROBESET:
 			for(String listItem: list){
 				snpIdentifierDE.add(new SNPIdentifierDE.SNPProbeSet(listItem));
 			}
 			break;
 		}
 		return snpIdentifierDE;
+	}
+	public static Collection<SampleIDDE> convertToSampleIDDEs(Collection<String> sampleIDs)throws OperationNotSupportedException{
+		Collection<SampleIDDE> samplesDEs = new ArrayList<SampleIDDE>();
+		if(sampleIDs != null){
+			for(String sampleID: sampleIDs){
+				samplesDEs.add(new SampleIDDE(sampleID));
+			}
+		}
+		return samplesDEs;
 	}
 }
