@@ -76,8 +76,7 @@ public class CloneDim
 
   private Long cloneId;
 
-  private String cloneLocation;
-
+ 
   private String cloneName;
 
     public String getCytoband() {
@@ -130,14 +129,7 @@ public class CloneDim
   }
 
 
-  public String getCloneLocation()
-  {
-     return this.cloneLocation;
-  }
-  public void setCloneLocation(String param)
-  {
-    this.cloneLocation = param;
-  }
+
 
 
   public String getCloneName()

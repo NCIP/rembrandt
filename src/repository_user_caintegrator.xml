@@ -467,10 +467,6 @@
              jdbc-type="VARCHAR"
         />
         <field-descriptor
-             name="cloneLocation"
-             column="clone_location"
-             jdbc-type="VARCHAR" />
-        <field-descriptor
              name="cloneType"
              column="clone_type"
              jdbc-type="VARCHAR"
