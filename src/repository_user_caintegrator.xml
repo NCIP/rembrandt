@@ -1,11 +1,6 @@
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp"
        table="GENE_LL_ACC_SNP">
-   <field-descriptor
-             name="imageId"
-             column="IMAGE_ID"
-             jdbc-type="VARCHAR"
-        />
     <field-descriptor
              name="accession"
              column="ACCESSION"
@@ -199,18 +194,8 @@
          jdbc-type="BIGINT"
     />
         <field-descriptor
-             name="cytobnd"
+             name="cytoband"
              column="CYTOBAND"
-             jdbc-type="VARCHAR"
-        />
-    <field-descriptor
-             name="alleleFrequecncyAf"
-             column="ALLELE_FREQUENCY_AF"
-             jdbc-type="VARCHAR"
-        />
-    <field-descriptor
-             name="alleleFrequecncyCa"
-             column="ALLELE_FREQUENCY_CA"
              jdbc-type="VARCHAR"
         />
           <field-descriptor
@@ -1581,6 +1566,26 @@
              name="diseaseDesc"
              column="DISEASE_DESC"
              jdbc-type="VARCHAR"
+        />
+  </class-descriptor>
+<class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.LocusLink"
+       table="LL_ID_V">
+   <field-descriptor
+             name="ll_id"
+             column="LL_ID"
+             jdbc-type="VARCHAR"
+             primarykey="true"
+        />
+  </class-descriptor>
+  <class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.AccessionNo"
+       table="ACC_NO_V">
+   <field-descriptor
+             name="accession"
+             column="ACCESSION"
+             jdbc-type="VARCHAR"
+             primarykey="true"
         />
   </class-descriptor>
 <class-descriptor
