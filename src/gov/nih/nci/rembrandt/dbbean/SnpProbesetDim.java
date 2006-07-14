@@ -71,12 +71,6 @@ public class SnpProbesetDim
   public final static String CHROMOSOME = "chromosome";
 
 
-  private String alleleFrequencyAf;
-
-  private String alleleFrequencyAs;
-
-  private String alleleFrequencyCa;
-
   private String arrayName;
 
   private String chromosome;
@@ -91,36 +85,6 @@ public class SnpProbesetDim
 
   private Long snpProbesetId;
 
-
-
-  public String getAlleleFrequencyAf()
-  {
-     return this.alleleFrequencyAf;
-  }
-  public void setAlleleFrequencyAf(String param)
-  {
-    this.alleleFrequencyAf = param;
-  }
-
-
-  public String getAlleleFrequencyAs()
-  {
-     return this.alleleFrequencyAs;
-  }
-  public void setAlleleFrequencyAs(String param)
-  {
-    this.alleleFrequencyAs = param;
-  }
-
-
-  public String getAlleleFrequencyCa()
-  {
-     return this.alleleFrequencyCa;
-  }
-  public void setAlleleFrequencyCa(String param)
-  {
-    this.alleleFrequencyCa = param;
-  }
 
 
   public String getArrayName()

@@ -4,13 +4,17 @@ import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.rembrandt.dbbean.AccessionNo;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GEPatientData;
 import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
+import gov.nih.nci.rembrandt.dbbean.LocusLink;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
 import gov.nih.nci.rembrandt.dbbean.SnpProbesetDim;
+import gov.nih.nci.rembrandt.dto.lookup.AccessionNoLookup;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
+import gov.nih.nci.rembrandt.dto.lookup.LocusLinkLookUp;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -283,26 +287,25 @@ public class DataValidator{
             }
             else if (type != null && type.equals(GeneIdentifierDE.GENBANK_ACCESSION_NUMBER)){
             	crit.addIn("upper(accession)",values);            	 
-            	collection = QueryExecuter.executeQuery(GeneLlAccSnp.class, crit,QueryExecuter.NO_CACHE,true);
+            	collection = QueryExecuter.executeQuery(AccessionNo.class, crit,QueryExecuter.NO_CACHE,true);
             }
             else if (type != null && type.equals(GeneIdentifierDE.LOCUS_LINK)){
-            	crit.addIn("upper(llId)",values);            	 
-            	collection = QueryExecuter.executeQuery(GeneLlAccSnp.class, crit,QueryExecuter.NO_CACHE,true);
+            	crit.addIn("upper(ll_id)",values);            	 
+            	collection = QueryExecuter.executeQuery(LocusLink.class, crit,QueryExecuter.NO_CACHE,true);
             }
             	if(collection != null){
             		 for (Object obj : collection){
             			 if(obj instanceof AllGeneAliasLookup){
             				 AllGeneAliasLookup gene = (AllGeneAliasLookup) obj;
             				 validList.add(new GeneIdentifierDE.GeneSymbol(gene.getApprovedSymbol()));
-            			 }
-            			
-            			 else if(obj instanceof GeneLlAccSnp  && type.equals(GeneIdentifierDE.GENBANK_ACCESSION_NUMBER)){
-            				 GeneLlAccSnp reporter = (GeneLlAccSnp) obj;
+            			 }            			
+            			 else if(obj instanceof AccessionNoLookup  && type.equals(GeneIdentifierDE.GENBANK_ACCESSION_NUMBER)){
+            				 AccessionNoLookup reporter = (AccessionNoLookup) obj;
             				 validList.add(new GeneIdentifierDE.GenBankAccessionNumber(reporter.getAccession()));
             			 }
-            			 else if(obj instanceof GeneLlAccSnp  && type.equals(GeneIdentifierDE.LOCUS_LINK)){
-            				 GeneLlAccSnp reporter = (GeneLlAccSnp) obj;
-            				 validList.add(new GeneIdentifierDE.LocusLink(reporter.getLlId()));
+            			 else if(obj instanceof LocusLinkLookUp  && type.equals(GeneIdentifierDE.LOCUS_LINK)){
+            				 LocusLinkLookUp reporter = (LocusLinkLookUp) obj;
+            				 validList.add(new GeneIdentifierDE.LocusLink(reporter.getLl_id()));
             			 }
             		
             		 }

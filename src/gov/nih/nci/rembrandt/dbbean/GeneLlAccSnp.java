@@ -69,7 +69,7 @@ public class GeneLlAccSnp
   public final static String LOCUS_LINK_ID = "llId";
   public final static String CHROMOSOME = "chromosome";
   public final static String SNP_PROBESET_ID = "snpProbesetId";
- 
+  private Long snpProbesetId;
   private String accession;
   private String chromosome;
 
@@ -77,13 +77,9 @@ public class GeneLlAccSnp
 
   private String geneTitle;
 
-  private String imageId;
 
   private String llId;
 
-  private String omimId;
-
-  private String tname;
 
   public String getAccession()
   {
@@ -124,14 +120,6 @@ public class GeneLlAccSnp
   }
 
 
-  public String getImageId()
-  {
-     return this.imageId;
-  }
-  public void setImageId(String param)
-  {
-    this.imageId = param;
-  }
 
 
   public String getLlId()
@@ -142,26 +130,21 @@ public class GeneLlAccSnp
   {
     this.llId = param;
   }
+/**
+ * @return Returns the snpProbesetId.
+ */
+public Long getSnpProbesetId() {
+	return snpProbesetId;
+}
+/**
+ * @param snpProbesetId The snpProbesetId to set.
+ */
+public void setSnpProbesetId(Long snpProbesetId) {
+	this.snpProbesetId = snpProbesetId;
+}
 
 
-  public String getOmimId()
-  {
-     return this.omimId;
-  }
-  public void setOmimId(String param)
-  {
-    this.omimId = param;
-  }
 
-
-  public String getTname()
-  {
-     return this.tname;
-  }
-  public void setTname(String param)
-  {
-    this.tname = param;
-  }
 
 
 }
