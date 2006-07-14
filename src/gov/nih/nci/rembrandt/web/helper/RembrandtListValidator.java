@@ -26,13 +26,19 @@ public class RembrandtListValidator implements ListValidator{
 	private List<String> validatedList = new ArrayList<String>();
 	private List<String> invalidList = new ArrayList<String>();;
 	public RembrandtListValidator(){};
+	
 	public RembrandtListValidator(ListSubType listSubType, ListType listType, List<String> unvalidatedList) {
 		super();
 		this.listSubType = listSubType;
 		this.listType = listType;
 		this.unvalidatedList = unvalidatedList;
 	}
-
+	public RembrandtListValidator(ListType listType, List<String> unvalidatedList) {
+		super();
+		this.listType = listType;
+		this.unvalidatedList = unvalidatedList;
+	}
+	
     public List getValidList(ListType listType, List<String> unvalidatedList) throws OperationNotSupportedException {
 		this.listType = listType;
 		this.unvalidatedList = unvalidatedList;
@@ -77,61 +83,64 @@ public class RembrandtListValidator implements ListValidator{
 				}
 				break;
 		}
-		switch(listSubType){
-		case GENBANK_ACCESSION_NUMBER:
-		case GENESYMBOL:
-		case LOCUS_LINK:
-			try {
-			Collection<GeneIdentifierDE> genes = ListConvertor.convertToGeneIdentifierDE(unvalidatedList, listSubType);
-			genes = DataValidator.validateGenes(genes);
-			validatedList = new ArrayList<String>();
-			validatedList.addAll(StrategyHelper.extractGenes(genes));
-			} catch (OperationNotSupportedException e) {
-    			logger.error("Error in getValidList");
-    			logger.error(e.getMessage());
-    			throw e;
-			} catch (Exception e) {
-    			logger.error("Error in getValidList");
-    			logger.error(e.getMessage());
-    			throw new OperationNotSupportedException(e.getMessage());
+		if(listSubType != null){
+			switch(listSubType){
+				case GENBANK_ACCESSION_NUMBER:
+				case GENESYMBOL:
+				case LOCUS_LINK:
+					try {
+					Collection<GeneIdentifierDE> genes = ListConvertor.convertToGeneIdentifierDE(unvalidatedList, listSubType);
+					genes = DataValidator.validateGenes(genes);
+					validatedList = new ArrayList<String>();
+					validatedList.addAll(StrategyHelper.extractGenes(genes));
+					} catch (OperationNotSupportedException e) {
+		    			logger.error("Error in getValidList");
+		    			logger.error(e.getMessage());
+		    			throw e;
+					} catch (Exception e) {
+		    			logger.error("Error in getValidList");
+		    			logger.error(e.getMessage());
+		    			throw new OperationNotSupportedException(e.getMessage());
+					}
+				break;
+				case PROBE_SET:
+				case IMAGE_CLONE:
+					try {
+						Collection<CloneIdentifierDE> reporters = ListConvertor.convertToCloneIdentifierDE(unvalidatedList, listSubType);
+						reporters = DataValidator.validateReporters(reporters);
+						validatedList = new ArrayList<String>();
+						validatedList.addAll(StrategyHelper.extractReporters(reporters));
+						} catch (OperationNotSupportedException e) {
+			    			logger.error("Error in getValidList");
+			    			logger.error(e.getMessage());
+			    			throw e;
+						} catch (Exception e) {
+			    			logger.error("Error in getValidList");
+			    			logger.error(e.getMessage());
+			    			throw new OperationNotSupportedException(e.getMessage());
+						}
+				break;
+				case DBSNP:
+				case SNP_PROBESET:
+					try{
+					Collection<SNPIdentifierDE> reporters = ListConvertor.convertToSNPIdentifierDE(unvalidatedList, listSubType);
+					reporters = DataValidator.validateSNPReporters(reporters);
+					validatedList = new ArrayList<String>();
+					validatedList.addAll(StrategyHelper.extractSNPReporters(reporters));
+					} catch (OperationNotSupportedException e) {
+		    			logger.error("Error in getValidList");
+		    			logger.error(e.getMessage());
+		    			throw e;
+					} catch (Exception e) {
+		    			logger.error("Error in getValidList");
+		    			logger.error(e.getMessage());
+		    			throw new OperationNotSupportedException(e.getMessage());
+					}
+				break;
 			}
-			break;
-		case PROBE_SET:
-		case IMAGE_CLONE:
-			try {
-				Collection<CloneIdentifierDE> reporters = ListConvertor.convertToCloneIdentifierDE(unvalidatedList, listSubType);
-				reporters = DataValidator.validateReporters(reporters);
-				validatedList = new ArrayList<String>();
-				validatedList.addAll(StrategyHelper.extractReporters(reporters));
-				} catch (OperationNotSupportedException e) {
-	    			logger.error("Error in getValidList");
-	    			logger.error(e.getMessage());
-	    			throw e;
-				} catch (Exception e) {
-	    			logger.error("Error in getValidList");
-	    			logger.error(e.getMessage());
-	    			throw new OperationNotSupportedException(e.getMessage());
-				}
-			break;
-		case DBSNP:
-		case SNP_PROBESET:
-			try{
-			Collection<SNPIdentifierDE> reporters = ListConvertor.convertToSNPIdentifierDE(unvalidatedList, listSubType);
-			reporters = DataValidator.validateSNPReporters(reporters);
-			validatedList = new ArrayList<String>();
-			validatedList.addAll(StrategyHelper.extractSNPReporters(reporters));
-			} catch (OperationNotSupportedException e) {
-    			logger.error("Error in getValidList");
-    			logger.error(e.getMessage());
-    			throw e;
-			} catch (Exception e) {
-    			logger.error("Error in getValidList");
-    			logger.error(e.getMessage());
-    			throw new OperationNotSupportedException(e.getMessage());
-			}
-		break;
 		}
-		return null;
+		//return null;
+		return validatedList;
 	}
 
 	public List getInvalidList() throws OperationNotSupportedException {
