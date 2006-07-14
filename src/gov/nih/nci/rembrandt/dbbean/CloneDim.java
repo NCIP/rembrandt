@@ -92,7 +92,6 @@ public class CloneDim
 
   private String cloneType;
 
-  private String library;
 
   private String unigeneId;
 
@@ -100,13 +99,6 @@ public class CloneDim
 
   private Long utr;
 
-  //private java.util.Vector collDifferentialExpressionSfact;
-
-  //private java.util.Vector collGeneClone;
-
-  //private java.util.Vector collArrayGenoAbnFact;
-
- // private java.util.Vector collDifferentialExpressionGfact;
 
   public String getAccessionNumber()
   {
@@ -168,14 +160,6 @@ public class CloneDim
   }
 
 
-  public String getLibrary()
-  {
-     return this.library;
-  }
-  public void setLibrary(String param)
-  {
-    this.library = param;
-  }
 
 
   public String getUnigeneId()

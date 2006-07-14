@@ -65,22 +65,13 @@ package gov.nih.nci.rembrandt.dbbean;
 public class GeneLlAccSnp
 {
   public final static String GENE_SYMBOL = "geneSymbol";
-  public final static String START_POSITION = "cStart";
-  public final static String END_POSITION = "cEnd";
   public final static String ACCESSION = "accession";
   public final static String LOCUS_LINK_ID = "llId";
   public final static String CHROMOSOME = "chromosome";
   public final static String SNP_PROBESET_ID = "snpProbesetId";
  
   private String accession;
-  private String snpProbesetId;
   private String chromosome;
-
-
-
-  private Long cEnd;
-
-  private Long cStart;
 
   private String geneSymbol;
 
@@ -112,26 +103,6 @@ public class GeneLlAccSnp
   {
     this.chromosome = param;
   }
-
-  public Long getCEnd()
-  {
-     return this.cEnd;
-  }
-  public void setCEnd(Long param)
-  {
-    this.cEnd = param;
-  }
-
-
-  public Long getCStart()
-  {
-     return this.cStart;
-  }
-  public void setCStart(Long param)
-  {
-    this.cStart = param;
-  }
-
 
   public String getGeneSymbol()
   {

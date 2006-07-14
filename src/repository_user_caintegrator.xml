@@ -16,23 +16,11 @@
              column="LL_ID"
              jdbc-type="VARCHAR"
         />
-
     <field-descriptor
                      name="geneSymbol"
                      column="UP_GENE_SYMBOL"
                      jdbc-type="VARCHAR"
                 />
-
-    <field-descriptor
-             name="cStart"
-             column="C_START"
-             jdbc-type="BIGINT"
-        />
-    <field-descriptor
-             name="cEnd"
-             column="C_END"
-             jdbc-type="BIGINT"
-        />
     <field-descriptor
              name="chromosome"
              column="CHROMOSOME"
@@ -43,9 +31,7 @@
              column="SNP_PROBESET_ID"
              jdbc-type="BIGINT"
             />
-
- </class-descriptor>
-
+</class-descriptor>
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
        table="ARRAY_GENO_ABN_FACT">
@@ -215,11 +201,6 @@
         <field-descriptor
              name="cytobnd"
              column="CYTOBAND"
-             jdbc-type="VARCHAR"
-        />
-        <field-descriptor
-             name="alleleFrequecncy"
-             column="ALLELE_FREQUENCY"
              jdbc-type="VARCHAR"
         />
     <field-descriptor
@@ -513,11 +494,6 @@
            name="utr"
            column="utr"
            jdbc-type="VARCHAR"
-          />
-         <field-descriptor
-             name="library"
-             column="library"
-             jdbc-type="VARCHAR"
           />
           <field-descriptor
              name="unigeneId"
