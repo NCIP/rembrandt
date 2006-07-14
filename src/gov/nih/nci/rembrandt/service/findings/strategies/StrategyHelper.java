@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -196,6 +197,13 @@ public class StrategyHelper {
 		}
 		return reporters;
 	}
+	public static Collection<String> extractSNPReporters(Collection<SNPIdentifierDE> reporterDEs)throws OperationNotSupportedException{
+		Collection<String> reporters = new ArrayList<String>();
+		for(SNPIdentifierDE reporter: reporterDEs){
+			reporters.add(reporter.getValueObject());
+		}
+		return reporters;
+	}
 	public static Collection<String> extractSamples(Collection<SampleIDDE> sampleDEs)throws OperationNotSupportedException{
 		Collection<String> samples = new ArrayList<String>();
 		for(SampleIDDE reporter: sampleDEs){
@@ -212,14 +220,5 @@ public class StrategyHelper {
 			genes.add(reporter.getValueObject());
 		}
 		return genes;
-	}
-	public static Collection<SampleIDDE> convertToSampleIDDEs(Collection<String> sampleIDs)throws OperationNotSupportedException{
-		Collection<SampleIDDE> samplesDEs = new ArrayList<SampleIDDE>();
-		if(sampleIDs != null){
-			for(String sampleID: sampleIDs){
-				samplesDEs.add(new SampleIDDE(sampleID));
-			}
-		}
-		return samplesDEs;
 	}
 }
