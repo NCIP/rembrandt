@@ -82,7 +82,7 @@ public class GroupRetriever {
     public List<LabelValueBean> getSnpGroupsCollection(HttpSession session){
         UserListBeanHelper helper = new UserListBeanHelper(session);
         List<ListSubType> lst = new ArrayList();
-        lst.add(ListSubType.SNPProbeSet);
+        lst.add(ListSubType.SNP_PROBESET);
         lst.add(ListSubType.DBSNP);
         List<UserList> rLists = helper.getLists(ListType.Reporter,lst);
         for(UserList rList: rLists){

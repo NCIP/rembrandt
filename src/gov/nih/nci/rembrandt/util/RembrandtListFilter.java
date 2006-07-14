@@ -29,7 +29,7 @@ public class RembrandtListFilter {
 			lsta.add(ListSubType.PROBE_SET);
 			lsta.add(ListSubType.IMAGE_CLONE);
 			lsta.add(ListSubType.DBSNP);
-			lsta.add(ListSubType.SNPProbeSet);
+			lsta.add(ListSubType.SNP_PROBESET);
 		}
 		else if(lt == ListType.Gene){
 			//ListSubType[] lsta = {ListSubType.GENBANK_ACCESSION_NUMBER, ListSubType.GENESYMBOL, ListSubType.LOCUS_LINK};
