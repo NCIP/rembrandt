@@ -66,15 +66,21 @@ public class DynamicListHelper {
 				//create a list out of [1]
 				ArrayList<ListSubType> lst = new ArrayList();
 				lst.add(ListSubType.valueOf(tps[1]));
-				return CommonListFunctions.createGenericList(lt, lst, list, name, new RembrandtListValidator());
+				return CommonListFunctions.createGenericList(lt, lst, list, name, new RembrandtListValidator(ListSubType.valueOf(tps[1]), ListType.valueOf(tps[0]), list));
+			}
+			else if(tps.length >0 && tps[0] != null)	{
+				//no subtype, only a primary type - typically a PatientDID then
+				return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator(ListType.valueOf(tps[0]), list));
 			}
 			else	{
-				return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator());
+				//no type or subtype, not good, force to clinical in catch
+				//return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator());
+				throw new Exception();
 			}
 		}
 		catch(Exception e)	{
 			//try as a patient list as default, will fail validation if its not accepted
-			return CommonListFunctions.createGenericList(ListType.PatientDID, list, name, new RembrandtListValidator());
+			return CommonListFunctions.createGenericList(ListType.PatientDID, list, name, new RembrandtListValidator(ListType.PatientDID, list));
 		}
 	}
 /*

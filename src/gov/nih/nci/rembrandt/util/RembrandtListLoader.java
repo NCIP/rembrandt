@@ -47,7 +47,7 @@ public class RembrandtListLoader extends ListLoader {
         SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
         Map diseaseGroupQueryMap = sampleBasedQueriesRetriever.getPredefinedQueryMap();
         ListManager listManager = new ListManager();
-        RembrandtListValidator listValidator = new RembrandtListValidator();
+        
         //Set<ClinicalDataQuery> set =  diseaseGroupQueryMap.entrySet();
         for (Iterator it=diseaseGroupQueryMap.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry entry = (Map.Entry)it.next();
@@ -75,6 +75,7 @@ public class RembrandtListLoader extends ListLoader {
                                 //3. Extracts sampleIds as Strings
                                 Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
                                 List<String> pdids = new ArrayList<String>(sampleIDs);
+                                RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
                                 if(sampleIDs != null){
                                     //3.1 add them to SampleGroup
                                     UserList myList = listManager.createList(ListType.PatientDID,queryName,pdids,listValidator);

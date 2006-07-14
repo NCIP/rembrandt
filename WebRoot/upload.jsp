@@ -18,6 +18,7 @@
 	java.util.ArrayList,
 	gov.nih.nci.caintegrator.application.lists.ajax.*,
 	org.dom4j.Document"%>
+<%@ page import="gov.nih.nci.rembrandt.web.helper.RembrandtListValidator" %>
 <html>
 	<head>
 		<title>Upload.jsp</title>
@@ -25,7 +26,9 @@
 	<body>
 		<%
 		UserListGenerator listGenerator = new UserListGenerator();
-		RembrandtListValidator listValidator = new RembrandtListValidator();
+		
+		// !! - need to use the new listValidator constructor here that takes sub-types
+		//RembrandtListValidator listValidator = new RembrandtListValidator();
 		String name = "";
 		String type = "";
 		FileItem formFile = null;
@@ -68,6 +71,15 @@
             UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
             
             String[] tps = CommonListFunctions.parseListType(type);
+    		RembrandtListValidator listValidator = new RembrandtListValidator();
+            if(tps.length > 1)	{
+            	//primary and sub
+	            listValidator = new RembrandtListValidator(ListSubType.valueOf(tps[1]), ListType.valueOf(tps[0]), myUndefinedList); //st, t, l
+	        }
+	        else if(tps.length == 1)	{
+	        	//just a primary type, no sub
+	       		listValidator = new RembrandtListValidator(ListType.valueOf(tps[0]), myUndefinedList); // t, l
+	        }
             
             try	{
 	            myList = uploadManager.createList(ListType.valueOf(tps[0]), name, myUndefinedList, listValidator);
@@ -78,10 +90,11 @@
 	        
             if (myList != null) {
             	ArrayList subs = new ArrayList();
-            	subs.add(ListSubType.Custom);
+            	
             	if(tps.length > 1 && tps[1]!=null)	{
             		subs.add(ListSubType.valueOf(tps[1]));
             	}
+            	subs.add(ListSubType.Custom);
             	myList.setListSubType(subs);
                 //paramMap = uploadManager.getParams(myList);
                 helper.addList(myList);
