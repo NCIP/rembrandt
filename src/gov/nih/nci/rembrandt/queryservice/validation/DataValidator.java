@@ -2,12 +2,14 @@ package gov.nih.nci.rembrandt.queryservice.validation;
 
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GEPatientData;
 import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
+import gov.nih.nci.rembrandt.dbbean.SnpProbesetDim;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 
 import java.util.ArrayList;
@@ -202,6 +204,51 @@ public class DataValidator{
             			 else if(obj instanceof ProbesetDim){
             				 ProbesetDim reporter = (ProbesetDim) obj;
             				 validList.add(new CloneIdentifierDE.ProbesetID(reporter.getProbesetName()));
+            			 }
+            		 }
+            	}
+
+	    		} catch (Exception e) {
+	    			logger.error("Error in validateReporters");
+	    			logger.error(e.getMessage());
+	    			throw e;
+	    		}
+    	}
+    	return validList;
+    }
+    public static Collection<SNPIdentifierDE> validateSNPReporters(Collection<SNPIdentifierDE> reporterIds) throws Exception{
+    	List<SNPIdentifierDE> validList = new ArrayList<SNPIdentifierDE>();
+	   	String type = null;
+        Collection collection = null;
+    	if(reporterIds != null  ){
+
+
+            try {
+        	//Create a Criteria for Approved Symbol
+            Criteria crit = new Criteria();
+            Collection<String> values = new ArrayList<String>();
+            for (SNPIdentifierDE reporterId : reporterIds){
+            	type = reporterId.getSNPType();
+            	values.add(reporterId.getValueObject().toUpperCase());
+            	}
+
+            if(type != null && type.equals(SNPIdentifierDE.DBSNP)){
+            	crit.addIn("upper(dbSnpId)",values);
+            	collection = QueryExecuter.executeQuery(SnpProbesetDim.class, crit,QueryExecuter.NO_CACHE,true);
+            }
+            else if (type != null && type.equals(SNPIdentifierDE.SNP_PROBESET)){
+            	crit.addIn("upper(probesetName)",values);
+            	collection = QueryExecuter.executeQuery(SnpProbesetDim.class, crit,QueryExecuter.NO_CACHE,true);
+            }
+            	if(collection != null){
+            		 for (Object obj : collection){
+            			 if(obj instanceof SnpProbesetDim  && type.equals(SNPIdentifierDE.DBSNP)){
+            				 SnpProbesetDim reporter = (SnpProbesetDim) obj;
+            				 validList.add(new SNPIdentifierDE.DBSNP(reporter.getDbSnpId()));
+            			 }
+            			 else if(obj instanceof SnpProbesetDim  && type.equals(SNPIdentifierDE.SNP_PROBESET)){
+            				 SnpProbesetDim reporter = (SnpProbesetDim) obj;
+            				 validList.add(new SNPIdentifierDE.SNPProbeSet(reporter.getProbesetName()));
             			 }
             		 }
             	}
