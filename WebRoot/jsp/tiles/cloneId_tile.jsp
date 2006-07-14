@@ -26,9 +26,9 @@ Type Clones:&nbsp;&nbsp;
 	
 <br/>
 
-<html:radio property="cloneId" value="cloneList" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
+<html:radio property="cloneId" value="cloneList" styleId="cloneIdCloneList" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
 Choose a saved Clone List:&nbsp;&nbsp;
-<html:select property="cloneListFile" disabled="false">
+<html:select property="cloneListFile" disabled="false" styleId="cloneListFileDD">
 	<html:optionsCollection property="savedCloneList" />
 </html:select>
 <br/>
@@ -38,3 +38,15 @@ Choose a saved Clone List:&nbsp;&nbsp;
 <html:errors property="cloneId"/><br/>
 </fieldset>
 
+<script type='text/javascript'>
+if($("cloneListFileDD").options.length<1)	{
+	//alert('theres no gene lists to choose from');
+	try	{
+		$("cloneIdCloneList").checked = $("cloneIdCloneList").selected = false;
+		$("cloneIdCloneList").disabled = true;
+		$("cloneListFileDD").disabled = true;
+	}
+	catch(err){}
+}
+
+</script>

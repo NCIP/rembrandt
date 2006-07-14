@@ -20,9 +20,9 @@ Type SNP's:&nbsp;&nbsp;
 <html:text property="snpListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].snpId[0]);"/>
 <br/>
 
-<html:radio property="snpId" value="snpList" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
-Choose s save SNP list:&nbsp;&nbsp;
-<html:select property="snpListFile" disabled="false">
+<html:radio property="snpId" value="snpList" styleClass="radio" styleId="snpIdSnpList" onfocus="javascript:onRadio(this,1);" />
+Choose s saved SNP list:&nbsp;&nbsp;
+<html:select property="snpListFile" disabled="false" styleId="snpListFileDD">
 	<html:optionsCollection property="savedSnpList" />
 </html:select>
 <!-- 
@@ -39,3 +39,15 @@ Choose s save SNP list:&nbsp;&nbsp;
 <html:errors property="snpId"/>
 </fieldset>
 
+<script type='text/javascript'>
+if($("snpListFileDD").options.length<1)	{
+	//alert('theres no gene lists to choose from');
+	try	{
+		$("snpIdSnpList").checked = $("snpIdSnpList").selected = false;
+		$("snpIdSnpList").disabled = true;
+		$("snpListFileDD").disabled = true;
+	}
+	catch(err){}
+}
+
+</script>

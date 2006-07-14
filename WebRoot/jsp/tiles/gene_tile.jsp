@@ -26,10 +26,10 @@ String act = request.getParameter("act");
 			<html:text property="geneList" disabled="false" onfocus="" onblur="" />
 			<br/><br/>
 			
-			<html:radio property="geneOption" styleClass="radio" value="geneList" onclick="submitStandardQuery();"/>
+			<html:radio property="geneOption" styleClass="radio" value="geneList" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/>
 		
 			 Choose a saved Gene List:&nbsp;&nbsp;
-			<html:select property="geneFile" disabled="false">
+			<html:select property="geneFile" disabled="false" styleId="geneFileDD">
 				<html:optionsCollection property="savedGeneList" />
 			</html:select>
 			<br/>
@@ -62,6 +62,16 @@ String act = request.getParameter("act");
 		
 </fieldset>		
 <script language="javascript">
+//run this onload
+if($("geneFileDD").options.length<1)	{
+	try	{
+		$("geneOptionGeneList").checked = $("geneOptionGeneList").selected = false;
+		$("geneOptionGeneList").disabled = true;
+		$("geneFileDD").disabled = true;
+	}
+	catch(e){}
+}
+
 function submitAllGenesQuery(){
 	//if(document.forms[0].multiUseButton.value!="AllGenes")	{
 		document.forms[0].multiUseButton.value="AllGenes";
