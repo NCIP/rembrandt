@@ -21,3 +21,5 @@
 	</logic:notPresent>
 	
 </div>
+
+<tiles:insert page="/jsp/tiles/sideBar_tile.jsp" flush="false" />
