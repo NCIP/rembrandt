@@ -311,10 +311,8 @@
 	</action>
 
 	<action path="/menu"
-		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
-		name="noForm">
-		<forward name="success" path="nautilus.menu" />
-	</action>
+		forward="nautilus.menu" />
+	
 	
 	<action path="/testReport"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
