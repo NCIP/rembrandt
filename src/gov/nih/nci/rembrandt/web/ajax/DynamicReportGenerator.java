@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
+import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.ajax.CommonListFunctions;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
@@ -262,7 +263,8 @@ public class DynamicReportGenerator {
 		List<String> list = Arrays.asList(listArr);
 		//TODO:  Need to take ListSubType into consideration here, below we are NOT setting one
 		try	{
-			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.Reporter, list, name, new RembrandtListValidator());
+            RembrandtListValidator listValidator = new RembrandtListValidator(gov.nih.nci.caintegrator.application.lists.ListType.Reporter,list);
+			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.Reporter, list, name, listValidator);
 		}
 		catch(Exception e) {
 			//most likely cant access the session
@@ -302,7 +304,8 @@ public class DynamicReportGenerator {
 		String[] listArr = StringUtils.split(commaSepList, ",");
 		List<String> list = Arrays.asList(listArr);
 		try	{
-			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.PatientDID, list, name, new RembrandtListValidator());
+            RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Custom, gov.nih.nci.caintegrator.application.lists.ListType.PatientDID,list);            
+			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.PatientDID, list, name, listValidator);
 		}
 		catch(Exception e) {
 			//most likely cant access the session

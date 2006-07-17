@@ -23,6 +23,7 @@ import gov.nih.nci.caintegrator.application.lists.ajax.CommonListFunctions;
 import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
 
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -56,7 +57,7 @@ public class DynamicListHelper {
 		return CommonListFunctions.getListAsList(ListType.valueOf(listType));
 	}
 	
-	public static String createGenericList(String listType, List<String> list, String name)	{
+	public static String createGenericList(String listType, List<String> list, String name) throws OperationNotSupportedException	{
 		try	{
 			String[] tps = CommonListFunctions.parseListType(listType);
 			//tps[0] = ListType
@@ -70,7 +71,7 @@ public class DynamicListHelper {
 			}
 			else if(tps.length >0 && tps[0] != null)	{
 				//no subtype, only a primary type - typically a PatientDID then
-				return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator(ListType.valueOf(tps[0]), list));
+				return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator(ListSubType.Custom, ListType.valueOf(tps[0]), list));
 			}
 			else	{
 				//no type or subtype, not good, force to clinical in catch

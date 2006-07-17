@@ -75,7 +75,7 @@ public class RembrandtListLoader extends ListLoader {
                                 //3. Extracts sampleIds as Strings
                                 Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
                                 List<String> pdids = new ArrayList<String>(sampleIDs);
-                                RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
+                                RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, pdids);
                                 if(sampleIDs != null){
                                     //3.1 add them to SampleGroup
                                     UserList myList = listManager.createList(ListType.PatientDID,queryName,pdids,listValidator);

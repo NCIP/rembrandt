@@ -18,77 +18,39 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 
-public class RembrandtListValidator implements ListValidator{
+public class RembrandtListValidator extends ListValidator{
     private static Logger logger = Logger.getLogger(RembrandtListValidator.class);
-	private ListType listType;
-	private ListSubType listSubType;
-	private List<String> unvalidatedList;
-	private List<String> validatedList = new ArrayList<String>();
-	private List<String> invalidList = new ArrayList<String>();;
+    
 	public RembrandtListValidator(){};
 	
-	public RembrandtListValidator(ListSubType listSubType, ListType listType, List<String> unvalidatedList) {
-		super();
-		this.listSubType = listSubType;
-		this.listType = listType;
-		this.unvalidatedList = unvalidatedList;
+	public RembrandtListValidator(ListSubType listSubType, ListType listType, List<String> unvalidatedList) throws OperationNotSupportedException {
+        super(listType, listSubType, unvalidatedList);    		
 	}
-	public RembrandtListValidator(ListType listType, List<String> unvalidatedList) {
-		super();
-		this.listType = listType;
-		this.unvalidatedList = unvalidatedList;
+	public RembrandtListValidator(ListType listType, List<String> unvalidatedList) throws OperationNotSupportedException {
+        super(listType, unvalidatedList);		
 	}
 	
-    public List getValidList(ListType listType, List<String> unvalidatedList) throws OperationNotSupportedException {
-    	validatedList.clear();
-    	invalidList.clear();
-		this.listType = listType;
-		this.unvalidatedList = unvalidatedList;
-        return getValidList();
-    }
-
-    public List getInvalidList(ListType listType, List<String> unvalidatedList) throws OperationNotSupportedException {
-    	validatedList.clear();
-    	invalidList.clear();
-		this.listType = listType;
-		this.unvalidatedList = unvalidatedList;
-        return getInvalidList();
-    }
-    public List getValidList(ListType listType, ListSubType listSubType, List<String> unvalidatedList) throws OperationNotSupportedException {
-    	validatedList.clear();
-    	invalidList.clear();
-		this.listSubType = listSubType;
-		this.listType = listType;
-		this.unvalidatedList = unvalidatedList;
-        return getValidList();
-    }
-
-    public List getInvalidList(ListType listType, ListSubType listSubType, List<String> unvalidatedList) throws OperationNotSupportedException {
-    	validatedList.clear();
-    	invalidList.clear();
-		this.listSubType = listSubType;
-		this.listType = listType;
-		this.unvalidatedList = unvalidatedList;
-        return getInvalidList();
-    }
-
-	public List getValidList() throws OperationNotSupportedException {
-		//check if this has been run before
-		if(validatedList.isEmpty() && invalidList.isEmpty()){
+	public void validate(ListType listType, ListSubType listSubType, List<String> myunvalidatedList) throws OperationNotSupportedException {
+        List<String> unvalidatedList = new ArrayList<String>();
+        for(String s : myunvalidatedList){         
+         unvalidatedList.add(s.toUpperCase());
+        }
+        //check if this has been run before
+		if(validList.isEmpty() && invalidList.isEmpty()){
 			switch(listType){
 			case PatientDID:
 				try {
 					Collection<SampleIDDE> samples = ListConvertor.convertToSampleIDDEs(unvalidatedList);
 					samples = DataValidator.validateSampleIds(samples);
-					validatedList = new ArrayList<String>();
-					validatedList.addAll(StrategyHelper.extractSamples(samples));
+					validList = new ArrayList<String>();
+					validList.addAll(StrategyHelper.extractSamples(samples));
 					} catch (OperationNotSupportedException e) {
-						validatedList.clear();
+						validList.clear();
 		    			logger.error("Error in getValidList");
 		    			logger.error(e.getMessage());
 		    			throw e;
 					} catch (Exception e) {
-						validatedList.clear();
+						validList.clear();
 		    			logger.error("Error in getValidList");
 		    			logger.error(e.getMessage());
 		    			throw new OperationNotSupportedException(e.getMessage());
@@ -103,15 +65,15 @@ public class RembrandtListValidator implements ListValidator{
 						try {
 						Collection<GeneIdentifierDE> genes = ListConvertor.convertToGeneIdentifierDE(unvalidatedList, listSubType);
 						genes = DataValidator.validateGenes(genes);
-						validatedList = new ArrayList<String>();
-						validatedList.addAll(StrategyHelper.extractGenes(genes));
+						validList = new ArrayList<String>();
+						validList.addAll(StrategyHelper.extractGenes(genes));
 						} catch (OperationNotSupportedException e) {
-							validatedList.clear();
+							validList.clear();
 			    			logger.error("Error in getValidList");
 			    			logger.error(e.getMessage());
 			    			throw e;
 						} catch (Exception e) {
-							validatedList.clear();
+							validList.clear();
 			    			logger.error("Error in getValidList");
 			    			logger.error(e.getMessage());
 			    			throw new OperationNotSupportedException(e.getMessage());
@@ -122,15 +84,15 @@ public class RembrandtListValidator implements ListValidator{
 						try {
 							Collection<CloneIdentifierDE> reporters = ListConvertor.convertToCloneIdentifierDE(unvalidatedList, listSubType);
 							reporters = DataValidator.validateReporters(reporters);
-							validatedList = new ArrayList<String>();
-							validatedList.addAll(StrategyHelper.extractReporters(reporters));
+							validList = new ArrayList<String>();
+							validList.addAll(StrategyHelper.extractReporters(reporters));
 							} catch (OperationNotSupportedException e) {
-								validatedList.clear();
+								validList.clear();
 				    			logger.error("Error in getValidList");
 				    			logger.error(e.getMessage());
 				    			throw e;
 							} catch (Exception e) {
-								validatedList.clear();
+								validList.clear();
 				    			logger.error("Error in getValidList");
 				    			logger.error(e.getMessage());
 				    			throw new OperationNotSupportedException(e.getMessage());
@@ -141,15 +103,15 @@ public class RembrandtListValidator implements ListValidator{
 						try{
 						Collection<SNPIdentifierDE> reporters = ListConvertor.convertToSNPIdentifierDE(unvalidatedList, listSubType);
 						reporters = DataValidator.validateSNPReporters(reporters);
-						validatedList = new ArrayList<String>();
-						validatedList.addAll(StrategyHelper.extractSNPReporters(reporters));
+						validList = new ArrayList<String>();
+						validList.addAll(StrategyHelper.extractSNPReporters(reporters));
 						} catch (OperationNotSupportedException e) {
-							validatedList.clear();
+							validList.clear();
 			    			logger.error("Error in getValidList");
 			    			logger.error(e.getMessage());
 			    			throw e;
 						} catch (Exception e) {
-							validatedList.clear();
+							validList.clear();
 			    			logger.error("Error in getValidList");
 			    			logger.error(e.getMessage());
 			    			throw new OperationNotSupportedException(e.getMessage());
@@ -158,19 +120,16 @@ public class RembrandtListValidator implements ListValidator{
 				}
 			}
 		}
-		//return null;
-		return validatedList;
+        invalidList.addAll(unvalidatedList);
+        invalidList.removeAll(validList);
+		
 	}
 
-	public List getInvalidList() throws OperationNotSupportedException  {
-		invalidList.addAll(unvalidatedList);
-		try {
-			invalidList.removeAll(getValidList());
-		} catch (OperationNotSupportedException e) {
-			invalidList.clear();
-			throw e;
-		}
-		return invalidList;
-	}
+    @Override
+    public void validate(ListType listType, List<String> unvalidatedList) throws OperationNotSupportedException {
+        
+    }
+
+	
 
 }
