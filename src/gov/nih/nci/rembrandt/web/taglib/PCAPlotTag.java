@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.enumeration.DiseaseType;
 import gov.nih.nci.caintegrator.enumeration.GenderType;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.caintegrator.ui.graphing.chart.CaIntegratorChartFactory;
+import gov.nih.nci.caintegrator.ui.graphing.chart.plot.PrincipalComponentAnalysisPlot;
 import gov.nih.nci.caintegrator.ui.graphing.chart.plot.PrincipalComponentAnalysisPlot.PCAcolorByType;
 import gov.nih.nci.caintegrator.ui.graphing.data.principalComponentAnalysis.PrincipalComponentAnalysisDataPoint;
 import gov.nih.nci.caintegrator.ui.graphing.data.principalComponentAnalysis.PrincipalComponentAnalysisDataPoint.PCAcomponent;
@@ -17,6 +18,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
+import gov.nih.nci.rembrandt.web.plots.RBTPrincipalComponentAnalysisPlot;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -184,17 +186,30 @@ public class PCAPlotTag extends AbstractGraphingTag {
             }
             
             
-            
+            PCAcomponent pone = PCAcomponent.PC1;
+            PCAcomponent ptwo = PCAcomponent.PC2;
             //check the components to see which graph to get
 			if(components.equalsIgnoreCase("PC1vsPC2")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC2,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+				pone = PCAcomponent.PC2;
+				ptwo = PCAcomponent.PC1;
+				//chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC2,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             if(components.equalsIgnoreCase("PC1vsPC3")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+            	pone = PCAcomponent.PC3;
+				ptwo = PCAcomponent.PC1;
+                //chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
             if(components.equalsIgnoreCase("PC2vsPC3")){
-                chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+            	pone = PCAcomponent.PC2;
+				ptwo = PCAcomponent.PC3;
+                //chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
             }
+            
+			PrincipalComponentAnalysisPlot plot = new RBTPrincipalComponentAnalysisPlot(pcaData, pone, ptwo, PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+			if(plot!=null)	{
+				chart = (JFreeChart) plot.getChart();
+			}
+
             
             RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",650,600);
 			//The final complete path to be used by the webapplication

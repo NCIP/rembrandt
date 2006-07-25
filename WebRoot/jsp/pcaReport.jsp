@@ -85,17 +85,25 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 <div style="margin-left:10px">
 <b>Color By: </b>
 <%
-if(colorBy.equals("Gender"))
+if(!colorBy.equals("Disease"))
 	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=Disease\">Disease</a>");		
 else
 	out.write("Disease");
 	
 out.write(" | ");
 
-if(colorBy.equals("Disease"))
+if(!colorBy.equals("Gender"))
 	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=Gender\">Gender</a>");		
 else
 	out.write("Gender");
+
+out.write(" | ");	
+
+if(!colorBy.equals("NONE"))
+	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=NONE\">Remove Colors and Shapes</a>");		
+else
+	out.write("Remove Colors and Shapes");
+	
 %>
 <br/>
 </div>
