@@ -443,12 +443,19 @@ Math.toScientific = function (num, sigDigs) {
 
 
 function convertSci()	{
+return;
 	//get all elements with id=pval and convert to # by parseFloat then back to sci for readability
 	var els = document.getElementsByName("pval");
 	for(var i=0; i<els.length; i++)	{
 		//var tmp = parseFloat(els[i].innerHTML);
 		var tmp = els[i].innerHTML;
-		els[i].innerHTML = Math.toScientific(tmp, 3);
+		if(tmp.indexOf("span")!=-1)	{
+			tmp = els[i].childNodes[0].innerHTML;
+			els[i].childNodes[0].innerHTML = Math.toScientific(tmp, 3);
+		}
+		else	{
+			els[i].innerHTML = Math.toScientific(tmp, 3);
+		}
 	}
 		
 }
@@ -461,4 +468,16 @@ function fixQueryDetails()	{
 		var tmp = qd.innerHTML;
 		qd.innerHTML = "<b>Query Details: </b><br/>" + tmp.replace(rExp, "<br/>");
 	}
+}
+
+function autoCheckHighlighted(el)	{
+	var theRow = document.getElementById(el);
+	if(theRow)	{
+		try	{
+			theRow.childNodes[0].childNodes[0].checked = true;
+			A_saveTmpReporter(theRow.childNodes[0].childNodes[0]);
+		}
+		catch(err){}
+	}
+
 }

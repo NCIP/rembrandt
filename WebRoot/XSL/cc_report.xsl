@@ -11,7 +11,7 @@
 
 <xsl:param name="key"></xsl:param>
 
-<xsl:param name="p_pval_filter_mode">show</xsl:param>
+<xsl:param name="p_pval_filter_mode">lt</xsl:param>
 <xsl:param name="p_pval_filter_value"></xsl:param>
 <xsl:param name="p_pval_filter_op"></xsl:param>
 
@@ -52,14 +52,20 @@
 	
 
 	<xsl:variable name="filterNone" select = "Row[@name='dataRow']" />
-	<xsl:variable name="filterRecordOut" select="Row[@name='dataRow']/Cell[position() = 3 and Data != $p_pval_filter_value]" />
-	<xsl:variable name="filterRecordIn" select="Row[@name='dataRow']/Cell[position() = 3 and Data = $p_pval_filter_value]" />
+	<xsl:variable name="filterRecordLT" select="Row[@name='dataRow']/Cell[position() = 3 and $p_pval_filter_value > Data]" />
+	<xsl:variable name="filterRecordLTE" select="Row[@name='dataRow']/Cell[position() = 3 and $p_pval_filter_value >= Data]" />
+	<xsl:variable name="filterRecordGT" select="Row[@name='dataRow']/Cell[position() = 3 and Data > $p_pval_filter_value]" />
+	<xsl:variable name="filterRecordGTE" select="Row[@name='dataRow']/Cell[position() = 3 and Data >= $p_pval_filter_value]" />
+	<xsl:variable name="filterRecordEQ" select="Row[@name='dataRow']/Cell[position() = 3 and Data = $p_pval_filter_value]" />
 	
 	
 	<xsl:variable name="recordCount">
 		<xsl:choose>
-			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'show'"><xsl:value-of select="count($filterRecordIn)"/></xsl:when>
-			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'"><xsl:value-of select="count($filterRecordOut)"/></xsl:when>
+			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'lt'"><xsl:value-of select="count($filterRecordLT)"/></xsl:when>
+			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'lte'"><xsl:value-of select="count($filterRecordLTE)"/></xsl:when>
+			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'gt'"><xsl:value-of select="count($filterRecordGT)"/></xsl:when>
+			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'gte'"><xsl:value-of select="count($filterRecordGTE)"/></xsl:when>
+			<xsl:when test="$p_pval_filter_value != '' and $p_pval_filter_mode = 'eq'"><xsl:value-of select="count($filterRecordEQ)"/></xsl:when>
 			<xsl:otherwise><xsl:value-of select="count($filterNone)"/></xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -120,14 +126,24 @@
 
 					<div class="filterForm">
 						<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="pval_filter_form">
-							<b><span class="lb">Filter:</span></b> 
+							<b><span class="lb">Filter p-value:</span></b> 
 							<xsl:text>&#160;</xsl:text>
+							Show values:
+							<select name="p_pval_filter_mode">
+								<option value="gt">&gt;</option>
+								<option value="lt">&lt;</option>
+								<option value="eq">=</option>
+								<option value="lte">&lt;=</option>
+								<option value="gte">&gt;=</option>
+							</select>
+							<!-- 
 							<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="p_pval_filter_mode" id="showOnly_radio" value="show" />Show Only</span>
 							<span id="hideLabel"><input type="radio" class="checkorradio" name="p_pval_filter_mode" id="hide_radio" checked="true" value="hide"/>Hide</span>		
+							-->
 							<xsl:text>&#160;</xsl:text>
 							<xsl:text>&#160;</xsl:text>
-							P-Value 
-							<input type="text" name="p_pval_filter_value" size="4" value="{$p_pval_filter_value}" />
+							<!--  P-Value  -->
+							<input type="text" name="p_pval_filter_value" size="25" value="{$p_pval_filter_value}" />
 							<input type="hidden" name="p_page" value="0"/>
 							<input type="hidden" name="p_step" value="25"/>
 							<input type="hidden" name="p_sort_element" value="{$p_sort_element}"/>
@@ -285,20 +301,27 @@
 		
 		<!-- get each data row only -->
 		<!--  should be going filtering here, also copy to record count -->
-		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and Cell[3]/Data != $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'hide'] | (Row[@name='dataRow' and Cell[3]/Data = $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'show']">
-			
+		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and $p_pval_filter_value = Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'eq'] | (Row[@name='dataRow' and $p_pval_filter_value > Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lt'] | (Row[@name='dataRow' and $p_pval_filter_value >= Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lte'] | (Row[@name='dataRow' and Cell[3]/Data > $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gt'] |(Row[@name='dataRow' and Cell[3]/Data >= $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gte']">	
 			<xsl:sort select="(Cell[3]/Data) [$p_sort_element = '3'] | (Cell[4]/Data) [$p_sort_element = '4'] | (Cell[1]/Data) [$p_sort_element = '1'] | (Cell[5]/Data) [$p_sort_element = '5'] | (Cell[2]/Data) [$p_sort_element = '2'] | (Cell[1]/Data) [$p_sort_element = '']" order="{$p_sort_method}" data-type="{$dtype}" />
 	
 			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
+			<xsl:variable name="rep" select="Cell[1]/Data"/>
 
 			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	
 				
-					<tr id="{$pvalue}" name="{$pvalue}">
+					<tr id="{$rep}" name="{$rep}">
 		  				<xsl:for-each select="Cell[@class != 'csv']">
 		  	  			<xsl:variable name="class" select="@group" />
 		  	  			<xsl:variable name="styleclass" select="@class" />
 		  	  			<xsl:variable name="theData" select="Data"/>
 		  	  			<xsl:variable name="theType" select="@type"/>
+		  	  			<xsl:variable name="highlightThisCell">
+							<xsl:choose>
+								<xsl:when test="($p_highlight_op = 'gt' and Data > $p_highlight) or ($p_highlight_op = 'lt' and $p_highlight > Data) or ($p_highlight_op = 'eq' and $p_highlight >= Data and Data >= $p_highlight) or ($p_highlight_op = 'lte' and $p_highlight >= Data) or ($p_highlight_op = 'gte' and Data >= $p_highlight)">yes</xsl:when>
+								<xsl:otherwise>no</xsl:otherwise>		
+							</xsl:choose>
+						</xsl:variable>
+		  	  			
 		      			<td class="{$class}" id="{$theType}" name="{$theType}">
 						
 		      			<xsl:choose>
@@ -315,20 +338,11 @@
 							</xsl:when>
 			      			<xsl:when test="$p_highlight_op != ''">
 			      				<xsl:choose>
-			      					<xsl:when test="$p_highlight_op = 'gt' and Data > $p_highlight">
+			      					<xsl:when test="$highlightThisCell = 'yes'">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
-			      					<xsl:when test="$p_highlight_op = 'lt' and $p_highlight > Data">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
-			      					<xsl:when test="$p_highlight_op = 'eq' and $p_highlight >= Data and Data >= $p_highlight">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
-			      					<xsl:when test="$p_highlight_op = 'lte' and $p_highlight >= Data">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
-			      					<xsl:when test="$p_highlight_op = 'gte' and Data >= $p_highlight">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+					      				<script language="javascript">
+					      					autoCheckHighlighted('<xsl:value-of select="$rep"/>');
+					      				</script>
 			      					</xsl:when>
 			      					<xsl:when test="$theData = 'G' or $theData = 'C'">
 			      					<xsl:variable name="currentSample" select="..//Cell[1]/Data"/>
