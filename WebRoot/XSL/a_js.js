@@ -51,14 +51,14 @@ function A_initTmpReporter_cb(txt)	{
 	A_saveTmpReporter_cb(txt);
 	//now, check the ones if theyve been previously selected
 	var field = document.getElementsByName('tmpReporter');
-	if(field.length > 1 && currentTmpReporters != "")	{
+	if(field.length > 1 && (currentTmpReporters != "" || allHighlightedReporters.length>0))	{
 		for (i = 0; i < field.length; i++)	{
-			if(currentTmpReporters.indexOf(field[i].value) != -1 )
+			if(currentTmpReporters.indexOf(field[i].value) != -1 || allHighlightedReporters.inArray(field[i].value))
 				field[i].checked = true ;
 		}
 	}
 	else	{
-		if(currentTmpReporters.indexOf(field.value) != -1 )
+		if(currentTmpReporters.indexOf(field.value) != -1  || allHighlightedReporters.inArray(field[i].value))
 			field.checked = true;
 	}
 }
