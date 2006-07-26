@@ -443,7 +443,6 @@ Math.toScientific = function (num, sigDigs) {
 
 
 function convertSci()	{
-return;
 	//get all elements with id=pval and convert to # by parseFloat then back to sci for readability
 	var els = document.getElementsByName("pval");
 	for(var i=0; i<els.length; i++)	{
@@ -471,6 +470,7 @@ function fixQueryDetails()	{
 }
 
 function autoCheckHighlighted(el)	{
+
 	var theRow = document.getElementById(el);
 	if(theRow)	{
 		try	{

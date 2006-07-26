@@ -6,6 +6,9 @@ var savedHeader = "Selected Reporters:\n<br/>";
 var currentTmpReporters = "";
 var currentTmpReportersCount = 0;
 
+var allReporters = Array();
+var allHighlightedReporters = Array();
+
 function A_saveTmpReporter(reporter)	{
 	var rep = reporter.value;
 	
@@ -29,7 +32,7 @@ function A_saveTmpReporter_cb(txt)	{
 		currentTmpReportersCount = txt["count"];
 		
 		//update the running tab for overlib if this is not an init call
-		currentTmpReporters = txt["reporters"];
+		currentTmpReporters = txt["elements"];
 		
 		//highlight box in red with the tempReporterName if we have some waiting to be saved
 		if($("tmp_prb_queryName") && txt["count"] > 0)
@@ -86,7 +89,26 @@ function A_checkAll(field)	{
 			field.checked = true;
 }
 
+function A_checkAllOnAll(box)	{
+	//clear the tmp ones weve already checked
+	//get all the items on all pages and savethem
+	//alert(allReporters.length);
+	//update the UI to show which ones are checked and precheck all the boxes
+	if(box.checked && allReporters.length && allReporters.length > 1)	{
+	//	SaveGenes.A_checkAll(allGenes);
+		if(allReporters.length > 1)	{
+			DynamicReport.saveTmpGenericFromArray("tmpReporterList",allReporters,A_saveTmpReporter_cb);
+			
+			setTimeout(function() { A_initSaveReporter(''); }, 500);
+		}
+	}
+	else if(!box.checked)	{
+		A_clearTmpReporters();
+	}
+}
+
 function A_uncheckAll(field)	{
+
 	if(field.length > 1)	{
 		for (i = 0; i < field.length; i++)	{
 			field[i].checked = false ;

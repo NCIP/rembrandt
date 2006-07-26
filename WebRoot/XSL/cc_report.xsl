@@ -186,7 +186,7 @@
 				<input type="button" name="filter_submit" value="Save Reporters" onclick="javascript:A_saveReporters();" />
 			
 				<xsl:text>&#160;</xsl:text>
-				<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> All on page</span>
+				<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAllOnAll(this);"/> All on all pages</span>
 				<!-- 
 				<xsl:text>&#160;</xsl:text>
 				<a href="#" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));return false;">[Check All]</a>
@@ -266,6 +266,17 @@
 	 </div>
 	</div>
 </div>
+
+<!--  process reps -->
+<script language="javascript">
+	<xsl:for-each select="Row/Cell[@class='reporter']">
+		<xsl:if test="Data != ''">
+			allReporters.push('<xsl:value-of select="Data"/>');
+		</xsl:if>
+	</xsl:for-each>
+</script>
+<input type="button" value="test" onclick="alert(allReporters[5]);"/>
+
     <table cellpadding="0" cellspacing="0" id="dataTable">
 		<xsl:for-each select="Row[@name='headerRow']">
 			<tr class="headerRow">

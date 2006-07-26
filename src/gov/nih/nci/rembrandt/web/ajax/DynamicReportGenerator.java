@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.ajax;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 
@@ -145,6 +147,8 @@ public class DynamicReportGenerator {
 	}
 	
 	public Map saveTmpReporter(String rep)	{
+		return saveTmpGeneric("tmpReporterList", rep);
+		/*
 		Map results = new HashMap();
 		
 		HttpSession session = ExecutionContext.get().getSession(false);
@@ -165,21 +169,49 @@ public class DynamicReportGenerator {
 		results.put("reporters", tmpReporters);
 		
 		return results;
+		*/
+	}
+	public Map saveTmpGeneric(String type, String elem)	{
+		Map results = new HashMap();
+		List al = new ArrayList();
+		if(elem!=null && elem.length()>0){	
+			al.add(elem);
+		}
+		results = saveTmpGeneric(type,al);
+		return results;
 	}
 	
-	public Map saveTmpGeneric(String type, String elem)	{
+	public Map saveTmpGeneric(String type, List elems)	{
 		Map results = new HashMap();
 		
 		HttpSession session = ExecutionContext.get().getSession(false);
 		//put the element into an arraylist in the session...doesnt exist? create it
-		ArrayList al = new ArrayList();
+		List al = new ArrayList();
+		
 		if(session.getAttribute(type) != null)	{
 			al = (ArrayList) session.getAttribute(type);
+			if(elems!=null && elems.size()>0){
+				al = ListUtils.union(al, elems);
+				//remove duplicats since union() keeps dups
+				HashSet<String> h = new HashSet<String>();
+				for (int i = 0; i < al.size(); i++)
+					h.add((String)al.get(i));
+				List<String> cleanList = new ArrayList<String>();
+				for(String n : h)	{
+					cleanList.add(n);
+				}
+				al=cleanList;
+				
+			}
 		}
-		if(!elem.equals("") && !al.contains(elem)){
-			al.add(elem); // add it
-			session.setAttribute(type, al); //put back in session
+		else if(elems!=null && elems.size()>0)	{
+			al = elems;
 		}
+		
+		if(al!=null && al.size()>0){
+			session.setAttribute(type, al); //put in session
+		}
+		
 		String tmpElems = "";
 		for(int i = 0; i<al.size(); i++)
 			tmpElems += al.get(i) + "<br/>";
@@ -187,6 +219,12 @@ public class DynamicReportGenerator {
 		results.put("count", al.size());
 		results.put("elements", tmpElems);
 		
+		return results;
+	}
+	
+	public Map saveTmpGenericFromArray(String type, String[] elems)	{
+		Map results = new HashMap();
+		results = saveTmpGeneric(type, Arrays.asList(elems));
 		return results;
 	}
 	
@@ -207,12 +245,13 @@ public class DynamicReportGenerator {
 		al.remove(rep); // nuke it
 		session.setAttribute("tmpReporterList", al); //put back in session
 		String tmpReporters = "";
-		for(int i = 0; i<al.size(); i++)
+		for(int i = 0; i<al.size(); i++)	{
 			tmpReporters += al.get(i) + "<br/>";
+		}
 		
 		Map results = new HashMap();
 		results.put("count", al.size());
-		results.put("reporters", tmpReporters);
+		results.put("elements", tmpReporters);
 		return results;
 	}
 	
