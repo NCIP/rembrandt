@@ -352,6 +352,16 @@
 	 </div>
 	</div>
 </div>
+
+<!--  process samples -->
+<script language="javascript">
+	<xsl:for-each select="Row/Cell[@group='sample']">
+		<xsl:if test="Data != ''">
+			allSamplesFromClinical.push('<xsl:value-of select="Data"/>');
+		</xsl:if>
+	</xsl:for-each>
+</script>
+
     <table cellpadding="0" cellspacing="0">
 		<xsl:for-each select="Row[@name='headerRow']">
 			<tr class="headerRow">
@@ -514,6 +524,8 @@
  	selectHOperand(document.highlight_form.filter_value4, '<xsl:value-of select="$filter_value4"/>');
  	}
   </script>
+  <script language="javascript">A_initSaveSample();</script>
+  
   </body>
   </html>
 </xsl:template>

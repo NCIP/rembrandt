@@ -241,3 +241,17 @@ function goSort(element, method, key)	{
 
 	document.forms['paginate'].submit();
 }
+
+/* http://www.embimedia.com/resources/labs/js-inarray.html */
+Array.prototype.inArray = function (value)	{
+	// Returns true if the passed value is found in the
+	// array.  Returns false if it is not.
+	var i;
+	for (i=0; i < this.length; i++) {
+		// Matches identical (===), not just similar (==).
+		if (this[i] == value) {
+			return true;
+		}
+	}
+	return false;
+};

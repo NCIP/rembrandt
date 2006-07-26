@@ -477,7 +477,7 @@ function autoCheckHighlighted(el)	{
 			theRow.childNodes[0].childNodes[0].checked = true;
 			A_saveTmpReporter(theRow.childNodes[0].childNodes[0]);
 		}
-		catch(err){}
+		catch(err){ alert(err);}
 	}
 
 }

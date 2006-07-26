@@ -5,6 +5,7 @@ SAVE SAMPLES
 var savedHeader = "Selected Samples:\n<br/>";
 var currentTmpSamples = "";
 var currentTmpSamplesCount = 0;
+var allSamplesFromClinical = Array();
 
 function A_saveTmpSample(sample)	{
 	var sam = sample.value;
@@ -46,6 +47,7 @@ function A_initSaveSample()	{
 
 function A_initTmpSample_cb(txt)	{
 	A_saveTmpSample_cb(txt);
+	
 	//now, check the ones if theyve been previously selected
 	var field = document.getElementsByName('samples');
 	if(field.length > 1 && currentTmpSamples != "")	{
@@ -86,6 +88,23 @@ function A_checkAll(field)	{
 			field.checked = true;
 }
 
+function A_checkAllOnAll(box)	{
+	//clear the tmp ones weve already checked
+	//get all the items on all pages and savethem
+	//alert(allSamplesFromClinical.length);
+	//update the UI to show which ones are checked and precheck all the boxes
+	if(box.checked && allSamplesFromClinical.length && allSamplesFromClinical.length > 1)	{
+	//	SaveGenes.A_checkAll(allGenes);
+		if(allSamplesFromClinical.length > 1)	{
+			DynamicReport.saveTmpGenericFromArray("clinical_tmpSampleList",allSamplesFromClinical,A_saveTmpSample_cb);
+			
+			setTimeout(function() { A_initSaveSample(''); }, 500);
+		}
+	}
+	else if(!box.checked)	{
+		A_clearTmpReporters();
+	}
+}
 function A_uncheckAll(field)	{
 	if(field.length > 1)	{
 		for (i = 0; i < field.length; i++)	{
@@ -101,12 +120,15 @@ function A_uncheckAll(field)	{
 }
 
 function manageCheckAll(box)	{
+	 A_checkAllOnAll(box);
+/*
 	if(box.checked)	{
 		A_checkAll(document.getElementsByName('samples'));
 	}
 	else	{
 		A_uncheckAll(document.getElementsByName('samples'));
 	}
+*/
 }
 
 function A_saveSamples()	{

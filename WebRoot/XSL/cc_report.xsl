@@ -274,8 +274,14 @@
 			allReporters.push('<xsl:value-of select="Data"/>');
 		</xsl:if>
 	</xsl:for-each>
+	<xsl:for-each select="Row/Cell">
+		<xsl:if test="($p_highlight_op = 'gt' and Data > $p_highlight) or ($p_highlight_op = 'lt' and $p_highlight > Data) or ($p_highlight_op = 'eq' and $p_highlight >= Data and Data >= $p_highlight) or ($p_highlight_op = 'lte' and $p_highlight >= Data) or ($p_highlight_op = 'gte' and Data >= $p_highlight)">
+			allHighlightedReporters.push('<xsl:value-of select="../Cell[1]/Data"/>');
+			DynamicReport.saveTmpReporter('<xsl:value-of select="../Cell[1]/Data"/>', A_saveTmpReporter_cb);
+		</xsl:if>
+	</xsl:for-each>
+	
 </script>
-<input type="button" value="test" onclick="alert(allReporters[5]);"/>
 
     <table cellpadding="0" cellspacing="0" id="dataTable">
 		<xsl:for-each select="Row[@name='headerRow']">
@@ -352,7 +358,7 @@
 			      					<xsl:when test="$highlightThisCell = 'yes'">
 					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
 					      				<script language="javascript">
-					      					autoCheckHighlighted('<xsl:value-of select="$rep"/>');
+					      					//autoCheckHighlighted('<xsl:value-of select="$rep"/>');
 					      				</script>
 			      					</xsl:when>
 			      					<xsl:when test="$theData = 'G' or $theData = 'C'">
