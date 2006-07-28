@@ -189,7 +189,7 @@ public class DynamicReportGenerator {
 		List al = new ArrayList();
 		
 		if(session.getAttribute(type) != null)	{
-			al = (ArrayList) session.getAttribute(type);
+			al = (List) session.getAttribute(type);
 			if(elems!=null && elems.size()>0){
 				al = ListUtils.union(al, elems);
 				//remove duplicats since union() keeps dups
