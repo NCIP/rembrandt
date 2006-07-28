@@ -88,25 +88,46 @@ function stupidXSL(i, cPage, total)	{
 	}
 
 	function saveSamples()	{
+		//save the list via first, then process the report
+		var savedSamples = Array();
+	
 		document.prbSamples.prbQueryName.value = document.getElementById('tmp_prb_queryName').value;
 		var can_continue = false;
 		
 		if(document.prbSamples.samples.length > 1)	{
 			for (i = 0; i < document.prbSamples.samples.length; i++)	{
-				if(document.prbSamples.samples[i].checked == true)
+				if(document.prbSamples.samples[i].checked == true)	{
 					can_continue = true;
+					savedSamples.push(document.prbSamples.samples[i].value);
+				}
 			}
 		}
 		else	{
-			if(document.prbSamples.samples.checked == true)
+			if(document.prbSamples.samples.checked == true)	{
 				can_continue = true;
+				savedSamples.push(document.prbSamples.samples.value);
+			}
 		}
 		if(can_continue)	{
 			//alert("cool");
-			document.prbSamples.submit();
+			try	{
+				//alert(savedSamples.join(","));
+				if(savedSamples.length>0)
+					DynamicReport.saveSamples(savedSamples.join(","), document.prbSamples.prbQueryName.value, saveSamples_cb);
+			}
+			catch(e){alert("list did not save successfully");}
+			//document.prbSamples.submit();
 		}
 		else	
 			alert("You must select at least one sample");
+	}
+
+	function saveSamples_cb(txt)	{
+		if(txt!="fail" && document.prbSamples)	{
+			document.prbSamples.submit();
+		}
+		else
+			alert('list didnt save');
 	}
 
 	function groupCheck(field, idx, ischecked)	{
