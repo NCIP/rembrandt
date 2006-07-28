@@ -119,6 +119,11 @@ public class RembrandtListValidator extends ListValidator{
 					break;
 				}
 			}
+			else	{ //theses no subtype passed
+				logger.debug("List with no subtype");
+				validList = new ArrayList<String>();
+				validList.addAll(unvalidatedList);
+			}
 		}
         invalidList.addAll(unvalidatedList);
         invalidList.removeAll(validList);
@@ -127,7 +132,7 @@ public class RembrandtListValidator extends ListValidator{
 
     @Override
     public void validate(ListType listType, List<String> unvalidatedList) throws OperationNotSupportedException {
-        
+        validate(listType, null, unvalidatedList);
     }
 
 	
