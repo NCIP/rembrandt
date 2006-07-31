@@ -133,12 +133,42 @@ else
 		</div>
 		<div style="margin-left:10px; font-size:11px; text-decoration:none; text-align:center;">
 			<a href="#" onclick="javascript: if(confirm('clear samples?')) { clearPending(); } ">[clear samples]</a><br/>
+			<a href="#" onclick="processQuickClinical(); return false;">view clinical data</a><br/><br/>		
+			
 		</div>
 		</td>
 	</tr>
 </table>
 </div>
 
+<!--  translate samples to clinical report -->
+<form id="quickClinicalWrapper"></form>
+
+<script language="javascript">
+
+	function processQuickClinical()	{
+		var f = document.getElementById("quickClinicalWrapper");
+		
+		//quickly clear the node, so we dont get duplicate elements when the back button is used
+		while(f.firstChild) f.removeChild(f.firstChild);
+		
+		if(!f)	{ return; }
+		//set up the form
+		f.setAttribute("method", "post");
+		f.setAttribute("action", "quickClinical.do");
+		f.setAttribute("name", "quickClinicalWrapper");
+		
+		for(var i=0; i<pendingSamples.length; i++)	{
+			var hid = document.createElement("input");
+			hid.setAttribute("type", "hidden");
+			hid.setAttribute("name", "sampleList");
+			hid.setAttribute("value", pendingSamples[i]);
+			f.appendChild(hid);
+		}
+		
+		f.submit();
+	}
+</script>
 <script language="javascript" src="js/box/lassoHelper.js"></script>
 
 </body>
