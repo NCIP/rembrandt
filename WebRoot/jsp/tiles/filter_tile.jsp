@@ -105,14 +105,14 @@
 		      <html:select property="geneSetName" styleId="geneList" disabled="false" onfocus="javascript:updateG()">
 				 <option value="<jsp:getProperty name="userPreferences" property="geneSetName"/>"><jsp:getProperty name="userPreferences" property="geneSetName"/></option>
 			  </html:select>
-			  or <a href="#" onclick="javascript:spawnx('uploadGeneSet.do', 'upload', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>
+			 <!--or <a href="#" onclick="javascript:spawnx('uploadGeneSet.do', 'upload', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>-->
 						
 		<br><br>	  
 		  Use differentially expressed reporters &nbsp;&nbsp;
 		      <html:select property="reporterSetName" styleId="reporterList" disabled="false" onfocus="javascript:updateR()">
 					 <option value="<jsp:getProperty name="userPreferences" property="reporterSetName"/>"><jsp:getProperty name="userPreferences" property="reporterSetName"/></option>
 			  </html:select>
-			  or <a href="#" onclick="javascript:spawnx('uploadReporterSet.do', 'upload2', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>
+			  <!--or <a href="#" onclick="javascript:spawnx('uploadReporterSet.do', 'upload2', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>-->
 		<br><br>	
 			<logic:present name="principalComponentForm"> 
 			<center><html:button property="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults('pca')" /></center>
