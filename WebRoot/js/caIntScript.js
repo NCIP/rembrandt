@@ -143,7 +143,18 @@ function deleteRow(queryNum){
 	  if(element == "plot"){
 	  document.forms[0].quickSearchType.options.length = 1;
 	  
-	     if (i == 2){
+	 	document.forms[0].quickSearchType.disabled = false;
+	  	document.forms[0].quickSearchName.disabled = false;
+	  	document.getElementById("quickSearchName").disabled = false;
+	  	
+	  if(i==3)	{
+	  	//disable the fields since this is a sample
+	  	document.forms[0].quickSearchType.disabled = true;
+	  	document.getElementById("quickSearchName").value = "";
+	  	document.getElementById("quickSearchName").disabled = true;
+	  	//document.forms[0].quickSearchName.disabled = true;
+	  }
+	  else if (i == 2){
 	      myOption = new Option();
 	      myOption2 = new Option();
 	      myOption.text = "Gene Keyword";
@@ -151,7 +162,7 @@ function deleteRow(queryNum){
 	      document.forms[0].quickSearchType.options[0] = myOption;
 	      document.forms[0].quickSearchType.options[1] = myOption2;
 		  }	
-	     else if(i != 2){
+	     else /*if(i != 2)*/ {
 	      myOption = new Option();
 		  myOption.text = "Gene Keyword";
 	      document.forms[0].quickSearchType.options[0] = myOption;
