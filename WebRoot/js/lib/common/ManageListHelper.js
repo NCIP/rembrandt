@@ -48,6 +48,7 @@
 						var status = "<span id=\""+lists[t].listName+"status\" style=\"display:none\"><img src=\"images/indicator.gif\"/></span>";
 						var shortName = lists[t].listName.length>25 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
 						var theName = lists[t].listName;
+						var itemCount = lists[t].itemCount;
 						
 						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : "";
 						var lstyle = listSubTypes.indexOf(listContainer.highlightType)!= -1 ? "color:#000000;" : "";			
@@ -58,6 +59,7 @@
 		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
 		                    + "<b style='"+lstyle+"' title='"+theName+"'>"
 		                    + shortName + "</b> (" + listSubTypes + ") "
+		                    + "<span id='"+theName+"_count'>" + itemCount + "</span>" 
 		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName
 		                    + "\");return false;'>"
@@ -196,6 +198,11 @@
 			Element.remove(name + itemId + "_div");	
 			try	{
 				SidebarHelper.loadSidebar();
+				//update the count
+				if($(name+"_count"))	{
+					var tmp = $(name+"_count").innerHTML;
+					$(name+"_count").innerHTML = parseInt(tmp) - 1;
+				}
 			}
 			catch(err){} 	
 		},
