@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
@@ -22,6 +24,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.KMDataSetHelper;
+import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 import gov.nih.nci.rembrandt.web.struts.form.QuickSearchForm;
@@ -181,6 +184,8 @@ public class QuickSearchAction extends DispatchAction {
 		double downFold = kmForm.getDownFold();
 		//TEMP COMENTED OUT
 		String kmplotType = (String) request.getAttribute("plotType");
+		String qsGroupName = (String) request.getAttribute("quickSearchGroupName");
+		String qsGroupNameCompare = (String) request.getAttribute("quickSearchGroupNameCompare");
 		//String kmplotType = CaIntegratorConstants.SAMPLE_KMPLOT;
 
        	kmForm.setPlotType(kmplotType);
@@ -218,22 +223,52 @@ public class QuickSearchAction extends DispatchAction {
 
 		}else if (kmplotType.equals(CaIntegratorConstants.SAMPLE_KMPLOT)) {
 			KaplanMeierSampleInfo[] restofKMSampleInfos = null;
-			ClinicalDataQuery clinicalDataQuery = getSelectedQuery(sessionId,"TARGET_LIST");
-			List<SampleIDDE> sampleList = new ArrayList<SampleIDDE>();
-			sampleList.addAll(clinicalDataQuery.getSampleIDCrit().getSampleIDs());
+			//dont need the clin query, just get the list now
+			List<SampleIDDE> sampleList = null;
+			UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
+			UserList ul = helper.getUserList(qsGroupName);
+			try	{
+				List<String> samList = ul.getList();
+				sampleList = new ArrayList<SampleIDDE>();
+				sampleList.addAll(ListConvertor.convertToSampleIDDEs(samList));
+			}
+			catch(Exception e){
+				System.out.println("GROUP " + qsGroupName + " NOT FOUND");
+			}
+			
+			//ClinicalDataQuery clinicalDataQuery = getSelectedQuery(sessionId,"TARGET_LIST");
+			//List<SampleIDDE> sampleList = new ArrayList<SampleIDDE>();
+			//sampleList.addAll(clinicalDataQuery.getSampleIDCrit().getSampleIDs());
 
 
 			   kmResultsContainer = performKMClinicalQuery(sampleList, institutionCriteria);
 			   if(kmResultsContainer != null  ){
 				    kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 			   }
+			   
+			   //HERE IS WHERE WE WILL PASS THE 2ND comparison group, or ALL EASY
+			   List<SampleIDDE> csampleList = null;
+			   if(qsGroupNameCompare!=null && qsGroupNameCompare.length() >0){
+				   UserList cul = helper.getUserList(qsGroupNameCompare);
+				   if(cul!=null){
+					   csampleList = new ArrayList<SampleIDDE>();
+					   List<String> csamList = cul.getList();
+					   csampleList.addAll(ListConvertor.convertToSampleIDDEs(csamList));
+				   }
+				   else	{
+					   csampleList = null;
+				   }
+			   }
+			   
 			   //perform a query to get back all samples
-			   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(null,institutionCriteria);
+			   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(csampleList,institutionCriteria);
 			   if(allSampleKMResultsContainer != null  ){
 				   restofKMSampleInfos = allSampleKMResultsContainer.getRestOfSummaryKMPlotSamples(sampleList);
 				   
 			   }
-					KaplanMeierDataController dataGenerator = new KaplanMeierDataController( kmSampleInfos, restofKMSampleInfos, kmplotType);
+			   
+			   //SHOULD PASS THE NAMES HERE IF WE WANT THEM IN THE LEGEND
+					KaplanMeierDataController dataGenerator = new KaplanMeierDataController( kmSampleInfos, restofKMSampleInfos, kmplotType, qsGroupName, qsGroupNameCompare);
 					KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 					storedData.setId("KAPLAN");
 //					storedData.setUpSampleCount(0);
@@ -358,7 +393,7 @@ public class QuickSearchAction extends DispatchAction {
 			throws Exception {
 		QuickSearchForm qsForm = (QuickSearchForm) form;
 		ActionErrors errors = new ActionErrors();
-		if (qsForm.getQuickSearchType() != null
+		if (!qsForm.getPlot().equals(CaIntegratorConstants.SAMPLE_KMPLOT) && qsForm.getQuickSearchType() != null
 				&& qsForm.getQuickSearchType().equals(
 						RembrandtConstants.GENE_SYMBOL)) {
 			errors = UIFormValidator.validateGeneSymbol(qsForm, errors);
@@ -368,25 +403,27 @@ public class QuickSearchAction extends DispatchAction {
 
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
 				logger.debug("user requested geneExp kapMai w/ genesymbol");
-				request.setAttribute("quickSearchName", qsForm
-						.getQuickSearchName());
-				request.setAttribute("quickSearchType", qsForm
-						.getQuickSearchType());
-				request.setAttribute("plotType",
-						CaIntegratorConstants.GENE_EXP_KMPLOT);
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				request.setAttribute("plotType",CaIntegratorConstants.GENE_EXP_KMPLOT);
 				return mapping.findForward("kmplot");
 			}
 			if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
 				logger.debug("user rquested SNP kapMaiPlotCN");
-				request.setAttribute("quickSearchType", qsForm
-						.getQuickSearchType());
-				request.setAttribute("quickSearchName", qsForm
-						.getQuickSearchName());
-				request.setAttribute("plotType",
-						CaIntegratorConstants.COPY_NUMBER_KMPLOT);
+				request.setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
 				return mapping.findForward("kmplot");
 			}
-
+			if (chartType.equalsIgnoreCase(CaIntegratorConstants.SAMPLE_KMPLOT)) {
+				logger.debug("user rquested SNP kapMaiPlotCN");
+				request.setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("quickSearchGroupName", qsForm.getGroupName());
+				request.setAttribute("quickSearchGroupNameCompare", qsForm.getGroupNameCompare());
+				request.setAttribute("plotType",CaIntegratorConstants.SAMPLE_KMPLOT);
+				return mapping.findForward("kmplot");
+			}
 			else if (chartType.equalsIgnoreCase("geneExpPlot")) {
 				try {
 					logger.debug("user has requested geneExpPlot");

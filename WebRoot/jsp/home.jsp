@@ -4,7 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 
-<%@ page import="java.util.*, java.lang.*, java.io.*" %>
+<%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.caintegrator.util.CaIntegratorConstants" %>
 
 
 <tr class="report">
@@ -39,15 +39,23 @@
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);">
 	        Kaplan-Meier survival plot for Copy Number Data&nbsp;
 	                
-	        <br />
-	        <br>
+	        <br/>
+	        
+	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3);">
+	        Kaplan-Meier survival plot for Sample Data&nbsp;
+	        <br/>
+	        <input type="text" id="groupName" name="groupName" style="margin-left:25px"/> vs.
+	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
+	        <br/>
 	        
 	         <hr width=100% color="#002185" size="1px" />
 	        
-	        <br />
-	        <select name="quickSearchType">
-	        <option>Gene Keyword</option>
-	        </select>
+	        <br/>
+		        <select name="quickSearchType" style="width:140px">
+		        <option>Gene Keyword</option>
+		        </select>
+
         </logic:empty>
         
         <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
@@ -62,7 +70,7 @@
         </logic:notEmpty>
         
         <logic:empty name="quickSearchForm" property="allGeneAlias">
-        <html:text property="quickSearchName" size="40" />
+        <input type="text" name="quickSearchName" id="quickSearchName" size="40"/>
         &nbsp;
         </logic:empty>
         
@@ -76,10 +84,10 @@
         <br />
         
       </fieldset>
-      
+      <!-- 
       <html:hidden property="plot" />
       <html:hidden property="quickSearchName" />
-      
+      -->
       
     </html:form>
     <br>

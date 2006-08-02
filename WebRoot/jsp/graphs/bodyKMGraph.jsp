@@ -41,75 +41,88 @@
 <html:form action="/kmGraph.do?method=redrawKMPlot">
 	<html:hidden property="geneOrCytoband" />
 	<html:hidden property="plotType" />
+	
+	<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 	<div>
 		<table style="border:1px solid silver" cellpadding="4" cellspacing="4">
 			<tr>			
-			<td>
-			<!-- Upregulated/Amplified  -->
-			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="upOrAmplified" /></span>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
-			<html:select property="upFold">
-				<html:options property="folds" />
-			</html:select>
-			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
-			</td>
-			
-			<!--Reporters-->
-			<td>
-			<span style="font-size:.9em;margin-left:10px">Reporters</span>
-			<html:select property="selectedReporter">
-				<html:options property="reporters" />
-			</html:select></td>
+				<td>
+					<!-- Upregulated/Amplified  -->
+					<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="upOrAmplified" /></span>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
+					<html:select property="upFold">
+						<html:options property="folds" />
+					</html:select>
+					<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
+				</td>
+				
+				<!--Reporters-->
+				<td>
+					<span style="font-size:.9em;margin-left:10px">Reporters</span>
+					<html:select property="selectedReporter">
+						<html:options property="reporters" />
+					</html:select>
+				</td>
 			</tr>
+			
 			
 			<tr>
-			<td>
-			<!-- Downregulated/Deleted -->
-			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="downOrDeleted" /></span>			
-			
-			<!--check to see if it is copy number km plot or GE km plot. if it is, change the deleted fold change values-->
-			<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
-			&nbsp;&ge;&nbsp; 
-			<html:select property="downFold">
-				<html:options property="folds" />
-			</html:select>
-			</logic:equal>
-			<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">						
-			&nbsp;&le;&nbsp; 
-			<html:select property="downFold">
-				<html:options property="copyNumberDownFolds" />
-			</html:select>
-			</logic:equal>
-			<!--end after deleted fold change values have been determined-->
-			 			
-			<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span> 
-			</td>
-			<td>			
-			<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
-			<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
-			<!--Unified or regular algorithm-->
-			<span style="font-size:.9em;margin-left:10px">Reporter Selection</span>			
-			<html:select property="reporterSelection">
-				<html:options property="algorithms" />
-			</html:select> &nbsp; 	
-			</logic:equal>		
-			</td>
+				<td>
+				<!-- Downregulated/Deleted -->
+				<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="downOrDeleted" /></span>			
+				
+				<!--check to see if it is copy number km plot or GE km plot. if it is, change the deleted fold change values-->
+				<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
+					&nbsp;&ge;&nbsp; 
+					<html:select property="downFold">
+						<html:options property="folds" />
+					</html:select>
+				</logic:equal>
+				<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">						
+					&nbsp;&le;&nbsp; 
+					<html:select property="downFold">
+						<html:options property="copyNumberDownFolds" />
+					</html:select>
+				</logic:equal>
+				<!--end after deleted fold change values have been determined-->
+				 			
+				<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span> 
+				</td>
+				<td>			
+					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
+					<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
+						<!--Unified or regular algorithm-->
+						<span style="font-size:.9em;margin-left:10px">Reporter Selection</span>			
+						<html:select property="reporterSelection">
+							<html:options property="algorithms" />
+						</html:select> &nbsp; 	
+					</logic:equal>		
+				</td>
 			</tr>
-			</table>
-			</div>
-			<html:submit value="Redraw Graph" />
+			
+		</table>
+	</div>
+		<html:submit value="Redraw Graph" />
+	</logic:notEqual>
+		
 	<div>
 	<logic:equal name="kmDataSetForm" property="plotVisible" value="true">
-		<hr>
-		<b> <font size="+1"> 
-		<bean:write name="kmDataSetForm" property="chartTitle" /> </font>
-		<br />
+		<hr/>
+		<b> 
+			<font size="+1"> 
+				<bean:write name="kmDataSetForm" property="chartTitle" /> 
+			</font>
+		</b>
+		<br/>
 		
-		<p><!-- INSERT CHART HERE --> 
-		<graphing:KaplanMeierPlot bean="kmDataSetForm" dataset="selectedDataset" /></p>
+		<!-- INSERT CHART HERE --> 
 		<p>
-		<br>
+			<graphing:KaplanMeierPlot bean="kmDataSetForm" dataset="selectedDataset" />
+		</p>
+		<p>
+		<br/>
 		
+		<!--  BEGIN LEGEND: LINKS TO CLINICAL -->
 		View Clinical Reports<br />
 		<!--check what type of plot it is as to display the correct link text-->
 		<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">		
@@ -271,3 +284,4 @@
 	</logic:equal>
 </div>
 </html:form>
+

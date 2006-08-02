@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
+import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
@@ -76,6 +77,10 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	private String quickSearchType = null;
 	private static Logger logger = Logger.getLogger(QuickSearchForm.class);
 	
+	private String groupName = null;
+	private String groupNameCompare = null;
+	
+	
 	public String getPlot() {
 		return plot;
 	}
@@ -112,7 +117,7 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
 	    ActionErrors errors = new ActionErrors();
-	    if(getQuickSearchType() != null  &&
+	    if(!getPlot().equals(CaIntegratorConstants.SAMPLE_KMPLOT) && getQuickSearchType() != null  &&
 	    		getQuickSearchType().compareTo(RembrandtConstants.GENE_SYMBOL)==0){
 		    UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
 			try {
@@ -142,5 +147,21 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
     public String getGeneSymbol() {
         return this.quickSearchName;
     }
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getGroupNameCompare() {
+		return groupNameCompare;
+	}
+
+	public void setGroupNameCompare(String groupNameCompare) {
+		this.groupNameCompare = groupNameCompare;
+	}
 	
 }
