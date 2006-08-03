@@ -108,7 +108,7 @@ public class KMPlotManager {
 	 * @return @throws
 	 *         Exception
 	 */
-	public ResultsContainer performKMGeneExpressionQuery(String geneSymbol,InstitutionCriteria instCrit)
+	public ResultsContainer performKMGeneExpressionQuery(List<SampleIDDE> samples, String geneSymbol,InstitutionCriteria instCrit)
 			throws Exception {
 		ResultsContainer resultsContainer = null;
 		try {
@@ -118,6 +118,13 @@ public class KMPlotManager {
 						geneSymbol));
 				GeneExpressionQuery geneQuery = (GeneExpressionQuery) QueryManager
 						.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+				
+				if(samples!=null)	{
+	            	SampleCriteria sampleCriteria = new SampleCriteria();
+	            	sampleCriteria.setSampleIDs(samples);
+	            	geneQuery.setSampleIDCrit(sampleCriteria);
+	            }
+				
 				geneQuery.setInstitutionCriteria(instCrit);
 				geneQuery.setQueryName("KaplanMeierPlot");
 				geneQuery.setAssociatedView(ViewFactory
@@ -187,13 +194,20 @@ public class KMPlotManager {
 		return resultsContainer;
 	}
 
-    public ResultsContainer performKMCopyNumberQuery(GeneSymbol geneSymbolDE,InstitutionCriteria instCrit)
+    public ResultsContainer performKMCopyNumberQuery(List<SampleIDDE> samples, GeneSymbol geneSymbolDE,InstitutionCriteria instCrit)
 	throws Exception {
         if (geneSymbolDE != null  && instCrit != null) {
             GeneIDCriteria geneCrit = new GeneIDCriteria();
             geneCrit.setGeneIdentifier(geneSymbolDE);
             ComparativeGenomicQuery copyNumberQuery = (ComparativeGenomicQuery) QueryManager
                     .createQuery(QueryType.CGH_QUERY_TYPE);
+        
+            if(samples!=null)	{
+            	SampleCriteria sampleCriteria = new SampleCriteria();
+            	sampleCriteria.setSampleIDs(samples);
+            	copyNumberQuery.setSampleIDCrit(sampleCriteria);
+            }
+            
             copyNumberQuery.setQueryName("CopyNumberKMPlot");
             copyNumberQuery.setInstitutionCriteria(instCrit);
             copyNumberQuery.setAssociatedView(ViewFactory
@@ -208,13 +222,20 @@ public class KMPlotManager {
     }
 
 
-    public ResultsContainer performKMCopyNumberQuery(SNPProbeSet snpDE,InstitutionCriteria instCrit)
+    public ResultsContainer performKMCopyNumberQuery(List<SampleIDDE> samples, SNPProbeSet snpDE,InstitutionCriteria instCrit)
 			throws Exception {
         if (snpDE != null  && instCrit != null) {
             SNPCriteria snpCrit = new SNPCriteria();
             snpCrit.setSNPIdentifier(snpDE);
             ComparativeGenomicQuery copyNumberQuery = (ComparativeGenomicQuery) QueryManager
                     .createQuery(QueryType.CGH_QUERY_TYPE);
+            
+            if(samples!=null)	{
+            	SampleCriteria sampleCriteria = new SampleCriteria();
+            	sampleCriteria.setSampleIDs(samples);
+            	copyNumberQuery.setSampleIDCrit(sampleCriteria);
+            }
+            
             copyNumberQuery.setQueryName("CopyNumberKMPlot");
             copyNumberQuery.setAssociatedView(ViewFactory
                     .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));

@@ -26,7 +26,7 @@
 	        </strong>    
 	        <br />
 	        
-	        <h5>Gene Expression-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
+	        <h5>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
 	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) to plot either a gene expression profile or a Kaplan-Meier survival plot based on the expression of your gene of interest." /></h5>
 	        <input type="radio" name="plot" class="radio" value="geneExpPlot" checked="true" onclick="javascript:onRadio(this,0);">
 	        Gene Expression plot&nbsp;<br />
@@ -34,27 +34,18 @@
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);">
 	        Kaplan-Meier survival plot for Gene Expression Data&nbsp;<br />
 	        
-	        <h5>Copy Number-based Graph&nbsp;&nbsp;&nbsp;&nbsp;
+	        <!-- <h5>Copy Number-based Graph&nbsp;&nbsp;&nbsp;&nbsp;
 	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) or an Affymetrix 100K SNP Probeset ID (reporter) to plot a Kaplan-Meier survival plot based on the Gene copy number or the SNP reporter respectively." /></h5>
+	        -->
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);">
-	        Kaplan-Meier survival plot for Copy Number Data&nbsp;
-	                
-	        <br/>
-	        
-	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3);">
-	        Kaplan-Meier survival plot for Sample Data&nbsp;
-	        <br/>
-	        <input type="text" id="groupName" name="groupName" style="margin-left:25px"/> vs.
-	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
-	        <br/>
-	        
-	         <hr width=100% color="#002185" size="1px" />
+	        Kaplan-Meier survival plot for Copy Number Data<br/>
+	           
+	     <!--     <hr width=100% color="#002185" size="1px" /> -->
 	        
 	        <br/>
-		        <select name="quickSearchType" style="width:140px">
-		        <option>Gene Keyword</option>
-		        </select>
+	        <select name="quickSearchType" style="width:140px">
+	       		<option>Gene Keyword</option>
+	        </select>
 
         </logic:empty>
         
@@ -70,17 +61,43 @@
         </logic:notEmpty>
         
         <logic:empty name="quickSearchForm" property="allGeneAlias">
-        <input type="text" name="quickSearchName" id="quickSearchName" size="40"/>
-        &nbsp;
+        	<input type="text" name="quickSearchName" id="quickSearchName" size="40"/>&nbsp;
+        	<br/>Restrict to sample group: 
+        	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
+			 	<html:optionsCollection property="sampleGroupsList" />
+			</html:select>
         </logic:empty>
         
-        <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
+        <br/><br/>
+        <!--  sample based plots -->
+        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3);">
+        Kaplan-Meier survival plot for Sample Data&nbsp;
+        <br/><br/>
+        <html:select property="groupName" style="margin-left:20px;" styleId="groupName" disabled="false">
+		 	<html:optionsCollection property="sampleGroupsList" />
+		</html:select>
+		
+		<!-- 
+        <input type="text" id="groupName" name="groupName" style="margin-left:25px"/> vs.
+        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
+        -->
+         vs. 
+         <html:select property="groupNameCompare" styleId="groupName" disabled="false">
+		 	<html:optionsCollection property="sampleGroupsList" />
+		</html:select>
+        <br/>
+	        
+        <br/><br/>
+        <div style="text-align:center">
+	        <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
+		        
+	        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
+	       		<html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
+	        </logic:notEmpty>
         
-        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
-        <html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
-        </logic:notEmpty>
-        
-        <app:help help="Select either the Gene Keyword or SNP Probe set ID option, as applicable, from the drop-down list and enter the keyword or ID in the text box.The SNP Probe set ID option is available only for the Copy Number-based Graph format." />
+        	<app:help help="Select either the Gene Keyword or SNP Probe set ID option, as applicable, from the drop-down list and enter the keyword or ID in the text box.The SNP Probe set ID option is available only for the Copy Number-based Graph format." />
+        </div>
         <br />
         
       </fieldset>

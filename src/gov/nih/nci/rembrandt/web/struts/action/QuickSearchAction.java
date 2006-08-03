@@ -191,8 +191,28 @@ public class QuickSearchAction extends DispatchAction {
        	kmForm.setPlotType(kmplotType);
 		KaplanMeierPlotContainer kmResultsContainer = null;
 		KaplanMeierSampleInfo[] kmSampleInfos = {new KaplanMeierSampleInfo(0,0,0)};
+		
+		//		see if we are constraining by a group of samples
+		List<SampleIDDE> constrainSamples = null;
+		// ^ first time thru we arent constraining, so pass this as null for now - may need to implement later if new reqts
+		
+		UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
+		
+		String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "ALL GLIOMA";
+
+		UserList constrainSamplesUl = helper.getUserList(baselineGroup);
+		try	{
+			List<String> samList = constrainSamplesUl.getList();
+			constrainSamples = new ArrayList<SampleIDDE>();
+			constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(samList));
+		}
+		catch(Exception e){
+			System.out.println("GROUP " + qsGroupName + " NOT FOUND");
+		}
+		
+		
 		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {			
-            kmResultsContainer = performKMGeneExpressionQuery(quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet, institutionCriteria);
+            kmResultsContainer = performKMGeneExpressionQuery(constrainSamples, quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet, institutionCriteria);
            	if(kmResultsContainer!=null) {
 				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 				if(kmResultsContainer.getGeneSymbol()!= null){
@@ -206,14 +226,14 @@ public class QuickSearchAction extends DispatchAction {
 			kmForm.setUpOrAmplified("Amplified");
 			kmForm.setDownOrDeleted("Deleted");
 			if(quickSearchType.equals(RembrandtConstants.GENE_SYMBOL)){
-			   kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType, institutionCriteria);
+			   kmResultsContainer = performKMCopyNumberQuery(constrainSamples, quickSearchVariableName, quickSearchType, institutionCriteria);
 			   if(kmResultsContainer != null  && kmResultsContainer.getCytobandDE()!= null){
 				   String cytobandGeneSymbol = kmResultsContainer.getCytobandDE().getValue().toString();
 				   kmForm.setGeneOrCytoband(quickSearchVariableName+"("+cytobandGeneSymbol+")");
 				   kmForm.setPlotVisible(false); 
 			   }
 			 }else if(quickSearchType.equals(RembrandtConstants.SNP_PROBESET_ID)){
-				 kmResultsContainer = performKMCopyNumberQuery(quickSearchVariableName, quickSearchType, institutionCriteria);
+				 kmResultsContainer = performKMCopyNumberQuery(constrainSamples, quickSearchVariableName, quickSearchType, institutionCriteria);
 				 if(kmResultsContainer != null){
 				 kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(quickSearchVariableName);
 				 kmForm.setGeneOrCytoband(quickSearchVariableName); 
@@ -225,7 +245,7 @@ public class QuickSearchAction extends DispatchAction {
 			KaplanMeierSampleInfo[] restofKMSampleInfos = null;
 			//dont need the clin query, just get the list now
 			List<SampleIDDE> sampleList = null;
-			UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
+			helper = new UserListBeanHelper(request.getSession());
 			UserList ul = helper.getUserList(qsGroupName);
 			try	{
 				List<String> samList = ul.getList();
@@ -246,7 +266,7 @@ public class QuickSearchAction extends DispatchAction {
 				    kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
 			   }
 			   
-			   //HERE IS WHERE WE WILL PASS THE 2ND comparison group, or ALL EASY
+			   //HERE IS WHERE WE WILL PASS THE 2ND comparison group, or ALL
 			   List<SampleIDDE> csampleList = null;
 			   if(qsGroupNameCompare!=null && qsGroupNameCompare.length() >0){
 				   UserList cul = helper.getUserList(qsGroupNameCompare);
@@ -335,6 +355,21 @@ public class QuickSearchAction extends DispatchAction {
 
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KaplanMeierSampleInfo[] kmSampleInfos = null;
+		
+		//		see if we are constraining by a group of samples
+		String cGroupName = "ALL GLIOMA"; //get from the Form
+		List<SampleIDDE> sampleList = null;
+		UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
+		UserList ul = helper.getUserList(cGroupName);
+		try	{
+			List<String> samList = ul.getList();
+			sampleList = new ArrayList<SampleIDDE>();
+			sampleList.addAll(ListConvertor.convertToSampleIDDEs(samList));
+		}
+		catch(Exception e){
+			System.out.println("GROUP " + cGroupName + " NOT FOUND");
+		}
+		
 		// kmForm.setReporters(populateReporters());
 		String kmplotType = kmForm.getPlotType();
 		double upRegulation = kmForm.getUpFold();
@@ -342,14 +377,22 @@ public class QuickSearchAction extends DispatchAction {
         String algorithm = kmForm.getReporterSelection(); 
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
-            kmResultsContainer = performKMGeneExpressionQuery(kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
+            kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
             if (kmForm.getSelectedReporter().equals(
 					CaIntegratorConstants.GRAPH_DEFAULT)){
             	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
             }
         }
         else{
+        	//this is cached....if we are switching the sample groups, then dont get it from cache
             kmResultsContainer = getKmResultsContainer(request.getSession().getId());
+        
+          //  String quickSearchVariableName = kmForm.getGeneOrCytoband();
+        	//try and see which type of KM plot this WAS, since this is not preserved by the KMDataSetForm
+          //  String quickSearchType = ""; //kmResultsContainer.getCytobandDE() == null ? RembrandtConstants.GENE_SYMBOL : RembrandtConstants.SNP_PROBESET_ID;
+         //   quickSearchType = RembrandtConstants.SNP_PROBESET_ID;
+         //   kmResultsContainer = performKMCopyNumberQuery(sampleList, quickSearchVariableName, quickSearchType, institutionCriteria);
+
         }
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
 			if ((kmForm.getSelectedReporter().trim().length() > 0)) {                
@@ -444,7 +487,7 @@ public class QuickSearchAction extends DispatchAction {
 	 * @return Returns the kmResultsContainer.
 	 * @throws Exception
 	 */
-	private KaplanMeierPlotContainer performKMGeneExpressionQuery(
+	private KaplanMeierPlotContainer performKMGeneExpressionQuery(List<SampleIDDE> samples,
 			String geneSymbol,GeneExpressionDataSetType geneExpressionDataSetType, InstitutionCriteria institutionCriteria) throws Exception {
 		KMPlotManager kmPlotManager = new KMPlotManager();
 		KaplanMeierPlotContainer kaplanMeierPlotContainer = null;
@@ -454,7 +497,7 @@ public class QuickSearchAction extends DispatchAction {
 		default:
 			
             kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
-			.performKMGeneExpressionQuery(geneSymbol,institutionCriteria);
+			.performKMGeneExpressionQuery(samples, geneSymbol,institutionCriteria);
 			break;
 		case UnifiedGeneExpressionDataSet:
 			kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
@@ -468,15 +511,23 @@ public class QuickSearchAction extends DispatchAction {
 	 * @return Returns the kmResultsContainer.
 	 * @throws Exception
 	 */
-	private KaplanMeierPlotContainer performKMCopyNumberQuery(String name,
+	private KaplanMeierPlotContainer performKMCopyNumberQuery(List<SampleIDDE> samples, String name,
 			String type,InstitutionCriteria institutionCriteria) throws Exception {
+		
+		// THIS	IS EXPECTING A "TYPE" FROM QUICKSEARCHFORM, NOT KMDATASETFORM
+		// CaIntegratorConstants.COPY_NUMBER_KMPLOT vs RembrandtConstants.SNP_PROBESET_ID
+		// CaIntegratorConstants.GENE_EXP_KMPLOT vs RembrandtConstants.GENE_SYMBOL
+		
 		KMPlotManager kmPlotManager = new KMPlotManager();
 		KaplanMeierPlotContainer kmResultsContainer = null;
+		
 		if (type.equals(RembrandtConstants.GENE_SYMBOL)) {
-			GeneIdentifierDE.GeneSymbol genesymbolDE = new GeneIdentifierDE.GeneSymbol(
-					name);
+			GeneIdentifierDE.GeneSymbol genesymbolDE = new GeneIdentifierDE.GeneSymbol(name);
+			
+			//get list of samples to hand off
+			
 			kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager
-					.performKMCopyNumberQuery(genesymbolDE, institutionCriteria);
+					.performKMCopyNumberQuery(samples, genesymbolDE, institutionCriteria);
 
 		}
 		/**
@@ -488,7 +539,7 @@ public class QuickSearchAction extends DispatchAction {
 			SNPIdentifierDE.SNPProbeSet snpDE = new SNPIdentifierDE.SNPProbeSet(
 					name);
 			kmResultsContainer = (KaplanMeierPlotContainer) kmPlotManager
-					.performKMCopyNumberQuery(snpDE, institutionCriteria);
+					.performKMCopyNumberQuery(samples, snpDE, institutionCriteria);
 
 		}
 		return kmResultsContainer;

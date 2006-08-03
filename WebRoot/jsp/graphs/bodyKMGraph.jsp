@@ -36,14 +36,19 @@
          km = "kmplotGE";
    }
 	
+	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
 %> <%=helpLink%>?sect=<%=km%><%=helpLinkClose%></div>
 
 <html:form action="/kmGraph.do?method=redrawKMPlot">
+	<input type="hidden" name="baselineGroup" value="<%=baselineGroup%>"/>
 	<html:hidden property="geneOrCytoband" />
 	<html:hidden property="plotType" />
 	
 	<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 	<div>
+	<% if(baselineGroup.length()>0)	{	%>
+						<b>Constrained to group: <%=baselineGroup%></b><br/><br/>
+	<% } %>
 		<table style="border:1px solid silver" cellpadding="4" cellspacing="4">
 			<tr>			
 				<td>
