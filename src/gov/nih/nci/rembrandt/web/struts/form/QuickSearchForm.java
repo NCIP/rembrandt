@@ -1,14 +1,20 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.util.LabelValueBean;
 
 
 
@@ -79,7 +85,18 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	
 	private String groupName = null;
 	private String groupNameCompare = null;
+	private String baselineGroup = null;
 	
+	private Collection<LabelValueBean> sampleGroupsList;
+	
+	public void reset(ActionMapping mapping, HttpServletRequest request) {
+		GroupRetriever groupRetriever = new GroupRetriever();
+		List<LabelValueBean> al = new ArrayList<LabelValueBean>();
+		al.add(new LabelValueBean("all", ""));
+		al.addAll(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+		
+		sampleGroupsList = al;
+	}
 	
 	public String getPlot() {
 		return plot;
@@ -162,6 +179,22 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 
 	public void setGroupNameCompare(String groupNameCompare) {
 		this.groupNameCompare = groupNameCompare;
+	}
+
+	public Collection getSampleGroupsList() {
+		return sampleGroupsList;
+	}
+
+	public void setSampleGroupsList(Collection sampleGroupsList) {
+		this.sampleGroupsList = sampleGroupsList;
+	}
+
+	public String getBaselineGroup() {
+		return baselineGroup;
+	}
+
+	public void setBaselineGroup(String baselineGroup) {
+		this.baselineGroup = baselineGroup;
 	}
 	
 }

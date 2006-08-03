@@ -146,12 +146,18 @@ function deleteRow(queryNum){
 	 	document.forms[0].quickSearchType.disabled = false;
 	  	document.forms[0].quickSearchName.disabled = false;
 	  	document.getElementById("quickSearchName").disabled = false;
+	  	document.getElementById("baselineGroupName").disabled = false;
+	  	
+	  	if(i==0)	{
+	  		document.getElementById("baselineGroupName").disabled = true;
+	  	}
 	  	
 	  if(i==3)	{
 	  	//disable the fields since this is a sample
 	  	document.forms[0].quickSearchType.disabled = true;
 	  	document.getElementById("quickSearchName").value = "";
 	  	document.getElementById("quickSearchName").disabled = true;
+	  	document.getElementById("baselineGroupName").disabled = true;
 	  	//document.forms[0].quickSearchName.disabled = true;
 	  }
 	  else if (i == 2){
