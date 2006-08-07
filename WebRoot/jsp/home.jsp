@@ -83,10 +83,17 @@
         <input type="text" id="groupNameCompare" name="groupNameCompare"/>
         -->
          vs. 
-         <html:select property="groupNameCompare" styleId="groupName" disabled="false">
+         <html:select property="groupNameCompare" styleId="groupNameCompare" disabled="false">
 		 	<html:optionsCollection property="sampleGroupsList" />
 		</html:select>
         <br/>
+        <script language="javascript">
+        	try	{
+	        	document.getElementById("groupName").options[0] = null;
+    	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Samples";
+    	    }
+    	    catch(err){}
+        </script>
 	        
         <br/><br/>
         <div style="text-align:center">
