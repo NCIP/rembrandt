@@ -113,6 +113,7 @@
          <forward name="badgraph" path="/home.do" />
 	</action>
    
+   <action path="/quickClinical" forward="/jsp/quickClinical.jsp" />
    
    <action path="/graph"
            forward="nautilus.graph" />
