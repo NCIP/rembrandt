@@ -398,8 +398,21 @@ function switchViews(view, sample)	{
 	document.switchViewsForm.reportView.value = view;
 	document.switchViewsForm.samples.value = sample;
 	document.switchViewsForm.submit();
-	
+}
 
+function switchViewMultiSamples(view, samplesArray)	{
+	document.switchViewsForm.reportView.value = view;
+	var f = document.switchViewsForm;
+	
+	for(var i=0; i<samplesArray.length; i++)	{
+		var hid = document.createElement("input");
+		hid.setAttribute("type", "hidden");
+		hid.setAttribute("name", "samples");
+		hid.setAttribute("value", samplesArray[i]);
+		f.appendChild(hid);
+	}
+
+	document.switchViewsForm.submit();
 }
 
 
@@ -491,7 +504,6 @@ function fixQueryDetails()	{
 }
 
 function autoCheckHighlighted(el)	{
-
 	var theRow = document.getElementById(el);
 	if(theRow)	{
 		try	{
@@ -500,5 +512,38 @@ function autoCheckHighlighted(el)	{
 		}
 		catch(err){ alert(err);}
 	}
+}
 
+function prepQuickClinical()	{
+	var s = Array();
+	for(var i=0; i<document.prbSamples.samples.length; i++)	{
+		if(document.prbSamples.samples[i].value && document.prbSamples.samples[i].value.length>0)
+			s.push(document.prbSamples.samples[i].value);
+	}
+	//alert(s);
+	switchViewMultiSamples("CLINICAL", s);
+
+/*
+	//this is the quick clinical way
+	var f = document.getElementById("quickClinicalWrapper");
+	
+	//quickly clear the node, so we dont get duplicate elements when the back button is used
+	while(f.firstChild) f.removeChild(f.firstChild);
+	
+	if(!f)	{ return; }
+	//set up the form
+	f.setAttribute("method", "post");
+	f.setAttribute("action", "quickClinical.do");
+	f.setAttribute("name", "quickClinicalWrapper");
+	
+	for(var i=0; i<pendingSamples.length; i++)	{
+		var hid = document.createElement("input");
+		hid.setAttribute("type", "hidden");
+		hid.setAttribute("name", "sampleList");
+		hid.setAttribute("value", pendingSamples[i]);
+		f.appendChild(hid);
+	}
+	
+	f.submit();
+*/
 }

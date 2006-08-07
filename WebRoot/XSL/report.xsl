@@ -113,6 +113,11 @@
 				(Query Name:<xsl:value-of select="@queryName" />)
 			</span>
 		
+			<xsl:if test="$rType = 'Copy Number'">
+				<a href="#" id="switchToClinical" onclick="prepQuickClinical();return false;" style="font-size:10px">[View Clinical Report for all samples]</a>
+				<form id="quickClinicalWrapper"></form>
+			</xsl:if>
+			
 			<xsl:if test="$rType = 'Clinical'">
 			<span style="margin-left:15px; ">
 				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.do?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
