@@ -59,11 +59,11 @@
 		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
 		                    + "<b style='"+lstyle+"' title='"+theName+"'>"
 		                    + shortName + "</b> (" + listSubTypes + ") "
-		                    + "<span id='"+theName+"_count'>" + itemCount + "</span>" 
+		                    + "<span id='"+theName+"_count'>" + itemCount + " items</span>" 
 		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName
 		                    + "\");return false;'>"
-		                    + "<img src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>show/hide details" + status + "</div>"
+		                    + "<img src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>details" + status + "</div>"
 		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;'  onclick='ManageListHelper.deleteList(\""
 		                    + theName
 		                    + "\");return false;'>"
