@@ -14,7 +14,6 @@
 				org.dom4j.Document"%>				
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <script type='text/javascript' src='js/lib/scriptaculous/effects.js'></script>
-
 <script type='text/javascript' src='dwr/interface/UserListHelper.js'></script>
 <script type='text/javascript' src='dwr/engine.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script>
@@ -164,10 +163,10 @@ function addLoadEvent(func) {
 			</tr>
 			<tr id="textRow" style="display:none">
 				<td>
-					Type Ids:<br/> (comma separated)
+					Type Ids:<br/> (one per line)
 				</td>
 				<td colspan="2">
-					<textarea id="typeListIds" style="width:300px"></textarea>
+					<textarea id="typeListIds" style="width:150px; height:100px;"></textarea>
 				</td>
 			</tr>
 			<tr>

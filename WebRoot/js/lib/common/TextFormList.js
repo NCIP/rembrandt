@@ -18,7 +18,8 @@
 			     }
 		     	//construct array
 		     	var ids = Array();
-		     	ids = typeListIds.split(",");
+		     	//ids = typeListIds.split(",");
+		     	ids = typeListIds.split("\n");
 		     	//clean on the sside
 		     	//ajax call
 		     	try	{
