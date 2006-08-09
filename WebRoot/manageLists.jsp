@@ -55,6 +55,10 @@ function addLoadEvent(func) {
 		list-type:none;
 		list-style-type: none;
 	}
+	
+	li.detailsList	{
+		padding:3px;
+	}
 </style>
 <iframe id="RSIFrame" name="RSIFrame" style="width:0px; height:0px; border: 0px" src="blank.jsp"></iframe>
 

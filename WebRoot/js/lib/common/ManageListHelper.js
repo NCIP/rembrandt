@@ -238,6 +238,8 @@
 		 		 document.getElementById(listName + "details").appendChild(dDIV);
 		 		//setup a handle to the working container
 		 		var wDiv = $(listName + "detailsDiv");
+		 		wDiv.style.borderLeft = "1px dashed red";
+		 		wDiv.style.marginLeft = "20px";
 		 		if(items.length > 0)	{
 		 			var tmp = "";
 					for(var i=0; i<items.length; i++)	{
@@ -249,7 +251,7 @@
 					wDiv.innerHTML += tmp;
 					     
 					var eid = encodeURIComponent(listName);
-					wDiv.innerHTML += "<div onclick=\"location.href='listExport.jsp?list="+eid+"';\" style='margin-top:10px;cursor:pointer; width:90px;height:20px'><img src='images/downArrow20.png'/><u>export list</u></div>";
+					wDiv.innerHTML += "<div onclick=\"location.href='listExport.jsp?list="+eid+"';\" style='margin:20px;cursor:pointer; width:90px;height:20px'><img src='images/downArrow20.png'/><u>export list</u></div>";
 				}
 				else{
 			    	document.getElementById(listName + "details").appendChild(dDIV);
@@ -257,7 +259,7 @@
 				}
 			     
 			    if(!invalidItems.length < 1)	{
-					wDiv.innerHTML += "<span id='invalid_span' style='color:gray; padding:3px'>Invalid items: ";
+					wDiv.innerHTML += "<span id='invalid_span' style='color:gray; padding:3px'><br/>Invalid or does not exist in the database:<br/> ";
 					for(var i=0; i<invalidItems.length; i++){
 						invalidItemId = invalidItems[i];
 						if((i+1) == invalidItems.length){
