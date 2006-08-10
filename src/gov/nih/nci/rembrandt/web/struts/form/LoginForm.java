@@ -113,7 +113,9 @@ public final class LoginForm extends ActionForm {
 			errors.add("Password:", new ActionError("error.password"));
 		}
 		try {
+			if(securityManager != null){
 			credentials = securityManager.authenticate(userName, password);
+			}
 		} catch (AuthenticationException e) {
 			logger.debug(e);
 		}
