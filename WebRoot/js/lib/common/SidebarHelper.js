@@ -37,7 +37,7 @@ var SidebarHelper = {
 						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : "";
 						var lstyle = listSubTypes.indexOf(listContainer.highlightType)== -1 ? "color:#A90101;" : "";			
 						//generate the LIs
-						tst += "<li style=\""+lstyle+"\" id=\"'"+theName+"\" title=\""+listItems+"\">" + shortName + "</li>\n";
+						tst += "<li style=\""+lstyle+"\" id=\"'"+theName+"\" title=\"" + theName + ":<br/>" +listItems+"\">" + shortName + "</li>\n";
 					}
 					tst += "</ul>";
 					
@@ -95,7 +95,7 @@ var SidebarHelper = {
 			lis[i].onmouseover = function() { 
 				tmpp[this.id] = this.title;
 				this.title = "";
-				return overlib(tmpp[this.id].split(",").join("<br/>"), CAPTION, this.id.substring(0,10) + " Elements:");
+				return overlib(tmpp[this.id].split(",").join("<br/>"), CAPTION, this.id + " Elements:");
 			};
 			lis[i].onmouseout = function() { 
 				this.title = tmpp[this.id];
