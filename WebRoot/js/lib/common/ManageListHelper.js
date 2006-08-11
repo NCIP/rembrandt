@@ -58,8 +58,8 @@
 		                    + "' class='listListing'>" 
 		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
 		                    + "<b style='"+lstyle+"' title='"+theName+"'>"
-		                    + shortName + "</b> (" + listSubTypes + ") "
-		                    + "<span id='"+theName+"_count'>" + itemCount + " items</span>" 
+		                    + shortName + "</b><br/><div style='margin-left:10px'> Type: " + listSubTypes + " - "
+		                    + "<span id='"+theName+"_count'>" + itemCount + "</span> item(s)" 
 		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName
 		                    + "\");return false;'>"
@@ -70,7 +70,7 @@
 		                    + "<img src='images/deleteCross20.png' border='0' style='vertical-align:text-bottom;'/>delete</div>"
 		                    + "</div><br /><div id='"
 		                    + theName
-		                    + "details'></div>\n\n";    
+		                    + "details'></div>\n</div>\n";    
 					}
 					if($(listType+'ListDiv'))
 						$(listType+'ListDiv').innerHTML = tst;
