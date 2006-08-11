@@ -514,6 +514,43 @@ function autoCheckHighlighted(el)	{
 	}
 }
 
+function autoCheckHighlightedSamples(sarray)	{
+	if(sarray.length>0)	{
+	
+		var h = $$("span.highlighted");
+		//alert(h.length);
+		if(h.length > 0)	{
+			var tbl = h[0].parentNode.parentNode.parentNode.parentNode;
+			//alert(tbl.nodeName);
+			//looks for tbody? thats why the extra parentNode call?
+			//var srow = tbl.childNodes[1].childNodes[2]; //tbody on down via trial and error
+			//nodeName to tell the HTML elem
+			var _srow = $$("tr.sampleRow");
+			var srow = _srow[0];
+			//alert(srow.childNodes.length);
+			
+			var s = "";			
+			for(var i=0; i<h.length; i++)	{
+				//get the cellIndex from the h.parentNode, go to the first row, get that td cell index, check it
+				var ci = h[i].parentNode.cellIndex;
+				//alert(ci);
+				for(var t=0; t<srow.childNodes.length; t++)	{
+					if(srow.childNodes[t].nodeName=="TD" && srow.childNodes[t].cellIndex == (ci-1))	{
+						s = srow.childNodes[t];
+						break;
+					}
+				}
+				if(s!="")	{
+					//why was this 1 not 0?
+					s.childNodes[1].selected = true;			
+					s.childNodes[1].checked = true;			
+				}
+			}
+		}
+	}
+
+}
+
 function prepQuickClinical()	{
 	var s = Array();
 	for(var i=0; i<document.prbSamples.samples.length; i++)	{

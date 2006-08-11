@@ -37,6 +37,7 @@
 		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
 		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script> 
 		<script language="JavaScript" type="text/javascript" src="XSL/a_saveSamples.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/lib/prototype_1.5pre.js"></script>
 		
 		<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
 		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
@@ -365,6 +366,14 @@
 			allSamplesFromClinical.push('<xsl:value-of select="Data"/>');
 		</xsl:if>
 	</xsl:for-each>
+	var anyHighlighted = false;
+	var hcells = Array();
+	<xsl:for-each select="Row[position()>2]/Cell[position()>3]">
+		<xsl:if test="($filter_value4 = 'gt' and Data > $filter_value1) or ($filter_value4 = 'lt' and $filter_value1 > Data) or ($filter_value4 = 'eq' and $filter_value1 >= Data and Data >= $filter_value1) or ($filter_value4 = 'lte' and $filter_value1 >= Data) or ($filter_value4 = 'gte' and Data >= $filter_value1)">
+			hcells.push('<xsl:value-of select="Data"/>');
+			anyHighlighted = true;
+		</xsl:if>
+	</xsl:for-each>
 </script>
 
     <table cellpadding="0" cellspacing="0">
@@ -435,6 +444,14 @@
 		  	  			<xsl:variable name="class" select="@group" />
 		  	  			<xsl:variable name="styleclass" select="@class" />
 		  	  			<xsl:variable name="theData" select="Data"/>
+		  	  			
+		  	  			<xsl:variable name="highlightThisCell">
+							<xsl:choose>
+								<xsl:when test="($filter_value4 = 'gt' and Data > $filter_value1) or ($filter_value4 = 'lt' and $filter_value1 > Data) or ($filter_value4 = 'eq' and $filter_value1 >= Data and Data >= $filter_value1) or ($filter_value4 = 'lte' and $filter_value1 >= Data) or ($filter_value4 = 'gte' and Data >= $filter_value1)">yes</xsl:when>
+								<xsl:otherwise>no</xsl:otherwise>		
+							</xsl:choose>
+						</xsl:variable>
+						
 		      			<td class="{$class}">
 
 		      			<xsl:choose>
@@ -460,23 +477,12 @@
 							</xsl:when>
 			      			<xsl:when test="$filter_value1 != 000 and $filter_value4 != ''">
 			      				<xsl:choose>
-			      					<xsl:when test="$filter_value4 = 'gt' and Data > $filter_value1">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      					<xsl:when test="$highlightThisCell = 'yes'">
+						      			<span class="highlighted" style="background-color:yellow" id="{$theData}"><xsl:value-of select="Data"/></span>		      				
 			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'lt' and $filter_value1 > Data">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'eq' and $filter_value1 = Data">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'lte' and $filter_value1 >= Data">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
-			      					<xsl:when test="$filter_value4 = 'gte' and Data >= $filter_value1">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
-			      					</xsl:when>
+			     
 			      					<xsl:when test="$theData = 'G' or $theData = 'C'">
-			      					<xsl:variable name="currentSample" select="..//Cell[1]/Data"/>
+			      						<xsl:variable name="currentSample" select="..//Cell[1]/Data"/>
 			      						<a href="javascript:switchViews('{$theData}', '{$currentSample}')"><xsl:value-of select="$theData"/></a>
 			
 			<!--      						<a href="runReport.do?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a> -->
@@ -530,6 +536,7 @@
  	}
   </script>
   <script language="javascript">A_initSaveSample();</script>
+  <script language="javascript">if(anyHighlighted)	{autoCheckHighlightedSamples(hcells);}</script>
   
   </body>
   </html>
