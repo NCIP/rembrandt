@@ -288,7 +288,7 @@
 	  	<xsl:text>&#160;</xsl:text>
 	  	<input type="button" value="save selected samples" onclick="javascript:A_saveSamples();" />
 	  	<xsl:text>&#160;</xsl:text>
-	  	<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> All on page</span>
+	  	<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> All</span>
 	  	<xsl:text>&#160;</xsl:text>
 	  	<a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp(savedHeader + currentTmpSamples);" onmouseout="return nd();" id="sampleCount"></a> 	
 	  	<xsl:text>&#160;</xsl:text>
