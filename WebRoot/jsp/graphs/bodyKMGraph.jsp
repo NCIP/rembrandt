@@ -128,7 +128,10 @@
 		<br/>
 		
 		<!--  BEGIN LEGEND: LINKS TO CLINICAL -->
+		<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 		View Clinical Reports<br />
+		</logic:notEqual>
+		
 		<!--check what type of plot it is as to display the correct link text-->
 		<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">		
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
@@ -138,8 +141,9 @@
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
 		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
 		</logic:equal>
+		<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
-		
+		</logic:notEqual>
 		
 		<!-- Statistical Data  STARTS HERE --></p>
 		<fieldset class="gray" style="text-align:left">
