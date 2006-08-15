@@ -22,4 +22,8 @@
 	<script type="text/javascript" src="js/overlib_hideform.js"></script>
 	<script type="text/javascript" src="js/menuSwapper.js"></script>
 	<script type="text/javascript" src="js/moveUpDown.js"></script>
+	
+	<script type='text/javascript' src='dwr/interface/DynamicListHelper.js'></script>
+<script type='text/javascript' src='js/lib/common/SidebarHelper.js'></script>
+
 	<style type="text/css" media="screen">@import "css/tabs.css";</style>
