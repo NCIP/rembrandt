@@ -17,8 +17,11 @@
 <script type='text/javascript' src='dwr/interface/UserListHelper.js'></script>
 <script type='text/javascript' src='dwr/engine.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script>
+<!-- 
 <script type='text/javascript' src='dwr/interface/DynamicListHelper.js'></script>
 <script type='text/javascript' src='js/lib/common/SidebarHelper.js'></script>
+-->
+
 <script type='text/javascript' src='js/lib/common/ManageListHelper.js'></script>
 
 <script type='text/javascript' src='js/lib/common/TextFormList.js'></script>
