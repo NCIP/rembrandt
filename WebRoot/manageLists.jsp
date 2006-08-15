@@ -18,8 +18,9 @@
 <script type='text/javascript' src='dwr/engine.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script>
 <script type='text/javascript' src='dwr/interface/DynamicListHelper.js'></script>
-
+<script type='text/javascript' src='js/lib/common/SidebarHelper.js'></script>
 <script type='text/javascript' src='js/lib/common/ManageListHelper.js'></script>
+
 <script type='text/javascript' src='js/lib/common/TextFormList.js'></script>
 <script type='text/javascript' src='js/lib/common/FormChanger.js'></script>
 <script type='text/javascript' src='js/lib/common/StatusMessage.js'></script>
@@ -112,7 +113,6 @@ function addLoadEvent(func) {
 		else	{
 			ManageListHelper.generic_cb("init");
 		}
-		
 		//StatusMessage.showStatus("asdf");
 </script>
 

@@ -8,9 +8,8 @@
 	 			 gov.nih.nci.caintegrator.application.lists.ListType" %> 
 
 <!--  lists related -->
-<script type='text/javascript' src='dwr/engine.js'></script>	 			 
-<script type='text/javascript' src='dwr/interface/DynamicListHelper.js'></script>
-<script type='text/javascript' src='js/lib/common/SidebarHelper.js'/></script>
+
+
 <div id="manageListLinkDiv" style="text-align:center; margin-top:20px;">
 	<fieldset style="text-align:center">
 		<a href="manageLists.do">Manage Lists</a>

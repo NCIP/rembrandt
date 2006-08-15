@@ -17,6 +17,7 @@
 			// Array<Object> listItems : { listName, listDate, itemCount, invalidItems }
 			try	{
 				var listContainerArray = eval('(' + txt + ')');
+				
 				for(var i=0; i<listContainerArray.length; i++)	{
 					var listContainer = listContainerArray[i];
 					var listType = listContainer.listType ? listContainer.listType : "none";
@@ -77,7 +78,7 @@
 				}
 			}
 			catch(err)	{
-				//alert("ERR: " + err);
+				alert("ERR: " + err);
 			}
 			 
 		},
@@ -188,7 +189,8 @@
 				SidebarHelper.loadSidebar();
 			}
 			catch(err)	{}			
-			ManageListHelper.getAllLists()
+			
+			ManageListHelper.getAllLists();
 		},
 		//function to make an AJAX call to the userListBean in the session
 		// and delete the list item under the list name it passes as params. Then finds
