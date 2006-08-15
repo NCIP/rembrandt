@@ -114,7 +114,7 @@
 				(Query Name:<xsl:value-of select="@queryName" />)
 			</span>
 		
-			<xsl:if test="$rType = 'Copy Number'">
+			<xsl:if test="$rType = 'Copy Number' and contains($qName, 'previewResults') = false">
 				<a href="#" id="switchToClinical" onclick="prepQuickClinical();return false;" style="font-size:10px">[View Clinical Report for all samples]</a>
 				<form id="quickClinicalWrapper"></form>
 			</xsl:if>
@@ -207,7 +207,7 @@
 	  <!-- Added for WebGenome Testing -->
 	  <div class="filterForm">
 	  <form action="null" method="post" name="reportGeneratorForm">
-	     <button type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')">View Plots (in WebGenome)</button>
+	    <b><span>WebGenome:</span></b> <button type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')">View Plots (in WebGenome)</button>
       </form>
 	   </div>
 	  </xsl:if>	  
