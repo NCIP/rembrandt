@@ -645,9 +645,9 @@ public class ReportGeneratorHelper {
 	            OutputFormat format = OutputFormat.createPrettyPrint();
 	            XMLWriter writer;
 	            writer = new XMLWriter(out, format );	            
-	            writer.write( transformedDoc );
+	            writer.write( transformedDoc);
 	            if(!xsltFilename.equals(RembrandtConstants.DEFAULT_PATHWAY_DESC_XSLT_FILENAME)) {
-	               writer.close();
+	               //writer.close();
 	            }
 	        }
 	        else	{
