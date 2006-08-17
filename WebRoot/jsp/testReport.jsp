@@ -24,6 +24,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <body>
 
 <script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
+<script type='text/javascript' src='/rembrandt/dwr/interface/ListFilter.js'></script>
 <script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
 <script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
 

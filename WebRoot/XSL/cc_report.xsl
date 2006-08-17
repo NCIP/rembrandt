@@ -179,14 +179,16 @@
 			</form>
 		</div>
 	  
-			<div class="filterForm">
+			<div class="filterForm" style="height:auto">
 				<b><span class="lb">Select Reporters:</span></b> 
 				<xsl:text>&#160;</xsl:text>
 				<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$key}" />
+				Type:<select id="repSubType" name="repSubType"></select>
+				<script type="text/javascript">populateReporterTypeDD();</script>
 				<input type="button" name="filter_submit" value="Save Reporters" onclick="javascript:A_saveReporters();" />
-			
 				<xsl:text>&#160;</xsl:text>
-				<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAllOnAll(this);"/> All on all pages</span>
+				<br/>
+				<span style="margin-left:100px" id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAllOnAll(this);"/> All on all pages</span>
 				<!-- 
 				<xsl:text>&#160;</xsl:text>
 				<a href="#" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));return false;">[Check All]</a>
@@ -202,7 +204,6 @@
 			 	
 			 	<xsl:text>&#160;</xsl:text>
 			 	<a href="#" onclick="javascript:A_clearTmpReporters(); return false;" onmouseover="javascript:return showHelp('Clear these reporters');" onmouseout="return nd();">[clear reporters]</a>
-			 	
 		  	</div>
 	 
 	  

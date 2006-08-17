@@ -134,6 +134,9 @@ function manageCheckAll(box)	{
 function A_saveReporters()	{
 	//get the name
 	var name = $("tmp_prb_queryName").value;
+	var st = $("repSubType").value;
+	alert(st);
+	
 	if(name != "")	{
 		//convert the overlib list to a comma seperated list
 		if(currentTmpReporters != "")	{
@@ -142,7 +145,7 @@ function A_saveReporters()	{
 			if(commaSepList.charAt(commaSepList.length-1) == ",")
 				commaSepList = commaSepList.substring(0, commaSepList.length-1);
 			//alert("="+commaSepList+"=");
-			DynamicReport.saveReporters(commaSepList, name, A_saveReporters_cb);
+			DynamicReport.saveReportersWithSub(commaSepList, name, st, A_saveReporters_cb);
 		}
 		else	{
 			alert("Please select some reporters to save");
@@ -240,6 +243,14 @@ function goSort(element, method, key)	{
 		 document.forms['paginate'].p_step.value = "25"; 
 
 	document.forms['paginate'].submit();
+}
+
+function populateReporterTypeDD()	{
+	ListFilter.getSubTypesForTypeFromString("Reporter", populateReporterTypeDD_cb);
+}
+function populateReporterTypeDD_cb(txt){
+	DWRUtil.removeAllOptions("repSubType", txt);
+    DWRUtil.addOptions("repSubType", txt);
 }
 
 /* http://www.embimedia.com/resources/labs/js-inarray.html */
