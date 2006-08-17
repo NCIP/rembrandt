@@ -338,6 +338,25 @@ public class DynamicReportGenerator {
 		return success;
 	}
 	
+	public String saveReportersWithSub(String commaSepList, String name, String subType)	{
+		String success = "fail";
+		String[] listArr = StringUtils.split(commaSepList, ",");
+		List<String> list = Arrays.asList(listArr);
+		//TODO:  Need to take ListSubType into consideration here, below we are NOT setting one
+		try	{
+			ListSubType stype = ListSubType.valueOf(subType);
+			List<ListSubType> lst = new ArrayList();
+			lst.add(stype);
+			
+            RembrandtListValidator listValidator = new RembrandtListValidator(gov.nih.nci.caintegrator.application.lists.ListType.Reporter,list);
+			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.Reporter, lst,list, name, listValidator);
+		}
+		catch(Exception e) {
+			//most likely cant access the session
+		}
+		return success;
+	}
+	
 	public String saveSamples(String commaSepList, String name)	{
 		String success = "fail";
 		String[] listArr = StringUtils.split(commaSepList, ",");
