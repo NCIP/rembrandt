@@ -40,4 +40,15 @@ public class RembrandtListFilter {
 		//   Default, Custom, IMAGE_CLONE, PROBE_SET, SNPProbeSet, DBSNP, GENBANK_ACCESSION_NUMBER, GENESYMBOL, LOCUS_LINK;
 		return lsta;
 	}
+	
+	public static List<String> getSubTypesForTypeFromString(String lt)	{
+		List<ListSubType> lsta = new ArrayList();
+		lsta = getSubTypesForType(ListType.valueOf(lt));
+		
+		List<String> stringlist = new ArrayList();
+		for(ListSubType l : lsta){
+			stringlist.add(l.toString());
+		}
+		return stringlist;
+	}
 }
