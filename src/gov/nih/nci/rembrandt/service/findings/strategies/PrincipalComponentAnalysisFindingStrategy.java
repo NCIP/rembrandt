@@ -5,12 +5,17 @@ import gov.nih.nci.caintegrator.analysis.messaging.ReporterGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.PrincipalComponentAnalysisQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
+import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
@@ -21,8 +26,12 @@ import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFindi
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
+import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
+import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
@@ -33,6 +42,7 @@ import java.util.Set;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
+import javax.naming.OperationNotSupportedException;
 
 import org.apache.log4j.Logger;
 
@@ -188,69 +198,63 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
                             throw new FindingsQueryException(e.getMessage());
                 }
 
-            }   
-        }
-  
+            }   	
+            else if(clinicalDataQuery instanceof ClinicalDataQuery){ 	//Get Sample Ids from DB for All samples
+			CompoundQuery compoundQuery;
+            Resultant resultant;            
+        			try {
+        				compoundQuery = new CompoundQuery((ClinicalDataQuery) clinicalDataQuery);
+        				compoundQuery.setAssociatedView(ViewFactory
+        		                .newView(ViewType.CLINICAL_VIEW));
+        				InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+        				institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
+        				compoundQuery.setInstitutionCriteria( institutionCriteria);
+        				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
+        	  		}
+        	  		catch (Throwable t)	{
+        	  			logger.error("Error Executing the query/n"+ t.getMessage());
+        	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
+        	  		}
         
-//		//Get Sample Ids from DB
-//		if(clinicalQueries != null){
-//			CompoundQuery compoundQuery;
-//            for (ClinicalDataQuery clinicalDataQuery: clinicalQueries){
-//            Resultant resultant;            
-//        			try {
-//        				compoundQuery = new CompoundQuery(clinicalDataQuery);
-//        				compoundQuery.setAssociatedView(ViewFactory
-//        		                .newView(ViewType.CLINICAL_VIEW));
-//        				InstitutionCriteria institutionCriteria = new InstitutionCriteria();
-//        				institutionCriteria.setInstitutions(myQueryDTO.getInstitutionDEs());
-//        				compoundQuery.setInstitutionCriteria( institutionCriteria);
-//        				resultant = ResultsetManager.executeCompoundQuery(compoundQuery);
-//        	  		}
-//        	  		catch (Throwable t)	{
-//        	  			logger.error("Error Executing the query/n"+ t.getMessage());
-//        	  			throw new FindingsQueryException("Error executing clinical query/n"+t.getMessage());
-//        	  		}
-//        
-//        			if(resultant != null) {      
-//        		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
-//        		 		Viewable view = resultant.getAssociatedView();
-//        		 		if(resultsContainer != null)	{
-//        		 			if(view instanceof ClinicalSampleView){
-//        		 				try {
-//        		 					//1. Get the sample Ids from the return Clinical query
-//        							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
-//        							//2. validate samples so that GE data exsists for these samples
-//        							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-//        							//3. Extracts sampleIds as Strings
-//        							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-//        							if(sampleIDs != null && sampleIDs.size()> 0) {
-//        								//3.1 add them to SampleGroup
-//        								sampleGroup.addAll(sampleIDs);
-//            							//3.2 Find out any samples that were not processed  
-//        								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
-//        								set.addAll(sampleIDDEs); //samples from the original query
-//        								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
-//        								samplesNotFound = set;
-//        								setSamplesNotFound(samplesNotFound);
-//        							}
-//        							else{ //No samples validated
-//        								sampleGroup = null;
-//        								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
-//        							}
-//        						} catch (OperationNotSupportedException e) {
-//        							logger.error(e.getMessage());
-//        				  			throw new FindingsQueryException(e.getMessage());
-//        						} catch (Exception e) {
-//        							e.printStackTrace();
-//        							logger.error(e.getMessage());
-//        				  			throw new FindingsQueryException(e.getMessage());
-//        						}
-//        
-//        	 				}	
-//        		 		}
-//                    }
-//			}
-//		}
+        			if(resultant != null) {      
+        		 		ResultsContainer  resultsContainer = resultant.getResultsContainer(); 
+        		 		Viewable view = resultant.getAssociatedView();
+        		 		if(resultsContainer != null)	{
+        		 			if(view instanceof ClinicalSampleView){
+        		 				try {
+        		 					//1. Get the sample Ids from the return Clinical query
+        							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
+        							//2. validate samples so that GE data exsists for these samples
+        							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
+        							//3. Extracts sampleIds as Strings
+        							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
+        							if(sampleIDs != null && sampleIDs.size()> 0) {
+        								//3.1 add them to SampleGroup
+        								sampleGroup.addAll(sampleIDs);
+            							//3.2 Find out any samples that were not processed  
+        								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
+        								set.addAll(sampleIDDEs); //samples from the original query
+        								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
+        								samplesNotFound = set;
+        								setSamplesNotFound(samplesNotFound);
+        							}
+        							else{ //No samples validated
+        								sampleGroup = null;
+        								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
+        							}
+        						} catch (OperationNotSupportedException e) {
+        							logger.error(e.getMessage());
+        				  			throw new FindingsQueryException(e.getMessage());
+        						} catch (Exception e) {
+        							e.printStackTrace();
+        							logger.error(e.getMessage());
+        				  			throw new FindingsQueryException(e.getMessage());
+        						}
+        		 		}
+                    }
+			}
+           }
+		}
 		//Get Reporters from DB
 		if(myQueryDTO.getGeneIdentifierDEs() != null ||
 				myQueryDTO.getReporterIdentifierDEs() != null){
