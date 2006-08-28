@@ -25,6 +25,8 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -98,62 +100,27 @@ import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 public class GenePlotDataSet {
 
-//	protected DefaultCategoryDataset dataset_old = new DefaultCategoryDataset();
+	//this DataSet holds 3 JFree DataSets (1 per GeneExpressionPlotType)
+	// 1) this one holds the data for the BoxAndWhisker Plot
 	protected DefaultBoxAndWhiskerCategoryDataset bwdataset = new DefaultBoxAndWhiskerCategoryDataset();
-	
-	protected DefaultStatisticalCategoryDataset dataset = new DefaultStatisticalCategoryDataset();
-	protected DefaultCategoryDataset fdataset = new DefaultCategoryDataset();
+	// 2) this one holds the data for the LOG2 plot, w/std deviation error bars
+	protected DefaultStatisticalCategoryDataset log2Dataset = new DefaultStatisticalCategoryDataset();
+	// 3) this one holds the data for the RAW plot
+	protected DefaultCategoryDataset rawDataset = new DefaultCategoryDataset();
 
 	private static Logger logger = Logger.getLogger(GenePlotDataSet.class);
 	protected HashMap pValues = new HashMap();
 	protected HashMap stdDevMap = new HashMap();
 	
-	   public GenePlotDataSet() throws ParseException {
-/*
-		   //		 row keys... each per cluster
-	        String series1 = "Probeset1";
-	        String series2 = "Probeset2";
-	        String series3 = "Probeset3";
-
-
-	        // column keys...  "clustered" bars
-	        String category1 = "GBM";
-	        String category2 = "Olig";
-	        String category3 = "Astroc";
-	        String category4 = "Mixed";
-	        String category5 = "All";
-	        String category6 = "Non-tumor";
-
-	        // create the dataset...
-
-	        dataset_old.addValue(1.0, series1, category1);
-	        dataset_old.addValue(4.0, series1, category2);
-	        dataset_old.addValue(3.0, series1, category3);
-	        dataset_old.addValue(5.0, series1, category4);
-	        dataset_old.addValue(5.0, series1, category5);
-	        dataset_old.addValue(7.0, series1, category6);
-
-	        dataset_old.addValue(5.0, series2, category1);
-	        dataset_old.addValue(7.0, series2, category2);
-	        dataset_old.addValue(6.0, series2, category3);
-	        dataset_old.addValue(8.0, series2, category4);
-	        dataset_old.addValue(4.0, series2, category5);
-	        dataset_old.addValue(5.0, series2, category6);
-
-	        dataset_old.addValue(4.0, series3, category1);
-	        dataset_old.addValue(3.0, series3, category2);
-	        dataset_old.addValue(2.0, series3, category3);
-	        dataset_old.addValue(3.0, series3, category4);
-	        dataset_old.addValue(6.0, series3, category5);
-	        dataset_old.addValue(2.0, series3, category6);	
-	    */
-	    }
+	   public GenePlotDataSet() throws ParseException { }
 	   
 	   /**
-	    * real deal, takes in the gene and build the jfree data set
+	    * takes in the gene and build the jfree data set
 	    * @param gene
 	    */
 	   public GenePlotDataSet(String gene,InstitutionCriteria institutionCriteria ,GeneExpressionDataSetType geneExpressionDataSetType )	{
+		   
+		   //Determine which type of query we will need to run based on the algorithm we are passing in (GeneExpressionDataSetType enum)
 			Resultant resultant = null;
 			try{
 			    switch (geneExpressionDataSetType){
@@ -222,7 +189,7 @@ public class GenePlotDataSet {
 					}
 				}
 				
-				//now we know how many diseases adn how many probeset/reporter per disease
+				//now we know how many diseases and how many probeset/reporter per disease
 
 				int icounter = 0;
 				DiseaseTypeLookup[] diseaseTypes = null;
@@ -259,6 +226,8 @@ public class GenePlotDataSet {
 						
 						Double intensityValue = (Double) reporterResultset.getFoldChangeIntensity().getValue();
 						Double pvalue = (Double) reporterResultset.getRatioPval().getValue();
+						
+
 						//using 1.5 autoboxing to convert Double to double
 						double stdDev = reporterResultset.getStandardDeviationRatio()!=null ? (Double) reporterResultset.getStandardDeviationRatio().getValue() : 0;
 						//fill up our lists
@@ -274,20 +243,34 @@ public class GenePlotDataSet {
 						stdDevMap.put(reporterName+"::"+diseaseName, pValueFormat.format(stdDev));
 						
 						//the money = actually build the jfree dataset
-						dataset.add(intensityValue.doubleValue(), stdDev, reporterName, diseaseName);
-						fdataset.addValue(intensityValue.doubleValue(), reporterName, diseaseName);
 						
-						//dataset.addValue(intensityValue.doubleValue(), reporterName, diseaseName);
-					
+						//LOG2 w/STD Dev
+						log2Dataset.add( (Math.log(intensityValue.doubleValue())/Math.log(2)), stdDev, reporterName, diseaseName);
+						
+						//RAW
+						rawDataset.addValue(intensityValue.doubleValue(), reporterName, diseaseName);
+						
+						//TESTING
+						ArrayList tlist = new ArrayList();
+						for (int k = 0; k < 25; k++) {
+		                    final double value1 = 10.0 + Math.random() * 3;
+		                    tlist.add(new Double(value1));
+		                    final double value2 = 11.25 + Math.random(); // concentrate values in the middle
+		                    tlist.add(new Double(value2));
+		                }
+						//B&W
+						bwdataset.add(tlist, reporterName, diseaseName);
+						
 						counter++;
 					}
+					
 					icounter++;
 				}	
 			}
 	   }
 	   
-	   public DefaultStatisticalCategoryDataset getDataSet() {
-		   return dataset;
+	   public DefaultStatisticalCategoryDataset getLog2Dataset() {
+		   return log2Dataset;
 	   }
 	   
 	   public HashMap getPValuesHashMap()	{
@@ -298,8 +281,12 @@ public class GenePlotDataSet {
 		   return stdDevMap;
 	   }
 
-	public DefaultCategoryDataset getFdataset() {
-		return fdataset;
+	public DefaultCategoryDataset getRawDataset() {
+		return rawDataset;
+	}
+
+	public DefaultBoxAndWhiskerCategoryDataset getBwdataset() {
+		return bwdataset;
 	}
 	   
 }

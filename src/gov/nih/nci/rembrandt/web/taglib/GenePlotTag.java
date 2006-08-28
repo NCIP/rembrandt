@@ -93,12 +93,15 @@ public class GenePlotTag extends AbstractGraphingTag {
 			HashMap charts = GeneExpressionPlot.generateBarChart(geneSymbol, pageContext.getSession(), new PrintWriter(out), geType);
 			String filename = (String) charts.get("errorBars");
 			String ffilename = (String) charts.get("noErrorBars");
+			String bwFilename = (String) charts.get("bwFilename");
+			
 			String legendHtml = (String) charts.get("legend");
 			
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
+			String gwgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + bwFilename;
 			
-			out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Reporter Selection:</span> ");
+			out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Data Selection:</span> ");
 			
 			if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI))
 				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_AFFY+"\">"+RembrandtConstants.REPORTER_SELECTION_AFFY+"</a>");		
@@ -112,10 +115,14 @@ public class GenePlotTag extends AbstractGraphingTag {
 			else
 				out.print(RembrandtConstants.REPORTER_SELECTION_UNI);
 
+			out.print("<br/><br/><span style='font-weight:bold'>Graph Type:</span> <a href=\"javascript:toggleGenePlot('"+filename+"');\">show log2</a> | ");
+			out.print("<a href=\"javascript:toggleGenePlot('"+ffilename+"');\">show raw</a> | ");
+			out.print("<a href=\"javascript:toggleGenePlot('"+bwFilename+"');\">show BW</a><br/> ");
+			
 			out.print("</div><br/>");
 			out.print("<img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\">");
 			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend
-			out.print("<br/><a href=\"javascript:toggleGenePlot('"+filename+"','"+ffilename+"');\">Toggle Error Bars</a><br/> ");
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

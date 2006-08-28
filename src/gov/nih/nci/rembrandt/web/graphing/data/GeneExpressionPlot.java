@@ -6,6 +6,7 @@ import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
@@ -17,15 +18,19 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.imagemap.StandardURLTagFragmentGenerator;
+import org.jfree.chart.labels.BoxAndWhiskerToolTipGenerator;
 import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 import org.jfree.chart.servlet.ServletUtilities;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 
@@ -91,8 +96,9 @@ public class GeneExpressionPlot {
 
 	public static HashMap generateBarChart(String gene, HttpSession session,
 			PrintWriter pw, GeneExpressionDataSetType geType) {
-		String filename = null;
-		String ffilename = null;
+		String log2Filename = null;
+		String rawFilename = null;
+		String bwFilename = "";
 		String legendHtml = null;
 		HashMap charts = new HashMap();
 
@@ -102,9 +108,35 @@ public class GeneExpressionPlot {
 			final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria, geType);
 			//final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria,GeneExpressionDataSetType.GeneExpressionDataSet );
 
-			DefaultStatisticalCategoryDataset dataset = (DefaultStatisticalCategoryDataset) gpds.getDataSet();
-			CategoryDataset fdataset = (CategoryDataset) gpds.getFdataset();
+			//LOG2 Dataset
+			DefaultStatisticalCategoryDataset dataset = (DefaultStatisticalCategoryDataset) gpds.getLog2Dataset();
+			
+			//RAW Dataset
+			CategoryDataset fdataset = (CategoryDataset) gpds.getRawDataset();
+			
+			//B&W dataset
+			DefaultBoxAndWhiskerCategoryDataset bwdataset = (DefaultBoxAndWhiskerCategoryDataset) gpds.getBwdataset();
+			//B&W testing
+			final CategoryAxis xAxis = new CategoryAxis("Disease Type");
+	        final NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
+	        yAxis.setAutoRangeIncludesZero(false);
+	        final BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
+	        bwRenderer.setFillBox(false);
+	        bwRenderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
+	        final CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
 
+	        final JFreeChart bwChart = new JFreeChart(
+	        	"Gene Expression Plot (" + gene.toUpperCase() + ")",
+	            new Font("SansSerif", Font.BOLD, 14),
+	            bwPlot,
+	            true
+	        );
+			
+			
+			
+			//END BW testing
+			
+			
 			// create the chart...
 			JFreeChart chart = ChartFactory.createBarChart(
 					"Gene Expression Plot (" + gene.toUpperCase() + ")", // chart
@@ -227,26 +259,40 @@ public class GeneExpressionPlot {
 
 			chart.removeLegend();
 			fchart.removeLegend();
+			bwChart.removeLegend();
 
 			// Write the chart image to the temporary directory
-			ChartRenderingInfo info = new ChartRenderingInfo(
-					new StandardEntityCollection());
-			filename = ServletUtilities.saveChartAsPNG(chart, 650, 400, info,
-					session);
-
+			ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+			
+			//TEST BW
+			//perhaps create a new ChartRenderingInfo obj for each, and write the map coords out for each
+			//then toggle the usemap when you toggle the src of the img ??
+			bwFilename = ServletUtilities.saveChartAsPNG(bwChart, 650, 400, info, session);
+			ChartUtilities.writeImageMap(pw, bwFilename, info,
+					new CustomOverlibToolTipTagFragmentGenerator(),
+					new StandardURLTagFragmentGenerator());
+			info.clear(); // lose the first one
+			info = new ChartRenderingInfo(new StandardEntityCollection());
+			//END TEST BW
+			
+			log2Filename = ServletUtilities.saveChartAsPNG(chart, 650, 400, info, session);
+			ChartUtilities.writeImageMap(pw, log2Filename, info,
+					new CustomOverlibToolTipTagFragmentGenerator(),
+					new StandardURLTagFragmentGenerator());
 			// clear the first one and overwrite info with our second one - no
 			// error bars
 			info.clear(); // lose the first one
+			info = new ChartRenderingInfo(new StandardEntityCollection());
+			
+			
 			fplot.setRenderer(frenderer);
-			ffilename = ServletUtilities.saveChartAsPNG(fchart, 650, 400, info,
-					session);
-
+			rawFilename = ServletUtilities.saveChartAsPNG(fchart, 650, 400, info, session);
 			// Write the image map to the PrintWriter
 			// can use a different writeImageMap to pass tooltip and URL custom
-
-			ChartUtilities.writeImageMap(pw, filename, info,
+			ChartUtilities.writeImageMap(pw, rawFilename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
 					new StandardURLTagFragmentGenerator());
+
 			// ChartUtilities.writeImageMap(pw, filename, info, true);
 
 			pw.flush();
@@ -254,11 +300,12 @@ public class GeneExpressionPlot {
 		} catch (Exception e) {
 			System.out.println("Exception - " + e.toString());
 			e.printStackTrace(System.out);
-			filename = "public_error_500x300.png";
+			log2Filename = "public_error_500x300.png";
 		}
 		// return filename;
-		charts.put("errorBars", filename);
-		charts.put("noErrorBars", ffilename);
+		charts.put("errorBars", log2Filename);
+		charts.put("noErrorBars", rawFilename);
+		charts.put("bwFilename", bwFilename);
 		charts.put("legend", legendHtml);
 
 		return charts;
