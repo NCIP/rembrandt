@@ -376,12 +376,23 @@ function changeList(formElement)	{
 		var chart = document.getElementById("geneChart");
 		//alert(chart.src + " = " + a);
 		var imgURL = chart.src.split("filename=");
-		
-		if(imgURL[1] == a)	{
-			chart.src = imgURL[0] + "filename=" + b;
+		if(arguments[1])	{
+			if(imgURL[1] == a)	{
+				chart.src = imgURL[0] + "filename=" + b;
+				chart.useMap = "#"+b;
+			}
+			else if(imgURL[1] == b)	{
+				chart.src = imgURL[0] + "filename=" + a;
+				chart.useMap = "#"+a;
+			}
+			else	{
+				chart.src = imgURL[0] + "filename=" + a;
+				chart.useMap = "#"+a;
+			}
 		}
-		else if(imgURL[1] == b)	{
+		else	{
 			chart.src = imgURL[0] + "filename=" + a;
+			chart.useMap = "#"+a;
 		}
 	} 
 }
