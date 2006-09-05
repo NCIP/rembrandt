@@ -14,11 +14,14 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.helper.UIRefineQueryValidator;
 import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
-
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Collection;
+import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -167,6 +170,23 @@ public class RefineQueryAction extends LookupDispatchAction {
            	//ReportGeneratorHelper will execute the query if necesary, or will
 			//retrieve from cache.  It will then generate the XML for the report
 			//and store in a reportBean in the cache for later retrieval
+			
+			//Processing institute criteria information.
+			String[] institutes = refineQueryForm.getInstituteView();
+			if (institutes != null && institutes.length > 0){
+				Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
+				InstitutionCriteria ic = new InstitutionCriteria();
+				for (int i = 0; i < institutes.length; i++){
+					for (Iterator it = collection.iterator(); it.hasNext();){
+						InstitutionDE de = (InstitutionDE)it.next();
+						if (institutes[i].equals(de.getInstituteName())){
+							ic.setInsitution(de);
+						}
+					}
+				}
+				cQuery.setInstitutionCriteria(ic);	
+			}
+			
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
 			ReportBean reportBean = rgHelper.getReportBean();
 			request.setAttribute("queryName", reportBean.getResultantCacheKey());
