@@ -105,8 +105,25 @@ String helpLinkClose = "', 350, 500);\">"+
 	<br>
 	
 </fieldset>
+
+<!--Step 5-->
 <fieldset class="grayRefine">
-<legend class="red">Step 5: Run report or return to previous screen</legend>
+<legend class="red">Step 5: Please select data source</legend>	
+	<table width="100%" border="0">
+		<tr><td>
+				<html:select property="instituteView" multiple="true" onchange="">
+				    <html:optionsCollection property="institueViewColl" label="instituteName" value="instituteName"/>
+				</html:select><html:errors property="instituteView"/>
+			</td>
+		</tr>
+	</table>
+	<br>
+	
+</fieldset>
+
+<!--Step 6-->
+<fieldset class="grayRefine">
+<legend class="red">Step 6: Run report or return to previous screen</legend>
 			<br />
 				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 					onclick="javascript:history.back();"/>&nbsp;&nbsp
