@@ -3,7 +3,10 @@
  */
 package gov.nih.nci.rembrandt.web.helper;
 
+import java.util.Collection;
+
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
@@ -85,5 +88,14 @@ public class InsitutionAccessHelper {
         }
         return institutionCriteria;
     }
+    public static Collection<InstitutionDE> getInsititutionCollection(HttpSession session){
+        //Check user credentials and constrain query by Institutions
+        if(session.getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
+        	UserCredentials credentials = (UserCredentials) session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+            return credentials.getInstitutes();
+        }
+        return null;
+    }
+
 
 }
