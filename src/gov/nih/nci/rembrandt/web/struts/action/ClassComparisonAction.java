@@ -210,7 +210,10 @@ public class ClassComparisonAction extends DispatchAction {
                         PatientUserListQueryDTO patientQueryDTO = new PatientUserListQueryDTO(session,myValueName);
                         clinicalQueryCollection.add(patientQueryDTO);
                         if(i==1){//the second group is always baseline
-                            patientQueryDTO.setBaseline(true);
+                        	//to set baseline only when the statistical method 
+                        	//is not FTest
+                        	if(!"FTest".equals(classComparisonQueryForm.getStatisticalMethod()))
+                        		patientQueryDTO.setBaseline(true);
                         }
                     }
                 }
