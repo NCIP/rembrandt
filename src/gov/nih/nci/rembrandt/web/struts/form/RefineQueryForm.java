@@ -1,9 +1,11 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
 
 import java.util.ArrayList;
@@ -90,6 +92,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private String queryText;
 
 	private String compoundView;
+	private String[] instituteView;
 
 	private String runFlag = "no";
 
@@ -101,6 +104,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private List allGenesQueries = new ArrayList();
 
 	private List compoundViewColl = new ArrayList();
+	private Collection<InstitutionDE> institueViewColl; // = new ArrayList();
 
 	private List selectedQueries = LazyList.decorate(new ArrayList(), this);
 	
@@ -137,10 +141,15 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		queryText = "";
 		compoundView = "";
+		instituteView = new String[0];
+		//institueViewColl = new ArrayList();
+		//institueViewColl.add(new LabelValueBean(" ", " "));
 		selectedResultSet = "";
 		setRefineQueryLookups(request);
 		compoundViewColl = new ArrayList();
 		compoundViewColl.add(new LabelValueBean(" ", " "));
+		
+		institueViewColl = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
 	}
 
 	/**
@@ -436,5 +445,21 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 */
 	public void setIsAllGenesQuery(boolean isAllGenesQuery) {
 		this.isAllGenesQuery = isAllGenesQuery;
+	}
+
+	public Collection<InstitutionDE> getInstitueViewColl() {
+		return institueViewColl;
+	}
+
+	public void setInstitueViewColl(Collection<InstitutionDE> institueViewColl) {
+		this.institueViewColl = institueViewColl;
+	}
+
+	public String[] getInstituteView() {
+		return instituteView;
+	}
+
+	public void setInstituteView(String[] instituteView) {
+		this.instituteView = instituteView;
 	}
 }
