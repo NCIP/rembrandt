@@ -47,7 +47,7 @@
 					for(var t=0; t<lists.length; t++)	{
 					
 						var status = "<span id=\""+lists[t].listName+"status\" style=\"display:none\"><img src=\"images/indicator.gif\"/></span>";
-						var shortName = lists[t].listName.length>25 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
+						var shortName = lists[t].listName.length>45 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
 						var theName = lists[t].listName;
 						var itemCount = lists[t].itemCount;
 						
@@ -99,6 +99,10 @@
 				if(sLists.length < 1)	{
 					alert("Please select some lists to " + action);
 					throw("no lists selected");
+				}
+				if(sLists.length>2 && action == "difference")	{
+					alert("Please select only 2 groups");
+					throw("too many selected");
 				}
 								
 				DynamicListHelper.uniteLists(sLists, groupName, groupType, action, ManageListHelper.groupSelectedLists_cb );

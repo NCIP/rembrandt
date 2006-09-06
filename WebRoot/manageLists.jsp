@@ -95,8 +95,9 @@ function addLoadEvent(func) {
 			
 			<div id="<%=label%>UniteDiv" />
 				New List Name:<input type="text" id="<%=label%>GroupName"/>
-				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'join')" value="Join Selected"/></b>	
-				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'intersect')" value="Intersect Selected"/></b>	
+				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'join')" value="Join"/></b>	
+				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'intersect')" value="Intersect"/></b>	
+				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'difference')" value="Difference"/></b>	
 				<span class="status" id="<%=label%>GroupStatus"></span>
 			</div>
 			

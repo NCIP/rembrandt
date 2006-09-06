@@ -105,7 +105,7 @@ public class DynamicListHelper {
 			listTypesList.add(l.toString());
 		}
 		//call CommonListFunctions.getAllLists(listTypesList);
-		return CommonListFunctions.getAllLists(listTypesList);
+		return "(" + CommonListFunctions.getAllLists(listTypesList) + ")";
 	}
 	public static String getGenericList(String listType)	{
 		//just want one type
