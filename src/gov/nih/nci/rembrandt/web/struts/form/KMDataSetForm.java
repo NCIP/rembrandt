@@ -220,9 +220,9 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 					+ geneOrCytoband;
 		}
 		if (getPlotType().equals(CaIntegratorConstants.SAMPLE_KMPLOT)) {
-			chartTitle = "Kaplan-Meier Survival Plot for Samples with Differential "
-					+ geneOrCytoband + " Gene Expression";
+			chartTitle = "Kaplan-Meier Survival Plot for selected Sample Groups";
 		}
+		
 		return chartTitle;
 	}
 
