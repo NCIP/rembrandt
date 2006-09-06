@@ -189,6 +189,8 @@
 				<xsl:text>&#160;</xsl:text>
 				<br/>
 				<span style="margin-left:100px" id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAllOnAll(this);"/> All on all pages</span>
+				<span style="margin-left:100px" id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));"/> All on all this page</span>
+				
 				<!-- 
 				<xsl:text>&#160;</xsl:text>
 				<a href="#" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));return false;">[Check All]</a>
