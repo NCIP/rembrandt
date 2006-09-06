@@ -2,7 +2,10 @@ package gov.nih.nci.rembrandt.web.reports.quick;
 
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
+import gov.nih.nci.rembrandt.util.DEUtils;
+import gov.nih.nci.rembrandt.web.xml.ClinicalSampleReport;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +30,13 @@ public class QuickClinicalReport {
 					Element table = document.addElement("table").addAttribute("id", "reportTable").addAttribute("class", "report");
 					Element tr = null;
 					Element td = null;
+					
 					tr = table.addElement("tr").addAttribute("class", "header");
-					td = tr.addElement("td").addAttribute("class", "header").addText("Sample ID");
-					td = tr.addElement("td").addAttribute("class", "header").addText("Disease");
-					td = tr.addElement("td").addAttribute("class", "header").addText("Gender");
-					td = tr.addElement("td").addAttribute("class", "header").addText("Age");
-					td = tr.addElement("td").addAttribute("class", "header").addText("Survival Length");
+					List<String> heads = new ArrayList<String>();
+					heads = ClinicalSampleReport.getClinicalHeaderValues();
+					for(String h : heads)	{
+						td = tr.addElement("td").addAttribute("class", "header").addText(h);
+					}
 					
 					for(String sampleId:sampleIds){
 						SampleResultset sampleResultset = sampleResultsetMap.get(sampleId);
@@ -42,8 +46,15 @@ public class QuickClinicalReport {
 						}
 						//end lose
 						if(sampleResultset!=null)	{
+							List dataRows = new ArrayList();
+							dataRows = ClinicalSampleReport.getClinicalRowValues(sampleResultset);
+							
 							tr = table.addElement("tr").addAttribute("class", "data");
 							
+							for(int i=0; i<dataRows.size(); i++)	{
+								td = tr.addElement("td").addText(DEUtils.checkNull(dataRows.get(i)));
+							}
+							/*
 							String sid = sampleResultset.getSampleIDDE()!=null && sampleResultset.getSampleIDDE().getValue() != null ?sampleResultset.getSampleIDDE().getValue().toString() : dv;
 							td = tr.addElement("td").addText(sid);
 							
@@ -58,7 +69,7 @@ public class QuickClinicalReport {
 							
 							String slength = sampleResultset.getSurvivalLength() != null ? String.valueOf(sampleResultset.getSurvivalLength()) : dv;
 							td = tr.addElement("td").addText(slength);
-							
+							*/
 						}
 						
 					}

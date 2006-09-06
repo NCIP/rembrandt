@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.reports.quick.QuickClinicalReport;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -221,6 +222,8 @@ public class HCPlotReport extends TagSupport {
 		return html.append(document.asXML());
 	}
 	public StringBuffer quickSampleReport(List<String> sampleIds){
+		return QuickClinicalReport.quickSampleReport(sampleIds);
+		/*
 		StringBuffer html = new StringBuffer();
 		Document document = DocumentHelper.createDocument();
 		
@@ -276,6 +279,7 @@ public class HCPlotReport extends TagSupport {
 			}
 		}
 		return html.append(document.asXML());
+		*/
 	}
 	
 }

@@ -1,6 +1,4 @@
-package gov.nih.nci.rembrandt.util;
-
-import gov.nih.nci.caintegrator.dto.de.DomainElement;
+package gov.nih.nci.rembrandt.web.graphing.data;
 
 
 
@@ -61,25 +59,9 @@ import gov.nih.nci.caintegrator.dto.de.DomainElement;
 * 
 */
 
-public class DEUtils {
-
-	
-	public static String checkNV(DomainElement element)	{
-		String str = "--";
-		if(element != null  && element.getValue() != null){
-			str =  element.getValue().toString();
-		}
-		return str;
-	}
-	
-	public static String checkNull(Object element)	{
-		String str = "--";
-		if(element instanceof DomainElement){
-			return DEUtils.checkNV((DomainElement)element);
-		}
-		else if(element != null) {
-			str = element.toString();
-		}
-		return str;
-	}
+public enum GeneExpressionPlotType {
+	RAW,
+	LOG2,
+	BoxAndWhisker, 
+	BoxAndWhiskerPerReporter
 }
