@@ -36,6 +36,12 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 			 else if (sampleGroup.equals("inter")){
 			  samples = cacheData.getIntSamples();
 			 }
+			 else if (sampleGroup.equals("list1")){
+			  samples = cacheData.getSampleList1();
+			 }
+			 else if (sampleGroup.equals("list2")){
+			  samples = cacheData.getSampleList2();
+			 }
 			Collection samplesList=new ArrayList();
 			// if there are samples, iterate over the collection and cast them to info objects so
 			// that we can get the sampleIDs, and add them into a new arraylist
