@@ -79,7 +79,7 @@ public final class LoginForm extends ActionForm {
 	private String password;
 
 	private static SecurityManager securityManager = SecurityManager
-			.getInstance();
+			.getInstance("rembrandt");
 
 	private static Logger logger = Logger.getLogger(LoginForm.class);
 
