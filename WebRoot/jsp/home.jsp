@@ -10,7 +10,7 @@
 <tr class="report">
   <td>
     <br />
-    <html:form action="/quickSearch.do?method=quickSearch">
+    <html:form action="/quickSearch.do?method=quickSearch" styleId="qsForm">
       
       
       <fieldset>
@@ -28,7 +28,7 @@
 	        
 	        <h5>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
 	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) to plot either a gene expression profile or a Kaplan-Meier survival plot based on the expression of your gene of interest." /></h5>
-	        <input type="radio" name="plot" class="radio" value="geneExpPlot" checked="true" onclick="javascript:onRadio(this,0);">
+	        <input type="radio" checked="checked" name="plot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);">
 	        Gene Expression plot&nbsp;<br />
 	        
 	        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);">
@@ -61,7 +61,7 @@
         </logic:notEmpty>
         
         <logic:empty name="quickSearchForm" property="allGeneAlias">
-        	<input type="text" name="quickSearchName" id="quickSearchName" size="40"/>&nbsp;
+        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40"/>&nbsp;
         	<br/>Restrict to sample group: 
         	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
 			 	<html:optionsCollection property="sampleGroupsList" />
@@ -93,6 +93,7 @@
     	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Samples";
     	    }
     	    catch(err){}
+    	    
         </script>
 	        
         <br/><br/>
@@ -112,7 +113,6 @@
       <html:hidden property="plot" />
       <html:hidden property="quickSearchName" />
       -->
-      
     </html:form>
     <br>
  </form>
@@ -123,3 +123,7 @@
      </div><Br><br>
   </td>
 </tr>
+
+<script type="text/javascript">
+	window.onload = function()	{ $('qsForm').reset()};
+</script>
