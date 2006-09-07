@@ -7,6 +7,13 @@
 				 gov.nih.nci.rembrandt.util.RembrandtConstants" %>
 <%@ page import="org.apache.log4j.Logger;" %>
 <div class="crumb">
+<span style="float:left">
+<a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">help</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="docs/rembrandt1.0_ug_12_20_05_nsn.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
+</span>
   <span style="text-align:right;font-size:.85em;">
     Welcome, &nbsp;
     <% out.println(session.getAttribute("name")); %>
