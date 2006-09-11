@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -43,12 +44,21 @@ public class RembrandtListLoader extends ListLoader {
         // TODO Auto-generated constructor stub
     }
     
-    public static UserListBean loadDiseaseGroups(UserListBean userListBean, HttpSession session){
+    public static UserListBean loadDiseaseGroups(UserListBean userListBean, HttpSession session) throws OperationNotSupportedException{
         SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
         Map diseaseGroupQueryMap = sampleBasedQueriesRetriever.getPredefinedQueryMap();
         ListManager listManager = new ListManager();
+        List<String> allSamplesList = new ArrayList<String>();
         
-        //Set<ClinicalDataQuery> set =  diseaseGroupQueryMap.entrySet();
+        
+        /**
+         * this section loops through all REMBRANDTs disease groups found
+         * in the diseaseGroupMap below. Based on credentials, queries are
+         * run to return sample according to each disease and made into 
+         * default user lists.
+         */
+        
+        
         for (Iterator it=diseaseGroupQueryMap.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry entry = (Map.Entry)it.next();
             String queryName = (String) entry.getKey();
@@ -77,10 +87,20 @@ public class RembrandtListLoader extends ListLoader {
                                 List<String> pdids = new ArrayList<String>(sampleIDs);
                                 RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, pdids);
                                 if(sampleIDs != null){
-                                    //3.1 add them to SampleGroup
+                                    //create userlist with valid samples included
                                     UserList myList = listManager.createList(ListType.PatientDID,queryName,pdids,listValidator);
                                     if(!myList.getList().isEmpty()){
                                        myList.setListSubType(ListSubType.Default);
+                                       /**
+                                        * add valid samples to allSamplesList to be created last.
+                                        * Do not add unknown and unclassified samples. 
+                                        */
+                                       if(!(entry.getKey().toString().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
+                                               && !(entry.getKey().toString().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)){
+                                           allSamplesList.addAll(myList.getList());
+                                       }
+                                       
+                                       //add my list to the userListBean
                                         userListBean.addList(myList);
                                     }
                                     /**the next segment removes all valid ids and keeps the invalid ids
@@ -106,7 +126,13 @@ public class RembrandtListLoader extends ListLoader {
             }
             
         }
-        
+        //now add the all samples userlist
+        if(!allSamplesList.isEmpty()){
+            RembrandtListValidator listValidator2 = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, allSamplesList);
+            UserList myAllSampleList = listManager.createList(ListType.PatientDID,RembrandtConstants.ALL,allSamplesList,listValidator2); 
+            myAllSampleList.setListSubType(ListSubType.Default);
+            userListBean.addList(myAllSampleList);
+        }
         
         return userListBean;        
     }

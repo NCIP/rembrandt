@@ -10,6 +10,7 @@ import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
 
 import java.util.Enumeration;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -111,7 +112,12 @@ public final class LoginAction extends Action
             	logger.debug("No persisted cache available.  Created new SessionCache");
             }
          UserListBean userListBean = new UserListBean();
-         userListBean = RembrandtListLoader.loadDiseaseGroups(userListBean, session);
+         try {
+            userListBean = RembrandtListLoader.loadDiseaseGroups(userListBean, session);
+        } catch (OperationNotSupportedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
          //add userListBean to session...for now
          session.setAttribute(RembrandtConstants.USER_LISTS,userListBean);
          

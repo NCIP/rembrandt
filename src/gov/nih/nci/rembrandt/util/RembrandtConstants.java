@@ -163,6 +163,8 @@ public final class RembrandtConstants {
     public static final String NON_TUMOR = "NON_TUMOR";
     
     public static final String UNKNOWN = "UNKNOWN";
+    public static final String UNCLASSIFIED = "UNCLASSIFIED";
+    
 	public static final String ALL = "ALL";
     
 	public static final String REPORTER_SELECTION_AFFY = "Affymetrix";

@@ -97,7 +97,7 @@ public class RembrandtListValidator extends ListValidator{
 				    			logger.error(e.getMessage());
 				    			throw new OperationNotSupportedException(e.getMessage());
 							}
-					break;
+					break;                    
 					case DBSNP:
 					case SNP_PROBESET:
 						try{
