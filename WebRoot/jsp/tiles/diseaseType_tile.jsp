@@ -4,10 +4,11 @@
 <legend class="red">Disease Type 
 <app:help help="Enter the type of diseases using the pick list. You can see the context-sensitive Grades menu for the disease type selected. Filtering the data based on grades will be available in the next release."/>
 </legend>
-<br>
+<br/>
 
 	
-	 &nbsp;&nbsp;&nbsp;<html:select multiple="true" property="tumorType" onchange="javascript:onRadio(this, this.value);">
+	 &nbsp;&nbsp;&nbsp;
+<html:select multiple="true" styleId="dSelect" property="tumorType" onchange="javascript:onRadio(this, this.value);">
    <html:optionsCollection property="diseaseType" />
 </html:select><html:errors property="tumorType"/>
 
@@ -25,10 +26,19 @@ Grade:&nbsp;
 <b><app:help help="This criteria will be implemented in the upcoming release "/></b>
 <html:errors property="tumorGrade"/>
 
+<script type="text/javascript">
+var ops = $('dSelect').options;
+for(var i=0; i<ops.length;i++)	{
+	$('dSelect').options[i].onmouseover = function()	{ return selectToolTip(this);};
+	$('dSelect').options[i].onmouseout = function() { return nd();};
+}
+</script>
 
 
-
-<br>
+<br/>
+<b class="message">Mouseover disease types and any relevant sub-type will be displayed</b>
+<!-- 
 &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
+-->
 </fieldset>
 					

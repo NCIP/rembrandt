@@ -149,74 +149,41 @@ function moveEm(formElement)	{
 	
 }
 function selectToolTip(type)	{
-			var theText = "Select a tumor type";
-			var el = type.selectedIndex;
-			var txt = type.options[type.selectedIndex].text;
-			//alert(document.forms[0].tumorType.options[document.forms[0].tumorType.selectedIndex].text);
-			switch(el)
-			{
-				case 1:
-					theText = "<ol><li>Astrocytoma (WHO grade II)" +
-							"<ol><li>Variants: protoplasmic, gemistocytic, fibrillary, mixed </ol> " +
-							"<li>Anaplastic (malignant) astrocytoma (WHO grade III)" +
-							"<li>Glioblastoma multiforme (WHO grade IV)" +
-							"<li>Pilocytic astrocytoma (non-invasive, WHO grade I)" +
-							"<li>Subependymal giant cell astrocytoma (non-invasive, WHO grade I)" +
-							"<li>Pleomorphic xanthoastrocytoma (non-invasive, WHO grade I)</ol> ";
+			var theText = "";
 
+			var txt = "";
+			var el = type.value;
+			txt += (el!="") ? el : "";
+			switch(el)	{
+				case "ASTROCYTOMA":
+					theText = "<ol><li>Anaplastic Astrocytoma </li>"+
+					"<li>Brain Astrocytoma</li>" +
+					"<li>Diffuse Astrocytoma</li>" +
+					"<li>Intradural Extramedullary Cauda Equina Astrocytoma</li>" +
+					"<li>Pilocytic Astrocytoma</li>" +
+					"<li>Pilomyxoid Astrocytoma</li>" +
+					"<li>Pleomorphic Xanthoastrocytoma</li>" +
+					"<li>Spinal Cord Astrocytoma</li>" +
+					"<li>Subependymal Astrocytoma</li></ol>";
 					break;
-				case 2:
-					theText = "<ol><li>Oligodendroglioma (WHO grade II) " +
-							"<li>Anaplastic (malignant) oligodendroglioma (WHO grade III) </ol>";
+				case "OLIGODENDROGLIOMA":
+					theText = "<ol><li>Adult Oligodendroglioma</li>" +
+					"<li>Brain Oligodendroglioma</li>" +
+					"<li>Childhood Oligodendroglioma</li>" +
+					"<li>Spinal Cord Oligodendroglioma</li></ol>";
 					break;
-				case 3:
-					theText = "<ol><li>Ependymoma (WHO grade II) " +
-						"<li>Anaplastic ependymoma (WHO grade III) " +
-						"<li>Myxopapillary ependymoma " +
-						"<li>Subependymoma (WHO grade I) </ol>";
+				case "MIXED":
+					theText = "<ol><li>Mixed Glioma</li>" +
+					"<li>Adult Brain Stem Mixed Glioma</li>" +
+					"<li>Anaplastic Oligoastrocytoma</li>" +
+					"<li>Mixed Astrocytoma-Ependymoma</li>" +
+					"<li>Mixed Astrocytoma-Ependymoma-Oligodendroglioma</li>" +
+					"<li>Oligoastrocytoma</li></ol>"
 					break;
-				case 4:
-					theText = "<ol><li>Mixed oligoastrocytoma (WHO grade II) " +
-							"<li>Anaplastic (malignant) oligoastrocytoma (WHO grade III) " +
-							"<li>Others (e.g. ependymo-astrocytomas) </ol>";
-					break;
-				case 5:
-					theText = "<ol><li>Polar spongioblastoma (WHO grade IV) " +
-						"<li>Astroblastoma (WHO grade IV) " +
-						"<li>Gliomatosis cerebri (WHO grade IV) </ol>";
-					break;
-				case 6:
-					theText = "<ol><li>Choroid plexus papilloma " +
-						"<li>Choroid plexus carcinoma (anaplastic choroid plexus papilloma) </ol>";
-					break;
-				case 7:
-					theText = "<ol><li>Gangliocytoma " +
-						"<li>Dysplastic gangliocytoma of cerebellum (Lhermitte-Duclos)  " +
-						"<li>Ganglioglioma  " +
-						"<li>Anaplastic (malignant) ganglioglioma  " +
-						"<li>Desmoplastic infantile ganglioglioma  " +
-						"<li>Central neurocytoma  " +
-						"<li>Dysembryoplastic neuroepithelial tumor  " +
-						"<li>Olfactory neuroblastoma (esthesioneuroblastoma) </ol>";
-				break;
-				case 8:
-					theText = "<ol><li>Pineocytoma "+
-						"<li>Pineoblastoma " +
-						"<li>Mixed pineocytoma/pineoblastoma </ol>";
-				break;
-				case 9:
-					theText = "<ol><li>Medulloepithelioma "+
-						"<li>Primitive neuroectodermal tumors with multipotent differentiation"+ 
-						"<li>Neuroblastoma "+
-						"<li>Retinoblastoma "+
-						"<li>Ependymoblastoma </ol>";
-				break;
-				case 10:
-					theText = "Glioblastoma";
-				break;
-
+			
 				default:
-					theText = "Select a tumor type to see its sub-types";
+					//theText = "Select a tumor type to see its sub-types";
+					return;
 					break;
 			
 			
