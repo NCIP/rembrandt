@@ -61,11 +61,11 @@
 		                    + "<b style='"+lstyle+"' title='"+theName+"'>"
 		                    + shortName + "</b><br/><div style='margin-left:10px'> Type: " + listSubTypes + " - "
 		                    + "<span id='"+theName+"_count'>" + itemCount + "</span> item(s)" 
-		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
+		                    + "<div style='cursor:pointer;margin-left:20px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName
 		                    + "\");return false;'>"
 		                    + "<img src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>details" + status + "</div>"
-		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;'  onclick='ManageListHelper.deleteList(\""
+		                    + "<div style='cursor:pointer;margin-left:20px;display:inline;'  onclick='ManageListHelper.deleteList(\""
 		                    + theName
 		                    + "\");return false;'>"
 		                    + "<img src='images/deleteCross20.png' border='0' style='vertical-align:text-bottom;'/>delete</div>"
