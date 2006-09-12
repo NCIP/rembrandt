@@ -95,7 +95,9 @@ import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 */
 
 public class GeneExpressionPlot {
-
+	
+	public enum PlotSize { SMALL, MEDIUM, LARGE }
+	
 	public static HashMap generateBarChart(String gene, HttpSession session,
 			PrintWriter pw, GeneExpressionDataSetType geType) {
 		String log2Filename = null;
@@ -103,7 +105,8 @@ public class GeneExpressionPlot {
 		String bwFilename = "";
 		String legendHtml = null;
 		HashMap charts = new HashMap();
-
+		PlotSize ps = PlotSize.MEDIUM;
+		
 		try {
 			InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(session);
 
@@ -118,6 +121,22 @@ public class GeneExpressionPlot {
 			
 			//B&W dataset
 			DefaultBoxAndWhiskerCategoryDataset bwdataset = (DefaultBoxAndWhiskerCategoryDataset) gpds.getBwdataset();
+			
+			
+			//IMAGE Size Control
+			if(bwdataset.getRowCount()>5)	{
+				ps = PlotSize.LARGE;
+			}
+			else	{
+				ps = PlotSize.MEDIUM;
+			}
+			//SMALL/MEDIUM == 650 x 400
+			//LARGE == 1000 x 400
+			//put as external Props?
+			int imgW = 650;
+			if(ps == PlotSize.LARGE)	{
+				imgW = 1000;
+			}
 			
 			//B&W testing
 			CategoryAxis xAxis = new CategoryAxis("Disease Type");
@@ -161,6 +180,7 @@ public class GeneExpressionPlot {
 	            bwPlot,
 	            true
 	        );
+	        bwChart.setBackgroundPaint(java.awt.Color.white);
 			
 			
 			
@@ -285,7 +305,7 @@ public class GeneExpressionPlot {
 			//TEST BW
 			//perhaps create a new ChartRenderingInfo obj for each, and write the map coords out for each
 			//then toggle the usemap when you toggle the src of the img ??
-			bwFilename = ServletUtilities.saveChartAsPNG(bwChart, 650, 400, info, session);
+			bwFilename = ServletUtilities.saveChartAsPNG(bwChart, imgW, 400, info, session);
 			ChartUtilities.writeImageMap(pw, bwFilename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
 					new StandardURLTagFragmentGenerator());
@@ -293,7 +313,7 @@ public class GeneExpressionPlot {
 			info = new ChartRenderingInfo(new StandardEntityCollection());
 			//END TEST BW
 			
-			log2Filename = ServletUtilities.saveChartAsPNG(chart, 650, 400, info, session);
+			log2Filename = ServletUtilities.saveChartAsPNG(chart, imgW, 400, info, session);
 			ChartUtilities.writeImageMap(pw, log2Filename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
 					new StandardURLTagFragmentGenerator());
@@ -304,7 +324,7 @@ public class GeneExpressionPlot {
 			
 			
 			fplot.setRenderer(frenderer);
-			rawFilename = ServletUtilities.saveChartAsPNG(fchart, 650, 400, info, session);
+			rawFilename = ServletUtilities.saveChartAsPNG(fchart, imgW, 400, info, session);
 			// Write the image map to the PrintWriter
 			// can use a different writeImageMap to pass tooltip and URL custom
 			ChartUtilities.writeImageMap(pw, rawFilename, info,
@@ -325,6 +345,7 @@ public class GeneExpressionPlot {
 		charts.put("noErrorBars", rawFilename);
 		charts.put("bwFilename", bwFilename);
 		charts.put("legend", legendHtml);
+		charts.put("size", ps.toString());
 
 		return charts;
 	}

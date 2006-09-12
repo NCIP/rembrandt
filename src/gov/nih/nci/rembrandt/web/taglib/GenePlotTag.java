@@ -97,6 +97,8 @@ public class GenePlotTag extends AbstractGraphingTag {
 			
 			String legendHtml = (String) charts.get("legend");
 			
+			String size = (String) charts.get("size");
+			
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
 			String gwgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + bwFilename;
@@ -120,8 +122,14 @@ public class GenePlotTag extends AbstractGraphingTag {
 			out.print("<a href=\"javascript:toggleGenePlot('"+bwFilename+"');\">show BW</a><br/> ");
 			
 			out.print("</div><br/>");
-			out.print("<img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\">");
+			
+			if(size.indexOf("LARGE")!=-1){
+				out.println("<br/><a class=\"message\" style=\"text-decoration:underline\" href=\""+graphURL+"\" target=\"_blank\">Click here to open plot in a new window</a><br/><br/>");
+			}
+			out.print("<div style=\"width:700px; overflow:auto;\"><img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\"></div>");
+			
 			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend
+			
 			
 			
 		} catch (IOException e) {
