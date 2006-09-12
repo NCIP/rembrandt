@@ -8,6 +8,8 @@ import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -116,16 +118,44 @@ public class GeneExpressionPlot {
 			
 			//B&W dataset
 			DefaultBoxAndWhiskerCategoryDataset bwdataset = (DefaultBoxAndWhiskerCategoryDataset) gpds.getBwdataset();
+			
 			//B&W testing
-			final CategoryAxis xAxis = new CategoryAxis("Disease Type");
-	        final NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
+			CategoryAxis xAxis = new CategoryAxis("Disease Type");
+	        NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
 	        yAxis.setAutoRangeIncludesZero(false);
-	        final BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
+	        BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
 	        bwRenderer.setFillBox(false);
-	        bwRenderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
-	        final CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
+	        //  bwRenderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
+	        
+	        bwRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
 
-	        final JFreeChart bwChart = new JFreeChart(
+				public String generateToolTip(CategoryDataset dataset,int series, int item) {
+					String tt="";
+					NumberFormat formatter = new DecimalFormat(".####");
+				    String s = formatter.format(-1234.567);  // -001235
+				    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
+					    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
+					    try	{
+							String med = formatter.format(ds.getMedianValue(series, item));
+							tt += "Median: " + med + "<br/>";
+							tt += "Mean: " + formatter.format(ds.getMeanValue(series, item))+"<br/>";
+							tt += "Min: " + formatter.format(ds.getMinRegularValue(series, item))+"<br/>";
+							tt += "Max: " + formatter.format(ds.getMaxRegularValue(series, item))+"<br/>";
+							tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
+							tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
+							//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
+					    }
+					    catch(Exception e) {}
+				    }
+					return tt;
+						
+				}
+
+			});
+	        
+	        CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
+
+	        JFreeChart bwChart = new JFreeChart(
 	        	"Gene Expression Plot (" + gene.toUpperCase() + ")",
 	            new Font("SansSerif", Font.BOLD, 14),
 	            bwPlot,
@@ -137,7 +167,7 @@ public class GeneExpressionPlot {
 			//END BW testing
 			
 			
-			// create the chart...
+			// create the chart...for LOG2 dataset
 			JFreeChart chart = ChartFactory.createBarChart(
 					"Gene Expression Plot (" + gene.toUpperCase() + ")", // chart
 																			// title
@@ -150,22 +180,7 @@ public class GeneExpressionPlot {
 					false // URLs?
 					);
 
-			/**
-			 * okay, heres where it gets tricky... we need to generate another
-			 * chart, with a seperate dataset - one that does not include the
-			 * errorbars for std deviation we generate this fchart (aka "fake
-			 * chart", then use it later to map the coords for the tooltip. we
-			 * will need to customize the fchart and the frenderer, faxis ext to
-			 * look exactly like the current chart w/error bars in order for the
-			 * coords to match. In the end, we will display the image w/the
-			 * error bars, but render the map coords of the image w/o the error
-			 * bars.... confusing, but the only way to add tooltips to the chart
-			 * w/errorbars without rewriting components of the api. this is
-			 * actually not a complete waste, because it will allow us to toggle
-			 * between showing chart w/ and w/o the errorbars
-			 * 
-			 * -RL
-			 */
+			//create the chart .... for RAW dataset
 			JFreeChart fchart = ChartFactory.createBarChart(
 					"Gene Expression Plot (" + gene.toUpperCase() + ")", // chart
 																			// title
@@ -237,13 +252,16 @@ public class GeneExpressionPlot {
 					String currentPV = (String) pv.get(dataset
 							.getRowKey(series)
 							+ "::" + dataset.getColumnKey(item));
+					/*
 					String stdDev = (String) std_d.get(dataset
 							.getRowKey(series)
 							+ "::" + dataset.getColumnKey(item));
-					return "Probeset : " + dataset.getRowKey(series)
-							+ "<br/>Intensity : "
-							+ dataset.getValue(series, item) + "<br>PVALUE : "
-							+ currentPV + "<br/>Std. Dev.: " + stdDev + "<br/>";
+					*/
+					return "Probeset : " + dataset.getRowKey(series) +
+							"<br/>Intensity : "+ dataset.getValue(series, item) + 
+							"<br/>PVALUE : " + currentPV +
+							"<br/>";
+							//"<br/>Std. Dev.: " + stdDev + "<br/>";
 				}
 
 			});
