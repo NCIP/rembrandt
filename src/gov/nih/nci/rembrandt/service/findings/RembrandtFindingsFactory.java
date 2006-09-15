@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
+import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.ClinicalFinding;
 import gov.nih.nci.caintegrator.service.findings.CopyNumberFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
@@ -23,6 +24,7 @@ import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.caintegrator.service.findings.KMFinding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.rembrandt.service.findings.strategies.ClassComparisonFindingStrategy;
+import gov.nih.nci.rembrandt.service.findings.strategies.FTestFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.HierarchicalClusteringFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.PrincipalComponentAnalysisFindingStrategy;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -125,6 +127,33 @@ public class RembrandtFindingsFactory implements FindingsFactory {
 		return finding;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.caintegrator.service.findings.FindingsFactory#createClassComparisonFinding(gov.nih.nci.caintegrator.dto.query.QueryDTOold)
+	 */
+	public FTestFinding createFTestFinding(ClassComparisonQueryDTO queryDTO, String sessionID, String taskID) throws FrameworkException  {
+		FTestFinding finding = null;
+		try {
+			FTestFindingStrategy strategy = new  FTestFindingStrategy(sessionID,queryDTO.getQueryName(),queryDTO );
+			strategy.createQuery();
+			strategy.executeQuery();
+			strategy.analyzeResultSet();
+			finding = (FTestFinding)strategy.getFinding();
+
+		} catch (ValidationException e) {
+			logger.error(e);
+			changeStatusToError(sessionID,queryDTO.getQueryName(),e.getMessage());
+			throw(e);
+		} catch (FindingsQueryException e) {
+			logger.error(e);
+			changeStatusToError(sessionID,queryDTO.getQueryName(),e.getMessage());
+			throw(e);
+		} catch (FindingsAnalysisException e) {
+			logger.error(e);
+			changeStatusToError(sessionID,queryDTO.getQueryName(),e.getMessage());
+			throw(e);
+		}
+		return finding;
+	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.caintegrator.service.findings.FindingsFactory#createPCAFinding(gov.nih.nci.caintegrator.dto.query.QueryDTOold)
 	 */
