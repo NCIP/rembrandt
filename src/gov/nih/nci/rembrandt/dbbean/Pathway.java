@@ -3,6 +3,10 @@
 
 package gov.nih.nci.rembrandt.dbbean;
 
+import gov.nih.nci.rembrandt.dto.lookup.PathwayLookup;
+
+import java.util.List;
+
 
 
 /**
@@ -62,7 +66,7 @@ package gov.nih.nci.rembrandt.dbbean;
 * 
 */
 
-public class Pathway
+public class Pathway implements PathwayLookup
 {
   public final static String PATHWAY_ID = "pathwayId";
   private String dataSource;
@@ -73,44 +77,81 @@ public class Pathway
 
   private String pathwayName;
 
-  public String getDataSource()
+  private List<String> geneSymbols;
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#getDataSource()
+ */
+public String getDataSource()
   {
      return this.dataSource;
   }
-  public void setDataSource(String param)
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#setDataSource(java.lang.String)
+ */
+public void setDataSource(String param)
   {
     this.dataSource = param;
   }
 
 
-  public Object getPathwayDesc()
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#getPathwayDesc()
+ */
+public Object getPathwayDesc()
   {
      return this.pathwayDesc;
   }
-  public void setPathwayDesc(Object param)
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#setPathwayDesc(java.lang.Object)
+ */
+public void setPathwayDesc(Object param)
   {
     this.pathwayDesc = param;
   }
 
 
-  public Long getPathwayId()
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#getPathwayId()
+ */
+public Long getPathwayId()
   {
      return this.pathwayId;
   }
-  public void setPathwayId(Long param)
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#setPathwayId(java.lang.Long)
+ */
+public void setPathwayId(Long param)
   {
     this.pathwayId = param;
   }
 
 
-  public String getPathwayName()
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#getPathwayName()
+ */
+public String getPathwayName()
   {
      return this.pathwayName;
   }
-  public void setPathwayName(String param)
+  /* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#setPathwayName(java.lang.String)
+ */
+public void setPathwayName(String param)
   {
     this.pathwayName = param;
   }
+/* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#getGeneSymbols()
+ */
+public List<String> getGeneSymbols() {
+	return geneSymbols;
+}
+/* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#setGeneSymbols(java.util.List)
+ */
+public void setGeneSymbols(List<String> geneSymbols) {
+	this.geneSymbols = geneSymbols;
+}
 
 
 }
