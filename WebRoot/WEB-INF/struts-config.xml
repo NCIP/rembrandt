@@ -409,6 +409,10 @@
          <forward name="runGeneViewReport" path="/jsp/geneViewReport.jsp" />
          <forward name="runCSVGeneViewReport" path="/jsp/geneViewReportCSV.jsp" />
     </action>
+	<action path="/browseKeggPathway"
+            type="gov.nih.nci.rembrandt.web.struts.action.BrowseKeggPathwayAction">
+         <forward name="success" path="/jsp/browseKeggPathway.jsp" /> 
+	</action>
  </action-mappings>
     
     <!-- ========== Controller Configuration =============================== -->
