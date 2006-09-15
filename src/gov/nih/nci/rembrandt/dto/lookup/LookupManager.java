@@ -6,12 +6,15 @@ import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
+import gov.nih.nci.rembrandt.dbbean.GenePathway;
+import gov.nih.nci.rembrandt.dbbean.Pathway;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.validation.QueryExecuter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -93,9 +96,9 @@ public class LookupManager{
     private static Logger logger = Logger.getLogger(LookupManager.class);
     private static PatientDataLookup[] patientData;
 	private static CytobandLookup[] cytobands;
-	private static Lookup[] pathways;
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
+	private static Map<String,PathwayLookup>  pathwayMap;
 	
 	 //private static GeneAliasMap aliasMap = null;
     //private static Set geneSymbols = null;
@@ -164,8 +167,39 @@ public class LookupManager{
 	/**
 	 * @return Returns the pathways.
 	 */
-	public Lookup[] getPathways() {
-		return pathways;
+	@SuppressWarnings({"deprecation","unchecked"})
+	public static Map getPathwayMap() {
+		if(pathwayMap == null){
+			pathwayMap = new HashMap<String,PathwayLookup>();
+			Criteria crit = new Criteria();
+			crit.addColumnEqualTo("DATA_SOURCE","CGAP_KEGG");
+			crit.addOrderByAscending("pathwayDesc");
+			try {
+				GenePathway[] genePathways = (GenePathway[])(QueryExecuter.executeQuery(GenePathway.class,crit,QueryExecuter.NO_CACHE,true).toArray(new PathwayLookup[1]));
+				for(int i = 0;i <  genePathways.length; i++){
+					GenePathway genePathway = genePathways[i];
+					if(!pathwayMap.containsKey(genePathway.getPathwayName())){
+					//create a new pathway
+					PathwayLookup pathwayLookup = new Pathway();
+					pathwayLookup.setDataSource(genePathway.getDataSource());
+					pathwayLookup.setPathwayName(genePathway.getPathwayName());
+					pathwayLookup.setPathwayDesc(genePathway.getPathwayDesc());
+					List geneList = new ArrayList();
+					geneList.add(genePathway.getGeneSymbol());
+					pathwayLookup.setGeneSymbols(geneList);
+					pathwayMap.put(genePathway.getPathwayName(), pathwayLookup);
+					}
+					else{ //add the gene symbol
+						PathwayLookup pathwayLookup = pathwayMap.get(genePathway.getPathwayName());
+						List geneList = pathwayLookup.getGeneSymbols();
+						geneList.add(genePathway.getGeneSymbol());						
+					}
+				}				
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}
+		return pathwayMap;
 	}
 	/**
 	 * @return Returns the patientData.
