@@ -423,10 +423,13 @@ public class ClassComparisonForm extends ActionForm {
         //Analysis Query Name cannot be blank
         errors = UIFormValidator.validateAnalysisName(analysisResultName, errors);
         
-        //User must select exactly 2 comparison Groups
-        errors = UIFormValidator.validateSelectedGroups(selectedGroups, errors);
+        //User must select exactly 2 comparison Groups if not for FTest
+        if (!"FTest".equals(statisticalMethod))
+        	errors = UIFormValidator.validateSelectedGroups(selectedGroups, errors);
+        //otherwise, it must be at least two.
+        else
+        	errors = UIFormValidator.validateSelectedGroups(selectedGroups, 2, errors);
         
-
         return errors;
     }
     
