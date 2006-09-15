@@ -11,13 +11,56 @@
 <input type="radio" class="radio" name="statistic" value="advanced" />Advanced
 &nbsp;&nbsp;<a href='#' id="pm" class="exp" onclick="javascript:toggleSDiv('advStatistic','pm');return false;">&nbsp;+&nbsp;</a>
 
+  <script language="javascript">
+
+	function clearGroupBox()	{
+
+	var toBox = document.getElementById('selectedGroups');
+	var fromBox = document.getElementById('nonselectedGroups');
+	
+	if (toBox.length == 0)
+	{
+		return;
+	}
+	
+	var fromBoxLength = fromBox.length;
+	
+	for(i = 0; i < toBox.length; i++) {
+		var newOption = new Option();
+
+		newOption.value = toBox[i].value;
+		
+		if (i == (toBox.length - 1))
+		{
+			var optionText = toBox[i].text;
+			var baselineIndex = optionText.indexOf("baseline");
+
+			if (baselineIndex != -1 && baselineIndex > 0)
+			{
+				newOption.text = optionText.substring(0, baselineIndex - 1);
+			}
+			else
+			{
+				newOption.text = optionText;
+			}
+		}
+		else			
+			newOption.text = toBox[i].text;
+
+		fromBox[fromBoxLength + i] = newOption;
+	}
+	
+		toBox.length = 0;
+	}
+	
+</script>
 
 <div id="advStatistic" class="divHide">
 
 <fieldset class="gray">
 <legend class="red">a)</legend>
  Statistical Method
-	<html:select property="statisticalMethod">
+	<html:select styleId="statMethod" property="statisticalMethod" onchange="clearGroupBox();">
 		<html:optionsCollection property="statisticalMethodCollection"/>
 	</html:select><br /><br />
 	

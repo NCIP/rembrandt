@@ -85,6 +85,18 @@
 
 	function initBaseline()	{
 		
+		//Only baseline a test that is not FTest.
+		var statmethod = document.getElementById('statMethod');
+
+		for (var i = 0; i < statmethod.length; i++)
+		{
+			var tests = statmethod[i];
+			if (tests.selected == true && tests.value == "FTest")
+			{
+				return;
+			}
+		}
+
 		var baseline = lst[lst.length-1];
 		
 		//remove the tag from the other ones
