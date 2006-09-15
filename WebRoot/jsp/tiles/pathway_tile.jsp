@@ -22,11 +22,16 @@
  function browseData(){ 	
      window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,dependent,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
    }
+   
+ function browseKegg(){ 	
+     window.open( 'browseKeggPathway.do', 'page2', 'status,resizable,dependent,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
+   }
 </script>
 
- <a href="javascript:browseData()">	   
-	 <img src="images/btnBrowse2.gif" border="0" />
- </a>
+ <a href="javascript:browseKegg()"><img src="images/kegg.gif" border="0" /></a>&nbsp;
+
+ <a href="javascript:browseData()"><img src="images/btnBrowse2.gif" border="0" /></a>
+
      <br />
     <input type="button" class="xbutton" onclick="javascript:resetVal(pathways)" value="clear text area" />
 
