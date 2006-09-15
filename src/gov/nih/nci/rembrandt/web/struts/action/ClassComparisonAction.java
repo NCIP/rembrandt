@@ -152,7 +152,11 @@ public class ClassComparisonAction extends DispatchAction {
         RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
         Finding finding = null;
         try {
-            finding = factory.createClassComparisonFinding(classComparisonQueryDTO,sessionId,classComparisonQueryDTO.getQueryName());
+        	
+        	if (!"FTest".equals(classComparisonForm.getStatisticalMethod()))
+        		finding = factory.createClassComparisonFinding(classComparisonQueryDTO,sessionId,classComparisonQueryDTO.getQueryName());
+        	else
+        		finding = factory.createFTestFinding(classComparisonQueryDTO,sessionId,classComparisonQueryDTO.getQueryName());
         } catch (FrameworkException e) {
             e.printStackTrace();
         }
