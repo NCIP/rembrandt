@@ -118,6 +118,19 @@
 			}
 		}		
 		
+		//If user selects three or more groups, make it FTest.
+		if (lst.length > 2)
+		{
+			for (var i = 0; i < statmethod.length; i++)
+			{
+				var tests = statmethod[i];
+				if (tests.value == "FTest")
+				{
+					tests.selected = true;
+				}
+			}
+			return;
+		}
 		
 		//add the tag to the new baseline
 		if(baseline != null && baseline.text.indexOf(bltag) == -1)	{
