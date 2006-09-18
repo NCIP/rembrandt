@@ -64,9 +64,10 @@ package gov.nih.nci.rembrandt.dbbean;
 
 public class GenePathway
 {
-     public final static String PATHWAY_NAME = "pathwayName";
+    public final static String PATHWAY_NAME = "pathwayName";
     public final static String GENE_SYMBOL = "geneSymbol";
-
+    public final static String DATA_SOURCE = "dataSource";
+    public final static String PATHWAY_DESC = "pathwayDesc";
   private String geneSymbol;
 
   private String pathwayName;
