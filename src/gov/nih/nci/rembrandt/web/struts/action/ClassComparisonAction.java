@@ -184,7 +184,7 @@ public class ClassComparisonAction extends DispatchAction {
         //Create the clinical query DTO collection from the selected groups in the form
         List<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
         
-            if(classComparisonQueryForm.getSelectedGroups() != null && classComparisonQueryForm.getSelectedGroups().length == 2 ){
+            if(classComparisonQueryForm.getSelectedGroups() != null && classComparisonQueryForm.getSelectedGroups().length >= 2 ){
                 for(int i=0; i<classComparisonQueryForm.getSelectedGroups().length; i++){
                     
 //                    //lets ensure the that the baseline is added last
