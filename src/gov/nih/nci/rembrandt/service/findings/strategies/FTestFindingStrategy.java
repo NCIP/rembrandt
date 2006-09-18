@@ -1,17 +1,11 @@
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
-import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
-import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
-import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
-import gov.nih.nci.caintegrator.dto.view.ViewFactory;
-import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
@@ -19,7 +13,6 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FindingsAnalysisException;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
-import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
@@ -28,26 +21,18 @@ import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 
 import gov.nih.nci.caintegrator.analysis.messaging.FTestRequest;
-import gov.nih.nci.caintegrator.analysis.messaging.FTestResult;
-import gov.nih.nci.caintegrator.analysis.messaging.FTestResultEntry;
+
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
-import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
-import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
-import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
-import javax.naming.OperationNotSupportedException;
 
 import org.apache.log4j.Logger;
 
@@ -129,11 +114,6 @@ public class FTestFindingStrategy implements FindingStrategy {
 	private FTestRequest ftestRequest = null;
 	private FTestFinding ftestFinding = null;
 	
-	/////////////////
-	private ClassComparisonRequest classComparisonRequest = null;
-	private ClassComparisonFinding classComparisonFinding;
-	////////////////
-	
 	private AnalysisServerClientManager analysisServerClientManager;
 	private BusinessTierCache cacheManager = ApplicationFactory.getBusinessTierCache();
 	
@@ -143,10 +123,6 @@ public class FTestFindingStrategy implements FindingStrategy {
 			myQueryDTO = queryDTO;
 			this.sessionId = sessionId;
 			this.taskId = taskId;
-			
-			/////////////
-			classComparisonRequest = new ClassComparisonRequest(this.sessionId,this.taskId);
-			////////////
 			
 			ftestRequest = new FTestRequest(this.sessionId,this.taskId);
             try {
@@ -166,10 +142,7 @@ public class FTestFindingStrategy implements FindingStrategy {
 		 */
 		
 		FindingStatus currentStatus = FindingStatus.Running;
-		/////////////////////
-		classComparisonFinding = new ClassComparisonFinding(sessionId, taskId, currentStatus, null);
-		classComparisonFinding.setQueryDTO(myQueryDTO);
-		////////////////////
+
 		ftestFinding = new FTestFinding(sessionId, taskId, currentStatus, null);
 		ftestFinding.setQueryDTO(myQueryDTO);
 		
@@ -188,7 +161,7 @@ public class FTestFindingStrategy implements FindingStrategy {
 		if(myQueryDTO.getComparisonGroups() != null ){
 			switch (statisticType){
 			case FTest:
-				if( myQueryDTO.getComparisonGroups().size() != 2){
+				if( myQueryDTO.getComparisonGroups().size() < 2){
 					throw new FindingsQueryException("Incorrect Number of queries passed for the FTest stat type");
 				}
 				break;
