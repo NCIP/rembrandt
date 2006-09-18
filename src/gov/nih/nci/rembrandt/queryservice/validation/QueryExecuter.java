@@ -154,4 +154,21 @@ public class QueryExecuter{
        broker.close();
        return col;
     }
+	@SuppressWarnings("unchecked")
+	public static  Collection<Object[]> executeReportQuery(Class bean, Criteria crit,String fieldsToSelect) {
+		
+		PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
+		crit.addColumnNotNull(fieldsToSelect);
+	    ReportQueryByCriteria q = QueryFactory.newReportQuery(bean, crit, true);	
+        q.setAttributes(new String[] {fieldsToSelect});  
+        Iterator iter =  broker.getReportQueryIteratorByQuery(q); 
+        Collection col = new ArrayList<Object[]>();    
+      
+        while (iter.hasNext()) {
+            Object[] values =  (Object[]) iter.next();
+            col.add(values);
+         }
+       broker.close();
+       return col;
+    }
 }
