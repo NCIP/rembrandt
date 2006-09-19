@@ -13,17 +13,51 @@
 
   <script language="javascript">
 
-	function clearGroupBox()	{
+	function clearGroupBox(statmethods)	{
+//alert("entering clearGroupBox ");
+
 
 	var toBox = document.getElementById('selectedGroups');
 	var fromBox = document.getElementById('nonselectedGroups');
+	var thestatmethod = document.getElementById('statMethod');
 	
+	//alert("toBox length = " + toBox.length);
 	if (toBox.length == 0)
 	{
 		return;
 	}
 	
 	var fromBoxLength = fromBox.length;
+	
+	
+	
+	if (toBox.length < 3)
+	{
+		for (var i = 0; i < thestatmethod.length; i++)
+		{
+			var tests = thestatmethod[i];
+			if (tests.selected == true && tests.value == "FTest")
+			{
+				var optionText = toBox[toBox.length - 1].text;
+				var baselineIndex = optionText.indexOf("baseline");
+				if (baselineIndex != -1 && baselineIndex > 0)
+				{
+					toBox[toBox.length - 1].text = optionText.substring(0, baselineIndex - 1);
+				}
+			}
+			else if (tests.selected == true && (tests.value == "TTest" ||
+				 tests.value == "Wilcoxin"))
+			{
+				var optionText = toBox[toBox.length - 1].text;
+				var baselineIndex = optionText.indexOf("baseline");
+				if (baselineIndex == -1 )
+				{
+					toBox[toBox.length - 1].text = optionText + " (baseline)";
+				}
+			}
+		}
+		return;
+	}
 	
 	for(i = 0; i < toBox.length; i++) {
 		var newOption = new Option();

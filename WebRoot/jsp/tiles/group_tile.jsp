@@ -87,21 +87,24 @@
 		
 		//Only baseline a test that is not FTest.
 		var statmethod = document.getElementById('statMethod');
+		
+		var thebaseline = true;
 
 		for (var i = 0; i < statmethod.length; i++)
 		{
 			var tests = statmethod[i];
 			if (tests.selected == true && tests.value == "FTest")
 			{
-				return;
+				thebaseline = false;
 			}
 		}
 
 		var baseline = lst[lst.length-1];
 		
 		//remove the tag from the other ones
-		for(var i=0; i<lst.length-1; i++)	{
+		for(var i=0; i<lst.length - 1; i++)	{
 			var currentBaseline = lst[i];
+			
 			if(currentBaseline.text.indexOf(bltag) != -1)	{
 				currentBaseline.text = currentBaseline.text.substring(0, currentBaseline.text.indexOf(bltag));
 				currentBaseline.style.color = '';
@@ -133,7 +136,7 @@
 		}
 		
 		//add the tag to the new baseline
-		if(baseline != null && baseline.text.indexOf(bltag) == -1)	{
+		if(baseline != null && baseline.text.indexOf(bltag) == -1 && thebaseline == true)	{
 			baseline.text += bltag;
 			baseline.style.color="red";
 			baseline.style.border="1px solid";
