@@ -1,7 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import java.util.Map;
-
+import java.util.Collection;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.PathwayLookup;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -104,8 +104,11 @@ public class BrowseKeggPathwayAction extends Action{
 		HttpServletResponse response)
 		throws Exception {
 		Map pathwayMap = LookupManager.getPathwayMap();
-		PathwayLookup[] lookup = (PathwayLookup[])pathwayMap.values().toArray();
+		Collection lookup = pathwayMap.values(); //.toArray();
+		request.setAttribute("keggPathway", lookup);
+		request.setAttribute("pathwaySize", lookup.size());
 	ActionForward thisForward = mapping.findForward("success");
+	
 	return thisForward;
  }
       

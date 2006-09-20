@@ -1,5 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*,java.net.*,javax.xml.parsers.*" %> 
  <%@ page import="
 gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper,
@@ -9,24 +11,21 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 %>
 	 
 
-
  <script language="javascript">
  
  function closeData(){
- 	
- 	//alert("closeData called");
     if (window.opener && !window.opener.closed)
 	{
 		//reference the textarea field in the opener/parent and fill it in
 		
-		//alert("in closeData");
-		//for(i = 0; i < document.geneexpressionForm.pathwayName.length; i++)
-		//{
-			//if(document.geneexpressionForm.pathwayName[i].checked)
-			//{
-				//window.opener.document.geneexpressionForm.pathways.value += document.geneexpressionForm.pathwayName[i].value + "\n";
-			//}	
-		//}	
+		
+		for(i = 0; i < document.geneexpressionForm.pathwayName.length; i++)
+		{
+			if(document.geneexpressionForm.pathwayName[i].checked)
+			{
+				window.opener.document.geneexpressionForm.pathways.value += document.geneexpressionForm.pathwayName[i].value + "\n";
+			}	
+		}	
 		// close the child
 		window.close();
 		
@@ -70,14 +69,39 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   
  </p>
  
- 
+  <div >
+  Your search returned <b><bean:write name="pathwaySize"/> </b> pathways.   
+
+ </div>	
 	
  <div >
  
   <div style="width:700px;height:400px;overflow:auto">
     
+ 
+	 <table border="1" cellpadding="5" cellspacing="0" style="border">
+	 
+	 <tr style="background-color:#D5E0E9">
+		<td><b>No</b></td>
+	  <td><b>Select Pathway Name</b></td>
+	  <td><b>Pathway Name</b></td>
+	  <td><b>Number of Gene</b></td>	  
+	  </tr>
+<% int i = 1; %>
+		  <logic:iterate name="keggPathway" id="lookup">
+				<tr>
+		          <TD><%= i %></TD>
 
-To be filled.
+		          <TD><input type="checkbox" name="pathwayName" value="<bean:write name="lookup" property="pathwayName" />"></TD>
+		          <TD>
+		          <a href="http://cgap.nci.nih.gov/Pathways/Kegg/<bean:write name="lookup" property="pathwayName" />" target="_blank"><bean:write name="lookup" property="pathwayDesc"/></a>
+		          </TD>
+		          <TD><bean:write name="lookup" property="listSize"/></TD>				
+				</tr>
+				
+			<% i++;%>
+		</logic:iterate>
+	</table>
  
  </div>	
 
