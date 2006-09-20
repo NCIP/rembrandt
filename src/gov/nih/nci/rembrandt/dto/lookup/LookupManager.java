@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
-
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 /**
  * This class provide a single point for UI related classes to 
  * get lookup data (data that a user can select to mofify a query)
@@ -173,11 +173,22 @@ public class LookupManager{
 			pathwayMap = new HashMap<String,PathwayLookup>();
 			Criteria crit = new Criteria();
 			crit.addColumnEqualTo("DATA_SOURCE","CGAP_KEGG");
-			crit.addOrderByAscending("pathwayDesc");
+			crit.addNotNull("PATHWAY_NAME");
+			//crit.addOrderByAscending("pathwayDesc");
+			ReportQueryByCriteria qbc = new ReportQueryByCriteria(GenePathway.class, crit, false);
+			qbc.addOrderByAscending("pathwayDesc");
+			String[] fields = {GenePathway.PATHWAY_NAME, GenePathway.GENE_SYMBOL, 
+					GenePathway.DATA_SOURCE, GenePathway.PATHWAY_DESC};
+			qbc.setAttributes(fields);
 			try {
-				GenePathway[] genePathways = (GenePathway[])(QueryExecuter.executeQuery(GenePathway.class,crit,QueryExecuter.NO_CACHE,true).toArray(new PathwayLookup[1]));
-				for(int i = 0;i <  genePathways.length; i++){
-					GenePathway genePathway = genePathways[i];
+				//GenePathway[] genePathways = (GenePathway[])(QueryExecuter.executeReportQuery(qbc).toArray(new PathwayLookup[1]));
+				Collection collection = QueryExecuter.executeReportQuery(qbc);
+				
+				//for(int i = 0;i <  genePathways.length; i++){
+				for(Iterator it = collection.iterator(); it.hasNext();){
+					
+					Object[] obj = (Object[])it.next();
+					GenePathway genePathway = getGenePathways(obj);
 					if(!pathwayMap.containsKey(genePathway.getPathwayName())){
 					//create a new pathway
 					PathwayLookup pathwayLookup = new Pathway();
@@ -305,5 +316,16 @@ public class LookupManager{
 			expPlatforms = (ExpPlatformLookup[]) QueryExecuter.executeQuery(ExpPlatformDim.class,crit,LookupManager.EXP_PLATFORMS, true).toArray(new ExpPlatformLookup[1]);
 		}
 		return expPlatforms;
+	}
+	
+	private static GenePathway getGenePathways(Object[] obj)
+	{
+		GenePathway way = new GenePathway();
+		way.setPathwayName((String)obj[0]);
+		way.setGeneSymbol((String)obj[1]);
+		way.setDataSource((String)obj[2]);
+		way.setPathwayDesc((String)obj[3]);
+		
+		return way;
 	}
 }
