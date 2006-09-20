@@ -78,12 +78,22 @@ public class Pathway implements PathwayLookup
   private String pathwayName;
 
   private List<String> geneSymbols;
+  
+  private int listSize;
   /* (non-Javadoc)
  * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#getDataSource()
  */
 public String getDataSource()
   {
      return this.dataSource;
+  }
+
+/* (non-Javadoc)
+ * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#getDataSource()
+ */
+public String getListSize()
+  {
+     return Integer.toString(this.geneSymbols.size());
   }
   /* (non-Javadoc)
  * @see gov.nih.nci.rembrandt.dbbean.PathwayLookup#setDataSource(java.lang.String)
