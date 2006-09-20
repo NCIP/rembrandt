@@ -23,5 +23,7 @@ public interface PathwayLookup {
 	public abstract List<String> getGeneSymbols();
 
 	public abstract void setGeneSymbols(List<String> geneSymbols);
+	
+	public abstract String getListSize();
 
 }
