@@ -2,17 +2,22 @@ package gov.nih.nci.rembrandt.queryservice.validation;
 
 
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -155,20 +160,19 @@ public class QueryExecuter{
        return col;
     }
 	@SuppressWarnings("unchecked")
-	public static  Collection<Object[]> executeReportQuery(Class bean, Criteria crit,String fieldsToSelect) {
+	public static  Collection<Object[]> executeReportQuery(ReportQueryByCriteria qbc) {
 		
 		PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
-		crit.addColumnNotNull(fieldsToSelect);
-	    ReportQueryByCriteria q = QueryFactory.newReportQuery(bean, crit, true);	
-        q.setAttributes(new String[] {fieldsToSelect});  
-        Iterator iter =  broker.getReportQueryIteratorByQuery(q); 
-        Collection col = new ArrayList<Object[]>();    
-      
-        while (iter.hasNext()) {
-            Object[] values =  (Object[]) iter.next();
-            col.add(values);
-         }
-       broker.close();
-       return col;
+            assert(qbc != null);
+            Iterator iter =  broker.getReportQueryIteratorByQuery(qbc);
+            
+            Collection<Object[]> collection = new ArrayList<Object[]>();
+            while (iter.hasNext()) {
+                 Object[] attrs = (Object[]) iter.next();
+                 
+                 collection.add(attrs);
+            }
+            broker.close();
+       return collection;
     }
 }
