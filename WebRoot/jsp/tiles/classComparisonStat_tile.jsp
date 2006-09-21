@@ -14,22 +14,17 @@
   <script language="javascript">
 
 	function clearGroupBox(statmethods)	{
-//alert("entering clearGroupBox ");
-
 
 	var toBox = document.getElementById('selectedGroups');
 	var fromBox = document.getElementById('nonselectedGroups');
 	var thestatmethod = document.getElementById('statMethod');
 	
-	//alert("toBox length = " + toBox.length);
 	if (toBox.length == 0)
 	{
 		return;
 	}
 	
 	var fromBoxLength = fromBox.length;
-	
-	
 	
 	if (toBox.length < 3)
 	{
