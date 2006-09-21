@@ -9,8 +9,13 @@ gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 gov.nih.nci.rembrandt.util.RembrandtConstants,org.xml.sax.*,org.xml.sax.helpers.DefaultHandler,
 org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.OutputFormat"
 %>
-	 
-
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+	<script type="text/javascript" src="js/overlib.js"></script>
+	<script type="text/javascript" src="js/overlib_hideform.js"></script>
+	<script type="text/javascript" src="js/lib/common/KeggPathwayHelper.js"></script>
+	//<script type='text/javascript' src='dwr/interface/DynamicListHelper.js'></script>
+<script type='text/javascript' src='dwr/engine.js'> </script>
+<script type='text/javascript' src='dwr/util.js'> </script>
  <script language="javascript">
  
  function closeData(){
@@ -30,9 +35,33 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 		window.close();
 		
 	}	
+ }
+// function getPathwayGeneSymbols(pathwayName) {
+ 	
+ 	//alert("getPathwayGeneSymbols");
+// 	DynamicListHelper.getPathwayGeneSymbols(getPathwayGeneSymbols_cb, pathwayName);
+ //}
  
+ //function getPathwayGeneSymbols_cb(txt) {
+ 	//alert("getPathwayGeneSymbols_cb");
+		//	try	{
+			//	var symbolsArray = eval('(' + txt + ')');
+			//	var array = new Array();
+			//	var text;
+			//	for(var i=0; i < symbolsArray.length; i++){
+					//text = array[i] = symbolsArray[i];
+			//		text += symbolsArray[i] + "<br/>";
+			//	}
+//alert(text);
+			//	return overlib(text, CAPTION,  + " Gene Symbols:");
+			//	return overlib(array.split(",").join("<br/>"), CAPTION,  + " Gene Symbols:");
+			//}
+			//catch(err)	{
+			//	alert("ERR: " + err);
+			//}	
+ //}
    
-  }
+
 </script>
 <!--header NCI-->
 <table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
@@ -83,24 +112,36 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 	 
 	 <tr style="background-color:#D5E0E9">
 		<td><b>No</b></td>
-	  <td><b>Select Pathway Name</b></td>
+	  <td><b>Select Pathway</b></td>
 	  <td><b>Pathway Name</b></td>
-	  <td><b>Number of Gene</b></td>	  
+	  <td><b>Number of Genes</b></td>	  
 	  </tr>
-<% int i = 1; %>
-		  <logic:iterate name="keggPathway" id="lookup">
-				<tr>
-		          <TD><%= i %></TD>
-
-		          <TD><input type="checkbox" name="pathwayName" value="<bean:write name="lookup" property="pathwayName" />"></TD>
-		          <TD>
-		          <a href="http://cgap.nci.nih.gov/Pathways/Kegg/<bean:write name="lookup" property="pathwayName" />" target="_blank"><bean:write name="lookup" property="pathwayDesc"/></a>
-		          </TD>
-		          <TD><bean:write name="lookup" property="listSize"/></TD>				
-				</tr>
-				
-			<% i++;%>
-		</logic:iterate>
+	<% int i = 1; %>
+	<logic:iterate name="keggPathway" id="lookup">
+		<tr>
+			<TD><%= i %></TD>
+			<TD><input type="checkbox" name="pathwayName" value="<bean:write name="lookup" property="pathwayName" />">
+				<bean:write name="lookup" property="pathwayName" />
+			</TD>
+			<TD>
+				<a href="http://cgap.nci.nih.gov/Pathways/Kegg/<bean:write name="lookup" property="pathwayName" />" target="_blank">
+					<bean:write name="lookup" property="pathwayDesc"/>
+				</a>
+			</TD>
+			<TD>
+				<div id="<bean:write name="lookup" property="pathwayName"/>">
+					<%--
+					<a href="javascript:void(0);" onmouseover="return overlib('<bean:write name="lookup" property="pathwayName"/>', CAPTION, 'Help');" 
+						onmouseout="return nd();"><bean:write name="lookup" property="listSize"/></a>
+					--%>
+					<a href="javascript:void(0);" 
+						onmouseover="return KeggPathwayHelper.getPathwayGeneSymbols('<bean:write name="lookup" property="pathwayName"/>');"
+						onmouseout="return nd();"><bean:write name="lookup" property="listSize"/></a>
+				</div>
+			</TD>				
+		</tr>		
+		<% i++;%>
+	</logic:iterate>
 	</table>
  
  </div>	
