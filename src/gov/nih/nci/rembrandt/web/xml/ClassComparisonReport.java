@@ -430,7 +430,7 @@ public class ClassComparisonReport{
 			}
 			else {
 				//TODO: handle this error
-				sb.append("<br><Br>Class Comparison is empty<br>");
+				sb.append("<br/><br/>Class Comparison is empty<br/>");
 			}
 		    
 		    return document;
