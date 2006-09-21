@@ -5,6 +5,8 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
+import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -24,6 +26,7 @@ import gov.nih.nci.rembrandt.web.bean.FindingReportBean;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.xml.ClassComparisonReport;
+import gov.nih.nci.rembrandt.web.xml.FTestReport;
 import gov.nih.nci.rembrandt.web.xml.ReportGenerator;
 import gov.nih.nci.rembrandt.web.xml.ReportGeneratorFactory;
 import gov.nih.nci.rembrandt.web.xml.Transformer;
@@ -543,7 +546,13 @@ public class ReportGeneratorHelper {
 		//TODO: shouldnt be called until findings are populated (!= running)
 		//TODO: is threadsafe?
 		//TODO: instance of
-		Document xmlDocument = ClassComparisonReport.getReportXML(finding, new HashMap());
+		Document xmlDocument = null;
+		if(finding instanceof ClassComparisonFinding){
+			xmlDocument = ClassComparisonReport.getReportXML(finding, new HashMap());
+		}
+		else if(finding instanceof FTestFinding)	{
+			xmlDocument = FTestReport.getReportXML(finding, new HashMap());
+		}
 		FindingReportBean frb = new FindingReportBean();
 		frb.setFinding(finding);
 		frb.setXmlDoc(xmlDocument);
