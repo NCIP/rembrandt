@@ -328,4 +328,16 @@ public class LookupManager{
 		
 		return way;
 	}
+	
+	public static List getPathwayGeneSymbols(String pathwayName)
+	{
+		if (pathwayMap == null){
+			pathwayMap = getPathwayMap();
+		}
+		if (pathwayName == null || pathwayName.length() == 0)
+			return new ArrayList<String>();
+		else {
+			return pathwayMap.get(pathwayName).getGeneSymbols();
+		}
+	}
 }
