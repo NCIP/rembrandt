@@ -21,7 +21,7 @@ import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.lists.ajax.CommonListFunctions;
 //import gov.nih.nci.ispy.util.ispyConstants;
 import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
-
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpSession;
@@ -113,7 +113,27 @@ public class DynamicListHelper {
 		listTypesList.add(listType);
 		return CommonListFunctions.getAllLists(listTypesList);
 	}
-	
+
+	public static String getPathwayGeneSymbols(String pathwayName)	{
+        List<String> geneSymbols = LookupManager.getPathwayGeneSymbols(pathwayName);
+        JSONArray symbols = new JSONArray();
+        for(String symbol : geneSymbols)	{
+	        symbols.add(symbol);
+        }
+
+		return "(" + symbols.toString() + ")";
+	}
+	/*
+	public static String getPathwayGeneSymbols()	{
+        List<String> geneSymbols = LookupManager.getPathwayGeneSymbols();
+        JSONArray symbols = new JSONArray();
+        for(String symbol : geneSymbols)	{
+	        symbols.add(symbol);
+        }
+		//call CommonListFunctions.getAllLists(listTypesList);
+		return "(" + symbols.toString() + ")";
+	}
+	*/
 	/*
 	public static String getAllPatientLists()	{
 		return CommonListFunctions.getAllLists(ListType.PatientDID.toString());
