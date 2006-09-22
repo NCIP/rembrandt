@@ -345,20 +345,28 @@ function changeList(formElement)	{
 		var imgURL = chart.src.split("filename=");
 		if(arguments[1])	{
 			if(imgURL[1] == a)	{
-				chart.src = imgURL[0] + "filename=" + b;
+				chart.src = (imgURL[0] + "filename=" + b);
+				if($('graphLink'))
+					$('graphLink').href = (imgURL[0] + "filename=" + b);
 				chart.useMap = "#"+b;
 			}
 			else if(imgURL[1] == b)	{
-				chart.src = imgURL[0] + "filename=" + a;
+				chart.src = (imgURL[0] + "filename=" + a);
+				if($('graphLink'))
+					$('graphLink').href = (imgURL[0] + "filename=" + a);
 				chart.useMap = "#"+a;
 			}
 			else	{
-				chart.src = imgURL[0] + "filename=" + a;
+				chart.src = (imgURL[0] + "filename=" + a);
+				if($('graphLink'))
+					$('graphLink').href = (imgURL[0] + "filename=" + a);
 				chart.useMap = "#"+a;
 			}
 		}
 		else	{
-			chart.src = imgURL[0] + "filename=" + a;
+			chart.src = (imgURL[0] + "filename=" + a);
+			if($('graphLink'))
+				$('graphLink').href = (imgURL[0] + "filename=" + a);
 			chart.useMap = "#"+a;
 		}
 	} 

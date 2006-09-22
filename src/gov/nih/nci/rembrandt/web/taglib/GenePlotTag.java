@@ -124,8 +124,9 @@ public class GenePlotTag extends AbstractGraphingTag {
 			out.print("</div><br/>");
 			
 			if(size.indexOf("LARGE")!=-1){
-				out.println("<br/><a class=\"message\" style=\"text-decoration:underline\" href=\""+graphURL+"\" target=\"_blank\">Click here to open plot in a new window</a><br/><br/>");
+				out.println("<br/><a class=\"message\" style=\"text-decoration:underline\" id=\"graphLink\" href=\""+graphURL+"\" target=\"_blank\">Click here to open plot in a new window</a><br/><br/>");
 			}
+			out.println("<h2>Gene Expression Plot ("+geneSymbol.toUpperCase()+")</h2>");
 			out.print("<div style=\"width:700px; overflow:auto;\"><img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\"></div>");
 			
 			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend
