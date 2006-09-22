@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
@@ -135,7 +137,7 @@ public class GeneExpressionPlot {
 			//put as external Props?
 			int imgW = 650;
 			if(ps == PlotSize.LARGE)	{
-				imgW = 1000;
+				imgW = new BigDecimal(bwdataset.getRowCount()).multiply(new BigDecimal(75)).intValue() > 1000 ? new BigDecimal(bwdataset.getRowCount()).multiply(new BigDecimal(75)).intValue() : 1000;
 			}
 			
 			//B&W testing
@@ -143,6 +145,8 @@ public class GeneExpressionPlot {
 	        NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
 	        yAxis.setAutoRangeIncludesZero(false);
 	        BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
+	       //this line is for coin plot testing..
+	       // BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
 	        bwRenderer.setFillBox(false);
 	        //  bwRenderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
 	        
@@ -173,23 +177,25 @@ public class GeneExpressionPlot {
 			});
 	        
 	        CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
-
-	        JFreeChart bwChart = new JFreeChart(
-	        	"Gene Expression Plot (" + gene.toUpperCase() + ")",
-	            new Font("SansSerif", Font.BOLD, 14),
-	            bwPlot,
-	            true
-	        );
+	        JFreeChart bwChart = new JFreeChart(bwPlot);
+	       
+	    //    JFreeChart bwChart = new JFreeChart(
+	    //    	null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/,
+	    //        new Font("SansSerif", Font.BOLD, 14),
+	    //        bwPlot,
+	    //        true
+	    //    );
+	        
 	        bwChart.setBackgroundPaint(java.awt.Color.white);
-			
-			
+	        //bwChart.getTitle().setHorizontalAlignment(TextTitle.DEFAULT_HORIZONTAL_ALIGNMENT.LEFT);
+	   
 			
 			//END BW testing
 			
 			
 			// create the chart...for LOG2 dataset
 			JFreeChart chart = ChartFactory.createBarChart(
-					"Gene Expression Plot (" + gene.toUpperCase() + ")", // chart
+					null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/, // chart
 																			// title
 					"Groups", // domain axis label
 					"Mean Expression Intensity", // range axis label
@@ -202,7 +208,7 @@ public class GeneExpressionPlot {
 
 			//create the chart .... for RAW dataset
 			JFreeChart fchart = ChartFactory.createBarChart(
-					"Gene Expression Plot (" + gene.toUpperCase() + ")", // chart
+					null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/, // chart
 																			// title
 					"Groups", // domain axis label
 					"Mean Expression Intensity", // range axis label
@@ -305,7 +311,9 @@ public class GeneExpressionPlot {
 			//TEST BW
 			//perhaps create a new ChartRenderingInfo obj for each, and write the map coords out for each
 			//then toggle the usemap when you toggle the src of the img ??
-			bwFilename = ServletUtilities.saveChartAsPNG(bwChart, imgW, 400, info, session);
+
+			int bwwidth = new BigDecimal(1.5).multiply(new BigDecimal(imgW)).intValue();
+			bwFilename = ServletUtilities.saveChartAsPNG(bwChart, bwwidth, 400, info, session);
 			ChartUtilities.writeImageMap(pw, bwFilename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
 					new StandardURLTagFragmentGenerator());

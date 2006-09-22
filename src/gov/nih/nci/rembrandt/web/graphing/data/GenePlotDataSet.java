@@ -111,6 +111,8 @@ public class GenePlotDataSet {
 	private static Logger logger = Logger.getLogger(GenePlotDataSet.class);
 	protected HashMap pValues = new HashMap();
 	protected HashMap stdDevMap = new HashMap();
+	//this hmap hold all the coin data .  keys are row+column, aka reporter+disease with the list as the value
+	protected HashMap coinHash = new HashMap();
 	
 	   public GenePlotDataSet() throws ParseException { }
 	   
@@ -224,6 +226,10 @@ public class GenePlotDataSet {
 						ReporterFoldChangeValuesResultset reporterResultset = (ReporterFoldChangeValuesResultset) reporterIterator.next();
 						String reporterName = reporterResultset.getReporter().getValue().toString();
 						
+						// from HS
+						//getBioSpecimentResultsets(String geneSymbol,String reporterName, String groupType)
+						//gene, reporterName, groupType???? <-- GeneExpressionDataSetType geneExpressionDataSetType
+
 						Double intensityValue = (Double) reporterResultset.getFoldChangeIntensity().getValue();
 						Double pvalue = (Double) reporterResultset.getRatioPval().getValue();
 						
@@ -260,6 +266,8 @@ public class GenePlotDataSet {
 		                }
 						//B&W
 						bwdataset.add(tlist, reporterName, diseaseName);
+						//call the add here as well...this is for testing the coins
+						coinHash.put(String.valueOf(icounter)+String.valueOf(counter), tlist);
 						
 						counter++;
 					}
@@ -287,6 +295,14 @@ public class GenePlotDataSet {
 
 	public DefaultBoxAndWhiskerCategoryDataset getBwdataset() {
 		return bwdataset;
+	}
+
+	public HashMap getCoinHash() {
+		return coinHash;
+	}
+
+	public void setCoinHash(HashMap coinHash) {
+		this.coinHash = coinHash;
 	}
 	   
 }
