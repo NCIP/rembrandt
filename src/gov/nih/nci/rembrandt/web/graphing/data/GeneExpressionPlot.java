@@ -155,7 +155,7 @@ public class GeneExpressionPlot {
 				public String generateToolTip(CategoryDataset dataset,int series, int item) {
 					String tt="";
 					NumberFormat formatter = new DecimalFormat(".####");
-				    String s = formatter.format(-1234.567);  // -001235
+				    //String s = formatter.format(-1234.567);  // -001235
 				    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
 					    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
 					    try	{
@@ -167,6 +167,7 @@ public class GeneExpressionPlot {
 							tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
 							tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
 							//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
+							tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
 					    }
 					    catch(Exception e) {}
 				    }
