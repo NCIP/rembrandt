@@ -13,7 +13,7 @@ import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
-
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -112,6 +112,7 @@ public class AddConstrainsToQueriesHelper {
 		Queriable leftQuery = compoundQuery.getLeftQuery();
 		Queriable rightQuery = compoundQuery.getRightQuery();
 		OperatorType operator = compoundQuery.getOperatorType();
+		Viewable viewable = compoundQuery.getAssociatedView();
 
 		try {
 			if (leftQuery != null) {
@@ -137,6 +138,11 @@ public class AddConstrainsToQueriesHelper {
 				newQuery = new CompoundQuery(operator, leftQuery, rightQuery);
 			} else { //then its the right query
 				newQuery = new CompoundQuery(rightQuery);
+				
+				//Don't forget to reset this viewable, otherwise
+				//it will cause a problem in handle method
+				//of the GeneExprQueryHandler class.
+				newQuery.setAssociatedView(viewable);
 			}
 
 		} catch (Exception ex) {
