@@ -156,7 +156,7 @@ public class AddConstrainsToQueriesHelper {
 		Queriable leftQuery = compoundQuery.getLeftQuery();
 		Queriable rightQuery = compoundQuery.getRightQuery();
 		OperatorType operator = compoundQuery.getOperatorType();
-
+		Viewable viewable = compoundQuery.getAssociatedView();
 		try {
 			if (leftQuery != null) {
 				if (leftQuery instanceof CompoundQuery) {
@@ -181,6 +181,10 @@ public class AddConstrainsToQueriesHelper {
 				newQuery = new CompoundQuery(operator, leftQuery, rightQuery);
 			} else { //then its the right query
 				newQuery = new CompoundQuery(rightQuery);
+				//Don't forget to reset this viewable, otherwise
+				//it will cause a problem in handle method
+				//of the GeneExprQueryHandler class.
+				newQuery.setAssociatedView(viewable);
 			}
 
 		} catch (Exception ex) {
