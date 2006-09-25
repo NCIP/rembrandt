@@ -490,7 +490,7 @@ public class CompoundQueryTest extends TestCase {
 			for (Object reporterName: reporterNames) {
         	sampleIds = geneViewContainer.getBioSpecimentResultsets(geneSymbol,(String)reporterName,(String)label); 
         	//For each group get the number of samples in it from sampleIds.size()
-            System.out.println("SampleSize= "+sampleIds.size());
+            System.out.println("Reporter Name="+ reporterName+"/tSampleSize= "+sampleIds.size());
             	for(Object sample:sampleIds){
             		if(sample instanceof SampleFoldChangeValuesResultset ){
             			SampleFoldChangeValuesResultset folgChangeResultset = (SampleFoldChangeValuesResultset) sample;
