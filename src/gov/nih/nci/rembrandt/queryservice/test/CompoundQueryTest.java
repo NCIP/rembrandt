@@ -40,6 +40,10 @@ import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
@@ -449,13 +453,8 @@ public class CompoundQueryTest extends TestCase {
     	}
 	}
 	private void displayGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer){
-		final DecimalFormat resultFormat = new DecimalFormat("0.00");		 
-    	Collection genes = geneViewContainer.getGeneResultsets();
-    	Collection labels = geneViewContainer.getGroupsLabels();
+		Collection labels = geneViewContainer.getGroupsLabels();
     	Collection sampleIds = null;
-    	StringBuffer header = new StringBuffer();
-    	StringBuffer sampleNames = new StringBuffer();
-        StringBuffer stringBuffer = new StringBuffer();
     	//get group size (as Disease or Agegroup )from label.size
         System.out.println("Printing Gene Expr View>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println("GroupSize= "+labels.size());
@@ -468,6 +467,41 @@ public class CompoundQueryTest extends TestCase {
            	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
            		System.out.println(sampleIdIterator.next()); 
            	}
+           	 
+    	}
+	}
+	private void displayBoxAndWisherOutput(GeneExprSingleViewResultsContainer geneViewContainer){
+		Collection genes = geneViewContainer.getGeneResultsets();
+    	String geneSymbol = null;
+    	if(genes != null && genes.size() == 1){
+    		for(Object gene:genes){
+    			GeneResultset geneResultset = (GeneResultset)gene;
+    			geneSymbol = geneResultset.getGeneSymbol().getValueObject();
+    		}
+    	}
+    	Collection reporterNames = geneViewContainer.getAllReporterNames();
+    	Collection labels = geneViewContainer.getGroupsLabels();
+    	Collection sampleIds = null;
+    	        //get group size (as Disease or Agegroup )from label.size
+        System.out.println("Printing BoxAndWisherOutput>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("GroupSize= "+labels.size());
+        for (Object label:labels) {
+        	System.out.println("DiseaseName:"+label);
+			for (Object reporterName: reporterNames) {
+        	sampleIds = geneViewContainer.getBioSpecimentResultsets(geneSymbol,(String)reporterName,(String)label); 
+        	//For each group get the number of samples in it from sampleIds.size()
+            System.out.println("SampleSize= "+sampleIds.size());
+            	for(Object sample:sampleIds){
+            		if(sample instanceof SampleFoldChangeValuesResultset ){
+            			SampleFoldChangeValuesResultset folgChangeResultset = (SampleFoldChangeValuesResultset) sample;
+            			Double ratio = (Double)folgChangeResultset.getFoldChangeRatioValue().getValue();
+               			Double intensity = (Double)folgChangeResultset.getFoldChangeIntensity().getValue();
+               			Double log2Intensity = (Double)folgChangeResultset.getFoldChangeLog2Intensity().getValue();
+               			System.out.println("sampleID="+folgChangeResultset.getSampleIDDE().getValueObject()+ "\tratio= "+ratio+"\tintensity= "+intensity+"\tlog2Intensity= "+log2Intensity);
+            			
+            		}
+            	}
+        	}
            	 
     	}
 	}
@@ -509,7 +543,7 @@ public class CompoundQueryTest extends TestCase {
     private void buildGeneIDCrit() {
         geneCrit = new GeneIDCriteria();
         //Both IMAGE:2014733 and 1555146_at should be subsets of ATF2
-        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("BRCA2"));
+        geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol("WT1"));
 
     }
     private void buildPathwayCrit() {
@@ -592,11 +626,11 @@ public class CompoundQueryTest extends TestCase {
         geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
         geneQuery.setQueryName("GeneQuery");
         geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-        geneQuery.setCloneOrProbeIDCrit(cloneCrit);
-        //geneQuery.setGeneIDCrit(geneCrit);
+        //geneQuery.setCloneOrProbeIDCrit(cloneCrit);
+        geneQuery.setGeneIDCrit(geneCrit);
         //geneQuery.setPathwayCrit(pathwayCrit);
         //geneQuery.setGeneOntologyCrit(ontologyCrit);
-        geneQuery.setArrayPlatformCrit(allPlatformCrit);
+        geneQuery.setArrayPlatformCrit(affyOligoPlatformCrit);
         //geneQuery.setFoldChgCrit(foldCrit);
     }
     private void buildCopyNumberSingleViewQuery(){
@@ -621,4 +655,34 @@ public class CompoundQueryTest extends TestCase {
     		query.setAssociatedView(view);
     	}
     }
+    public void testBoxAndWiskerOutput(){
+        geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+        geneQuery.setQueryName("B&WQuery");
+        geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+        geneQuery.setGeneIDCrit(geneCrit);
+        geneQuery.setArrayPlatformCrit(affyOligoPlatformCrit);
+		System.out.println("Testing BoxandWisker Output>>>>>>>>>>>>>>>>>>>>>>>");
+		CompoundQuery myCompoundQuery = null;
+		try {
+			myCompoundQuery = new CompoundQuery(geneQuery);
+			myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			Resultant resultant;
+	
+				resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
+			if(resultant != null){
+				ResultsContainer resultsContainer = resultant.getResultsContainer();
+				if (resultsContainer instanceof DimensionalViewContainer){
+					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+			        GeneExprSingleViewResultsContainer geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+			        if (geneViewContainer != null){
+			        	displayBoxAndWisherOutput(geneViewContainer);
+			        }
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
 }

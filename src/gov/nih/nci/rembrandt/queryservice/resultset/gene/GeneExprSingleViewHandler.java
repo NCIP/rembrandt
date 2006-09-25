@@ -7,6 +7,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
+import gov.nih.nci.rembrandt.util.MathUtil;
 
 
 
@@ -114,6 +115,8 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		sampleFoldChangeValuesResultset.setFoldChangeRatioValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
 		sampleFoldChangeValuesResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
 		sampleFoldChangeValuesResultset.setFoldChangeNonTumorIntensity(new DatumDE(DatumDE.FOLD_CHANGE_NORMAL_INTENSITY,exprObj.getNormalIntensity()));
+		sampleFoldChangeValuesResultset.setFoldChangeLog2Intensity(new DatumDE(DatumDE.FOLD_CHANGE_LOG2_INTENSITY,MathUtil.getLog2(exprObj.getSampleIntensity())));
+
 		sampleFoldChangeValuesResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,exprObj.getAgeGroup()));
 		sampleFoldChangeValuesResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,exprObj.getSurvivalLengthRange()));
 		sampleFoldChangeValuesResultset.setGenderCode(new GenderDE(exprObj.getGenderCode()));

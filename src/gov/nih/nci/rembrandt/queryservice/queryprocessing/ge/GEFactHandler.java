@@ -477,6 +477,7 @@ abstract public class GEFactHandler {
             singleExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());
             singleExprObj.setDiseaseType(exprObj.getDiseaseType());
             singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
+            singleExprObj.setSampleIntensity(exprObj.getSampleIntensity());
             singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
             singleExprObj.setSampleId(exprObj.getSampleId());
             singleExprObj.setGenderCode(exprObj.getGenderCode());

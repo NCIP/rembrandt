@@ -76,6 +76,8 @@ public class DiseaseGroupResultset implements Groupable, FoldChange{
 	private DatumDE foldChangeIntensity = null;
 	private DatumDE foldChangeNonTumorIntensity = null;
 	private DatumDE ratioPval = null;
+	private DatumDE standardDeviationRatio;
+	private DatumDE foldChangeLog2Intensity;
 	/**
 	 * @return Returns the diseaseType.
 	 */
@@ -159,5 +161,23 @@ public class DiseaseGroupResultset implements Groupable, FoldChange{
 	public void setFoldChangeNonTumorIntensity(
 			DatumDE foldChangeNonTumorIntensity) {
 		this.foldChangeNonTumorIntensity = foldChangeNonTumorIntensity;
+	}
+	public DatumDE getStandardDeviationRatio() {
+		return standardDeviationRatio;
+	}
+	public void setStandardDeviationRatio(DatumDE standardDeviationRatio) {
+		this.standardDeviationRatio = standardDeviationRatio;
+	}
+	/**
+	 * @return Returns the foldChangeLog2Intensity.
+	 */
+	public DatumDE getFoldChangeLog2Intensity() {
+		return foldChangeLog2Intensity;
+	}
+	/**
+	 * @param foldChangeLog2Intensity The foldChangeLog2Intensity to set.
+	 */
+	public void setFoldChangeLog2Intensity(DatumDE foldChangeLog2Intensity) {
+		this.foldChangeLog2Intensity = foldChangeLog2Intensity;
 	}
 }

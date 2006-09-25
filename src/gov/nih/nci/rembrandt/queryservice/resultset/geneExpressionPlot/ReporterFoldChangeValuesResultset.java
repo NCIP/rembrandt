@@ -74,6 +74,7 @@ public class ReporterFoldChangeValuesResultset implements FoldChange{
 	private DatumDE ratioPval = null;
 	private DatumDE reporter = null;
 	private DatumDE standardDeviationRatio = null;
+	private DatumDE foldChangeLog2Intensity = null;
 	/**
 	 * @param reporter
 	 */
@@ -146,5 +147,17 @@ public class ReporterFoldChangeValuesResultset implements FoldChange{
 	}
 	public void setStandardDeviationRatio(DatumDE standardDeviationRatio) {
 		this.standardDeviationRatio = standardDeviationRatio;
+	}
+	/**
+	 * @return Returns the foldChangeLog2Intensity.
+	 */
+	public DatumDE getFoldChangeLog2Intensity() {
+		return foldChangeLog2Intensity;
+	}
+	/**
+	 * @param foldChangeLog2Intensity The foldChangeLog2Intensity to set.
+	 */
+	public void setFoldChangeLog2Intensity(DatumDE foldChangeLog2Intensity) {
+		this.foldChangeLog2Intensity = foldChangeLog2Intensity;
 	}
 }

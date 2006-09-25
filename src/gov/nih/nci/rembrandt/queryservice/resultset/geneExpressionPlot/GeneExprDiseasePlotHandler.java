@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprGroup;
+import gov.nih.nci.rembrandt.util.MathUtil;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 /**
@@ -129,6 +130,7 @@ public class GeneExprDiseasePlotHandler {
 	      			}
 	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getRatioPval()));
 	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
+	      		reporterResultset.setFoldChangeLog2Intensity(new DatumDE(DatumDE.FOLD_CHANGE_LOG2_INTENSITY,MathUtil.getLog2(exprObj.getSampleIntensity())));
 	      		reporterResultset.setStandardDeviationRatio(new DatumDE(DatumDE.STD_DEVIATION_RATIO,exprObj.getStandardDeviationRatio()));
 	    		}
 	  		
@@ -154,7 +156,8 @@ public class GeneExprDiseasePlotHandler {
 	      			}
 	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getExpressionRatio()));
 	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
-	      		reporterResultset.setStandardDeviationRatio(new DatumDE(DatumDE.STD_DEVIATION_RATIO,exprObj.getStandardDeviation()));
+	      		reporterResultset.setFoldChangeLog2Intensity(new DatumDE(DatumDE.FOLD_CHANGE_LOG2_INTENSITY,MathUtil.getLog2(exprObj.getNormalIntensity())));
+
 	    		}
 	  		
 		}
@@ -181,6 +184,9 @@ public class GeneExprDiseasePlotHandler {
 	      			}
 	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,new Double("0.00")));//TODO: Should be changed to repecial value
 	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getNormalIntensity()));
+	    		reporterResultset.setStandardDeviationRatio(new DatumDE(DatumDE.STD_DEVIATION_RATIO,exprObj.getStandardDeviationRatio()));	    		  
+	      		reporterResultset.setFoldChangeLog2Intensity(new DatumDE(DatumDE.FOLD_CHANGE_LOG2_INTENSITY,MathUtil.getLog2(exprObj.getNormalIntensity())));
+	      		
 	    		}
    			geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(non_tumor);     		
    			non_tumor.addReporterFoldChangeValuesResultset(reporterResultset);
@@ -222,6 +228,7 @@ public class GeneExprDiseasePlotHandler {
 	      			}
 	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,new Double("0.00")));//TODO: Should be changed to repecial value
 	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getNormalIntensity()));
+	      		reporterResultset.setFoldChangeLog2Intensity(new DatumDE(DatumDE.FOLD_CHANGE_LOG2_INTENSITY,MathUtil.getLog2(exprObj.getNormalIntensity())));
 	    		}
    			geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(non_tumor);     		
    			non_tumor.addReporterFoldChangeValuesResultset(reporterResultset);

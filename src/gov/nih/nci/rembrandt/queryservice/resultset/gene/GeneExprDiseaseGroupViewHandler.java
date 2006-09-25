@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.util.MathUtil;
 
 /**
  * @author SahniH
@@ -101,6 +102,8 @@ public class GeneExprDiseaseGroupViewHandler extends GeneExprViewHandler {
   		    diseaseGroupResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getRatioPval()));
   		    diseaseGroupResultset.setFoldChangeNonTumorIntensity(new DatumDE(DatumDE.FOLD_CHANGE_NORMAL_INTENSITY,exprObj.getNormalIntensity()));
   		    diseaseGroupResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
+  		    diseaseGroupResultset.setStandardDeviationRatio(new DatumDE(DatumDE.STD_DEVIATION_RATIO,exprObj.getStandardDeviationRatio()));	    		  
+  		    diseaseGroupResultset.setFoldChangeLog2Intensity(new DatumDE(DatumDE.FOLD_CHANGE_LOG2_INTENSITY,MathUtil.getLog2(exprObj.getSampleIntensity())));
 
       	}
   		return diseaseGroupResultset;

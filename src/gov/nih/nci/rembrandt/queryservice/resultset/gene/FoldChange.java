@@ -103,9 +103,16 @@ public interface FoldChange {
 	 * @return Returns the ratioPval.
 	 */
 	public abstract DatumDE getRatioPval();
-
 	/**
 	 * @param ratioPval The ratioPval to set.
 	 */
 	public abstract void setRatioPval(DatumDE ratioPval);
+	/**
+	 * @return Returns the foldChangeLog2Intensity.
+	 */
+	public abstract DatumDE getFoldChangeLog2Intensity();
+	/**
+	 * @param foldChangeLog2Intensity The foldChangeLog2Intensity to set.
+	 */
+	public abstract void setFoldChangeLog2Intensity(DatumDE foldChangeLog2Intensity);
 }
