@@ -282,7 +282,7 @@ public class GeneExpressionPlot {
 
 			});
 
-			// customize the fake renderer
+			// customize the  renderer
 			BarRenderer frenderer = (BarRenderer) fplot.getRenderer();
 			frenderer.setItemMargin(0.01); // one percent
 			frenderer.setDrawBarOutline(true);
@@ -314,22 +314,18 @@ public class GeneExpressionPlot {
 			plot.setRenderer(renderer);
 
 			// lets generate a custom legend - assumes theres only one source?
-			LegendItemCollection lic = chart.getLegend().getSources()[0]
-					.getLegendItems();
+			LegendItemCollection lic = chart.getLegend().getSources()[0].getLegendItems();
 			legendHtml = LegendCreator.buildLegend(lic, "Probesets");
-			// pw.print(LegendCreator.buildLegend(lic, "Probesets"));
 
 			chart.removeLegend();
 			fchart.removeLegend();
 			
-			//bwChart.removeLegend();
+			//bwChart.removeLegend(); // <-- do this above
 
 			// Write the chart image to the temporary directory
 			ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
 			
-			//TEST BW
-			//perhaps create a new ChartRenderingInfo obj for each, and write the map coords out for each
-			//then toggle the usemap when you toggle the src of the img ??
+			// BW
 			if(bwChart != null){
 				int bwwidth = new BigDecimal(1.5).multiply(new BigDecimal(imgW)).intValue();
 				bwFilename = ServletUtilities.saveChartAsPNG(bwChart, bwwidth, 400, info, session);
@@ -340,9 +336,8 @@ public class GeneExpressionPlot {
 						new StandardURLTagFragmentGenerator());
 				info.clear(); // lose the first one
 				info = new ChartRenderingInfo(new StandardEntityCollection());
-				//END TEST BW
 			}
-			
+			//END  BW
 			log2Filename = ServletUtilities.saveChartAsPNG(chart, imgW, 400, info, session);
 			ChartUtilities.writeImageMap(pw, log2Filename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
