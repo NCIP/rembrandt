@@ -379,8 +379,36 @@
              column="PATHWAY_DESC"
              jdbc-type="VARCHAR"
         />
-    
 </class-descriptor>
+
+<class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.DownloadFile"
+       table="FILE_SOURCE">
+        <field-descriptor
+             name="fileId"
+             column="FILE_ID"
+             jdbc-type="BIGINT"
+        />
+
+        <field-descriptor
+             name="fileName"
+             column="FILE_NAME"
+             jdbc-type="VARCHAR"
+        />
+
+        <field-descriptor
+             name="fileType"
+             column="FILE_TYPE"
+             jdbc-type="VARCHAR"
+        />
+
+        <field-descriptor
+             name="accessCode"
+             column="ACCESS_CODE"
+             jdbc-type="BIGINT"
+        />
+</class-descriptor>
+
 <class-descriptor
        class="gov.nih.nci.rembrandt.dbbean.GeneClone"
        table="GENE_CLONE">
