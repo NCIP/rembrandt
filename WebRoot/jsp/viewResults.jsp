@@ -176,4 +176,28 @@ String helpLinkClose = "', 350, 500);\">"+
      
 </fieldset>
 <br /><br />
+<br /><br />
+      <fieldset>
+        <legend>
+          Download BRB Files
+        </legend>
+        <br/>
+        <logic:notEmpty name="downloadFileList">
+        <logic:iterate name="downloadFileList" id="downloadFile">
+        
+        <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
+		  <tr style="background-color:#f2f2f2;font-size:.8em">
+		    <td>
+		    	<a href="fileDownload.jsp?fileId=<bean:write name="downloadFile" property="fileId"/>" style="font-size:.9em">
+		    	<bean:write name="downloadFile" property="fileName"/></a>
+		    </td>
+          </tr>
+         </table>
+         </logic:iterate>
+     </logic:notEmpty>
+     
+     <logic:empty name="downloadFileList">
+     <strong>There are no files to download at this time.</strong>
+     <br /><br />
+     </logic:empty>
      
