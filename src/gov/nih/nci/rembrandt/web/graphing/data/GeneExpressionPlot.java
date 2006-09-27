@@ -133,7 +133,7 @@ public class GeneExpressionPlot {
 			DefaultBoxAndWhiskerCategoryDataset bwdataset = (DefaultBoxAndWhiskerCategoryDataset) gpds.getBwdataset();
 						
 			//IMAGE Size Control
-			if(bwdataset.getRowCount()>5)	{
+			if(bwdataset!=null && bwdataset.getRowCount()>5)	{
 				ps = PlotSize.LARGE;
 			}
 			else	{
@@ -147,70 +147,69 @@ public class GeneExpressionPlot {
 				imgW = new BigDecimal(bwdataset.getRowCount()).multiply(new BigDecimal(75)).intValue() > 1000 ? new BigDecimal(bwdataset.getRowCount()).multiply(new BigDecimal(75)).intValue() : 1000;
 			}
 			
-			//B&W testing
-			CategoryAxis xAxis = new CategoryAxis("Disease Type");
-	        NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
-	        yAxis.setAutoRangeIncludesZero(false);
-	        BoxAndWhiskerRenderer bwRenderer = null;
-	       // BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
-	       //this line is for coin plot testing..
-	        if(reporter != null)	{
-	        	//single reporter, show the coins
-	        	bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
-	        	//TODO:  the colors are wrong with this renderer
-	        }
-	        else	{
-	        	//groups, dont show coins
-	        	bwRenderer = new BoxAndWhiskerRenderer();
-	        	//bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
-	        }
-	        bwRenderer.setFillBox(false);
-	        
-	        bwRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
-
-				public String generateToolTip(CategoryDataset dataset,int series, int item) {
-					String tt="";
-					NumberFormat formatter = new DecimalFormat(".####");
-					String key = "";
-				    //String s = formatter.format(-1234.567);  // -001235
-				    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
-					    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
-					    try	{
-							String med = formatter.format(ds.getMedianValue(series, item));
-							tt += "Median: " + med + "<br/>";
-							tt += "Mean: " + formatter.format(ds.getMeanValue(series, item))+"<br/>";
-							tt += "Min: " + formatter.format(ds.getMinRegularValue(series, item))+"<br/>";
-							tt += "Max: " + formatter.format(ds.getMaxRegularValue(series, item))+"<br/>";
-							tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
-							tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
-							//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
-							//tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
-							key = ds.getRowKeys().get(series).toString();
+			JFreeChart bwChart = null;
+			if(geType != GeneExpressionDataSetType.UnifiedGeneExpressionDataSet)	{
+				//B&W plot
+				CategoryAxis xAxis = new CategoryAxis("Disease Type");
+		        NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
+		        yAxis.setAutoRangeIncludesZero(false);
+		        BoxAndWhiskerRenderer bwRenderer = null;
+		       // BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
+		        if(reporter != null)	{
+		        	//single reporter, show the coins
+		        	bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
+		        }
+		        else	{
+		        	//groups, dont show coins
+		        	bwRenderer = new BoxAndWhiskerRenderer();
+		        }
+		        bwRenderer.setFillBox(false);
+		        
+		        bwRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
+	
+					public String generateToolTip(CategoryDataset dataset,int series, int item) {
+						String tt="";
+						NumberFormat formatter = new DecimalFormat(".####");
+						String key = "";
+					    //String s = formatter.format(-1234.567);  // -001235
+					    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
+						    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
+						    try	{
+								String med = formatter.format(ds.getMedianValue(series, item));
+								tt += "Median: " + med + "<br/>";
+								tt += "Mean: " + formatter.format(ds.getMeanValue(series, item))+"<br/>";
+								tt += "Min: " + formatter.format(ds.getMinRegularValue(series, item))+"<br/>";
+								tt += "Max: " + formatter.format(ds.getMaxRegularValue(series, item))+"<br/>";
+								tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
+								tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
+								//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
+								//tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
+								key = ds.getRowKeys().get(series).toString();
+						    }
+						    catch(Exception e) {}
 					    }
-					    catch(Exception e) {}
-				    }
-					return "onclick=\"popCoin('"+geneName+"','"+key+"');\" | " + tt;
-						
-				}
-
-			});
-	        
-	        CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
-	        JFreeChart bwChart = new JFreeChart(bwPlot);
-	 
-	    //    JFreeChart bwChart = new JFreeChart(
-	    //    	null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/,
-	    //        new Font("SansSerif", Font.BOLD, 14),
-	    //        bwPlot,
-	    //        true
-	    //    );
-	        
-	        bwChart.setBackgroundPaint(java.awt.Color.white);
-	        //bwChart.getTitle().setHorizontalAlignment(TextTitle.DEFAULT_HORIZONTAL_ALIGNMENT.LEFT);
-	   
-			
-			//END BW testing
-			
+						return "onclick=\"popCoin('"+geneName+"','"+key+"');\" | " + tt;
+							
+					}
+	
+				});
+		        
+		        CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
+		        bwChart = new JFreeChart(bwPlot);
+		 
+			    //    JFreeChart bwChart = new JFreeChart(
+			    //    	null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/,
+			    //        new Font("SansSerif", Font.BOLD, 14),
+			    //        bwPlot,
+			    //        true
+			    //    );
+		        
+		        bwChart.setBackgroundPaint(java.awt.Color.white);
+		        //bwChart.getTitle().setHorizontalAlignment(TextTitle.DEFAULT_HORIZONTAL_ALIGNMENT.LEFT);
+		   
+		        bwChart.removeLegend();
+				//END BW plot
+			}
 			
 			// create the chart...for LOG2 dataset
 			JFreeChart chart = ChartFactory.createBarChart(
@@ -322,7 +321,8 @@ public class GeneExpressionPlot {
 
 			chart.removeLegend();
 			fchart.removeLegend();
-			bwChart.removeLegend();
+			
+			//bwChart.removeLegend();
 
 			// Write the chart image to the temporary directory
 			ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
@@ -330,17 +330,18 @@ public class GeneExpressionPlot {
 			//TEST BW
 			//perhaps create a new ChartRenderingInfo obj for each, and write the map coords out for each
 			//then toggle the usemap when you toggle the src of the img ??
-
-			int bwwidth = new BigDecimal(1.5).multiply(new BigDecimal(imgW)).intValue();
-			bwFilename = ServletUtilities.saveChartAsPNG(bwChart, bwwidth, 400, info, session);
-			CustomOverlibToolTipTagFragmentGenerator ttip = new CustomOverlibToolTipTagFragmentGenerator();
-			ttip.setExtra(" href='javascript:void(0);' "); //must have href for area tags to have cursor:pointer
-			ChartUtilities.writeImageMap(pw, bwFilename, info,
-					ttip,
-					new StandardURLTagFragmentGenerator());
-			info.clear(); // lose the first one
-			info = new ChartRenderingInfo(new StandardEntityCollection());
-			//END TEST BW
+			if(bwChart != null){
+				int bwwidth = new BigDecimal(1.5).multiply(new BigDecimal(imgW)).intValue();
+				bwFilename = ServletUtilities.saveChartAsPNG(bwChart, bwwidth, 400, info, session);
+				CustomOverlibToolTipTagFragmentGenerator ttip = new CustomOverlibToolTipTagFragmentGenerator();
+				ttip.setExtra(" href='javascript:void(0);' "); //must have href for area tags to have cursor:pointer
+				ChartUtilities.writeImageMap(pw, bwFilename, info,
+						ttip,
+						new StandardURLTagFragmentGenerator());
+				info.clear(); // lose the first one
+				info = new ChartRenderingInfo(new StandardEntityCollection());
+				//END TEST BW
+			}
 			
 			log2Filename = ServletUtilities.saveChartAsPNG(chart, imgW, 400, info, session);
 			ChartUtilities.writeImageMap(pw, log2Filename, info,

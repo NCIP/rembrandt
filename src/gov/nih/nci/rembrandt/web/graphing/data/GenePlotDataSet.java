@@ -151,6 +151,22 @@ public class GenePlotDataSet {
 						geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
 		
 						resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
+						
+						 //run the extra q for the B&W data...this time a single view, not group
+					    geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+					    CompoundQuery myCompoundQuery = null;
+						myCompoundQuery = new CompoundQuery(geneQuery);
+						myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+						Resultant bwResultant;
+						bwResultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
+						if(bwResultant != null){
+							ResultsContainer resultsContainer = bwResultant.getResultsContainer();
+							if (resultsContainer instanceof DimensionalViewContainer){
+								DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+						        geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+							}
+						}
+						
 				    	break;
 				    }
 			    case UnifiedGeneExpressionDataSet:{
@@ -170,25 +186,7 @@ public class GenePlotDataSet {
 				    }
 			    }
 			    
-			    //run the extra q for the B&W data...this time a single view, not group
-			    geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-			    CompoundQuery myCompoundQuery = null;
-				myCompoundQuery = new CompoundQuery(geneQuery);
-				myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-				Resultant bwResultant;
-				bwResultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
-				if(bwResultant != null){
-					ResultsContainer resultsContainer = bwResultant.getResultsContainer();
-					if (resultsContainer instanceof DimensionalViewContainer){
-						DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-				        geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
-				        /*
-				        if (geneViewContainer != null){
-				        	displayBoxAndWisherOutput(geneViewContainer);
-				        }
-				        */
-					}
-				}
+			   
 				
 			} catch (Exception e) {
 				logger.error("Resultset Manager Threw an Exception in gene plot");
@@ -267,23 +265,25 @@ public class GenePlotDataSet {
 						// from HS
 						//getBioSpecimentResultsets(String geneSymbol,String reporterName, String groupType)
 				      	Collection bwSampleIds = null;
-				      	if(diseaseName.indexOf(RembrandtConstants.ALL)==-1)	{
-				      		//ones with out "all" as disease name 
-				      		bwSampleIds = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,diseaseName);
-				      	}
-				      	else	{
-				      		Collection c = new ArrayList();
-				      		//dealing with ALL, so get all 4 and combine
-				      		Collection astro = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,RembrandtConstants.ASTRO);
-				      		c.addAll(astro);
-				      		// need to add the rest here properly
-				      		Collection olig = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.OLIGODENDROGLIOMA.toString());
-				      		c.addAll(olig);
-				      		Collection gbm = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.GBM.toString());
-				      		c.addAll(gbm);
-				      		Collection mixed = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.MIXED.toString());
-				      		c.addAll(mixed);
-				      		bwSampleIds = c;
+				      	if(geneViewContainer!=null)	{
+					      	if(diseaseName.indexOf(RembrandtConstants.ALL)==-1)	{
+					      		//ones with out "all" as disease name 
+					      		bwSampleIds = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,diseaseName);
+					      	}
+					      	else	{
+					      		Collection c = new ArrayList();
+					      		//dealing with ALL, so get all 4 and combine
+					      		Collection astro = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,RembrandtConstants.ASTRO);
+					      		c.addAll(astro);
+					      		// need to add the rest here properly
+					      		Collection olig = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.OLIGODENDROGLIOMA.toString());
+					      		c.addAll(olig);
+					      		Collection gbm = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.GBM.toString());
+					      		c.addAll(gbm);
+					      		Collection mixed = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.MIXED.toString());
+					      		c.addAll(mixed);
+					      		bwSampleIds = c;
+					      	}
 				      	}
 						
 						//gene, reporterName, groupType <-- disease name (string)
@@ -337,11 +337,12 @@ public class GenePlotDataSet {
 			            	}
 						}
 						
-						//B&W
-						bwdataset.add(tlist, reporterName, diseaseName);
-						
-						//call the add here as well...this is for testing the coins disease+reporter
-						coinHash.put(String.valueOf(counter)+"_"+String.valueOf(icounter), tlist);
+						if(geneViewContainer!=null)	{
+							//B&W
+							bwdataset.add(tlist, reporterName, diseaseName);
+							//call the add here as well...this is for testing the coins disease+reporter
+							coinHash.put(String.valueOf(counter)+"_"+String.valueOf(icounter), tlist);
+						}
 						//icounter, counter seemed to be wrong
 						counter++;
 					}
