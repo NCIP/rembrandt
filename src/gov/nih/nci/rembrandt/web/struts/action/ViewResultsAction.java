@@ -1,8 +1,19 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.rembrandt.dbbean.DownloadFile;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -99,8 +110,29 @@ public class ViewResultsAction extends Action{
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
-	ActionForward thisForward = mapping.findForward("success");
-	return thisForward;
+		
+		List fileList = LookupManager.getDownloadFileList();
+		if (fileList == null || fileList.isEmpty())
+		{
+			request.setAttribute("downloadFileList", new ArrayList());
+			return mapping.findForward("success");
+		}
+		List<DownloadFileLookup> downloadFileList = new ArrayList<DownloadFileLookup>();
+		Long publicFile = new Long(8);
+		Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
+
+		for (Iterator it = collection.iterator(); it.hasNext();){
+			InstitutionDE de = (InstitutionDE)it.next();
+				
+			for (int i = 0; i < fileList.size(); i++){
+				DownloadFileLookup lookup = (DownloadFileLookup)fileList.get(i);				
+				if (lookup.getAccessCode().equals((Long)de.getValue())){
+					downloadFileList.add(lookup);
+				}
+			}
+		}
+		request.setAttribute("downloadFileList", downloadFileList);
+	return  mapping.findForward("success");
  }
       
 }
