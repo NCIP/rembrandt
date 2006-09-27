@@ -29,6 +29,7 @@ String graphURL= "";
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 -->
 	<script language="javascript" src="XSL/js.js"></script>
+
 <div style="background-color:#ffffff">
 	<div>
 		<%=helpLink%>?sect=gplot<%=helpLinkClose%>
@@ -43,17 +44,14 @@ String graphURL= "";
 String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : RembrandtConstants.REPORTER_SELECTION_AFFY; 
 
 %>
+<div align="center">
 	<graphing:GenePlot algorithm="<%=alg%>" />
-	
-	
-	<Br/>
-	<!--  Legend: Probesets -->
-	<Br/><Br/>
+	<br/>
 
 	<fieldset style="width:300px; text-align:left; padding:3px">
 		<legend>Abbreviations of Group Names</legend>
-			<table>
 		<%
+		out.println("<table>\n");
 		DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
 		if(diseaseTypes != null)	{
 			for (int i = 0; i< diseaseTypes.length ; i++) {
@@ -80,6 +78,8 @@ String alg = request.getParameter("alg")!=null ? (String) request.getParameter("
 		}
 		%>
 	</fieldset>
-<br>
-<a href="javascript:void(window.print())">[Print this graph]</a><Br><Br>
+<br/>
+<a href="javascript:void(window.print())">[Print this graph]</a><br/><br/>
+</div>
+	
 </div>

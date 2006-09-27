@@ -117,7 +117,10 @@
    
    <action path="/graph"
            forward="nautilus.graph" />
-            
+           
+   <action path="/popGraph"
+           forward="popGraph" />     
+           
    <action path="/login"
            type="gov.nih.nci.rembrandt.web.struts.action.LoginAction"
            name="loginForm"

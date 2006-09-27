@@ -209,6 +209,15 @@
       <put name="mainForm" value="/graph.jsp" />
 	  <put name="title" value="caIntegrator Gene Expression Plot" />
     </definition>
+    
+    <definition name="popGraph" extends="graph">
+    	<put name="tabs" value="/jsp/tiles/empty_tile.jsp" />
+		<put name="crumbMenu" value="/jsp/tiles/empty_tile.jsp" />
+    	<put name="header" value="/jsp/tiles/empty_tile.jsp" />
+		<put name="footer" value="/jsp/tiles/empty_tile.jsp" />
+		<put name="mainForm" value="/graph.jsp" />
+		<put name="title" value="caIntegrator Gene Expression Plot" />
+    </definition>
    
     <definition name="nautilus.KMGraph" extends="graph">
       <put name="mainForm" value="/jsp/graphs/bodyKMGraph.jsp" />

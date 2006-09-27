@@ -369,5 +369,37 @@ function changeList(formElement)	{
 				$('graphLink').href = (imgURL[0] + "filename=" + a);
 			chart.useMap = "#"+a;
 		}
+		//reset
+		if(document.getElementsByName("graphTypeLinks"))	{
+			var lnks = document.getElementsByName("graphTypeLinks");
+			for(var i=0; i<lnks.length; i++)	{
+				lnks[i].style.color = "";
+				lnks[i].style.textDecoration = "underline";
+			}
+		}
+		//highlight the default one
+		if($(a+"_link"))	{
+			$(a+"_link").style.color = "black";
+			$(a+"_link").style.textDecoration = "none";
+		}
+		else	{
+			setTimeout(function()	{
+				if($(a+"_link"))	{
+					$(a+"_link").style.color = "black";
+					$(a+"_link").style.textDecoration = "none";
+				}
+			}, 100);
+		}
 	} 
+}
+
+function popCoin(gene,key)	{
+//alert(gene + " : " + key);
+	var url = "/rembrandt/popGraph.do?geneSymbol="+encodeURIComponent(gene)+"&reporter="+encodeURIComponent(key);
+	try	{
+		rbtFrame(encodeURIComponent(url));
+	}
+	catch(er)	{
+		spawnx(encodeURIComponent(url), 850, 500, "popGraph");
+	}
 }
