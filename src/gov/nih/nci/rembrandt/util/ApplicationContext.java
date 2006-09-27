@@ -152,6 +152,33 @@ public class ApplicationContext{
 			  val = rembrandtProperties.getProperty(key);
 		      System.setProperty(key, val);
 		  }
+		  //Start loading BRB file path property
+		  propertiesFileName = System.getProperty("gov.nih.nci.caintegrator.rembramdt.brbFilePathFile");
+			
+		  //Load the the application properties and set them as system properties
+		  rembrandtProperties = new Properties();
+		 
+		  logger.info("Attempting to load application system properties from file: " + propertiesFileName);
+		  
+		  if (propertiesFileName != null){
+		  
+			  in = new FileInputStream(propertiesFileName);
+			  rembrandtProperties.load(in);
+		   
+			  if (rembrandtProperties.isEmpty()) {
+				  logger.error("Error: no properties found when loading properties file: " + propertiesFileName);
+			  }
+			  else {	   
+				  key = null;
+				  val = null;
+				  for (Iterator i = rembrandtProperties.keySet().iterator(); i.hasNext(); ) {
+					  key = (String) i.next();
+					  val = rembrandtProperties.getProperty(key);
+					  System.setProperty(key, val);
+				  }
+			  }
+		  }
+		  //End of loading BRB file path property.
 		  
 		  String jmsProviderURL = System.getProperty("gov.nih.nci.rembrandt.jms.jboss_url");
 		  String jndiFactoryName = System.getProperty("gov.nih.nci.rembrandt.jms.factory_jndi");
