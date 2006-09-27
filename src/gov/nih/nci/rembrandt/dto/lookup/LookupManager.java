@@ -3,6 +3,8 @@ package gov.nih.nci.rembrandt.dto.lookup;
 import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
@@ -377,4 +379,29 @@ public class LookupManager{
 			return pathwayMap.get(pathwayName).getGeneSymbols();
 		}
 	}
+	public static List<SampleIDDE> getSampleIDDEs(String diseaseType,Collection<InstitutionDE> insitutions){
+		List<SampleIDDE> sampleIDList = new ArrayList<SampleIDDE>();
+        PatientDataLookup[] patientDataLookups;
+			try {
+				if(diseaseType != null && insitutions != null){
+		        patientDataLookups = LookupManager.getPatientData();
+		        	for(PatientDataLookup  patientDataLookup:patientDataLookups){
+		        		if(patientDataLookup.getDiseaseType() != null &&
+		        				diseaseType.compareToIgnoreCase(patientDataLookup.getDiseaseType())== 0){
+		        			for(InstitutionDE insitution :insitutions){
+		        				if(insitution.getValueObject().equals(patientDataLookup.getInstitutionId())){
+		        					sampleIDList.add(new SampleIDDE(patientDataLookup.getSampleId()));
+		        				}
+		        			}
+		        		}
+		        	}
+		        				
+		        	}
+			} catch (Exception e1) {
+				logger.error(e1);
+				return null;
+	
+			}
+		return sampleIDList;
+		}
 }

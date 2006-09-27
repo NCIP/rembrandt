@@ -139,7 +139,7 @@ public class DataValidator{
     }
     public static Collection<SampleIDDE> validateSampleIds(Collection<SampleIDDE> sampleIds) throws Exception{
     	Collection<SampleIDDE> validSampleList = new ArrayList<SampleIDDE>();
-    	if(sampleIds != null  ){
+    	if(sampleIds != null  && sampleIds.size() > 0){
             
 
             try {

@@ -82,4 +82,8 @@ public interface PatientDataLookup {
 	public abstract Long getSurvivalLength();
 	
 	public abstract String getRace();
+	
+	public abstract String getDiseaseType();
+	
+	public abstract Long getInstitutionId();
 }
