@@ -34,7 +34,7 @@
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
  *                   Tim Bardzil;
  *
- * $Id: BoxAndWhiskerDotsRenderer.java,v 1.1 2006-09-22 18:42:06 landyr Exp $
+ * $Id: BoxAndWhiskerDotsRenderer.java,v 1.2 2006-09-27 21:14:45 landyr Exp $
  *
  * Changes
  * -------
@@ -589,8 +589,9 @@ public class BoxAndWhiskerDotsRenderer extends BoxAndWhiskerRenderer{
 		//you can get a different color pattern for the bar:  In the method 
 		//getItemPaint(), only the first argument counts for the color. The original
 		//code Paint p = getItemPaint(row, column); is commented out for a difference.
-        //Paint p = getItemPaint(row, column);
-        Paint p = getItemPaint(column, row);
+        Paint p = getItemPaint(row, column);
+        //Paint p = getItemPaint(column, row); // <-- this is wrong, dont know who put this here
+       // Paint p = PaintUtilities.stringToColor("red"); // coin plot should all be one color
         if (p != null) {
             g2.setPaint(p);
         }
@@ -684,7 +685,7 @@ public class BoxAndWhiskerDotsRenderer extends BoxAndWhiskerRenderer{
 		//this purpose.
         
        	//List yOutliers = bawDataset.getRawItemData(row, column);
-       	List yOutliers = this.caintegOutliers.get(String.valueOf(row)+String.valueOf(column));
+       	List yOutliers = this.caintegOutliers.get(String.valueOf(row)+"_"+String.valueOf(column));
        	
         if (yOutliers != null) {
             for (int i = 0; i < yOutliers.size(); i++) {

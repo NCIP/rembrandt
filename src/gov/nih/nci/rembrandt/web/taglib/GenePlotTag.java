@@ -88,9 +88,11 @@ public class GenePlotTag extends AbstractGraphingTag {
 				geneSymbol = (String) request.getParameter("geneSymbol");
 			}
 			
+			String reporter = request.getParameter("reporter") != null ? (String) request.getParameter("reporter") : null;
+			
 			GeneExpressionDataSetType geType = algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY) ? GeneExpressionDataSetType.GeneExpressionDataSet : GeneExpressionDataSetType.UnifiedGeneExpressionDataSet;
 			
-			HashMap charts = GeneExpressionPlot.generateBarChart(geneSymbol, pageContext.getSession(), new PrintWriter(out), geType);
+			HashMap charts = GeneExpressionPlot.generateBarChart(geneSymbol, reporter, pageContext.getSession(), new PrintWriter(out), geType);
 			String filename = (String) charts.get("errorBars");
 			String ffilename = (String) charts.get("noErrorBars");
 			String bwFilename = (String) charts.get("bwFilename");
@@ -101,37 +103,52 @@ public class GenePlotTag extends AbstractGraphingTag {
 			
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
-			String gwgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + bwFilename;
+			String bwgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + bwFilename;
 			
-			out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Data Selection:</span> ");
+			String defaultURL = fgraphURL;
+			String defaultFilename = ffilename;
+			if(reporter!=null)	{
+				defaultURL = bwgraphURL;
+				defaultFilename = bwFilename;
+			}
 			
-			if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI))
-				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_AFFY+"\">"+RembrandtConstants.REPORTER_SELECTION_AFFY+"</a>");		
-			else
-				out.print(RembrandtConstants.REPORTER_SELECTION_AFFY);
-			
-			out.print(" | ");
-			
-			if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY))
-				out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_UNI+"\">"+RembrandtConstants.REPORTER_SELECTION_UNI+"</a>");		
-			else
-				out.print(RembrandtConstants.REPORTER_SELECTION_UNI);
-
-			out.print("<br/><br/><span style='font-weight:bold'>Graph Type:</span> <a href=\"javascript:toggleGenePlot('"+filename+"');\">show log2</a> | ");
-			out.print("<a href=\"javascript:toggleGenePlot('"+ffilename+"');\">show raw</a> | ");
-			out.print("<a href=\"javascript:toggleGenePlot('"+bwFilename+"');\">show BW</a><br/> ");
-			
-			out.print("</div><br/>");
+			if(reporter==null){
+				out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Data Selection:</span> ");
+				
+				if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI))	{
+					out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_AFFY+"\">"+RembrandtConstants.REPORTER_SELECTION_AFFY+"</a>");
+				}
+				else	{
+					out.print(RembrandtConstants.REPORTER_SELECTION_AFFY);
+				}
+				out.print(" | ");
+				
+				if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY))	{
+					out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_UNI+"\">"+RembrandtConstants.REPORTER_SELECTION_UNI+"</a>");
+				}
+				else	{
+					out.print(RembrandtConstants.REPORTER_SELECTION_UNI);
+				}
+				
+				out.print("<br/><br/><span style='font-weight:bold'>Graph Type:</span> <a href=\"javascript:toggleGenePlot('"+ffilename+"');\" name=\"graphTypeLinks\"  id=\""+ffilename+"_link\">show raw</a> | ");
+				out.print("<a href=\"javascript:toggleGenePlot('"+filename+"');\" name=\"graphTypeLinks\" id=\""+filename+"_link\">show log2</a>");
+				if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY))	{
+					out.print(" | <a href=\"javascript:toggleGenePlot('"+bwFilename+"');\" name=\"graphTypeLinks\"  id=\""+bwFilename+"_link\">show Box and Whisker</a><br/> ");
+				}
+				out.print("</div><br/>");
+			}
 			
 			if(size.indexOf("LARGE")!=-1){
-				out.println("<br/><a class=\"message\" style=\"text-decoration:underline\" id=\"graphLink\" href=\""+graphURL+"\" target=\"_blank\">Click here to open plot in a new window</a><br/><br/>");
+				out.println("<br/><a class=\"message\" style=\"text-decoration:underline\" id=\"graphLink\" href=\""+defaultURL+"\" target=\"_blank\">Click here to open plot in a new window</a><br/><br/>");
 			}
 			out.println("<h2>Gene Expression Plot ("+geneSymbol.toUpperCase()+")</h2>");
-			out.print("<div style=\"width:700px; overflow:auto;\"><img src=\""+ graphURL+"\" border=0 usemap=\"#"+filename+"\" id=\"geneChart\"></div>");
+			out.print("<div style=\"width:700px; overflow:auto;\"><img src=\""+ defaultURL+"\" border=0 usemap=\"#"+defaultFilename+"\" id=\"geneChart\"></div>");
 			
 			out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend
 			
-			
+			//init the links
+			out.print("\n\n<script type=\"text/javascript\">toggleGenePlot('"+defaultFilename+"');</script>\n");
+
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

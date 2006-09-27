@@ -9,15 +9,20 @@ import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.enumeration.DiseaseType;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
+import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.GeneExprDiseasePlotContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
@@ -34,6 +39,7 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
+import org.jfree.data.statistics.DefaultBoxAndWhiskerXYDataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 /**
  * @author landyr
@@ -120,18 +126,24 @@ public class GenePlotDataSet {
 	    * takes in the gene and build the jfree data set
 	    * @param gene
 	    */
-	   public GenePlotDataSet(String gene,InstitutionCriteria institutionCriteria ,GeneExpressionDataSetType geneExpressionDataSetType )	{
+	   @SuppressWarnings("unchecked")
+	public GenePlotDataSet(String gene, String reporter,InstitutionCriteria institutionCriteria ,GeneExpressionDataSetType geneExpressionDataSetType )	{
 		   
 		   //Determine which type of query we will need to run based on the algorithm we are passing in (GeneExpressionDataSetType enum)
 			Resultant resultant = null;
+			GeneExprSingleViewResultsContainer geneViewContainer = null;
 			try{
+				
+				GeneExpressionQuery geneQuery;
+				geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+				
 			    switch (geneExpressionDataSetType){
 			    case GeneExpressionDataSet:
 			    default:{  
-					   	GeneExpressionQuery geneQuery;
+					   	
 						GeneIDCriteria geneCrit = new GeneIDCriteria();
 						geneCrit.setGeneIdentifier(new GeneIdentifierDE.GeneSymbol(gene));
-						geneQuery = (GeneExpressionQuery) QueryManager.createQuery(QueryType.GENE_EXPR_QUERY_TYPE);
+						
 						geneQuery.setQueryName("GeneExpressionPlot");
 						geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
 						geneQuery.setGeneIDCrit(geneCrit);
@@ -157,6 +169,27 @@ public class GenePlotDataSet {
 		
 				    }
 			    }
+			    
+			    //run the extra q for the B&W data...this time a single view, not group
+			    geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+			    CompoundQuery myCompoundQuery = null;
+				myCompoundQuery = new CompoundQuery(geneQuery);
+				myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+				Resultant bwResultant;
+				bwResultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
+				if(bwResultant != null){
+					ResultsContainer resultsContainer = bwResultant.getResultsContainer();
+					if (resultsContainer instanceof DimensionalViewContainer){
+						DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+				        geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+				        /*
+				        if (geneViewContainer != null){
+				        	displayBoxAndWisherOutput(geneViewContainer);
+				        }
+				        */
+					}
+				}
+				
 			} catch (Exception e) {
 				logger.error("Resultset Manager Threw an Exception in gene plot");
 				logger.error(e);
@@ -225,10 +258,35 @@ public class GenePlotDataSet {
 					for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 						ReporterFoldChangeValuesResultset reporterResultset = (ReporterFoldChangeValuesResultset) reporterIterator.next();
 						String reporterName = reporterResultset.getReporter().getValue().toString();
-						
+						if(reporter!=null && !reporterName.equalsIgnoreCase(reporter))	{
+							//if this is for a single reporter, ignore the others...performance??
+							//counter = 0;
+							continue;
+						}
+						//for single view...see if its the reporter we want, else continue
 						// from HS
 						//getBioSpecimentResultsets(String geneSymbol,String reporterName, String groupType)
-						//gene, reporterName, groupType???? <-- GeneExpressionDataSetType geneExpressionDataSetType
+				      	Collection bwSampleIds = null;
+				      	if(diseaseName.indexOf(RembrandtConstants.ALL)==-1)	{
+				      		//ones with out "all" as disease name 
+				      		bwSampleIds = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,diseaseName);
+				      	}
+				      	else	{
+				      		Collection c = new ArrayList();
+				      		//dealing with ALL, so get all 4 and combine
+				      		Collection astro = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,RembrandtConstants.ASTRO);
+				      		c.addAll(astro);
+				      		// need to add the rest here properly
+				      		Collection olig = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.OLIGODENDROGLIOMA.toString());
+				      		c.addAll(olig);
+				      		Collection gbm = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.GBM.toString());
+				      		c.addAll(gbm);
+				      		Collection mixed = geneViewContainer.getBioSpecimentResultsets(geneSymbol,reporterName,DiseaseType.MIXED.toString());
+				      		c.addAll(mixed);
+				      		bwSampleIds = c;
+				      	}
+						
+						//gene, reporterName, groupType <-- disease name (string)
 
 						Double intensityValue = (Double) reporterResultset.getFoldChangeIntensity().getValue();
 						Double pvalue = (Double) reporterResultset.getRatioPval().getValue();
@@ -258,17 +316,33 @@ public class GenePlotDataSet {
 						
 						//TESTING
 						ArrayList tlist = new ArrayList();
+						/*
 						for (int k = 0; k < 25; k++) {
 		                    final double value1 = 10.0 + Math.random() * 3;
 		                    tlist.add(new Double(value1));
 		                    final double value2 = 11.25 + Math.random(); // concentrate values in the middle
 		                    tlist.add(new Double(value2));
 		                }
+		                */
+						if(bwSampleIds!=null){
+							for(Object sample:bwSampleIds){
+			            		if(sample instanceof SampleFoldChangeValuesResultset ){
+			            			SampleFoldChangeValuesResultset folgChangeResultset = (SampleFoldChangeValuesResultset) sample;
+			            			Double ratio = (Double)folgChangeResultset.getFoldChangeRatioValue().getValue();
+			               			Double intensity = (Double)folgChangeResultset.getFoldChangeIntensity().getValue();
+			               			Double log2Intensity = (Double)folgChangeResultset.getFoldChangeLog2Intensity().getValue();
+			               			tlist.add(intensity);
+			               			//System.out.println("sampleID="+folgChangeResultset.getSampleIDDE().getValueObject()+ "\tratio= "+ratio+"\tintensity= "+intensity+"\tlog2Intensity= "+log2Intensity);	
+			            		}
+			            	}
+						}
+						
 						//B&W
 						bwdataset.add(tlist, reporterName, diseaseName);
-						//call the add here as well...this is for testing the coins
-						coinHash.put(String.valueOf(icounter)+String.valueOf(counter), tlist);
 						
+						//call the add here as well...this is for testing the coins disease+reporter
+						coinHash.put(String.valueOf(counter)+"_"+String.valueOf(icounter), tlist);
+						//icounter, counter seemed to be wrong
 						counter++;
 					}
 					

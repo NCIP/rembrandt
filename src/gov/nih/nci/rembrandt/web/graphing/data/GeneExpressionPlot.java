@@ -35,6 +35,7 @@ import org.jfree.chart.servlet.ServletUtilities;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
+import org.jfree.data.statistics.DefaultBoxAndWhiskerXYDataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 
@@ -102,6 +103,11 @@ public class GeneExpressionPlot {
 	
 	public static HashMap generateBarChart(String gene, HttpSession session,
 			PrintWriter pw, GeneExpressionDataSetType geType) {
+		return GeneExpressionPlot.generateBarChart(gene, null, session, pw, geType);
+	}
+	
+	public static HashMap generateBarChart(String gene, String reporter, HttpSession session,
+			PrintWriter pw, GeneExpressionDataSetType geType) {
 		String log2Filename = null;
 		String rawFilename = null;
 		String bwFilename = "";
@@ -109,10 +115,12 @@ public class GeneExpressionPlot {
 		HashMap charts = new HashMap();
 		PlotSize ps = PlotSize.MEDIUM;
 		
+		final String geneName = gene;
+		
 		try {
 			InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(session);
 
-			final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria, geType);
+			final GenePlotDataSet gpds = new GenePlotDataSet(gene, reporter, institutionCriteria, geType);
 			//final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria,GeneExpressionDataSetType.GeneExpressionDataSet );
 
 			//LOG2 Dataset
@@ -123,8 +131,7 @@ public class GeneExpressionPlot {
 			
 			//B&W dataset
 			DefaultBoxAndWhiskerCategoryDataset bwdataset = (DefaultBoxAndWhiskerCategoryDataset) gpds.getBwdataset();
-			
-			
+						
 			//IMAGE Size Control
 			if(bwdataset.getRowCount()>5)	{
 				ps = PlotSize.LARGE;
@@ -144,17 +151,27 @@ public class GeneExpressionPlot {
 			CategoryAxis xAxis = new CategoryAxis("Disease Type");
 	        NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
 	        yAxis.setAutoRangeIncludesZero(false);
-	        BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
+	        BoxAndWhiskerRenderer bwRenderer = null;
+	       // BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
 	       //this line is for coin plot testing..
-	       // BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
+	        if(reporter != null)	{
+	        	//single reporter, show the coins
+	        	bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
+	        	//TODO:  the colors are wrong with this renderer
+	        }
+	        else	{
+	        	//groups, dont show coins
+	        	bwRenderer = new BoxAndWhiskerRenderer();
+	        	//bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
+	        }
 	        bwRenderer.setFillBox(false);
-	        //  bwRenderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
 	        
 	        bwRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
 
 				public String generateToolTip(CategoryDataset dataset,int series, int item) {
 					String tt="";
 					NumberFormat formatter = new DecimalFormat(".####");
+					String key = "";
 				    //String s = formatter.format(-1234.567);  // -001235
 				    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
 					    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
@@ -167,11 +184,12 @@ public class GeneExpressionPlot {
 							tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
 							tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
 							//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
-							tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
+							//tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
+							key = ds.getRowKeys().get(series).toString();
 					    }
 					    catch(Exception e) {}
 				    }
-					return tt;
+					return "onclick=\"popCoin('"+geneName+"','"+key+"');\" | " + tt;
 						
 				}
 
@@ -179,7 +197,7 @@ public class GeneExpressionPlot {
 	        
 	        CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
 	        JFreeChart bwChart = new JFreeChart(bwPlot);
-	       
+	 
 	    //    JFreeChart bwChart = new JFreeChart(
 	    //    	null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/,
 	    //        new Font("SansSerif", Font.BOLD, 14),
@@ -315,8 +333,10 @@ public class GeneExpressionPlot {
 
 			int bwwidth = new BigDecimal(1.5).multiply(new BigDecimal(imgW)).intValue();
 			bwFilename = ServletUtilities.saveChartAsPNG(bwChart, bwwidth, 400, info, session);
+			CustomOverlibToolTipTagFragmentGenerator ttip = new CustomOverlibToolTipTagFragmentGenerator();
+			ttip.setExtra(" href='javascript:void(0);' "); //must have href for area tags to have cursor:pointer
 			ChartUtilities.writeImageMap(pw, bwFilename, info,
-					new CustomOverlibToolTipTagFragmentGenerator(),
+					ttip,
 					new StandardURLTagFragmentGenerator());
 			info.clear(); // lose the first one
 			info = new ChartRenderingInfo(new StandardEntityCollection());
