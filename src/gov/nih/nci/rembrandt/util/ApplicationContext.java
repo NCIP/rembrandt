@@ -153,6 +153,7 @@ public class ApplicationContext{
 		      System.setProperty(key, val);
 		  }
 		  //Start loading BRB file path property
+		  /*  //Not used for now.
 		  propertiesFileName = System.getProperty("gov.nih.nci.caintegrator.rembramdt.brbFilePathFile");
 			
 		  //Load the the application properties and set them as system properties
@@ -178,6 +179,7 @@ public class ApplicationContext{
 				  }
 			  }
 		  }
+		  */
 		  //End of loading BRB file path property.
 		  
 		  String jmsProviderURL = System.getProperty("gov.nih.nci.rembrandt.jms.jboss_url");
