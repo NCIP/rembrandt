@@ -403,6 +403,13 @@
 		<forward name="success" path="nautilus.viewResults" />
 	</action>
 	
+	<action path="/fileDownload"
+		type="gov.nih.nci.rembrandt.web.struts.action.FileDownloadAction"
+		parameter="method"
+		scope="request">
+		<forward name="success" path="nautilus.viewResults" />
+	</action>
+	
 	<action path="/runReport"
            name="reportGeneratorForm"
 	       type="gov.nih.nci.rembrandt.web.struts.action.ReportGeneratorAction"
