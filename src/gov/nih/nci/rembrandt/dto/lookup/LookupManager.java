@@ -102,7 +102,6 @@ public class LookupManager{
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
 	private static Map<String,PathwayLookup>  pathwayMap;
-	private static List<DownloadFileLookup> downloadFileList;
 	
 	 //private static GeneAliasMap aliasMap = null;
     //private static Set geneSymbols = null;
@@ -220,33 +219,33 @@ public class LookupManager{
 	 * @return Returns the pathways.
 	 */
 	@SuppressWarnings({"deprecation","unchecked"})
-	public static List getDownloadFileList() {
-		if(downloadFileList == null){
-			downloadFileList = new ArrayList<DownloadFileLookup>();
-			Criteria crit = new Criteria();
-			String filePath = System.getProperty("gov.nih.nci.rembrandt.brb_filepath");
-			ReportQueryByCriteria qbc = new ReportQueryByCriteria(DownloadFile.class, crit, false);
-			qbc.addOrderByAscending("fileId");
-			String[] fields = {DownloadFile.FILE_ID, DownloadFile.FILE_NAME, 
-					DownloadFile.FILE_TYPE, DownloadFile.ACCESS_CODE};
-			qbc.setAttributes(fields);
-			try {
-				Collection collection = QueryExecuter.executeReportQuery(qbc);
+	public static List getDownloadBRBFileList() {
+		List<DownloadFileLookup> downloadFileList
+			= new ArrayList<DownloadFileLookup>();
+		Criteria crit = new Criteria();
+		crit.addColumnEqualTo("FILE_TYPE","BRB");
+		String filePath = System.getProperty("gov.nih.nci.rembrandt.brb_filepath");
+		ReportQueryByCriteria qbc = new ReportQueryByCriteria(DownloadFile.class, crit, false);
+		qbc.addOrderByAscending("fileId");
+		String[] fields = {DownloadFile.FILE_ID, DownloadFile.FILE_NAME, 
+				DownloadFile.FILE_TYPE, DownloadFile.ACCESS_CODE};
+		qbc.setAttributes(fields);
+		try {
+			Collection collection = QueryExecuter.executeReportQuery(qbc);
 
-				for(Iterator it = collection.iterator(); it.hasNext();){
-					Object[] obj = (Object[])it.next();
-					DownloadFile downloadFile = new DownloadFile();
-					downloadFile.setFileId(new Long(((BigDecimal)obj[0]).longValue()));
-					downloadFile.setFileName((String)obj[1]);
-					downloadFile.setFileType((String)obj[2]);
-					downloadFile.setAccessCode(new Long(((BigDecimal)obj[3]).longValue()));
+			for(Iterator it = collection.iterator(); it.hasNext();){
+				Object[] obj = (Object[])it.next();
+				DownloadFile downloadFile = new DownloadFile();
+				downloadFile.setFileId(new Long(((BigDecimal)obj[0]).longValue()));
+				downloadFile.setFileName((String)obj[1]);
+				downloadFile.setFileType((String)obj[2]);
+				downloadFile.setAccessCode(new Long(((BigDecimal)obj[3]).longValue()));
 
-					downloadFile.setFilePath(filePath);
-					downloadFileList.add(downloadFile);
-				}				
-			} catch (Exception e) {
-				logger.error(e);
-			}
+				downloadFile.setFilePath(filePath);
+				downloadFileList.add(downloadFile);
+			}				
+		} catch (Exception e) {
+			logger.error(e);
 		}
 		return downloadFileList;
 	}
