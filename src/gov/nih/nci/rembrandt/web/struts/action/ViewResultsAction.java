@@ -6,12 +6,8 @@ import java.util.List;
 import java.util.ArrayList;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
-import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
-import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
-import gov.nih.nci.rembrandt.dbbean.DownloadFile;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
 import javax.servlet.http.HttpServletRequest;
@@ -111,14 +107,14 @@ public class ViewResultsAction extends Action{
 		HttpServletResponse response)
 		throws Exception {
 		
-		List fileList = LookupManager.getDownloadFileList();
+		List fileList = LookupManager.getDownloadBRBFileList();
 		if (fileList == null || fileList.isEmpty())
 		{
 			request.setAttribute("downloadFileList", new ArrayList());
 			return mapping.findForward("success");
 		}
 		List<DownloadFileLookup> downloadFileList = new ArrayList<DownloadFileLookup>();
-		Long publicFile = new Long(8);
+		
 		Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
 
 		for (Iterator it = collection.iterator(); it.hasNext();){
@@ -131,7 +127,7 @@ public class ViewResultsAction extends Action{
 				}
 			}
 		}
-		request.setAttribute("downloadFileList", downloadFileList);
+		request.getSession().setAttribute("downloadFileList", downloadFileList);
 	return  mapping.findForward("success");
  }
       
