@@ -188,7 +188,7 @@ String helpLinkClose = "', 350, 500);\">"+
         <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		  <tr style="background-color:#f2f2f2;font-size:.8em">
 		    <td>
-		    	<a href="fileDownload.jsp?fileId=<bean:write name="downloadFile" property="fileId"/>" style="font-size:.9em">
+		    	<a href="fileDownload.do?method=brbFileDownload&fileId=<bean:write name="downloadFile" property="fileId"/>" style="font-size:.9em">
 		    	<bean:write name="downloadFile" property="fileName"/></a>
 		    </td>
           </tr>
