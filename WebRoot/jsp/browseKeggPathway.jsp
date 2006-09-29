@@ -36,31 +36,6 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 		
 	}	
  }
-// function getPathwayGeneSymbols(pathwayName) {
- 	
- 	//alert("getPathwayGeneSymbols");
-// 	DynamicListHelper.getPathwayGeneSymbols(getPathwayGeneSymbols_cb, pathwayName);
- //}
- 
- //function getPathwayGeneSymbols_cb(txt) {
- 	//alert("getPathwayGeneSymbols_cb");
-		//	try	{
-			//	var symbolsArray = eval('(' + txt + ')');
-			//	var array = new Array();
-			//	var text;
-			//	for(var i=0; i < symbolsArray.length; i++){
-					//text = array[i] = symbolsArray[i];
-			//		text += symbolsArray[i] + "<br/>";
-			//	}
-//alert(text);
-			//	return overlib(text, CAPTION,  + " Gene Symbols:");
-			//	return overlib(array.split(",").join("<br/>"), CAPTION,  + " Gene Symbols:");
-			//}
-			//catch(err)	{
-			//	alert("ERR: " + err);
-			//}	
- //}
-   
 
 </script>
 <!--header NCI-->
