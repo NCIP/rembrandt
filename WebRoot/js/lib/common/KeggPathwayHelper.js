@@ -27,7 +27,7 @@ var KeggPathwayHelper = {
 					
 				var number = num + ".o";
 				
-				num = number.substring(0, number.indexOf('.'));
+				num = number.substring(0, number.indexOf("."));
 				
 				for(var i=0; i<symbolsArray.length; i++){
 					
@@ -43,5 +43,5 @@ var KeggPathwayHelper = {
 			catch(err)	{
 				alert("ERR: " + err);
 			}	
-	},
+	}
 };
