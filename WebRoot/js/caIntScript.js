@@ -370,5 +370,32 @@ function toggleSDiv(divId,aId){
 				}
 			}
 
-
+function HelpWrapper(topic)	{
+	var ta = "";
+	switch(topic)	{
+		case  "Clinical":
+			ta = "Clinical_report";
+			break;
+		case "clinicalPlot":
+			ta = "Clinical_plot";
+			break;
+		case "Gene Expression Sample":
+			ta = "Gene_Expression_Sample";
+			break;
+		case "Gene Expression Disease":
+			ta = "Gene_Expression_Disease";
+			break;
+		case "Copy Number":
+			ta = "Copy_Number_Sample";
+			break;
+		default:
+			ta= "Clinical";
+			break;
+	}
+	
+	try	{
+		Help.popHelp(ta);
+	}
+	catch(err){alert(err);}
+}
 	   
