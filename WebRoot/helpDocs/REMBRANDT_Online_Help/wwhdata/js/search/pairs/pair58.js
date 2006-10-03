@@ -1,0 +1,26 @@
+function FileData_Pairs(x)
+{
+x.t("generated:","class");
+x.t("hierarchical","clustering");
+x.t("back","forward");
+x.t("results","back");
+x.t("results","high");
+x.t("results","viewing");
+x.t("results","following");
+x.t("high","order");
+x.t("forward","high");
+x.t("comparison","report");
+x.t("component","analysis");
+x.t("viewing","results");
+x.t("report","principal");
+x.t("reports","generated:");
+x.t("clustering","report");
+x.t("principal","component");
+x.t("order","analysis");
+x.t("following","high");
+x.t("class","comparison");
+x.t("plot","hierarchical");
+x.t("analysis","results");
+x.t("analysis","reports");
+x.t("analysis","plot");
+}

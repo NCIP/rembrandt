@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WebWorksHelpTOC version="5.0" xmlns="urn:WebWorks-Help-TOC-Schema">
+  <i t="Welcome to the REMBRANDT Online Help" l="0" />
+  <i t="Online Help Tips" l="1">
+    <i t="Using REMBRANDT Online Help" l="1#1063568" />
+  </i>
+  <i t="About REMBRANDT 1.5" l="2">
+    <i t="About REMBRANDT" l="3" />
+    <i t="About REMBRANDT Functions" l="4" />
+  </i>
+  <i t="Getting Started with REM­BRANDT 1.5" l="5">
+    <i t="Creating a User Account" l="6" />
+    <i t="Logging In" l="7" />
+    <i t="Accepting REMBRANDT Provisions" l="8" />
+    <i t="Welcome to REMBRANDT" l="9" />
+    <i t="Getting Help" l="10" />
+    <i t="Logging Out" l="11" />
+  </i>
+  <i t="Conducting a Simple Search" l="12">
+    <i t="Simple Search Overview" l="13" />
+    <i t="Gene Expression Simple Search" l="14">
+      <i t="Understanding a Gene Expression Plot" l="15">
+        <i t="Show Log2 Gene Expression Plot Details" l="16" />
+        <i t="Show Raw Gene Expression Plot Details" l="17" />
+        <i t="Show BW Gene Expression Plot Details" l="18" />
+        <i t="Saving, Printing, and E-mailing a Gene Expression Plot" l="19" />
+      </i>
+    </i>
+    <i t="K-M Gene Expression Simple Search" l="20">
+      <i t="Eliminating Aliases" l="21" />
+      <i t="Redrawing the K-M Survival Plot for Gene Expression Data" l="22" />
+      <i t="Understanding K-M Survival Plot for Gene Expression Data" l="23" />
+    </i>
+    <i t="K-M Copy Number Simple Search" l="24">
+      <i t="Redrawing the K-M Survival Plot for Copy Number Data" l="25" />
+      <i t="Understanding K-M Survival Plot for Copy Number Data" l="26" />
+    </i>
+    <i t="K-M Sample Simple Search" l="27">
+      <i t="Understanding K-M Survival Plot for Sample Data" l="28" />
+    </i>
+    <i t="Viewing the Clinical Reports" l="29" />
+    <i t="Viewing Clinical Plots" l="30" />
+  </i>
+  <i t="Conducting Advanced Searches" l="31">
+    <i t="Advanced Searches Overview" l="32" />
+    <i t="Gene Expression Advanced Search" l="33">
+      <i t="Selecting a Gene Ontology (GO) Classification" l="34" />
+      <i t="Selecting a Pathway" l="35" />
+    </i>
+    <i t="Copy Number Advanced Search" l="36" />
+    <i t="Clinical Study Advanced Search" l="37" />
+    <i t="Managing Advanced Searches" l="38" />
+    <i t="Refining a Query" l="39" />
+  </i>
+  <i t="High Order Analysis" l="40">
+    <i t="High Order Analysis Overview" l="41" />
+    <i t="Performing a Class Comparison" l="42" />
+    <i t="Performing a Principal Component Analysis" l="43" />
+    <i t="Performing Hierarchical Clustering Analysis" l="44" />
+  </i>
+  <i t="Viewing Results" l="45">
+    <i t="Results Overview" l="46" />
+    <i t="Advanced Search or Query Results" l="47">
+      <i t="Gene Expression Sample Report" l="48">
+        <i t="Filtering Results by Gene or Reporter (Filter Toolbar)" l="49" />
+        <i t="Highlighting Results By Value (Highlight Toolbar)" l="50" />
+        <i t="Selecting and Saving Sample Results (Select Samples Toolbar)" l="51" />
+        <i t="Differentiating Data (Show All Values Toolbar)" l="52" />
+        <i t="Removing Columns (Hide Diseases toolbar)" l="53" />
+        <i t="Showing Additional Information" l="54" />
+      </i>
+      <i t="Gene Expression Disease Report" l="55" />
+      <i t="Copy Number Sample Report" l="56">
+        <i t="Displaying Copy Number Sample Data in webGenome" l="57" />
+      </i>
+    </i>
+    <i t="High Order Analysis Results" l="58">
+      <i t="Class Comparison Report" l="59">
+        <i t="Filtering a p-value (Filter p-value toolbar)" l="60" />
+        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="61" />
+        <i t="Resorting Column Results" l="62" />
+      </i>
+      <i t="Principal Component Analysis Plot" l="63" />
+      <i t="Viewing Clinical Plots" l="64" />
+      <i t="Hierarchical Clustering Report" l="65" />
+    </i>
+  </i>
+  <i t="Managing Lists" l="66">
+    <i t="Managing Lists Overview" l="67" />
+    <i t="View List Details" l="68" />
+    <i t="Creating Custom Lists by Adding and Deleting Entire Lists or Data from Lists" l="69">
+      <i t="Deleting Items From a List" l="69#1080563" />
+      <i t="Deleting Entire Lists" l="70" />
+      <i t="Adding a New List" l="71" />
+    </i>
+    <i t="Creating New Custom Lists from Existing Lists" l="72" />
+  </i>
+  <i t="Glossary" l="73" />
+</WebWorksHelpTOC>

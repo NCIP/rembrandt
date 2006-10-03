@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- saved from url=(0014)about:internet -->
+    <title>Understanding K-M Survival Plot for Gene Expression Data</title>
+    <link rel="StyleSheet" href="css/rembrandt1.5_Simple_Searches.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body style="" onLoad="WWHUpdate();" onUnload="WWHUnload();" onKeyDown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onKeyPress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onKeyUp="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="rembrandt1.5_Simple_Searches.5.1.html#1080837">Conducting a Simple Search</a> &gt; <a class="WebWorks_Breadcrumb_Link" href="rembrandt1.5_Simple_Searches.5.9.html#1080837">K-M Gene Expression Simple Search</a> &gt; Understanding K-M Survival Plot for Gene Expression Data</div>
+    <hr align="left" />
+    <div class="WebWorks_Breadcrumbs">
+      <a href="JavaScript:history.back(1)">Back</a>
+      <a href="JavaScript:history.forward(1)">Forward</a>
+    </div>
+    <blockquote>
+      <div class="Heading2"><a name="1080837">Understanding K-M Survival Plot for Gene Expression Data</a></div>
+      <div class="Body_Text"><a name="1101301">A K-M Survival Plot for Gene Expression Data displays the survival rate at each time </a>point for samples with certain expression characteristics (e.g., EGFR expression levels in tumor samples greater than those in the non-tumor samples by 3 fold or higher). Kaplan-Meier estimates are calculated based on the last follow-up time and the censor status (0=alive, 1=dead) from the samples of interest.The Kaplan-Meier estimates are then plotted against the survival time. The points that correspond to the events with censor status of 0 are indicated on the graph. You can dynamically modify the fold change (up and down regulation) thresholds and redraw the plot. </div>
+      <div class="Body_Text"><a name="1103848">To redraw the survival plot, see </a><span class="Emphasis" style="color: #515186;"><a href="javascript:WWHClickedPopup('REMBRANDT_Online_Help', 'rembrandt1.5_Simple_Searches.5.11.html#1080839', '');">Redrawing the K-M Survival Plot for Gene Expression Data</a></span>.</div>
+      <div class="Body_Text"><a name="1101047">The following table</a> describes areas on the Kaplan-Meier Survival Plot for Gene Expression data page.</div>
+      <table id="1101048" class="Table_-_Column_Header" style="padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; text-align: left; width: 421.50096pt;" cellspacing="0">
+        <caption>
+          <div class="TableTitle"><a name="1101077">Kaplan-Meier Survival Plot for Gene Expression Data page</a></div>
+        </caption>
+        <tr>
+          <td id="tc1101050" style="background-color: #515186; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: middle; width: 92.25pt;">
+            <div class="Table_Header"><a name="1101050">Item</a></div>
+          </td>
+          <td id="tc1101052" style="background-color: #515186; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: middle; width: 329.25096pt;">
+            <div class="Table_Header"><a name="1101052">Special Instructions</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td id="tc1101057" style="background-color: White; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: top;">
+            <div class="Table_Text" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><span class="Bold"><a name="1101057"><img id="1101055" class="Default" src="images/rembrandt1.5_Simple_Searches.5.12.1.jpg" width="100" height="28" style="display: inline; float: none; left: 0.0; text-align: left; top: 0.0;" /></a></span></div>
+          </td>
+          <td id="tc1101059" style="background-color: White; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: top;">
+            <div class="Table_Text"><a name="1101059">Mouse-over the graph, and standard icons appear in the upper left-hand </a>corner. Click the appropriate icon to save, print, or e-mail the graph.</div>
+          </td>
+        </tr>
+        <tr>
+          <td id="tc1101061" style="background-color: White; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: top;">
+            <div class="Table_Text" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><span class="Bold"><a name="1101061">View Clinical </a></span><span class="Bold">Reports</span></div>
+          </td>
+          <td id="tc1101068" style="background-color: White; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: top;">
+            <div class="Table_Text"><a name="1101063">When you apply a gene expression filter, REMBRANDT provides links to </a>display the gene expression for <span class="Bold">Upregulating Samples</span>, <span class="Bold">Downregulating Samples</span>, and <span class="Bold">Intermediate Samples</span>.</div>
+            <div class="Table_Text"><a name="1101064">&nbsp;</a></div>
+            <div class="Table_Text"><a name="1101068">For more information, see </a><span class="Emphasis" style="color: #515186;"><a href="javascript:WWHClickedPopup('REMBRANDT_Online_Help', 'rembrandt1.5_Simple_Searches.5.18.html#1085908', '');">Viewing the Clinical Reports</a></span>.</div>
+          </td>
+        </tr>
+        <tr>
+          <td id="tc1101070" style="background-color: White; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: top;">
+            <div class="Table_Text" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><span class="Bold"><a name="1101070">Statistical Report</a></span></div>
+          </td>
+          <td id="tc1101075" style="background-color: White; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: Black; border-left-style: solid; border-left-width: 1px; border-right-color: Black; border-right-style: solid; border-right-width: 1px; border-top-color: Black; border-top-style: solid; border-top-width: 1px; padding-bottom: pt; padding-left: pt; padding-right: pt; padding-top: pt; vertical-align: top;">
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1101072">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><a name="1101072">Displays the gene keyword entered as search criteria for the plot.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1101073">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><a name="1101073">Displays the reporter selected for the plot.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1101074">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><span class="Bold"><a name="1101074">Number of Samples</a></span> specifies the number of Up-Regulated, Intermediate, Down-Regulated samples, if any. </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1101075">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><span class="Bold"><a name="1101075">Log-rank p-Value</a></span> indicates the significance of the difference in survival between any two groups of samples segregated based on gene expression of the gene of interest. The log rank <span class="Emphasis">p</span>-value is calculated using Mantel-Haenszel procedure. The <span class="Emphasis">p</span>-values are recalculated every time a new threshold is selected. </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>
