@@ -3,16 +3,11 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%
-String helpLink = "<a href=\"javascript: spawn('help.jsp";
-String helpLinkClose = "', 350, 500);\">"+
-				"<img align=\"right\" src=\"images/help.png\" border=\"0\" "+
-				"onmouseover=\"return overlib('Click here for additional information about the refine query page.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
-				"</a><br clear=\"all\">";
-%> 
 
 <html:form action="refineQuery.do">
-<%=helpLink%>?sect=refineQuery<%=helpLinkClose%>
+
+<script type="text/javascript">Help.insertHelp("Refine_query", " align='right'", "padding:2px;");</script><br clear="all"/>
+
 <html:errors/>
 <fieldset class="grayRefine">
 <legend class="red">Step 1: Refine your result set</legend>

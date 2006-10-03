@@ -10,16 +10,15 @@
 <tr class="report">
   <td>
     <br />
-    <html:form action="/quickSearch.do?method=quickSearch" styleId="qsForm">
-      
-      
+    <html:form action="/quickSearch.do?method=quickSearch" styleId="qsForm">   
       <fieldset>
         <legend>
           Quick Search
         </legend>
         <html:errors/>
         <br />
-        
+           <script type="text/javascript">Help.insertHelp("Simple_search_overview", " align='right'", "padding:2px;");</script>
+   
         <logic:empty name="quickSearchForm" property="allGeneAlias">
 	        <strong>
 	          Select graph format:

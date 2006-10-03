@@ -17,13 +17,17 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		<title>Rembrandt Clinical Plots</title>
 		<LINK href="css/tabs.css" rel="stylesheet" type="text/css" />
 		
-		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
-		
+		<script language="javascript" src="js/lib/Help.js"></script>
 		<script language="JavaScript" src="js/box/browserSniff.js"></script>
-		<script type='text/javascript' src='dwr/interface/DynamicReport.js'></script>
+		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
+
 		<script type='text/javascript' src='dwr/engine.js'></script>
 		<script type='text/javascript' src='dwr/util.js'></script>
-	   
+		<script type='text/javascript' src='dwr/interface/DynamicReport.js'></script>
+
+		<script language="javascript" src="js/a_saveSamples.js"></script>
+		
+
 	    <script language="JavaScript" src="js/a_saveSamples.js"></script>
 		<script language="JavaScript" src="js/box/x_core.js"></script>
     	<script language="JavaScript" src="js/box/x_event.js"></script>
@@ -41,7 +45,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <span style="z-index:1000; float:right;">
 	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	<a href="javascript:top.close()"><img align="right" src="images/close.png" border="0"></a>
-	<a href="javascript: spawn('help.jsp?sect=clinicalPlot', 350, 500);"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+	<a href="javascript: HelpWrapper('clinicalPlot');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
 	<a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help');" onmouseout="return nd();"/> </a> 	
 </span>
 

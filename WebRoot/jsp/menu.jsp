@@ -49,11 +49,17 @@ if(queryCollection == null){
  	}
  }
 %>
+
 <table border="0" cellspacing="4" cellpadding="3">
   <tr><td>
-  <fieldset>
-		<legend>Add to query:</legend><br>
+  
+  <fieldset style="width:95%">
+		<legend>Add to query:</legend>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+		
+		  <script type="text/javascript">Help.insertHelp("Advanced_overview", " align='right'", "padding:2px;");</script><br clear="left"/>
+		
+		
 			<table border="0" cellpadding="3" cellspacing="3">
 			<tr><td>
 			    <html:form action="/geneexpression">

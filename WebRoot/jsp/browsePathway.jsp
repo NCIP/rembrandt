@@ -9,8 +9,12 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 %>
 	 
 
-
+<html>
+<head>
+	<script type="text/javascript" src="../js/lib/Help.js"></script>
  <script language="javascript">
+ 	//overwrite this
+ 	Help.url = "../"+Help.url;
  
  function closeData(){
     if (window.opener && !window.opener.closed)
@@ -33,6 +37,8 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
    
   }
 </script>
+</head>
+<body>
 <!--header NCI-->
 <table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
 <tr bgcolor="#A90101">
@@ -59,7 +65,10 @@ response.setDateHeader ("Expires", -1);
 response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 %>
  
- <div><b>Browse Pathway - Name</b></div>
+ <div>
+ 	<b>Browse Pathway - Name</b>
+ 	<script type="text/javascript">Help.insertHelp("Browse_pathway", " align='right'", "padding:2px;", "../");</script>
+ </div>
 
 <html:form method="post" action="geneexpression.do">
 
@@ -100,4 +109,5 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  
 
  </html:form>
- 
+ </body>
+ </html>

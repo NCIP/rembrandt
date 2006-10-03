@@ -180,6 +180,8 @@ function showHelp(help)	{
 	return overlib(help, CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);
 }
 
+
+
 function spawnAnnot(type, element)	{
 
 	var el; //either accept and object or a string

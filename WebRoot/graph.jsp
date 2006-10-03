@@ -13,15 +13,6 @@
 String filename="";
 String graphURL= "";
 
-//	String filename = GeneExpressionPlot.generateBarChart(geneSymbol, session, new PrintWriter(out));
-//	String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
-
-	//would be nice to make a tag out of this
- 	String helpLink = "<a href=\"javascript: spawn('help.jsp";
- 	String helpLinkClose = "', 350, 500);\">"+
-				"<img align=\"right\" src=\"images/help.png\" border=\"0\" "+
-				"onmouseover=\"return overlib('Click here for additional information about this report.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
-				"</a><br clear=\"all\">";
 %>
 <!-- 
 <script type="text/javascript" src="js/overlib.js"></script>
@@ -32,7 +23,9 @@ String graphURL= "";
 
 <div style="background-color:#ffffff">
 	<div>
-		<%=helpLink%>?sect=gplot<%=helpLinkClose%>
+
+	   <script type="text/javascript">Help.insertHelp("Simple_gene_expression_plot", " align='right'", "padding:2px;");</script><br clear="all"/>
+   
 	</div>
 
 	<!-- 

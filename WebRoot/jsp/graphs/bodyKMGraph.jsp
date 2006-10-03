@@ -5,39 +5,38 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
 
-<%
- String helpLink = "<a href=\"javascript: spawn('help.jsp";
- String helpLinkClose = "', 350, 500);\">"+
-				"<img align=\"right\" src=\"images/help.png\" border=\"0\" "+
-				"onmouseover=\"return overlib('Click here for additional information about this report.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
-				"</a><br clear=\"all\">";
-%>
 <div><html:errors /> <%
    String km = "kmplotGE";
+   String ta = "Simple_KM_sample_plot";
    if(  ((request.getParameter("plot") != null) && 
          (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotGE")))
            || 
         ((request.getParameter("plot") == null) && 
          (request.getParameter("plotType").equalsIgnoreCase("GE_KM_PLOT"))) ){
          km = "kmplotGE";
+         ta = "Simple_KM_gene_expression_plot";
    }
-   if(  ((request.getParameter("plot") != null) && 
+   else if(  ((request.getParameter("plot") != null) && 
          (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotCN")))
            || 
         ((request.getParameter("plot") == null) && 
          (request.getParameter("plotType").equalsIgnoreCase("COPY_NUM_KM_PLOT"))) ){
         km = "kmplotCN";
+        ta = "Simple_KM_copy_number_plot";
    }
-   if(  ((request.getParameter("plot") != null) && 
+   else if(  ((request.getParameter("plot") != null) && 
          (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotGE")))
            || 
         ((request.getParameter("plot") == null) && 
          (request.getParameter("plotType").equalsIgnoreCase("SAMPLE_KM_PLOT"))) ){//HACK FOR NOW
          km = "kmplotGE";
+         ta = "Simple_KM_sample_plot";
    }
 	
 	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
-%> <%=helpLink%>?sect=<%=km%><%=helpLinkClose%></div>
+%><script type="text/javascript">Help.insertHelp("<%=ta%>", " align='right'", "padding:2px;");</script><br clear="all"/>
+   
+</div>
 
 <html:form action="/kmGraph.do?method=redrawKMPlot">
 	<input type="hidden" name="baselineGroup" value="<%=baselineGroup%>"/>

@@ -36,7 +36,7 @@ String param = request.getParameter("s");
   else
     act = param.toLowerCase();
 %>
-<Br>
+<br/>
 <span id="popup" name="popup"></span>
 <%
 	String preview = (String) request.getAttribute("preview");
@@ -94,11 +94,13 @@ String param = request.getParameter("s");
   	    	  
   	 }	
   	String strIncFile = "";
+  	%>
+    <script type="text/javascript">Help.convertHelp("<%=act%>", " align='right'", "float:right;padding:2px;");</script>
+  	<%
   	for (int t=1; t<props.size()+1; t++)	{
   		strIncFile = "/jsp/tiles/"+props.getProperty(String.valueOf(t))+"_tile.jsp?act="+act;
  	%>
-  <div class="report" style="padding:3px">
-
+ 	<div class="report" style="padding:3px">
       <tiles:insert page="<%= strIncFile %>" flush="false" />
 	</div>
   <%

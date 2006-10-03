@@ -166,7 +166,11 @@ response.setHeader("Location",newLocn);
 	      <li><span style="font-size:.9em;">provide us your <a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a></li>
 		  <ul>
 		 </div>
-		 
+		 <div style="border:0px solid red; margin:5px;">
+ 			<script type="text/javascript">Help.insertHelp("About_rembrandt", "align='left'", "padding:8px;");</script>
+			Throughout the application please click the Help Icon for context sensitive application help.<br/><br/>
+		 	
+		 </div>
 	      <!--end login section-->
 	   </td>
 	   <!--end login cell-->

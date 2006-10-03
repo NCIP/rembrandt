@@ -18,8 +18,10 @@ String sessionId = request.getSession().getId();
 <table width="80%" border="0" cellspacing="4" cellpadding="3">
   <tr><td>
   <fieldset>
-		<legend>High Order Analysis:</legend><br>
+		<legend>High Order Analysis:</legend>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+		<script type="text/javascript">Help.insertHelp("HOA_overview", " align='right'", "padding:2px;");</script>
+		
 			<table border="0" cellpadding="3" cellspacing="3">
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.do?method=setup';"></td></tr>				
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponentInit.do?method=setup';"></td></tr>				

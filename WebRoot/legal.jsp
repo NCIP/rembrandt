@@ -23,7 +23,9 @@
 <img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>
 <!--end all headers-->
-
+<div style="width:765px;" align="right"> 
+<script type="text/javascript">Help.insertHelp("Rules_of_the_road", '', "padding:2px;");</script>
+</div>
 <fieldset style="border: 1px solid #000066;width:765px">
 <legend style="text-align:center;background-color:#ffffff">LEGAL RULES OF THE ROAD</legend>
 <p style="text-align:left">The Repository of Molecular

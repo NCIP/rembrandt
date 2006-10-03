@@ -24,13 +24,13 @@ String helpLinkClose = "', 350, 500);\">"+
 				"onmouseover=\"return overlib('Click here for additional information about the view results page.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
 				"</a><br clear=\"all\">";
 %> 
-<%=helpLink%>?sect=viewResults<%=helpLinkClose%>
+
+
 <tr class="report">
   <td>
+  <script type="text/javascript">Help.insertHelp("View_results_overview", " align='right'", "padding:2px;");</script>
     <br />
-    <form action="#">
-      
-      
+    <form action="#">     
       <fieldset>
         <legend>
           Query Results
