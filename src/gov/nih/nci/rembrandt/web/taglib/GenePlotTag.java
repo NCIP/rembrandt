@@ -130,10 +130,10 @@ public class GenePlotTag extends AbstractGraphingTag {
 					out.print(RembrandtConstants.REPORTER_SELECTION_UNI);
 				}
 				
-				out.print("<br/><br/><span style='font-weight:bold'>Graph Type:</span> <a href=\"javascript:toggleGenePlot('"+ffilename+"');\" name=\"graphTypeLinks\"  id=\""+ffilename+"_link\">show raw</a> | ");
-				out.print("<a href=\"javascript:toggleGenePlot('"+filename+"');\" name=\"graphTypeLinks\" id=\""+filename+"_link\">show log2</a>");
+				out.print("<br/><br/><span style='font-weight:bold'>Graph Type:</span> <a href=\"javascript:toggleGenePlot('"+ffilename+"');\" name=\"graphTypeLinks\"  id=\""+ffilename+"_link\">Geometric Mean</a> | ");
+				out.print("<a href=\"javascript:toggleGenePlot('"+filename+"');\" name=\"graphTypeLinks\" id=\""+filename+"_link\">Log2 Intensity</a>");
 				if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY))	{
-					out.print(" | <a href=\"javascript:toggleGenePlot('"+bwFilename+"');\" name=\"graphTypeLinks\"  id=\""+bwFilename+"_link\">show Box and Whisker</a><br/> ");
+					out.print(" | <a href=\"javascript:toggleGenePlot('"+bwFilename+"');\" name=\"graphTypeLinks\"  id=\""+bwFilename+"_link\">Box and Whisker Log2 Intensity</a><br/> ");
 				}
 				out.print("</div><br/>");
 			}
