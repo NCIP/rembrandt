@@ -43,7 +43,7 @@
 <!--navigation bar-->
 <div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left">
 <a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="javascript:spawn('help.jsp', 350, 500);">help</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="javascript:Help.popHelp('Welcome');">help</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="docs/rembrandt1.0_ug_12_20_05_nsn.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
 </div>
@@ -52,77 +52,77 @@
 
 <!--main content div with table for description and login-->
 <div style="width:765px; text-align:left;">
-<Br><br>
+<br/><br/>
 <span><h3>Online Tutorials</h3></span>
 <fieldset>
- <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">1. Gene Expression Plot</legend>
-<br>
+ <legend style="padding:0px;background-color:#ffffff;">1. Gene Expression Plot</legend>
+<br/>
 	<a href="javascript:spawnm('tutorials/qs_gplot.htm');">View</a>* the Gene Expression Plot tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/qs_gplot.exe">download</a> the tutorial for offline viewing. -->
 </fieldset>
- <Br><br>
+ <br/><br/>
  <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">2. Kaplan-Meier Survival Plot</legend>
-  <br>
+  <legend style="padding:0px;background-color:#ffffff;">2. Kaplan-Meier Survival Plot</legend>
+  <br/>
 	<a href="javascript:spawnm('tutorials/qs_kmplot.htm');">View</a>* the Kaplan-Meier Plot tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/qs_kmplot.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
  <br><br>
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">3. Advanced Search (Gene Expression)</legend>
+  <legend style="padding:0px;background-color:#ffffff;">3. Advanced Search (Gene Expression)</legend>
   <br>
 	<a href="javascript:spawnm('tutorials/advanced_search_1.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/advanced_search_1.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
- <br><br>
+ <br/><br/>
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">4. Advanced Search (Copy Number)</legend>
-  <br>
+  <legend style="padding:0px;background-color:#ffffff;">4. Advanced Search (Copy Number)</legend>
+  <br/>
 	<a href="javascript:spawnm('tutorials/advanced_search_2.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/advanced_search_2.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
- <br><br>
+ <br/><br/>
  
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">5. High Order Analysis (PCA)</legend>
-  <br>
+  <legend style="padding:0px;background-color:#ffffff;">5. High Order Analysis (PCA)</legend>
+  <br/>
 	<a href="javascript:spawnm('tutorials/pca.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/pca.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
- <br><br>
+ <br/><br/>
  
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">6. High Order Analysis (Hierarchical Clustering)</legend>
-  <br>
+  <legend style="padding:0px;background-color:#ffffff;">6. High Order Analysis (Hierarchical Clustering)</legend>
+  <br/>
 	<a href="javascript:spawnm('tutorials/hc.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/hc.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
- <br><br>
+ <br/><br/>
  
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">7. Advanced Search/High Order Analysis (Class Comparison)</legend>
-  <br>
+  <legend style="padding:0px;background-color:#ffffff;">7. Advanced Search/High Order Analysis (Class Comparison)</legend>
+  <br/>
 	<a href="javascript:spawnm('tutorials/ccX.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/ccX.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
- <br><br>
+ <br/><br/>
  
   <fieldset>
-  <legend style="padding:3px;background-color:#D4D0C8; font-size:12px">8. Web Genome Integration (Copy Number)</legend>
+  <legend style="padding:0px;background-color:#ffffff;">8. Web Genome Integration (Copy Number)</legend>
   <br>
 	<a href="javascript:spawnm('tutorials/webgenome.htm');">View</a>* the Advanced Search tutorial in your browser (opens in a new window) 
 	<!--  or <a href="tutorials/webgenome.exe">download</a> the tutorial for offline viewing (.exe file). -->
  </fieldset>
- <br><br>
+ <br/><br/>
  
  <fieldset>
  <legend style="padding:0px;background-color:#ffffff;">*Requirements</legend>
- <br>
+ <br/>
  <a href="http://www.macromedia.com/go/getflashplayer/" target="_blank"><img align="right" src="images/get_flashplayer.gif" border="0"></a>
  A monitor resolution of greater than 800x600 is highly recommended.  To view the online tutorials you may need to install the Flash Plug-in for your browser.  Please click the
  "Flash Player" logo to go to the Macromedia website to download this free plug-in.<br>
  </fieldset>
- <br>
+ <br/>
 </div>
 <!--end content div-->
 
