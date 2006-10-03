@@ -68,7 +68,7 @@ response.setHeader("Location",newLocn);
 	  <td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
          <p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
 		 About this application	
-		 <br /><span style="font-size:.7em;text-align:right;">Release 1.0</span>
+		 <br /><span style="font-size:.7em;text-align:right;">Release 1.5</span>
 		 </p>
 		 
 	
@@ -184,7 +184,7 @@ response.setHeader("Location",newLocn);
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
     <a href="menu.do">HOME</a>  |  <a href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
-    <br /><span style="font-size:.8em;text-align:right;">Release 0.51</span> </div>
+    <br /><span style="font-size:.8em;text-align:right;">Release 1.5</span> </div>
 <!--end footer-->
 
 <!--begin NCI footer-->
