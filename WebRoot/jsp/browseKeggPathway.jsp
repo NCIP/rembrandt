@@ -13,6 +13,7 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 	<script type="text/javascript" src="js/overlib.js"></script>
 	<script type="text/javascript" src="js/overlib_hideform.js"></script>
 	<script type="text/javascript" src="js/lib/common/KeggPathwayHelper.js"></script>
+	<script type='text/javascript' src='dwr/interface/DynamicListHelper.js'></script>
 <script type='text/javascript' src='dwr/engine.js'> </script>
 <script type='text/javascript' src='dwr/util.js'> </script>
  <script language="javascript">
@@ -35,6 +36,7 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 		
 	}	
  }
+
 
 </script>
 <!--header NCI-->
