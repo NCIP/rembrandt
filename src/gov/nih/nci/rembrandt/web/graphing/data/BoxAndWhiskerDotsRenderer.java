@@ -34,7 +34,7 @@
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
  *                   Tim Bardzil;
  *
- * $Id: BoxAndWhiskerDotsRenderer.java,v 1.2 2006-09-27 21:14:45 landyr Exp $
+ * $Id: BoxAndWhiskerDotsRenderer.java,v 1.3 2006-10-04 16:56:14 landyr Exp $
  *
  * Changes
  * -------
@@ -589,8 +589,8 @@ public class BoxAndWhiskerDotsRenderer extends BoxAndWhiskerRenderer{
 		//you can get a different color pattern for the bar:  In the method 
 		//getItemPaint(), only the first argument counts for the color. The original
 		//code Paint p = getItemPaint(row, column); is commented out for a difference.
-        Paint p = getItemPaint(row, column);
-        //Paint p = getItemPaint(column, row); // <-- this is wrong, dont know who put this here
+        //Paint p = getItemPaint(row, column);
+        Paint p = getItemPaint(column, row); // <-- this is wrong, dont know who put this here
        // Paint p = PaintUtilities.stringToColor("red"); // coin plot should all be one color
         if (p != null) {
             g2.setPaint(p);

@@ -151,7 +151,7 @@ public class GeneExpressionPlot {
 			if(geType != GeneExpressionDataSetType.UnifiedGeneExpressionDataSet)	{
 				//B&W plot
 				CategoryAxis xAxis = new CategoryAxis("Disease Type");
-		        NumberAxis yAxis = new NumberAxis("Mean Expression Intensity");
+		        NumberAxis yAxis = new NumberAxis("Log2 Expression Intensity");
 		        yAxis.setAutoRangeIncludesZero(false);
 		        BoxAndWhiskerRenderer bwRenderer = null;
 		       // BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
@@ -182,6 +182,7 @@ public class GeneExpressionPlot {
 								tt += "Max: " + formatter.format(ds.getMaxRegularValue(series, item))+"<br/>";
 								tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
 								tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
+								tt += "<br/><br/>Please click on the box and whisker to view a plot for this reporter.<br/>";
 								//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
 								//tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
 								key = ds.getRowKeys().get(series).toString();
@@ -216,7 +217,7 @@ public class GeneExpressionPlot {
 					null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/, // chart
 																			// title
 					"Groups", // domain axis label
-					"Mean Expression Intensity", // range axis label
+					"Log2 Expression Intensity", // range axis label
 					dataset, // data
 					PlotOrientation.VERTICAL, // orientation
 					true, // include legend
