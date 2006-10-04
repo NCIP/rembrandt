@@ -122,7 +122,7 @@ public class ViewResultsAction extends Action{
 				
 			for (int i = 0; i < fileList.size(); i++){
 				DownloadFileLookup lookup = (DownloadFileLookup)fileList.get(i);				
-				if (lookup.getAccessCode().equals((Long)de.getValue())){
+				if (lookup.getAccessCode().equals(new Long(8)) || lookup.getAccessCode().equals((Long)de.getValue())){
 					downloadFileList.add(lookup);
 				}
 			}
