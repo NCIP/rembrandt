@@ -83,7 +83,7 @@
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
-	<!-- 
+	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/jsp/404.jsp</location>
@@ -92,7 +92,7 @@
 		<error-code>500</error-code>
 		<location>/jsp/500.jsp</location>
 	</error-page>
-	-->
+	
 	<!-- Application Tag Library Descriptor -->
 	<taglib>
 		<taglib-uri>/WEB-INF/rembrandt.tld</taglib-uri>
