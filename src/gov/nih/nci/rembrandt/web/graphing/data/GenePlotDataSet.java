@@ -152,7 +152,7 @@ public class GenePlotDataSet {
 		
 						resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
 						
-						 //run the extra q for the B&W data...this time a single view, not group
+						//run the extra q for the B&W data...this time a single view, not group
 					    geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 					    CompoundQuery myCompoundQuery = null;
 						myCompoundQuery = new CompoundQuery(geneQuery);
@@ -257,13 +257,10 @@ public class GenePlotDataSet {
 						ReporterFoldChangeValuesResultset reporterResultset = (ReporterFoldChangeValuesResultset) reporterIterator.next();
 						String reporterName = reporterResultset.getReporter().getValue().toString();
 						if(reporter!=null && !reporterName.equalsIgnoreCase(reporter))	{
-							//if this is for a single reporter, ignore the others...performance??
-							//counter = 0;
+							//if this is for a single reporter, ignore the others...performance- not good??
 							continue;
 						}
 						//for single view...see if its the reporter we want, else continue
-						// from HS
-						//getBioSpecimentResultsets(String geneSymbol,String reporterName, String groupType)
 				      	Collection bwSampleIds = null;
 				      	if(geneViewContainer!=null)	{
 					      	if(diseaseName.indexOf(RembrandtConstants.ALL)==-1)	{
@@ -331,7 +328,7 @@ public class GenePlotDataSet {
 			            			Double ratio = (Double)folgChangeResultset.getFoldChangeRatioValue().getValue();
 			               			Double intensity = (Double)folgChangeResultset.getFoldChangeIntensity().getValue();
 			               			Double log2Intensity = (Double)folgChangeResultset.getFoldChangeLog2Intensity().getValue();
-			               			tlist.add(intensity);
+			               			tlist.add(log2Intensity);
 			               			//System.out.println("sampleID="+folgChangeResultset.getSampleIDDE().getValueObject()+ "\tratio= "+ratio+"\tintensity= "+intensity+"\tlog2Intensity= "+log2Intensity);	
 			            		}
 			            	}
@@ -345,6 +342,11 @@ public class GenePlotDataSet {
 						}
 						//icounter, counter seemed to be wrong
 						counter++;
+						
+						if(reporter!=null && reporterName.equalsIgnoreCase(reporter))	{
+							//found our reporter, no need to process the rest of the list
+							break;
+						}
 					}
 					
 					icounter++;
