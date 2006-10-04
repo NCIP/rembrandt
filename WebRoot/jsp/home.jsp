@@ -47,6 +47,42 @@
 	        </select>
 
         </logic:empty>
+        <logic:empty name="quickSearchForm" property="allGeneAlias">
+        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40"/>&nbsp;
+        	<br/>Restrict to sample group: 
+        	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
+			 	<html:optionsCollection property="sampleGroupsList" />
+			</html:select>
+	
+	        <br/><br/>
+	 
+	        <!--  sample based plots -->
+	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3);">
+	        Kaplan-Meier survival plot for Sample Data&nbsp;
+	        <br/><br/>
+	        <html:select property="groupName" style="margin-left:20px;" styleId="groupName" disabled="false">
+			 	<html:optionsCollection property="sampleGroupsList" />
+			</html:select>
+			
+			<!-- 
+	        <input type="text" id="groupName" name="groupName" style="margin-left:25px"/> vs.
+	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
+	        -->
+	         vs. 
+	         <html:select property="groupNameCompare" styleId="groupNameCompare" disabled="false">
+			 	<html:optionsCollection property="sampleGroupsList" />
+			</html:select>
+	        <br/>
+	        <script language="javascript">
+	        	try	{
+		        	document.getElementById("groupName").options[0] = null;
+	    	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Samples";
+	    	    }
+	    	    catch(err){}
+	    	    
+	        </script>
+        </logic:empty>
         
         <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
 	        <select name="quickSearchName">
@@ -57,44 +93,13 @@
 	          </option>
 	            </logic:iterate>
 	        </select>
+	        
+	        <html:hidden property="plot" />
+      		<html:hidden property="quickSearchName" />
         </logic:notEmpty>
         
-        <logic:empty name="quickSearchForm" property="allGeneAlias">
-        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40"/>&nbsp;
-        	<br/>Restrict to sample group: 
-        	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
-			 	<html:optionsCollection property="sampleGroupsList" />
-			</html:select>
-        </logic:empty>
-        
-        <br/><br/>
-        <!--  sample based plots -->
-        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3);">
-        Kaplan-Meier survival plot for Sample Data&nbsp;
-        <br/><br/>
-        <html:select property="groupName" style="margin-left:20px;" styleId="groupName" disabled="false">
-		 	<html:optionsCollection property="sampleGroupsList" />
-		</html:select>
-		
-		<!-- 
-        <input type="text" id="groupName" name="groupName" style="margin-left:25px"/> vs.
-        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
-        -->
-         vs. 
-         <html:select property="groupNameCompare" styleId="groupNameCompare" disabled="false">
-		 	<html:optionsCollection property="sampleGroupsList" />
-		</html:select>
-        <br/>
-        <script language="javascript">
-        	try	{
-	        	document.getElementById("groupName").options[0] = null;
-    	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Samples";
-    	    }
-    	    catch(err){}
-    	    
-        </script>
-	        
+
+   	        
         <br/><br/>
         <div style="text-align:center">
 	        <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
@@ -105,8 +110,7 @@
         
         	<app:help help="Select either the Gene Keyword or SNP Probe set ID option, as applicable, from the drop-down list and enter the keyword or ID in the text box.The SNP Probe set ID option is available only for the Copy Number-based Graph format." />
         </div>
-        <br />
-        
+        <br />         
       </fieldset>
       <!-- 
       <html:hidden property="plot" />
