@@ -5,7 +5,7 @@ if(P=="About_rembrandt")C="rembrandt1.5_About_REMBRANDT.3.2.html#1084922";
 if(P=="Rules_of_the_road")C="rembrandt1.5_Getting_Started.4.4.html#1095258";
 if(P=="Welcome")C="rembrandt1.5_Getting_Started.4.5.html#1092743";
 if(P=="Simple_search_overview")C="rembrandt1.5_Simple_Searches.5.2.html#1067499";
-if(P=="Simple_gene_expression_plot")C="rembrandt1.5_Simple_Searches.5.4.html#1100929";
+if(P=="Simple_gene_expression_plot")C="rembrandt1.5_Simple_Searches.5.4.html#1100403";
 if(P=="Eliminating_aliases")C="rembrandt1.5_Simple_Searches.5.10.html#1084807";
 if(P=="Simple_KM_gene_expression_plot")C="rembrandt1.5_Simple_Searches.5.12.html#1080837";
 if(P=="Simple_KM_copy_number_plot")C="rembrandt1.5_Simple_Searches.5.15.html#1101247";
@@ -30,5 +30,6 @@ if(P=="Copy_Number_Sample")C="rembrandt1.5_View%20Results.8.12.html#1083616";
 if(P=="Class_comparison_report")C="rembrandt1.5_View%20Results.8.15.html#1082972";
 if(P=="PCA_report")C="rembrandt1.5_View%20Results.8.19.html#1082922";
 if(P=="HCA_report")C="rembrandt1.5_View%20Results.8.21.html#1088992";
+if(P=="Manage_lists_overview")C="rembrandt1.5_Manage_Lists.9.2.html#1067499";
 return C;
 }

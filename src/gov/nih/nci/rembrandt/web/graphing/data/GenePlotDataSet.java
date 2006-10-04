@@ -166,7 +166,6 @@ public class GenePlotDataSet {
 						        geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
 							}
 						}
-						
 				    	break;
 				    }
 			    case UnifiedGeneExpressionDataSet:{
@@ -181,12 +180,28 @@ public class GenePlotDataSet {
 						//unifiedGeneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
 		
 						resultant = ResultsetManager.executeGeneExpressPlotQuery(unifiedGeneQuery);
+						/*
+						// run the extra q for the B&W data...this time a single view, not group
+						unifiedGeneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+					    CompoundQuery myCompoundQuery = null;
+						myCompoundQuery = new CompoundQuery(unifiedGeneQuery);
+						myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+						Resultant bwResultant;
+						bwResultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
+						if(bwResultant != null){
+							ResultsContainer resultsContainer = bwResultant.getResultsContainer();
+							if (resultsContainer instanceof DimensionalViewContainer){
+								DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+						        geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+							}
+						}
+						*/
 				    	break;
 		
 				    }
 			    }
 			    
-			   
+
 				
 			} catch (Exception e) {
 				logger.error("Resultset Manager Threw an Exception in gene plot");
@@ -239,7 +254,12 @@ public class GenePlotDataSet {
 							.getDiseaseGeneExprPlotResultset(diseaseTypes[i].getDiseaseType().toString());
 
 					String diseaseName = diseaseResultset.getType().getValue().toString();
-
+					
+					if(reporter!=null && diseaseName.indexOf(RembrandtConstants.ALL)!=-1)	{
+						//skip ALL for coin
+						continue;
+					}
+					
 					//concat for ASTRO for some reason
 					if (diseaseName.equalsIgnoreCase(RembrandtConstants.ASTRO)) {
 						groups[icounter] = diseaseName.substring(0, 6);

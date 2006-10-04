@@ -512,7 +512,7 @@ div.Bullet_Indent
   margin-left: 54pt;
   margin-right: 0pt;
   margin-top: 4.0pt;
-  text-align: LeftRight;
+  text-align: Left;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -533,7 +533,7 @@ div.Bullet_Indent
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: Left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1612,7 +1612,7 @@ div.Numbered_List
   margin-left: 36pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: Left;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1633,7 +1633,7 @@ div.Numbered_List
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: Left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1750,7 +1750,7 @@ div.Numbered_List_Indent
   margin-left: 54pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: Left;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1771,7 +1771,7 @@ div.Numbered_List_Indent
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: Left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;

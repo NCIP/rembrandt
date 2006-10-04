@@ -22,7 +22,7 @@
       <i t="Understanding a Gene Expression Plot" l="15">
         <i t="Show Log2 Gene Expression Plot Details" l="16" />
         <i t="Show Raw Gene Expression Plot Details" l="17" />
-        <i t="Show BW Gene Expression Plot Details" l="18" />
+        <i t="Show BW (Box and Whisker) Gene Expression Plot Details" l="18" />
         <i t="Saving, Printing, and E-mailing a Gene Expression Plot" l="19" />
       </i>
     </i>
@@ -87,13 +87,11 @@
   </i>
   <i t="Managing Lists" l="66">
     <i t="Managing Lists Overview" l="67" />
-    <i t="View List Details" l="68" />
-    <i t="Creating Custom Lists by Adding and Deleting Entire Lists or Data from Lists" l="69">
-      <i t="Deleting Items From a List" l="69#1080563" />
-      <i t="Deleting Entire Lists" l="70" />
-      <i t="Adding a New List" l="71" />
-    </i>
-    <i t="Creating New Custom Lists from Existing Lists" l="72" />
+    <i t="Viewing the Data Items in a List" l="68" />
+    <i t="Removing Data Items to Create a New List" l="69" />
+    <i t="Combining Existing Lists to Create a New List" l="70" />
+    <i t="Deleting an Entire List" l="71" />
+    <i t="Adding a New “Custom” List" l="72" />
   </i>
   <i t="Glossary" l="73" />
 </WebWorksHelpTOC>

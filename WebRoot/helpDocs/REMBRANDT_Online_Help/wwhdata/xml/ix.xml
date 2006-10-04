@@ -6,14 +6,8 @@
     </i>
     <i t="advanced searches">
       <j l="32#1119816" />
-      <i t="differentiating data">
-        <j l="52" />
-      </i>
       <i t="saving samples">
         <j l="51#1083440" />
-      </i>
-      <i t="selecting samples">
-        <j l="50" />
       </i>
     </i>
     <i t="analyses">
@@ -55,11 +49,6 @@
     </i>
     <i t="Copy Number-based Graphs">
       <j l="24" />
-    </i>
-  </g>
-  <g t="D" o="002">
-    <i t="differentiating data">
-      <j l="52" />
     </i>
   </g>
   <g t="F" o="002">
@@ -146,9 +135,6 @@
     <i t="samples">
       <i t="saving">
         <j l="51#1083440" />
-      </i>
-      <i t="selecting">
-        <j l="50" />
       </i>
     </i>
     <i t="searches">

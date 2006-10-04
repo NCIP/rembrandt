@@ -56,7 +56,7 @@
     <Document title="Understanding a Gene Expression Plot" href="rembrandt1.5_Simple_Searches.5.4.html" />
     <Document title="Show Log2 Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.5.html" />
     <Document title="Show Raw Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.6.html" />
-    <Document title="Show BW Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.7.html" />
+    <Document title="Show BW (Box and Whisker) Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.7.html" />
     <Document title="Saving, Printing, and E-mailing a Gene Expression Plot" href="rembrandt1.5_Simple_Searches.5.8.html" />
     <Document title="K-M Gene Expression Simple Search" href="rembrandt1.5_Simple_Searches.5.9.html" />
     <Document title="Eliminating Aliases" href="rembrandt1.5_Simple_Searches.5.10.html" />
@@ -106,11 +106,11 @@
     <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.21.html" />
     <Document title="Managing Lists" href="rembrandt1.5_Manage_Lists.9.1.html" />
     <Document title="Managing Lists Overview" href="rembrandt1.5_Manage_Lists.9.2.html" />
-    <Document title="View List Details" href="rembrandt1.5_Manage_Lists.9.3.html" />
-    <Document title="Creating Custom Lists by Adding and Deleting Entire Lists or Data from Lists" href="rembrandt1.5_Manage_Lists.9.4.html" />
-    <Document title="Deleting Entire Lists" href="rembrandt1.5_Manage_Lists.9.5.html" />
-    <Document title="Adding a New List" href="rembrandt1.5_Manage_Lists.9.6.html" />
-    <Document title="Creating New Custom Lists from Existing Lists" href="rembrandt1.5_Manage_Lists.9.7.html" />
+    <Document title="Viewing the Data Items in a List" href="rembrandt1.5_Manage_Lists.9.3.html" />
+    <Document title="Removing Data Items to Create a New List" href="rembrandt1.5_Manage_Lists.9.4.html" />
+    <Document title="Combining Existing Lists to Create a New List" href="rembrandt1.5_Manage_Lists.9.5.html" />
+    <Document title="Deleting an Entire List" href="rembrandt1.5_Manage_Lists.9.6.html" />
+    <Document title="Adding a New “Custom” List" href="rembrandt1.5_Manage_Lists.9.7.html" />
     <Document title="Glossary" href="rembrandt1.5_Glossary.10.1.html" />
   </DocumentInfo>
   <TopicMap>
@@ -118,7 +118,7 @@
     <Topic name="Rules_of_the_road" href="rembrandt1.5_Getting_Started.4.4.html#1095258" />
     <Topic name="Welcome" href="rembrandt1.5_Getting_Started.4.5.html#1092743" />
     <Topic name="Simple_search_overview" href="rembrandt1.5_Simple_Searches.5.2.html#1067499" />
-    <Topic name="Simple_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.4.html#1100929" />
+    <Topic name="Simple_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.4.html#1100403" />
     <Topic name="Eliminating_aliases" href="rembrandt1.5_Simple_Searches.5.10.html#1084807" />
     <Topic name="Simple_KM_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.12.html#1080837" />
     <Topic name="Simple_KM_copy_number_plot" href="rembrandt1.5_Simple_Searches.5.15.html#1101247" />
@@ -143,5 +143,6 @@
     <Topic name="Class_comparison_report" href="rembrandt1.5_View%20Results.8.15.html#1082972" />
     <Topic name="PCA_report" href="rembrandt1.5_View%20Results.8.19.html#1082922" />
     <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.21.html#1088992" />
+    <Topic name="Manage_lists_overview" href="rembrandt1.5_Manage_Lists.9.2.html#1067499" />
   </TopicMap>
 </WebWorksHelpBook>
