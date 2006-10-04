@@ -85,6 +85,7 @@
         </logic:empty>
         
         <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
+        	<div style="text-align:center; margin-top:20px; margin-bottom:20px;">
 	        <select name="quickSearchName">
 	        <logic:iterate name="quickSearchForm" property="allGeneAlias" id="test">
 	          <option>
@@ -93,7 +94,7 @@
 	          </option>
 	            </logic:iterate>
 	        </select>
-	        
+	        </div>
 	        <html:hidden property="plot" />
       		<html:hidden property="quickSearchName" />
         </logic:notEmpty>
