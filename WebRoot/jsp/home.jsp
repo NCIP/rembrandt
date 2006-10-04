@@ -17,8 +17,14 @@
         </legend>
         <html:errors/>
         <br />
+        
+        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
+            <script type="text/javascript">Help.insertHelp("Eliminating_aliases", " align='right'", "padding:2px;");</script>
+ 		</logic:notEmpty>
+ 		<logic:empty name="quickSearchForm" property="allGeneAlias">
            <script type="text/javascript">Help.insertHelp("Simple_search_overview", " align='right'", "padding:2px;");</script>
-   
+   		</logic:empty>
+   		
         <logic:empty name="quickSearchForm" property="allGeneAlias">
 	        <strong>
 	          Select graph format:
