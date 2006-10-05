@@ -200,4 +200,7 @@ String helpLinkClose = "', 350, 500);\">"+
      <strong>There are no files to download at this time.</strong>
      <br /><br />
      </logic:empty>
+     <br/><br/>
+     &nbsp;&nbsp;&nbsp;
+     <a href="http://linus.nci.nih.gov/BRB-ArrayTools.html"><span style="font-size:.8em;text-align:left;"> BRB-Array Tools </span></a>
      
