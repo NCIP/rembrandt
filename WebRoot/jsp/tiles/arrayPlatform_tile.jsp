@@ -29,7 +29,7 @@ Step 4: Select Array Platform
 <br>	
 &nbsp;&nbsp;<select name="arrayPlatform" onchange="this.options[1].selected=true;">
 					<option value="<%=Constants.ALL_PLATFROM%>">All</option>
-					<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix)</option>
+					<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
 					<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
 			</select>
 			<html:errors property="arrayPlatform"/>
