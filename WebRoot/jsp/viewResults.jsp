@@ -202,5 +202,5 @@ String helpLinkClose = "', 350, 500);\">"+
      </logic:empty>
      <br/><br/>
      &nbsp;&nbsp;&nbsp;
-     <a href="http://linus.nci.nih.gov/BRB-ArrayTools.html"><span style="font-size:.8em;text-align:left;"> BRB-Array Tools </span></a>
+     <a href="http://linus.nci.nih.gov/BRB-ArrayTools.html" target="_blank"><span style="font-size:.8em;text-align:left;"> BRB-Array Tools </span></a>
      
