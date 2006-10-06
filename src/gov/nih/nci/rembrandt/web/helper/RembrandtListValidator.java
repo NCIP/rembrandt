@@ -79,7 +79,7 @@ public class RembrandtListValidator extends ListValidator{
 			    			throw new OperationNotSupportedException(e.getMessage());
 						}
 					break;
-					case PROBE_SET:
+					case AFFY_HGU133PLUS2_PROBE_SET:
 					case IMAGE_CLONE:
 						try {
 							Collection<CloneIdentifierDE> reporters = ListConvertor.convertToCloneIdentifierDE(unvalidatedList, listSubType);
@@ -99,7 +99,7 @@ public class RembrandtListValidator extends ListValidator{
 							}
 					break;                    
 					case DBSNP:
-					case SNP_PROBESET:
+					case AFFY_100K_SNP_PROBE_SET:
 						try{
 						Collection<SNPIdentifierDE> reporters = ListConvertor.convertToSNPIdentifierDE(unvalidatedList, listSubType);
 						reporters = DataValidator.validateSNPReporters(reporters);

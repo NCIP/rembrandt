@@ -61,7 +61,7 @@ public static List<CloneIdentifierDE> convertToCloneIdentifierDE(List<String> li
 			cloneIdentifierDE.add(new CloneIdentifierDE.IMAGEClone(listItem));
 		}
 		break;
-	case PROBE_SET:
+	case AFFY_HGU133PLUS2_PROBE_SET:
 		for(String listItem: list){
 			cloneIdentifierDE.add(new CloneIdentifierDE.ProbesetID(listItem));
 		}
@@ -83,7 +83,7 @@ public static List<CloneIdentifierDE> convertToCloneIdentifierDE(List<String> li
 				snpIdentifierDE.add(new SNPIdentifierDE.DBSNP(listItem));
 			}
 			break;
-		case SNP_PROBESET:
+		case AFFY_100K_SNP_PROBE_SET:
 			for(String listItem: list){
 				snpIdentifierDE.add(new SNPIdentifierDE.SNPProbeSet(listItem));
 			}

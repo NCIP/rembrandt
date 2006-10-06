@@ -26,10 +26,10 @@ public class RembrandtListFilter {
 		ArrayList<ListSubType> lsta = new ArrayList();
 		if(lt == ListType.Reporter){
 			//list the reporter subtypes here and return them
-			lsta.add(ListSubType.PROBE_SET);
+			lsta.add(ListSubType.AFFY_HGU133PLUS2_PROBE_SET);
 			lsta.add(ListSubType.IMAGE_CLONE);
 			lsta.add(ListSubType.DBSNP);
-			lsta.add(ListSubType.SNP_PROBESET);
+			lsta.add(ListSubType.AFFY_100K_SNP_PROBE_SET);
 		}
 		else if(lt == ListType.Gene){
 			//ListSubType[] lsta = {ListSubType.GENBANK_ACCESSION_NUMBER, ListSubType.GENESYMBOL, ListSubType.LOCUS_LINK};
@@ -37,7 +37,7 @@ public class RembrandtListFilter {
 			lsta.add(ListSubType.GENESYMBOL);
 			lsta.add(ListSubType.LOCUS_LINK);
 		}
-		//   Default, Custom, IMAGE_CLONE, PROBE_SET, SNPProbeSet, DBSNP, GENBANK_ACCESSION_NUMBER, GENESYMBOL, LOCUS_LINK;
+		//   Default, Custom, IMAGE_CLONE, AFFY_HGU133PLUS2_PROBE_SET, SNPProbeSet, DBSNP, GENBANK_ACCESSION_NUMBER, GENESYMBOL, LOCUS_LINK;
 		return lsta;
 	}
 	
