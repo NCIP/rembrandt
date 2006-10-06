@@ -1,11 +1,18 @@
 package gov.nih.nci.rembrandt.util;
 
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
+import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException ;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,6 +26,13 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
+
+import org.apache.ojb.broker.core.PersistenceBrokerFactoryFactory;
+import org.apache.ojb.broker.core.PersistenceBrokerFactoryIF;
+import org.apache.ojb.broker.metadata.ConnectionRepository;
+import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
+import org.apache.ojb.broker.metadata.MetadataManager;
+import org.apache.ojb.broker.PBKey;
 /**
  * @todo comment this!
  * @author BhattarR, BauerD
@@ -152,36 +166,30 @@ public class ApplicationContext{
 			  val = rembrandtProperties.getProperty(key);
 		      System.setProperty(key, val);
 		  }
-		  //Start loading BRB file path property
-		  /*  //Not used for now.
-		  propertiesFileName = System.getProperty("gov.nih.nci.caintegrator.rembramdt.brbFilePathFile");
-			
-		  //Load the the application properties and set them as system properties
-		  rembrandtProperties = new Properties();
-		 
-		  logger.info("Attempting to load application system properties from file: " + propertiesFileName);
+
+		  //Initialize db
+		  // PersistenceBrokerFactoryIF pbf = PersistenceBrokerFactoryFactory.instance();
+		  String dbalias = System.getProperty("gov.nih.nci.rembrandt.dbalias");
+		  String username = System.getProperty("gov.nih.nci.rembrandt.db.username");
+		  String password = System.getProperty("gov.nih.nci.rembrandt.db.password");
+		  String jcdalias = System.getProperty("gov.nih.nci.rembrandt.jcd_alias");
 		  
-		  if (propertiesFileName != null){
+		  if (jcdalias != null && jcdalias.length() > 0){
+			  MetadataManager mm = MetadataManager.getInstance();
+			  ConnectionRepository connectionRepository = mm.connectionRepository();
+			  PBKey pbKey = connectionRepository.getStandardPBKeyForJcdAlias(jcdalias);
+			  JdbcConnectionDescriptor jdbcConnectionDescriptor = connectionRepository
+	                .getDescriptor(pbKey);
 		  
-			  in = new FileInputStream(propertiesFileName);
-			  rembrandtProperties.load(in);
-		   
-			  if (rembrandtProperties.isEmpty()) {
-				  logger.error("Error: no properties found when loading properties file: " + propertiesFileName);
-			  }
-			  else {	   
-				  key = null;
-				  val = null;
-				  for (Iterator i = rembrandtProperties.keySet().iterator(); i.hasNext(); ) {
-					  key = (String) i.next();
-					  val = rembrandtProperties.getProperty(key);
-					  System.setProperty(key, val);
-				  }
-			  }
+			  if (dbalias != null && dbalias.length() > 0)
+				  jdbcConnectionDescriptor.setDbAlias(dbalias);
+			  if (username != null && username.length() > 0)
+				  jdbcConnectionDescriptor.setUserName(username);
+			  if (password != null && password.length() > 0)
+				  jdbcConnectionDescriptor.setPassWord(password);
 		  }
-		  */
-		  //End of loading BRB file path property.
-		  
+		  //end of initialize
+
 		  String jmsProviderURL = System.getProperty("gov.nih.nci.rembrandt.jms.jboss_url");
 		  String jndiFactoryName = System.getProperty("gov.nih.nci.rembrandt.jms.factory_jndi");
 		  String requestQueueName = System.getProperty("gov.nih.nci.rembrandt.jms.analysis_request_queue");
