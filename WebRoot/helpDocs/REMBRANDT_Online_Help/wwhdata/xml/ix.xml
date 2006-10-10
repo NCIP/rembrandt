@@ -1,94 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WebWorksHelpIX version="5.0" xmlns="urn:WebWorks-Help-Index-Schema">
   <g t="A" o="002">
-    <i t="Advanced Search tab">
-      <j l="9#1095271" />
-    </i>
     <i t="advanced searches">
-      <j l="32#1119816" />
+      <j l="33#1119816" />
       <i t="saving samples">
-        <j l="51#1083440" />
+        <j l="52#1083440" />
       </i>
     </i>
     <i t="analyses">
       <i t="Clinical Study Analyses">
-        <j l="37" />
+        <j l="38" />
       </i>
       <i t="Copy Number Data Analyses">
-        <j l="36" />
+        <j l="37" />
       </i>
       <i t="Gene Expression Analyses">
-        <j l="33" />
+        <j l="34" />
       </i>
       <i t="High Order Analysis">
-        <j l="41" />
+        <j l="42" />
       </i>
       <i t="Principal Component Analysis">
-        <j l="43#1076049" />
+        <j l="44#1076049" />
       </i>
     </i>
   </g>
   <g t="C" o="002">
     <i t="class comparison">
-      <j l="42#1072817" />
+      <j l="43#1072817" />
     </i>
     <i t="Class Comparison report">
-      <j l="59#1086398" />
+      <j l="60#1086398" />
     </i>
     <i t="Clinical Study Analyses">
-      <j l="37" />
+      <j l="38" />
     </i>
     <i t="clustering, hierarchical">
-      <j l="44#1072853" />
+      <j l="45#1072853" />
     </i>
     <i t="Copy Number Data Analyses">
-      <j l="36" />
+      <j l="37" />
     </i>
     <i t="Copy Number Data Per Sample View">
-      <j l="56" />
+      <j l="57" />
     </i>
     <i t="Copy Number-based Graphs">
-      <j l="24" />
+      <j l="25" />
     </i>
   </g>
   <g t="F" o="002">
     <i t="filtering reports">
-      <j l="49#1083367" />
-      <j l="60#1088610" />
+      <j l="50#1083367" />
+      <j l="61#1088610" />
     </i>
   </g>
   <g t="G" o="002">
     <i t="Gene Expression Analyses">
-      <j l="33" />
+      <j l="34" />
     </i>
     <i t="Gene Expression Data Per Disease Group View">
-      <j l="55" />
+      <j l="56" />
     </i>
     <i t="Gene Expression Data Per Sample View">
-      <j l="48" />
+      <j l="49" />
     </i>
     <i t="Gene Expression Plots">
       <j l="14" />
     </i>
     <i t="graphs, Copy Number-based">
-      <j l="24" />
+      <j l="25" />
     </i>
   </g>
   <g t="H" o="002">
     <i t="hierarchical clustering">
-      <j l="44#1072853" />
+      <j l="45#1072853" />
     </i>
     <i t="Hierarchical Clustering report">
       <j l="65#1088996" />
     </i>
     <i t="High Order Analysis">
-      <j l="41" />
+      <j l="42" />
     </i>
   </g>
   <g t="K" o="002">
     <i t="Kaplan-Meier Survival Plots for Gene Expression Data">
-      <j l="20" />
-      <j l="27" />
+      <j l="21" />
+      <j l="28" />
     </i>
   </g>
   <g t="P" o="002">
@@ -97,81 +94,68 @@
         <j l="14" />
       </i>
       <i t="Kaplan-Meier Survival Plots for Gene Expression Data">
-        <j l="20" />
-        <j l="27" />
+        <j l="21" />
+        <j l="28" />
       </i>
     </i>
     <i t="Principal Component Analysis">
-      <j l="43#1076049" />
+      <j l="44#1076049" />
     </i>
     <i t="Principal Component Analysis report">
-      <j l="63#1082927" />
+      <j l="64#1082927" />
     </i>
   </g>
   <g t="Q" o="002">
     <i t="queries">
       <i t="refining">
-        <j l="39" />
+        <j l="40" />
       </i>
     </i>
   </g>
   <g t="R" o="002">
     <i t="Refine Query page">
-      <j l="39" />
+      <j l="40" />
     </i>
     <i t="reports">
       <i t="Class Comparison">
-        <j l="59#1086398" />
+        <j l="60#1086398" />
       </i>
       <i t="Hierarchical Clustering">
         <j l="65#1088996" />
       </i>
       <i t="Principal Component Analysis">
-        <j l="63#1082927" />
+        <j l="64#1082927" />
       </i>
     </i>
   </g>
   <g t="S" o="002">
     <i t="samples">
       <i t="saving">
-        <j l="51#1083440" />
+        <j l="52#1083440" />
       </i>
     </i>
     <i t="searches">
       <i t="advanced">
-        <j l="32#1119816" />
+        <j l="33#1119816" />
       </i>
       <i t="simple">
         <j l="13" />
       </i>
     </i>
-    <i t="Simple Search tab">
-      <j l="9#1095268" />
-    </i>
     <i t="simple searches">
       <j l="13" />
-    </i>
-  </g>
-  <g t="T" o="002">
-    <i t="tabs">
-      <i t="Advanced Search">
-        <j l="9#1095271" />
-      </i>
-      <i t="Simple Search">
-        <j l="9#1095268" />
-      </i>
     </i>
   </g>
   <g t="V" o="002">
     <i t="views">
       <i t="Copy Number Data Per Sample view">
-        <j l="56" />
+        <j l="57" />
       </i>
       <i t="Gene Expression Data Per Disease Group view">
-        <j l="55" />
+        <j l="56" />
       </i>
       <i t="Gene Expression Data Per Sample view">
-        <j l="48" />
+        <j l="49" />
       </i>
     </i>
   </g>

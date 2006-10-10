@@ -1980,7 +1980,7 @@ div.Table_Bullet
   margin-left: 18pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
-  text-align: LeftRight;
+  text-align: Left;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -2001,7 +2001,7 @@ div.Table_Bullet
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: Left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -2558,15 +2558,6 @@ span.URL
   vertical-align: baseline;
 }
 
-table.Mapping_Table
-{
-  padding-bottom: 2pt;
-  padding-left: 2pt;
-  padding-right: 2pt;
-  padding-top: 2pt;
-  text-align: left;
-}
-
 table.Table_-_Column_Header
 {
   border-bottom-color: White;
@@ -2577,6 +2568,24 @@ table.Table_-_Column_Header
   border-right-style: solid;
   border-top-color: White;
   border-top-style: solid;
+  padding-bottom: 4pt;
+  padding-left: 6pt;
+  padding-right: 4pt;
+  padding-top: 4pt;
+  text-align: left;
+}
+
+table.Mapping_Table
+{
+  padding-bottom: 2pt;
+  padding-left: 2pt;
+  padding-right: 2pt;
+  padding-top: 2pt;
+  text-align: left;
+}
+
+table.Table_-_No_Border
+{
   padding-bottom: 4pt;
   padding-left: 6pt;
   padding-right: 4pt;
@@ -2602,11 +2611,15 @@ table.Table_-_Header
   padding-left: 6pt;
   padding-right: 4pt;
   padding-top: 4pt;
-  text-align: right;
+  text-align: left;
 }
 
-table.Table_-_No_Border
+table.Table_-_No_Header
 {
+  border-bottom-color: Black;
+  border-left-color: Black;
+  border-right-color: Black;
+  border-top-color: Black;
   padding-bottom: 4pt;
   padding-left: 6pt;
   padding-right: 4pt;
@@ -2625,19 +2638,6 @@ table.Figure_Indent
 
 table.Figure
 {
-  padding-bottom: 4pt;
-  padding-left: 6pt;
-  padding-right: 4pt;
-  padding-top: 4pt;
-  text-align: left;
-}
-
-table.Table_-_No_Header
-{
-  border-bottom-color: Black;
-  border-left-color: Black;
-  border-right-color: Black;
-  border-top-color: Black;
   padding-bottom: 4pt;
   padding-left: 6pt;
   padding-right: 4pt;

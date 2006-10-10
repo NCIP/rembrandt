@@ -54,21 +54,22 @@
     <Document title="Simple Search Overview" href="rembrandt1.5_Simple_Searches.5.2.html" />
     <Document title="Gene Expression Simple Search" href="rembrandt1.5_Simple_Searches.5.3.html" />
     <Document title="Understanding a Gene Expression Plot" href="rembrandt1.5_Simple_Searches.5.4.html" />
-    <Document title="Show Log2 Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.5.html" />
-    <Document title="Show Raw Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.6.html" />
-    <Document title="Show BW (Box and Whisker) Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.7.html" />
-    <Document title="Saving, Printing, and E-mailing a Gene Expression Plot" href="rembrandt1.5_Simple_Searches.5.8.html" />
-    <Document title="K-M Gene Expression Simple Search" href="rembrandt1.5_Simple_Searches.5.9.html" />
-    <Document title="Eliminating Aliases" href="rembrandt1.5_Simple_Searches.5.10.html" />
-    <Document title="Redrawing the K-M Survival Plot for Gene Expression Data" href="rembrandt1.5_Simple_Searches.5.11.html" />
-    <Document title="Understanding K-M Survival Plot for Gene Expression Data" href="rembrandt1.5_Simple_Searches.5.12.html" />
-    <Document title="K-M Copy Number Simple Search" href="rembrandt1.5_Simple_Searches.5.13.html" />
-    <Document title="Redrawing the K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.14.html" />
-    <Document title="Understanding K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.15.html" />
-    <Document title="K-M Sample Simple Search" href="rembrandt1.5_Simple_Searches.5.16.html" />
-    <Document title="Understanding K-M Survival Plot for Sample Data" href="rembrandt1.5_Simple_Searches.5.17.html" />
-    <Document title="Viewing the Clinical Reports" href="rembrandt1.5_Simple_Searches.5.18.html" />
-    <Document title="Viewing Clinical Plots" href="rembrandt1.5_Simple_Searches.5.19.html" />
+    <Document title="Geometric Mean Plot Details" href="rembrandt1.5_Simple_Searches.5.5.html" />
+    <Document title="Log2 Intensity Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.6.html" />
+    <Document title="Box and Whisker Log2 Intensity Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.7.html" />
+    <Document title="Displaying a Coin Plot" href="rembrandt1.5_Simple_Searches.5.8.html" />
+    <Document title="Saving, Printing, and E-mailing a Gene Expression Plot" href="rembrandt1.5_Simple_Searches.5.9.html" />
+    <Document title="K-M Gene Expression Simple Search" href="rembrandt1.5_Simple_Searches.5.10.html" />
+    <Document title="Eliminating Aliases" href="rembrandt1.5_Simple_Searches.5.11.html" />
+    <Document title="Redrawing the K-M Survival Plot for Gene Expression Data" href="rembrandt1.5_Simple_Searches.5.12.html" />
+    <Document title="Understanding K-M Survival Plot for Gene Expression Data" href="rembrandt1.5_Simple_Searches.5.13.html" />
+    <Document title="K-M Copy Number Simple Search" href="rembrandt1.5_Simple_Searches.5.14.html" />
+    <Document title="Redrawing the K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.15.html" />
+    <Document title="Understanding K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.16.html" />
+    <Document title="K-M Sample Simple Search" href="rembrandt1.5_Simple_Searches.5.17.html" />
+    <Document title="Understanding K-M Survival Plot for Sample Data" href="rembrandt1.5_Simple_Searches.5.18.html" />
+    <Document title="Viewing the Clinical Reports" href="rembrandt1.5_Simple_Searches.5.19.html" />
+    <Document title="Viewing Clinical Plots" href="rembrandt1.5_Simple_Searches.5.20.html" />
     <Document title="Conducting Advanced Searches" href="rembrandt1.5_Adv_Searches.6.1.html" />
     <Document title="Advanced Searches Overview" href="rembrandt1.5_Adv_Searches.6.2.html" />
     <Document title="Gene Expression Advanced Search" href="rembrandt1.5_Adv_Searches.6.3.html" />
@@ -102,8 +103,8 @@
     <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt1.5_View%20Results.8.17.html" />
     <Document title="Resorting Column Results" href="rembrandt1.5_View%20Results.8.18.html" />
     <Document title="Principal Component Analysis Plot" href="rembrandt1.5_View%20Results.8.19.html" />
-    <Document title="Viewing Clinical Plots" href="rembrandt1.5_View%20Results.8.20.html" />
-    <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.21.html" />
+    <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.20.html" />
+    <Document title="Downloading BRB Files" href="rembrandt1.5_View%20Results.8.21.html" />
     <Document title="Managing Lists" href="rembrandt1.5_Manage_Lists.9.1.html" />
     <Document title="Managing Lists Overview" href="rembrandt1.5_Manage_Lists.9.2.html" />
     <Document title="Viewing the Data Items in a List" href="rembrandt1.5_Manage_Lists.9.3.html" />
@@ -117,14 +118,16 @@
     <Topic name="About_rembrandt" href="rembrandt1.5_About_REMBRANDT.3.2.html#1084922" />
     <Topic name="Rules_of_the_road" href="rembrandt1.5_Getting_Started.4.4.html#1095258" />
     <Topic name="Welcome" href="rembrandt1.5_Getting_Started.4.5.html#1092743" />
+    <Topic name="Logging_out" href="rembrandt1.5_Getting_Started.4.7.html#1095030" />
     <Topic name="Simple_search_overview" href="rembrandt1.5_Simple_Searches.5.2.html#1067499" />
     <Topic name="Simple_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.4.html#1100403" />
-    <Topic name="Eliminating_aliases" href="rembrandt1.5_Simple_Searches.5.10.html#1084807" />
-    <Topic name="Simple_KM_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.12.html#1080837" />
-    <Topic name="Simple_KM_copy_number_plot" href="rembrandt1.5_Simple_Searches.5.15.html#1101247" />
-    <Topic name="Simple_KM_sample_plot" href="rembrandt1.5_Simple_Searches.5.17.html#1101398" />
-    <Topic name="Clinical_report" href="rembrandt1.5_Simple_Searches.5.18.html#1085908" />
-    <Topic name="Clinical_plot" href="rembrandt1.5_Simple_Searches.5.19.html#1088123" />
+    <Topic name="Coin_plot" href="rembrandt1.5_Simple_Searches.5.8.html#1118993" />
+    <Topic name="Eliminating_aliases" href="rembrandt1.5_Simple_Searches.5.11.html#1084807" />
+    <Topic name="Simple_KM_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.13.html#1080837" />
+    <Topic name="Simple_KM_copy_number_plot" href="rembrandt1.5_Simple_Searches.5.16.html#1101247" />
+    <Topic name="Simple_KM_sample_plot" href="rembrandt1.5_Simple_Searches.5.18.html#1101398" />
+    <Topic name="Clinical_report" href="rembrandt1.5_Simple_Searches.5.19.html#1085908" />
+    <Topic name="Clinical_plot" href="rembrandt1.5_Simple_Searches.5.20.html#1088123" />
     <Topic name="Advanced_overview" href="rembrandt1.5_Adv_Searches.6.2.html#1110870" />
     <Topic name="Advanced_gene_expression" href="rembrandt1.5_Adv_Searches.6.3.html#1106380" />
     <Topic name="GO_id_list" href="rembrandt1.5_Adv_Searches.6.4.html#1099861" />
@@ -142,7 +145,7 @@
     <Topic name="Copy_Number_Sample" href="rembrandt1.5_View%20Results.8.12.html#1083616" />
     <Topic name="Class_comparison_report" href="rembrandt1.5_View%20Results.8.15.html#1082972" />
     <Topic name="PCA_report" href="rembrandt1.5_View%20Results.8.19.html#1082922" />
-    <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.21.html#1088992" />
+    <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.20.html#1088992" />
     <Topic name="Manage_lists_overview" href="rembrandt1.5_Manage_Lists.9.2.html#1067499" />
   </TopicMap>
 </WebWorksHelpBook>
