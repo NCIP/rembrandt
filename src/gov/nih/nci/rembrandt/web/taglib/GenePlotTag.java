@@ -138,9 +138,9 @@ public class GenePlotTag extends AbstractGraphingTag {
 				out.print("</div><br/>");
 			}
 			
-			if(size.indexOf("LARGE")!=-1){
+			//if(size.indexOf("LARGE")!=-1){
 				out.println("<br/><a class=\"message\" style=\"text-decoration:underline\" id=\"graphLink\" href=\""+defaultURL+"\" target=\"_blank\">Click here to open plot in a new window</a><br/><br/>");
-			}
+			//}
 			out.println("<h2>Gene Expression Plot ("+geneSymbol.toUpperCase()+")</h2>");
 			if(reporter!=null){
 				out.print("<h2>" + reporter + "</h2>");
