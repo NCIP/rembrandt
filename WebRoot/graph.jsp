@@ -76,7 +76,9 @@ String alg = request.getParameter("alg")!=null ? (String) request.getParameter("
 		%>
 	</fieldset>
 <br/>
+<!-- 
 <a href="javascript:void(window.print())">[Print this graph]</a><br/><br/>
+-->
 </div>
 	
 </div>
