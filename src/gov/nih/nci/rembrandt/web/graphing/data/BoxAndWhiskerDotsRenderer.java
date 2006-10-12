@@ -34,7 +34,7 @@
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
  *                   Tim Bardzil;
  *
- * $Id: BoxAndWhiskerDotsRenderer.java,v 1.3 2006-10-04 16:56:14 landyr Exp $
+ * $Id: BoxAndWhiskerDotsRenderer.java,v 1.4 2006-10-12 17:13:12 landyr Exp $
  *
  * Changes
  * -------
@@ -80,6 +80,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.CategoryAxis;
@@ -751,6 +752,7 @@ public class BoxAndWhiskerDotsRenderer extends BoxAndWhiskerRenderer{
                 }
 			}
            
+			//caIntegrator - x axis cloud
            //Process each outlier's x coordinates  
            boolean isOdd = true;
            double offSet = 0;
@@ -772,12 +774,20 @@ public class BoxAndWhiskerDotsRenderer extends BoxAndWhiskerRenderer{
               		{
               			offSet = diameter*(listSize/2) - oRadius;
               		}
+              		
+              		Random r = new Random();
+          			offSet = (Math.abs(r.nextInt()) % 3)*3;
+              		offSet = 0;
+              		
               		for (int n = 0; n < list.size(); n++)
               		{
               			Outlier outlier = (Outlier)list.get(n);
               		
               			outlier.setPoint(new Point2D.Double(outlier.getX() - offSet, outlier.getY()));
               			offSet = offSet - diameter;
+              			r = new Random();
+              			int randInt = Math.abs(r.nextInt()) % 3;
+              			offSet = randInt*2;
               		}
               	}              
               }
