@@ -7,11 +7,13 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
-
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserList;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+//import javax.servlet.http.HttpSession;
 
 /**
 * caIntegrator License
@@ -89,6 +91,9 @@ public interface RembrandtPresentationTierCache extends PresentationTierCache{
 
 	public SessionQueryBag getSessionQueryBag(String sessionId);
 
+	public RembrandtUserListBean getRembrandtUserListBean(String sessionId);
+	public void removeRembrandtUserListBean(String sessionId);
+	
 	public ReportBean getReportBean(String sessionId, String queryName,
 			View view);
 
@@ -100,6 +105,8 @@ public interface RembrandtPresentationTierCache extends PresentationTierCache{
 
 	public void putSessionQueryBag(String sessionId, SessionQueryBag theBag);
 
+	public void putRembrandtUserListBean(String sessionId, RembrandtUserListBean listBean);
+	
 	public CompoundQuery getQuery(String sessionId, String queryName);
 
 	public List getSampleSetNames(String sessionId);
@@ -107,7 +114,7 @@ public interface RembrandtPresentationTierCache extends PresentationTierCache{
 	public String[] getCacheList();
 	
 	public void persistUserSession(String userName, String sessionId);
-
+	//public void persistUserSession(String userName, HttpSession session);
 	public boolean reloadSessionCache(String userName, String sessionId);
 
 	public void deleteSessionCache(String id);

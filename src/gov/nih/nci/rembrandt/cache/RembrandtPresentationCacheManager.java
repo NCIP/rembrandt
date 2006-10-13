@@ -11,7 +11,8 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
-
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserList;
 
 import java.io.File;
 import java.io.Serializable;
@@ -28,6 +29,8 @@ import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
+
+//import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 /**
@@ -427,7 +430,32 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		}
 		return theBag;
 	}
-	
+	public RembrandtUserListBean getRembrandtUserListBean(String sessionId){
+		Cache sessionCache =  this.getSessionCache(sessionId);
+		System.out.print("");
+		RembrandtUserListBean theBean = null;
+		try {
+//			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_QUERY_BAG_KEY);
+			Object cacheElement = getPersistableObjectFromSessionCache(sessionId,RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY);
+			if(cacheElement != null){
+				theBean = (RembrandtUserListBean)cacheElement;
+			}
+		}catch(ClassCastException cce) {
+			logger.error("Someone put something other than a RembrandtUserListBean in the cache as a RembrandtUserListBean");
+			logger.error(cce);
+		}catch(NullPointerException npe){
+			logger.debug("There is no query bag for session: "+sessionId);		
+		}
+		/**
+		 * There is no SessionQueryBag for this session, create one
+		 */
+		if(theBean==null) {
+			
+			logger.debug("Creating new RembrandtUserListBean");
+			theBean = new RembrandtUserListBean();
+		}
+		return theBean;
+	}
 	/**
 	 * This is a hack method here for one reason, and is intended to only be used
 	 * by the presentationTier to check for view incompatabilites.
@@ -630,6 +658,12 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		addPersistableToSessionCache(sessionId,RembrandtConstants.SESSION_QUERY_BAG_KEY, theBag );
 	}
 	
+	public void putRembrandtUserListBean(String sessionId, RembrandtUserListBean listBean){
+		addPersistableToSessionCache(sessionId, RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY, listBean );
+	}
+	public void removeRembrandtUserListBean(String sessionId){
+		removeObjectFromPersistableSessionCache(sessionId, RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY);
+	}
 	/**
 	 * This method will simply add the key/value pair to the Presentation Tier 
 	 * main cache making it accessable by anyone in the presentation tier.
@@ -741,6 +775,10 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 //				logger.error(iae);
 //			}
 //	}
+	 
+	 //public void persistUserSession(String userName, HttpSession session){
+		 
+	 //}
 	 /**
 	  * This is the method that is responsible for persisting a users session 
 	  * across log outs.  It will check to see if the user actually has anything
@@ -773,7 +811,8 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 						 */
 						
 						if((RembrandtConstants.SESSION_QUERY_BAG_KEY+this.PERSISTED_SUFFIX).equals(key)||	
-							RembrandtConstants.REPORT_COUNTER.equals(key)) {
+							RembrandtConstants.REPORT_COUNTER.equals(key) ||
+							(RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY+this.PERSISTED_SUFFIX).equals(key)) {
 							logger.debug("Key "+i+" being persisted: "+key);
 							Element element = sessionCache.get((Serializable)key);
 							persistedElements.put((Serializable)key, element);
