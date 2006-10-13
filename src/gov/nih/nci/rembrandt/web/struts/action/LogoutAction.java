@@ -1,11 +1,15 @@
 package gov.nih.nci.rembrandt.web.struts.action;
-
+import gov.nih.nci.caintegrator.application.cache.CacheConstants;
+import gov.nih.nci.caintegrator.application.lists.UserListBean;
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LogoutForm;
-
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserList;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +20,10 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
 * caIntegrator License
@@ -99,6 +107,17 @@ public final class LogoutAction extends Action
         	 * account "RBTuser" from persisting their session
         	 *******************************************************************/
         	if(!"RBTuser".equals(credentials.getUserName())) {
+        		//Check to see user also created some custom lists.
+        		UserListBean userListBean = (UserListBean) session.getAttribute(CacheConstants.USER_LISTS);
+        		
+        		List<UserList> customLists = this.containsCustomList(userListBean.getEntireList());
+        		if (!customLists.isEmpty()){
+        			RembrandtUserListBean rembrandtUserListBean = new RembrandtUserListBean();
+        			for (UserList userList : customLists){
+        				rembrandtUserListBean.addList(new RembrandtUserList(userList));
+        			}
+        			_cacheManager.putRembrandtUserListBean(request.getSession().getId(), rembrandtUserListBean);
+        		}
         		_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
         	}
         	_cacheManager.deleteSessionCache(session.getId());
@@ -129,5 +148,20 @@ public final class LogoutAction extends Action
         }
   
         return (mapping.findForward(forward));
+    }
+    private List<UserList> containsCustomList(List<UserList> userLists){
+    	List<UserList> customList = new ArrayList<UserList>();
+    	if (userLists == null || userLists.isEmpty())
+    		return customList;
+    	
+    	for (UserList list : userLists){
+    		List<ListSubType> subTypes = list.getListSubType();
+    		for (ListSubType subType : subTypes){
+    			if ("Custom".equals(subType.name())){
+    				customList.add(list);
+    			}
+    		}
+    	}
+    	return customList;
     }
 }
