@@ -72,6 +72,8 @@ public final class RembrandtConstants {
     public static final String CACHE_PROPERTIES = "rembrandtCache.properties";
 
 	public static final String SESSION_QUERY_BAG_KEY = "nautilus.queryMap";
+	
+	public static final String REMBRANDT_USER_LIST_BEAN_KEY = "nautilus.rembrandtUserListBean";
 
 	public static final String RESULTSET_KEY = "geneViewResultSet";
 
