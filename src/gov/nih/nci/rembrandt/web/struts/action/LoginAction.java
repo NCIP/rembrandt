@@ -1,15 +1,21 @@
 package gov.nih.nci.rembrandt.web.struts.action;
-
+import gov.nih.nci.caintegrator.application.cache.CacheConstants;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
+import gov.nih.nci.rembrandt.web.bean.RembrandtUserList;
 
 import java.util.Enumeration;
-
+import java.util.List;
+import java.text.ParseException;
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -99,7 +105,7 @@ public final class LoginAction extends Action
         ServletContext context = session.getServletContext();
         LoginForm f = (LoginForm) form;
         if(f.getUserLoggedIn()){
-            session.setAttribute("logged", "yes");
+        	session.setAttribute("logged", "yes");
             session.setAttribute("name", f.getUserName());
             UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
             session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
@@ -108,24 +114,51 @@ public final class LoginAction extends Action
             	logger.debug("SessionCache reloaded");
             	Enumeration names = session.getAttributeNames();
             	System.out.println(names);
-           }else{
+            }else{
             	logger.debug("No persisted cache available.  Created new SessionCache");
             }
-         UserListBean userListBean = new UserListBean();
-         try {
-            userListBean = RembrandtListLoader.loadDiseaseGroups(userListBean, session);
-        } catch (OperationNotSupportedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-         //add userListBean to session...for now
-         session.setAttribute(RembrandtConstants.USER_LISTS,userListBean);
+            UserListBean userListBean = new UserListBean();
+            try {
+            	userListBean = RembrandtListLoader.loadDiseaseGroups(userListBean, session);
+            } catch (OperationNotSupportedException e) {
+            	// TODO Auto-generated catch block
+            	e.printStackTrace();
+            }
+            //Now check there are customLists in the cache
+            RembrandtUserListBean cachedBean = _cacheManager.getRembrandtUserListBean(session.getId());
+            if (cachedBean != null && !cachedBean.getEntireList().isEmpty()){
+            	List<RembrandtUserList> customLists = cachedBean.getEntireList();
+            	for (RembrandtUserList theList : customLists){
+            		UserList userList = getUserList(theList);
+            		userListBean.addList(userList);
+            	}
+            	//Remove it after retrieval.
+            	_cacheManager.removeRembrandtUserListBean(request.getSession().getId());
+            }
+
+            //add userListBean to session...for now
+            session.setAttribute(RembrandtConstants.USER_LISTS,userListBean);
          
             return (mapping.findForward("success"));
         }
         else
-            return (mapping.findForward("failure"));
-        
-        
+            return (mapping.findForward("failure"));  
+    }
+    private UserList getUserList(RembrandtUserList theList){
+    	UserList userList = new UserList();
+        try {
+        	userList.setDateCreated(theList.getDateCreated());
+        	userList.setInvalidList(theList.getInvalidList());
+        	userList.setItemCount(theList.getItemCount());
+        	userList.setList(theList.getList());
+        	userList.setListSubType(theList.getListSubType());
+        	userList.setListType(theList.getListType());
+        	userList.setName(theList.getName());
+        	userList.setNotes(theList.getNotes());
+        }
+        catch (ParseException pe){
+        	logger.debug("Persisted UserList has a malformed Date object.");
+        }
+        return userList;
     }
 }
