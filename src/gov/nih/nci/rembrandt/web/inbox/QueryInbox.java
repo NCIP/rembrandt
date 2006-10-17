@@ -4,7 +4,7 @@ import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-
+import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.json.simple.JSONArray;
 
 import uk.ltd.getahead.dwr.ExecutionContext;
 
@@ -178,8 +179,15 @@ public class QueryInbox {
 			st = "no worky";
 		}
 		
-		return st;
-		
-		
+		return st;	
+	}
+	public String getQueryDetailFromCompoundQuery(String queryName){
+		CompoundQuery cq = ptc.getSessionQueryBag(session.getId()).getCompoundQuery();
+		String result = "";
+		if (cq != null){
+			result = cq.getQueryDetails(queryName);
+		}
+
+		return result;
 	}
 }
