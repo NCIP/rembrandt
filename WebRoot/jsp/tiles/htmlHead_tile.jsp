@@ -25,6 +25,8 @@
 	<script type="text/javascript" src="js/moveUpDown.js"></script>
 	
 	<script type='text/javascript' src='dwr/interface/DynamicListHelper.js'></script>
-<script type='text/javascript' src='js/lib/common/SidebarHelper.js'></script>
-
+	<script type='text/javascript' src='dwr/interface/Inbox.js'></script>
+	<script type='text/javascript' src='js/lib/common/SidebarHelper.js'></script>
+	<script type='text/javascript' src='js/lib/common/QueryDetailHelper.js'></script>
+	
 	<style type="text/css" media="screen">@import "css/tabs.css";</style>
