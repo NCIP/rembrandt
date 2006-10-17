@@ -108,8 +108,8 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	/* This is the current compound query that has been validated and is ready
 	 * to run...
 	 */
-	private transient CompoundQuery compoundQuery = null;
-
+	//private transient CompoundQuery compoundQuery = null;
+	private CompoundQuery compoundQuery = null;
 	public void putQuery(Query query, ActionForm form) {
 		if (query != null && query.getQueryName() != null) {
 			queryMap.put(query.getQueryName(), query);
