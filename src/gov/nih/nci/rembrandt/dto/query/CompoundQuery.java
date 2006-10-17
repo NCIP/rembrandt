@@ -267,6 +267,90 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		return outString;
 	}
 
+	/**
+	 * toString() method to generate Compound query for display - pcs
+	 */
+	public String toStringForSideBar() {
+		final String TITLE = "<B>Compound Query</B><br>";
+		final String BREAKER = "<BR><BR>";
+		final String LINKSTART = "<a href=\\\"javascript:void(0);\\\"" +
+						" onmouseover=\\\"return QueryDetailHelper.getQueryDetails('";
+		final String LINKMIDDLE = "');\\\" onmouseout=\\\"return nd();\\\">";
+		final String LINKEND = "</a>";
+		Queriable leftQuery = this.getLeftQuery();
+		Queriable rightQuery = this.getRightQuery();
+		OperatorType operator = this.getOperatorType();
+		String leftString = "";
+		String rightString = "";
+		String outString = "";
+
+		try {
+			if (leftQuery != null) {
+				if (leftQuery instanceof CompoundQuery) {
+					leftString += ((CompoundQuery) leftQuery).toStringForSideBar();
+				} else if (leftQuery instanceof Query) {
+					leftString += ((Query) leftQuery).getQueryName();
+					leftString = LINKSTART + leftString + LINKMIDDLE + leftString + LINKEND;
+				}
+			}
+
+			if (rightQuery != null) {
+				if (rightQuery instanceof CompoundQuery) {
+					rightString += ((CompoundQuery) rightQuery).toStringForSideBar();
+				} else if (rightQuery instanceof Query) {
+					rightString += ((Query) rightQuery).getQueryName();
+					rightString = LINKSTART + rightString + LINKMIDDLE + rightString + LINKEND;
+				}
+			}
+		} catch (Exception ex) {
+			logger.error(ex);
+		}
+
+		if (operator != null) {
+			outString += "( " + leftString + " " + operator.getOperatorType()
+					+ " " + rightString + " )";
+		} else {
+			outString = rightString;
+		}
+		outString = TITLE + outString + BREAKER;
+		return outString;
+	}
+
+	/**
+	 * toString() method to generate Compound query for display - pcs
+	 */
+	public String getQueryDetails(String queryName) {
+		Queriable leftQuery = this.getLeftQuery();
+		Queriable rightQuery = this.getRightQuery();
+
+		String queryString = "";
+
+		try {
+			if (leftQuery != null) {
+				if (leftQuery instanceof CompoundQuery) {
+					queryString = ((CompoundQuery)leftQuery).getQueryDetails(queryName);
+				} else if (leftQuery instanceof Query) {
+					if (queryName.equals(leftQuery.getQueryName()))
+						queryString = leftQuery.toString();
+				}
+			}
+			if (queryString.length() > 0)
+				return queryString;
+			
+			if (rightQuery != null) {
+				if (rightQuery instanceof CompoundQuery) {
+					queryString = ((CompoundQuery) rightQuery).getQueryDetails(queryName);
+				} else if (rightQuery instanceof Query) {
+					if (queryName.equals(rightQuery.getQueryName()))
+						queryString = rightQuery.toString();
+				}
+			}
+		} catch (Exception ex) {
+			logger.error(ex);
+		}
+		return queryString;
+	}
+	
 	public ViewType[] getValidViews() {
 		ViewType[] validViewTypes = null;
 		ArrayList queryTypesCollection = null;
