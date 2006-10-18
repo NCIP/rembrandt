@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.cache;
 
 import gov.nih.nci.caintegrator.application.cache.SessionTempReportCounter;
+import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -11,8 +12,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
-import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
-import gov.nih.nci.rembrandt.web.bean.RembrandtUserList;
+
 
 import java.io.File;
 import java.io.Serializable;
@@ -430,15 +430,15 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		}
 		return theBag;
 	}
-	public RembrandtUserListBean getRembrandtUserListBean(String sessionId){
+	public UserListBean getRembrandtUserListBean(String sessionId){
 		Cache sessionCache =  this.getSessionCache(sessionId);
 		System.out.print("");
-		RembrandtUserListBean theBean = null;
+		UserListBean theBean = null;
 		try {
 //			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_QUERY_BAG_KEY);
 			Object cacheElement = getPersistableObjectFromSessionCache(sessionId,RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY);
 			if(cacheElement != null){
-				theBean = (RembrandtUserListBean)cacheElement;
+				theBean = (UserListBean)cacheElement;
 			}
 		}catch(ClassCastException cce) {
 			logger.error("Someone put something other than a RembrandtUserListBean in the cache as a RembrandtUserListBean");
@@ -452,7 +452,7 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		if(theBean==null) {
 			
 			logger.debug("Creating new RembrandtUserListBean");
-			theBean = new RembrandtUserListBean();
+			theBean = new UserListBean();
 		}
 		return theBean;
 	}
@@ -658,7 +658,7 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		addPersistableToSessionCache(sessionId,RembrandtConstants.SESSION_QUERY_BAG_KEY, theBag );
 	}
 	
-	public void putRembrandtUserListBean(String sessionId, RembrandtUserListBean listBean){
+	public void putRembrandtUserListBean(String sessionId, UserListBean listBean){
 		addPersistableToSessionCache(sessionId, RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY, listBean );
 	}
 	public void removeRembrandtUserListBean(String sessionId){
