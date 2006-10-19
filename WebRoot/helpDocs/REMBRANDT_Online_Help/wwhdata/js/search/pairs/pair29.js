@@ -23,7 +23,7 @@ x.t("icon","save");
 x.t("displays","reporter");
 x.t("displays","search");
 x.t("-values","recalculated");
-x.t("sample","simple");
+x.t("sample","search");
 x.t("sample","groups");
 x.t("sample","data");
 x.t("kaplan-meier","survival");

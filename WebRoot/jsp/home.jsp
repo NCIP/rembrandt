@@ -67,7 +67,7 @@
 	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3);">
 	        Kaplan-Meier survival plot for Sample Data&nbsp;
 	        <br/><br/>
-	        <html:select property="groupName" style="margin-left:20px;" styleId="groupName" disabled="false">
+	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false">
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
 			
@@ -76,7 +76,8 @@
 	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
 	        -->
 	         vs. 
-	         <html:select property="groupNameCompare" styleId="groupNameCompare" disabled="false">
+	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false">
+	         
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
 	        <br/>

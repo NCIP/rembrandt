@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WebWorksHelpTOC version="5.0" xmlns="urn:WebWorks-Help-TOC-Schema">
-  <i t="Welcome to the REMBRANDT Online Help" l="0" />
+  <i t="Welcome to the REMBRANDT 1.5 Online Help" l="0" />
   <i t="Online Help Tips" l="1">
     <i t="Using REMBRANDT Online Help" l="1#1063568" />
   </i>
@@ -12,7 +12,7 @@
     <i t="Creating a User Account" l="6" />
     <i t="Logging In" l="7" />
     <i t="Accepting REMBRANDT Provisions" l="8" />
-    <i t="Welcome to REMBRANDT" l="9" />
+    <i t="Welcome to REMBRANDT 1.5" l="9" />
     <i t="Getting Help" l="10" />
     <i t="Logging Out" l="11" />
   </i>
@@ -37,7 +37,7 @@
       <i t="Redrawing the K-M Survival Plot for Copy Number Data" l="26" />
       <i t="Understanding K-M Survival Plot for Copy Number Data" l="27" />
     </i>
-    <i t="K-M Sample Simple Search" l="28">
+    <i t="K-M Sample Search" l="28">
       <i t="Understanding K-M Survival Plot for Sample Data" l="29" />
     </i>
     <i t="Viewing the Clinical Reports" l="30" />
@@ -78,7 +78,7 @@
     </i>
     <i t="High Order Analysis Results" l="59">
       <i t="Class Comparison Report" l="60">
-        <i t="Filtering a p-value (Filter p-value toolbar)" l="61" />
+        <i t="Filtering a p-value (Filter p-value Toolbar)" l="61" />
         <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="62" />
         <i t="Resorting Column Results" l="63" />
       </i>

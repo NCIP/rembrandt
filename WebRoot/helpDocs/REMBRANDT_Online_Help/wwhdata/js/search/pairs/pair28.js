@@ -3,7 +3,7 @@ function FileData_Pairs(x)
 x.t("survival","plot");
 x.t("purposes.","click");
 x.t("create","kaplan-meier");
-x.t("sample","simple");
+x.t("sample","search");
 x.t("sample","follow");
 x.t("sample","drop-down");
 x.t("sample","data");

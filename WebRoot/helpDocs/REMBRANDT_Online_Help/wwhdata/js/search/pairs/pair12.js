@@ -2,7 +2,7 @@ function FileData_Pairs(x)
 {
 x.t("describes","rembrandt");
 x.t("create","graphs");
-x.t("sample","simple");
+x.t("sample","search");
 x.t("repository","create");
 x.t("back","forward");
 x.t("simple","searches");

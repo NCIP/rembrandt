@@ -1,6 +1,6 @@
 function  WWHBookData_AddTOCEntries(P)
 {
-var A=P.fN("Welcome to the REMBRANDT Online Help","0");
+var A=P.fN("Welcome to the REMBRANDT 1.5 Online Help","0");
 A=P.fN("Online Help Tips","1");
 var B=A.fN("Using REMBRANDT Online Help","1#1063568");
 A=P.fN("About REMBRANDT 1.5","2");
@@ -10,7 +10,7 @@ A=P.fN("Getting Started with REM\u00adBRANDT 1.5","5");
 B=A.fN("Creating a User Account","6");
 B=A.fN("Logging In","7");
 B=A.fN("Accepting REMBRANDT Provisions","8");
-B=A.fN("Welcome to REMBRANDT","9");
+B=A.fN("Welcome to REMBRANDT 1.5","9");
 B=A.fN("Getting Help","10");
 B=A.fN("Logging Out","11");
 A=P.fN("Conducting a Simple Search","12");
@@ -29,7 +29,7 @@ C=B.fN("Understanding K-M Survival Plot for Gene Expression Data","24");
 B=A.fN("K-M Copy Number Simple Search","25");
 C=B.fN("Redrawing the K-M Survival Plot for Copy Number Data","26");
 C=B.fN("Understanding K-M Survival Plot for Copy Number Data","27");
-B=A.fN("K-M Sample Simple Search","28");
+B=A.fN("K-M Sample Search","28");
 C=B.fN("Understanding K-M Survival Plot for Sample Data","29");
 B=A.fN("Viewing the Clinical Reports","30");
 B=A.fN("Viewing Clinical Plots","31");
@@ -62,7 +62,7 @@ C=B.fN("Copy Number Sample Report","57");
 D=C.fN("Displaying Copy Number Sample Data in webGenome","58");
 B=A.fN("High Order Analysis Results","59");
 C=B.fN("Class Comparison Report","60");
-D=C.fN("Filtering a p-value (Filter p-value toolbar)","61");
+D=C.fN("Filtering a p-value (Filter p-value Toolbar)","61");
 D=C.fN("Selecting and Saving Reporters (Select Reporters toolbar)","62");
 D=C.fN("Resorting Column Results","63");
 C=B.fN("Principal Component Analysis Plot","64");

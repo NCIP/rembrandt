@@ -1,6 +1,6 @@
 function  WWHBookData_Files(P)
 {
-P.fA("Welcome to the REMBRANDT Online Help","Welcome.1.1.html");
+P.fA("Welcome to the REMBRANDT 1.5 Online Help","Welcome.1.1.html");
 P.fA("Online Help Tips","OnlineHelpBoilerplate.2.1.html");
 P.fA("About REMBRANDT 1.5","rembrandt1.5_About_REMBRANDT.3.1.html");
 P.fA("About REMBRANDT","rembrandt1.5_About_REMBRANDT.3.2.html");
@@ -9,7 +9,7 @@ P.fA("Getting Started with REM\u00adBRANDT 1.5","rembrandt1.5_Getting_Started.4.
 P.fA("Creating a User Account","rembrandt1.5_Getting_Started.4.2.html");
 P.fA("Logging In","rembrandt1.5_Getting_Started.4.3.html");
 P.fA("Accepting REMBRANDT Provisions","rembrandt1.5_Getting_Started.4.4.html");
-P.fA("Welcome to REMBRANDT","rembrandt1.5_Getting_Started.4.5.html");
+P.fA("Welcome to REMBRANDT 1.5","rembrandt1.5_Getting_Started.4.5.html");
 P.fA("Getting Help","rembrandt1.5_Getting_Started.4.6.html");
 P.fA("Logging Out","rembrandt1.5_Getting_Started.4.7.html");
 P.fA("Conducting a Simple Search","rembrandt1.5_Simple_Searches.5.1.html");
@@ -28,7 +28,7 @@ P.fA("Understanding K-M Survival Plot for Gene Expression Data","rembrandt1.5_Si
 P.fA("K-M Copy Number Simple Search","rembrandt1.5_Simple_Searches.5.14.html");
 P.fA("Redrawing the K-M Survival Plot for Copy Number Data","rembrandt1.5_Simple_Searches.5.15.html");
 P.fA("Understanding K-M Survival Plot for Copy Number Data","rembrandt1.5_Simple_Searches.5.16.html");
-P.fA("K-M Sample Simple Search","rembrandt1.5_Simple_Searches.5.17.html");
+P.fA("K-M Sample Search","rembrandt1.5_Simple_Searches.5.17.html");
 P.fA("Understanding K-M Survival Plot for Sample Data","rembrandt1.5_Simple_Searches.5.18.html");
 P.fA("Viewing the Clinical Reports","rembrandt1.5_Simple_Searches.5.19.html");
 P.fA("Viewing Clinical Plots","rembrandt1.5_Simple_Searches.5.20.html");
@@ -61,7 +61,7 @@ P.fA("Copy Number Sample Report","rembrandt1.5_View%20Results.8.12.html");
 P.fA("Displaying Copy Number Sample Data in webGenome","rembrandt1.5_View%20Results.8.13.html");
 P.fA("High Order Analysis Results","rembrandt1.5_View%20Results.8.14.html");
 P.fA("Class Comparison Report","rembrandt1.5_View%20Results.8.15.html");
-P.fA("Filtering a p-value (Filter p-value toolbar)","rembrandt1.5_View%20Results.8.16.html");
+P.fA("Filtering a p-value (Filter p-value Toolbar)","rembrandt1.5_View%20Results.8.16.html");
 P.fA("Selecting and Saving Reporters (Select Reporters toolbar)","rembrandt1.5_View%20Results.8.17.html");
 P.fA("Resorting Column Results","rembrandt1.5_View%20Results.8.18.html");
 P.fA("Principal Component Analysis Plot","rembrandt1.5_View%20Results.8.19.html");

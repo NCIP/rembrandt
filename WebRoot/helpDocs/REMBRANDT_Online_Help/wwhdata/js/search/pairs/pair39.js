@@ -11,7 +11,7 @@ x.t("delete","existing");
 x.t("back","forward");
 x.t("advanced","searches");
 x.t("advanced","search");
-x.t("advanced","searches:");
+x.t("advanced","searches.");
 x.t("button.","perform");
 x.t("button.","copy");
 x.t("counter","next");

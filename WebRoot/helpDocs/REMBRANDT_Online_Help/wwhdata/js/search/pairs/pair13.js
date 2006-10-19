@@ -4,7 +4,7 @@ x.t("survival","plots");
 x.t("survival","plot");
 x.t("create","clinical");
 x.t("kaplan-meier","survival");
-x.t("sample","simple");
+x.t("sample","search");
 x.t("sample","data");
 x.t("back","forward");
 x.t("simple","search");

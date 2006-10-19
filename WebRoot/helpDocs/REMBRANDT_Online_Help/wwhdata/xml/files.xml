@@ -38,7 +38,7 @@
     <h7 weight="2" />
   </ScoringPrefs>
   <DocumentInfo>
-    <Document title="Welcome to the REMBRANDT Online Help" href="Welcome.1.1.html" />
+    <Document title="Welcome to the REMBRANDT 1.5 Online Help" href="Welcome.1.1.html" />
     <Document title="Online Help Tips" href="OnlineHelpBoilerplate.2.1.html" />
     <Document title="About REMBRANDT 1.5" href="rembrandt1.5_About_REMBRANDT.3.1.html" />
     <Document title="About REMBRANDT" href="rembrandt1.5_About_REMBRANDT.3.2.html" />
@@ -47,7 +47,7 @@
     <Document title="Creating a User Account" href="rembrandt1.5_Getting_Started.4.2.html" />
     <Document title="Logging In" href="rembrandt1.5_Getting_Started.4.3.html" />
     <Document title="Accepting REMBRANDT Provisions" href="rembrandt1.5_Getting_Started.4.4.html" />
-    <Document title="Welcome to REMBRANDT" href="rembrandt1.5_Getting_Started.4.5.html" />
+    <Document title="Welcome to REMBRANDT 1.5" href="rembrandt1.5_Getting_Started.4.5.html" />
     <Document title="Getting Help" href="rembrandt1.5_Getting_Started.4.6.html" />
     <Document title="Logging Out" href="rembrandt1.5_Getting_Started.4.7.html" />
     <Document title="Conducting a Simple Search" href="rembrandt1.5_Simple_Searches.5.1.html" />
@@ -66,7 +66,7 @@
     <Document title="K-M Copy Number Simple Search" href="rembrandt1.5_Simple_Searches.5.14.html" />
     <Document title="Redrawing the K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.15.html" />
     <Document title="Understanding K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.16.html" />
-    <Document title="K-M Sample Simple Search" href="rembrandt1.5_Simple_Searches.5.17.html" />
+    <Document title="K-M Sample Search" href="rembrandt1.5_Simple_Searches.5.17.html" />
     <Document title="Understanding K-M Survival Plot for Sample Data" href="rembrandt1.5_Simple_Searches.5.18.html" />
     <Document title="Viewing the Clinical Reports" href="rembrandt1.5_Simple_Searches.5.19.html" />
     <Document title="Viewing Clinical Plots" href="rembrandt1.5_Simple_Searches.5.20.html" />
@@ -99,7 +99,7 @@
     <Document title="Displaying Copy Number Sample Data in webGenome" href="rembrandt1.5_View%20Results.8.13.html" />
     <Document title="High Order Analysis Results" href="rembrandt1.5_View%20Results.8.14.html" />
     <Document title="Class Comparison Report" href="rembrandt1.5_View%20Results.8.15.html" />
-    <Document title="Filtering a p-value (Filter p-value toolbar)" href="rembrandt1.5_View%20Results.8.16.html" />
+    <Document title="Filtering a p-value (Filter p-value Toolbar)" href="rembrandt1.5_View%20Results.8.16.html" />
     <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt1.5_View%20Results.8.17.html" />
     <Document title="Resorting Column Results" href="rembrandt1.5_View%20Results.8.18.html" />
     <Document title="Principal Component Analysis Plot" href="rembrandt1.5_View%20Results.8.19.html" />
@@ -115,7 +115,7 @@
     <Document title="Glossary" href="rembrandt1.5_Glossary.10.1.html" />
   </DocumentInfo>
   <TopicMap>
-    <Topic name="About_rembrandt" href="rembrandt1.5_About_REMBRANDT.3.2.html#1084922" />
+    <Topic name="About_rembrandt" href="rembrandt1.5_About_REMBRANDT.3.2.html#1091443" />
     <Topic name="Rules_of_the_road" href="rembrandt1.5_Getting_Started.4.4.html#1095258" />
     <Topic name="Welcome" href="rembrandt1.5_Getting_Started.4.5.html#1092743" />
     <Topic name="Logging_out" href="rembrandt1.5_Getting_Started.4.7.html#1095030" />
@@ -131,18 +131,18 @@
     <Topic name="Advanced_overview" href="rembrandt1.5_Adv_Searches.6.2.html#1110870" />
     <Topic name="Advanced_gene_expression" href="rembrandt1.5_Adv_Searches.6.3.html#1106380" />
     <Topic name="GO_id_list" href="rembrandt1.5_Adv_Searches.6.4.html#1099861" />
-    <Topic name="Browse_pathway" href="rembrandt1.5_Adv_Searches.6.5.html#1074809" />
+    <Topic name="Browse_pathway" href="rembrandt1.5_Adv_Searches.6.5.html#1141063" />
     <Topic name="Advanced_copy_number" href="rembrandt1.5_Adv_Searches.6.6.html#1101162" />
     <Topic name="Advanced_clinical_data" href="rembrandt1.5_Adv_Searches.6.7.html#1111942" />
-    <Topic name="Refine_query" href="rembrandt1.5_Adv_Searches.6.9.html#1113537" />
+    <Topic name="Refine_query" href="rembrandt1.5_Adv_Searches.6.9.html#1141191" />
     <Topic name="HOA_overview" href="rembrandt1.5_High_Order_Analysis.7.2.html#1067499" />
-    <Topic name="Class_comparison" href="rembrandt1.5_High_Order_Analysis.7.3.html#1072822" />
-    <Topic name="PCA_analysis" href="rembrandt1.5_High_Order_Analysis.7.4.html#1082328" />
+    <Topic name="Class_comparison" href="rembrandt1.5_High_Order_Analysis.7.3.html#1092908" />
+    <Topic name="PCA_analysis" href="rembrandt1.5_High_Order_Analysis.7.4.html#1092212" />
     <Topic name="HCA_analysis" href="rembrandt1.5_High_Order_Analysis.7.5.html#1076040" />
     <Topic name="View_results_overview" href="rembrandt1.5_View%20Results.8.2.html#1067499" />
     <Topic name="Gene_Expression_Sample" href="rembrandt1.5_View%20Results.8.4.html#1083316" />
     <Topic name="Gene_Expression_Disease" href="rembrandt1.5_View%20Results.8.11.html#1085962" />
-    <Topic name="Copy_Number_Sample" href="rembrandt1.5_View%20Results.8.12.html#1083616" />
+    <Topic name="Copy_Number_Sample" href="rembrandt1.5_View%20Results.8.12.html#1096241" />
     <Topic name="Class_comparison_report" href="rembrandt1.5_View%20Results.8.15.html#1082972" />
     <Topic name="PCA_report" href="rembrandt1.5_View%20Results.8.19.html#1082922" />
     <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.20.html#1088992" />

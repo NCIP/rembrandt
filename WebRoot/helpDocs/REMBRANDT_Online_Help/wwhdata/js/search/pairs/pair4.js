@@ -4,6 +4,7 @@ x.t("survival","plots");
 x.t("study","analysis");
 x.t("managing","lists");
 x.t("files","brb-arraytools.");
+x.t("lists","overview");
 x.t("lists","manage");
 x.t("table","describes");
 x.t("describes","rembrandt");
