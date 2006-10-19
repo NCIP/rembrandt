@@ -229,7 +229,13 @@ public class ClinicalSampleReport implements ReportGenerator {
 				rows.add(sampleResultset.getOnStudySurgeryHistoDiagnoses());
 				rows.add(sampleResultset.getOnStudySurgerySurgeryOutcomes());
 				*/
-				for(int i=0; i<rows.size(); i++)	{
+				
+				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "sample");
+			        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(0)));
+	        		data = null;
+	        	 cell = null;
+        	 
+				for(int i=1; i<rows.size(); i++)	{
 					 cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 				        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(i)));
 		        		data = null;
