@@ -166,6 +166,24 @@ function A_saveSamples_cb(txt)	{
 }
 
 
+function clinical2km()	{
+
+	try	{
+		var commaSepList = allSamplesFromClinical.join(",");
+		//alert(commaSepList);
+		DynamicReport.saveSamples(commaSepList, "SamplesFromClinicalReport", clinical2km_cb);
+	}
+	catch(err){}
+
+}
+
+
+function clinical2km_cb()	{
+	//alert("I am back");
+	window.opener.location.href="jsp/clinical2km.jsp";
+	window.opener.focus();
+
+}
 
 /*********************
 END SAVE SAMPLES

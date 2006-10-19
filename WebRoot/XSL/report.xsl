@@ -124,6 +124,8 @@
 				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.do?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
 				 <img src="images/plotSmall.png" style="padding:1px;border:1px solid red; vertical-align:middle; margin-left:1px;margin-right:5px; height:13px; width: 28px;" />
 				 </a>
+				 <br/>
+				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:clinical2km();">[view KM plot: all samples vs.  rest of samples]</a>
 			 </span>
 			</xsl:if>
 		</b>
