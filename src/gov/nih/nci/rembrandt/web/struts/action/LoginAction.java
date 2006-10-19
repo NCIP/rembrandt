@@ -6,12 +6,10 @@ import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
-import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
+
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
-import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
-import gov.nih.nci.rembrandt.web.bean.RembrandtUserList;
 
 import java.util.Enumeration;
 import java.util.List;
@@ -125,10 +123,10 @@ public final class LoginAction extends Action
             	e.printStackTrace();
             }
             //Now check there are customLists in the cache
-            RembrandtUserListBean cachedBean = _cacheManager.getRembrandtUserListBean(session.getId());
+            UserListBean cachedBean = _cacheManager.getRembrandtUserListBean(session.getId());
             if (cachedBean != null && !cachedBean.getEntireList().isEmpty()){
-            	List<RembrandtUserList> customLists = cachedBean.getEntireList();
-            	for (RembrandtUserList theList : customLists){
+            	List<UserList> customLists = cachedBean.getEntireList();
+            	for (UserList theList : customLists){
             		UserList userList = getUserList(theList);
             		userListBean.addList(userList);
             	}
@@ -144,7 +142,7 @@ public final class LoginAction extends Action
         else
             return (mapping.findForward("failure"));  
     }
-    private UserList getUserList(RembrandtUserList theList){
+    private UserList getUserList(UserList theList){
     	UserList userList = new UserList();
         try {
         	userList.setDateCreated(theList.getDateCreated());

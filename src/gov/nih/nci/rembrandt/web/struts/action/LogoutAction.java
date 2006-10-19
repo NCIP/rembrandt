@@ -8,8 +8,7 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LogoutForm;
-import gov.nih.nci.rembrandt.web.bean.RembrandtUserListBean;
-import gov.nih.nci.rembrandt.web.bean.RembrandtUserList;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -112,11 +111,7 @@ public final class LogoutAction extends Action
         		
         		List<UserList> customLists = this.containsCustomList(userListBean.getEntireList());
         		if (!customLists.isEmpty()){
-        			RembrandtUserListBean rembrandtUserListBean = new RembrandtUserListBean();
-        			for (UserList userList : customLists){
-        				rembrandtUserListBean.addList(new RembrandtUserList(userList));
-        			}
-        			_cacheManager.putRembrandtUserListBean(request.getSession().getId(), rembrandtUserListBean);
+        			_cacheManager.putRembrandtUserListBean(request.getSession().getId(), userListBean);
         		}
         		_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
         	}
