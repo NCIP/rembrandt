@@ -114,8 +114,8 @@
 				(Query Name:<xsl:value-of select="@queryName" />)
 			</span>
 		
-			<xsl:if test="$rType = 'Copy Number' and contains($qName, 'previewResults') = false">
-				<a href="#" id="switchToClinical" onclick="prepQuickClinical();return false;" style="font-size:10px">[View Clinical Report for all samples]</a>
+			<xsl:if test="($rType = 'Gene Expression Sample' or $rType = 'Copy Number') and contains($qName, 'previewResults') = false">
+				<br/><a href="#" id="switchToClinical" onclick="prepQuickClinical();return false;" style="font-size:10px">[View Clinical Report for all samples]</a>
 				<form id="quickClinicalWrapper"></form>
 			</xsl:if>
 			
