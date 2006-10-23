@@ -78,6 +78,7 @@ public class ViewResultsForm extends BaseForm {
 	private ActionErrors errors = new ActionErrors();;
 	
 	private Collection reportBeans = new ArrayList();
+	private Collection compoundQueries = new ArrayList();
 
 	private String selectedResultSet = null;
 	
@@ -179,11 +180,19 @@ public class ViewResultsForm extends BaseForm {
 	private void setViewResultsLookups(HttpServletRequest request) {
 		String sessionId = request.getSession().getId();
 		setReportBeans(presentationTierCache.getAllReportBeans(sessionId));
-		
+		setCompoundQueries(presentationTierCache.getSessionQueryBag(sessionId).getCompoundQueries());
 		//setResultsets();//grabs report beans that meet crit.
 		//setQueryTextList(); // run through loop for each resultset and set text
 		//setCompoundView(); // loop through for each resultset and set view
-		
-		
+	}
+
+
+	public Collection getCompoundQueries() {
+		return compoundQueries;
+	}
+
+
+	public void setCompoundQueries(Collection compoundQueries) {
+		this.compoundQueries = compoundQueries;
 	}
 }
