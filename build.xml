@@ -1,4 +1,4 @@
-<project name="rembrandt" default="build_war" basedir=".">
+<project name="rembrandt" default="build_war_anthill" basedir=".">
 	<property file="build.properties" />
 
 	<!--
