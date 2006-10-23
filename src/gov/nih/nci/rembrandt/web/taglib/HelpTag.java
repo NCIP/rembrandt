@@ -8,6 +8,8 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.commons.lang.StringUtils;
+
 
 
 /**
@@ -87,7 +89,7 @@ public class HelpTag implements Tag, Serializable {
 	}
 
 	public void setHelp(String s) {
-		help = s;
+		help = s.replace("'", "\\\'").replace("\"", "\\\"");
 	}
 	
 	public String getHelp() {
