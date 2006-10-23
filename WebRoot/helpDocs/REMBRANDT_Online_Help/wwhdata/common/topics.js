@@ -1,13 +1,14 @@
 function  WWHBookData_MatchTopic(P)
 {
 var C=null;
-if(P=="About_rembrandt")C="rembrandt1.5_About_REMBRANDT.3.2.html#1091443";
+if(P=="Welcome")C="Welcome.1.1.html#1052621";
+if(P=="Logging_in")C="rembrandt1.5_Getting_Started.4.3.html#1096445";
 if(P=="Rules_of_the_road")C="rembrandt1.5_Getting_Started.4.4.html#1095258";
-if(P=="Welcome")C="rembrandt1.5_Getting_Started.4.5.html#1092743";
-if(P=="Logging_out")C="rembrandt1.5_Getting_Started.4.7.html#1095030";
+if(P=="Logging_out")C="rembrandt1.5_Getting_Started.4.8.html#1111610";
 if(P=="Simple_search_overview")C="rembrandt1.5_Simple_Searches.5.2.html#1067499";
 if(P=="Simple_gene_expression_plot")C="rembrandt1.5_Simple_Searches.5.4.html#1100403";
 if(P=="Coin_plot")C="rembrandt1.5_Simple_Searches.5.8.html#1118993";
+if(P=="Gene_expression_new_window")C="rembrandt1.5_Simple_Searches.5.9.html#1118352";
 if(P=="Eliminating_aliases")C="rembrandt1.5_Simple_Searches.5.11.html#1084807";
 if(P=="Simple_KM_gene_expression_plot")C="rembrandt1.5_Simple_Searches.5.13.html#1080837";
 if(P=="Simple_KM_copy_number_plot")C="rembrandt1.5_Simple_Searches.5.16.html#1101247";

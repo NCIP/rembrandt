@@ -14,86 +14,87 @@
     <i t="Accepting REMBRANDT Provisions" l="8" />
     <i t="Welcome to REMBRANDT 1.5" l="9" />
     <i t="Getting Help" l="10" />
-    <i t="Logging Out" l="11" />
+    <i t="Application Support" l="11" />
+    <i t="Logging Out" l="12" />
   </i>
-  <i t="Conducting a Simple Search" l="12">
-    <i t="Simple Search Overview" l="13" />
-    <i t="Gene Expression Simple Search" l="14">
-      <i t="Understanding a Gene Expression Plot" l="15">
-        <i t="Geometric Mean Plot Details" l="16" />
-        <i t="Log2 Intensity Gene Expression Plot Details" l="17" />
-        <i t="Box and Whisker Log2 Intensity Gene Expression Plot Details" l="18">
-          <i t="Displaying a Coin Plot" l="19" />
+  <i t="Conducting a Simple Search" l="13">
+    <i t="Simple Search Overview" l="14" />
+    <i t="Gene Expression Simple Search" l="15">
+      <i t="Understanding a Gene Expression Plot" l="16">
+        <i t="Geometric Mean Plot Details" l="17" />
+        <i t="Log2 Intensity Gene Expression Plot Details" l="18" />
+        <i t="Box and Whisker Log2 Intensity Gene Expression Plot Details" l="19">
+          <i t="Displaying a Coin Plot" l="20" />
         </i>
-        <i t="Saving, Printing, and E-mailing a Gene Expression Plot" l="20" />
+        <i t="Saving, Printing, and E-mailing a Gene Expression Plot" l="21" />
       </i>
     </i>
-    <i t="K-M Gene Expression Simple Search" l="21">
-      <i t="Eliminating Aliases" l="22" />
-      <i t="Redrawing the K-M Survival Plot for Gene Expression Data" l="23" />
-      <i t="Understanding K-M Survival Plot for Gene Expression Data" l="24" />
+    <i t="K-M Gene Expression Simple Search" l="22">
+      <i t="Eliminating Aliases" l="23" />
+      <i t="Redrawing the K-M Survival Plot for Gene Expression Data" l="24" />
+      <i t="Understanding K-M Survival Plot for Gene Expression Data" l="25" />
     </i>
-    <i t="K-M Copy Number Simple Search" l="25">
-      <i t="Redrawing the K-M Survival Plot for Copy Number Data" l="26" />
-      <i t="Understanding K-M Survival Plot for Copy Number Data" l="27" />
+    <i t="K-M Copy Number Simple Search" l="26">
+      <i t="Redrawing the K-M Survival Plot for Copy Number Data" l="27" />
+      <i t="Understanding K-M Survival Plot for Copy Number Data" l="28" />
     </i>
-    <i t="K-M Sample Search" l="28">
-      <i t="Understanding K-M Survival Plot for Sample Data" l="29" />
+    <i t="K-M Sample Search" l="29">
+      <i t="Understanding K-M Survival Plot for Sample Data" l="30" />
     </i>
-    <i t="Viewing the Clinical Reports" l="30" />
-    <i t="Viewing Clinical Plots" l="31" />
+    <i t="Viewing the Clinical Reports" l="31" />
+    <i t="Viewing Clinical Plots" l="32" />
   </i>
-  <i t="Conducting Advanced Searches" l="32">
-    <i t="Advanced Searches Overview" l="33" />
-    <i t="Gene Expression Advanced Search" l="34">
-      <i t="Selecting a Gene Ontology (GO) Classification" l="35" />
-      <i t="Selecting a Pathway" l="36" />
+  <i t="Conducting Advanced Searches" l="33">
+    <i t="Advanced Searches Overview" l="34" />
+    <i t="Gene Expression Advanced Search" l="35">
+      <i t="Selecting a Gene Ontology (GO) Classification" l="36" />
+      <i t="Selecting a Pathway" l="37" />
     </i>
-    <i t="Copy Number Advanced Search" l="37" />
-    <i t="Clinical Study Advanced Search" l="38" />
-    <i t="Managing Advanced Searches" l="39" />
-    <i t="Refining a Query" l="40" />
+    <i t="Copy Number Advanced Search" l="38" />
+    <i t="Clinical Study Advanced Search" l="39" />
+    <i t="Managing Advanced Searches" l="40" />
+    <i t="Refining a Query" l="41" />
   </i>
-  <i t="High Order Analysis" l="41">
-    <i t="High Order Analysis Overview" l="42" />
-    <i t="Performing a Class Comparison" l="43" />
-    <i t="Performing a Principal Component Analysis" l="44" />
-    <i t="Performing Hierarchical Clustering Analysis" l="45" />
+  <i t="High Order Analysis" l="42">
+    <i t="High Order Analysis Overview" l="43" />
+    <i t="Performing a Class Comparison" l="44" />
+    <i t="Performing a Principal Component Analysis" l="45" />
+    <i t="Performing Hierarchical Clustering Analysis" l="46" />
   </i>
-  <i t="Viewing Results" l="46">
-    <i t="Results Overview" l="47" />
-    <i t="Advanced Search or Query Results" l="48">
-      <i t="Gene Expression Sample Report" l="49">
-        <i t="Filtering Results by Gene or Reporter (Filter Toolbar)" l="50" />
-        <i t="Highlighting Results By Value (Highlight Toolbar)" l="51" />
-        <i t="Selecting and Saving Sample Results (Select Samples Toolbar)" l="52" />
-        <i t="Differentiating Data (Show All Values Toolbar)" l="53" />
-        <i t="Removing Columns (Hide Diseases toolbar)" l="54" />
-        <i t="Showing Additional Information" l="55" />
+  <i t="Viewing Results" l="47">
+    <i t="Results Overview" l="48" />
+    <i t="Advanced Search or Query Results" l="49">
+      <i t="Gene Expression Sample Report" l="50">
+        <i t="Filtering Results by Gene or Reporter (Filter Toolbar)" l="51" />
+        <i t="Highlighting Results By Value (Highlight Toolbar)" l="52" />
+        <i t="Selecting and Saving Sample Results (Select Samples Toolbar)" l="53" />
+        <i t="Differentiating Data (Show All Values Toolbar)" l="54" />
+        <i t="Removing Columns (Hide Diseases toolbar)" l="55" />
+        <i t="Showing Additional Information" l="56" />
       </i>
-      <i t="Gene Expression Disease Report" l="56" />
-      <i t="Copy Number Sample Report" l="57">
-        <i t="Displaying Copy Number Sample Data in webGenome" l="58" />
+      <i t="Gene Expression Disease Report" l="57" />
+      <i t="Copy Number Sample Report" l="58">
+        <i t="Displaying Copy Number Sample Data in webGenome" l="59" />
       </i>
     </i>
-    <i t="High Order Analysis Results" l="59">
-      <i t="Class Comparison Report" l="60">
-        <i t="Filtering a p-value (Filter p-value Toolbar)" l="61" />
-        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="62" />
-        <i t="Resorting Column Results" l="63" />
+    <i t="High Order Analysis Results" l="60">
+      <i t="Class Comparison Report" l="61">
+        <i t="Filtering a p-value (Filter p-value Toolbar)" l="62" />
+        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="63" />
+        <i t="Resorting Column Results" l="64" />
       </i>
-      <i t="Principal Component Analysis Plot" l="64" />
-      <i t="Hierarchical Clustering Report" l="65" />
+      <i t="Principal Component Analysis Plot" l="65" />
+      <i t="Hierarchical Clustering Report" l="66" />
     </i>
-    <i t="Downloading BRB Files" l="66" />
+    <i t="Downloading BRB Files" l="67" />
   </i>
-  <i t="Managing Lists" l="67">
-    <i t="Managing Lists Overview" l="68" />
-    <i t="Viewing the Data Items in a List" l="69" />
-    <i t="Removing Data Items to Create a New List" l="70" />
-    <i t="Combining Existing Lists to Create a New List" l="71" />
-    <i t="Deleting an Entire List" l="72" />
-    <i t="Adding a New “Custom” List" l="73" />
+  <i t="Managing Lists" l="68">
+    <i t="Managing Lists Overview" l="69" />
+    <i t="Viewing the Data Items in a List" l="70" />
+    <i t="Removing Data Items to Create a New List" l="71" />
+    <i t="Combining Existing Lists to Create a New List" l="72" />
+    <i t="Deleting an Entire List" l="73" />
+    <i t="Adding a New “Custom” List" l="74" />
   </i>
-  <i t="Glossary" l="74" />
+  <i t="Glossary" l="75" />
 </WebWorksHelpTOC>

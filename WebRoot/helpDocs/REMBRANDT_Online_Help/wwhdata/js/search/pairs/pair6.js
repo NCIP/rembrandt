@@ -31,6 +31,7 @@ x.t("unique","user");
 x.t("1.5","creating");
 x.t("assigned","determines");
 x.t("rembrandt","user");
+x.t("rembrandt","logging");
 x.t("rembrandt","login");
 x.t("301-451-4384","(local)");
 x.t("given","unique");
@@ -48,6 +49,8 @@ x.t("(local)","ncicb");
 x.t("password","link");
 x.t("password","assigned");
 x.t("password","ncicb");
+x.t("support.","log");
 x.t("software.","user");
 x.t("ncicb@pop.nci.nih.gov","888-478-4423");
+x.t("log","rembrandt");
 }
