@@ -116,6 +116,34 @@ public class DeleteQueryAction extends DispatchAction {
 		   return mapping.findForward("menuPage");		
 	     }
 	
+	/** 
+	 * Method execute
+	 * @param ActionMapping mapping
+	 * @param ActionForm form
+	 * @param HttpServletRequest request
+	 * @param HttpServletResponse response
+	 * @return ActionForward
+	 * @throws Exception
+	 */
+	public ActionForward deleteCompoundQuery(
+		ActionMapping mapping,
+		ActionForm form,
+		HttpServletRequest request,
+		HttpServletResponse response)
+		throws Exception {
+		   DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
+		   String page = (String)request.getSession().getAttribute("currentPage");
+		   logger.debug("the current page is :"+page);
+		   String sessionId = request.getSession().getId();
+		   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+		   if(queryBag != null){			     
+			  String queryKey = deleteQueryForm.getQueryKey();
+			  logger.debug("queryKey is ************:"+queryKey);		  
+			  queryBag.removeCompoundQuery(queryKey);	 
+			}  	 	
+		   return mapping.findForward("menuPage");		
+	     }
+	
 	public ActionForward editQuery(
 			ActionMapping mapping,
 			ActionForm form,
@@ -202,6 +230,7 @@ public class DeleteQueryAction extends DispatchAction {
 	  * 	--Dave
 	  */
 	 queryColl.clear();
+	 queryBag.getCompoundQueryMap().clear();
 	 return mapping.findForward("menuPage");			
 	
 	}
