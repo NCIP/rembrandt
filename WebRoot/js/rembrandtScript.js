@@ -148,11 +148,11 @@ function moveEm(formElement)	{
 	}
 	
 }
-function selectToolTip(type)	{
+function selectToolTip(type, returnString)	{
 			var theText = "";
 
 			var txt = "";
-			var el = type.value;
+			var el = type.value ? type.value : type;
 			txt += (el!="") ? el : "";
 			switch(el)	{
 				case "ASTROCYTOMA":
@@ -183,12 +183,20 @@ function selectToolTip(type)	{
 			
 				default:
 					//theText = "Select a tumor type to see its sub-types";
-					return;
+					//return;
 					break;
 			
 			
 			}
-			return overlib(theText, CAPTION, txt+' Tumor Sub-types', WIDTH, 300);
+			if(arguments[1])	{
+				return theText;
+			}
+			else if(theText!="")	{
+				return overlib(theText, CAPTION, txt+' Tumor Sub-types', WIDTH, 300);
+			}
+			else	{
+				return;
+			}
 }	
 
 function changeList(formElement)	{	

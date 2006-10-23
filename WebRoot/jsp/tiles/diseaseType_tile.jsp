@@ -28,15 +28,31 @@ Grade:&nbsp;
 
 <script type="text/javascript">
 var ops = $('dSelect').options;
+
+var subhtm = "";
 for(var i=0; i<ops.length;i++)	{
-	$('dSelect').options[i].onmouseover = function()	{ return selectToolTip(this);};
-	$('dSelect').options[i].onmouseout = function() { return nd();};
+
+	if(ie)	{
+		if( selectToolTip( $('dSelect').options[i], "y" ) != "")	{
+			subhtm += "<a href=\"#\" onmouseout=\"return nd();\" onmouseover=\"return selectToolTip(\'"+$('dSelect').options[i].text + "\');\">"+$('dSelect').options[i].text+"</a> ";
+		}
+	}
+	else	{
+		$('dSelect').options[i].onmouseover = function()	{ return selectToolTip(this);};
+		$('dSelect').options[i].onmouseout = function() { return nd();};
+	}
 }
 </script>
 
 
 <br/>
 <b class="message">Mouseover disease types and any relevant sub-type will be displayed</b>
+<span id="ieStinks"></span>
+<script language="javascript">
+if(subhtm!="")	{
+	$('ieStinks').innerHTML = subhtm;
+}
+</script>
 <!-- 
 &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onmouseover="return selectToolTip(document.forms[0].tumorType);" onmouseout="return nd();">[sub-types]</a>
 -->
