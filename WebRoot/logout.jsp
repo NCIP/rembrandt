@@ -30,13 +30,13 @@
 			<div style="margin:10px;">
 			The feature I used/liked the most this session: 
 			<select name="usedMost">
-				<option>N/A</option>
+				<option value="">N/A</option>
 				<option>Gene Exp. Simple Search</option>
 			</select>
 			<br/><br/>
 			The feature I used/liked the least this session: 
 			<select name="usedLeast">
-				<option>N/A</option>
+				<option value="">N/A</option>
 				<option>Gene Exp. Simple Search</option>
 			</select>
 			<br/><br/>
