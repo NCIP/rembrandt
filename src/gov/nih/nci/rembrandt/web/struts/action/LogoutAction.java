@@ -102,37 +102,37 @@ public final class LogoutAction extends Action
         //see if we're collecting feedback?, should see if youre logged in first for sec <-- done in JSP
         if(session.getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null && (f.getGeneralFeedback()!=null || f.getUsedLeast()!=null || f.getUsedMost()!=null))	{
         	//we have feedback...clean it and send it
-        	
-        	//need to clean the generalFeedback field, also put this in the props as a template
-        	MailProps mp = new MailProps();
-        	/*
-        	String fdbk = "You have received new feedback from a registered user.\n\n"; //: " + ((session.getAttribute("name")!=null) ? session.getAttribute("name") : "N/A") + " ( " + request.getRemoteAddr() + " ) \n\n";
-        	fdbk += "General Feedback:\n";
-        	fdbk += (f.getGeneralFeedback()!=null)? f.getGeneralFeedback() : "None";
-        	fdbk += "\n\nUsed Most:\n";
-        	fdbk += (f.getUsedMost()!=null)? f.getUsedMost() : "None";
-        	fdbk += "\n\nUsed Least:\n";
-        	fdbk += (f.getUsedLeast()!=null)? f.getUsedLeast() : "None";
-        	*/
-        	String fdbk = System.getProperty("rembrandt.feedback.template");
-        	fdbk = fdbk.replace("{general}", (f.getGeneralFeedback()!=null)? f.getGeneralFeedback() : "None");
-        	fdbk = fdbk.replace("{most}",(f.getUsedMost()!=null)? f.getUsedMost() : "None" );
-        	fdbk = fdbk.replace("{least}", (f.getUsedLeast()!=null)? f.getUsedLeast() : "None");
-        	mp.setBody(fdbk);
-        	
-        	//MessageResources mr = getResources(request);
-        	// ^ if we want to store them in applicationResources.properties
-        	
-        	//the fields below should be in a props file
-        	//mp.setSmtp("mailfwd.nih.gov");
-        	mp.setSmtp(System.getProperty("rembrandt.feedback.mailSMPT"));
-        	//mp.setSubject("Rembrandt Application Feedback");
-        	mp.setSubject(System.getProperty("rembrandt.feedback.mailSubject"));
-        	//mp.setMailTo("landyr@mail.nih.gov");
-        	mp.setMailTo(System.getProperty("rembrandt.feedback.mailTo"));
-        	//mp.setMailFrom("no-reply@caintegrator.nci.nih.gov");
-        	mp.setMailFrom(System.getProperty("rembrandt.feedback.mailFrom"));
         	try	{
+	        	//need to clean the generalFeedback field, also put this in the props as a template
+	        	MailProps mp = new MailProps();
+	        	/*
+	        	String fdbk = "You have received new feedback from a registered user.\n\n"; //: " + ((session.getAttribute("name")!=null) ? session.getAttribute("name") : "N/A") + " ( " + request.getRemoteAddr() + " ) \n\n";
+	        	fdbk += "General Feedback:\n";
+	        	fdbk += (f.getGeneralFeedback()!=null)? f.getGeneralFeedback() : "None";
+	        	fdbk += "\n\nUsed Most:\n";
+	        	fdbk += (f.getUsedMost()!=null)? f.getUsedMost() : "None";
+	        	fdbk += "\n\nUsed Least:\n";
+	        	fdbk += (f.getUsedLeast()!=null)? f.getUsedLeast() : "None";
+	        	*/
+	        	String fdbk = System.getProperty("rembrandt.feedback.template");
+	        	fdbk = fdbk.replace("{general}", (f.getGeneralFeedback()!=null)? f.getGeneralFeedback() : "None");
+	        	fdbk = fdbk.replace("{most}",(f.getUsedMost()!=null)? f.getUsedMost() : "None" );
+	        	fdbk = fdbk.replace("{least}", (f.getUsedLeast()!=null)? f.getUsedLeast() : "None");
+	        	mp.setBody(fdbk);
+	        	
+	        	//MessageResources mr = getResources(request);
+	        	// ^ if we want to store them in applicationResources.properties
+	        	
+	        	//the fields below should be in a props file
+	        	//mp.setSmtp("mailfwd.nih.gov");
+	        	mp.setSmtp(System.getProperty("rembrandt.feedback.mailSMPT"));
+	        	//mp.setSubject("Rembrandt Application Feedback");
+	        	mp.setSubject(System.getProperty("rembrandt.feedback.mailSubject"));
+	        	//mp.setMailTo("landyr@mail.nih.gov");
+	        	mp.setMailTo(System.getProperty("rembrandt.feedback.mailTo"));
+	        	//mp.setMailFrom("no-reply@caintegrator.nci.nih.gov");
+	        	mp.setMailFrom(System.getProperty("rembrandt.feedback.mailFrom"));
+	        	
         		Mail.sendMail(mp);
         	}
         	catch (ValidationException e) {
