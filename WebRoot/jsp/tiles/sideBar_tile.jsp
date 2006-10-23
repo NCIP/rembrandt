@@ -1,16 +1,14 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ page import="java.util.*,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
-				 gov.nih.nci.rembrandt.dto.query.CompoundQuery,
 	 			 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
 	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory,
-	 			 
 	 			 gov.nih.nci.caintegrator.application.lists.ListType" %> 
 
 <!--  lists related -->
+
 
 
 <div id="manageListLinkDiv" style="text-align:center; margin-top:20px;">
@@ -24,25 +22,22 @@
 	}
 </style>
 <!--  end lists related -->
-<div width="100%">
-<h3><a href="javascript:void(0);" onclick="switchToRegular()">Queries</a>&nbsp;|&nbsp;
-	<br><a href="javascript:void(0);" onclick="switchToCompound()">Compound Query</a></h3>
-<html:form action ="delete_Query.do">
 
+<div width="100%">
+<h3>Queries</h3>
+<html:form action ="delete_Query.do">
 <script type="text/javascript">
 	var method;
 	var queryKey; 
-	
 	function setMode(method, queryKey){   
 		document.deleteQueryForm.method.value = method;
 		document.deleteQueryForm.queryKey.value = queryKey;  
 	}
 </script>
-<div id="querySection">				 
+				 
 <%
 RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 String  query = "";	
-String compoundString = "";
 int j = 0;	
 String queryKey = null;
 	
@@ -51,20 +46,11 @@ String pageStr2 = (String)request.getSession().getAttribute("currentPage2");
 
 String sessionId = request.getSession().getId();
 SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
-CompoundQuery cq = null;
 
 if(queryCollection != null)	{
 
 	Collection queryColl = queryCollection.getQueries();
 	Collection queryKeys = queryCollection.getQueryNames();
-	cq = queryCollection.getCompoundQuery();
-	if (cq != null)
-		compoundString = "\""+ cq.toStringForSideBar() + "\"";
-		
-%>
-
- <bean:define id="foobar" value='<%= compoundString %>'/>
-<%
 	Iterator i = queryColl.iterator();
 	while (i.hasNext()) { 
 	     j++;
@@ -94,10 +80,9 @@ if(queryCollection != null)	{
 			</tr>
 		</table>
 <%
-	}
-%>
-</div>
-<%
+	}		
+}	
+
 if(j !=0 && j>=2)	{
 	if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))))	{
 %>
@@ -105,35 +90,12 @@ if(j !=0 && j>=2)	{
 <%
 	}
 }
-}
 %>
-
 	<html:hidden property="method"/>
 	<html:hidden property="queryKey" />
 	</html:form>
 	<br/>
 </div>
-
-<script type="text/javascript">
-
-	var regularQ = null;
-	var compoundQ = <bean:write name="foobar" filter="false"/>;
-	
-	function switchToRegular(){
-		var query = document.getElementById("querySection");
-		if (regularQ == null)
-			regularQ = query.innerHTML;
-		else
-			query.innerHTML = regularQ;
-	}
-	
-	function switchToCompound(){
-		var query = document.getElementById("querySection");
-		if (regularQ == null)
-			regularQ = query.innerHTML;
-		query.innerHTML = compoundQ;
-	}
-</script>
 
 <!------------------ lists -------------------->
 <div id="sidebar">
