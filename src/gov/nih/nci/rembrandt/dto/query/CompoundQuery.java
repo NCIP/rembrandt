@@ -6,6 +6,8 @@ import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,10 +15,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
+import java.util.List;
 import java.util.Vector;
-
+import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
+import org.apache.struts.util.LabelValueBean;
 
 /**
  * @author SahniH Date: Sep 24, 2004
@@ -110,6 +116,8 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 
 	// Session that this compoundQuery is associated with
 	private String sessionId = null;
+	
+	private final String TOKEN = "@$%&***-!!";
 
 	public CompoundQuery(OperatorType operator, Queriable leftQuery,
 			Queriable rightQuery) throws Exception {
@@ -189,7 +197,7 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		if (rightQuery != null && rightQuery.getAssociatedView() != null) {			
 			
 			setAssociatedView(rightQuery.getAssociatedView());
-			setQueryName(rightQuery.getQueryName());
+			//setQueryName(rightQuery.getQueryName());
 		}
 		if (validateProjectResultsBy() == false) {// if invalide Query
 			throw new Exception(
@@ -266,40 +274,32 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		}
 		return outString;
 	}
-
 	/**
 	 * toString() method to generate Compound query for display - pcs
 	 */
-	public String toStringForSideBar() {
-		final String TITLE = "<B>Compound Query</B><br>";
-		final String BREAKER = "<BR><BR>";
-		final String LINKSTART = "<a href=\\\"javascript:void(0);\\\"" +
-						" onmouseover=\\\"return QueryDetailHelper.getQueryDetails('";
-		final String LINKMIDDLE = "');\\\" onmouseout=\\\"return nd();\\\">";
-		final String LINKEND = "</a>";
+	public String getTokenizedName() {
 		Queriable leftQuery = this.getLeftQuery();
 		Queriable rightQuery = this.getRightQuery();
 		OperatorType operator = this.getOperatorType();
 		String leftString = "";
 		String rightString = "";
 		String outString = "";
+		
 
 		try {
 			if (leftQuery != null) {
 				if (leftQuery instanceof CompoundQuery) {
-					leftString += ((CompoundQuery) leftQuery).toStringForSideBar();
+					leftString += ((CompoundQuery) leftQuery).getTokenizedName();
 				} else if (leftQuery instanceof Query) {
 					leftString += ((Query) leftQuery).getQueryName();
-					leftString = LINKSTART + leftString + LINKMIDDLE + leftString + LINKEND;
 				}
 			}
 
 			if (rightQuery != null) {
 				if (rightQuery instanceof CompoundQuery) {
-					rightString += ((CompoundQuery) rightQuery).toStringForSideBar();
+					rightString += ((CompoundQuery) rightQuery).getTokenizedName();
 				} else if (rightQuery instanceof Query) {
 					rightString += ((Query) rightQuery).getQueryName();
-					rightString = LINKSTART + rightString + LINKMIDDLE + rightString + LINKEND;
 				}
 			}
 		} catch (Exception ex) {
@@ -307,15 +307,91 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		}
 
 		if (operator != null) {
-			outString += "( " + leftString + " " + operator.getOperatorType()
-					+ " " + rightString + " )";
+			outString += "(" + TOKEN + leftString + TOKEN + operator.getOperatorType()
+					+ TOKEN + rightString + TOKEN + ")";
 		} else {
 			outString = rightString;
 		}
-		outString = TITLE + outString + BREAKER;
 		return outString;
 	}
+	
+	public String getQueryNameWithLink(){
+		final String LINKSTART = "<a href=\"javascript:void(0);\"" +
+						" onmouseover=\"return QueryDetailHelper.getQueryDetails('";
+		final String LINKMIDDLE = "');\" onmouseout=\"return nd();\">";
+		final String LINKEND = "</a>";
+		String token = this.getQueryName() + "#$#";
+		final String SPACE = " ";
+		String tokenizedName = this.getTokenizedName();
+		List<String> allSubQueryNames = getAllSubQueryNames();
+		
+		if (allSubQueryNames == null || allSubQueryNames.isEmpty())
+			return "";
+		Map<String, String> map = new HashMap<String, String>();
+		//Map replacements = new String[allSubQueryNames.size()];
 
+		for (String name : allSubQueryNames){
+			map.put(name, LINKSTART + token + name + LINKMIDDLE + name + LINKEND);
+		}
+		
+		StringTokenizer tokenizer = new StringTokenizer(tokenizedName, TOKEN);
+		StringBuffer buffer = new StringBuffer();
+		String key = null;
+		while (tokenizer.hasMoreTokens()){
+			key = tokenizer.nextToken();
+			if (map.containsKey(key)){
+				buffer.append(map.get(key));
+				buffer.append(SPACE);
+			}
+			else {
+				buffer.append(key);
+				buffer.append(SPACE);
+			}
+		}
+		return buffer.toString();
+	}
+	/**
+	 * toString() method to generate Compound query for display - pcs
+	 */
+	public String toStringForSideBar() {
+		final String TITLE = "<B>Compound Query</B><br><B class='otherBold'>Compound Query Name</B><br>";
+		final String BREAKER = "<BR><BR>";
+		
+		String string = getQueryNameWithLink();
+
+		return TITLE + string + BREAKER;
+	}
+
+	/**
+	 * toString() method to generate Compound query for display - pcs
+	 */
+	public List<String> getAllSubQueryNames() {
+		Queriable leftQuery = this.getLeftQuery();
+		Queriable rightQuery = this.getRightQuery();
+		List<String> queryNames = new ArrayList<String>();
+
+		try {
+			if (leftQuery != null) {
+				if (leftQuery instanceof CompoundQuery) {
+					queryNames.addAll(((CompoundQuery)leftQuery).getAllSubQueryNames());
+				} else if (leftQuery instanceof Query) {
+					queryNames.add(((Query) leftQuery).getQueryName());
+				}
+			}
+
+			if (rightQuery != null) {
+				if (rightQuery instanceof CompoundQuery) {
+					queryNames.addAll(((CompoundQuery)rightQuery).getAllSubQueryNames());
+				} else if (rightQuery instanceof Query) {
+					queryNames.add(((Query) rightQuery).getQueryName());
+				}
+			}
+		} catch (Exception ex) {
+			logger.error(ex);
+		}
+		return queryNames;
+	}
+	
 	/**
 	 * toString() method to generate Compound query for display - pcs
 	 */
@@ -350,7 +426,23 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		}
 		return queryString;
 	}
-	
+	public Collection getValidViewStrings(){
+		ViewType[] types = this.getValidViews();
+		Collection queryViewColl = new ArrayList();
+		if (types.length == 0)
+			return queryViewColl;
+
+		Properties props = new Properties();
+		props = ApplicationContext.getLabelProperties();
+
+		for (int viewIndex = 0; viewIndex < types.length; viewIndex++) {
+			ViewType thisViewType = (ViewType) types[viewIndex];
+			String viewText = (String) props.get(thisViewType.getClass().getName());
+			queryViewColl.add(new LabelValueBean(viewText, Integer.toString(viewIndex)));
+		}
+		return queryViewColl;
+
+	}
 	public ViewType[] getValidViews() {
 		ViewType[] validViewTypes = null;
 		ArrayList queryTypesCollection = null;
@@ -477,6 +569,8 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 	 * @see gov.nih.nci.nautilus.query.Queriable#getQueryName()
 	 */
 	public String getQueryName() {
+		if (queryName == null)
+			queryName = this.toString();
 		return queryName;
 	}
 
