@@ -36,32 +36,57 @@ String helpLinkClose = "', 350, 500);\">"+
           Query Results
         </legend>
         <br/>
-        <logic:notEmpty name="viewResultsForm" property="reportBeans">
+        <logic:notEmpty name="viewResultsForm" property="compoundQueries">
         
         <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
 		  <tr>
-		    <td class="message">Type</td>
-            <td class="message">Resultant Name</td>
             <td class="message">Compound Query</td>
+            <td class="message">Institutions</td> 
             <td class="message">View</td>
           </tr>
           <nested:iterate name="viewResultsForm" 
-				property="reportBeans" 
-				id="reportBean"  
+				property="compoundQueries" 
+				id="compoundQuery"  
 				indexId="index">
               <tr style="background-color:#f2f2f2;font-size:.8em">
-                <nested:equal property="isSampleSetQuery" value="true">
-                 <td>sample</td>
-                </nested:equal>
-                <nested:equal property="isSampleSetQuery" value="false">
-                 <td>results</td>
-                </nested:equal>
+              <td><table><tr>
+                 <td><bean:write name="compoundQuery" property="queryNameWithLink" 	filter="false"/></td>
+                 </tr>
+                 </table>
+                </td>
+                
+                
+                <td>
+                	<nested:notEmpty name="compoundQuery" property="institutionCriteria">
+          			<nested:iterate name="compoundQuery" 
+						property="institutionCriteria.institutions" 
+						id="institute"  
+						indexId="index">
+						<nested:write name ="institute" property="instituteName"/><br>
+                	</nested:iterate>
+                	</nested:notEmpty>
+	            </td>
+	            
 	            <td>
+	            	<nested:notEmpty name="compoundQuery" property="validViewStrings" >
+          			<nested:iterate name="compoundQuery"
+          				property="validViewStrings" 
+						id="validView"  
+						indexId="index">
+						<a href="runReport.do?method=runGeneViewReport&queryName=
+							<nested:write name="validView" property="value"/>
+							&showSampleSelect=false" style="font-size:.9em" target="_blank">
+						<nested:write name="validView" property="label"/></a><br>
+                	</nested:iterate>
+                	</nested:notEmpty>
+	            </td>	  
+	                     
+	     <%--       
 	              <a href="runReport.do?method=runGeneViewReport&queryName=<nested:write property='encodedResultantCacheKey'/>&showSampleSelect=false" style="font-size:.9em" target="_blank">
 	              <nested:write property="resultantCacheKey"/></a></td>
 	            <td><nested:write property="beanText"/></td>
 	            <td><nested:write property="beanView"/></td>
-	            
+	            --%>
               </tr>
           </nested:iterate>
          </table>
@@ -69,8 +94,8 @@ String helpLinkClose = "', 350, 500);\">"+
      
      </logic:notEmpty>
      
-     <logic:empty name="viewResultsForm" property="reportBeans">
-     <strong>There are no results to view at this time.</strong>
+     <logic:empty name="viewResultsForm" property="compoundQueries">
+     <strong>There are no compound queries to execute at this time.</strong>
      <br /><br />
      </logic:empty>
         
