@@ -17,6 +17,7 @@ import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,7 +187,11 @@ public class RefineQueryAction extends LookupDispatchAction {
 				}
 				cQuery.setInstitutionCriteria(ic);	
 			}
-			
+			//After setting everything, put this compound query into the SessionQueryBag
+			//serialize and later execution.
+            queryBag.putCompoundQuery(cQuery);
+            presentationTierCache.putSessionQueryBag(sessionId, queryBag);
+            
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
 			ReportBean reportBean = rgHelper.getReportBean();
 			request.setAttribute("queryName", reportBean.getResultantCacheKey());
