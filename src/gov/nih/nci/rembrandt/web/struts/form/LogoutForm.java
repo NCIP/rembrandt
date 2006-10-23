@@ -68,15 +68,16 @@ public final class LogoutForm extends ActionForm {
 	
 	//Default to saving the logout
 	private String procedure = "logoutSave";
-
-      /**
+	private String usedMost;
+	private String usedLeast;
+	private String generalFeedback;
+	
+     /**
      * @return Returns the procedure.
      */
     public String getProcedure() {
         return procedure;
     }
-
-
 
     /**
      * @param procedure The procedure to set.
@@ -84,6 +85,30 @@ public final class LogoutForm extends ActionForm {
     public void setProcedure(String procedure) {
         this.procedure = procedure;
     }
+
+	public String getGeneralFeedback() {
+		return generalFeedback;
+	}
+
+	public void setGeneralFeedback(String generalFeedback) {
+		this.generalFeedback = generalFeedback;
+	}
+
+	public String getUsedLeast() {
+		return usedLeast;
+	}
+
+	public void setUsedLeast(String usedLeast) {
+		this.usedLeast = usedLeast;
+	}
+
+	public String getUsedMost() {
+		return usedMost;
+	}
+
+	public void setUsedMost(String usedMost) {
+		this.usedMost = usedMost;
+	}
 
 	public ActionErrors validate(ActionMapping mapping,
 			HttpServletRequest request) {
