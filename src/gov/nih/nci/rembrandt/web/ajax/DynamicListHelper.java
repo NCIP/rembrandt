@@ -149,4 +149,20 @@ public class DynamicListHelper {
 	public static String uniteLists(String[] sLists, String groupName, String groupType, String action)	{	
 		return CommonListFunctions.uniteLists(sLists, groupName, groupType, action);
 	}
+	
+	public static String getRBTFeatures()	{
+		String jfeats = "";
+		//get the features from the external props
+		String feats = System.getProperty("rembrandt.feedback.features");
+		List<String> f = Arrays.asList(feats.split(","));
+		JSONArray fs = new JSONArray();
+		for(String s : f)	{
+			s = s.trim();
+			fs.add(s);
+		}
+		if(fs.size()>0){
+			jfeats = fs.toString();
+		}
+		return jfeats;
+	}
 }
