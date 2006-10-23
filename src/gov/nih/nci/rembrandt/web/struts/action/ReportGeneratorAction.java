@@ -14,6 +14,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.PropertyLoader;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.helper.WebGenomeHelper;
@@ -31,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -250,6 +253,62 @@ public class ReportGeneratorAction extends DispatchAction {
     	//Go to the geneViewReport.jsp to render the report
     	return mapping.findForward("runGeneViewReport");
     }
+    
+	/**
+	 * Makes the necessary calls to run a compound query, then forwards the 
+	 * request to the report rendering mechanism.
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward runCompoundQueryReport(
+		ActionMapping mapping,
+		ActionForm form,
+		HttpServletRequest request,
+		HttpServletResponse response)
+		throws Exception {
+		//Get the sessionId
+		String sessionId = request.getSession().getId();
+        ActionForward thisForward = null;
+        ActionErrors errors = new ActionErrors();
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+
+		String queryName = request.getParameter("queryName");
+		String typeOfView = request.getParameter("typeOfView");
+		
+		CompoundQuery cQuery = (CompoundQuery)queryBag.getCompoundQuery(queryName);
+		
+		if (cQuery != null) {
+			// Get the viewType array from session 
+			ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
+			if (availableViewTypes == null){
+				availableViewTypes = cQuery.getValidViews();
+				request.getSession().setAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY, availableViewTypes);
+			}
+			ViewType selectView = availableViewTypes[Integer.parseInt(typeOfView)];
+			cQuery.setAssociatedView(ViewFactory.newView(selectView));
+           	//ReportGeneratorHelper will execute the query if necesary, or will
+			//retrieve from cache.  It will then generate the XML for the report
+			//and store in a reportBean in the cache for later retrieval
+            
+			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
+			ReportBean reportBean = rgHelper.getReportBean();
+			request.setAttribute("queryName", reportBean.getResultantCacheKey());
+			//Send to the appropriate view as per selection!!
+			thisForward = new ActionForward();
+			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
+		}else {
+			logger.error("SessionQueryBag has no Compound queries to execute");
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
+			this.saveErrors(request, errors);
+			thisForward = mapping.findForward("failure");
+		}
+	    return thisForward;
+	 }
+	
     /**
      * This action is used to generate a preview report.  Because the current
      * preview is in fact a popup from the build query page this forward
