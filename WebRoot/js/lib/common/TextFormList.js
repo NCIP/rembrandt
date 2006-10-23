@@ -25,7 +25,6 @@
 		     	}
 		     	//clean on the sside
 		     	//ajax call
-		     	alert(ids);
 		     	
 		     	try	{
 			    	DynamicListHelper.createGenericList(typeSelector, ids, listName, TextFormList.processTextForm_cb);
