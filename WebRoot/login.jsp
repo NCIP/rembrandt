@@ -167,7 +167,7 @@ response.setHeader("Location",newLocn);
 		  <ul>
 		 </div>
 		 <div style="border:0px solid red; margin:5px;">
- 			<script type="text/javascript">Help.insertHelp("About_rembrandt", "align='left'", "padding:8px;");</script>
+ 			<script type="text/javascript">Help.insertHelp("Logging_in", "align='left'", "padding:8px;");</script>
 			Throughout the application please click the Help Icon for context sensitive application help.<br/><br/>
 		 	
 		 </div>
