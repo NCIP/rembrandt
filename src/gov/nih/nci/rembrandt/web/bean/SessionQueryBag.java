@@ -12,6 +12,7 @@ import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
+import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
@@ -108,8 +109,11 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	/* This is the current compound query that has been validated and is ready
 	 * to run...
 	 */
-	//private transient CompoundQuery compoundQuery = null;
-	private CompoundQuery compoundQuery = null;
+	private transient CompoundQuery compoundQuery = null;
+	//private CompoundQuery compoundQuery = null;
+	
+	private Map<String, Queriable> compoundQueryMap = new TreeMap<String, Queriable>();
+	
 	public void putQuery(Query query, ActionForm form) {
 		if (query != null && query.getQueryName() != null) {
 			queryMap.put(query.getQueryName(), query);
@@ -155,6 +159,30 @@ public class SessionQueryBag implements Serializable,Cloneable {
 		}
 		return null;
 	}
+	
+	public Queriable getCompoundQuery(String queryName) {
+		if (queryName != null) {
+			return (Queriable) compoundQueryMap.get(queryName);
+		}
+		return null;
+	}
+	
+	public void putCompoundQuery(Queriable queriable) {
+		compoundQueryMap.put(queriable.getQueryName(), queriable);
+	}
+
+	public void removeCompoundQuery(String queryName) {
+		if (queryName != null) {
+			compoundQueryMap.remove(queryName);
+		}
+	}
+
+	public Collection getCompoundQueryNames() {
+		return compoundQueryMap.keySet();
+	}
+    public Collection getCompoundQueries() {
+        return compoundQueryMap.values();
+    }
     public QueryDTO getQueryDTO(String queryName) {
         if (queryName != null) {
             return (QueryDTO) queryDTOMap.get(queryName);
@@ -288,6 +316,19 @@ public class SessionQueryBag implements Serializable,Cloneable {
     			clonedQueryMap.put((String)elementKey,itClone);
     		}
         }
+	    
+		Map<String, Queriable> clonedCompoundQueryMap = null;
+	    if(compoundQueryMap != null){
+	    	clonedCompoundQueryMap = new TreeMap<String, Queriable>();
+        	Set keys = compoundQueryMap.keySet(); 
+    		for(Object elementKey: keys) {
+    			Queriable it = compoundQueryMap.get(elementKey);
+    			Queriable q = (Queriable)it;
+    			Queriable itClone = (Queriable)q.clone();
+    			clonedCompoundQueryMap.put((String)elementKey,itClone);
+    		}
+        }
+	    
 	    myClone.queryMap = clonedQueryMap;
 	    Map<String,ActionForm> clonedformBeanMap = null;
 	    if(formBeanMap != null){
@@ -322,5 +363,12 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	}
 
 	class Handler {
+	}
+
+	public Map<String, Queriable> getCompoundQueryMap() {
+		return compoundQueryMap;
+	}
+	public void setCompoundQueryMap(Map<String, Queriable> compoundQueryMap) {
+		this.compoundQueryMap = compoundQueryMap;
 	}
  }
