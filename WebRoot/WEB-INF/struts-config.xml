@@ -393,6 +393,14 @@
          <forward name="displayQuery" path="nautilus.refine" />
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="failure" path="/refine.do" />
+	</action>
+	
+	<action path="/reRunCompoundQuery"
+            type="gov.nih.nci.rembrandt.web.struts.action.RefineQueryAction"
+            scope="request"
+            parameter="method">
+         <forward name="success" path="/runReport.do?method=runGeneViewReport"/>
+         <forward name="failure" path="/refine.do" />
 	</action>	
 	
 	<action path="/viewResults"
