@@ -1,6 +1,7 @@
 <%@ page language="java" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
+
 <script language="javascript" src="js/lib/scriptaculous/scriptaculous.js"></script>
 <script type="text/javascript">Help.insertHelp("Logging_out", " align='right'", "padding:2px;");</script>
  <html:form action="logout.do">
@@ -29,15 +30,13 @@
 		<div id="survey" style="display:none;border:2px dotted silver;border-top:1px solid silver;">
 			<div style="margin:10px;">
 			The feature I used/liked the most this session: 
-			<select name="usedMost">
+			<select id="usedMost" name="usedMost">
 				<option value="">N/A</option>
-				<option>Gene Exp. Simple Search</option>
 			</select>
 			<br/><br/>
 			The feature I used/liked the least this session: 
-			<select name="usedLeast">
+			<select id="usedLeast" name="usedLeast">
 				<option value="">N/A</option>
-				<option>Gene Exp. Simple Search</option>
 			</select>
 			<br/><br/>
 			General Feedback:<br/>
@@ -53,6 +52,19 @@
    </fieldset>
 </html:form>
 
+<script language="javascript">
+	
+	var popFeats = function(fs)	{
+		var feats = eval('(' + fs + ')');
+		if(feats.length>1)	{
+			for(var f=0; f<feats.length; f++)	{
+				$("usedMost").options[f+1] = new Option(feats[f],feats[f]);
+				$("usedLeast").options[f+1] = new Option(feats[f],feats[f]);
+			}
+		}
+	}
+	DynamicListHelper.getRBTFeatures(popFeats);
 
+</script>
 
 
