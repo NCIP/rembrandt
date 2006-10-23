@@ -82,6 +82,8 @@ public class QueryInbox {
 	private BusinessTierCache btc;
 	private RembrandtPresentationTierCache ptc;
 	
+	private final String TOKEN = "#$#"; 
+	
 	public QueryInbox()	{
 		//get some common stuff
 		session = ExecutionContext.get().getSession(false);
@@ -182,8 +184,16 @@ public class QueryInbox {
 		return st;	
 	}
 	public String getQueryDetailFromCompoundQuery(String queryName){
-		CompoundQuery cq = ptc.getSessionQueryBag(session.getId()).getCompoundQuery();
 		String result = "";
+		String compoundQueryName = "";
+		int index = queryName.lastIndexOf(TOKEN);
+		if (index <= 0)
+			return result;
+		else {
+			compoundQueryName = queryName.substring(0, index).trim();
+			queryName = queryName.substring(index+ TOKEN.length());
+		}
+		CompoundQuery cq = (CompoundQuery)ptc.getSessionQueryBag(session.getId()).getCompoundQuery(compoundQueryName);
 		if (cq != null){
 			result = cq.getQueryDetails(queryName);
 		}
