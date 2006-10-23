@@ -136,6 +136,10 @@ public class AddConstrainsToQueriesHelper {
 			}
 			if (operator != null) {
 				newQuery = new CompoundQuery(operator, leftQuery, rightQuery);
+				//Don't forget to reset this viewable, otherwise
+				//it will cause a problem in handle method
+				//of the GeneExprQueryHandler class.
+				newQuery.setAssociatedView(viewable);
 			} else { //then its the right query
 				newQuery = new CompoundQuery(rightQuery);
 				
@@ -179,6 +183,10 @@ public class AddConstrainsToQueriesHelper {
 			}
 			if (operator != null) {
 				newQuery = new CompoundQuery(operator, leftQuery, rightQuery);
+				//Don't forget to reset this viewable, otherwise
+				//it will cause a problem in handle method
+				//of the GeneExprQueryHandler class.
+				newQuery.setAssociatedView(viewable);
 			} else { //then its the right query
 				newQuery = new CompoundQuery(rightQuery);
 				//Don't forget to reset this viewable, otherwise
