@@ -68,9 +68,9 @@ public final class LogoutForm extends ActionForm {
 	
 	//Default to saving the logout
 	private String procedure = "logoutSave";
-	private String usedMost;
-	private String usedLeast;
-	private String generalFeedback;
+	private String usedMost = null;
+	private String usedLeast = null;
+	private String generalFeedback = null;
 	
      /**
      * @return Returns the procedure.
@@ -91,7 +91,12 @@ public final class LogoutForm extends ActionForm {
 	}
 
 	public void setGeneralFeedback(String generalFeedback) {
-		this.generalFeedback = generalFeedback;
+		if(generalFeedback!=null && generalFeedback.length()>0)	{
+			this.generalFeedback = generalFeedback;
+		}
+		else	{
+			this.generalFeedback = null;
+		}
 	}
 
 	public String getUsedLeast() {
@@ -99,7 +104,12 @@ public final class LogoutForm extends ActionForm {
 	}
 
 	public void setUsedLeast(String usedLeast) {
-		this.usedLeast = usedLeast;
+		if(usedLeast!=null && usedLeast.length()>0){
+			this.usedLeast = usedLeast;
+		}
+		else	{
+			this.usedLeast = null;
+		}
 	}
 
 	public String getUsedMost() {
@@ -107,7 +117,12 @@ public final class LogoutForm extends ActionForm {
 	}
 
 	public void setUsedMost(String usedMost) {
-		this.usedMost = usedMost;
+		if(usedMost!=null && usedMost.length()>0)	{
+			this.usedMost = usedMost;
+		}
+		else	{
+			this.usedMost = null;
+		}
 	}
 
 	public ActionErrors validate(ActionMapping mapping,
