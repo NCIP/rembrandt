@@ -26,7 +26,7 @@
 		TARGET: COMPILE
 			Compiles the source directory without anthill dependencies
 		-->
-	<target name="compile" depends="warning, config_common_security_module">
+	<target name="compile" depends="warning">
 		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
 		<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -37,30 +37,12 @@
 				<fileset dir="${source.nondeploy.lib.dir}">
 					<include name="*.jar"/>
 				</fileset>
-			</classpath>
+                <fileset dir="${anthill.dependency.artifacts.dir}">
+					<include name="*.jar"/>
+				</fileset>
+            </classpath>
 		</javac>
 	</target>
-	<!--
-	TARGET:  config_database
-	Creates the correct database settings for the application. Properties are taken
-	from the build.properties file.
-	Properties Used:
-		databaseUser-Specifies the database user
-		urlDbalias - The URL to the database that we are going to use
-		databasePassword - The database password
-	-->
-	<target name="config_database" depends="config_analysis_server">
-		<delete file="src/repository_database.xml"/>
-		<copy file="src/repository_database.xml.template" tofile="src/repository_database.xml"/>
-		<replaceregexp file="src/repository_database.xml" match="__DB_USER__" replace="${databaseUser}" flags="g"/>
-		<replaceregexp file="src/repository_database.xml" match="__URL_DB_ALIAS__" replace="${urlDbalias}" flags="g"/>
-		<replaceregexp file="src/repository_database.xml" match="__DB_PASSWD__" replace="${databasePassword}" flags="g"/>
-	</target>
-	<!--
-		TARGET: config_logging
-		Configures the log4j.properties file using the settings in the
-		build.properties file
-	-->
 	<target name="config_logging">
 		<delete file="src/log4j.properties"/>
 		<copy file="src/log4j.properties.template" tofile="src/log4j.properties"/>
@@ -77,21 +59,11 @@
 		<replaceregexp file="src/ehcache.xml" match="@echache_path@" replace="${jboss.install.dir}server/${jboss.server.name}/tmp/${app.war.name}" flags="g"/>
 	</target>
 	<!--
-		TARGET: config_analysis_server
-		Configures the JMS.properties file using the settings in the
-		build.properties file
-	-->
-	<target name="config_analysis_server" depends="config_logging, config_cache">
-		<delete file="src/jms.properties"/>
-		<copy file="src/jms.properties.template" tofile="src/jms.properties"/>
-		<replaceregexp file="src/jms.properties" match="@JBOSS_URL@" replace="${analytical.jboss.jndi}" flags="g"/>
-	</target>
-	<!--
 			TARGET: config_common_security_module
 			Configures the common security module creating the necesary files
 			for Authentication and Authorization
 	-->
-	<target name="config_common_security_module" depends="config_database">
+	<target name="config_common_security_module">
 		<echo message="Configuring Common Security Module"/>
 		<!-- Configuring ApplicationSecurityConfig.xml -->
 		<echo message="Setting ApplicationSecurityConfig.xml"/>
@@ -134,30 +106,17 @@
 		<!-- Copy it to Jboss Conf folder -->
 		<copy file="csm_deploy/ApplicationSecurityConfig.xml" todir="${jboss.conf.dir}"/>
 	</target>
-	<!--
-		TARGET: config-webGenome
-		Configures the webGenome.properties file using the settings in the
-		build.properties file
-	-->
-	<target name="config-webGenome">
-		<delete file="src/webGenome.properties"/>
-		<copy file="src/webGenome.properties.template" tofile="src/webGenome.properties"/>
-		<replaceregexp file="src/webGenome.properties" match="@WEBGENOME-HOST-URL@" replace="${webGenome.url}" flags="g"/>
-		<replaceregexp file="src/webGenome.properties" match="@WEBGENOME-TEST-HOST-URL@" replace="${webGenomeTest.url}" flags="g"/>
-		<delete file="src/jndi.properties"/>
-		<copy file="src/jndi.properties.template" tofile="src/jndi.properties"/>
-		<replaceregexp file="src/jndi.properties" match="@JNDI-URL@" replace="${webGenomeJndi.url}" flags="g"/>
-	</target>
+
 	<!--
         TARGET: copy_resources
         Copies all the bundle resources to the WEB-INF/classes/ folder
     -->
-	<target name="copy_resources" depends="compile, config-webGenome">
+	<target name="copy_resources" depends="compile">
 		<copy todir="${build.classes.dir}">
 			<fileset dir="${source.dir}">
 				<include name="*.xml"/>
 				<exclude name="rembrandt-jbossmq-destinations-service.xml"/>
-				<include name="*.properties"/>
+                <include name="*.properties"/>
 				<include name="*.dtd"/>
 				<include name="*.xsd"/>
 			</fileset>
@@ -168,7 +127,7 @@
         Copies all the bundle resources to the WEB-INF/classes/ folder
         This task is intended to be a dependency for the build_war_anthill task
     -->
-		<target name="copy_resources_anthill" depends="compile_anthill, config-webGenome">
+		<target name="copy_resources_anthill" depends="compile_anthill">
 			<copy todir="${build.classes.dir}">
 				<fileset dir="${source.dir}">
 					<include name="*.xml"/>
@@ -183,7 +142,7 @@
 		<target name="config-jbossmq">
 			<copy file="${source.dir}\rembrandt-jbossmq-destinations-service.xml" todir="${jboss.deploy.dir}"/>
 		</target>
-	<!--
+    <!--
 		TARGET: build_war
 		This will build the war file and should be used instead of the 
 		build_war_anthill task (which is intended to be used by SCM)
@@ -203,7 +162,10 @@
 			<webinf dir="${webapp.dir}/WEB-INF"/>
 		</war>
 	</target>
-	<!--
+                                                                                                                                                                                                                                                                                                                                                                                                        <target name="deployWar" depends="build_war">
+
+    </target>
+    <!--
 		TARGET: build_war_anthill
 		This task is intended to be used to by anthill when built be SCM.
 	-->
@@ -252,7 +214,7 @@
               <include name="oracle.jar"/>
           </fileset>          
 		</jar>
-		<copy file="${app.jar.name}.jar" todir="${anthill.artifacts.dir}"/>
+
 	</target>
 	<target name="jar_check">
 		<property name="weka.jar" value="${source.lib.dir}/weka.jar" />
