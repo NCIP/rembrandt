@@ -3,6 +3,7 @@
 <%@ page import="java.util.*,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
+				 gov.nih.nci.rembrandt.dto.query.CompoundQuery,
 	 			 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
 	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory,
 	 			 gov.nih.nci.caintegrator.application.lists.ListType" %> 
@@ -38,6 +39,7 @@
 <%
 RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 String  query = "";	
+String cquery = "";
 int j = 0;	
 String queryKey = null;
 	
@@ -51,6 +53,9 @@ if(queryCollection != null)	{
 
 	Collection queryColl = queryCollection.getQueries();
 	Collection queryKeys = queryCollection.getQueryNames();
+	Collection compoundQueryKeys = queryCollection.getCompoundQueryNames();
+	Map cqs = queryCollection.getCompoundQueryMap();
+	
 	Iterator i = queryColl.iterator();
 	while (i.hasNext()) { 
 	     j++;
@@ -80,7 +85,33 @@ if(queryCollection != null)	{
 			</tr>
 		</table>
 <%
-	}		
+	}
+	i = compoundQueryKeys.iterator();
+	while (i.hasNext()) { 
+		query = (String)i.next();
+		CompoundQuery cq = (CompoundQuery)cqs.get(query);
+		cquery = cq.toStringForSideBar();
+		j++;
+		
+%>
+		<table border="0" style="font-size:.9em">
+			<tr>
+				<td><%=cquery%>
+
+<%
+			if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))) )	{
+%>
+			     <input type="submit" class="sbutton" style="width:50px" value="delete" onclick="setMode('deleteCompoundQuery', '<%=query%>')">	
+<%
+			}
+%>
+
+				</td>
+			</tr>
+		</table>
+<%
+	
+}
 }	
 
 if(j !=0 && j>=2)	{
