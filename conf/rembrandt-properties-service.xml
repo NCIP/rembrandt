@@ -1,0 +1,3 @@
+<attribute name="Properties">
+      gov.nih.nci.rembrandt.properties=@REMBRANDT_APPLICATION_CONFIG_PATH@/rembrandt.properties
+</attribute>
