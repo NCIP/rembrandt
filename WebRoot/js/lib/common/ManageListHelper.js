@@ -262,7 +262,7 @@
 				}
 				else{
 			    	document.getElementById(listName + "details").appendChild(dDIV);
-			    	$(listName + "detailsDiv").innerHTML = "<span>No valid items found</span><br />";
+			    	wDiv.innerHTML = "<b style='margin-left:20px'>No valid items found</b><br />";
 				}
 			     
 			    if(!invalidItems.length < 1)	{
