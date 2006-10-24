@@ -395,8 +395,8 @@
          <forward name="failure" path="/refine.do" />
 	</action>
 	
-	<action path="/reRunCompoundQuery"
-            type="gov.nih.nci.rembrandt.web.struts.action.RefineQueryAction"
+	<action path="/runCompoundQuery"
+            type="gov.nih.nci.rembrandt.web.struts.action.ReportGeneratorAction"
             scope="request"
             parameter="method">
          <forward name="success" path="/runReport.do?method=runGeneViewReport"/>
