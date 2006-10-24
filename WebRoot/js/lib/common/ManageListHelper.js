@@ -246,6 +246,7 @@
 		 		var wDiv = $(listName + "detailsDiv");
 		 		wDiv.style.borderLeft = "1px dashed red";
 		 		wDiv.style.marginLeft = "20px";
+				wDiv.style.width="300px";
 		 		if(items.length > 0)	{
 		 			var tmp = "";
 					for(var i=0; i<items.length; i++)	{
@@ -265,20 +266,23 @@
 				}
 			     
 			    if(!invalidItems.length < 1)	{
-					wDiv.innerHTML += "<span id='invalid_span' style='color:gray; padding:3px'><br/>Invalid or does not exist in the database:<br/> ";
+			    	var intmp = "<div style='margin-left:20px;'><span id='invalid_span' style='color:gray; padding:3px;'><br/>Invalid or does not exist in the database:<br/> ";
+					//wDiv.innerHTML += "<div style='margin-left:20px;'><span id='invalid_span' style='color:gray; padding:3px;'><br/>Invalid or does not exist in the database:<br/> ";
 					for(var i=0; i<invalidItems.length; i++){
 						invalidItemId = invalidItems[i];
 						if((i+1) == invalidItems.length){
-							wDiv.innerHTML += invalidItemId;
+							//wDiv.innerHTML += invalidItemId;
+							intmp += invalidItemId;
 						}
 						else{
-							wDiv.innerHTML += invalidItemId + ", ";
+							intmp += invalidItemId + ", ";
+							//wDiv.innerHTML += invalidItemId + ", ";
 						}
 					}
-							
-					wDiv.innerHTML += "<br/></span>";
-							
-				}    
+					wDiv.innerHTML +=intmp;		
+					wDiv.innerHTML += "<br/></span></div>";		
+				}  
+				  
 			}
 			catch(err)	{
 				if($('details'))	{
