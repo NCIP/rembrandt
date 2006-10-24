@@ -40,7 +40,8 @@
 
 <logic:present name="classComparisonForm">
 <app:help help="Choose two groups from the Existing Groups box and click the right-arrow button to move your selection(s) to the Selected Groups box." />
-
+</legend>
+<br clear="both"/>
 	<em>choose 2 groups</em>
 	<html:errors property="selectedGroups"/>
 	<table align="center" border="0">
@@ -152,3 +153,4 @@
 </logic:present>
 
 </fieldset>
+<br clear="all"/>
