@@ -62,7 +62,7 @@ String helpLinkClose = "', 350, 500);\">"+
 						property="institutionCriteria.institutions" 
 						id="institute"  
 						indexId="index">
-						<nested:write name ="institute" property="instituteName"/><br>
+						<nested:write name ="institute" property="instituteName"/><br><br>
                 	</nested:iterate>
                 	</nested:notEmpty>
 	            </td>
@@ -73,10 +73,10 @@ String helpLinkClose = "', 350, 500);\">"+
           				property="validViewStrings" 
 						id="validView"  
 						indexId="index">
-						<a href="runReport.do?method=runGeneViewReport&queryName=
-							<nested:write name="validView" property="value"/>
-							&showSampleSelect=false" style="font-size:.9em" target="_blank">
-						<nested:write name="validView" property="label"/></a><br>
+						<a href="reRunCompoundQuery.do?method=runReportAgain&queryName=<nested:write name="compoundQuery" property="queryName"/>
+							&typeOfView=<nested:write name="validView" property="value"/>" 
+							style="font-size:.9em" target="_blank">
+						<nested:write name="validView" property="label"/></a><br><br>
                 	</nested:iterate>
                 	</nested:notEmpty>
 	            </td>	  
