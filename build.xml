@@ -230,14 +230,14 @@
 	</target>
 	<target name="development_config_rembrandt_properties">
 		<antcall target="appendPropertyService"></antcall>
-		<copy file="conf/rembrandt.properties" todir="${ncicb.configure.directory}rembrandt/content"/>
+		<copy file="conf/rembrandt.properties" todir="${ncicb.configure.directory}rembrandt/config"/>
 	</target>
 	<!--appends section to properties-service.xml -->
 		<target name="appendPropertyService">
 				<echo message="Configuring properties-service.xml"/>
 				<delete file="conf/properties-service.xml"/>
 				<copy file="conf/rembrandt-properties-service.xml" tofile="conf/properties-service.xml"/>
-				<replaceregexp file="conf/properties-service.xml" match="@REMBRANDT_APPLICATION_CONFIG_PATH@" replace="${ncicb.configure.directory}rembrandt/content" flags="g"/>
+				<replaceregexp file="conf/properties-service.xml" match="@REMBRANDT_APPLICATION_CONFIG_PATH@" replace="${ncicb.configure.directory}rembrandt/config" flags="g"/>
 				<echo message="Copying needed sections to properties-service in JBOSS"/>					
 				<taskdef name="xmltask" classpath="not_deployed_jars/xmltask-v1.13.jar" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>		
 					<!--copy and insert new property to jboss file-->
