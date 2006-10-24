@@ -241,6 +241,7 @@ public class CompoundQueryProcessor {
 		    			}
 		    		}
 	    		}else if(resultsets instanceof GeneExpr.GeneExprGroup[]){
+	    			/*
 		    		for(int i = 0; i < resultsets.length; i++){
 		    			GeneExpr.GeneExprGroup groupResultset = (GeneExpr.GeneExprGroup) resultsets[i];
 		    			for(Iterator groupIterator = sampleIds.iterator(); groupIterator.hasNext();){
@@ -250,8 +251,9 @@ public class CompoundQueryProcessor {
 				    		}
 		    			}
 		    		}
+		    		*/
 		    		if(resultsets.length > 0){
-		    			finalResultsets.add(resultset.toArray(new GeneExpr.GeneExprGroup[resultsets.length]));
+		    			finalResultsets.add(resultsets); //.toArray(new GeneExpr.GeneExprGroup[resultsets.length]));
 		    		}
 		    	}
 			}
