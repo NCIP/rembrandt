@@ -73,20 +73,13 @@ String helpLinkClose = "', 350, 500);\">"+
           				property="validViewStrings" 
 						id="validView"  
 						indexId="index">
-						<a href="reRunCompoundQuery.do?method=runReportAgain&queryName=<nested:write name="compoundQuery" property="queryName"/>
+						<a href="runCompoundQuery.do?method=runCompoundQueryReport&queryName=<nested:write name="compoundQuery" property="queryName"/>
 							&typeOfView=<nested:write name="validView" property="value"/>" 
 							style="font-size:.9em" target="_blank">
 						<nested:write name="validView" property="label"/></a><br><br>
                 	</nested:iterate>
                 	</nested:notEmpty>
 	            </td>	  
-	                     
-	     <%--       
-	              <a href="runReport.do?method=runGeneViewReport&queryName=<nested:write property='encodedResultantCacheKey'/>&showSampleSelect=false" style="font-size:.9em" target="_blank">
-	              <nested:write property="resultantCacheKey"/></a></td>
-	            <td><nested:write property="beanText"/></td>
-	            <td><nested:write property="beanView"/></td>
-	            --%>
               </tr>
           </nested:iterate>
          </table>
