@@ -54,7 +54,36 @@
 
         </logic:empty>
         <logic:empty name="quickSearchForm" property="allGeneAlias">
-        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40"/>&nbsp;
+        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40" onblur="if(this.value!=''){$('indic').style.display='';DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);}"/>&nbsp;
+        	<!--  RCL testing -->
+        	<script language="javascript">
+        		var geneLookup_cb = function(ga)	{
+        			var gArray = eval('(' + ga + ')');
+    				try	{
+	        			if(gArray.length>0)	{
+		        			var gas = "";
+		        			for(var i=0; i<gArray.length; i++)	{
+		        				gas+= "<a href='#' onclick=\"$('quickSearchName').value='"+gArray[i].symbol+"';return false;\">"+gArray[i].symbol + "</a> - " +  gArray[i].name + "<br/>";
+		        			}
+		        			var galhtm = "<div style='color:#fff; background-color:red';'>Warning! <a href='#' style='color:#fff' onclick=\"$('gAliases').style.display='none';return false;\">[x]</a></div>";
+		        			galhtm += "<p style='padding:5px;' id='fal'>One or more genes or their aliases have been found for the gene keyword:  ";
+		        			galhtm += $('quickSearchName').value + ".  Please select an approved alias from below.<br clear='all'/></p>";
+		        			galhtm += gas;
+		        			$('gAliases').innerHTML = galhtm;
+		        			$('quickSearchName').value = "";
+		        			$('quickSearchName').style.border= "1px solid red";
+		        			Effect.BlindDown('gAliases');
+		        			Fat.fade_element("fal");
+        				}
+        			}
+        			catch(err){alert(err);}
+   
+        			setTimeout(function()	{$('indic').style.display='none';}, 1000);
+        		}
+        	</script>
+        	<span id="indic" class="message" style="display:none;"><img src="images/indicator.gif"/>validating...</span>
+        	<!--  <a href="#" onclick="DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);">[v]</a> -->
+        	<div id="gAliases" style="display:none; border:1px solid red;padding:10px;"></div>
         	<br/>Restrict to sample group: 
         	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
 			 	<html:optionsCollection property="sampleGroupsList" />
