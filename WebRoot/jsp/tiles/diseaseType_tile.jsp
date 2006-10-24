@@ -47,7 +47,7 @@ for(var i=0; i<ops.length;i++)	{
 
 <br/>
 <b class="message">Mouseover disease types and any relevant sub-type will be displayed</b>
-<span id="ieStinks"></span>
+<br/><span id="ieStinks"></span>
 <script language="javascript">
 if(subhtm!="")	{
 	$('ieStinks').innerHTML = subhtm;

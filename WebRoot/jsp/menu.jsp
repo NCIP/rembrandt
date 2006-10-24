@@ -53,7 +53,7 @@ if(queryCollection == null){
 <table border="0" cellspacing="4" cellpadding="3">
   <tr><td>
   
-  <fieldset style="width:95%">
+  <fieldset style="width:500px;">
 		<legend>Add to query:</legend>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 		
