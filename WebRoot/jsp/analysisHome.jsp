@@ -19,6 +19,7 @@ String sessionId = request.getSession().getId();
   <tr><td>
   <fieldset>
 		<legend>High Order Analysis:</legend>
+		<br clear="both"/>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 		<script type="text/javascript">Help.insertHelp("HOA_overview", " align='right'", "padding:2px;");</script>
 		

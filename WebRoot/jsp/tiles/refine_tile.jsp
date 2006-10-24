@@ -48,7 +48,7 @@
 	 </html:select>
 
 </fieldset>
-
+<br clear="all"/>
 <!--Step 2-->
 <fieldset class="grayRefine">
 <legend class="red">Step 2: Select Result set (mandatory for "All Genes" queries)</legend>
@@ -64,7 +64,7 @@
 	-->
 	<input type="button" value="refresh" onclick="javascript:location.href='refinecheck.do'">
 </fieldset>
-
+<br clear="all"/>
 <!--Step 3-->
 <fieldset class="grayRefine">
 <legend class="red">Step 3: Validate your query</legend>
@@ -85,7 +85,7 @@
 		
 	</table>		
 </fieldset>
-
+<br clear="all"/>
 <!--Step 4-->
 <fieldset class="grayRefine">
 <legend class="red">Step 4: Please select a View</legend>	
@@ -100,7 +100,7 @@
 	<br>
 	
 </fieldset>
-
+<br clear="all"/>
 <!--Step 5-->
 <fieldset class="grayRefine">
 <legend class="red">Step 5: Please select data source</legend>	
@@ -115,7 +115,7 @@
 	<br>
 	
 </fieldset>
-
+<br clear="all"/>
 <!--Step 6-->
 <fieldset class="grayRefine">
 <legend class="red">Step 6: Run report or return to previous screen</legend>
