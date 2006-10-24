@@ -228,4 +228,13 @@
 	<target name="warning" if="required_jars.not.present" depends="jar_check">
 		<fail message="Build Failed! The required ${weka.jar} is not present to compile!  Please see ${source.lib.dir}/readme.txt" />
 	</target>
+	<target name="development_config_rembrandt_properties">
+			<echo message="Configuring properties-service.xml"/>
+			<delete file="conf/properties-service.xml"/>
+			<copy file="conf/rembrandt-properties-service.xml" tofile="conf/properties-service.xml"/>
+			<replaceregexp file="conf/properties-service.xml" match="@REMBRANDT_APPLICATION_CONFIG_PATH@" replace="${ncicb.configure.directory}rembrandt/content" flags="g"/>
+			<echo message="Copy conf/properties-service.xml file to your local /jboss-4.0.2/server/default/deploy folder"/>
+			<!-- Copy it to Jboss Conf folder -->
+			<copy file="conf/rembrandt.properties" todir="${ncicb.configure.directory}rembrandt/content"/>
+	</target>
 </project>
