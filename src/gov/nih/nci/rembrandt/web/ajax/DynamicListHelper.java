@@ -20,13 +20,17 @@ import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.lists.ajax.CommonListFunctions;
 //import gov.nih.nci.ispy.util.ispyConstants;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
+import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -164,5 +168,32 @@ public class DynamicListHelper {
 			jfeats = fs.toString();
 		}
 		return jfeats;
+	}
+	
+	public static String getGeneAliases(String gene)	{
+		JSONArray aliases = new JSONArray();
+	    try {
+			if(!DataValidator.isGeneSymbolFound(gene)){
+				AllGeneAliasLookup[] allGeneAlias = DataValidator.searchGeneKeyWord(gene);
+				// if there are aliases , set the array to be displayed in the form and return the showAlias warning
+				if(allGeneAlias != null){
+					for(int i =0; i < allGeneAlias.length ; i++){
+						JSONObject a = new JSONObject();
+						
+						AllGeneAliasLookup alias = allGeneAlias[i];
+						a.put("alias", alias.getAlias());
+						a.put("symbol", alias.getApprovedSymbol());
+						a.put("name", alias.getApprovedName());
+						//alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()
+						aliases.add(a);
+					}
+				}
+			}
+		} 
+	    catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return aliases.toString();
 	}
 }
