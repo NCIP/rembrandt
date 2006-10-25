@@ -326,7 +326,7 @@ public class QuickSearchAction extends DispatchAction {
 				this.saveErrors(request, errors);
 			}
 			else{
-				KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upFold, downFold, quickSearchVariableName, kmSampleInfos, kmplotType);
+				KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upFold, downFold, quickSearchVariableName, kmSampleInfos, kmplotType, baselineGroup);
 				KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 				storedData.setId("KAPLAN");
 				kmForm.setStoredData(storedData);
