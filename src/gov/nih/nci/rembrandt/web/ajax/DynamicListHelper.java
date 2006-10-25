@@ -181,9 +181,9 @@ public class DynamicListHelper {
 						JSONObject a = new JSONObject();
 						
 						AllGeneAliasLookup alias = allGeneAlias[i];
-						a.put("alias", alias.getAlias());
-						a.put("symbol", alias.getApprovedSymbol());
-						a.put("name", alias.getApprovedName());
+						a.put("alias", (alias.getAlias() !=null) ? alias.getAlias() : "N/A");
+						a.put("symbol", (alias.getApprovedSymbol()!=null)?alias.getApprovedSymbol() : "N/A");
+						a.put("name", (alias.getApprovedName()!=null) ? alias.getApprovedName() : "N/A");
 						//alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()
 						aliases.add(a);
 					}
@@ -191,6 +191,9 @@ public class DynamicListHelper {
 				else	{
 					aliases.add("invalid");
 				}
+			}
+			else	{
+				aliases.add("valid");
 			}
 			
 		} 
