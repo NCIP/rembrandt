@@ -66,6 +66,7 @@
 	        			if(gArray.length>0)	{
 	        			
 		        			if(gArray[0]=="valid")	{
+		        				$('indic').style.display='none';
 		        				needGVal = false;
 		        				$('qsForm').submit();
 		        				return;
@@ -107,7 +108,7 @@
         	</script>
         	<span id="indic" class="message" style="display:none;"><img src="images/indicator.gif"/>validating...</span>
         	<!--  <a href="#" onclick="DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);">[v]</a> -->
-        	<div id="gAliases" style="display:none; border:1px solid red;padding:5px;margin:10px;"></div>
+        	<div id="gAliases" style="display:none; border:1px solid red; border-top:4px solid red;padding:5px;margin:10px;"></div>
         	<br/>Restrict to sample group: 
         	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
 			 	<html:optionsCollection property="sampleGroupsList" />
@@ -129,7 +130,7 @@
 	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
 	        -->
 	         vs. 
-	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false">
+	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="if(this.value == $('groupName').value){ alert('Comparison Groups Can Not be the Same'); this.selectedIndex = 0;}">
 	         
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
@@ -157,6 +158,7 @@
 	        </div>
 	        <html:hidden property="plot" />
       		<html:hidden property="quickSearchName" />
+      		<html:hidden property="baselineGroup" />
         </logic:notEmpty>
         
         <br/><br/>

@@ -46,7 +46,7 @@
 	<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 	<div>
 	<% if(baselineGroup.length()>0)	{	%>
-						<b>Constrained to group: <%=baselineGroup%></b><br/><br/>
+		<b>Constrained to group: <%=baselineGroup%></b><br/><br/>
 	<% } %>
 		<table style="border:1px solid silver" cellpadding="4" cellspacing="4">
 			<tr>			
