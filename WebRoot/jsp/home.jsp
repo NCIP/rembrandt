@@ -6,7 +6,6 @@
 
 <%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.caintegrator.util.CaIntegratorConstants" %>
 
-
 <tr class="report">
   <td>
     <br />
@@ -33,16 +32,16 @@
 	        
 	        <h5>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
 	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) to plot either a gene expression profile or a Kaplan-Meier survival plot based on the expression of your gene of interest." /></h5>
-	        <input type="radio" checked="checked" name="plot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);">
+	        <input type="radio" checked="checked" name="plot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
 	        Gene Expression plot&nbsp;<br />
 	        
-	        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);">
+	        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);needGVal = true;">
 	        Kaplan-Meier survival plot for Gene Expression Data&nbsp;<br />
 	        
 	        <!-- <h5>Copy Number-based Graph&nbsp;&nbsp;&nbsp;&nbsp;
 	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) or an Affymetrix 100K SNP Probeset ID (reporter) to plot a Kaplan-Meier survival plot based on the Gene copy number or the SNP reporter respectively." /></h5>
 	        -->
-	        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);">
+	        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);needGVal = true;">
 	        Kaplan-Meier survival plot for Copy Number Data<br/>
 	           
 	     <!--     <hr width=100% color="#002185" size="1px" /> -->
@@ -54,28 +53,41 @@
 
         </logic:empty>
         <logic:empty name="quickSearchForm" property="allGeneAlias">
-        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40" onblur="if(this.value!=''){$('indic').style.display='';DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);}"/>&nbsp;
+        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40" />&nbsp;
+        	
         	<!--  RCL testing -->
         	<script language="javascript">
+			//onblur="if(this.value!=''){$('indic').style.display='';DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);}"
+			//invoke when the forms submitted now
+			var needGVal = true;
         		var geneLookup_cb = function(ga)	{
         			var gArray = eval('(' + ga + ')');
     				try	{
 	        			if(gArray.length>0)	{
-	        				var galhtm = "<div style='color:#fff; background-color:red';'>Warning! <a href='#' style='color:#fff' onclick=\"$('gAliases').style.display='none';return false;\">[x]</a></div>";
+	        			
+		        			if(gArray[0]=="valid")	{
+		        				needGVal = false;
+		        				$('qsForm').submit();
+		        				return;
+		        				//throw("valid");
+		        			}
+		        			
+	        				var galhtm = ""; 
+	        				galhtm += "<div style=\"float:right;\"><a href=\"#\" onclick=\"$('gAliases').style.display='none';return false;\">[x]</a></div>";
 		        			
 	        				if(gArray[0]!="invalid")	{
 			        			var gas = "";
 			        			for(var i=0; i<gArray.length; i++)	{
-			        				gas+= "<a href='#' onclick=\"$('quickSearchName').value='"+gArray[i].symbol+"';return false;\">"+gArray[i].symbol + "</a> - " +  gArray[i].name + "<br/>";
+			        				gas+= "<a href='#' onclick=\"$('quickSearchName').value='"+gArray[i].symbol+"';return false;\">"+gArray[i].symbol + "</a> - " +  gArray[i].name.replace(/'/g,"&apos;") + "<br/>";
 			        			}
-			        			galhtm += "<p style='padding:5px;' id='fal'>";
+			        			galhtm += "<p style='padding:5px;margin:0px;background-color:#FF0000;' id='fal'>";
 			        			galhtm += "One or more genes or their aliases have been found for the gene keyword:  ";
 			        			galhtm += $('quickSearchName').value + ".  Please select an approved alias from below.";
 			        			galhtm += "<br clear='all'/></p>";
 			        			galhtm += gas;
 			        		}
-			        		else	{
-			        			galhtm += "<p style='padding:5px;' id='fal'>";
+			        		else if(gArray[0]=="invalid")	{
+			        			galhtm += "<p style='_display:block;_height:50px;padding:5px;margin:0px;background-color:#FF0000;' id='fal'>";
 			        			galhtm += "<br/>The gene you entered is either invalid, or not in the database.  Please select another.<br/>";
 			        			galhtm += "<br clear='all'/></p>";
 			        		}
@@ -83,17 +95,19 @@
 		        			$('quickSearchName').value = "";
 		        			$('quickSearchName').style.border= "1px solid red";
 		        			Effect.BlindDown('gAliases');
-		        			Fat.fade_element("fal");
+		        			setTimeout(function()	{
+			        			Fat.fade_element("fal", 10, 5000, "#FF0000", "#F5F5F5");
+			        		}, 1000);
         				}
         			}
-        			catch(err){alert(err);}
+        			catch(err){}
    
-        			setTimeout(function()	{$('indic').style.display='none';}, 1000);
+        			setTimeout(function()	{$('indic').style.display='none';}, 500);
         		}
         	</script>
         	<span id="indic" class="message" style="display:none;"><img src="images/indicator.gif"/>validating...</span>
         	<!--  <a href="#" onclick="DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);">[v]</a> -->
-        	<div id="gAliases" style="display:none; border:1px solid red;padding:10px;"></div>
+        	<div id="gAliases" style="display:none; border:1px solid red;padding:5px;margin:10px;"></div>
         	<br/>Restrict to sample group: 
         	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
 			 	<html:optionsCollection property="sampleGroupsList" />
@@ -103,7 +117,7 @@
 	 
 	        <!--  sample based plots -->
 	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3);">
+	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        Kaplan-Meier survival plot for Sample Data&nbsp;
 	        <br/><br/>
 	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false">
@@ -145,11 +159,9 @@
       		<html:hidden property="quickSearchName" />
         </logic:notEmpty>
         
-
-   	        
         <br/><br/>
         <div style="text-align:center">
-	        <html:submit styleClass="xbutton" style="width:50px;" value="Go" />
+	        <input type="submit" id="submitButton" onclick="" class="xbutton" style="width:50px;" value="Go" />
 		        
 	        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
 	       		<html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
@@ -165,7 +177,7 @@
       -->
     </html:form>
     <br/>
- </form>
+ 
     <div class="message">
           Note: Please move your mouse over the
           <app:help help="Help messages will appear here."/>
@@ -175,5 +187,21 @@
 </tr>
 
 <script type="text/javascript">
-	window.onload = function()	{ $('qsForm').reset()};
+	window.onload = function()	{ 
+		$('qsForm').reset();
+		$('quickSearchName').disabled = false;
+		
+		$('qsForm').onsubmit = function()	{
+			//test this on mac
+			if(needGVal == true)	{
+				$('indic').style.display='';
+				DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);
+				return false;
+			}
+			else	{
+				return true;
+			}
+		};
+	};
+	
 </script>
