@@ -61,14 +61,24 @@
         			var gArray = eval('(' + ga + ')');
     				try	{
 	        			if(gArray.length>0)	{
-		        			var gas = "";
-		        			for(var i=0; i<gArray.length; i++)	{
-		        				gas+= "<a href='#' onclick=\"$('quickSearchName').value='"+gArray[i].symbol+"';return false;\">"+gArray[i].symbol + "</a> - " +  gArray[i].name + "<br/>";
-		        			}
-		        			var galhtm = "<div style='color:#fff; background-color:red';'>Warning! <a href='#' style='color:#fff' onclick=\"$('gAliases').style.display='none';return false;\">[x]</a></div>";
-		        			galhtm += "<p style='padding:5px;' id='fal'>One or more genes or their aliases have been found for the gene keyword:  ";
-		        			galhtm += $('quickSearchName').value + ".  Please select an approved alias from below.<br clear='all'/></p>";
-		        			galhtm += gas;
+	        				var galhtm = "<div style='color:#fff; background-color:red';'>Warning! <a href='#' style='color:#fff' onclick=\"$('gAliases').style.display='none';return false;\">[x]</a></div>";
+		        			
+	        				if(gArray[0]!="invalid")	{
+			        			var gas = "";
+			        			for(var i=0; i<gArray.length; i++)	{
+			        				gas+= "<a href='#' onclick=\"$('quickSearchName').value='"+gArray[i].symbol+"';return false;\">"+gArray[i].symbol + "</a> - " +  gArray[i].name + "<br/>";
+			        			}
+			        			galhtm += "<p style='padding:5px;' id='fal'>";
+			        			galhtm += "One or more genes or their aliases have been found for the gene keyword:  ";
+			        			galhtm += $('quickSearchName').value + ".  Please select an approved alias from below.";
+			        			galhtm += "<br clear='all'/></p>";
+			        			galhtm += gas;
+			        		}
+			        		else	{
+			        			galhtm += "<p style='padding:5px;' id='fal'>";
+			        			galhtm += "<br/>The gene you entered is either invalid, or not in the database.  Please select another.<br/>";
+			        			galhtm += "<br clear='all'/></p>";
+			        		}
 		        			$('gAliases').innerHTML = galhtm;
 		        			$('quickSearchName').value = "";
 		        			$('quickSearchName').style.border= "1px solid red";

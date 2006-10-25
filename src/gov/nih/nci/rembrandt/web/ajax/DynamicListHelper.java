@@ -188,7 +188,11 @@ public class DynamicListHelper {
 						aliases.add(a);
 					}
 				}
+				else	{
+					aliases.add("invalid");
+				}
 			}
+			
 		} 
 	    catch (Exception e) {
 			// TODO Auto-generated catch block
