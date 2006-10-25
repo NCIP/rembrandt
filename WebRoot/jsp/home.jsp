@@ -121,7 +121,7 @@
 	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        Kaplan-Meier survival plot for Sample Data&nbsp;
 	        <br/><br/>
-	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false">
+	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="if(this.value == $('groupNameCompare').value){ alert('Comparison Groups Can Not be the Same'); this.selectedIndex = 0;}">
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
 			
