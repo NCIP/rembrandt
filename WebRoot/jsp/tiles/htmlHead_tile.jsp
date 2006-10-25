@@ -32,3 +32,7 @@
 	<script type='text/javascript' src='js/lib/common/QueryDetailHelper.js'></script>
 	
 	<style type="text/css" media="screen">@import "css/tabs.css";</style>
+	
+	<!--[if lt IE 7.]>
+	<script defer type="text/javascript" src="js/lib/pngfix.js"></script>
+	<![endif]-->
