@@ -370,6 +370,8 @@ public class QuickSearchAction extends DispatchAction {
 			System.out.println("GROUP " + cGroupName + " NOT FOUND");
 		}
 		
+		String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "ALL GLIOMA";
+
 		// kmForm.setReporters(populateReporters());
 		String kmplotType = kmForm.getPlotType();
 		double upRegulation = kmForm.getUpFold();
@@ -412,7 +414,7 @@ public class QuickSearchAction extends DispatchAction {
 				kmSampleInfos = km;
 				kmForm.setPlotVisible(false);
 			}
-			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType);
+			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup);
 			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 			storedData.setId("KAPLAN");
 			kmForm.setStoredData(storedData);
