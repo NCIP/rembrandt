@@ -195,11 +195,9 @@
 		<delete file="${app.jar.name}.jar"/>
 		<jar jarfile="${app.jar.name}.jar">
 			<fileset dir="${build.classes.dir}">
-				<exclude name="**/web/**"/>
 				<exclude name="*template*"/>
 				<exclude name="jms.properties"/>
 				<exclude name="jndi.properties"/>
-				<exclude name="OJB.properties"/>
 			</fileset>
 		  <!-- 1. include ojb jars -->
           <fileset dir="${source.lib.dir}">
