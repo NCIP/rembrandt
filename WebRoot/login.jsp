@@ -91,9 +91,10 @@ response.setHeader("Location",newLocn);
 	     annotations such as cellular pathways, gene ontology
 	     terms and genomic information will be embedded.</p>
 	     
+	     <!-- 
 	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">For optimal
 	     performance, IE 6.0+ is recommended. 
-	     
+	     -->
 	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">Please visit <a href="http://rembrandt.nci.nih.gov">http://rembrandt.nci.nih.gov</a>
 	         for more information.</p>
 	     
