@@ -277,7 +277,7 @@ public class GeneExpressionPlot {
 					
 					return "Probeset : " + dataset.getRowKey(series)
 							+ "<br/>Intensity : "
-							+ dataset.getValue(series, item) + "<br/>PVALUE : "
+							+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + "<br/>PVALUE : "
 							+ currentPV + "<br/>Std. Dev.: " + stdDev + "<br/>";
 				}
 
@@ -303,7 +303,7 @@ public class GeneExpressionPlot {
 							+ "::" + dataset.getColumnKey(item));
 					*/
 					return "Probeset : " + dataset.getRowKey(series) +
-							"<br/>Intensity : "+ dataset.getValue(series, item) + 
+							"<br/>Intensity : "+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + 
 							"<br/>PVALUE : " + currentPV +
 							"<br/>";
 							//"<br/>Std. Dev.: " + stdDev + "<br/>";
