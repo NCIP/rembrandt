@@ -28,7 +28,7 @@ String graphURL= "";
 %>
        <script type="text/javascript">Help.insertHelp("Coin_plot", " align='right'", "padding:2px;");</script>
 <% } else { %>
-	   <script type="text/javascript">Help.insertHelp("Simple_search_overview", " align='right'", "padding:2px;");</script><br clear="all"/>
+	   <script type="text/javascript">Help.insertHelp("Simple_gene_expression_plot", " align='right'", "padding:2px;");</script><br clear="all"/>
 <% } %>   
 	</div>
 
