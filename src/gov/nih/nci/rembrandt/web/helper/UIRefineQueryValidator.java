@@ -1,6 +1,8 @@
 package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -228,14 +230,15 @@ public class UIRefineQueryValidator {
 			 */
 		    
 			if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
-	        	ClinicalDataQuery resultSetClinicalDataQuery = (ClinicalDataQuery)(sampleBasedQueriesRetriever.getQuery(sessionId, selectedResultSet));
+	        	//ClinicalDataQuery resultSetClinicalDataQuery = (ClinicalDataQuery)(sampleBasedQueriesRetriever.getQuery(sessionId, selectedResultSet));
 	        	/*
 	    		 * At this time there is only a single query in any result set.
 	    		 * So let me grab that single query out of the compound query 
 	    		 * and extract it's sampleCriteria to apply to the compoundQuery
 	    		 */
-                if(resultSetClinicalDataQuery!=null){
-    	    		SampleCriteria sampleCrit = resultSetClinicalDataQuery.getSampleIDCrit();
+               // if(resultSetClinicalDataQuery!=null){
+    	    		SampleCriteria sampleCrit = new SampleCriteria(); 
+    	    			//resultSetClinicalDataQuery.getSampleIDCrit();
     	    		/*
     	    		 * But before we apply it, we need to make sure that we do not have
     	    		 * too many samples for an All Gene Query... currently that
@@ -245,13 +248,22 @@ public class UIRefineQueryValidator {
     	    		 * database.
     	    		 */
     	    		
+    	    		//new custom list mgmt stuff
+    	    		//get the name of the sample list we are using
+    	    		UserListBeanHelper ul= new UserListBeanHelper(request.getSession());
+    	    		UserList l = ul.getUserList(selectedResultSet);
+    	    		if(l!=null && l.getList()!=null)	{
+    	    			//get the samples from that list
+    	    			//create the sample crit
+    	    			sampleCrit.setSampleIDs(ListConvertor.convertToSampleIDDEs(l.getList()));
+    	    		}
     	    		if(isAllGenesQuery&&sampleCrit.getSampleIDs().size()> RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET) {
     		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery.toomanysamples", selectedResultSet,Integer.toString(RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET)));
     	    		}else {
     	    			//drop the sample criteria into the compound query, clone it here
     		    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
     	    		}
-                }	
+               // }	
 	    	}
 			if(errors.isEmpty()) {
 				//store the sessionId that the compound query is associated with
