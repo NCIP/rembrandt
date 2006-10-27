@@ -10,7 +10,7 @@ var Help = {
 		var ex = arguments[1] ? arguments[1] : "";
 		var exst = arguments[2] ? arguments[2] : "";
 		var pth = arguments[3] ? arguments[3] : "";
-		var htm = "<img "+ ex + " style=\"cursor:pointer;border:0px;"+ exst + "\" src=\""+pth+"images/help.png\" alt=\"help\" onclick=\"Help.popHelp(\'"+topic+"\');\" />";
+		var htm = "<img "+ ex + " style=\"cursor:pointer;border:0px;"+ exst + "\" src=\""+pth+"images/help.png\" alt=\"help\" id=\"helpIcon\" name=\"helpIcon\" onclick=\"Help.popHelp(\'"+topic+"\');\" />";
 		document.write(htm);
 	},
 	popHelpMain: function(topic) {
