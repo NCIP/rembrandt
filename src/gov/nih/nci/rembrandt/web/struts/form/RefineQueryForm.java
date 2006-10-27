@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
@@ -7,6 +8,7 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
+import gov.nih.nci.security.authorization.domainobjects.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -409,8 +411,10 @@ public class RefineQueryForm extends BaseForm implements Factory {
 			}
 		//Now setup all of the current result sets
 		//setResultSets(presentationTierCache.getSampleSetNames(sessionId));
-        
-        setResultSets(sampleBasedQueriesRetriever.getAllSampleSetNames(sessionId));    
+        UserListBeanHelper ul= new UserListBeanHelper(request.getSession());
+        Collection listss =  ul.getGenericListNamesFromString("PatientDID");
+        setResultSets(listss);
+        //setResultSets(sampleBasedQueriesRetriever.getAllSampleSetNames(sessionId));    
             	
 		} else {
 			logger.debug("No Query Collection Object in Session");
