@@ -57,7 +57,7 @@
 <script type='text/javascript' src='dwr/interface/UserListHelper.js'></script>
 <script language="javascript">
 	function updateG(){
-    	UserListHelper.getGenericListNamesFromString("PatientDID",createSampleList);
+    	UserListHelper.getGenericListNamesFromStringWithSubs("PatientDID","Custom", createSampleList);
 	}
 	function createSampleList(data){   	
     	DWRUtil.removeAllOptions("srs", data);
