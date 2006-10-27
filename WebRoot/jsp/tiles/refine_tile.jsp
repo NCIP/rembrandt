@@ -53,7 +53,20 @@
 <fieldset class="grayRefine">
 <legend class="red">Step 2: Select Result set (mandatory for "All Genes" queries)</legend>
 &nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:
-    <html:select name="refineQueryForm" property="selectedResultSet">
+
+<script type='text/javascript' src='dwr/interface/UserListHelper.js'></script>
+<script language="javascript">
+	function updateG(){
+    	UserListHelper.getGenericListNamesFromString("PatientDID",createSampleList);
+	}
+	function createSampleList(data){   	
+    	DWRUtil.removeAllOptions("srs", data);
+    	DWRUtil.addOptions("srs", ['none']) 
+    	DWRUtil.addOptions("srs", data);
+	}
+</script>
+
+    <html:select styleId="srs" name="refineQueryForm" property="selectedResultSet" onfocus="updateG();">
     	<option></option>  
     		<html:options name="refineQueryForm" property="resultSets"/>
   	</html:select>
@@ -62,7 +75,9 @@
 				<bean:message key="RefineQueryAction.validateButton"/>
 	</html:submit>
 	-->
+	<!-- 
 	<input type="button" value="refresh" onclick="javascript:location.href='refinecheck.do'">
+	-->
 </fieldset>
 <br clear="all"/>
 <!--Step 3-->
