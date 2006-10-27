@@ -73,8 +73,7 @@ String helpLinkClose = "', 350, 500);\">"+
           				property="validViewStrings" 
 						id="validView"  
 						indexId="index">
-						<a href="runCompoundQuery.do?method=runCompoundQueryReport&queryName=<nested:write name="compoundQuery" property="queryName"/>
-							&typeOfView=<nested:write name="validView" property="value"/>" 
+						<a href="#" onclick="javascript:spawnx('runCompoundQuery.do?method=runCompoundQueryReport&queryName=<nested:write name="compoundQuery" property="queryName"/>&typeOfView=<nested:write name="validView" property="value"/>',770,550,'_report');return false;" 
 							style="font-size:.9em" target="_blank">
 						<nested:write name="validView" property="label"/></a><br><br>
                 	</nested:iterate>
