@@ -15,9 +15,10 @@ var version = parseFloat(arVersion[1])
 
 if ((version >= 5.5) && (document.body.filters)) 
 {
-   for(var i=0; i<document.images.length; i++)
+   for(var i=0; i<document.getElementsByName("helpIcon").length; i++)
    {
-      var img = document.images[i]
+   alert(document.getElementsByName("helpIcon").length);
+      var img = document.getElementsByName("helpIcon")[i]
       var imgName = img.src.toUpperCase()
       if (imgName.substring(imgName.length-3, imgName.length) == "PNG")
       {
@@ -41,7 +42,7 @@ if ((version >= 5.5) && (document.body.filters))
          + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>" 
          
          img.outerHTML = strNewHTML
-         i = i-1
+        // i = i-1
       }
    }
 }
