@@ -39,7 +39,6 @@ if ((version >= 5.5) && (document.body.filters))
          + " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"
          + "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
          + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>" 
-         alert(strNewHTML);
          
          img.outerHTML = strNewHTML
          i = i-1
