@@ -176,6 +176,7 @@
 			<zipfileset dir="${webapp.dir}/css" prefix="css"/>
 			<zipfileset dir="${webapp.dir}/docs" prefix="docs"/>
 			<zipfileset dir="${webapp.dir}/images" prefix="images"/>
+			<zipfileset dir="${webapp.dir}/helpDocs" prefix="helpDocs"/>
 			<zipfileset dir="${webapp.dir}/js" prefix="js"/>
 			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp"/>
 			<zipfileset dir="${webapp.dir}/log" prefix="log"/>
