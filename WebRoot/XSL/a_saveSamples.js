@@ -162,7 +162,16 @@ function A_saveSamples_cb(txt)	{
 		//clear the sample list
 		A_clearTmpSamples();
 	}
-	
+	//attempt to refresh the parents sideba
+	if(!window.opener.closed)	{
+		try	{
+			window.opener.SidebarHelper.loadSidebar();
+		}
+		catch(err)	{
+			//alert("cant update sidebar: " + err);
+		}
+	}
+			
 }
 
 

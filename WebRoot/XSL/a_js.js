@@ -165,7 +165,15 @@ function A_saveReporters_cb(txt)	{
 		//clear the sample list
 		A_clearTmpReporters();
 	}
-	
+	//attempt to refresh the parents sideba
+	if(!window.opener.closed)	{
+		try	{
+			window.opener.SidebarHelper.loadSidebar();
+		}
+		catch(err)	{
+			//alert("cant update sidebar: " + err);
+		}
+	}
 }
 
 /*********************
