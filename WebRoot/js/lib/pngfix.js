@@ -17,7 +17,6 @@ if ((version >= 5.5) && (document.body.filters))
 {
    for(var i=0; i<document.getElementsByName("helpIcon").length; i++)
    {
-   alert(document.getElementsByName("helpIcon").length);
       var img = document.getElementsByName("helpIcon")[i]
       var imgName = img.src.toUpperCase()
       if (imgName.substring(imgName.length-3, imgName.length) == "PNG")
