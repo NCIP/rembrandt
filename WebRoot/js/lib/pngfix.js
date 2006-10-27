@@ -25,13 +25,22 @@ if ((version >= 5.5) && (document.body.filters))
          var imgClass = (img.className) ? "class='" + img.className + "' " : ""
          var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' "
          var imgStyle = "display:inline-block;" + img.style.cssText 
+         
+         //copy over the onclick...need to find a better way to do copy atts
+         var imgoc = (img.onclick) ? img.onclick.toString() : "";
+         if(imgoc!="")	{
+         	imgoc = imgoc.substring(imgoc.indexOf("{")+1, imgoc.indexOf("}"));
+         	imgoc = "onclick = \""+imgoc.replace("'", "\'")+"\" ";
+         }
          if (img.align == "left") imgStyle = "float:left;" + imgStyle
          if (img.align == "right") imgStyle = "float:right;" + imgStyle
          if (img.parentElement.href) imgStyle = "cursor:hand;" + imgStyle
-         var strNewHTML = "<span " + imgID + imgClass + imgTitle
+         var strNewHTML = "<span " + imgoc + imgID + imgClass + imgTitle
          + " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"
          + "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
          + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>" 
+         alert(strNewHTML);
+         
          img.outerHTML = strNewHTML
          i = i-1
       }
