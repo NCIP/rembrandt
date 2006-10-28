@@ -89,7 +89,7 @@
 			        		}
 			        		else if(gArray[0]=="invalid")	{
 			        			galhtm += "<p style='_display:block;_height:50px;padding:5px;margin:0px;background-color:#FF0000;' id='fal'>";
-			        			galhtm += "<br/>The gene you entered is either invalid, or not in the database.  Please select another.<br/>";
+			        			galhtm += "<br/>The element you entered is either invalid, or not in the database.  Please select another.<br/>";
 			        			galhtm += "<br clear='all'/></p>";
 			        		}
 		        			$('gAliases').innerHTML = galhtm;
