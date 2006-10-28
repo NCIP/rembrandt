@@ -168,8 +168,10 @@
 	        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
 	       		<html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
 	        </logic:notEmpty>
-        
+        <!-- 
         	<app:help help="Select either the Gene Keyword or SNP Probe set ID option, as applicable, from the drop-down list and enter the keyword or ID in the text box.The SNP Probe set ID option is available only for the Copy Number-based Graph format." />
+        -->
+        
         </div>
         <br />         
       </fieldset>
