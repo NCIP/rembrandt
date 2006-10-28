@@ -288,6 +288,9 @@ public class QuickSearchAction extends DispatchAction {
 			   }
 			   
 			   //SHOULD PASS THE NAMES HERE IF WE WANT THEM IN THE LEGEND
+			   if(qsGroupNameCompare!=null && qsGroupNameCompare.equals(""))	{
+				   qsGroupNameCompare  = "Rest of Samples";
+			   }
 					KaplanMeierDataController dataGenerator = new KaplanMeierDataController( kmSampleInfos, restofKMSampleInfos, kmplotType, qsGroupName, qsGroupNameCompare);
 					KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 					storedData.setId("KAPLAN");
