@@ -176,6 +176,30 @@ public class ResultsetManager {
 							resultant.setResultsContainer(resultsContainer);
 							resultant.setAssociatedQuery(queryToExecute);
 							resultant.setAssociatedView(associatedView);
+						//
+						}else	if (resultsets instanceof UnifiedGeneExpr.UnifiedGeneExprSingle[]) {
+							GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
+							if (associatedView instanceof GeneExprSampleView) {
+								GeneExprSampleView geneExprSampleView = (GeneExprSampleView) associatedView;
+								groupType = geneExprSampleView.getGroupType();
+							}
+							ResultsContainer resultsContainer = ResultsetProcessor
+									.handleUnifiedGeneExprSingleView(resultant,
+											(UnifiedGeneExpr.UnifiedGeneExprSingle[]) resultsets,
+											groupType);
+							resultant.setResultsContainer(resultsContainer);
+							resultant.setAssociatedQuery(queryToExecute);
+							resultant.setAssociatedView(associatedView);
+//						//
+//							ResultSet[] resultsets = QueryManager
+//									.executeQuery(queryToExecute);
+//							ResultsContainer resultsContainer = KaplanMeierPlotHandler
+//									.handleKMUnifiedGeneExprPlotContainer((UnifiedGeneExpr.UnifiedGeneExprSingle[]) resultsets);
+//							resultant.setResultsContainer(resultsContainer);
+//							resultant.setAssociatedQuery(queryToExecute);
+//							resultant.setAssociatedView(associatedView);
+//
+//						//
 						} else if (resultsets instanceof GeneExprGroup[]) {
 							ResultsContainer resultsContainer = ResultsetProcessor
 									.handleGeneExprDiseaseView(resultant,

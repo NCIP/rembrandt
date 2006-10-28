@@ -79,10 +79,16 @@ abstract public class UnifiedGeneExpr implements ResultSet{
 
     private Long ID;
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#getID()
+	 */
     public Long getID() {
         return ID;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#setID(java.lang.Long)
+	 */
     public void setID(Long ID) {
         this.ID = ID;
     }
@@ -96,45 +102,75 @@ abstract public class UnifiedGeneExpr implements ResultSet{
     }
 
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#getDiseaseType()
+	 */
     public String getDiseaseType() {
         return diseaseType;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#setDiseaseType(java.lang.String)
+	 */
     public void setDiseaseType(String diseaseType) {
         this.diseaseType = diseaseType;
     }
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#getExpressionRatio()
+	 */
     public Double getExpressionRatio() {
         return expressionRatio;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#setExpressionRatio(java.lang.Double)
+	 */
     public void setExpressionRatio(Double expressionRatio) {
         this.expressionRatio = expressionRatio;
     }
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#getGeneSymbol()
+	 */
     public String getGeneSymbol() {
         return geneSymbol;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#setGeneSymbol(java.lang.String)
+	 */
     public void setGeneSymbol(String geneSymbol) {
         this.geneSymbol = geneSymbol;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#getNormalIntensity()
+	 */
     public Double getNormalIntensity() {
         return normalIntensity;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#setNormalIntensity(java.lang.Double)
+	 */
     public void setNormalIntensity(Double normalIntensity) {
         this.normalIntensity = normalIntensity;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#getSampleIntensity()
+	 */
     public Double getSampleIntensity() {
         return sampleIntensity;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprInterface#setSampleIntensity(java.lang.Double)
+	 */
     public void setSampleIntensity(Double sampleIntensity) {
         this.sampleIntensity = sampleIntensity;
     }
 
-    final public static class UnifiedGeneExprSingle extends UnifiedGeneExpr implements ClinicalResultSet{
+    final public static class UnifiedGeneExprSingle extends UnifiedGeneExpr implements ClinicalResultSet, GeneExprSingleInterface{
         private String sampleId;
         private String ageGroup;
         private Long biospecimenId;

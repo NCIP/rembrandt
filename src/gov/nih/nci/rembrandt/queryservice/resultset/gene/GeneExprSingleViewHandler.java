@@ -1,11 +1,17 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprSingleInterface;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprSingle;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.rembrandt.util.MathUtil;
 
@@ -69,7 +75,7 @@ import gov.nih.nci.rembrandt.util.MathUtil;
 */
 
 public class GeneExprSingleViewHandler extends GeneExprViewHandler{
-		public static GeneExprSingleViewResultsContainer handleGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, GeneExpr.GeneExprSingle exprObj,GroupType groupType){
+		public static GeneExprSingleViewResultsContainer handleGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, GeneExprSingleInterface exprObj,GroupType groupType){
 		GeneResultset geneResultset = null;
 		ReporterResultset reporterResultset = null;
 		SampleFoldChangeValuesResultset biospecimenResultset = null;
@@ -77,9 +83,15 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		AgeGroupResultset ageGroupResultset = null;
 		SurvivalRangeResultset survivalRangeResultset = null;
       	if (exprObj != null){
-      		geneResultset = handleGeneResulset(geneViewContainer, exprObj);
+      		geneResultset = handleGeneResulset(geneViewContainer, exprObj.getGeneSymbol());
       		biospecimenResultset = handleSampleFoldChangeValuesResultset(exprObj);
-      		reporterResultset = handleReporterResultset(geneResultset,exprObj);
+      		if(exprObj instanceof GeneExpr){
+      			GeneExpr geneExprObj = (GeneExpr)exprObj;
+      			reporterResultset = handleReporterResultset(geneResultset,geneExprObj);
+      		} else if(exprObj instanceof UnifiedGeneExpr){
+      			UnifiedGeneExpr unifiedGeneExprObj = (UnifiedGeneExpr)exprObj;
+      			reporterResultset = handleUnifiedReporterResultset(geneResultset,unifiedGeneExprObj);
+      		}
       		if(groupType.getGroupType().equals(GroupType.DISEASE_TYPE_GROUP)){
       			diseaseResultset = ViewByGroupResultsetHandler.handleDiseaseTypeResultset(reporterResultset,exprObj);
       			diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
@@ -106,7 +118,23 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
       	return geneViewContainer;
     }
 
-    private static SampleFoldChangeValuesResultset handleSampleFoldChangeValuesResultset(GeneExpr.GeneExprSingle exprObj){
+
+	private static ReporterResultset handleUnifiedReporterResultset(GeneResultset geneResultset, UnifiedGeneExpr unifiedGeneExprObj) {
+  		// find out if it has a probeset or a clone associated with it
+  		//populate ReporterResultset with the approciate one
+		ReporterResultset reporterResultset = null;
+		if(geneResultset != null && unifiedGeneExprObj != null){
+  			DatumDE reporter = new DatumDE(DatumDE.UNIFIED_GENE_ID,unifiedGeneExprObj.getUnifiedGeneID());
+       		reporterResultset = geneResultset.getRepoterResultset(reporter.getValue().toString());
+      		if(reporterResultset == null){
+      		 	reporterResultset = new ReporterResultset(reporter);
+      		}
+      		reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,unifiedGeneExprObj.getExpressionRatio()));      		
+		}
+	    return reporterResultset;
+		}
+
+	private static SampleFoldChangeValuesResultset handleSampleFoldChangeValuesResultset(GeneExprSingleInterface exprObj){
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
 		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = new SampleFoldChangeValuesResultset();
@@ -123,6 +151,7 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		
   		return sampleFoldChangeValuesResultset;
     }
+
 
 
 

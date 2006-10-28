@@ -3,16 +3,16 @@
  *
  */
 package gov.nih.nci.rembrandt.queryservice;
-import org.apache.log4j.Logger;
-
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprGroup;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprSingle;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -29,7 +29,8 @@ import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.GeneExprD
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author SahniH
@@ -299,6 +300,51 @@ public class ResultsetProcessor {
     		}
         }//for
         return resultsContainer;
+	}
+
+	public static ResultsContainer handleUnifiedGeneExprSingleView(Resultant resultant, UnifiedGeneExprSingle[] unifiedGeneExprObjects, GroupType groupType) throws Exception {
+		DimensionalViewContainer dimensionalViewContainer;
+      	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer;
+    	SampleViewResultsContainer sampleViewResultsContainer;
+  		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
+ 			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
+  	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
+  			geneExprSingleResultsContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+  			if(geneExprSingleResultsContainer == null){
+  	  			geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
+  			}
+ 		}
+  		else{
+  			dimensionalViewContainer = new DimensionalViewContainer();
+  			geneExprSingleResultsContainer = new GeneExprSingleViewResultsContainer();
+  	    	//sampleViewResultsContainer = new SampleViewResultsContainer();
+	        //Populate sampleViewResultsContainer with ClinicalData
+	        try {
+				sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( unifiedGeneExprObjects);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				throw e;
+			}
+  		}
+ 		ResultsContainer resultsContainer = null;
+	 		if(unifiedGeneExprObjects != null  ){
+	 			for (int i = 0; i < unifiedGeneExprObjects.length; i++) {
+	 				if(unifiedGeneExprObjects[i] != null) {
+	 					ResultSet obj = unifiedGeneExprObjects[i];
+	 					if (obj instanceof UnifiedGeneExpr.UnifiedGeneExprSingle)  {
+		              	//Propulate the GeneExprSingleResultsContainer
+	 					UnifiedGeneExpr.UnifiedGeneExprSingle  exprObj = (UnifiedGeneExpr.UnifiedGeneExprSingle) obj;
+		               	geneExprSingleResultsContainer = GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleResultsContainer,exprObj, groupType);
+		               	//Populate the SampleViewResultsContainer
+		               	sampleViewResultsContainer = SampleViewHandler.handleSampleView(sampleViewResultsContainer,exprObj,groupType);
+		               	dimensionalViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
+		               	dimensionalViewContainer.setGeneExprSingleViewContainer(geneExprSingleResultsContainer);
+		               	resultsContainer = dimensionalViewContainer;
+	 					}//if
+	 				}//if
+	 			}//for
+	 		}//if
+ 	        return resultsContainer;
 	}
 
 

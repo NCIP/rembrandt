@@ -6,6 +6,7 @@ import java.util.Collection;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprSingleInterface;
 
 /**
  * @author SahniH
@@ -72,15 +73,15 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 
 
 public abstract class GeneExprViewHandler {
-    protected static GeneResultset handleGeneResulset (GeneExprResultsContainer geneViewResultsContainer, GeneExpr exprObj){
+    protected static GeneResultset handleGeneResulset (GeneExprResultsContainer geneViewResultsContainer, String geneSymbol){
   		//get the gene accessesion number for this record
   		//check if the gene exsists in the GeneExprSingleViewResultsContainer, otherwise add a new one.
-		GeneResultset geneResultset = geneViewResultsContainer.getGeneResultset(exprObj.getGeneSymbol());
+		GeneResultset geneResultset = geneViewResultsContainer.getGeneResultset(geneSymbol);
   		if(geneResultset == null){ // no record found
   			geneResultset = new GeneResultset();
   		}
-  		if(exprObj.getGeneSymbol()!= null){
-  		geneResultset.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(exprObj.getGeneSymbol()));
+  		if(geneSymbol!= null){
+  		geneResultset.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(geneSymbol));
  		}
   		else{
   			geneResultset.setAnonymousGene();

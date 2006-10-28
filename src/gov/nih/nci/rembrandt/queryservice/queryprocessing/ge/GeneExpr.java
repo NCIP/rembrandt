@@ -201,7 +201,7 @@ abstract public class GeneExpr implements ResultSet{
         this.timecourseId = timecourseId;
     }
 
-    final public static class GeneExprSingle extends GeneExpr implements ClinicalResultSet{
+    final public static class GeneExprSingle extends GeneExpr implements ClinicalResultSet, GeneExprSingleInterface{
         private Long 	 survivalLength;
         private Long age;
         private String 	 censor;

@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
@@ -228,6 +229,11 @@ public class CompoundQueryProcessor {
 		    		if(resultsets instanceof  GeneExpr.GeneExprSingle[]){
 		    			if(resultsets.length > 0){
 		    				finalResultsets.add(resultset.toArray(new GeneExpr.GeneExprSingle[resultsets.length]));
+		    			}
+		    		}
+		    		else if(resultsets instanceof  UnifiedGeneExpr.UnifiedGeneExprSingle[]){
+		    			if(resultsets.length > 0){
+		    				finalResultsets.add(resultset.toArray(new UnifiedGeneExpr.UnifiedGeneExprSingle[resultsets.length]));
 		    			}
 		    		}
 		    		else if(resultsets instanceof  CopyNumber[]){

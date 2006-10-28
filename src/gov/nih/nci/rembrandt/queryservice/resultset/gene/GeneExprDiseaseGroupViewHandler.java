@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprSingleInterface;
 import gov.nih.nci.rembrandt.util.MathUtil;
 
 /**
@@ -75,7 +76,7 @@ public class GeneExprDiseaseGroupViewHandler extends GeneExprViewHandler {
 		ReporterResultset reporterResultset = null;
 		DiseaseGroupResultset diseaseResultset = null;
       	if (exprObj != null){
-      		geneResultset = handleGeneResulset(geneViewContainer, exprObj);
+      		geneResultset = handleGeneResulset(geneViewContainer, exprObj.getGeneSymbol());
       		reporterResultset = handleReporterResultset(geneResultset,exprObj);
    			diseaseResultset = handleDiseaseGroupResultset(reporterResultset,exprObj);
    			reporterResultset.addGroupByResultset(diseaseResultset);
