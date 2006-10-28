@@ -74,6 +74,7 @@ public class DiffExpressionGeneSFact
     private Double normalIntensity;
     private Double sampleIntensity;
     private String sampleId;
+    private Long biospecimenId;
     private Long degsId;
     private Long institutionId;
 
@@ -150,5 +151,15 @@ public class DiffExpressionGeneSFact
     public void setDegsId(Long degsId) {
         this.degsId = degsId;
     }
+
+	public Long getBiospecimenId() {
+		return biospecimenId;
+	}
+
+	public void setBiospecimenId(Long biospecimenId) {
+		this.biospecimenId = biospecimenId;
+	}
+
+
 }
 

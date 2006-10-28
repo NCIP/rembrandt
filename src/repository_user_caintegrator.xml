@@ -776,6 +776,11 @@
        column="SAMPLE_ID"
        jdbc-type="VARCHAR"
    />
+	<field-descriptor
+		name="biospecimenId"
+		column="BIOSPECIMEN_ID"
+		jdbc-type="BIGINT"
+	/>
 
 </class-descriptor>
 
