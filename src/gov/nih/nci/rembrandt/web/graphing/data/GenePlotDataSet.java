@@ -180,12 +180,14 @@ public class GenePlotDataSet {
 						//unifiedGeneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
 		
 						resultant = ResultsetManager.executeGeneExpressPlotQuery(unifiedGeneQuery);
-						/*
+						
 						// run the extra q for the B&W data...this time a single view, not group
 						unifiedGeneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+						
 					    CompoundQuery myCompoundQuery = null;
 						myCompoundQuery = new CompoundQuery(unifiedGeneQuery);
 						myCompoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+						
 						Resultant bwResultant;
 						bwResultant = ResultsetManager.executeCompoundQuery(myCompoundQuery);
 						if(bwResultant != null){
@@ -195,7 +197,7 @@ public class GenePlotDataSet {
 						        geneViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
 							}
 						}
-						*/
+						
 				    	break;
 		
 				    }

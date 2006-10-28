@@ -148,7 +148,7 @@ public class GeneExpressionPlot {
 			}
 			
 			JFreeChart bwChart = null;
-			if(geType != GeneExpressionDataSetType.UnifiedGeneExpressionDataSet)	{
+
 				//B&W plot
 				CategoryAxis xAxis = new CategoryAxis("Disease Type");
 		        NumberAxis yAxis = new NumberAxis("Log2 Expression Intensity");
@@ -210,7 +210,7 @@ public class GeneExpressionPlot {
 		   
 		        bwChart.removeLegend();
 				//END BW plot
-			}
+
 			
 			// create the chart...for LOG2 dataset
 			JFreeChart chart = ChartFactory.createBarChart(
