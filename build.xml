@@ -5,7 +5,7 @@
 	TARGET: COMPILE
 		Compiles the source directory with anthill dependencies
 	-->
-	<target name="compile_anthill" depends="warning, config_common_security_module">
+	<target name="compile_anthill" depends="warning">
 			<delete dir="${build.classes.dir}"/>
 			<mkdir dir="${build.classes.dir}"/>
 			<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -229,6 +229,9 @@
 	</target>
 	<target name="development_config_rembrandt_properties">
 		<antcall target="appendPropertyService"></antcall>
+		<copy file="conf/rembrandt.properties" todir="${ncicb.configure.directory}rembrandt/config"/>
+	</target>
+	<target name="update_rembrandt_properties">
 		<copy file="conf/rembrandt.properties" todir="${ncicb.configure.directory}rembrandt/config"/>
 	</target>
 	<!--appends section to properties-service.xml -->
