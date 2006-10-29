@@ -154,7 +154,7 @@ public class GeneExprDiseasePlotHandler {
 	      		if(reporterResultset == null){
 	      		 	reporterResultset = new ReporterFoldChangeValuesResultset(reporter);
 	      			}
-	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getExpressionRatio()));
+	      		reporterResultset.setRatioPval(new DatumDE(DatumDE.FOLD_CHANGE_RATIO_PVAL,exprObj.getRatioPval()));
 	      		reporterResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
 	      		reporterResultset.setFoldChangeLog2Intensity(new DatumDE(DatumDE.FOLD_CHANGE_LOG2_INTENSITY,MathUtil.getLog2(exprObj.getNormalIntensity())));
 

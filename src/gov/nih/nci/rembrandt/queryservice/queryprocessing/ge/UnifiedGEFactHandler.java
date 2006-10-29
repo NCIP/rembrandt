@@ -186,16 +186,16 @@ abstract public class UnifiedGEFactHandler {
                 exprObj = null;
             }
         }
-        public static void copyTo(UnifiedGeneExpr.UnifiedGeneExprGroup singleExprObj, DiffExpressionGeneGFact exprObj) {
-            singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
-            singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
-            singleExprObj.setID(exprObj.getDeggId());
-            singleExprObj.setNormalIntensity(exprObj.getNormalIntensity());
-            singleExprObj.setSampleIntensity(exprObj.getSampleIntensity());
-            singleExprObj.setUnifiedGeneID(exprObj.getUnifiedGene());
-            singleExprObj.setDiseaseType(exprObj.getDiseaseType());
-            singleExprObj.setRatioPval(exprObj.getRatioPval());
-            singleExprObj.setStandardDeviation(exprObj.getRatioStd());
+        public static void copyTo(UnifiedGeneExpr.UnifiedGeneExprGroup groupExprObj, DiffExpressionGeneGFact exprObj) {
+        	groupExprObj.setExpressionRatio(exprObj.getExpressionRatio());
+        	groupExprObj.setGeneSymbol(exprObj.getGeneSymbol());
+        	groupExprObj.setID(exprObj.getDeggId());
+        	groupExprObj.setNormalIntensity(exprObj.getNormalIntensity());
+        	groupExprObj.setSampleIntensity(exprObj.getSampleIntensity());
+        	groupExprObj.setUnifiedGeneID(exprObj.getUnifiedGene());
+        	groupExprObj.setDiseaseType(exprObj.getDiseaseType());
+        	groupExprObj.setRatioPval(exprObj.getRatioPval());
+        	groupExprObj.setStandardDeviation(exprObj.getRatioStd());
         }
     }
 }
