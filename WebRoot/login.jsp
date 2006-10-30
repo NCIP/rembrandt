@@ -47,7 +47,7 @@ response.setHeader("Location",newLocn);
 <a style="font-size:.8em" href="javascript:Help.popHelp('Welcome');">help</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="docs/rembrandt1.0_ug_12_20_05_nsn.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="docs/Rembrandt1.5_Users_Guide.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
 </div>
 <!--end nav bar-->
 
