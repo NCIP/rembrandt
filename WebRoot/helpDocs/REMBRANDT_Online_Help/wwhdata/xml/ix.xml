@@ -16,7 +16,7 @@
         <j l="71#1084855" />
       </i>
       <i t="query, overview">
-        <j l="34#1118973" />
+        <j l="34#1145107" />
       </i>
       <i t="simple search">
         <j l="14#1088879" />
@@ -26,7 +26,7 @@
       </i>
     </i>
     <i t="advanced searches">
-      <j l="34#1119816" />
+      <j l="34#1145110" />
       <i t="adding">
         <j l="40#1121359" />
         <j l="40#1121325" />
@@ -41,15 +41,10 @@
         <j l="35#1098862" />
       </i>
       <i t="overview">
-        <j l="34#1119816" />
+        <j l="34#1145110" />
       </i>
       <i t="saving samples">
         <j l="53#1083440" />
-      </i>
-    </i>
-    <i t="aliases">
-      <i t="eliminating (K-M Gene Expression)">
-        <j l="23#1084804" />
       </i>
     </i>
     <i t="analyses">
@@ -90,30 +85,30 @@
     </i>
     <i t="Box and Whisker Coin plot">
       <i t="circles, defined">
-        <j l="20#1117183" />
+        <j l="21#1117183" />
       </i>
       <i t="description">
-        <j l="20#1117615" />
+        <j l="21#1117615" />
       </i>
       <i t="triangles, defined">
-        <j l="20#1117184" />
+        <j l="21#1117184" />
       </i>
     </i>
     <i t="Box and Whisker Log2 Intensity option">
-      <j l="16#1100456" />
+      <j l="17#1100456" />
     </i>
     <i t="Box and Whisker Log2 Intensity plot">
       <i t="circles defined">
-        <j l="19#1102492" />
+        <j l="20#1102492" />
       </i>
       <i t="description">
-        <j l="19#1121739" />
+        <j l="20#1121739" />
       </i>
       <i t="triangles, defined">
-        <j l="19#1102493" />
+        <j l="20#1102493" />
       </i>
       <i t="uses for">
-        <j l="19#1102805" />
+        <j l="20#1102805" />
       </i>
     </i>
     <i t="BRB-ArrayTools">
@@ -136,10 +131,10 @@
     </i>
     <i t="circles">
       <i t="on Box and Whisker Coin plot">
-        <j l="20#1117183" />
+        <j l="21#1117183" />
       </i>
       <i t="on Box and Whisker plot">
-        <j l="19#1102492" />
+        <j l="20#1102492" />
       </i>
     </i>
     <i t="Class Comparison">
@@ -239,7 +234,7 @@
         <j l="71#1084855" />
       </i>
       <i t="query, overview">
-        <j l="34#1118973" />
+        <j l="34#1145107" />
       </i>
       <i t="user account">
         <j l="6#1096472" />
@@ -281,17 +276,12 @@
         <j l="41#1119690" />
       </i>
     </i>
-    <i t="eliminating">
-      <i t="aliases (K-M Gene Expression)">
-        <j l="23#1084804" />
-      </i>
-    </i>
     <i t="e-mailing">
       <i t="NCICB Application Support">
         <j l="6#1096472" />
       </i>
       <i t="plots or graphs">
-        <j l="21#1096033" />
+        <j l="22#1096033" />
       </i>
     </i>
     <i t="Euclidean distance, defined">
@@ -342,7 +332,7 @@
         <j l="50" />
       </i>
       <i t="Plot page, description">
-        <j l="16#1122379" />
+        <j l="17#1122379" />
       </i>
       <i t="simple search">
         <j l="15#1084690" />
@@ -358,18 +348,18 @@
     </i>
     <i t="Gene Expression plot">
       <i t="resizing">
-        <j l="21#1096026" />
+        <j l="22#1096026" />
       </i>
     </i>
     <i t="Gene Expression Plot page">
       <i t="Box and Whisker Log2 Intensity plot details">
-        <j l="19#1121739" />
+        <j l="20#1121739" />
       </i>
       <i t="Geometric Mean plot details">
-        <j l="17#1123045" />
+        <j l="18#1123045" />
       </i>
       <i t="Log2 Intensity plot details">
-        <j l="18#1103233" />
+        <j l="19#1103233" />
       </i>
     </i>
     <i t="Gene Expression Sample page">
@@ -388,17 +378,17 @@
     </i>
     <i t="Geometric Mean">
       <i t="Gene Expression plot">
-        <j l="17#1123045" />
+        <j l="18#1123045" />
       </i>
       <i t="option, defined">
-        <j l="16#1121675" />
+        <j l="17#1121675" />
       </i>
     </i>
     <i t="Graph Type, defined">
-      <j l="16#1100440" />
+      <j l="17#1100440" />
     </i>
     <i t="grouping queries">
-      <j l="41#1141134" />
+      <j l="41#1145139" />
     </i>
   </g>
   <g t="H" o="002">
@@ -455,8 +445,8 @@
       </i>
     </i>
     <i t="Intensity, defined">
-      <j l="17#1116881" />
-      <j l="18#1121717" />
+      <j l="18#1116881" />
+      <j l="19#1121717" />
     </i>
     <i t="Intersect option, description">
       <j l="72#1082419" />
@@ -487,7 +477,7 @@
         <j l="24#1080865" />
       </i>
       <i t="simple search">
-        <j l="22#1071713" />
+        <j l="23#1071713" />
       </i>
     </i>
     <i t="Kaplan-Meier for Sample Data">
@@ -538,10 +528,10 @@
     </i>
     <i t="Log2 Intensity">
       <i t="Gene Expression plot">
-        <j l="18#1103233" />
+        <j l="19#1103233" />
       </i>
       <i t="option">
-        <j l="16#1103164" />
+        <j l="17#1103164" />
       </i>
     </i>
     <i t="logging in">
@@ -575,10 +565,10 @@
       <j l="74#1082958" />
     </i>
     <i t="Mean, defined">
-      <j l="19#1118958" />
+      <j l="20#1118958" />
     </i>
     <i t="Median, defined">
-      <j l="19#1118954" />
+      <j l="20#1118954" />
     </i>
     <i t="missing">
       <i t="Run Report button">
@@ -589,7 +579,7 @@
   <g t="O" o="002">
     <i t="overview">
       <i t="creating a query">
-        <j l="34#1118973" />
+        <j l="34#1145107" />
       </i>
       <i t="high order analyses">
         <j l="43#1079882" />
@@ -608,14 +598,14 @@
   <g t="P" o="002">
     <i t="parentheses">
       <i t="using to group queries">
-        <j l="41#1141134" />
+        <j l="41#1145139" />
       </i>
     </i>
     <i t="Pearson correlation, defined">
       <j l="46#1088352" />
     </i>
     <i t="Please select an All Genes query, defined">
-      <j l="41#1124989" />
+      <j l="41#1145149" />
     </i>
     <i t="Principal Component">
       <i t="Analysis Form,description">
@@ -633,22 +623,22 @@
     </i>
     <i t="printing">
       <i t="Gene Expression plot (Simple Search)">
-        <j l="20#1118715" />
+        <j l="21#1118715" />
       </i>
       <i t="plots or graphs">
-        <j l="21#1096033" />
+        <j l="22#1096033" />
       </i>
     </i>
     <i t="Probeset, defined">
-      <j l="17#1116877" />
-      <j l="18#1121713" />
+      <j l="18#1116877" />
+      <j l="19#1121713" />
     </i>
     <i t="p-value">
       <i t="defined (for Geometric Mean plot)">
-        <j l="17#1116885" />
+        <j l="18#1116885" />
       </i>
       <i t="defined (for Log2 Intensity plot)">
-        <j l="18#1121721" />
+        <j l="19#1121721" />
       </i>
       <i t="filtering (Filter p-value Toolbar)">
         <j l="62#1088610" />
@@ -657,14 +647,14 @@
   </g>
   <g t="Q" o="002">
     <i t="Q1, defined">
-      <j l="19#1118970" />
+      <j l="20#1118970" />
     </i>
     <i t="queries">
       <i t="grouping">
-        <j l="41#1141134" />
+        <j l="41#1145139" />
       </i>
       <i t="overview of process">
-        <j l="34#1118973" />
+        <j l="34#1145107" />
       </i>
       <i t="refining">
         <j l="41#1141193" />
@@ -759,7 +749,7 @@
     </i>
     <i t="resizing">
       <i t="Gene Expression plot (in new window)">
-        <j l="21#1096026" />
+        <j l="22#1096026" />
       </i>
     </i>
     <i t="Run Report &gt;&gt; button">
@@ -783,7 +773,7 @@
     <i t="sample identifiers">
       <i t="uploading">
         <j l="35#1129781" />
-        <j l="38#1126980" />
+        <j l="38#1145023" />
         <j l="39#1127165" />
       </i>
     </i>
@@ -797,7 +787,7 @@
     </i>
     <i t="saving">
       <i t="plots or graphs">
-        <j l="21#1096033" />
+        <j l="22#1096033" />
       </i>
       <i t="reporters (Select Reporters Toolbar)">
         <j l="63#1083043" />
@@ -811,14 +801,14 @@
     </i>
     <i t="searches">
       <i t="advanced overview">
-        <j l="34#1119816" />
+        <j l="34#1145110" />
       </i>
       <i t="simple overview">
         <j l="14" />
       </i>
     </i>
     <i t="Select a data source, defined">
-      <j l="41#1124938" />
+      <j l="41#1145165" />
     </i>
     <i t="Select Reporters toolbar">
       <j l="63" />
@@ -849,7 +839,7 @@
         <j l="26#1121798" />
       </i>
       <i t="K-M Gene Expression Data">
-        <j l="22#1071713" />
+        <j l="23#1071713" />
       </i>
       <i t="K-M Sample Data">
         <j l="29#1121847" />
@@ -872,7 +862,7 @@
       <j l="44#1085294" />
     </i>
     <i t="Std. Dev., defined">
-      <j l="18#1121725" />
+      <j l="19#1121725" />
     </i>
     <i t="support link">
       <j l="10#1100705" />
@@ -884,10 +874,10 @@
   <g t="T" o="002">
     <i t="triangles">
       <i t="on Box and Whisker Coin plot">
-        <j l="20#1117184" />
+        <j l="21#1117184" />
       </i>
       <i t="on Box and Whisker plot">
-        <j l="19#1102493" />
+        <j l="20#1102493" />
       </i>
       <i t="top of columns to sort">
         <j l="64#1083070" />
@@ -912,7 +902,7 @@
   </g>
   <g t="U" o="002">
     <i t="Unified link, defined">
-      <j l="16#1117022" />
+      <j l="17#1117022" />
     </i>
     <i t="uploading">
       <i t="gene identifiers">
@@ -926,7 +916,7 @@
       </i>
       <i t="sample identifiers">
         <j l="35#1129781" />
-        <j l="38#1126980" />
+        <j l="38#1145023" />
         <j l="39#1127165" />
       </i>
       <i t="SNP identifiers">
@@ -945,7 +935,7 @@
   <g t="V" o="002">
     <i t="Validate Query button">
       <i t="defined">
-        <j l="41#1109168" />
+        <j l="41#1145156" />
       </i>
       <i t="required">
         <j l="41#1121440" />
@@ -996,7 +986,7 @@
   <g t="Symbols" o="003" s=" ">
     <i t="( ) parentheses">
       <i t="using to group queries">
-        <j l="41#1141134" />
+        <j l="41#1145139" />
       </i>
     </i>
     <i t="+ or - sign">

@@ -20,17 +20,17 @@
   <i t="Conducting a Simple Search" l="13">
     <i t="Simple Search Overview" l="14" />
     <i t="Gene Expression Simple Search" l="15">
-      <i t="Understanding a Gene Expression Plot" l="16">
-        <i t="Geometric Mean Plot Details" l="17" />
-        <i t="Log2 Intensity Gene Expression Plot Details" l="18" />
-        <i t="Box and Whisker Log2 Intensity Gene Expression Plot Details" l="19">
-          <i t="Displaying a Coin Plot" l="20" />
+      <i t="Eliminating Aliases" l="16" />
+      <i t="Understanding a Gene Expression Plot" l="17">
+        <i t="Geometric Mean Plot Details" l="18" />
+        <i t="Log2 Intensity Gene Expression Plot Details" l="19" />
+        <i t="Box and Whisker Log2 Intensity Gene Expression Plot Details" l="20">
+          <i t="Displaying a Coin Plot" l="21" />
         </i>
-        <i t="Saving, Printing, and E-mailing a Gene Expression Plot" l="21" />
+        <i t="Saving, Printing, and E-mailing a Gene Expression Plot" l="22" />
       </i>
     </i>
-    <i t="K-M Gene Expression Simple Search" l="22">
-      <i t="Eliminating Aliases" l="23" />
+    <i t="K-M Gene Expression Simple Search" l="23">
       <i t="Redrawing the K-M Survival Plot for Gene Expression Data" l="24" />
       <i t="Understanding K-M Survival Plot for Gene Expression Data" l="25" />
     </i>
@@ -86,7 +86,7 @@
       <i t="Principal Component Analysis Plot" l="65" />
       <i t="Hierarchical Clustering Report" l="66" />
     </i>
-    <i t="Downloading BRB Files" l="67" />
+    <i t="Downloading BRB Array Tools and Files" l="67" />
   </i>
   <i t="Managing Lists" l="68">
     <i t="Managing Lists Overview" l="69" />
