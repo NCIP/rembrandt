@@ -187,16 +187,16 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 		}
 		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
 	}
+	@SuppressWarnings("unchecked")
 	public List getAssociatedReporters(){
-		List reporterNames = Collections.EMPTY_LIST;
-	    Collection samples = this.getSampleResultsets();
-	    
-	    if(!samples.isEmpty()){
-	    	Iterator sampleIterator = samples.iterator();	    	
-	    	SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
-            reporterNames = sample.getReporterNames();
+		Set reporterNames = new HashSet();
+	    Collection<SampleResultset> samples = this.getSampleResultsets();
+	    for(SampleResultset sampleResultset:samples ){
+	    	SampleKaplanMeierPlotResultset kmSample = (SampleKaplanMeierPlotResultset)sampleResultset;
+	    	reporterNames.addAll(kmSample.getReporterNames());
 	    }
-	    return reporterNames;
+	    
+	    return new ArrayList(reporterNames);
 	}
 
 	/**
