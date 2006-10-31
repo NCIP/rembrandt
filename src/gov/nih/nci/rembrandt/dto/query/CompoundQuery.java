@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
@@ -450,6 +451,14 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		boolean isCGHQuery = false;
 		boolean isClinical = false;
 
+		boolean constrainBySamples = false;
+		Query[] q = this.getAssociatiedQueries();
+		for(Query qu : q){
+			if(qu.getSampleIDCrit()!=null)	{
+				constrainBySamples = true;
+			}
+		}
+		
 		queryTypesCollection = getQueryTypes(this);
 
 		for (Iterator iter = queryTypesCollection.iterator(); iter.hasNext();) {
@@ -501,6 +510,20 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 					ViewType.GENE_SINGLE_SAMPLE_VIEW,
 					ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW };
 		}
+		
+		//see if we are constraining by a specific sample set...if we are, the group view doesnt make sense
+		List<ViewType> vvt = Arrays.asList(validViewTypes);
+		if(vvt.contains(ViewType.GENE_GROUP_SAMPLE_VIEW) && constrainBySamples){
+			//remove it
+			ArrayList al = new ArrayList();
+			al.addAll(vvt);
+			al.remove(ViewType.GENE_GROUP_SAMPLE_VIEW);
+			//validViewTypes = null;
+			validViewTypes = new ViewType[al.size()]; 
+			al.toArray(validViewTypes);
+			
+		}
+		
 
 		return validViewTypes;
 	}
