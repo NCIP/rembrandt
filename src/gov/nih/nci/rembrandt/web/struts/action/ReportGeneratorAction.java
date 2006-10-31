@@ -520,9 +520,10 @@ public class ReportGeneratorAction extends DispatchAction {
 
             // build WebGenome request URL
             ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
-            String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
-                        getProperty("webGenome.hostURL");
-            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
+            //String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+                        //getProperty("webGenome.hostURL");
+           String hostURL = System.getProperty("webGenome.url");
+           String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
 
             logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
             ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
@@ -537,9 +538,10 @@ public class ReportGeneratorAction extends DispatchAction {
 
             // build WebGenome request URL
             ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
-            String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+ /*           String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
                         getProperty("webGenomeTest.hostURL");
-            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
+ */        String hostURL = System.getProperty("webGenome.url");
+           String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
 
             logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
             ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
