@@ -168,6 +168,8 @@ public final class RembrandtConstants {
     public static final String UNCLASSIFIED = "UNCLASSIFIED";
     
 	public static final String ALL = "ALL";
+	
+	public static final String PVALUE = "p-value";
     
 	public static final String REPORTER_SELECTION_AFFY = "Affymetrix";
     public static final String REPORTER_SELECTION_UNI = "Unified Gene";

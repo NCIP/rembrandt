@@ -21,6 +21,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.FilterHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
@@ -236,7 +237,7 @@ public class FTestReport{
 		        }
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 		        	String isAdj = ccf.arePvaluesAdjusted() ? " (Adjusted) " : "";
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("P-Value"+isAdj);
+			        data = cell.addElement("Data").addAttribute("type", "header").addText(RembrandtConstants.PVALUE+isAdj);
 			        data = null;
 		        cell = null;
 

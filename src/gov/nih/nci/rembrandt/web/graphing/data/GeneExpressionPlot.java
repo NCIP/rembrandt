@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.web.graphing.data;
 
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 
@@ -277,7 +278,7 @@ public class GeneExpressionPlot {
 					
 					return "Probeset : " + dataset.getRowKey(series)
 							+ "<br/>Intensity : "
-							+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + "<br/>PVALUE : "
+							+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + "<br/>"+RembrandtConstants.PVALUE+" : "
 							+ currentPV + "<br/>Std. Dev.: " + stdDev + "<br/>";
 				}
 
@@ -304,7 +305,7 @@ public class GeneExpressionPlot {
 					*/
 					return "Probeset : " + dataset.getRowKey(series) +
 							"<br/>Intensity : "+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + 
-							"<br/>PVALUE : " + currentPV +
+							"<br/>"+RembrandtConstants.PVALUE +": " + currentPV +
 							"<br/>";
 							//"<br/>Std. Dev.: " + stdDev + "<br/>";
 				}

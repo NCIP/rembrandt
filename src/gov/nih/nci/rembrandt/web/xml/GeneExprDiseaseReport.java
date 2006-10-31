@@ -263,7 +263,7 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 						//sb.append("</table>\n\n");
 					}
 					else	{
-						sb.append("<Br><br>Gene Disease View container is empty");
+						sb.append("<br/><br/>Gene Disease View container is empty");
 						//TODO: something fancy here w/errors
 					}
 		
