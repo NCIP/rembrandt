@@ -1,19 +1,15 @@
 function FileData_Pairs(x)
 {
-x.t("alias","message");
 x.t("back","forward");
 x.t("button.","continue");
 x.t("button.","information");
 x.t("indicates","genes");
 x.t("found","follow");
-x.t("list","figure");
 x.t("simple","search");
 x.t("gene","expression");
 x.t("forward","eliminating");
 x.t("conducting","simple");
 x.t("cancel","button.");
-x.t("3.8","alias");
-x.t("3.8","figure");
 x.t("continue","click");
 x.t("search","gene");
 x.t("search","eliminating");
@@ -28,12 +24,10 @@ x.t("eliminating","aliases");
 x.t("follow","steps:");
 x.t("end","search");
 x.t("message","indicates");
-x.t("message","end");
 x.t("option","drop-down");
 x.t("click","button.");
 x.t("click","cancel");
-x.t("drop-down","list");
-x.t("figure","3.8");
+x.t("drop-down","list.");
 x.t("expression","simple");
 x.t("expression","plot");
 x.t("genes","aliases");
@@ -41,4 +35,5 @@ x.t("information","gene");
 x.t("appropriate","option");
 x.t("understanding","gene");
 x.t("plot","understanding");
+x.t("list.","end");
 }
