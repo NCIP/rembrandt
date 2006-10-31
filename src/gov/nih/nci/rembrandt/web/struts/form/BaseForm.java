@@ -342,11 +342,10 @@ public class BaseForm extends ActionForm implements Serializable{
 		 */
 		public void setSampleList(String sampleList) {
 			this.sampleList = sampleList;
-			if (thisRequest != null) {
+			//if (thisRequest != null) {
 
-				String thisSampleGroup = this.thisRequest
-						.getParameter("sampleGroup");
-
+				String thisSampleGroup = this.getSampleGroup();
+				
 				if ((thisSampleGroup != null)
 						&& thisSampleGroup.equalsIgnoreCase("Specify")
 						&& (this.sampleList.length() > 0)) {
@@ -361,7 +360,7 @@ public class BaseForm extends ActionForm implements Serializable{
 					}
 				}
 
-			}
+			//}
 		}
 
 		/**
