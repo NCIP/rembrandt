@@ -197,6 +197,11 @@
 		
 		$('qsForm').onsubmit = function()	{
 			//test this on mac
+			//dont do the alias look up for SNP
+			if(document.forms[0].quickSearchType.selectedIndex==1)	{
+				needGVal = false;
+			}
+			
 			if(needGVal == true)	{
 				$('indic').style.display='';
 				DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);
