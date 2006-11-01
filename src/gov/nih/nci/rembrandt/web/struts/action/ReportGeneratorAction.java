@@ -283,11 +283,11 @@ public class ReportGeneratorAction extends DispatchAction {
 		
 		if (cQuery != null) {
 			// Get the viewType array from session 
-			ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
-			if (availableViewTypes == null){
-				availableViewTypes = cQuery.getValidViews();
-				request.getSession().setAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY, availableViewTypes);
-			}
+			//ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
+			//if (availableViewTypes == null){
+			ViewType [] availableViewTypes = cQuery.getValidViews();
+				//request.getSession().setAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY, availableViewTypes);
+			//}
 			ViewType selectView = availableViewTypes[Integer.parseInt(typeOfView)];
 			cQuery.setAssociatedView(ViewFactory.newView(selectView));
            	//ReportGeneratorHelper will execute the query if necesary, or will

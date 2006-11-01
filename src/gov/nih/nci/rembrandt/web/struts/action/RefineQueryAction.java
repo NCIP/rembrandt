@@ -161,11 +161,12 @@ public class RefineQueryAction extends LookupDispatchAction {
 		//Get the SessionQueryBag for this request and session
 		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
 		// Get the viewType array from session 
-		ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
+		ViewType [] availableViewTypes = null; //(ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
 		//Make sure that we have a validated CompoundQuery to use
 		if (queryBag.hasCompoundQuery()) {
 			//Create compound query to execute
 			CompoundQuery cQuery = queryBag.getCompoundQuery();
+			availableViewTypes = cQuery.getValidViews();
 			ViewType selectView = availableViewTypes[Integer.parseInt(refineQueryForm.getCompoundView())];
 			cQuery.setAssociatedView(ViewFactory.newView(selectView));
            	//ReportGeneratorHelper will execute the query if necesary, or will

@@ -295,7 +295,7 @@ public class UIRefineQueryValidator {
 
 			ViewType[] availableViewTypes = cQuery.getValidViews();
 			//Set the View Types array in request to be used on return trip
-			request.getSession().setAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY, availableViewTypes);
+			//request.getSession().setAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY, availableViewTypes);
 
 			for (int viewIndex = 0; viewIndex < availableViewTypes.length; viewIndex++) {
 				ViewType thisViewType = (ViewType) availableViewTypes[viewIndex];
