@@ -53,7 +53,6 @@ public class PCATestApplet extends Applet  {
 				lumpData = null;
 			}
 			
-			
 			/*
 			//lump data example
 			double[][] lumpData = new double[Integer.parseInt(totalPts)][3];
