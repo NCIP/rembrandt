@@ -42,9 +42,11 @@ String alg = request.getParameter("alg")!=null ? (String) request.getParameter("
 
 %>
 <div align="center">
+	<div>
 	<graphing:GenePlot algorithm="<%=alg%>" />
 	<br/>
-
+	<br clear="both"/>
+	</div>
 	<fieldset style="width:300px; text-align:left; padding:3px">
 		<legend>Abbreviations of Group Names</legend>
 		<%
