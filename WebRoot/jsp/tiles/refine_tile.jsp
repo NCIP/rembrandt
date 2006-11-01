@@ -60,14 +60,18 @@
     	UserListHelper.getGenericListNamesFromStringWithSubs("PatientDID","Custom", createSampleList);
 	}
 	function createSampleList(data){   	
-    	DWRUtil.removeAllOptions("srs", data);
-    	DWRUtil.addOptions("srs", ['none']) 
+    	DWRUtil.removeAllOptions("srs");
+
+   		DWRUtil.addOptions("srs", eval("[ { name:'', id:'none' } ]") , "name", "id");
+
     	DWRUtil.addOptions("srs", data);
 	}
+	
+
 </script>
 
-    <html:select styleId="srs" name="refineQueryForm" property="selectedResultSet" onfocus="updateG();">
-    	<option></option>  
+    <html:select styleId="srs" name="refineQueryForm" property="selectedResultSet" onfocus="updateG();" style="width:150px;">
+    	<option value=""></option>  
     		<html:options name="refineQueryForm" property="resultSets"/>
   	</html:select>
   	<!--
@@ -106,7 +110,7 @@
 <legend class="red">Step 4: Please select a View</legend>	
 	<table width="100%" border="0">
 		<tr><td>
-				<html:select property="compoundView" onchange="">
+				<html:select property="compoundView" onchange="" style="width:300px">
 				    <html:optionsCollection property="compoundViewColl" />
 				</html:select><html:errors property="compoundView"/>
 			</td>
