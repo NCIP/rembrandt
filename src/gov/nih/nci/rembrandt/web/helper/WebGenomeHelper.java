@@ -152,7 +152,7 @@ public class WebGenomeHelper {
         _logger.debug("Web Genome URL Retrieved: " + hostURL);
 
         // 4. concatenate url & params
-        String webGenomeURL = hostURL + "?" + urlParams;
+        String webGenomeURL = hostURL + "&" + urlParams;
 
         return webGenomeURL;
     }
