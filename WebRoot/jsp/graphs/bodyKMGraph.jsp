@@ -219,17 +219,18 @@
 			</tr>
 			<logic:greaterThan name="kmDataSetForm" property="storedData.upVsIntPvalue"
 				value="-100">
-				<td><bean:write name="kmDataSetForm" property="upOrAmplified" />
-				vs. Intermediate:</td>
-				<td><bean:write name="kmDataSetForm" property="storedData.upVsIntPvalue" /></td>
-				<tr></tr>
+				<tr>
+					<td><bean:write name="kmDataSetForm" property="upOrAmplified" />
+					vs. Intermediate:</td>
+					<td><bean:write name="kmDataSetForm" property="storedData.upVsIntPvalue" /></td>
+				</tr>
 			</logic:greaterThan>
 
 			<logic:greaterThan name="kmDataSetForm" property="storedData.upVsDownPvalue"
 				value="-100">
 				<tr>
 					<td><bean:write name="kmDataSetForm" property="upOrAmplified" />
-					vs.<bean:write name="kmDataSetForm" property="downOrDeleted" /></td>
+					 vs. <bean:write name="kmDataSetForm" property="downOrDeleted" /></td>
 					<td><bean:write name="kmDataSetForm" property="storedData.upVsDownPvalue" /></td>
 				</tr>
 			</logic:greaterThan>
