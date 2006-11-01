@@ -201,11 +201,10 @@ function deleteRow(queryNum){
 		
 		  }
 	      if (i == 1) {
-	      
 	      document.forms[0].cloneListSpecify.value = "";
 		  document.forms[0].cloneListSpecify.disabled = true;	    
 		  document.forms[0].cloneListFile.disabled = false;
-	      document.forms[0].cloneListFile.focus();
+	      //document.forms[0].cloneListFile.focus();
 	      }
 	   }
 	   if(element == "snpId"){
@@ -220,7 +219,7 @@ function deleteRow(queryNum){
 	        document.forms[0].snpListSpecify.value = "";			
 	        document.forms[0].snpListSpecify.disabled = true;	        
 	        document.forms[0].snpListFile.disabled = false;
-			document.forms[0].snpListFile.focus();
+			//document.forms[0].snpListFile.focus();
 	      }
 	   }
 	   
