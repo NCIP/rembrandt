@@ -55,7 +55,9 @@ String key = request.getParameter("key")!=null ? (String) request.getParameter("
 String pcaView = request.getParameter("pcaView")!=null ? (String) request.getParameter("pcaView") : "PC1vsPC2";
 %>
 
-
+<div style="text-align:center; width:100%; font-size:11px; font-family:arial;">
+	<a href="pcaApplet.jsp?tid=<%=key%>" target="_blank">View 3D Applet - Color by Disease (your browser must be able to support Java version 1.5 or later)</a><br/>
+</div>
 <div id="header">
 	<ul id="primary">
 		<li> 
