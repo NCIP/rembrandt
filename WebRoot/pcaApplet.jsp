@@ -8,11 +8,11 @@
 	<title>PCA Applet</title>
 </head>
 <body>
-
+<!-- 
 <xmp>
 <%=params%>
 </xmp>
-
+-->
 	<applet code="PCATestApplet.class" width="600" height="600"
 	name="pcaApplet" id="pcaApplet" codebase="Applets/" archive="jmathplot.jar,commons-lang-2.0.jar">
 	<%=params%>	
