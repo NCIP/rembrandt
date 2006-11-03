@@ -16,22 +16,29 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 	<title>Rembrandt PCA Plots</title>
 	<LINK href="css/tabs.css" rel="stylesheet" type="text/css" />
 	
-	<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
+	<script language="javascript" type="text/javascript" src="js/caIntScript.js"></script> 
+	<script language="javascript">
+		function rbtFrame(page)	{
+			var winw = 450;
+			var winh = 700;
+			spawn('rbtFrame.jsp?p='+page, winw, winh);
+		}
+	</script> 
 	
-	<script language="JavaScript" src="js/box/browserSniff.js"></script>
+	<script language="javascript" src="js/box/browserSniff.js"></script>
 		
     <script type='text/javascript' src='dwr/interface/DynamicReport.js'></script>
 	<script type='text/javascript' src='dwr/engine.js'></script>
 	<script type='text/javascript' src='dwr/util.js'></script>
     
-    <script language="JavaScript" src="js/a_saveSamples.js"></script>
-	<script language="JavaScript" src="js/box/x_core.js"></script>
-	<script language="JavaScript" src="js/box/x_event.js"></script>
-	<script language="JavaScript" src="js/box/x_dom.js"></script>
-	<script language="JavaScript" src="js/box/x_drag.js"></script>
-	<script language="JavaScript" src="js/box/wz_jsgraphics.js"></script>
+    <script language="javascript" src="js/a_saveSamples.js"></script>
+	<script language="javascript" src="js/box/x_core.js"></script>
+	<script language="javascript" src="js/box/x_event.js"></script>
+	<script language="javascript" src="js/box/x_dom.js"></script>
+	<script language="javascript" src="js/box/x_drag.js"></script>
+	<script language="javascript" src="js/box/wz_jsgraphics.js"></script>
 
-	<script language="JavaScript" src="js/box/dbox.js"></script>
+	<script language="javascript" src="js/box/dbox.js"></script>
 	<script type="text/javascript" src="js/lib/Help.js"></script>
 	<script type="text/javascript" src="js/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
 		
@@ -56,7 +63,7 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 %>
 
 <div style="text-align:center; width:100%; font-size:11px; font-family:arial;">
-	<a href="pcaApplet.jsp?tid=<%=key%>" target="_blank">View 3D Applet - Color by Disease (your browser must be able to support Java version 1.5 or later)</a><br/>
+	<a href="pcaApplet.jsp?tid=<%=key%>" onclick="rbtFrame('pcaApplet.jsp?tid=<%=key%>');return false;" target="_blank">View 3D Applet - Color by Disease (your browser must be able to support Java version 1.4 or later)</a><br/>
 </div>
 <div id="header">
 	<ul id="primary">
