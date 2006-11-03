@@ -1,3 +1,0 @@
-<attribute name="Properties">
-      gov.nih.nci.security.configFile=@CSM_APPLICATION_CONFIG_FILE@
-</attribute>
