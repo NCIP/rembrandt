@@ -21,7 +21,7 @@
 					</fileset>
 				</classpath>
 			</javac>
-			<javac srcdir="${applet.dir}" destdir="${applet.dir}" source="1.5" debug="true" debuglevel="lines,vars,source">
+			<javac srcdir="${applet.dir}" destdir="${applet.dir}" source="1.4" debug="true" debuglevel="lines,vars,source">
 				<classpath>
 						<fileset dir="${applet.dir}">
 							<include name="*.jar"/>
@@ -49,7 +49,7 @@
 				</fileset>
             </classpath>
 		</javac>
-		<javac srcdir="${applet.dir}" destdir="${applet.dir}" source="1.5" debug="true" debuglevel="lines,vars,source">
+		<javac srcdir="${applet.dir}" destdir="${applet.dir}" source="1.4" debug="true" debuglevel="lines,vars,source">
 			<classpath>
 					<fileset dir="${applet.dir}">
 						<include name="*.jar"/>
