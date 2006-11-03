@@ -44,7 +44,7 @@ public class PCATestApplet extends Applet  {
 					String v = getParameter("pt_" + i + "_" + t);
 					String[] xyz = StringUtils.split(v, ",");
 					for(int j=0; j<3; j++){
-						lumpData[t][j] = Double.valueOf(xyz[j]);
+						lumpData[t][j] = Double.valueOf(xyz[j]).doubleValue();
 					}	
 				}
 				
