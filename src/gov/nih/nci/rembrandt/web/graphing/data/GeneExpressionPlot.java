@@ -117,7 +117,7 @@ public class GeneExpressionPlot {
 		PlotSize ps = PlotSize.MEDIUM;
 		
 		final String geneName = gene;
-		
+		final String alg = geType.equals(GeneExpressionDataSetType.GeneExpressionDataSet) ? RembrandtConstants.REPORTER_SELECTION_AFFY : RembrandtConstants.REPORTER_SELECTION_UNI;
 		try {
 			InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(session);
 
@@ -190,7 +190,7 @@ public class GeneExpressionPlot {
 						    }
 						    catch(Exception e) {}
 					    }
-						return "onclick=\"popCoin('"+geneName+"','"+key+"');\" | " + tt;
+						return "onclick=\"popCoin('"+geneName+"','"+key+"', '"+alg+"');\" | " + tt;
 							
 					}
 	
