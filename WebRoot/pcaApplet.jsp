@@ -76,6 +76,7 @@
 
 <div id="res" style="font-family:arial; font-size:10px; color:gray;">
 <b>Note: This applet requires the Java Plugin, version 1.4 or later (recommended 1.5 or later).  If you are unable to view the applet, please download/upgrade your plugin here: <a href="http://www.java.com/en/download/index.jsp" target="_blank">http://www.java.com/en/download/index.jsp</a></b><br/><br/>
+<b>Don't know which version you have installed (if any)? Need help installing the plugin?  Visit this site: <a href="http://www.java.com/en/download/help/testvm.xml" target="_blank">http://www.java.com/en/download/help/testvm.xml</a> for details.</b><br/><br/><br/>
 </div>
 
 <div id="DBG" style="font-family:arial; font-size:11px; color:gray;"></div>
