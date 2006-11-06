@@ -148,7 +148,7 @@ public class KMPlotManager {
 	 * @return @throws
 	 *         Exception
 	 */
-	public ResultsContainer performUnifiedKMGeneExpressionQuery(String geneSymbol,InstitutionCriteria instCrit)
+	public ResultsContainer performUnifiedKMGeneExpressionQuery(List<SampleIDDE> samples, String geneSymbol,InstitutionCriteria instCrit)
 	throws Exception {
 		ResultsContainer resultsContainer = null;
 		try {
@@ -158,6 +158,13 @@ public class KMPlotManager {
 						geneSymbol));
 				UnifiedGeneExpressionQuery geneQuery = (UnifiedGeneExpressionQuery) QueryManager
 						.createQuery(QueryType.UNIFIED_GENE_EXPR_QUERY_TYPE);
+				
+				if(samples!=null)	{
+	            	SampleCriteria sampleCriteria = new SampleCriteria();
+	            	sampleCriteria.setSampleIDs(samples);
+	            	geneQuery.setSampleIDCrit(sampleCriteria);
+	            }
+				
 				geneQuery.setQueryName("UnifiedKaplanMeierPlot");
 				geneQuery.setAssociatedView(ViewFactory
 						.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));

@@ -359,8 +359,13 @@ public class QuickSearchAction extends DispatchAction {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KaplanMeierSampleInfo[] kmSampleInfos = null;
 		
+		String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "ALL GLIOMA";
+
 		//		see if we are constraining by a group of samples
 		String cGroupName = "ALL GLIOMA"; //get from the Form
+		
+		cGroupName = baselineGroup;
+		
 		List<SampleIDDE> sampleList = null;
 		UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
 		UserList ul = helper.getUserList(cGroupName);
@@ -373,7 +378,6 @@ public class QuickSearchAction extends DispatchAction {
 			System.out.println("GROUP " + cGroupName + " NOT FOUND");
 		}
 		
-		String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "ALL GLIOMA";
 
 		// kmForm.setReporters(populateReporters());
 		String kmplotType = kmForm.getPlotType();
@@ -383,8 +387,8 @@ public class QuickSearchAction extends DispatchAction {
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
             kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
-            if (kmForm.getSelectedReporter().equals(
-					CaIntegratorConstants.GRAPH_DEFAULT)){
+            
+            if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_DEFAULT)){
             	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
             }
         }
@@ -506,7 +510,7 @@ public class QuickSearchAction extends DispatchAction {
 			break;
 		case UnifiedGeneExpressionDataSet:
 			kaplanMeierPlotContainer = (KaplanMeierPlotContainer) kmPlotManager
-			.performUnifiedKMGeneExpressionQuery(geneSymbol, institutionCriteria);
+			.performUnifiedKMGeneExpressionQuery(samples, geneSymbol, institutionCriteria);
 			break;
 		}
 		return kaplanMeierPlotContainer;
