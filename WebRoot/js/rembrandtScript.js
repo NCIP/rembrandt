@@ -401,9 +401,9 @@ function changeList(formElement)	{
 	} 
 }
 
-function popCoin(gene,key)	{
-//alert(gene + " : " + key);
-	var url = "/rembrandt/popGraph.do?geneSymbol="+encodeURIComponent(gene)+"&reporter="+encodeURIComponent(key);
+function popCoin(gene,key, alg)	{
+	alert(gene + " : " + key + " : " + alg);
+	var url = "/rembrandt/popGraph.do?geneSymbol="+encodeURIComponent(gene)+"&reporter="+encodeURIComponent(key)+"&alg="+encodeURIComponent(alg);
 	try	{
 		rbtFrame(encodeURIComponent(url));
 	}
