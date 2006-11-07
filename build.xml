@@ -207,7 +207,7 @@
 		TARGET: build_jar_for_WebGenome_anthill
 		This task is intended to be used to by anthill when built be SCM.
 	-->
-	<target name="build_jar_for_WebGenome_anthill" depends="copy_resources_anthill">
+	<target name="build_WGI_jar" depends="copy_resources_anthill">
 		<delete file="${app.jar.name}.jar"/>
 		<jar jarfile="${app.jar.name}.jar">
 			<fileset dir="${build.classes.dir}">
