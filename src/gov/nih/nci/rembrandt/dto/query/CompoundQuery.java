@@ -111,7 +111,7 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 
 	private String queryName;
 	
-	private static boolean isClinicalSampleSet = false;
+	//private static boolean isClinicalSampleSet = false;
 	
     private InstitutionCriteria institutionCriteria;
 
@@ -471,10 +471,10 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 				isClinical = true;
 		}
 		
-		if(isClinical== false) {			
-			isClinical = isClinicalSampleSet;
-			isClinicalSampleSet = false;
-			} 
+		//if(isClinical== false) {			
+		//	isClinical = isClinicalSampleSet;
+		//	isClinicalSampleSet = false;
+		//	} 
 		// Gene Expression Only
 		if (isGEQuery && !isCGHQuery && !isClinical) {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
@@ -575,9 +575,9 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 				queries.addAll(Arrays.asList((Query[]) rightQuery
 						.getAssociatiedQueries()));
 				// This is to take care of cinical sample set
-				if(rightQuery instanceof ClinicalDataQuery ) {						
-					isClinicalSampleSet = true;					
-				}
+				//if(rightQuery instanceof ClinicalDataQuery ) {						
+					//isClinicalSampleSet = true;					
+				//}
 			}
 			
 		} catch (Exception ex) {
