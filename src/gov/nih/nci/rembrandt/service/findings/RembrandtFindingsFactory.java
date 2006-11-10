@@ -3,6 +3,8 @@
  */
 package gov.nih.nci.rembrandt.service.findings;
 
+import java.util.List;
+
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
@@ -14,6 +16,7 @@ import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
+import gov.nih.nci.caintegrator.service.findings.CompoundClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.ClinicalFinding;
 import gov.nih.nci.caintegrator.service.findings.CopyNumberFinding;
@@ -24,6 +27,7 @@ import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.caintegrator.service.findings.KMFinding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.rembrandt.service.findings.strategies.ClassComparisonFindingStrategy;
+import gov.nih.nci.rembrandt.service.findings.strategies.CompoundClassComparisonFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.FTestFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.HierarchicalClusteringFindingStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.PrincipalComponentAnalysisFindingStrategy;
@@ -251,5 +255,30 @@ public class RembrandtFindingsFactory implements FindingsFactory {
 		}
 		cacheManager.addToSessionCache(sessionID, taskID, finding);
 
+	}
+
+	public CompoundClassComparisonFinding createCompoundClassComparisonFinding(List<ClassComparisonQueryDTO> queryList, String sessionID, String taskID) throws FrameworkException {
+		CompoundClassComparisonFinding finding = null;
+		try {
+			CompoundClassComparisonFindingStrategy strategy = new  CompoundClassComparisonFindingStrategy(sessionID,taskID,queryList );
+			strategy.createQuery();
+			strategy.executeQuery();
+			strategy.analyzeResultSet();
+			finding = (CompoundClassComparisonFinding)strategy.getFinding();
+
+		} catch (ValidationException e) {
+			logger.error(e);
+			changeStatusToError(sessionID,taskID,e.getMessage());
+			throw(e);
+		} catch (FindingsQueryException e) {
+			logger.error(e);
+			changeStatusToError(sessionID,taskID,e.getMessage());
+			throw(e);
+		} catch (FindingsAnalysisException e) {
+			logger.error(e);
+			changeStatusToError(sessionID,taskID,e.getMessage());
+			throw(e);
+		}
+		return finding;
 	}
 }

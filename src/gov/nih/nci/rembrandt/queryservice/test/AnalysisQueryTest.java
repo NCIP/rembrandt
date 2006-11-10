@@ -4,6 +4,10 @@ import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
 import gov.nih.nci.caintegrator.analysis.messaging.PCAresultEntry;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
+import gov.nih.nci.caintegrator.application.lists.ListManager;
+import gov.nih.nci.caintegrator.application.lists.ListSubType;
+import gov.nih.nci.caintegrator.application.lists.ListType;
+import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
@@ -32,21 +36,31 @@ import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 
+import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
+import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import javax.naming.OperationNotSupportedException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -146,7 +160,7 @@ public class AnalysisQueryTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		ApplicationContext.init();
-		setUpCCQuery();
+		setUpDiseaseGroupTest();
 		setUpPCAQuery();
         setUpHCQuery();
 		
@@ -155,56 +169,117 @@ public class AnalysisQueryTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-	private void setUpCCQuery(){
+	private void setUpDiseaseGroupTest(){
+	       ListManager listManager = new ListManager();
+	       Map<String,ClinicalQueryDTO> clinicalQueryDTOMap = new HashMap<String,ClinicalQueryDTO>();
+	        List<String> allGliomaSamplesList = new ArrayList<String>();
+	        /**
+	         * this section loops through all REMBRANDTs disease groups found
+	         * in the getDiseaseType below. Based on credentials, queries are
+	         * run to return sample according to each disease and made into 
+	         * default user lists.
+	         */
+			try {
+				DiseaseTypeLookup[] myDiseaseTypes =LookupManager.getDiseaseType();
+				if(myDiseaseTypes != null){
+					for (DiseaseTypeLookup diseaseTypeLookup : myDiseaseTypes){
+						//1. Get the sample Ids from the each disease type
+						Collection<InstitutionDE> insitutions = new ArrayList<InstitutionDE>();
+						insitutions.add(new InstitutionDE("NOB",new Long(8)));
+						List<SampleIDDE> sampleIDDEs = LookupManager.getSampleIDDEs(diseaseTypeLookup.getDiseaseDesc(),insitutions);
+						//2. validate samples so that GE data exsists for these samples
+				        Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
+				        //3. Extracts sampleIds as Strings
+				        Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
+				        List<String> pdids = new ArrayList<String>(sampleIDs);
+				        RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, pdids);
+				        if(sampleIDs != null){				        	
+				               /**
+				                * add valid samples to allSamplesList to be created last.
+				                * Do not add unknown , unclassified and non_tumor samples. 
+				                */
+				               if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
+				                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)
+				                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.NON_TUMOR)==0)){
+				                	   allGliomaSamplesList.addAll(sampleIDs);
+					               }
+				               /**
+				                * Combine all unknown , unclassified samples. 
+				                */
+				               if((diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
+				                       && (diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)){
+			            	   		ClinicalDataQuery group = null;
+			            	   		SampleCriteria sampleCriteria = null;
+			            	   		if(!clinicalQueryDTOMap.containsKey(RembrandtConstants.UNCLASSIFIED)){
+			            	   			group = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+			            	   			group.setQueryName(RembrandtConstants.UNCLASSIFIED);
+			            	   			sampleCriteria = new SampleCriteria();					
+										sampleCriteria.setSampleIDs(sampleIDs);
+			            	   		}
+			            	   		else{
+			            	   			group = (ClinicalDataQuery) clinicalQueryDTOMap.get(RembrandtConstants.UNCLASSIFIED);
+			            	   			sampleCriteria = group.getSampleIDCrit();
+			            	   			sampleCriteria.setSampleIDs(sampleIDs);
+			            	   		}
+									group.setSampleIDCrit(sampleCriteria);
+									group.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));	
+									clinicalQueryDTOMap.put(group.getQueryName(),group);
+					            } else{
+									ClinicalDataQuery group = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+									group.setQueryName(diseaseTypeLookup.getDiseaseDesc());
+									SampleCriteria sampleCriteria = new SampleCriteria();					
+									sampleCriteria.setSampleIDs(sampleIDs);
+									group.setSampleIDCrit(sampleCriteria);
+									group.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));	
+									clinicalQueryDTOMap.put(group.getQueryName(),group);
+				               }
+				               
+				        }
+
+					}
+				}
+			} catch (OperationNotSupportedException e1) {
+				//logger.error(e1);
+			} catch (Exception e1) {
+				//logger.error(e1);
+			}
+	        
+	         //now add the all samples userlist
+	        if(!allGliomaSamplesList.isEmpty()){
+           
+				ClinicalDataQuery group = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+				group.setQueryName(RembrandtConstants.ALL_GLIOMA);
+				SampleCriteria sampleCriteria = new SampleCriteria();					
+				sampleCriteria.setSampleIDs(allGliomaSamplesList);
+				group.setSampleIDCrit(sampleCriteria);
+				group.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));	
+				clinicalQueryDTOMap.put(group.getQueryName(),group);
+
+	        }
+   
+	}
+	private void setUpCCQuery(String queryName, List<ClinicalQueryDTO> groupCollection, Collection<InstitutionDE> insts){
 		classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
-		classComparisonQueryDTO.setQueryName("CCQuery");
+		classComparisonQueryDTO.setQueryName(queryName);
 		classComparisonQueryDTO.setStatisticTypeDE(new StatisticTypeDE(StatisticalMethodType.TTest));
-		classComparisonQueryDTO.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.5,Operator.GT,StatisticalSignificanceType.adjustedpValue));
+		//classComparisonQueryDTO.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.5,Operator.GT,StatisticalSignificanceType.adjustedpValue));
 		classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.FWER ));
 		classComparisonQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
-		classComparisonQueryDTO.setExprFoldChangeDE(new ExprFoldChangeDE.UpRegulation(new Float(2)));
-		Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
-        insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
-        insts.add(new InstitutionDE("PUBLIC",new Long(8)));
+		//classComparisonQueryDTO.setExprFoldChangeDE(new ExprFoldChangeDE.UpRegulation(new Float(2)));
+		//Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
+        //insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
+        //insts.add(new InstitutionDE("PUBLIC",new Long(8)));
 		classComparisonQueryDTO.setInstitutionDEs(insts);
-		List<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
-		//Create ClinicalQueryDTO 1 (Class 1) for the class comparison
-		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-		group1.setQueryName("OLIGO_GROUP");
-		DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
-		//diseaseCrit.setDisease(new DiseaseNameDE("OLIGODENDROGLIOMA"));
-		//group1.setDiseaseOrGradeCrit(diseaseCrit);
-		SampleCriteria sampleCriteria = new SampleCriteria();
-		Collection samplesGroupA = new ArrayList();
-		samplesGroupA.add(new SampleIDDE("E09137"));
-		samplesGroupA.add(new SampleIDDE("NT7"));
-		samplesGroupA.add(new SampleIDDE("NT8"));
-		samplesGroupA.add(new SampleIDDE("xyz"));
-		samplesGroupA.add(new SampleIDDE("HF0088"));
-		samplesGroupA.add(new SampleIDDE("HF0120"));
-		samplesGroupA.add(new SampleIDDE("HF0131"));
-		samplesGroupA.add(new SampleIDDE("HF0137"));
-		sampleCriteria.setSampleIDs(samplesGroupA);
-		group1.setSampleIDCrit(sampleCriteria);
-		group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-		groupCollection.add(group1);
-		
-		//Create ClinicalQueryDTO 2 (Class 2) for the class comparison
-		ClinicalDataQuery group2 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-		group2.setQueryName("GBM_GROUP");
-		diseaseCrit = new DiseaseOrGradeCriteria();
-		diseaseCrit.setDisease(new DiseaseNameDE("GBM"));
-		group2.setDiseaseOrGradeCrit(diseaseCrit);
-		sampleCriteria = new SampleCriteria();
-		Collection samplesGroupB = new ArrayList();
-		samplesGroupB.add(new SampleIDDE("HF0024"));
-		samplesGroupB.add(new SampleIDDE("HF0031"));
-		samplesGroupB.add(new SampleIDDE("HF0048"));
-		samplesGroupB.add(new SampleIDDE("HF0050"));
-		sampleCriteria.setSampleIDs(samplesGroupB);
-		//group2.setSampleIDCrit(sampleCriteria);
-		group2.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-		groupCollection.add(group2);
+//		List<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
+//		//Create ClinicalQueryDTO 1 (Class 1) for the class comparison
+//		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+//		group1.setQueryName(queryAName);
+//		SampleCriteria sampleCriteria = new SampleCriteria();
+//
+//		sampleCriteria.setSampleIDs(groupAIds);
+//		group1.setSampleIDCrit(sampleCriteria);
+//		group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+//		groupCollection.add(group1);
 		
 		classComparisonQueryDTO.setComparisonGroups(groupCollection);
 			
