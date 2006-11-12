@@ -164,7 +164,75 @@ public class AnnotationHandler {
          }
          return genesAndReporters;
     }
+    private Map<String, List<String>> execQueryReporters(List geneSymbols, List annotationsEventList) {
+        final Map<String, List<String>> reporterGeneMap = Collections.synchronizedMap(new HashMap<String, List<String>>());
+        for (int i = 0; i < geneSymbols.size();)   {
+            Collection values = new ArrayList();
+            int begIndex = i;
+            i += VALUES_PER_THREAD ;
+            int endIndex = (i < geneSymbols.size()) ? endIndex = i : (geneSymbols.size());
+            values.addAll(geneSymbols.subList(begIndex,  endIndex));
+            final Criteria reporterCrit = new Criteria();
+            reporterCrit.addIn(ProbesetDim.GENE_SYMBOL, values);
+            String threadID = "AnnotationHandler.ThreadID:" +i;
 
+            final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
+            annotationsEventList.add(dbEvent);
+
+            ThreadPool.AppThread t =
+                    ThreadPool.newAppThread(
+                       new ThreadPool.MyRunnable() {
+                          public void codeToRun() {
+                              // retrieve GeneSymbols for the probesetNames above
+                              final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                              pb.clearCache();
+                              org.apache.ojb.broker.query.Query annotQuery =
+                              QueryFactory.newReportQuery(ProbesetDim.class,new String[] {ProbesetDim.PROBESET_NAME, ProbesetDim.GENE_SYMBOL}, reporterCrit, false);
+                              assert(annotQuery  != null);
+                              Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+
+                              while (iter.hasNext()) {
+                                   Object[] geneAttrs = (Object[]) iter.next();
+                                   String reporter = (String)geneAttrs[0];
+                                   String geneSymbol = (String)geneAttrs[1];
+                                   if (reporterGeneMap.containsKey(geneSymbol)){
+                                	  List<String> reporters =  reporterGeneMap.get(geneSymbol);
+                                	  reporters.add(reporter);
+                                	  reporterGeneMap.put(geneSymbol,reporters);    
+                                   }
+                                   else{
+                                	   List<String> reporters = new ArrayList<String>();
+                                	   reporters.add(reporter);
+                                	   reporterGeneMap.put(geneSymbol,reporters);                                	   
+                                   }
+                              }
+                              pb.close();
+                              dbEvent.setCompleted(true);
+                          }
+                       }
+                    );
+               logger.debug("BEGIN: (from AnnotationHandler.getGeneSymbolsFor()) Thread Count: " + ThreadPool.THREAD_COUNT);
+               t.start();
+         }
+         return reporterGeneMap;
+    }
+    /**  This method will return the reporter and corresponding gene symbols in a Hash Map
+    *
+    * @param geneSymbol Gene Symbols to be queried
+    * @return This method retunrs a Map using geneSymbol as key and corresponding reporters as value
+    */
+    @SuppressWarnings("unchecked")
+	public Map<String, List<String>> getReportersForGenes(List geneSymbols) throws Exception{
+        List annotationsEventList = Collections.synchronizedList(new ArrayList());
+        Map h = execQueryReporters(geneSymbols, annotationsEventList);
+        try {
+            ThreadController.sleepOnEvents(annotationsEventList);
+        } catch (InterruptedException e) {
+            // no big deal Log it and ignore it
+            logger.debug("Thread Interrupted during Annotations Retrieval", e);
+        }
+        return h;
+    }
 
 
 }

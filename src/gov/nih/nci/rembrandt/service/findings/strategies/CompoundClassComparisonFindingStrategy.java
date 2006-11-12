@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
 import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonRequest;
+import gov.nih.nci.caintegrator.analysis.messaging.CompoundAnalysisRequest;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
@@ -38,8 +39,10 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.jms.JMSException;
@@ -114,15 +117,16 @@ import org.apache.log4j.Logger;
 public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 	private static Logger logger = Logger.getLogger(CompoundClassComparisonFindingStrategy.class);	
 	@SuppressWarnings("unused")
-	private ClassComparisonQueryDTO myQueryDTO;
+	private List<ClassComparisonQueryDTO> myQueryDTOList;
 	@SuppressWarnings("unused")
 	private Collection<ClinicalDataQuery> clinicalQueries;
 	@SuppressWarnings({"unchecked"})
-	private Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>(); 
+	
 	private Collection<SampleIDDE> samplesNotFound = new HashSet<SampleIDDE>(); 
 	private String sessionId;
 	private String taskId;
-	private ClassComparisonRequest classComparisonRequest = null;
+	private CompoundAnalysisRequest compoundAnalysisRequest = null;
+	private Map<String,ClassComparisonRequest> classComparisonMap = new HashMap<String,ClassComparisonRequest>();
 	private CompoundClassComparisonFinding compoundClassComparisonFinding;
 	private AnalysisServerClientManager analysisServerClientManager;
 	private BusinessTierCache cacheManager = ApplicationFactory.getBusinessTierCache();
@@ -131,10 +135,10 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 		//Check if the passed query is valid
 		for(ClassComparisonQueryDTO queryDTO: queryDTOList){
 			if(validate(queryDTO)){
-				myQueryDTO = queryDTO;
 				this.sessionId = sessionId;
 				this.taskId = taskId;
-				classComparisonRequest = new ClassComparisonRequest(this.sessionId,this.taskId);
+				ClassComparisonRequest classComparisonRequest = new ClassComparisonRequest(sessionId,queryDTO.getQueryName());
+				classComparisonMap.put(queryDTO.getQueryName(),classComparisonRequest);
 	            try {
 	                analysisServerClientManager = AnalysisServerClientManager.getInstance();
 	            } catch (NamingException e) {               
@@ -151,10 +155,10 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 		/*
 		 * Set the Finding into the cache! YOU HAVE TO DO THIS!
 		 */
-		
+		myQueryDTOList = queryDTOList;
+		compoundAnalysisRequest = new CompoundAnalysisRequest(sessionId,taskId);
 		FindingStatus currentStatus = FindingStatus.Running;
 		compoundClassComparisonFinding = new CompoundClassComparisonFinding(sessionId, taskId, currentStatus, null);
-		//compoundClassComparisonFinding.setQueryDTO(queryDTOList);
 		cacheManager.addToSessionCache(sessionId, taskId, compoundClassComparisonFinding);
 	}
 
@@ -164,35 +168,26 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 	 * This method validates that 2 groups were passed for TTest and Wincoin Test
 	 */
 	public boolean createQuery() throws FindingsQueryException {
-		//because each layer is valid I am assured I will be getting a fulling populated query object
-		StatisticalMethodType statisticType = myQueryDTO.getStatisticTypeDE().getValueObject();
-
-		if(myQueryDTO.getComparisonGroups() != null ){
-			switch (statisticType){
-			case TTest:
-			case Wilcoxin:
-				if( myQueryDTO.getComparisonGroups().size() != 2){
-					throw new FindingsQueryException("Incorrect Number of queries passed for the TTest and  Wilcoxin stat type");
+		boolean flag = false;
+		for(ClassComparisonQueryDTO queryDTO: myQueryDTOList){
+			//because each layer is valid I am assured I will be getting a fulling populated query object
+			StatisticalMethodType statisticType = queryDTO.getStatisticTypeDE().getValueObject();
+	
+			if(queryDTO.getComparisonGroups() != null ){
+				switch (statisticType){
+				case TTest:
+				case Wilcoxin:
+					if( queryDTO.getComparisonGroups().size() != 2){
+						throw new FindingsQueryException("Incorrect Number of queries passed for the TTest and  Wilcoxin stat type");
+					}
+					break;
+				default:
+					throw new FindingsQueryException("No StatisticalMethodType selected");
 				}
-				break;
-			default:
-				throw new FindingsQueryException("No StatisticalMethodType selected");
+				flag = true;	
 			}
-//			/**
-//			 * We have to convert from ClinicalQueryDTO to ClinicalDataQuery (a rembrandt class)
-//			 * because at the time of this writing the DTO was only a marker interface.
-//			 * The ClinicalDataQuery was an exsisting Query that we could not change 
-//			 * in the interest of time.
-//			 */
-//			List<ClinicalQueryDTO> clinicalQueryDTOs = myQueryDTO.getComparisonGroups();
-//			clinicalQueries = new ArrayList<ClinicalDataQuery>();
-//			for(ClinicalQueryDTO clinicalQueryDTO: clinicalQueryDTOs) {
-//				clinicalQueries.add((ClinicalDataQuery)clinicalQueryDTO);
-//			}
-			
-			return true;	
 		}
-		return false;
+		return flag;
 	}
 
 	/* (non-Javadoc)
@@ -200,28 +195,36 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 	 * this methods queries the database to get back sample Ids for the groups
 	 */
 	public boolean executeQuery() throws FindingsQueryException {
-
-        List<ClinicalQueryDTO> clinicalQueries = myQueryDTO.getComparisonGroups();
-            for (ClinicalQueryDTO clinicalDataQuery: clinicalQueries){
-                if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
-       	            try{
-                     PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
-                        List<String> validPatientDIDs = pQuery.getPatientDIDs();
-								if(validPatientDIDs != null){
-									//3.1 add them to SampleGroup
-									SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validPatientDIDs.size());
-									sampleGroup.addAll(validPatientDIDs);
-									sampleGroups.add(sampleGroup);
-															
-							}
-                    } catch (Exception e) {
-								e.printStackTrace();
-								logger.error(e.getMessage());
-					  			throw new FindingsQueryException(e.getMessage());
-					}
-
-		 		}	
-            }
+		for(ClassComparisonQueryDTO queryDTO: myQueryDTOList){
+	        List<ClinicalQueryDTO> clinicalQueries = queryDTO.getComparisonGroups();
+	        Collection<SampleGroup> sampleGroups = new ArrayList<SampleGroup>(); 
+	            for (ClinicalQueryDTO clinicalDataQuery: clinicalQueries){
+	                if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
+	       	            try{
+	                     PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
+	                        List<String> validPatientDIDs = pQuery.getPatientDIDs();
+									if(validPatientDIDs != null){
+										//3.1 add them to SampleGroup
+										SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validPatientDIDs.size());
+										sampleGroup.addAll(validPatientDIDs);
+										sampleGroups.add(sampleGroup);
+										
+								}
+	                    } catch (Exception e) {
+									e.printStackTrace();
+									logger.error(e.getMessage());
+						  			throw new FindingsQueryException(e.getMessage());
+						}
+	
+			 		}	
+	            }
+	            ClassComparisonRequest classComparisonRequest = classComparisonMap.get(queryDTO.getQueryName());
+                Object[] obj = sampleGroups.toArray();
+	            if(classComparisonRequest != null && obj.length == 2){
+						classComparisonRequest.setGroup1((SampleGroup)obj[0]);
+						classComparisonRequest.setBaselineGroup((SampleGroup)obj[1]);
+	            }
+		}
       return true;
 	}
 
@@ -229,57 +232,55 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 	 * @see gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy#analyzeResultSet()
 	 */
 	public boolean analyzeResultSet() throws FindingsAnalysisException {
-		StatisticalMethodType statisticType = myQueryDTO.getStatisticTypeDE().getValueObject();
-		classComparisonRequest.setStatisticalMethod(statisticType);
-		try{
-			switch (statisticType){
-			case TTest:
-			case Wilcoxin:
-				{
-					//set MultiGroupComparisonAdjustmentType
-					classComparisonRequest.setMultiGroupComparisonAdjustmentType(
-							myQueryDTO.getMultiGroupComparisonAdjustmentTypeDE().getValueObject());				
-					//set foldchange
-				
-					ExprFoldChangeDE foldChange = myQueryDTO.getExprFoldChangeDE();
-					classComparisonRequest.setFoldChangeThreshold(foldChange.getValueObject());
-					//set platform
-					//Covert ArrayPlatform String to Enum -Himanso 10/15/05
-						classComparisonRequest.setArrayPlatform(myQueryDTO.getArrayPlatformDE().getValueObjectAsArrayPlatformType()); 
+		for(ClassComparisonQueryDTO queryDTO: myQueryDTOList){
+            ClassComparisonRequest classComparisonRequest = classComparisonMap.get(queryDTO.getQueryName());
+            if(classComparisonRequest != null){
+				StatisticalMethodType statisticType = queryDTO.getStatisticTypeDE().getValueObject();
+				classComparisonRequest.setStatisticalMethod(statisticType);
+				try{
+					switch (statisticType){
+					case TTest:
+					case Wilcoxin:
+						{
+							//set MultiGroupComparisonAdjustmentType
+							classComparisonRequest.setMultiGroupComparisonAdjustmentType(
+									queryDTO.getMultiGroupComparisonAdjustmentTypeDE().getValueObject());				
+							//set foldchange
+						
+							//ExprFoldChangeDE foldChange = queryDTO.getExprFoldChangeDE();
+							//classComparisonRequest.setFoldChangeThreshold(foldChange.getValueObject());
+							//set platform
+							//Covert ArrayPlatform String to Enum -Himanso 10/15/05
+								classComparisonRequest.setArrayPlatform(queryDTO.getArrayPlatformDE().getValueObjectAsArrayPlatformType()); 
+		
 
-					// set SampleGroups
-                    Object[] obj = sampleGroups.toArray();
-					//SampleGroup[] sampleGroupObjects =  (SampleGroup[]) sampleGroups.toArray();				
-					if (obj.length >= 2) {
-						classComparisonRequest.setGroup1((SampleGroup)obj[0]);
-						classComparisonRequest.setBaselineGroup((SampleGroup)obj[1]);
+							// set PvalueThreshold
+							//classComparisonRequest.setPvalueThreshold(queryDTO.getStatisticalSignificanceDE().getValueObject());
+							
+							if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {					 
+							  classComparisonRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix"));
+							}
+							else if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.CDNA_ARRAY_PLATFORM) {
+							  classComparisonRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.cdna_data_matrix"));
+							}
+							else {
+							  logger.warn("Unrecognized array platform type for ClassComparisionRequest");
+							  //may want to return false and show an error on the page.
+							}
+							
+		                    analysisServerClientManager.sendRequest(classComparisonRequest);
+		                    return true;
+						}
 					}
-					// set PvalueThreshold
-					classComparisonRequest.setPvalueThreshold(myQueryDTO.getStatisticalSignificanceDE().getValueObject());
-					
-					if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.AFFY_OLIGO_PLATFORM) {					 
-					  classComparisonRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix"));
-					}
-					else if (classComparisonRequest.getArrayPlatform() == ArrayPlatformType.CDNA_ARRAY_PLATFORM) {
-					  classComparisonRequest.setDataFileName(System.getProperty("gov.nih.nci.rembrandt.cdna_data_matrix"));
-					}
-					else {
-					  logger.warn("Unrecognized array platform type for ClassComparisionRequest");
-					  //may want to return false and show an error on the page.
-					}
-					
-                    analysisServerClientManager.sendRequest(classComparisonRequest);
-                    return true;
+				} catch (JMSException e) {
+					logger.error(e.getMessage());
+		  			throw new FindingsAnalysisException(e.getMessage());
+				} catch(Exception e){
+					logger.error(e.getMessage());
+					throw new FindingsAnalysisException("Error in setting ClassComparisonRequest object");
 				}
-			}
-		} catch (JMSException e) {
-			logger.error(e.getMessage());
-  			throw new FindingsAnalysisException(e.getMessage());
-		} catch(Exception e){
-			logger.error(e.getMessage());
-			throw new FindingsAnalysisException("Error in setting ClassComparisonRequest object");
+            }
 		}
-
 		return false;
 	}
 
@@ -298,10 +299,10 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getInstitutionDEs());
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getArrayPlatformDE()) ;
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getComparisonGroups());
-				ValidationUtility.checkForNull(classComparisonQueryDTO.getExprFoldChangeDE());
+				//ValidationUtility.checkForNull(classComparisonQueryDTO.getExprFoldChangeDE());
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getMultiGroupComparisonAdjustmentTypeDE());
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getQueryName());
-				ValidationUtility.checkForNull(classComparisonQueryDTO.getStatisticalSignificanceDE());
+				//ValidationUtility.checkForNull(classComparisonQueryDTO.getStatisticalSignificanceDE());
 				ValidationUtility.checkForNull(classComparisonQueryDTO.getStatisticTypeDE());
 					switch (classComparisonQueryDTO.getMultiGroupComparisonAdjustmentTypeDE().getValueObject()){
 						case NONE:

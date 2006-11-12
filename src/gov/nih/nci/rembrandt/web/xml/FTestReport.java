@@ -1,45 +1,25 @@
 package gov.nih.nci.rembrandt.web.xml;
 
-import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResult;
-import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonResultEntry;
-import gov.nih.nci.caintegrator.analysis.messaging.FTestResult;
 import gov.nih.nci.caintegrator.analysis.messaging.FTestResultEntry;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
-import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
-import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
-import gov.nih.nci.rembrandt.web.helper.FilterHelper;
-import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-
-import java.math.BigDecimal;
 
 /**
  * @author LandyR

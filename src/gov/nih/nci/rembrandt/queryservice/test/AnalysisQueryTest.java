@@ -137,6 +137,8 @@ public class AnalysisQueryTest extends TestCase {
 	private PrincipalComponentAnalysisQueryDTO pcaQueryDTO;
     private HierarchicalClusteringQueryDTO hcQueryDTO;
 	private static BusinessTierCache businessTierCache  = ApplicationFactory.getBusinessTierCache();
+	private Map<String,ClinicalQueryDTO> clinicalQueryDTOMap = new HashMap<String,ClinicalQueryDTO>();
+	private List<ClassComparisonQueryDTO> classComparisonQueryDTOList = new ArrayList<ClassComparisonQueryDTO>();
 	public AnalysisQueryTest(String string) {
 		super(string);
 		
@@ -163,16 +165,39 @@ public class AnalysisQueryTest extends TestCase {
 		setUpDiseaseGroupTest();
 		setUpPCAQuery();
         setUpHCQuery();
-		
+        setUpCompoundClassComparisionQuery();
+	}
+
+	public void setUpCompoundClassComparisionQuery() {
+		 
+		for( String queryName: clinicalQueryDTOMap.keySet()){
+			ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
+			classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
+			classComparisonQueryDTO.setQueryName(queryName);
+			classComparisonQueryDTO.setStatisticTypeDE(new StatisticTypeDE(StatisticalMethodType.TTest));
+			//classComparisonQueryDTO.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.5,Operator.GT,StatisticalSignificanceType.adjustedpValue));
+			classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.FWER ));
+			classComparisonQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
+			//classComparisonQueryDTO.setExprFoldChangeDE(new ExprFoldChangeDE.UpRegulation(new Float(2)));
+			Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
+	        insts.add(new InstitutionDE("PUBLIC",new Long(8)));
+			classComparisonQueryDTO.setInstitutionDEs(insts);
+			
+			List<ClinicalQueryDTO> groupCollection= new ArrayList<ClinicalQueryDTO>();
+			groupCollection.add(clinicalQueryDTOMap.get(queryName));
+			groupCollection.add(clinicalQueryDTOMap.get(RembrandtConstants.NON_TUMOR));//baseline
+			classComparisonQueryDTO.setComparisonGroups(groupCollection);
+			classComparisonQueryDTOList.add(classComparisonQueryDTO);
+			
+			
+		}
 	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 	private void setUpDiseaseGroupTest(){
-	       ListManager listManager = new ListManager();
-	       Map<String,ClinicalQueryDTO> clinicalQueryDTOMap = new HashMap<String,ClinicalQueryDTO>();
-	        List<String> allGliomaSamplesList = new ArrayList<String>();
+	        List<SampleIDDE> allGliomaSamplesList = new ArrayList<SampleIDDE>();
 	        /**
 	         * this section loops through all REMBRANDTs disease groups found
 	         * in the getDiseaseType below. Based on credentials, queries are
@@ -185,15 +210,11 @@ public class AnalysisQueryTest extends TestCase {
 					for (DiseaseTypeLookup diseaseTypeLookup : myDiseaseTypes){
 						//1. Get the sample Ids from the each disease type
 						Collection<InstitutionDE> insitutions = new ArrayList<InstitutionDE>();
-						insitutions.add(new InstitutionDE("NOB",new Long(8)));
+						insitutions.add(new InstitutionDE("Public",new Long(8)));
 						List<SampleIDDE> sampleIDDEs = LookupManager.getSampleIDDEs(diseaseTypeLookup.getDiseaseDesc(),insitutions);
 						//2. validate samples so that GE data exsists for these samples
 				        Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-				        //3. Extracts sampleIds as Strings
-				        Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-				        List<String> pdids = new ArrayList<String>(sampleIDs);
-				        RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, pdids);
-				        if(sampleIDs != null){				        	
+				        if(validSampleIDDEs != null){				        	
 				               /**
 				                * add valid samples to allSamplesList to be created last.
 				                * Do not add unknown , unclassified and non_tumor samples. 
@@ -201,7 +222,7 @@ public class AnalysisQueryTest extends TestCase {
 				               if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
 				                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)
 				                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.NON_TUMOR)==0)){
-				                	   allGliomaSamplesList.addAll(sampleIDs);
+				                	   allGliomaSamplesList.addAll(validSampleIDDEs);
 					               }
 				               /**
 				                * Combine all unknown , unclassified samples. 
@@ -210,16 +231,16 @@ public class AnalysisQueryTest extends TestCase {
 				                       && (diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)){
 			            	   		ClinicalDataQuery group = null;
 			            	   		SampleCriteria sampleCriteria = null;
-			            	   		if(!clinicalQueryDTOMap.containsKey(RembrandtConstants.UNCLASSIFIED)){
+			            	   		if(!clinicalQueryDTOMap.containsKey(RembrandtConstants.UNKNOWN)){
 			            	   			group = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
-			            	   			group.setQueryName(RembrandtConstants.UNCLASSIFIED);
+			            	   			group.setQueryName(RembrandtConstants.UNKNOWN);
 			            	   			sampleCriteria = new SampleCriteria();					
-										sampleCriteria.setSampleIDs(sampleIDs);
+										sampleCriteria.setSampleIDs(validSampleIDDEs);
 			            	   		}
 			            	   		else{
-			            	   			group = (ClinicalDataQuery) clinicalQueryDTOMap.get(RembrandtConstants.UNCLASSIFIED);
+			            	   			group = (ClinicalDataQuery) clinicalQueryDTOMap.get(RembrandtConstants.UNKNOWN);
 			            	   			sampleCriteria = group.getSampleIDCrit();
-			            	   			sampleCriteria.setSampleIDs(sampleIDs);
+			            	   			sampleCriteria.setSampleIDs(validSampleIDDEs);
 			            	   		}
 									group.setSampleIDCrit(sampleCriteria);
 									group.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));	
@@ -228,7 +249,7 @@ public class AnalysisQueryTest extends TestCase {
 									ClinicalDataQuery group = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 									group.setQueryName(diseaseTypeLookup.getDiseaseDesc());
 									SampleCriteria sampleCriteria = new SampleCriteria();					
-									sampleCriteria.setSampleIDs(sampleIDs);
+									sampleCriteria.setSampleIDs(validSampleIDDEs);
 									group.setSampleIDCrit(sampleCriteria);
 									group.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));	
 									clinicalQueryDTOMap.put(group.getQueryName(),group);
@@ -353,6 +374,29 @@ public class AnalysisQueryTest extends TestCase {
 		assert(status == FindingStatus.Completed);
 		displayAnnotations(finding);
 	}
+	public void testCompoundCCQueryCompleted(){
+		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
+		Finding finding = null;
+		try {
+			finding = factory.createCompoundClassComparisonFinding(classComparisonQueryDTOList,"mySession","EGFR");
+		} catch (FrameworkException e) {
+			e.printStackTrace();
+		}
+		FindingStatus status = finding.getStatus();
+		assert(status == FindingStatus.Running);
+		
+		while(finding.getStatus() == FindingStatus.Running){
+			 finding = businessTierCache.getSessionFinding(finding.getSessionId(),finding.getTaskId());
+			 try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		status = finding.getStatus();
+		assert(status == FindingStatus.Completed);
+		displayAnnotations(finding);
+	}
 	public void testPCAQueryCompleted(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
 		Finding finding = null;
@@ -397,8 +441,7 @@ public class AnalysisQueryTest extends TestCase {
             }
         }
         status = finding.getStatus();
-        assert(status == FindingStatus.Completed);
-        displayAnnotations(finding);
+        assert(status == FindingStatus.Completed);        
     }
 	public void testPCAQueryError(){
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
