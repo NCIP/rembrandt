@@ -17,6 +17,10 @@
 		location.replace("viewResults.do");
 	}
 </script>
+<!--
+<script type="text/javascript" src="soundMgr/soundmanager.js"></script>
+<script type="text/javascript">soundManagerInit();</script>
+-->
 <%
 String helpLink = "<a href=\"javascript: spawn('help.jsp";
 String helpLinkClose = "', 350, 500);\">"+
@@ -26,8 +30,6 @@ String helpLinkClose = "', 350, 500);\">"+
 %> 
 
 
-<tr class="report">
-  <td>
   <script type="text/javascript">Help.insertHelp("View_results_overview", " align='right'", "padding:2px;");</script>
     <br />
     <form action="#">     
