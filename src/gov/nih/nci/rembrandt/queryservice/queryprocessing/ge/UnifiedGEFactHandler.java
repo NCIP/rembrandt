@@ -111,7 +111,14 @@ abstract public class UnifiedGEFactHandler {
 
                 // 2. add Institution criteria
                 CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, c);
+                CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, c);
 
+
+                
+                //
+                
+                
+                
                 Query factQuery = QueryFactory.newQuery(targetFactClass,c, false);
                 assert(factQuery  != null);
                 Collection exprObjects =  pb.getCollectionByQuery(factQuery);
