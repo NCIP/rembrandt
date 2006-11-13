@@ -10,6 +10,7 @@ import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GEPatientData;
 import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
 import gov.nih.nci.rembrandt.dbbean.LocusLink;
+import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
 import gov.nih.nci.rembrandt.dbbean.SnpProbesetDim;
 import gov.nih.nci.rembrandt.dto.lookup.AccessionNoLookup;
@@ -138,6 +139,44 @@ public class DataValidator{
     	return false;
     }
     public static Collection<SampleIDDE> validateSampleIds(Collection<SampleIDDE> sampleIds) throws Exception{
+    	Collection<SampleIDDE> validSampleList = new ArrayList<SampleIDDE>();
+    	if(sampleIds != null  && sampleIds.size() > 0){
+            
+
+            try {
+        	//Create a Criteria for Approved Symbol
+           
+            Collection<String> values = new ArrayList<String>();
+            for (SampleIDDE sampleId : sampleIds){
+                if(sampleId.getValueObject().indexOf("*")!= -1 || sampleId.getValueObject().indexOf("%") != -1){
+                    throw new Exception("Sample Id"+ sampleId+ "contains * or %");         //make sure your not checking for wildcards
+                }
+                values.add(sampleId.getValueObject().toUpperCase());
+            }
+
+
+            Collection sampleCollection;
+            Criteria sampleCrit = new Criteria();
+            sampleCrit.addIn("upper(sampleId)",values);	
+            sampleCollection = QueryExecuter.executeQuery(PatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+            	if(sampleCollection != null){
+            		 for (Object obj : sampleCollection){
+            			 if(obj instanceof PatientData){
+            				 PatientData pateintData = (PatientData) obj;
+            				 validSampleList.add(new SampleIDDE(pateintData.getSampleId()));
+            			 }
+            		 }
+            	}
+
+	    		} catch (Exception e) {
+	    			logger.error("Error in validateSampleIds");
+	    			logger.error(e.getMessage());
+	    			throw e;
+	    		}
+    	}
+    	return validSampleList;
+    }
+    public static Collection<SampleIDDE> validateSampleIdsForGEData(Collection<SampleIDDE> sampleIds) throws Exception{
     	Collection<SampleIDDE> validSampleList = new ArrayList<SampleIDDE>();
     	if(sampleIds != null  && sampleIds.size() > 0){
             
