@@ -467,8 +467,8 @@ public class SampleViewHandler {
     	}
     	return sampleViewResultsContainer;
 	}
-	public static SampleViewResultsContainer populateWithClinicalData(ClinicalResultSet[] clinicalObjs ) throws Exception {
-		SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
+	public static SampleViewResultsContainer populateWithClinicalData(SampleViewResultsContainer sampleViewResultsContainer, ClinicalResultSet[] clinicalObjs ) throws Exception {
+		//SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
 		if(clinicalObjs !=null){
 			Set<String> sampleIDset = new HashSet<String>();			
 			for (int i = 0; i < clinicalObjs.length; i++) {
