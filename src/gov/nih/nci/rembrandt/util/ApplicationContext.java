@@ -144,7 +144,7 @@ public class ApplicationContext{
 		//analysisServerClientManager.setJMSparameters();
 		
 		  //Get the application properties from the properties file
-		  String propertiesFileName = System.getProperty("gov.nih.nci.rembrandt.propertiesFile");
+		  String propertiesFileName = System.getProperty("gov.nih.nci.rembrandt.properties");
 		
 		  //Load the the application properties and set them as system properties
 		  Properties rembrandtProperties = new Properties();
