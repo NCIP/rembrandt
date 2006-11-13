@@ -94,6 +94,7 @@ else {
 %>
 	<applet code="PCATestApplet.class" width="400" height="550"
 	name="pcaApplet" id="pcaApplet" codebase="Applets/" archive="<%=usejar%>.jar,commons-lang-2.0.jar">
+	 <param name="image" value="images/applet400x550.jpg">
 	<%=params%>	
 	<em>Your browser does not support Java!  Please download the Java Plugin for your browser, available from <a href="http://www.java.com/en/download/index.jsp" target="_blank">Sun</a></em>
 	</applet> 
