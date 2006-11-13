@@ -91,9 +91,14 @@
 	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
 	</definition>
 	
-	
-	
-	<definition name="nautilus.viewResults" path="/jsp/homeLayout.jsp">
+	<definition name="nautilus.viewResults" extends="baseDef">
+      	<put name="mainForm" value="/jsp/viewResults.jsp" />
+	  	<put name="title" value="View Results" />
+	   	<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
+	   	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
+	</definition>
+ 
+	<definition name="nautilus.viewResults.noSidebar" path="/jsp/homeLayout.jsp">
 		<put name="title" value="View Results" />
 		<!--  the common criteria  -->
 		<put name="htmlHead" value="/jsp/tiles/htmlHead_tile.jsp" />
@@ -106,7 +111,7 @@
 		<put name="mainForm" value="/jsp/viewResults.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />		
     </definition>
-    
+
     <definition name="nautilus.refine" extends="baseDef">
       <put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />
 	  <put name="formName" value="refineQueryForm" /> 		<!-- form name -->
