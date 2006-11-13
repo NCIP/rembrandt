@@ -16,6 +16,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -357,7 +358,7 @@ public class KaplanMeierPlotHandler {
 		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 		    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
 		    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
-		    		if(patient != null){
+		    		if(patient != null && patient.getDiseaseType()!=null && !patient.getDiseaseType().equals(RembrandtConstants.UNKNOWN) && !patient.getDiseaseType().equals(RembrandtConstants.UNCLASSIFIED)){
 			    		sample.setSurvivalLength(patient.getSurvivalLength());
 			    		sample.setCensor(new DatumDE(DatumDE.CENSOR,patient.getCensoringStatus()));
 			    		kaplanMeierPlotContainer.addSampleResultset(sample);  //update sample resultset
