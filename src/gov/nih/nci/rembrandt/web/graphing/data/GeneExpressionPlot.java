@@ -298,16 +298,16 @@ public class GeneExpressionPlot {
 					String currentPV = (String) pv.get(dataset
 							.getRowKey(series)
 							+ "::" + dataset.getColumnKey(item));
-					/*
+					
 					String stdDev = (String) std_d.get(dataset
 							.getRowKey(series)
 							+ "::" + dataset.getColumnKey(item));
-					*/
+					
 					return "Probeset : " + dataset.getRowKey(series) +
 							"<br/>Intensity : "+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + 
 							"<br/>"+RembrandtConstants.PVALUE +": " + currentPV +
-							"<br/>";
-							//"<br/>Std. Dev.: " + stdDev + "<br/>";
+							//"<br/>";
+							"<br/>Std. Dev.: " + stdDev + "<br/>";
 				}
 
 			});
