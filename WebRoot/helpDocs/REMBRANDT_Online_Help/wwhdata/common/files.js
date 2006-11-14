@@ -9,7 +9,7 @@ P.fA("Getting Started with REM\u00adBRANDT 1.5","rembrandt1.5_Getting_Started.4.
 P.fA("Creating a User Account","rembrandt1.5_Getting_Started.4.2.html");
 P.fA("Logging In","rembrandt1.5_Getting_Started.4.3.html");
 P.fA("Accepting REMBRANDT Provisions","rembrandt1.5_Getting_Started.4.4.html");
-P.fA("Welcome to REMBRANDT 1.5","rembrandt1.5_Getting_Started.4.5.html");
+P.fA("REMBRANDT 1.5 Workspace","rembrandt1.5_Getting_Started.4.5.html");
 P.fA("Getting Help","rembrandt1.5_Getting_Started.4.6.html");
 P.fA("Application Support","rembrandt1.5_Getting_Started.4.7.html");
 P.fA("Logging Out","rembrandt1.5_Getting_Started.4.8.html");

@@ -51,6 +51,7 @@ x.t("rembrandt","click");
 x.t("rembrandt","help");
 x.t("rembrandt","online");
 x.t("rembrandt","easily");
+x.t("rembrandt","following");
 x.t("rembrandt","workspace.");
 x.t("rembrandt","user\u2019s");
 x.t("located","rembrandt");
@@ -75,7 +76,7 @@ x.t("application","support");
 x.t("easily","accessed");
 x.t("following","table");
 x.t("using","rembrandt");
-x.t("workspace.","following");
+x.t("workspace.","rembrandt");
 x.t("item","rembrandt");
 x.t("user\u2019s","guide");
 }
