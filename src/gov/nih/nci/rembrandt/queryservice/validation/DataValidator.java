@@ -176,8 +176,8 @@ public class DataValidator{
     	}
     	return validSampleList;
     }
-    public static Collection<SampleIDDE> validateSampleIdsForGEData(Collection<SampleIDDE> sampleIds) throws Exception{
-    	Collection<SampleIDDE> validSampleList = new ArrayList<SampleIDDE>();
+    public static List<String> validateSampleIdsForGEData(Collection<String> sampleIds) throws Exception{
+    	List<String> validSampleList = new ArrayList<String>();
     	if(sampleIds != null  && sampleIds.size() > 0){
             
 
@@ -185,11 +185,11 @@ public class DataValidator{
         	//Create a Criteria for Approved Symbol
            
             Collection<String> values = new ArrayList<String>();
-            for (SampleIDDE sampleId : sampleIds){
-                if(sampleId.getValueObject().indexOf("*")!= -1 || sampleId.getValueObject().indexOf("%") != -1){
+            for (String sampleId : sampleIds){
+                if(sampleId.indexOf("*")!= -1 || sampleId.indexOf("%") != -1){
                     throw new Exception("Sample Id"+ sampleId+ "contains * or %");         //make sure your not checking for wildcards
                 }
-                values.add(sampleId.getValueObject().toUpperCase());
+                values.add(sampleId.toUpperCase());
             }
 
 
@@ -201,7 +201,7 @@ public class DataValidator{
             		 for (Object obj : sampleCollection){
             			 if(obj instanceof GEPatientData){
             				 GEPatientData pateintData = (GEPatientData) obj;
-            				 validSampleList.add(new SampleIDDE(pateintData.getSampleId()));
+            				 validSampleList.add(pateintData.getSampleId());
             			 }
             		 }
             	}

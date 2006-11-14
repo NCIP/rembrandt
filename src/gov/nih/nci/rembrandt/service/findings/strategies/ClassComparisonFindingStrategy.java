@@ -203,7 +203,8 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
                 if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
        	            try{
                      PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
-                        List<String> validPatientDIDs = pQuery.getPatientDIDs();
+                     //Validate that samples has GE data
+                     List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(pQuery.getPatientDIDs());
 								if(validPatientDIDs != null){
 									//3.1 add them to SampleGroup
 									SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validPatientDIDs.size());
