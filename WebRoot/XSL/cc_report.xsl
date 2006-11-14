@@ -405,6 +405,7 @@
   	</table>
   	
   	<div id="query_details">
+  	<a name="queryInfo"></a>
   	<xsl:for-each select="Query_details">
   		<xsl:value-of select="Data" />
   	</xsl:for-each>
