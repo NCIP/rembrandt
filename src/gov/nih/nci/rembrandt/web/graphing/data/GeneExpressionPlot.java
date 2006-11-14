@@ -306,8 +306,8 @@ public class GeneExpressionPlot {
 					return "Probeset : " + dataset.getRowKey(series) +
 							"<br/>Intensity : "+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + 
 							"<br/>"+RembrandtConstants.PVALUE +": " + currentPV +
-							//"<br/>";
-							"<br/>Std. Dev.: " + stdDev + "<br/>";
+							"<br/>";
+							//"<br/>Std. Dev.: " + stdDev + "<br/>";
 				}
 
 			});
