@@ -153,12 +153,12 @@ public class ApplicationContext{
 		  logger.info("Attempting to load application system properties from file: " + propertiesFileName);
 		   
 		  FileInputStream in = new FileInputStream(propertiesFileName);
-		  rembrandtProperties.load(in);
+
 		   
-		  if (rembrandtProperties.isEmpty()) {
+		  if (rembrandtProperties != null && rembrandtProperties.isEmpty()) {
 		     logger.error("Error: no properties found when loading properties file: " + propertiesFileName);
 		  }
-		    		   
+		  rembrandtProperties.load(in);  		   
 		  String key = null;
 		  String val = null;
 		  for (Iterator i = rembrandtProperties.keySet().iterator(); i.hasNext(); ) {
