@@ -7,6 +7,8 @@
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 	<META HTTP-EQUIV="Expires" CONTENT="-1">
 
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	
 	<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
 	<script language="javascript" src="js/caIntScript.js"></script>
 	<script language="javascript" src="js/rembrandtScript.js"></script>
