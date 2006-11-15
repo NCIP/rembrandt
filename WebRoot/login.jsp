@@ -18,6 +18,7 @@ response.setHeader("Location",newLocn);
 
 <html>
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
+<link rel="shortcut icon" href="images/favicon.ico" />
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
 <script language="javascript" src="js/caIntScript.js"></script>
 </head>
