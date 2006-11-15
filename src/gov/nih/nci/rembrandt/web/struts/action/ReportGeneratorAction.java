@@ -280,7 +280,12 @@ public class ReportGeneratorAction extends DispatchAction {
 		String typeOfView = request.getParameter("typeOfView");
 		
 		CompoundQuery cQuery = (CompoundQuery)queryBag.getCompoundQuery(queryName);
-		
+		if(cQuery == null)	{
+			//perhaps this was a filtered report, see if that exists
+			//remove the suffix and see if the cquery is found
+			queryName = queryName.substring(0, queryName.indexOf(RembrandtConstants.FILTER_REPORT_SUFFIX));
+			cQuery = (CompoundQuery)queryBag.getCompoundQuery(queryName);
+		}
 		if (cQuery != null) {
 			// Get the viewType array from session 
 			//ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
