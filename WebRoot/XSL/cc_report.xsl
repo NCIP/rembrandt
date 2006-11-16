@@ -280,10 +280,10 @@
 	<xsl:for-each select="Row/Cell">
 		<xsl:if test="($p_highlight_op = 'gt' and Data > $p_highlight) or ($p_highlight_op = 'lt' and $p_highlight > Data) or ($p_highlight_op = 'eq' and $p_highlight >= Data and Data >= $p_highlight) or ($p_highlight_op = 'lte' and $p_highlight >= Data) or ($p_highlight_op = 'gte' and Data >= $p_highlight)">
 			allHighlightedReporters.push('<xsl:value-of select="../Cell[1]/Data"/>');
-			DynamicReport.saveTmpReporter('<xsl:value-of select="../Cell[1]/Data"/>', A_saveTmpReporter_cb);
+			//DynamicReport.saveTmpReporter('<xsl:value-of select="../Cell[1]/Data"/>', A_saveTmpReporter_cb);
 		</xsl:if>
 	</xsl:for-each>
-	
+	DynamicReport.saveTmpGenericFromArray('tmpReporterList', allHighlightedReporters, A_saveTmpReporter_cb);
 </script>
 
     <table cellpadding="0" cellspacing="0" id="dataTable">
