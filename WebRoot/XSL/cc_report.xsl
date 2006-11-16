@@ -322,7 +322,7 @@
 		<!-- get each data row only -->
 		<!--  should be going filtering here, also copy to record count -->
 		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and $p_pval_filter_value = Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'eq'] | (Row[@name='dataRow' and $p_pval_filter_value > Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lt'] | (Row[@name='dataRow' and $p_pval_filter_value >= Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lte'] | (Row[@name='dataRow' and Cell[3]/Data > $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gt'] |(Row[@name='dataRow' and Cell[3]/Data >= $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gte']">	
-			<xsl:sort select="(Cell[3]/Data) [$p_sort_element = '3'] | (Cell[4]/Data) [$p_sort_element = '4'] | (Cell[1]/Data) [$p_sort_element = '1'] | (Cell[5]/Data) [$p_sort_element = '5'] | (Cell[2]/Data) [$p_sort_element = '2'] | (Cell[1]/Data) [$p_sort_element = '']" order="{$p_sort_method}" data-type="{$dtype}" />
+			<xsl:sort select="(Cell[1]/Data) [$p_sort_element = ''] | (Cell[number($p_sort_element)]/Data) [$p_sort_element != '']" order="{$p_sort_method}" data-type="{$dtype}" />
 	
 			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
 			<xsl:variable name="rep" select="Cell[1]/Data"/>
