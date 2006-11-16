@@ -98,6 +98,7 @@ import org.apache.ojb.broker.PBKey;
 */
 
 public class ApplicationContext{
+	private static final String GOV_NIH_NCI_REMBRANDT_PROPERTIES = "gov.nih.nci.rembrandt.properties";
 	private static Map mappings = new HashMap();
 	private static Logger logger = Logger.getLogger(ApplicationContext.class);
 	private static Properties labelProps = null;
@@ -144,7 +145,7 @@ public class ApplicationContext{
 		//analysisServerClientManager.setJMSparameters();
 		
 		  //Get the application properties from the properties file
-		  String propertiesFileName = System.getProperty("gov.nih.nci.rembrandt.properties");
+		  String propertiesFileName = System.getProperty(GOV_NIH_NCI_REMBRANDT_PROPERTIES);
 		
 		  //Load the the application properties and set them as system properties
 		  Properties rembrandtProperties = new Properties();
@@ -155,8 +156,10 @@ public class ApplicationContext{
 		  FileInputStream in = new FileInputStream(propertiesFileName);
 
 		   
-		  if (rembrandtProperties != null && rembrandtProperties.isEmpty()) {
-		     logger.error("Error: no properties found when loading properties file: " + propertiesFileName);
+		  if (propertiesFileName == null || in == null ) {
+			 Throwable exception = new IllegalStateException("Error: no properties found when loading property: "+ GOV_NIH_NCI_REMBRANDT_PROPERTIES);
+		     logger.error(exception);
+		     throw exception;
 		  }
 		  rembrandtProperties.load(in);  		   
 		  String key = null;
