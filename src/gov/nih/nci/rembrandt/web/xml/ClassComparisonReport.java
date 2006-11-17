@@ -225,15 +225,19 @@ public class ClassComparisonReport{
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Reporter");
 			        data = null;
 		        cell = null;
-		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-			        data = cell.addElement("Data").addAttribute("type", "header").addText("Group Avg");
-			        data = null;
-		        cell = null;
+
+		        //pvalue is fixed in the second column, essential for XSL
 		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 		        	String isAdj = ccf.arePvaluesAdjusted() ? " (Adjusted) " : "";
 			        data = cell.addElement("Data").addAttribute("type", "header").addText(RembrandtConstants.PVALUE+isAdj);
 			        data = null;
 		        cell = null;
+	        
+		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        data = cell.addElement("Data").addAttribute("type", "header").addText("Group Avg");
+			        data = null;
+		        cell = null;
+		        
 
 			    cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Fold Change");

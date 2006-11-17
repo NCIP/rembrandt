@@ -134,6 +134,8 @@ public class FTestReport{
 			Element dataRow = null;
 			//add the atts
 	        report.addAttribute("reportType", "Class Comparison");
+	        //lets flag this as Ftest
+	        report.addAttribute("reportSubType", "FTEST");
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
 	        String queryName = "none";
@@ -207,6 +209,13 @@ public class FTestReport{
 			        data = null;
 		        cell = null;
 		        
+		        //pvalue is fixed in the second column, essential for XSL
+		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+		        	String isAdj = ccf.arePvaluesAdjusted() ? " (Adjusted) " : "";
+			        data = cell.addElement("Data").addAttribute("type", "header").addText(RembrandtConstants.PVALUE+isAdj);
+			        data = null;
+		        cell = null;
+	        
 		        //one col for each group in the comparison
 		        List<String> groupNames = ccf.getGroupNames();
 		        for(String n : groupNames)	{
@@ -215,11 +224,7 @@ public class FTestReport{
 				        data = null;
 			        cell = null;
 		        }
-		        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-		        	String isAdj = ccf.arePvaluesAdjusted() ? " (Adjusted) " : "";
-			        data = cell.addElement("Data").addAttribute("type", "header").addText(RembrandtConstants.PVALUE+isAdj);
-			        data = null;
-		        cell = null;
+		       
 
 			    cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 			        data = cell.addElement("Data").addAttribute("type", "header").addText("Fold Change");
