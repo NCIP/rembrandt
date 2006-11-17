@@ -15,11 +15,21 @@
 <a style="font-size:.8em" href="docs/Rembrandt1.5_Users_Guide.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
 </span>
   <span style="text-align:right;font-size:.85em;">
+<%
+if(session.getAttribute("name") != null)	{
+%>
     Welcome, &nbsp;
     <% out.println(session.getAttribute("name")); %>
     &nbsp;|&nbsp;
     <a style="font-size:.85em;" href="logoutPage.do">
       Logout
     </a>
+<% } 
+	else	{
+%>
+	<br/>
+<%
+	}
+%>
   </span>
 </div>

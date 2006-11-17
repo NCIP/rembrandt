@@ -6,7 +6,7 @@ H3 { text-decoration: none;color:#002185;}
 H4 { margin-left:35;color:#002185;}
 H5	{ font-size:10px; font-decoration:none;color:#002185; }
 
-B, Strong {text-decoration: none; color:#AB0303; }
+B, Strong, .mmsg {text-decoration: none; color:#AB0303; font-weight:bold; }
 A {color: #002185; text-decoration: underline; font-size:12px}
 /* TR {color: #000000;} */
 
