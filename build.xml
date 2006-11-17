@@ -228,6 +228,7 @@
               <include name="oracle.jar"/>
           </fileset>          
 		</jar>
+	</target>
 	
 	<target name="build_dependency" if="anthill.artifacts.dir" depends="build_WGI_jar">
 		<echo>
@@ -236,7 +237,7 @@
 		<copy file="${app.jar.name}.jar" todir="${anthill.artifacts.dir}"/>
 	</target>
 	
-	</target>
+
 	<target name="jar_check">
 		<property name="weka.jar" value="${source.lib.dir}/weka.jar" />
 		<available file="${weka.jar}" property="required_jars.present"/>
