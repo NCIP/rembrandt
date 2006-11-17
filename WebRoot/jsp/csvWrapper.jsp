@@ -7,7 +7,7 @@ gov.nih.nci.caintegrator.service.findings.*, gov.nih.nci.rembrandt.web.helper.*,
 gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, 
 org.dom4j.Document, gov.nih.nci.rembrandt.util.*,
 gov.nih.nci.rembrandt.web.factory.ApplicationFactory,
-gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,gov.nih.nci.rembrandt.web.xml.ClassComparisonReport,
+gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,gov.nih.nci.rembrandt.web.xml.*,
 java.util.HashMap" %><%
 
 String key = request.getParameter("key")!=null ? (String) request.getParameter("key") : null;
@@ -20,7 +20,12 @@ String key = request.getParameter("key")!=null ? (String) request.getParameter("
 				xmlDocument = (Document)frb.getXmlDocCSV();
 			else	{
 				//generate the XML for CSV (w/annotations) and cache
-				xmlDocument = ClassComparisonReport.getReportXML(frb.getFinding(), new HashMap(), true);
+				if(frb.getFinding() instanceof ClassComparisonFinding)	{
+					xmlDocument = ClassComparisonReport.getReportXML(frb.getFinding(), new HashMap(), true);
+				}
+				else if(frb.getFinding() instanceof FTestFinding)	{
+					xmlDocument = FTestReport.getReportXML(frb.getFinding(), new HashMap(), true);
+				}
 				//put frb back in cache
 				frb.setXmlDocCSV(xmlDocument);
 				ptc.addNonPersistableToSessionCache(frb.getFinding().getSessionId(),frb.getFinding().getTaskId(), frb);
