@@ -15,7 +15,7 @@
 <xsl:param name="p_pval_filter_value"></xsl:param>
 <xsl:param name="p_pval_filter_op"></xsl:param>
 
-<xsl:param name="p_sort_element"></xsl:param>
+<xsl:param name="p_sort_element">1</xsl:param>
 <xsl:param name="p_sort_method"></xsl:param>
 <xsl:param name="p_sort_dtype">number</xsl:param>
 
@@ -29,16 +29,28 @@
 <xsl:param name="statusMsg"></xsl:param>
 <xsl:param name="showAllValues">false</xsl:param>
 
+
+<xsl:template match="/">
+
+<span>
+<xsl:comment>
 <xsl:variable name="dtype">
 	<xsl:choose>
 		<xsl:when test="$p_sort_element != '1' and $p_sort_element != '5'">number</xsl:when>
 		<xsl:otherwise>text</xsl:otherwise>		
 	</xsl:choose>
 </xsl:variable>
+</xsl:comment>
 
-<xsl:template match="/">
-
-<span>
+<xsl:variable name="dtype">
+		<xsl:choose>
+			<xsl:when test="boolean(number(Report[1]/Row[2]/Cell[number($p_sort_element)]/Data)) = true()">number</xsl:when>
+			<xsl:otherwise>text</xsl:otherwise>
+		</xsl:choose>
+</xsl:variable>
+<!-- 
+	Sorting by: <xsl:value-of select="$dtype"/>
+-->
 
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
@@ -52,11 +64,11 @@
 	
 
 	<xsl:variable name="filterNone" select = "Row[@name='dataRow']" />
-	<xsl:variable name="filterRecordLT" select="Row[@name='dataRow']/Cell[position() = 3 and $p_pval_filter_value > Data]" />
-	<xsl:variable name="filterRecordLTE" select="Row[@name='dataRow']/Cell[position() = 3 and $p_pval_filter_value >= Data]" />
-	<xsl:variable name="filterRecordGT" select="Row[@name='dataRow']/Cell[position() = 3 and Data > $p_pval_filter_value]" />
-	<xsl:variable name="filterRecordGTE" select="Row[@name='dataRow']/Cell[position() = 3 and Data >= $p_pval_filter_value]" />
-	<xsl:variable name="filterRecordEQ" select="Row[@name='dataRow']/Cell[position() = 3 and Data = $p_pval_filter_value]" />
+	<xsl:variable name="filterRecordLT" select="Row[@name='dataRow']/Cell[position() = 2 and $p_pval_filter_value > number(normalize-space(substring-before(Data, '/')))]" />
+	<xsl:variable name="filterRecordLTE" select="Row[@name='dataRow']/Cell[position() = 2 and $p_pval_filter_value >= number(normalize-space(substring-before(Data, '/')))]" />
+	<xsl:variable name="filterRecordGT" select="Row[@name='dataRow']/Cell[position() = 2 and number(normalize-space(substring-before(Data, '/'))) > $p_pval_filter_value]" />
+	<xsl:variable name="filterRecordGTE" select="Row[@name='dataRow']/Cell[position() = 2 and number(normalize-space(substring-before(Data, '/'))) >= $p_pval_filter_value]" />
+	<xsl:variable name="filterRecordEQ" select="Row[@name='dataRow']/Cell[position() = 2 and number(normalize-space(substring-before(Data, '/'))) = $p_pval_filter_value]" />
 	
 	
 	<xsl:variable name="recordCount">
@@ -148,8 +160,8 @@
 							<input type="hidden" name="p_step" value="25"/>
 							<input type="hidden" name="p_sort_element" value="{$p_sort_element}"/>
 							<input type="hidden" name="p_sort_method" value="{$p_sort_method}"/>
-							<input type="submit" name="filter_submit" value="Filter" />
-							<input type="submit" name="filter_submit" value="Reset (Show All)" onclick="javascript:document.pval_filter_form.p_pval_filter_value.value='';" />
+							<input type="button" onclick="processFilterForm('{$key}', 'filter');" name="filter_submit" value="Filter" />
+							<input type="button" name="filter_submit" value="Reset (Show All)" onclick="processFilterForm('{$key}', 'reset');" />
 						</form>
 					</div>
 		
@@ -173,9 +185,9 @@
 				<input type="hidden" name="p_step" value="{$p_step}"/>
 				<input type="hidden" name="p_sort_element" value="{$p_sort_element}"/>
 				<input type="hidden" name="p_sort_method" value="{$p_sort_method}"/>
-				<input type="submit" name="filter_submit" value="Highlight" />
+				<input type="button" onclick="processHighlightForm('{$key}', 'highlight');" name="filter_submit" value="Highlight" />
 				<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
-				<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.p_highlight.value='';" />
+				<input type="button" name="filter_submit" value="Clear Highlighting" onclick="processHighlightForm('{$key}', 'unhighlight');" />
 			</form>
 		</div>
 	  
@@ -321,10 +333,10 @@
 		
 		<!-- get each data row only -->
 		<!--  should be going filtering here, also copy to record count -->
-		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and $p_pval_filter_value = Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'eq'] | (Row[@name='dataRow' and $p_pval_filter_value > Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lt'] | (Row[@name='dataRow' and $p_pval_filter_value >= Cell[3]/Data]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lte'] | (Row[@name='dataRow' and Cell[3]/Data > $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gt'] |(Row[@name='dataRow' and Cell[3]/Data >= $p_pval_filter_value]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gte']">	
+		<xsl:for-each select="(Row[@name='dataRow']) [$p_pval_filter_value = ''] | (Row[@name='dataRow' and number($p_pval_filter_value) = number(normalize-space(substring-before(Cell[2]/Data, '/')))]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'eq'] | (Row[@name='dataRow' and number($p_pval_filter_value) > number(normalize-space(substring-before(Cell[2]/Data, '/')))]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lt'] | (Row[@name='dataRow' and number($p_pval_filter_value) >= number(normalize-space(substring-before(Cell[2]/Data, '/')))]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'lte'] | (Row[@name='dataRow' and number(normalize-space(substring-before(Cell[2]/Data, '/'))) > number($p_pval_filter_value)]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gt'] |(Row[@name='dataRow' and number(normalize-space(substring-before(Cell[2]/Data, '/'))) >= number($p_pval_filter_value)]) [$p_pval_filter_value != '' and $p_pval_filter_mode = 'gte']">	
 			<xsl:sort select="(Cell[1]/Data) [$p_sort_element = ''] | (Cell[number($p_sort_element)]/Data) [$p_sort_element != '']" order="{$p_sort_method}" data-type="{$dtype}" />
 	
-			<xsl:variable name="pvalue" select="Cell[3]/Data"/>
+			<xsl:variable name="pvalue" select="Cell[2]/Data"/>
 			<xsl:variable name="rep" select="Cell[1]/Data"/>
 
 			<xsl:if test="$p_step + ($p_step * $p_page)>=position() and position() > ($p_page * $p_step)">	

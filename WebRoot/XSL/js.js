@@ -237,7 +237,9 @@ function spawnAnnot(type, element)	{
 		var annotLink = "http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&ORG=Hs&SYM=&PATH=&TERM=";
 		
 		if(el.indexOf("IMAGE")!= -1)	{
-			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
+			//annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
+			el = el.substring(el.indexOf("IMAGE:"), el.length);
+			annotLink = "http://mgc.nci.nih.gov/Reagents/CloneInfo?ORG=Hs&IMAGE=";
 		}
 		else if(/^\d+$/.test(el))	{
 			//this is a llink
@@ -550,6 +552,32 @@ function autoCheckHighlightedSamples(sarray)	{
 			}
 		}
 	}
+
+}
+
+
+function processHighlightForm(key, ac)	{
+	var k = encodeURIComponent(key);
+	
+	var rn = Math.floor(Math.random()*11)
+	
+	document.highlight_form.action = "testReport.do?key="+k+"&r="+rn; 
+	if(ac == "unhighlight")	{
+		document.highlight_form.p_highlight.value="";
+	}
+	document.highlight_form.submit();
+}
+
+function processFilterForm(key, ac)	{
+	var k = encodeURIComponent(key);
+	
+	var rn = Math.floor(Math.random()*11)
+	
+	document.pval_filter_form.action = "testReport.do?key="+k+"&r="+rn; 
+	if(ac == "reset")	{
+		document.pval_filter_form.p_pval_filter_value.value='';
+	}
+	document.pval_filter_form.submit();
 
 }
 

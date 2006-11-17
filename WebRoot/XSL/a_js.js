@@ -50,6 +50,10 @@ function A_initSaveReporter()	{
 function A_initTmpReporter_cb(txt)	{
 	A_saveTmpReporter_cb(txt);
 	//now, check the ones if theyve been previously selected
+	
+	if(!document.getElementsByName('tmpReporter').length)	{
+		return;
+	}
 	var field = document.getElementsByName('tmpReporter');
 	if(field.length > 1 && (currentTmpReporters != "" || allHighlightedReporters.length>0))	{
 		for (i = 0; i < field.length; i++)	{
@@ -58,7 +62,7 @@ function A_initTmpReporter_cb(txt)	{
 		}
 	}
 	else	{
-		if(currentTmpReporters.indexOf(field.value) != -1  || allHighlightedReporters.inArray(field[i].value))
+		if(currentTmpReporters.indexOf(field.value) != -1  || allHighlightedReporters.inArray(field.value))
 			field.checked = true;
 	}
 }
@@ -195,21 +199,29 @@ function filterRow(pvalue)	{
 }
 
 function checkStep()	{
-	var val = document.forms.paginate.p_step.value;
-	if(val > "500" || val > 500)	{
-		//alert('too many');
-		$("checkAllBlock").innerHTML = "<i>reduce size to check all</i>";
+	try	{
+		var val = document.forms.paginate.p_step.value;
+		if(val > "500" || val > 500)	{
+			//alert('too many');
+			$("checkAllBlock").innerHTML = "<i>reduce size to check all</i>";
+		}
 	}
+	catch(e){}
 }
 
 function initPagination()	{
+	if(!document.getElementById("dataTable"))	{
+		return false;
+	}
 	var my_table = document.getElementById("dataTable");
 	var my_rows = my_table.rows;
 	//alert(my_rows.length-1);
 }
 
 function initSortArrows()	{
-
+	if(!document.forms["paginate"])	{
+		return;
+	}
 	var element = document.forms['paginate'].p_sort_element.value;
 	var method = document.forms['paginate'].p_sort_method.value;
 
