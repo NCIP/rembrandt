@@ -18,6 +18,8 @@
 			}
 		}
 	</script>
+	<script language="javascript" src="js/lib/Help.js"></script>
+	
 <% 
 	if(passed.equals("no"))	{
 %>
@@ -73,6 +75,7 @@
 <%=params%>
 </xmp>
 -->
+<script type="text/javascript">Help.insertHelp("3d_pca", "align='right'", "padding:8px;");</script>
 
 <div id="res" style="font-family:arial; font-size:10px; color:gray;">
 <b>Note: This applet requires the Java Plugin, version 1.4 or later (recommended 1.5 or later).  If you are unable to view the applet, please download/upgrade your plugin here: <a href="http://www.java.com/en/download/index.jsp" target="_blank">http://www.java.com/en/download/index.jsp</a></b><br/><br/>
