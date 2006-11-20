@@ -80,7 +80,7 @@
 	Step 2: 
 	</logic:present>
 	Filter Genes/Reporters
-<app:help help="Select either Default or Advanced by clicking the pertinent radio button. If you choose Advanced, click the + to access the following options:  1.Constrain reporters by variance (Gene Vector) percentile: The reporters whose variances of the log ratio (or Log2 signals) across all experiments were among the top percentile of variance of all reporters were identified. Select the check box and enter the percentage into the text box. If you enter 70% into the text box, it means that you choose reporters with top 30 (100 - 70) percentile of variance of all reporters.  2.Use differentially expressed genes: Choose saved differentially expressed genes identified by class comparison. Choose an option (gene list1 or gene list2) from the drop-down list or click the Upload link to upload a file.  3.Use differentially expressed reporters: Choose saved differentially expressed reporters identified by class comparison. Choose an option (reporter list1 or reporter list2) from the drop-down list or click the Upload link to upload a file.  4.If desired, click the Set These Filters As Default button." />
+<app:help help="Leave as Default, or select Advanced and click + for more options." />
 </legend>
 <span id="confirm"></span>
 

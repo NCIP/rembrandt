@@ -8,7 +8,7 @@
 <legend class="red">Step 1: Select Group<b class="req">*</b>
 
 <logic:present name="principalComponentForm">
-<app:help help="Select either Show all samples or Select samples by clicking the pertinent radio button. If you chose Select samples, choose one or more groups from the Existing Groups box and click the right-arrow button to move your selection(s) to the Selected Groups box." />
+<app:help help="Search on All Samples, or specify at least two Existing Groups." />
 </legend>
 <html:radio property="groupsOption" styleId="allSamplesRadio" styleClass="radio" value="allSamples" />Show all samples<br /><br />
 
@@ -39,7 +39,7 @@
 
 
 <logic:present name="classComparisonForm">
-<app:help help="Choose two groups from the Existing Groups box and click the right-arrow button to move your selection(s) to the Selected Groups box." />
+<app:help help="Select two Existing Groups, and click >> to move them to Selected Groups. " />
 </legend>
 <br clear="both"/>
 	<em>choose 2 groups</em>
@@ -68,7 +68,7 @@
 	<span style="cursor:pointer; border:1px solid; padding-right:3px; padding-left:3px;" onclick="javascript:moveDownList(document.getElementById('selectedGroups'));initBaseline();">&darr;</span>
 	<span style="font-size:10px; font-family:arial; padding:10px;">
 		Baseline
-		<app:help help="The baseline selection must be the last item in the selection box.  Use the up and down arrows to move your selected baseline to last position.  When properly selected the word (baseline) will appear next to your selection." />
+		<app:help help="Use up or down arrow to move the group to the last Selected Groups position. (baseline) appears.  " />
 		: <span id="baseline">none</span>
 		<input type="hidden" name="baselineGroup" id="baselineGroup"/>
 	</span>

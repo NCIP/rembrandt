@@ -53,7 +53,7 @@
 	 <br /><br />
 	<fieldset class="gray">
 	<legend class="red">Age at Dx
-	<app:help help="Specify the upper and lower limits for filtering the clinical data based on the age at which a patient was diagnosed with the disease"/>
+	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>
 	</legend><br />
 		
 	&nbsp;&nbsp;&nbsp;lower:&nbsp;
@@ -98,7 +98,7 @@
 		
 	<fieldset class="gray">
 	<legend class="red">Gender
-	<app:help help="Select either Male, Female or Other from the drop-down list."/>
+	<app:help help="Select the gender of the patient."/>
 	</legend><br />
 			<!--- <select property="genderType">
 				<option>all</option>

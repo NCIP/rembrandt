@@ -22,7 +22,7 @@
 		</logic:present>
 		Name Analysis Result
 <b class="req">*</b>
-<app:help help="Please give a title/name for this analysis result. This name must be unique among all your analysis results in this session." />
+<app:help help="Enter a unique name for the query." />
 </legend>
 <br>
 	<html:errors property="analysisResultName"/>
