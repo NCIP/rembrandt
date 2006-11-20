@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <fieldset class="gray">
 <legend class="red">Pathways
-<app:help help="Enter pathways name in this box by using <img src=images/btnBrowse2.gif> browse caBIO button and select the pathway of interest from the pop up window." />
+<app:help help="Enter or browse for a pathway of interest." />
 </legend>
 <%
 	String act = request.getParameter("act");

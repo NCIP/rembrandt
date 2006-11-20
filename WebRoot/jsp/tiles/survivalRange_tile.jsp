@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 	<fieldset class="gray">
 	<legend class="red">Survival Range
-	<app:help help="Specify the upper and lower limits for filtering the clinical data based on the age (in years) at which a patient was diagnosed with the dis­ease by selecting an option from the lower and upper drop-down lists."/>
+	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>
 	</legend><br />
 		<%
 	     String act = request.getParameter("act");

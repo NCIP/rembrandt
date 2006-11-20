@@ -7,7 +7,7 @@
 <fieldset class="gray">
 <legend class="red">Clone Id/Probe Set Id
 <% if(act.equalsIgnoreCase("geneexpression"))	{ %>
-<app:help help="Paste a comma delimited IMAGE Clone Id/Affymetrix probe set ID list, or upload a text file containing the IDs using the browse button. There must only be one entry per line and a return must be added at the end of the file. Image IDs must start with “IMAGE:”" />
+<app:help help="Enter comma-delimited IDs or select a saved list.”" />
 <% } else { %>
 <app:help help="Future implementation"/>
 <% } %>

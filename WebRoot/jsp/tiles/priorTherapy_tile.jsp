@@ -7,7 +7,7 @@
 
 <fieldset class="gray">
 <legend class="red">Prior Therapy
-<app:help help="Therapy received by the patient before enrollment on the current study"/>
+<app:help help="Specify the therapy received before enrollment in the current study"/>
 </legend><br />	
 <html:checkbox styleClass="radio" property="radiation" value="Specify"/>Radiation&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;

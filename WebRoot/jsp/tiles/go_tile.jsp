@@ -3,7 +3,7 @@
 
 <fieldset class="gray">
 <legend class="red">Gene Ontology (GO) Classifications
-<app:help help="Enter Gene Ontology (GO) ID in this box to search for one or more branches of the GO heirarchy. eg. GO:0005006 : epidermal growth factor receptor activity ( 12 ) ."/>
+<app:help help="Enter or browse for GO IDs."/>
 </legend>
 <%
 	String act = request.getParameter("act");

@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <fieldset class="gray">
 <legend class="red">Fold Change
-<app:help help="Specify the threshold for the differential regulation by indicating the “up”, “down” or “unchanged” criteria. This will return differential expression ratios between tumor and non-tumor samples for a particular reporter. If you are creating an “All Genes” query, you must select a fold change threshold of 4 or above."/>
+<app:help help="Specify the threshold of differential regulation."/>
 </legend>
 
 <%

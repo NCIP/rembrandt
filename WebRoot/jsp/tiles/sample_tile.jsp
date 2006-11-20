@@ -25,7 +25,7 @@
 </script>
 <fieldset class="gray">
 <legend class="red">Sample Identifier
-	<app:help help="Manually enter Sample Ids or select a sample list that you've previously saved." />
+	<app:help help="Enter comma-delimited IDs or select a saved list." />
 </legend>
 <br/>	
 &nbsp;&nbsp;

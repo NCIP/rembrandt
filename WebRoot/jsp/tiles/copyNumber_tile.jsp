@@ -6,7 +6,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <fieldset class="gray">
 <legend class="red">Copy Number
-<app:help help="Specify the threshold for the copy number by indicating the “amplified”, “deleted” or “unchanged” criteria. If you are creating an “All Genes” query, you must select an amplification threshold > 10 or a deletion threshold < 1."/>
+<app:help help="Specify the threshold for the copy number."/>
 </legend><br />
 
 <%

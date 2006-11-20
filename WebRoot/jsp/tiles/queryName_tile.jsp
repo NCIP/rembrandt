@@ -13,7 +13,7 @@
 <bean:message key="queryName.label"/>
 <b class="req">*</b>
 <!-- <a href="javascript:void(0);" onmouseover="return overlib('<bean:message key="queryName.help"/>', CAPTION, 'Help');" onmouseout="return nd();">[?]</a> -->
-<app:help help="Please give a title/name for this query. This name must be unique among all your queries in this session." />
+<app:help help="Enter a unique name for the query." />
 </legend>
 <%
  String act = request.getParameter("act");

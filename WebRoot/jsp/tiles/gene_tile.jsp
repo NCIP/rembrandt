@@ -12,7 +12,7 @@ String act = request.getParameter("act");
 	
 <fieldset class="gray">
 <legend class="red">Gene
-	<app:help help="Choose one type of Gene identifiers (Genbank ID, LocusLink ID or Gene symbol) from the pick list. Then enter the corresponding comma delimited value or IDs for the genes to be searched in the text box. Optionally, you can upload a text file containing Gene identifiers by clicking the browse button. There must only be one entry per line and a return must be added at the end of the file. Choose “All Genes query” if you do not wish to specify a list of genes, but would like to see the data for all the genes analyzed. You must apply the “All Genes query” to a pre-existing result set. (see help on Refine query page for more details)" />
+	<app:help help="Search on a gene identifier, a gene list, or All Genes. " />
 </legend>
 
 <br/>

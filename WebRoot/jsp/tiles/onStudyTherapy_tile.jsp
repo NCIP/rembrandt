@@ -7,7 +7,7 @@
 
 <fieldset class="gray">
 <legend class="red">OnStudy Therapy
-<app:help help="Therapy received by the patient after enrollment on the current study"/>
+<app:help help="Specify the therapy received after enrollment the current study"/>
 </legend><br />	
 <html:checkbox styleClass="radio" property="onStudyRadiation"  value="Specify"/>Radiation&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;

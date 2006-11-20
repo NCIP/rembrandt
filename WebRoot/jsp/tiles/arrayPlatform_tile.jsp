@@ -20,7 +20,7 @@ Step 4: Select Array Platform
 </logic:present>
 
 
-<app:help help="Select array platform (Affymetrix Oligo arrays or cDNA array platform) from the pick list"/>
+<app:help help="Select an array platform"/>
 </legend>
 <%
 	String act = request.getParameter("act");
