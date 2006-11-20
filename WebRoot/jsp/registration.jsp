@@ -20,26 +20,46 @@
 		width: 120px;
 	}
 	#loginTable fieldset	{
-		height:450px;
+		height:600px;
+		border:0px;
+		border-top:1px solid #42659C;
+		-moz-border-radius: 0px;
 	}
 	input#userName, input#password	{
 		width:140px;
+	}
+	
+	#loginTable div.r,#loginTable div.rb	{
+		border-left: 2px solid #42659C;
+		border-right: 2px solid #42659C;
+		padding:5px;
+	}
+	
+	#loginTable div.rb	{
+		border-bottom: 2px solid #42659C;
+		margin-bottom:10px;
+	}
+	#loginTable div.h, legend {
+		color: #C6C7C6;
+		background-color:#42659C; 
+		font-weight:bold;
+		padding:5px; 
 	}
 </style>
 
 <table id="loginTable">
 	<tr>
-	<td width="40%">
+	<td width="40%" style="border-right:1px dashed gray;">
 	<br clear="both"/>
 		<html:form action="alogin.do">
 		<fieldset>
-		<legend>Login with your user account</legend>
+		<legend>Existing Users</legend>
 		<br clear="both"/>
 		<b class="msg">Login with your current credentials</b><br/><br/><br/><br/>
-
-			<div><label>Username:</label> <input type="text" name="userName" id="userName"/></div>
-			<div><label>Password:</label> <input type="password" name="password" id="password"/></div>
-			<div style="text-align:center">
+			<div class="h">Login:</div>
+			<div class="r"><label>Username:</label> <input type="text" name="userName" id="userName"/></div>
+			<div class="r"><label>Password:</label> <input type="password" name="password" id="password"/></div>
+			<div class="rb" style="text-align:center">
 				<input style="" type="submit" value="login"/>
 			</div>
 			<br/><br/>
@@ -51,18 +71,25 @@
 	<br clear="both"/>
 	<form id="regForm">
 	<fieldset>
-	<legend>Request a new Account</legend>
+	<legend>New Users</legend>
 	<br clear="both"/>
-	<div id="regErr" class="mmsg">All fields required</div><br/><br/>
-	<div><label>First name:</label>  <input type="text" id="firstName"/></div>
-	<div><label>Last name:</label>  <input type="text" id="lastName"/></div>
-	<div><label>Email:</label>  <input type="text" id="email"/></div>
-	<div><label>-<br/><br/></label>Your account information will be sent to this address</div>
-	<div><label>Institution:</label> <input type="text" id="institution"/></div>
-	<div><label>Image:</label><img src="Captcha.jpg"/></div>
-	<div><label>-<br/><br/></label>Please type the text below, displayed in the image above</div>
-	<div><label>&nbsp;</label><input type="text" id="cap"/></div>
-	
+	<b>Register for an account to gain instant access to public data</b><br/>
+	<div id="regErr" class="mmsg"></div><br/>
+	<div><label>&nbsp;</label>* required field</div>
+	<div class="h">Name:</div>
+	<div class="r"><label>First name*:</label>  <input type="text" id="firstName"/></div>
+	<div class="r"><label>Last name*:</label>  <input type="text" id="lastName"/></div>
+	<div class="h">Contact Information:</div>
+	<div class="r"><label>Email*:</label>  <input type="text" id="email"/></div>
+	<div class="r"><label>-<br/><br/></label>Your account information will be sent to this address</div>
+	<div class="r"><label>Phone*:</label><input type="text" id="phone"/></div>
+	<div class="r"><label>Institution*:</label> <input type="text" id="institution"/></div>
+	<div class="r"><label>Department:</label><input type="text" id="dept"/></div>
+	<div class="h">Verification:</div>
+	<div class="r"><label>Image*:</label><img src="Captcha.jpg"/></div>
+	<div class="r"><label>-<br/><br/></label>Please type the text below, displayed in the image above</div>
+	<div class="rb"><label>&nbsp;</label><input type="text" id="cap"/></div>
+
 	<div style="text-align:center" id="regButtons">
 		<input type="reset" value="Reset"/>
 		<input type="button" value="Register" onclick="Reg.pReg();"/>

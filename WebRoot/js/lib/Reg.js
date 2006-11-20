@@ -1,7 +1,7 @@
 var Reg = {
 
 'pReg' : function()	{
- 	var msg = "Please fill in all fields";
+ 	var msg = "Please fill in all required fields";
  	var e = "";
 	try	{
 		if($('lastName').value == "")	{
@@ -10,6 +10,10 @@ var Reg = {
 		}
 		if($('firstName').value == "")	{
 			$('firstName').style.border="1px solid red";
+			e=msg;
+		}
+		if($('phone').value == "")	{
+			$('phone').style.border="1px solid red";
 			e=msg;
 		}
 		if($('email').value == "")	{
@@ -38,7 +42,7 @@ var Reg = {
 		//hide the submit button, so they dont submit again.
 		$('regButtons').style.display = 'none';
 		$('regStatus').style.display = '';
-		RegHelper.pReg($('lastName').value, $('firstName').value, $('email').value,$('institution').value, $('cap').value, Reg.pReg_cb);
+		RegHelper.pReg($('lastName').value, $('firstName').value, $('email').value,$('institution').value, $('cap').value, $('phone').value, $('dept').value, Reg.pReg_cb);
 	}
 	catch(err)	{
 		$('regErr').innerHTML = err;
@@ -57,7 +61,7 @@ var Reg = {
 		$('password').value = res.ps;
 		
 		$('regErr').innerHTML = "Thanks for registering";
-		$('loginMsg').innerHTML = "Please click 'login' to login using a temporary account.  Your full account details will be mailed to the address you submitted.";
+		$('loginMsg').innerHTML = "Please click 'login' to login using a temporary account.  This username and password was sent to the email account you registered.  Your full account details will be emailed to you shortly.";
 		Fat.fade_element('loginMsg');
 	}
 	else	{
