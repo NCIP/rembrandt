@@ -12,7 +12,7 @@ import gov.nih.nci.caintegrator.exceptions.ValidationException;
 
 public class RegHelper {
 
-	public static String pReg(String ln, String fn, String em, String in, String ca)	{
+	public static String pReg(String ln, String fn, String em, String in, String ca, String ph, String de)	{
        	//look @ the captcha
 		JSONObject jso = new JSONObject();
 		String status = "pass";
@@ -26,33 +26,42 @@ public class RegHelper {
 	        	MailProps mp = new MailProps();
 	
 	        	//send the mail to APP support
+	        	/*
 	        	String fdbk = fn + " " + ln + " is requesting an account for the Rembrandt Application. \n\n";
 	        	fdbk += "Their email is: " + em + " \n";
 	        	fdbk += "Their institution is: " + in + " \n";
 	        	fdbk += "\n\nThis is an automated email sent from the Rembrandt Application.\n";
-	        	/*
-	        	String fdbk = System.getProperty("rembrandt.feedback.template");
-	        	fdbk = fdbk.replace("{ln}", (ln!=null)? ln : "None");
 	        	*/
+	        	String fdbk = System.getProperty("rembrandt.feedback.template.support");
+	        	fdbk = fdbk.replace("{last_name}", (ln!=null)? ln : "None");
+	        	fdbk = fdbk.replace("first_name}", (fn!=null)? fn : "None");
+	        	fdbk = fdbk.replace("{email}", (em!=null)? em : "None");
+	        	fdbk = fdbk.replace("{phone}", (ph!=null)? ph : "None");
+	        	fdbk = fdbk.replace("{department}", (de!=null)? de : "None");
+	        	fdbk = fdbk.replace("{institution}", (in!=null)? in : "None");
+	        	
 	        	
 	        	mp.setBody(fdbk);
 	        	//the fields below should be in a props file
 	         	mp.setSmtp(System.getProperty("rembrandt.feedback.mailSMPT"));
-	        	mp.setSubject("REMBRANDT: Request username/password");
-	        	mp.setMailTo("landyr@mail.nih.gov");
-	        	//mp.setMailTo(System.getProperty("rembrandt.feedback.mailTo"));
-	        	//mp.setMailFrom("no-reply@caintegrator.nci.nih.gov");
+	        	mp.setSubject(System.getProperty("rembrandt.register.mailSubject.support"));
+	        	mp.setMailTo(System.getProperty("rembrandt.register.mailTo.support"));
 	        	mp.setMailFrom(System.getProperty("rembrandt.feedback.mailFrom"));
 	        	
 	    		Mail.sendMail(mp);
 	    		
 	    		//send the mail to the user
 	    		mp = new MailProps();
-	    		fdbk = "Dear " + fn + " " + ln + ",\n Thanks for registering for access to the Rembrandt Application.  You will receive your official account information via email shortly.  Please contact ncicb@pop.nci.nih.gov for further assistance.\n";
+	    		fdbk = System.getProperty("rembrandt.register.template.user");
+	        	fdbk = fdbk.replace("{last_name}", (ln!=null)? ln : "None");
+	        	fdbk = fdbk.replace("first_name}", (fn!=null)? fn : "None");
+	    		/*
+	        	fdbk = "Dear " + fn + " " + ln + ",\n Thanks for registering for access to the Rembrandt Application.  You will receive your official account information via email shortly.  Please contact ncicb@pop.nci.nih.gov for further assistance.\n";
 	    		fdbk += "\n\nSincerely,\n-The Rembrandt Team";
+	    		*/
 	    		mp.setBody(fdbk);
 	    		mp.setSmtp(System.getProperty("rembrandt.feedback.mailSMPT"));
-	        	mp.setSubject("REMBRANDT: Thanks for registering");
+	        	mp.setSubject(System.getProperty("rembrandt.register.mailSubject.user"));
 	        	mp.setMailTo(em.trim());
 	        	mp.setMailFrom(System.getProperty("rembrandt.feedback.mailFrom"));
 	        	Mail.sendMail(mp);
