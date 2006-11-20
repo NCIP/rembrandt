@@ -55,7 +55,11 @@
     	<servlet-name>GOTreeServlet</servlet-name>
     	<servlet-class>gov.nih.nci.rembrandt.web.servlets.GOTreeServlet</servlet-class>
   	</servlet>
-  	
+  	<servlet>
+		<servlet-name>Captcha</servlet-name>
+		<display-name>Captcha</display-name>
+		<servlet-class>nl.captcha.servlet.CaptchaServlet</servlet-class>
+	</servlet>
    <servlet-mapping>
         <servlet-name>DisplayChart</servlet-name>
         <url-pattern>/servlet/DisplayChart</url-pattern>
@@ -67,6 +71,10 @@
 	<servlet-mapping>
 		<servlet-name>GOTreeServlet</servlet-name>
   		<url-pattern>/GOTreeServlet/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Captcha</servlet-name>
+		<url-pattern>/Captcha.jpg</url-pattern>
 	</servlet-mapping>
 
 	<!-- Action Servlet Mapping -->

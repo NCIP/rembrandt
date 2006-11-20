@@ -43,6 +43,7 @@
   <action-mappings>
   
 	<action path="/manageLists" forward="nautilus.manageLists" />
+  	<action path="/registration" forward="registration" />
   	
   	<action path="/analysisHome"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
@@ -126,6 +127,15 @@
            name="loginForm"
            scope="request"
            input="/login.jsp">
+    <forward name="success" path="/legal.jsp"/>
+    <forward name="failure" path="/error.jsp"/>
+    </action>
+    
+    <action path="/alogin"
+           type="gov.nih.nci.rembrandt.web.struts.action.LoginAction"
+           name="loginForm"
+           scope="request"
+           input="registration">
     <forward name="success" path="/legal.jsp"/>
     <forward name="failure" path="/error.jsp"/>
     </action>
