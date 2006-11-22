@@ -25,6 +25,8 @@ public class RegHelper {
 	        	//need to clean the generalFeedback field, also put this in the props as a template
 	        	MailProps mp = new MailProps();
 	
+	        	//make sure its only 1 email
+	        	em = em.replace(",", "").replace(";","");
 	        	//send the mail to APP support
 	        	/*
 	        	String fdbk = fn + " " + ln + " is requesting an account for the Rembrandt Application. \n\n";
