@@ -32,9 +32,9 @@ public class RegHelper {
 	        	fdbk += "Their institution is: " + in + " \n";
 	        	fdbk += "\n\nThis is an automated email sent from the Rembrandt Application.\n";
 	        	*/
-	        	String fdbk = System.getProperty("rembrandt.feedback.template.support");
+	        	String fdbk = System.getProperty("rembrandt.register.template.support");
 	        	fdbk = fdbk.replace("{last_name}", (ln!=null)? ln : "None");
-	        	fdbk = fdbk.replace("first_name}", (fn!=null)? fn : "None");
+	        	fdbk = fdbk.replace("{first_name}", (fn!=null)? fn : "None");
 	        	fdbk = fdbk.replace("{email}", (em!=null)? em : "None");
 	        	fdbk = fdbk.replace("{phone}", (ph!=null)? ph : "None");
 	        	fdbk = fdbk.replace("{department}", (de!=null)? de : "None");
@@ -54,7 +54,7 @@ public class RegHelper {
 	    		mp = new MailProps();
 	    		fdbk = System.getProperty("rembrandt.register.template.user");
 	        	fdbk = fdbk.replace("{last_name}", (ln!=null)? ln : "None");
-	        	fdbk = fdbk.replace("first_name}", (fn!=null)? fn : "None");
+	        	fdbk = fdbk.replace("{first_name}", (fn!=null)? fn : "None");
 	    		/*
 	        	fdbk = "Dear " + fn + " " + ln + ",\n Thanks for registering for access to the Rembrandt Application.  You will receive your official account information via email shortly.  Please contact ncicb@pop.nci.nih.gov for further assistance.\n";
 	    		fdbk += "\n\nSincerely,\n-The Rembrandt Team";
