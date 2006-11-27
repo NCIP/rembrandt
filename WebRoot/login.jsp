@@ -22,33 +22,14 @@ response.setHeader("Location",newLocn);
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
 <script language="javascript" src="js/caIntScript.js"></script>
 </head>
-<body onload="document.forms[0].userName.focus();">
+<body>
 <!--header NCI-->
-<table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
-<tr bgcolor="#A90101">
-		<td width="283" height="37" align="left"><a href="http://www.cancer.gov"><img src="images/logotype.gif" width="283" height="37" border="0"></a></td>
-		<td>&nbsp;</td>
-		<td width="295" height="37" align="right"><a href="http://www.cancer.gov"><img src="images/tagline.gif" width="295" height="37" border="0"></a></td>
-
-</tr>
-</table>
-<!--header REMBRANDT image map-->
-<div align="center" width="765px">
-<div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
-<map name="headerMap">
-<area alt="REMBRANDT application logo" coords="7,8,272,50" href="login.do">
-</map>
-<img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
-</div>
+<%@ include file="/jsp/header.jsp" %>
 <!--end all headers-->
 
 <!--navigation bar-->
 <div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left">
-<a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="javascript:Help.popHelp('Welcome');">help</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="docs/Rembrandt1.5_Users_Guide.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
+<%@ include file="/jsp/tiles/crumbMenu_tile.jsp" %>
 </div>
 <!--end nav bar-->
 
@@ -105,73 +86,50 @@ response.setHeader("Location",newLocn);
 	  
       <!--begin login cell-->
 	  <td style="background-color:#D5E0E9;">
-         <p style="font-size:1.2em; font-weight:bold; margin-left:0px;width:100%; background-color:#416599; color:#FFFFFF">
-		 &nbsp;&nbsp;Login 
+         <p style="font-size:1.2em; font-weight:bold; margin-left:0px;width:100%; background-color:#416599; color:#FFFFFF; margin-bottom:5px;">
+		 &nbsp;&nbsp;Browse Rembrandt Data 
          </p>
 		 
-		 <!--begin login section-->
+		 <!-- 
+		 <div id="loginDiv">
            <html:errors property="invalidLogin" />
-           
-	       <!--login form/table begins--> 
 	       <html:form action="login.do">  
 		   <table border="0" style="margin: 0px 0px 0px 60px;font-size:8pt">
-	            <tr><Td>User Name:</td><td rowspan="5"><br /><img src="images/remLogo_10.gif" alt="REMBRANDT logo" /></td></tr>
+	            <tr><td>User Name:</td><td rowspan="5"><br /><img src="images/remLogo_10.gif" alt="REMBRANDT logo" /></td></tr>
 	            <tr><td><html:text property="userName" /></td></tr>
 	            <tr><Td>Password:</td></tr>
 	            <tr><td><html:password property="password" /></td></tr>
-	            <!--take out GI and data set until later date?
-	             <tr><td>
-	              Study Data Set
-	              <br>
-	              <select style="font-size:8pt" name="dataSet" onchange="javascript:changeList(this);">
-	                <option>
-	                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                </option>
-	                <option>
-	                  GMDI
-	                </option>
-	                <option>
-	                  Other
-	                </option>
-	               </select>
-	              </td></tr>
-	            <tr><td colspan="2">
-	              Generating Institution
-	              <br>
-	              <select style="font-size:8pt" name="generatingInstitution">
-	                <option>
-	                  All
-	                </option>
-	                <option>
-	                  NCI
-	                </option>
-	                <option>
-	                  Johns Hopkins University
-	                </option>
-	                <option>
-	                  UCSF
-	                </option>
-	              </select>
-	            </td>
-	           </tr>-->
-			  </table>
+			</table>
 	          <span style="margin: 0px 0px 0px 65px">&nbsp;<html:submit/>&nbsp;&nbsp;<html:reset/></span>
 	       </html:form>
-	       <!--end login form-->
-	       
-
-	      
-	      <div style="width:80%;margin-left:40px;">
-	      
+  		</div>
+		-->  		
+  		<div id="browseRBTDiv" style="padding:15px; padding-bottom:10px;">
+  		<table cellpadding="0" cellspacing="0" border="0">
+	  		<tr>
+		  		<td style="vertical-align:middle;">
+		  			<b style="font-size:.8em;">For Access, new and existing <br/>users click the button below:</b><br/><br/>
+		  			<input type="button" style="cursor:pointer;width:180px;border-color: #000; border-bottom:2px solid #000; border-right:2px solid #000;font-size:13px;" value="Browse Rembrandt Data" onclick="location.href='registration.do'"/><br clear="both"/>
+		  		</td>
+		  		<td>
+		  			<img src="images/remLogo_10.gif" alt="REMBRANDT logo" />
+		  		</td>
+	  		</tr>
+  		</table>
+  		</div>
+  			
+	      <div style="width:80%;margin-left:20px;margin-top:3px;">
 	      <ul>
-	      <li><a style="font-size:.9em;" href="mailto:ncicb@pop.nci.nih.gov?subject=REMBRANDT: Request username/password">request username/password</a></li>
-	      <li><span style="font-size:.9em;">provide us your <a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a></li>
+	      <li style="list-style:none; color:#000;margin-left:-20px; text-decoration:underline;">Additional Information:</li>
+	      <li><a style="font-size:.9em;" href="docs/Rembrandt1.5_Users_Guide.pdf">Download User Guide (PDF)</a></li>
+	      <li><a style="font-size:.9em;" href="tutorials.jsp">View Tutorials</a></li>
+	      <li><a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">Provide us your feedback</a></li>
 		  <ul>
 		 </div>
-		 <div style="border:0px solid red; margin:5px;">
- 			<script type="text/javascript">Help.insertHelp("Logging_in", "align='left'", "padding:8px;");</script>
-			Throughout the application please click the Help Icon for context sensitive application help.<br/><br/>
-		 	
+		 
+		 <div style="padding:5px;margin:15px; background-color:#fff; border:1px solid #416599;">
+ 			<script type="text/javascript">Help.insertHelp("Logging_in", "align='left'", "padding:_8px;");</script>
+			Throughout the application please click the Help Icon for context sensitive application help.<br/>
 		 </div>
 	      <!--end login section-->
 	   </td>
@@ -186,21 +144,12 @@ response.setHeader("Location",newLocn);
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
     <a href="menu.do">HOME</a>  |  <a href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
-    <br /><span style="font-size:.8em;text-align:right;">Release 1.5</span> </div>
+    <br /><span style="font-size:.8em;text-align:right;">Release 1.5</span> 
+</div>
 <!--end footer-->
 
 <!--begin NCI footer-->
-<table width="765" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px">
-<tr>
-<td valign="top"><div align="center">
-	<a href="http://www.cancer.gov/"><img src="images/footer_nci.gif" width="63" height="31" alt="National Cancer Institute" border="0"></a>
-	<a href="http://www.dhhs.gov/"><img src="images/footer_hhs.gif" width="39" height="31" alt="Department of Health and Human Services" border="0"></a>
-
-	<a href="http://www.nih.gov/"><img src="images/footer_nih.gif" width="46" height="31" alt="National Institutes of Health" border="0"></a>
-	<a href="http://www.firstgov.gov/"><img src="images/footer_firstgov.gif" width="91" height="31" alt="FirstGov.gov" border="0"></a></div>
-</td>
-</tr>
-</table>
+<%@ include file="/jsp/footer.jsp" %>
 <!--end NCI footer-->
 </div>
 
