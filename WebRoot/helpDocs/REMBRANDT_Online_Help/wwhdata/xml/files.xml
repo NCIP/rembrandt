@@ -43,7 +43,7 @@
     <Document title="About REMBRANDT 1.5" href="rembrandt1.5_About_REMBRANDT.3.1.html" />
     <Document title="About REMBRANDT" href="rembrandt1.5_About_REMBRANDT.3.2.html" />
     <Document title="About REMBRANDT Functions" href="rembrandt1.5_About_REMBRANDT.3.3.html" />
-    <Document title="Getting Started with REM­BRANDT 1.5" href="rembrandt1.5_Getting_Started.4.1.html" />
+    <Document title="Getting Started" href="rembrandt1.5_Getting_Started.4.1.html" />
     <Document title="Creating a User Account" href="rembrandt1.5_Getting_Started.4.2.html" />
     <Document title="Logging In" href="rembrandt1.5_Getting_Started.4.3.html" />
     <Document title="Accepting REMBRANDT Provisions" href="rembrandt1.5_Getting_Started.4.4.html" />
@@ -78,7 +78,7 @@
     <Document title="Selecting a Pathway" href="rembrandt1.5_Adv_Searches.6.5.html" />
     <Document title="Copy Number Advanced Search" href="rembrandt1.5_Adv_Searches.6.6.html" />
     <Document title="Clinical Study Advanced Search" href="rembrandt1.5_Adv_Searches.6.7.html" />
-    <Document title="Managing Advanced Searches" href="rembrandt1.5_Adv_Searches.6.8.html" />
+    <Document title="Managing Individual and Compound Queries" href="rembrandt1.5_Adv_Searches.6.8.html" />
     <Document title="Refining a Query" href="rembrandt1.5_Adv_Searches.6.9.html" />
     <Document title="High Order Analysis" href="rembrandt1.5_High_Order_Analysis.7.1.html" />
     <Document title="High Order Analysis Overview" href="rembrandt1.5_High_Order_Analysis.7.2.html" />
@@ -104,8 +104,9 @@
     <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt1.5_View%20Results.8.17.html" />
     <Document title="Resorting Column Results" href="rembrandt1.5_View%20Results.8.18.html" />
     <Document title="Principal Component Analysis Plot" href="rembrandt1.5_View%20Results.8.19.html" />
-    <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.20.html" />
-    <Document title="Downloading BRB Array Tools and Files" href="rembrandt1.5_View%20Results.8.21.html" />
+    <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt1.5_View%20Results.8.20.html" />
+    <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.21.html" />
+    <Document title="Downloading BRB Array Tools and Files" href="rembrandt1.5_View%20Results.8.22.html" />
     <Document title="Managing Lists" href="rembrandt1.5_Manage_Lists.9.1.html" />
     <Document title="Managing Lists Overview" href="rembrandt1.5_Manage_Lists.9.2.html" />
     <Document title="Viewing the Data Items in a List" href="rembrandt1.5_Manage_Lists.9.3.html" />
@@ -131,7 +132,7 @@
     <Topic name="Clinical_report" href="rembrandt1.5_Simple_Searches.5.19.html#1085908" />
     <Topic name="Clinical_plot" href="rembrandt1.5_Simple_Searches.5.20.html#1088123" />
     <Topic name="Advanced_overview" href="rembrandt1.5_Adv_Searches.6.2.html#1110870" />
-    <Topic name="Advanced_gene_expression" href="rembrandt1.5_Adv_Searches.6.3.html#1106380" />
+    <Topic name="Advanced_gene_expression" href="rembrandt1.5_Adv_Searches.6.3.html#1151242" />
     <Topic name="GO_id_list" href="rembrandt1.5_Adv_Searches.6.4.html#1099861" />
     <Topic name="Browse_pathway" href="rembrandt1.5_Adv_Searches.6.5.html#1141063" />
     <Topic name="Advanced_copy_number" href="rembrandt1.5_Adv_Searches.6.6.html#1101162" />
@@ -147,7 +148,8 @@
     <Topic name="Copy_Number_Sample" href="rembrandt1.5_View%20Results.8.12.html#1096241" />
     <Topic name="Class_comparison_report" href="rembrandt1.5_View%20Results.8.15.html#1082972" />
     <Topic name="PCA_report" href="rembrandt1.5_View%20Results.8.19.html#1082922" />
-    <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.20.html#1088992" />
+    <Topic name="3d_pca" href="rembrandt1.5_View%20Results.8.20.html#1108688" />
+    <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.21.html#1088992" />
     <Topic name="Manage_lists_overview" href="rembrandt1.5_Manage_Lists.9.2.html#1067499" />
   </TopicMap>
 </WebWorksHelpBook>

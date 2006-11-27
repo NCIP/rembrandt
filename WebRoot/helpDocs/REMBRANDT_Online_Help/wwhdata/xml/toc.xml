@@ -8,7 +8,7 @@
     <i t="About REMBRANDT" l="3" />
     <i t="About REMBRANDT Functions" l="4" />
   </i>
-  <i t="Getting Started with REM­BRANDT 1.5" l="5">
+  <i t="Getting Started" l="5">
     <i t="Creating a User Account" l="6" />
     <i t="Logging In" l="7" />
     <i t="Accepting REMBRANDT Provisions" l="8" />
@@ -52,7 +52,7 @@
     </i>
     <i t="Copy Number Advanced Search" l="38" />
     <i t="Clinical Study Advanced Search" l="39" />
-    <i t="Managing Advanced Searches" l="40" />
+    <i t="Managing Individual and Compound Queries" l="40" />
     <i t="Refining a Query" l="41" />
   </i>
   <i t="High Order Analysis" l="42">
@@ -83,18 +83,20 @@
         <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="63" />
         <i t="Resorting Column Results" l="64" />
       </i>
-      <i t="Principal Component Analysis Plot" l="65" />
-      <i t="Hierarchical Clustering Report" l="66" />
+      <i t="Principal Component Analysis Plot" l="65">
+        <i t="Viewing a Three-dimensional Principal Component Analysis (PCA)" l="66" />
+      </i>
+      <i t="Hierarchical Clustering Report" l="67" />
     </i>
-    <i t="Downloading BRB Array Tools and Files" l="67" />
+    <i t="Downloading BRB Array Tools and Files" l="68" />
   </i>
-  <i t="Managing Lists" l="68">
-    <i t="Managing Lists Overview" l="69" />
-    <i t="Viewing the Data Items in a List" l="70" />
-    <i t="Removing Data Items to Create a New List" l="71" />
-    <i t="Combining Existing Lists to Create a New List" l="72" />
-    <i t="Deleting an Entire List" l="73" />
-    <i t="Adding a New “Custom” List" l="74" />
+  <i t="Managing Lists" l="69">
+    <i t="Managing Lists Overview" l="70" />
+    <i t="Viewing the Data Items in a List" l="71" />
+    <i t="Removing Data Items to Create a New List" l="72" />
+    <i t="Combining Existing Lists to Create a New List" l="73" />
+    <i t="Deleting an Entire List" l="74" />
+    <i t="Adding a New “Custom” List" l="75" />
   </i>
-  <i t="Glossary" l="75" />
+  <i t="Glossary" l="76" />
 </WebWorksHelpTOC>

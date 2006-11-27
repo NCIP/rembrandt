@@ -1,10 +1,9 @@
 function FileData_Pairs(x)
 {
-x.t("complex","queries");
 x.t("study","advanced");
-x.t("managing","advanced");
+x.t("managing","individual");
 x.t("describes","create");
-x.t("create","complex");
+x.t("create","compound");
 x.t("back","forward");
 x.t("advanced","searches");
 x.t("advanced","search");
@@ -14,14 +13,15 @@ x.t("gene","expression");
 x.t("forward","conducting");
 x.t("conducting","advanced");
 x.t("searches","back");
-x.t("searches","refining");
 x.t("searches","overview");
 x.t("searches","conducting");
 x.t("searches","section");
 x.t("include:","advanced");
+x.t("compound","queries");
 x.t("search","managing");
 x.t("search","copy");
 x.t("search","clinical");
+x.t("queries","refining");
 x.t("queries","generate");
 x.t("number","advanced");
 x.t("section","describes");
@@ -31,5 +31,6 @@ x.t("graphs.","topics");
 x.t("expression","advanced");
 x.t("topics","section");
 x.t("copy","number");
+x.t("individual","compound");
 x.t("clinical","study");
 }

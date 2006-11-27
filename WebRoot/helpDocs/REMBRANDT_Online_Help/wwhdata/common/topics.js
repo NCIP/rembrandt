@@ -16,7 +16,7 @@ if(P=="Simple_KM_sample_plot")C="rembrandt1.5_Simple_Searches.5.18.html#1101398"
 if(P=="Clinical_report")C="rembrandt1.5_Simple_Searches.5.19.html#1085908";
 if(P=="Clinical_plot")C="rembrandt1.5_Simple_Searches.5.20.html#1088123";
 if(P=="Advanced_overview")C="rembrandt1.5_Adv_Searches.6.2.html#1110870";
-if(P=="Advanced_gene_expression")C="rembrandt1.5_Adv_Searches.6.3.html#1106380";
+if(P=="Advanced_gene_expression")C="rembrandt1.5_Adv_Searches.6.3.html#1151242";
 if(P=="GO_id_list")C="rembrandt1.5_Adv_Searches.6.4.html#1099861";
 if(P=="Browse_pathway")C="rembrandt1.5_Adv_Searches.6.5.html#1141063";
 if(P=="Advanced_copy_number")C="rembrandt1.5_Adv_Searches.6.6.html#1101162";
@@ -32,7 +32,8 @@ if(P=="Gene_Expression_Disease")C="rembrandt1.5_View%20Results.8.11.html#1085962
 if(P=="Copy_Number_Sample")C="rembrandt1.5_View%20Results.8.12.html#1096241";
 if(P=="Class_comparison_report")C="rembrandt1.5_View%20Results.8.15.html#1082972";
 if(P=="PCA_report")C="rembrandt1.5_View%20Results.8.19.html#1082922";
-if(P=="HCA_report")C="rembrandt1.5_View%20Results.8.20.html#1088992";
+if(P=="3d_pca")C="rembrandt1.5_View%20Results.8.20.html#1108688";
+if(P=="HCA_report")C="rembrandt1.5_View%20Results.8.21.html#1088992";
 if(P=="Manage_lists_overview")C="rembrandt1.5_Manage_Lists.9.2.html#1067499";
 return C;
 }
