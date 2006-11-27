@@ -46,7 +46,7 @@
 	</li>
 	<li>
 		<b>Box and Whisker Plot (Gene Expression)</b>
-		<a href="javascript:spawnm('tutorials/boxandw.htm');">View</a>* the Kaplan-Meier Plot tutorial  (opens in a new window) 
+		<a href="javascript:spawnm('tutorials/boxandw.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 </fieldset>
 <br/><br/>
