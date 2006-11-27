@@ -27,7 +27,9 @@ if(session.getAttribute("name") != null)	{
 <% } 
 	else	{
 %>
-	<br/>
+	<a style="font-size:.85em;" href="registration.do">
+      Login
+    </a><br/>
 <%
 	}
 %>
