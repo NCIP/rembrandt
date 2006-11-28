@@ -195,7 +195,7 @@ public class RembrandtImageFileHandler {
 		  tag = "<img src=\""+getFinalURLPath()+"\"  id=\"rbt_image\" onmouseover=\"\" onmouseout=\"\" name=\"rbt_image\" border=\"0\" />";
 		}
 		else {
-		  tag = "<img src=\""+getFinalURLPath()+"\" width=\""+imageWidth+"\" height=\""+imageHeight+"\" border=\"0\" />";
+		  tag = "<img src=\""+getFinalURLPath()+"\" width=\""+imageWidth+"\" height=\""+imageHeight+"\" name=\"rbt_image\" id=\"rbt_image\" border=\"0\" />";
 		}
 		
 		logger.debug("Returned Image Tag: "+tag);
