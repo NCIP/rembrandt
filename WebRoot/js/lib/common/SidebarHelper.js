@@ -37,7 +37,7 @@ var SidebarHelper = {
 						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : "";
 						var lstyle = listSubTypes.indexOf(listContainer.highlightType)== -1 ? "color:#A90101;" : "";			
 						//generate the LIs
-						tst += "<li style=\""+lstyle+"\" id=\"'"+theName+"\" title=\"" + theName + ":<br/>" +listItems+"\">" + shortName + "</li>\n";
+						tst += "<li style=\""+lstyle+"\" id=\""+theName+"\" title=\"" + theName + ":<br/>" +listItems+"\">" + shortName + "</li>\n";
 					}
 					tst += "</ul>";
 					
@@ -102,7 +102,7 @@ var SidebarHelper = {
 				return nd();
 			};
 			
-			lis[i].id = lis[i].innerHTML;
+			//lis[i].id = lis[i].innerHTML;
 			
 			lis[i].style.cursor = "pointer";
 			//trim the HTML length
