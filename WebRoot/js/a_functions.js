@@ -53,10 +53,12 @@ function A_checkFindingStatus_cb(tasks)	{
 					curElLink.removeAttribute("onclick");
 					
 					//try and play a sound
+					/*
 					try	{
 						soundManager.play('beep');
 					}
 					catch(ex){ }
+					*/
 				}
 			}
 			else if(tasks[key]["status"] == 'error')	{
