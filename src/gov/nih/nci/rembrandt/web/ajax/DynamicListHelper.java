@@ -63,6 +63,11 @@ public class DynamicListHelper {
 	
 	public static String createGenericList(String listType, List<String> list, String name) throws OperationNotSupportedException	{
 		try	{
+			
+			//the list name SamplesFromClinicalReport is used internally by the system, force users to NOT use this name
+			if(name.equalsIgnoreCase("SamplesFromClinicalReport"))	{
+				name += "_1";
+			}
 			String[] tps = CommonListFunctions.parseListType(listType);
 			//tps[0] = ListType
 			//tps[1] = ListSubType (if not null)
