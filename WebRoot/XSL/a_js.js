@@ -139,7 +139,7 @@ function A_saveReporters()	{
 	//get the name
 	var name = $("tmp_prb_queryName").value;
 	var st = $("repSubType").value;
-	alert(st);
+	//alert(st);
 	
 	if(name != "")	{
 		//convert the overlib list to a comma seperated list
