@@ -280,6 +280,11 @@ public class QuickSearchAction extends DispatchAction {
 				   }
 			   }
 			   
+			   //here - remove the temporary list, if this is a clinical2km
+			   if(qsGroupName.equals("SamplesFromClinicalReport"))	{
+				   helper.removeList(qsGroupName);
+			   }
+			   
 			   //perform a query to get back all samples
 			   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(csampleList,institutionCriteria);
 			   if(allSampleKMResultsContainer != null  ){
