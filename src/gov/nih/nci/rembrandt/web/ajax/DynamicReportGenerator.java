@@ -348,7 +348,7 @@ public class DynamicReportGenerator {
 			List<ListSubType> lst = new ArrayList();
 			lst.add(stype);
 			
-            RembrandtListValidator listValidator = new RembrandtListValidator(gov.nih.nci.caintegrator.application.lists.ListType.Reporter,list);
+            RembrandtListValidator listValidator = new RembrandtListValidator(stype, gov.nih.nci.caintegrator.application.lists.ListType.Reporter,list);
 			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.Reporter, lst,list, name, listValidator);
 		}
 		catch(Exception e) {
