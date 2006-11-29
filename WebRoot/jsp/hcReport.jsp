@@ -20,6 +20,13 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script>
 		<script language="JavaScript" type="text/javascript" src="XSL/a_js.js"></script>
 		<script type="text/javascript" src="js/lib/Help.js"></script>
+		
+		<script type="text/javascript" src="http://us.js2.yimg.com/us.js.yimg.com/lib/common/utils/2/utilities_2.1.0.js"></script>
+
+		<script type="text/javascript" src="js/yui/yui-ext-nogrid.js"></script>
+		<link rel="stylesheet" type="text/css" href="js/yui/resources/css/reset-min.css" />
+    	<link rel="stylesheet" type="text/css" href="js/yui/resources/css/resizable.css"/>
+		
 		<script language="JavaScript" type="text/javascript" src="js/JSFX_ImageZoom.js"></script>  
 	 	<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
 	</head>
@@ -41,28 +48,26 @@ String key = "taskId";
 if(request.getParameter("key")!=null)
 	key = (String) request.getParameter("key");
 %>
-Image Control: 
+
+Image Control: Grab the blue border on the image and drag to resize 
+<a href="#" onclick="fulls(); return false;">[full size]</a>
+<a href="#" onclick="fulls('def'); return false;">[default size]</a>
+<!-- 
 <a href="#" onclick="fullsize()">fullsize</a> |
 <a href="#" onclick="shrink()">small</a> 
-<!-- 
-<a href="#" onmouseover="grow()" onmouseout="stop()">grow</a> |
-<a href="#" onmouseover="small()" onmouseout="stop()">shrink</a> |
-<a href="#" onclick="stop()">stop</a> 
 -->
+
 <br clear="all"/>
 <graphing:HCPlot taskId="<%=key%>" />
 
 <script language="javascript">
 var rbt_image = document.getElementById("rbt_image");
 
-
 function rbt_image_init()	{
 	rbt_image.style.width = "100%";
 }
 
 function shrink()	{
-	//rbt_image.setAttribute("height", "200");
-	//rbt_image.setAttribute("width", "500");
 	rbt_image_init();
 }
 function fullsize()	{
@@ -71,43 +76,52 @@ function fullsize()	{
 	rbt_image.style.width = "";
 }
 
-/*
-var step = 200;
-var gr = "";
-
-function grow()	{
-	gr = setInterval("growIt()", 100);
-}
-function small()	{
-	gr = setInterval("smallIt()", 100);
-}
-
-function stop()	{
-	clearInterval(gr);
-}
-function growIt()	{
-	i.setAttribute("height", i.height+step);
-	i.setAttribute("width", i.width+step);	
-}
-function smallIt()	{
-	if(i.height-step > 0 && i.width-step > 0)	{
-		i.setAttribute("height", i.height-step);
-		i.setAttribute("width", i.width-step);	
-	}
-}
-*/
-
 //init
-rbt_image_init();
-
-//rbt_image.style.border = "1px solid red";
-//rbt_image.style.width = "100%";
+//rbt_image_init();
 </script>
-
 
 <div style="height:300px; overflow:auto;">
 <graphing:HCPlotReport taskId="<%=key%>" />
 </div>
+<script type="text/javascript">
+/*
+var t = rbt_image.src;
+t = t.replace(/\\/g,"/");
+*/
+//scaling
+var ow = rbt_image.width;
+var oh = rbt_image.height;
+
+var newWidth = 600;
+
+if(ow > newWidth)	{
+	var ratio = (rbt_image.width/rbt_image.height);
+	
+	w = newWidth;
+	h = Math.round((newWidth / ratio));
+	//w = h = Math.round((newHeight * ratio)); //other way in case	
+	rbt_image.height = h;
+	rbt_image.width = w;
+}
+	var wrapped = new YAHOO.ext.Resizable('rbt_image', {
+    wrap:true,
+    pinned:true,
+    minWidth:50,
+    minHeight:50,
+    preserveRatio:true
+	});
+	
+	
+function fulls(f)	{
+	if(f=='def')	{
+		wrapped.resizeTo(w, h);
+	}
+	else	{
+		wrapped.resizeTo(ow, oh);
+	}
+	
+}
+</script>
 </body>
 </html>
 
