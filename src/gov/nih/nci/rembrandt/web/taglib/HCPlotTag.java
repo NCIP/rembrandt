@@ -3,9 +3,11 @@ package gov.nih.nci.rembrandt.web.taglib;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.util.ImageInfo;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.RembrandtImageFileHandler;
 
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -142,6 +144,23 @@ public class HCPlotTag extends AbstractGraphingTag {
                 try {
                     inputStream = new FileInputStream(finalPath);
                     inputStream.available();
+                    
+                    //get the image info
+                    int h, w = 0;
+                    ImageInfo ii = new ImageInfo();
+                    ii.setInput(inputStream); // in can be InputStream or RandomAccessFile
+                    ii.setDetermineImageNumber(true); // default is false
+                    ii.setCollectComments(true); // default is false
+                    if (!ii.check()) {
+                      System.err.println("Not a supported image file format.");
+                    }
+                    else	{
+                    	h = ii.getHeight();
+                    	w = ii.getWidth();
+                    	imageHandler.setImageHeight(h);
+                    	imageHandler.setImageWidth(w);
+                    }
+                    
                     imageReady = true;
                     inputStream.close();
                 }catch(IOException ioe) {
@@ -155,10 +174,7 @@ public class HCPlotTag extends AbstractGraphingTag {
                     break;
                 }
              }
-            
-            int w =Toolkit.getDefaultToolkit().getImage(finalPath).getWidth(null);
-            
-            
+                        
 		    jspOut.print(imageHandler.getImageTag());
         
 		}catch (IOException e) {
