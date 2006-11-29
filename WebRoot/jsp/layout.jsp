@@ -44,12 +44,12 @@
 						<tr>
 							<td>
 								<tiles:insert attribute="tabs"/>
-								<div id="main" style="min-height:500px;_height:500px">
+								<div id="main" style="min-height:370px;_height:390px;">
 									<%-- include the main form --%>
 									<tiles:insert attribute="mainForm"/> 
-								</div>
-								<div>
-									<tiles:insert attribute="reqdFieldsMsg"/><br/>
+									<div>
+										<tiles:insert attribute="reqdFieldsMsg"/><br/>
+									</div>
 								</div>
 							</td>
 						</tr>	
