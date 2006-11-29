@@ -44,7 +44,7 @@
 						<tr>
 							<td>
 								<tiles:insert attribute="tabs"/>
-								<div id="main">
+								<div id="main" style="min-height:500px;_height:500px">
 									<%-- include the main form --%>
 									<tiles:insert attribute="mainForm"/> 
 								</div>
