@@ -78,7 +78,7 @@
 							"<li><a href=\"analysisHome.do\">Analysis Home</a></li>\n" +
 							"</ul>\n";
 							
-	String s = (String) request.getParameter("s");
+	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;
 	if(s != null)	{
 		int sect = Integer.parseInt(s);	
 		switch(sect)	{
@@ -122,15 +122,16 @@
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<span>Manage Lists</span>\n";
 				break;
+			case 0:
 			default:
-				simple = "<span>Simple Search</span>\n" + simpleSecondary;
+				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
 				break;
 		}
-	}
+	
 %>
 <div id="header">
 	<ul id="primary">
@@ -141,3 +142,6 @@
 		<li><%= list %></li>
 	</ul>
 </div>
+<%
+}
+%>
