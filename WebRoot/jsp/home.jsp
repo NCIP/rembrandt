@@ -5,10 +5,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 
 <%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.caintegrator.util.CaIntegratorConstants" %>
-
-<tr class="report">
-  <td>
-    <br />
+<br clear="both"/>
     <html:form action="/quickSearch.do?method=quickSearch" styleId="qsForm">   
       <fieldset>
         <legend>
@@ -200,8 +197,6 @@
           <app:help help="Help messages will appear here."/>
           links for help throughout the application.
      </div><br/><br/>
-  </td>
-</tr>
 
 <script type="text/javascript">
 	window.onload = function()	{ 

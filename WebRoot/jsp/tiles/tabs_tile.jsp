@@ -51,7 +51,7 @@
 <script type='text/javascript' src='dwr/engine.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script>
 
-<span id="statusMsg"><br/></span>
+<span id="statusMsg"></span>
 
 <% 
 	//default settings for tabs
