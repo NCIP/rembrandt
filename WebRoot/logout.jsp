@@ -8,7 +8,7 @@
 		<legend class="red">
 		Thank you for visiting the REMBRANDT application
 		</legend>
-		
+		<br clear="both"/>
 		You cannot save the current session if you are logged in a guest user (RBTuser).
 	<br /><br />
 		<html:radio styleClass="radio" property="procedure" value="logoutSave" />
