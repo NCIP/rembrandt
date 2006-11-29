@@ -121,7 +121,7 @@
 	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        Kaplan-Meier survival plot for Sample Data&nbsp;
 	        <br/><br/>
-	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="if(this.value == $('groupNameCompare').value){ alert('Comparison Groups Can Not be the Same'); this.selectedIndex = 0;}">
+	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="examineGroups(this);">
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
 			
@@ -130,7 +130,7 @@
 	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
 	        -->
 	         vs. 
-	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="if(this.value == $('groupName').value){ alert('Comparison Groups Can Not be the Same'); this.selectedIndex = 0;}">
+	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);">
 	         
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
@@ -142,6 +142,19 @@
 	    	    }
 	    	    catch(err){}
 	    	    
+	    	    function examineGroups(dd)	{
+					    	    
+	    	    	if($('groupNameCompare').value == $('groupName').value){ 
+	    	    		alert('Comparison Groups Can Not be the Same'); 
+	    	    		dd.selectedIndex = 0;
+	    	    	}
+	    	    	if($('groupName').value == "ALL" && $('groupNameCompare').selectedIndex==0){ 
+	    	    		alert("Comparison between All and Rest of the Samples is not allowed, please select another group to compare to");
+	    	    		$('groupName').selectedIndex = 0;
+	    	    		$('groupNameCompare').selectedIndex = 0;
+	    	    		
+	    	    	}
+	    	    }
 	        </script>
         </logic:empty>
         
