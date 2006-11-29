@@ -51,6 +51,12 @@ function A_checkFindingStatus_cb(tasks)	{
 					curElImg.src = "images/check.png";
 					curElLink.onclick = "";
 					curElLink.removeAttribute("onclick");
+					
+					//try and play a sound
+					try	{
+						soundManager.play('beep');
+					}
+					catch(ex){ }
 				}
 			}
 			else if(tasks[key]["status"] == 'error')	{
