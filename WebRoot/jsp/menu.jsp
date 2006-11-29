@@ -49,7 +49,7 @@ if(queryCollection == null){
  	}
  }
 %>
-
+<br clear="both"/>
 <table border="0" cellspacing="4" cellpadding="3">
   <tr><td>
   

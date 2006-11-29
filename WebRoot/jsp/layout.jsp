@@ -34,8 +34,8 @@
 		<tiles:insert attribute="crumbMenu"/> 
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 			<tr>
-				<td width="575"> 
-					<table cellpadding="4" cellspacing="2" border="0" width="100%"> 
+				<td width="575" height="100%"> 
+					<table cellpadding="4" cellspacing="2" border="0" width="100%" height="100%"> 
 						<tr class="report">
 							<td>
 						    	<h3 style="padding:0px; margin:0px;"><tiles:getAsString name="title"/></h3>
@@ -44,18 +44,15 @@
 						<tr>
 							<td>
 								<tiles:insert attribute="tabs"/>
-								<div id="main">
+								<div id="main" style="height:82%;">
 									<%-- include the main form --%>
 									<tiles:insert attribute="mainForm"/> 
 								</div>
+								<div>
+									<tiles:insert attribute="reqdFieldsMsg"/><br/>
+								</div>
 							</td>
 						</tr>	
-						<tr>
-							<td align="left" width="100%">
-								<%-- include required message note --%>
-								<tiles:insert attribute="reqdFieldsMsg"/><br/>
-							</td>
-						</tr>
 					</table>
 				</td>
 				<td valign="top" class="sideBar">
