@@ -46,6 +46,7 @@ import gov.nih.nci.rembrandt.dbbean.PriorChemotherapy;
 import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
 import gov.nih.nci.rembrandt.dbbean.PriorSurgery;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.util.RaceType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -1118,7 +1119,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 		this.africanAmerican = africanAmerican;
 		 if (africanAmerican != null) {
 	            if (africanAmerican.equalsIgnoreCase("Specify")) {	               
-	            	this.africanAmerican = "BLACK";
+	            	this.africanAmerican = RaceType.BLACK_OR_AFRICAN_AMERICAN.toString(); //"BLACK";
 	            	RaceDE raceDE = new RaceDE(this.africanAmerican );
 		            raceCriteria.setRace(raceDE);
 		            this.africanAmerican ="Specify";
@@ -1147,7 +1148,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 		 if (caucasion != null) {
 	            if (caucasion.equalsIgnoreCase("Specify")) {
 	                //this.caucasion = "Caucasion";	     
-	            	this.caucasion = "WHITE";	 
+	            	this.caucasion = RaceType.WHITE.toString(); //"WHITE";	 
 	            	 RaceDE raceDE = new RaceDE(this.caucasion );
 	 	             raceCriteria.setRace(raceDE);
 	 	            this.caucasion ="Specify";
@@ -1176,7 +1177,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 		 if (asian != null) {
 	            if (asian.equalsIgnoreCase("Specify")) {
 	                //this.caucasion = "Caucasion";	     
-	            	this.asian = "ASIAN NOS";	 
+	            	this.asian = RaceType.ASIAN.toString(); //"ASIAN NOS";	 
 	            	RaceDE raceDE = new RaceDE(this.asian );
 	 	            raceCriteria.setRace(raceDE);
 	 	           this.asian ="Specify";
@@ -1210,7 +1211,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 		 if (nativeHawaiian != null) {
 	            if (nativeHawaiian.equalsIgnoreCase("Specify")) {
 	                //this.caucasion = "Caucasion";	     
-	            	this.nativeHawaiian = "NATIVE HAWAIIAN";	
+	            	this.nativeHawaiian = RaceType.NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER.toString(); //"NATIVE HAWAIIAN";	
 	            	RaceDE raceDE = new RaceDE(this.nativeHawaiian );
 		            raceCriteria.setRace(raceDE);
 		            this.nativeHawaiian="Specify";		          
@@ -1242,7 +1243,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 		
 		 if (other != null) {
 	            if (other.equalsIgnoreCase("Specify")) {	                   
-	            	this.other = "OTHER";	
+	            	this.other = RaceType.OTHER.toString();	
 	            	RaceDE raceDE = new RaceDE(this.other );
 	 	            raceCriteria.setRace(raceDE);
 	 	            this.other="Specify";
@@ -1274,7 +1275,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 		this.unknown = unknown;
 		 if (unknown != null) {
 	            if (unknown.equalsIgnoreCase("Specify")) {	                   
-	            	this.unknown = "UNKNOWN";	
+	            	this.unknown = RaceType.UNKNOWN.toString();	
 	            	RaceDE raceDE = new RaceDE(this.unknown );
 		            raceCriteria.setRace(raceDE);
 		            this.unknown = "Specify";
