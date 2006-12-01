@@ -121,7 +121,7 @@ public class GeneExpressionPlot {
 		try {
 			InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(session);
 
-			final GenePlotDataSet gpds = new GenePlotDataSet(gene, reporter, institutionCriteria, geType);
+			final GenePlotDataSet gpds = new GenePlotDataSet(gene, reporter, institutionCriteria, geType, session.getId());
 			//final GenePlotDataSet gpds = new GenePlotDataSet(gene, institutionCriteria,GeneExpressionDataSetType.GeneExpressionDataSet );
 
 			//LOG2 Dataset

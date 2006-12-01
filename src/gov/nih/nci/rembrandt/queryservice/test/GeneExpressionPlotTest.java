@@ -124,7 +124,7 @@ public class GeneExpressionPlotTest extends TestCase {
 					System.out.println("Count:"+i);
 				buildGeneExprDiseasePlotQuery();
 				System.out.println("Building  Gene Expression Plot Query>>>>>>>>>>>>>>>>>>>>>>>");
-				Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
+				Resultant resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery,"Test");
 				//System.out.println("DiseaseQuery:\n"+ geneQuery.toString());
 				//assertNotNull(resultant);
 				if(resultant != null){
@@ -140,6 +140,9 @@ public class GeneExpressionPlotTest extends TestCase {
 				}
 			}
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}			

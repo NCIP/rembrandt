@@ -60,11 +60,13 @@ import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.rembrandt.analyticalservice.classComparison.GroupGeneExpressionAnalysis;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
@@ -238,22 +240,16 @@ public class ResultsetManager {
 		return resultant;
 	}
 
-	public static Resultant executeGeneExpressPlotQuery(Query geneQuery)
-			throws Exception {
+	public static Resultant executeGeneExpressPlotQuery(Query geneQuery, String session)
+			throws Throwable {
 
 		//ExecuteQuery
 		Resultant resultant = new Resultant();
 		ResultsContainer resultsContainer = null;
-		if (geneQuery != null){
-			ResultSet[] resultsets = QueryManager.executeQuery(geneQuery);
-			if(resultsets instanceof GeneExprGroup[]){
-				 resultsContainer = ResultsetProcessor
-					.handleGeneExpressPlot((GeneExprGroup[]) resultsets);
-			}
-			else if(resultsets instanceof UnifiedGeneExprGroup[]){
-				 resultsContainer = ResultsetProcessor
-					.handleUnifiedGeneExpressPlot((UnifiedGeneExprGroup[]) resultsets);
-			}
+		if (geneQuery != null  && geneQuery instanceof GeneExpressionQueryInterface){
+
+			GroupGeneExpressionAnalysis groupGeneExpressionAnalysis = new GroupGeneExpressionAnalysis();
+			resultsContainer =  groupGeneExpressionAnalysis.executeGroupGeneExpression((GeneExpressionQueryInterface)geneQuery,session);
 			resultant.setResultsContainer(resultsContainer);
 			resultant.setAssociatedQuery(geneQuery);
 			resultant.setAssociatedView(geneQuery.getAssociatedView());

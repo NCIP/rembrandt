@@ -257,10 +257,10 @@ public class RembrandtFindingsFactory implements FindingsFactory {
 
 	}
 
-	public CompoundClassComparisonFinding createCompoundClassComparisonFinding(List<ClassComparisonQueryDTO> queryList, String sessionID, String taskID) throws FrameworkException {
+	public CompoundClassComparisonFinding createCompoundClassComparisonFinding(List<ClassComparisonQueryDTO> queryList, String sessionID, String taskID, List<String> reporterList) throws FrameworkException {
 		CompoundClassComparisonFinding finding = null;
 		try {
-			CompoundClassComparisonFindingStrategy strategy = new  CompoundClassComparisonFindingStrategy(sessionID,taskID,queryList );
+			CompoundClassComparisonFindingStrategy strategy = new  CompoundClassComparisonFindingStrategy(sessionID,taskID,queryList, reporterList );
 			strategy.createQuery();
 			strategy.executeQuery();
 			strategy.analyzeResultSet();

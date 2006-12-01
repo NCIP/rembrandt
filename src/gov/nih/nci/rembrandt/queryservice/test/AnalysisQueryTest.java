@@ -39,6 +39,7 @@ import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFindi
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
@@ -161,6 +162,7 @@ public class AnalysisQueryTest extends TestCase {
     }
 	protected void setUp() throws Exception {
 		super.setUp();
+		System.setProperty("gov.nih.nci.rembrandt.properties","C:/local/content/rembrandt/config/rembrandt.properties");
 		ApplicationContext.init();
 		setUpDiseaseGroupTest();
 		setUpPCAQuery();
@@ -175,8 +177,8 @@ public class AnalysisQueryTest extends TestCase {
 			classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
 			classComparisonQueryDTO.setQueryName(queryName);
 			classComparisonQueryDTO.setStatisticTypeDE(new StatisticTypeDE(StatisticalMethodType.TTest));
-			//classComparisonQueryDTO.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.5,Operator.GT,StatisticalSignificanceType.adjustedpValue));
-			classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.FWER ));
+			classComparisonQueryDTO.setStatisticalSignificanceDE(new StatisticalSignificanceDE(0.0,Operator.GT,StatisticalSignificanceType.pValue));
+			classComparisonQueryDTO.setMultiGroupComparisonAdjustmentTypeDE(new MultiGroupComparisonAdjustmentTypeDE(MultiGroupComparisonAdjustmentType.NONE ));
 			classComparisonQueryDTO.setArrayPlatformDE(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()));
 			//classComparisonQueryDTO.setExprFoldChangeDE(new ExprFoldChangeDE.UpRegulation(new Float(2)));
 			Collection<InstitutionDE> insts = new ArrayList<InstitutionDE>();
@@ -314,25 +316,21 @@ public class AnalysisQueryTest extends TestCase {
         insts.add(new InstitutionDE("HENRY FORD(RETRO)",new Long(1)));
         pcaQueryDTO.setInstitutionDEs(insts);
 		//Create ClinicalQueryDTO 1 (Class 1) for the pca
-		ClinicalDataQuery group1 = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
+        PatientUserListQueryDTO group1 = new PatientUserListQueryDTO();
 		group1.setQueryName("GBM_GROUP");
-		DiseaseOrGradeCriteria diseaseCrit = new DiseaseOrGradeCriteria();
-		diseaseCrit.setDisease(new DiseaseNameDE("GBM"));
-		group1.setDiseaseOrGradeCrit(diseaseCrit);
-		SampleCriteria sampleCriteria = new SampleCriteria();
-		Collection samplesGroupB = new ArrayList();
-		samplesGroupB.add(new SampleIDDE("E09137"));
-		samplesGroupB.add(new SampleIDDE("NT7"));
-		samplesGroupB.add(new SampleIDDE("NT8"));
-		samplesGroupB.add(new SampleIDDE("xyz"));
-		samplesGroupB.add(new SampleIDDE("HF0088"));
-		samplesGroupB.add(new SampleIDDE("HF0120"));
-		samplesGroupB.add(new SampleIDDE("HF0131"));
-		samplesGroupB.add(new SampleIDDE("HF0137"));
-		sampleCriteria.setSampleIDs(samplesGroupB);
-		//group2.setSampleIDCrit(sampleCriteria);
-		group1.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-		pcaQueryDTO.setComparisonGroup(group1);
+		List<String> samplesGroupB = new ArrayList<String>();
+		samplesGroupB.add("E09137");
+		samplesGroupB.add("NT7");
+		samplesGroupB.add("NT8");
+		samplesGroupB.add("xyz");
+		samplesGroupB.add("HF0088");
+		samplesGroupB.add("HF0120");
+		samplesGroupB.add("HF0131");
+		samplesGroupB.add("HF0137");
+		group1.setPatientDIDs(samplesGroupB);
+		Collection<ClinicalQueryDTO> comparisonGroups = new ArrayList<ClinicalQueryDTO>();
+		comparisonGroups.add(group1);
+		pcaQueryDTO.setComparisonGroups(comparisonGroups);
 		
 		
 			
@@ -378,7 +376,8 @@ public class AnalysisQueryTest extends TestCase {
 		RembrandtFindingsFactory factory = new RembrandtFindingsFactory();
 		Finding finding = null;
 		try {
-			finding = factory.createCompoundClassComparisonFinding(classComparisonQueryDTOList,"mySession","EGFR");
+			List<String> reporterList = new ArrayList<String>();
+			finding = factory.createCompoundClassComparisonFinding(classComparisonQueryDTOList,"mySession","EGFR",reporterList);
 		} catch (FrameworkException e) {
 			e.printStackTrace();
 		}

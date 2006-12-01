@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.DiseaseType;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
@@ -127,7 +128,7 @@ public class GenePlotDataSet {
 	    * @param gene
 	    */
 	   @SuppressWarnings("unchecked")
-	public GenePlotDataSet(String gene, String reporter,InstitutionCriteria institutionCriteria ,GeneExpressionDataSetType geneExpressionDataSetType )	{
+	public GenePlotDataSet(String gene, String reporter,InstitutionCriteria institutionCriteria ,GeneExpressionDataSetType geneExpressionDataSetType, String sessionId )	{
 		   
 		   //Determine which type of query we will need to run based on the algorithm we are passing in (GeneExpressionDataSetType enum)
 			Resultant resultant = null;
@@ -148,9 +149,9 @@ public class GenePlotDataSet {
 						geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
 						geneQuery.setGeneIDCrit(geneCrit);
 						geneQuery.setInstitutionCriteria(institutionCriteria);
-						geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+						geneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())));
 		
-						resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery);
+						resultant = ResultsetManager.executeGeneExpressPlotQuery(geneQuery, sessionId);
 						
 						//run the extra q for the B&W data...this time a single view, not group
 					    geneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
@@ -177,9 +178,9 @@ public class GenePlotDataSet {
 						unifiedGeneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
 						unifiedGeneQuery.setGeneIDCrit(geneCrit);
 						unifiedGeneQuery.setInstitutionCriteria(institutionCriteria);
-						//unifiedGeneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(Constants.AFFY_OLIGO_PLATFORM)));
+						unifiedGeneQuery.setArrayPlatformCrit(new ArrayPlatformCriteria(new ArrayPlatformDE(ArrayPlatformType.UNIFIED_GENE.toString())));
 		
-						resultant = ResultsetManager.executeGeneExpressPlotQuery(unifiedGeneQuery);
+						resultant = ResultsetManager.executeGeneExpressPlotQuery(unifiedGeneQuery, sessionId);
 						
 						// run the extra q for the B&W data...this time a single view, not group
 						unifiedGeneQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
@@ -206,6 +207,9 @@ public class GenePlotDataSet {
 
 				
 			} catch (Exception e) {
+				logger.error("Resultset Manager Threw an Exception in gene plot");
+				logger.error(e);
+			} catch (Throwable e) {
 				logger.error("Resultset Manager Threw an Exception in gene plot");
 				logger.error(e);
 			}
@@ -255,6 +259,7 @@ public class GenePlotDataSet {
 					DiseaseGeneExprPlotResultset diseaseResultset = geneExprDiseasePlotContainer
 							.getDiseaseGeneExprPlotResultset(diseaseTypes[i].getDiseaseType().toString());
 
+					if(diseaseResultset != null){
 					String diseaseName = diseaseResultset.getType().getValue().toString();
 					
 					if(reporter!=null && diseaseName.indexOf(RembrandtConstants.ALL)!=-1)	{
@@ -372,6 +377,7 @@ public class GenePlotDataSet {
 					}
 					
 					icounter++;
+				}
 				}	
 			}
 	   }

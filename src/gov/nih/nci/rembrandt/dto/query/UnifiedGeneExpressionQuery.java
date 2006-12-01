@@ -89,7 +89,12 @@ import org.apache.log4j.Logger;
 * 
 */
 
-public class UnifiedGeneExpressionQuery extends Query implements Serializable,Cloneable{
+public class UnifiedGeneExpressionQuery extends Query implements Serializable,Cloneable, GeneExpressionQueryInterface{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * IMPORTANT! This class requires a clone method! This requires that any new
 	 * data field that is added to this class also be cloneable and be added to
@@ -106,6 +111,8 @@ public class UnifiedGeneExpressionQuery extends Query implements Serializable,Cl
 	private GeneIDCriteria geneIDCrit;
 
 	private FoldChangeCriteria foldChgCrit;
+	
+	private ArrayPlatformCriteria arrayPlatformCriteria;
 
 	private QueryHandler HANDLER;
 
@@ -125,27 +132,45 @@ public class UnifiedGeneExpressionQuery extends Query implements Serializable,Cl
         return null;
     }
 
+    /* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#getGeneIDCrit()
+	 */
     public GeneIDCriteria getGeneIDCrit() {
 		return geneIDCrit;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#setGeneIDCrit(gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria)
+	 */
 	public void setGeneIDCrit(GeneIDCriteria geneIDCrit) {
 		this.geneIDCrit = geneIDCrit;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#getSampleIDCrit()
+	 */
 	public SampleCriteria getSampleIDCrit() {
 		return sampleIDCrit;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#setSampleIDCrit(gov.nih.nci.caintegrator.dto.critieria.SampleCriteria)
+	 */
 	public void setSampleIDCrit(SampleCriteria sampleIDCrit) {
 		this.sampleIDCrit = sampleIDCrit;
 	}
 
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#getFoldChgCrit()
+	 */
 	public FoldChangeCriteria getFoldChgCrit() {
 		return foldChgCrit;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#setFoldChgCrit(gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria)
+	 */
 	public void setFoldChgCrit(FoldChangeCriteria foldChgCrit) {
 		this.foldChgCrit = foldChgCrit;
 	}
@@ -171,5 +196,19 @@ public class UnifiedGeneExpressionQuery extends Query implements Serializable,Cl
 	}
 
 	class Handler {
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#getArrayPlatformCriteria()
+	 */
+	public ArrayPlatformCriteria getArrayPlatformCriteria() {
+		return arrayPlatformCriteria;
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.rembrandt.dto.query.GeneExpressionQueryInterface#setArrayPlatformCriteria(gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria)
+	 */
+	public void setArrayPlatformCrit(ArrayPlatformCriteria arrayPlatformCriteria) {
+		this.arrayPlatformCriteria = arrayPlatformCriteria;
 	}
 }

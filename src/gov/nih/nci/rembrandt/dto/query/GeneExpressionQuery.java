@@ -90,7 +90,12 @@ import org.apache.log4j.Logger;
 * 
 */
 
-public class GeneExpressionQuery extends Query implements Serializable,Cloneable{
+public class GeneExpressionQuery extends Query implements Serializable,Cloneable, GeneExpressionQueryInterface{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * IMPORTANT! This class requires a clone method! This requires that any new
 	 * data field that is added to this class also be cloneable and be added to

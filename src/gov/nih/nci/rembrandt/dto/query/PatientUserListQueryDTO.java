@@ -34,6 +34,9 @@ public class PatientUserListQueryDTO implements ClinicalQueryDTO {
         UserListBeanHelper helper = new UserListBeanHelper(session);
         patientDIDs = helper.getItemsFromList(this.queryName);        
     }
+    public void setPatientDIDs(List<String> sampleIds){        
+        patientDIDs = sampleIds;        
+    }
     
     /**
      * @return Returns the patientDIDs.
