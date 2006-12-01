@@ -74,6 +74,11 @@ public class RegHelper {
 	    		status = "failed";
 	    		msg = "SEND_FAILED";
 	    	}
+	    	catch (Exception e) {
+	    		System.out.println("mail did not send from regHelper");
+	    		status = "failed";
+	    		msg = "SEND_FAILED_GENERIC";
+	    	}
 		}
 		else	{
 			status = "fail";
