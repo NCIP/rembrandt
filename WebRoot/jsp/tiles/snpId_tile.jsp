@@ -21,7 +21,7 @@ Type SNP's:&nbsp;&nbsp;
 <br/>
 
 <html:radio property="snpId" value="snpList" styleClass="radio" styleId="snpIdSnpList" onfocus="javascript:onRadio(this,1);" />
-Choose s saved SNP list:&nbsp;&nbsp;
+Choose a saved SNP list:&nbsp;&nbsp;
 <html:select property="snpListFile" disabled="false" styleId="snpListFileDD">
 	<html:optionsCollection property="savedSnpList" />
 </html:select>
