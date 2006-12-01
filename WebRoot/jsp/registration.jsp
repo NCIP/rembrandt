@@ -50,12 +50,15 @@
 <table id="loginTable">
 	<tr>
 	<td width="40%" style="border-right:1px dashed gray;">
+	<script type="text/javascript">Help.insertHelp("Logging_in", "", "float:right;padding:_8px;");</script>	
 	<br clear="both"/>
 		<html:form action="alogin.do">
 		<fieldset>
 		<legend>Existing Users</legend>
 		<br clear="both"/>
-		<b class="msg">Login with your current credentials</b><br/><br/><br/><br/>
+		
+		<b class="msg">Login with your current credentials</b>
+		<br/><br/><br/><br/>
 			<div class="h">Login:</div>
 			<div class="r"><label>Username:</label> <input type="text" name="userName" id="userName"/></div>
 			<div class="r"><label>Password:</label> <input type="password" name="password" id="password"/></div>
@@ -68,6 +71,7 @@
 		</html:form>
 	</td>
 	<td>
+	<script type="text/javascript">Help.insertHelp("Registering", "align='right'", "padding:_8px;");</script>
 	<br clear="both"/>
 	<form id="regForm">
 	<fieldset>

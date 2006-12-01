@@ -128,7 +128,7 @@ response.setHeader("Location",newLocn);
 		 </div>
 		 
 		 <div style="padding:5px;margin:15px; background-color:#fff; border:1px solid #416599;">
- 			<script type="text/javascript">Help.insertHelp("Logging_in", "align='left'", "padding:_8px;");</script>
+ 			<script type="text/javascript">Help.insertHelp("Opening_page", "align='left'", "padding:_8px;");</script>
 			Throughout the application please click the Help Icon for context sensitive application help.<br/>
 		 </div>
 	      <!--end login section-->
