@@ -44,12 +44,12 @@
     <Document title="About REMBRANDT" href="rembrandt1.5_About_REMBRANDT.3.2.html" />
     <Document title="About REMBRANDT Functions" href="rembrandt1.5_About_REMBRANDT.3.3.html" />
     <Document title="Getting Started" href="rembrandt1.5_Getting_Started.4.1.html" />
-    <Document title="Creating a User Account" href="rembrandt1.5_Getting_Started.4.2.html" />
-    <Document title="Logging In" href="rembrandt1.5_Getting_Started.4.3.html" />
-    <Document title="Accepting REMBRANDT Provisions" href="rembrandt1.5_Getting_Started.4.4.html" />
-    <Document title="REMBRANDT 1.5 Workspace" href="rembrandt1.5_Getting_Started.4.5.html" />
-    <Document title="Getting Help" href="rembrandt1.5_Getting_Started.4.6.html" />
-    <Document title="Application Support" href="rembrandt1.5_Getting_Started.4.7.html" />
+    <Document title="REMBRANDT’s Opening Page" href="rembrandt1.5_Getting_Started.4.2.html" />
+    <Document title="New User Registration" href="rembrandt1.5_Getting_Started.4.3.html" />
+    <Document title="Logging In" href="rembrandt1.5_Getting_Started.4.4.html" />
+    <Document title="Accepting REMBRANDT Provisions" href="rembrandt1.5_Getting_Started.4.5.html" />
+    <Document title="REMBRANDT 1.5 Workspace" href="rembrandt1.5_Getting_Started.4.6.html" />
+    <Document title="Getting Help" href="rembrandt1.5_Getting_Started.4.7.html" />
     <Document title="Logging Out" href="rembrandt1.5_Getting_Started.4.8.html" />
     <Document title="Conducting a Simple Search" href="rembrandt1.5_Simple_Searches.5.1.html" />
     <Document title="Simple Search Overview" href="rembrandt1.5_Simple_Searches.5.2.html" />
@@ -118,8 +118,10 @@
   </DocumentInfo>
   <TopicMap>
     <Topic name="Welcome" href="Welcome.1.1.html#1052621" />
-    <Topic name="Logging_in" href="rembrandt1.5_Getting_Started.4.3.html#1096445" />
-    <Topic name="Rules_of_the_road" href="rembrandt1.5_Getting_Started.4.4.html#1095258" />
+    <Topic name="Opening_page" href="rembrandt1.5_Getting_Started.4.2.html#1116016" />
+    <Topic name="Registering" href="rembrandt1.5_Getting_Started.4.3.html#1094503" />
+    <Topic name="Logging_in" href="rembrandt1.5_Getting_Started.4.4.html#1096445" />
+    <Topic name="Rules_of_the_road" href="rembrandt1.5_Getting_Started.4.5.html#1095258" />
     <Topic name="Logging_out" href="rembrandt1.5_Getting_Started.4.8.html#1111610" />
     <Topic name="Simple_search_overview" href="rembrandt1.5_Simple_Searches.5.2.html#1067499" />
     <Topic name="Eliminating_aliases" href="rembrandt1.5_Simple_Searches.5.4.html#1134211" />

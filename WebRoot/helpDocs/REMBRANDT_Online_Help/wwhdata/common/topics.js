@@ -2,8 +2,10 @@ function  WWHBookData_MatchTopic(P)
 {
 var C=null;
 if(P=="Welcome")C="Welcome.1.1.html#1052621";
-if(P=="Logging_in")C="rembrandt1.5_Getting_Started.4.3.html#1096445";
-if(P=="Rules_of_the_road")C="rembrandt1.5_Getting_Started.4.4.html#1095258";
+if(P=="Opening_page")C="rembrandt1.5_Getting_Started.4.2.html#1116016";
+if(P=="Registering")C="rembrandt1.5_Getting_Started.4.3.html#1094503";
+if(P=="Logging_in")C="rembrandt1.5_Getting_Started.4.4.html#1096445";
+if(P=="Rules_of_the_road")C="rembrandt1.5_Getting_Started.4.5.html#1095258";
 if(P=="Logging_out")C="rembrandt1.5_Getting_Started.4.8.html#1111610";
 if(P=="Simple_search_overview")C="rembrandt1.5_Simple_Searches.5.2.html#1067499";
 if(P=="Eliminating_aliases")C="rembrandt1.5_Simple_Searches.5.4.html#1134211";

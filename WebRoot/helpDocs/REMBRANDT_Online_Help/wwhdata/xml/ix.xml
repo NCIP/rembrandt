@@ -29,9 +29,6 @@
       <i t="simple search">
         <j l="14#1088879" />
       </i>
-      <i t="user account">
-        <j l="6#1096472" />
-      </i>
     </i>
     <i t="Advanced searches">
       <j l="34#1145110" />
@@ -80,7 +77,7 @@
   </g>
   <g t="B" o="002">
     <i t="Baseline, assigning">
-      <j l="44#1085267" />
+      <j l="44#1096733" />
     </i>
     <i t="Blue panel">
       <i t="high order analysis filters">
@@ -222,14 +219,17 @@
         <j l="38#1102461" />
       </i>
       <i t="page description (View Results)">
-        <j l="58#1112036" />
+        <j l="58#1096242" />
       </i>
       <i t="showing data in webGenome">
         <j l="59#1092170" />
       </i>
     </i>
+    <i t="Copy Number Data">
+      <j l="59#1112887" />
+    </i>
     <i t="Copy Number Data Per Sample report">
-      <j l="58#1112036" />
+      <j l="58#1096242" />
     </i>
     <i t="Copy Number Data Per Sample View">
       <j l="58" />
@@ -256,7 +256,7 @@
         <j l="34#1145107" />
       </i>
       <i t="user account">
-        <j l="6#1096472" />
+        <j l="7#1116135" />
       </i>
     </i>
   </g>
@@ -284,7 +284,10 @@
       </i>
     </i>
     <i t="Difference option, description">
-      <j l="73#1082420" />
+      <j l="73#1087925" />
+    </i>
+    <i t="displaying LOH data in webGenome">
+      <j l="59#1112887" />
     </i>
     <i t="Distance Matrix, defined">
       <j l="46#1088349" />
@@ -302,9 +305,6 @@
       </i>
     </i>
     <i t="E-mailing">
-      <i t="NCICB Application Support">
-        <j l="6#1096472" />
-      </i>
       <i t="plots or graphs">
         <j l="22#1096033" />
       </i>
@@ -341,7 +341,7 @@
     </i>
     <i t="F-test One Way ANOVA">
       <i t="defined">
-        <j l="44#1091767" />
+        <j l="44#1096769" />
       </i>
       <i t="output">
         <j l="61#1095677" />
@@ -417,11 +417,11 @@
   <g t="H" o="002">
     <i t="Help">
       <i t="obtaining">
-        <j l="10#1100327" />
+        <j l="11#1100327" />
       </i>
     </i>
     <i t="Help link">
-      <j l="10#1113610" />
+      <j l="11#1116417" />
     </i>
     <i t="Hide Diseases toolbar">
       <j l="55" />
@@ -475,7 +475,7 @@
       <j l="19#1121717" />
     </i>
     <i t="Intersect option, description">
-      <j l="73#1082419" />
+      <j l="73#1087923" />
     </i>
   </g>
   <g t="J" o="002">
@@ -526,7 +526,7 @@
       <j l="39#1124291" />
     </i>
     <i t="Legal Rules of the Road page">
-      <j l="8#1109711" />
+      <j l="9#1109711" />
     </i>
     <i t="Linkage Method, defined">
       <j l="46#1088357" />
@@ -562,7 +562,7 @@
     </i>
     <i t="Logging in">
       <i t="REMBRANDT">
-        <j l="7#1094522" />
+        <j l="8#1094522" />
       </i>
     </i>
     <i t="Logging out">
@@ -579,6 +579,16 @@
     <i t="Log-rank p-value, Statistical Report">
       <j l="28#1121836" />
       <j l="30#1092813" />
+    </i>
+    <i t="LOH data">
+      <i t="display REMBRANDT data in webGenome">
+        <j l="59#1112887" />
+      </i>
+    </i>
+    <i t="Loss of Heterozygosity data">
+      <i t="display REMBRANDT data in web Genome">
+        <j l="59#1112887" />
+      </i>
     </i>
   </g>
   <g t="M" o="002">
@@ -716,11 +726,11 @@
       </i>
     </i>
     <i t="REMBRANDT">
-      <i t="creating user account">
-        <j l="6#1096472" />
-      </i>
       <i t="description of">
         <j l="3#1091969" />
+      </i>
+      <i t="displaying LOH data in webGenome">
+        <j l="59#1112887" />
       </i>
       <i t="feedback about application">
         <j l="12#1112758" />
@@ -729,22 +739,25 @@
         <j l="4#1092020" />
       </i>
       <i t="getting help">
-        <j l="10#1100327" />
+        <j l="11#1100327" />
       </i>
       <i t="logging in">
-        <j l="7#1094522" />
+        <j l="8#1094522" />
       </i>
       <i t="logging out">
         <j l="12#1095031" />
       </i>
       <i t="menu">
-        <j l="10#1100327" />
+        <j l="11#1100327" />
+      </i>
+      <i t="registering">
+        <j l="7#1116135" />
       </i>
       <i t="stands for">
         <j l="3#1091969" />
       </i>
       <i t="workspace">
-        <j l="8#1088353" />
+        <j l="9#1088353" />
       </i>
     </i>
     <i t="Rembrandt Manage Lists page">
@@ -767,7 +780,7 @@
         <j l="61#1086398" />
       </i>
       <i t="Copy Number Sample">
-        <j l="58#1112036" />
+        <j l="58#1096242" />
       </i>
       <i t="Gene Expression Disease">
         <j l="57#1083594" />
@@ -882,7 +895,7 @@
       </i>
     </i>
     <i t="Statistical Method, defined">
-      <j l="44#1085294" />
+      <j l="44#1096761" />
     </i>
     <i t="Std. Dev., defined">
       <j l="18#1141014" />
@@ -894,7 +907,7 @@
       </i>
     </i>
     <i t="Support link">
-      <j l="10#1100705" />
+      <j l="11#1116446" />
     </i>
     <i t="Survival vs Age at Dx, defined">
       <j l="32#1088136" />
@@ -918,14 +931,14 @@
     </i>
     <i t="T-test Two Sample Test">
       <i t="defined">
-        <j l="44#1092152" />
+        <j l="44#1096765" />
       </i>
       <i t="output">
         <j l="61#1095939" />
       </i>
     </i>
     <i t="Tutorials link">
-      <j l="10#1100709" />
+      <j l="11#1116457" />
     </i>
     <i t="Typing">
       <i t="a list (Manage List function)">
@@ -944,11 +957,11 @@
     </i>
     <i t="User account">
       <i t="creating">
-        <j l="6#1096472" />
+        <j l="7#1116135" />
       </i>
     </i>
     <i t="User guide link">
-      <j l="10#1100713" />
+      <j l="11#1116467" />
     </i>
   </g>
   <g t="V" o="002">
@@ -990,10 +1003,13 @@
       <i t="display Copy Number data">
         <j l="59#1092170" />
       </i>
+      <i t="display LOH data">
+        <j l="59#1112887" />
+      </i>
     </i>
     <i t="Wilcoxon Test Man-Whitney Test">
       <i t="defined">
-        <j l="44#1091790" />
+        <j l="44#1096767" />
       </i>
       <i t="output">
         <j l="61#1095939" />
