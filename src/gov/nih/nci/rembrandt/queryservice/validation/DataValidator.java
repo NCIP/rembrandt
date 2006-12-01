@@ -91,7 +91,7 @@ import org.apache.ojb.broker.query.Criteria;
 public class DataValidator{
     private static Logger logger = Logger.getLogger(DataValidator.class);
 
-	
+
 	
 	/**
 	 * Performs the actual lookup query.  Gets the application
@@ -155,10 +155,10 @@ public class DataValidator{
             }
 
 
-            Collection sampleCollection;
-            Criteria sampleCrit = new Criteria();
-            sampleCrit.addIn("upper(sampleId)",values);	
-            sampleCollection = QueryExecuter.executeQuery(PatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+	            Criteria sampleCrit = new Criteria();
+	            sampleCrit.addIn("upper(sampleId)",values);	
+	            Collection sampleCollection = QueryExecuter.executeQuery(PatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+
             	if(sampleCollection != null){
             		 for (Object obj : sampleCollection){
             			 if(obj instanceof PatientData){
@@ -193,12 +193,12 @@ public class DataValidator{
             }
 
 
-            Collection sampleCollection;
-            Criteria sampleCrit = new Criteria();
-            sampleCrit.addIn("upper(sampleId)",values);	
-            sampleCollection = QueryExecuter.executeQuery(GEPatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
-            	if(sampleCollection != null){
-            		 for (Object obj : sampleCollection){
+
+	            Criteria sampleCrit = new Criteria();
+	            sampleCrit.addIn("upper(sampleId)",values);	
+	            Collection geSampleCollection = QueryExecuter.executeQuery(GEPatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+            	if(geSampleCollection != null){
+            		 for (Object obj : geSampleCollection){
             			 if(obj instanceof GEPatientData){
             				 GEPatientData pateintData = (GEPatientData) obj;
             				 validSampleList.add(pateintData.getSampleId());

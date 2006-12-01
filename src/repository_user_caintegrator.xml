@@ -1637,3 +1637,18 @@
              jdbc-type="VARCHAR"
         />
   </class-descriptor>
+  <class-descriptor
+       class="gov.nih.nci.rembrandt.dbbean.UnifiedHugoGene"
+       table="UNFIED_HUGO_GENE">
+   <field-descriptor
+             name="unifiedGene"
+             column="UNIFIED_GENE"
+             jdbc-type="VARCHAR"
+             primarykey="true"
+        />
+    <field-descriptor
+             name="geneSymbol"
+             column="GENE_SYMBOL"
+             jdbc-type="VARCHAR"
+        />
+  </class-descriptor>
