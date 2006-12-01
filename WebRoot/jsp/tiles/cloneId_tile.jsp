@@ -17,7 +17,7 @@
 
 
 <html:radio property="cloneId" value="list" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
-Type Clones:&nbsp;&nbsp;
+Type Reporters:&nbsp;&nbsp;
 <html:select property="cloneList" disabled="false">
 	<html:optionsCollection property="cloneTypeColl" />
 </html:select>
@@ -27,7 +27,7 @@ Type Clones:&nbsp;&nbsp;
 <br/>
 
 <html:radio property="cloneId" value="cloneList" styleId="cloneIdCloneList" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
-Choose a saved Clone List:&nbsp;&nbsp;
+Choose a saved Reporter List:&nbsp;&nbsp;
 <html:select property="cloneListFile" disabled="false" styleId="cloneListFileDD">
 	<html:optionsCollection property="savedCloneList" />
 </html:select>
