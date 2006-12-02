@@ -360,7 +360,8 @@ public class DataValidator{
     }
 	@SuppressWarnings("unchecked")
 	public static AllGeneAliasLookup[] searchGeneKeyWord(String geneKeyWord){
-    	if(geneKeyWord != null){
+		//check for null and wild charectors
+    	if(geneKeyWord != null  && !geneKeyWord.equals("*")  && !geneKeyWord.equals("%")){
             try {
                 logger.debug("inside searchGeneKeyWord");
 		    	//Create a Criteria for Approved Symbol
