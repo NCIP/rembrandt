@@ -134,6 +134,7 @@
 	        <br/>
 	        <script language="javascript">
 	        	try	{
+	        		//this overwrites the 'all' that is added in the qsForm as a placeholder
 		        	document.getElementById("groupName").options[0] = null;
 	    	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Samples";
 	    	    }
