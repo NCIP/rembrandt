@@ -135,6 +135,7 @@
 	        <script language="javascript">
 	        	try	{
 	        		//this overwrites the 'all' that is added in the qsForm as a placeholder
+		        	document.getElementById("baselineGroupName").options[0] = null;
 		        	document.getElementById("groupName").options[0] = null;
 	    	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Samples";
 	    	    }
@@ -202,6 +203,16 @@
 <script type="text/javascript">
 	window.onload = function()	{ 
 		$('qsForm').reset();
+		
+		//preselect ALL
+    	var opts = document.getElementById("baselineGroupName").options;
+		for (var i=0; i < opts.length; i++) {
+			if (opts[i].text == "ALL") {
+				alert("hit");
+				opts[i].selected = true;
+			}
+		}
+					
 		$('quickSearchName').disabled = false;
 		
 		$('qsForm').onsubmit = function()	{
