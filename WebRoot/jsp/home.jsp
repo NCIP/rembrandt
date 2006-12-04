@@ -208,7 +208,7 @@
     	var opts = document.getElementById("baselineGroupName").options;
 		for (var i=0; i < opts.length; i++) {
 			if (opts[i].text == "ALL") {
-				alert("hit");
+				//alert("hit");
 				opts[i].selected = true;
 			}
 		}
