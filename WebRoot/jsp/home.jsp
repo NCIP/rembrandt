@@ -92,10 +92,14 @@
 		        			$('gAliases').innerHTML = galhtm;
 		        			$('quickSearchName').value = "";
 		        			$('quickSearchName').style.border= "1px solid red";
-		        			Effect.BlindDown('gAliases');
+		        			//Effect.BlindDown('gAliases');
+		        			Effect.toggle('gAliases');
+		        			
+		        			/*
 		        			setTimeout(function()	{
 			        			Fat.fade_element("fal", 10, 5000, "#FF0000", "#F5F5F5");
-			        		}, 1000);
+			        		}, 2000);
+			        		*/
         				}
         			}
         			catch(err){}
@@ -105,7 +109,7 @@
         	</script>
         	<span id="indic" class="message" style="display:none;"><img src="images/indicator.gif"/>validating...</span>
         	<!--  <a href="#" onclick="DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);">[v]</a> -->
-        	<div id="gAliases" style="display:none; border:1px solid red; border-top:4px solid red;padding:5px;margin:10px;"></div>
+        	<div id="gAliases" style="display:none; border:1px solid red; border-top:4px solid red;padding:5px;margin:10px; width:95%; overflow:auto; "></div>
         	<br/>Restrict to sample group: 
         	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
 			 	<html:optionsCollection property="sampleGroupsList" />
