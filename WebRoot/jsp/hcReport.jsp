@@ -20,9 +20,10 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script>
 		<script language="JavaScript" type="text/javascript" src="XSL/a_js.js"></script>
 		<script type="text/javascript" src="js/lib/Help.js"></script>
-		
+		<!-- 
 		<script type="text/javascript" src="http://us.js2.yimg.com/us.js.yimg.com/lib/common/utils/2/utilities_2.1.0.js"></script>
-
+		-->
+		<script type="text/javascript" src="js/yui/utilities.js"></script>
 		<script type="text/javascript" src="js/yui/yui-ext-nogrid.js"></script>
 		<link rel="stylesheet" type="text/css" href="js/yui/resources/css/reset-min.css" />
     	<link rel="stylesheet" type="text/css" href="js/yui/resources/css/resizable.css"/>
