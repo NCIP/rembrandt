@@ -15,7 +15,7 @@
 &nbsp;
 Grade:&nbsp;
 
-<html:select property="tumorGrade" disabled="false">
+<html:select property="tumorGrade" disabled="true">
 				<html:option value="all">All</html:option>
 				<html:option value="one">I</html:option>
 				<html:option value="two">II</html:option>
