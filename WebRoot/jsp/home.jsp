@@ -228,7 +228,14 @@
 			
 			if(needGVal == true)	{
 				$('indic').style.display='';
-				DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);
+				if($('quickSearchName').value!='' && $('quickSearchName').value!='*')	{
+					DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);
+				}
+				else	{
+					alert("You must enter a symbol or a partial symbol with wildcard.  Entering just a * is not valid.");
+					$('indic').style.display='none';
+					$('quickSearchName').style.border= "1px solid red";
+				}
 				return false;
 			}
 			else	{
