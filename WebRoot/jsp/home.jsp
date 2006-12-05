@@ -226,6 +226,8 @@
 				needGVal = false;
 			}
 			
+			$('gAliases').style.display = 'none'; //hide it again
+			
 			if(needGVal == true)	{
 				$('indic').style.display='';
 				if($('quickSearchName').value!='' && $('quickSearchName').value!='*')	{
