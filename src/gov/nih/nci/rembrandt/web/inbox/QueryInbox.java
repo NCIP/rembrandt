@@ -128,6 +128,9 @@ public class QueryInbox {
 		Collection<Finding> findings = btc.getAllSessionFindings(sid);
 		for(Finding f: findings){
 			String tmp = new String();
+			if(f.getTaskId()!=null && f.getTaskId().equals("GeneExpressionPlot"))	{
+				continue; //dont want this one...its for internal use only
+			}
 			tmp = this.checkSingle(sid, f.getTaskId());
 			
 			Map fdata = new HashMap();

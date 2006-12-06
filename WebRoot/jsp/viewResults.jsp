@@ -126,6 +126,9 @@ String helpLinkClose = "', 350, 500);\">"+
 			//why arent these in the backingbean?  - we need to check these directly from cache
 			// because they are dynamic - we can not look at a copy placed in the backing bean
 			//for(Object o : sessionFindings)	{ //no 1.5 stuff allowed
+			
+			boolean displayableFindings = false;
+			
 			for(Iterator i = sessionFindings.iterator();i.hasNext();)	{
 	
 				// Finding f = (Finding) o;
@@ -163,27 +166,35 @@ String helpLinkClose = "', 350, 500);\">"+
 				
 				//check the type of finding and create the appropriate link
 				if(f instanceof ClassComparisonFinding){
+					displayableFindings = true;
 					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
 				}
 				else if(f instanceof HCAFinding){
+					displayableFindings = true;
 					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + " </a> <i>(HC)</i> ";
 				}
 				else if(f instanceof PrincipalComponentAnalysisFinding){
+					displayableFindings = true;
 					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 900, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(PCA)</i> ";
 				}
 				else if(f instanceof FTestFinding){
+					displayableFindings = true;
 					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
 				}
 				else	{
-					_htm += "";//clear this and bail
+					//skip this one, as its not a valid finding to show
 					continue;
 				}
+				
 				out.println(_htm);
 				_htm = "";
 				out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime() + "</span>ms) </span>");
 				out.println("</li>");
 				out.println("<br clear=\"all\" />");
 				out.println("<br clear=\"all\" />");
+			}
+			if(displayableFindings == false)	{
+				out.println("<strong>No HOA Results at this time.</strong><br/><br/>");
 			}
 		}
 		else	{
