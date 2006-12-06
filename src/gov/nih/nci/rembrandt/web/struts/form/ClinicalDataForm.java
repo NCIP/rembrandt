@@ -2428,7 +2428,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable{
 
         // Query Name cannot be blank
 //      if the method of the button is "submit" or "run report", validate
-        if(this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview")){
+        if(this.getMethod()!=null && (this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview"))){
             logger.debug("Validating Form");
             if ((queryName == null || queryName.length() < 1))
                 errors.add("queryName", new ActionError(

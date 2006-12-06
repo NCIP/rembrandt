@@ -342,7 +342,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable{
 		}
         
         //if the method of the button is "submit" or "run report", validate
-        if(this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview")){
+        if(this.getMethod()!=null && (this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview"))){
         logger.debug("Validating Form");
         
         //Query Name cannot be blank
