@@ -404,7 +404,7 @@ public class DynamicReportGenerator {
 	}
 
 	public String processAnnotation(String key)	{
-		String s = "";
+		String s = ""; 
 		return s;
 	}
 
