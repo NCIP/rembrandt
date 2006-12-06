@@ -140,6 +140,7 @@ String helpLinkClose = "', 350, 500);\">"+
 				}
 				
 				String comments = "";
+				String _htm = "";
 				
 				String currentStatus = "running";
 				if(f.getStatus() == FindingStatus.Completed)
@@ -153,7 +154,7 @@ String helpLinkClose = "', 350, 500);\">"+
 					currentStatus = "<b id=\"" + f.getTaskId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','error'));</script></b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
 				}
 				
-				out.println("<span style='color:red; float:right'>" + currentStatus + "</span> ");
+				_htm += "<span style='color:red; float:right'>" + currentStatus + "</span> ";
 				
 				String onclick="";	
 				if(f.getStatus()!= FindingStatus.Completed)	{
@@ -162,17 +163,23 @@ String helpLinkClose = "', 350, 500);\">"+
 				
 				//check the type of finding and create the appropriate link
 				if(f instanceof ClassComparisonFinding){
-					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ");
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
 				}
-				if(f instanceof HCAFinding){
-					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + " </a> <i>(HC)</i> ");
+				else if(f instanceof HCAFinding){
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + " </a> <i>(HC)</i> ";
 				}
-				if(f instanceof PrincipalComponentAnalysisFinding){
-					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 900, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(PCA)</i> ");
+				else if(f instanceof PrincipalComponentAnalysisFinding){
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 900, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(PCA)</i> ";
 				}
-				if(f instanceof FTestFinding){
-					out.println("<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ");
+				else if(f instanceof FTestFinding){
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
 				}
+				else	{
+					_htm += "";//clear this and bail
+					continue;
+				}
+				out.println(_htm);
+				_htm = "";
 				out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime() + "</span>ms) </span>");
 				out.println("</li>");
 				out.println("<br clear=\"all\" />");

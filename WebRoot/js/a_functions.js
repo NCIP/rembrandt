@@ -38,13 +38,16 @@ function A_checkFindingStatus_cb(tasks)	{
 	var vr_alldone = true;
 	
 	for(key in tasks)	{
-		
+		if(key == "GeneExpressionPlot")
+			continue;
+			
 		var curElTime = document.getElementById(key+"_time");
 		var curEl = document.getElementById(key+"_status");
 		var curElImg = document.getElementById(key+"_image");
 		var curElLink = document.getElementById(key+"_link");
 		
 			if(tasks[key]["status"] == 'completed')	{
+				
 				//its done, see if the innerhtml already says done	
 				if(curEl.innerHTML != "completed")	{
 					curEl.innerHTML = "completed";
