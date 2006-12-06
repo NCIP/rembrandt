@@ -301,8 +301,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 		}
 		
 		// if the method of the button is "submit" or "run report", validate
-		if (this.getMethod().equalsIgnoreCase("submit")
-				|| this.getMethod().equalsIgnoreCase("preview")) {
+		if (this.getMethod()!=null && (this.getMethod().equalsIgnoreCase("submit")
+				|| this.getMethod().equalsIgnoreCase("preview"))) {
             		    
 			// Query Name cannot be blank
 			errors = UIFormValidator.validateQueryName(queryName, errors);
