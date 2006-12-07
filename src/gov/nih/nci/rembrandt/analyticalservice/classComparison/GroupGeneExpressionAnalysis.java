@@ -299,17 +299,14 @@ import org.apache.log4j.Logger;
         for (Object obj: geneIdDEs) {
             GeneIdentifierDE geneIdentifierDE  = (GeneIdentifierDE) obj;
             String value = null;
-           // if (obj.getGeneIDType().equals(GeneIdentifierDE.GENESYMBOL))
-               value = geneIdentifierDE.getValueObject().toUpperCase();
-            //else value = obj.getValueObject();
+            value = geneIdentifierDE.getValueObject().toUpperCase();
             geneIDs.add(value);
         }
-        AnnotationHandler annotationHandler = new AnnotationHandler();
 		ArrayPlatformType arrayPlatformType = geneExpresionQuery.getArrayPlatformCriteria().getPlatform().getValueObjectAsArrayPlatformType();
 		if(arrayPlatformType.equals(ArrayPlatformType.AFFY_OLIGO_PLATFORM)){
-			geneReporterMap = annotationHandler.getAffyProbeSetsForGeneSymbols(geneIDs);
+			geneReporterMap = AnnotationHandler.getAffyProbeSetsForGeneSymbols(geneIDs);
 		}else if(arrayPlatformType.equals(ArrayPlatformType.UNIFIED_GENE)){
-			geneReporterMap = annotationHandler.getUnifiedGeneReportersForGeneSymbols(geneIDs);
+			geneReporterMap = AnnotationHandler.getUnifiedGeneReportersForGeneSymbols(geneIDs);
 		}
         return geneReporterMap;
 	}

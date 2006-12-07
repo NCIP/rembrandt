@@ -23,13 +23,15 @@ import gov.nih.nci.rembrandt.util.ThreadPool;
 public class AnnotationHandler {
     private static Logger logger = Logger.getLogger(AnnotationHandler.class);
     private final static int VALUES_PER_THREAD = 50;
-
+    private static  Map<String, List<String>> unifiedReporterGeneMap = null; //new HashMap<String, List<String>>();
+    private static  Map<String, List<String>> affyReporterGeneMap = null; //new HashMap<String, List<String>>();
     /**  This method will return the reporters and corresponding gene symbol in a Hash Map
      *
      * @param reporters Reporters to be queried
      * @return This method retunrs a Map using reporter as key and corresponding gene symbols as value
      */
-    public Map<String, String> getGeneSymbolsFor(List reporters) throws Exception{
+    @SuppressWarnings("unchecked")
+	public Map<String, String> getGeneSymbolsFor(List reporters) throws Exception{
         List annotationsEventList = Collections.synchronizedList(new ArrayList());
         Map h = execQueryGeneSymbols(reporters, annotationsEventList);
         try {
@@ -48,7 +50,8 @@ public class AnnotationHandler {
      * as the value
      * @throws Exception
      */
-    public Map<String, ReporterAnnotations> getAllAnnotationsFor(List reporters) throws Exception{
+    @SuppressWarnings("unchecked")
+	public Map<String, ReporterAnnotations> getAllAnnotationsFor(List reporters) throws Exception{
 
         Map<String, ReporterAnnotations> allAnnotations = new HashMap<String, ReporterAnnotations> ();
         for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
@@ -122,7 +125,8 @@ public class AnnotationHandler {
         return allAnnotations;
     }
 
-    private Map<String, String> execQueryGeneSymbols(List reporters, List annotationsEventList) {
+    @SuppressWarnings("unchecked")
+	private Map<String, String> execQueryGeneSymbols(List reporters, List annotationsEventList) {
         final Map<String, String> genesAndReporters = Collections.synchronizedMap(new HashMap<String, String>());
         for (int i = 0; i < reporters.size();)   {
             Collection values = new ArrayList();
@@ -271,22 +275,84 @@ public class AnnotationHandler {
          }
          return reporterGeneMap;
     }
+    @SuppressWarnings("unchecked")
+	private static Map<String, List<String>> execQueryUnifiedGeneSymbols() {
+    	  Map<String, List<String>> reporterGeneMap = new HashMap<String, List<String>>();
+          final Criteria reporterCrit = new Criteria();
+          // retrieve GeneSymbols for the probesetNames above
+          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+          pb.clearCache();
+          org.apache.ojb.broker.query.Query annotQuery =
+          QueryFactory.newReportQuery(UnifiedHugoGene.class,new String[] {UnifiedHugoGene.UNIFIED_GENE, UnifiedHugoGene.GENE_SYMBOL}, reporterCrit, false);
+          assert(annotQuery  != null);
+          Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+
+          while (iter.hasNext()) {
+               Object[] geneAttrs = (Object[]) iter.next();
+               String reporter = (String)geneAttrs[0];
+               String geneSymbol = (String)geneAttrs[1];
+               if (reporterGeneMap.containsKey(geneSymbol)){
+            	  List<String> reporters =  reporterGeneMap.get(geneSymbol);
+            	  reporters.add(reporter);
+            	  reporterGeneMap.put(geneSymbol,reporters);    
+               }
+               else{
+            	   List<String> reporters = new ArrayList<String>();
+            	   reporters.add(reporter);
+            	   reporterGeneMap.put(geneSymbol,reporters);                                	   
+               }
+          }
+          pb.close();
+         return reporterGeneMap;
+    }
+    @SuppressWarnings("unchecked")
+	private static Map<String, List<String>> execQueryAffyProbeSets() {
+    	  Map<String, List<String>> reporterGeneMap = new HashMap<String, List<String>>();
+          final Criteria reporterCrit = new Criteria();
+          // retrieve GeneSymbols for the probesetNames above
+          final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+          pb.clearCache();
+          org.apache.ojb.broker.query.Query annotQuery =
+          QueryFactory.newReportQuery(ProbesetDim.class,new String[] {ProbesetDim.PROBESET_NAME, ProbesetDim.GENE_SYMBOL}, reporterCrit, false);
+          assert(annotQuery  != null);
+          Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
+
+          while (iter.hasNext()) {
+               Object[] geneAttrs = (Object[]) iter.next();
+               String reporter = (String)geneAttrs[0];
+               String geneSymbol = (String)geneAttrs[1];
+               if (reporterGeneMap.containsKey(geneSymbol)){
+            	  List<String> reporters =  reporterGeneMap.get(geneSymbol);
+            	  reporters.add(reporter);
+            	  reporterGeneMap.put(geneSymbol,reporters);    
+               }
+               else{
+            	   List<String> reporters = new ArrayList<String>();
+            	   reporters.add(reporter);
+            	   reporterGeneMap.put(geneSymbol,reporters);                                	   
+               }
+          }
+          pb.close();
+         return reporterGeneMap;
+    }
     /**  This method will return the affy probesets and corresponding gene symbols in a Hash Map
     *
     * @param geneSymbol Gene Symbols to be queried
     * @return This method retunrs a Map using geneSymbol as key and corresponding reporters as value
     */
     @SuppressWarnings("unchecked")
-	public Map<String, List<String>> getAffyProbeSetsForGeneSymbols(List<String> geneSymbols) throws Exception{
-        List annotationsEventList = Collections.synchronizedList(new ArrayList());
-        Map h = execQueryAffyProbeSets(geneSymbols, annotationsEventList);
-        try {
-            ThreadController.sleepOnEvents(annotationsEventList);
-        } catch (InterruptedException e) {
-            // no big deal Log it and ignore it
-            logger.debug("Thread Interrupted during Annotations Retrieval", e);
-        }
-        return h;
+	public static Map<String, List<String>> getAffyProbeSetsForGeneSymbols(List<String> geneSymbols) throws Exception{
+    	if(affyReporterGeneMap == null){
+    		affyReporterGeneMap = execQueryAffyProbeSets();
+    	}
+    	Map<String, List<String>> reporterGeneMap = new HashMap<String, List<String>>();
+    	for(String geneSymbol :geneSymbols){
+    		if (affyReporterGeneMap.containsKey(geneSymbol)){
+          	  List<String> reporters =  affyReporterGeneMap.get(geneSymbol);
+          	  reporterGeneMap.put(geneSymbol,reporters);    
+             }
+    	}
+    	return reporterGeneMap;        
     }
     /**  This method will return the unifiedgene reporters and corresponding gene symbols in a Hash Map
     *
@@ -294,16 +360,18 @@ public class AnnotationHandler {
     * @return This method retunrs a Map using geneSymbol as key and corresponding reporters as value
     */
     @SuppressWarnings("unchecked")
-	public Map<String, List<String>> getUnifiedGeneReportersForGeneSymbols(List<String> geneSymbols) throws Exception{
-        List annotationsEventList = Collections.synchronizedList(new ArrayList());
-        Map h = execQueryUnifiedGeneSymbols(geneSymbols, annotationsEventList);
-        try {
-            ThreadController.sleepOnEvents(annotationsEventList);
-        } catch (InterruptedException e) {
-            // no big deal Log it and ignore it
-            logger.debug("Thread Interrupted during Annotations Retrieval", e);
-        }
-        return h;
+	public static Map<String, List<String>> getUnifiedGeneReportersForGeneSymbols(List<String> geneSymbols) throws Exception{
+    	if(unifiedReporterGeneMap == null){
+    		unifiedReporterGeneMap = execQueryUnifiedGeneSymbols();
+    	}
+    	Map<String, List<String>> reporterGeneMap = new HashMap<String, List<String>>();
+    	for(String geneSymbol :geneSymbols){
+    		if (unifiedReporterGeneMap.containsKey(geneSymbol)){
+          	  List<String> reporters =  unifiedReporterGeneMap.get(geneSymbol);
+          	  reporterGeneMap.put(geneSymbol,reporters);    
+             }
+    	}
+    	return reporterGeneMap;        
     }
 
 
