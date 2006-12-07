@@ -32,6 +32,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import com.sun.jdori.common.Logger;
 
@@ -405,7 +408,13 @@ public class DynamicReportGenerator {
 
 	public String processAnnotation(String key)	{
 		String s = ""; 
-		return s;
+		
+		Object o = JSONValue.parse(key);
+		JSONObject obj=(JSONObject) o;
+		String kt = obj.get("keyType")!=null ? (String)obj.get("keyType") : "";
+		String k = obj.get("key")!=null ? (String)obj.get("key") : "";
+		String aurl = System.getProperty("rembrandt.annotations.links."+kt)!=null ? ((String)System.getProperty("rembrandt.annotations.links."+kt)+k ): "";
+		return aurl;
 	}
 
 }

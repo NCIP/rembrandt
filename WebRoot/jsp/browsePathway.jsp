@@ -86,11 +86,13 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   <%
   response.flushBuffer();	
   try{  
-     URL url = new URL("http://cabio.nci.nih.gov/cacore31/GetXML?query=Pathway&Taxon[@abbreviation=Hs]");  
-     
+  		
+  	String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabio.nci.nih.gov/cacore31";
+     URL url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]");  
+   
      String urlLink = (String)request.getParameter("url");      
      if(urlLink != null && urlLink.equals("2")){
-        url = new URL("http://cabio.nci.nih.gov/cacore31/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&resultCounter=1000&startIndex=0"); 
+        url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&resultCounter=1000&startIndex=0"); 
       }
    
     SAXReader reader = new SAXReader();    
