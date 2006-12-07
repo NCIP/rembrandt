@@ -180,7 +180,7 @@ function showHelp(help)	{
 	return overlib(help, CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);
 }
 
-
+var w; //hold the window ref
 
 function spawnAnnot(type, element)	{
 
@@ -190,94 +190,73 @@ function spawnAnnot(type, element)	{
 	else
 		el = element;
 		
-	var winw = 800;
-	var winh = 550;
 	var page = "";
-	/*
-		params
-		types:
-		gene - comes from gene view report, or CC report, goes to CGAP always
-		reporter - a generic affy reporter where we do nothing special, goes to affy always
-		reporterFromGene - comes from a gene view report, goes to LPG
-		cytoband - comes from a copy # report, goes to UCSC
-		reporterFromCC - comes from a CC report, goes to LPG
-		reporterFromGeneQS - comes from a Gene Quick Search (most complicated)
-		
-		elements:
-		gene symbol
-		reporter name
-		
-		hope this clears it up
-		 -RCL
+	var jso = Object();
+	//types: gene, image, reporter, reporterc
 	
-	*/
-	if(type == 'gene')	{
-		page = escape('http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&SYM=&PATH=&ORG=Hs&TERM=')+escape(el);
-		rbtFrame(page);
-	}
-	else if(type == 'reporter' || type == 'reporterFromGene' || type == 'cytoband' || type == 'reporterFromCC')	{
-		var annotLink = "";
-		if(el.indexOf("IMAGE")!= -1 || type == 'cytoband')	{
-			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
-		}
-		else if(type == 'reporterFromGene' || type == 'reporterFromCC')	{
-			annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
-		}
-		else	{
-			//annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
-			annotLink = "https://www.affymetrix.com/LinkServlet?probeset=";
-		}
-		
-		page = escape(annotLink + el);
-		//alert(page);		
-		//page = escape('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&position=')+escape(el)+escape('&pix=620&hgsid=40518963&Submit=submit');
-		rbtFrame(page);
-	}
-	else if(type == 'reporterFromGeneQS')	{
-		var annotLink = "http://cgap.nci.nih.gov/Genes/RunUniGeneQuery?PAGE=1&ORG=Hs&SYM=&PATH=&TERM=";
-		
-		if(el.indexOf("IMAGE")!= -1)	{
-			//annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
-			el = el.substring(el.indexOf("IMAGE:"), el.length);
-			annotLink = "http://mgc.nci.nih.gov/Reagents/CloneInfo?ORG=Hs&IMAGE=";
-		}
-		else if(/^\d+$/.test(el))	{
-			//this is a llink
-		}		
-		else if(/^\d+_{1}a{1}\d+/.test(el))	{
+	if(type == 'reporterFromGeneQS')	{
+		if(/^\d+_{1}a{1}\d+/.test(el))	{
 			//this is a llink special - need to snip the _aXX
 			el = el.substring(0, el.indexOf("_a"));
 		}
-		else if(/^(H{1}s{1}(\.){1})/i.test(el))	{
-			//this is an acc no
-		}
-		else	{
-			annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
-		}
-		page = escape(annotLink + el);
-		rbtFrame(page);
 	}
-	/*
-	else if(type == 'reporterFromGene') {
-		var annotLink = "";	
-		if(el.indexOf("IMAGE")!= -1)	{
-			annotLink = "http://genome.ucsc.edu/cgi-bin/hgTracks?clade=vertebrate&org=Human&db=hg17&pix=620&hgsid=40518963&Submit=submit&position=";
-		}
-		else	{
-			annotLink = "http://lpgws.nci.nih.gov/cgi-bin/AffyViewer.cgi?st=1&org=1&query=";
-		}
-		page = escape(annotLink + el);
-		rbtFrame(page);
-	}
-	*/
 	
+	jso.keyType = "";
+	//clean up the types before passing to server
+	switch(type)	{
+		case "gene":
+			jso.keyType = type;
+		break;
+		case "reporterFromCopy":
+		case "reporterFromGene":
+		case "cytoband":
+		case "reporterFromCC":
+		case "reporterFromGeneQS":
+			//all these reporter's -might- be IMAGE clones so need to check that first
+			if(el.indexOf("IMAGE")!= -1 || type == 'cytoband')	{
+				//remove the IMAGE:? 
+				//el = el.substring(el.indexOf("IMAGE:"), el.length);
+				jso.keyType = "image";
+			}
+			else if(type == "reporterFromCopy")	{
+				jso.keyType = "reporterc";
+			}
+			else	{
+				jso.keyType = "reporter";
+			}
+		break;
+	}
+	
+	jso.key = escape(el);
+	if(jso.keyType == "")	{
+		alert("Annotation link is not currently available.");
+	}
+	else	{
+		try	{	
+			rbtFrame('rbtFrame.jsp?p=');
+			DynamicReport.processAnnotation(jso.toJSONString(), spawnAnnot_cb);
+		}
+		catch(err)	{
+			alert("Annotation link is not currently available.");
+		}
+	}
+
 }
 
+function spawnAnnot_cb(txt)	{
+	try	{
+		var page = escape(txt);
+		w.location.replace('rbtFrame.jsp?p='+page);
+	}
+	catch(err){}
+}
+
+
+
 function spawn(url,winw,winh) {
-  var w = window.open(url, "_blank",
+   w = window.open(url, "_blank",
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
       ",scrollbars=yes,resizable=yes");
-
 }
 
 function rbtFrame(page)	{
