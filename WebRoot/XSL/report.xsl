@@ -39,6 +39,7 @@
 		<script language="JavaScript" type="text/javascript" src="XSL/a_saveSamples.js"></script>
 		<script language="JavaScript" type="text/javascript" src="js/lib/prototype_1.5pre.js"></script>
 		<script language="javascript" src="js/lib/Help.js"/>
+		<script language="javascript" src="js/lib/json.js"/>
 		<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
 		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
 		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
@@ -464,7 +465,7 @@
 		      						<a href="#" onclick="javascript:spawnAnnot('reporterFromGene',this); return false;"><xsl:value-of select="Data"/></a>	
 		      				</xsl:when>
 		      				<xsl:when test="$styleclass = 'reporter' and $theData != '-' and $rType = 'Copy Number'">
-		      						<a href="#" onclick="javascript:spawnAnnot('reporter',this); return false;"><xsl:value-of select="Data"/></a>	
+		      						<a href="#" onclick="javascript:spawnAnnot('reporterFromCopy',this); return false;"><xsl:value-of select="Data"/></a>	
 		      				</xsl:when>
 		      				<xsl:when test="$styleclass = 'cytoband' and $theData != '-'">
 		      						<a href="#" onclick="javascript:spawnAnnot('cytoband',this); return false;"><xsl:value-of select="Data"/></a>	
