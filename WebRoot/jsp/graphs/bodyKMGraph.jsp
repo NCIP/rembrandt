@@ -145,7 +145,9 @@
 		</logic:notEqual>
 		<logic:equal name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list1',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /></a>
-			<a style="margin-left:20px" href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list2',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" /></a>
+			<logic:notEqual name="kmDataSetForm" property="storedData.samplePlot2Label" value="none">
+				<a style="margin-left:20px" href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list2',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" /></a>
+			</logic:notEqual>
 		</logic:equal>
 		
 		<!-- Statistical Data  STARTS HERE --></p>
