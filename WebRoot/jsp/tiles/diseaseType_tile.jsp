@@ -41,6 +41,10 @@ for(var i=0; i<ops.length;i++)	{
 		$('dSelect').options[i].onmouseover = function()	{ return selectToolTip(this);};
 		$('dSelect').options[i].onmouseout = function() { return nd();};
 	}
+	
+	if($('dSelect').options[i].text == "ALL")	{
+		$('dSelect').options[i].text = "ALL GLIOMA";
+	}
 }
 </script>
 
