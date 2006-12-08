@@ -285,13 +285,16 @@ public class BaseForm extends ActionForm implements Serializable{
 	        	
 	            diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();           	
 	             
-	            if(tumorType.length == 1){
-        		        if (this.tumorType[0].equalsIgnoreCase("ALL GLIOMA")) {
+	            if(tumorType.length >= 1){
+	            	List<String> tumorTypes = new ArrayList<String>();
+                    for(String t: tumorType){
+                        tumorTypes.add(t);
+                    }
+	                    //if we are trying to process an ALL GLIOMA
+        		        if (tumorTypes.contains("ALL GLIOMA")) {
         		            ArrayList allDiseases = this.getDiseaseType();
-        		            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter
-        		                    .hasNext();) {
-        		                LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter
-        		                        .next();
+        		            for (Iterator diseaseIter = allDiseases.iterator(); diseaseIter.hasNext();) {
+        		                LabelValueBean thisLabelBean = (LabelValueBean) diseaseIter.next();
         		                String thisDiseaseType = thisLabelBean.getValue();               
         		              
         		                if (thisDiseaseType.equalsIgnoreCase("ASTROCYTOMA")|| thisDiseaseType.equalsIgnoreCase("GBM")
@@ -302,21 +305,24 @@ public class BaseForm extends ActionForm implements Serializable{
         		                }
         		            }
         		        }
-        		        
         		        else {
-        		        	DiseaseNameDE diseaseDE = new DiseaseNameDE(this.tumorType[0]);
-        		            diseaseOrGradeCriteria.setDisease(diseaseDE);
-        		          
+        		        	//DiseaseNameDE diseaseDE = new DiseaseNameDE(this.tumorType[0]);
+        		           // diseaseOrGradeCriteria.setDisease(diseaseDE);
+        		            diseaseOrGradeCriteria.setDiseases(tumorTypes);
         		        }
         	       }
-	            
+	            /*
                 else{
                     List<String> tumorTypes = new ArrayList<String>();
                     for(String t: tumorType){
                         tumorTypes.add(t);
                     }
+                    //see if we are doing all, other, other,...as this doesnt sense and causes an error down the road
+                    //if they select all, ignore the other selections
                     diseaseOrGradeCriteria.setDiseases(tumorTypes);
+                    
                 }
+                */
             }
      
 	       }
