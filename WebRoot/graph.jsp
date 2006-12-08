@@ -59,7 +59,7 @@ String alg = request.getParameter("alg")!=null ? (String) request.getParameter("
 				if(diseaseType.equalsIgnoreCase(gov.nih.nci.rembrandt.util.RembrandtConstants.ASTRO))	{
 			    	diseaseType = diseaseType.substring(0,6);
 			    }	
-			 	out.println("<tr><Td>"+diseaseType+":</td><Td>" + diseaseDesc + "</td></tr>\n" );
+			 	out.println("<tr><td>"+diseaseType+":</td><td>" + diseaseDesc + "</td></tr>\n" );
 			}
 			out.println("</table>\n");
 		}
