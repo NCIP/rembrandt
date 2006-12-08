@@ -173,9 +173,11 @@ public class KaplanMeierPlotTag extends AbstractGraphingTag {
 		for(KaplanMeierPlotPointSeriesSet set: plotPointSeriesSet) {
 			Color setColor = set.getColor();
 			String title = set.getLegendTitle();           
-            legendHTML += "<span style='background-color:"+ legendCreator.c2hex(setColor)+"'>&nbsp;</span>" +  
-                "&nbsp;&nbsp;" + "<span style='font-color:#000;font-size:.9em'>" + title + "</span>&nbsp;&nbsp;" ;
-            }
+			if(!title.equalsIgnoreCase("none"))	{
+				legendHTML += "<span style='background-color:"+ legendCreator.c2hex(setColor)+"'>&nbsp;</span>" +  
+	                "&nbsp;&nbsp;" + "<span style='font-color:#000;font-size:.9em'>" + title + "</span>&nbsp;&nbsp;" ;
+			}
+        }
 		return "<br>" + legendHTML + "<br>";
 	}
 
