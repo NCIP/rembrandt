@@ -131,9 +131,9 @@
 	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
 	        -->
 	         vs. 
-	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);">
-	         
+	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);">	         	
 			 	<html:optionsCollection property="sampleGroupsList" />
+			 	<option value="none" selected="true">None</option>
 			</html:select>
 	        <br/>
 	        <script language="javascript">
