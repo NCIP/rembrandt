@@ -141,7 +141,7 @@
 	        		//this overwrites the 'all' that is added in the qsForm as a placeholder
 		        	document.getElementById("baselineGroupName").options[0] = null;
 		        	document.getElementById("groupName").options[0] = null;
-	    	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Samples";
+	    	    	document.getElementById("groupNameCompare").options[0].text = "Rest of the Gliomas";
 	    	    }
 	    	    catch(err){}
 	    	    
@@ -152,7 +152,7 @@
 	    	    		dd.selectedIndex = 0;
 	    	    	}
 	    	    	if($('groupName').value == "ALL" && $('groupNameCompare').selectedIndex==0){ 
-	    	    		alert("Comparison between All and Rest of the Samples is not allowed, please select another group to compare to");
+	    	    		alert("Comparison between All and Rest of Gliomas is not allowed, please select another group to compare to");
 	    	    		$('groupName').selectedIndex = 0;
 	    	    		$('groupNameCompare').selectedIndex = 0;
 	    	    		
