@@ -299,8 +299,11 @@ public class UIRefineQueryValidator {
 
 			for (int viewIndex = 0; viewIndex < availableViewTypes.length; viewIndex++) {
 				ViewType thisViewType = (ViewType) availableViewTypes[viewIndex];
-				String viewText = (String) props.get(thisViewType.getClass().getName());
-				queryViewColl.add(new LabelValueBean(viewText, Integer.toString(viewIndex)));
+				//per 1.5 reqt, we want to "comment out" the gene group view, possibly to re-add later
+				if(!thisViewType.equals(ViewType.GENE_GROUP_SAMPLE_VIEW))	{
+					String viewText = (String) props.get(thisViewType.getClass().getName());
+					queryViewColl.add(new LabelValueBean(viewText, Integer.toString(viewIndex)));
+				}
 			}
 		} else {
 			queryViewColl.add(new LabelValueBean(" ", " "));
