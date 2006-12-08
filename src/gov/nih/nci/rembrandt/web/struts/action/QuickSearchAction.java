@@ -267,9 +267,16 @@ public class QuickSearchAction extends DispatchAction {
 			   }
 			   
 			   //HERE IS WHERE WE WILL PASS THE 2ND comparison group, or ALL
+			   //the second list name, qsGroupNameCompare can be the following:
+			   // "" == rest of samples
+			   // none == no second group, only do the first by itself
+			   // "rest of the gliomas" == get only the diseased samples, so set csamples to ALL_GLIOMA and do the exclusion
+			   
 			   List<SampleIDDE> csampleList = null;
+			   final String ROTG = "Rest of the Gliomas";
 			   if(qsGroupNameCompare!=null && qsGroupNameCompare.length()>0 && !qsGroupNameCompare.equalsIgnoreCase("none")){
-				   UserList cul = helper.getUserList(qsGroupNameCompare);
+				   String cgroup = qsGroupNameCompare.equalsIgnoreCase(ROTG) ? "ALL GLIOMA" : qsGroupNameCompare; 
+				   UserList cul = helper.getUserList(cgroup);
 				   if(cul!=null){
 					   csampleList = new ArrayList<SampleIDDE>();
 					   List<String> csamList = cul.getList();
@@ -297,8 +304,8 @@ public class QuickSearchAction extends DispatchAction {
 			   if(!qsGroupNameCompare.equalsIgnoreCase("none"))	{
 				   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(csampleList,institutionCriteria);
 				   if(allSampleKMResultsContainer != null  ){
-					   if(qsGroupNameCompare!=null && qsGroupNameCompare.equals(""))	{
-						   //this is "vs restOfSamples"
+					   if(qsGroupNameCompare!=null && (qsGroupNameCompare.equals("")|| qsGroupNameCompare.equals(ROTG)))	{
+						   //this is "vs restOfSamples" or restOfTheGliomas (aka ROTG)
 						   restofKMSampleInfos = allSampleKMResultsContainer.getRestOfSummaryKMPlotSamples(sampleList);
 					   }
 					   else	{
