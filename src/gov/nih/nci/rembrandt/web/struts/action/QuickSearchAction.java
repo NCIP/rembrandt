@@ -268,7 +268,7 @@ public class QuickSearchAction extends DispatchAction {
 			   
 			   //HERE IS WHERE WE WILL PASS THE 2ND comparison group, or ALL
 			   List<SampleIDDE> csampleList = null;
-			   if(qsGroupNameCompare!=null && qsGroupNameCompare.length() >0){
+			   if(qsGroupNameCompare!=null && qsGroupNameCompare.length()>0 && !qsGroupNameCompare.equalsIgnoreCase("none")){
 				   UserList cul = helper.getUserList(qsGroupNameCompare);
 				   if(cul!=null){
 					   csampleList = new ArrayList<SampleIDDE>();
@@ -294,16 +294,21 @@ public class QuickSearchAction extends DispatchAction {
 			   //here we want to call getRestOfSummaryKMPLotSamples() only if we are comparing first group
 			   //with "Rest of Samples", else just get them all (no exclusion)
 			   // if qsGroupNameCompare == null, then we are expecting to do the "restOfSamples" bit
-			   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(csampleList,institutionCriteria);
-			   if(allSampleKMResultsContainer != null  ){
-				   if(qsGroupNameCompare!=null && qsGroupNameCompare.equals(""))	{
-					   //this is "vs restOfSamples"
-					   restofKMSampleInfos = allSampleKMResultsContainer.getRestOfSummaryKMPlotSamples(sampleList);
+			   if(!qsGroupNameCompare.equalsIgnoreCase("none"))	{
+				   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(csampleList,institutionCriteria);
+				   if(allSampleKMResultsContainer != null  ){
+					   if(qsGroupNameCompare!=null && qsGroupNameCompare.equals(""))	{
+						   //this is "vs restOfSamples"
+						   restofKMSampleInfos = allSampleKMResultsContainer.getRestOfSummaryKMPlotSamples(sampleList);
+					   }
+					   else	{
+						   //this is NOT a "vs restOfSamples", so dont do the exclusion
+						   restofKMSampleInfos = allSampleKMResultsContainer.getSummaryKMPlotSamples();
+					   }
 				   }
-				   else	{
-					   //this is NOT a "vs restOfSamples", so dont do the exclusion
-					   restofKMSampleInfos = allSampleKMResultsContainer.getSummaryKMPlotSamples();
-				   }
+			   }
+			   else	{
+				   restofKMSampleInfos = new KaplanMeierSampleInfo[0];
 			   }
 			   
 			   //SHOULD PASS THE NAMES HERE IF WE WANT THEM IN THE LEGEND
