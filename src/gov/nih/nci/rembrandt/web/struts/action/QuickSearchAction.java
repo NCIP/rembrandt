@@ -279,17 +279,31 @@ public class QuickSearchAction extends DispatchAction {
 					   csampleList = null;
 				   }
 			   }
+			   else	{
+				   //we are comparing a group with nothing, so assume its a "restOfSamples"
+				   //pass an empty list
+				   csampleList = null;
+			   }
 			   
-			   //here - remove the temporary list, if this is a clinical2km
+			   //here - remove the temporary list we created, if this is a clinical2km
 			   if(qsGroupName.equals("SamplesFromClinicalReport"))	{
 				   helper.removeList(qsGroupName);
 			   }
 			   
 			   //perform a query to get back all samples
+			   //here we want to call getRestOfSummaryKMPLotSamples() only if we are comparing first group
+			   //with "Rest of Samples", else just get them all (no exclusion)
+			   // if qsGroupNameCompare == null, then we are expecting to do the "restOfSamples" bit
 			   KaplanMeierPlotContainer allSampleKMResultsContainer = performKMClinicalQuery(csampleList,institutionCriteria);
 			   if(allSampleKMResultsContainer != null  ){
-				   restofKMSampleInfos = allSampleKMResultsContainer.getRestOfSummaryKMPlotSamples(sampleList);
-				   
+				   if(qsGroupNameCompare!=null && qsGroupNameCompare.equals(""))	{
+					   //this is "vs restOfSamples"
+					   restofKMSampleInfos = allSampleKMResultsContainer.getRestOfSummaryKMPlotSamples(sampleList);
+				   }
+				   else	{
+					   //this is NOT a "vs restOfSamples", so dont do the exclusion
+					   restofKMSampleInfos = allSampleKMResultsContainer.getSummaryKMPlotSamples();
+				   }
 			   }
 			   
 			   //SHOULD PASS THE NAMES HERE IF WE WANT THEM IN THE LEGEND
