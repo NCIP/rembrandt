@@ -40,7 +40,6 @@ Step 4: Select Array Platform
 </fieldset>
 <logic:present name="geneexpressionForm">
 <script type="text/javascript">
-console.log("GE");
 	document.getElementById("platSelect").selectedIndex = 0;
 </script>
 </logic:present>
