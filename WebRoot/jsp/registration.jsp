@@ -58,7 +58,9 @@
 		<br clear="both"/>
 		
 		<b class="msg">Login with your current credentials</b>
-		<br/><br/><br/><br/>
+		<br/><br/>
+		<html:errors property="invalidLogin" />
+		<br/><br/>
 			<div class="h">Login:</div>
 			<div class="r"><label>Username:</label> <input type="text" name="userName" id="userName"/></div>
 			<div class="r"><label>Password:</label> <input type="password" name="password" id="password"/></div>
