@@ -27,7 +27,7 @@ Step 4: Select Array Platform
 %>
 	
 <br/>	
-&nbsp;&nbsp;<select name="arrayPlatform" 
+&nbsp;&nbsp;<select name="arrayPlatform" id="platSelect"  
 <logic:notPresent name="geneexpressionForm">
 	onchange="this.options[1].selected=true;"
 </logic:notPresent>	
@@ -38,3 +38,10 @@ Step 4: Select Array Platform
 			</select>
 			<html:errors property="arrayPlatform"/>
 </fieldset>
+<logic:present name="geneexpressionForm">
+<script type="text/javascript">
+console.log("GE");
+	document.getElementById("platSelect").selectedIndex = 0;
+</script>
+</logic:present>
+
