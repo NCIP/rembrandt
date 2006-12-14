@@ -298,8 +298,7 @@ public class BaseForm extends ActionForm implements Serializable{
         		                String thisDiseaseType = thisLabelBean.getValue();               
         		              
         		                if (thisDiseaseType.equalsIgnoreCase("ASTROCYTOMA")|| thisDiseaseType.equalsIgnoreCase("GBM")
-        		                    || thisDiseaseType.equalsIgnoreCase("MIXED")||thisDiseaseType.equalsIgnoreCase("OLIGODENDROGLIOMA")
-        		                    ||thisDiseaseType.equalsIgnoreCase("UNCLASSIFIED") ) {
+        		                    || thisDiseaseType.equalsIgnoreCase("MIXED")||thisDiseaseType.equalsIgnoreCase("OLIGODENDROGLIOMA") ) {
         		                	DiseaseNameDE diseaseDE = new DiseaseNameDE(thisDiseaseType);
         		 	                diseaseOrGradeCriteria.setDisease(diseaseDE);
         		                }
