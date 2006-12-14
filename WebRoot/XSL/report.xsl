@@ -66,6 +66,7 @@
     </h3>
 	</fieldset><br/>
 	-->
+	<xsl:variable name="reportMsg" select="@msg" />
 	<xsl:variable name="helpLink" select="@reportType" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
@@ -527,19 +528,30 @@
   		goQueryDetails("<xsl:copy-of select="$queryDetails" />");
   	</script>
   	</div>
+  	
+ 	<script language="javascript">
+ 	if(document.highlight_form){
+ 		selectHOperand(document.highlight_form.filter_value4, '<xsl:value-of select="$filter_value4"/>');
+ 	}
+  	</script>
+ 	<script language="javascript">A_initSaveSample();</script>
+ 	<script language="javascript">if(anyHighlighted)	{autoCheckHighlightedSamples(hcells);}</script>
+  	
   	</xsl:if><!-- no records -->
   	<xsl:if test="$recordCount = 0">
-  		<h3 style="text-align:center; margin-top:200px;">No Records Returned. <br/><a style="margin-right:10px" href="javascript:history.back()">Back </a><a href="javascript:window.close()">Close</a></h3>
+  		<h3 style="text-align:center; margin-top:200px;">
+  		<xsl:choose>
+		  <xsl:when test="$reportMsg = 'over limit'">
+		   	  	Your query contains too many results for display.  Please add more constraints to your query and re-submit it.
+ 		  </xsl:when>
+		  <xsl:otherwise>
+ 				No Records Returned.
+		  </xsl:otherwise>
+		</xsl:choose>
+		 <br/><a style="margin-right:10px" href="javascript:history.back()">Back </a><a href="javascript:window.close()">Close</a></h3>
   	</xsl:if>
   </xsl:for-each>
 
-  <script language="javascript">
-  if(document.highlight_form){
- 	selectHOperand(document.highlight_form.filter_value4, '<xsl:value-of select="$filter_value4"/>');
- 	}
-  </script>
-  <script language="javascript">A_initSaveSample();</script>
-  <script language="javascript">if(anyHighlighted)	{autoCheckHighlightedSamples(hcells);}</script>
   
   </body>
   </html>
