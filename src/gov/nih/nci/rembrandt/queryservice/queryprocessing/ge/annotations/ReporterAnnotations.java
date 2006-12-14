@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * User: Ram Bhattaru <BR>
@@ -44,7 +45,8 @@ public class ReporterAnnotations {
     }
 
     public void setPathways(ArrayList pathways) {
-        this.pathways = pathways;
+    	HashSet hs = new HashSet(pathways);
+    	this.pathways = new ArrayList(hs);
     }
 
     public ArrayList getLocusLinks() {
