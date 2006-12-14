@@ -138,13 +138,18 @@
 		
 		//add the tag to the new baseline
 		if(baseline != null && baseline.text.indexOf(bltag) == -1 && thebaseline == true)	{
+			var tmp = baseline.text;
 			baseline.text += bltag;
 			baseline.style.color="red";
 			baseline.style.border="1px solid";
-			document.getElementById("baseline").innerHTML = baseline.value.length > 10 ? baseline.value.substring(0, 10)+"..." : baseline.value ;
+			document.getElementById("baseline").innerHTML = tmp.length > 10 ? tmp.substring(0, 10)+"..." : tmp ;
 			document.getElementById("baselineGroup").value = baseline.value;
 		}
 		
+		if(lst.length<1)	{
+			document.getElementById("baseline").innerHTML = "None";
+			document.getElementById("baselineGroup").value = "";
+		}
 	
 	}
 	
