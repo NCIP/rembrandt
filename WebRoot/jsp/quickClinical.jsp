@@ -157,7 +157,7 @@
 						
 					}
 					catch(err)	{
-						alert("cant update sidebar: " + err);
+						//alert("cant update sidebar: " + err);
 					}
 					
 				}

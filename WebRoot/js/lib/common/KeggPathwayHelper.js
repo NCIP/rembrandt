@@ -41,7 +41,7 @@ var KeggPathwayHelper = {
 				return overlib(text, CAPTION,  "Gene Symbols:");
 			}
 			catch(err)	{
-				alert("ERR: " + err);
+				//alert("ERR: " + err);
 			}	
 	}
 };

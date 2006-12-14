@@ -49,7 +49,7 @@ var SidebarHelper = {
 				}
 			}
 			catch(err)	{
-				alert("ERR: " + err);
+				//alert("ERR: " + err);
 			}	
 	
 	},
