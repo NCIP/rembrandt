@@ -115,7 +115,9 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 	        report.addAttribute("queryName", queryName);
 	        report.addAttribute("sessionId", "the session id");
 	        report.addAttribute("creationTime", "right now");
-		    
+	        //hold a message to display on the report
+	        report.addAttribute("msg", (resultant.isOverLimit() ? "over limit" : ""));
+		 
 		    ResultsContainer  resultsContainer = resultant.getResultsContainer();
 		    
 		    StringBuffer sb = new StringBuffer();

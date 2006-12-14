@@ -130,8 +130,9 @@ public class CopyNumberSampleReport implements ReportGenerator{
 	        report.addAttribute("queryName", queryName);
 	        report.addAttribute("sessionId", "the session id");
 	        report.addAttribute("creationTime", "right now");
-	        
-			
+	        //hold a message to display on the report
+	        report.addAttribute("msg", (resultant.isOverLimit() ? "over limit" : ""));
+		 
 			StringBuffer sb = new StringBuffer();
 			int recordCount = 0;
 			int totalSamples = 0;

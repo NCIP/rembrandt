@@ -121,7 +121,8 @@ public class ClinicalSampleReport implements ReportGenerator {
 	        report.addAttribute("queryName", queryName);
 	        report.addAttribute("sessionId", "the session id");
 	        report.addAttribute("creationTime", "right now");
-
+	        //hold a message to display on the report
+	        report.addAttribute("msg", (resultant.isOverLimit() ? "over limit" : ""));
 	        
 		    boolean gLinks = false;
 			boolean cLinks = false;
