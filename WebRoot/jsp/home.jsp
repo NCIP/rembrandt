@@ -152,8 +152,8 @@
 	    	    		alert('Comparison Groups Can Not be the Same'); 
 	    	    		dd.selectedIndex = 0;
 	    	    	}
-	    	    	if($('groupNameCompare').value == 'Rest of the Gliomas' && ($('groupName').value == "ALL GLIOMA")||$('groupName').value == "ALL"){ 
-	    	    		alert("Comparison between ALL GLIOMA (or ALL) and Rest of the Gliomas is not allowed, please select another group to compare to");
+	    	    	if( $('groupNameCompare').value == 'Rest of the Gliomas' && $('groupName').value == "ALL GLIOMA" ){ 
+	    	    		alert("Comparison between ALL GLIOMA and Rest of the Gliomas is not allowed, please select another group to compare to");
 	    	    		dd.selectedIndex = 0;
 	    	    	}
 	    	    	if($('groupName').value == "ALL" && $('groupNameCompare').selectedIndex==0){ 
