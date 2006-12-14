@@ -2702,6 +2702,15 @@ private ReportQueryByCriteria getOnStudySurgeryTherapySubQuery(ClinicalDataQuery
 
  }
 
+	public Integer getCount(Query query) throws Exception {
+		//faking count query for this release
+		ResultSet[] resultset = handle(query);
+		if(resultset != null){
+			return resultset.length;
+		}
+		return null;
+	}
+
 }
     
     

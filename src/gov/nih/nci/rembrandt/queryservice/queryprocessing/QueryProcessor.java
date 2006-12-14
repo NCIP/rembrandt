@@ -74,4 +74,12 @@ public class QueryProcessor {
         return (ResultSet[]) query.getQueryHandler().handle(query);
 
     }
+    public static Integer getCount(Query query ) throws Exception {
+        /* TODO: uncomment the follwoing line.  This is validate() will make sure that for
+            each criteria in query object, if criteria is not null, then it is also not empty
+            by calling isEmpty() method for each of the criterias */
+        // query.validate();
+        return query.getQueryHandler().getCount(query);
+
+    }
 }

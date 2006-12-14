@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice;
 
+import java.util.Map;
+
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
@@ -10,6 +12,7 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryProcessor;
 import gov.nih.nci.rembrandt.queryservice.resultset.AddConstrainsToQueriesHelper;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 /**
  * @author BhattarR
@@ -75,7 +78,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 
 public class QueryManager {
 
-    public static Query createQuery(QueryType typeOfQuery) {
+	public static Query createQuery(QueryType typeOfQuery) {
         return QueryFactory.newQuery(typeOfQuery);
     }
     public static ResultSet[] executeQuery(Queriable queryToExecute) throws Exception {
@@ -84,6 +87,13 @@ public class QueryManager {
     		resultset = QueryProcessor.execute((Query) queryToExecute);
     	}
     	return resultset;
+    }
+    public static Integer getCount(Queriable queryToExecute) throws Exception {
+    	Integer count = null;
+    	if(queryToExecute instanceof Query){
+    		count = QueryProcessor.getCount((Query) queryToExecute);
+    	}
+    	return count;
     }
     public static CompoundResultSet executeCompoundQuery(Queriable queryToExecute) throws Exception {
     	CompoundResultSet compoundResultset = null;
@@ -94,10 +104,31 @@ public class QueryManager {
     			compoundQuery = helper.constrainQueryWithInstitution(compoundQuery,compoundQuery.getInstitutionCriteria());
     	
     		}
-    		compoundResultset = CompoundQueryProcessor.execute(compoundQuery);
+    		// Get query count first
+        	Integer count = getMaximumCountInCompoundQuery(compoundQuery);
+        	if(count < RembrandtConstants.QUERY_LIMIT){
+        		compoundResultset = CompoundQueryProcessor.execute(compoundQuery);
+        	}
+        	else{
+        		throw new Exception(RembrandtConstants.QUERY_OVER_LIMIT);
+        	}
     	}
     	
         return compoundResultset;
+    }
+    public static Integer getMaximumCountInCompoundQuery(Queriable queryToExecute) throws Exception {
+    	Integer count = null;
+    	if (queryToExecute instanceof CompoundQuery){
+    		CompoundQuery compoundQuery = (CompoundQuery)queryToExecute;
+    		if(compoundQuery.getInstitutionCriteria()!= null){
+    			AddConstrainsToQueriesHelper helper = new AddConstrainsToQueriesHelper();
+    			compoundQuery = helper.constrainQueryWithInstitution(compoundQuery,compoundQuery.getInstitutionCriteria());
+    	
+    		}
+    		count = CompoundQueryProcessor.getMaxCount(compoundQuery);
+    	}
+    	
+        return count;
     }
 
 }

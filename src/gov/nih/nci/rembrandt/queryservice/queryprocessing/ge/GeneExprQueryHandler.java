@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
@@ -92,22 +93,12 @@ final public class GeneExprQueryHandler extends QueryHandler {
     private List eventList = Collections.synchronizedList(new ArrayList());
 
     public ResultSet[] handle(gov.nih.nci.rembrandt.dto.query.Query query) throws Exception {
-        GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
-                                                      
-        if (query.getAssociatedView() instanceof GeneExprSampleView ||
-                query.getAssociatedView()instanceof ClinicalSampleView ||
-				query.getAssociatedView()instanceof CopyNumberSampleView)
-                factHandler = new GEFactHandler.SingleGEFactHandler();
-        else if (query.getAssociatedView() instanceof GeneExprDiseaseView)
-                factHandler = new GEFactHandler.GroupGEFactHanlder();
-        else throw new Exception("Illegal View.  This view is not supported in this Query:");
-
-        // make sure that platform (for the resulting smaples) is specified
-        ArrayPlatformCriteria platObj = geQuery.getArrayPlatformCriteria();
-        assert(platObj != null);
-        populateProbeAndCloneIncludeFlags(platObj);
+    	GeneExpressionQuery geQuery = (GeneExpressionQuery) query;
+    	
+    	handleView(geQuery);
+    	
         AllGenesCriteria allGenesCrit = geQuery.getAllGenesCrit();
-        if (allGenesCrit!=null&&allGenesCrit.isAllGenes() ) {
+        if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
 
             if (! (factHandler instanceof GEFactHandler.SingleGEFactHandler))
             throw new Exception("AllGenes criteria is not allowed for Disease view");
@@ -117,7 +108,30 @@ final public class GeneExprQueryHandler extends QueryHandler {
 
             return factHandler.executeSampleQueryForAllGenes(geQuery);
         }
+    	
+    	handleCriteria(geQuery);
+    	
+        ThreadController.sleepOnEvents(eventList);
+
+        return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery);
+   }
+    private void handleView(GeneExpressionQuery geQuery) throws Exception {
+    	if (geQuery.getAssociatedView() instanceof GeneExprSampleView ||
+        		geQuery.getAssociatedView()instanceof ClinicalSampleView ||
+        		geQuery.getAssociatedView()instanceof CopyNumberSampleView)
+                factHandler = new GEFactHandler.SingleGEFactHandler();
+        else if (geQuery.getAssociatedView() instanceof GeneExprDiseaseView)
+                factHandler = new GEFactHandler.GroupGEFactHanlder();
+        else throw new Exception("Illegal View.  This view is not supported in this Query:");
+
         
+    }
+    private void handleCriteria(GeneExpressionQuery geQuery) throws Exception {
+    	//    	 make sure that platform (for the resulting smaples) is specified
+        ArrayPlatformCriteria platObj = geQuery.getArrayPlatformCriteria();
+        assert(platObj != null);
+        populateProbeAndCloneIncludeFlags(platObj);                                             
+          
         ThreadGroup tg = new ThreadGroup("childGroup");
 
         if (geQuery.getCloneOrProbeIDCriteria() != null) {
@@ -164,8 +178,6 @@ final public class GeneExprQueryHandler extends QueryHandler {
         //_BROKER.close();
 
         ThreadController.sleepOnEvents(eventList);
-
-        return factHandler.executeSampleQuery(allProbeIDS, allCloneIDS, geQuery);
    }
 
     private void populateProbeAndCloneIncludeFlags(ArrayPlatformCriteria platObj) throws Exception {
@@ -186,4 +198,12 @@ final public class GeneExprQueryHandler extends QueryHandler {
         }
         else throw new Exception("Array Platform can not be null");
     }
+	public Integer getCount(Query query) throws Exception {
+		//unimplemented for this release
+			ResultSet[] resultset = handle(query);
+			if(resultset != null){
+				return resultset.length;
+			}
+			return null;
+	}
 }

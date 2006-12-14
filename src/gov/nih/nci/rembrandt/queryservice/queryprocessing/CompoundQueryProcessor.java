@@ -452,4 +452,49 @@ public class CompoundQueryProcessor {
 		logger.debug("InterSect:"+interSectSet.size());	
 		return interSectSet; 
 	}
+	public static Integer getMaxCount(CompoundQuery compoundQuery) throws Exception{
+			Integer maxCount = 0;
+			Collection<Integer> results = new Vector<Integer>();
+			if(compoundQuery != null){
+				Queriable leftQuery = compoundQuery.getLeftQuery();
+				Queriable rightQuery = compoundQuery.getRightQuery();
+				OperatorType operator = compoundQuery.getOperatorType();
+				Viewable view = compoundQuery.getAssociatedView();
+				CompoundResultSet leftResultSets = null;
+				CompoundResultSet rightResultSets = null;
+					if (leftQuery != null) {
+						if (leftQuery instanceof CompoundQuery) {
+							leftQuery.setAssociatedView(view);
+							Integer leftCount = getMaxCount((CompoundQuery)leftQuery);
+							results.add(leftCount);
+						}else if (leftQuery instanceof Query){
+							leftQuery.setAssociatedView(view);						
+							Integer leftCount = QueryManager.getCount((Query)leftQuery);
+							results.add(leftCount);
+						}
+						
+					}
+					
+					if (rightQuery != null) {
+						if (rightQuery instanceof CompoundQuery) {
+							rightQuery.setAssociatedView(view);
+							Integer rightCount = getMaxCount((CompoundQuery)rightQuery);
+							results.add(rightCount);
+							}
+						else if (rightQuery instanceof Query){
+							rightQuery.setAssociatedView(view);
+							Integer rightCount = QueryManager.getCount((Query)rightQuery);
+							
+							results.add(rightCount);
+						}
+						
+					}
+			}
+			for(Integer count: results){
+				if(count > maxCount){
+					maxCount = count; //get the largestCount
+				}
+			}
+			return maxCount;
+	}
 }

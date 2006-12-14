@@ -100,9 +100,11 @@ abstract public class GEFactHandler {
      Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
      Map probeAnnotations = Collections.synchronizedMap(new HashMap());
      Map geneAnnotations = Collections.synchronizedMap(new HashMap());
+     Integer geneExprCount = 0;
      private final static int VALUES_PER_THREAD = 50;
      List factEventList = Collections.synchronizedList(new ArrayList());
      abstract void addToResults(Collection results);
+     abstract void addCountToResults(int count);
      List annotationEventList = Collections.synchronizedList(new ArrayList());
      abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
      throws Exception;
@@ -151,7 +153,48 @@ abstract public class GEFactHandler {
                t.start();
             }
     }
+      protected void executeCountQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
+          ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
+          for (int i = 0; i < arrayIDs.size();) {
+              Collection values = new ArrayList();
+              int begIndex = i;
+              i += VALUES_PER_THREAD ;
+              int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
+              values.addAll(arrayIDs.subList(begIndex,  endIndex));
+              final Criteria IDs = new Criteria();
+              IDs.addIn(probeOrCloneIDAttr, values);
+              String threadID = "GEFactHandler.ThreadID:" + probeOrCloneIDAttr + ":" +i;
 
+              final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
+              factEventList.add(dbEvent);
+
+              PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+              final Criteria sampleCrit = new Criteria();
+              addGEFactCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+              _BROKER.close();
+
+              ThreadPool.AppThread t = ThreadPool.newAppThread(
+                         new ThreadPool.MyRunnable() {
+                            public void codeToRun() {
+                                final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                                pb.clearCache();
+                                sampleCrit.addAndCriteria(IDs);
+                                org.apache.ojb.broker.query.Query sampleQuery =
+                                QueryFactory.newQuery(targetFactClass,sampleCrit, false);
+                                assert(sampleQuery != null);
+                                int exprObjCount =  pb.getCount(sampleQuery );
+                                addCountToResults(exprObjCount);
+                                pb.close();
+                                dbEvent.setCompleted(true);
+                    }
+
+
+                 }
+             );
+             logger.debug("BEGIN: (from GEFactHandler.executeQuery()) Thread Count: " + ThreadPool.THREAD_COUNT);
+             t.start();
+          }
+  }
     private static void addGEFactCriteria(GeneExpressionQuery geQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
        FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
        CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);       
@@ -457,6 +500,17 @@ abstract public class GEFactHandler {
             }
             return results;
         }
+        Integer getSampleQueryCount( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
+        throws Exception {
+            logger.debug("Total Number Of Probes:" + allProbeIDs.size());
+            logger.debug("Total Number Of Clones:" + allCloneIDs.size());
+
+            executeCountQuery(DifferentialExpressionSfact.PROBESET_ID, allProbeIDs, DifferentialExpressionSfact.class, query);
+            executeCountQuery(DifferentialExpressionSfact.CLONE_ID, allCloneIDs, DifferentialExpressionSfact.class, query);
+            ThreadController.sleepOnEvents(factEventList);
+            
+            return geneExprCount;
+        }
         void addToResults(Collection exprObjects) {
             for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
                 DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
@@ -466,6 +520,10 @@ abstract public class GEFactHandler {
                 exprObj = null;
             }
         }
+		synchronized void addCountToResults(int count) {
+			geneExprCount += count;
+			
+		}
         public static void copyTo(GeneExpr.GeneExprSingle singleExprObj, DifferentialExpressionSfact exprObj) {
             singleExprObj.setDesId(exprObj.getDesId());
             singleExprObj.setAgeGroup(exprObj.getAgeGroup());
@@ -539,6 +597,12 @@ abstract public class GEFactHandler {
                 groupExprObj.setTimecourseId(exprObj.getTimecourseId());
                 groupExprObj.setStandardDeviationRatio(exprObj.getStandardDeviationRatio());
             }
+
+			@Override
+			synchronized void addCountToResults(int count) {
+				// TODO Auto-generated method stub
+				
+			}
         }
     }
 

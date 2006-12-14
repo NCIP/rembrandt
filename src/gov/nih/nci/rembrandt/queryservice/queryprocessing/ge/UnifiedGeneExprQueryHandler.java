@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
@@ -97,5 +98,17 @@ final public class UnifiedGeneExprQueryHandler extends QueryHandler {
 
         return factHandler.executeFactQuery(geQuery);
     }
+
+	public Integer getCount(Query query) throws Exception {
+		UnifiedGeneExpressionQuery geQuery = (UnifiedGeneExpressionQuery) query;
+        
+        if (query.getAssociatedView() instanceof GeneExprSampleView)
+                factHandler = new UnifiedGEFactHandler.SingleHandler();
+        else if (query.getAssociatedView() instanceof GeneExprDiseaseView)
+                factHandler = new UnifiedGEFactHandler.GroupHandler();
+        else throw new Exception("Illegal View.  This view is not supported in this Query:");
+
+        return factHandler.executeFactQueryCount(geQuery);
+	}
 
 }

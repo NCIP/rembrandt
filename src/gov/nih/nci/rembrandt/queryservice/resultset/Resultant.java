@@ -75,6 +75,7 @@ private ResultsContainer resultsContainer;
 private Viewable associatedView;
 private Throwable returnedException;
 private boolean isException = false;
+private boolean isOverLimit = false;
 
 /**
  * @return Returns the returnedException.
@@ -134,5 +135,18 @@ public boolean isException() {
 	}
 	return isException;
 }
+/**
+ * @return Returns the isOverLimit.
+ */
+public boolean isOverLimit() {
+	return isOverLimit;
+}
+/**
+ * @param isOverLimit The isOverLimit to set.
+ */
+public void setOverLimit(boolean isOverLimit) {
+	this.isOverLimit = isOverLimit;
+}
+
 
 }

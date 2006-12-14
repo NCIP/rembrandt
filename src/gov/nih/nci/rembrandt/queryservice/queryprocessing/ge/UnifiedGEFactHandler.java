@@ -94,38 +94,64 @@ import org.apache.ojb.broker.query.QueryFactory;
 abstract public class UnifiedGEFactHandler {
     private static Logger logger = Logger.getLogger(UnifiedGEFactHandler.class);
     Map geneExprObjects = Collections.synchronizedMap(new HashMap());
+    Integer geneExprCount = 0;
     private final static int VALUES_PER_THREAD = 50;
     abstract void addToResults(Collection results);
-
+    abstract void addToResultsCount(int count);
     abstract ResultSet[] executeFactQuery(UnifiedGeneExpressionQuery query) throws Exception;
-
+    abstract Integer executeFactQueryCount(UnifiedGeneExpressionQuery query) throws Exception;
     protected void executeQuery(final Class targetFactClass, String geneSymbolAttr, UnifiedGeneExpressionQuery geQuery ) throws Exception {
-                GeneIDCriteria geneIDCrit = geQuery.getGeneIDCrit();
-                final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-                pb.clearCache();
+        GeneIDCriteria geneIDCrit = geQuery.getGeneIDCrit();
+        final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        pb.clearCache();
 
-                // 1. add Gene ID (symbol) criteria
-                ArrayList arrayIDs = GeneIDCriteriaHandler.getGeneIDValues(geneIDCrit);
-                Criteria c = new Criteria();
-                c.addIn(geneSymbolAttr, arrayIDs);
+        // 1. add Gene ID (symbol) criteria
+        ArrayList arrayIDs = GeneIDCriteriaHandler.getGeneIDValues(geneIDCrit);
+        Criteria c = new Criteria();
+        c.addIn(geneSymbolAttr, arrayIDs);
 
-                // 2. add Institution criteria
-                CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, c);
-                CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, c);
+        // 2. add Institution criteria
+        CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, c);
+        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, c);
 
 
-                
-                //
-                
-                
-                
-                Query factQuery = QueryFactory.newQuery(targetFactClass,c, false);
-                assert(factQuery  != null);
-                Collection exprObjects =  pb.getCollectionByQuery(factQuery);
-                addToResults(exprObjects);
-                pb.close();
+        
+        //
+        
+        
+        
+        Query factQuery = QueryFactory.newQuery(targetFactClass,c, false);
+        assert(factQuery  != null);
+        Collection exprObjects =  pb.getCollectionByQuery(factQuery);
+        addToResults(exprObjects);
+        pb.close();
     }
+    protected void executeQueryCount(final Class targetFactClass, String geneSymbolAttr, UnifiedGeneExpressionQuery geQuery ) throws Exception {
+        GeneIDCriteria geneIDCrit = geQuery.getGeneIDCrit();
+        final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+        pb.clearCache();
 
+        // 1. add Gene ID (symbol) criteria
+        ArrayList arrayIDs = GeneIDCriteriaHandler.getGeneIDValues(geneIDCrit);
+        Criteria c = new Criteria();
+        c.addIn(geneSymbolAttr, arrayIDs);
+
+        // 2. add Institution criteria
+        CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, c);
+        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, c);
+
+
+        
+        //
+        
+        
+        
+        Query factQuery = QueryFactory.newQuery(targetFactClass,c, false);
+        assert(factQuery  != null);
+        int count =  pb.getCount(factQuery);
+        addToResultsCount(count);
+        pb.close();
+}
     public final static class SingleHandler extends UnifiedGEFactHandler {
 
         public ResultSet[] executeFactQuery(UnifiedGeneExpressionQuery query) throws Exception {
@@ -154,6 +180,7 @@ abstract public class UnifiedGEFactHandler {
                 exprObj = null;
             }
         }
+
         public static void copyTo(UnifiedGeneExpr.UnifiedGeneExprSingle singleExprObj, DiffExpressionGeneSFact exprObj) {
             singleExprObj.setExpressionRatio(exprObj.getExpressionRatio());
             singleExprObj.setGeneSymbol(exprObj.getGeneSymbol());
@@ -165,6 +192,18 @@ abstract public class UnifiedGEFactHandler {
             singleExprObj.setUnifiedGeneID(exprObj.getUnifiedGene());
             singleExprObj.setDiseaseType(exprObj.getDiseaseType());
         }
+        public Integer executeFactQueryCount(UnifiedGeneExpressionQuery query) throws Exception {
+
+            // 1. first execute against fact table
+            executeQueryCount(DiffExpressionGeneSFact.class, DiffExpressionGeneSFact.GENE_SYMBOL, query);
+
+            return geneExprCount;
+        }
+
+		@Override
+	    synchronized void addToResultsCount(int count) {
+	    	geneExprCount += count;
+	    }
     }
     public final static class GroupHandler extends UnifiedGEFactHandler {
 
@@ -182,6 +221,12 @@ abstract public class UnifiedGEFactHandler {
             }
 
             return results;
+        }
+        public Integer executeFactQueryCount(UnifiedGeneExpressionQuery query) throws Exception {
+            // 1. first execute against fact table
+            executeQueryCount(DiffExpressionGeneGFact.class, DiffExpressionGeneGFact.GENE_SYMBOL, query);
+
+            return geneExprCount;
         }
 
         void addToResults(Collection exprObjects) {
@@ -204,6 +249,13 @@ abstract public class UnifiedGEFactHandler {
         	groupExprObj.setRatioPval(exprObj.getRatioPval());
         	groupExprObj.setStandardDeviation(exprObj.getRatioStd());
         }
+
+		@Override
+	    synchronized void addToResultsCount(int count) {
+	    	geneExprCount += count;
+	    }
+
     }
+
 }
 

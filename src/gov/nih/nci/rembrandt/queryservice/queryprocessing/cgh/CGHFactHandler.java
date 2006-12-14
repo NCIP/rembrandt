@@ -95,10 +95,12 @@ abstract public class CGHFactHandler {
     private static Logger logger = Logger.getLogger(CGHFactHandler.class);
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
+    Integer copyNumberObjCount = 0;
     private final static int VALUES_PER_THREAD = 20;
     List factEventList = Collections.synchronizedList(new ArrayList());
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
+    abstract void addCountToResults(int count);
     abstract ResultSet[] executeSampleQuery(final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
     throws Exception;
     abstract ResultSet[] executeSampleQueryForAllGenes(final ComparativeGenomicQuery cghQuery)
@@ -155,6 +157,50 @@ abstract public class CGHFactHandler {
                t.start();
             }
     }
+    protected void executeQueryCount(final String snpOrCGHAttr, Collection cghOrSNPIDs, final Class targetFactClass, ComparativeGenomicQuery cghQuery) throws Exception {
+        ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
+        for (int i = 0; i < arrayIDs.size();) {
+            Collection values = new ArrayList();
+            int begIndex = i;
+            i += VALUES_PER_THREAD ;
+            int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
+            values.addAll(arrayIDs.subList(begIndex,  endIndex));
+            final Criteria IDs = new Criteria();
+            IDs.addIn(snpOrCGHAttr, values);
+            final String threadID = "CopyNumberChangeCriteriaHandler.ThreadID:" + i;
+
+            final DBEvent.FactRetrieveEvent dbEvent = new DBEvent.FactRetrieveEvent(threadID);
+            factEventList.add(dbEvent);
+            PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
+            _BROKER.clearCache();
+
+            final Criteria sampleCrit = new Criteria();
+            CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+            CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+            CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
+            CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);
+            _BROKER.close();
+
+             ThreadPool.AppThread t = ThreadPool.newAppThread(
+                       new ThreadPool.MyRunnable() {
+                          public void codeToRun() {
+                      final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
+                      pb.clearCache();
+                      sampleCrit.addAndCriteria(IDs);
+                      logger.debug("Criteria To be exucuted for " + targetFactClass.getName() + ": ");
+                      logger.debug(sampleCrit.toString());
+                      Query sampleQuery = QueryFactory.newQuery(targetFactClass,sampleCrit, false);
+                      assert(sampleQuery != null);
+                      int count =  pb.getCount(sampleQuery );
+                      addCountToResults(count);
+                      pb.close();
+                      dbEvent.setCompleted(true);
+                  }
+               }
+           );
+           t.start();
+        }
+}
 
      protected void executeGeneAnnotationQuery(Collection cghOrSNPIDs) throws Exception {
             ArrayList arrayIDs = new ArrayList(cghOrSNPIDs);
@@ -303,6 +349,23 @@ abstract public class CGHFactHandler {
             resultObj.setPhysicalPosition(factObj.getPhysicalPosition());
             resultObj.setChromosome(factObj.getChromosome());
         }
+
+
+		public Integer getSampleQueryCount(Collection allSNPProbesetIDs, ComparativeGenomicQuery cghQuery) throws Exception {
+            logger.debug("Total Number Of SNP_PROBES:" + allSNPProbesetIDs.size());
+            executeQueryCount(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbesetIDs, ArrayGenoAbnFact.class, cghQuery);
+
+            ThreadController.sleepOnEvents(factEventList);
+
+            return copyNumberObjCount;
+		}
+
+
+		@Override
+		synchronized void addCountToResults(int count) {
+			copyNumberObjCount += count;
+			
+		}
     }
 }
 

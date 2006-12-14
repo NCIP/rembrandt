@@ -66,5 +66,6 @@ import gov.nih.nci.rembrandt.dto.query.Query;
 public interface QueryHandlerInterface {
 
 	public ResultSetInterface[] handle(Query query) throws Exception ;
+	public Integer getCount(Query query) throws Exception ;
 
 }

@@ -85,6 +85,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.ShowAllValuesHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.filter.CopyNumberFilter;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotHandler;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -156,10 +157,25 @@ public class ResultsetManager {
 			resultant = new Resultant();
 			Viewable associatedView = queryToExecute.getAssociatedView();
 			Thread.sleep(5);//To make sure all threads are closed
-			CompoundResultSet compoundResultSet = QueryManager
-					.executeCompoundQuery(queryToExecute);
-			Collection results = compoundResultSet.getResults();
-			if (results != null) {
+			CompoundResultSet compoundResultSet = null;
+			try{
+				compoundResultSet = QueryManager.executeCompoundQuery(queryToExecute);	
+			}
+			catch(Exception e){
+				//Check if Query is over the limit
+				if(e.getMessage().equals(RembrandtConstants.QUERY_OVER_LIMIT)){
+					resultant = new Resultant();
+					resultant.setAssociatedQuery(queryToExecute);
+					resultant.setAssociatedView(associatedView);
+					resultant.setOverLimit(true);
+					return resultant;
+				}
+				else{
+					throw e;
+				}
+			}
+			if (compoundResultSet != null && compoundResultSet.getResults() != null) {
+				Collection results = compoundResultSet.getResults();
 				for (Iterator resultsIterator = results.iterator(); resultsIterator
 						.hasNext();) {
 					Object obj = resultsIterator.next();
@@ -192,16 +208,6 @@ public class ResultsetManager {
 							resultant.setResultsContainer(resultsContainer);
 							resultant.setAssociatedQuery(queryToExecute);
 							resultant.setAssociatedView(associatedView);
-//						//
-//							ResultSet[] resultsets = QueryManager
-//									.executeQuery(queryToExecute);
-//							ResultsContainer resultsContainer = KaplanMeierPlotHandler
-//									.handleKMUnifiedGeneExprPlotContainer((UnifiedGeneExpr.UnifiedGeneExprSingle[]) resultsets);
-//							resultant.setResultsContainer(resultsContainer);
-//							resultant.setAssociatedQuery(queryToExecute);
-//							resultant.setAssociatedView(associatedView);
-//
-//						//
 						} else if (resultsets instanceof GeneExprGroup[]) {
 							ResultsContainer resultsContainer = ResultsetProcessor
 									.handleGeneExprDiseaseView(resultant,
@@ -234,7 +240,7 @@ public class ResultsetManager {
 				}
 			}
 		}
-		if(resultant.getResultsContainer()==null) {
+		if(resultant != null && resultant.getResultsContainer()==null) {
 			resultant = null;
 		}
 		return resultant;
@@ -311,7 +317,7 @@ public class ResultsetManager {
 				resultant.setAssociatedView(associatedView);
 			}
 		}
-		if(resultant.getResultsContainer()==null) {
+		if(resultant.getResultsContainer()==null  && resultant.isOverLimit()== false) {
 			resultant = null;
 		}
 		return resultant;
