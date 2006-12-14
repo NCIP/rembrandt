@@ -38,8 +38,8 @@
 		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script> 
 		<script language="JavaScript" type="text/javascript" src="XSL/a_saveSamples.js"></script>
 		<script language="JavaScript" type="text/javascript" src="js/lib/prototype_1.5pre.js"></script>
-		<script language="javascript" src="js/lib/Help.js"/>
-		<script language="javascript" src="js/lib/json.js"/>
+		<script language="javascript" src="js/lib/Help.js"></script>
+		<script language="javascript" src="js/lib/json.js"></script>
 		<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
 		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
 		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
