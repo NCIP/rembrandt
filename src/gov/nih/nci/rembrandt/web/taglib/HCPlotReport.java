@@ -3,10 +3,8 @@ package gov.nih.nci.rembrandt.web.taglib;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
-import gov.nih.nci.rembrandt.queryservice.resultset.annotation.GeneExprAnnotationService;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
-import gov.nih.nci.rembrandt.queryservice.validation.ClinicalDataValidator;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.reports.quick.QuickClinicalReport;
 
@@ -164,24 +162,26 @@ public class HCPlotReport extends TagSupport {
 		
 		if(reporters != null)	{
 			try {
-				List<ReporterResultset> reporterResultsets = GeneExprAnnotationService.getAnnotationsForReporters(reporters);
-				for(ReporterResultset reporterResultset: reporterResultsets){
-					if(reporterResultset != null){
-						
+				AnnotationHandler annotationHandler = new AnnotationHandler();
+				Map reporterResultsetMap = annotationHandler.getAllAnnotationsFor(reporters);;
+				for(String reporterId: reporters){
+					if(reporterResultsetMap != null){
+						ReporterAnnotations ra = (ReporterAnnotations) reporterResultsetMap.get(reporterId);
 						tr = table.addElement("tr").addAttribute("class", "data");
 						
-						String reporter = reporterResultset.getReporter()!=null ? reporterResultset.getReporter().getValue().toString() : "N/A";
+						String reporter = ra.getReporterName()!=null ? ra.getReporterName() : "N/A";
+
 						td = tr.addElement("td").addText(reporter);
 						//html.append("ReporterID :" +reporterResultset.getReporter().getValue().toString() + "<br/>");
-						Collection<String> geneSymbols = (Collection<String>)reporterResultset.getAssiciatedGeneSymbols();
+						String geneSymbols = ra.getGeneSymbol();
 						String genes = "";
-						if(geneSymbols != null){
-							genes = StringUtils.join(geneSymbols.toArray(), ",");
-						}
+						if(geneSymbols != null)	
+							genes = geneSymbols;
+
 						
 						td = tr.addElement("td").addText(genes);
 						
-						Collection<String> genBank_AccIDS = (Collection<String>)reporterResultset.getAssiciatedGenBankAccessionNos();
+						Collection genBank_AccIDS = ra.getAccessions();
 						String accs = "";
 						if(genBank_AccIDS != null){
 							accs = StringUtils.join(genBank_AccIDS.toArray(), ",");
@@ -189,7 +189,7 @@ public class HCPlotReport extends TagSupport {
 						
 						td = tr.addElement("td").addText(accs);
 						
-						Collection<String> locusLinkIDs = (Collection<String>)reporterResultset.getAssiciatedLocusLinkIDs();
+						Collection locusLinkIDs = ra.getLocusLinks();
 						String ll = "";
 						if(locusLinkIDs != null){
 							ll = StringUtils.join(locusLinkIDs.toArray(), ",");
