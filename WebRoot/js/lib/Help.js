@@ -1,5 +1,6 @@
 var Help = {
-	url : "helpDocs/REMBRANDT_Online_Help/index.html?single=true&context=REMBRANDT_Online_Help&topic=",
+	urlSingle : "helpDocs/REMBRANDT_Online_Help/index.html?single=true&context=REMBRANDT_Online_Help&topic=",
+	url : "helpDocs/REMBRANDT_Online_Help/index.html?context=REMBRANDT_Online_Help&topic=",
 	popHelp: function(topic) {
 		window.open (Help.url+topic, "Help", "status,scrollbars,resizable,width=800,height=500");  
 		//use the below if you want the "always on top" feature, most dont like it
