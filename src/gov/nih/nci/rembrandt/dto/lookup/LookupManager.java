@@ -13,9 +13,11 @@ import gov.nih.nci.rembrandt.dbbean.DownloadFile;
 import gov.nih.nci.rembrandt.dbbean.Pathway;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.validation.QueryExecuter;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -284,12 +286,20 @@ public class LookupManager{
 	 * @throws Exception
 	 */
 	public static DiseaseTypeLookup[] getDiseaseType() throws Exception {
-		if(diseaseTypes == null){
+		if(diseaseTypes == null){			
 			Criteria crit = new Criteria();
 			//crit.addOrderByAscending("diseaseTypeId");
 			crit.addOrderByAscending("diseaseType");
-			diseaseTypes = (DiseaseTypeLookup[])(QueryExecuter.executeQuery(DiseaseTypeDim.class,crit,QueryExecuter.NO_CACHE,true).toArray(new DiseaseTypeLookup[1]));
+			DiseaseTypeLookup[] diseases = (DiseaseTypeLookup[])(QueryExecuter.executeQuery(DiseaseTypeDim.class,crit,QueryExecuter.NO_CACHE,true).toArray(new DiseaseTypeLookup[1]));
+			List<DiseaseTypeLookup> diseaseList = new ArrayList<DiseaseTypeLookup>(Arrays.asList(diseases));
+			for(DiseaseTypeLookup diseaseTypeLookup: diseaseList){
+				if(diseaseTypeLookup.getDiseaseType().equals(RembrandtConstants.UNCLASSIFIED)){
+					diseaseList.remove(diseaseTypeLookup);
+				}
+			}
+			diseaseTypes = diseaseList.toArray(new DiseaseTypeLookup[diseaseList.size()]);
 		}
+		
 		return diseaseTypes;
 	}
 	
