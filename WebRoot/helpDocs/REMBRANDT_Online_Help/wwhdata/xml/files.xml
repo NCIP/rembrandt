@@ -95,18 +95,17 @@
     <Document title="Differentiating Data (Show All Values Toolbar)" href="rembrandt1.5_View%20Results.8.8.html" />
     <Document title="Removing Columns (Hide Diseases toolbar)" href="rembrandt1.5_View%20Results.8.9.html" />
     <Document title="Showing Additional Information" href="rembrandt1.5_View%20Results.8.10.html" />
-    <Document title="Gene Expression Disease Report" href="rembrandt1.5_View%20Results.8.11.html" />
-    <Document title="Copy Number Sample Report" href="rembrandt1.5_View%20Results.8.12.html" />
-    <Document title="Displaying Copy Number Sample Data in webGenome" href="rembrandt1.5_View%20Results.8.13.html" />
-    <Document title="High Order Analysis Results" href="rembrandt1.5_View%20Results.8.14.html" />
-    <Document title="Class Comparison Report" href="rembrandt1.5_View%20Results.8.15.html" />
-    <Document title="Filtering a p-value (Filter p-value Toolbar)" href="rembrandt1.5_View%20Results.8.16.html" />
-    <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt1.5_View%20Results.8.17.html" />
-    <Document title="Resorting Column Results" href="rembrandt1.5_View%20Results.8.18.html" />
-    <Document title="Principal Component Analysis Plot" href="rembrandt1.5_View%20Results.8.19.html" />
-    <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt1.5_View%20Results.8.20.html" />
-    <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.21.html" />
-    <Document title="Downloading BRB Array Tools and Files" href="rembrandt1.5_View%20Results.8.22.html" />
+    <Document title="Copy Number Sample Report" href="rembrandt1.5_View%20Results.8.11.html" />
+    <Document title="Displaying Copy Number Sample Data in webGenome" href="rembrandt1.5_View%20Results.8.12.html" />
+    <Document title="High Order Analysis Results" href="rembrandt1.5_View%20Results.8.13.html" />
+    <Document title="Class Comparison Report" href="rembrandt1.5_View%20Results.8.14.html" />
+    <Document title="Filtering a p-value (Filter p-value Toolbar)" href="rembrandt1.5_View%20Results.8.15.html" />
+    <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt1.5_View%20Results.8.16.html" />
+    <Document title="Resorting Column Results" href="rembrandt1.5_View%20Results.8.17.html" />
+    <Document title="Principal Component Analysis Plot" href="rembrandt1.5_View%20Results.8.18.html" />
+    <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt1.5_View%20Results.8.19.html" />
+    <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.20.html" />
+    <Document title="Downloading BRB Array Tools and Files" href="rembrandt1.5_View%20Results.8.21.html" />
     <Document title="Managing Lists" href="rembrandt1.5_Manage_Lists.9.1.html" />
     <Document title="Managing Lists Overview" href="rembrandt1.5_Manage_Lists.9.2.html" />
     <Document title="Viewing the Data Items in a List" href="rembrandt1.5_Manage_Lists.9.3.html" />
@@ -146,12 +145,11 @@
     <Topic name="HCA_analysis" href="rembrandt1.5_High_Order_Analysis.7.5.html#1076040" />
     <Topic name="View_results_overview" href="rembrandt1.5_View%20Results.8.2.html#1067499" />
     <Topic name="Gene_Expression_Sample" href="rembrandt1.5_View%20Results.8.4.html#1101944" />
-    <Topic name="Gene_Expression_Disease" href="rembrandt1.5_View%20Results.8.11.html#1085962" />
-    <Topic name="Copy_Number_Sample" href="rembrandt1.5_View%20Results.8.12.html#1096241" />
-    <Topic name="Class_comparison_report" href="rembrandt1.5_View%20Results.8.15.html#1082972" />
-    <Topic name="PCA_report" href="rembrandt1.5_View%20Results.8.19.html#1082922" />
-    <Topic name="3d_pca" href="rembrandt1.5_View%20Results.8.20.html#1108688" />
-    <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.21.html#1088992" />
+    <Topic name="Copy_Number_Sample" href="rembrandt1.5_View%20Results.8.11.html#1114118" />
+    <Topic name="Class_comparison_report" href="rembrandt1.5_View%20Results.8.14.html#1082972" />
+    <Topic name="PCA_report" href="rembrandt1.5_View%20Results.8.18.html#1082922" />
+    <Topic name="3d_pca" href="rembrandt1.5_View%20Results.8.19.html#1108688" />
+    <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.20.html#1088992" />
     <Topic name="Manage_lists_overview" href="rembrandt1.5_Manage_Lists.9.2.html#1067499" />
   </TopicMap>
 </WebWorksHelpBook>

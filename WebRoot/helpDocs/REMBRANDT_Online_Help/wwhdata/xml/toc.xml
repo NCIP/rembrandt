@@ -72,31 +72,30 @@
         <i t="Removing Columns (Hide Diseases toolbar)" l="55" />
         <i t="Showing Additional Information" l="56" />
       </i>
-      <i t="Gene Expression Disease Report" l="57" />
-      <i t="Copy Number Sample Report" l="58">
-        <i t="Displaying Copy Number Sample Data in webGenome" l="59" />
+      <i t="Copy Number Sample Report" l="57">
+        <i t="Displaying Copy Number Sample Data in webGenome" l="58" />
       </i>
     </i>
-    <i t="High Order Analysis Results" l="60">
-      <i t="Class Comparison Report" l="61">
-        <i t="Filtering a p-value (Filter p-value Toolbar)" l="62" />
-        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="63" />
-        <i t="Resorting Column Results" l="64" />
+    <i t="High Order Analysis Results" l="59">
+      <i t="Class Comparison Report" l="60">
+        <i t="Filtering a p-value (Filter p-value Toolbar)" l="61" />
+        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="62" />
+        <i t="Resorting Column Results" l="63" />
       </i>
-      <i t="Principal Component Analysis Plot" l="65">
-        <i t="Viewing a Three-dimensional Principal Component Analysis (PCA)" l="66" />
+      <i t="Principal Component Analysis Plot" l="64">
+        <i t="Viewing a Three-dimensional Principal Component Analysis (PCA)" l="65" />
       </i>
-      <i t="Hierarchical Clustering Report" l="67" />
+      <i t="Hierarchical Clustering Report" l="66" />
     </i>
-    <i t="Downloading BRB Array Tools and Files" l="68" />
+    <i t="Downloading BRB Array Tools and Files" l="67" />
   </i>
-  <i t="Managing Lists" l="69">
-    <i t="Managing Lists Overview" l="70" />
-    <i t="Viewing the Data Items in a List" l="71" />
-    <i t="Removing Data Items to Create a New List" l="72" />
-    <i t="Combining Existing Lists to Create a New List" l="73" />
-    <i t="Deleting an Entire List" l="74" />
-    <i t="Adding a New “Custom” List" l="75" />
+  <i t="Managing Lists" l="68">
+    <i t="Managing Lists Overview" l="69" />
+    <i t="Viewing the Data Items in a List" l="70" />
+    <i t="Removing Data Items to Create a New List" l="71" />
+    <i t="Combining Existing Lists to Create a New List" l="72" />
+    <i t="Deleting an Entire List" l="73" />
+    <i t="Adding a New “Custom” List" l="74" />
   </i>
-  <i t="Glossary" l="76" />
+  <i t="Glossary" l="75" />
 </WebWorksHelpTOC>
