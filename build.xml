@@ -197,8 +197,19 @@
 			<zipfileset dir="${webapp.dir}/log" prefix="log"/>
 			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials"/>
 			<zipfileset dir="${webapp.dir}/XSL" prefix="XSL"/>
-			<zipfileset dir="${anthill.dependency.artifacts.dir}" prefix="WEB-INF/lib"/>
-			<webinf dir="${webapp.dir}/WEB-INF"/>
+			<zipfileset dir="${webapp.dir}/WEB-INF" prefix="WEB-INF">
+				 <include name="*.*"/>
+				 <exclude name="web.xml"/>
+			</zipfileset>			
+		    <lib dir="${anthill.dependency.artifacts.dir}">
+		  	   <include name="*.jar"/>
+		    </lib>
+		    <lib dir="${source.lib.dir}">
+		  	   <include name="*.jar"/>
+		    </lib>
+		    <classes dir="${build.classes.dir}"/>
+		    
+
 		</war>
 	</target>
 	
