@@ -158,7 +158,7 @@ public class ApplicationContext{
 		   
 		  if (propertiesFileName == null || in == null ) {
 			 Throwable exception = new IllegalStateException("Error: no properties found when loading property: "+ GOV_NIH_NCI_REMBRANDT_PROPERTIES);
-		     logger.error(exception);
+		     logger.fatal(exception);
 		     throw exception;
 		  }
 		  rembrandtProperties.load(in);  		   
