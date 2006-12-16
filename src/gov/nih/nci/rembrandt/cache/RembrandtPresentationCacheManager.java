@@ -16,6 +16,7 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -110,7 +111,6 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 	private static final String PERSISTED_SESSIONS_CACHE = "persistedSessionsCache";
 	private static Logger logger = Logger.getLogger(RembrandtPresentationCacheManager.class);
 	private static RembrandtPresentationTierCache myInstance;
-	static private CacheManager manager = null;
 	static private Cache presentationCache = null;
 	static {
 	   	try {
@@ -118,7 +118,13 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
      	   //Create the cacheManager and the application cache
            //as specified in the configurationFile.xml 
      		logger.debug("Getting ehCache manager instance");
-         	manager = CacheManager.getInstance();
+     		String configPath = System.getProperty("gov.nci.nih.rembrandt.echache.configFile");
+     		if (configPath != null){
+     			manager = new CacheManager(configPath);
+     		}
+     		else{
+             	manager = CacheManager.getInstance();//use default);
+     		}
         	logger.debug("CacheManger available");
         }catch(Throwable t) {
             logger.error("FATAL: Problem creating CacheManager!");
