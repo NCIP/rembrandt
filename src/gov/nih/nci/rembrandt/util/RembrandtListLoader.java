@@ -51,10 +51,8 @@ public class RembrandtListLoader extends ListLoader {
 					//1. Get the sample Ids from the each disease type
 					Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
 					List<SampleIDDE> sampleIDDEs = LookupManager.getSampleIDDEs(diseaseTypeLookup.getDiseaseDesc(),insitutions);
-					//2. validate samples so that GE data exsists for these samples
-			        Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-			        //3. Extracts sampleIds as Strings
-			        Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
+			        //2. Extracts sampleIds as Strings
+			        Collection<String> sampleIDs = StrategyHelper.extractSamples(sampleIDDEs);
 			        List<String> pdids = new ArrayList<String>(sampleIDs);
 			        RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, pdids);
 			        if(sampleIDs != null){
