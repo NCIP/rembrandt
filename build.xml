@@ -64,8 +64,12 @@
 	-->
 	<target name="config_cache">
 		<delete file="src/ehcache.xml"/>
+		<delete file="conf/rembrandt_ehcache.xml"/>
+		<copy file="src/ehcache.xml.templates" tofile="conf/rembrandt_ehcache.xml"/>
+		<replaceregexp file="conf/rembrandt_ehcache.xml" match="@echache_path@" replace="/local/content/rembrandt/cache" flags="g"/>
 		<copy file="src/ehcache.xml.templates" tofile="src/ehcache.xml"/>
-		<replaceregexp file="src/ehcache.xml" match="@echache_path@" replace="${jboss.install.dir}server/${jboss.server.name}/tmp/${app.war.name}" flags="g"/>
+		<replaceregexp file="src/ehcache.xml" match="@echache_path@" replace="java.io.tmpdir" flags="g"/>
+
 	</target>
 	<!--
 			TARGET: config_common_security_module
@@ -158,7 +162,7 @@
 		This will build the war file and should be used instead of the 
 		build_war_anthill task (which is intended to be used by SCM)
 	-->
-	<target name="build_war" depends="copy_resources">
+	<target name="build_war" depends="copy_resources,config_cache">
 		<delete file="${app.war.name}.war"/>
 		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.*"/>
@@ -180,7 +184,7 @@
 		TARGET: build_war_anthill
 		This task is intended to be used to by anthill when built be SCM.
 	-->
-	<target name="build_war_anthill" depends="copy_resources_anthill">
+	<target name="build_war_anthill" depends="config_cache,copy_resources_anthill">
 		<delete file="${app.war.name}.war"/>
 		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.*"/>
@@ -205,11 +209,22 @@
 		  	   <include name="*.jar"/>
 		    </lib>
 		    <classes dir="${build.classes.dir}"/>
-		    
-
 		</war>
+		<antcall target="retrieve_deployment_artifacts"></antcall>
+		<copy file="rembrandt.war" todir="${anthill.artifacts.dir}"/>
+
 	</target>
-	
+	<target name="retrieve_deployment_artifacts">
+		<copy file="conf/rembrandt.properties" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/rembrandt-properties-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/rembrandt-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="csm_deploy/oracle-ds.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="csm_deploy/ApplicationSecurityConfig.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="csm_deploy/csm-properties-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/rembrandt_ehcache.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>
+	</target>
 	<target name="noop"/>
 	<!--
 		TARGET: build_jar_for_WebGenome_anthill
