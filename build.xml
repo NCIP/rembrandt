@@ -57,11 +57,6 @@
 			</classpath>
 		</javac>
 	</target>
-	<target name="config_logging">
-		<delete file="src/log4j.properties"/>
-		<copy file="src/log4j.properties.template" tofile="src/log4j.properties"/>
-		<replaceregexp file="src/log4j.properties" match="@LOGDIR@" replace="${logging.dir}" flags="g"/>
-	</target>
 	<!--
 		TARGET: config_cache
 		Configures the echache.xml file using the settings in the
@@ -149,6 +144,8 @@
 					<include name="*.properties"/>
 					<include name="*.dtd"/>
 					<include name="*.xsd"/>
+					<exclude name="log4j.properties"/>
+										
 				</fileset>
 			</copy>
 		</target>
