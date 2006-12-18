@@ -19,7 +19,13 @@ String graphURL= "";
 <script type="text/javascript" src="js/overlib_hideform.js"></script>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 -->
+
+	<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
+	<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
+
+	<script language="javascript" src="js/lib/json.js"></script>
 	<script language="javascript" src="XSL/js.js"></script>
+	
 
 <div style="background-color:#ffffff">
 	<div>
