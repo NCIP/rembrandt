@@ -24,10 +24,12 @@
 </div>
 <!--end all headers-->
 
-
+<br clear="both"/><br clear="both"/>
 <fieldset style="border: 1px solid #000066;width:700px">
 <legend style="text-align:center;background-color:#ffffff">REMBRANDT Message</legend>
+
 <p style="text-align:left">
+<br clear="both"/>
   <strong>Our apologies, 
    there has been an internal server error.</strong>
 </p><br /><br /><br />
