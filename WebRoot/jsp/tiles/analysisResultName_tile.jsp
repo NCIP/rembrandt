@@ -6,7 +6,8 @@
 <%@ page import="gov.nih.nci.caintegrator.dto.query.QueryDTO,
 				 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
-				 gov.nih.nci.rembrandt.web.factory.ApplicationFactory"%> 
+				 gov.nih.nci.rembrandt.web.factory.ApplicationFactory,
+				 org.apache.log4j.Logger"%> 
 
 <fieldset class="gray">
 <legend class="red">
@@ -31,6 +32,7 @@
 <html:errors property="queryName"/><br />
 </fieldset>
 <%
+		final Logger logger = Logger.getLogger("analysisResultName_tile");
 		String returnQueryNames = "";
 		try	{
 			RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
@@ -60,6 +62,8 @@
 		}
 	}
 	catch(Exception e)	{
+		logger.error("HalfPage: Try catch for analysisResultName_tile");
+		logger.error(e);
 		returnQueryNames = "";
 	}
 
