@@ -1,6 +1,8 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
+import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.service.findings.HCAFinding;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
@@ -91,7 +93,7 @@ public class HCPlotReport extends TagSupport {
 	
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private BusinessTierCache businessTierCache = ApplicationFactory.getBusinessTierCache();
-	
+	private HCAFinding hcaFinding = null;
 	private String dv = "--";
 	
 	public enum ClusterBy { Genes, Reporters }
@@ -104,16 +106,20 @@ public class HCPlotReport extends TagSupport {
 			StringBuffer xhtml = new StringBuffer();
 			if(taskId != null)	{
 				
-				HCAFinding hcaFinding = (HCAFinding)businessTierCache.getSessionFinding(session.getId(),taskId);
+				hcaFinding = (HCAFinding)businessTierCache.getSessionFinding(session.getId(),taskId);
 	            List<String> clusterByIds = new ArrayList();
 	            //ok, what did we cluster by?...can only be 1
-	            if(hcaFinding.getClusteredReporterIDs()!=null && hcaFinding.getClusteredReporterIDs().size() > 0)	{
-	            	clusterByIds = (List) hcaFinding.getClusteredReporterIDs();
-	            	xhtml.append(quickReporterReport(clusterByIds));
-	            }
-	            else if(hcaFinding.getClusteredSampleIDs()!=null && hcaFinding.getClusteredSampleIDs().size() > 0)	{
-	            	clusterByIds = (List) hcaFinding.getClusteredSampleIDs();
-	            	xhtml.append(quickSampleReport(clusterByIds));
+	            if(hcaFinding != null){
+		            HierarchicalClusteringQueryDTO hcQueryDTO = (HierarchicalClusteringQueryDTO) hcaFinding.getQueryDTO();
+					ArrayPlatformType arrayPlatform = hcQueryDTO.getArrayPlatformDE() != null ? hcQueryDTO.getArrayPlatformDE().getValueObjectAsArrayPlatformType() : ArrayPlatformType.AFFY_OLIGO_PLATFORM;
+		            if(hcaFinding.getClusteredReporterIDs()!=null && hcaFinding.getClusteredReporterIDs().size() > 0)	{
+		            	clusterByIds = (List) hcaFinding.getClusteredReporterIDs();
+		            	xhtml.append(quickReporterReport(clusterByIds, arrayPlatform));
+		            }
+		            else if(hcaFinding.getClusteredSampleIDs()!=null && hcaFinding.getClusteredSampleIDs().size() > 0)	{
+		            	clusterByIds = (List) hcaFinding.getClusteredSampleIDs();
+		            	xhtml.append(quickSampleReport(clusterByIds));
+		            }
 	            }
 	            
 				out.println(xhtml.toString());
@@ -147,7 +153,7 @@ public class HCPlotReport extends TagSupport {
 		this.taskId = taskId;
 	}
 	
-	public StringBuffer quickReporterReport(List<String> reporters){
+	public StringBuffer quickReporterReport(List<String> reporters, ArrayPlatformType arrayPlatform){
 		StringBuffer html = new StringBuffer();
 		Document document = DocumentHelper.createDocument();
 		Element table = document.addElement("table").addAttribute("id", "reportTable").addAttribute("class", "report");
@@ -162,8 +168,7 @@ public class HCPlotReport extends TagSupport {
 		
 		if(reporters != null)	{
 			try {
-				AnnotationHandler annotationHandler = new AnnotationHandler();
-				Map reporterResultsetMap = annotationHandler.getAllAnnotationsFor(reporters);;
+				Map reporterResultsetMap = AnnotationHandler.getAllAnnotationsFor(reporters,arrayPlatform);
 				for(String reporterId: reporters){
 					if(reporterResultsetMap != null){
 						ReporterAnnotations ra = (ReporterAnnotations) reporterResultsetMap.get(reporterId);

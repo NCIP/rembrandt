@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.xml;
 import gov.nih.nci.caintegrator.analysis.messaging.FTestResultEntry;
 import gov.nih.nci.caintegrator.dto.query.ClassComparisonQueryDTO;
 import gov.nih.nci.caintegrator.dto.query.ClinicalQueryDTO;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
@@ -268,13 +269,12 @@ public class FTestReport{
 					}
 				}
 				
-				//new stuff
-				AnnotationHandler h = new AnnotationHandler();
+				ArrayPlatformType arrayPlatform = ccdto.getArrayPlatformDE() != null ? ccdto.getArrayPlatformDE().getValueObjectAsArrayPlatformType() : ArrayPlatformType.AFFY_OLIGO_PLATFORM;
 				Map reporterResultsetMap = null;
 				if(allAnnotations){
 					//Map<String, ReporterAnnotations> reporterResultsetMap = null;
 					try {
-						reporterResultsetMap = h.getAllAnnotationsFor(reporterIds);
+						reporterResultsetMap = AnnotationHandler.getAllAnnotationsFor(reporterIds,arrayPlatform);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -282,7 +282,7 @@ public class FTestReport{
 				else	{
 					//Map<String, String> reporterResultsetMap = null;
 					try {
-						reporterResultsetMap = h.getGeneSymbolsFor(reporterIds);
+						reporterResultsetMap = AnnotationHandler.getGeneSymbolsFor(reporterIds,arrayPlatform);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

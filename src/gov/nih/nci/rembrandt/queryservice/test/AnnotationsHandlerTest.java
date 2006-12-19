@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.queryservice.test;
 import junit.framework.TestCase;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
@@ -41,7 +42,7 @@ public class AnnotationsHandlerTest extends TestCase {
 
     public void testgetGeneSymbolsFor() throws Exception{
         AnnotationHandler h = new AnnotationHandler();
-        Map results = h.getGeneSymbolsFor(reporters);
+        Map results = AnnotationHandler.getGeneSymbolsFor(reporters, ArrayPlatformType.AFFY_OLIGO_PLATFORM);
 
        // loop through and print all reporters and associated gene symbols
         for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
@@ -52,8 +53,7 @@ public class AnnotationsHandlerTest extends TestCase {
     }
 
      public void testgetAllAnnotationsFor() throws Exception{
-         AnnotationHandler h = new AnnotationHandler();
-         Map<String, ReporterAnnotations> results = h.getAllAnnotationsFor(reporters);
+         Map<String, ReporterAnnotations> results = AnnotationHandler.getAllAnnotationsFor(reporters, ArrayPlatformType.AFFY_OLIGO_PLATFORM);
 
         // loop through and print all reporters and associated gene symbols
         for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {

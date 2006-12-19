@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.DBEvent;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
@@ -23,25 +24,49 @@ import gov.nih.nci.rembrandt.util.ThreadPool;
 public class AnnotationHandler {
     private static Logger logger = Logger.getLogger(AnnotationHandler.class);
     private final static int VALUES_PER_THREAD = 50;
-    private static  Map<String, List<String>> unifiedReporterGeneMap = null; 
-    private static  Map<String, List<String>> affyReporterGeneMap = null; 
-    private static  Map<String, ReporterAnnotations> allReportAnnotationMap = null;
+    private static  Map<String, List<String>> unifiedReporterGeneMap = execQueryUnifiedGeneSymbols(); 
+    private static  Map<String, List<String>> affyReporterGeneMap = execQueryAffyProbeSets(); 
+    private static  Map<String, ReporterAnnotations> allAffyReportAnnotationMap = null;
+    private static  Map<String, String> affyReporterGeneSymbolMap = null;
+
     /**  This method will return the reporters and corresponding gene symbol in a Hash Map
      *
      * @param reporters Reporters to be queried
      * @return This method retunrs a Map using reporter as key and corresponding gene symbols as value
      */
     @SuppressWarnings("unchecked")
-	public Map<String, String> getGeneSymbolsFor(List reporters) throws Exception{
+	public static Map<String, String> getGeneSymbolsFor(List reporters, ArrayPlatformType arrayPlatformtype) throws Exception{
         List annotationsEventList = Collections.synchronizedList(new ArrayList());
-        Map h = execQueryGeneSymbols(reporters, annotationsEventList);
-        try {
-            ThreadController.sleepOnEvents(annotationsEventList);
-        } catch (InterruptedException e) {
-            // no big deal Log it and ignore it
-            logger.debug("Thread Interrupted during Annotations Retrieval", e);
+        boolean isReporterMissing = false;
+        switch( arrayPlatformtype){
+        case AFFY_OLIGO_PLATFORM:{
+	    	if(affyReporterGeneSymbolMap != null){
+	    		for(Object obj:reporters){
+	    			String reporterName = (String)obj;
+	    			if(!affyReporterGeneSymbolMap.containsKey(reporterName)){
+	    				isReporterMissing = true;
+	    			}
+	    		}
+	    	}
+	    	else{ //reporterGeneSymbolMap is null the first time
+	    		affyReporterGeneSymbolMap = new HashMap<String, String>();
+	    		isReporterMissing = true;
+	    	}
+	
+	    	if(isReporterMissing){
+	    		
+	    		affyReporterGeneSymbolMap = execQueryGeneSymbols(reporters, annotationsEventList);
+		        try {
+		            ThreadController.sleepOnEvents(annotationsEventList);
+		        } catch (InterruptedException e) {
+		            // no big deal Log it and ignore it
+		            logger.debug("Thread Interrupted during Annotations Retrieval", e);
+		        }
+	    	}
+		        return affyReporterGeneSymbolMap;
+        }        
         }
-        return h;
+        return Collections.EMPTY_MAP;
     }
 
      /**
@@ -53,95 +78,100 @@ public class AnnotationHandler {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-	public Map<String, ReporterAnnotations> getAllAnnotationsFor(List reporters) throws Exception{
+	public static Map<String, ReporterAnnotations> getAllAnnotationsFor(List reporters, ArrayPlatformType arrayPlatformtype) throws Exception{
     	boolean isReporterMissing = false;
-    	if(allReportAnnotationMap != null){
-    		for(Object obj:reporters){
-    			String reporterName = (String)obj;
-    			if(!allReportAnnotationMap.containsKey(reporterName)){
-    				isReporterMissing = true;
-    			}
-    		}
-    	}
-    	else{ //allReportAnnotationMap is null the first time
-    		allReportAnnotationMap = new HashMap<String, ReporterAnnotations> ();
-    		isReporterMissing = true;
-    	}
-
-    	if(allReportAnnotationMap != null && isReporterMissing){
-	        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
-	            String repName =  (String) iterator.next();
-	            // create a ReporterAnnotations object for each of the reporters
-	            ReporterAnnotations ra = new ReporterAnnotations();
-	            ra.setReporterName(repName);
-	            allReportAnnotationMap.put(repName, ra);
+        switch( arrayPlatformtype){
+        case AFFY_OLIGO_PLATFORM:{
+		    	if(allAffyReportAnnotationMap != null){
+		    		for(Object obj:reporters){
+		    			String reporterName = (String)obj;
+		    			if(!allAffyReportAnnotationMap.containsKey(reporterName)){
+		    				isReporterMissing = true;
+		    			}
+		    		}
+		    	}
+		    	else{ //allReportAnnotationMap is null the first time
+		    		allAffyReportAnnotationMap = new HashMap<String, ReporterAnnotations> ();
+		    		isReporterMissing = true;
+		    	}
+		
+		    	if(isReporterMissing){
+			        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
+			            String repName =  (String) iterator.next();
+			            // create a ReporterAnnotations object for each of the reporters
+			            ReporterAnnotations ra = new ReporterAnnotations();
+			            ra.setReporterName(repName);
+			            allAffyReportAnnotationMap.put(repName, ra);
+			        }
+			
+			        // 1.0 Retrieve all GeneSymbols corresponding to these reporters
+			        Map<String, String> reportersAndGenes = getGeneSymbolsFor(reporters,ArrayPlatformType.AFFY_OLIGO_PLATFORM );
+			        // 1.1 pupulate the above ReporterAnnotations object with the corresponding genesymbols
+			        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
+			            String repName =  (String) iterator.next();
+			            ReporterAnnotations ra = allAffyReportAnnotationMap.get(repName);
+			            ra.setGeneSymbol(reportersAndGenes.get(repName));
+			        }
+			
+			
+			
+			        // 2.0 Retrieve GeneAnnotations (GenePathways & GeneOntology) for these gene symbols
+			        Collection geneSymbols = reportersAndGenes.values();
+			        List geneAnnotEventList = Collections.synchronizedList(new ArrayList());
+			        Map<String, GeneExpr.GeneAnnotation> geneAnnotations = Collections.synchronizedMap(new HashMap());
+			        GeneAnnotationsHandler gh = new GeneAnnotationsHandler(geneAnnotEventList );
+			        gh.populateAnnotationsFor(geneSymbols, geneAnnotations);
+			
+			
+			        // 3.0 Retrieve ReporterDimension (LocusLinks & Accns) for these reporters
+			        List reporterAnnotEventList = Collections.synchronizedList(new ArrayList());
+			        ReporterAnnotationsHandler rh = new ReporterAnnotationsHandler();
+			        Map<String,ReporterDimension> repAnnotations = rh.execAnnotationQuery(reporters, reporterAnnotEventList) ;
+			
+			        // 4.0 sleep until the above GeneAnnotations & ReporterDimension are fully retrieved
+			        try {
+			            ThreadController.sleepOnEvents(geneAnnotEventList);
+			            ThreadController.sleepOnEvents(reporterAnnotEventList);
+			        } catch (InterruptedException e) {
+			            // no big deal Log it and ignore it
+			            logger.debug("Thread Interrupted during Annotations Retrieval", e);
+			        }
+			
+			        // 5.0 populate the above ReporterAnnotations object with the corresponding GeneAnnotations
+			        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
+			            String repName =  (String) iterator.next();
+			            ReporterAnnotations ra = allAffyReportAnnotationMap.get(repName);
+			            String gs = ra.getGeneSymbol();
+			
+			            // set goIDS & pathways ONLY if Gene Annotations are aivailable annotations
+			            GeneExpr.GeneAnnotation ga = geneAnnotations.get(gs);
+			            if (ga != null)  {
+			                ra.setGoIDS(ga.getGoIDs());
+			                ra.setPathways(ga.getPathwayNames());
+			            }
+			        }
+			
+			        // 6.0 populate the above ReporterAnnotations object with the corresponding ReporetrDimensions
+			        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
+			            String repName =  (String) iterator.next();
+			            ReporterAnnotations ra = allAffyReportAnnotationMap.get(repName);
+			
+			            // set LocusLinks & goIDs ONLY if ReporterAnnotations are available
+			            ReporterDimension rd = repAnnotations.get(ra.getReporterName());
+			            if (rd != null) {
+			                ra.setLocusLinks(rd.getLocusLinks());
+			                ra.setAccessions(rd.getAccessions());
+			            }
+			        }
+		    	}
+		        return allAffyReportAnnotationMap;
 	        }
-	
-	        // 1.0 Retrieve all GeneSymbols corresponding to these reporters
-	        Map<String, String> reportersAndGenes = getGeneSymbolsFor(reporters);
-	        // 1.1 pupulate the above ReporterAnnotations object with the corresponding genesymbols
-	        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
-	            String repName =  (String) iterator.next();
-	            ReporterAnnotations ra = allReportAnnotationMap.get(repName);
-	            ra.setGeneSymbol(reportersAndGenes.get(repName));
-	        }
-	
-	
-	
-	        // 2.0 Retrieve GeneAnnotations (GenePathways & GeneOntology) for these gene symbols
-	        Collection geneSymbols = reportersAndGenes.values();
-	        List geneAnnotEventList = Collections.synchronizedList(new ArrayList());
-	        Map<String, GeneExpr.GeneAnnotation> geneAnnotations = Collections.synchronizedMap(new HashMap());
-	        GeneAnnotationsHandler gh = new GeneAnnotationsHandler(geneAnnotEventList );
-	        gh.populateAnnotationsFor(geneSymbols, geneAnnotations);
-	
-	
-	        // 3.0 Retrieve ReporterDimension (LocusLinks & Accns) for these reporters
-	        List reporterAnnotEventList = Collections.synchronizedList(new ArrayList());
-	        ReporterAnnotationsHandler rh = new ReporterAnnotationsHandler();
-	        Map<String,ReporterDimension> repAnnotations = rh.execAnnotationQuery(reporters, reporterAnnotEventList) ;
-	
-	        // 4.0 sleep until the above GeneAnnotations & ReporterDimension are fully retrieved
-	        try {
-	            ThreadController.sleepOnEvents(geneAnnotEventList);
-	            ThreadController.sleepOnEvents(reporterAnnotEventList);
-	        } catch (InterruptedException e) {
-	            // no big deal Log it and ignore it
-	            logger.debug("Thread Interrupted during Annotations Retrieval", e);
-	        }
-	
-	        // 5.0 populate the above ReporterAnnotations object with the corresponding GeneAnnotations
-	        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
-	            String repName =  (String) iterator.next();
-	            ReporterAnnotations ra = allReportAnnotationMap.get(repName);
-	            String gs = ra.getGeneSymbol();
-	
-	            // set goIDS & pathways ONLY if Gene Annotations are aivailable annotations
-	            GeneExpr.GeneAnnotation ga = geneAnnotations.get(gs);
-	            if (ga != null)  {
-	                ra.setGoIDS(ga.getGoIDs());
-	                ra.setPathways(ga.getPathwayNames());
-	            }
-	        }
-	
-	        // 6.0 populate the above ReporterAnnotations object with the corresponding ReporetrDimensions
-	        for (Iterator iterator = reporters.iterator(); iterator.hasNext();) {
-	            String repName =  (String) iterator.next();
-	            ReporterAnnotations ra = allReportAnnotationMap.get(repName);
-	
-	            // set LocusLinks & goIDs ONLY if ReporterAnnotations are available
-	            ReporterDimension rd = repAnnotations.get(ra.getReporterName());
-	            if (rd != null) {
-	                ra.setLocusLinks(rd.getLocusLinks());
-	                ra.setAccessions(rd.getAccessions());
-	            }
-	        }
-    	}
-        return allReportAnnotationMap;
+        }
+        return Collections.EMPTY_MAP;
     }
 
     @SuppressWarnings("unchecked")
-	private Map<String, String> execQueryGeneSymbols(List reporters, List annotationsEventList) {
+	private static Map<String, String> execQueryGeneSymbols(List reporters, List annotationsEventList) {
         final Map<String, String> genesAndReporters = Collections.synchronizedMap(new HashMap<String, String>());
         for (int i = 0; i < reporters.size();)   {
             Collection values = new ArrayList();
@@ -368,6 +398,29 @@ public class AnnotationHandler {
              }
     	}
     	return reporterGeneMap;        
+    }
+	public static List<String> getAllReporters(ArrayPlatformType arrayPlatformtype){
+    	List<String> reporters = new ArrayList<String>();
+    	switch(arrayPlatformtype){
+    	case AFFY_OLIGO_PLATFORM:{
+    		if(affyReporterGeneMap == null){
+        		affyReporterGeneMap = execQueryAffyProbeSets();    		
+        	}
+			for(String geneSymbol:affyReporterGeneMap.keySet()){
+				reporters.addAll(affyReporterGeneMap.get(geneSymbol));
+    		}
+			return reporters;        	
+    	}
+    	case UNIFIED_GENE:
+    		if(unifiedReporterGeneMap == null){
+    			unifiedReporterGeneMap = execQueryAffyProbeSets();    		
+        	}
+			for(String geneSymbol:unifiedReporterGeneMap.keySet()){
+				reporters.addAll(unifiedReporterGeneMap.get(geneSymbol));
+    		}
+			return reporters;       
+    	}
+    	return reporters;
     }
     /**  This method will return the unifiedgene reporters and corresponding gene symbols in a Hash Map
     *

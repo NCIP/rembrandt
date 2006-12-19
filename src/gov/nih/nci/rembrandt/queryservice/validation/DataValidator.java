@@ -191,12 +191,9 @@ public class DataValidator{
                 }
                 values.add(sampleId.toUpperCase());
             }
-
-
-
 	            Criteria sampleCrit = new Criteria();
 	            sampleCrit.addIn("upper(sampleId)",values);	
-	            Collection geSampleCollection = QueryExecuter.executeQuery(GEPatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+	            Collection geSampleCollection = QueryExecuter.executeQuery(GEPatientData.class, sampleCrit,QueryExecuter.NO_CACHE,false);
             	if(geSampleCollection != null){
             		 for (Object obj : geSampleCollection){
             			 if(obj instanceof GEPatientData){

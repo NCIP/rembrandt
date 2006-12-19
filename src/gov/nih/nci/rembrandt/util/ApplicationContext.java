@@ -1,8 +1,10 @@
 package gov.nih.nci.rembrandt.util;
 
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.io.FileInputStream;
@@ -15,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException ;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -208,6 +211,10 @@ public class ApplicationContext{
 		
 		  analysisServerClientManager.establishQueueConnection();
 		  
+		  //Initialize Annotation loading
+		  List<String> affyReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.AFFY_OLIGO_PLATFORM);
+		  List<String> unifiedReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.UNIFIED_GENE);
+		  AnnotationHandler.getGeneSymbolsFor(affyReporters,ArrayPlatformType.AFFY_OLIGO_PLATFORM);
 		  
 		} catch (NamingException e) {
 	        logger.error(new IllegalStateException("Error getting an instance of AnalysisServerClientManager" ));
