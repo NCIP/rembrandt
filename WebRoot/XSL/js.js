@@ -213,10 +213,13 @@ function spawnAnnot(type, element)	{
 		case "reporterFromCC":
 		case "reporterFromGeneQS":
 			//all these reporter's -might- be IMAGE clones so need to check that first
-			if(el.indexOf("IMAGE")!= -1 || type == 'cytoband')	{
+			if(el.indexOf("IMAGE")!= -1)	{
 				//remove the IMAGE:? 
 				//el = el.substring(el.indexOf("IMAGE:"), el.length);
 				jso.keyType = "image";
+			}
+			else if(type == 'cytoband')	{
+				jso.keyType = "cytoband";
 			}
 			else if(type == "reporterFromCopy")	{
 				jso.keyType = "reporterc";
