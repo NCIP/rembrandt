@@ -31,30 +31,36 @@
 <html:errors property="queryName"/><br />
 </fieldset>
 <%
-		RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 		String returnQueryNames = "";
-		if(presentationTierCache!=null){
-			String sessionId = request.getSession().getId();
-	  		SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
-			if (queryCollection != null) {
-				   Collection queryDTOKeys = queryCollection.getQueryDTONames();
-				   if(queryDTOKeys != null){
-				   Iterator iter = queryDTOKeys.iterator();
-				   while(iter.hasNext()){
-					  String queryDTOKey = (String) iter.next();
-					  QueryDTO queryDTO = queryCollection.getQueryDTO(queryDTOKey);
-					  if(queryDTO!=null){
-					  	String queryName = queryDTO.getQueryName();
-					  	if (returnQueryNames.length() > 0){
-					  	 returnQueryNames += ",";
-					  	}
-						if (queryName != null && queryName.trim().length() > 0){
-							returnQueryNames += '"'+queryName+'"';
-						}
-					  }
+		try	{
+			RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+	
+			if(presentationTierCache!=null){
+				String sessionId = request.getSession().getId();
+		  		SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
+				if (queryCollection != null) {
+					   Collection queryDTOKeys = queryCollection.getQueryDTONames();
+					   if(queryDTOKeys != null){
+					   Iterator iter = queryDTOKeys.iterator();
+					   while(iter.hasNext()){
+						  String queryDTOKey = (String) iter.next();
+						  QueryDTO queryDTO = queryCollection.getQueryDTO(queryDTOKey);
+						  if(queryDTO!=null){
+						  	String queryName = queryDTO.getQueryName();
+						  	if (returnQueryNames.length() > 0){
+						  	 returnQueryNames += ",";
+						  	}
+							if (queryName != null && queryName.trim().length() > 0){
+								returnQueryNames += '"'+queryName+'"';
+							}
+						  }
+					}
 				}
 			}
 		}
+	}
+	catch(Exception e)	{
+		returnQueryNames = "";
 	}
 
 %>
@@ -65,7 +71,7 @@ function checkQueryName(){
 	var thisQueryName = document.forms[0].analysisResultName.value;
 	
 	<%
-			out.println("\t\t\tvar queryNameArray = new Array("+returnQueryNames+");");
+		out.println("\t\t\tvar queryNameArray = new Array("+returnQueryNames+");");
 	%>
 	var found = false;
 	if (!(thisQueryName == null || thisQueryName == "")) {
