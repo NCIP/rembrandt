@@ -20,11 +20,11 @@
 <script language="javascript">
 
  function browseData(){ 	
-     window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,dependent,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
+     window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
    }
    
  function browseKegg(){ 	
-     window.open( 'browseKeggPathway.do', 'page2', 'status,resizable,dependent,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
+     window.open( 'browseKeggPathway.do', 'page2', 'status,resizable,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
    }
 </script>
 
