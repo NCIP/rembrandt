@@ -99,6 +99,11 @@
 	         	<appender-ref ref="CAINTEGRATOR_CSM_FILE"/>
 	         	<appender-ref ref="CAINTEGRATOR_CONSOLE"/>
          	</logger>
+         	
+          <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
+   			<category name="net.sf.ehcache">
+            <priority value="INFO"/>
+          </category>
 
       	<!-- ====================================== --> 
       	
