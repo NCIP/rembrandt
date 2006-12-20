@@ -21,7 +21,7 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 	{
 		//reference the textarea field in the opener/parent and fill it in
 		
-		
+		try	{
 		for(i = 0; i < document.geneexpressionForm.pathwayName.length; i++)
 		{
 			if(document.geneexpressionForm.pathwayName[i].checked)
@@ -29,6 +29,8 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 				window.opener.document.geneexpressionForm.pathways.value += document.geneexpressionForm.pathwayName[i].value + "\n";
 			}	
 		}	
+		}
+		catch(err){}
 		// close the child
 		window.close();
 		
@@ -94,12 +96,13 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
      if(urlLink != null && urlLink.equals("2")){
         url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&resultCounter=1000&startIndex=0"); 
       }
-   
     SAXReader reader = new SAXReader();    
-    Document reportXML = reader.read(url);    
+    Document reportXML = reader.read(url);  
     ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_PATHWAY_XSLT_FILENAME,out);
     }
-    catch(Exception e){}  	
+    catch(Exception e){
+    	out.println("The Pathway Service is currently Unavailable.  Please try again later.");
+    }  	
  	
   	%>
  
