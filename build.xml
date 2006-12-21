@@ -195,7 +195,6 @@
 			<zipfileset dir="${webapp.dir}/Applets" prefix="Applets"/>
 			<zipfileset dir="${webapp.dir}/js" prefix="js"/>
 			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp"/>
-			<zipfileset dir="${webapp.dir}/log" prefix="log"/>
 			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials"/>
 			<zipfileset dir="${webapp.dir}/XSL" prefix="XSL"/>
 			<zipfileset dir="${webapp.dir}/WEB-INF" prefix="WEB-INF">
