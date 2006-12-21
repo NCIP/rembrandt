@@ -305,8 +305,11 @@
 
 	   <property name="applet.signing.dir" value="${applet.dir}" /> 	      
 
-	      <!-- Applet Compile/Signing -->
-
+	    <!-- Applet Compile/Signing -->
+	   <property name="keystore.alias" value="tomcat" /> 
+	   <property name="keystore.keypass" value="changeit" /> 
+	   <property name="keystore.storepass" value="changeit" /> 
+       <property name="keystore.location" value="C:/temp/server.keystore"  /> 
 	    <target name="compile-applet" depends="">
 	 	   <!-- Applet Compile/Signing property-->
 	 		<javac srcdir="${applet.dir}" destdir="${applet.dir}" source="1.4" debug="true" debuglevel="lines,vars,source">
@@ -318,155 +321,21 @@
 	 		</javac>
 	    </target>
 
-	    
+		<!--  create the SignedPCAApplet.jar  --> 
+		<target name="jar-pca-applet" depends="compile-applet">
+		 	<unjar src="${applet.build.dir}/commons-lang-2.0.jar" dest="${applet.build.dir}" />
+		 	<unjar src="${applet.build.dir}/jmathplot-14.jar" dest="${applet.build.dir}" />
+	        <jar jarfile="${applet.build.dir}/PCAApplet.jar" excludes="**/MANIFEST.MF, *.jar, *.xml" basedir="${applet.build.dir}"/>
+		</target>
 
-	    <!--  create and sign the SignedUploadApplet.jar  --> 
-
-	    <target name="sign-upload-applet" depends="compile-applet">
-
-	    <!--  get the NetComponents classes in place --> 
-
-	        <unjar src="${source.lib.dir}/commons-net-1.4.1.jar" dest="${applet.build.dir}" /> 
-
-	        <delete dir="${applet.build.dir}/org/apache/commons/net/nntp" /> 
-
-	        <delete dir="${applet.build.dir}/org/apache/commons/net/pop3" /> 
-
-	        <delete dir="${applet.build.dir}/org/apache/commons/net/smtp" /> 
-
-	        <delete dir="${applet.build.dir}/org/apache/commons/net/tftp" /> 
-
-	        <delete dir="${applet.build.dir}/org/apache/commons/net/nntp" /> 
-
-	        <delete dir="${applet.build.dir}/org/apache/commons/net/bsd" /> 
-
-	        <!--  put the NetComponents classes in the jar along with our stuff into a temporary UploadApplet.jar
-
-	        --> 
-
-	        <jar jarfile="${applet.build.dir}/UploadApplet.jar" excludes="**/MANIFEST.MF, *.jar" basedir="${applet.build.dir}">
-
-	            <fileset dir="${applet.build.dir}/org">
-
-	                <include name="*.class" /> 
-
-	            </fileset>
-
-	            <fileset dir="${build.classes.dir}" excludes="**/MANIFEST.MF, *.jar" includes="**/util/GeneralException.class, **/util/fileuploadapplet/*.class" /> 
-
-	        </jar>
-
-	        <!--  sign the jar 
-
-	        --> 
-
-	        <signjar jar="${applet.build.dir}/UploadApplet.jar" 
-
-	                  alias="rembrandt_18DEC2006" 
-
-	                  keypass="An1Np340bdRq" 
-
-	                  storepass="Pd8D7AF3sm0" 
-
-	                  keystore="conf/applet/ncicb.keystore" 
-
-	                  signedjar="${applet.build.dir}/SignedUploadApplet.jar" /> 
-
-	        <copy todir="${build.classes.dir}" overwrite="yes" verbose="true">
-
-	            <fileset dir="${applet.build.dir}">
-
-	                <include name="SignedUploadApplet.jar"/>
-
-	            </fileset>
-
-	        </copy>
-
+	    <target name="sign-pca-applet" depends="jar-pca-applet">
+	        <signjar jar="${applet.build.dir}/PCAApplet.jar" 
+	                  alias="${keystore.alias}" 
+	                  keypass="${keystore.keypass}" 
+	                  storepass="${keystore.storepass}" 
+	                  keystore="${keystore.location}" 
+	                  signedjar="${applet.build.dir}/SignedPCAApplet.jar" /> 
 	    </target>
-
-	      
-
-	      <!--  create and sign the HttpSignedUploadApplet.jar  --> 
-
-	    <property name="httpapplet.build.dir" value="${build}/http_applet_build" /> 
-
-	    <property name="httpapplet.signing.dir" value="${build}/http_applet_build" /> 
-
-	      
-
-	      <target name="compile-http-applet" depends="">  
-
-	          <javac debug="on" srcdir="${src.main.dir}/gov/nih/nci/caarray/services/util/httpfileuploadapplet" destdir="${build.classes.dir}">
-
-	                   <classpath refid="applet.classpath" /> 
-
-	          </javac>
-
-	      </target>
-
-	      
-
-	      <target name="sign-http-upload-applet" depends="compile-http-applet">
-
-	            <delete dir="${httpapplet.build.dir}" /> 
-
-	            <mkdir dir="${httpapplet.build.dir}"/>
-
-	            <unjar src="${source.lib.dir}/commons-codec-1.3.jar" dest="${httpapplet.build.dir}" />
-
-	            <unjar src="${source.lib.dir}/commons-logging.jar" dest="${httpapplet.build.dir}" />
-
-	            <unjar src="${source.lib.dir}/commons-httpclient-2.0.2.jar" dest="${httpapplet.build.dir}" />
-
-	            
-
-	        <jar jarfile="${httpapplet.build.dir}/httpUploadApplet.jar" 
-
-	             excludes="**/MANIFEST.MF, *.jar" 
-
-	             basedir="${httpapplet.build.dir}">
-
-	            <fileset dir="${httpapplet.build.dir}/org">
-
-	                <include name="*.class" /> 
-
-	            </fileset>
-
-	            <fileset dir="${build.classes.dir}" 
-
-	                     excludes="**/MANIFEST.MF, *.jar" 
-
-	                     includes="**/util/GeneralException.class, **/util/httpfileuploadapplet/*.class" /> 
-
-	        </jar>
-
-	 
-
-	          <!--  sign the jar --> 
-
-	          <signjar jar="${httpapplet.build.dir}/httpUploadApplet.jar" 
-
-	                 alias="caarray_20040706" 
-
-	                 keypass="An1NpO0bdRq" 
-
-	                 storepass="Pd2D7AF3sm0" 
-
-	                 keystore="${conf.dir}/applet/NCICB.keystore" 
-
-	                 signedjar="${httpapplet.build.dir}/SignedHttpUploadApplet.jar" /> 
-
-	          <copy todir="${web.dir}/experiment" overwrite="yes" verbose="true">
-
-	              <fileset dir="${httpapplet.build.dir}">
-
-	                  <include name="SignedHttpUploadApplet.jar"/>
-
-	              </fileset>
-
-	          </copy>
-
-	      </target>
 
 
 </project>
