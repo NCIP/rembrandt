@@ -1,24 +1,27 @@
-package gov.nih.nci.rembrandt.queryservice.queryprocessing;
+package gov.nih.nci.rembrandt.util;
 
-import gov.nih.nci.rembrandt.dto.query.Query;
-import gov.nih.nci.rembrandt.queryservice.QueryHandlerInterface;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
-import gov.nih.nci.rembrandt.util.ApplicationContext;
-import gov.nih.nci.rembrandt.util.DEBeanAttrMapping;
-import gov.nih.nci.rembrandt.util.WGIContext;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.DescriptorRepository;
-import org.apache.ojb.broker.metadata.FieldDescriptor;
+import org.apache.ojb.broker.PBKey;
+import org.apache.ojb.broker.metadata.ConnectionRepository;
+import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
+import org.apache.ojb.broker.metadata.MetadataManager;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
-
-
+import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 /**
+ * @todo comment this!
  * @author BhattarR, BauerD
+ *
  */
 
 
@@ -79,74 +82,91 @@ import org.apache.ojb.broker.metadata.FieldDescriptor;
 * 
 */
 
-abstract public class QueryHandler implements QueryHandlerInterface {
+public class WGIContext{
+	static public final String GOV_NIH_NCI_WGI_PROPERTIES = "gov.nih.nci.wgi.properties";
+	private static Map mappings = new HashMap();
+	private static Logger logger = Logger.getLogger(WGIContext.class);
+    private static Document doc =null;
+   /**
+    * COMMENT THIS
+    * @return
+    */
 
-    private static Logger logger = Logger.getLogger(QueryHandler.class);
-    private static Map deBeanMappings = null;
-        
-    public abstract ResultSet[] handle(Query query) throws Exception;
-   
-    final static DEBeanAttrMapping getBeanAttrMappingFor(String deClassName) throws Exception {
-        return getBeanAttrMappingFor(deClassName, null);
+    public static Map getDEtoBeanAttributeMappings() {
+    	return mappings;
     }
-    
-    final static DEBeanAttrMapping getBeanAttrMappingFor(String deClassName, String inBeanName) throws Exception {
-        ArrayList valueObjects = (ArrayList) deBeanMappings.get(deClassName);
-        DEBeanAttrMapping value = null;
+    @SuppressWarnings("unused")
+	public static void init() {
+         try {
+	          logger.debug("Loading Bean to Attribute Mappings");
+	          InputStream inStream = QueryHandler.class.getResourceAsStream(RembrandtConstants.DE_BEAN_FILE_NAME);
+	          assert true:inStream != null;
+	          DOMParser p = new DOMParser();
+	          p.parse(new InputSource(inStream));
+	          doc = p.getDocument();
+	          assert(doc != null);
+	          logger.debug("Begining DomainElement to Bean Mapping");
+	          mappings = new DEBeanMappingsHandler().populate(doc);
+	          logger.debug("DomainElement to Bean Mapping is completed");
+	          QueryHandler.init();
+	      } catch(Throwable t) {
+	         logger.error(new IllegalStateException("Error parsing deToBeanAttrMappings.xml file: Exception: " + t));
+	      }
+        try {
+		  //Get the application properties from the properties file
+		  String propertiesFileName = System.getProperty(GOV_NIH_NCI_WGI_PROPERTIES);
+		
+		  //Load the the application properties and set them as system properties
+		  Properties wgiProperties = new Properties();
+		  
+		  
+		  logger.info("Attempting to load application system properties from file: " + propertiesFileName);
+		   
+		  FileInputStream in = new FileInputStream(propertiesFileName);
 
-        if (valueObjects == null)
-           throw new Exception("DEBeanAttrMapping  could not be found for: " + deClassName);
+		   
+		  if (propertiesFileName == null || in == null ) {
+			 Throwable exception = new IllegalStateException("Error: no properties found when loading property: "+ GOV_NIH_NCI_WGI_PROPERTIES);
+		     logger.fatal(exception);
+		     throw exception;
+		  }
+		  wgiProperties.load(in);  		   
+		  String key = null;
+		  String val = null;
+		  for (Iterator i = wgiProperties.keySet().iterator(); i.hasNext(); ) {
+			  key = (String) i.next();
+			  val = wgiProperties.getProperty(key);
+		      System.setProperty(key, val);
+		  }
 
-        if (inBeanName != null)
-            for (int i = 0; i < valueObjects.size(); i++) {
-                value = (DEBeanAttrMapping) valueObjects.get(i);
-                if (value.getMappedBean().equals(inBeanName)) return value;
-            }
-        else
-            value = (DEBeanAttrMapping) valueObjects.get(0);
+		  //Initialize db
+		  // PersistenceBrokerFactoryIF pbf = PersistenceBrokerFactoryFactory.instance();
+		  String dbalias = System.getProperty("gov.nih.nci.wgi.dbalias");
+		  String username = System.getProperty("gov.nih.nci.wgi.db.username");
+		  String password = System.getProperty("gov.nih.nci.wgi.db.password");
+		  String jcdalias = System.getProperty("gov.nih.nci.wgi.jcd_alias");
+		  
+		  if (jcdalias != null && jcdalias.length() > 0){
+			  MetadataManager mm = MetadataManager.getInstance();
+			  ConnectionRepository connectionRepository = mm.connectionRepository();
+			  PBKey pbKey = connectionRepository.getStandardPBKeyForJcdAlias(jcdalias);
+			  JdbcConnectionDescriptor jdbcConnectionDescriptor = connectionRepository
+	                .getDescriptor(pbKey);
+		  
+			  if (dbalias != null && dbalias.length() > 0)
+				  jdbcConnectionDescriptor.setDbAlias(dbalias);
+			  if (username != null && username.length() > 0)
+				  jdbcConnectionDescriptor.setUserName(username);
+			  if (password != null && password.length() > 0)
+				  jdbcConnectionDescriptor.setPassWord(password);
+		  }
+		  //end of initialize
+  
+		} catch(Throwable t) {
+			logger.error(new IllegalStateException("Error getting initializing WGIContext" ));
+			logger.error(t.getMessage());
+			logger.error(t);
+		}
 
-        if (value != null) return value;
-        else throw new Exception("DEBeanAttrMapping  could not be found for: " + deClassName + "within " + inBeanName);
     }
-
-    public static String getColumnName(PersistenceBroker pb, String deClassName) throws Exception {
-        DescriptorRepository dr = pb.getDescriptorRepository();
-        DEBeanAttrMapping mappingObj = getBeanAttrMappingFor(deClassName);
-        String beanName = mappingObj.getMappedBean();
-        String beanAttrName = mappingObj.getMappedBeanAttribute();
-        ClassDescriptor cd = dr.getDescriptorFor( beanName );
-        FieldDescriptor fd = cd.getFieldDescriptorByName(beanAttrName);
-        return fd.getColumnName();
-    }
-    
-    public static String getAttrNameForTheDE(String deClassName, String inBeanName) throws Exception{
-        DEBeanAttrMapping  mappingsObj = getBeanAttrMappingFor(deClassName, inBeanName);
-        return mappingsObj.getMappedBeanAttribute();
-    }
-    
-    public static String getColumnName(PersistenceBroker pb, String deClassName, String inBeanName) throws Exception {
-        DescriptorRepository dr = pb.getDescriptorRepository();
-        DEBeanAttrMapping mappingObj = getBeanAttrMappingFor(deClassName, inBeanName);
-        String beanName = mappingObj.getMappedBean();
-        String beanAttrName = mappingObj.getMappedBeanAttribute();
-        ClassDescriptor cd = dr.getDescriptorFor( beanName );
-        FieldDescriptor fd = cd.getFieldDescriptorByName(beanAttrName);
-        return fd.getColumnName();
-    }
-     // used in report queries for columnNames attrributes
-    public static String getColumnNameForBean(PersistenceBroker pb, String beanClassName, String attrName) throws Exception {
-        DescriptorRepository dr = pb.getDescriptorRepository();
-        ClassDescriptor cd = dr.getDescriptorFor( beanClassName );
-        FieldDescriptor fd = cd.getFieldDescriptorByName(attrName);
-        return fd.getColumnName();
-    }
-    
-    public static void init() {
-    	deBeanMappings= ApplicationContext.getDEtoBeanAttributeMappings();
-    	if (deBeanMappings != null && deBeanMappings.isEmpty()){  //Poor coupling between Rembrandt and WGI
-    		deBeanMappings = WGIContext.getDEtoBeanAttributeMappings();
-    	}
-    }
-
-    
 }
