@@ -203,7 +203,9 @@
 				 <exclude name="web.xml"/>
 			</zipfileset>			
 		    <lib dir="${anthill.dependency.artifacts.dir}">
-		  	   <include name="*.jar"/>
+		  	   <include name="caintegrator-analysis-commons.jar"/>
+		       <include name="caintegrator-application-commons.jar"/>
+		       <include name="caintegrator-spec.jar"/>
 		    </lib>
 		    <lib dir="${source.lib.dir}">
 		  	   <include name="*.jar"/>
