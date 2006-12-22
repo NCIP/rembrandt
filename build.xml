@@ -68,8 +68,7 @@
 		<copy file="src/ehcache.xml.templates" tofile="conf/rembrandt_ehcache.xml"/>
 		<replaceregexp file="conf/rembrandt_ehcache.xml" match="@echache_path@" replace="/local/content/rembrandt/cache" flags="g"/>
 		<copy file="src/ehcache.xml.templates" tofile="src/ehcache.xml"/>
-		<replaceregexp file="src/ehcache.xml" match="@echache_path@" replace="java.io.tmpdir" flags="g"/>
-
+		<replaceregexp file="src/ehcache.xml" match="@echache_path@" replace="${jboss.install.dir}server/${jboss.server.name}/tmp/${app.war.name}" flags="g"/>
 	</target>
 	<!--
 			TARGET: config_common_security_module
