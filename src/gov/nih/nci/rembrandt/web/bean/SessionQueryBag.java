@@ -115,13 +115,13 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	private Map<String, Queriable> compoundQueryMap = new TreeMap<String, Queriable>();
 	
 	public void putQuery(Query query, ActionForm form) {
-		if (query != null && query.getQueryName() != null) {
+		if (query != null && query.getQueryName() != null  && queryMap != null && formBeanMap != null) {
 			queryMap.put(query.getQueryName(), query);
 			formBeanMap.put(query.getQueryName(), form);
 		}
 	}
     public void putQueryDTO(QueryDTO queryDTO, ActionForm form) {
-        if (queryDTO != null && queryDTO.getQueryName() != null) {
+        if (queryDTO != null && queryDTO.getQueryName() != null && queryMap != null && formBeanMap != null) {
             queryDTOMap.put(queryDTO.getQueryName(), queryDTO);
             formBeanMap.put(queryDTO.getQueryName(), form);
         }
@@ -168,11 +168,12 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	}
 	
 	public void putCompoundQuery(Queriable queriable) {
+		if(queriable != null && queriable.getQueryName() != null && compoundQueryMap != null)
 		compoundQueryMap.put(queriable.getQueryName(), queriable);
 	}
 
 	public void removeCompoundQuery(String queryName) {
-		if (queryName != null) {
+		if (queryName != null && compoundQueryMap != null) {
 			compoundQueryMap.remove(queryName);
 		}
 	}
@@ -184,7 +185,7 @@ public class SessionQueryBag implements Serializable,Cloneable {
         return compoundQueryMap.values();
     }
     public QueryDTO getQueryDTO(String queryName) {
-        if (queryName != null) {
+        if (queryName != null && queryDTOMap != null) {
             return (QueryDTO) queryDTOMap.get(queryName);
         }
         return null;
