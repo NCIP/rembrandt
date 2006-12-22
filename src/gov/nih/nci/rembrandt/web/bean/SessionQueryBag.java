@@ -1,18 +1,10 @@
 package gov.nih.nci.rembrandt.web.bean;
-import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
-import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
@@ -118,12 +110,17 @@ public class SessionQueryBag implements Serializable,Cloneable {
 		if (query != null && query.getQueryName() != null  && queryMap != null && formBeanMap != null) {
 			queryMap.put(query.getQueryName(), query);
 			formBeanMap.put(query.getQueryName(), form);
+		}else{
+			logger.debug("Null pointer encountered in putQuery");
 		}
 	}
     public void putQueryDTO(QueryDTO queryDTO, ActionForm form) {
         if (queryDTO != null && queryDTO.getQueryName() != null && queryMap != null && formBeanMap != null) {
             queryDTOMap.put(queryDTO.getQueryName(), queryDTO);
             formBeanMap.put(queryDTO.getQueryName(), form);
+        }
+        else{
+        	logger.debug("Null pointer encountered in putQueryDTO");
         }
     }
 
@@ -147,10 +144,12 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	}
 
 	public void removeQuery(String queryName) {
-		if (queryName != null) {
+		if (queryName != null  && queryMap!= null  && formBeanMap != null) {
 			queryMap.remove(queryName);
 			formBeanMap.remove(queryName);
-		}
+		}else{
+        	logger.debug("Null pointer encountered in removeQuery");
+        }
 	}
 
 	public Query getQuery(String queryName) {
@@ -168,14 +167,19 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	}
 	
 	public void putCompoundQuery(Queriable queriable) {
-		if(queriable != null && queriable.getQueryName() != null && compoundQueryMap != null)
-		compoundQueryMap.put(queriable.getQueryName(), queriable);
+		if(queriable != null && queriable.getQueryName() != null && compoundQueryMap != null){
+			compoundQueryMap.put(queriable.getQueryName(), queriable);
+		}else{
+        	logger.debug("Null pointer encountered in putCompountQuery");
+        }
 	}
 
 	public void removeCompoundQuery(String queryName) {
 		if (queryName != null && compoundQueryMap != null) {
 			compoundQueryMap.remove(queryName);
-		}
+		}else{
+        	logger.debug("Null pointer encountered in removeCompoundQuery");
+        }
 	}
 
 	public Collection getCompoundQueryNames() {
@@ -187,6 +191,8 @@ public class SessionQueryBag implements Serializable,Cloneable {
     public QueryDTO getQueryDTO(String queryName) {
         if (queryName != null && queryDTOMap != null) {
             return (QueryDTO) queryDTOMap.get(queryName);
+        }else{
+        	logger.debug("Null pointer encountered in getQueryDTO");
         }
         return null;
     }
