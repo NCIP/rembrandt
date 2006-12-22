@@ -11,6 +11,7 @@ import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -107,7 +108,15 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	private Map<String, Queriable> compoundQueryMap = new TreeMap<String, Queriable>();
 	
 	public void putQuery(Query query, ActionForm form) {
-		if (query != null && query.getQueryName() != null  && queryMap != null && formBeanMap != null) {
+		if(queryMap == null){
+    		queryMap = new TreeMap<String, Query>();   
+    		logger.debug("queryMap was null");
+    	}
+    	if(formBeanMap != null){
+    		formBeanMap = new HashMap<String,ActionForm>();
+    		logger.debug("formBeanMap was null");
+    	}
+		if (query != null && query.getQueryName() != null) {
 			queryMap.put(query.getQueryName(), query);
 			formBeanMap.put(query.getQueryName(), form);
 		}else{
@@ -115,7 +124,15 @@ public class SessionQueryBag implements Serializable,Cloneable {
 		}
 	}
     public void putQueryDTO(QueryDTO queryDTO, ActionForm form) {
-        if (queryDTO != null && queryDTO.getQueryName() != null && queryMap != null && formBeanMap != null) {
+    	if(queryDTOMap == null){
+    		queryDTOMap = new TreeMap<String, QueryDTO>();   
+    		logger.debug("queryDTOMap was null");
+    	}
+    	if(formBeanMap != null){
+    		formBeanMap = new HashMap<String,ActionForm>();
+    		logger.debug("formBeanMap was null");
+    	}
+        if (queryDTO != null && queryDTO.getQueryName() != null) {
             queryDTOMap.put(queryDTO.getQueryName(), queryDTO);
             formBeanMap.put(queryDTO.getQueryName(), form);
         }
@@ -132,11 +149,17 @@ public class SessionQueryBag implements Serializable,Cloneable {
 		return queryMap.keySet();
 	}
     public Collection getQueryDTOs() {
-        return queryDTOMap.values();
+    	if(queryDTOMap != null){
+    		return queryDTOMap.values();
+    	}
+    	return Collections.EMPTY_LIST;
     }
 
     public Collection getQueryDTONames() {
-        return queryDTOMap.keySet();
+    	if(queryDTOMap != null){
+    		return queryDTOMap.keySet();
+    	}
+    	return Collections.EMPTY_LIST;
     }
 	
 	public void putQuery(Query query) {
@@ -167,7 +190,11 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	}
 	
 	public void putCompoundQuery(Queriable queriable) {
-		if(queriable != null && queriable.getQueryName() != null && compoundQueryMap != null){
+		if(compoundQueryMap == null){
+			compoundQueryMap = new TreeMap<String, Queriable>();
+    		logger.debug("compoundQueryMap was null");
+    	}		
+		if(queriable != null && queriable.getQueryName() != null){
 			compoundQueryMap.put(queriable.getQueryName(), queriable);
 		}else{
         	logger.debug("Null pointer encountered in putCompountQuery");
