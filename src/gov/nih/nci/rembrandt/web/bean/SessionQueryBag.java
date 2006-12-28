@@ -112,7 +112,7 @@ public class SessionQueryBag implements Serializable,Cloneable {
     		queryMap = new TreeMap<String, Query>();   
     		logger.debug("queryMap was null");
     	}
-    	if(formBeanMap != null){
+    	if(formBeanMap == null){
     		formBeanMap = new HashMap<String,ActionForm>();
     		logger.debug("formBeanMap was null");
     	}
@@ -128,7 +128,7 @@ public class SessionQueryBag implements Serializable,Cloneable {
     		queryDTOMap = new TreeMap<String, QueryDTO>();   
     		logger.debug("queryDTOMap was null");
     	}
-    	if(formBeanMap != null){
+    	if(formBeanMap == null){
     		formBeanMap = new HashMap<String,ActionForm>();
     		logger.debug("formBeanMap was null");
     	}
