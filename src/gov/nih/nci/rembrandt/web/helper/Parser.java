@@ -75,7 +75,7 @@ import org.apache.log4j.Logger;
 
 public class Parser {
     
-    private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(Parser.class);
     private Vector allTokens = null;
     private int currentIndex = 0;
     

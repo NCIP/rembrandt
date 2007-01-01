@@ -83,8 +83,6 @@ public final class RembrandtConstants {
 
 	public static final String ASTRO = "ASTROCYTOMA";
 
-	public static final String LOGGER = "gov.nih.nci.nautilus";
-
 	public static final String JSP_LOGGER = "gov.nih.nci.nautilus.jsp";
 
 	public static final int MAX_FILEFORM_COUNT = 40000;

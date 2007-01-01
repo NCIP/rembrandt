@@ -88,7 +88,7 @@ import java.util.Iterator;
 
 public final class LogoutAction extends Action
 {
-    private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(LogoutAction.class);
     private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
     public ActionForward execute(ActionMapping mapping, ActionForm form,
     								HttpServletRequest request, HttpServletResponse response)

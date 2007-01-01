@@ -87,7 +87,7 @@ import org.apache.struts.action.ActionMapping;
 
 public final class LoginAction extends Action
 {
-    private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
+    private static Logger logger = Logger.getLogger(LoginAction.class);
     private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)

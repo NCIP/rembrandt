@@ -381,7 +381,7 @@ public class SessionQueryBag implements Serializable,Cloneable {
     				ComparativeGenomicForm cgf = (ComparativeGenomicForm)it;
     				itClone = cgf.cloneMe();
     			}else {
-    				logger.error("Unsupported FormType to clone");
+    				logger.warn(it.getClass().toString() + " is unsupported FormType to clone");
     			}
     			clonedformBeanMap.put((String)elementKey,itClone);
     		}
