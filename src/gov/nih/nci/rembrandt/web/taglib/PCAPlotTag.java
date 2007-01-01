@@ -138,7 +138,7 @@ public class PCAPlotTag extends AbstractGraphingTag {
             PrincipalComponentAnalysisFinding principalComponentAnalysisFinding = (PrincipalComponentAnalysisFinding)businessTierCache.getSessionFinding(session.getId(),taskId);
             
             Collection<ClinicalFactorType> clinicalFactors = new ArrayList<ClinicalFactorType>();
-            List<String> sampleIds = new ArrayList();
+            List<String> sampleIds = new ArrayList<String>();
             Map<String,PCAresultEntry> pcaResultMap = new HashMap<String, PCAresultEntry>();
             
             pcaResults = principalComponentAnalysisFinding.getResultEntries();
