@@ -68,6 +68,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
 */
 
 public class SampleFoldChangeValuesResultset extends BioSpecimenResultset implements FoldChange{
+	private static final long serialVersionUID = 1L;
 	private DatumDE foldChangeRatioValue = null;
 	private DatumDE foldChangeIntensity = null;
 	private DatumDE foldChangeNonTumorIntensity = null;

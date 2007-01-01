@@ -7,6 +7,7 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,9 +77,9 @@ import java.util.TreeMap;
 * 
 */
 
-public class GeneResultset {
-
-	  private GeneIdentifierDE.GeneSymbol geneSymbol = null;
+public class GeneResultset implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private GeneIdentifierDE.GeneSymbol geneSymbol = null;
 	  private boolean isAnonymousGene = false;
 	  //private DataSetDE. dataset;
 	  private SortedMap reporters = new TreeMap();

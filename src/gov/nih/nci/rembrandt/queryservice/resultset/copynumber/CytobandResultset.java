@@ -9,6 +9,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -80,8 +81,9 @@ import java.util.TreeMap;
 * 
 */
 
-public class CytobandResultset {
-	  private CytobandDE cytoband = null;
+public class CytobandResultset implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private CytobandDE cytoband = null;
 	  private boolean isAnonymousCytoband = false;
 	  private SortedMap reporters = new TreeMap();
 	  private SortedMap reporterNameToPositionMap = new TreeMap();	

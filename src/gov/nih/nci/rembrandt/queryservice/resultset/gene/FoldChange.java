@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
+import java.io.Serializable;
+
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 
 /**
@@ -66,7 +68,7 @@ import gov.nih.nci.caintegrator.dto.de.DatumDE;
 * 
 */
 
-public interface FoldChange {
+public interface FoldChange extends Serializable{
 	/**
 	 * @return Returns the foldChangeNonTumorIntensity.
 	 */

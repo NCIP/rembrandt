@@ -5,6 +5,7 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.sample;
+import java.io.Serializable;
 import java.sql.Date;
 
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
@@ -81,7 +82,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 */
 
 
-public abstract class  BioSpecimenResultset {
+public abstract class  BioSpecimenResultset implements Serializable{
 	private BioSpecimenIdentifierDE biospecimen = null;
 	private Long age = null;
 	private SampleIDDE sampleIDDE = null;

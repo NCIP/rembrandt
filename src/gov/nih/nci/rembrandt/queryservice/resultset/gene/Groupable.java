@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
+import java.io.Serializable;
+
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 
 /**
@@ -66,7 +68,7 @@ import gov.nih.nci.caintegrator.dto.de.DomainElement;
 * 
 */
 
-public interface Groupable {
+public interface Groupable extends Serializable{
 
 	/**
 	 * @return

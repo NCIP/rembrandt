@@ -8,6 +8,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -75,7 +76,8 @@ import java.util.TreeMap;
 * 
 */
 
-public class ReporterResultset {
+public class ReporterResultset implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private DatumDE reporter = null;
     private DatumDE value = null;
     private BasePairPositionDE.StartPosition startPhysicalLocation = null;

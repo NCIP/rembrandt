@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot;
 
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -70,7 +71,8 @@ import java.util.TreeMap;
 * 
 */
 
-public class DiseaseGeneExprPlotResultset {
+public class DiseaseGeneExprPlotResultset implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private DiseaseNameDE type = null;
 	private SortedMap reporters = new TreeMap();
 	/**
