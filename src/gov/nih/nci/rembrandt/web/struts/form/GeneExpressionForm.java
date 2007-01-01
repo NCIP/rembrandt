@@ -20,28 +20,21 @@ import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
 import gov.nih.nci.caintegrator.dto.de.PathwayDE;
-import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
 
@@ -103,8 +96,9 @@ import org.apache.struts.util.LabelValueBean;
 * 
 */
 
-public class GeneExpressionForm extends BaseForm implements Serializable {
-
+public class GeneExpressionForm extends BaseForm implements Serializable, Cloneable {
+	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(GeneExpressionForm.class);
 	// --------------------------------------------------------- Instance
 	// Variables
 	/** selected chromosomes cytobands **/
@@ -253,7 +247,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable {
 	private boolean isAllGenes = false;
     protected transient HttpServletRequest thisRequest; 
 
-	private static Logger logger = Logger.getLogger(RembrandtConstants.LOGGER);
 
 	// --------------------------------------------------------- Methods
 	public GeneExpressionForm() {

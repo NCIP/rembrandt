@@ -103,8 +103,10 @@ import org.apache.struts.util.LabelValueBean;
 * 
 */
 
-public class ComparativeGenomicForm extends BaseForm implements Serializable{
-    private static Logger logger = Logger
+public class ComparativeGenomicForm extends BaseForm implements Serializable, Cloneable{
+	private static final long serialVersionUID = 1L;
+
+	private static Logger logger = Logger
             .getLogger(ComparativeGenomicForm.class);
 
      /** selected chromosomes cytobands **/

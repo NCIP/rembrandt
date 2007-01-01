@@ -120,9 +120,11 @@ import org.apache.struts.util.LabelValueBean;
 * 
 */
 
-public class ClinicalDataForm extends BaseForm implements Serializable{
+public class ClinicalDataForm extends BaseForm implements Serializable, Cloneable{
 
-    private static Logger logger = Logger.getLogger(ClinicalDataForm.class);
+	private static final long serialVersionUID = 1L;
+
+	private static Logger logger = Logger.getLogger(ClinicalDataForm.class);
 
     /** queryName property */
     private String queryName;
