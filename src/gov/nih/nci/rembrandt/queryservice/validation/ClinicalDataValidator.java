@@ -112,7 +112,7 @@ public class ClinicalDataValidator {
 	 */
 	public static Collection<SampleResultset> getValidatedSampleResultsets(Collection<SampleIDDE> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
 		Collection<SampleResultset> validSampleResultsets = new ArrayList<SampleResultset>();
-		if(sampleList != null && sampleList.size() > 0){
+		if(sampleList != null && sampleList.size() > 0  && clinicalFactors != null){
 			//Create a map of sample collections for each ClinicalFactorType that were passed
 			Map<ClinicalFactorType, Collection<SampleIDDE>> clinicalFactorMap = new HashMap<ClinicalFactorType,Collection<SampleIDDE>>();
 			//execute Clinical Query
@@ -120,8 +120,8 @@ public class ClinicalDataValidator {
 			for(ClinicalFactorType clinicalFactor: clinicalFactors){
 				//samples associated with each clinical factor are stored in a seperate collection
 				Collection<SampleIDDE> samples = new HashSet<SampleIDDE>();
-				for(SampleResultset sampleResultset: sampleResultsets) {
-					if(sampleResultset != null){							
+				if(sampleResultsets != null){	
+					for(SampleResultset sampleResultset: sampleResultsets) {	
 						switch(clinicalFactor){
 							case AgeAtDx:
 								if( sampleResultset.getAge()!= null &&  sampleResultset.getAge() != null){
@@ -159,8 +159,8 @@ public class ClinicalDataValidator {
 								}
 								break;
 						}//switch
-					}//if
-				}//for loop
+					}//for loop
+				}//if
 				clinicalFactorMap.put(clinicalFactor,samples);
 			}//for loop
 			sampleList = getValidSampleSet(sampleList,clinicalFactorMap);
