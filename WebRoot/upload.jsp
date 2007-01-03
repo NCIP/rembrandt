@@ -12,7 +12,7 @@
 	org.apache.commons.fileupload.FileItem,
 	java.io.File,
 	java.util.Map,
-	java.util.HashMap,
+	java.util.*,
 	java.util.Iterator,
 	java.util.List,
 	java.util.ArrayList,
@@ -65,29 +65,48 @@
         }
 
 			List myUndefinedList = listGenerator.generateList(formFile);
-             
+            
+            //no duplicates
+			HashSet h = new HashSet();
+			for (int i = 0; i < myUndefinedList.size(); i++)
+				h.add(((String)myUndefinedList.get(i)).trim());
+			List cleanList = new ArrayList();			
+			cleanList.addAll(h);
+			myUndefinedList.clear();
+			myUndefinedList = cleanList;
+		
             ListManager uploadManager = (ListManager) ListManager.getInstance();
           	UserList myList = new UserList();
             UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
             
             String[] tps = CommonListFunctions.parseListType(type);
+            String res = "fail";
+            ArrayList lst = new ArrayList();
+            
     		RembrandtListValidator listValidator = new RembrandtListValidator();
             if(tps.length > 1)	{
             	//primary and sub
+            	lst = new ArrayList();
+				lst.add(ListSubType.valueOf(tps[1]));
 	            listValidator = new RembrandtListValidator(ListSubType.valueOf(tps[1]), ListType.valueOf(tps[0]), myUndefinedList); //st, t, l
 	        }
 	        else if(tps.length == 1)	{
 	        	//just a primary type, no sub
-	       		listValidator = new RembrandtListValidator(ListType.valueOf(tps[0]), myUndefinedList); // t, l
+	       		listValidator = new RembrandtListValidator(ListSubType.Custom, ListType.valueOf(tps[0]), myUndefinedList); // t, l
+	        }
+	        else	{
+	        	listValidator = new RembrandtListValidator(ListType.PatientDID, myUndefinedList);
 	        }
             
             try	{
-	            myList = uploadManager.createList(ListType.valueOf(tps[0]), name, myUndefinedList, listValidator);
+            	res = CommonListFunctions.createGenericListWithSession(ListType.valueOf(tps[0]), lst, myUndefinedList, name, listValidator, session);
+	           // myList = uploadManager.createList(ListType.valueOf(tps[0]), name, myUndefinedList, listValidator);
     		}
     		catch(Exception e)	{
     			//myList = null;
+    			System.out.println("upload failed");
     		}        
-	        
+	        /*
             if (myList != null) {
             	ArrayList subs = new ArrayList();
             	
@@ -99,7 +118,7 @@
                 //paramMap = uploadManager.getParams(myList);
                 helper.addList(myList);
             }
-
+*/
 			
             %>
 		<script type="text/javascript">
