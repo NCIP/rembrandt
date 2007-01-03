@@ -68,8 +68,10 @@
             
             //no duplicates
 			HashSet h = new HashSet();
-			for (int i = 0; i < myUndefinedList.size(); i++)
-				h.add(((String)myUndefinedList.get(i)).trim());
+			for (int i = 0; i < myUndefinedList.size(); i++)	{
+				if(myUndefinedList.get(i)!=null && !myUndefinedList.get(i).equals(""))
+					h.add(((String)myUndefinedList.get(i)).trim());
+			}
 			List cleanList = new ArrayList();			
 			cleanList.addAll(h);
 			myUndefinedList.clear();
@@ -84,29 +86,49 @@
             ArrayList lst = new ArrayList();
             
     		RembrandtListValidator listValidator = new RembrandtListValidator();
-            if(tps.length > 1)	{
-            	//primary and sub
-            	lst = new ArrayList();
-				lst.add(ListSubType.valueOf(tps[1]));
-	            listValidator = new RembrandtListValidator(ListSubType.valueOf(tps[1]), ListType.valueOf(tps[0]), myUndefinedList); //st, t, l
-	        }
-	        else if(tps.length == 1)	{
-	        	//just a primary type, no sub
-	       		listValidator = new RembrandtListValidator(ListSubType.Custom, ListType.valueOf(tps[0]), myUndefinedList); // t, l
-	        }
-	        else	{
-	        	listValidator = new RembrandtListValidator(ListType.PatientDID, myUndefinedList);
-	        }
+    		 try	{
+    		 /*
+	            if(tps.length > 1 && tps[1] != null){
+	            	//primary and sub
+	            	lst = new ArrayList();
+					lst.add((ListSubType) ListSubType.valueOf(tps[1]));
+		            listValidator = new RembrandtListValidator(ListSubType.valueOf(tps[1]), ListType.valueOf(tps[0]), myUndefinedList); //st, t, l
+		        }
+		      	else if(tps.length >0 && tps[0] != null)	{
+		        	//just a primary type, no sub
+		       		listValidator = new RembrandtListValidator(ListSubType.Custom, ListType.valueOf(tps[0]), myUndefinedList); // t, l
+		        }
+		        else	{
+		        	listValidator = new RembrandtListValidator(ListType.PatientDID, myUndefinedList);
+		        }
             
-            try	{
             	res = CommonListFunctions.createGenericListWithSession(ListType.valueOf(tps[0]), lst, myUndefinedList, name, listValidator, session);
 	           // myList = uploadManager.createList(ListType.valueOf(tps[0]), name, myUndefinedList, listValidator);
+	         */
+
+			ListType lt = ListType.valueOf(tps[0]);
+			if(tps.length > 1 && tps[1] != null){
+				//create a list out of [1]
+				lst = new ArrayList();
+				lst.add(ListSubType.valueOf(tps[1]));
+				res =  CommonListFunctions.createGenericListWithSession(lt, lst, myUndefinedList, name, new RembrandtListValidator(ListSubType.valueOf(tps[1]), ListType.valueOf(tps[0]), myUndefinedList), session);
+			}
+			else if(tps.length >0 && tps[0] != null)	{
+				//no subtype, only a primary type - typically a PatientDID then
+				res = CommonListFunctions.createGenericListWithSession(lt, lst, myUndefinedList, name, new RembrandtListValidator(ListSubType.Custom, ListType.valueOf(tps[0]), myUndefinedList), session);
+			}
+			else	{
+				//no type or subtype, not good, force to clinical in catch
+				throw new Exception();
+			}
+		
     		}
     		catch(Exception e)	{
     			//myList = null;
     			System.out.println("upload failed");
+    			System.out.println(e);
     		}        
-	        /*
+/*
             if (myList != null) {
             	ArrayList subs = new ArrayList();
             	
