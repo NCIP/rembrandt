@@ -416,5 +416,22 @@ public class DynamicReportGenerator {
 		String aurl = System.getProperty("rembrandt.annotations.links."+kt)!=null ? ((String)System.getProperty("rembrandt.annotations.links."+kt)+k ): "";
 		return aurl;
 	}
+	
+	public String checkWGThresh(String samples)	{
+		//is this # of samples over the thresh?
+		String t = System.getProperty("rembrandt.wg.thresh")!=null ? ((String)System.getProperty("rembrandt.wg.thresh")): null;
+		if(t==null)	{
+			return "";
+		}
+		int i = Integer.parseInt(t);
+		int s = Integer.parseInt(samples);
+		if(s>=i){
+			String msg = System.getProperty("rembrandt.wg.thresh.message")!=null ? ((String)System.getProperty("rembrandt.wg.thresh.message")): "";
+			return msg;
+		}
+		else	{
+			return "";
+		}
+	}
 
 }
