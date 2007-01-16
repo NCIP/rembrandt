@@ -254,7 +254,17 @@ function spawnAnnot_cb(txt)	{
 	catch(err){}
 }
 
+function checkWGThresh(samples, did)	{
+	try	{
+		DynamicReport.checkWGThresh(samples, checkWGThresh_cb);
+	}
+	catch(er)	{}	
+}
 
+function checkWGThresh_cb(txt)	{
+	if(txt!='' && $('wgThresh'))
+		$('wgThresh').innerHTML = "<br/><b class='msg'>Note: " + txt + "</b>";
+}
 
 function spawn(url,winw,winh) {
    w = window.open(url, "_blank",

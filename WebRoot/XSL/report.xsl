@@ -209,10 +209,14 @@
 	  </form>
 	  </div>
 	  <!-- Added for WebGenome Testing -->
-	  <div class="filterForm">
-	  <form action="null" method="post" name="reportGeneratorForm">
-	    <b><span>WebGenome:</span></b> <button type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')">View Plots (in WebGenome)</button>
+	  <div class="filterForm" style="height:auto">
+	  <form action="null" method="post" name="reportGeneratorForm" style="padding:0px; margin:0px;">
+	    <b><span>WebGenome:</span></b> <input type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')" value="View Plots (in WebGenome)" />
+	    <span id="wgThresh"></span>
       </form>
+      
+      <script type="text/javascript">var totalSamples = '<xsl:value-of select="count(Row[@name='sampleRow']/Cell[@class != 'csv' and @class != 'header'])" />';</script>
+	  <script type="text/javascript">checkWGThresh(totalSamples, wgThresh);</script>
 	   </div>
 	  </xsl:if>	  
 	  
