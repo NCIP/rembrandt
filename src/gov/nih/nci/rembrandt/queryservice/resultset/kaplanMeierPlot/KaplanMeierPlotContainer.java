@@ -140,7 +140,9 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 		//This will help us get the plot for the rest of the samples
 		Set<SampleIDDE> restofSampleSet = new HashSet<SampleIDDE>();
 		restofSampleSet.addAll(sampleIds);
-		restofSampleSet.removeAll(excludeSampleIds);
+		if(excludeSampleIds!=null)	{
+			restofSampleSet.removeAll(excludeSampleIds);
+		}
 		
         //Clear the Previous collection
 	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
