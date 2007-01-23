@@ -1,26 +1,36 @@
 package gov.nih.nci.rembrandt.web.helper;
 
-import gov.nih.nci.rembrandt.web.bean.ReportBean;
-import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
-import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.StartEndPosition;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.ChrRegionCriteriaHandler;
-import gov.nih.nci.rembrandt.util.RembrandtConstants;
-import gov.nih.nci.rembrandt.util.PropertyLoader;
+import gov.nih.nci.caIntegrator.services.appState.ApplicationStateTracker;
+import gov.nih.nci.caIntegrator.services.appState.ApplicationStateTrackerHome;
+import gov.nih.nci.caIntegrator.services.appState.dto.RBTReportStateDTO;
+import gov.nih.nci.caIntegrator.services.appState.ejb.RBTApplicationStateTrackerHome;
+import gov.nih.nci.caIntegrator.services.util.ServiceLocator;
+import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
-import gov.nih.nci.caIntegrator.services.appState.dto.RBTReportStateDTO;
-import gov.nih.nci.caIntegrator.services.appState.ejb.RBTApplicationStateTracker;
-import gov.nih.nci.caIntegrator.services.appState.ejb.RBTApplicationStateTrackerHome;
-import gov.nih.nci.caIntegrator.services.appState.ApplicationStateTrackerHome;
-import gov.nih.nci.caIntegrator.services.appState.ApplicationStateTracker;
-import gov.nih.nci.caIntegrator.services.util.ServiceLocator;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.ChrRegionCriteriaHandler;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.StartEndPosition;
+import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
+import gov.nih.nci.rembrandt.web.bean.ReportBean;
 
-import java.util.*;
 import java.rmi.NoSuchObjectException;
+import java.rmi.RemoteException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.ejb.CreateException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBroker;
@@ -191,15 +201,19 @@ public class WebGenomeHelper {
         return urlParams;
     }
 
-    private static Integer publishState(RBTReportStateDTO dto) throws Exception {
+    private static Integer publishState(RBTReportStateDTO dto) throws Exception  {
         Integer stateID = null;
-        ServiceLocator locator = null;
         try {
-            stateID = publishReportState(dto);
+        	stateID = publishReportState(dto);
         }catch(NoSuchObjectException e) {
             //* means that EJB container must have restared  Clear stale references with new instance */
-            ServiceLocator.getInstance().setInstance(null);
-            stateID = publishReportState(dto);
+            ServiceLocator.setInstance(null);
+            try {
+				stateID = publishReportState(dto);
+			} catch (Exception e1) {
+				_logger.error(e);
+				throw e;
+			}
         } catch(Throwable t) {
             _logger.error("Error in publishing the RBTApplicationState.  Error:", t);
             throw new Exception("Error in publishing the RBTApplicationState.  Error:" +
@@ -208,13 +222,29 @@ public class WebGenomeHelper {
         return stateID;
     }
 
-    private static Integer publishReportState(RBTReportStateDTO dto) throws Exception {
+    private static Integer publishReportState(RBTReportStateDTO dto) throws Exception  {
+    	Integer stateID = null;
         ServiceLocator locator = ServiceLocator.getInstance();
-        Object h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
-                                        ApplicationStateTrackerHome.class);
+        Object h;
+		try {
+			h = locator.locateHome(null, RBTApplicationStateTrackerHome.JNDI_NAME,
+			                                ApplicationStateTrackerHome.class);
         ApplicationStateTrackerHome home = (ApplicationStateTrackerHome)h;
         ApplicationStateTracker  service = home.create();
-        Integer stateID = service.publishReportState(dto);
+        stateID = service.publishReportState(dto);
+		} catch (NamingException e) {
+			_logger.error(e);
+			throw e;
+		} catch (RemoteException e) {
+			_logger.error(e);
+			throw e;
+		} catch (CreateException e) {
+			_logger.error(e);
+			throw e;
+		} catch (Exception e) {
+			_logger.error(e);
+			throw e;
+		}
         return stateID;
     }
 
