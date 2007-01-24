@@ -237,6 +237,7 @@
 				<exclude name="*template*"/>
 				<exclude name="jms.properties"/>
 				<exclude name="jndi.properties"/>
+				<exclude name="ehcache.xml"/>
 			</fileset>
 		  <!-- 1. include ojb jars -->
           <fileset dir="${source.lib.dir}">
