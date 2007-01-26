@@ -197,6 +197,7 @@ function spawnAnnot(type, element)	{
 	if(type == 'reporterFromGeneQS')	{
 		if(/^\d+_{1}a{1}\d+/.test(el))	{
 			//this is a llink special - need to snip the _aXX
+			//_a then an integer ex 1956_a1
 			el = el.substring(0, el.indexOf("_a"));
 		}
 	}
@@ -223,6 +224,20 @@ function spawnAnnot(type, element)	{
 			}
 			else if(type == "reporterFromCopy")	{
 				jso.keyType = "reporterc";
+			}
+			else if(type == "reporterFromGeneQS")	{
+				if(/^\d+$/.test(el))	{
+					//all numbers
+					//this is a llink usually
+					jso.keyType = "gene";
+				}		
+				else if(/^(H{1}s{1}(\.){1})/i.test(el))	{
+					//this is an acc no
+					jso.keyType = "gene";
+				}
+				else	{
+					jso.keyType = "reporter";
+				}
 			}
 			else	{
 				jso.keyType = "reporter";
