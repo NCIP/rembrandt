@@ -1,0 +1,374 @@
+ Release Notes
+     
+                            REMBRANDT
+                  	   Version 1.5
+                         January 26, 2007
+ 
+        National Cancer Institute Center for Bioinformatics
+ 
+ 
+ =====================================================================
+                             Contents
+ =====================================================================
+     
+     1.0 Rembrandt Introduction and background
+     2.0 Features
+     3.0 Known Issues/Future Considerations
+     4.0 Bug Reports and Support
+     5.0 Tutorials and help pages
+     6.0 NCICB Web resources
+ 
+ 
+ =====================================================================
+               1.0 Rembrandt Introduction and background
+ =====================================================================
+ 
+     REMBRANDT
+ 
+     
+     REpository for Molecular BRAin Neoplasia DaTa (REMBRANDT) is a 
+     robust bioinformatics knowledgebase framework that leverages 
+     data warehousing technology to host and integrate clinical and 
+     functional genomics data from clinical trials involving patients 
+     suffering from Gliomas. The knowledge framework will provide 
+     researchers with the ability to perform ad hoc querying and 
+     reporting across multiple data domains, such as 
+     Gene Expression, Chromosomal aberrations and Clinical data. 
+ 
+     Scientists will be able to answer basic questions related to 
+     a patient or patient population and view the integrated 
+     data sets in a variety of contexts. Tools that link data to 
+     other annotations such as cellular pathways, gene ontology 
+     terms and genomic information are embedded.
+ 
+ 
+     REMBRANDT is a product of the NCI Center for Bioinformatics
+     and its partners, specifically, the Neuro-Oncology branch, 
+     CCR (Center for Cancer Research), NCI and NINDS. Visit the 
+     REMBRANDT web site for more information:
+ 
+     --  http://rembrandt.nci.nih.gov
+ 
+ 
+ =====================================================================
+                            2.0 Features
+ =====================================================================
+    =====================
+    v1.5 Features:
+    =====================
+     --  F-Test added to Class Comparison: Select the F-test option to test a hypothesis of the means of
+         two or more populations, the technique is called the Analysis of Variance (ANOVA). The ANOVA
+         simplifies the Ftest, where F-test is the mean square for each main effect and the interaction effect
+         divided by the within variance. A one-way ANOVA or single factor ANOVA tests differences between the
+         groups classified only on one independent variable.
+
+     --  3D PCA applet: The three-dimensional Principal Component Analysis enables you to view PCA plot data 
+         in three dimensions. For more information about the PCA plot, see Principal Component Analysis Plot. 
+         The applet supports Java Plugin versions 1.4
+
+     --  BRB archieve file download: REMBRANDT enables you to download the BRB archive file and 
+         analyze data using BRB-ArrayTools created by the Biometric Research Branch of the National Cancer Institute.
+         BRB-ArrayTools is a comprehensive state-of-the-art statistical analysis system for microarray gene
+         expression data. It is free for non-commercial purposes and can be licensed for commercial purposes
+         from the NIH. BRB-ArrayTools installs as an Excel plug-in using a self-installer.
+
+     --  KEGG Browser: Easily add KEGG pathways to the query by using the KEGG browser to search and 
+         identify pathways of interest.
+
+     --  List Management (upload, type, union, intersect, difference, export, validation, saving lists): The 
+         REMBRANDT Manage Lists function centralizes all activities pertaining to the creation and management 
+         of user-defined, as well as study-defined, PatientDID Lists, Gene Lists, and Reporters Lists. With
+         these lists, you can further refine queries or facilitate analysis.
+
+     --  Gene Expression Plot is now dynamically calculated using t-test.
+
+     --  New help documentation: New context sensitive help has been added to each page of the application.
+
+     --  Externalized annotation links: Links for all annotations are now configurable seperately from the 
+         web applications.  These properties can be updated independently from the webapp.
+
+     --  Clone IDs now map to LPG IMAGE Clone View (http://lpgws.nci.nih.gov/cgi-bin/iview.cgi)
+
+     --  Box and whisker plot: The Box and Whisker Log2 Intensity Gene Expression Plot (Figure 3.4) displays 
+         a box plot without all the individual data points. A box and whisker plot or box plot is a graph
+         that presents information from a five-number summary.
+
+     --  Box and whisker-coin plot: A coin plot is box-and-whisker plot with all individual data points. This
+         enables you to obtain a diagram representing a statistical summary of the data without the
+         disadvantage of concealing the real data.
+         
+     --  Advanced queries now allow multiple disease selection
+
+     --  Group vs group based KM plot: A K-M Survival Plot for Gene Expression Data displays the survival 
+         rate at each time point for samples in 2 compared custom lists of samples.
+
+     --  Group based gene-ex/KM plot: Perform a Gene Expression Simple Search, using a custom patient list
+         as a constraint.
+
+     --  Registration/login new pages w/captcha: First-time REMBRANDT users need to register via the 
+         web-based form to obtain a username and password.
+
+     --  Feedback form: The feedback questionnaire is an optional form which collects usage data from
+         the user on logout.
+
+     --  Re-run advanced queries from view results page (all possible views): All previously completed queries
+         will appear in the View Results page, and can be directly ran from this page without going through 
+         the Refine Query page again.
+
+     --  Color-less, Shape-less PCA plot: The ability to remove all colors and shapes from a PCA 2-D plot
+         has been added to better demonstrate clustering.
+
+     --  New User guide: New PDF user guide has been added for the 1.5 release.  This guide provides
+         information on every section of the application.
+
+     --  New Tutorials: Updated Flash tutorials are available which highlight some of the new features
+         in 1.5.
+
+     --  Externalized cache: User cache (persisted session data) is now stored in an external location, 
+         independent from the web-app.
+
+     --  HTTPS: REMBRANDT now uses HTTPS for enhanced security.
+
+     --  New tech stack (jboss404): REMBRANDT leverages the most recent NCICB Tech Stack, including updated
+         versions of JBOSS and the JDK.
+
+     --  IE7 Support: REMBRANDT has been tested and verified on IE7 for windows.
+
+     --  Enhanced logging: Revised logging statements will provide support for debugging the application.
+
+     --  Multiple Cosmetic Bug Fixes and UI enhancements
+     	 User can filter by Insitution on Finalized page
+     	 Upgraded caBIO pathway from caBIOv2.1 to caBIOv3.1
+     	 Complex quries from finalized page are saved and available during future sessions
+     	 Upload user lists can now be saved and avaiable durinf future sessions
+     	 Users can now save samples where one or more rows are highlighted.
+     	 “Check All” now selects All items on All report pages, not just the current page 
+     	 "Select Samples" is now a single click for PCA
+     	 Now throughout the HOA, selection of groups is by double click
+     	 On PCA plots, Non-tumor samples do not display survival length shapes, but are now designated as Non-Tumor 
+     	 Bug Fix: Mouse over on bar graph now displays p-value instead of foldchange
+     	 Bug Fix: Disease sub-types in advanced search for GE Analysis
+     	 Bug Fix: Fixed bug associated with  filter for p-value on the class comparison result page
+     	 Bug Fix: You can access  user guide and tutorials from within the application
+      	 Bug Fix: Associated with Advance Option on Class Comparion and PCA 
+     	 
+     --  The following previous known issues have now been resolved in this release
+         Bug Fix: --  WebGenome plots are supported only on IE browser (6.0 and above) and not on Safari and Firefox
+         Bug Fix: --  Safari users will see "localized string not found" for the Gene and Clone ID browse buttons.
+         Bug Fix: --  In Safari, a user can not unselect the IMAGE Id check box.
+         Bug Fix: --  In Safari, a user can not uncheck the Clone Id/Probe Set Id check box.
+         Bug Fix: --  On query pages, clicking on the "clear" button does not clear the query after the user has previewed the report from that query
+     
+     	 
+
+    =====================
+    v1.0 Features:
+    =====================
+    
+     --  Added ability to perform higher-order integrative analysis of clinical and genomic datasets
+         Users can perform PCA, Hierarchical clustering and class comparison analysis at runtime.
+
+     --  Integrated Rembrandt application with webGenome to visualize chromosomal abnormality data 
+         in scatter and ideogram plots	
+     
+     --  Implemented Rembrandt authentication using Common Security Module. 
+     
+     --  Implemented query inbox for realtime status checking on compute-intensive analysis queries
+     
+     --  Enhanced reporting capabilities with new links to reporter annotations    
+      
+     --  Added the ability to persist user results (samples and genes of interest) across sessions
+     
+     --  Support for more clinical data elements (Therapy, clinical evaluation parameters etc) on 
+         the clinical query page
+     
+     --  Implemented graphical display for analyzed datasets: 2-D PCA chart, Hierarchical cluster 
+         dendrogram, clinical plots with the ability to select samples and save them for future use 
+         in queries
+     
+     --  Implemented unified gene algorithm for affymetrix gene expression data to allow for 
+         gene-based querying in Quick search (Gene expression and Kaplan-Meier Survival plot)
+     
+    =====================
+    v0.51 Features:
+    =====================
+    
+     --  Added the ability to look for gene expression and copy number
+         data for "All Genes" (All Genes usecase) for further analysis of saved result sets	
+     
+     --  Added project results set saving and querying using a step-based workflow process, 
+     
+     --  Reports distinguish between a missing value and a value that did not
+         match the criteria in the presentation pages for cDNA array data.
+     
+     --  Added a Kaplan-Meier survival (KM) line plot for "intermediate" samples which were not
+         included in the up regulated and down regulated in the KM graphics.
+     
+     --  Added a Sample Criteria to Clinical query that will allow users
+         to browse in biospecimen IDS
+     
+     --  Added log-rank p-Value for various groups in KM survival plots
+     
+     --  Allows entire Chromosome, or p, q arm search for each chromosome
+     
+     --  Enabled multiple report pages - window spawning
+     
+     --  Added pathway annotation to report
+     
+     --  Implemented previous "Gene Symbol" look-up strategy for
+         HUGO gene symbols
+     
+     --  Added caching mechanism to reports, thus allowing for visualization and comparison between 
+         reports at a later stage within a given session
+	
+     --  Added various filtering, highlighting and pagination mechanisms to report pages 
+         to enhance usability
+
+    
+    =====================
+    v0.50 Features:
+    =====================
+    
+     --  Plot gene expression profiles across different tumor types
+         for a gene of interest
+ 
+     --  Gene Expression and Copy Number Kaplan-Meier (K-M) survival
+         plot for a gene of interest. Dynamically change the fold
+         change and amplification and deletion thresholds to redraw
+         the graph.
+ 
+     --  Search gene expression differential fold change for Glioma
+         samples (in comparison to non-tumor samples) from two 
+         platforms (Affymetrix and home-grown cDNA array)
+ 
+     --  Search copy number (chromosomal aberration) data for Glioma
+         samples from Affymetrix 100K SNP array platform
+ 
+     --  Search basic clinical data such as tumor sub-types, age
+         at diagnosis of patient, Gender, Survival
+ 
+     --  Search criteria for Gene expression data include Gene symbol
+         (available also as batch upload), Genbank Accession, 
+         Locuslink ID, Probeset ID, IMAGE ID, Pathway name, 
+         GO ID, Chromosomal region (Cytoband, bp start/end), 
+         Array platform, Tumor type and fold change threshold
+ 
+     --  Search criteria for copy number data include Gene symbol
+         (available also as batch upload), Genbank Accession, 
+         Locuslink ID, SNP Probeset ID, dbSNP ID,Chromosomal 
+         region (Cytoband, bp start/end), Tumor type and 
+         amplification/deletion threshold
+   
+     --  Perform combinatorial queries from different domains using 
+         "and/or" operands
+ 
+     --  Select report of interest (Clinical report, Gene expression/
+         Copy number reports) from a context-sensitive report menu
+ 
+     --  Download reports with annotations into a tab-delimited file 
+         format
+ 
+     --  View online tutorials and context sensitive online help 
+         throughout the application
+ 
+ 
+ =====================================================================
+                   3.0 Known Issues/Future considerations
+ =====================================================================
+     --  WebGenome plots may timeout when number of samples exceeds over 200
+     
+    --   WebGenome plots from "All Genes" Copy Number query does not work.
+
+     --  WebGenome plots interactivity do not function correctly with the
+         Safari browser on the Macintosh operating environment. Plots
+         can still be generated correctly using Safari, but
+         mouse-over and tooltip interaction do not function. This issue
+         is primarily caused by Safari's inadequate JavaScript implementation/support.
+         To obtain full plot interactivity using the Macintosh OS, users
+         are recommended to use the Firefox browser - which
+         works correctly.
+         
+     --  On the Gene Expression Plot, the Gene annotation hyperlink for 
+         unified gene does not work.  It will be directed to CGAP in the next release.     
+         
+     --  On the three-dimensional Principal Component Analysis applet, the
+         button for "copy the data to the clipboard" does not function.
+     
+     --  Copying and pasting the URL into a new browser from the 
+         application while in the middle of a query, generates an error
+     
+     --  Cytoband drop down list is not in order on create query pages.     
+     
+     --  In Safari, nothing shows up in the cytoband dropdown list.     
+         Workaround: Search base pair position first, then come back and
+         search cytoband again
+    
+     --  Currently no scientific validation of the cytoband and base
+         pair positions of a chromosome.  User has to go look for the
+         correct map location in the NCBI map viewer and then select the
+         cytoband of interest
+              
+     --  User cannot get pathway information and GO ID's in generated
+         reports, but can see them in the excel downloads from reports
+  
+ =====================================================================
+                   4.0 Bug Reports and Support
+ =====================================================================
+     
+     Send email to ncicb@pop.nci.nih.gov to request support or
+     report a bug. Please put "REMBRANDT" in the subject line.  
+ 
+     Clicking on the feedback button on the application login page will open your default
+     email system to send feedback to Rembrandt UAT (User Acceptance Test) list serv
+ =====================================================================
+                   5.0 Tutorials and help pages
+ =====================================================================
+     
+     REMRBANDT tutorials can be viewed from the application home page.
+     Go to http://rembrandt-db.nci.nih.gov and click on "tutorials"
+ 
+     Context-sensitive Online help is available throughout the 
+     application. Click on the "?" help button to view online help 
+ 
+
+ =====================================================================
+                         6.0 NCICB resources
+ =====================================================================
+     
+     The NCI Center for Bioinformatics
+ 
+     --  http://ncicb.nci.nih.gov/
+
+     Cancer Biomedical Informatics Grid
+     
+     --  https://cabig.nci.nih.gov
+     
+     NCICB Application Support
+      
+     --  http://ncicbsupport.nci.nih.gov/sw/
+ 
+     REMBRANDT Application
+ 
+     --  http://rembrandt-db.nci.nih.gov
+ 
+     Rembrandt informational website
+ 
+     --  http://rembrandt.nci.nih.gov
+
+     caIntegrator informational website
+ 
+     --  http://caIntegrator.nci.nih.gov
+     
+     caArray
+ 
+     --  http://caarray.nci.nih.gov
+     
+     webCGH
+ 
+     --  http://webcgh.nci.nih.gov/webCGH/index.jsp
+ 
+     Clinical Trials
+ 
+     --  http://trials.nci.nih.gov/
+ //end
+
