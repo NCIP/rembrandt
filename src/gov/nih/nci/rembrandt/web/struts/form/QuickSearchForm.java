@@ -92,9 +92,16 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		GroupRetriever groupRetriever = new GroupRetriever();
 		List<LabelValueBean> al = new ArrayList<LabelValueBean>();
-		al.add(new LabelValueBean("all", ""));
+//		al.add(new LabelValueBean("all", ""));
 		al.addAll(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
 		
+		//specifically remove only these values, not to effect the groupRetriever
+		LabelValueBean tmp = new LabelValueBean("UNKNOWN", "UNKNOWN");
+		al.remove(tmp);
+		tmp = new LabelValueBean("ALL", "ALL");
+		al.remove(tmp);
+		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
+		al.remove(tmp);
 		sampleGroupsList = al;
 	}
 	
