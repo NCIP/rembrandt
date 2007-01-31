@@ -288,9 +288,6 @@
          are recommended to use the Firefox browser - which
          works correctly.
          
-     --  On the Gene Expression Plot, the Gene annotation hyperlink for 
-         unified gene does not work.  It will be directed to CGAP in the next release.     
-         
      --  On the three-dimensional Principal Component Analysis applet, the
          button for "copy the data to the clipboard" does not function.
      
