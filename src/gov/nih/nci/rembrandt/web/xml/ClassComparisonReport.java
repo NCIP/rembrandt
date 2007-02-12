@@ -322,16 +322,19 @@ public class ClassComparisonReport{
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(ccre.getReporterId());
 			        	data = null;
 			        cell = null;
-			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(resultFormat.format(ccre.getMeanGrp1()) + " / " + resultFormat.format(ccre.getMeanBaselineGrp()));
-			        	data = null;
-			        cell = null;
+
 			        cell = dataRow.addElement("Cell").addAttribute("type", "pval").addAttribute("class", "data").addAttribute("group", "data");
 			        	//String pv = (ccre.getPvalue() == null) ? String.valueOf(ccre.getPvalue()) : "N/A";
 			        	BigDecimal bigd = new BigDecimal(ccre.getPvalue());
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(bigd.toPlainString());
 			        	data = null;
 			        cell = null;
+		        
+			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(resultFormat.format(ccre.getMeanGrp1()) + " / " + resultFormat.format(ccre.getMeanBaselineGrp()));
+			        	data = null;
+			        cell = null;
+
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getFoldChange())));
 			        	data = null;
