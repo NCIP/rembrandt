@@ -59,7 +59,9 @@ Image Control: Grab the blue border on the image and drag to resize
 -->
 
 <br clear="all"/>
+<div>
 <graphing:HCPlot taskId="<%=key%>" />
+</div>
 
 <script language="javascript">
 var rbt_image = document.getElementById("rbt_image");
@@ -81,7 +83,7 @@ function fullsize()	{
 //rbt_image_init();
 </script>
 
-<div style="height:300px; overflow:auto;">
+<div style="height:300px;overflow:auto;">
 <graphing:HCPlotReport taskId="<%=key%>" />
 </div>
 <script type="text/javascript">
@@ -90,20 +92,28 @@ var t = rbt_image.src;
 t = t.replace(/\\/g,"/");
 */
 //scaling
-var ow = rbt_image.width;
-var oh = rbt_image.height;
+//var ow = rbt_image.width;
+//var oh = rbt_image.height;
+var ow = rbt_image.getAttribute("width");
+var oh = rbt_image.getAttribute("height");
 
-var w;
-var h;
+var w = rbt_image.getAttribute("width");
+var h = rbt_image.getAttribute("height");
 
 var newWidth = 600;
+var newHeight = 100;
 
 if(ow > newWidth)	{
-	var ratio = (rbt_image.width/rbt_image.height);
-	
-	w = newWidth;
-	h = Math.round((newWidth / ratio));
-	//w = h = Math.round((newHeight * ratio)); //other way in case	
+	var ratio = (ow/oh);
+	//if the ratio is > 10, resize via fixed height
+	if(ratio < 10)	{
+		w = newWidth;
+		h = Math.round((newWidth / ratio));
+	}
+	else	{
+		h = newHeight;
+		w = Math.round((newHeight * ratio)); //other way in case	
+	}
 	rbt_image.height = h;
 	rbt_image.width = w;
 }
