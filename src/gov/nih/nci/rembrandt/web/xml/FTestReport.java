@@ -296,6 +296,14 @@ public class FTestReport{
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(ccre.getReporterId());
 			        	data = null;
 			        cell = null;
+			        
+			        cell = dataRow.addElement("Cell").addAttribute("type", "pval").addAttribute("class", "data").addAttribute("group", "data");
+			        	//String pv = (ccre.getPvalue() == null) ? String.valueOf(ccre.getPvalue()) : "N/A";
+			        	BigDecimal bigd = new BigDecimal(ccre.getPvalue());
+			        	data = cell.addElement("Data").addAttribute("type", "header").addText(bigd.toPlainString());
+			        	data = null;
+			        cell = null;
+		        
 			        //one col for each group
 			        for(int i=0; i<ccre.getGroupMeans().length; i++)	{	
 				        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
@@ -304,12 +312,7 @@ public class FTestReport{
 				        cell = null;
 			        }
 			        
-			        cell = dataRow.addElement("Cell").addAttribute("type", "pval").addAttribute("class", "data").addAttribute("group", "data");
-			        	//String pv = (ccre.getPvalue() == null) ? String.valueOf(ccre.getPvalue()) : "N/A";
-			        	BigDecimal bigd = new BigDecimal(ccre.getPvalue());
-			        	data = cell.addElement("Data").addAttribute("type", "header").addText(bigd.toPlainString());
-			        	data = null;
-			        cell = null;
+			        
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(String.valueOf(resultFormat.format(ccre.getMaximumFoldChange())));
 			        	data = null;
