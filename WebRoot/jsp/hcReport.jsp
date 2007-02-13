@@ -93,6 +93,9 @@ t = t.replace(/\\/g,"/");
 var ow = rbt_image.width;
 var oh = rbt_image.height;
 
+var w;
+var h;
+
 var newWidth = 600;
 
 if(ow > newWidth)	{
