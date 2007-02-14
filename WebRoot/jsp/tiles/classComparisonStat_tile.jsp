@@ -116,8 +116,18 @@ Multiple Comparison Adjustment
 	
 	<html:radio property="foldChange" value="specify" styleClass="radio"/>
 	&nbsp;&nbsp;Fold Change&nbsp;&ge;	
-	<html:text property="foldChangeManual" size ="14" disabled="false" />
-	
+	<html:text property="foldChangeManual" size="14" onblur="absForce(this);" onkeyup="absForce(this);" disabled="false" />
+	<script type="text/javascript">
+		function absForce(el)	{
+			if(el.value < 0)	{
+				el.style.border="2px solid red";
+				el.value = !isNaN(Math.abs(el.value)) ? Math.abs(el.value) : "";
+				alert("Fold Change must be a positive number.  Please verify your entry.");
+				return false;
+			}
+			return true;
+		}
+	</script>
 	<br /><br />
 	
 	<span id="pfill">

@@ -430,6 +430,15 @@ public class ClassComparisonForm extends ActionForm {
         else
         	errors = UIFormValidator.validateSelectedGroups(selectedGroups, 2, errors);
         
+        //look at the manual FC to check for neg value
+        //this is validated in the UI, so its put here only as a failsafe
+        if(Integer.parseInt(foldChangeManual) < 0){
+        	int tmp = Math.abs(Integer.parseInt(foldChangeManual));
+        	foldChangeManual = String.valueOf(tmp);
+        }
+        
+        
+        
         return errors;
     }
     
