@@ -107,7 +107,7 @@ public class ClassComparisonForm extends ActionForm {
     
     private List foldChangeAutoList = new ArrayList();
     
-    private String foldChangeManual;
+    private int foldChangeManual;
     
     private Double statisticalSignificance = .05;
     
@@ -358,7 +358,7 @@ public class ClassComparisonForm extends ActionForm {
     /**
      * @return Returns the foldChangeManual.
      */
-    public String getFoldChangeManual() {
+    public int getFoldChangeManual() {
         return foldChangeManual;
     }
 
@@ -367,7 +367,7 @@ public class ClassComparisonForm extends ActionForm {
     /**
      * @param foldChangeManual The foldChangeManual to set.
      */
-    public void setFoldChangeManual(String foldChangeManual) {
+    public void setFoldChangeManual(int foldChangeManual) {
         this.foldChangeManual = foldChangeManual;
     }
     
@@ -432,9 +432,8 @@ public class ClassComparisonForm extends ActionForm {
         
         //look at the manual FC to check for neg value
         //this is validated in the UI, so its put here only as a failsafe
-        if(Integer.parseInt(foldChangeManual) < 0){
-        	int tmp = Math.abs(Integer.parseInt(foldChangeManual));
-        	foldChangeManual = String.valueOf(tmp);
+        if(foldChangeManual < 0){
+        	foldChangeManual = Math.abs(foldChangeManual);
         }
         
         
@@ -457,6 +456,7 @@ public class ClassComparisonForm extends ActionForm {
         comparisonAdjustment = "NONE";        
         foldChange = "list";      
         foldChangeAuto = "2"; 
+        foldChangeManual = 2;
         statisticalSignificance = .05;        
         arrayPlatform = "";             
         statisticalMethod = "TTest";
