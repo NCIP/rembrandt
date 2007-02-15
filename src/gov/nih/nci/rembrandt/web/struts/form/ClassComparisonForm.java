@@ -107,7 +107,7 @@ public class ClassComparisonForm extends ActionForm {
     
     private List foldChangeAutoList = new ArrayList();
     
-    private int foldChangeManual;
+    private Double foldChangeManual;
     
     private Double statisticalSignificance = .05;
     
@@ -358,7 +358,7 @@ public class ClassComparisonForm extends ActionForm {
     /**
      * @return Returns the foldChangeManual.
      */
-    public int getFoldChangeManual() {
+    public Double getFoldChangeManual() {
         return foldChangeManual;
     }
 
@@ -367,7 +367,7 @@ public class ClassComparisonForm extends ActionForm {
     /**
      * @param foldChangeManual The foldChangeManual to set.
      */
-    public void setFoldChangeManual(int foldChangeManual) {
+    public void setFoldChangeManual(Double foldChangeManual) {
         this.foldChangeManual = foldChangeManual;
     }
     
@@ -456,7 +456,7 @@ public class ClassComparisonForm extends ActionForm {
         comparisonAdjustment = "NONE";        
         foldChange = "list";      
         foldChangeAuto = "2"; 
-        foldChangeManual = 2;
+        foldChangeManual = 2.0;
         statisticalSignificance = .05;        
         arrayPlatform = "";             
         statisticalMethod = "TTest";
