@@ -17,18 +17,14 @@ import gov.nih.nci.caintegrator.enumeration.StatisticalSignificanceType;
 import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.caintegrator.service.findings.Finding;
-import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
-
-
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
-import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
-import gov.nih.nci.rembrandt.web.helper.SampleBasedQueriesRetriever;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
 import java.util.ArrayList;
@@ -160,6 +156,9 @@ public class ClassComparisonAction extends DispatchAction {
         } catch (FrameworkException e) {
             e.printStackTrace();
         }
+        
+        //Ensure a finding with the same name does not already exist in the session, so remove it
+        presentationTierCache.removeObjectFromNonPersistableSessionCache(sessionId,classComparisonQueryDTO.getQueryName());
         
         return mapping.findForward("viewResults");
     }

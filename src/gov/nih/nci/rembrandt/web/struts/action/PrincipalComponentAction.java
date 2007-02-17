@@ -154,7 +154,9 @@ public class PrincipalComponentAction extends DispatchAction {
         } catch (FrameworkException e) {
             e.printStackTrace();
         }
-                
+        //Ensure a finding with the same name does not already exist in the session, so remove it
+        presentationTierCache.removeObjectFromNonPersistableSessionCache(sessionId,principalComponentAnalysisQueryDTO.getQueryName());
+
         return mapping.findForward("viewResults");
     }
     
