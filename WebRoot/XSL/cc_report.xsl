@@ -371,7 +371,7 @@
 			      			<xsl:when test="$p_highlight_op != ''">
 			      				<xsl:choose>
 			      					<xsl:when test="$highlightThisCell = 'yes'">
-					      				<span style="background-color:yellow"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+					      				<span style="background-color:yellow"><xsl:value-of select="Data"/></span>
 					      				<script language="javascript">
 					      					//autoCheckHighlighted('<xsl:value-of select="$rep"/>');
 					      				</script>
