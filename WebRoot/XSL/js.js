@@ -493,7 +493,7 @@ function convertSci()	{
 	for(var i=0; i<els.length; i++)	{
 		//var tmp = parseFloat(els[i].innerHTML);
 		var tmp = els[i].innerHTML;
-		if(tmp.indexOf("span")!=-1)	{
+		if(tmp.indexOf("span")!=-1 || tmp.indexOf("SPAN")!=-1)	{
 			tmp = els[i].childNodes[0].innerHTML;
 			els[i].childNodes[0].innerHTML = Math.toScientific(tmp, 3);
 		}
