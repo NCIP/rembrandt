@@ -546,7 +546,7 @@
   		<h3 style="text-align:center; margin-top:200px;">
   		<xsl:choose>
 		  <xsl:when test="$reportMsg = 'over limit'">
-		   	  	Your query contains too many results for display.  Please add additional disease or sample filters to your query to your query and re-submit it.
+		   	  	Your query contains too many results for display.  Please add additional disease or sample filters to your query and re-submit it.
  		  </xsl:when>
 		  <xsl:otherwise>
  				No Records Returned.
