@@ -278,7 +278,7 @@ function checkWGThresh(samples, did)	{
 
 function checkWGThresh_cb(txt)	{
 	if(txt!='' && $('wgThresh'))
-		$('wgThresh').innerHTML = "<br/><b class='msg'>Note: " + txt + "</b>";
+		$('wgThresh').innerHTML = "<br/><b class='msg' style='color:#AB0303;'>Note: " + txt + "</b>";
 }
 
 function spawn(url,winw,winh) {
