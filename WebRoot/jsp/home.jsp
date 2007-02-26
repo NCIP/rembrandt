@@ -66,6 +66,13 @@
 		        				$('indic').style.display='none';
 		        				needGVal = false;
 		        				$('qsForm').submit();
+		        				
+		        				//mod the submit button to prevent double clicking?
+								$('submitButton').disabled = "true";	
+								$('submitButton').style.width="300px";
+								$('submitButton').style.color="gray";
+								$('submitButton').value="processing...";
+
 		        				return;
 		        				//throw("valid");
 		        			}
@@ -119,7 +126,7 @@
 	 
 	        <!--  sample based plots -->
 	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-	        <input type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
+	        <input id="samplePlotRadio" type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        Kaplan-Meier survival plot for Sample Data&nbsp;
 	        <br/><br/>
 	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="examineGroups(this);">
@@ -147,7 +154,8 @@
 	    	    catch(err){}
 	    	    
 	    	    function examineGroups(dd)	{
-					    	    
+					 $('samplePlotRadio').checked = "true";
+					  	    
 	    	    	if($('groupNameCompare').value == $('groupName').value){ 
 	    	    		alert('Comparison Groups Can Not be the Same'); 
 	    	    		dd.selectedIndex = 0;
