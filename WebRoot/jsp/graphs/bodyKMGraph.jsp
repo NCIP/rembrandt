@@ -60,13 +60,17 @@
 					<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
 				</td>
 				
-				<!--Reporters-->
-				<td>
-					<span style="font-size:.9em;margin-left:10px">Reporters</span>
-					<html:select property="selectedReporter">
-						<html:options property="reporters" />
-					</html:select>
+				<td>			
+					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
+					<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
+						<!--Unified or regular algorithm-->
+						<span style="font-size:.9em;margin-left:10px">Reporter Type</span>			
+						<html:select property="reporterSelection" onchange="$('redrawGraphButton').disabled = 'true';$('redrawGraphButton').style.color='gray'; document.forms[0].selectedReporter.selectedIndex=0;  document.forms[0].submit();">
+							<html:options property="algorithms" />
+						</html:select> &nbsp; 	
+					</logic:equal>		
 				</td>
+				
 			</tr>
 			
 			
@@ -92,21 +96,21 @@
 				 			
 				<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span> 
 				</td>
-				<td>			
-					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
-					<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
-						<!--Unified or regular algorithm-->
-						<span style="font-size:.9em;margin-left:10px">Reporter Selection</span>			
-						<html:select property="reporterSelection">
-							<html:options property="algorithms" />
-						</html:select> &nbsp; 	
-					</logic:equal>		
+				
+				<!--Reporters-->
+				<td>
+					<span style="font-size:.9em;margin-left:10px">Reporters</span>
+					<html:select property="selectedReporter">
+						<html:options property="reporters" />
+					</html:select>
 				</td>
+				
+	
 			</tr>
 			
 		</table>
 	</div>
-		<html:submit value="Redraw Graph" />
+		<html:submit value="Redraw Graph" styleId="redrawGraphButton" />
 	</logic:notEqual>
 		
 	<div>
