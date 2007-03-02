@@ -292,7 +292,7 @@
          reporters is different when the comparison and baseline groups are swaped.
          P values are the same until E-10 value.
          
-     --  On the GeneExpression, Box & Wisker plot, "Mouse over" max and min values are
+     --  On the GeneExpression, Box & Whisker plot, "Mouse over" max and min values are
          maximun and minimum regular (non-outlier) values, they are not the maximun 
          and minimum outlier values.
          
