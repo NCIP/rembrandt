@@ -277,7 +277,7 @@
  =====================================================================
      --  WebGenome plots may timeout when number of samples exceeds over 200
      
-    --   WebGenome plots from "All Genes" Copy Number query does not work.
+     --  WebGenome plots from "All Genes" Copy Number query does not work.
 
      --  WebGenome plots interactivity do not function correctly with the
          Safari browser on the Macintosh operating environment. Plots
@@ -287,6 +287,14 @@
          To obtain full plot interactivity using the Macintosh OS, users
          are recommended to use the Firefox browser - which
          works correctly.
+         
+     --  On class comparison page, for t test and wilcoxin test, p-value for the same
+         reporters is different when the comparison and baseline groups are swaped.
+         P values are the same until E-10 value.
+         
+     --  On the GeneExpression, Box & Wisker plot, "Mouse over" max and min values are
+         maximun and minimum regular (non-outlier) values, they are not the maximun 
+         and minimum outlier values.
          
      --  On the three-dimensional Principal Component Analysis applet, the
          button for "copy the data to the clipboard" does not function.
