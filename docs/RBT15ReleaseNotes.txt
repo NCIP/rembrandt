@@ -293,7 +293,7 @@
          P values are the same until E-10 value.
          
      --  On the GeneExpression, Box & Whisker plot, "Mouse over" max and min values are
-         maximun and minimum regular (non-outlier) values, they are not the maximun 
+         maximum and minimum regular (non-outlier) values, they are not the maximum 
          and minimum outlier values.
          
      --  On the three-dimensional Principal Component Analysis applet, the
