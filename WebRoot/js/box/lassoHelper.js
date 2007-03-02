@@ -30,7 +30,7 @@ function addToPending(sample)	{
 		//add this to the JS array
 		pendingSamples[pendingSamples.length] = sample;
 		//add to array list
-		A_saveTmpSample(sample);
+		//A_saveTmpSample(sample); //dont make the call here
 	}
 }		
 function clearPending()	{
@@ -145,9 +145,12 @@ function startup() {
 		}
 		if(gotem != "")	{
 			//alert("lasso has: \n" + gotem);
+			//make 1 ajax call
+			DynamicReport.saveTmpGenericFromArray("pca_tmpSampleList",pendingSamples,A_saveTmpSample_cb);
+			//then update list UI
 			writePendings();
 		}
-	
+
 	}
 	
 	var mapNames = new Array();
