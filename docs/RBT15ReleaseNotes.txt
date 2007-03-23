@@ -1,7 +1,6 @@
- Release Notes
+Release Notes
      
-                            REMBRANDT
-                  	   Version 1.5
+          REMBRANDT  Version 1.5 / webGenome Version 2.3
                          January 26, 2007
  
         National Cancer Institute Center for Bioinformatics
@@ -11,7 +10,7 @@
                              Contents
  =====================================================================
      
-     1.0 Rembrandt Introduction and background
+     1.0 Introduction and background
      2.0 Features
      3.0 Known Issues/Future Considerations
      4.0 Bug Reports and Support
@@ -20,11 +19,11 @@
  
  
  =====================================================================
-               1.0 Rembrandt Introduction and background
+               1.0 Introduction and background
  =====================================================================
  
-     REMBRANDT
- 
+    Rembrandt 
+    =====================
      
      REpository for Molecular BRAin Neoplasia DaTa (REMBRANDT) is a 
      robust bioinformatics knowledgebase framework that leverages 
@@ -49,12 +48,37 @@
  
      --  http://rembrandt.nci.nih.gov
  
+     webGenome
+     =====================
+
+     WebGenome is a web-based application for creating genomics plots of
+     array-based data and genomic annotation. Version 2.3 provides a client
+     plotting service to external applications, such as Rembrandt. Users must
+     enter webGenome through redirection from another application; the only
+     way to load data is by selecting it in the referring client application.
+
+     Data types supported in this version include copy number (i.e., aCGH),
+     loss of heterozygosity (LOH), and gene expression. Two basic types of plots
+     can be generated:
+
+     * Scatter Plots - Plots DNA copy number measurements across the genome,
+       chromosome, or chromosomal interval.
+     * Ideogram Plot - Shows chromosomal amplifications and deletions in
+       relation to cytogenetic chromosome ideograms.
+
+     The underlying data model used by webGenome is a very simplied version of
+     the MAGE-OM. The most important concept for the use of the system is
+     that individual array data sets, called bioassays are aggregated into experiments. 
+
+     Visit the following site URL for more information:
+     
+     http://caintegrator-info.nci.nih.gov/developers/#wgenome
  
  =====================================================================
                             2.0 Features
  =====================================================================
     =====================
-    v1.5 Features:
+    Rembrandt v1.5 Features:
     =====================
      --  F-Test added to Class Comparison: Select the F-test option to test a hypothesis of the means of
          two or more populations, the technique is called the Analysis of Variance (ANOVA). The ANOVA
@@ -137,20 +161,20 @@
      --  Enhanced logging: Revised logging statements will provide support for debugging the application.
 
      --  Multiple Cosmetic Bug Fixes and UI enhancements
-     	 User can filter by Insitution on Finalized page
+     	 User can filter by Institution on Finalized page
      	 Upgraded caBIO pathway from caBIOv2.1 to caBIOv3.1
-     	 Complex quries from finalized page are saved and available during future sessions
-     	 Upload user lists can now be saved and avaiable durinf future sessions
+     	 Complex queries from finalized page are saved and available during future sessions
+     	 Upload user lists can now be saved and available during future sessions
      	 Users can now save samples where one or more rows are highlighted.
      	 “Check All” now selects All items on All report pages, not just the current page 
      	 "Select Samples" is now a single click for PCA
      	 Now throughout the HOA, selection of groups is by double click
      	 On PCA plots, Non-tumor samples do not display survival length shapes, but are now designated as Non-Tumor 
-     	 Bug Fix: Mouse over on bar graph now displays p-value instead of foldchange
+     	 Bug Fix: Mouse over on bar graph now displays p-value instead of fold change
      	 Bug Fix: Disease sub-types in advanced search for GE Analysis
      	 Bug Fix: Fixed bug associated with  filter for p-value on the class comparison result page
      	 Bug Fix: You can access  user guide and tutorials from within the application
-      	 Bug Fix: Associated with Advance Option on Class Comparion and PCA 
+      	 Bug Fix: Associated with Advance Option on Class Comparison and PCA 
      	 
      --  The following previous known issues have now been resolved in this release
          Bug Fix: --  WebGenome plots are supported only on IE browser (6.0 and above) and not on Safari and Firefox
@@ -158,11 +182,48 @@
          Bug Fix: --  In Safari, a user can not unselect the IMAGE Id check box.
          Bug Fix: --  In Safari, a user can not uncheck the Clone Id/Probe Set Id check box.
          Bug Fix: --  On query pages, clicking on the "clear" button does not clear the query after the user has previewed the report from that query
-     
-     	 
 
     =====================
-    v1.0 Features:
+    WebGenome version 2.3 Features:
+    =====================
+     
+     WebGenome version 2.3 provides support for LOH data and includes
+    additional features requested by users including:
+    
+     -- Analytic operations have been decoupled from plot generation.
+        This results in better performance as the same operations are
+        not performed each time there is a change in plot parameters.
+        
+     -- A workspace feature has been added.  All data uploaded or
+        generated by an analytic are saved in this workspace.  Additionally,
+        generated plots are also saved in the workspace.
+     
+     -- Plotting parameters changes are made in a context
+        sensitive popup window available from the plotting page.
+        Only those parameters that apply to the plot type are
+        provided.
+        
+     -- Users can change the display name of uploaded experiments and
+        bioassays in the workspace.
+        
+     -- Users can set the color of bioassays in the workspace.
+     
+     -- Plots now use PNG (portable network graphics) instead of
+        SVG (scalable vector graphics).
+        
+     -- New analytic operations have been added including minimum common
+        altered region and aCGH based smoothing.
+        (See http://www.bioconductor.org/repository/release1.5/package/html/aCGH.html
+        for more information.)
+    
+     -- Test Plot generation is available by default on the home page.
+        These plots are created using randomly generated data.
+        
+     -- Help documentation updated
+        	 
+
+    =====================
+    Rembrandt v1.0 Features:
     =====================
     
      --  Added ability to perform higher-order integrative analysis of clinical and genomic datasets
@@ -190,7 +251,7 @@
          gene-based querying in Quick search (Gene expression and Kaplan-Meier Survival plot)
      
     =====================
-    v0.51 Features:
+    Rembrandt v0.51 Features:
     =====================
     
      --  Added the ability to look for gene expression and copy number
@@ -226,7 +287,7 @@
 
     
     =====================
-    v0.50 Features:
+    Rembrandt v0.50 Features:
     =====================
     
      --  Plot gene expression profiles across different tumor types
@@ -275,7 +336,7 @@
  =====================================================================
                    3.0 Known Issues/Future considerations
  =====================================================================
-     --  WebGenome plots may timeout when number of samples exceeds over 200
+     --  WebGenome plots may timeout when number of samples exceeds 200
      
      --  WebGenome plots from "All Genes" Copy Number query does not work.
 
@@ -289,7 +350,7 @@
          works correctly.
          
      --  On class comparison page, for t test and wilcoxin test, p-value for the same
-         reporters is different when the comparison and baseline groups are swaped.
+         reporters is different when the comparison and baseline groups are swapped.
          P values are the same until E-10 value.
          
      --  On the GeneExpression, Box & Whisker plot, "Mouse over" max and min values are
@@ -319,12 +380,17 @@
  =====================================================================
                    4.0 Bug Reports and Support
  =====================================================================
-     
+     For Rembrandt:
      Send email to ncicb@pop.nci.nih.gov to request support or
      report a bug. Please put "REMBRANDT" in the subject line.  
  
      Clicking on the feedback button on the application login page will open your default
      email system to send feedback to Rembrandt UAT (User Acceptance Test) list serv
+     
+     For WebGenome:
+     Send email to dhall@rti.org to request support or report a bug.
+     Please put "webGenome Support" in the subject line for support.
+     Please put "webGenome Bug" in the subject line when reporting a bug.
  =====================================================================
                    5.0 Tutorials and help pages
  =====================================================================
@@ -335,6 +401,11 @@
      Context-sensitive Online help is available throughout the 
      application. Click on the "?" help button to view online help 
  
+     WebGenome test plots can be generated from the webGenome home page using randomly
+     generated data. Users may interact with the test plots using the Work Area to
+     change the initial plots.
+     
+     Help information is available from all webGenome pages.
 
  =====================================================================
                          6.0 NCICB resources
@@ -354,24 +425,20 @@
  
      REMBRANDT Application
  
-     --  http://rembrandt-db.nci.nih.gov
+     --  https://caintegrator.nci.nih.gov/rembrandt/ 
  
      Rembrandt informational website
  
-     --  http://rembrandt.nci.nih.gov
+     --  http://caintegrator-info.nci.nih.gov/rembrandt
 
      caIntegrator informational website
  
-     --  http://caIntegrator.nci.nih.gov
+     --  http://caintegrator-info.nci.nih.gov
      
      caArray
  
      --  http://caarray.nci.nih.gov
      
-     webCGH
- 
-     --  http://webcgh.nci.nih.gov/webCGH/index.jsp
- 
      Clinical Trials
  
      --  http://trials.nci.nih.gov/
