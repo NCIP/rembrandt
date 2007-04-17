@@ -3,6 +3,7 @@ import gov.nih.nci.caintegrator.application.cache.CacheConstants;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
@@ -135,7 +136,9 @@ public final class LoginAction extends Action
             }
 
             //add userListBean to session...for now
-            session.setAttribute(RembrandtConstants.USER_LISTS,userListBean);
+            UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
+            userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
+            //session.setAttribute(RembrandtConstants.USER_LISTS,userListBean);
          
             return (mapping.findForward("success"));
         }
