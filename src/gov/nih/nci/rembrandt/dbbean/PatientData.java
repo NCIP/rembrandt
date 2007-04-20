@@ -83,7 +83,7 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
    public final static String INSTITUTION_ID = "institutionId";
    public final static String WHO_GRADE = "whoGrade";
    public final static String CENSORING_STATUS = "censoringStatus";
-
+   public final static String INSTITUTION_NAME = "institutionName";
   
 
     private Long age;
@@ -110,6 +110,7 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
     
     private String whoGrade;    
     
+    private String institutionName;
     
     private Long neuroEvaluationId;    
    
@@ -1335,6 +1336,20 @@ public String getOnStudySurgeryTimePoints() {
  */
 public void setOnStudySurgeryTimePoints(String onStudySurgeryTimePoints) {
 	this.onStudySurgeryTimePoints = onStudySurgeryTimePoints;
+}
+
+/**
+ * @return Returns the institutionName.
+ */
+public String getInstitutionName() {
+	return institutionName;
+}
+
+/**
+ * @param institutionName The institutionName to set.
+ */
+public void setInstitutionName(String institutionName) {
+	this.institutionName = institutionName;
 }
 
 

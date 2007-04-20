@@ -153,7 +153,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		compoundViewColl = new ArrayList();
 		compoundViewColl.add(new LabelValueBean(" ", " "));
 		
-		institueViewColl = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
+		institueViewColl = InsitutionAccessHelper.getInsititutionCollectionWithDisplayNames(request.getSession());
 		//To remove the All Institutions entry
 		for (Iterator it = institueViewColl.iterator(); it.hasNext();){
 			InstitutionDE de = (InstitutionDE)it.next();

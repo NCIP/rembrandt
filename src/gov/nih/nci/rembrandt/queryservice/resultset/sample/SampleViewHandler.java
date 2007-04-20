@@ -150,7 +150,8 @@ public class SampleViewHandler {
 		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,clinicalObj.getAgeGroup()));
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));
 		sampleResultset.setGenderCode(new GenderDE(clinicalObj.getGenderCode()));
-		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));			
+		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));		
+		sampleResultset.setInstitutionName(clinicalObj.getInstitutionName());
 		return sampleResultset;
     }
     public static SampleResultset handleBioSpecimenResultset(SampleViewResultsContainer sampleViewContainer, PatientData clinicalObj){
@@ -170,6 +171,7 @@ public class SampleViewHandler {
 		sampleResultset.setDisease(new DiseaseNameDE(clinicalObj.getDiseaseType()));			
 	    sampleResultset.setWhoGrade(clinicalObj.getWhoGrade());	
 		sampleResultset.setRaceDE(new RaceDE(clinicalObj.getRace()));
+		sampleResultset.setInstitutionName(clinicalObj.getInstitutionName());
 		if(clinicalObj.getAge() != null){
 			sampleResultset.setAge(clinicalObj.getAge());
 		}

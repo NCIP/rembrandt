@@ -214,7 +214,7 @@ public class QuickSearchAction extends DispatchAction {
 		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {			
             kmResultsContainer = performKMGeneExpressionQuery(constrainSamples, quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet, institutionCriteria);
            	if(kmResultsContainer!=null) {
-				kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+				kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
 				if(kmResultsContainer.getGeneSymbol()!= null){
 					kmForm.setGeneOrCytoband(kmResultsContainer.getGeneSymbol().getValue().toString());
 				}
@@ -228,16 +228,17 @@ public class QuickSearchAction extends DispatchAction {
 			if(quickSearchType.equals(RembrandtConstants.GENE_SYMBOL)){
 			   kmResultsContainer = performKMCopyNumberQuery(constrainSamples, quickSearchVariableName, quickSearchType, institutionCriteria);
 			   if(kmResultsContainer != null  && kmResultsContainer.getCytobandDE()!= null){
+				   kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
 				   String cytobandGeneSymbol = kmResultsContainer.getCytobandDE().getValue().toString();
 				   kmForm.setGeneOrCytoband(quickSearchVariableName+"("+cytobandGeneSymbol+")");
-				   kmForm.setPlotVisible(false); 
+				   kmForm.setPlotVisible(true); 
 			   }
 			 }else if(quickSearchType.equals(RembrandtConstants.SNP_PROBESET_ID)){
 				 kmResultsContainer = performKMCopyNumberQuery(constrainSamples, quickSearchVariableName, quickSearchType, institutionCriteria);
 				 if(kmResultsContainer != null){
-				 kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(quickSearchVariableName);
-				 kmForm.setGeneOrCytoband(quickSearchVariableName); 
-				 kmForm.setPlotVisible(true); 
+					 kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(quickSearchVariableName);
+					 kmForm.setGeneOrCytoband(quickSearchVariableName); 
+					 kmForm.setPlotVisible(true); 
 				 }
 			 }
 
@@ -263,7 +264,7 @@ public class QuickSearchAction extends DispatchAction {
 
 			   kmResultsContainer = performKMClinicalQuery(sampleList, institutionCriteria);
 			   if(kmResultsContainer != null  ){
-				    kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+				    kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
 			   }
 			   
 			   //HERE IS WHERE WE WILL PASS THE 2ND comparison group, or ALL
@@ -310,7 +311,7 @@ public class QuickSearchAction extends DispatchAction {
 					   }
 					   else	{
 						   //this is NOT a "vs restOfSamples", so dont do the exclusion
-						   restofKMSampleInfos = allSampleKMResultsContainer.getSummaryKMPlotSamples();
+						   restofKMSampleInfos = allSampleKMResultsContainer.getMeanKMPlotSamples();
 					   }
 				   }
 			   }
@@ -325,19 +326,6 @@ public class QuickSearchAction extends DispatchAction {
 					KaplanMeierDataController dataGenerator = new KaplanMeierDataController( kmSampleInfos, restofKMSampleInfos, kmplotType, qsGroupName, qsGroupNameCompare);
 					KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 					storedData.setId("KAPLAN");
-//					storedData.setUpSampleCount(0);
-//					storedData.setDownSampleCount(0);
-//					storedData.setIntSampleCount(0);
-//					storedData.setUpVsDownPvalue(new Double(0));
-//					storedData.setUpVsIntPvalue(new Double(0));
-//					storedData.setUpVsRest(new Double(0));
-//					storedData.setDownVsIntPvalue(new Double(0));
-//					storedData.setDownVsRest(new Double(0));
-//					storedData.setUpVsRestPvalue(new Double(0));
-//					storedData.setDownVsRestPvalue(new Double(0));
-//					storedData.setIntVsRest(new Double(0));
-//					storedData.setIntVsRestPvalue(new Double(0));
-//					storedData.setNumberOfPlots(0);
 					kmForm.setStoredData(storedData);
 					kmForm.setSelectedDataset("KAPLAN");
 					presentationTierCache.addNonPersistableToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
@@ -352,7 +340,7 @@ public class QuickSearchAction extends DispatchAction {
 					kmForm.setPlotVisible(true);
 		 }
 
-		if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT) || kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){
+		if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT) || kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){			
 			if(kmResultsContainer != null && kmResultsContainer.getAssociatedReporters().size() == 0 ){
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
 						"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
@@ -368,7 +356,11 @@ public class QuickSearchAction extends DispatchAction {
 				kmForm.setSelectedDataset("KAPLAN");
 				presentationTierCache.addNonPersistableToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
 				presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
-			
+				if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)){
+		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
+				}else if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){	
+		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
+				}
 			}
 		}
 		/**
@@ -419,7 +411,7 @@ public class QuickSearchAction extends DispatchAction {
         if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
             kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
             
-            if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_DEFAULT)){
+            if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)){
             	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
             }
         }
@@ -437,14 +429,30 @@ public class QuickSearchAction extends DispatchAction {
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
 			if ((kmForm.getSelectedReporter().trim().length() > 0)) {                
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
+					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 					if (kmForm.getSelectedReporter().equals(
-							CaIntegratorConstants.GRAPH_DEFAULT)) {
-						kmSampleInfos = kmResultsContainer.getSummaryKMPlotSamples();
+							CaIntegratorConstants.GRAPH_MEAN)) {
+						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
+					} else if (kmForm.getSelectedReporter().equals(
+							CaIntegratorConstants.GRAPH_MEDIAN)) {
+						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
 					} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_BLANK)){
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 					}
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
-					kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
+					if (kmForm.getSelectedReporter().equals(
+							CaIntegratorConstants.GRAPH_MEAN)) {
+						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
+					} else if (kmForm.getSelectedReporter().equals(
+							CaIntegratorConstants.GRAPH_MEDIAN)) {
+						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
+					} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_BLANK)){
+						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+					}
+					else{
+						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+					}
 				}
 				kmForm.setPlotVisible(true);
 			} else { // empty graph
@@ -459,7 +467,6 @@ public class QuickSearchAction extends DispatchAction {
 			kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 			kmForm.setSelectedDataset("KAPLAN");
 			presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
-			kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 			kmForm.setDownFold(downRegulation);
 			kmForm.setUpFold(upRegulation);
 			return mapping.findForward("kmplot");

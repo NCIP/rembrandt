@@ -129,7 +129,7 @@
 	        <input id="samplePlotRadio" type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        Kaplan-Meier survival plot for Sample Data&nbsp;
 	        <br/><br/>
-	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="examineGroups(this);">
+	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="examineGroups(this);needGVal = false;">
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
 			
@@ -138,7 +138,7 @@
 	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
 	        -->
 	         vs. 
-	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);">	         	
+	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);needGVal = false;">	         	
 			 	<html:optionsCollection property="sampleGroupsList" />
 			 	<option value="none" selected="true">None</option>
 			 	<option value="Rest of the Gliomas">Rest of the Gliomas</option>

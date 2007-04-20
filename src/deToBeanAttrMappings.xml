@@ -83,6 +83,14 @@
                    attribute="institutionId"/>
 
     </DomainElement>
+    <DomainElement name="InstitutionName">
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact"
+                   attribute="institutionName"/>
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.PatientDim"
+                    attribute="institutionName"/>                      
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
+                   attribute="institutionName"/>
+    </DomainElement>
 
      <DomainElement name="gov.nih.nci.caintegrator.dto.de.DiseaseNameDE">
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact"

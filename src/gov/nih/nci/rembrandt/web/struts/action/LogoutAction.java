@@ -3,6 +3,7 @@ import gov.nih.nci.caintegrator.application.cache.CacheConstants;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.mail.Mail;
 import gov.nih.nci.caintegrator.application.mail.MailProps;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
@@ -153,11 +154,14 @@ public final class LogoutAction extends Action
         	 *******************************************************************/
         	if(!"RBTuser".equals(credentials.getUserName())) {
         		//Check to see user also created some custom lists.
-        		UserListBean userListBean = (UserListBean) session.getAttribute(CacheConstants.USER_LISTS);
+
+        		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(request.getSession().getId());
         		
-        		List<UserList> customLists = this.containsCustomList(userListBean.getEntireList());
+        		//UserListBean userListBean = (UserListBean) session.getAttribute(CacheConstants.USER_LISTS);
+        		
+        		List<UserList> customLists = userListBeanHelper.getAllCustomLists();
         		if (!customLists.isEmpty()){
-        			_cacheManager.putRembrandtUserListBean(request.getSession().getId(), userListBean);
+        			_cacheManager.putRembrandtUserList(request.getSession().getId(), customLists);
         		}
         		_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
         	}
@@ -190,19 +194,19 @@ public final class LogoutAction extends Action
   
         return (mapping.findForward(forward));
     }
-    private List<UserList> containsCustomList(List<UserList> userLists){
-    	List<UserList> customList = new ArrayList<UserList>();
-    	if (userLists == null || userLists.isEmpty())
-    		return customList;
-    	
-    	for (UserList list : userLists){
-    		List<ListSubType> subTypes = list.getListSubType();
-    		for (ListSubType subType : subTypes){
-    			if ("Custom".equals(subType.name())){
-    				customList.add(list);
-    			}
-    		}
-    	}
-    	return customList;
-    }
+//    private List<UserList> containsCustomList(List<UserList> userLists){
+//    	List<UserList> customList = new ArrayList<UserList>();
+//    	if (userLists == null || userLists.isEmpty())
+//    		return customList;
+//    	
+//    	for (UserList list : userLists){
+//    		List<ListSubType> subTypes = list.getListSubType();
+//    		for (ListSubType subType : subTypes){
+//    			if ("Custom".equals(subType.name())){
+//    				customList.add(list);
+//    			}
+//    		}
+//    	}
+//    	return customList;
+//    }
 }

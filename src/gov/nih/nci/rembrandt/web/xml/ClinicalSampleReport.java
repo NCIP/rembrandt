@@ -282,6 +282,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 		rows.add(sampleResultset.getDisease());
 		rows.add(sampleResultset.getWhoGrade());
 		rows.add(sampleResultset.getRaceDE());
+		rows.add(sampleResultset.getInstitutionName());
 		rows.add(sampleResultset.getKarnofskyClinicalEvalDE());
 		rows.add(sampleResultset.getNeuroExamDescs());
 		rows.add(sampleResultset.getMriScoreDescs());
@@ -315,7 +316,7 @@ public class ClinicalSampleReport implements ReportGenerator {
 	}
 	
 	public static List<String> getClinicalHeaderValues()	{
-		String headers = "Sample,Age at Dx (years),Gender,Survival (months),Disease,Grade,Race,Karnofsky,Neurological Exam Outcome,MRI Desc,Followup Month,Steroid Dose Status,Anti-Convulsant Status,Prior Therapy Radiation Site,Prior Therapy Radiation Fraction Dose,Prior Therapy Radiation Fraction Number,Prior Therapy Radiation Type,Prior Therapy Chemo Agent Name,Prior Therapy Chemo Course Count,Prior Therapy Surgery Procedure Title,Prior Therapy Surgery Tumor Histology,Prior Therapy Surgery Outcome,OnStudy Therapy Radiation Site,OnStudy Therapy Radiation Neurosis Status,OnStudy Therapy Radiation Fraction Dose,OnStudy Therapy Radiation Fraction Number,OnStudy Therapy Radiation Type,OnStudy Therapy Chemo Agent Name,OnStudy Therapy Chemo Course Count,OnStudy Therapy Surgery Procedure Title,OnStudy Therapy Surgery Indication,OnStudy Therapy Surgery Histo Diagnosis,OnStudy Therapy Surgery Outcome";
+		String headers = "Sample,Age at Dx (years),Gender,Survival (months),Disease,Grade,Race,Institution,Karnofsky,Neurological Exam Outcome,MRI Desc,Followup Month,Steroid Dose Status,Anti-Convulsant Status,Prior Therapy Radiation Site,Prior Therapy Radiation Fraction Dose,Prior Therapy Radiation Fraction Number,Prior Therapy Radiation Type,Prior Therapy Chemo Agent Name,Prior Therapy Chemo Course Count,Prior Therapy Surgery Procedure Title,Prior Therapy Surgery Tumor Histology,Prior Therapy Surgery Outcome,OnStudy Therapy Radiation Site,OnStudy Therapy Radiation Neurosis Status,OnStudy Therapy Radiation Fraction Dose,OnStudy Therapy Radiation Fraction Number,OnStudy Therapy Radiation Type,OnStudy Therapy Chemo Agent Name,OnStudy Therapy Chemo Course Count,OnStudy Therapy Surgery Procedure Title,OnStudy Therapy Surgery Indication,OnStudy Therapy Surgery Histo Diagnosis,OnStudy Therapy Surgery Outcome";
 		List<String> heads = new ArrayList<String>();
 		heads = Arrays.asList(StringUtils.split(headers, ","));
 		return heads;

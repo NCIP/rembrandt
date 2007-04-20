@@ -84,6 +84,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 
 public abstract class  BioSpecimenResultset implements Serializable{
 	private BioSpecimenIdentifierDE biospecimen = null;
+	private String institutionName = null;
 	private Long age = null;
 	private SampleIDDE sampleIDDE = null;
 	private DatumDE censor = null;
@@ -110,6 +111,7 @@ public abstract class  BioSpecimenResultset implements Serializable{
 	private String antiConvulsantStatuses;
 	private String neuroExamDescs;
 	private String mriScoreDescs;
+	
 
 	
 	  private String priorRadiationTimePoints;
@@ -1038,6 +1040,18 @@ public abstract class  BioSpecimenResultset implements Serializable{
 	 */
 	public void setAge(Long age) {
 		this.age = age;
+	}
+	/**
+	 * @return Returns the institutionName.
+	 */
+	public String getInstitutionName() {
+		return institutionName;
+	}
+	/**
+	 * @param institutionName The institutionName to set.
+	 */
+	public void setInstitutionName(String institutionName) {
+		this.institutionName = institutionName;
 	}
 
 

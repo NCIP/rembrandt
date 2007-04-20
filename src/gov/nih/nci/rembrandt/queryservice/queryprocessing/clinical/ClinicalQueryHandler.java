@@ -1255,7 +1255,9 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
                        PatientData.SAMPLE_ID, PatientData.SURVIVAL_LENGTH_RANGE,
                        PatientData.RACE,PatientData.PATIENT_DID,
                        PatientData.SURVIVAL_LENGTH,PatientData.CENSORING_STATUS,
-                       PatientData.AGE,PatientData.WHO_GRADE} );        
+                       PatientData.AGE,PatientData.WHO_GRADE,
+                       PatientData.INSTITUTION_NAME
+                       } );        
 
    
 
@@ -1642,6 +1644,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
             	age = new Long(((BigDecimal)objs[10]).longValue());
             }
             String whoGrade = (String)objs[11];
+            String institutionName = (String)objs[12];
             PatientData p = new PatientData();
             p.setBiospecimenId(bspID);
             p.setGender(gender);           
@@ -1655,6 +1658,8 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 			p.setSurvivalLength(survivalLength);
 			p.setCensoringStatus(censor);
 			p.setAge(age);
+			p.setInstitutionName(institutionName);
+			
 			
 			patientDIDs.add(ptDID);
 

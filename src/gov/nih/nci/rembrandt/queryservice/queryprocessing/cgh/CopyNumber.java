@@ -3,6 +3,7 @@
 
 package gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh;
 
+
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 
@@ -103,6 +104,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String chromosome;
   private String timePoint;  
   private String timePoints;  
+  private String institutionName;
 
   private Date followupDate;  
   private String followupDates;   
@@ -1316,5 +1318,21 @@ public void setRace(String race) {
 	public void setAge(Long age) {
 		this.age = age;
 	}
+
+	/**
+	 * @return Returns the institutionName.
+	 */
+	public String getInstitutionName() {
+		return institutionName;
+	}
+
+	/**
+	 * @param institutionName The institutionName to set.
+	 */
+	public void setInstitutionName(String institutionName) {
+		this.institutionName = institutionName;
+	}
+
+
 }
 

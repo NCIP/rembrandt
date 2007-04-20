@@ -7,9 +7,10 @@ import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
+import gov.nih.nci.rembrandt.dbbean.DownloadFile;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
 import gov.nih.nci.rembrandt.dbbean.GenePathway;
-import gov.nih.nci.rembrandt.dbbean.DownloadFile;
+import gov.nih.nci.rembrandt.dbbean.InstitutionLookup;
 import gov.nih.nci.rembrandt.dbbean.Pathway;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.validation.QueryExecuter;
@@ -19,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -104,7 +104,7 @@ public class LookupManager{
 	private static ExpPlatformLookup[] expPlatforms;
 	private static DiseaseTypeLookup[] diseaseTypes;
 	private static Map<String,PathwayLookup>  pathwayMap;
-	
+	private static List<InstitutionLookup> insitutionLookup;
 	 //private static GeneAliasMap aliasMap = null;
     //private static Set geneSymbols = null;
     
@@ -412,5 +412,17 @@ public class LookupManager{
 	
 			}
 		return sampleIDList;
+		}
+	/**
+	 * @return Returns the InsitutionLookup[].
+	 * @throws Exception
+	 * 
+	 */
+	public static List<InstitutionLookup> getInsitutionLookup() throws Exception{
+			if(insitutionLookup == null){
+				Criteria crit = new Criteria();
+				insitutionLookup = (List<InstitutionLookup>)(QueryExecuter.executeQuery(InstitutionLookup.class,crit,QueryExecuter.NO_CACHE, true));
+			}
+			return insitutionLookup;
 		}
 }

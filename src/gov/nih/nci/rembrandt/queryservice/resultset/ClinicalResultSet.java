@@ -134,6 +134,14 @@ public interface ClinicalResultSet {
 	 * @param survivalLengthRange The survivalLengthRange to set.
 	 */
 	public abstract void setSurvivalLengthRange(String survivalLengthRange);
+	/**
+	 * @return Returns the institutionName.
+	 */
+	public String getInstitutionName();
 
+	/**
+	 * @param institutionName The institutionName to set.
+	 */
+	public void setInstitutionName(String institutionName);
 
 }

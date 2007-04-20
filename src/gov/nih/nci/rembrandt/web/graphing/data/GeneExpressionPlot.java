@@ -2,12 +2,13 @@ package gov.nih.nci.rembrandt.web.graphing.data;
 
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
+import gov.nih.nci.caintegrator.ui.graphing.chart.plot.BoxAndWhiskerCoinPlotRenderer;
+import gov.nih.nci.caintegrator.ui.graphing.chart.plot.FaroutOutlierBoxAndWhiskerCalculator;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.legend.LegendCreator;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -25,7 +26,6 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.imagemap.StandardURLTagFragmentGenerator;
-import org.jfree.chart.labels.BoxAndWhiskerToolTipGenerator;
 import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -33,10 +33,8 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 import org.jfree.chart.servlet.ServletUtilities;
-import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
-import org.jfree.data.statistics.DefaultBoxAndWhiskerXYDataset;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 
@@ -153,48 +151,84 @@ public class GeneExpressionPlot {
 				//B&W plot
 				CategoryAxis xAxis = new CategoryAxis("Disease Type");
 		        NumberAxis yAxis = new NumberAxis("Log2 Expression Intensity");
-		        yAxis.setAutoRangeIncludesZero(false);
-		        BoxAndWhiskerRenderer bwRenderer = null;
+		        yAxis.setAutoRangeIncludesZero(true);
+		        BoxAndWhiskerCoinPlotRenderer bwRenderer = null;
 		       // BoxAndWhiskerRenderer bwRenderer = new BoxAndWhiskerRenderer();
 		        if(reporter != null)	{
 		        	//single reporter, show the coins
-		        	bwRenderer = new BoxAndWhiskerDotsRenderer(gpds.getCoinHash());
+		        	bwRenderer = new BoxAndWhiskerCoinPlotRenderer(gpds.getCoinHash());
+		        	bwRenderer.setDisplayCoinCloud(true);
+		        	bwRenderer.setDisplayMean(false);
+		        	bwRenderer.setDisplayAllOutliers(true);
+		        	bwRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
+		        		public String generateToolTip(CategoryDataset dataset,int series, int item) {
+							String tt="";
+							NumberFormat formatter = new DecimalFormat(".####");
+							String key = "";
+						    //String s = formatter.format(-1234.567);  // -001235
+						    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
+							    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
+							    try	{
+									String med = formatter.format(ds.getMedianValue(series, item));
+									tt += "Median: " + med + "<br/>";
+									tt += "Mean: " + formatter.format(ds.getMeanValue(series, item))+"<br/>";
+									tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
+									tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
+									tt += "Max: " + formatter.format(
+											FaroutOutlierBoxAndWhiskerCalculator.getMaxFaroutOutlier(ds,series, item))+"<br/>";
+									tt += "Min: " + formatter.format(
+											FaroutOutlierBoxAndWhiskerCalculator.getMinFaroutOutlier(ds,series, item))+"<br/>";
+									//tt += "<br/><br/>Please click on the box and whisker to view a plot for this reporter.<br/>";
+									//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
+									//tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
+									key = ds.getRowKeys().get(series).toString();
+							    }
+							    catch(Exception e) {}
+						    }
+						    
+							return  tt;						}
+		
+					});
 		        }
 		        else	{
 		        	//groups, dont show coins
-		        	bwRenderer = new BoxAndWhiskerRenderer();
+		        	bwRenderer = new BoxAndWhiskerCoinPlotRenderer();
+		        	bwRenderer.setDisplayAllOutliers(true);
+		        	bwRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
+		        		public String generateToolTip(CategoryDataset dataset,int series, int item) {
+							String tt="";
+							NumberFormat formatter = new DecimalFormat(".####");
+							String key = "";
+						    //String s = formatter.format(-1234.567);  // -001235
+						    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
+							    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
+							    try	{
+									String med = formatter.format(ds.getMedianValue(series, item));
+									tt += "Median: " + med + "<br/>";
+									tt += "Mean: " + formatter.format(ds.getMeanValue(series, item))+"<br/>";
+									tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
+									tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
+									tt += "Max: " + formatter.format(
+											FaroutOutlierBoxAndWhiskerCalculator.getMaxFaroutOutlier(ds,series, item))+"<br/>";
+									tt += "Min: " + formatter.format(
+											FaroutOutlierBoxAndWhiskerCalculator.getMinFaroutOutlier(ds,series, item))+"<br/>";
+									tt += "<br/><br/>Please click on the box and whisker to view a plot for this reporter.<br/>";
+									//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
+									//tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
+									key = ds.getRowKeys().get(series).toString();
+							    }
+							    catch(Exception e) {}
+						    }
+							return "onclick=\"popCoin('"+geneName+"','"+key+"', '"+alg+"');\" | " + tt;
+
+								
+						}
+		
+					});
 		        }
 		        bwRenderer.setFillBox(false);
 		        
-		        bwRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
-	
-					public String generateToolTip(CategoryDataset dataset,int series, int item) {
-						String tt="";
-						NumberFormat formatter = new DecimalFormat(".####");
-						String key = "";
-					    //String s = formatter.format(-1234.567);  // -001235
-					    if(dataset instanceof DefaultBoxAndWhiskerCategoryDataset){
-						    DefaultBoxAndWhiskerCategoryDataset ds = (DefaultBoxAndWhiskerCategoryDataset)dataset;
-						    try	{
-								String med = formatter.format(ds.getMedianValue(series, item));
-								tt += "Median: " + med + "<br/>";
-								tt += "Mean: " + formatter.format(ds.getMeanValue(series, item))+"<br/>";
-								tt += "Min: " + formatter.format(ds.getMinRegularValue(series, item))+"<br/>";
-								tt += "Max: " + formatter.format(ds.getMaxRegularValue(series, item))+"<br/>";
-								tt += "Q1: " + formatter.format(ds.getQ1Value(series, item))+"<br/>";
-								tt += "Q3: " + formatter.format(ds.getQ3Value(series, item))+"<br/>";
-								tt += "<br/><br/>Please click on the box and whisker to view a plot for this reporter.<br/>";
-								//tt += "X: " + ds.getValue(series, item).toString()+"<br/>";
-								//tt += "<br/><a href=\\\'#\\\' id=\\\'"+ds.getRowKeys().get(series)+"\\\' onclick=\\\'alert(this.id);return false;\\\'>"+ds.getRowKeys().get(series)+" plot</a><br/><br/>";
-								key = ds.getRowKeys().get(series).toString();
-						    }
-						    catch(Exception e) {}
-					    }
-						return "onclick=\"popCoin('"+geneName+"','"+key+"', '"+alg+"');\" | " + tt;
-							
-					}
-	
-				});
+		        
 		        
 		        CategoryPlot bwPlot = new CategoryPlot(bwdataset, xAxis, yAxis, bwRenderer);
 		        bwChart = new JFreeChart(bwPlot);
@@ -376,4 +410,5 @@ public class GeneExpressionPlot {
 
 		return charts;
 	}
+
 }

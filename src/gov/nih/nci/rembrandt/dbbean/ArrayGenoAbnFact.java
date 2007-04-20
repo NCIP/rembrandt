@@ -66,8 +66,7 @@ public class ArrayGenoAbnFact
 {
   public final static String SNP_PROBESET_ID = "snpProbesetId";
     public final static String DISEASE_TYPE = "diseaseType";
-
-
+    public final static String INSTITUTION_NAME = "institutionName";
   private Long agaId;
 
   private Long agentId;
@@ -81,6 +80,9 @@ public class ArrayGenoAbnFact
   private String chromosome;
 
   private Double copyNumber;
+  
+  private String institutionName;
+  
  private Double copynoPval;
 
     public String getSampleId() {
@@ -319,6 +321,20 @@ public class ArrayGenoAbnFact
     public void setTreatmentHistoryId(Long treatmentHistoryId) {
         this.treatmentHistoryId = treatmentHistoryId;
     }
+
+	/**
+	 * @return Returns the institutionName.
+	 */
+	public String getInstitutionName() {
+		return institutionName;
+	}
+
+	/**
+	 * @param institutionName The institutionName to set.
+	 */
+	public void setInstitutionName(String institutionName) {
+		this.institutionName = institutionName;
+	}
 
 }
 

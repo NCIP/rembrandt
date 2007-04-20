@@ -176,12 +176,12 @@ public class RefineQueryAction extends LookupDispatchAction {
 			//Processing institute criteria information.
 			String[] institutes = refineQueryForm.getInstituteView();
 			if (institutes != null && institutes.length > 0){
-				Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
+				Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollectionWithDisplayNames(request.getSession());
 				InstitutionCriteria ic = new InstitutionCriteria();
 				for (int i = 0; i < institutes.length; i++){
 					for (Iterator it = collection.iterator(); it.hasNext();){
 						InstitutionDE de = (InstitutionDE)it.next();
-						if (institutes[i].equals(de.getInstituteName())){
+						if (institutes[i].equals(de.getDisplayName())){
 							ic.setInsitution(de);
 						}
 					}

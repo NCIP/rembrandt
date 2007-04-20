@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.cache;
 
 import gov.nih.nci.caintegrator.application.cache.SessionTempReportCounter;
+import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -436,15 +437,14 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		}
 		return theBag;
 	}
-	public UserListBean getRembrandtUserListBean(String sessionId){
-		Cache sessionCache =  this.getSessionCache(sessionId);
+	public List<UserList> getRembrandtUserList(String sessionId){
 		System.out.print("");
-		UserListBean theBean = null;
+		List<UserList> userlists = null;
 		try {
 //			Element cacheElement = sessionCache.get(RembrandtConstants.SESSION_QUERY_BAG_KEY);
 			Object cacheElement = getPersistableObjectFromSessionCache(sessionId,RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY);
 			if(cacheElement != null){
-				theBean = (UserListBean)cacheElement;
+				userlists = (List<UserList>)cacheElement;
 			}
 		}catch(ClassCastException cce) {
 			logger.error("Someone put something other than a RembrandtUserListBean in the cache as a RembrandtUserListBean");
@@ -455,12 +455,12 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		/**
 		 * There is no SessionQueryBag for this session, create one
 		 */
-		if(theBean==null) {
+		if(userlists==null) {
 			
 			logger.debug("Creating new RembrandtUserListBean");
-			theBean = new UserListBean();
+			userlists = new ArrayList<UserList>();
 		}
-		return theBean;
+		return userlists;
 	}
 	/**
 	 * This is a hack method here for one reason, and is intended to only be used
@@ -664,10 +664,10 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 		addPersistableToSessionCache(sessionId,RembrandtConstants.SESSION_QUERY_BAG_KEY, theBag );
 	}
 	
-	public void putRembrandtUserListBean(String sessionId, UserListBean listBean){
-		addPersistableToSessionCache(sessionId, RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY, listBean );
+	public void putRembrandtUserList(String sessionId, List<UserList> userLists){
+		addPersistableToSessionCache(sessionId, RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY, (Serializable) userLists );
 	}
-	public void removeRembrandtUserListBean(String sessionId){
+	public void removeRembrandtUserList(String sessionId){
 		removeObjectFromPersistableSessionCache(sessionId, RembrandtConstants.REMBRANDT_USER_LIST_BEAN_KEY);
 	}
 	/**

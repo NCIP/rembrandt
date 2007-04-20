@@ -90,12 +90,14 @@ public class KMDataSetHelper {
 						_kmForm.getReporterSelection().equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
 					reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
 				}else{
-					reporters.add(0, CaIntegratorConstants.GRAPH_DEFAULT);
+					reporters.add(0, CaIntegratorConstants.GRAPH_MEAN);
+					reporters.add(1, CaIntegratorConstants.GRAPH_MEDIAN);
 				}
 			}
 			if (_plotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)
 					&& reporters.size() > 1) {
-				reporters.add(0, CaIntegratorConstants.GRAPH_BLANK);
+				reporters.add(0, CaIntegratorConstants.GRAPH_MEDIAN);
+				reporters.add(1, CaIntegratorConstants.GRAPH_MEAN);
 
 			}
 			_kmForm.setReporters(reporters);

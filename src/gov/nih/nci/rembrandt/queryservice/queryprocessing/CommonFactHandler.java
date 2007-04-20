@@ -127,16 +127,30 @@ public class CommonFactHandler {
         InstitutionCriteria institCrit = interceptorForGEDiseaseGroupQuery(query);
         if (institCrit  != null) {
             ArrayList<Long> instIDs = new ArrayList<Long>();
+            ArrayList<String> instNames = new ArrayList<String>();
             Collection<InstitutionDE> institutes = institCrit.getInstitutions();
-
+           
             for (InstitutionDE institution : institutes) {
                instIDs.add(institution.getValueObject());
+               // Make sure Institution Name is set
+               if(institution.getDisplayName() != null && institution.getDisplayName().length()> 0){
+            	   instNames.add(institution.getInstituteName());
+               }
             }
-
+            //Add criteria for Intitution ID (access id)
             String instIDAttr = QueryHandler.getAttrNameForTheDE(InstitutionDE.class.getName(), beanClass.getName());
             Criteria c = new Criteria();
             c.addIn(instIDAttr, instIDs);
             criteria.addAndCriteria(c);
+          //Add criteria for Insitution Name
+            if(instNames.size()>0){
+	            c = new Criteria();
+	            c.addIn("INSTITUTION_NAME", instNames);
+	            criteria.addAndCriteria(c);
+            }
+           
+            
+            //
         }
     }
 	private static InstitutionCriteria  interceptorForGEDiseaseGroupQuery(Query query) {

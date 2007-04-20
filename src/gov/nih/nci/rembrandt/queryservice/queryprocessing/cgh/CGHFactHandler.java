@@ -7,7 +7,6 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.AllGenesCritValidator;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.CommonFactHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.DBEvent;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber.SNPAnnotation;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.util.ThreadPool;
 
@@ -348,6 +347,7 @@ abstract public class CGHFactHandler {
             resultObj.setTimecourseId(factObj.getTimecourseId());
             resultObj.setPhysicalPosition(factObj.getPhysicalPosition());
             resultObj.setChromosome(factObj.getChromosome());
+            resultObj.setInstitutionName(factObj.getInstitutionName());
         }
 
 

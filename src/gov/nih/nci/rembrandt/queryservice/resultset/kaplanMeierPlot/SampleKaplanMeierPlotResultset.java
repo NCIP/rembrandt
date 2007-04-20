@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -119,24 +120,55 @@ public class SampleKaplanMeierPlotResultset extends SampleResultset{
     		return reporters.values();
     }
 	/**
-	 * @return reporterResultset Returns reporterResultset to this DiseaseGeneExprPlotResultset object.
+	 * @return mean of all reporters
 	 */
-    public DatumDE getSummaryReporterFoldChange(){
-    DatumDE foldChangeRatioValue = null;    
+    public Double getMeanReporterValue(){
+    Double mean = null;    
 	Collection reporters = getReporterResultsets();
 	int numberOfReporters = reporters.size();
 	if(numberOfReporters > 0){
 		double reporterValues = 0.0;
 		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
 			ReporterResultset reporter = (ReporterResultset) reporterIterator.next();
-			double foldchange = new Double(reporter.getValue().getValue().toString()).doubleValue();
-			reporterValues += foldchange;
+			double value = new Double(reporter.getValue().getValue().toString()).doubleValue();
+			reporterValues += value;
 		}
-		Double geneExprAverage = new Double (reporterValues / numberOfReporters);
-		foldChangeRatioValue = new DatumDE(DatumDE.FOLD_CHANGE_RATIO,geneExprAverage);
+		mean = new Double (reporterValues / numberOfReporters);		
 	}
-	return foldChangeRatioValue;
+	return mean;
     }
+    /**
+	 * @return returns median of all reporters
+	 */
+    public Double getMedianReporterValue(){
+    Double median = null;    
+	Collection reporters = getReporterResultsets();
+	List<Double> reporterValues = new ArrayList<Double>();
+	int numberOfReporters = reporters.size();
+	if(numberOfReporters > 0){
+		for (Iterator reporterIterator = reporters.iterator(); reporterIterator.hasNext();) {
+			ReporterResultset reporter = (ReporterResultset) reporterIterator.next();
+			double value = new Double(reporter.getValue().getValue().toString()).doubleValue();
+			reporterValues.add(value);
+		}
+		median = median(reporterValues);		
+	}
+	return median;
+    }
+	//  ================================================== median
+	//  List must be first sorted
+	private Double median(List<Double> list) {
+	   Collections.sort(list);
+	   int middle = list.size()/2;  // subscript of middle element
+	   if (list.size()%2 == 1) {
+	       // Odd number of elements -- return the middle one.
+	       return list.get(middle);
+	   } else {
+	      // Even number -- return average of middle two
+	      // Must cast the numbers to double before dividing.
+	      return (list.get(middle) + list.get(middle+1) / 2.0);
+	   }
+	}//end method median
 	/**
 	 * @param none Removes all reporterResultset in this DiseaseGeneExprPlotResultset object.
 	 */

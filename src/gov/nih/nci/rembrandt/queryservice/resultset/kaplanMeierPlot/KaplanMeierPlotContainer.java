@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
@@ -105,7 +107,7 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
 		this.geneSymbol = geneSymbol;
 	}
-	public KaplanMeierSampleInfo[] getSummaryKMPlotSamples() {
+	public KaplanMeierSampleInfo[] getMeanKMPlotSamples() {
 	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
 	    Collection samples = this.getSampleResultsets();
         //Clear the Previous collection
@@ -119,8 +121,31 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 				Long time = sample.getSurvivalLength();
 				Integer censor = new Integer((sample.getCensor().getValue().toString()));
 				Double value = 0.0;
-				if(sample.getSummaryReporterFoldChange()!= null){
-				value = (Double) sample.getSummaryReporterFoldChange().getValue();
+				if(sample.getMeanReporterValue()!= null){
+				value = (Double) sample.getMeanReporterValue();
+				}
+				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(sample.getSampleIDDE().getValueObject(),time.intValue(), censor.intValue(), value.doubleValue());
+				kmSampleInfoArray.add(kmSampleInfo);
+			}
+		}
+		return (KaplanMeierSampleInfo[]) kmSampleInfoArray.toArray(new KaplanMeierSampleInfo[kmSampleInfoArray.size()]);
+	}
+	public KaplanMeierSampleInfo[] getMedianKMPlotSamples() {
+	    List<KaplanMeierSampleInfo> kmSampleInfoArray = new ArrayList<KaplanMeierSampleInfo>(); 
+	    Collection samples = this.getSampleResultsets();
+        //Clear the Previous collection
+	    for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
+			SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset) sampleIterator.next();
+			if(sample != null &&
+					sample.getSampleIDDE()!= null &&
+					sample.getSurvivalLength()!= null &&
+					sample.getCensor()!= null &&
+					sample.getCensor().getValue() != null){
+				Long time = sample.getSurvivalLength();
+				Integer censor = new Integer((sample.getCensor().getValue().toString()));
+				Double value = 0.0;
+				if(sample.getMedianReporterValue()!= null){
+				value = (Double) sample.getMedianReporterValue();
 				}
 				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(sample.getSampleIDDE().getValueObject(),time.intValue(), censor.intValue(), value.doubleValue());
 				kmSampleInfoArray.add(kmSampleInfo);
@@ -157,8 +182,8 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 				Long time = sample.getSurvivalLength();
 				Integer censor = new Integer((sample.getCensor().getValue().toString()));
 				Double value = 0.0;
-				if(sample.getSummaryReporterFoldChange()!= null){
-				value = (Double) sample.getSummaryReporterFoldChange().getValue();
+				if(sample.getMeanReporterValue()!= null){
+				value = (Double) sample.getMeanReporterValue();
 				}
 				KaplanMeierSampleInfo kmSampleInfo = new KaplanMeierSampleInfo(sample.getSampleIDDE().getValueObject(),time.intValue(), censor.intValue(), value.doubleValue());
 				kmSampleInfoArray.add(kmSampleInfo);
@@ -200,7 +225,25 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	    
 	    return new ArrayList(reporterNames);
 	}
-
+	@SuppressWarnings("unchecked")
+	 public List getAssociatedSNPReportersSortedByPosition(){
+	  Set reporters = new HashSet();
+	  SortedMap positionReporterMap = new TreeMap();
+	     Collection<SampleResultset> samples = this.getSampleResultsets();
+	     for(SampleResultset sampleResultset:samples ){
+	      SampleKaplanMeierPlotResultset kmSample = (SampleKaplanMeierPlotResultset)sampleResultset;
+	      reporters.addAll(kmSample.getReporterResultsets());
+	     }     
+	     for(Object reporter:reporters){
+	      ReporterResultset reporterResultset = (ReporterResultset)reporter;
+	      if(reporterResultset.getStartPhysicalLocation()!= null  && reporterResultset.getReporter()!= null){
+	       Long startPosition = reporterResultset.getStartPhysicalLocation().getValueObject();
+	       String reporterName = reporterResultset.getReporter().getValue().toString();
+	       positionReporterMap.put(startPosition,reporterName);
+	      }
+	     }     
+	     return new ArrayList(positionReporterMap.values());
+	 }
 	/**
 	 * @return Returns the cytobandDE.
 	 */

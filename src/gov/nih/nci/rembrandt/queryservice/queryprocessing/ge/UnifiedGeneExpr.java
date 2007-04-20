@@ -77,6 +77,7 @@ abstract public class UnifiedGeneExpr implements ResultSet{
     private Double normalIntensity;
     private Double sampleIntensity;
 
+
     private Long ID;
 
     /* (non-Javadoc)
@@ -176,6 +177,7 @@ abstract public class UnifiedGeneExpr implements ResultSet{
         private Long biospecimenId;
         private String genderCode;
         private String survivalLengthRange;
+        private String institutionName;
         
         public String getSampleId() {
             return sampleId;
@@ -239,6 +241,20 @@ abstract public class UnifiedGeneExpr implements ResultSet{
 		 */
 		public void setSurvivalLengthRange(String survivalLengthRange) {
 			this.survivalLengthRange = survivalLengthRange;
+		}
+
+		/**
+		 * @return Returns the institutionName.
+		 */
+		public String getInstitutionName() {
+			return institutionName;
+		}
+
+		/**
+		 * @param institutionName The institutionName to set.
+		 */
+		public void setInstitutionName(String institutionName) {
+			this.institutionName = institutionName;
 		}
 
 

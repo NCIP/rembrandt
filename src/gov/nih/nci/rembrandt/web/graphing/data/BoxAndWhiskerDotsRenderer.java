@@ -34,7 +34,7 @@
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
  *                   Tim Bardzil;
  *
- * $Id: BoxAndWhiskerDotsRenderer.java,v 1.4 2006-10-12 17:13:12 landyr Exp $
+ * $Id: BoxAndWhiskerDotsRenderer.java,v 1.5 2007-04-20 13:46:32 sahnih Exp $
  *
  * Changes
  * -------
@@ -74,7 +74,6 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -93,8 +92,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.renderer.Outlier;
-import org.jfree.chart.renderer.OutlierList;
-import org.jfree.chart.renderer.OutlierListCollection;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import org.jfree.data.category.CategoryDataset;
@@ -102,7 +99,6 @@ import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A box-and-whisker renderer.

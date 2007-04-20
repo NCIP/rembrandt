@@ -126,7 +126,7 @@
 	<table width="100%" border="0">
 		<tr><td>
 				<html:select property="instituteView" multiple="true" onchange="">
-				    <html:optionsCollection property="institueViewColl" label="instituteName" value="instituteName"/>
+				    <html:optionsCollection property="institueViewColl" label="displayName" value="displayName"/>
 				</html:select><html:errors property="instituteView"/>
 			</td>
 		</tr>

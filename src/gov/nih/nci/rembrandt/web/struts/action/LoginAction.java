@@ -124,22 +124,21 @@ public final class LoginAction extends Action
             	e.printStackTrace();
             }
             //Now check there are customLists in the cache
-            UserListBean cachedBean = _cacheManager.getRembrandtUserListBean(session.getId());
-            if (cachedBean != null && !cachedBean.getEntireList().isEmpty()){
-            	List<UserList> customLists = cachedBean.getEntireList();
+            List<UserList> customLists = _cacheManager.getRembrandtUserList(session.getId());
+            if (customLists != null && !customLists.isEmpty()){
             	for (UserList theList : customLists){
             		UserList userList = getUserList(theList);
             		userListBean.addList(userList);
             	}
             	//Remove it after retrieval.
-            	_cacheManager.removeRembrandtUserListBean(request.getSession().getId());
+            	_cacheManager.removeRembrandtUserList(request.getSession().getId());
             }
 
             //add userListBean to session...for now
+
             UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
             userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
-            //session.setAttribute(RembrandtConstants.USER_LISTS,userListBean);
-         
+ 
             return (mapping.findForward("success"));
         }
         else

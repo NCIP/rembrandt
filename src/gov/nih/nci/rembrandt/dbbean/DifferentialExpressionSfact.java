@@ -77,7 +77,7 @@ public class DifferentialExpressionSfact
     public final static String DISEASE_TYPE = "diseaseType";
     public final static String SAMPLE_ID = "sampleId";
     public final static String INSTITUTION_ID = "institutionId";
-
+    public final static String INSTITUTION_NAME = "institutionName";
 
     public String getCytoband() {
         return cytoband;
@@ -114,6 +114,8 @@ public class DifferentialExpressionSfact
   private Long diseaseHistoryId;
 
   private Long diseaseTypeId;
+  
+  private String institutionName; //INSTITUTION_NAME
 
     public String getDiseaseType() {
         return diseaseType;
@@ -356,5 +358,19 @@ public class DifferentialExpressionSfact
         //TODO: complete this
         return result;
     }
+
+/**
+ * @return Returns the institutionName.
+ */
+public String getInstitutionName() {
+	return institutionName;
+}
+
+/**
+ * @param institutionName The institutionName to set.
+ */
+public void setInstitutionName(String institutionName) {
+	this.institutionName = institutionName;
+}
 }
 
