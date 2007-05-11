@@ -169,7 +169,7 @@ String helpLinkClose = "', 350, 500);\">"+
 				//check the type of finding and create the appropriate link
 				if(f instanceof ClassComparisonFinding){
 					displayableFindings = true;
-					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "&newReport=true', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
 				}
 				else if(f instanceof HCAFinding){
 					displayableFindings = true;

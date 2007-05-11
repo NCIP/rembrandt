@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
+import gov.nih.nci.rembrandt.util.MathUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -151,24 +152,10 @@ public class SampleKaplanMeierPlotResultset extends SampleResultset{
 			double value = new Double(reporter.getValue().getValue().toString()).doubleValue();
 			reporterValues.add(value);
 		}
-		median = median(reporterValues);		
+		median = MathUtil.median(reporterValues);		
 	}
 	return median;
     }
-	//  ================================================== median
-	//  List must be first sorted
-	private Double median(List<Double> list) {
-	   Collections.sort(list);
-	   int middle = list.size()/2;  // subscript of middle element
-	   if (list.size()%2 == 1) {
-	       // Odd number of elements -- return the middle one.
-	       return list.get(middle);
-	   } else {
-	      // Even number -- return average of middle two
-	      // Must cast the numbers to double before dividing.
-	      return (list.get(middle-1) + list.get(middle) / 2.0);
-	   }
-	}//end method median
 	/**
 	 * @param none Removes all reporterResultset in this DiseaseGeneExprPlotResultset object.
 	 */

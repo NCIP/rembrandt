@@ -10,8 +10,9 @@ import gov.nih.nci.rembrandt.dbbean.InstitutionLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -101,7 +102,8 @@ public class InsitutionAccessHelper {
     }
     public static Collection<InstitutionDE> getInsititutionCollectionWithDisplayNames(HttpSession session){
         //Check user credentials and constrain query by Institutions
-    	Collection<InstitutionDE> institutionDEs = new ArrayList<InstitutionDE>();
+    	Map<String,InstitutionDE> sortedMap = new TreeMap<String,InstitutionDE>();
+    	
         if(session.getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
         	UserCredentials credentials = (UserCredentials) session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
             if(credentials.getInstitutes()!= null){
@@ -109,7 +111,7 @@ public class InsitutionAccessHelper {
             		try {
 						for(InstitutionLookup insitutionLookup:LookupManager.getInsitutionLookup()){
 							if(instutuion.getValueObject().equals(insitutionLookup.getInstitutionId())){
-								institutionDEs.add(new InstitutionDE(insitutionLookup.getInstitutionName(),insitutionLookup.getDisplayName(),insitutionLookup.getInstitutionId()));
+								sortedMap.put(insitutionLookup.getDisplayName(),new InstitutionDE(insitutionLookup.getInstitutionName(),insitutionLookup.getDisplayName(),insitutionLookup.getInstitutionId()));
 							}
 						}
 						
@@ -121,7 +123,7 @@ public class InsitutionAccessHelper {
             }
 
         }
-        return institutionDEs;
+        return sortedMap.values();
     }
 
 }

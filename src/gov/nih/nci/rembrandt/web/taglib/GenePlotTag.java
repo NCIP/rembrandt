@@ -96,7 +96,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 			String filename = (String) charts.get("errorBars");
 			String ffilename = (String) charts.get("noErrorBars");
 			String bwFilename = (String) charts.get("bwFilename");
-			
+			String medianFilename = (String) charts.get("medianBars");
 			String legendHtml = (String) charts.get("legend");
 			
 			String size = (String) charts.get("size");
@@ -104,9 +104,9 @@ public class GenePlotTag extends AbstractGraphingTag {
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
 			String fgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + ffilename;
 			String bwgraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + bwFilename;
-			
-			String defaultURL = fgraphURL;
-			String defaultFilename = ffilename;
+			String mediangraphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + medianFilename;
+			String defaultURL = mediangraphURL; //fgraphURL;
+			String defaultFilename = medianFilename;
 			if(reporter!=null)	{
 				defaultURL = bwgraphURL;
 				defaultFilename = bwFilename;
@@ -130,7 +130,8 @@ public class GenePlotTag extends AbstractGraphingTag {
 					out.print(RembrandtConstants.REPORTER_SELECTION_UNI);
 				}
 				
-				out.print("<br/><br/><span style='font-weight:bold'>Graph Type:</span> <a href=\"javascript:toggleGenePlot('"+ffilename+"');\" name=\"graphTypeLinks\"  id=\""+ffilename+"_link\">Geometric Mean</a> | ");
+				out.print("<br/><br/><span style='font-weight:bold'>Graph Type:</span> <a href=\"javascript:toggleGenePlot('"+medianFilename+"');\" name=\"graphTypeLinks\"  id=\""+medianFilename+"_link\">Median</a> | ");
+				out.print("<a href=\"javascript:toggleGenePlot('"+ffilename+"');\" name=\"graphTypeLinks\"  id=\""+ffilename+"_link\">Geometric Mean</a> | ");
 				out.print("<a href=\"javascript:toggleGenePlot('"+filename+"');\" name=\"graphTypeLinks\" id=\""+filename+"_link\">Log2 Intensity</a>");
 				//if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY))	{
 					out.print(" | <a href=\"javascript:toggleGenePlot('"+bwFilename+"');\" name=\"graphTypeLinks\"  id=\""+bwFilename+"_link\">Box and Whisker Log2 Intensity</a><br/> ");

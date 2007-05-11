@@ -5,9 +5,10 @@
 
 
 <fieldset class="gray">
-<legend class="red">Step 1: Select Group<b class="req">*</b>
+
 
 <logic:present name="principalComponentForm">
+<legend class="red">Step 1: Select Group<b class="req">*</b>
 <app:help help="Search on All Samples, or specify at least two Existing Groups." />
 </legend>
 <html:radio property="groupsOption" styleId="allSamplesRadio" styleClass="radio" value="allSamples" />Show all samples<br /><br />
@@ -39,10 +40,11 @@
 
 
 <logic:present name="classComparisonForm">
-<app:help help="Select two Existing Groups, and click >> to move them to Selected Groups. " />
+<legend class="red">Step 1: Select Group<b class="req">*</b>
+<app:help help="Select two or more Existing Groups, and click >> to move them to Selected Groups. " />
 </legend>
 <br clear="both"/>
-	<em>choose 2 groups</em>
+	<em>choose 2 or more groups</em>
 	<html:errors property="selectedGroups"/>
 	<table align="center" border="0">
     <tr style="vertical-align:top">

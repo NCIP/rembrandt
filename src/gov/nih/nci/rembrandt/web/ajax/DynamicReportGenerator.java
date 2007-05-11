@@ -151,28 +151,7 @@ public class DynamicReportGenerator {
 	
 	public Map saveTmpReporter(String rep)	{
 		return saveTmpGeneric("tmpReporterList", rep);
-		/*
-		Map results = new HashMap();
 		
-		HttpSession session = ExecutionContext.get().getSession(false);
-		//put the reporter into an arraylist in the session...doenst exist? create it
-		ArrayList al = new ArrayList();
-		if(session.getAttribute("tmpReporterList") != null)	{
-			al = (ArrayList) session.getAttribute("tmpReporterList");
-		}
-		if(!rep.equals("") && !al.contains(rep)){
-			al.add(rep); // add it
-			session.setAttribute("tmpReporterList", al); //put back in session
-		}
-		String tmpReporters = "";
-		for(int i = 0; i<al.size(); i++)
-			tmpReporters += al.get(i) + "<br/>";
-	
-		results.put("count", al.size());
-		results.put("reporters", tmpReporters);
-		
-		return results;
-		*/
 	}
 	public Map saveTmpGeneric(String type, String elem)	{
 		Map results = new HashMap();

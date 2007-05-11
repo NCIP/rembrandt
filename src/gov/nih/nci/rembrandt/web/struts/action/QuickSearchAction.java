@@ -411,7 +411,7 @@ public class QuickSearchAction extends DispatchAction {
         if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
             kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
             
-            if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)){
+            if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)  || kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEDIAN)){
             	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
             }
         }

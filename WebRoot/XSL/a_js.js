@@ -55,7 +55,7 @@ function A_initTmpReporter_cb(txt)	{
 		return;
 	}
 	var field = document.getElementsByName('tmpReporter');
-	if(field.length > 1 && (currentTmpReporters != "" || allHighlightedReporters.length>0))	{
+	if(field.length >= 1 && (currentTmpReporters != "" || allHighlightedReporters.length>0))	{
 		for (i = 0; i < field.length; i++)	{
 			if(currentTmpReporters.indexOf(field[i].value) != -1 || allHighlightedReporters.inArray(field[i].value))
 				field[i].checked = true ;
@@ -83,7 +83,7 @@ function A_clearTmpReporters_cb(txt)	{
 }
 
 function A_checkAll(field)	{
-		if(field.length > 1)	{
+		if(field.length >= 1)	{
 			for (i = 0; i < field.length; i++)	{
 				field[i].checked = true ;
 				A_saveTmpReporter(field[i]);
@@ -98,9 +98,9 @@ function A_checkAllOnAll(box)	{
 	//get all the items on all pages and savethem
 	//alert(allReporters.length);
 	//update the UI to show which ones are checked and precheck all the boxes
-	if(box.checked && allReporters.length && allReporters.length > 1)	{
+	if(box.checked && allReporters.length && allReporters.length >= 1)	{
 	//	SaveGenes.A_checkAll(allGenes);
-		if(allReporters.length > 1)	{
+		if(allReporters.length >= 1)	{
 			DynamicReport.saveTmpGenericFromArray("tmpReporterList",allReporters,A_saveTmpReporter_cb);
 			
 			setTimeout(function() { A_initSaveReporter(''); }, 500);

@@ -122,10 +122,11 @@
 <br clear="all"/>
 <!--Step 5-->
 <fieldset class="grayRefine">
-<legend class="red">Step 5: Please select data source</legend>	
+<legend class="red">Step 5: Please select data source(s) to filter the query by ( Optional )</legend>	
 	<table width="100%" border="0">
 		<tr><td>
 				<html:select property="instituteView" multiple="true" onchange="">
+					 <!--  <option value ="ALL" selected="selected">ALL</option>  -->
 				    <html:optionsCollection property="institueViewColl" label="displayName" value="displayName"/>
 				</html:select><html:errors property="instituteView"/>
 			</td>
@@ -139,6 +140,7 @@
 <fieldset class="grayRefine">
 <legend class="red">Step 6: Run report or return to previous screen</legend>
 			<br />
+			    <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="javascript:location.href='refinecheck.do'"/>
 				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
 					onclick="javascript:history.back();"/>&nbsp;&nbsp
 				<!--check to see if query has been validated and the runFlag has been set on the form-->
@@ -148,6 +150,7 @@
 						<bean:message key="RefineQueryAction.runReportButton"/>
 					</html:submit>
 				</logic:equal> 
+				
 </fieldset>
 </html:form>
 	

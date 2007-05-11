@@ -84,6 +84,10 @@ import org.apache.struts.action.ActionForm;
 */
 
 public class SessionQueryBag implements Serializable,Cloneable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static transient Logger logger = Logger.getLogger(SessionQueryBag.class);
 	/*
 	 * queryMap is the current map of all queries the user has created, these

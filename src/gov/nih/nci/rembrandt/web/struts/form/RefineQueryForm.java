@@ -14,6 +14,7 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -154,6 +155,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		compoundViewColl.add(new LabelValueBean(" ", " "));
 		
 		institueViewColl = InsitutionAccessHelper.getInsititutionCollectionWithDisplayNames(request.getSession());
+		//Collections.sort((List) institueViewColl);
 		//To remove the All Institutions entry
 		for (Iterator it = institueViewColl.iterator(); it.hasNext();){
 			InstitutionDE de = (InstitutionDE)it.next();

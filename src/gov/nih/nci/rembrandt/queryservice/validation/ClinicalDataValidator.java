@@ -102,7 +102,7 @@ import org.apache.log4j.Logger;
 
 public class ClinicalDataValidator {
 	private static Logger logger = Logger.getLogger(ClinicalDataValidator.class);	
-
+	private static  Collection<SampleResultset> sampleResultsetCollection = new HashSet<SampleResultset>(); 
 	/**
 	 * In order to return the valid samples that meet every condition in the ClinicalFactorType collection
 	 * we need to save returns for each condition is each seperate list
@@ -219,6 +219,11 @@ public class ClinicalDataValidator {
 		@SuppressWarnings("unchecked")
 		public static Collection<SampleResultset> executeClinicalQuery(Collection<SampleIDDE> sampleList) throws Exception{
 			Collection<SampleResultset> sampleResultsets =  Collections.EMPTY_LIST;
+			//Check if the sample results already exsists, if all of them exsist then we don't need to run the SQL query
+			sampleResultsets = checkSampleResultsets( sampleList);
+			if(sampleResultsets != null && sampleList != null && sampleResultsets.size()== sampleList.size()){
+				return sampleResultsets;
+			}
 			//create a ClinicalDataQuery to contrain by Insitition group
 			 ClinicalDataQuery clinicalDataQuery = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 			 clinicalDataQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
@@ -254,6 +259,7 @@ public class ClinicalDataValidator {
 	 						sampleResultsets = svrContainer.getSampleResultsets();
 	 					}
 		 	}
+	  		sampleResultsetCollection.addAll(sampleResultsets);
 	  		return sampleResultsets;
 		}
 		public static Collection<SampleResultset> executeClinicalQueryForSampleList(Collection<String> sampleList) throws Exception{
@@ -261,6 +267,17 @@ public class ClinicalDataValidator {
 		}
 		public static Collection<SampleResultset> getValidatedSampleResultsetsFromSampleIDs(Collection<String> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
 			return getValidatedSampleResultsets(ListConvertor.convertToSampleIDDEs(sampleList), clinicalFactors); 
+		}
+		private static Collection<SampleResultset> checkSampleResultsets(Collection<SampleIDDE> sampleList){
+			Collection<SampleResultset> mySampleResultsets = new ArrayList<SampleResultset>();
+			if(sampleList != null && sampleResultsetCollection != null  && !sampleResultsetCollection.isEmpty()){
+				for(SampleResultset sampleResultset: sampleResultsetCollection){
+					if(sampleList.contains(sampleResultset.getSampleIDDE())){
+						mySampleResultsets.add(sampleResultset);
+					}
+				}
+			}
+			return mySampleResultsets;
 		}
 
 }

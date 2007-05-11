@@ -27,6 +27,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesR
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.GeneExprDiseasePlotContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
+import gov.nih.nci.rembrandt.util.MathUtil;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.text.DecimalFormat;
@@ -114,7 +115,8 @@ public class GenePlotDataSet {
 	protected DefaultStatisticalCategoryDataset log2Dataset = new DefaultStatisticalCategoryDataset();
 	// 3) this one holds the data for the RAW plot
 	protected DefaultCategoryDataset rawDataset = new DefaultCategoryDataset();
-
+	// 4) this one holds the data for the median plot
+	protected DefaultCategoryDataset medianDataset = new DefaultCategoryDataset();
 	private static Logger logger = Logger.getLogger(GenePlotDataSet.class);
 	protected HashMap pValues = new HashMap();
 	protected HashMap stdDevMap = new HashMap();
@@ -340,6 +342,7 @@ public class GenePlotDataSet {
 						
 						//TESTING
 						ArrayList tlist = new ArrayList();
+						ArrayList<Double> intensityValueList = new ArrayList<Double>();
 						/*
 						for (int k = 0; k < 25; k++) {
 		                    final double value1 = 10.0 + Math.random() * 3;
@@ -352,16 +355,18 @@ public class GenePlotDataSet {
 							for(Object sample:bwSampleIds){
 			            		if(sample instanceof SampleFoldChangeValuesResultset ){
 			            			SampleFoldChangeValuesResultset folgChangeResultset = (SampleFoldChangeValuesResultset) sample;
-			            			Double ratio = (Double)folgChangeResultset.getFoldChangeRatioValue().getValue();
-			               			Double intensity = (Double)folgChangeResultset.getFoldChangeIntensity().getValue();
+			            			Double intensity = (Double)folgChangeResultset.getFoldChangeIntensity().getValue();
 			               			Double log2Intensity = (Double)folgChangeResultset.getFoldChangeLog2Intensity().getValue();
 			               			tlist.add(log2Intensity);
+			               			intensityValueList.add(intensity);
 			               			//System.out.println("sampleID="+folgChangeResultset.getSampleIDDE().getValueObject()+ "\tratio= "+ratio+"\tintensity= "+intensity+"\tlog2Intensity= "+log2Intensity);	
 			            		}
 			            	}
 						}
 						
 						if(geneViewContainer!=null)	{
+							//Calulate Median
+							medianDataset.addValue(MathUtil.median(intensityValueList),reporterName, diseaseName);
 							//B&W
 							bwdataset.add(tlist, reporterName, diseaseName);
 							//call the add here as well...this is for testing the coins disease+reporter
@@ -408,6 +413,13 @@ public class GenePlotDataSet {
 
 	public void setCoinHash(HashMap coinHash) {
 		this.coinHash = coinHash;
+	}
+
+	/**
+	 * @return Returns the medianDataset.
+	 */
+	public DefaultCategoryDataset getMedianDataset() {
+		return medianDataset;
 	}
 	   
 }

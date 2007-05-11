@@ -18,6 +18,8 @@ import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.rembrandt.dto.query.Query;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -175,17 +178,29 @@ public class RefineQueryAction extends LookupDispatchAction {
 			
 			//Processing institute criteria information.
 			String[] institutes = refineQueryForm.getInstituteView();
+			InstitutionCriteria ic = new InstitutionCriteria();
 			if (institutes != null && institutes.length > 0){
-				Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollectionWithDisplayNames(request.getSession());
-				InstitutionCriteria ic = new InstitutionCriteria();
-				for (int i = 0; i < institutes.length; i++){
-					for (Iterator it = collection.iterator(); it.hasNext();){
-						InstitutionDE de = (InstitutionDE)it.next();
-						if (institutes[i].equals(de.getDisplayName())){
-							ic.setInsitution(de);
+					Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollectionWithDisplayNames(request.getSession());
+				
+						//set only the selected insitutions
+						for (int i = 0; i < institutes.length; i++){
+							for (Iterator it = collection.iterator(); it.hasNext();){
+								InstitutionDE de = (InstitutionDE)it.next();
+								if (institutes[i].equals(de.getDisplayName())){
+									ic.setInsitution(de);
+								}
+								else if(institutes[i].equals("ALL")){
+									//	if one of the selections is "ALL" then set all instututions the use has access to
+									ic.setInstitutions(InsitutionAccessHelper.getInsititutionCollection(request.getSession()));
+									break;
+								}
 						}
 					}
-				}
+					cQuery.setInstitutionCriteria(ic);	
+
+			}
+			else{
+				ic.setInstitutions(InsitutionAccessHelper.getInsititutionCollection(request.getSession()));
 				cQuery.setInstitutionCriteria(ic);	
 			}
 			//After setting everything, put this compound query into the SessionQueryBag

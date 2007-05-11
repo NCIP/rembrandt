@@ -109,6 +109,7 @@ public class GeneExpressionPlot {
 			PrintWriter pw, GeneExpressionDataSetType geType) {
 		String log2Filename = null;
 		String rawFilename = null;
+		String medianFilename = null;
 		String bwFilename = "";
 		String legendHtml = null;
 		HashMap charts = new HashMap();
@@ -131,6 +132,9 @@ public class GeneExpressionPlot {
 			//B&W dataset
 			DefaultBoxAndWhiskerCategoryDataset bwdataset = (DefaultBoxAndWhiskerCategoryDataset) gpds.getBwdataset();
 						
+			//Median dataset
+			CategoryDataset medianDataset = (CategoryDataset) gpds.getMedianDataset();
+			
 			//IMAGE Size Control
 			if(bwdataset!=null && bwdataset.getRowCount()>5)	{
 				ps = PlotSize.LARGE;
@@ -272,6 +276,19 @@ public class GeneExpressionPlot {
 					true, // tooltips?
 					false // URLs?
 					);
+			
+//			create the chart .... for Median dataset
+			JFreeChart medianChart = ChartFactory.createBarChart(
+					null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/, // chart
+																			// title
+					"Groups", // domain axis label
+					"Medain Expression Intensity", // range axis label
+					medianDataset, // data
+					PlotOrientation.VERTICAL, // orientation
+					true, // include legend
+					true, // tooltips?
+					false // URLs?
+					);
 
 			chart.setBackgroundPaint(java.awt.Color.white);
 			// lets start some customization to retro fit w/jcharts lookand feel
@@ -289,6 +306,14 @@ public class GeneExpressionPlot {
 			faxis.setCategoryMargin(0.20); // 20 percent
 			faxis.setUpperMargin(0.02); // two percent
 
+			//	median plot
+			medianChart.setBackgroundPaint(java.awt.Color.white);
+			CategoryPlot medianPlot = medianChart.getCategoryPlot();
+			CategoryAxis medianAxis = medianPlot.getDomainAxis();
+			medianAxis.setLowerMargin(0.02); // two percent
+			medianAxis.setCategoryMargin(0.20); // 20 percent
+			medianAxis.setUpperMargin(0.02); // two percent
+			
 			// customise the renderer...
 			StatisticalBarRenderer renderer = new StatisticalBarRenderer();
 
@@ -355,6 +380,7 @@ public class GeneExpressionPlot {
 
 			chart.removeLegend();
 			fchart.removeLegend();
+			medianChart.removeLegend();
 			
 			//bwChart.removeLegend(); // <-- do this above
 
@@ -385,13 +411,20 @@ public class GeneExpressionPlot {
 			
 			
 			fplot.setRenderer(frenderer);
+			medianPlot.setRenderer(frenderer);
 			rawFilename = ServletUtilities.saveChartAsPNG(fchart, imgW, 400, info, session);
+			medianFilename = ServletUtilities.saveChartAsPNG(medianChart, imgW, 400, info, session);
+			
 			// Write the image map to the PrintWriter
 			// can use a different writeImageMap to pass tooltip and URL custom
 			ChartUtilities.writeImageMap(pw, rawFilename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
 					new StandardURLTagFragmentGenerator());
 
+			ChartUtilities.writeImageMap(pw, medianFilename, info,
+					new CustomOverlibToolTipTagFragmentGenerator(),
+					new StandardURLTagFragmentGenerator());
+			
 			// ChartUtilities.writeImageMap(pw, filename, info, true);
 
 			pw.flush();
@@ -404,6 +437,7 @@ public class GeneExpressionPlot {
 		// return filename;
 		charts.put("errorBars", log2Filename);
 		charts.put("noErrorBars", rawFilename);
+		charts.put("medianBars",medianFilename);
 		charts.put("bwFilename", bwFilename);
 		charts.put("legend", legendHtml);
 		charts.put("size", ps.toString());
