@@ -283,7 +283,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
                 }
              }
             
-            out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,true,info));
+            out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,false,info));
             //finalURLpath = finalURLpath.replace("\\", "/");
             finalURLpath = finalURLpath.replace("\\", "/");
             long randomness = System.currentTimeMillis(); //prevent image caching
