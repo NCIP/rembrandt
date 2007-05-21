@@ -17,7 +17,6 @@
 			// Array<Object> listItems : { listName, listDate, itemCount, invalidItems }
 			try	{
 				var listContainerArray = eval('(' + txt + ')');
-				
 				for(var i=0; i<listContainerArray.length; i++)	{
 					var listContainer = listContainerArray[i];
 					var listType = listContainer.listType ? listContainer.listType : "none";
@@ -26,6 +25,7 @@
 					}
 					
 					var lists = listContainer.listItems;
+					
 					
 					//Note:  $('..'+"ListDiv") needs be be defined in the HTML src
 					// ^ now, should be auto generated 
@@ -47,25 +47,31 @@
 					for(var t=0; t<lists.length; t++)	{
 					
 						var status = "<span id=\""+lists[t].listName+"status\" style=\"display:none\"><img src=\"images/indicator.gif\"/></span>";
-						var shortName = lists[t].listName.length>45 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
+						var shortName = lists[t].listName.length>25 ? lists[t].listName.substring(0,23) + "..." : lists[t].listName;
 						var theName = lists[t].listName;
 						var itemCount = lists[t].itemCount;
+						var author = lists[t].author;
+						var date = lists[t].listDate;
+						var notes = lists[t].notes;
+						var lib = "Author: " + lists[t].author + "<br />" +
+								  "Date Created: " + lists[t].listDate 	+ "<br />" +
+								  "Notes: <br />"  + lists[t].notes;
 						
 						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : "";
 						var lstyle = listSubTypes.indexOf(listContainer.highlightType)!= -1 ? "color:#000000;" : "";			
 						// += or =
 						tst +=  "<div id='"
 		                	+ theName
-		                    + "' class='listListing'>" 
+		                    + "' class='dlistListing'>" 
 		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
-		                    + "<b style='"+lstyle+"' title='"+theName+"'>"
+		                    + "<b style='"+lstyle+"' onmouseover=\"overlib('" + lib +"', CAPTION, '"+ theName+ "');\" onmouseout='return nd();'>"
 		                    + shortName + "</b><br/><div style='margin-left:10px'> Type: " + listSubTypes + " - "
 		                    + "<span id='"+theName+"_count'>" + itemCount + "</span> item(s)" 
-		                    + "<div style='cursor:pointer;margin-left:20px;display:inline;' onclick='ManageListHelper.getDetails(\""
+		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName
 		                    + "\");return false;'>"
 		                    + "<img src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>details" + status + "</div>"
-		                    + "<div style='cursor:pointer;margin-left:20px;display:inline;'  onclick='ManageListHelper.deleteList(\""
+		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;'  onclick='ManageListHelper.deleteList(\""
 		                    + theName
 		                    + "\");return false;'>"
 		                    + "<img src='images/deleteCross20.png' border='0' style='vertical-align:text-bottom;'/>delete</div>"
@@ -193,8 +199,7 @@
 				SidebarHelper.loadSidebar();
 			}
 			catch(err)	{}			
-			
-			ManageListHelper.getAllLists();
+			ManageListHelper.getAllLists()
 		},
 		//function to make an AJAX call to the userListBean in the session
 		// and delete the list item under the list name it passes as params. Then finds
@@ -234,7 +239,10 @@
 				var items = list.validItems ? list.validItems : Array();
 				var invalidItems = list.invalidItems ? list.invalidItems : Array();
 				
+								
 				var itemId;
+				var itemRank = "";
+				var itemNotes = "";
 		 		var value;
 		 		var dDIV = document.createElement("div");
 		 		dDIV.setAttribute("id",listName + "detailsDiv");
@@ -248,10 +256,18 @@
 		 		wDiv.style.marginLeft = "20px";
 				wDiv.style.width="300px";
 		 		if(items.length > 0)	{
-		 			var tmp = "";
+		 			var tmp = "";		 				 			
 					for(var i=0; i<items.length; i++)	{
-						itemId = items[i];
-						tmp += "<li id='"+listName + itemId + "_div"+"' class='detailsList'>"+(i+1) +") " +listType + " " + itemId;
+						itemId = items[i].name;
+						itemRank = "";
+						itemNotes = "";	
+							if(items[i].rank!=null){
+								itemRank = " rank: " + items[i].rank;
+							}
+							if(items[i].notes!=null){
+								itemNotes = " notes: " + items[i].notes;
+							}						
+						tmp += "<li id='"+listName + itemId + "_div"+"' class='detailsList'>"+(i+1) +") " +listType + " " + itemId + itemRank + itemNotes;						
 						var oc = new Function("deleteItem('"+listName+ "','" + itemId + "');return false;");
 						tmp += "<a href=\"#\" onclick=\"ManageListHelper.deleteItem('"+listName+ "','" + itemId + "');return false;\">[delete]</a></li>";
 					}  
@@ -262,12 +278,12 @@
 				}
 				else{
 			    	document.getElementById(listName + "details").appendChild(dDIV);
-			    	wDiv.innerHTML = "<b style='margin-left:20px'>No valid items found</b><br />";
+			    	wDiv.innerHTML = "<span>No valid items found</span><br />";
 				}
 			     
 			    if(!invalidItems.length < 1)	{
-			    	var intmp = "<div style='margin-left:20px;'><span id='invalid_span' style='color:gray; padding:3px;'><br/>Invalid or does not exist in the database:<br/> ";
-					//wDiv.innerHTML += "<div style='margin-left:20px;'><span id='invalid_span' style='color:gray; padding:3px;'><br/>Invalid or does not exist in the database:<br/> ";
+					var intmp = "<div style='margin-left:20px;'><span id='invalid_span' style='color:gray; padding:3px;'><br/>Invalid or does not exist in the database:<br/> ";
+					//wDiv.innerHTML += "<span id='invalid_span' style='color:gray; padding:3px'><br/>Invalid or does not exist in the database:<br/> ";
 					for(var i=0; i<invalidItems.length; i++){
 						invalidItemId = invalidItems[i];
 						if((i+1) == invalidItems.length){
@@ -276,13 +292,13 @@
 						}
 						else{
 							intmp += invalidItemId + ", ";
-							//wDiv.innerHTML += invalidItemId + ", ";
+							//wDiv.innerHTML += invalidItemId + ", ";							
 						}
 					}
 					wDiv.innerHTML +=intmp;		
-					wDiv.innerHTML += "<br/></span></div>";		
-				}  
-				  
+					wDiv.innerHTML += "<br/></span>";
+							
+				}    
 			}
 			catch(err)	{
 				if($('details'))	{
