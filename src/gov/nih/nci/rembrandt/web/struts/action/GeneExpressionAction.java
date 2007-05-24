@@ -426,7 +426,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			if(geneList!=null){
 				try {	
 					//assumes geneList.getListSubType!=null && geneList.getListSubType().get(0) !=null
-					genes = ListConvertor.convertToGeneIdentifierDE(geneList.getList(), geneList.getListSubType().get(0)); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
+					genes = ListConvertor.convertToGeneIdentifierDE(geneList.getList(), geneList.getListSubType()); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -482,7 +482,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			if(cList!=null){
 				try {	
 					//assumes geneList.getListSubType!=null && geneList.getListSubType().get(0) !=null
-					clones = ListConvertor.convertToCloneIdentifierDE(cList.getList(), cList.getListSubType().get(0)); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
+					clones = ListConvertor.convertToCloneIdentifierDE(cList.getList(), cList.getListSubType()); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -197,17 +197,14 @@ public class HierarchicalClusteringAction extends DispatchAction {
         if(hierarchicalClusteringForm.getGeneSetName()!=null || hierarchicalClusteringForm.getGeneSetName().length()!=0 && !hierarchicalClusteringForm.getGeneSetName().equals("none")){
             UserList geneList = userListBeanHelper.getUserList(hierarchicalClusteringForm.getGeneSetName());
             if(geneList!=null){
-                List<ListSubType> geneListSubTypes = geneList.getListSubType();
+                ListSubType geneListSubType = geneList.getListSubType();
                 List<ListSubType> allSubTypes = RembrandtListFilter.getSubTypesForType(ListType.Gene);
-                int i = 0;
-                while(i<geneListSubTypes.size()){
-                        for(ListSubType sb : allSubTypes){                
-                            if(sb.equals(geneListSubTypes.get(i))){
+                    for(ListSubType sb : allSubTypes){                
+                            if(sb.equals(geneListSubType)){
                                 geneIdentifierDECollection = ListConvertor.convertToGeneIdentifierDE(geneList.getList(),sb);
                             }
-                        }
-                   i++;
-                }
+                    }
+                   
             }
             if (geneIdentifierDECollection!=null && !geneIdentifierDECollection.isEmpty()){
                 logger.debug("geneIdentifierDECollection was found in the cache");
@@ -225,17 +222,15 @@ public class HierarchicalClusteringAction extends DispatchAction {
         if(hierarchicalClusteringForm.getReporterSetName()!=null || hierarchicalClusteringForm.getReporterSetName().length()!=0){
             UserList reporterList = userListBeanHelper.getUserList(hierarchicalClusteringForm.getReporterSetName());
             if(reporterList!=null){
-                List<ListSubType> reporterListSubTypes = reporterList.getListSubType();
+                ListSubType reporterListSubType = reporterList.getListSubType();
                 List<ListSubType> allSubTypes = RembrandtListFilter.getSubTypesForType(ListType.Reporter);
-                int i = 0;
-                while(i<reporterListSubTypes.size()){
-                    for(ListSubType sb : allSubTypes){
-                        if(sb.equals(reporterListSubTypes.get(i))){
+              
+                  for(ListSubType sb : allSubTypes){
+                        if(sb.equals(reporterListSubType)){
                             cloneIdentifierDECollection = ListConvertor.convertToCloneIdentifierDE(reporterList.getList(),sb);
                         }
                     }
-                    i++;
-                }
+                    
             }
             if (cloneIdentifierDECollection!=null && !cloneIdentifierDECollection.isEmpty()){
                 logger.debug("cloneIdentifierDECollection was found in the cache");

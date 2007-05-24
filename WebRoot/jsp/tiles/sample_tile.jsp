@@ -6,7 +6,7 @@
 <script type='text/javascript' src='dwr/util.js'></script>
 <script language="javascript">
 	function updateG(){
-    	UserListHelper.getGenericListNamesFromStringWithSubs("PatientDID", "Default,Custom",createSampleList);
+    	UserListHelper.getGenericListNamesFromString("PatientDID", createSampleList);
 	}
 	function createSampleList(data){   
 		var t = $('sampleFile').value;	

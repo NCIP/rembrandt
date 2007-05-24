@@ -327,11 +327,9 @@ public class DynamicReportGenerator {
 		//TODO:  Need to take ListSubType into consideration here, below we are NOT setting one
 		try	{
 			ListSubType stype = ListSubType.valueOf(subType);
-			List<ListSubType> lst = new ArrayList();
-			lst.add(stype);
 			
             RembrandtListValidator listValidator = new RembrandtListValidator(stype, gov.nih.nci.caintegrator.application.lists.ListType.Reporter,list);
-			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.Reporter, lst,list, name, listValidator);
+			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.Reporter, stype,list, name, listValidator);
 		}
 		catch(Exception e) {
 			//most likely cant access the session
@@ -344,7 +342,7 @@ public class DynamicReportGenerator {
 		String[] listArr = StringUtils.split(commaSepList, ",");
 		List<String> list = Arrays.asList(listArr);
 		try	{
-            RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Custom, gov.nih.nci.caintegrator.application.lists.ListType.PatientDID,list);            
+            RembrandtListValidator listValidator = new RembrandtListValidator(gov.nih.nci.caintegrator.application.lists.ListType.PatientDID,list);            
 			success = CommonListFunctions.createGenericList(gov.nih.nci.caintegrator.application.lists.ListType.PatientDID, list, name, listValidator);
 		}
 		catch(Exception e) {

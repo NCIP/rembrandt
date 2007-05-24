@@ -416,9 +416,7 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		//Now setup all of the current result sets
 		//setResultSets(presentationTierCache.getSampleSetNames(sessionId));
         UserListBeanHelper ul= new UserListBeanHelper(request.getSession());
-        List<ListSubType> subs = new ArrayList();
-        subs.add(ListSubType.Custom); //we only want customs to show
-        Collection listss =  ul.getGenericListNamesWithSubTypes(ListType.PatientDID,subs);
+        Collection listss =  ul.getAllCustomListsForType(ListType.PatientDID);
         setResultSets(listss);
         //setResultSets(sampleBasedQueriesRetriever.getAllSampleSetNames(sessionId));    
             	

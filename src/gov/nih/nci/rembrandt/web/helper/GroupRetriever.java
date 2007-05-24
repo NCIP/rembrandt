@@ -77,7 +77,7 @@ public class GroupRetriever {
         }
         return cloneGroupsCollection;
     
-    }
+    } 
     
     public List<LabelValueBean> getSnpGroupsCollection(HttpSession session){
         UserListBeanHelper helper = new UserListBeanHelper(session);

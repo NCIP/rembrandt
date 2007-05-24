@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.cache.CacheConstants;
+import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
@@ -153,6 +154,7 @@ public final class LoginAction extends Action
         	userList.setList(theList.getList());
         	userList.setListSubType(theList.getListSubType());
         	userList.setListType(theList.getListType());
+            userList.setListOrigin(ListOrigin.Custom);
         	userList.setName(theList.getName());
         	userList.setNotes(theList.getNotes());
         }

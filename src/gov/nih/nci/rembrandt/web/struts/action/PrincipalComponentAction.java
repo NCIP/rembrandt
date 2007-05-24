@@ -232,17 +232,14 @@ public class PrincipalComponentAction extends DispatchAction {
         if(principalComponentForm.getGeneSetName()!= null && (!principalComponentForm.getGeneSetName().equals("") || !principalComponentForm.getGeneSetName().equals("none"))){
             UserList geneList = userListBeanHelper.getUserList(principalComponentForm.getGeneSetName());
             if(geneList!=null){
-                List<ListSubType> geneListSubTypes = geneList.getListSubType();
+                ListSubType geneListSubTypes = geneList.getListSubType();
                 List<ListSubType> allSubTypes = RembrandtListFilter.getSubTypesForType(ListType.Gene);
-                int i = 0;
-                while(i<geneListSubTypes.size()){
                         for(ListSubType sb : allSubTypes){                
-                            if(sb.equals(geneListSubTypes.get(i))){
+                            if(sb.equals(geneListSubTypes)){
                                 geneIdentifierDECollection = ListConvertor.convertToGeneIdentifierDE(geneList.getList(),sb);
                             }
                         }
-                   i++;
-                }
+                   
             if (geneIdentifierDECollection!=null && !geneIdentifierDECollection.isEmpty()){
                 logger.debug("geneIdentifierDECollection was found");
                 principalComponentAnalysisQueryDTO.setGeneIdentifierDEs(geneIdentifierDECollection);
@@ -261,17 +258,14 @@ public class PrincipalComponentAction extends DispatchAction {
         if(principalComponentForm.getReporterSetName()!= null && (!principalComponentForm.getReporterSetName().equals("") || principalComponentForm.getReporterSetName().length()!=0)){
             UserList reporterList = userListBeanHelper.getUserList(principalComponentForm.getReporterSetName());
             if(reporterList!=null){
-                List<ListSubType> reporterListSubTypes = reporterList.getListSubType();
+                ListSubType reporterListSubTypes = reporterList.getListSubType();
                 List<ListSubType> allSubTypes = RembrandtListFilter.getSubTypesForType(ListType.Reporter);
-                int i = 0;
-                while(i<reporterListSubTypes.size()){
-                    for(ListSubType sb : allSubTypes){
-                        if(sb.equals(reporterListSubTypes.get(i))){
+               for(ListSubType sb : allSubTypes){
+                        if(sb.equals(reporterListSubTypes)){
                             cloneIdentifierDECollection = ListConvertor.convertToCloneIdentifierDE(reporterList.getList(),sb);
                         }
                     }
-                    i++;
-                }
+                    
             }if (cloneIdentifierDECollection!=null && !cloneIdentifierDECollection.isEmpty()){
                 logger.debug("cloneIdentifierDECollection was found");
                 principalComponentAnalysisQueryDTO.setReporterIdentifierDEs(cloneIdentifierDECollection);

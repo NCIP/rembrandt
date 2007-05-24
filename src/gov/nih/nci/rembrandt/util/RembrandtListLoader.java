@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.util;
 
 import gov.nih.nci.caintegrator.application.lists.ListLoader;
 import gov.nih.nci.caintegrator.application.lists.ListManager;
+import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.ListType;
 import gov.nih.nci.caintegrator.application.lists.UserList;
@@ -54,12 +55,12 @@ public class RembrandtListLoader extends ListLoader {
 			        //2. Extracts sampleIds as Strings
 			        Collection<String> sampleIDs = StrategyHelper.extractSamples(sampleIDDEs);
 			        List<String> pdids = new ArrayList<String>(sampleIDs);
-			        RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, pdids);
+			        RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
 			        if(sampleIDs != null){
 			            //create userlist with valid samples included
 			            UserList myList = listManager.createList(ListType.PatientDID,diseaseTypeLookup.getDiseaseType(),pdids,listValidator);
 			            if(!myList.getList().isEmpty()){
-			               myList.setListSubType(ListSubType.Default);
+                            myList.setListOrigin(ListOrigin.Default);
 			               /**
 			                * add valid samples to allSamplesList to be created last.
 			                * Do not add unknown and unclassified samples. 
@@ -87,14 +88,14 @@ public class RembrandtListLoader extends ListLoader {
          //now add the all samples userlist
         if(!allSamplesList.isEmpty()){
 
-            RembrandtListValidator listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, allGliomaSamplesList);
-            UserList myAllGliomaSampleList = listManager.createList(ListType.PatientDID,RembrandtConstants.ALL_GLIOMA,allGliomaSamplesList,listValidator); 
-            myAllGliomaSampleList.setListSubType(ListSubType.Default);
+            RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, allGliomaSamplesList);
+            UserList myAllGliomaSampleList = listManager.createList(ListType.PatientDID,RembrandtConstants.ALL_GLIOMA,allGliomaSamplesList,listValidator);
+            myAllGliomaSampleList.setListOrigin(ListOrigin.Default);
             userListBean.addList(myAllGliomaSampleList);
             
-            listValidator = new RembrandtListValidator(ListSubType.Default, ListType.PatientDID, allSamplesList);
+            listValidator = new RembrandtListValidator(ListType.PatientDID, allSamplesList);
             UserList myAllSampleList = listManager.createList(ListType.PatientDID,RembrandtConstants.ALL,allSamplesList,listValidator); 
-            myAllSampleList.setListSubType(ListSubType.Default);
+            myAllSampleList.setListOrigin(ListOrigin.Default);
             userListBean.addList(myAllSampleList);
         }
         return userListBean;        

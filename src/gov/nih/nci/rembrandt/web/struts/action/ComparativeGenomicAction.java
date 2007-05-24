@@ -439,7 +439,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 			if(geneList!=null){
 				try {	
 					//assumes geneList.getListSubType!=null && geneList.getListSubType().get(0) !=null
-					genes = ListConvertor.convertToGeneIdentifierDE(geneList.getList(), geneList.getListSubType().get(0)); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
+					genes = ListConvertor.convertToGeneIdentifierDE(geneList.getList(), geneList.getListSubType()); //StrategyHelper.convertToSampleIDDEs(geneList.getList());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -507,7 +507,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 			if(sList!=null){
 				try {	
 					//assumes list.getListSubType!=null && list.getListSubType().get(0) !=null
-					snps = ListConvertor.convertToSNPIdentifierDE(sList.getList(), sList.getListSubType().get(0));
+					snps = ListConvertor.convertToSNPIdentifierDE(sList.getList(), sList.getListSubType());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

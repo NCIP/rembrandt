@@ -53,19 +53,22 @@
 						var author = lists[t].author;
 						var date = lists[t].listDate;
 						var notes = lists[t].notes;
+						var lstyle = lists[t].highlightType; 
 						var lib = "Author: " + lists[t].author + "<br />" +
 								  "Date Created: " + lists[t].listDate 	+ "<br />" +
 								  "Notes: <br />"  + lists[t].notes;
 						
-						var listSubTypes = (lists[t].listSubTypes && lists[t].listSubTypes.length > 0) ? lists[t].listSubTypes.join(",") : "";
-						var lstyle = listSubTypes.indexOf(listContainer.highlightType)!= -1 ? "color:#000000;" : "";			
+						var listSubType = lists[t].listSubType;		
+						
+																
+																
 						// += or =
 						tst +=  "<div id='"
 		                	+ theName
 		                    + "' class='dlistListing'>" 
 		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
 		                    + "<b style='"+lstyle+"' onmouseover=\"overlib('" + lib +"', CAPTION, '"+ theName+ "');\" onmouseout='return nd();'>"
-		                    + shortName + "</b><br/><div style='margin-left:10px'> Type: " + listSubTypes + " - "
+		                    + shortName + "</b><br/><div style='margin-left:10px'>" + listSubType 
 		                    + "<span id='"+theName+"_count'>" + itemCount + "</span> item(s)" 
 		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName

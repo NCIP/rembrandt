@@ -74,13 +74,12 @@ public class DynamicListHelper {
 			ListType lt = ListType.valueOf(tps[0]);
 			if(tps.length > 1 && tps[1] != null){
 				//create a list out of [1]
-				ArrayList<ListSubType> lst = new ArrayList();
-				lst.add(ListSubType.valueOf(tps[1]));
+				ListSubType lst = ListSubType.valueOf(tps[1]);
 				return CommonListFunctions.createGenericList(lt, lst, list, name, new RembrandtListValidator(ListSubType.valueOf(tps[1]), ListType.valueOf(tps[0]), list));
 			}
 			else if(tps.length >0 && tps[0] != null)	{
 				//no subtype, only a primary type - typically a PatientDID then
-				return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator(ListSubType.Custom, ListType.valueOf(tps[0]), list));
+				return CommonListFunctions.createGenericList(lt, list, name, new RembrandtListValidator(ListType.valueOf(tps[0]), list));
 			}
 			else	{
 				//no type or subtype, not good, force to clinical in catch
