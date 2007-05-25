@@ -141,7 +141,8 @@ abstract public class Query implements Queriable, Serializable, Cloneable, Valid
 				String currMethodString = currMethod.getName();
 				if ((currMethodString.toUpperCase().startsWith("GET"))
 						&& (currMethod.getModifiers() == Modifier.PUBLIC)) {
-					Object thisObj = currMethod.invoke(this, null);
+					Object[] objArray = null;
+					Object thisObj = currMethod.invoke(this, objArray);
 
 					if (thisObj != null) {
 						if (Criteria.class.isInstance(thisObj)) {
