@@ -8,7 +8,8 @@
 
 <fieldset class="gray">
 <legend class="red">Assay Platform
-<app:help help="Indicate the platform that was used for the comparative genomic study."/>
+<a href="javascript: Help.popHelp('<%=act%>_Array_tooltip');">[?]</a>    
+<!-- <app:help help="Indicate the platform that was used for the comparative genomic study."/>-->
 </legend><br />
 &nbsp;&nbsp;<html:select property="assayPlatform" onchange="">
 <!--	<option>&nbsp;</option> -->

@@ -7,7 +7,8 @@
 <fieldset class="gray">
 <legend class="red">Clone Id/Probe Set Id
 <% if(act.equalsIgnoreCase("geneexpression"))	{ %>
-<app:help help="Enter comma-delimited IDs or select a saved list." />
+<a href="javascript: Help.popHelp('<%=act%>_Clone_tooltip');">[?]</a>
+<!-- <app:help help="Enter comma-delimited IDs or select a saved list." />-->
 <% } else { %>
 <app:help help="Future implementation"/>
 <% } %>

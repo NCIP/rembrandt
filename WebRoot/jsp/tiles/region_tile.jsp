@@ -5,14 +5,15 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <fieldset class="gray">
-
-<legend class="red">Region
-<app:help help="Specify the chromosomal region of interest.  " />
-</legend>
 <%
 	String act = request.getParameter("act");
 
 %>
+<legend class="red">Region
+<a href="javascript: Help.popHelp('<%=act%>_Region_tooltip');">[?]</a> 
+<!--<app:help help="Specify the chromosomal region of interest.  " />-->
+</legend>
+
 
 	
 <br />	&nbsp;&nbsp;Chromosome Number&nbsp;

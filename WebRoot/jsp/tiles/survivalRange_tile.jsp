@@ -1,12 +1,14 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-	<fieldset class="gray">
-	<legend class="red">Survival Range
-	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>
-	</legend><br />
 		<%
 	     String act = request.getParameter("act");
      %>
+	<fieldset class="gray">
+	<legend class="red">Survival Range
+	<a href="javascript: Help.popHelp('<%=act%>_Survival_tooltip');">[?]</a>    
+	<!--  	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>-->
+	</legend><br />
+
 	
 	
 		
@@ -53,7 +55,8 @@
 	 <br /><br />
 	<fieldset class="gray">
 	<legend class="red">Age at Dx
-	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>
+	<!-- 	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>-->
+	<a href="javascript: Help.popHelp('<%=act%>_AgeatDX_tooltip');">[?]</a>    
 	</legend><br />
 		
 	&nbsp;&nbsp;&nbsp;lower:&nbsp;
@@ -98,7 +101,9 @@
 		
 	<fieldset class="gray">
 	<legend class="red">Gender
-	<app:help help="Select the gender of the patient."/>
+	<!-- <app:help help="Select the gender of the patient."/>-->
+	<a href="javascript: Help.popHelp('<%=act%>_Gender_tooltip');">[?]</a>    
+	
 	</legend><br />
 			<!--- <select property="genderType">
 				<option>all</option>

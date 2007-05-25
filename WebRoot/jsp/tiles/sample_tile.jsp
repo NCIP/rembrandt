@@ -24,8 +24,14 @@
 	}
 </script>
 <fieldset class="gray">
+<%
+	String act = request.getParameter("act");
+
+%>
 <legend class="red">Sample Identifier
-	<app:help help="Enter comma-delimited IDs or select a saved list." />
+	<!-- <app:help help="Enter comma-delimited IDs or select a saved list." />-->
+<a href="javascript: Help.popHelp('<%=act%>_Sample_tooltip');">[?]</a>    
+	
 </legend>
 <br/>	
 &nbsp;&nbsp;

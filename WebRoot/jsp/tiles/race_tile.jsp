@@ -1,11 +1,15 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.rembrandt.util.RaceType" %>
-<fieldset class="gray">
-<legend class="red">Race</legend>
 <%
 	String act = request.getParameter("act");
 %>
+<fieldset class="gray">
+<legend class="red">Race
+	<a href="javascript: Help.popHelp('<%=act%>_Race_tooltip');">[?]</a>    
+
+</legend>
+
 <html:checkbox styleClass="radio" property="caucasion" value="Specify" />
 <%= RaceType.WHITE.toString()%><!-- Caucasion -->
 <html:checkbox styleClass="radio" property="africanAmerican" value="Specify" />

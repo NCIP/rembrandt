@@ -1,13 +1,14 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-
-<fieldset class="gray">
-<legend class="red">Gene Ontology (GO) Classifications
-<app:help help="Enter or browse for GO IDs."/>
-</legend>
 <%
 	String act = request.getParameter("act");
 %>
+<fieldset class="gray">
+<legend class="red">Gene Ontology (GO) Classifications
+<!-- <app:help help="Enter or browse for GO IDs."/>-->
+<a href="javascript: Help.popHelp('<%=act%>_Go_tooltip');">[?]</a>  
+</legend>
+
 <script>
 	function pickGo(g)	{
 		document.getElementById("goClassification").value += (g + "\n");

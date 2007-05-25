@@ -18,13 +18,13 @@ Step 3: Select Array Platform
 <logic:present name="hierarchicalClusteringForm">
 Step 4: Select Array Platform
 </logic:present>
-
-
-<app:help help="Select an array platform"/>
-</legend>
 <%
 	String act = request.getParameter("act");
 %>
+<a href="javascript: Help.popHelp('<%=act%>_Array_tooltip');">[?]</a>    
+<!-- <app:help help="Select an array platform"/>-->
+</legend>
+
 	
 <br/>	
 &nbsp;&nbsp;<select name="arrayPlatform" id="platSelect"  

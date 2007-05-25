@@ -56,6 +56,9 @@
 					</table>
 				</td>
 				<td valign="top" class="sideBar">
+				<div id="manageListLinkDiv" style="text-align:left; margin-top:20px;position:relative;top:5px">
+			 		<a href="javascript: Help.popHelp('Blue_panel');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about the side bar.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+				</div>
 					<%-- include sidebar --%>
 				    <tiles:insert attribute="sideBar"/> 
 				</td>

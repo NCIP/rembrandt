@@ -6,7 +6,7 @@ String act = request.getParameter("act");
 	
 <fieldset class="gray">
 <legend class="red">Allele Frequency
-<app:help help="Future implementation"/>
+<a href="javascript: Help.popHelp('<%=act%>_Allele_tooltip');">[?]</a>    
 </legend><br />
 &nbsp;&nbsp;Population Type:
 

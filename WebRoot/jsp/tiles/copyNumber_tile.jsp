@@ -4,15 +4,18 @@
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<fieldset class="gray">
-<legend class="red">Copy Number
-<app:help help="Specify the threshold for the copy number."/>
-</legend><br />
-
 <%
 	String act = request.getParameter("act");
 
 %>
+<fieldset class="gray">
+<legend class="red">Copy Number
+<!-- <app:help help="Specify the threshold for the copy number."/>-->
+<a href="javascript: Help.popHelp('<%=act%>_Copynum_tooltip');">[?]</a>    
+
+</legend><br />
+
+
 	
 	
 <html:errors property="copyNumberAllGenesAmp"/></br>

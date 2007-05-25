@@ -2,8 +2,8 @@
 <WebWorksHelpIX version="5.0" xmlns="urn:WebWorks-Help-Index-Schema">
   <g t="Numerics" o="001" s=" ">
     <i t="3-D Principal Component Analysis plot">
-      <j l="64#1108793" />
-      <j l="65#1111601" />
+      <j l="66#1108793" />
+      <j l="67#1111601" />
     </i>
   </g>
   <g t="A" o="002">
@@ -14,20 +14,23 @@
       <i t="compound query">
         <j l="40#1150821" />
       </i>
-      <i t="custom list (uploading or typing)">
-        <j l="74#1084870" />
+      <i t="list, combining">
+        <j l="73#1095145" />
       </i>
-      <i t="new list (combining)">
-        <j l="72#1082414" />
+      <i t="list, typing">
+        <j l="75#1092623" />
+      </i>
+      <i t="list, uploading">
+        <j l="74#1093218" />
       </i>
       <i t="new list (removing data items)">
-        <j l="71#1084855" />
+        <j l="77#1084855" />
       </i>
       <i t="query, overview">
         <j l="34#1145107" />
       </i>
       <i t="simple search">
-        <j l="14#1088879" />
+        <j l="15#1088879" />
       </i>
     </i>
     <i t="Advanced searches">
@@ -42,19 +45,19 @@
         <j l="40#1150821" />
       </i>
       <i t="copy number">
-        <j l="38#1101673" />
+        <j l="38#1157975" />
       </i>
       <i t="copying, editing, deleting">
         <j l="40#1121325" />
       </i>
       <i t="gene expression">
-        <j l="35#1098862" />
+        <j l="35#1157878" />
       </i>
       <i t="overview">
         <j l="34#1145110" />
       </i>
       <i t="saving samples">
-        <j l="53#1083440" />
+        <j l="55#1083440" />
       </i>
     </i>
     <i t="Analyses">
@@ -71,6 +74,12 @@
         <j l="45#1092214" />
       </i>
     </i>
+    <i t="Application Support">
+      <j l="12#1117138" />
+    </i>
+    <i t="Application Support, caMOD">
+      <j l="2#1083528" />
+    </i>
     <i t="Average linkage, defined">
       <j l="46#1088360" />
     </i>
@@ -79,52 +88,34 @@
     <i t="Baseline, assigning">
       <j l="44#1096733" />
     </i>
-    <i t="Blue panel">
-      <i t="high order analysis filters">
-        <j l="43#1092905" />
-      </i>
-      <i t="manage list information">
-        <j l="69#1082469" />
-      </i>
-      <i t="managing queries">
-        <j l="40#1151565" />
-      </i>
-    </i>
     <i t="Box and Whisker Coin plot">
-      <i t="circles, defined">
-        <j l="21#1117183" />
-      </i>
       <i t="description">
-        <j l="21#1117615" />
-      </i>
-      <i t="triangles, defined">
-        <j l="21#1117184" />
+        <j l="23#1148348" />
       </i>
     </i>
     <i t="Box and Whisker Log2 Intensity option">
-      <j l="17#1100456" />
+      <j l="18#1156569" />
     </i>
     <i t="Box and Whisker Log2 Intensity plot">
-      <i t="circles defined">
-        <j l="20#1102492" />
-      </i>
       <i t="description">
-        <j l="20#1121739" />
-      </i>
-      <i t="Triangles, defined">
-        <j l="20#1102493" />
+        <j l="22#1156848" />
       </i>
       <i t="uses for">
-        <j l="20#1102805" />
+        <j l="22#1156848" />
       </i>
     </i>
     <i t="BRB-ArrayTools">
       <i t="downloading files">
-        <j l="67#1092482" />
+        <j l="69#1092482" />
       </i>
     </i>
   </g>
   <g t="C" o="002">
+    <i t="caArray">
+      <i t="glossary">
+        <j l="80#1065170" />
+      </i>
+    </i>
     <i t="Choose a Saved">
       <i t="Gene List, defined">
         <j l="38#1127884" />
@@ -136,14 +127,6 @@
         <j l="38#1127958" />
       </i>
     </i>
-    <i t="Circles">
-      <i t="on Box and Whisker Coin plot">
-        <j l="21#1117183" />
-      </i>
-      <i t="on Box and Whisker plot">
-        <j l="20#1102492" />
-      </i>
-    </i>
     <i t="Class Comparison">
       <i t="Analysis Form,description">
         <j l="44#1072817" />
@@ -152,7 +135,7 @@
         <j l="44#1072817" />
       </i>
       <i t="report description (View Results)">
-        <j l="60#1086398" />
+        <j l="62#1086398" />
       </i>
     </i>
     <i t="Clinical Data page, description">
@@ -160,24 +143,24 @@
     </i>
     <i t="Clinical plot">
       <i t="description">
-        <j l="32#1092932" />
+        <j l="50#1120060" />
       </i>
       <i t="saving samples of interest">
-        <j l="32#1090346" />
+        <j l="50#1120082" />
       </i>
       <i t="selecting samples of interest">
-        <j l="32#1085931" />
+        <j l="50#1120069" />
       </i>
     </i>
     <i t="Clinical report">
       <i t="description">
-        <j l="31#1150418" />
+        <j l="49#1119973" />
       </i>
       <i t="saving samples">
-        <j l="31#1121867" />
+        <j l="49#1120024" />
       </i>
       <i t="selecting samples">
-        <j l="31#1092448" />
+        <j l="49#1119986" />
       </i>
     </i>
     <i t="Clinical Study">
@@ -187,11 +170,11 @@
     </i>
     <i t="Columns">
       <i t="hiding diseases">
-        <j l="55#1083538" />
+        <j l="57#1083538" />
       </i>
     </i>
     <i t="Combining lists">
-      <j l="72#1082414" />
+      <j l="73#1095145" />
     </i>
     <i t="Complete linkage, defined">
       <j l="46#1088362" />
@@ -208,31 +191,31 @@
       </i>
     </i>
     <i t="Constrain reporters by variance (Gene Vector) percentile, defined">
-      <j l="45#1085556" />
+      <j l="45#1100560" />
       <j l="46#1088325" />
     </i>
     <i t="Copy Number">
       <i t="advanced search">
-        <j l="38#1101673" />
+        <j l="38#1157975" />
       </i>
       <i t="Data page, description">
-        <j l="38#1102461" />
+        <j l="38#1157980" />
       </i>
       <i t="page description (View Results)">
-        <j l="57#1096242" />
+        <j l="59#1096242" />
       </i>
       <i t="showing data in webGenome">
-        <j l="58#1092170" />
+        <j l="60#1092170" />
       </i>
     </i>
     <i t="Copy Number Data">
-      <j l="58#1112887" />
+      <j l="60#1112887" />
     </i>
     <i t="Copy Number Data Per Sample report">
-      <j l="57#1096242" />
+      <j l="59#1096242" />
     </i>
     <i t="Copy Number Data Per Sample View">
-      <j l="57" />
+      <j l="59" />
     </i>
     <i t="Copying">
       <i t="individual query">
@@ -243,30 +226,33 @@
       <i t="compound query">
         <j l="40#1150821" />
       </i>
-      <i t="custom list (uploading or typing)">
-        <j l="74#1084870" />
+      <i t="list, typing">
+        <j l="75#1092623" />
       </i>
-      <i t="new list (combining)">
-        <j l="72#1082414" />
+      <i t="list, uploading">
+        <j l="74#1093218" />
+      </i>
+      <i t="lit, combining">
+        <j l="73#1095145" />
       </i>
       <i t="new list (removing data items)">
-        <j l="71#1084855" />
+        <j l="77#1084855" />
       </i>
       <i t="query, overview">
         <j l="34#1145107" />
       </i>
       <i t="user account">
-        <j l="7#1116135" />
+        <j l="6#1116135" />
       </i>
     </i>
   </g>
   <g t="D" o="002">
     <i t="Data items">
       <i t="removing from a list">
-        <j l="71#1084855" />
+        <j l="77#1084855" />
       </i>
       <i t="viewing in a list">
-        <j l="70#1080938" />
+        <j l="76#1080938" />
       </i>
     </i>
     <i t="Delete All Queries">
@@ -280,21 +266,21 @@
         <j l="40#1121325" />
       </i>
       <i t="list">
-        <j l="73#1082089" />
+        <j l="78#1097218" />
       </i>
     </i>
     <i t="Difference option, description">
-      <j l="72#1087925" />
+      <j l="73#1092590" />
     </i>
     <i t="displaying LOH data in webGenome">
-      <j l="58#1112887" />
+      <j l="60#1112887" />
     </i>
     <i t="Distance Matrix, defined">
       <j l="46#1088349" />
     </i>
     <i t="Downloading BRB Files">
       <i t="defined">
-        <j l="67#1092482" />
+        <j l="69#1092482" />
       </i>
     </i>
   </g>
@@ -306,32 +292,37 @@
     </i>
     <i t="E-mailing">
       <i t="plots or graphs">
-        <j l="22#1096033" />
+        <j l="24#1096033" />
       </i>
     </i>
     <i t="Euclidean distance, defined">
       <j l="46#1088353" />
     </i>
+    <i t="Exporting">
+      <i t="list">
+        <j l="79#1095663" />
+      </i>
+    </i>
   </g>
   <g t="F" o="002">
     <i t="Feedback about REMBRANDT">
-      <j l="12#1112758" />
+      <j l="13#1112758" />
     </i>
     <i t="Filter p-value Toolbar">
-      <j l="61" />
+      <j l="63" />
     </i>
     <i t="Filter Toolbar">
-      <j l="51" />
+      <j l="53" />
     </i>
     <i t="Filtering">
       <i t="p-value (Filter p-value Toolbar)">
-        <j l="61#1088610" />
+        <j l="63#1088610" />
       </i>
       <i t="reports">
-        <j l="61#1088610" />
+        <j l="63#1088610" />
       </i>
       <i t="reports (Filter toolbar)">
-        <j l="51#1083367" />
+        <j l="53#1083367" />
       </i>
     </i>
     <i t="Finalize Query button">
@@ -344,60 +335,66 @@
         <j l="44#1096769" />
       </i>
       <i t="output">
-        <j l="60#1095677" />
+        <j l="62#1095677" />
       </i>
     </i>
   </g>
   <g t="G" o="002">
     <i t="Gene Expression">
       <i t="advanced search">
-        <j l="35#1098862" />
+        <j l="35#1157878" />
       </i>
       <i t="Data Per Sample View">
-        <j l="50" />
+        <j l="52" />
       </i>
       <i t="Plot page, description">
-        <j l="17#1122379" />
+        <j l="18#1156518" />
       </i>
       <i t="simple search">
-        <j l="15#1084690" />
+        <j l="16#1084690" />
       </i>
     </i>
     <i t="Gene Expression plot">
       <i t="resizing">
-        <j l="22#1096026" />
+        <j l="24#1096026" />
       </i>
     </i>
     <i t="Gene Expression Plot page">
       <i t="Box and Whisker Log2 Intensity plot details">
-        <j l="20#1121739" />
+        <j l="22#1156848" />
       </i>
       <i t="Geometric Mean plot details">
-        <j l="18#1123045" />
+        <j l="20#1123045" />
       </i>
       <i t="Log2 Intensity plot details">
-        <j l="19#1103233" />
+        <j l="21#1103233" />
+      </i>
+      <i t="Median plot details">
+        <j l="19#1156399" />
       </i>
     </i>
     <i t="Gene Expression Sample page">
-      <j l="55#1083538" />
+      <j l="57#1083538" />
       <i t="description (View Results)">
-        <j l="50#1096502" />
+        <j l="52#1096502" />
       </i>
     </i>
     <i t="Gene Expression Sample report">
-      <j l="50#1096502" />
+      <j l="52#1096502" />
     </i>
     <i t="Geometric Mean">
       <i t="Gene Expression plot">
-        <j l="18#1123045" />
+        <j l="20#1123045" />
       </i>
       <i t="option, defined">
-        <j l="17#1121675" />
+        <j l="18#1156559" />
       </i>
     </i>
+    <i t="Glossary">
+      <j l="80#1065170" />
+    </i>
     <i t="Graph Type, defined">
-      <j l="17#1100440" />
+      <j l="18#1156549" />
     </i>
     <i t="Grouping queries">
       <j l="41#1145139" />
@@ -406,14 +403,14 @@
   <g t="H" o="002">
     <i t="Help">
       <i t="obtaining">
-        <j l="11#1100327" />
+        <j l="9#1119007" />
       </i>
     </i>
     <i t="Help link">
-      <j l="11#1116417" />
+      <j l="9#1120206" />
     </i>
     <i t="Hide Diseases toolbar">
-      <j l="55" />
+      <j l="57" />
     </i>
     <i t="Hierarchical Clustering">
       <i t="Analysis Form,description">
@@ -423,10 +420,10 @@
         <j l="46#1072853" />
       </i>
       <i t="page description (View Results)">
-        <j l="66#1088996" />
+        <j l="68#1088996" />
       </i>
       <i t="report, description">
-        <j l="66#1088996" />
+        <j l="68#1088996" />
       </i>
     </i>
     <i t="High Order Analysis">
@@ -442,11 +439,11 @@
       </i>
     </i>
     <i t="Highlight Toolbar">
-      <j l="52" />
+      <j l="54" />
     </i>
     <i t="Highlighting">
       <i t="results by value (Highlight Toolbar)">
-        <j l="52#1089331" />
+        <j l="54#1089331" />
       </i>
     </i>
   </g>
@@ -460,54 +457,55 @@
       </i>
     </i>
     <i t="Intensity, defined">
-      <j l="18#1116881" />
-      <j l="19#1121717" />
+      <j l="19#1156276" />
+      <j l="20#1116881" />
+      <j l="21#1121717" />
     </i>
     <i t="Intersect option, description">
-      <j l="72#1087923" />
+      <j l="73#1092588" />
     </i>
   </g>
   <g t="J" o="002">
     <i t="Join option, description">
-      <j l="72#1082418" />
+      <j l="73#1092586" />
     </i>
   </g>
   <g t="K" o="002">
     <i t="Kaplan-Meier for Copy Number-based Data">
       <i t="plot description">
-        <j l="28#1101248" />
+        <j l="30#1101248" />
       </i>
       <i t="redrawing plot">
-        <j l="27#1082256" />
+        <j l="29#1082256" />
       </i>
       <i t="searching steps">
-        <j l="26#1121798" />
+        <j l="28#1121798" />
       </i>
     </i>
     <i t="Kaplan-Meier for Gene Expression Data">
       <i t="plot description">
-        <j l="25#1144154" />
+        <j l="27#1144154" />
       </i>
       <i t="redrawing plot">
-        <j l="24#1080865" />
+        <j l="26#1080865" />
       </i>
       <i t="simple search">
-        <j l="23#1071713" />
+        <j l="25#1071713" />
       </i>
     </i>
     <i t="Kaplan-Meier for Sample Data">
       <i t="plot description">
-        <j l="30#1092779" />
+        <j l="32#1092779" />
       </i>
       <i t="simple search">
-        <j l="29#1121847" />
+        <j l="31#1121847" />
       </i>
     </i>
     <i t="Karnofsky Clinical Evaluation, defined">
       <j l="39#1124285" />
     </i>
     <i t="Karnofsky score, defined">
-      <j l="32#1088129" />
+      <j l="50#1120064" />
     </i>
   </g>
   <g t="L" o="002">
@@ -515,90 +513,111 @@
       <j l="39#1124291" />
     </i>
     <i t="Legal Rules of the Road page">
-      <j l="9#1109711" />
+      <j l="8#1109711" />
     </i>
     <i t="Linkage Method, defined">
       <j l="46#1088357" />
     </i>
     <i t="Lists">
-      <i t="adding a custom list">
-        <j l="74#1084870" />
-      </i>
       <i t="combining lists">
-        <j l="72#1082414" />
+        <j l="73#1095145" />
       </i>
       <i t="creating a new list">
-        <j l="71#1084855" />
-        <j l="72#1082414" />
+        <j l="77#1084855" />
       </i>
       <i t="deleting">
-        <j l="73#1082089" />
+        <j l="78#1097218" />
+      </i>
+      <i t="exporting">
+        <j l="79#1095663" />
       </i>
       <i t="removing data items">
-        <j l="71#1084855" />
+        <j l="77#1084855" />
+      </i>
+      <i t="typing a list">
+        <j l="75#1092623" />
+      </i>
+      <i t="uploading a list">
+        <j l="74#1093218" />
       </i>
       <i t="viewing data items">
-        <j l="70#1080938" />
+        <j l="76#1080938" />
       </i>
     </i>
     <i t="Log2 Intensity">
       <i t="Gene Expression plot">
-        <j l="19#1103233" />
+        <j l="21#1103233" />
       </i>
       <i t="option">
-        <j l="17#1103164" />
+        <j l="18#1156564" />
       </i>
     </i>
     <i t="Logging in">
       <i t="REMBRANDT">
-        <j l="8#1094522" />
+        <j l="7#1094522" />
       </i>
     </i>
     <i t="Logging out">
       <i t="REMBRANDT">
-        <j l="12#1095031" />
+        <j l="13#1095031" />
       </i>
     </i>
     <i t="Logout link">
-      <j l="12#1100819" />
+      <j l="13#1100819" />
     </i>
     <i t="Logout page">
-      <j l="12#1100830" />
+      <j l="13#1100830" />
     </i>
     <i t="Log-rank p-value, Statistical Report">
-      <j l="28#1121836" />
-      <j l="30#1092813" />
+      <j l="30#1121836" />
+      <j l="32#1092813" />
     </i>
     <i t="LOH data">
       <i t="display REMBRANDT data in webGenome">
-        <j l="58#1112887" />
+        <j l="60#1112887" />
       </i>
     </i>
     <i t="Loss of Heterozygosity data">
       <i t="display REMBRANDT data in web Genome">
-        <j l="58#1112887" />
+        <j l="60#1112887" />
       </i>
     </i>
   </g>
   <g t="M" o="002">
     <i t="Managing lists">
       <i t="overview">
-        <j l="69#1079947" />
+        <j l="71#1079947" />
       </i>
     </i>
     <i t="Manually Type List options, description">
-      <j l="74#1082958" />
+      <j l="75#1092638" />
     </i>
     <i t="Mean, defined">
-      <j l="20#1118958" />
+      <j l="22#1156799" />
+      <j l="23#1158628" />
+    </i>
+    <i t="Median">
+      <i t="Gene Expression plot">
+        <j l="19#1156399" />
+      </i>
+      <i t="option, defined">
+        <j l="18#1156554" />
+      </i>
     </i>
     <i t="Median, defined">
-      <j l="20#1118954" />
+      <j l="22#1156794" />
+      <j l="23#1158623" />
     </i>
     <i t="Missing">
       <i t="Run Report button">
         <j l="41#1110099" />
       </i>
+    </i>
+  </g>
+  <g t="N" o="002">
+    <i t="NCICB Application Support">
+      <j l="2#1083528" />
+      <j l="12#1117138" />
     </i>
   </g>
   <g t="O" o="002">
@@ -610,10 +629,10 @@
         <j l="43#1079882" />
       </i>
       <i t="managing lists">
-        <j l="69#1079947" />
+        <j l="71#1079947" />
       </i>
       <i t="simple search">
-        <j l="14" />
+        <j l="15" />
       </i>
       <i t="viewing output">
         <j l="48#1108086" />
@@ -628,8 +647,8 @@
     </i>
     <i t="PatientDID list">
       <i t="creating">
-        <j l="31#1150418" />
-        <j l="53#1083440" />
+        <j l="49#1119973" />
+        <j l="55#1083440" />
       </i>
     </i>
     <i t="Pearson correlation, defined">
@@ -643,7 +662,7 @@
         <j l="45#1092214" />
       </i>
       <i t="Analysis page, description (View Results)">
-        <j l="64#1082927" />
+        <j l="66#1082927" />
       </i>
       <i t="High Order Analysis">
         <j l="45#1092214" />
@@ -651,40 +670,40 @@
     </i>
     <i t="Principal Component Analysis report">
       <i t="description">
-        <j l="64#1082927" />
+        <j l="66#1082927" />
       </i>
       <i t="three-dimensional plot">
-        <j l="64#1108793" />
-        <j l="65#1111601" />
+        <j l="66#1108793" />
+        <j l="67#1111601" />
       </i>
     </i>
     <i t="Printing">
-      <i t="Gene Expression plot (Simple Search)">
-        <j l="21#1118715" />
-      </i>
       <i t="plots or graphs">
-        <j l="22#1096033" />
+        <j l="24#1096033" />
       </i>
     </i>
     <i t="Probeset, defined">
-      <j l="18#1116877" />
-      <j l="19#1121713" />
+      <j l="19#1156271" />
+      <j l="20#1116877" />
+      <j l="21#1121713" />
     </i>
     <i t="p-value">
       <i t="defined (for Geometric Mean plot)">
-        <j l="18#1116885" />
+        <j l="19#1156281" />
+        <j l="20#1116885" />
       </i>
       <i t="defined (for Log2 Intensity plot)">
-        <j l="19#1121721" />
+        <j l="21#1121721" />
       </i>
       <i t="Filtering (Filter p-value Toolbar)">
-        <j l="61#1088610" />
+        <j l="63#1088610" />
       </i>
     </i>
   </g>
   <g t="Q" o="002">
     <i t="Q1, defined">
-      <j l="20#1118970" />
+      <j l="22#1156812" />
+      <j l="23#1158641" />
     </i>
     <i t="Queries">
       <i t="grouping">
@@ -701,10 +720,10 @@
   <g t="R" o="002">
     <i t="Redrawing">
       <i t="K-M Copy Number-based Data">
-        <j l="27#1082256" />
+        <j l="29#1082256" />
       </i>
       <i t="K-M Gene Expression plot">
-        <j l="24#1080865" />
+        <j l="26#1080865" />
       </i>
     </i>
     <i t="Refine Query">
@@ -720,74 +739,74 @@
     </i>
     <i t="REMBRANDT">
       <i t="description of">
-        <j l="3#1091969" />
+        <j l="4#1120612" />
       </i>
       <i t="displaying LOH data in webGenome">
-        <j l="58#1112887" />
+        <j l="60#1112887" />
       </i>
       <i t="feedback about application">
-        <j l="12#1112758" />
+        <j l="13#1112758" />
       </i>
       <i t="functions">
-        <j l="4#1092020" />
+        <j l="10#1123588" />
       </i>
       <i t="getting help">
-        <j l="11#1100327" />
+        <j l="9#1119007" />
       </i>
       <i t="logging in">
-        <j l="8#1094522" />
+        <j l="7#1094522" />
       </i>
       <i t="logging out">
-        <j l="12#1095031" />
+        <j l="13#1095031" />
       </i>
       <i t="menu">
-        <j l="11#1100327" />
+        <j l="9#1119007" />
       </i>
       <i t="registering">
-        <j l="7#1116135" />
+        <j l="6#1116135" />
       </i>
       <i t="stands for">
-        <j l="3#1091969" />
+        <j l="4#1120612" />
       </i>
       <i t="workspace">
-        <j l="9#1088353" />
+        <j l="8#1088353" />
       </i>
     </i>
     <i t="Rembrandt Manage Lists page">
       <i t="description">
-        <j l="69#1079947" />
+        <j l="71#1079947" />
       </i>
     </i>
     <i t="Removing">
       <i t="data items in a list">
-        <j l="71#1084855" />
+        <j l="77#1084855" />
       </i>
     </i>
     <i t="Reporter list">
       <i t="selecting and saving">
-        <j l="62#1083043" />
+        <j l="64#1083043" />
       </i>
     </i>
     <i t="Reports">
       <i t="Class Comparison">
-        <j l="60#1086398" />
+        <j l="62#1086398" />
       </i>
       <i t="Copy Number Sample">
-        <j l="57#1096242" />
+        <j l="59#1096242" />
       </i>
       <i t="Gene Expression Sample">
-        <j l="50#1096502" />
+        <j l="52#1096502" />
       </i>
       <i t="Hierarchical Clustering">
-        <j l="66#1088996" />
+        <j l="68#1088996" />
       </i>
       <i t="Principal Component Analysis">
-        <j l="64#1082927" />
+        <j l="66#1082927" />
       </i>
     </i>
     <i t="Resizing">
       <i t="Gene Expression plot (in new window)">
-        <j l="22#1096026" />
+        <j l="24#1096026" />
       </i>
     </i>
     <i t="Run Report &gt;&gt; button">
@@ -799,35 +818,35 @@
   <g t="S" o="002">
     <i t="Sample">
       <i t="saving (Select Sampes Toolbar">
-        <j l="53#1083440" />
+        <j l="55#1083440" />
       </i>
       <i t="saving on Clinical report">
-        <j l="31#1121867" />
+        <j l="49#1120024" />
       </i>
       <i t="selecting on Clinical report">
-        <j l="31#1092448" />
+        <j l="49#1119986" />
       </i>
     </i>
     <i t="Samples of interest">
       <i t="saving on Clinical plot">
-        <j l="32#1090346" />
+        <j l="50#1120082" />
       </i>
       <i t="Selecting on Clinical plot">
-        <j l="32#1085931" />
+        <j l="50#1120069" />
       </i>
     </i>
     <i t="Saving">
       <i t="plots or graphs">
-        <j l="22#1096033" />
+        <j l="24#1096033" />
       </i>
       <i t="reporters (Select Reporters Toolbar)">
-        <j l="62#1083043" />
+        <j l="64#1083043" />
       </i>
       <i t="sample of interest on Clinical plot">
-        <j l="32#1090346" />
+        <j l="50#1120082" />
       </i>
       <i t="samples on Clinical report">
-        <j l="31#1121867" />
+        <j l="49#1120024" />
       </i>
     </i>
     <i t="Searches">
@@ -835,45 +854,54 @@
         <j l="34#1145110" />
       </i>
       <i t="simple overview">
-        <j l="14" />
+        <j l="15" />
       </i>
     </i>
     <i t="Select a data source, defined">
       <j l="41#1145165" />
     </i>
     <i t="Select Reporters toolbar">
-      <j l="62" />
+      <j l="64" />
     </i>
     <i t="Select Samples Toolbar">
-      <j l="53#1083440" />
+      <j l="55#1083440" />
     </i>
     <i t="Selecting">
       <i t="reporters (Select Reporters Toolbar)">
-        <j l="62#1083043" />
+        <j l="64#1083043" />
       </i>
       <i t="sample of interest on Clinical plot">
-        <j l="32#1085931" />
+        <j l="50#1120069" />
       </i>
       <i t="sample on Clinical report">
-        <j l="31#1092448" />
+        <j l="49#1119986" />
       </i>
     </i>
     <i t="Show All Values Toolbar">
-      <j l="54" />
+      <j l="56" />
+    </i>
+    <i t="Side bar">
+      <i t="manage list information">
+        <j l="76#1087880" />
+        <j l="79#1095711" />
+      </i>
+      <i t="managing queries">
+        <j l="40#1151565" />
+      </i>
     </i>
     <i t="Simple searches">
-      <j l="14" />
+      <j l="15" />
       <i t="Gene Expression steps">
-        <j l="15" />
+        <j l="16" />
       </i>
       <i t="K-M Copy Number-based Data">
-        <j l="26#1121798" />
+        <j l="28#1121798" />
       </i>
       <i t="K-M Gene Expression Data">
-        <j l="23#1071713" />
+        <j l="25#1071713" />
       </i>
       <i t="K-M Sample Data">
-        <j l="29#1121847" />
+        <j l="31#1121847" />
       </i>
     </i>
     <i t="Single linkage, defined">
@@ -881,42 +909,35 @@
     </i>
     <i t="Sorting">
       <i t="report columns">
-        <j l="63#1083070" />
+        <j l="65#1083070" />
       </i>
     </i>
     <i t="Statistical Method, defined">
       <j l="44#1096761" />
     </i>
     <i t="Std. Dev., defined">
-      <j l="18#1141014" />
-      <j l="19#1121725" />
+      <j l="21#1121725" />
     </i>
     <i t="Submitting">
       <i t="feedback about REMBRANDT">
-        <j l="12#1112758" />
+        <j l="13#1112758" />
       </i>
     </i>
     <i t="Support link">
-      <j l="11#1116446" />
+      <j l="9#1120231" />
     </i>
     <i t="Survival vs Age at Dx, defined">
-      <j l="32#1088136" />
+      <j l="50#1120062" />
     </i>
   </g>
   <g t="T" o="002">
     <i t="Three-dimensional PCA plot">
-      <j l="64#1108793" />
-      <j l="65#1111601" />
+      <j l="66#1108793" />
+      <j l="67#1111601" />
     </i>
     <i t="Triangles">
-      <i t="on Box and Whisker Coin plot">
-        <j l="21#1117184" />
-      </i>
-      <i t="on Box and Whisker plot">
-        <j l="20#1102493" />
-      </i>
       <i t="top of columns to sort">
-        <j l="63#1083070" />
+        <j l="65#1083070" />
       </i>
     </i>
     <i t="T-test Two Sample Test">
@@ -924,34 +945,34 @@
         <j l="44#1096765" />
       </i>
       <i t="output">
-        <j l="60#1095939" />
+        <j l="62#1095939" />
       </i>
     </i>
     <i t="Tutorials link">
-      <j l="11#1116457" />
+      <j l="9#1120239" />
     </i>
     <i t="Typing">
-      <i t="a list (Manage List function)">
-        <j l="74#1084870" />
+      <i t="list">
+        <j l="75#1092623" />
       </i>
     </i>
   </g>
   <g t="U" o="002">
     <i t="Unified link, defined">
-      <j l="17#1117022" />
+      <j l="18#1156546" />
     </i>
     <i t="Uploading">
-      <i t="list (Manage List function)">
-        <j l="74#1084870" />
+      <i t="list">
+        <j l="74#1093218" />
       </i>
     </i>
     <i t="User account">
       <i t="creating">
-        <j l="7#1116135" />
+        <j l="6#1116135" />
       </i>
     </i>
     <i t="User guide link">
-      <j l="11#1116467" />
+      <j l="9#1120250" />
     </i>
   </g>
   <g t="V" o="002">
@@ -964,7 +985,7 @@
       </i>
     </i>
     <i t="View 3D Applet - Color by Disease link">
-      <j l="64#1108793" />
+      <j l="66#1108793" />
     </i>
     <i t="View Results page">
       <i t="description">
@@ -973,25 +994,25 @@
     </i>
     <i t="Viewing">
       <i t="data items in a list">
-        <j l="70#1080938" />
+        <j l="76#1080938" />
       </i>
     </i>
     <i t="Views">
       <i t="Copy Number Data Per Sample view">
-        <j l="57" />
+        <j l="59" />
       </i>
       <i t="Gene Expression Data Per Sample view">
-        <j l="50" />
+        <j l="52" />
       </i>
     </i>
   </g>
   <g t="W" o="002">
     <i t="webGenome">
       <i t="display Copy Number data">
-        <j l="58#1092170" />
+        <j l="60#1092170" />
       </i>
       <i t="display LOH data">
-        <j l="58#1112887" />
+        <j l="60#1112887" />
       </i>
     </i>
     <i t="Wilcoxon Test Man-Whitney Test">
@@ -999,7 +1020,7 @@
         <j l="44#1096767" />
       </i>
       <i t="output">
-        <j l="60#1095939" />
+        <j l="62#1095939" />
       </i>
     </i>
   </g>

@@ -6,7 +6,9 @@
 	
 <fieldset class="gray">
 <legend class="red">SNP Id
-<app:help help="Enter comma-delimited IDs or select a saved list." />
+<!-- <app:help help="Enter comma-delimited IDs or select a saved list." />-->
+<a href="javascript: Help.popHelp('<%=act%>_SNPID_tooltip');">[?]</a>    
+
 </legend>
 <!-- <b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>-->
 <br /><br />

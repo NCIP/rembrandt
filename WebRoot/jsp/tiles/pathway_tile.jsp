@@ -1,13 +1,16 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<fieldset class="gray">
-<legend class="red">Pathways
-<app:help help="Enter or browse for a pathway of interest." />
-</legend>
 <%
 	String act = request.getParameter("act");
 
 %>
+<fieldset class="gray">
+<legend class="red">Pathways
+<!--  <app:help help="Enter or browse for a pathway of interest." />  -->
+<a href="javascript: Help.popHelp('<%=act%>_Pathway_tooltip');">[?]</a>    
+
+</legend>
+
 	
 <Br>
 <html:textarea property="pathways" rows="5" cols="40" readonly="true">

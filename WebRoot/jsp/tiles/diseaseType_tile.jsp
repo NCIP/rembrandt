@@ -1,8 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
+<%
+	String act = request.getParameter("act");
+%>
 <fieldset class="gray">
 <legend class="red">Disease Type 
-<app:help help="Select the type(s) of disease. Mouse over a name to display tumor sub-types. "/>
+<!-- <app:help help="Select the type(s) of disease. Mouse over a name to display tumor sub-types. "/>-->
+<a href="javascript: Help.popHelp('<%=act%>_Disease_tooltip');">[?]</a>    
 </legend>
 <br/>
 

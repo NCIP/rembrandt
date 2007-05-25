@@ -2,7 +2,6 @@ function FileData_Pairs(x)
 {
 x.t("dialog","box");
 x.t("type","ctr-f.");
-x.t("back","forward");
 x.t("text","box");
 x.t("advanced","searches");
 x.t("advanced","search");
@@ -15,7 +14,6 @@ x.t("browse","pathway");
 x.t("check","box");
 x.t("check","pathways");
 x.t("gene","expression");
-x.t("forward","selecting");
 x.t("box","next");
 x.t("box","appears");
 x.t("box","click");
@@ -57,13 +55,13 @@ x.t("done","button.");
 x.t("name.","quickly");
 x.t("fulfilling","search");
 x.t("criteria","appear.");
-x.t("pathway","back");
 x.t("pathway","list");
 x.t("pathway","conducting");
 x.t("pathway","search");
 x.t("pathway","select");
 x.t("pathway","interest");
 x.t("pathway","click");
+x.t("pathway","selecting");
 x.t("pathway","(s)");
 x.t("pathway","name.");
 }

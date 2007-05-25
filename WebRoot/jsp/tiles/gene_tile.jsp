@@ -12,7 +12,8 @@ String act = request.getParameter("act");
 	
 <fieldset class="gray">
 <legend class="red">Gene
-	<app:help help="Search on a gene identifier, a gene list, or All Genes. " />
+    <a href="javascript: Help.popHelp('<%=act%>_Gene_tooltip');">[?]</a>    
+	<!-- <app:help help="Search on a gene identifier, a gene list, or All Genes. " />-->
 </legend>
 
 <br/>

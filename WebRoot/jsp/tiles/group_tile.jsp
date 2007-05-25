@@ -2,14 +2,17 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="java.util.*, gov.nih.nci.rembrandt.web.struts.form.*,gov.nih.nci.rembrandt.web.bean.*" %> 
-
+<%
+	String act = request.getParameter("act");
+%>
 
 <fieldset class="gray">
 
 
 <logic:present name="principalComponentForm">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
-<app:help help="Search on All Samples, or specify at least two Existing Groups." />
+<!-- <app:help help="Search on All Samples, or specify at least two Existing Groups." />-->
+<a href="javascript: Help.popHelp('<%=act%>_Group_tooltip');">[?]</a>    
 </legend>
 <html:radio property="groupsOption" styleId="allSamplesRadio" styleClass="radio" value="allSamples" />Show all samples<br /><br />
 
@@ -41,7 +44,8 @@
 
 <logic:present name="classComparisonForm">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
-<app:help help="Select two or more Existing Groups, and click >> to move them to Selected Groups. " />
+<a href="javascript: Help.popHelp('<%=act%>_Group_tooltip');">[?]</a>   
+<!-- <app:help help="Select two or more Existing Groups, and click >> to move them to Selected Groups. " />-->
 </legend>
 <br clear="both"/>
 	<em>choose 2 or more groups</em>
@@ -70,7 +74,8 @@
 	<span style="cursor:pointer; border:1px solid; padding-right:3px; padding-left:3px;" onclick="javascript:moveDownList(document.getElementById('selectedGroups'));initBaseline();">&darr;</span>
 	<span style="font-size:10px; font-family:arial; padding:10px;">
 		Baseline
-		<app:help help="Use up or down arrow to move the group to the last Selected Groups position. (baseline) appears.  " />
+		<a href="javascript: Help.popHelp('<%=act%>_Baseline_tooltip');">[?]</a>  
+		<!-- <app:help help="Use up or down arrow to move the group to the last Selected Groups position. (baseline) appears.  " />-->
 		: <span id="baseline">none</span>
 		<input type="hidden" name="baselineGroup" id="baselineGroup"/>
 	</span>

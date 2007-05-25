@@ -38,118 +38,174 @@
     <h7 weight="2" />
   </ScoringPrefs>
   <DocumentInfo>
-    <Document title="Welcome to the REMBRANDT 1.5 Online Help" href="Welcome.1.1.html" />
+    <Document title="Welcome to the REMBRANDT Online Help" href="Welcome.1.1.html" />
     <Document title="Online Help Tips" href="OnlineHelpBoilerplate.2.1.html" />
-    <Document title="About REMBRANDT 1.5" href="rembrandt1.5_About_REMBRANDT.3.1.html" />
-    <Document title="About REMBRANDT" href="rembrandt1.5_About_REMBRANDT.3.2.html" />
-    <Document title="About REMBRANDT Functions" href="rembrandt1.5_About_REMBRANDT.3.3.html" />
-    <Document title="Getting Started" href="rembrandt1.5_Getting_Started.4.1.html" />
-    <Document title="REMBRANDT’s Opening Page" href="rembrandt1.5_Getting_Started.4.2.html" />
-    <Document title="New User Registration" href="rembrandt1.5_Getting_Started.4.3.html" />
-    <Document title="Logging In" href="rembrandt1.5_Getting_Started.4.4.html" />
-    <Document title="Accepting REMBRANDT Provisions" href="rembrandt1.5_Getting_Started.4.5.html" />
-    <Document title="REMBRANDT 1.5 Workspace" href="rembrandt1.5_Getting_Started.4.6.html" />
-    <Document title="Getting Help" href="rembrandt1.5_Getting_Started.4.7.html" />
-    <Document title="Logging Out" href="rembrandt1.5_Getting_Started.4.8.html" />
-    <Document title="Conducting a Simple Search" href="rembrandt1.5_Simple_Searches.5.1.html" />
-    <Document title="Simple Search Overview" href="rembrandt1.5_Simple_Searches.5.2.html" />
-    <Document title="Gene Expression Simple Search" href="rembrandt1.5_Simple_Searches.5.3.html" />
-    <Document title="Eliminating Aliases" href="rembrandt1.5_Simple_Searches.5.4.html" />
-    <Document title="Understanding a Gene Expression Plot" href="rembrandt1.5_Simple_Searches.5.5.html" />
-    <Document title="Geometric Mean Plot Details" href="rembrandt1.5_Simple_Searches.5.6.html" />
-    <Document title="Log2 Intensity Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.7.html" />
-    <Document title="Box and Whisker Log2 Intensity Gene Expression Plot Details" href="rembrandt1.5_Simple_Searches.5.8.html" />
-    <Document title="Displaying a Coin Plot" href="rembrandt1.5_Simple_Searches.5.9.html" />
-    <Document title="Saving, Printing, and E-mailing a Gene Expression Plot" href="rembrandt1.5_Simple_Searches.5.10.html" />
-    <Document title="K-M Gene Expression Simple Search" href="rembrandt1.5_Simple_Searches.5.11.html" />
-    <Document title="Redrawing the K-M Survival Plot for Gene Expression Data" href="rembrandt1.5_Simple_Searches.5.12.html" />
-    <Document title="Understanding K-M Survival Plot for Gene Expression Data" href="rembrandt1.5_Simple_Searches.5.13.html" />
-    <Document title="K-M Copy Number Simple Search" href="rembrandt1.5_Simple_Searches.5.14.html" />
-    <Document title="Redrawing the K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.15.html" />
-    <Document title="Understanding K-M Survival Plot for Copy Number Data" href="rembrandt1.5_Simple_Searches.5.16.html" />
-    <Document title="K-M Sample Search" href="rembrandt1.5_Simple_Searches.5.17.html" />
-    <Document title="Understanding K-M Survival Plot for Sample Data" href="rembrandt1.5_Simple_Searches.5.18.html" />
-    <Document title="Viewing the Clinical Reports" href="rembrandt1.5_Simple_Searches.5.19.html" />
-    <Document title="Viewing Clinical Plots" href="rembrandt1.5_Simple_Searches.5.20.html" />
-    <Document title="Conducting Advanced Searches" href="rembrandt1.5_Adv_Searches.6.1.html" />
-    <Document title="Advanced Searches Overview" href="rembrandt1.5_Adv_Searches.6.2.html" />
-    <Document title="Gene Expression Advanced Search" href="rembrandt1.5_Adv_Searches.6.3.html" />
-    <Document title="Selecting a Gene Ontology (GO) Classification" href="rembrandt1.5_Adv_Searches.6.4.html" />
-    <Document title="Selecting a Pathway" href="rembrandt1.5_Adv_Searches.6.5.html" />
-    <Document title="Copy Number Advanced Search" href="rembrandt1.5_Adv_Searches.6.6.html" />
-    <Document title="Clinical Study Advanced Search" href="rembrandt1.5_Adv_Searches.6.7.html" />
-    <Document title="Managing Individual and Compound Queries" href="rembrandt1.5_Adv_Searches.6.8.html" />
-    <Document title="Refining a Query" href="rembrandt1.5_Adv_Searches.6.9.html" />
-    <Document title="High Order Analysis" href="rembrandt1.5_High_Order_Analysis.7.1.html" />
-    <Document title="High Order Analysis Overview" href="rembrandt1.5_High_Order_Analysis.7.2.html" />
-    <Document title="Performing a Class Comparison" href="rembrandt1.5_High_Order_Analysis.7.3.html" />
-    <Document title="Performing a Principal Component Analysis" href="rembrandt1.5_High_Order_Analysis.7.4.html" />
-    <Document title="Performing Hierarchical Clustering Analysis" href="rembrandt1.5_High_Order_Analysis.7.5.html" />
-    <Document title="Viewing Results" href="rembrandt1.5_View%20Results.8.1.html" />
-    <Document title="Results Overview" href="rembrandt1.5_View%20Results.8.2.html" />
-    <Document title="Advanced Search or Query Results" href="rembrandt1.5_View%20Results.8.3.html" />
-    <Document title="Gene Expression Sample Report" href="rembrandt1.5_View%20Results.8.4.html" />
-    <Document title="Filtering Results by Gene or Reporter (Filter Toolbar)" href="rembrandt1.5_View%20Results.8.5.html" />
-    <Document title="Highlighting Results By Value (Highlight Toolbar)" href="rembrandt1.5_View%20Results.8.6.html" />
-    <Document title="Selecting and Saving Sample Results (Select Samples Toolbar)" href="rembrandt1.5_View%20Results.8.7.html" />
-    <Document title="Differentiating Data (Show All Values Toolbar)" href="rembrandt1.5_View%20Results.8.8.html" />
-    <Document title="Removing Columns (Hide Diseases toolbar)" href="rembrandt1.5_View%20Results.8.9.html" />
-    <Document title="Showing Additional Information" href="rembrandt1.5_View%20Results.8.10.html" />
-    <Document title="Copy Number Sample Report" href="rembrandt1.5_View%20Results.8.11.html" />
-    <Document title="Displaying Copy Number Sample Data in webGenome" href="rembrandt1.5_View%20Results.8.12.html" />
-    <Document title="High Order Analysis Results" href="rembrandt1.5_View%20Results.8.13.html" />
-    <Document title="Class Comparison Report" href="rembrandt1.5_View%20Results.8.14.html" />
-    <Document title="Filtering a p-value (Filter p-value Toolbar)" href="rembrandt1.5_View%20Results.8.15.html" />
-    <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt1.5_View%20Results.8.16.html" />
-    <Document title="Resorting Column Results" href="rembrandt1.5_View%20Results.8.17.html" />
-    <Document title="Principal Component Analysis Plot" href="rembrandt1.5_View%20Results.8.18.html" />
-    <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt1.5_View%20Results.8.19.html" />
-    <Document title="Hierarchical Clustering Report" href="rembrandt1.5_View%20Results.8.20.html" />
-    <Document title="Downloading BRB Array Tools and Files" href="rembrandt1.5_View%20Results.8.21.html" />
-    <Document title="Managing Lists" href="rembrandt1.5_Manage_Lists.9.1.html" />
-    <Document title="Managing Lists Overview" href="rembrandt1.5_Manage_Lists.9.2.html" />
-    <Document title="Viewing the Data Items in a List" href="rembrandt1.5_Manage_Lists.9.3.html" />
-    <Document title="Removing Data Items to Create a New List" href="rembrandt1.5_Manage_Lists.9.4.html" />
-    <Document title="Combining Existing Lists to Create a New List" href="rembrandt1.5_Manage_Lists.9.5.html" />
-    <Document title="Deleting an Entire List" href="rembrandt1.5_Manage_Lists.9.6.html" />
-    <Document title="Adding a New “Custom” List" href="rembrandt1.5_Manage_Lists.9.7.html" />
-    <Document title="Glossary" href="rembrandt1.5_Glossary.10.1.html" />
+    <Document title="Application Support" href="Application%20Support.3.1.html" />
+    <Document title="Getting Started with REMBRANDT" href="rembrandt_Getting_Started.4.1.html" />
+    <Document title="About REMBRANDT" href="rembrandt_Getting_Started.4.2.html" />
+    <Document title="REMBRANDTREMBRANDTREMBRANDT’s Opening Page" href="rembrandt_Getting_Started.4.3.html" />
+    <Document title="New User Registration" href="rembrandt_Getting_Started.4.4.html" />
+    <Document title="Logging In" href="rembrandt_Getting_Started.4.5.html" />
+    <Document title="Accepting REMBRANDT Provisions" href="rembrandt_Getting_Started.4.6.html" />
+    <Document title="REMBRANDT Menu" href="rembrandt_Getting_Started.4.7.html" />
+    <Document title="REMBRANDT Tabs" href="rembrandt_Getting_Started.4.8.html" />
+    <Document title="REMBRANDT Side Bar" href="rembrandt_Getting_Started.4.9.html" />
+    <Document title="Application Support" href="rembrandt_Getting_Started.4.10.html" />
+    <Document title="Logging Out" href="rembrandt_Getting_Started.4.11.html" />
+    <Document title="Conducting a Simple Search" href="rembrandt_Simple_Searches.5.1.html" />
+    <Document title="Simple Search Overview" href="rembrandt_Simple_Searches.5.2.html" />
+    <Document title="Gene Expression Simple Search" href="rembrandt_Simple_Searches.5.3.html" />
+    <Document title="Eliminating Aliases" href="rembrandt_Simple_Searches.5.4.html" />
+    <Document title="Understanding a Gene Expression Plot" href="rembrandt_Simple_Searches.5.5.html" />
+    <Document title="Median Plot Details" href="rembrandt_Simple_Searches.5.6.html" />
+    <Document title="Geometric Mean Plot Details" href="rembrandt_Simple_Searches.5.7.html" />
+    <Document title="Log2 Intensity Gene Expression Plot Details" href="rembrandt_Simple_Searches.5.8.html" />
+    <Document title="Box and Whisker Log2 Intensity Gene Expression Plot Details" href="rembrandt_Simple_Searches.5.9.html" />
+    <Document title="Displaying a Coin Plot" href="rembrandt_Simple_Searches.5.10.html" />
+    <Document title="Saving, Printing, and E-mailing a Gene Expression Plot" href="rembrandt_Simple_Searches.5.11.html" />
+    <Document title="K-M Gene Expression Simple Search" href="rembrandt_Simple_Searches.5.12.html" />
+    <Document title="Redrawing the K-M Survival Plot for Gene Expression Data" href="rembrandt_Simple_Searches.5.13.html" />
+    <Document title="Understanding K-M Survival Plot for Gene Expression Data" href="rembrandt_Simple_Searches.5.14.html" />
+    <Document title="K-M Copy Number Simple Search" href="rembrandt_Simple_Searches.5.15.html" />
+    <Document title="Redrawing the K-M Survival Plot for Copy Number Data" href="rembrandt_Simple_Searches.5.16.html" />
+    <Document title="Understanding K-M Survival Plot for Copy Number Data" href="rembrandt_Simple_Searches.5.17.html" />
+    <Document title="K-M Sample Search" href="rembrandt_Simple_Searches.5.18.html" />
+    <Document title="Understanding K-M Survival Plot for Sample Data" href="rembrandt_Simple_Searches.5.19.html" />
+    <Document title="Conducting Advanced Searches" href="rembrandt_Adv_Searches.6.1.html" />
+    <Document title="Advanced Searches Overview" href="rembrandt_Adv_Searches.6.2.html" />
+    <Document title="Gene Expression Advanced Search" href="rembrandt_Adv_Searches.6.3.html" />
+    <Document title="Selecting a Gene Ontology (GO) Classification" href="rembrandt_Adv_Searches.6.4.html" />
+    <Document title="Selecting a Pathway" href="rembrandt_Adv_Searches.6.5.html" />
+    <Document title="Copy Number Advanced Search" href="rembrandt_Adv_Searches.6.6.html" />
+    <Document title="Clinical Study Advanced Search" href="rembrandt_Adv_Searches.6.7.html" />
+    <Document title="Managing Individual and Compound Queries" href="rembrandt_Adv_Searches.6.8.html" />
+    <Document title="Refining a Query" href="rembrandt_Adv_Searches.6.9.html" />
+    <Document title="High Order Analysis" href="rembrandt_High_Order_Analysis.7.1.html" />
+    <Document title="High Order Analysis Overview" href="rembrandt_High_Order_Analysis.7.2.html" />
+    <Document title="Performing a Class Comparison" href="rembrandt_High_Order_Analysis.7.3.html" />
+    <Document title="Performing a Principal Component Analysis" href="rembrandt_High_Order_Analysis.7.4.html" />
+    <Document title="Performing Hierarchical Clustering Analysis" href="rembrandt_High_Order_Analysis.7.5.html" />
+    <Document title="Viewing Results" href="rembrandt_View%20Results.8.1.html" />
+    <Document title="Results Overview" href="rembrandt_View%20Results.8.2.html" />
+    <Document title="Clinical Reports" href="rembrandt_View%20Results.8.3.html" />
+    <Document title="Viewing Clinical Plots" href="rembrandt_View%20Results.8.4.html" />
+    <Document title="Advanced Search or Query Results" href="rembrandt_View%20Results.8.5.html" />
+    <Document title="Gene Expression Sample Report" href="rembrandt_View%20Results.8.6.html" />
+    <Document title="Filtering Results by Gene or Reporter (Filter Toolbar)" href="rembrandt_View%20Results.8.7.html" />
+    <Document title="Highlighting Results By Value (Highlight Toolbar)" href="rembrandt_View%20Results.8.8.html" />
+    <Document title="Selecting and Saving Sample Results (Select Samples Toolbar)" href="rembrandt_View%20Results.8.9.html" />
+    <Document title="Differentiating Data (Show All Values Toolbar)" href="rembrandt_View%20Results.8.10.html" />
+    <Document title="Removing Columns (Hide Diseases toolbar)" href="rembrandt_View%20Results.8.11.html" />
+    <Document title="Showing Additional Information" href="rembrandt_View%20Results.8.12.html" />
+    <Document title="Copy Number Sample Report" href="rembrandt_View%20Results.8.13.html" />
+    <Document title="Displaying Copy Number Sample Data in webGenome" href="rembrandt_View%20Results.8.14.html" />
+    <Document title="High Order Analysis Results" href="rembrandt_View%20Results.8.15.html" />
+    <Document title="Class Comparison Report" href="rembrandt_View%20Results.8.16.html" />
+    <Document title="Filtering a p-value (Filter p-value Toolbar)" href="rembrandt_View%20Results.8.17.html" />
+    <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt_View%20Results.8.18.html" />
+    <Document title="Resorting Column Results" href="rembrandt_View%20Results.8.19.html" />
+    <Document title="Principal Component Analysis Plot" href="rembrandt_View%20Results.8.20.html" />
+    <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt_View%20Results.8.21.html" />
+    <Document title="Hierarchical Clustering Report" href="rembrandt_View%20Results.8.22.html" />
+    <Document title="Downloading BRB Array Tools and Files" href="rembrandt_View%20Results.8.23.html" />
+    <Document title="Managing Lists" href="rembrandt_Manage_Lists.9.1.html" />
+    <Document title="Managing Lists Overview" href="rembrandt_Manage_Lists.9.2.html" />
+    <Document title="Adding New Lists" href="rembrandt_Manage_Lists.9.3.html" />
+    <Document title="Combining Existing Lists to Create a New List" href="rembrandt_Manage_Lists.9.4.html" />
+    <Document title="Uploading a List" href="rembrandt_Manage_Lists.9.5.html" />
+    <Document title="Manually Entering a List" href="rembrandt_Manage_Lists.9.6.html" />
+    <Document title="Viewing the Data Items in a List" href="rembrandt_Manage_Lists.9.7.html" />
+    <Document title="Removing Data Items" href="rembrandt_Manage_Lists.9.8.html" />
+    <Document title="Deleting an Entire List" href="rembrandt_Manage_Lists.9.9.html" />
+    <Document title="Exporting a List" href="rembrandt_Manage_Lists.9.10.html" />
+    <Document title="Glossary" href="rembrandt_Glossary.10.1.html" />
   </DocumentInfo>
   <TopicMap>
     <Topic name="Welcome" href="Welcome.1.1.html#1052621" />
-    <Topic name="Opening_page" href="rembrandt1.5_Getting_Started.4.2.html#1116016" />
-    <Topic name="Registering" href="rembrandt1.5_Getting_Started.4.3.html#1094503" />
-    <Topic name="Logging_in" href="rembrandt1.5_Getting_Started.4.4.html#1096445" />
-    <Topic name="Rules_of_the_road" href="rembrandt1.5_Getting_Started.4.5.html#1095258" />
-    <Topic name="Logging_out" href="rembrandt1.5_Getting_Started.4.8.html#1111610" />
-    <Topic name="Simple_search_overview" href="rembrandt1.5_Simple_Searches.5.2.html#1067499" />
-    <Topic name="Eliminating_aliases" href="rembrandt1.5_Simple_Searches.5.4.html#1134211" />
-    <Topic name="Simple_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.5.html#1100403" />
-    <Topic name="Coin_plot" href="rembrandt1.5_Simple_Searches.5.9.html#1118993" />
-    <Topic name="Gene_expression_new_window" href="rembrandt1.5_Simple_Searches.5.10.html#1118352" />
-    <Topic name="Simple_KM_gene_expression_plot" href="rembrandt1.5_Simple_Searches.5.13.html#1080837" />
-    <Topic name="Simple_KM_copy_number_plot" href="rembrandt1.5_Simple_Searches.5.16.html#1101247" />
-    <Topic name="Simple_KM_sample_plot" href="rembrandt1.5_Simple_Searches.5.18.html#1101398" />
-    <Topic name="Clinical_report" href="rembrandt1.5_Simple_Searches.5.19.html#1085908" />
-    <Topic name="Clinical_plot" href="rembrandt1.5_Simple_Searches.5.20.html#1088123" />
-    <Topic name="Advanced_overview" href="rembrandt1.5_Adv_Searches.6.2.html#1110870" />
-    <Topic name="Advanced_gene_expression" href="rembrandt1.5_Adv_Searches.6.3.html#1151242" />
-    <Topic name="GO_id_list" href="rembrandt1.5_Adv_Searches.6.4.html#1099861" />
-    <Topic name="Browse_pathway" href="rembrandt1.5_Adv_Searches.6.5.html#1141063" />
-    <Topic name="Advanced_copy_number" href="rembrandt1.5_Adv_Searches.6.6.html#1101162" />
-    <Topic name="Advanced_clinical_data" href="rembrandt1.5_Adv_Searches.6.7.html#1111942" />
-    <Topic name="Refine_query" href="rembrandt1.5_Adv_Searches.6.9.html#1141191" />
-    <Topic name="HOA_overview" href="rembrandt1.5_High_Order_Analysis.7.2.html#1067499" />
-    <Topic name="Class_comparison" href="rembrandt1.5_High_Order_Analysis.7.3.html#1092908" />
-    <Topic name="PCA_analysis" href="rembrandt1.5_High_Order_Analysis.7.4.html#1092212" />
-    <Topic name="HCA_analysis" href="rembrandt1.5_High_Order_Analysis.7.5.html#1076040" />
-    <Topic name="View_results_overview" href="rembrandt1.5_View%20Results.8.2.html#1067499" />
-    <Topic name="Gene_Expression_Sample" href="rembrandt1.5_View%20Results.8.4.html#1101944" />
-    <Topic name="Copy_Number_Sample" href="rembrandt1.5_View%20Results.8.11.html#1114118" />
-    <Topic name="Class_comparison_report" href="rembrandt1.5_View%20Results.8.14.html#1082972" />
-    <Topic name="PCA_report" href="rembrandt1.5_View%20Results.8.18.html#1082922" />
-    <Topic name="3d_pca" href="rembrandt1.5_View%20Results.8.19.html#1108688" />
-    <Topic name="HCA_report" href="rembrandt1.5_View%20Results.8.20.html#1088992" />
-    <Topic name="Manage_lists_overview" href="rembrandt1.5_Manage_Lists.9.2.html#1067499" />
+    <Topic name="Opening_page" href="rembrandt_Getting_Started.4.3.html#1123842" />
+    <Topic name="Registering" href="rembrandt_Getting_Started.4.4.html#1094503" />
+    <Topic name="Logging_in" href="rembrandt_Getting_Started.4.5.html#1096445" />
+    <Topic name="Rules_of_the_road" href="rembrandt_Getting_Started.4.6.html#1095258" />
+    <Topic name="Blue_panel" href="rembrandt_Getting_Started.4.9.html#1122825" />
+    <Topic name="Logging_out" href="rembrandt_Getting_Started.4.11.html#1111610" />
+    <Topic name="Simple_search_overview" href="rembrandt_Simple_Searches.5.2.html#1067499" />
+    <Topic name="Eliminating_aliases" href="rembrandt_Simple_Searches.5.4.html#1134211" />
+    <Topic name="Simple_gene_expression_plot" href="rembrandt_Simple_Searches.5.5.html#1100403" />
+    <Topic name="Coin_plot" href="rembrandt_Simple_Searches.5.10.html#1118993" />
+    <Topic name="Gene_expression_new_window" href="rembrandt_Simple_Searches.5.11.html#1118352" />
+    <Topic name="Simple_KM_gene_expression_plot" href="rembrandt_Simple_Searches.5.14.html#1080837" />
+    <Topic name="Simple_KM_copy_number_plot" href="rembrandt_Simple_Searches.5.17.html#1101247" />
+    <Topic name="Simple_KM_sample_plot" href="rembrandt_Simple_Searches.5.19.html#1101398" />
+    <Topic name="Advanced_overview" href="rembrandt_Adv_Searches.6.2.html#1110870" />
+    <Topic name="Advanced_gene_expression" href="rembrandt_Adv_Searches.6.3.html#1151242" />
+    <Topic name="geneexpression_Query_tooltip" href="rembrandt_Adv_Searches.6.3.html#1157904" />
+    <Topic name="geneexpression_Gene_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140856" />
+    <Topic name="geneexpression_Region_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140888" />
+    <Topic name="geneexpression_Clone_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140912" />
+    <Topic name="geneexpression_Go_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140931" />
+    <Topic name="geneexpression_Pathway_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140951" />
+    <Topic name="geneexpression_Disease_tooltip" href="rembrandt_Adv_Searches.6.3.html#1129761" />
+    <Topic name="geneexpression_Sample_tooltip" href="rembrandt_Adv_Searches.6.3.html#1129773" />
+    <Topic name="geneexpression_Fold_tooltip" href="rembrandt_Adv_Searches.6.3.html#1129783" />
+    <Topic name="geneexpression_Array_tooltip" href="rembrandt_Adv_Searches.6.3.html#1129792" />
+    <Topic name="GO_id_list" href="rembrandt_Adv_Searches.6.4.html#1099861" />
+    <Topic name="Browse_pathway" href="rembrandt_Adv_Searches.6.5.html#1141063" />
+    <Topic name="Advanced_copy_number" href="rembrandt_Adv_Searches.6.6.html#1101162" />
+    <Topic name="comparitivegenomic_Query_tooltip" href="rembrandt_Adv_Searches.6.6.html#1157980" />
+    <Topic name="comparitivegenomic_Gene_tooltip" href="rembrandt_Adv_Searches.6.6.html#1127876" />
+    <Topic name="comparitivegenomic_Region_tooltip" href="rembrandt_Adv_Searches.6.6.html#1127908" />
+    <Topic name="comparitivegenomic_GeoAnno_tooltip" href="rembrandt_Adv_Searches.6.6.html#1127932" />
+    <Topic name="comparitivegenomic_SNPID_tooltip" href="rembrandt_Adv_Searches.6.6.html#1127944" />
+    <Topic name="comparitivegenomic_Allele_tooltip" href="rembrandt_Adv_Searches.6.6.html#1127968" />
+    <Topic name="comparitivegenomic_Disease_tooltip" href="rembrandt_Adv_Searches.6.6.html#1144996" />
+    <Topic name="comparitivegenomic_Sample_tooltip" href="rembrandt_Adv_Searches.6.6.html#1145014" />
+    <Topic name="comparitivegenomic_Copynum_tooltip" href="rembrandt_Adv_Searches.6.6.html#1145025" />
+    <Topic name="comparitivegenomic_Array_tooltip" href="rembrandt_Adv_Searches.6.6.html#1145035" />
+    <Topic name="Advanced_clinical_data" href="rembrandt_Adv_Searches.6.7.html#1111942" />
+    <Topic name="clinical_Query_tooltip" href="rembrandt_Adv_Searches.6.7.html#1105729" />
+    <Topic name="clinical_Disease_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124174" />
+    <Topic name="clinical_Sample_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124192" />
+    <Topic name="clinical_Occurrence_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124222" />
+    <Topic name="clinical_Prior_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124229" />
+    <Topic name="clinical_Onstudy_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124251" />
+    <Topic name="clinical_Survival_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124257" />
+    <Topic name="clinical_AgeatDX_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124264" />
+    <Topic name="clinical_Gender_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124271" />
+    <Topic name="clinical_Race_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124277" />
+    <Topic name="clinical_ClinicalEval_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124283" />
+    <Topic name="clinical_Karnofsky_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124285" />
+    <Topic name="clinical_Lansky_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124291" />
+    <Topic name="clinical_Neuro_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124297" />
+    <Topic name="clinical_MRI_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124308" />
+    <Topic name="Refine_query" href="rembrandt_Adv_Searches.6.9.html#1141191" />
+    <Topic name="HOA_overview" href="rembrandt_High_Order_Analysis.7.2.html#1067499" />
+    <Topic name="Class_comparison" href="rembrandt_High_Order_Analysis.7.3.html#1092908" />
+    <Topic name="classcomparison_Group_tooltip" href="rembrandt_High_Order_Analysis.7.3.html#1096718" />
+    <Topic name="classcomparison_Baseline_tooltip" href="rembrandt_High_Order_Analysis.7.3.html#1096733" />
+    <Topic name="classcomparison_Statistic_tooltip" href="rembrandt_High_Order_Analysis.7.3.html#1096740" />
+    <Topic name="classcomparison_Constraint_tooltip" href="rembrandt_High_Order_Analysis.7.3.html#1096783" />
+    <Topic name="classcomparison_Array_tooltip" href="rembrandt_High_Order_Analysis.7.3.html#1096795" />
+    <Topic name="classcomparison_Name_tooltip" href="rembrandt_High_Order_Analysis.7.3.html#1081745" />
+    <Topic name="PCA_analysis" href="rembrandt_High_Order_Analysis.7.4.html#1092212" />
+    <Topic name="principalcomponent_Group_tooltip" href="rembrandt_High_Order_Analysis.7.4.html#1100522" />
+    <Topic name="principalcomponent_Filter_tooltip" href="rembrandt_High_Order_Analysis.7.4.html#1100545" />
+    <Topic name="principalcomponent_Array_tooltip" href="rembrandt_High_Order_Analysis.7.4.html#1100595" />
+    <Topic name="principalcomponent_Name_tooltip" href="rembrandt_High_Order_Analysis.7.4.html#1082748" />
+    <Topic name="HCA_analysis" href="rembrandt_High_Order_Analysis.7.5.html#1076040" />
+    <Topic name="hierarchicalclustering_Filter_tooltip" href="rembrandt_High_Order_Analysis.7.5.html#1088311" />
+    <Topic name="hierarchicalclustering_Statistic_tooltip" href="rembrandt_High_Order_Analysis.7.5.html#1088347" />
+    <Topic name="hierarchicalclustering_Clusterby_tooltip" href="rembrandt_High_Order_Analysis.7.5.html#1088364" />
+    <Topic name="hierarchicalclustering_Array_tooltip" href="rembrandt_High_Order_Analysis.7.5.html#1088370" />
+    <Topic name="hierarchicalclustering_Name_tooltip" href="rembrandt_High_Order_Analysis.7.5.html#1083450" />
+    <Topic name="View_results_overview" href="rembrandt_View%20Results.8.2.html#1067499" />
+    <Topic name="Clinical_report" href="rembrandt_View%20Results.8.3.html#1119971" />
+    <Topic name="Clinical_plot" href="rembrandt_View%20Results.8.4.html#1120058" />
+    <Topic name="Gene_Expression_Sample" href="rembrandt_View%20Results.8.6.html#1101944" />
+    <Topic name="Copy_Number_Sample" href="rembrandt_View%20Results.8.13.html#1114118" />
+    <Topic name="Class_comparison_report" href="rembrandt_View%20Results.8.16.html#1082972" />
+    <Topic name="PCA_report" href="rembrandt_View%20Results.8.20.html#1082922" />
+    <Topic name="3d_pca" href="rembrandt_View%20Results.8.21.html#1108688" />
+    <Topic name="HCA_report" href="rembrandt_View%20Results.8.22.html#1088992" />
+    <Topic name="Manage_lists_overview" href="rembrandt_Manage_Lists.9.2.html#1096151" />
   </TopicMap>
 </WebWorksHelpBook>

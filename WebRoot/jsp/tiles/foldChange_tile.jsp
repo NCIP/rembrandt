@@ -1,14 +1,16 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<fieldset class="gray">
-<legend class="red">Fold Change
-<app:help help="Specify the threshold of differential regulation."/>
-</legend>
-
 <%
 	String act = request.getParameter("act");
 
 %>
+<fieldset class="gray">
+<legend class="red">Fold Change
+<!-- <app:help help="Specify the threshold of differential regulation."/>-->
+<a href="javascript: Help.popHelp('<%=act%>_Fold_tooltip');">[?]</a>    
+</legend>
+
+
 	
 <br />
 <html:errors property="regulationStatusAllGenes" /><br />

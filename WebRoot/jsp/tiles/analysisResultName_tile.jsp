@@ -23,7 +23,11 @@
 		</logic:present>
 		Name Analysis Result
 <b class="req">*</b>
-<app:help help="Enter a unique name for the query." />
+<%
+	String act = request.getParameter("act");
+%>
+<!--  <app:help help="Enter a unique name for the query." /> -->
+<a href="javascript: Help.popHelp('<%=act%>_Name_tooltip');">[?]</a>    
 </legend>
 <br>
 	<html:errors property="analysisResultName"/>

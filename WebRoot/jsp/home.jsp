@@ -28,7 +28,8 @@
 	        <br />
 	        
 	        <h5>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
-	        <app:help help="Select a search method and enter search criteria, such as a HUGO gene symbol." /></h5>
+	        <!-- <app:help help="Select a search method and enter search criteria, such as a HUGO gene symbol." />-->
+	        </h5>
 	        <input type="radio" checked="checked" name="plot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
 	        Gene Expression plot&nbsp;<br />
 	        

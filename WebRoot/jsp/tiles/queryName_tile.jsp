@@ -12,9 +12,6 @@
 <legend class="red">
 <bean:message key="queryName.label"/>
 <b class="req">*</b>
-<!-- <a href="javascript:void(0);" onmouseover="return overlib('<bean:message key="queryName.help"/>', CAPTION, 'Help');" onmouseout="return nd();">[?]</a> -->
-<app:help help="Enter a unique name for the query." />
-</legend>
 <%
  String act = request.getParameter("act");
  RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
@@ -23,6 +20,11 @@
  SimpleDateFormat formatter = new SimpleDateFormat(format);
  String datenewformat = formatter.format(today);
 %>
+<!-- <a href="javascript:void(0);" onmouseover="return overlib('<bean:message key="queryName.help"/>', CAPTION, 'Help');" onmouseout="return nd();">[?]</a> -->
+<!-- <app:help help="Enter a unique name for the query." />-->
+<a href="javascript: Help.popHelp('<%=act%>_Query_tooltip');">[?]</a> 
+</legend>
+
 <br>
 	
 <html:text property="queryName" size="50" /> (should be unique)

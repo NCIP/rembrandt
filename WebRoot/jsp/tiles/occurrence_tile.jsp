@@ -1,12 +1,15 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<fieldset class="gray">
-<legend class="red">Occurrence
-<app:help help="Future implementation"/>
-</legend>
 <%
 	String act = request.getParameter("act");
 %>
+<fieldset class="gray">
+<legend class="red">Occurrence
+<!--  <app:help help="Future implementation"/>-->
+<a href="javascript: Help.popHelp('<%=act%>_Occurrence_tooltip');">[?]</a>    
+
+</legend>
+
 	
 <input type="checkbox" name="firstPresentation" class="radio" disabled="true" >First Presentation
 &nbsp;&nbsp;

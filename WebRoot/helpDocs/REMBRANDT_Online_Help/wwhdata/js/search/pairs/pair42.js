@@ -3,10 +3,8 @@ function FileData_Pairs(x)
 x.t("describes","rembrandt");
 x.t("comparisons","hierarchical");
 x.t("hierarchical","clustering");
-x.t("back","forward");
 x.t("overview","performing");
 x.t("high","order");
-x.t("forward","high");
 x.t("include:","high");
 x.t("component","analyses.");
 x.t("component","analysis");
@@ -28,7 +26,6 @@ x.t("order","analysis");
 x.t("run","higher");
 x.t("class","comparisons");
 x.t("class","comparison");
-x.t("analysis","back");
 x.t("analysis","overview");
 x.t("analysis","high");
 x.t("analysis","section");

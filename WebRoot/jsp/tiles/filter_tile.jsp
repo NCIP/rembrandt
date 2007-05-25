@@ -3,7 +3,10 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*"%>
+<%
+	String act = request.getParameter("act");
 
+%>
 <script language="javascript">
 	function setUserDefaults(analysis){
 		var variance = document.getElementById("variancePercentile").value;
@@ -80,7 +83,9 @@
 	Step 2: 
 	</logic:present>
 	Filter Genes/Reporters
-<app:help help="Leave as Default, or select Advanced and click + for more options." />
+	<a href="javascript: Help.popHelp('<%=act%>_Filter_tooltip');">[?]</a>    
+	
+<!--  <app:help help="Leave as Default, or select Advanced and click + for more options." />-->
 </legend>
 <span id="confirm"></span>
 
