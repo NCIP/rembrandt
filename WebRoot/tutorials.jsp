@@ -38,16 +38,13 @@
 	<legend>Simple Search</legend><br clear="both"/>
 	<li>
 		<b>Gene Expression Plot</b>
-		<a href="javascript:spawnm('tutorials/qs_gplot.htm');">View</a>* the Gene Expression Plot tutorial  (opens in a new window) 
+		<a href="javascript:spawnm('tutorials/Gene_search.htm');">View</a>* the Gene Expression Plot tutorial describes the Median, Geometric Mean, Log2 Intensity and Box and Whisker plots. (opens in a new window) 
 	</li>
 	<li>
 		<b>Kaplan-Meier Survival Plot</b>
-		<a href="javascript:spawnm('tutorials/qs_kmplot.htm');">View</a>* the Kaplan-Meier Plot tutorial  (opens in a new window) 
+		<a href="javascript:spawnm('tutorials/RBT_1_6_km.htm');">View</a>* the Kaplan-Meier Plot tutorial  (opens in a new window) 
 	</li>
-	<li>
-		<b>Box and Whisker Plot (Gene Expression)</b>
-		<a href="javascript:spawnm('tutorials/boxandw.htm');">View</a>* the tutorial  (opens in a new window) 
-	</li>
+
 </fieldset>
 <br/><br/>
 
