@@ -262,7 +262,7 @@ public class GeneExprSampleReport implements ReportGenerator{
 							cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
 						        //data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
 							    if(bioSpecimenIdentifierDE.getSpecimenName()!= null){
-							    	data = cell.addElement("Data").addAttribute("type", "header").addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName()).addText(bioSpecimenIdentifierDE.getSpecimenName());
+							    	data = cell.addElement("Data").addAttribute("type", "header").addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName()).addText(bioSpecimenIdentifierDE.getSampleId());
 							    }
 							    else{
 							        data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());
