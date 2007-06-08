@@ -111,7 +111,7 @@ public abstract class  BioSpecimenResultset implements Serializable{
 	private String antiConvulsantStatuses;
 	private String neuroExamDescs;
 	private String mriScoreDescs;
-	
+
 
 	
 	  private String priorRadiationTimePoints;

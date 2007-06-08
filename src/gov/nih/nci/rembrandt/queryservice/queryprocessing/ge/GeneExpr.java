@@ -84,7 +84,7 @@ abstract public class GeneExpr implements ResultSet{
     private Long timecourseId;
     private GeneExpr.Annotaion annotation;
     private String institutionName;
-
+    private String specimenName;
     
     public abstract Long getID();
 
@@ -1336,6 +1336,21 @@ abstract public class GeneExpr implements ResultSet{
 	 */
 	public void setInstitutionName(String institutionName) {
 		this.institutionName = institutionName;
+	}
+
+
+	/**
+	 * @return Returns the specimenName.
+	 */
+	public String getSpecimenName() {
+		return specimenName;
+	}
+
+	/**
+	 * @param specimenName The specimenName to set.
+	 */
+	public void setSpecimenName(String specimenName) {
+		this.specimenName = specimenName;
 	}
 
 

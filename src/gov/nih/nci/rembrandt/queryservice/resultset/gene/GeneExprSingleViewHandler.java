@@ -96,19 +96,19 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
       			diseaseResultset = ViewByGroupResultsetHandler.handleDiseaseTypeResultset(reporterResultset,exprObj);
       			diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(diseaseResultset);
-          		geneViewContainer.addBiospecimensToGroups(exprObj.getDiseaseType(),exprObj.getSampleId().toString());
+          		geneViewContainer.addBiospecimensToGroups(exprObj.getDiseaseType(),biospecimenResultset.getBiospecimen());
       		}
       		else if(groupType.getGroupType().equals(GroupType.AGE_GROUP)){
       			ageGroupResultset = ViewByGroupResultsetHandler.handleAgeGroupResultset(reporterResultset,exprObj);
       			ageGroupResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(ageGroupResultset);
-          		geneViewContainer.addBiospecimensToGroups(exprObj.getAgeGroup(),exprObj.getSampleId().toString());
+          		geneViewContainer.addBiospecimensToGroups(exprObj.getAgeGroup(),biospecimenResultset.getBiospecimen());
       		}
       		else if(groupType.getGroupType().equals(GroupType.SURVIVAL_RANGE_GROUP)){
       			survivalRangeResultset = ViewByGroupResultsetHandler.handleSurvivalRangeResultset(reporterResultset,exprObj);
       			survivalRangeResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(survivalRangeResultset);
-          		geneViewContainer.addBiospecimensToGroups(exprObj.getSurvivalLengthRange(),exprObj.getSampleId().toString());
+          		geneViewContainer.addBiospecimensToGroups(exprObj.getSurvivalLengthRange(),biospecimenResultset.getBiospecimen());
       		}
       		
       		geneResultset.addReporterResultset(reporterResultset);
@@ -139,7 +139,10 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
 		//populate the BiospecimenResuluset
 		SampleFoldChangeValuesResultset sampleFoldChangeValuesResultset = new SampleFoldChangeValuesResultset();
 		sampleFoldChangeValuesResultset.setSampleIDDE(new SampleIDDE(exprObj.getSampleId()));
-		sampleFoldChangeValuesResultset.setBiospecimen(new BioSpecimenIdentifierDE(exprObj.getBiospecimenId()));
+		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = new BioSpecimenIdentifierDE(exprObj.getBiospecimenId());
+		bioSpecimenIdentifierDE.setSampleId(exprObj.getSampleId());
+		bioSpecimenIdentifierDE.setSpecimenName(exprObj.getSpecimenName());
+		sampleFoldChangeValuesResultset.setBiospecimen(bioSpecimenIdentifierDE);
 		sampleFoldChangeValuesResultset.setFoldChangeRatioValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
 		sampleFoldChangeValuesResultset.setFoldChangeIntensity(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
 		sampleFoldChangeValuesResultset.setFoldChangeNonTumorIntensity(new DatumDE(DatumDE.FOLD_CHANGE_NORMAL_INTENSITY,exprObj.getNormalIntensity()));

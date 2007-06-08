@@ -75,6 +75,7 @@ public class SampleFoldChangeValuesResultset extends BioSpecimenResultset implem
 	private DatumDE ratioPval = null;
 	private boolean highlighted = false;
 	private DatumDE foldChangeLog2Intensity;
+
 	/**
 	 * @return Returns the foldChangeRatioValue.
 	 */

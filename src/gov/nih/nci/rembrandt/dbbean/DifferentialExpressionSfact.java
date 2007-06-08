@@ -78,7 +78,7 @@ public class DifferentialExpressionSfact
     public final static String SAMPLE_ID = "sampleId";
     public final static String INSTITUTION_ID = "institutionId";
     public final static String INSTITUTION_NAME = "institutionName";
-
+    public final static String SPECIMEN_NAME = "specimenName";
     public String getCytoband() {
         return cytoband;
     }
@@ -96,7 +96,9 @@ public class DifferentialExpressionSfact
     public void setSampleId(String sampleId) {
         this.sampleId = sampleId;
     }
-
+ 
+  private String specimenName;
+  
   private String sampleId;
 
   private Long agentId;
@@ -371,6 +373,20 @@ public String getInstitutionName() {
  */
 public void setInstitutionName(String institutionName) {
 	this.institutionName = institutionName;
+}
+
+/**
+ * @return Returns the specimenName.
+ */
+public String getSpecimenName() {
+	return specimenName;
+}
+
+/**
+ * @param specimenName The specimenName to set.
+ */
+public void setSpecimenName(String specimenName) {
+	this.specimenName = specimenName;
 }
 }
 

@@ -298,6 +298,8 @@
 		jdbc-type="VARCHAR" />
 	<field-descriptor name="sampleId" column="SAMPLE_ID"
 		jdbc-type="VARCHAR" />
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" />
 </class-descriptor>
 
 <class-descriptor

@@ -3,6 +3,7 @@
  *
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
 
 import java.util.Collection;
@@ -87,15 +88,15 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
 	/**
 	 * @param groupsLabels The groupsLabels to set.
 	 */
-	public void addBiospecimensToGroups(String groupLabel, String BiospecimenId) {
-		SortedSet biospecimenLabels = null;
+	public void addBiospecimensToGroups(String groupLabel, BioSpecimenIdentifierDE biospecimenId) {
+		SortedSet<BioSpecimenIdentifierDE> biospecimenLabels = null;
 		if(groupsLabels.containsKey(groupLabel)){
-			biospecimenLabels = (SortedSet) groupsLabels.get(groupLabel);
+			biospecimenLabels =  (SortedSet) groupsLabels.get(groupLabel);
 		}
 		else { ///key does not exsist
-			biospecimenLabels = new TreeSet();			
+			biospecimenLabels = new TreeSet<BioSpecimenIdentifierDE>();			
 		}
-		biospecimenLabels.add(BiospecimenId);
+		biospecimenLabels.add(biospecimenId);
 		groupsLabels.put(groupLabel,biospecimenLabels);
 	}
     /**

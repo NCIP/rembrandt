@@ -24,5 +24,9 @@ public interface GeneExprSingleInterface extends ClinicalResultSet{
 	public abstract Double getSampleIntensity();
 
 	public abstract void setSampleIntensity(Double sampleIntensity);
+	
+	public abstract void setSpecimenName(String specimenName);
+	
+	public abstract String getSpecimenName();
 
 }

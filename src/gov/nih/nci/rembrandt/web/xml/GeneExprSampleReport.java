@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.xml;
 
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -257,10 +258,15 @@ public class GeneExprSampleReport implements ReportGenerator{
 			    	
 			           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 
-			            	String s = sampleIdIterator.next().toString();
+			           		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) sampleIdIterator.next();
 							cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
 						        //data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
-						        data = cell.addElement("Data").addAttribute("type", "header").addText(s);
+							    if(bioSpecimenIdentifierDE.getSpecimenName()!= null){
+							    	data = cell.addElement("Data").addAttribute("type", "header").addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName()).addText(bioSpecimenIdentifierDE.getSpecimenName());
+							    }
+							    else{
+							        data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());
+							    }
 						    	data = null;
 						    cell = null;
 			            	//sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
@@ -406,8 +412,8 @@ public class GeneExprSampleReport implements ReportGenerator{
 					        			if(groupResultset != null)	{
 					                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 					                     	
-					                       		String sampleId = (String) sampleIdIterator.next();
-					                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+					                     		BioSpecimenIdentifierDE sampleId = (BioSpecimenIdentifierDE) sampleIdIterator.next();
+					                       		SampleFoldChangeValuesResultset biospecimenResultset = (SampleFoldChangeValuesResultset) groupResultset.getBioSpecimenResultset(sampleId.getSpecimenName());
 					                       		if(biospecimenResultset != null){
 					                       			
 					                       			if(biospecimenResultset.isHighlighted())

@@ -257,6 +257,16 @@ abstract public class UnifiedGeneExpr implements ResultSet{
 			this.institutionName = institutionName;
 		}
 
+		public void setSpecimenName(String specimenName) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public String getSpecimenName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 
     }
 

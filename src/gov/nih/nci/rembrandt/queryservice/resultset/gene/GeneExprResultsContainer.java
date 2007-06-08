@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 
@@ -80,12 +81,12 @@ import java.util.TreeMap;
 public class GeneExprResultsContainer implements ResultsContainer{
 	public static final String NO_GENE_SYMBOL = "zzzzzzzzzzzzzz";
 	protected SortedMap genes = new TreeMap();
-	protected SortedMap groupsLabels = new TreeMap();
+	protected SortedMap<String,SortedSet<BioSpecimenIdentifierDE>> groupsLabels = new TreeMap<String,SortedSet<BioSpecimenIdentifierDE>>();
 	protected Set allReporterNames = new HashSet();
 	/**
 	 * @return Returns the groupsLabels.
 	 */
-	public Collection getGroupsLabels() {
+	public Collection<String> getGroupsLabels() {
 		return  this.groupsLabels.keySet();
 	}
 

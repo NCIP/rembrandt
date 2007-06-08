@@ -31,16 +31,16 @@ public abstract class ViewByGroupResultset implements Groupable{
 	 * @param bioSpecimenResultset Adds bioSpecimenResultset to this ViewByGroupResultset object.
 	 */
 	public void addBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getSampleIDDE() != null){
-			samples.put(bioSpecimenResultset.getSampleIDDE().getValue().toString(), bioSpecimenResultset);
+		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null  && bioSpecimenResultset.getBiospecimen().getSpecimenName()!= null){
+			samples.put(bioSpecimenResultset.getBiospecimen().getSpecimenName(), bioSpecimenResultset);
 		}
 	}
 	/**
 	 * @param bioSpecimenResultset Removes bioSpecimenResultset to this ViewByGroupResultset object.
 	 */
 	public void removeBioSpecimenResultset(BioSpecimenResultset bioSpecimenResultset){
-		if(bioSpecimenResultset != null && bioSpecimenResultset.getSampleIDDE() != null){
-			samples.remove(bioSpecimenResultset.getSampleIDDE());
+		if(bioSpecimenResultset != null && bioSpecimenResultset.getBiospecimen() != null  && bioSpecimenResultset.getBiospecimen().getSpecimenName()!= null){
+			samples.remove(bioSpecimenResultset.getBiospecimen().getSpecimenName());
 		}
 	}
 	/**
@@ -50,12 +50,12 @@ public abstract class ViewByGroupResultset implements Groupable{
     		return samples.values();
     }
     /**
-     * @param sampleId
+     * @param sampleName
 	 * @return bioSpecimenResultset Returns reporterResultset for this GeneResultset.
 	 */
-    public BioSpecimenResultset getBioSpecimenResultset(String sampleId){
-    	if(sampleId != null){
-			return (BioSpecimenResultset) samples.get(sampleId);
+    public BioSpecimenResultset getBioSpecimenResultset(String sampleName){
+    	if(sampleName!= null){
+			return (BioSpecimenResultset) samples.get(sampleName);
 		}
     		return null;
     }
