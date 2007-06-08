@@ -10,7 +10,9 @@
 <a href="javascript: Help.popHelp('<%=act%>_Clone_tooltip');">[?]</a>
 <!-- <app:help help="Enter comma-delimited IDs or select a saved list." />-->
 <% } else { %>
-<app:help help="Future implementation"/>
+<!-- <app:help help="Future implementation"/>-->
+<a href="javascript: Help.popHelp('<%=act%>_Clone_tooltip');">[?]</a>
+
 <% } %>
 </legend>
 <!-- <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b> -->
