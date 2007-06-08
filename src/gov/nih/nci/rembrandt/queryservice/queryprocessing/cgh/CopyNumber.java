@@ -105,7 +105,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String timePoint;  
   private String timePoints;  
   private String institutionName;
-
+  private String specimenName;
   private Date followupDate;  
   private String followupDates;   
   
@@ -1331,6 +1331,20 @@ public void setRace(String race) {
 	 */
 	public void setInstitutionName(String institutionName) {
 		this.institutionName = institutionName;
+	}
+
+	/**
+	 * @return Returns the specimenName.
+	 */
+	public String getSpecimenName() {
+		return specimenName;
+	}
+
+	/**
+	 * @param specimenName The specimenName to set.
+	 */
+	public void setSpecimenName(String specimenName) {
+		this.specimenName = specimenName;
 	}
 
 

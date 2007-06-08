@@ -414,6 +414,7 @@
 		  	<xsl:for-each select="Cell[@class != 'csv']">
 			  <xsl:variable name="currentGroup" select="@group" />
 			  <xsl:variable name="sample" select="Data" />
+			  <xsl:variable name="specimen" select="@specimen" />
 			  <xsl:choose>
 			  <xsl:when test="Data = ' '">
 			  	
@@ -429,15 +430,15 @@
 			  </xsl:when>
 			  <xsl:otherwise>
 		      	<td class="{$currentGroup}">
-		      	<xsl:if test="$sample != '' and $sample != ' ' and $showSampleSelect != 'false' and contains($qName,'previewResults') = false">
-		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$sample}"/>
+		      	<xsl:if test="$specimen != '' and $specimen != ' ' and $showSampleSelect != 'false' and contains($qName,'previewResults') = false">
+		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$specimen}"/>
 		      	</xsl:if>
 		      	<!--
 		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
 		      	-->
 		      		<a href="javascript:switchViews('Cl', '{$sample}')"><xsl:value-of select="Data" /></a>
-		      		<xsl:if test="Data[@specimen]!=''">
-		      		(<xsl:value-of select="Data[@specimen]" />)
+		      		<xsl:if test="$specimen != '' and $specimen != $sample"> 
+		      		(<xsl:value-of select="$specimen" />)
 		      		</xsl:if>
 		      	</td>
 		      </xsl:otherwise>

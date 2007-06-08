@@ -341,6 +341,7 @@ abstract public class CGHFactHandler {
             resultObj.setLoh(factObj.getLoh());
             resultObj.setLossGain(factObj.getLossGain());
             resultObj.setSampleId(factObj.getSampleId());
+            resultObj.setSpecimenName(factObj.getSpecimenName());
             resultObj.setSnpProbesetId(factObj.getSnpProbesetId());
             resultObj.setSnpProbesetName(factObj.getSnpProbesetName());
             resultObj.setSurvivalLengthRange(factObj.getSurvivalLengthRange());

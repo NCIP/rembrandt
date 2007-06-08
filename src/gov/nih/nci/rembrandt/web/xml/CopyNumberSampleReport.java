@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.xml;
 
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
@@ -7,6 +8,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleV
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.SampleCopyNumberValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.rembrandt.web.helper.FilterHelper;
 
@@ -229,13 +231,17 @@ public class CopyNumberSampleReport implements ReportGenerator{
 	  		        	   	
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
         		
-				        		String s = sampleIdIterator.next().toString();
-				           		cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label);
-						        	//data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
-						        	data = cell.addElement("Data").addAttribute("type", "header").addText(s);
-						        	data = null;
-						        cell = null;
-				           		
+				           		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) sampleIdIterator.next();
+								cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label).addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName());
+							        //data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
+								    if(bioSpecimenIdentifierDE.getSpecimenName()!= null){
+								    	data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());
+								    }
+								    else{
+								        data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());
+								    }
+							    	data = null;
+							    cell = null;
 				           		//sampleNames.append("<td class='"+label+"' id=\"header\"><a href=\"report.do?s="+s+"&report=ss\">"+s.substring(2)+"</a></td>"); 
 				            	//theColspan += sampleIds.size();
 				           	}
@@ -326,9 +332,9 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					        			if(groupResultset != null)
 					        			{		
 					                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-					                       		String sampleId = (String) sampleIdIterator.next();
-					                       						                       		
-					                       		SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
+					                     	
+					                     		BioSpecimenIdentifierDE sampleId = (BioSpecimenIdentifierDE) sampleIdIterator.next();
+					                       		SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId.getSpecimenName());
 					                       		
 					                       		if(sampleResultset2 != null){
 					                       			

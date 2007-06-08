@@ -67,6 +67,7 @@ public class ArrayGenoAbnFact
   public final static String SNP_PROBESET_ID = "snpProbesetId";
     public final static String DISEASE_TYPE = "diseaseType";
     public final static String INSTITUTION_NAME = "institutionName";
+    public final static String SPECIMEN_NAME = "specimenName";
   private Long agaId;
 
   private Long agentId;
@@ -84,8 +85,23 @@ public class ArrayGenoAbnFact
   private String institutionName;
   
  private Double copynoPval;
+ private String specimenName;
+ 
+    /**
+ * @return Returns the specimenName.
+ */
+public String getSpecimenName() {
+	return specimenName;
+}
 
-    public String getSampleId() {
+/**
+ * @param specimenName The specimenName to set.
+ */
+public void setSpecimenName(String specimenName) {
+	this.specimenName = specimenName;
+}
+
+	public String getSampleId() {
         return sampleId;
     }
 

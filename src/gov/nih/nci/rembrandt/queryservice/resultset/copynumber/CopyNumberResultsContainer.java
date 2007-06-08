@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
@@ -87,8 +88,8 @@ import java.util.TreeSet;
 public class CopyNumberResultsContainer implements ResultsContainer {
 	protected SortedMap cytobands = new TreeMap();
 
-	protected SortedMap groupsLabels = new TreeMap();
-
+	protected SortedMap<String,SortedSet<BioSpecimenIdentifierDE>> groupsLabels = new TreeMap<String,SortedSet<BioSpecimenIdentifierDE>>();
+	
 	protected SortedSet reporterNames = new TreeSet();
 
     //TODO: protected DatumDE[] reporterDatumDEs;

@@ -101,19 +101,19 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
       			diseaseResultset = ViewByGroupResultsetHandler.handleDiseaseTypeResultset(reporterResultset,copyNumberObj);
       			diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(diseaseResultset);
-      			copyNumberContainer.addBiospecimensToGroups(copyNumberObj.getDiseaseType(),copyNumberObj.getSampleId().toString());
+      			copyNumberContainer.addBiospecimensToGroups(copyNumberObj.getDiseaseType(),biospecimenResultset.getBiospecimen());
       		}
       		else if(groupType.getGroupType().equals(GroupType.AGE_GROUP)){
       			ageGroupResultset = ViewByGroupResultsetHandler.handleAgeGroupResultset(reporterResultset,copyNumberObj);
       			ageGroupResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(ageGroupResultset);
-      			copyNumberContainer.addBiospecimensToGroups(copyNumberObj.getAgeGroup(),copyNumberObj.getSampleId().toString());
+      			copyNumberContainer.addBiospecimensToGroups(copyNumberObj.getAgeGroup(),biospecimenResultset.getBiospecimen());
       		}
       		else if(groupType.getGroupType().equals(GroupType.SURVIVAL_RANGE_GROUP)){
       			survivalRangeResultset = ViewByGroupResultsetHandler.handleSurvivalRangeResultset(reporterResultset,copyNumberObj);
       			survivalRangeResultset.addBioSpecimenResultset(biospecimenResultset);
       			reporterResultset.addGroupByResultset(survivalRangeResultset);
-      			copyNumberContainer.addBiospecimensToGroups(copyNumberObj.getSurvivalLengthRange(),copyNumberObj.getSampleId().toString());
+      			copyNumberContainer.addBiospecimensToGroups(copyNumberObj.getSurvivalLengthRange(),biospecimenResultset.getBiospecimen());
       		}
       		
       		cytobandResultset.addReporterResultset(reporterResultset);
@@ -127,7 +127,11 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
     	SampleCopyNumberValuesResultset sampleCopyNumberValuesResultset = new SampleCopyNumberValuesResultset();
-		sampleCopyNumberValuesResultset.setBiospecimen(new BioSpecimenIdentifierDE(copyNumberObj.getBiospecimenId()));
+		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = new BioSpecimenIdentifierDE(copyNumberObj.getBiospecimenId());
+		bioSpecimenIdentifierDE.setSampleId(copyNumberObj.getSampleId());
+		bioSpecimenIdentifierDE.setSpecimenName(copyNumberObj.getSpecimenName());
+		sampleCopyNumberValuesResultset.setBiospecimen(bioSpecimenIdentifierDE);
+
 		sampleCopyNumberValuesResultset.setSampleIDDE(new SampleIDDE(copyNumberObj.getSampleId()));
 
 		sampleCopyNumberValuesResultset.setCopyNumber(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCopyNumber()));
