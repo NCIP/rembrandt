@@ -79,7 +79,6 @@ x.t("point","samples");
 x.t("display","copy");
 x.t("-value","indicates");
 x.t("-value","calculated");
-x.t("selected.","clinical");
 x.t("thresholds","redraw");
 x.t("mantel-haenszel","procedure.");
 x.t("k-m","survival");

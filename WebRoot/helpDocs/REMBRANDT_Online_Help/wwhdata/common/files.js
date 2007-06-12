@@ -5,7 +5,7 @@ P.fA("Online Help Tips","OnlineHelpBoilerplate.2.1.html");
 P.fA("Application Support","Application%20Support.3.1.html");
 P.fA("Getting Started with REMBRANDT","rembrandt_Getting_Started.4.1.html");
 P.fA("About REMBRANDT","rembrandt_Getting_Started.4.2.html");
-P.fA("REMBRANDTREMBRANDTREMBRANDT\u2019s Opening Page","rembrandt_Getting_Started.4.3.html");
+P.fA("REMBRANDT\u2019s Opening Page","rembrandt_Getting_Started.4.3.html");
 P.fA("New User Registration","rembrandt_Getting_Started.4.4.html");
 P.fA("Logging In","rembrandt_Getting_Started.4.5.html");
 P.fA("Accepting REMBRANDT Provisions","rembrandt_Getting_Started.4.6.html");

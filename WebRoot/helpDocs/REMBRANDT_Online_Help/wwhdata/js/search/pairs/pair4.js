@@ -55,7 +55,6 @@ x.t("variety","contexts.");
 x.t("datasets","variety");
 x.t("tools","link");
 x.t("view","integrated");
-x.t("datasets.","rembrandtrembrandt");
 x.t("neurological","disorders");
 x.t("bioinformatics","knowledge");
 x.t("data","annotations");
