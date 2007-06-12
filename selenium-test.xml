@@ -1,0 +1,19 @@
+<project name="rembrandt-test" default="selenese" basedir=".">
+	<property file="build.properties" />
+	<property file="test.properties" />
+
+	<target name="selenese"/>
+	<taskdef resource="selenium-ant.properties">
+	    <classpath>
+	        <pathelement location="${source.nondeploy.lib.dir}/selenium-server.jar"/>
+	    </classpath>
+	</taskdef>
+	<selenese 
+	    suite="test\selenium\rembrandtTestSuite.html"
+	    browser="${browser}"
+	    results="${result_file}"
+	    multiWindow="false"
+	    timeoutInSeconds="120"
+		port="${server_port}"
+	    startURL="${test_url}"  />	
+</project>
