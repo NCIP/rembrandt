@@ -187,6 +187,7 @@ abstract public class UnifiedGEFactHandler {
             singleExprObj.setID(exprObj.getDegsId());
             singleExprObj.setNormalIntensity(exprObj.getNormalIntensity());
             singleExprObj.setSampleId(exprObj.getSampleId());
+            singleExprObj.setSpecimenName(exprObj.getSpecimenName());
             singleExprObj.setBiospecimenId(exprObj.getBiospecimenId());
             singleExprObj.setSampleIntensity(exprObj.getSampleIntensity());
             singleExprObj.setUnifiedGeneID(exprObj.getUnifiedGene());

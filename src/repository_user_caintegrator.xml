@@ -362,6 +362,8 @@
 		jdbc-type="VARCHAR" />
 	<field-descriptor name="biospecimenId" column="BIOSPECIMEN_ID"
 		jdbc-type="BIGINT" />
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" />
 
 </class-descriptor>
 
@@ -793,4 +795,17 @@
 		jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="geneSymbol" column="GENE_SYMBOL"
 		jdbc-type="VARCHAR" />
+</class-descriptor>
+<class-descriptor class="gov.nih.nci.rembrandt.dbbean.BiospecimenDim"
+	table="BIOSPECIMEN_DIM">
+	<field-descriptor name="sampleId" column="SAMPLE_ID"
+		jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="specimenDesc" column="SPECIMEN_DESC"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="biospecimenId" column="BIOSPECIMEN_ID"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="patientDid" column="PATIENT_DID"
+		jdbc-type="BIGINT" />
 </class-descriptor>

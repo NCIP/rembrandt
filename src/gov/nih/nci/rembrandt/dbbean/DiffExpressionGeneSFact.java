@@ -77,7 +77,7 @@ public class DiffExpressionGeneSFact
     private Long biospecimenId;
     private Long degsId;
     private Long institutionId;
-
+    private String specimenName;
 
     public String getDiseaseType() {
         return diseaseType;
@@ -158,6 +158,20 @@ public class DiffExpressionGeneSFact
 
 	public void setBiospecimenId(Long biospecimenId) {
 		this.biospecimenId = biospecimenId;
+	}
+
+	/**
+	 * @return Returns the specimenName.
+	 */
+	public String getSpecimenName() {
+		return specimenName;
+	}
+
+	/**
+	 * @param specimenName The specimenName to set.
+	 */
+	public void setSpecimenName(String specimenName) {
+		this.specimenName = specimenName;
 	}
 
 

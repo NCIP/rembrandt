@@ -64,6 +64,8 @@ package gov.nih.nci.rembrandt.dbbean;
 
 public class BiospecimenDim
 {
+  public final static String SPECIMEN_NAME = "specimenName";
+  public static final String SAMPLE_ID = "sampleId";
   private Long biospecimenId;
 
   private Long patientDid;

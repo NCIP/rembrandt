@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.DownloadFile;
@@ -424,5 +425,35 @@ public class LookupManager{
 				insitutionLookup = (List<InstitutionLookup>)(QueryExecuter.executeQuery(InstitutionLookup.class,crit,QueryExecuter.NO_CACHE, true));
 			}
 			return insitutionLookup;
+		}
+	/**
+	 * @param diseaseType
+	 * @param insitutions
+	 * @return
+	 */
+	public static List<SampleIDDE> getSampleIDDEs(List<String> specimenNames){
+		List<SampleIDDE> sampleIDList = new ArrayList<SampleIDDE>();
+			try {
+				if(specimenNames != null && specimenNames.size() > 0){
+					Criteria crit = new Criteria();
+					crit.addIn(BiospecimenDim.SPECIMEN_NAME,specimenNames);
+					Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,BiospecimenDim.SAMPLE_ID, true);
+					if(col != null){
+						for(Object ojb:col){
+							if(ojb instanceof String) {
+						       	  String termToLookup = (String)ojb;
+						     	  if(termToLookup != null && !termToLookup.equals("")){
+						     		 sampleIDList.add(new SampleIDDE((String)termToLookup));
+						     	  }
+							  }
+							}
+						}
+					}
+			} catch (Exception e1) {
+				logger.error(e1);
+				return null;
+	
+			}
+		return sampleIDList;
 		}
 }

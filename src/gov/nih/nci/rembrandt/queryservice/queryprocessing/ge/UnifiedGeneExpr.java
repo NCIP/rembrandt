@@ -178,7 +178,7 @@ abstract public class UnifiedGeneExpr implements ResultSet{
         private String genderCode;
         private String survivalLengthRange;
         private String institutionName;
-        
+        private String specimenName;
         public String getSampleId() {
             return sampleId;
         }
@@ -257,15 +257,21 @@ abstract public class UnifiedGeneExpr implements ResultSet{
 			this.institutionName = institutionName;
 		}
 
-		public void setSpecimenName(String specimenName) {
-			// TODO Auto-generated method stub
-			
+		/**
+		 * @return Returns the specimenName.
+		 */
+		public String getSpecimenName() {
+			return specimenName;
 		}
 
-		public String getSpecimenName() {
-			// TODO Auto-generated method stub
-			return null;
+		/**
+		 * @param specimenName The specimenName to set.
+		 */
+		public void setSpecimenName(String specimenName) {
+			this.specimenName = specimenName;
 		}
+
+
 
 
     }
