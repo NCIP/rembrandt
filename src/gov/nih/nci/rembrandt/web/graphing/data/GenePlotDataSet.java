@@ -364,7 +364,7 @@ public class GenePlotDataSet {
 			            	}
 						}
 						
-						if(geneViewContainer!=null)	{
+						if(geneViewContainer!=null  && intensityValueList.size()> 0 &&  tlist.size() > 0)	{
 							//Calulate Median
 							medianDataset.addValue(MathUtil.median(intensityValueList),reporterName, diseaseName);
 							//B&W

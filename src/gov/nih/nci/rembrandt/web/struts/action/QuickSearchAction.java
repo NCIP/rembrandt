@@ -464,7 +464,6 @@ public class QuickSearchAction extends DispatchAction {
 			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 			storedData.setId("KAPLAN");
 			kmForm.setStoredData(storedData);
-			kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 			kmForm.setSelectedDataset("KAPLAN");
 			presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
 			kmForm.setDownFold(downRegulation);
