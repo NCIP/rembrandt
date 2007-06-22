@@ -407,7 +407,7 @@
 		    </tr>
 		</xsl:for-each>
 		
-		<form action="runReport.do?method=submitSamples" method="post" name="prbSamples">
+		<form action="runReport.do?method=submitSpecimens" method="post" name="prbSamples">
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<xsl:for-each select="Row[@name='sampleRow']">
 			<tr class="sampleRow">
