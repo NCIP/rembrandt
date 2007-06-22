@@ -6,6 +6,7 @@ import gov.nih.nci.caIntegrator.services.appState.dto.RBTReportStateDTO;
 import gov.nih.nci.caIntegrator.services.appState.ejb.RBTApplicationStateTrackerHome;
 import gov.nih.nci.caIntegrator.services.util.ServiceLocator;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.ChrRegionCriteriaHandler;
@@ -18,6 +19,7 @@ import gov.nih.nci.rembrandt.web.bean.ReportBean;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -142,8 +144,12 @@ public class WebGenomeHelper {
             for (Object group : groups) {
                 String groupName = (String) group;
                 sampleIds = copyNumberContainer.getBiospecimenLabels(groupName);
-                String[] sampleIDArray = new String[sampleIds.size()];
-                sampleIDArray = (String[]) sampleIds.toArray(sampleIDArray);
+                List<String> specimenList = new ArrayList<String>();
+                for(Object obj:sampleIds){
+                	BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) obj;
+                	specimenList.add(bioSpecimenIdentifierDE.getSpecimenName());
+                }
+                String[] sampleIDArray = specimenList.toArray(new String[specimenList.size()]);
                 groupsWithSamples.put(groupName, sampleIDArray);
             }
         }

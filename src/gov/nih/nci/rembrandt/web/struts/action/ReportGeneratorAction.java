@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -23,7 +24,10 @@ import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ReportGeneratorForm;
 
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -384,6 +388,41 @@ public class ReportGeneratorAction extends DispatchAction {
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
+public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
+		HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
+	ActionForward thisForward = null;
+	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+	//Used to get the old resultant from cache
+	String queryName = rgForm.getQueryName();
+	//This is what the user wants to name the new resultSet
+	String prb_queryName = rgForm.getPrbQueryName();
+	//actually get the list of specimen names
+	String[] specimenNames = rgForm.getSamples();
+	//get the samples assiciated with these specimens
+	List<String> sampleIds = LookupManager.getSampleIDs(Arrays.asList(specimenNames));
+	String sessionId = request.getSession().getId();
+	
+	//get the old 
+	CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
+	if(cquery!=null) {
+		cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+		cquery.setQueryName(prb_queryName);
+		//This will generate the report and store it in the cache
+		ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, (String[])sampleIds.toArray(new String[sampleIds.size()]) );
+		//store the name of the query in the form so that we can later pull it out of cache
+		ReportBean reportBean = rgHelper.getReportBean();
+		rgForm.setQueryName(reportBean.getResultantCacheKey());
+		
+		HashMap<String,String> fpm = rgForm.getFilterParams();
+		String msg = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("add_samples_msg");
+		fpm.put("statusMsg", msg);
+		rgForm.setFilterParams(fpm);
+
+   	}
+	//now send everything that we have done to the actual method that will render the report
+	return runGeneViewReport(mapping, rgForm, request, response);
+}
 
 	public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)

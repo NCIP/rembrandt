@@ -431,8 +431,8 @@ public class LookupManager{
 	 * @param insitutions
 	 * @return
 	 */
-	public static List<SampleIDDE> getSampleIDDEs(List<String> specimenNames){
-		List<SampleIDDE> sampleIDList = new ArrayList<SampleIDDE>();
+	public static List<String> getSampleIDs(List<String> specimenNames){
+		List<String> sampleIDList = new ArrayList<String>();
 			try {
 				if(specimenNames != null && specimenNames.size() > 0){
 					Criteria crit = new Criteria();
@@ -443,7 +443,7 @@ public class LookupManager{
 							if(ojb instanceof String) {
 						       	  String termToLookup = (String)ojb;
 						     	  if(termToLookup != null && !termToLookup.equals("")){
-						     		 sampleIDList.add(new SampleIDDE((String)termToLookup));
+						     		 sampleIDList.add(termToLookup);
 						     	  }
 							  }
 							}
