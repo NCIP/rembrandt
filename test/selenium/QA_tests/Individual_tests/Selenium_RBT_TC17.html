@@ -1,0 +1,344 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Selenium_RBT_TC17</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Selenium_RBT_TC17</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>https://caintegrator-dev.nci.nih.gov/rembrandt/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='Browse Rembrandt Data']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userName</td>
+	<td>RBTuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>RBTpass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='login']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=CLICKING HERE</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Advanced Search</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>method</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>queryName</td>
+	<td>egf_pathway</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>page2</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>page2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.geneexpressionForm.pathwayName[35]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>pathwayNames</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>regulationStatus</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>foldChangeValueUp</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submittalButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>method</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>queryName</td>
+	<td>all_gene_GE</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.geneexpressionForm.geneOption[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>foldChangeValueUp</td>
+	<td>10</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submittalButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='Finalize Query']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>selectedQueries[0].queryName</td>
+	<td>label=egf_pathway</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>validateButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>compoundView</td>
+	<td>label=Gene Expression Data Per Sample View</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>runReportButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>_report46200792622</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>_report46200792622</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>showOnly_radio</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>filter_string</td>
+	<td>EGFR</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>filter_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox' and @onclick="javascript:goFilterColumnMg(this, 'GBM')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox' and @onclick="javascript:goFilterColumnMg(this, 'GBM')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox' and @onclick="javascript:goFilterColumnMg(this, 'MIXED')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox' and @onclick="javascript:goFilterColumnMg(this, 'NON_TUMOR')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox' and @onclick="javascript:goFilterColumnMg(this, 'OLIGODENDROGLIOMA')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox' and @onclick="javascript:goFilterColumnMg(this, 'UNKNOWN')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@id='grpcheck' and @type='checkbox' and @onclick="javascript:groupCheck(document.prbSamples.samples, 'GBM', this.checked)"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.filter_form.filter_submit[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.highlight_form.filter_value1</td>
+	<td>10</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.highlight_form.filter_submit[0]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.highlight_form.filter_submit[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='filter_submit' and @value='Show all values on this report']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=ARHGEF7</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>_blank</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>_report46200792622</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@type='checkbox']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>GBM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.prbSamples.samples[50]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.prbSamples.samples[51]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>tmp_prb_queryName</td>
+	<td>GBM_EGF_Upregulated_Samples</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='filter_submit' and @value='Save Samples']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[1]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.refineQueryForm.isAllGenesQuery[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>allGeneQuery</td>
+	<td>label=all_gene_GE</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>srs</td>
+	<td>label=GBM_EGF_Upregulated_Samples</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>validateButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>runReportButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>_report46200795048</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>_report46200710525</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
