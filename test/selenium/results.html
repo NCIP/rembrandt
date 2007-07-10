@@ -54,11 +54,11 @@ a {
 </tr>
 <tr>
 <td>totalTime:</td>
-<td>28</td>
+<td>96</td>
 </tr>
 <tr>
 <td>numTestPasses:</td>
-<td>2</td>
+<td>6</td>
 </tr>
 <tr>
 <td>numTestFailures:</td>
@@ -66,7 +66,7 @@ a {
 </tr>
 <tr>
 <td>numCommandPasses:</td>
-<td>0</td>
+<td>3</td>
 </tr>
 <tr>
 <td>numCommandFailures:</td>
@@ -74,7 +74,7 @@ a {
 </tr>
 <tr>
 <td>numCommandErrors:</td>
-<td>3</td>
+<td>2</td>
 </tr>
 <tr>
 <td>Selenium Version:</td>
@@ -87,7 +87,7 @@ a {
 <tr>
 <td><TABLE>
 <TBODY>
-<TR class="title     status_failed">
+<TR class="title    status_failed">
 <TD>Test suite for the Rembrandt application </TD></TR><!--
 	<tr>
 		<td>
@@ -101,8 +101,47 @@ a {
 <TD><A href="#testresult1">Simple Search Quick Search</A> </TD></TR>
 <TR class="  status_failed">
 <TD><A href="#testresult2">Simple Search EGFR</A> </TD></TR>
+<TR class="  status_passed">
+<TD><A href="#testresult3">Simple Search w* wt1</A> </TD></TR>
+<TR class="  status_passed">
+<TD><A href="#testresult4">SimpleSearch_KM_GE_symbol</A> </TD></TR>
 <TR class="  status_failed">
-<TD><A href="#testresult3">Simple Search w* wt1</A> </TD></TR><!-- 
+<TD><A href="#testresult5">SimpleSearch_KM_CN_symbol</A> </TD></TR>
+<TR class="  status_passed">
+<TD><A href="#testresult6">SimpleSearch_KM_CN_wildcard</A> </TD></TR>
+<TR class="  status_passed">
+<TD><A href="#testresult7">SimpleSearch_KM_CN_SNP</A> </TD></TR><!-- 
+	<tr>
+			<td>
+				<a href="QA_tests/Individual_tests/Selenium_RBT_TC10.html">KM_samplebased</a>
+			</td>
+	</tr>
+	<tr>
+			<td>
+				<a href="QA_tests/Individual_tests/Selenium_RBT_TC11.html">GE_GeneSymbol</a>
+			</td>
+	</tr>
+	<tr>
+			<td>
+				<a href="QA_tests/Individual_tests/Selenium_RBT_TC12.html">GE_GeneSymbol(managelist)</a>
+			</td>
+	</tr>
+	<tr>
+			<td>
+				<a href="QA_tests/Individual_tests/Selenium_RBT_TC13.html">GE_LL</a>
+			</td>
+	</tr>
+	<tr>
+			<td>
+				<a href="QA_tests/Individual_tests/Selenium_RBT_TC14.html">GE_LL_(managelist)</a>
+			</td>
+	</tr>
+	<tr>
+			<td>
+				<a href="QA_tests/Individual_tests/Selenium_RBT_TC15.html">GE_AccNo</a>
+			</td>
+	</tr>
+	--><!-- 
 	<tr>
 			<td>
 				<a href="QA_tests/QA_baseline_RBT_HOA_tests.html">HOA QA Test</a>
@@ -110,7 +149,7 @@ a {
 	</tr>
 -->
 <TR class="  status_passed">
-<TD><A href="#testresult4">Logout of Rembrandt</A> </TD></TR></TBODY></TABLE></td>
+<TD><A href="#testresult8">Logout of Rembrandt</A> </TD></TR></TBODY></TABLE></td>
 <td>&nbsp;</td>
 </tr>
 </table><table><tr>
@@ -154,7 +193,7 @@ a {
 <TABLE cellSpacing=1 cellPadding=1 border=1>
 <THEAD>
 <TR class="title status_failed">
-<TD colSpan=3>Selenium_RBT_TC3</TD></TR></THEAD>
+<TD colSpan=3>Selenium_RBT_TC3 SimpleSearch_GE_wildcard</TD></TR></THEAD>
 <TBODY>
 <TR class="  status_done" style="CURSOR: pointer">
 <TD>clickAndWait</TD>
@@ -176,31 +215,31 @@ a {
 <TD>pause</TD>
 <TD></TD>
 <TD originalHTML="1000">1000</TD></TR>
-<TR class="  status_failed" style="CURSOR: pointer">
+<TR class="  status_passed" style="CURSOR: pointer">
 <TD>verifyTextPresent</TD>
 <TD>exact:One or more genes or their aliases have been found for the gene keyword: eg*. Please select an approved alias from below.</TD>
-<TD originalHTML>false</TD></TR>
-<TR class="  status_failed" style="CURSOR: pointer">
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
 <TD>click</TD>
 <TD>link=EGF</TD>
-<TD originalHTML>Element&nbsp;link=EGF&nbsp;not&nbsp;found</TD></TR>
-<TR class="" style="CURSOR: pointer">
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
 <TD>clickAndWait</TD>
 <TD>submitButton</TD>
 <TD originalHTML></TD></TR>
-<TR class="" style="CURSOR: pointer">
+<TR class="  status_passed" style="CURSOR: pointer">
 <TD>verifyTextPresent</TD>
 <TD>Gene Expression Plot (EGF)</TD>
 <TD originalHTML></TD></TR>
-<TR class="" style="CURSOR: pointer">
+<TR class="  status_passed" style="CURSOR: pointer">
 <TD>verifyTextPresent</TD>
 <TD>exact:Legend: Probesets</TD>
 <TD originalHTML></TD></TR>
-<TR class="" style="CURSOR: pointer">
+<TR class="  status_failed" style="CURSOR: pointer">
 <TD>verifyTextPresent</TD>
 <TD>206254_at</TD>
-<TD originalHTML></TD></TR>
-<TR class="" style="CURSOR: pointer">
+<TD originalHTML>false</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
 <TD>clickAndWait</TD>
 <TD>link=Simple Search Home</TD>
 <TD originalHTML></TD></TR></TBODY></TABLE></DIV></td>
@@ -210,7 +249,7 @@ a {
 <TABLE cellSpacing=1 cellPadding=1 border=1>
 <THEAD>
 <TR class="title status_failed">
-<TD colSpan=3>Selenium_RBT_TC4</TD></TR></THEAD>
+<TD colSpan=3>Selenium_RBT_TC4 SimpleSearch_GE_symbol</TD></TR></THEAD>
 <TBODY><!-- Quick search for the EGFR gene -->
 <TR class="  status_done" style="CURSOR: pointer">
 <TD>clickAndWait</TD>
@@ -245,8 +284,8 @@ a {
 <td><a name="testresult3">QA_tests/Individual_tests/Selenium_RBT_TC5.html</a><br/><DIV>
 <TABLE cellSpacing=1 cellPadding=1 border=1>
 <THEAD>
-<TR class="title status_failed">
-<TD colSpan=3>Selenium_RBT_TC5</TD></TR></THEAD>
+<TR class="title status_passed">
+<TD colSpan=3>Selenium_RBT_TC5 SimpleSearch_KM_GE_wildcard</TD></TR></THEAD>
 <TBODY><!-- Quick search for a gene using a * wild card parameter -->
 <TR class="  status_done" style="CURSOR: pointer">
 <TD>clickAndWait</TD>
@@ -268,17 +307,189 @@ a {
 <TD>click</TD>
 <TD>submitButton</TD>
 <TD originalHTML></TD></TR>
-<TR class="  status_failed" style="CURSOR: pointer">
+<TR class="  status_done" style="CURSOR: pointer">
 <TD>click</TD>
 <TD>link=WT1</TD>
-<TD originalHTML>Element&nbsp;link=WT1&nbsp;not&nbsp;found</TD></TR>
-<TR class="" style="CURSOR: pointer">
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
 <TD>click</TD>
 <TD>submitButton</TD>
 <TD originalHTML></TD></TR></TBODY></TABLE></DIV></td>
 <td>&nbsp;</td>
 </tr><tr>
-<td><a name="testresult4">QA_tests/Selenium_RBT_Logout.html</a><br/><DIV>
+<td><a name="testresult4">QA_tests/Individual_tests/Selenium_RBT_TC6.html</a><br/><DIV>
+<TABLE cellSpacing=1 cellPadding=1 border=1>
+<THEAD>
+<TR class="title status_passed">
+<TD colSpan=3>Selenium_RBT_TC6 SimpleSearch_KM_GE_symbol</TD></TR></THEAD>
+<TBODY><!-- Login handled by a separate script
+     Start the script on a known tab on the application -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Manage Lists</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Simple Search</TD>
+<TD originalHTML></TD></TR><!-- Begin test case -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>document.quickSearchForm.plot[1]</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>type</TD>
+<TD>quickSearchName</TD>
+<TD originalHTML="egfr">egfr</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>select</TD>
+<TD>baselineGroupName</TD>
+<TD originalHTML="label=GBM">label=GBM</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>submitButton</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>link=Upregulating Samples</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>waitForPopUp</TD>
+<TD>clinicalPlots</TD>
+<TD originalHTML="30000">30000</TD></TR></TBODY></TABLE></DIV></td>
+<td>&nbsp;</td>
+</tr><tr>
+<td><a name="testresult5">QA_tests/Individual_tests/Selenium_RBT_TC7.html</a><br/><DIV>
+<TABLE cellSpacing=1 cellPadding=1 border=1>
+<THEAD>
+<TR class="title status_failed">
+<TD colSpan=3>Selenium_RBT_TC7 SimpleSearch_KM_CN_symbol</TD></TR></THEAD>
+<TBODY><!-- Login handled by a separate script
+     Start the script on a known tab on the application -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Manage Lists</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Simple Search</TD>
+<TD originalHTML></TD></TR><!-- Begin test case -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>document.quickSearchForm.plot[2]</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>type</TD>
+<TD>quickSearchName</TD>
+<TD originalHTML="WT1">WT1</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>submitButton</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_failed" style="CURSOR: pointer">
+<TD>select</TD>
+<TD>selectedReporter</TD>
+<TD originalHTML="label=SNP_A-1735160">Element&nbsp;selectedReporter&nbsp;not&nbsp;found</TD></TR>
+<TR class="" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>redrawGraphButton</TD>
+<TD originalHTML></TD></TR></TBODY></TABLE></DIV></td>
+<td>&nbsp;</td>
+</tr><tr>
+<td><a name="testresult6">QA_tests/Individual_tests/Selenium_RBT_TC8.html</a><br/><DIV>
+<TABLE cellSpacing=1 cellPadding=1 border=1>
+<THEAD>
+<TR class="title status_passed">
+<TD colSpan=3>Selenium_RBT_TC8 SimpleSearch_KM_CN_wildcard</TD></TR></THEAD>
+<TBODY><!-- Login handled by a separate script
+     Start the script on a known tab on the application -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Manage Lists</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Simple Search</TD>
+<TD originalHTML></TD></TR><!-- Begin test case -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>document.quickSearchForm.plot[2]</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>type</TD>
+<TD>quickSearchName</TD>
+<TD originalHTML="WT*">WT*</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>submitButton</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>link=WT1</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>submitButton</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>select</TD>
+<TD>selectedReporter</TD>
+<TD originalHTML="label=SNP_A-1686087">label=SNP_A-1686087</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>redrawGraphButton</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>link=Samples with Amplification</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>waitForPopUp</TD>
+<TD>clinicalPlots</TD>
+<TD originalHTML="30000">30000</TD></TR></TBODY></TABLE></DIV></td>
+<td>&nbsp;</td>
+</tr><tr>
+<td><a name="testresult7">QA_tests/Individual_tests/Selenium_RBT_TC9.html</a><br/><DIV>
+<TABLE cellSpacing=1 cellPadding=1 border=1>
+<THEAD>
+<TR class="title status_passed">
+<TD colSpan=3>Selenium_RBT_TC9 SimpleSearch_KM_CN_SNP</TD></TR></THEAD>
+<TBODY><!-- Login handled by a separate script
+     Start the script on a known tab on the application -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Manage Lists</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>link=Simple Search</TD>
+<TD originalHTML></TD></TR><!-- Begin test case -->
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>document.quickSearchForm.plot[2]</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>select</TD>
+<TD>quickSearchType</TD>
+<TD originalHTML="label=SNP Probe set ID">label=SNP Probe set ID</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>type</TD>
+<TD>quickSearchName</TD>
+<TD originalHTML="SNP_A-1685977">SNP_A-1685977</TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>clickAndWait</TD>
+<TD>submitButton</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>click</TD>
+<TD>link=Samples with Amplification</TD>
+<TD originalHTML></TD></TR>
+<TR class="  status_done" style="CURSOR: pointer">
+<TD>waitForPopUp</TD>
+<TD>clinicalPlots</TD>
+<TD originalHTML="30000">30000</TD></TR></TBODY></TABLE></DIV></td>
+<td>&nbsp;</td>
+</tr><tr>
+<td><a name="testresult8">QA_tests/Selenium_RBT_Logout.html</a><br/><DIV>
 <TABLE cellSpacing=1 cellPadding=1 border=1>
 <THEAD>
 <TR class="title status_passed">
