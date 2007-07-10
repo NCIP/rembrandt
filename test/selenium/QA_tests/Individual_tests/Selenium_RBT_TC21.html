@@ -6,38 +6,20 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Selenium_RBT_TC21</td></tr>
+<tr><td rowspan="1" colspan="3">Selenium_RBT_TC21 GO Classification</td></tr>
 </thead><tbody>
-<tr>
-	<td>open</td>
-	<td>https://caintegrator-dev.nci.nih.gov/rembrandt/</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//input[@value='Browse Rembrandt Data']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>userName</td>
-	<td>RBTuser</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>password</td>
-	<td>RBTpass</td>
-</tr>
+
+<!-- Login handled by a separate script
+     Start the script on a known tab on the application -->
+
 <tr>
 	<td>clickAndWait</td>
-	<td>//input[@value='login']</td>
+	<td>link=Manage Lists</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=CLICKING HERE</td>
-	<td></td>
-</tr>
+
+<!-- Begin test case -->
+
 <tr>
 	<td>clickAndWait</td>
 	<td>link=Advanced Search</td>
@@ -51,7 +33,7 @@
 <tr>
 	<td>type</td>
 	<td>queryName</td>
-	<td>NAKQ100C</td>
+	<td>QA_GO_Classification</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -71,7 +53,7 @@
 <tr>
 	<td>select</td>
 	<td>selectedQueries[0].queryName</td>
-	<td>label=NAKQ100C</td>
+	<td>label=QA_GO_Classification</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
