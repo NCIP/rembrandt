@@ -9,11 +9,11 @@
 	    </classpath>
 	</taskdef>
 	<selenese 
-	    suite="test\selenium\rembrandtTestSuite.html"
-	    browser="${browser}"
+	    suite="test\selenium\rembrandtTestSuite_QA.html"
+	    browser="${qa_browser}"
 	    results="${result_file}"
 	    multiWindow="false"
 	    timeoutInSeconds="120"
-		port="${server_port}"
-	    startURL="${test_url}"  />	
+		port="${qa_server_port}"
+	    startURL="${qa_test_url}"  />	
 </project>
