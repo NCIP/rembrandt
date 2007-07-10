@@ -6,36 +6,16 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Selenium_RBT_TC3</td></tr>
+<tr><td rowspan="1" colspan="3">Selenium_RBT_TC3 SimpleSearch_GE_wildcard</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>https://caintegrator-dev.nci.nih.gov/rembrandt/</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//input[@value='Browse Rembrandt Data']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>userName</td>
-	<td>RBTuser</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>password</td>
-	<td>RBTpass</td>
-</tr>
-<tr>
 	<td>clickAndWait</td>
-	<td>//input[@value='login']</td>
+	<td>link=Manage Lists</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=CLICKING HERE</td>
+	<td>link=Simple Search</td>
 	<td></td>
 </tr>
 <tr>
@@ -49,6 +29,16 @@
 	<td></td>
 </tr>
 <tr>
+	<td>pause</td>
+	<td></td>
+	<td>1000</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>exact:One or more genes or their aliases have been found for the gene keyword: eg*. Please select an approved alias from below.</td>
+	<td></td>
+</tr>
+<tr>
 	<td>click</td>
 	<td>link=EGF</td>
 	<td></td>
@@ -56,6 +46,26 @@
 <tr>
 	<td>clickAndWait</td>
 	<td>submitButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Gene Expression Plot (EGF)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>exact:Legend: Probesets</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>206254_at</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Simple Search Home</td>
 	<td></td>
 </tr>
 
