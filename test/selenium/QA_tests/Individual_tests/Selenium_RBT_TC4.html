@@ -6,9 +6,8 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Selenium_RBT_TC4 SimpleSearch_GE_symbol</td></tr>
+<tr><td rowspan="1" colspan="3">Selenium_RBT_TC4</td></tr>
 </thead><tbody>
-
 <!-- Quick search for the EGFR gene -->
 <tr>
 	<td>clickAndWait</td>
@@ -31,18 +30,33 @@
 	<td></td>
 </tr>
 <tr>
-	<td>waitForPopUp</td>
-	<td>_blank</td>
-	<td>30000</td>
-</tr>
-<tr>
-	<td>selectFrame</td>
-	<td></td>
+	<td>verifyTextPresent</td>
+	<td>Gene Expression Plot (EGFR)</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//img</td>
+	<td>graphLink</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Data Selection:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Data Selection: Affymetrix | Unified Gene<br /><br />Graph Type: Median | Geometric Mean | Log2 Intensity | Box and Whisker Log2 Intensity</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>exact:Legend: Probesets</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Abbreviations of Group Names</td>
 	<td></td>
 </tr>
 

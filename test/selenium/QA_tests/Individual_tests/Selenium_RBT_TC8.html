@@ -6,11 +6,10 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Selenium_RBT_TC8 SimpleSearch_KM_CN_wildcard</td></tr>
+<tr><td rowspan="1" colspan="3">Selenium_RBT_TC8</td></tr>
 </thead><tbody>
 <!-- Login handled by a separate script
      Start the script on a known tab on the application -->
-
 <tr>
 	<td>clickAndWait</td>
 	<td>link=Manage Lists</td>
@@ -21,7 +20,6 @@
 	<td>link=Simple Search</td>
 	<td></td>
 </tr>
-
 <!-- Begin test case -->
 <tr>
 	<td>click</td>
@@ -34,9 +32,9 @@
 	<td>WT*</td>
 </tr>
 <tr>
-	<td>click</td>
+	<td>clickAndWait</td>
 	<td>submitButton</td>
-	<td></td>
+	<td>10000</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -68,6 +66,203 @@
 	<td>clinicalPlots</td>
 	<td>30000</td>
 </tr>
+<tr>
+	<td>selectWindow</td>
+	<td>clinicalPlots</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Clinical(Query Name:Rembrandt_results 0)Show Clinical Plots for these samples<br /><br />[view KM plot: all samples in report vs. rest of samples]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Sample</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Age at Dx (years)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Gender</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Survival (months)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Disease</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Grade</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Race</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Institution</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Karnofsky</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Neurological Exam Outcome</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>MRI Desc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Followup Month</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Steroid Dose Status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Anti-Convulsant Status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Radiation Site</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Radiation Fraction Dose</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Radiation Fraction Number</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Radiation Type</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Chemo Agent Name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Chemo Course Count</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Surgery Procedure Title</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Surgery Tumor Histology</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Prior Therapy Surgery Outcome</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Radiation Site</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Radiation Neurosis Status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Radiation Fraction Dose</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Radiation Fraction Number</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Radiation Type</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Chemo Agent Name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Chemo Course Count</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Surgery Procedure Title</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Surgery Indication</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Surgery Histo Diagnosis</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>OnStudy Therapy Surgery Outcome</td>
+	<td></td>
+</tr>
+<!-- 
+<tr>
+	<td>click</td>
+	<td>//a[1]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Simple Search Home</td>
+	<td></td>
+</tr>
+-->
 
 </tbody></table>
 </body>

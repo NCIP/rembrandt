@@ -6,12 +6,10 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Selenium_RBT_TC10 KM_samplebased</td></tr>
+<tr><td rowspan="1" colspan="3">Selenium_RBT_TC10</td></tr>
 </thead><tbody>
-
 <!-- Login handled by a separate script
      Start the script on a known tab on the application -->
-
 <tr>
 	<td>clickAndWait</td>
 	<td>link=Manage Lists</td>
@@ -22,9 +20,7 @@
 	<td>link=Simple Search</td>
 	<td></td>
 </tr>
-
 <!-- Begin test case -->
-
 <tr>
 	<td>click</td>
 	<td>samplePlotRadio</td>
@@ -50,7 +46,28 @@
 	<td>clinicalPlots</td>
 	<td>30000</td>
 </tr>
-
+<tr>
+	<td>selectWindow</td>
+	<td>clinicalPlots</td>
+	<td></td>
+</tr>
+<!-- 
+<tr>
+	<td>click</td>
+	<td>//a[1]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Simple Search Home</td>
+	<td></td>
+</tr>
+-->
 </tbody></table>
 </body>
 </html>

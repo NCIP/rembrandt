@@ -6,20 +6,16 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Selenium_RBT_TC13 GE_LL</td></tr>
+<tr><td rowspan="1" colspan="3">Selenium_RBT_TC13</td></tr>
 </thead><tbody>
-
 <!-- Login handled by a separate script
      Start the script on a known tab on the application -->
-
 <tr>
 	<td>clickAndWait</td>
 	<td>link=Manage Lists</td>
 	<td></td>
 </tr>
-
 <!-- Begin test case -->
-
 <tr>
 	<td>clickAndWait</td>
 	<td>link=Advanced Search</td>
@@ -33,7 +29,7 @@
 <tr>
 	<td>type</td>
 	<td>queryName</td>
-	<td>NAKQ100C</td>
+	<td>QA_GE_LL</td>
 </tr>
 <tr>
 	<td>select</td>
@@ -58,7 +54,7 @@
 <tr>
 	<td>select</td>
 	<td>selectedQueries[0].queryName</td>
-	<td>label=NAKQ100C</td>
+	<td>label=QA_GE_LL</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -75,10 +71,22 @@
 	<td>runReportButton</td>
 	<td></td>
 </tr>
+<!--
 <tr>
 	<td>waitForPopUp</td>
 	<td>_report162007105937</td>
 	<td>30000</td>
+</tr>
+-->
+<tr>
+	<td>open</td>
+	<td>/rembrandt/refineQuery.do</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[1]/img</td>
+	<td></td>
 </tr>
 
 </tbody></table>
