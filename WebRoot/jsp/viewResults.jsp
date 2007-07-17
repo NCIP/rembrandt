@@ -169,19 +169,19 @@ String helpLinkClose = "', 350, 500);\">"+
 				//check the type of finding and create the appropriate link
 				if(f instanceof ClassComparisonFinding){
 					displayableFindings = true;
-					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "&newReport=true', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=' + encodeURIComponent('" + URLEncoder.encode(f.getTaskId()) + "') + '&newReport=true', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
 				}
 				else if(f instanceof HCAFinding){
 					displayableFindings = true;
-					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + " </a> <i>(HC)</i> ";
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('hcReport.do?key=' + encodeURIComponent('" + URLEncoder.encode(f.getTaskId()) + "') + ', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + " </a> <i>(HC)</i> ";
 				}
 				else if(f instanceof PrincipalComponentAnalysisFinding){
 					displayableFindings = true;
-					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=" + f.getTaskId() + "', 900, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(PCA)</i> ";
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('pcaReport.do?key=' + encodeURIComponent('" + URLEncoder.encode(f.getTaskId()) + "') + ', 900, 600,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(PCA)</i> ";
 				}
 				else if(f instanceof FTestFinding){
 					displayableFindings = true;
-					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=" + f.getTaskId() + "', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
+					_htm += "<li><a id=\"" + f.getTaskId() + "_link\" href=\"javascript:spawnx('testReport.do?key=' + encodeURIComponent('" + URLEncoder.encode(f.getTaskId()) + "') + ', 750, 500,'hoa_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(CC)</i> ";
 				}
 				else	{
 					//skip this one, as its not a valid finding to show
