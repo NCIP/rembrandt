@@ -28,6 +28,7 @@ import gov.nih.nci.caintegrator.exceptions.FrameworkException;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.CompoundClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
@@ -43,7 +44,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.ReporterF
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.service.findings.RembrandtFindingsFactory;
 import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
-import gov.nih.nci.rembrandt.util.MathUtil;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
@@ -82,11 +82,9 @@ import org.apache.log4j.Logger;
 			if(myDiseaseTypes != null){
 				for (DiseaseTypeLookup diseaseTypeLookup : myDiseaseTypes){
 					//1. Get the sample Ids from the each disease type
-					List<SampleIDDE> sampleIDDEs = LookupManager.getSampleIDDEs(diseaseTypeLookup.getDiseaseDesc(),insitutions);
-					//2. validate samples so that GE data exsists for these samples
-			        Collection<String> sampleIDs = StrategyHelper.extractSamples(sampleIDDEs);
+					Collection<String> specimanNames = LookupManager.getSpecimanNames(diseaseTypeLookup.getDiseaseDesc(),insitutions);
 			        //List<String> pdids = new ArrayList<String>(DataValidator.validateSampleIdsForGEData(sampleIDs));
-			        if(sampleIDs != null  && sampleIDs.size() > 3){				        	
+			        if(specimanNames != null  && specimanNames.size() > 3){				        	
 			               /**
 			                * add valid samples to allSamplesList to be created last.
 			                * Do not add unknown , unclassified and non_tumor samples. 
@@ -94,11 +92,11 @@ import org.apache.log4j.Logger;
 			               if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
 			                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)
 			                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.NON_TUMOR)==0)){
-			                	   allGliomaSamplesList.addAll(sampleIDs);
+			                	   allGliomaSamplesList.addAll(specimanNames);
 				               }
 			               		PatientUserListQueryDTO group = new PatientUserListQueryDTO();
 								group.setQueryName(diseaseTypeLookup.getDiseaseDesc());
-								group.setPatientDIDs(new ArrayList<String>(sampleIDs));
+								group.setPatientDIDs(new ArrayList<String>(specimanNames));
 								clinicalQueryDTOMap.put(group.getQueryName(),group);
 			        }
 
@@ -233,10 +231,10 @@ import org.apache.log4j.Logger;
 			}
 			//Add NON_TUMOR using baseline 
 			ReporterFoldChangeValuesResultset reporterResultset = null;
-			DiseaseNameDE disease = new DiseaseNameDE(RembrandtConstants.NON_TUMOR);
-			DiseaseGeneExprPlotResultset diseaseResultset= new DiseaseGeneExprPlotResultset(disease);
+			//DiseaseNameDE disease = new DiseaseNameDE(RembrandtConstants.NON_TUMOR);
+			DiseaseGeneExprPlotResultset diseaseResultset= geneExprDiseasePlotContainer.getDiseaseGeneExprPlotResultset(RembrandtConstants.NON_TUMOR);
 		    if (ccList != null
-					&& ccList.size() > 0) {
+					&& ccList.size() > 0  && diseaseResultset != null) {
 				ClassComparisonFinding classComparisonFinding = ccList.get(0);
 				List<ClassComparisonResultEntry> ccResultEntryList = classComparisonFinding.getResultEntries();
 				for(ClassComparisonResultEntry ccResultEntry: ccResultEntryList){					
@@ -321,9 +319,22 @@ import org.apache.log4j.Logger;
   		//populate the DiseaseTypeResultset
 		DiseaseGeneExprPlotResultset diseaseResultset = null;
 		Set<String> diseaseTypes = clinicalQueryDTOMap.keySet();
+		
 		for(String diseaseType: diseaseTypes){
 			DiseaseNameDE disease = new DiseaseNameDE(diseaseType);
-		    diseaseResultset= new DiseaseGeneExprPlotResultset(disease);
+			ClinicalQueryDTO clinicalQueryDTO = clinicalQueryDTOMap.get(diseaseType);
+			Long sampleCount = new Long(0);
+			if( clinicalQueryDTO instanceof PatientUserListQueryDTO ){
+				PatientUserListQueryDTO patientUserListQueryDTO = (PatientUserListQueryDTO) clinicalQueryDTO;
+//				 Validate that samples has GE data
+				List<String> validPatientDIDs = DataValidator
+						.validateSampleIdsForGEData(patientUserListQueryDTO
+								.getPatientDIDs());
+				if(validPatientDIDs != null){
+					sampleCount = new Long(validPatientDIDs.size());
+				}
+			}
+		    diseaseResultset= new DiseaseGeneExprPlotResultset(disease, sampleCount);
 		    geneExprDiseasePlotContainer.addDiseaseGeneExprPlotResultset(diseaseResultset);
 		}
   		return geneExprDiseasePlotContainer;

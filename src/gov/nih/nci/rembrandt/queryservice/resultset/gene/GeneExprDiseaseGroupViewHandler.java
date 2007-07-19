@@ -2,9 +2,9 @@ package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprSingleInterface;
-import gov.nih.nci.rembrandt.util.MathUtil;
 
 /**
  * @author SahniH

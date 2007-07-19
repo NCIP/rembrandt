@@ -2,10 +2,10 @@ package gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot;
 
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
-import gov.nih.nci.rembrandt.util.MathUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;

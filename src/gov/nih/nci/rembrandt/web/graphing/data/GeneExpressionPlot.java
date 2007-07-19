@@ -135,6 +135,8 @@ public class GeneExpressionPlot {
 			//Median dataset
 			CategoryDataset medianDataset = (CategoryDataset) gpds.getMedianDataset();
 			
+			charts.put("diseaseSampleCountMap",gpds.getDiseaseSampleCountMap());
+			
 			//IMAGE Size Control
 			if(bwdataset!=null && bwdataset.getRowCount()>5)	{
 				ps = PlotSize.LARGE;
@@ -441,6 +443,7 @@ public class GeneExpressionPlot {
 		charts.put("bwFilename", bwFilename);
 		charts.put("legend", legendHtml);
 		charts.put("size", ps.toString());
+
 
 		return charts;
 	}

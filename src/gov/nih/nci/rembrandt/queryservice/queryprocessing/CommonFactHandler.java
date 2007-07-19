@@ -11,6 +11,7 @@ import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GEFactHandler;
@@ -113,7 +114,11 @@ public class CommonFactHandler {
             ArrayList sampleIDs = new ArrayList();
             for (Iterator iterator = sampleIDCrit.getSampleIDs().iterator(); iterator.hasNext();)
                 sampleIDs.add(((SampleIDDE) iterator.next()).getValueObject());
-            String sampleIDAttr = QueryHandler.getAttrNameForTheDE(SampleIDDE.class.getName(), beanClass.getName());
+            String sampleIDAttr = "SPECIMEN_NAME";
+            if(query instanceof ClinicalDataQuery){
+            	sampleIDAttr = QueryHandler.getAttrNameForTheDE(SampleIDDE.class.getName(), beanClass.getName());
+            }
+
             Criteria c = new Criteria();
             c.addIn(sampleIDAttr, sampleIDs);
             criteria.addAndCriteria(c);

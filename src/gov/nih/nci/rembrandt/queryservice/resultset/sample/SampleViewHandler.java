@@ -474,7 +474,7 @@ public class SampleViewHandler {
 		if(clinicalObjs !=null){
 			Set<String> sampleIDset = new HashSet<String>();			
 			for (int i = 0; i < clinicalObjs.length; i++) {
-				if(clinicalObjs[i] != null){
+				if(clinicalObjs[i] != null  && clinicalObjs[i].getSampleId()!= null){
 					sampleIDset.add(clinicalObjs[i].getSampleId());
 				}
 			}

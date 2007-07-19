@@ -25,7 +25,9 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,8 +138,7 @@ public class ClassComparisonAction extends DispatchAction {
          * May want to put these in the cache eventually.
          */        
         if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
-            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            classComparisonQueryDTO.setInstitutionDEs(credentials.getInstitutes());
+           classComparisonQueryDTO.setInstitutionDEs(InsitutionAccessHelper.getInsititutionCollection(request.getSession()));
         }
         if (classComparisonQueryDTO!=null) {
             SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);

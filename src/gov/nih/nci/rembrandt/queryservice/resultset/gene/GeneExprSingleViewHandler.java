@@ -8,12 +8,12 @@ import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprSingleInterface;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprSingle;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
-import gov.nih.nci.rembrandt.util.MathUtil;
 
 
 
@@ -94,7 +94,10 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
       		}
       		if(groupType.getGroupType().equals(GroupType.DISEASE_TYPE_GROUP)){
       			diseaseResultset = ViewByGroupResultsetHandler.handleDiseaseTypeResultset(reporterResultset,exprObj);
-      			diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
+
+      			if(diseaseResultset != null){
+      				diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
+      			}
       			reporterResultset.addGroupByResultset(diseaseResultset);
           		geneViewContainer.addBiospecimensToGroups(exprObj.getDiseaseType(),biospecimenResultset.getBiospecimen());
       		}

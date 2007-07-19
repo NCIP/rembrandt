@@ -9,7 +9,9 @@ import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.dbbean.InstitutionLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -85,18 +87,38 @@ public class InsitutionAccessHelper {
 
     public static InstitutionCriteria getInsititutionCriteria(HttpSession session){
         InstitutionCriteria institutionCriteria = new InstitutionCriteria();
+        Collection<InstitutionDE> institutes = new ArrayList<InstitutionDE>();
         //Check user credentials and constrain query by Institutions
         if(session.getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
         	UserCredentials credentials = (UserCredentials) session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            institutionCriteria.setInstitutions(credentials.getInstitutes());
+        	Collection<ProtectionElement> protectionElements = credentials.getprotectionElements();
+        	if(protectionElements != null){
+				for(ProtectionElement pe:protectionElements) {
+					Long instituteId = new Long(pe.getObjectId());
+					String name = pe.getProtectionElementName();
+					institutes.add(new InstitutionDE(name,instituteId));
+				}
+        	}
+            institutionCriteria.setInstitutions(institutes);
         }
         return institutionCriteria;
     }
     public static Collection<InstitutionDE> getInsititutionCollection(HttpSession session){
+    	Collection<InstitutionDE> institutes = new ArrayList<InstitutionDE>();
         //Check user credentials and constrain query by Institutions
         if(session.getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
         	UserCredentials credentials = (UserCredentials) session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            return credentials.getInstitutes();
+        	Collection<ProtectionElement> protectionElements = credentials.getprotectionElements();
+        	if(protectionElements != null){
+				for(ProtectionElement pe:protectionElements) {
+					Long instituteId = new Long(pe.getObjectId());
+					String name = pe.getProtectionElementName();
+					institutes.add(new InstitutionDE(name,instituteId));
+				}
+        	}
+			
+
+            return institutes;
         }
         return null;
     }
@@ -106,11 +128,11 @@ public class InsitutionAccessHelper {
     	
         if(session.getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
         	UserCredentials credentials = (UserCredentials) session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            if(credentials.getInstitutes()!= null){
-            	for(InstitutionDE instutuion: credentials.getInstitutes()){
+            if(credentials.getprotectionElements()!= null){
+            	for(ProtectionElement pe:credentials.getprotectionElements()){
             		try {
 						for(InstitutionLookup insitutionLookup:LookupManager.getInsitutionLookup()){
-							if(instutuion.getValueObject().equals(insitutionLookup.getInstitutionId())){
+							if(pe.getObjectId().equals(insitutionLookup.getInstitutionId().toString())){
 								sortedMap.put(insitutionLookup.getDisplayName(),new InstitutionDE(insitutionLookup.getInstitutionName(),insitutionLookup.getDisplayName(),insitutionLookup.getInstitutionId()));
 							}
 						}

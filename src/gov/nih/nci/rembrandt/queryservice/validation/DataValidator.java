@@ -8,6 +8,7 @@ import gov.nih.nci.rembrandt.dbbean.AccessionNo;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GEPatientData;
+import gov.nih.nci.rembrandt.dbbean.GESpecimen;
 import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
 import gov.nih.nci.rembrandt.dbbean.LocusLink;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
@@ -176,6 +177,44 @@ public class DataValidator{
     	}
     	return validSampleList;
     }
+    public static Collection<String> validateSpecimanNames(Collection<String> specimanNames) throws Exception{
+    	Collection<String> validSpecimenList = new ArrayList<String>();
+    	if(specimanNames != null  && specimanNames.size() > 0){
+            
+
+            try {
+        	//Create a Criteria for Approved Symbol
+           
+            Collection<String> values = new ArrayList<String>();
+            for (String specimanName : specimanNames){
+                if(specimanName.indexOf("*")!= -1 || specimanName.indexOf("%") != -1){
+                    throw new Exception("specimanName"+ specimanName+ "contains * or %");         //make sure your not checking for wildcards
+                }
+                values.add(specimanName.toUpperCase());
+            }
+
+
+	            Criteria sampleCrit = new Criteria();
+	            sampleCrit.addIn("upper(specimanName)",values);	
+	            Collection sampleCollection = QueryExecuter.executeQuery(PatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+
+            	if(sampleCollection != null){
+            		 for (Object obj : sampleCollection){
+            			 if(obj instanceof PatientData){
+            				 PatientData pateintData = (PatientData) obj;
+            				 validSpecimenList.add(pateintData.getSpecimenName());
+            			 }
+            		 }
+            	}
+
+	    		} catch (Exception e) {
+	    			logger.error("Error in validateSampleIds");
+	    			logger.error(e.getMessage());
+	    			throw e;
+	    		}
+    	}
+    	return validSpecimenList;
+    }
     public static List<String> validateSampleIdsForGEData(Collection<String> sampleIds) throws Exception{
     	List<String> validSampleList = new ArrayList<String>();
     	if(sampleIds != null  && sampleIds.size() > 0){
@@ -192,13 +231,13 @@ public class DataValidator{
                 values.add(sampleId.toUpperCase());
             }
 	            Criteria sampleCrit = new Criteria();
-	            sampleCrit.addIn("upper(sampleId)",values);	
-	            Collection geSampleCollection = QueryExecuter.executeQuery(GEPatientData.class, sampleCrit,QueryExecuter.NO_CACHE,false);
+	            sampleCrit.addIn("upper(SPECIMEN_NAME)",values);	
+	            Collection geSampleCollection = QueryExecuter.executeQuery(GESpecimen.class, sampleCrit,QueryExecuter.NO_CACHE,false);
             	if(geSampleCollection != null){
             		 for (Object obj : geSampleCollection){
-            			 if(obj instanceof GEPatientData){
-            				 GEPatientData pateintData = (GEPatientData) obj;
-            				 validSampleList.add(pateintData.getSampleId());
+            			 if(obj instanceof GESpecimen){
+            				 GESpecimen geSpecimen = (GESpecimen) obj;
+            				 validSampleList.add(geSpecimen.getSpecimenName());
             			 }
             		 }
             	}

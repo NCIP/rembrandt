@@ -1626,7 +1626,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     private void populateResults(Iterator patientDataObjects, ArrayList results) {
         while(patientDataObjects.hasNext()) {
             Object[] objs = (Object[]) patientDataObjects.next();
-            Long bspID = new Long(((BigDecimal)objs[0]).longValue());
+            Long bspID = null;
+            if(objs[0]!= null){
+            	bspID = new Long(((BigDecimal)objs[0]).longValue());
+            }
             String gender = (String)objs[1];
             String diseaseType = (String)objs[2];
             String ageGroup = (String)objs[3];

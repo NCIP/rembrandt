@@ -27,6 +27,7 @@ import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm;
 
@@ -138,8 +139,7 @@ public class PrincipalComponentAction extends DispatchAction {
          * May want to put these in the cache eventually.
          */        
         if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
-            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            principalComponentAnalysisQueryDTO.setInstitutionDEs(credentials.getInstitutes());
+            principalComponentAnalysisQueryDTO.setInstitutionDEs(InsitutionAccessHelper.getInsititutionCollection(request.getSession()));
         }
         if (principalComponentAnalysisQueryDTO!=null) {
             SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);

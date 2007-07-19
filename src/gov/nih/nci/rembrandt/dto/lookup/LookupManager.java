@@ -274,7 +274,7 @@ public class LookupManager{
 		Map<String,PatientDataLookup> patientDataMap = new HashMap<String,PatientDataLookup>();
 		if(patients != null){
 			for (int i = 0;i < patients.length;i++){
-				String key = patients[i].getSampleId().toString();
+				String key = patients[i].getSpecimenName().toString();
 				PatientDataLookup patient = patients[i];				
 				patientDataMap.put(key,patient);				
 			}
@@ -413,6 +413,33 @@ public class LookupManager{
 	
 			}
 		return sampleIDList;
+		}
+	public static List<String> getSpecimanNames(String diseaseType,Collection<InstitutionDE> insitutions){
+		List<String> specimenNameList = new ArrayList<String>();
+        PatientDataLookup[] patientDataLookups;
+			try {
+				if(diseaseType != null && insitutions != null){
+		        patientDataLookups = LookupManager.getPatientData();
+		        	for(PatientDataLookup  patientDataLookup:patientDataLookups){
+		        		if(patientDataLookup.getDiseaseType() != null &&
+		        				diseaseType.compareToIgnoreCase(patientDataLookup.getDiseaseType())== 0){
+		        			for(InstitutionDE insitution :insitutions){
+		        				if(patientDataLookup.getInstitutionId() != null 
+		        						&& patientDataLookup.getSpecimenName()!= null 
+		        						&& insitution.getValueObject().equals(patientDataLookup.getInstitutionId())){
+		        					specimenNameList.add(patientDataLookup.getSpecimenName());
+		        				}
+		        			}
+		        		}
+		        	}
+		        				
+		        	}
+			} catch (Exception e1) {
+				logger.error(e1);
+				return null;
+	
+			}
+		return specimenNameList;
 		}
 	/**
 	 * @return Returns the InsitutionLookup[].

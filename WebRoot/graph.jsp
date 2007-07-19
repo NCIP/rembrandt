@@ -53,36 +53,7 @@ String alg = request.getParameter("alg")!=null ? (String) request.getParameter("
 	<br/>
 	<br clear="both"/>
 	</div>
-	<fieldset style="width:300px; text-align:left; padding:3px">
-		<legend>Abbreviations of Group Names</legend>
-		<%
-		out.println("<table>\n");
-		DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
-		if(diseaseTypes != null)	{
-			for (int i = 0; i< diseaseTypes.length ; i++) {
-				String diseaseType = diseaseTypes[i].getDiseaseType()!=null ? diseaseTypes[i].getDiseaseType() : "N/A";
-				String diseaseDesc = diseaseTypes[i].getDiseaseDesc() != null ? diseaseTypes[i].getDiseaseDesc() : "N/A";
-				if(diseaseType.equalsIgnoreCase(gov.nih.nci.rembrandt.util.RembrandtConstants.ASTRO))	{
-			    	diseaseType = diseaseType.substring(0,6);
-			    }	
-			 	out.println("<tr><td>"+diseaseType+":</td><td>" + diseaseDesc + "</td></tr>\n" );
-			}
-			out.println("</table>\n");
-		}
-		else	{
-		%>
-			<pre>
-				GBM:	Glioblastoma Multiforme
-				OLIG:	Oligodendroglioma
-				ASTRO:	Astrocytoma
-				MIXED:	Mixed
-				GLIOMA:	Glioma (Includes All)
-				NON-TUMOR: Normal
-			</pre>
-		<%
-		}
-		%>
-	</fieldset>
+
 <br/>
 <!-- 
 <a href="javascript:void(window.print())">[Print this graph]</a><br/><br/>

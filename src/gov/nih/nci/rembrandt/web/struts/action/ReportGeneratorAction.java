@@ -493,7 +493,9 @@ public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, rgForm.getFilterParams());
 			//store the name of the query in the form so that we can later pull it out of cache
 			reportBean = rgHelper.getReportBean();
-			rgForm.setQueryName(reportBean.getResultantCacheKey());
+			if(reportBean!= null){
+				rgForm.setQueryName(reportBean.getResultantCacheKey());
+			}
        	}
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);

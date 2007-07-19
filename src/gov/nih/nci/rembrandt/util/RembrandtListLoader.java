@@ -51,12 +51,10 @@ public class RembrandtListLoader extends ListLoader {
 				for (DiseaseTypeLookup diseaseTypeLookup : myDiseaseTypes){
 					//1. Get the sample Ids from the each disease type
 					Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
-					List<SampleIDDE> sampleIDDEs = LookupManager.getSampleIDDEs(diseaseTypeLookup.getDiseaseDesc(),insitutions);
-			        //2. Extracts sampleIds as Strings
-			        Collection<String> sampleIDs = StrategyHelper.extractSamples(sampleIDDEs);
-			        List<String> pdids = new ArrayList<String>(sampleIDs);
+					List<String> specimanNames = LookupManager.getSpecimanNames(diseaseTypeLookup.getDiseaseDesc(),insitutions);
+			        List<String> pdids = new ArrayList<String>(specimanNames);
 			        RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
-			        if(sampleIDs != null){
+			        if(specimanNames != null){
 			            //create userlist with valid samples included
 			            UserList myList = listManager.createList(ListType.PatientDID,diseaseTypeLookup.getDiseaseType(),pdids,listValidator);
 			            if(!myList.getList().isEmpty()){

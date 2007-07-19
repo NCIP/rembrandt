@@ -84,7 +84,9 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
    public final static String WHO_GRADE = "whoGrade";
    public final static String CENSORING_STATUS = "censoringStatus";
    public final static String INSTITUTION_NAME = "institutionName";
-  
+   public final static String SPECIMEN_NAME = "specimenName";
+   
+	private String specimenName; //SPECIMEN_NAME  
 
     private Long age;
 
@@ -1350,6 +1352,20 @@ public String getInstitutionName() {
  */
 public void setInstitutionName(String institutionName) {
 	this.institutionName = institutionName;
+}
+
+/**
+ * @return Returns the specimenName.
+ */
+public String getSpecimenName() {
+	return specimenName;
+}
+
+/**
+ * @param specimenName The specimenName to set.
+ */
+public void setSpecimenName(String specimenName) {
+	this.specimenName = specimenName;
 }
 
 

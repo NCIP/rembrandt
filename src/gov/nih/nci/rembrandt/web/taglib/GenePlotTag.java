@@ -1,12 +1,15 @@
 package gov.nih.nci.rembrandt.web.taglib;
 
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
+import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.graphing.data.GeneExpressionPlot;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -74,7 +77,6 @@ import javax.servlet.jsp.JspWriter;
 public class GenePlotTag extends AbstractGraphingTag {
 	
 	public String algorithm = "";
-	
 	public int doStartTag() {
 		JspWriter out = pageContext.getOut();
 		try {
@@ -98,7 +100,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 			String bwFilename = (String) charts.get("bwFilename");
 			String medianFilename = (String) charts.get("medianBars");
 			String legendHtml = (String) charts.get("legend");
-			
+			Map<String,Long> sampleCountMap = (Map<String,Long>)charts.get("diseaseSampleCountMap");
 			String size = (String) charts.get("size");
 			
 			String graphURL = request.getContextPath() + "/servlet/DisplayChart?filename=" + filename;
@@ -153,9 +155,31 @@ public class GenePlotTag extends AbstractGraphingTag {
 			}
 			//init the links
 			out.print("\n\n<script type=\"text/javascript\">toggleGenePlot('"+defaultFilename+"');</script>\n");
-
+			
+			out.println("<fieldset style='width:350px; text-align:left; padding:3px'>");
+			out.println("<legend>Abbreviations of Group Names</legend>");
+			out.println("<table>\n");
+			DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
+			if(diseaseTypes != null)	{
+				for (int i = 0; i< diseaseTypes.length ; i++) {
+					String diseaseType = diseaseTypes[i].getDiseaseType()!=null ? diseaseTypes[i].getDiseaseType() : "N/A";
+					String diseaseDesc = diseaseTypes[i].getDiseaseDesc() != null ? diseaseTypes[i].getDiseaseDesc() : "N/A";
+					Long count = sampleCountMap.get(diseaseType);
+					if(diseaseType.equalsIgnoreCase(gov.nih.nci.rembrandt.util.RembrandtConstants.ASTRO))	{
+				    	diseaseType = diseaseType.substring(0,5);
+				    }	
+					if(count != null && count > 0){
+						out.println("<tr><td>"+diseaseType+":</td><td>" + diseaseDesc + " ("+count+") </td></tr>\n" );
+					}
+				}
+				out.println("</table>\n");
+				out.println("</fieldset>");
+			}
 			
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -174,4 +198,6 @@ public class GenePlotTag extends AbstractGraphingTag {
 	public void setAlgorithm(String algorithm) {
 		this.algorithm = algorithm;
 	}
+	
+
 }

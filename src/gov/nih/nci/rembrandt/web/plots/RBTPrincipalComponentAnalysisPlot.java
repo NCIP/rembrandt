@@ -84,7 +84,7 @@ public class RBTPrincipalComponentAnalysisPlot extends PrincipalComponentAnalysi
 		    circle.setFrameFromCenter(x,y, x+2, y+2);
 		    glyphShape = circle;
 	    }
-	    else if(diseaseName.equals(RembrandtConstants.NON_TUMOR))	{
+	    else if(diseaseName.equals(RembrandtConstants.NON_TUMOR)  || diseaseName.equals("CELL_LINE"))	{
 	    	//glyphShape = ShapeUtilities.createDiamond(new Float(x));
 	    	Rectangle2D.Double rect = new Rectangle2D.Double();
 		    rect.setFrameFromCenter(x,y, x+2,y+2);

@@ -427,7 +427,13 @@ public class QuickSearchAction extends DispatchAction {
 
         }
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
-			if ((kmForm.getSelectedReporter().trim().length() > 0)) {                
+			if ((kmForm.getSelectedReporter().trim().length() > 0  )) {    
+				kmForm.setPlotVisible(true);
+			} else { // empty graph
+				KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
+				kmSampleInfos = km;
+				kmForm.setPlotVisible(false);
+			}
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 					if (kmForm.getSelectedReporter().equals(
@@ -437,6 +443,8 @@ public class QuickSearchAction extends DispatchAction {
 							CaIntegratorConstants.GRAPH_MEDIAN)) {
 						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
 					} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_BLANK)){
+						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+					} else{
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 					}
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
@@ -454,12 +462,7 @@ public class QuickSearchAction extends DispatchAction {
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 					}
 				}
-				kmForm.setPlotVisible(true);
-			} else { // empty graph
-				KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
-				kmSampleInfos = km;
-				kmForm.setPlotVisible(false);
-			}
+
 			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup);
 			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 			storedData.setId("KAPLAN");

@@ -56,12 +56,10 @@ public class GeneExprDiseaseGroupHandler {
 					for (DiseaseTypeLookup diseaseTypeLookup : myDiseaseTypes){
 						//1. Get the sample Ids from the each disease type
 						//Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
-						List<SampleIDDE> sampleIDDEs = LookupManager.getSampleIDDEs(diseaseTypeLookup.getDiseaseDesc(),insitutions);
+						List<String> specimanNames = LookupManager.getSpecimanNames(diseaseTypeLookup.getDiseaseDesc(),insitutions);
 						//2. validate samples so that GE data exsists for these samples
-				        Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-				        //3. Extracts sampleIds as Strings
-				        Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-				        if(sampleIDs != null){				        	
+				        Collection<String> validSpecimanNames = DataValidator.validateSpecimanNames(specimanNames);
+				        if(validSpecimanNames != null){				        	
 				               /**
 				                * add valid samples to allSamplesList to be created last.
 				                * Do not add unknown , unclassified and non_tumor samples. 
@@ -69,7 +67,7 @@ public class GeneExprDiseaseGroupHandler {
 				               if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
 				                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)
 				                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.NON_TUMOR)==0)){
-				                	   allGliomaSamplesList.addAll(sampleIDs);
+				                	   allGliomaSamplesList.addAll(validSpecimanNames);
 					               }
 				               /**
 				                * Combine all unknown , unclassified samples. 
@@ -82,12 +80,12 @@ public class GeneExprDiseaseGroupHandler {
 			            	   			group = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 			            	   			group.setQueryName(RembrandtConstants.UNCLASSIFIED);
 			            	   			sampleCriteria = new SampleCriteria();					
-										sampleCriteria.setSampleIDs(sampleIDs);
+										sampleCriteria.setSampleIDs(validSpecimanNames);
 			            	   		}
 			            	   		else{
 			            	   			group = (ClinicalDataQuery) clinicalQueryDTOMap.get(RembrandtConstants.UNCLASSIFIED);
 			            	   			sampleCriteria = group.getSampleIDCrit();
-			            	   			sampleCriteria.setSampleIDs(sampleIDs);
+			            	   			sampleCriteria.setSampleIDs(validSpecimanNames);
 			            	   		}
 									group.setSampleIDCrit(sampleCriteria);
 									group.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));	
@@ -96,7 +94,7 @@ public class GeneExprDiseaseGroupHandler {
 									ClinicalDataQuery group = (ClinicalDataQuery) QueryManager.createQuery(QueryType.CLINICAL_DATA_QUERY_TYPE);
 									group.setQueryName(diseaseTypeLookup.getDiseaseDesc());
 									SampleCriteria sampleCriteria = new SampleCriteria();					
-									sampleCriteria.setSampleIDs(sampleIDs);
+									sampleCriteria.setSampleIDs(validSpecimanNames);
 									group.setSampleIDCrit(sampleCriteria);
 									group.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));	
 									clinicalQueryDTOMap.put(group.getQueryName(),group);

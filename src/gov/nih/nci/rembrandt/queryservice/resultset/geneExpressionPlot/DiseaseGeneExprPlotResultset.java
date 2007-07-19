@@ -75,11 +75,18 @@ public class DiseaseGeneExprPlotResultset implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private DiseaseNameDE type = null;
 	private SortedMap reporters = new TreeMap();
+	private Long sampleCount = null;
+	/**
+	 * @param disease
+	 */
+	public DiseaseGeneExprPlotResultset(DiseaseNameDE disease, Long sampleCount) {
+		setSampleCount(sampleCount);
+		setType(disease);
+	}
 	/**
 	 * @param disease
 	 */
 	public DiseaseGeneExprPlotResultset(DiseaseNameDE disease) {
-		
 		setType(disease);
 	}
 	/**
@@ -132,4 +139,16 @@ public class DiseaseGeneExprPlotResultset implements Serializable{
     public void removeAllReporterFoldChangeValuesResultsets(){
     	reporters.clear();
     }
+	/**
+	 * @return Returns the sampleCount.
+	 */
+	public Long getSampleCount() {
+		return sampleCount;
+	}
+	/**
+	 * @param sampleCount The sampleCount to set.
+	 */
+	public void setSampleCount(Long sampleCount) {
+		this.sampleCount = sampleCount;
+	}
 }

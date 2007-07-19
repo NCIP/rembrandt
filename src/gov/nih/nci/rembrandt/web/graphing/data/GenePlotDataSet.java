@@ -12,6 +12,7 @@ import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.DiseaseType;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
@@ -27,7 +28,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesR
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.DiseaseGeneExprPlotResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.GeneExprDiseasePlotContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.geneExpressionPlot.ReporterFoldChangeValuesResultset;
-import gov.nih.nci.rembrandt.util.MathUtil;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.text.DecimalFormat;
@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -122,7 +123,7 @@ public class GenePlotDataSet {
 	protected HashMap stdDevMap = new HashMap();
 	//this hmap hold all the coin data .  keys are row+column, aka reporter+disease with the list as the value
 	protected HashMap coinHash = new HashMap();
-	
+	protected Map<String,Long> diseaseSampleCountMap = new HashMap<String,Long>();
 	   public GenePlotDataSet() throws ParseException { }
 	   
 	   /**
@@ -263,7 +264,8 @@ public class GenePlotDataSet {
 
 					if(diseaseResultset != null){
 					String diseaseName = diseaseResultset.getType().getValue().toString();
-					
+					Long count = diseaseResultset.getSampleCount();
+					diseaseSampleCountMap.put(diseaseName,count);
 					if(reporter!=null && diseaseName.indexOf(RembrandtConstants.ALL)!=-1)	{
 						//skip ALL for coin
 						continue;
@@ -271,9 +273,9 @@ public class GenePlotDataSet {
 					
 					//concat for ASTRO for some reason
 					if (diseaseName.equalsIgnoreCase(RembrandtConstants.ASTRO)) {
-						groups[icounter] = diseaseName.substring(0, 6);
+						groups[icounter] = diseaseName.substring(0, 5);
 					} else {
-						groups[icounter] = diseaseName;
+						groups[icounter] = diseaseName ;
 					}
 
 					Collection reporters = diseaseResultset.getReporterFoldChangeValuesResultsets(); 
@@ -332,8 +334,7 @@ public class GenePlotDataSet {
 						
 						stdDevMap.put(reporterName+"::"+diseaseName, pValueFormat.format(stdDev));
 						
-						//the money = actually build the jfree dataset
-						
+
 						//LOG2 w/STD Dev
 						log2Dataset.add( (Math.log(intensityValue.doubleValue())/Math.log(2)), stdDev, reporterName, diseaseName);
 						
@@ -421,5 +422,21 @@ public class GenePlotDataSet {
 	public DefaultCategoryDataset getMedianDataset() {
 		return medianDataset;
 	}
+
+	/**
+	 * @return Returns the diseaseSampleCountMap.
+	 */
+	public Map<String, Long> getDiseaseSampleCountMap() {
+		return diseaseSampleCountMap;
+	}
+
+	/**
+	 * @param diseaseSampleCountMap The diseaseSampleCountMap to set.
+	 */
+	public void setDiseaseSampleCountMap(Map<String, Long> diseaseSampleCountMap) {
+		this.diseaseSampleCountMap = diseaseSampleCountMap;
+	}
+
+
 	   
 }

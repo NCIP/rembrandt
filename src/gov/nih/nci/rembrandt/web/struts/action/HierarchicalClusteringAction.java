@@ -23,6 +23,7 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.EnumCaseChecker;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm;
 import gov.nih.nci.caintegrator.dto.query.HierarchicalClusteringQueryDTO;
@@ -149,8 +150,7 @@ public class HierarchicalClusteringAction extends DispatchAction {
          * May want to put these in the cache eventually.
          */        
         if(request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
-            credentials = (UserCredentials) request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-            hierarchicalClusteringQueryDTO.setInstitutionDEs(credentials.getInstitutes());
+            hierarchicalClusteringQueryDTO.setInstitutionDEs(InsitutionAccessHelper.getInsititutionCollection(request.getSession()));
         }
         if (hierarchicalClusteringQueryDTO!=null) {
             SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);

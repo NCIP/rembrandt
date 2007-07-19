@@ -8,8 +8,10 @@ import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import java.io.Serializable;
@@ -115,7 +117,7 @@ public class BaseForm extends ActionForm implements Serializable{
 	protected transient HttpServletRequest thisRequest;	
     protected static Collection savedSampleList;
     protected String sampleGroup;
-
+    protected UserCredentials credentials ;
 
 
 	public BaseForm(){
@@ -128,6 +130,7 @@ public class BaseForm extends ActionForm implements Serializable{
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         GroupRetriever groupRetriever = new GroupRetriever();
         savedSampleList = groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession());
+        credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
     }
     
     /**
@@ -149,6 +152,10 @@ public class BaseForm extends ActionForm implements Serializable{
 		String diseaseTypeStr = diseaseTypeLookup.getDiseaseType();
 		String diseaseDesc = diseaseTypeLookup.getDiseaseDesc();
 		diseaseType.add(new LabelValueBean(diseaseTypeStr,diseaseDesc ) );
+    	//if(diseaseTypeStr.equals("CELL_LINE")&& "RBTuser".equals(credentials.getUserName())) {
+    	//	diseaseType.remove(new LabelValueBean(diseaseTypeStr,diseaseDesc ) );
+    	//}
+		
 		return diseaseType;	
 		
 	}

@@ -436,7 +436,7 @@
 		      	<!--
 		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
 		      	-->
-		      		<a href="javascript:switchViews('Cl', '{$sample}')"><xsl:value-of select="Data" /></a>
+		      		<a href="javascript:switchViews('Cl', '{$specimen}')"><xsl:value-of select="Data" /></a>
 		      		<xsl:if test="$specimen != '' and $specimen != $sample"> 
 		      		(<xsl:value-of select="$specimen" />)
 		      		</xsl:if>

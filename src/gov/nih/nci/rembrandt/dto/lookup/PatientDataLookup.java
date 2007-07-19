@@ -86,4 +86,6 @@ public interface PatientDataLookup {
 	public abstract String getDiseaseType();
 	
 	public abstract Long getInstitutionId();
+	
+	public abstract String getSpecimenName();
 }

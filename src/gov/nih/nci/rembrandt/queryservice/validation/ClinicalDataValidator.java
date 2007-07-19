@@ -272,7 +272,7 @@ public class ClinicalDataValidator {
 			Collection<SampleResultset> mySampleResultsets = new ArrayList<SampleResultset>();
 			if(sampleList != null && sampleResultsetCollection != null  && !sampleResultsetCollection.isEmpty()){
 				for(SampleResultset sampleResultset: sampleResultsetCollection){
-					if(sampleList.contains(sampleResultset.getSampleIDDE())){
+					if(sampleResultset.getSampleIDDE() != null && sampleList.contains(sampleResultset.getSampleIDDE())){
 						mySampleResultsets.add(sampleResultset);
 					}
 				}

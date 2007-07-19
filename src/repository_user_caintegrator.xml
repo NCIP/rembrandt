@@ -469,7 +469,7 @@
 
 	<field-descriptor name="age" column="AGE" jdbc-type="BIGINT" />
 	<field-descriptor name="biospecimenId" column="BIOSPECIMEN_ID"
-		jdbc-type="BIGINT" />
+		jdbc-type="BIGINT" primarykey="true"/>
 	<field-descriptor name="survivalLength" column="SURVIVAL_LENGTH"
 		jdbc-type="BIGINT" />
 	<field-descriptor name="survivalLengthRange"
@@ -485,10 +485,12 @@
 	<field-descriptor name="populationTypeId"
 		column="POPULATION_TYPE_ID" jdbc-type="BIGINT" />
 	<field-descriptor name="sampleId" column="SAMPLE_ID"
-		jdbc-type="VARCHAR" primarykey="true" />
+		jdbc-type="VARCHAR"  />
 	<field-descriptor name="gender" column="GENDER" jdbc-type="VARCHAR" />
 	<field-descriptor name="institutionName" column="INSTITUTION_NAME"
-		jdbc-type="VARCHAR" primarykey="true" />
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" />
 </class-descriptor>
 
 
@@ -808,4 +810,9 @@
 		jdbc-type="BIGINT" />
 	<field-descriptor name="patientDid" column="PATIENT_DID"
 		jdbc-type="BIGINT" />
+</class-descriptor>
+<class-descriptor class="gov.nih.nci.rembrandt.dbbean.GESpecimen"
+	table="SPECIMEN_GE">
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" primarykey="true" />
 </class-descriptor>

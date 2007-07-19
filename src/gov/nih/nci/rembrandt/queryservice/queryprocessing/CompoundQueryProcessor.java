@@ -220,7 +220,7 @@ public class CompoundQueryProcessor {
 		    			if(clinicalResultset!=null) {
 			    			for(Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();){
 			    				Long id = (Long)sampleIdIterator.next();
-					    		if(clinicalResultset.getBiospecimenId().equals(id)){
+					    		if(clinicalResultset.getBiospecimenId() != null && clinicalResultset.getBiospecimenId().equals(id)){
 					    			resultset.add(clinicalResultset);
 					    		}
 			    			}

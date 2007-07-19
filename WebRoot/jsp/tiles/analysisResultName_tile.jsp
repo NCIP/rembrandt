@@ -83,6 +83,7 @@ function checkQueryName(){
 	%>
 	var found = false;
 	if (!(thisQueryName == null || thisQueryName == "")) {
+		thisQueryName = encodeURIComponent(thisQueryName);
 		for(var t=0;t<queryNameArray.length; t++)	{
 		  if (thisQueryName == queryNameArray[t]) found = true;
 		}

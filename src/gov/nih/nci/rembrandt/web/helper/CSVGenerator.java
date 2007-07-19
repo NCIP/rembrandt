@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.helper;
 
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
@@ -587,10 +588,13 @@ public class CSVGenerator  {
 			        	String label = (String) labelIterator.next();
 			        	sampleIds = geneViewContainer.getBiospecimenLabels(label);    	
 			        	//header.append(","+label); 
+			           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
 
-				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-				            	tempSampleNames.append(","+sampleIdIterator.next().toString().substring(2)); 
-				            	theLabels.append(","+label);
+			           		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) sampleIdIterator.next();
+							    if(bioSpecimenIdentifierDE.getSpecimenName()!= null){
+					            	tempSampleNames.append(","+bioSpecimenIdentifierDE.getSpecimenName().toString().substring(2)); 
+					            	theLabels.append(","+label);
+							    }
 				           	}
 			           	//header.deleteCharAt(header.lastIndexOf("\t"));
 			    	}

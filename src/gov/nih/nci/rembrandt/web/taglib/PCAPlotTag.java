@@ -140,125 +140,125 @@ public class PCAPlotTag extends AbstractGraphingTag {
             Collection<ClinicalFactorType> clinicalFactors = new ArrayList<ClinicalFactorType>();
             List<String> sampleIds = new ArrayList<String>();
             Map<String,PCAresultEntry> pcaResultMap = new HashMap<String, PCAresultEntry>();
-            
-            pcaResults = principalComponentAnalysisFinding.getResultEntries();
-            for (PCAresultEntry pcaEntry : pcaResults) {
-                sampleIds.add(pcaEntry.getSampleId());
-                pcaResultMap.put(pcaEntry.getSampleId(), pcaEntry);
+            if(principalComponentAnalysisFinding != null){
+	            pcaResults = principalComponentAnalysisFinding.getResultEntries();
+	            for (PCAresultEntry pcaEntry : pcaResults) {
+	                sampleIds.add(pcaEntry.getSampleId());
+	                pcaResultMap.put(pcaEntry.getSampleId(), pcaEntry);
+	            }
+	            
+	            Collection<SampleResultset> validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsetsFromSampleIDs(sampleIds, clinicalFactors);
+	            
+	            if (validatedSampleResultset!=null){
+	                String id;                
+	                PCAresultEntry entry;
+	                
+	                for (SampleResultset rs:validatedSampleResultset){
+	                    id = rs.getSampleIDDE().getValueObject();
+	                    entry  = pcaResultMap.get(id); 
+	                    PrincipalComponentAnalysisDataPoint pcaPoint = new PrincipalComponentAnalysisDataPoint(id,entry.getPc1(),entry.getPc2(),entry.getPc3());
+	                    String diseaseName = rs.getDisease().getValueObject();
+	                        if(diseaseName!=null){
+	                            pcaPoint.setDiseaseName(diseaseName);
+	                        }
+	                        else{
+	                        	pcaPoint.setDiseaseName(DiseaseType.NON_TUMOR.name());
+	                        }
+	                    GenderDE genderDE = rs.getGenderCode();
+	                    if(genderDE != null){
+	                    	String gt =genderDE.getValueObject();
+	                    	if(gt!=null){
+			                        GenderType genderType = GenderType.valueOf(gt);
+			                        if(genderType!=null){
+			                            pcaPoint.setGender(genderType);
+			                        }
+	                    	}
+	                    }
+	                    Long survivalLength = rs.getSurvivalLength();
+	                        if(survivalLength !=null){
+	                        	//survival length is stored in days in the DB so divide by 30 to get the 
+	                        	//approx survival in months
+	                            double survivalInMonths = survivalLength.doubleValue()/30.0;
+	                            pcaPoint.setSurvivalInMonths(survivalInMonths);
+	                        }
+	                    pcaData.add(pcaPoint);
+	                }
+	            }
+	            
+	            
+	            PCAcomponent pone = PCAcomponent.PC1;
+	            PCAcomponent ptwo = PCAcomponent.PC2;
+	            //check the components to see which graph to get
+				if(components.equalsIgnoreCase("PC1vsPC2")){
+					pone = PCAcomponent.PC2;
+					ptwo = PCAcomponent.PC1;
+					//chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC2,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+	            }
+	            if(components.equalsIgnoreCase("PC1vsPC3")){
+	            	pone = PCAcomponent.PC3;
+					ptwo = PCAcomponent.PC1;
+	                //chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+	            }
+	            if(components.equalsIgnoreCase("PC2vsPC3")){
+	            	pone = PCAcomponent.PC2;
+					ptwo = PCAcomponent.PC3;
+	                //chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+	            }
+	            
+				PrincipalComponentAnalysisPlot plot = new RBTPrincipalComponentAnalysisPlot(pcaData, pone, ptwo, PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
+				if(plot!=null)	{
+					chart = (JFreeChart) plot.getChart();
+				}
+	
+	            
+	            RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",650,600);
+				//The final complete path to be used by the webapplication
+				String finalPath = imageHandler.getSessionTempFolder();
+	            String finalURLpath = imageHandler.getFinalURLPath();
+				/*
+				 * Create the actual charts, writing it to the session temp folder
+				*/ 
+	            ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+	            String mapName = imageHandler.createUniqueMapName();
+	            //PrintWriter writer = new PrintWriter(new FileWriter(mapName));
+				ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 650,600,info);
+	            //ImageMapUtil.writeBoundingRectImageMap(writer,"PCAimageMap",info,true);
+	            //writer.close();
+				
+				/*	This is here to put the thread into a loop while it waits for the
+				 *	image to be available.  It has an unsophisticated timer but at 
+				 *	least it is something to avoid an endless loop.
+				 **/ 
+	            boolean imageReady = false;
+	            int timeout = 1000;
+	            FileInputStream inputStream = null;
+	            while(!imageReady) {
+	                timeout--;
+	                try {
+	                    inputStream = new FileInputStream(finalPath);
+	                    inputStream.available();
+	                    imageReady = true;
+	                    inputStream.close();
+	                }catch(IOException ioe) {
+	                    imageReady = false;  
+	                    if(inputStream != null){
+	                    	inputStream.close();
+	                    }
+	                }
+	                if(timeout <= 1) {
+	                    
+	                    break;
+	                }
+	             }
+	            
+	            out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,false,info));
+	            finalURLpath = finalURLpath.replace("\\", "/");
+	            long randomness = System.currentTimeMillis(); //prevent image caching
+			    out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"?"+randomness+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
+	            
+	            
+			    //(imageHandler.getImageTag(mapFileName));
             }
-            
-            Collection<SampleResultset> validatedSampleResultset = ClinicalDataValidator.getValidatedSampleResultsetsFromSampleIDs(sampleIds, clinicalFactors);
-            
-            if (validatedSampleResultset!=null){
-                String id;                
-                PCAresultEntry entry;
-                
-                for (SampleResultset rs:validatedSampleResultset){
-                    id = rs.getSampleIDDE().getValueObject();
-                    entry  = pcaResultMap.get(id); 
-                    PrincipalComponentAnalysisDataPoint pcaPoint = new PrincipalComponentAnalysisDataPoint(id,entry.getPc1(),entry.getPc2(),entry.getPc3());
-                    String diseaseName = rs.getDisease().getValueObject();
-                        if(diseaseName!=null){
-                            pcaPoint.setDiseaseName(diseaseName);
-                        }
-                        else{
-                        	pcaPoint.setDiseaseName(DiseaseType.NON_TUMOR.name());
-                        }
-                    GenderDE genderDE = rs.getGenderCode();
-                    if(genderDE != null){
-                    	String gt =genderDE.getValueObject();
-                    	if(gt!=null){
-		                        GenderType genderType = GenderType.valueOf(gt);
-		                        if(genderType!=null){
-		                            pcaPoint.setGender(genderType);
-		                        }
-                    	}
-                    }
-                    Long survivalLength = rs.getSurvivalLength();
-                        if(survivalLength !=null){
-                        	//survival length is stored in days in the DB so divide by 30 to get the 
-                        	//approx survival in months
-                            double survivalInMonths = survivalLength.doubleValue()/30.0;
-                            pcaPoint.setSurvivalInMonths(survivalInMonths);
-                        }
-                    pcaData.add(pcaPoint);
-                }
-            }
-            
-            
-            PCAcomponent pone = PCAcomponent.PC1;
-            PCAcomponent ptwo = PCAcomponent.PC2;
-            //check the components to see which graph to get
-			if(components.equalsIgnoreCase("PC1vsPC2")){
-				pone = PCAcomponent.PC2;
-				ptwo = PCAcomponent.PC1;
-				//chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC2,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
-            }
-            if(components.equalsIgnoreCase("PC1vsPC3")){
-            	pone = PCAcomponent.PC3;
-				ptwo = PCAcomponent.PC1;
-                //chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC1,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
-            }
-            if(components.equalsIgnoreCase("PC2vsPC3")){
-            	pone = PCAcomponent.PC2;
-				ptwo = PCAcomponent.PC3;
-                //chart = (JFreeChart) CaIntegratorChartFactory.getPrincipalComponentAnalysisGraph(pcaData,PCAcomponent.PC3,PCAcomponent.PC2,PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
-            }
-            
-			PrincipalComponentAnalysisPlot plot = new RBTPrincipalComponentAnalysisPlot(pcaData, pone, ptwo, PCAcolorByType.valueOf(PCAcolorByType.class,colorBy));
-			if(plot!=null)	{
-				chart = (JFreeChart) plot.getChart();
-			}
-
-            
-            RembrandtImageFileHandler imageHandler = new RembrandtImageFileHandler(session.getId(),"png",650,600);
-			//The final complete path to be used by the webapplication
-			String finalPath = imageHandler.getSessionTempFolder();
-            String finalURLpath = imageHandler.getFinalURLPath();
-			/*
-			 * Create the actual charts, writing it to the session temp folder
-			*/ 
-            ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-            String mapName = imageHandler.createUniqueMapName();
-            //PrintWriter writer = new PrintWriter(new FileWriter(mapName));
-			ChartUtilities.writeChartAsPNG(new FileOutputStream(finalPath),chart, 650,600,info);
-            //ImageMapUtil.writeBoundingRectImageMap(writer,"PCAimageMap",info,true);
-            //writer.close();
-			
-			/*	This is here to put the thread into a loop while it waits for the
-			 *	image to be available.  It has an unsophisticated timer but at 
-			 *	least it is something to avoid an endless loop.
-			 **/ 
-            boolean imageReady = false;
-            int timeout = 1000;
-            FileInputStream inputStream = null;
-            while(!imageReady) {
-                timeout--;
-                try {
-                    inputStream = new FileInputStream(finalPath);
-                    inputStream.available();
-                    imageReady = true;
-                    inputStream.close();
-                }catch(IOException ioe) {
-                    imageReady = false;  
-                    if(inputStream != null){
-                    	inputStream.close();
-                    }
-                }
-                if(timeout <= 1) {
-                    
-                    break;
-                }
-             }
-            
-            out.print(ImageMapUtil.getBoundingRectImageMapTag(mapName,false,info));
-            finalURLpath = finalURLpath.replace("\\", "/");
-            long randomness = System.currentTimeMillis(); //prevent image caching
-		    out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"?"+randomness+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
-            
-            
-            //(imageHandler.getImageTag(mapFileName));
-        
 		}catch (IOException e) {
 			logger.error(e);
 		}catch(Exception e) {
