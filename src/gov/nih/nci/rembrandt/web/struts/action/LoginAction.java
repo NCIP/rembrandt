@@ -1,18 +1,22 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.cache.CacheConstants;
+import gov.nih.nci.caintegrator.application.lists.ListLoader;
 import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
 
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 import java.text.ParseException;
@@ -91,6 +95,7 @@ public final class LoginAction extends Action
 {
     private static Logger logger = Logger.getLogger(LoginAction.class);
     private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+    private RembrandtListLoader listLoader;
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     {
@@ -119,7 +124,7 @@ public final class LoginAction extends Action
             }
             UserListBean userListBean = new UserListBean();
             try {
-            	userListBean = RembrandtListLoader.loadDiseaseGroups(userListBean, session);
+            	userListBean = listLoader.loadDiseaseGroups(userListBean, session);
             } catch (OperationNotSupportedException e) {
             	// TODO Auto-generated catch block
             	e.printStackTrace();
@@ -139,7 +144,19 @@ public final class LoginAction extends Action
 
             UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
             userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
- 
+            
+			Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
+			if(insitutions != null){
+				for(InstitutionDE insitution:insitutions){
+	            List<UserList> userLists = (List<UserList>) listLoader.loadUserLists(insitution.getInstituteName());
+		            if(userLists != null && userLists.size() > 0){
+		            	for(UserList ul: userLists){
+		                userListBeanHelper.addList(ul);
+		            	}
+		            }
+				}
+			}
+            
             return (mapping.findForward("success"));
         }
         else

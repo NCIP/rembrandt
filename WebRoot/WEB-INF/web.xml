@@ -1,8 +1,14 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-    "http://java.sun.com/dtd/web-app_2_3.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml,
+			classpath*:/applicationContext-services.xml
+		</param-value>
+	</context-param>
 	<!--Register SessionListener
 		This is used by the caintegrator.application.cache package to 
 		watch for dead sessions and remove the caches.  For more
@@ -11,6 +17,12 @@
 	<listener>
 		<listener-class>
 			gov.nih.nci.caintegrator.application.cache.SessionTracker
+		</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>
+			gov.nih.nci.caintegrator.application.configuration.ConfigurationListener
 		</listener-class>
 	</listener>
 	<!-- Register ContextListener

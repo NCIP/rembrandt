@@ -123,7 +123,7 @@
            forward="popGraph" />     
            
    <action path="/login"
-           type="gov.nih.nci.rembrandt.web.struts.action.LoginAction"
+           type="org.springframework.web.struts.DelegatingActionProxy"
            name="loginForm"
            scope="request"
            input="/login.jsp">
