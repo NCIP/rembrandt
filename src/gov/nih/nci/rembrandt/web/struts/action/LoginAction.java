@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.cache.CacheConstants;
+import gov.nih.nci.caintegrator.application.configuration.SpringContext;
 import gov.nih.nci.caintegrator.application.lists.ListLoader;
 import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
@@ -108,6 +109,7 @@ public final class LoginAction extends Action
     	 */
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
+        RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
         LoginForm f = (LoginForm) form;
         if(f.getUserLoggedIn()){
         	session.setAttribute("logged", "yes");
@@ -124,7 +126,7 @@ public final class LoginAction extends Action
             }
             UserListBean userListBean = new UserListBean();
             try {
-            	userListBean = listLoader.loadDiseaseGroups(userListBean, session);
+            	userListBean = myListLoader.loadDiseaseGroups(userListBean, session);
             } catch (OperationNotSupportedException e) {
             	// TODO Auto-generated catch block
             	e.printStackTrace();
@@ -143,20 +145,20 @@ public final class LoginAction extends Action
             //add userListBean to session...for now
 
             UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
-            userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
+            
             
 			Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
 			if(insitutions != null){
 				for(InstitutionDE insitution:insitutions){
-	            List<UserList> userLists = (List<UserList>) listLoader.loadUserLists(insitution.getInstituteName());
+	            List<UserList> userLists = (List<UserList>) myListLoader.loadUserLists(insitution.getInstituteName());
 		            if(userLists != null && userLists.size() > 0){
 		            	for(UserList ul: userLists){
-		                userListBeanHelper.addList(ul);
+                            userListBean.addList(ul);
 		            	}
 		            }
 				}
 			}
-            
+            userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
             return (mapping.findForward("success"));
         }
         else
@@ -179,5 +181,17 @@ public final class LoginAction extends Action
         	logger.debug("Persisted UserList has a malformed Date object.");
         }
         return userList;
+    }
+    /**
+     * @return Returns the listLoader.
+     */
+    public RembrandtListLoader getListLoader() {
+        return listLoader;
+    }
+    /**
+     * @param listLoader The listLoader to set.
+     */
+    public void setListLoader(RembrandtListLoader listLoader) {
+        this.listLoader = listLoader;
     }
 }

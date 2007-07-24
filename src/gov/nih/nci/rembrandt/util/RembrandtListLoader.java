@@ -110,16 +110,15 @@ public class RembrandtListLoader extends ListLoader {
         }
         return userListBean;        
     }
-    public List<UserList> loadUserLists(String insitutionName){
+    public List<UserList> loadUserLists(String institutionName){
         Session currentSession = sessionFactory.getCurrentSession(); 
         List<UserList> lists = new ArrayList<UserList>();
         String theHQL = "";
-        Query theQuery = null;
-        HashMap params = new HashMap();
+        Query theQuery = null;        
         Collection<UserList> userLists = null;
-        theHQL = "select distinct ul from UserList ul where ul.institute = :insitutionName";        
-        params.put("insitutionName", insitutionName);
+        theHQL = "select distinct ul from UserList ul where ul.institute = :institutionName";        
         theQuery = currentSession.createQuery(theHQL);
+        theQuery.setParameter("institutionName", institutionName);
         System.out.println("HQL: " + theHQL);        
         userLists = theQuery.list();        
         for(UserList list: userLists){

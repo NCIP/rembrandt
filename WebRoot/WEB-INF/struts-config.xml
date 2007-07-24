@@ -25,8 +25,7 @@
 		<form-bean name="uploadGeneSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadGeneSetForm"/>				
 		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>				
 		
-		<form-bean name="loginForm" type="gov.nih.nci.rembrandt.web.struts.form.LoginForm"/>
-   		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
+		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
    	
   </form-beans>
   <!-- ========== Global Exception Definitions ============================ -->

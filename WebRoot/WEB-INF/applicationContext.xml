@@ -22,7 +22,8 @@
 	</bean>
 	
 	<!-- Transactional advice pointcut definition -->
-		
+	
+			
 	<aop:config>
 		<aop:pointcut id="lookupListMethods"
 			expression="execution(* gov.nih.nci.rembrandt.util.RembrandtListLoader.*(..))" />

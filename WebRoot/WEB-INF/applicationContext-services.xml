@@ -12,7 +12,7 @@
 	
 		
 	<bean id="listLoader"
-		class="gov.nih.nci.rembrandt.list.RembrandtListLoader">
+		class="gov.nih.nci.rembrandt.util.RembrandtListLoader">
 		<property name="sessionFactory" ref="sessionFactory" />		
 	</bean>
 
