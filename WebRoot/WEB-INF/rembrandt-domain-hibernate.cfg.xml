@@ -5,7 +5,7 @@
 <hibernate-configuration>
 	<session-factory>
 
-		<property name="connection.datasource">java:/rembrandtcsm</property>
+		<property name="connection.datasource">java:/rembrandt</property>
 		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
 		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.max_fetch_depth">1</property>
