@@ -62,32 +62,34 @@ public class RembrandtListLoader extends ListLoader {
 			if(myDiseaseTypes != null){
 				for (DiseaseTypeLookup diseaseTypeLookup : myDiseaseTypes){
 					//1. Get the sample Ids from the each disease type
-					Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
-					List<String> specimanNames = LookupManager.getSpecimanNames(diseaseTypeLookup.getDiseaseDesc(),insitutions);
-			        List<String> pdids = new ArrayList<String>(specimanNames);
-			        RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
-			        if(specimanNames != null){
-			            //create userlist with valid samples included
-			            UserList myList = listManager.createList(ListType.PatientDID,diseaseTypeLookup.getDiseaseType(),pdids,listValidator);
-			            if(!myList.getList().isEmpty()){
-                            myList.setListOrigin(ListOrigin.Default);
-			               /**
-			                * add valid samples to allSamplesList to be created last.
-			                * Do not add unknown and unclassified samples. 
-			                */
-			               if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
-			                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)){
-			                   allSamplesList.addAll(myList.getList());
-			                   if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.NON_TUMOR)==0)){
-			                	   allGliomaSamplesList.addAll(myList.getList());
-				               }
-			               }
-			               
-			               //add my list to the userListBean
-			                userListBean.addList(myList);
-			            }
+                    if(!diseaseTypeLookup.getDiseaseType().equals("CELL_LINE")){ //ONLY TEMPORARY!!!!
+        					Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
+        					List<String> specimanNames = LookupManager.getSpecimanNames(diseaseTypeLookup.getDiseaseDesc(),insitutions);
+        			        List<String> pdids = new ArrayList<String>(specimanNames);
+        			        RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
+        			        if(specimanNames != null){
+        			            //create userlist with valid samples included
+        			            UserList myList = listManager.createList(ListType.PatientDID,diseaseTypeLookup.getDiseaseType(),pdids,listValidator);
+        			            if(!myList.getList().isEmpty()){
+                                    myList.setListOrigin(ListOrigin.Default);
+        			               /**
+        			                * add valid samples to allSamplesList to be created last.
+        			                * Do not add unknown and unclassified samples. 
+        			                */
+        			               if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
+        			                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)){
+        			                   allSamplesList.addAll(myList.getList());
+        			                   if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.NON_TUMOR)==0)){
+        			                	   allGliomaSamplesList.addAll(myList.getList());
+        				               }
+        			               }
+        			               
+        			               //add my list to the userListBean
+        			                userListBean.addList(myList);
+        			            }
 			        }
 				}
+              }
 			}
 		} catch (OperationNotSupportedException e1) {
 			logger.error(e1);
