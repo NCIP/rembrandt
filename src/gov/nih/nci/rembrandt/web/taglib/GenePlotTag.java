@@ -161,7 +161,8 @@ public class GenePlotTag extends AbstractGraphingTag {
 			out.println("<table>\n");
 			DiseaseTypeLookup[] diseaseTypes = LookupManager.getDiseaseType();
 			if(diseaseTypes != null)	{
-				for (int i = 0; i< diseaseTypes.length ; i++) {
+               	for (int i = 0; i< diseaseTypes.length ; i++) {
+                    if(!diseaseTypes[i].getDiseaseType().equals("CELL_LINE")){
 					String diseaseType = diseaseTypes[i].getDiseaseType()!=null ? diseaseTypes[i].getDiseaseType() : "N/A";
 					String diseaseDesc = diseaseTypes[i].getDiseaseDesc() != null ? diseaseTypes[i].getDiseaseDesc() : "N/A";
 					Long count = sampleCountMap.get(diseaseType);
@@ -171,6 +172,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 					if(count != null && count > 0){
 						out.println("<tr><td>"+diseaseType+":</td><td>" + diseaseDesc + " ("+count+") </td></tr>\n" );
 					}
+                    }
 				}
 				out.println("</table>\n");
 				out.println("</fieldset>");

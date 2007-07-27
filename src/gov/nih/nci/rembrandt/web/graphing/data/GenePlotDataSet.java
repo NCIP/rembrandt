@@ -258,7 +258,7 @@ public class GenePlotDataSet {
 				
 				//loop through each disease
 				for(int i = 0; i < diseaseTypes.length; i++) {
-
+				    if(!diseaseTypes[i].getDiseaseType().equals("CELL_LINE")){
 					DiseaseGeneExprPlotResultset diseaseResultset = geneExprDiseasePlotContainer
 							.getDiseaseGeneExprPlotResultset(diseaseTypes[i].getDiseaseType().toString());
 
@@ -384,7 +384,8 @@ public class GenePlotDataSet {
 					
 					icounter++;
 				}
-				}	
+				}
+                }
 			}
 	   }
 	   
