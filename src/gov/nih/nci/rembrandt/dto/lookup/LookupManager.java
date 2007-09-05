@@ -283,6 +283,24 @@ public class LookupManager{
 		
 	}
 	/**
+	 * @return Returns the patientDataMap.
+	 * @throws Exception
+	 * BiospecimenId is the key & PatientDataLookup is the returned object
+	 */
+	public static Map getPatientDataMapForKM() throws Exception{
+		PatientDataLookup[] patients = getPatientData();
+		Map<String,PatientDataLookup> patientDataMap = new HashMap<String,PatientDataLookup>();
+		if(patients != null){
+			for (int i = 0;i < patients.length;i++){
+				String key = patients[i].getSampleId().toString();
+				PatientDataLookup patient = patients[i];				
+				patientDataMap.put(key,patient);				
+			}
+		}
+		return patientDataMap;
+		
+	}
+	/**
 	 * @return Returns the diseaseTypes.
 	 * @throws Exception
 	 */

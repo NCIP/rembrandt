@@ -109,7 +109,7 @@ public class KaplanMeierPlotHandler {
  			if(geneExprObjects.length > 1){
 	 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(geneExprObjects[0].getGeneSymbol()));
 	 			Collection samples = kaplanMeierPlotContainer.getSampleResultsets();
-	 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+	 			Map paitentDataLookup = LookupManager.getPatientDataMapForKM();
 		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 		    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
 		    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
@@ -142,7 +142,7 @@ public class KaplanMeierPlotHandler {
  			if(copyNumberObjects.length > 0){
 	 	 		kaplanMeierPlotContainer.setCytobandDE(new CytobandDE(copyNumberObjects[0].getCytoband()));//TODO NEED GeneSymbol in CopyNumber
 	 			Collection samples = kaplanMeierPlotContainer.getSampleResultsets();
-	 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+	 			Map paitentDataLookup = LookupManager.getPatientDataMapForKM();
 		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 		    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
 		    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
@@ -286,7 +286,7 @@ public class KaplanMeierPlotHandler {
 	 			if(unifiedGeneExprObjects.length > 1){
 		 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(unifiedGeneExprObjects[0].getGeneSymbol()));
 		 			Collection samples = kaplanMeierPlotContainer.getSampleResultsets();
-		 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+		 			Map paitentDataLookup = LookupManager.getPatientDataMapForKM();
 			    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 			    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
 			    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
@@ -354,7 +354,7 @@ public class KaplanMeierPlotHandler {
           	}//for
  			if(clinicalObjects.length > 0){
 	 			Collection samples = kaplanMeierPlotContainer.getSampleResultsets();
-	 			Map paitentDataLookup = LookupManager.getPatientDataMap();
+	 			Map paitentDataLookup = LookupManager.getPatientDataMapForKM();
 		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
 		    		SampleKaplanMeierPlotResultset sample = (SampleKaplanMeierPlotResultset)sampleIterator.next();
 		    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookup.get(sample.getSampleIDDE().getValue().toString());
