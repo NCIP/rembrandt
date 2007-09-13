@@ -24,8 +24,8 @@ import gov.nih.nci.rembrandt.util.ThreadPool;
 public class AnnotationHandler {
     private static Logger logger = Logger.getLogger(AnnotationHandler.class);
     private final static int VALUES_PER_THREAD = 50;
-    private static  Map<String, List<String>> unifiedReporterGeneMap = execQueryUnifiedGeneSymbols(); 
-    private static  Map<String, List<String>> affyReporterGeneMap = execQueryAffyProbeSets(); 
+    private static  Map<String, List<String>> unifiedReporterGeneMap = null; 
+    private static  Map<String, List<String>> affyReporterGeneMap = null; 
     private static  Map<String, ReporterAnnotations> allAffyReportAnnotationMap = null;
     private static  Map<String, String> affyReporterGeneSymbolMap = null;
 
@@ -413,7 +413,7 @@ public class AnnotationHandler {
     	}
     	case UNIFIED_GENE:
     		if(unifiedReporterGeneMap == null){
-    			unifiedReporterGeneMap = execQueryAffyProbeSets();    		
+    			unifiedReporterGeneMap = execQueryUnifiedGeneSymbols();    		
         	}
 			for(String geneSymbol:unifiedReporterGeneMap.keySet()){
 				reporters.addAll(unifiedReporterGeneMap.get(geneSymbol));

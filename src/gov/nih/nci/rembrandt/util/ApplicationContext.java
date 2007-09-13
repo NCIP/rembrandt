@@ -213,19 +213,19 @@ public class ApplicationContext{
 		  
 		  //Initialize Annotation loading
 		  List<String> affyReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.AFFY_OLIGO_PLATFORM);
-		  List<String> unifiedReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.UNIFIED_GENE);
+		  //List<String> unifiedReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.UNIFIED_GENE);
 		  AnnotationHandler.getGeneSymbolsFor(affyReporters,ArrayPlatformType.AFFY_OLIGO_PLATFORM);
 		  
 		} catch (NamingException e) {
-	        logger.error(new IllegalStateException("Error getting an instance of AnalysisServerClientManager" ));
+	        logger.error(new IllegalStateException("Naming Exception Error getting an instance of AnalysisServerClientManager" ));
 			logger.error(e.getMessage());
 			logger.error(e);
 		} catch (JMSException e) {
-	        logger.error(new IllegalStateException("Error getting an instance of AnalysisServerClientManager" ));
+	        logger.error(new IllegalStateException("JMSException Error getting an instance of AnalysisServerClientManager" ));
 			logger.error(e.getMessage());
 			logger.error(e);
 		} catch(Throwable t) {
-			logger.error(new IllegalStateException("Error getting an instance of AnalysisServerClientManager" ));
+			logger.error(new IllegalStateException("IllegalState Exception Error getting an instance of AnalysisServerClientManager" ));
 			logger.error(t.getMessage());
 			logger.error(t);
 		}
