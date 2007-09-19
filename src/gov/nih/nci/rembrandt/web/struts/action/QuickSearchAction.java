@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleIn
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierStoredData;
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
@@ -202,9 +204,17 @@ public class QuickSearchAction extends DispatchAction {
 
 		UserList constrainSamplesUl = helper.getUserList(baselineGroup);
 		try	{
-			List<String> samList = constrainSamplesUl.getList();
+			List<String> specimenNames = constrainSamplesUl.getList();
+			//Remove Blood Type Specimens for KM plot
+			for(String specimenName:specimenNames){
+				if(specimenName.endsWith("_B")){
+					specimenNames.remove(specimenName);
+				}
+			}
+			List<String> sampleIds = LookupManager.getSampleIDs(specimenNames);
 			constrainSamples = new ArrayList<SampleIDDE>();
-			constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(samList));
+			constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(sampleIds));
+
 		}
 		catch(Exception e){
 			System.out.println("GROUP " + qsGroupName + " NOT FOUND");
@@ -249,9 +259,13 @@ public class QuickSearchAction extends DispatchAction {
 			helper = new UserListBeanHelper(request.getSession());
 			UserList ul = helper.getUserList(qsGroupName);
 			try	{
-				List<String> samList = ul.getList();
+				List<String> specimenNames = ul.getList();
+				//get the samples associated with these specimens
+				List<String> sampleIds = LookupManager.getSampleIDs(specimenNames);
+				//Add back any samples that were just sampleIds to start with
+				specimenNames.addAll(sampleIds);
 				sampleList = new ArrayList<SampleIDDE>();
-				sampleList.addAll(ListConvertor.convertToSampleIDDEs(samList));
+				sampleList.addAll(ListConvertor.convertToSampleIDDEs(specimenNames));
 			}
 			catch(Exception e){
 				System.out.println("GROUP " + qsGroupName + " NOT FOUND");
@@ -281,7 +295,9 @@ public class QuickSearchAction extends DispatchAction {
 				   if(cul!=null){
 					   csampleList = new ArrayList<SampleIDDE>();
 					   List<String> csamList = cul.getList();
-					   csampleList.addAll(ListConvertor.convertToSampleIDDEs(csamList));
+						//get the samples associated with these specimens
+						List<String> sampleIds = LookupManager.getSampleIDs(csamList);
+					   csampleList.addAll(ListConvertor.convertToSampleIDDEs(sampleIds));
 				   }
 				   else	{
 					   csampleList = null;

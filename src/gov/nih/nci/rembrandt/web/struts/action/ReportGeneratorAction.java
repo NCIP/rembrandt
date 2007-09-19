@@ -399,7 +399,7 @@ public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
 	String prb_queryName = rgForm.getPrbQueryName();
 	//actually get the list of specimen names
 	String[] specimenNames = rgForm.getSamples();
-	//get the samples assiciated with these specimens
+	//get the samples associated with these specimens
 	List<String> sampleIds = LookupManager.getSampleIDs(Arrays.asList(specimenNames));
 	String sessionId = request.getSession().getId();
 	
