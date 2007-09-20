@@ -472,8 +472,8 @@ public class LookupManager{
 			return insitutionLookup;
 		}
 	/**
-	 * @param diseaseType
-	 * @param insitutions
+	 * @param SpecimenNames
+	 * @return SpecimenIDs
 	 * @return
 	 */
 	public static List<String> getSampleIDs(List<String> specimenNames){
@@ -500,5 +500,34 @@ public class LookupManager{
 	
 			}
 		return sampleIDList;
+		}
+	/**
+	 * @param specimenIds
+	 * @return SpecimenNames
+	 */
+	public static List<String> getSpecimeNames(List<String> sampleIDS){
+		List<String> specimenNamesList = new ArrayList<String>();
+			try {
+				if(sampleIDS != null && sampleIDS.size() > 0){
+					Criteria crit = new Criteria();
+					crit.addIn(BiospecimenDim.SAMPLE_ID,sampleIDS);
+					Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,"SPECIMEN_NAME", true);
+					if(col != null){
+						for(Object ojb:col){
+							if(ojb instanceof String) {
+						       	  String termToLookup = (String)ojb;
+						     	  if(termToLookup != null && !termToLookup.equals("")){
+						     		 specimenNamesList.add(termToLookup);
+						     	  }
+							  }
+							}
+						}
+					}
+			} catch (Exception e1) {
+				logger.error(e1);
+				return null;
+	
+			}
+		return specimenNamesList;
 		}
 }

@@ -213,7 +213,9 @@ public class QuickSearchAction extends DispatchAction {
 			}
 			List<String> sampleIds = LookupManager.getSampleIDs(specimenNames);
 			constrainSamples = new ArrayList<SampleIDDE>();
-			constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(sampleIds));
+			if(sampleIds != null){
+				constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(sampleIds));
+			}
 
 		}
 		catch(Exception e){
@@ -263,7 +265,9 @@ public class QuickSearchAction extends DispatchAction {
 				//get the samples associated with these specimens
 				List<String> sampleIds = LookupManager.getSampleIDs(specimenNames);
 				//Add back any samples that were just sampleIds to start with
-				specimenNames.addAll(sampleIds);
+				if (sampleIds != null){
+					specimenNames.addAll(sampleIds);
+				}
 				sampleList = new ArrayList<SampleIDDE>();
 				sampleList.addAll(ListConvertor.convertToSampleIDDEs(specimenNames));
 			}
@@ -296,8 +300,14 @@ public class QuickSearchAction extends DispatchAction {
 					   csampleList = new ArrayList<SampleIDDE>();
 					   List<String> csamList = cul.getList();
 						//get the samples associated with these specimens
-						List<String> sampleIds = LookupManager.getSampleIDs(csamList);
-					   csampleList.addAll(ListConvertor.convertToSampleIDDEs(sampleIds));
+					   List<String> sampleIds = LookupManager.getSampleIDs(csamList);
+						//Add back any samples that were just sampleIds to start with
+					   if(sampleIds != null){
+					    csamList.addAll(sampleIds);
+					   }
+						csampleList.addAll(ListConvertor.convertToSampleIDDEs(csamList));
+					   
+					   //
 				   }
 				   else	{
 					   csampleList = null;

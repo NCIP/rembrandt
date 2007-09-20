@@ -21,6 +21,7 @@ import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
@@ -466,7 +467,14 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
            UserList sampleList = helper.getUserList(comparativeGenomicForm.getSampleFile());
            if(sampleList!=null){
                try {
-                   sampleIds = ListConvertor.convertToSampleIDDEs(sampleList.getList());
+            	    List<String> list = sampleList.getList();
+      				//get the samples associated with these specimens
+      				List<String> samples = LookupManager.getSpecimeNames(list);
+      				//Add back any samples that were just sampleIds to start with
+      				if(samples != null){
+      					list.addAll(samples);
+      				}
+      				sampleIds = ListConvertor.convertToSampleIDDEs(list);
                } catch (OperationNotSupportedException e) {
                    // TODO Auto-generated catch block
                    e.printStackTrace();
