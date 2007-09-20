@@ -451,7 +451,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
                try {
                    List<String> list = sampleList.getList();
      				//get the samples associated with these specimens
-     				List<String> samples = LookupManager.getSpecimeNames(list);
+     				List<String> samples = LookupManager.getSpecimenNames(list);
      				//Add back any samples that were just sampleIds to start with
      				if(samples != null){
      					list.addAll(samples);

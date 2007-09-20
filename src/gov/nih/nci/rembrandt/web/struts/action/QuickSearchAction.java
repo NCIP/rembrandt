@@ -205,21 +205,24 @@ public class QuickSearchAction extends DispatchAction {
 		UserList constrainSamplesUl = helper.getUserList(baselineGroup);
 		try	{
 			List<String> specimenNames = constrainSamplesUl.getList();
-			//Remove Blood Type Specimens for KM plot
-			for(String specimenName:specimenNames){
-				if(specimenName.endsWith("_B")){
-					specimenNames.remove(specimenName);
-				}
-			}
-			List<String> sampleIds = LookupManager.getSampleIDs(specimenNames);
+			List<String> specimens = LookupManager.getSpecimenNames(specimenNames);
 			constrainSamples = new ArrayList<SampleIDDE>();
-			if(sampleIds != null){
-				constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(sampleIds));
+			if(specimens != null){
+				specimenNames.addAll(specimens);
+				//Remove Blood Type Specimens for KM plot
+				List<String> bloodSamples = new ArrayList<String>();
+				for(String specimenName:specimenNames){
+					if(specimenName.endsWith("_B")){
+						bloodSamples.add(specimenName);
+					}
+				}
+				specimenNames.removeAll(bloodSamples);
+				constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(specimenNames));
 			}
 
 		}
 		catch(Exception e){
-			System.out.println("GROUP " + qsGroupName + " NOT FOUND");
+			logger.warn("GROUP " + qsGroupName + " NOT FOUND"+ e.getMessage());
 		}
 		
 		
