@@ -11,7 +11,6 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/batik-svggen.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/batik-util.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/batik-xml.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/caBIO.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/classes12.zip"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-beanutils.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-dbcp.jar"/>
@@ -27,26 +26,24 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/dwr.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jaas.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jakarta-regexp-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jcommon-1.0.0-rc1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jcs-1.0-dev.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jcs.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jdo.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jdori.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jfreechart-1.0.0-rc1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/krysalis-jCharts-1.0.0-alpha-1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/odmg-3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ojdbc14.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/oracle.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/struts.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/weka.jar"/>
-	<classpathentry exported="true" sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.1.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="JUNIT_HOME/junit.jar"/>
+	<classpathentry exported="true" kind="var" path="JUNIT_HOME/junit.jar" sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.1.0/src/org.junit_3.8.1/junitsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/antlr.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jakarta-oro.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/appStateClient.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-collections-3.1.jar"/>
-	<classpathentry exported="true" sourcepath="jar_source_files/ehcache-1.2beta2-src.zip" kind="lib" path="WebRoot/WEB-INF/lib/ehcache-1.2beta2.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ehcache-1.2beta2.jar" sourcepath="jar_source_files/ehcache-1.2beta2-src.zip"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/caintegrator-analysis-commons"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/client.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring.jar"/>
