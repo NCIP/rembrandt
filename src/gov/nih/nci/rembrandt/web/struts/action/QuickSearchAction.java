@@ -204,7 +204,7 @@ public class QuickSearchAction extends DispatchAction {
 
 		UserList constrainSamplesUl = helper.getUserList(baselineGroup);
 		try	{
-			List<String> specimenNames = constrainSamplesUl.getList();
+			Set<String>specimenNames = new HashSet<String>(constrainSamplesUl.getList());
 			List<String> specimens = LookupManager.getSpecimenNames(specimenNames);
 			constrainSamples = new ArrayList<SampleIDDE>();
 			if(specimens != null){

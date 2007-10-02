@@ -38,8 +38,10 @@ import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
@@ -467,7 +469,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
            UserList sampleList = helper.getUserList(comparativeGenomicForm.getSampleFile());
            if(sampleList!=null){
                try {
-            	    List<String> list = sampleList.getList();
+            	    Set<String>list = new HashSet<String>(sampleList.getList());
       				//get the samples associated with these specimens
       				List<String> samples = LookupManager.getSpecimenNames(list);
       				//Add back any samples that were just sampleIds to start with
