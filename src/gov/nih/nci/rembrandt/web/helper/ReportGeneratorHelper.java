@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
@@ -36,12 +37,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.naming.OperationNotSupportedException;
@@ -282,6 +286,16 @@ public class ReportGeneratorHelper {
 		//create a new ReportBean
 		_reportBean = new ReportBean();
 		Resultant sampleIdResults = null;
+		if(sampleIds!=null){
+         	Set<String> samples = new HashSet<String> (Arrays.asList(sampleIds));
+			//get the samples associated with these specimens
+			List<String> specimenNames = LookupManager.getSampleIDs(samples);
+			//Add back any samples that were just sampleIds to start with
+			if(specimenNames != null && specimenNames.size()>0){
+				samples.addAll(specimenNames);
+			}
+			sampleIds = samples.toArray(new String[samples.size()]);
+        }
 		try {	
 			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);			
 		}catch(Exception e) {

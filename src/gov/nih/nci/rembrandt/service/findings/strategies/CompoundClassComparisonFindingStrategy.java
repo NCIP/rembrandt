@@ -29,6 +29,7 @@ import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
@@ -258,10 +259,17 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 				if (clinicalDataQuery instanceof PatientUserListQueryDTO) {
 					try {
 						PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;
-						// Validate that samples has GE data
-						List<String> validPatientDIDs = DataValidator
-								.validateSampleIdsForGEData(pQuery
-										.getPatientDIDs());
+						 Set<String>sampleList = new HashSet<String>(pQuery.getPatientDIDs());
+	                     if(sampleList!=null){
+	                        //get the samples associated with these specimens
+	           				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList);
+	           				//Add back any samples that were just sampleIds to start with
+	           				if(specimenNames != null){
+	           					sampleList.addAll(specimenNames);
+	           				}
+	                     }
+	                     //Validate that samples has GE data
+	                     List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(sampleList);
 						if (validPatientDIDs != null) {
 							// 3.1 add them to SampleGroup
 							SampleGroup sampleGroup = new SampleGroup(

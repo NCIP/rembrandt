@@ -26,6 +26,7 @@ import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
@@ -34,6 +35,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -203,8 +205,17 @@ public class ClassComparisonFindingStrategy implements FindingStrategy {
                 if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
        	            try{
                      PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
+                     Set<String>sampleList = new HashSet<String>(pQuery.getPatientDIDs());
+                     if(sampleList!=null){
+                        //get the samples associated with these specimens
+           				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList);
+           				//Add back any samples that were just sampleIds to start with
+           				if(specimenNames != null){
+           					sampleList.addAll(specimenNames);
+           				}
+                     }
                      //Validate that samples has GE data
-                     List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(pQuery.getPatientDIDs());
+                     List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(sampleList);
 								if(validPatientDIDs != null){
 									//3.1 add them to SampleGroup
 									SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validPatientDIDs.size());

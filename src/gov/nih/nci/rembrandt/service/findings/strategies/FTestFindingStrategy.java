@@ -22,6 +22,7 @@ import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 
 import gov.nih.nci.caintegrator.analysis.messaging.FTestRequest;
 
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -197,9 +199,17 @@ public class FTestFindingStrategy implements FindingStrategy {
                 if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
        	            try{
                      PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
+                     Set<String>sampleList = new HashSet<String>(pQuery.getPatientDIDs());
+                     if(sampleList!=null){
+                        //get the samples associated with these specimens
+           				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList);
+           				//Add back any samples that were just sampleIds to start with
+           				if(specimenNames != null){
+           					sampleList.addAll(specimenNames);
+           				}
+                     }
                      //Validate that samples has GE data
-                     List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(pQuery.getPatientDIDs());
-								if(validPatientDIDs != null){
+                     List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(sampleList);								if(validPatientDIDs != null){
 									//3.1 add them to SampleGroup
 									SampleGroup sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validPatientDIDs.size());
 									sampleGroup.addAll(validPatientDIDs);

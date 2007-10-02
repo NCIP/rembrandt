@@ -25,6 +25,7 @@ import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.findings.PrincipalComponentAnalysisFinding;
 import gov.nih.nci.caintegrator.service.findings.strategies.FindingStrategy;
 import gov.nih.nci.caintegrator.util.ValidationUtility;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -185,8 +186,17 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
             if(clinicalDataQuery instanceof PatientUserListQueryDTO){                   
                 try{
                  PatientUserListQueryDTO pQuery = (PatientUserListQueryDTO) clinicalDataQuery;  
+                 Set<String>sampleList = new HashSet<String>(pQuery.getPatientDIDs());
+                 if(sampleList!=null){
+                    //get the samples associated with these specimens
+       				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList);
+       				//Add back any samples that were just sampleIds to start with
+       				if(specimenNames != null){
+       					sampleList.addAll(specimenNames);
+       				}
+                 }
                  //Validate that samples has GE data
-                 List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(pQuery.getPatientDIDs());
+                 List<String> validPatientDIDs = DataValidator.validateSampleIdsForGEData(sampleList);
                             if(validPatientDIDs != null){
                                 //3.1 add them to SampleGroup
                                sampleGroup.addAll(validPatientDIDs);
