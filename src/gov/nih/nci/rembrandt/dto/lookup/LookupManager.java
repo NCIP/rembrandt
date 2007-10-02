@@ -476,7 +476,7 @@ public class LookupManager{
 	 * @return SpecimenIDs
 	 * @return
 	 */
-	public static List<String> getSampleIDs(List<String> specimenNames){
+	public static List<String> getSampleIDs(Collection<String> specimenNames){
 		List<String> sampleIDList = new ArrayList<String>();
 			try {
 				if(specimenNames != null && specimenNames.size() > 0){
@@ -505,7 +505,7 @@ public class LookupManager{
 	 * @param specimenIds
 	 * @return SpecimenNames
 	 */
-	public static List<String> getSpecimenNames(List<String> sampleIDS){
+	public static List<String> getSpecimenNames(Collection<String> sampleIDS){
 		List<String> specimenNamesList = new ArrayList<String>();
 			try {
 				if(sampleIDS != null && sampleIDS.size() > 0){
