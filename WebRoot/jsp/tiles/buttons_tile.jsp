@@ -17,8 +17,9 @@ function refresh()	{
 }
 </script>
 
-
+<logic:notPresent name="deleteQueryForm">
 <input type="button" id="clearButton" class="xbutton" value="clear" onclick="refresh();"/>
+</logic:notPresent>
 
 &nbsp;&nbsp;
 <html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser();" />
