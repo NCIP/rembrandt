@@ -45,8 +45,10 @@ import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
@@ -281,7 +283,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
         
         // Set sample Criteria
         SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();
-        Collection<SampleIDDE> sampleIds = new ArrayList<SampleIDDE>();
+        Set<SampleIDDE> sampleIds = new HashSet<SampleIDDE>();
         if(sampleIDCrit.isEmpty() && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Upload")){
            UserList sampleList = helper.getUserList(clinicalDataForm.getSampleFile());
            if(sampleList!=null){

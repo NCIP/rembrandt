@@ -145,7 +145,10 @@ public class SampleViewHandler {
   		}
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
-		sampleResultset.setBiospecimen(new BioSpecimenIdentifierDE(clinicalObj.getBiospecimenId()));
+		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = new BioSpecimenIdentifierDE(clinicalObj.getBiospecimenId());
+		bioSpecimenIdentifierDE.setSampleId(clinicalObj.getSampleId());
+		bioSpecimenIdentifierDE.setSpecimenName(clinicalObj.getSpecimenName());
+		sampleResultset.setBiospecimen(bioSpecimenIdentifierDE);
 		sampleResultset.setSampleIDDE(new SampleIDDE(clinicalObj.getSampleId().toString()));
 		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,clinicalObj.getAgeGroup()));
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));
@@ -163,7 +166,10 @@ public class SampleViewHandler {
   		}
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
-		sampleResultset.setBiospecimen(new BioSpecimenIdentifierDE(clinicalObj.getBiospecimenId()));
+		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = new BioSpecimenIdentifierDE(clinicalObj.getBiospecimenId());
+		bioSpecimenIdentifierDE.setSampleId(clinicalObj.getSampleId());
+		bioSpecimenIdentifierDE.setSpecimenName(clinicalObj.getSpecimenName());
+		sampleResultset.setBiospecimen(bioSpecimenIdentifierDE);
 		sampleResultset.setSampleIDDE(new SampleIDDE(clinicalObj.getSampleId().toString()));
 		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,clinicalObj.getAgeGroup()));
 		sampleResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,clinicalObj.getSurvivalLengthRange()));

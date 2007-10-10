@@ -55,7 +55,7 @@ public class PCAAppletHelper {
                 PCAresultEntry entry;
                 
                 for (SampleResultset rs:validatedSampleResultset){
-                    id = rs.getSampleIDDE().getValueObject();
+                    id = rs.getBiospecimen().getSpecimenName();
                     entry  = pcaResultMap.get(id); 
                     PrincipalComponentAnalysisDataPoint pcaPoint = new PrincipalComponentAnalysisDataPoint(id,entry.getPc1(),entry.getPc2(),entry.getPc3());
                     String diseaseName = rs.getDisease().getValueObject();

@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.enumeration.ClinicalFactorType;
+import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
@@ -20,8 +21,11 @@ import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -185,7 +190,18 @@ public class ClinicalDataValidator {
 	}
 	@SuppressWarnings("unchecked")
 	public static Map <String,SampleResultset> getClinicalAnnotationsMapForSamples(Collection<String> sampleIDs) throws Exception{
-		return getClinicalAnnotationsMapForSampleIDDEs(ListConvertor.convertToSampleIDDEs(sampleIDs));
+		Map <String,SampleResultset> sampleResultsetMap= new HashMap<String,SampleResultset>();
+		//execute Clinical Query
+		Collection<SampleResultset> sampleResultsets = getSampleResultsetForSpecimens(sampleIDs);
+		if(sampleIDs != null && sampleResultsets != null){
+
+			for(SampleResultset sampleResultset: sampleResultsets) {
+				if(sampleResultset != null  && sampleResultset.getBiospecimen().getSpecimenName()!= null){							
+					sampleResultsetMap.put(sampleResultset.getBiospecimen().getSpecimenName(),sampleResultset);
+					}
+				}
+		 	}
+		return sampleResultsetMap;
 	}
 	public static Map <String,SampleResultset> getClinicalAnnotationsMapForSampleIDDEs(Collection<SampleIDDE> sampleIDs) throws Exception{
 		Map <String,SampleResultset> sampleResultsetMap= new HashMap<String,SampleResultset>();
@@ -265,8 +281,105 @@ public class ClinicalDataValidator {
 		public static Collection<SampleResultset> executeClinicalQueryForSampleList(Collection<String> sampleList) throws Exception{
 			return executeClinicalQuery(ListConvertor.convertToSampleIDDEs(sampleList)); 
 		}
-		public static Collection<SampleResultset> getValidatedSampleResultsetsFromSampleIDs(Collection<String> sampleList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
-			return getValidatedSampleResultsets(ListConvertor.convertToSampleIDDEs(sampleList), clinicalFactors); 
+		public static Collection<SampleResultset> getValidatedSampleResultsetsFromSampleIDs(Collection<String> specimenNameList, Collection<ClinicalFactorType> clinicalFactors) throws Exception  {
+			Collection<SampleResultset> validSampleResultsets = new ArrayList<SampleResultset>();
+			if(specimenNameList != null && specimenNameList.size() > 0  && clinicalFactors != null){
+				//Create a map of sample collections for each ClinicalFactorType that were passed
+				Map<ClinicalFactorType, Collection<String>> clinicalFactorMap = new HashMap<ClinicalFactorType,Collection<String>>();
+				//execute Clinical Query
+				Collection<SampleResultset> sampleResultsets = getSampleResultsetForSpecimens(specimenNameList);
+				for(ClinicalFactorType clinicalFactor: clinicalFactors){
+					//samples associated with each clinical factor are stored in a seperate collection
+					Collection<String> samples = new HashSet<String>();
+					if(sampleResultsets != null){	
+						for(SampleResultset sampleResultset: sampleResultsets) {	
+							switch(clinicalFactor){
+								case AgeAtDx:
+									if( sampleResultset.getAge()!= null &&  sampleResultset.getAge() != null){
+										samples.add(sampleResultset.getBiospecimen().getSpecimenName());
+									}
+									break;		 									
+								case Treatment:
+									//if( sampleResultset.()!= null  && sampleResultset.().getValue() != null){
+									//	samples.add(new SampleIDDE(sampleResultset.getBiospecimen().getValue().toString()));
+									//}
+									break;
+								case KarnofskyAssessment:
+									if( sampleResultset.getKarnofskyClinicalEvalDE()!= null && sampleResultset.getKarnofskyClinicalEvalDE().getValue() != null){
+										samples.add(sampleResultset.getBiospecimen().getSpecimenName());
+									}
+									break;
+								case SurvivalLength:
+									if( sampleResultset.getSurvivalLength()!= null && sampleResultset.getSurvivalLength() != null){
+										samples.add(sampleResultset.getBiospecimen().getSpecimenName());
+									}
+									break;
+								case Censor:
+									if( sampleResultset.getCensor()!= null && sampleResultset.getCensor().getValue() != null){
+										samples.add(sampleResultset.getBiospecimen().getSpecimenName());
+									}
+									break;
+								case Gender:
+									if( sampleResultset.getGenderCode()!= null && sampleResultset.getGenderCode().getValue() != null){
+										samples.add(sampleResultset.getBiospecimen().getSpecimenName());
+									}
+									break;
+								case Disease:
+									if( sampleResultset.getDisease()!= null && sampleResultset.getDisease().getValue() != null){
+										samples.add(sampleResultset.getBiospecimen().getSpecimenName());
+									}
+									break;
+							}//switch
+						}//for loop
+					}//if
+					clinicalFactorMap.put(clinicalFactor,samples);
+				}//for loop
+				specimenNameList = getValidSpecimenSet(specimenNameList,clinicalFactorMap);
+				
+				   //Map paitentDataLookup = LookupManager.getPatientDataMap();
+				
+				  for(SampleResultset sampleResultset: sampleResultsets) {
+						if(specimenNameList.contains(sampleResultset.getBiospecimen().getSpecimenName())){	
+								validSampleResultsets.add(sampleResultset);
+						}						
+					}
+				
+			}
+		  return validSampleResultsets;		
+		  }
+		private static Collection<String> getValidSpecimenSet(Collection<String> specimenNameList,Map<ClinicalFactorType, Collection<String>> clinicalFactorMap) {
+					Collection<String> validSpecimenSet = new HashSet<String>();
+					validSpecimenSet.addAll(specimenNameList);
+					if(clinicalFactorMap != null){
+						//Create one large set of all valid samples that meet every ClinicalFactorType
+						Collection<ClinicalFactorType> keys = clinicalFactorMap.keySet();
+						for(ClinicalFactorType key: keys){
+							Collection<String> set= clinicalFactorMap.get(key);
+							validSpecimenSet.retainAll(set);
+						}
+		
+					}
+				return validSpecimenSet;
+		}
+		private static Collection<SampleResultset> getSampleResultsetForSpecimens(
+				Collection<String> specimenNameList) {
+			SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
+			List<SampleResultset> sampleResultsetList = new ArrayList<SampleResultset>();
+			try {
+				Map paitentDataLookupMap = LookupManager.getPatientDataMap();
+				if(specimenNameList != null && specimenNameList.size() > 0){
+						for (String specimenName: specimenNameList) {
+				    		PatientDataLookup patient = (PatientDataLookup) paitentDataLookupMap.get(specimenName);
+				    		SampleResultset sampleResultset = SampleViewHandler.handleBioSpecimenResultset(sampleViewResultsContainer, (PatientData) patient);
+				    		if(sampleResultset != null){
+				    			sampleResultsetList.add(sampleResultset);
+				    		}
+			    	}
+	 			}
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
+			return sampleResultsetList;
 		}
 		private static Collection<SampleResultset> checkSampleResultsets(Collection<SampleIDDE> sampleList){
 			Collection<SampleResultset> mySampleResultsets = new ArrayList<SampleResultset>();

@@ -143,5 +143,14 @@ public interface ClinicalResultSet {
 	 * @param institutionName The institutionName to set.
 	 */
 	public void setInstitutionName(String institutionName);
+	/**
+	 * @return Returns the specimenName.
+	 */
+	public String getSpecimenName() ;
+
+	/**
+	 * @param specimenName The specimenName to set.
+	 */
+	public void setSpecimenName(String specimenName);
 
 }
