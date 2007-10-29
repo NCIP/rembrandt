@@ -5,17 +5,21 @@ import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -244,6 +248,60 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	     }     
 	     return new ArrayList(positionReporterMap.values());
 	 }
+	@SuppressWarnings("unchecked")
+	 public List getAssociatedGEReportersSortedByMeanIntensity(){
+	  Set reporters = new HashSet();
+	  Map<String,List<Double>> intensityReporterMap = new HashMap<String,List<Double>>();
+	  SortedMap <Double,String> meanIntensityMap = new TreeMap<Double, String>();
+	     Collection<SampleResultset> samples = this.getSampleResultsets();
+	     for(SampleResultset sampleResultset:samples ){
+	      SampleKaplanMeierPlotResultset kmSample = (SampleKaplanMeierPlotResultset)sampleResultset;
+	      reporters.addAll(kmSample.getReporterResultsets());	      
+	     }     
+	     for(Object reporter:reporters){
+	      ReporterResultset reporterResultset = (ReporterResultset)reporter;
+	      if(reporterResultset.getIntensityValue()!= null  && reporterResultset.getReporter()!= null){
+		       Double intensity = (Double) reporterResultset.getIntensityValue().getValue();
+		       String reporterName = reporterResultset.getReporter().getValue().toString();
+		       List<Double> intensityList = intensityReporterMap.get(reporterName);
+		       if(intensityList == null){
+		    	   intensityList = new ArrayList<Double>();
+		       }
+		       if(intensity!= null){
+		    	   intensityList.add(MathUtil.getLog2(intensity));
+		       }
+		       intensityReporterMap.put(reporterName, intensityList);
+	      }	      
+	     }    
+	     for(String reporter: intensityReporterMap.keySet()){
+	    	 Double mean = getMeanReporterValue(intensityReporterMap.get(reporter));
+	    	 meanIntensityMap.put(mean, reporter);
+	     }
+	     Set intensitySet = meanIntensityMap.keySet();
+	     List<Double> intensityList = new ArrayList<Double>(intensitySet);
+	     //reverse the list so the highest intensity is at the top
+	     Collections.reverse(intensityList);
+	     List reporterList = new ArrayList();
+	     for(Double intensity:intensityList){
+	    	 reporterList.add(meanIntensityMap.get(intensity));
+	     }
+	     return reporterList;
+	 }
+	/**
+	 * @return mean of all reporters
+	 */
+    private Double getMeanReporterValue(List<Double> intensityList){
+    Double mean = null;    
+	int numberOfSamples = intensityList.size();
+	if(numberOfSamples > 0){
+		double values = 0.0;
+		for (Double intensityValue: intensityList) {
+			values += intensityValue;
+		}
+		mean = new Double (values / numberOfSamples);		
+	}
+	return MathUtil.getAntiLog2(mean);
+    }
 	/**
 	 * @return Returns the cytobandDE.
 	 */

@@ -452,11 +452,13 @@
 		jdbc-type="VARCHAR" />
 
 </class-descriptor>
+<!-- 
 <class-descriptor class="gov.nih.nci.rembrandt.dbbean.GEPatientData"
 	table="PT_GE_VAL">
 	<field-descriptor name="sampleId" column="SAMPLE_ID"
 		jdbc-type="VARCHAR" primarykey="true" />
 </class-descriptor>
+-->
 <class-descriptor class="gov.nih.nci.rembrandt.dbbean.PatientData"
 	table="PATIENT_DATA">
 
@@ -811,6 +813,7 @@
 	<field-descriptor name="patientDid" column="PATIENT_DID"
 		jdbc-type="BIGINT" />
 </class-descriptor>
+<!--  SPECIMEN_GE -->
 <class-descriptor class="gov.nih.nci.rembrandt.dbbean.GESpecimen"
 	table="SPECIMEN_GE">
 	<field-descriptor name="specimenName" column="SPECIMEN_NAME"

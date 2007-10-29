@@ -465,7 +465,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         // Set sample Criteria
         SampleCriteria sampleIDCrit = comparativeGenomicForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
-        if(sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup()!=null && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Upload")){
+        if(sampleIDCrit.getSampleIDs()== null && comparativeGenomicForm.getSampleGroup()!=null && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Upload")){
            UserList sampleList = helper.getUserList(comparativeGenomicForm.getSampleFile());
            if(sampleList!=null){
                try {

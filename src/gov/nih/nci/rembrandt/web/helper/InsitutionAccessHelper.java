@@ -132,7 +132,8 @@ public class InsitutionAccessHelper {
             	for(ProtectionElement pe:credentials.getprotectionElements()){
             		try {
 						for(InstitutionLookup insitutionLookup:LookupManager.getInsitutionLookup()){
-							if(pe.getObjectId().equals(insitutionLookup.getInstitutionId().toString())){
+							if(pe.getObjectId() != null && insitutionLookup.getInstitutionId() != null &&
+									pe.getObjectId().equals(insitutionLookup.getInstitutionId().toString())){
 								sortedMap.put(insitutionLookup.getDisplayName(),new InstitutionDE(insitutionLookup.getInstitutionName(),insitutionLookup.getDisplayName(),insitutionLookup.getInstitutionId()));
 							}
 						}

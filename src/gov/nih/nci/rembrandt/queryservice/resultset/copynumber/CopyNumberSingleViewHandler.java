@@ -99,7 +99,9 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
       		reporterResultset = handleReporterResultset(cytobandResultset,copyNumberObj);
       		if(groupType.getGroupType().equals(GroupType.DISEASE_TYPE_GROUP)){
       			diseaseResultset = ViewByGroupResultsetHandler.handleDiseaseTypeResultset(reporterResultset,copyNumberObj);
-      			diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
+      			if(diseaseResultset != null){
+      				diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
+      			}
       			reporterResultset.addGroupByResultset(diseaseResultset);
       			copyNumberContainer.addBiospecimensToGroups(copyNumberObj.getDiseaseType(),biospecimenResultset.getBiospecimen());
       		}

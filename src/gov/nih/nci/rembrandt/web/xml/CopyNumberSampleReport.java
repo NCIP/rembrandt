@@ -294,7 +294,6 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        			
 				        		
 				        		String reporterName = reporterResultset.getReporter().getValue().toString();
-				        		Collection groupTypes = copyNumberContainer.getGroupByResultsets(cytoband,reporterName); 
 				        		
 				        		if(FilterHelper.checkFilter(filter_element, "reporter", reporterName, filter_type, filter_string))	{   	
 				        		//if(!filter_element.equals("reporter") || (filter_element.equals("reporter") && !filter_string.contains(reporterName)))	{		

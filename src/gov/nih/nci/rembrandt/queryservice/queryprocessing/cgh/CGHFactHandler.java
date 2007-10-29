@@ -133,7 +133,7 @@ abstract public class CGHFactHandler {
                 CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
                 CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
                 CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
-                CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);
+                CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);         
                 _BROKER.close();
 
                  ThreadPool.AppThread t = ThreadPool.newAppThread(

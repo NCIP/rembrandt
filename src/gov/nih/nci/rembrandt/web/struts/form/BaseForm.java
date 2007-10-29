@@ -361,7 +361,9 @@ public class BaseForm extends ActionForm implements Serializable{
 				if ((thisSampleGroup != null)
 						&& thisSampleGroup.equalsIgnoreCase("Specify")
 						&& (this.sampleList.length() > 0)) {
-					sampleCriteria = new SampleCriteria();
+					if(sampleCriteria == null){
+						sampleCriteria = new SampleCriteria();
+					}
 
 					String[] splitSampleValue = this.sampleList.split("\\x2C");
 

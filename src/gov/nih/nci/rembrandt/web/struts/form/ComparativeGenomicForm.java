@@ -19,6 +19,9 @@ import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
+import gov.nih.nci.caintegrator.enumeration.TissueType;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
@@ -225,6 +228,11 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     
     /** isAllGenes property */
     private boolean isAllGenes = false;
+    
+    /** tissueType property */
+    private String tissueType;  
+    
+    
 
     // Collections used for Lookup values.
 
@@ -424,7 +432,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         snpList = "";
         cloneId = "";
         cnAmplified = "";
-        //tumorType = "";
+        tissueType = "";
         cloneListFile = "";
         snpListFile = null;
         cloneListSpecify = "";
@@ -1648,6 +1656,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         form.setGeneGroup(geneGroup);
         form.setCnUnchangeFrom(cnUnchangeFrom);
         form.setCopyNumber(copyNumber);
+        form.setTissueType(tissueType);
         return form;
     }
 
@@ -1665,5 +1674,33 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
 	public void setSavedSnpList(Collection savedSnpList) {
 		this.savedSnpList = savedSnpList;
+	}
+
+	/**
+	 * @return the tissueType
+	 */
+	public String getTissueType() {
+		return tissueType;
+	}
+
+	/**
+	 * @param tissueType the tissueType to set
+	 */
+	public void setTissueType(String tissueType) {
+		this.tissueType = tissueType;
+		
+		if (this.tissueType != null){
+			if(sampleCriteria == null){
+				sampleCriteria = new SampleCriteria();
+			}
+			if(tissueType.equalsIgnoreCase(TissueType.BLOOD.name()) ||
+					tissueType.equalsIgnoreCase(TissueType.BLOOD.toString())){
+						sampleCriteria.setTissueType(TissueType.BLOOD);
+					}
+			else if(tissueType.equalsIgnoreCase(TissueType.TISSUE.name()) ||
+					tissueType.equalsIgnoreCase(TissueType.TISSUE.toString())){
+						sampleCriteria.setTissueType(TissueType.TISSUE);
+					}
+			}
 	}
 }

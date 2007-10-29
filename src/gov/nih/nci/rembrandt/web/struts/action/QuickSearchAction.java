@@ -370,7 +370,7 @@ public class QuickSearchAction extends DispatchAction {
 		 }
 
 		if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT) || kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){			
-			if(kmResultsContainer != null && kmResultsContainer.getAssociatedReporters().size() == 0 ){
+			if(kmResultsContainer != null && kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity().size() == 0 ){
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
 						"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
 						quickSearchType, quickSearchVariableName));
@@ -381,14 +381,13 @@ public class QuickSearchAction extends DispatchAction {
 				KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 				storedData.setId("KAPLAN");
 				kmForm.setStoredData(storedData);
-	            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
 				kmForm.setSelectedDataset("KAPLAN");
 				presentationTierCache.addNonPersistableToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
 				presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
 				if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)){
 		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
 				}else if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){	
-		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
+		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
 				}
 			}
 		}
@@ -464,7 +463,7 @@ public class QuickSearchAction extends DispatchAction {
 				kmForm.setPlotVisible(false);
 			}
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedReporters(), kmplotType, kmForm);
+					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
 					if (kmForm.getSelectedReporter().equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();

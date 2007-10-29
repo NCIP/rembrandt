@@ -80,6 +80,7 @@ public class ReporterResultset implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private DatumDE reporter = null;
     private DatumDE value = null;
+    private DatumDE intensityValue = null;
     private BasePairPositionDE.StartPosition startPhysicalLocation = null;
 	private SortedMap groupTypes = new TreeMap();
     private Collection assiciatedGeneSymbols = null;
@@ -226,5 +227,11 @@ public class ReporterResultset implements Serializable{
 	 */
 	public void setAssociatedGOIds(Collection associatedGOIds) {
 		this.associatedGOIds = associatedGOIds;
+	}
+	public DatumDE getIntensityValue() {
+		return intensityValue;
+	}
+	public void setIntensityValue(DatumDE intensityValue) {
+		this.intensityValue = intensityValue;
 	}
 }

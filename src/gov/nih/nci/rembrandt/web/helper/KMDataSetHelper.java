@@ -90,8 +90,8 @@ public class KMDataSetHelper {
 						_kmForm.getReporterSelection().equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
 					reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
 				}else{
-					reporters.add(0, CaIntegratorConstants.GRAPH_MEDIAN);
-					reporters.add(1, CaIntegratorConstants.GRAPH_MEAN);
+					//reporters.add(0, CaIntegratorConstants.GRAPH_MEDIAN);
+					//reporters.add(reporters.size(), CaIntegratorConstants.GRAPH_MEAN);
 				}
 			}
 			if (_plotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)

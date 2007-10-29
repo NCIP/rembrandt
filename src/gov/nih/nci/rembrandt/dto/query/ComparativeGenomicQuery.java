@@ -19,6 +19,7 @@ import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.enumeration.TissueType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
@@ -231,26 +232,34 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 
 			if ((thisSampleIDCrit != null) && !thisSampleIDCrit.isEmpty()
 					&& labels != null) {
-				String thisCriteria = thisSampleIDCrit.getClass().getName();
-
-				OutStr += "<BR><B class='otherBold'>"
-						+ labels.getString(thisCriteria.substring(thisCriteria
-								.lastIndexOf(".") + 1)) + "</B>";
 				Collection sampleIDObjects = thisSampleIDCrit.getSampleIDs();
-				int count = 0;
-				for (Iterator iter = sampleIDObjects.iterator(); iter.hasNext()
-						&& count < 5;) {
-					count++;
-					DomainElement de = (DomainElement) iter.next();
-					String thisDomainElement = de.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;"
-							+ labels.getString(thisDomainElement
-									.substring(thisDomainElement
-											.lastIndexOf(".") + 1)) + ": "
-							+ de.getValue();
+				if(sampleIDObjects!= null){
+					String thisCriteria = thisSampleIDCrit.getClass().getName();
+
+					OutStr += "<BR><B class='otherBold'>"
+							+ labels.getString(thisCriteria.substring(thisCriteria
+									.lastIndexOf(".") + 1)) + "</B>";
+					int count = 0;
+					for (Iterator iter = sampleIDObjects.iterator(); iter.hasNext()
+							&& count < 5;) {
+						count++;
+						DomainElement de = (DomainElement) iter.next();
+						String thisDomainElement = de.getClass().getName();
+						OutStr += "<BR>&nbsp;&nbsp;"
+								+ labels.getString(thisDomainElement
+										.substring(thisDomainElement
+												.lastIndexOf(".") + 1)) + ": "
+								+ de.getValue();
+					}
+					if (sampleIDObjects.size() > 5) {
+						OutStr += "<BR>&nbsp;&nbsp;...";
+					}
 				}
-				if (sampleIDObjects != null && sampleIDObjects.size() > 5) {
-					OutStr += "<BR>&nbsp;&nbsp;...";
+				TissueType tissueType = thisSampleIDCrit.getTissueType();
+				if (tissueType != null){
+					OutStr += "<BR><B class='otherBold'>"
+						+ "TissueType" + "</B>";
+				OutStr += "<BR>&nbsp;&nbsp;" + tissueType.toString();
 				}
 			} else
 				logger

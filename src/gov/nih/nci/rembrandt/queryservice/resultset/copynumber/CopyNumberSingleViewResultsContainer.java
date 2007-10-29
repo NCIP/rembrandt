@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -91,15 +92,20 @@ public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsConta
 	 * @param groupsLabels The groupsLabels to set.
 	 */
 	public void addBiospecimensToGroups(String groupLabel, BioSpecimenIdentifierDE biospecimenId) {
-		SortedSet<BioSpecimenIdentifierDE> biospecimenLabels = null;
-		if(groupsLabels.containsKey(groupLabel)){
-			biospecimenLabels =  (SortedSet) groupsLabels.get(groupLabel);
+		if(groupLabel == null){
+			groupLabel = RembrandtConstants.UNASSIGNED;
 		}
-		else { ///key does not exsist
-			biospecimenLabels = new TreeSet<BioSpecimenIdentifierDE>();			
+		if(biospecimenId != null){
+			SortedSet<BioSpecimenIdentifierDE> biospecimenLabels = null;
+			if(groupsLabels.containsKey(groupLabel)){
+				biospecimenLabels =  (SortedSet) groupsLabels.get(groupLabel);
+			}
+			else { ///key does not exsist
+				biospecimenLabels = new TreeSet<BioSpecimenIdentifierDE>();			
+			}
+			biospecimenLabels.add(biospecimenId);
+			groupsLabels.put(groupLabel,biospecimenLabels);
 		}
-		biospecimenLabels.add(biospecimenId);
-		groupsLabels.put(groupLabel,biospecimenLabels);
 	}
     /**
      * @param cytoband,reporterName,groupType

@@ -247,6 +247,8 @@ public class KaplanMeierPlotHandler {
 	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}
 	      		reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
+	      		reporterResultset.setIntensityValue(new DatumDE(DatumDE.FOLD_CHANGE_SAMPLE_INTENSITY,exprObj.getSampleIntensity()));
+
 	    		}	  		
 		}
         return reporterResultset;

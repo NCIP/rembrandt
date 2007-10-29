@@ -12,6 +12,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.AgeGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.DiseaseTypeResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SurvivalRangeResultset;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 /**
  * @author Himanso
@@ -79,7 +80,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.SurvivalRangeResultset;
 */
 
 public class ViewByGroupResultsetHandler {
-    public static AgeGroupResultset handleAgeGroupResultset(ReporterResultset reporterResultset, ClinicalResultSet resultObj){
+	public static AgeGroupResultset handleAgeGroupResultset(ReporterResultset reporterResultset, ClinicalResultSet resultObj){
   		//find out the age group associated with the exprObj
   		//populate the AgeGroupResultset
 		AgeGroupResultset ageGroupResultset = null;
@@ -112,6 +113,13 @@ public class ViewByGroupResultsetHandler {
   		if(reporterResultset != null && resultObj != null &&  resultObj.getDiseaseType() != null){
   			DiseaseNameDE disease = new DiseaseNameDE(resultObj.getDiseaseType().toString());
   			diseaseResultset = (DiseaseTypeResultset) reporterResultset.getGroupByResultset(resultObj.getDiseaseType().toString());
+  		    if (diseaseResultset == null){
+  		    	diseaseResultset= new DiseaseTypeResultset(disease);
+	      		}
+      	}
+  		else if(reporterResultset != null && resultObj != null &&  resultObj.getDiseaseType() == null){
+  			DiseaseNameDE disease = new DiseaseNameDE(RembrandtConstants.UNASSIGNED);
+  			diseaseResultset = (DiseaseTypeResultset) reporterResultset.getGroupByResultset(RembrandtConstants.UNASSIGNED);
   		    if (diseaseResultset == null){
   		    	diseaseResultset= new DiseaseTypeResultset(disease);
 	      		}

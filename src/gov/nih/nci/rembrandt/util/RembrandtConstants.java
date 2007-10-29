@@ -79,7 +79,8 @@ public final class RembrandtConstants {
 
 	public static final String VALID_QUERY_TYPES_KEY = "nautilus.request.validQuerytypes";
 
-	
+    public static final String UNASSIGNED = "UNASSIGNED";
+
 
 	public static final String ASTRO = "ASTROCYTOMA";
 

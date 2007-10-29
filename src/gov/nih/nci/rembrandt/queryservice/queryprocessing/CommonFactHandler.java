@@ -112,15 +112,33 @@ public class CommonFactHandler {
         SampleCriteria sampleIDCrit = query.getSampleIDCrit();
         if (sampleIDCrit != null) {
             ArrayList sampleIDs = new ArrayList();
-            for (Iterator iterator = sampleIDCrit.getSampleIDs().iterator(); iterator.hasNext();)
-                sampleIDs.add(((SampleIDDE) iterator.next()).getValueObject());
+            Criteria c = new Criteria();
             String sampleIDAttr = "SPECIMEN_NAME";
             if(query instanceof ClinicalDataQuery){
             	sampleIDAttr = QueryHandler.getAttrNameForTheDE(SampleIDDE.class.getName(), beanClass.getName());
+            }            
+            if(sampleIDCrit.getSampleIDs()!= null){
+//            for (Iterator iterator = sampleIDCrit.getSampleIDs().iterator(); iterator.hasNext();)
+//                sampleIDs.add(((SampleIDDE) iterator.next()).getValueObject());
+            
+	            for(Object sampleID: sampleIDCrit.getSampleIDs()){
+	            	 sampleIDs.add(((SampleIDDE) sampleID).getValueObject());
+	            }
+	            c.addIn(sampleIDAttr, sampleIDs);
             }
 
-            Criteria c = new Criteria();
-            c.addIn(sampleIDAttr, sampleIDs);
+
+            if(sampleIDCrit.getTissueType() != null ){
+            	switch (sampleIDCrit.getTissueType()){
+            	case BLOOD:
+            		c.addLike(sampleIDAttr, "%_B");
+            		break;
+            	case TISSUE:
+            		c.addNotLike(sampleIDAttr, "%_B");
+            		break;	
+            	}
+            } 
+
             criteria.addAndCriteria(c);
         }
     }
