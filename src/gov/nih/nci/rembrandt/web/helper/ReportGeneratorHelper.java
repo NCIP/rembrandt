@@ -290,6 +290,12 @@ public class ReportGeneratorHelper {
          	Set<String> samples = new HashSet<String> (Arrays.asList(sampleIds));
 			//get the samples associated with these specimens
 			List<String> specimenNames = LookupManager.getSpecimenNames(samples);
+			//get the samples associated with these specimens
+			List<String> sampleList = LookupManager.getSampleIDs(samples);
+			//Add back any samples that were just sampleIds to start with
+			if(sampleList != null){
+				samples.addAll(sampleList);
+			}
 			//Add back any samples that were just sampleIds to start with
 			if(specimenNames != null && specimenNames.size()>0){
 				samples.addAll(specimenNames);

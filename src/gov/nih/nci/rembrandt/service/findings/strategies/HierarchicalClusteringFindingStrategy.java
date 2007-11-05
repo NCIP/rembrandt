@@ -26,6 +26,7 @@ import gov.nih.nci.caintegrator.util.ValidationUtility;
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -36,8 +37,10 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.jms.JMSException;
@@ -201,22 +204,21 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 		 		if(resultsContainer != null)	{
 		 			if(view instanceof ClinicalSampleView){
 		 				try {
-		 					//1. Get the sample Ids from the return Clinical query
-							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
-							//2. validate samples so that GE data exsists for these samples
-							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-							//3. Extracts sampleIds as Strings
-							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-							if(sampleIDs != null){
+		 					//1. Extracts sampleIds as Strings
+							Collection<String> sampleIDs = StrategyHelper.extractSamples(resultsContainer);
+							List<String> validSpecimenNames = null;
+							if(sampleIDs!=null){
+		                        //get the samples associated with these specimens
+								List<String> specimenNames = LookupManager.getSpecimenNames(sampleIDs);
+		           				      
+			                     //Validate that samples has GE data
+			                     validSpecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
+							}
+							if(validSpecimenNames != null){
 								//3.1 add them to SampleGroup
-								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSampleIDDEs.size());
-								sampleGroup.addAll(sampleIDs);
-//								//3.2 Find out any samples that were not processed  
-								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
-								set.addAll(sampleIDDEs); //samples from the original query
-								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
-								samplesNotFound = set;
-								
+								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSpecimenNames.size());
+								sampleGroup.addAll(validSpecimenNames);
+	
 							}
 						} catch (OperationNotSupportedException e) {
 							logger.error(e.getMessage());

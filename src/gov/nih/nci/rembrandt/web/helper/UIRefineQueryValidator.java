@@ -4,8 +4,10 @@ import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
@@ -18,10 +20,12 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.naming.OperationNotSupportedException;
@@ -252,10 +256,24 @@ public class UIRefineQueryValidator {
     	    		//get the name of the sample list we are using
     	    		UserListBeanHelper ul= new UserListBeanHelper(request.getSession());
     	    		UserList l = ul.getUserList(selectedResultSet);
+    	    		List<SampleIDDE> sampleIDDEList = new ArrayList<SampleIDDE>();
     	    		if(l!=null && l.getList()!=null)	{
     	    			//get the samples from that list
     	    			//create the sample crit
-    	    			sampleCrit.setSampleIDs(ListConvertor.convertToSampleIDDEs(l.getList()));
+    	    			Set<String> samples = new HashSet<String>(l.getList());
+    	    			//get the specimenNames associated with these samples
+    	    			List<String> specimenNames = LookupManager.getSpecimenNames(l.getList());
+    	   				//get the samples associated with these specimens
+    	   				List<String> sampleIds = LookupManager.getSampleIDs(l.getList());
+    	   				//Add back any samples that were just sampleIds to start with
+    	   				if(sampleIds != null){
+    	   					samples.addAll(samples);
+    	   				}
+    	   				if(specimenNames != null){
+    	   					samples.addAll(specimenNames);
+    	   				}
+    	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));
+    	    			sampleCrit.setSampleIDs(sampleIDDEList);
     	    		}
     	    		if(isAllGenesQuery&&sampleCrit.getSampleIDs().size()> RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET) {
     		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery.toomanysamples", selectedResultSet,Integer.toString(RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET)));

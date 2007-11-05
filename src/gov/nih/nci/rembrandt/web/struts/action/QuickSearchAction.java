@@ -32,6 +32,7 @@ import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
 import gov.nih.nci.rembrandt.web.struts.form.QuickSearchForm;
 import gov.nih.nci.rembrandt.web.struts.form.UIFormValidator;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -204,22 +205,8 @@ public class QuickSearchAction extends DispatchAction {
 
 		UserList constrainSamplesUl = helper.getUserList(baselineGroup);
 		try	{
-			Set<String>specimenNames = new HashSet<String>(constrainSamplesUl.getList());
-			List<String> specimens = LookupManager.getSpecimenNames(specimenNames);
-			constrainSamples = new ArrayList<SampleIDDE>();
-			if(specimens != null){
-				specimenNames.addAll(specimens);
-				//Remove Blood Type Specimens for KM plot
-				List<String> bloodSamples = new ArrayList<String>();
-				for(String specimenName:specimenNames){
-					if(specimenName.endsWith("_B")){
-						bloodSamples.add(specimenName);
-					}
-				}
-				specimenNames.removeAll(bloodSamples);
-				constrainSamples.addAll(ListConvertor.convertToSampleIDDEs(specimenNames));
-			}
-
+			List<String>specimenNames = constrainSamplesUl.getList();
+			constrainSamples = convertToSpecimenList(specimenNames);
 		}
 		catch(Exception e){
 			logger.warn("GROUP " + qsGroupName + " NOT FOUND"+ e.getMessage());
@@ -370,7 +357,7 @@ public class QuickSearchAction extends DispatchAction {
 		 }
 
 		if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT) || kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){			
-			if(kmResultsContainer != null && kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity().size() == 0 ){
+			if(kmResultsContainer != null && kmResultsContainer.getAssociatedReporters().size() == 0 ){
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
 						"gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord",
 						quickSearchType, quickSearchVariableName));
@@ -421,9 +408,8 @@ public class QuickSearchAction extends DispatchAction {
 		UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
 		UserList ul = helper.getUserList(cGroupName);
 		try	{
-			List<String> samList = ul.getList();
-			sampleList = new ArrayList<SampleIDDE>();
-			sampleList.addAll(ListConvertor.convertToSampleIDDEs(samList));
+			List<String> samList = ul.getList();			
+			sampleList = convertToSpecimenList(samList);
 		}
 		catch(Exception e){
 			System.out.println("GROUP " + cGroupName + " NOT FOUND");
@@ -438,10 +424,10 @@ public class QuickSearchAction extends DispatchAction {
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
             kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
-            
-            if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)  || kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEDIAN)){
-            	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
-            }
+
+            //if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)  || kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEDIAN)){
+            //	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
+            //}
         }
         else{
         	//this is cached....if we are switching the sample groups, then dont get it from cache
@@ -455,7 +441,11 @@ public class QuickSearchAction extends DispatchAction {
 
         }
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
-			if ((kmForm.getSelectedReporter().trim().length() > 0  )) {    
+			List reporterList = kmResultsContainer.getAssociatedReporters();
+			if ((kmForm.getSelectedReporter().trim().length() > 0  ) &&
+					((reporterList.contains(kmForm.getSelectedReporter())||
+							kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)
+							|| kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEDIAN)))) {    
 				kmForm.setPlotVisible(true);
 			} else { // empty graph
 				KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
@@ -649,6 +639,28 @@ public class QuickSearchAction extends DispatchAction {
 	       SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
 	       ClinicalDataQuery clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, queryName);
         return clinicalDataQuery;       
+	}
+	private List<SampleIDDE> convertToSpecimenList(List<String> samples){
+		List<SampleIDDE> specimenList = new ArrayList<SampleIDDE>();
+		Set<String>specimenNames = new HashSet<String>(samples);
+		List<String> specimens = LookupManager.getSpecimenNames(specimenNames);
+		try {
+			if(specimens != null){
+				specimenNames.addAll(specimens);
+				//Remove Blood Type Specimens for KM plot
+				List<String> bloodSamples = new ArrayList<String>();
+				for(String specimenName:specimenNames){
+					if(specimenName.endsWith("_B")){
+						bloodSamples.add(specimenName);
+					}
+				}
+				specimenNames.removeAll(bloodSamples);			
+				specimenList.addAll(ListConvertor.convertToSampleIDDEs(specimenNames));			
+			}
+		} catch (OperationNotSupportedException e) {
+			logger.error(e.getMessage());
+		}
+		return specimenList;
 	}
 
 }

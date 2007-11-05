@@ -7,8 +7,10 @@ import gov.nih.nci.caintegrator.application.lists.ListType;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
 
@@ -64,10 +66,11 @@ public class RembrandtListLoader extends ListLoader {
 					//1. Get the sample Ids from the each disease type
                     if(!diseaseTypeLookup.getDiseaseType().equals("CELL_LINE")){ //ONLY TEMPORARY!!!!
         					Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
-        					List<String> specimanNames = LookupManager.getSpecimanNames(diseaseTypeLookup.getDiseaseDesc(),insitutions);
-        			        List<String> pdids = new ArrayList<String>(specimanNames);
-        			        RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
-        			        if(specimanNames != null){
+        					List<SampleIDDE> sampleIDDEs = LookupManager.getSampleIDDEs(diseaseTypeLookup.getDiseaseDesc(),insitutions);
+        			        //2. Extracts sampleIds as Strings
+        			        Collection<String> sampleIDs = StrategyHelper.extractSamples(sampleIDDEs);
+        			        List<String> pdids = new ArrayList<String>(sampleIDs);       			        RembrandtListValidator listValidator = new RembrandtListValidator(ListType.PatientDID, pdids);
+        			        if(sampleIDDEs != null){
         			            //create userlist with valid samples included
         			            UserList myList = listManager.createList(ListType.PatientDID,diseaseTypeLookup.getDiseaseType(),pdids,listValidator);
         			            if(!myList.getList().isEmpty()){

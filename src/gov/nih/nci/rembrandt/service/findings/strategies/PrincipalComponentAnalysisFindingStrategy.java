@@ -233,25 +233,21 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
         		 		if(resultsContainer != null)	{
         		 			if(view instanceof ClinicalSampleView){
         		 				try {
-        		 					//1. Get the sample Ids from the return Clinical query
-        							Collection<SampleIDDE> sampleIDDEs = StrategyHelper.extractSampleIDDEs(resultsContainer);
-        							//2. validate samples so that GE data exsists for these samples
-        							Collection<SampleIDDE> validSampleIDDEs = DataValidator.validateSampleIds(sampleIDDEs);
-        							//3. Extracts sampleIds as Strings
-        							Collection<String> sampleIDs = StrategyHelper.extractSamples(validSampleIDDEs);
-        							if(sampleIDs != null && sampleIDs.size()> 0) {
-        								//3.1 add them to SampleGroup
-        								sampleGroup.addAll(sampleIDs);
-            							//3.2 Find out any samples that were not processed  
-        								Set<SampleIDDE> set = new HashSet<SampleIDDE>();
-        								set.addAll(sampleIDDEs); //samples from the original query
-        								//3.3 Remove all samples that are validated								set.removeAll(validSampleIDDEs);
-        								samplesNotFound = set;
-        								setSamplesNotFound(samplesNotFound);
+        		 					//1. Extracts sampleIds as Strings
+        							Collection<String> sampleIDs = StrategyHelper.extractSamples(resultsContainer);
+        							List<String> validSpecimenNames = null;
+        							if(sampleIDs!=null){
+        		                        //get the samples associated with these specimens
+        								List<String> specimenNames = LookupManager.getSpecimenNames(sampleIDs);
+        		           				      
+        			                     //Validate that samples has GE data
+        			                     validSpecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
         							}
-        							else{ //No samples validated
-        								sampleGroup = null;
-        								throw new FindingsQueryException("None of the samples within the selected query are valid for PCA Analysis");
+        							if(validSpecimenNames != null){
+        								//3.1 add them to SampleGroup
+        								sampleGroup = new SampleGroup(clinicalDataQuery.getQueryName(),validSpecimenNames.size());
+        								sampleGroup.addAll(validSpecimenNames);
+        	
         							}
         						} catch (OperationNotSupportedException e) {
         							logger.error(e.getMessage());
