@@ -1,6 +1,8 @@
     JDK 1.5.0.2 is now required
     Ant 1.6.5 is the version that I am using  but 1.6.2 should work as well.
 -----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+
 A. Recommended way to check out and build the project in MyEclipse 
 (enabling debugging and other features)
     
