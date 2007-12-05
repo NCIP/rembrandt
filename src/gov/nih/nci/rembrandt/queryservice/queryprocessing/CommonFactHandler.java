@@ -128,12 +128,12 @@ public class CommonFactHandler {
             }
 
 
-            if(sampleIDCrit.getTissueType() != null ){
-            	switch (sampleIDCrit.getTissueType()){
+            if(sampleIDCrit.getSpecimenType() != null ){
+            	switch (sampleIDCrit.getSpecimenType()){
             	case BLOOD:
             		c.addLike(sampleIDAttr, "%_B");
             		break;
-            	case TISSUE:
+            	case TISSUE_BRAIN:
             		c.addNotLike(sampleIDAttr, "%_B");
             		break;	
             	}

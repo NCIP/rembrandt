@@ -21,7 +21,7 @@ import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
-import gov.nih.nci.caintegrator.enumeration.TissueType;
+import gov.nih.nci.caintegrator.enumeration.SpecimenType;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
@@ -229,8 +229,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     /** isAllGenes property */
     private boolean isAllGenes = false;
     
-    /** tissueType property */
-    private String tissueType;  
+    /** specimenType property */
+    private String specimenType;  
     
     
 
@@ -432,7 +432,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         snpList = "";
         cloneId = "";
         cnAmplified = "";
-        tissueType = "";
+        specimenType = "";
         cloneListFile = "";
         snpListFile = null;
         cloneListSpecify = "";
@@ -1656,7 +1656,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         form.setGeneGroup(geneGroup);
         form.setCnUnchangeFrom(cnUnchangeFrom);
         form.setCopyNumber(copyNumber);
-        form.setTissueType(tissueType);
+        form.setSpecimenType(specimenType);
         return form;
     }
 
@@ -1677,29 +1677,29 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	}
 
 	/**
-	 * @return the tissueType
+	 * @return the specimenType
 	 */
-	public String getTissueType() {
-		return tissueType;
+	public String getSpecimenType() {
+		return specimenType;
 	}
 
 	/**
-	 * @param tissueType the tissueType to set
+	 * @param specimenType the specimenType to set
 	 */
-	public void setTissueType(String tissueType) {
-		this.tissueType = tissueType;
+	public void setSpecimenType(String specimenType) {
+		this.specimenType = specimenType;
 		
-		if (this.tissueType != null){
+		if (this.specimenType != null){
 			if(sampleCriteria == null){
 				sampleCriteria = new SampleCriteria();
 			}
-			if(tissueType.equalsIgnoreCase(TissueType.BLOOD.name()) ||
-					tissueType.equalsIgnoreCase(TissueType.BLOOD.toString())){
-						sampleCriteria.setTissueType(TissueType.BLOOD);
+			if(specimenType.equalsIgnoreCase(SpecimenType.BLOOD.name()) ||
+					specimenType.equalsIgnoreCase(SpecimenType.BLOOD.toString())){
+						sampleCriteria.setSpecimenType(SpecimenType.BLOOD);
 					}
-			else if(tissueType.equalsIgnoreCase(TissueType.TISSUE.name()) ||
-					tissueType.equalsIgnoreCase(TissueType.TISSUE.toString())){
-						sampleCriteria.setTissueType(TissueType.TISSUE);
+			else if(specimenType.equalsIgnoreCase(SpecimenType.TISSUE_BRAIN.name()) ||
+					specimenType.equalsIgnoreCase(SpecimenType.TISSUE_BRAIN.toString())){
+						sampleCriteria.setSpecimenType(SpecimenType.TISSUE_BRAIN);
 					}
 			}
 	}

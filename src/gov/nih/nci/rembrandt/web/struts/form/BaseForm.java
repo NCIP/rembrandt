@@ -13,15 +13,19 @@ import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
+import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -357,7 +361,7 @@ public class BaseForm extends ActionForm implements Serializable{
 			//if (thisRequest != null) {
 
 				String thisSampleGroup = this.getSampleGroup();
-				
+				Collection<SampleIDDE> sampleIds = null;				
 				if ((thisSampleGroup != null)
 						&& thisSampleGroup.equalsIgnoreCase("Specify")
 						&& (this.sampleList.length() > 0)) {
@@ -366,12 +370,31 @@ public class BaseForm extends ActionForm implements Serializable{
 					}
 
 					String[] splitSampleValue = this.sampleList.split("\\x2C");
-
+					Set<String>list = new HashSet<String>();
 					for (int i = 0; i < splitSampleValue.length; i++) {
-					    SampleIDDE sampleIDDEObj = new SampleIDDE(splitSampleValue[i].trim());						                                       						
-					    sampleCriteria.setSampleID(sampleIDDEObj);	
-						
+					    //SampleIDDE sampleIDDEObj = new SampleIDDE(splitSampleValue[i].trim());						                                       						
+					    //sampleCriteria.setSampleID(sampleIDDEObj);	
+						list.add(splitSampleValue[i].trim());
 					}
+     				//get the samples associated with these specimens
+     				List<String> specimenNames = LookupManager.getSpecimenNames(list);
+     				//Add back any samples that were just sampleIds to start with
+     				if(specimenNames != null){
+     					list.addAll(specimenNames);
+     				}
+     				List<String> samples = LookupManager.getSampleIDs(list);
+       				//Add back any samples that were just sampleIds to start with
+       				if(samples != null){
+       					list.addAll(samples);
+       				}
+					try {
+						sampleIds = ListConvertor.convertToSampleIDDEs(list);
+					} catch (OperationNotSupportedException e) {
+						logger.error(e.getMessage());
+					}
+     				if(!sampleIds.isEmpty()){
+     					sampleCriteria.setSampleIDs(sampleIds);
+                    }
 				}
 
 			//}

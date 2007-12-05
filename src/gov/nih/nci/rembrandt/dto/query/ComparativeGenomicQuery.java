@@ -19,7 +19,7 @@ import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.caintegrator.enumeration.TissueType;
+import gov.nih.nci.caintegrator.enumeration.SpecimenType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
@@ -255,11 +255,11 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 						OutStr += "<BR>&nbsp;&nbsp;...";
 					}
 				}
-				TissueType tissueType = thisSampleIDCrit.getTissueType();
-				if (tissueType != null){
+				SpecimenType specimenType = thisSampleIDCrit.getSpecimenType();
+				if (specimenType != null){
 					OutStr += "<BR><B class='otherBold'>"
-						+ "TissueType" + "</B>";
-				OutStr += "<BR>&nbsp;&nbsp;" + tissueType.toString();
+						+ "SpecimenType" + "</B>";
+				OutStr += "<BR>&nbsp;&nbsp;" + specimenType.toString();
 				}
 			} else
 				logger
