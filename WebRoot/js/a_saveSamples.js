@@ -31,9 +31,9 @@ function A_saveTmpSample_cb(txt)	{
 	//look9ing for txt["count"] and txt["elements"]..txt["elements"] is a <br/> delim string
 	//reporter has been added to the list,
 	//show how many we've saved,
-	if(txt["count"] > -1) {
+	if(txt["count"] > 0) {
 		if($("sampleCount"))
-			$("sampleCount").innerHTML = txt["count"] + " samples selected";
+			$("sampleCount").innerHTML = txt["count"]-1 + " samples selected";
 		currentTmpSamplesCount = txt["count"];
 		
 		//update the running tab for overlib if this is not an init call
