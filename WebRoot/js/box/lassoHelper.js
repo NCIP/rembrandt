@@ -218,6 +218,6 @@ function mapshow (city) {
   
 
 startup();
-A_initSaveSample();
+A_clearTmpSamples();
 
 
