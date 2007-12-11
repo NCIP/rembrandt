@@ -9,7 +9,8 @@
 
 <fieldset class="gray">
 <legend class="red">Specimen Type
-<a href="javascript: Help.popHelp('<%=act%>_SpecimenType_tooltip');">[?]</a>   
+<a href="javascript: Help.popHelp('<%=act%>_specimenType_tooltip');">[?]</a>   
+
 <!-- <app:help help="Indicate the tissue type that was used for the comparative genomic study."/>-->
 </legend><br />
 &nbsp;&nbsp;<html:select property="specimenType" onchange="">

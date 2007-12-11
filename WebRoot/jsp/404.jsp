@@ -39,7 +39,7 @@
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
     <a href="menu.do">HOME</a>  |  <a href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
-    <br /><span style="font-size:.8em;text-align:right;">Release 1.5</span> </div>
+    <br /><span style="font-size:.8em;text-align:right;">Release 1.5.1</span> </div>
 <!--end footer-->
 
 <!--begin NCI footer-->
