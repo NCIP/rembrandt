@@ -2,12 +2,13 @@ function  WWHBookData_MatchTopic(P)
 {
 var C=null;
 if(P=="Welcome")C="Welcome.1.1.html#1052621";
-if(P=="Opening_page")C="rembrandt_Getting_Started.4.3.html#1123842";
-if(P=="Registering")C="rembrandt_Getting_Started.4.4.html#1094503";
-if(P=="Logging_in")C="rembrandt_Getting_Started.4.5.html#1096445";
-if(P=="Rules_of_the_road")C="rembrandt_Getting_Started.4.6.html#1095258";
-if(P=="Blue_panel")C="rembrandt_Getting_Started.4.9.html#1122825";
-if(P=="Logging_out")C="rembrandt_Getting_Started.4.11.html#1111610";
+if(P=="cite_data")C="rembrandt_Getting_Started.4.3.html#1129413";
+if(P=="Opening_page")C="rembrandt_Getting_Started.4.4.html#1123842";
+if(P=="Registering")C="rembrandt_Getting_Started.4.5.html#1094503";
+if(P=="Logging_in")C="rembrandt_Getting_Started.4.6.html#1096445";
+if(P=="Rules_of_the_road")C="rembrandt_Getting_Started.4.7.html#1095258";
+if(P=="Blue_panel")C="rembrandt_Getting_Started.4.10.html#1122825";
+if(P=="Logging_out")C="rembrandt_Getting_Started.4.12.html#1111610";
 if(P=="Simple_search_overview")C="rembrandt_Simple_Searches.5.2.html#1067499";
 if(P=="Eliminating_aliases")C="rembrandt_Simple_Searches.5.4.html#1134211";
 if(P=="Simple_gene_expression_plot")C="rembrandt_Simple_Searches.5.5.html#1100403";
@@ -41,12 +42,12 @@ if(P=="comparitivegenomic_Allele_tooltip")C="rembrandt_Adv_Searches.6.6.html#112
 if(P=="comparitivegenomic_Disease_tooltip")C="rembrandt_Adv_Searches.6.6.html#1144996";
 if(P=="comparitivegenomic_Grade_tooltip")C="rembrandt_Adv_Searches.6.6.html#1158164";
 if(P=="comparitivegenomic_Sample_tooltip")C="rembrandt_Adv_Searches.6.6.html#1145014";
+if(P=="comparitivegenomic_specimenType_tooltip")C="rembrandt_Adv_Searches.6.6.html#1162116";
 if(P=="comparitivegenomic_Copynum_tooltip")C="rembrandt_Adv_Searches.6.6.html#1145025";
 if(P=="comparitivegenomic_Array_tooltip")C="rembrandt_Adv_Searches.6.6.html#1145035";
 if(P=="Advanced_clinical_data")C="rembrandt_Adv_Searches.6.7.html#1111942";
 if(P=="clinical_Query_tooltip")C="rembrandt_Adv_Searches.6.7.html#1105729";
-if(P=="clinical_Disease_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124174";
-if(P=="clinical_Grade_tooltip")C="rembrandt_Adv_Searches.6.7.html#1158205";
+if(P=="clinical_Disease_tooltip")C="rembrandt_Adv_Searches.6.7.html#1158205";
 if(P=="clinical_Sample_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124192";
 if(P=="clinical_Occurrence_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124222";
 if(P=="clinical_Prior_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124229";
@@ -89,6 +90,6 @@ if(P=="Class_comparison_report")C="rembrandt_View%20Results.8.16.html#1082972";
 if(P=="PCA_report")C="rembrandt_View%20Results.8.20.html#1082922";
 if(P=="3d_pca")C="rembrandt_View%20Results.8.21.html#1108688";
 if(P=="HCA_report")C="rembrandt_View%20Results.8.22.html#1088992";
-if(P=="Manage_lists_overview")C="rembrandt_Manage_Lists.9.2.html#1096151";
+if(P=="Manage_lists_overview")C="rembrandt_Manage_Lists.9.2.html#1100382";
 return C;
 }

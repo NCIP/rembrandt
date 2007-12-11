@@ -43,15 +43,16 @@
     <Document title="Application Support" href="Application%20Support.3.1.html" />
     <Document title="Getting Started with REMBRANDT" href="rembrandt_Getting_Started.4.1.html" />
     <Document title="About REMBRANDT" href="rembrandt_Getting_Started.4.2.html" />
-    <Document title="REMBRANDT’s Opening Page" href="rembrandt_Getting_Started.4.3.html" />
-    <Document title="New User Registration" href="rembrandt_Getting_Started.4.4.html" />
-    <Document title="Logging In" href="rembrandt_Getting_Started.4.5.html" />
-    <Document title="Accepting REMBRANDT Provisions" href="rembrandt_Getting_Started.4.6.html" />
-    <Document title="REMBRANDT Menu" href="rembrandt_Getting_Started.4.7.html" />
-    <Document title="REMBRANDT Tabs" href="rembrandt_Getting_Started.4.8.html" />
-    <Document title="REMBRANDT Side Bar" href="rembrandt_Getting_Started.4.9.html" />
-    <Document title="Application Support" href="rembrandt_Getting_Started.4.10.html" />
-    <Document title="Logging Out" href="rembrandt_Getting_Started.4.11.html" />
+    <Document title="How to Cite REMBRANDT Data" href="rembrandt_Getting_Started.4.3.html" />
+    <Document title="REMBRANDT’s Opening Page" href="rembrandt_Getting_Started.4.4.html" />
+    <Document title="New User Registration" href="rembrandt_Getting_Started.4.5.html" />
+    <Document title="Logging In" href="rembrandt_Getting_Started.4.6.html" />
+    <Document title="Accepting REMBRANDT Provisions" href="rembrandt_Getting_Started.4.7.html" />
+    <Document title="REMBRANDT Menu" href="rembrandt_Getting_Started.4.8.html" />
+    <Document title="REMBRANDT Tabs" href="rembrandt_Getting_Started.4.9.html" />
+    <Document title="REMBRANDT Side Bar" href="rembrandt_Getting_Started.4.10.html" />
+    <Document title="Application Support" href="rembrandt_Getting_Started.4.11.html" />
+    <Document title="Logging Out" href="rembrandt_Getting_Started.4.12.html" />
     <Document title="Conducting a Simple Search" href="rembrandt_Simple_Searches.5.1.html" />
     <Document title="Simple Search Overview" href="rembrandt_Simple_Searches.5.2.html" />
     <Document title="Gene Expression Simple Search" href="rembrandt_Simple_Searches.5.3.html" />
@@ -122,12 +123,13 @@
   </DocumentInfo>
   <TopicMap>
     <Topic name="Welcome" href="Welcome.1.1.html#1052621" />
-    <Topic name="Opening_page" href="rembrandt_Getting_Started.4.3.html#1123842" />
-    <Topic name="Registering" href="rembrandt_Getting_Started.4.4.html#1094503" />
-    <Topic name="Logging_in" href="rembrandt_Getting_Started.4.5.html#1096445" />
-    <Topic name="Rules_of_the_road" href="rembrandt_Getting_Started.4.6.html#1095258" />
-    <Topic name="Blue_panel" href="rembrandt_Getting_Started.4.9.html#1122825" />
-    <Topic name="Logging_out" href="rembrandt_Getting_Started.4.11.html#1111610" />
+    <Topic name="cite_data" href="rembrandt_Getting_Started.4.3.html#1129413" />
+    <Topic name="Opening_page" href="rembrandt_Getting_Started.4.4.html#1123842" />
+    <Topic name="Registering" href="rembrandt_Getting_Started.4.5.html#1094503" />
+    <Topic name="Logging_in" href="rembrandt_Getting_Started.4.6.html#1096445" />
+    <Topic name="Rules_of_the_road" href="rembrandt_Getting_Started.4.7.html#1095258" />
+    <Topic name="Blue_panel" href="rembrandt_Getting_Started.4.10.html#1122825" />
+    <Topic name="Logging_out" href="rembrandt_Getting_Started.4.12.html#1111610" />
     <Topic name="Simple_search_overview" href="rembrandt_Simple_Searches.5.2.html#1067499" />
     <Topic name="Eliminating_aliases" href="rembrandt_Simple_Searches.5.4.html#1134211" />
     <Topic name="Simple_gene_expression_plot" href="rembrandt_Simple_Searches.5.5.html#1100403" />
@@ -161,12 +163,12 @@
     <Topic name="comparitivegenomic_Disease_tooltip" href="rembrandt_Adv_Searches.6.6.html#1144996" />
     <Topic name="comparitivegenomic_Grade_tooltip" href="rembrandt_Adv_Searches.6.6.html#1158164" />
     <Topic name="comparitivegenomic_Sample_tooltip" href="rembrandt_Adv_Searches.6.6.html#1145014" />
+    <Topic name="comparitivegenomic_specimenType_tooltip" href="rembrandt_Adv_Searches.6.6.html#1162116" />
     <Topic name="comparitivegenomic_Copynum_tooltip" href="rembrandt_Adv_Searches.6.6.html#1145025" />
     <Topic name="comparitivegenomic_Array_tooltip" href="rembrandt_Adv_Searches.6.6.html#1145035" />
     <Topic name="Advanced_clinical_data" href="rembrandt_Adv_Searches.6.7.html#1111942" />
     <Topic name="clinical_Query_tooltip" href="rembrandt_Adv_Searches.6.7.html#1105729" />
-    <Topic name="clinical_Disease_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124174" />
-    <Topic name="clinical_Grade_tooltip" href="rembrandt_Adv_Searches.6.7.html#1158205" />
+    <Topic name="clinical_Disease_tooltip" href="rembrandt_Adv_Searches.6.7.html#1158205" />
     <Topic name="clinical_Sample_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124192" />
     <Topic name="clinical_Occurrence_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124222" />
     <Topic name="clinical_Prior_tooltip" href="rembrandt_Adv_Searches.6.7.html#1124229" />
@@ -209,6 +211,6 @@
     <Topic name="PCA_report" href="rembrandt_View%20Results.8.20.html#1082922" />
     <Topic name="3d_pca" href="rembrandt_View%20Results.8.21.html#1108688" />
     <Topic name="HCA_report" href="rembrandt_View%20Results.8.22.html#1088992" />
-    <Topic name="Manage_lists_overview" href="rembrandt_Manage_Lists.9.2.html#1096151" />
+    <Topic name="Manage_lists_overview" href="rembrandt_Manage_Lists.9.2.html#1100382" />
   </TopicMap>
 </WebWorksHelpBook>

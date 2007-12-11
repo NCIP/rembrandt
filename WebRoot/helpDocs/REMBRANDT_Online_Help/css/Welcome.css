@@ -785,7 +785,7 @@ div.Chapter_Name
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
-  text-align: left;
+  text-align: Right;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -805,7 +805,7 @@ div.Chapter_Name
   font-size: 27.0pt;
   font-style: normal;
   font-weight: bold;
-  text-align: left;
+  text-align: Right;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1619,23 +1619,20 @@ div.Note
   margin-bottom: 2.0pt;
   margin-left: 68.4pt;
   margin-right: 0pt;
-  margin-top: -8px;
-  padding-bottom: 12px;
-  padding-top: 8px;
-  position: relative;
+  margin-top: -5px;
+  padding-bottom: 18px;
   text-align: LeftRight;
   text-indent: -25px;
   text-transform: none;
-  vertical-align: top;
+  vertical-align: baseline;
 }
 
 .Note_outer
 {
   margin-bottom: 2.0pt;
   margin-right: 0pt;
-  margin-top: -8px;
-  padding-bottom: 12px;
-  padding-top: 8px;
+  margin-top: -5px;
+  padding-bottom: 18px;
 }
 
 .Note_inner
@@ -1646,10 +1643,9 @@ div.Note
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  position: relative;
   text-align: LeftRight;
   text-transform: none;
-  vertical-align: top;
+  vertical-align: baseline;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0pt;
