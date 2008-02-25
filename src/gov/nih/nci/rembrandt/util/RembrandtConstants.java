@@ -175,5 +175,5 @@ public final class RembrandtConstants {
 	public static final String SESSION_TEMP_FOLDER_PATH = "SessionTempFolderPath";
 	public static final Integer QUERY_LIMIT = 500000;
 	public static final String QUERY_OVER_LIMIT = "Query Exceeded Limit";
-
+	
 }
