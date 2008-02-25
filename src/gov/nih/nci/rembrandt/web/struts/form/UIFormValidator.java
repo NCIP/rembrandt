@@ -186,6 +186,16 @@ public class UIFormValidator {
         return errors;
     }
 
+    public static ActionErrors validateSelectedGroup(String[] selectedGroups, ActionErrors errors){
+        if (selectedGroups == null || (selectedGroups != null && selectedGroups.length<2)){
+            errors.add("selectedGroups", new ActionError(
+                    "gov.nih.nci.nautilus.ui.struts.form.group.no.error"));
+        }
+       
+
+        return errors;
+    }
+
 	public static ActionErrors validateChromosomalRegion(String chrosomeNumber,
 			String region, String cytobandRegionStart, String basePairStart,
 			String basePairEnd, ActionErrors errors) {
