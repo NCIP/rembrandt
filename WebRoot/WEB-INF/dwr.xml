@@ -24,5 +24,8 @@
     <create creator="new" javascript="ListFilter">
       <param name="class" value="gov.nih.nci.rembrandt.util.RembrandtListFilter"/>
     </create>
+    <create creator="new" javascript="GenePatternHelper">
+          <param name="class" value="gov.nih.nci.rembrandt.web.ajax.GenePatternHelper"/>
+    </create>
   </allow>
 </dwr>

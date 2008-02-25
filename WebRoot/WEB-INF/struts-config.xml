@@ -23,7 +23,9 @@
 		<form-bean name="userPreferencesBean" type="gov.nih.nci.rembrandt.web.struts.bean.UserPreferencesBean"/>				
 		<form-bean name="hierarchicalClusteringForm" type="gov.nih.nci.rembrandt.web.struts.form.HierarchicalClusteringForm"/>
 		<form-bean name="uploadGeneSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadGeneSetForm"/>				
-		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>				
+		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>	
+		<form-bean name="gpIntegrationForm" type="gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm"/>
+   			
 		
 		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
    	
@@ -238,6 +240,26 @@
 		<forward name="principalComponentSetup" path="/principalcomponentInit.do?method=setup" />
 		<forward name="viewResults" path="/viewResults.do" />
 	</action>
+
+   <action path="/gpintegrationInit"
+		type="gov.nih.nci.rembrandt.web.struts.action.GPIntegrationAction"
+		name="gpIntegrationForm"
+		scope="request"
+		validate="false"
+		parameter="method">
+		<forward name="success" path="rembrandt.gpIntegration" />
+	</action>
+		
+	<action path="/gpintegration"
+		input="rembrandt.gpIntegration"
+		type="gov.nih.nci.rembrandt.web.struts.action.GPIntegrationAction"
+		name="gpIntegrationForm"
+		scope="request"
+		validate="true"
+		parameter="method">
+		<forward name="success" path="rembrandt.gpIntegration" />
+		<forward name="viewJob" path="rembrandt.gpJobView" />
+	</action>
 	
 	<action path="/hierarchicalClustering"
          forward="nautilus.hierarchicalClustering" />
@@ -264,6 +286,9 @@
 		<forward name="hierarchicalClusteringSetup" path="/hierarchicalclustering.do?method=setup" />
 	</action>
 	
+
+  
+
 	<action path="/previewGeneReport"
             forward="/previewgenereport.do" />
 

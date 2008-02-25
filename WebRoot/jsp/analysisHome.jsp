@@ -3,6 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="java.util.*"%>
+<%@ page import="gov.nih.nci.caintegrator.application.analysis.gp.GenePatternIntegrationHelper" %>
 	 
 
 <%
@@ -13,6 +14,8 @@ String hcAnalysisString = "0";
 int pcaAnalysisNum = 0;
 String pcaAnalysisString = "0";
 String sessionId = request.getSession().getId();
+String gpHomeURL = GenePatternIntegrationHelper.gpHomeURL(request);
+gpHomeURL = gpHomeURL + "&target=new";
 %>
 <br clear="both"/>
 <div>
@@ -26,7 +29,9 @@ String sessionId = request.getSession().getId();
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.do?method=setup';"></td></tr>				
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponentInit.do?method=setup';"></td></tr>				
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Hierarchical Clustering Analysis" onclick="javascript:location.href='hierarchicalclusteringInit.do?method=setup';"></td></tr>			
-			</table>
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="GenePattern Analysis" onclick="javascript:location.href='gpintegrationInit.do?method=setup';"></td></tr>			
+			    <tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="GenePattern Home" onclick="window.open( '<%= gpHomeURL %>');"></td></tr>			
+		</table>
 	</fieldset>
 </div>
 <br/><br/>

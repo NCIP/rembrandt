@@ -82,7 +82,7 @@ String param = request.getParameter("s");
       	fsi.close();
       }
   	  catch (IOException e) {
-      	out.println("cant read props");
+      	out.println("cant read props22");
       	if(fsi != null)
 	      	fsi.close();
   	  }
@@ -99,6 +99,7 @@ String param = request.getParameter("s");
   	<%
   	for (int t=1; t<props.size()+1; t++)	{
   		strIncFile = "/jsp/tiles/"+props.getProperty(String.valueOf(t))+"_tile.jsp?act="+act;
+  		System.out.println();
  	%>
  	<div class="report" style="padding:3px">
       <tiles:insert page="<%= strIncFile %>" flush="false" />
