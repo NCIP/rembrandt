@@ -32,10 +32,20 @@ Step 4: Select Array Platform
 	onchange="this.options[1].selected=true;"
 </logic:notPresent>	
 >
+<% if(act.equalsIgnoreCase("gpintegration")){%>
+
+<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+					
+
+<%}
+
+else{%>
 					<option value="<%=Constants.ALL_PLATFROM%>">All</option>
 					<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
 					<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
+<%}%>					
 			</select>
+			
 			<html:errors property="arrayPlatform"/>
 </fieldset>
 <logic:present name="geneexpressionForm">
@@ -43,4 +53,6 @@ Step 4: Select Array Platform
 	document.getElementById("platSelect").selectedIndex = 0;
 </script>
 </logic:present>
+
+
 
