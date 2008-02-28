@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.application.lists.ListType;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,12 @@ public class GpIntegrationForm extends ActionForm {
 	}
 
    public void reset(ActionMapping mapping, HttpServletRequest request) {            
-	        arrayPlatform = "";             
+	        arrayPlatform = "";        
+	       
+	        /*setup the defined Disease query names and the list of samples selected from a Resultset*/
+	        GroupRetriever groupRetriever = new GroupRetriever();
+	        setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));         
+	    
 	  }
    
    /**
@@ -97,9 +103,12 @@ public class GpIntegrationForm extends ActionForm {
        errors = UIFormValidator.validateQueryName(analysisResultName, errors);
       
       // Validate group field
-       errors = UIFormValidator.validateSelectedGroup(selectedGroups, errors);
+       errors = UIFormValidator.validateSelectedGroups(selectedGroups, 2, errors);
       
        return errors;
-   }
+   }  
+  
    
+       
+  
 }
