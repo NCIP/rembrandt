@@ -57,7 +57,7 @@
       <td>Existing Groups
         <br/>
         <html:select styleId="nonselectedGroups" size="5" multiple="true" style="width:200px" property="existingGroups" onclick="radioFold(this);" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));">
-           <html:optionsCollection property="existingGroupsList"/>
+                 <html:optionsCollection property="existingGroupsList"/>
 		</html:select>
       </td>
       <td style="vertical-align:middle">

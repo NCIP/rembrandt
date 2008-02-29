@@ -9,6 +9,9 @@
 <logic:present name="geneexpressionForm">
 Array Platform
 </logic:present>
+<logic:present name="gpIntegrationForm">
+Step 2: Select Array Platform
+</logic:present>
 <logic:present name="principalComponentForm">
 Step 3: Select Array Platform
 </logic:present>

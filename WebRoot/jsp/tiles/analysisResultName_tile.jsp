@@ -18,6 +18,10 @@
 		<logic:present name="classComparisonForm">
 		Step 4: 
 		</logic:present>
+		<logic:present name="gpIntegrationForm">
+		Step 3: 
+		</logic:present>
+		
 		<logic:present name="hierarchicalClusteringForm">
 		Step 5: 
 		</logic:present>

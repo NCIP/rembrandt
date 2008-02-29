@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.application.util.ClassHelper;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
+import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.security.EncryptionUtil;
 import gov.nih.nci.caintegrator.security.PublicUserPool;
 import gov.nih.nci.caintegrator.security.UserCredentials;
@@ -22,7 +23,9 @@ import gov.nih.nci.caintegrator.util.idmapping.IdMapper;
 import gov.nih.nci.caintegrator.util.idmapping.IdMappingCriteria;
 
 
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
@@ -42,6 +45,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -110,24 +114,62 @@ public class GPIntegrationAction extends DispatchAction {
            HttpSession session = request.getSession();
            
        	   String[] patientGroups = gpForm.getSelectedGroups();
+       	   
+       	   //create a sampleGroup array with the length of selected  patient groups, it needs to be >2
+       	   // SampleGroup objects will be used to store patient group names and specimen ids
+       	   SampleGroup[] sampleGroup = new SampleGroup [patientGroups.length];            
+       	   
+       	   
+       	   
+    	
            UserListBeanHelper helper = new UserListBeanHelper(request.getSession().getId());
-           for (String patientGroup : patientGroups){        	   
+           Set<String> patientIdset = new HashSet<String>();
+           
+         	   for(int j=0; j<patientGroups.length;j++) {
         	   Set<String> idSet = null;        	   
         	   
-        	   String[] uiDropdownString =patientGroup.split("#");
-               String myClassName = uiDropdownString[0];
-               String myValueName = uiDropdownString[1];
+        	   String[] uiDropdownString =patientGroups[j].split("#");
         	   
+               String myClassName = uiDropdownString[0];           
+               String myValueName = uiDropdownString[1];              
+               sampleGroup[j] = new SampleGroup();  
+               
+               // add the selected pt group names such "GBM", "MIXED" to the sampleGroup object
+               sampleGroup[j].setGroupName(myValueName);
+               patientIdset.clear();
+               
                List<ListItem> listItemts = helper.getUserList(myValueName).getListItems();            	
-               Set<String> patientIdset = new HashSet<String>();
                
                for (Iterator i = listItemts.iterator(); i.hasNext(); ) {
    				ListItem item = (ListItem)i.next();
    				String id = item.getName();
-   				idStringList.add(id+"\t");
+   				patientIdset.add(id);
+   				
    			  }               
             
-           }  	
+            	
+           
+           if(patientIdset != null && patientIdset.size()>0) {
+        	   
+        	   // need to convert pt dids to the specimen ids
+        		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset);        	
+        		if(specimenNames != null){
+        			   for (Iterator i = specimenNames.iterator(); i.hasNext(); ) {
+        				   String sampleid  = (String)i.next();     
+        				   // add speicmen ids to the samplegroup with the corresponding selected pt group
+        				   sampleGroup[j].add(sampleid);	        	   			   
+        		   			
+        		          }// end of for
+                    }// end of if
+        		
+        		idStringList.add(getIdsAsDelimitedString(sampleGroup[j], "\t"));
+        		
+              }	
+        		
+           
+           }
+          
+          
         
            allStringList.add(idStringList);
    		   fileNameList.add("labIdsFile");
@@ -318,7 +360,9 @@ public class GPIntegrationAction extends DispatchAction {
     	String fileExtension = ".txt";
 		for (List<String> list : allIdStringList){
 			if (!list.isEmpty()){
-				fileName = fileNameList.get(count);			
+				fileName = fileNameList.get(count);	
+				// this is used to view the file locally
+				//File idFile =File.createTempFile(fileName, fileExtension, new File("C:\\temp\\rembrandt"));
 				File idFile =File.createTempFile(fileName, fileExtension);
 				FileWriter idFw = new FileWriter(idFile);
 				for (String ids : list){
