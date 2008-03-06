@@ -310,10 +310,14 @@ function move(fbox, tbox) {
 
 function saveMe(tbox,fbox) {
 
+
 var strValues = "";
 
-if(tbox == null || fbox == null || !tbox.length || !fbox.length)
+//if(tbox == null || fbox == null || !tbox.length || !fbox.length){
+
+if(tbox == null || fbox == null || !tbox.length){
 	return;
+	}
 	
 var boxLength = 0;
 if(tbox.length)	{ boxLength = tbox.length; }
@@ -335,7 +339,7 @@ if (boxLength != 0) {
    }
 }
 if (strValues.length == 0) {
-//alert("You have not made any selections");
+alert("You have not made any selections");
 }
 else {
 

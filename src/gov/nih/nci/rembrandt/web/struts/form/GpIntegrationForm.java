@@ -20,7 +20,7 @@ public class GpIntegrationForm extends ActionForm {
 	 private static Logger logger = Logger.getLogger(GpIntegrationForm.class);
 	 private List existingGroupsList;
 	 private String analysisResultName = "";
-	 private String [] existingGroups;
+	 private String [] existingGroups ;
 	 private String [] selectedGroups;
 	 private String groupsOption;
 	 private String arrayPlatform = "";
@@ -77,10 +77,10 @@ public class GpIntegrationForm extends ActionForm {
 	}
 
    public void reset(ActionMapping mapping, HttpServletRequest request) {            
-	        arrayPlatform = "";        
-	       
+	        arrayPlatform = "";
+	        
 	        /*setup the defined Disease query names and the list of samples selected from a Resultset*/
-	        GroupRetriever groupRetriever = new GroupRetriever();
+	       GroupRetriever groupRetriever = new GroupRetriever();
 	        setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));         
 	    
 	  }
@@ -103,7 +103,8 @@ public class GpIntegrationForm extends ActionForm {
        errors = UIFormValidator.validateQueryName(analysisResultName, errors);
       
       // Validate group field
-       errors = UIFormValidator.validateSelectedGroups(selectedGroups, 2, errors);
+       errors = UIFormValidator.validateSelectedGroups(selectedGroups,2, errors);
+       
       
        return errors;
    }  

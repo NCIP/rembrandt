@@ -165,9 +165,10 @@ public class UIFormValidator {
        
 
         return errors;
-    }
+    }    
+   
     
-    public static ActionErrors validateSelectedGroups(String[] selectedGroups, int num, ActionErrors errors){
+  public static ActionErrors validateSelectedGroups(String[] selectedGroups,  int num, ActionErrors errors){
         if (selectedGroups == null || selectedGroups.length < 2){
             errors.add("selectedGroups", new ActionError(
                     "gov.nih.nci.nautilus.ui.struts.form.groups.more.error"));
@@ -176,6 +177,7 @@ public class UIFormValidator {
 
         return errors;
     }
+  
     public static ActionErrors validateSelectedGroup(String groupsOption, String[] selectedGroups, ActionErrors errors){
         if (groupsOption.equalsIgnoreCase("variousSamples") && selectedGroups == null){
             errors.add("selectedGroups", new ActionError(
