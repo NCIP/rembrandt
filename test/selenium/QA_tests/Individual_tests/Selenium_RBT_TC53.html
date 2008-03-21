@@ -23,6 +23,71 @@
 	<td>queryName</td>
 	<td>NAKQ700A</td>
 </tr>
+<tr>
+	<td>type</td>
+	<td>geneList</td>
+	<td>egfr</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>sampleGroup</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>sampleList</td>
+	<td>HF0017</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submittalButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='Finalize Query']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>selectedQueries[0].queryName</td>
+	<td>label=NAKQ700A</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>validateButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>runReportButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>_report2032008151943</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>_report2032008151943</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>samples</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='save selected samples']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAlert</td>
+	<td>Sample List Saved</td>
+	<td></td>
+</tr>
 
 </tbody></table>
 </body>
