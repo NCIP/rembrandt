@@ -278,11 +278,17 @@ public class DataValidator{
             		 for (Object obj : collection){
             			 if(obj instanceof CloneDim){
             				 CloneDim reporter = (CloneDim) obj;
-            				 validList.add(new CloneIdentifierDE.IMAGEClone(reporter.getCloneName()));
+            				 if(reporter.getCloneName()!=null)
+            				 {
+            					 validList.add(new CloneIdentifierDE.IMAGEClone(reporter.getCloneName().toUpperCase()));
+            				 }
             			 }
             			 else if(obj instanceof ProbesetDim){
             				 ProbesetDim reporter = (ProbesetDim) obj;
-            				 validList.add(new CloneIdentifierDE.ProbesetID(reporter.getProbesetName()));
+            				 if(reporter.getProbesetName()!=null)
+            				 {
+            					 validList.add(new CloneIdentifierDE.ProbesetID(reporter.getProbesetName().toUpperCase()));
+            				 }
             			 }
             		 }
             	}
@@ -323,11 +329,17 @@ public class DataValidator{
             		 for (Object obj : collection){
             			 if(obj instanceof SnpProbesetDim  && type.equals(SNPIdentifierDE.DBSNP)){
             				 SnpProbesetDim reporter = (SnpProbesetDim) obj;
-            				 validList.add(new SNPIdentifierDE.DBSNP(reporter.getDbSnpId()));
+            				 if(reporter.getDbSnpId()!=null)
+            				 {
+            					 validList.add(new SNPIdentifierDE.DBSNP(reporter.getDbSnpId().toUpperCase()));
+            				 }
             			 }
             			 else if(obj instanceof SnpProbesetDim  && type.equals(SNPIdentifierDE.SNP_PROBESET)){
             				 SnpProbesetDim reporter = (SnpProbesetDim) obj;
-            				 validList.add(new SNPIdentifierDE.SNPProbeSet(reporter.getProbesetName()));
+            				 if(reporter.getProbesetName()!=null)
+            				 {
+            					validList.add(new SNPIdentifierDE.SNPProbeSet(reporter.getProbesetName().toUpperCase()));
+            				 }
             			 }
             		 }
             	}
