@@ -93,7 +93,8 @@
 			if(tps.length > 1 && tps[1] != null){
 				//create a list out of [1]
 				lst = ListSubType.valueOf(tps[1]);
-				res =  CommonListFunctions.createGenericListWithSession(lt, lst, myUndefinedList, name, new RembrandtListValidator(ListType.valueOf(tps[0]), myUndefinedList), session);
+				//res =  CommonListFunctions.createGenericListWithSession(lt, lst, myUndefinedList, name, new RembrandtListValidator(ListType.valueOf(tps[0]), myUndefinedList), session);
+				res =  CommonListFunctions.createGenericListWithSession(lt, lst, myUndefinedList, name, new RembrandtListValidator(lst, lt , myUndefinedList), session);
 			}
 			else if(tps.length >0 && tps[0] != null)	{
 				//no subtype, only a primary type - typically a PatientDID then
