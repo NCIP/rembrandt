@@ -119,11 +119,11 @@ public class RembrandtListValidator extends ListValidator{
 					break;
 				}
 			}
-			else	{ //theses no subtype passed
-				logger.debug("List with no subtype");
-				validList = new ArrayList<String>();
-				validList.addAll(unvalidatedList);
-			}
+			//else	{ //theses no subtype passed
+				//logger.debug("List with no subtype");
+				//validList = new ArrayList<String>();
+				//validList.addAll(unvalidatedList);
+			//}
 		}
         invalidList.addAll(unvalidatedList);
         invalidList.removeAll(validList);
