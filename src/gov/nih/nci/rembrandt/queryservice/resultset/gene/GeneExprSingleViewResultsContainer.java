@@ -113,8 +113,8 @@ public class GeneExprSingleViewResultsContainer extends GeneExprResultsContainer
     	if(geneSymbol== null){
     		geneSymbol = GeneExprResultsContainer.NO_GENE_SYMBOL;
     	}
-    	if(reporterName != null){
-    		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
+    	if(reporterName != null && genes.size() == 1  && geneSymbol.equalsIgnoreCase((String)genes.firstKey())){
+    		GeneResultset geneResultset = (GeneResultset) genes.get(genes.firstKey());
             if(geneResultset != null){
         		ReporterResultset reporterResultset = geneResultset.getRepoterResultset(reporterName);
     			if(reporterResultset != null){
