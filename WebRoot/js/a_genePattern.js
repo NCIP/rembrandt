@@ -44,7 +44,9 @@ function A_checkGenePatternStatus_cb(message){
 	var curEl = document.getElementById(sid+"_status");
 	var curElImg = document.getElementById(sid+"_image");
 	var curElLink = document.getElementById(sid+"_link");
-		
+	var curElJobSelect = document.getElementById(sid+"_jobId");
+	var curElProcessSelect = document.getElementById(sid+"_process");
+	var curElSubmit = document.getElementById(sid+"_submit");
 	if(message == 'completed')	{
 		//its done, see if the innerhtml already says done	
 		if(curEl.innerHTML != "completed")	{
@@ -53,6 +55,9 @@ function A_checkGenePatternStatus_cb(message){
 			curElImg.src = "images/check.png";
 			curElLink.onclick = "";
 			curElLink.removeAttribute("onclick");
+			curElJobSelect.disabled = false;
+			curElProcessSelect.disabled = false;
+			curElSubmit.disabled = false;
 		}
 	}
 	else if(message == 'error')	{
