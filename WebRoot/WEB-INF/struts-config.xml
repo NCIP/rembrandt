@@ -25,7 +25,7 @@
 		<form-bean name="uploadGeneSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadGeneSetForm"/>				
 		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>	
 		<form-bean name="gpIntegrationForm" type="gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm"/>
-   			
+   		<form-bean name="gpProcessForm" type="gov.nih.nci.rembrandt.web.struts.form.GpProcessForm"/>	
 		
 		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
    	
@@ -259,6 +259,26 @@
 		parameter="method">
 		<forward name="success" path="rembrandt.gpIntegration" />
 		<forward name="viewJob" path="rembrandt.gpJobView" />
+	</action>
+	<action path="/gpintegration"
+		input="rembrandt.gpIntegration"
+		type="gov.nih.nci.rembrandt.web.struts.action.GPIntegrationAction"
+		name="gpIntegrationForm"
+		scope="request"
+		validate="true"
+		parameter="method">
+		<forward name="success" path="rembrandt.gpIntegration" />
+		<!-- forward name="viewJob" path="rembrandt.gpJobView" / -->
+		<forward name="viewJob" path="/gpProcess.do?method=setup" />
+	</action>
+	<action path="/gpProcess"
+		input="rembrandt.gpJobView"
+		type="gov.nih.nci.rembrandt.web.struts.action.GPProcessAction"
+		name="gpProcessForm"
+		scope="request"
+		validate="false"
+		parameter="method">
+		<forward name="success" path="rembrandt.gpJobView" />
 	</action>
 	
 	<action path="/hierarchicalClustering"
