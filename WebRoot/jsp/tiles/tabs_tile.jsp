@@ -77,6 +77,12 @@
 	String analysisSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"analysisHome.do\">Analysis Home</a></li>\n" +
 							"</ul>\n";
+
+	String resultSecondary = "<ul id=\"secondary\">\n" +
+							//"<li><a href=\"graph.do?method=setup\">Search</a></li>\n" +
+							"<li><a href=\"viewResults.do\">Report Results</a></li>\n" +
+							"<li><a href=\"gpProcess.do?method=setup\">GP Job Results</a></li>\n" +							
+							"</ul>\n";
 							
 	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;
 	if(s != null)	{
@@ -102,7 +108,7 @@
 				//3 is view results
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n";
+				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n" + resultSecondary;
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
 				break;
