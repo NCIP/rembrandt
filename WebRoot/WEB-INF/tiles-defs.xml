@@ -96,7 +96,7 @@
 		<put name="title" value="Rembrandt View Gene Pattern Job" />
 		<put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
 		<put name="mainForm" value="/jsp/gpJobView.jsp" />
-		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=6" />
+		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
 		<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />		
     </definition> 
     
