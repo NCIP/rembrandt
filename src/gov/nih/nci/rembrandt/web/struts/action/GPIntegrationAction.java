@@ -3,31 +3,23 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.analysis.messaging.IdGroup;
 import gov.nih.nci.caintegrator.analysis.messaging.SampleGroup;
 import gov.nih.nci.caintegrator.application.analysis.gp.GenePatternPublicUserPool;
-import gov.nih.nci.caintegrator.application.cache.PresentationCacheManager;
-import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.application.lists.ListItem;
-import gov.nih.nci.caintegrator.application.lists.ListType;
-import gov.nih.nci.caintegrator.application.lists.UserList;
+
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
-import gov.nih.nci.caintegrator.application.util.ApplicationConstants;
-import gov.nih.nci.caintegrator.application.util.ClassHelper;
-import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
-import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.security.EncryptionUtil;
 import gov.nih.nci.caintegrator.security.PublicUserPool;
 import gov.nih.nci.caintegrator.security.UserCredentials;
-import gov.nih.nci.caintegrator.util.PlatformMapping;
 import gov.nih.nci.caintegrator.util.idmapping.IdMapper;
-import gov.nih.nci.caintegrator.util.idmapping.IdMappingCriteria;
+import gov.nih.nci.caintegrator.service.task.GPTask;
+import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 
-
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-import gov.nih.nci.rembrandt.dto.query.PatientUserListQueryDTO;
-import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 
@@ -42,13 +34,11 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.io.Serializable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,7 +49,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-import org.apache.struts.util.LabelValueBean;
 import org.genepattern.client.GPServer;
 import org.genepattern.webservice.Parameter;
 
@@ -297,7 +286,9 @@ public class GPIntegrationAction extends DispatchAction {
 						session.setAttribute("genePatternServer", gpServer);
 						request.setAttribute("genePatternURL", ticketString);
 						request.getSession().setAttribute("gptid", tid);
-						//session.setAttribute("genePatternPreprocess", preprocess);
+						GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running);
+						RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+						_cacheManager.addNonPersistableToSessionCache(request.getSession().getId(), "latestGpTask",(Serializable) gpTask); 
 						
 					} catch (Exception e) {
 						StringWriter sw = new StringWriter();
