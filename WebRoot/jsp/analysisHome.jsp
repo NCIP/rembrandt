@@ -29,7 +29,7 @@ gpHomeURL = gpHomeURL + "&target=new";
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.do?method=setup';"></td></tr>				
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponentInit.do?method=setup';"></td></tr>				
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Hierarchical Clustering Analysis" onclick="javascript:location.href='hierarchicalclusteringInit.do?method=setup';"></td></tr>			
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send the data to GenePattern" onclick="javascript:location.href='gpintegrationInit.do?method=setup';"></td></tr>			
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send the Data to GenePattern" onclick="javascript:location.href='gpintegrationInit.do?method=setup';"></td></tr>			
 			    <tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Go to GenePattern" onclick="window.open( '<%= gpHomeURL %>');"></td></tr>			
 		</table>
 	</fieldset>
