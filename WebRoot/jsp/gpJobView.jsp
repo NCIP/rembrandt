@@ -31,7 +31,7 @@ function checkJobId(jobList) {
 	String jobIdSelect = (String)request.getAttribute("jobIdSelect");
 	String processSelect = (String)request.getAttribute("processSelect");
 	String submitButton = (String)request.getAttribute("submitButton");
-	String gpurl = (String)request.getSession().getAttribute("genePatternURL");
+	String gpurl = (String)request.getAttribute("genePatternURL");
 %>
 <br/>
 <script type="text/javascript">Help.insertHelp("genepattern_job_list", " align='right'", "padding:2px;");</script>
