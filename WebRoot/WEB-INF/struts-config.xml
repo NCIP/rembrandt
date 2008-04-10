@@ -250,16 +250,7 @@
 		<forward name="success" path="rembrandt.gpIntegration" />
 	</action>
 		
-	<action path="/gpintegration"
-		input="rembrandt.gpIntegration"
-		type="gov.nih.nci.rembrandt.web.struts.action.GPIntegrationAction"
-		name="gpIntegrationForm"
-		scope="request"
-		validate="true"
-		parameter="method">
-		<forward name="success" path="rembrandt.gpIntegration" />
-		<forward name="viewJob" path="rembrandt.gpJobView" />
-	</action>
+	
 	<action path="/gpintegration"
 		input="rembrandt.gpIntegration"
 		type="gov.nih.nci.rembrandt.web.struts.action.GPIntegrationAction"
