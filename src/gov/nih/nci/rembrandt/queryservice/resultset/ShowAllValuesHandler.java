@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 
 import org.apache.log4j.Logger;
@@ -128,25 +129,30 @@ public class ShowAllValuesHandler {
 			//Get the samples from the resultset object
 			if(resultsContainer!= null){
 				Collection samples = null;
-				if(resultsContainer instanceof DimensionalViewContainer){				
-					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
-					///TO NEED TO RUN IT FOR NOW handleReporters(dimensionalViewContainer);
-					SampleViewResultsContainer sampleViewContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-					samples = sampleViewContainer.getSampleResultsets();
-				}else if (resultsContainer instanceof SampleViewResultsContainer){
-	
-					SampleViewResultsContainer sampleViewContainer = (SampleViewResultsContainer) resultsContainer;
-					samples = sampleViewContainer.getSampleResultsets();
+				if(resultsContainer != null &&resultsContainer instanceof DimensionalViewContainer){				
+					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer)resultsContainer;
+						CopyNumberSingleViewResultsContainer copyNumberSingleViewContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+						GeneExprSingleViewResultsContainer geneExprSingleViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+						if(copyNumberSingleViewContainer!= null){
+							Set<BioSpecimenIdentifierDE> biospecimenIDs =  copyNumberSingleViewContainer.getAllBiospecimenLabels();
+				       		for (BioSpecimenIdentifierDE bioSpecimen: biospecimenIDs) {
+				       			if(bioSpecimen.getSpecimenName()!= null){
+				       				sampleIDs.add(new SampleIDDE(bioSpecimen.getSpecimenName()));
+				   				}
+				       		}
+						}
+						if(geneExprSingleViewContainer!= null){
+							Set<BioSpecimenIdentifierDE> biospecimenIDs =  geneExprSingleViewContainer.getAllBiospecimenLabels();
+				       		for (BioSpecimenIdentifierDE bioSpecimen: biospecimenIDs) {
+				       			if(bioSpecimen.getSpecimenName()!= null){
+				   					sampleIDs.add(new SampleIDDE(bioSpecimen.getSpecimenName()));
+				   				}
+				       		}
+						}
 				}
-				if(samples != null && samples.size() > 0){
-		   			for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
-	
-		   				SampleResultset sampleResultset =  (SampleResultset)sampleIterator.next();
-		   	   			sampleIDs.add(sampleResultset.getSampleIDDE());
-		   			}
-		   			sampleCrit = new SampleCriteria();
+			   		sampleCrit = new SampleCriteria();
 		   			sampleCrit.setSampleIDs(sampleIDs);
-				}
+
                 AddConstrainsToQueriesHelper constrainedSamplesHandler= new AddConstrainsToQueriesHelper();
                 constrainedSamplesHandler.constrainQueryWithSamples(newCompoundQuery,sampleCrit);
 				newCompoundQuery = getShowAllValuesQuery(newCompoundQuery);

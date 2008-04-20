@@ -89,6 +89,16 @@ public class CopyNumberSingleViewResultsContainer extends CopyNumberResultsConta
 		return (SortedSet) groupsLabels.get(groupLabel);
 	}
 	/**
+	 * @return Returns all  biospecimenLabels.
+	 */
+	public SortedSet<BioSpecimenIdentifierDE> getAllBiospecimenLabels() {
+		SortedSet<BioSpecimenIdentifierDE> biospecimenlabels = new TreeSet<BioSpecimenIdentifierDE>();
+		for(String grouplabel:groupsLabels.keySet()){
+			biospecimenlabels.addAll(groupsLabels.get(grouplabel));
+		}
+		return (SortedSet) biospecimenlabels;
+	}
+	/**
 	 * @param groupsLabels The groupsLabels to set.
 	 */
 	public void addBiospecimensToGroups(String groupLabel, BioSpecimenIdentifierDE biospecimenId) {
