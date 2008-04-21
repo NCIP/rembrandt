@@ -360,7 +360,7 @@ public class ClinicalQueryHandler extends QueryHandler {
 						
 						if(clinicalEvalData.getKarnofskyScore() != null) {
 						    karnofskyScores.append(clinicalEvalData.getKarnofskyScore());
-						    karnofskyScores.append(", ");
+						    karnofskyScores.append("|");
 						}
 						
 						if(clinicalEvalData.getLanskyScore() != null) {
@@ -427,7 +427,7 @@ public class ClinicalQueryHandler extends QueryHandler {
 								
 								if(clinicalEvalData.getFollowupMonth() != null) {
 								   followupMonths.append(clinicalEvalData.getFollowupMonth());
-								   followupMonths.append(", ");
+								   followupMonths.append("| ");
 								}
 								
 								if(clinicalEvalData.getNeuroEvaluationDate() != null) {
@@ -437,12 +437,12 @@ public class ClinicalQueryHandler extends QueryHandler {
 								
 								if(clinicalEvalData.getKarnofskyScore() != null) {
 								    karnofskyScores.append(clinicalEvalData.getKarnofskyScore());
-								    karnofskyScores.append(", ");
+								    karnofskyScores.append("| ");
 								}
 								
 								if(clinicalEvalData.getLanskyScore() != null) {
 								   lanskyScores.append(clinicalEvalData.getLanskyScore());
-								   lanskyScores.append(", ");
+								   lanskyScores.append("| ");
 								}
 								
 								if(clinicalEvalData.getNeuroExam() != null) {
