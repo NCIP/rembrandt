@@ -248,6 +248,7 @@ public class ReportGeneratorHelper {
 		
 		}catch(Exception e) {
 			logger.error("Exception when trying to generate a Show All Values Report");
+			
 			logger.error(e);
 		}
 		//All done...
@@ -353,7 +354,7 @@ public class ReportGeneratorHelper {
 			checkSessionId( _cQuery.getSessionId());
 			//check that we have a queryName
 			checkQueryName( _cQuery.getQueryName());
-
+			//System.out.println(_cQuery.toString());
 			/*
 			 * If the _reportBean is null then we know that we could not
 			 * find an appropriate result set in the session cache. So

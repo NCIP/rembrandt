@@ -519,6 +519,7 @@ abstract public class GEFactHandler {
                 geneExprObjects.put(singleExprObj.getDesId(), singleExprObj);
                 exprObj = null;
             }
+      //      int i = geneExprObjects.size();
         }
 		synchronized void addCountToResults(int count) {
 			geneExprCount += count;

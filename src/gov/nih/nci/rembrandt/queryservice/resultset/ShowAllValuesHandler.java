@@ -133,6 +133,7 @@ public class ShowAllValuesHandler {
 					DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer)resultsContainer;
 						CopyNumberSingleViewResultsContainer copyNumberSingleViewContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
 						GeneExprSingleViewResultsContainer geneExprSingleViewContainer = dimensionalViewContainer.getGeneExprSingleViewContainer();
+						
 						if(copyNumberSingleViewContainer!= null){
 							Set<BioSpecimenIdentifierDE> biospecimenIDs =  copyNumberSingleViewContainer.getAllBiospecimenLabels();
 				       		for (BioSpecimenIdentifierDE bioSpecimen: biospecimenIDs) {
@@ -396,12 +397,13 @@ public class ShowAllValuesHandler {
 	        			if(groupResultset != null)
         				{
 	                     	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-	                       		String sampleId = (String) sampleIdIterator.next();
-	                       		if (groupResultset.getBioSpecimenResultset(sampleId) instanceof SampleCopyNumberValuesResultset){
-	                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId);
-	                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) copyNumberViewContainer.getBioSpecimentResultset(cytobandName,reporterName, label, sampleId);
-
-	                       			Double ratio = null;
+	                     		BioSpecimenIdentifierDE sampleId = (BioSpecimenIdentifierDE) sampleIdIterator.next();
+	                     		String specimenName = sampleId.getSpecimenName();
+		                       		if (groupResultset.getBioSpecimenResultset(specimenName) instanceof SampleCopyNumberValuesResultset){
+		                       			SampleCopyNumberValuesResultset showAllBiospecimenResultset  = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(specimenName);
+		                       			SampleCopyNumberValuesResultset sampleResultset2 = (SampleCopyNumberValuesResultset) copyNumberViewContainer.getBioSpecimentResultset(cytobandName,reporterName, label, specimenName);
+	
+		                       			Double ratio = null;
 	                       			if(sampleResultset2 != null && sampleResultset2.getCopyNumber() != null){
 	                       				ratio = (Double)sampleResultset2.getCopyNumber().getValue();
 	                       			}
