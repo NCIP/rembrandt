@@ -286,6 +286,7 @@ public class GPIntegrationAction extends DispatchAction {
 						session.setAttribute("genePatternServer", gpServer);
 						request.setAttribute("genePatternURL", ticketString);
 						request.getSession().setAttribute("gptid", tid);
+						request.getSession().setAttribute("gpUserId", rembrandtUser);
 						GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running);
 						RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 						_cacheManager.addNonPersistableToSessionCache(request.getSession().getId(), "latestGpTask",(Serializable) gpTask); 
