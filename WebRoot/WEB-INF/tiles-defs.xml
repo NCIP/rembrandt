@@ -23,6 +23,7 @@
     	<put name="sideBar" value="/jsp/tiles/sideBar_tile.jsp" />
     	<put name="mainForm" value="/manageLists.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=5" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.geneExpression" extends="baseDef">
@@ -30,6 +31,7 @@
     	<put name="title" value="Gene Expression" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.comparitiveGenomic" extends="baseDef">
@@ -37,6 +39,7 @@
     	<put name="title" value="Copy Number Data" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.clinical" extends="baseDef">
@@ -44,6 +47,7 @@
     	<put name="title" value="Clinical Data" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.allGenesGE" extends="baseDef">
@@ -51,6 +55,7 @@
     	<put name="title" value="Gene Expression" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.allGenesCGH" extends="baseDef">
@@ -58,6 +63,7 @@
     	<put name="title" value="Comparative Genomic Data" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.classComparison" extends="baseDef">
@@ -66,6 +72,7 @@
     	<put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/reqdFieldsMsg_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.principalComponent" extends="baseDef">
@@ -74,6 +81,7 @@
     	<put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.hierarchicalClustering" extends="baseDef">
@@ -82,6 +90,7 @@
     	<put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
     	<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="rembrandt.gpIntegration" extends="baseDef">
@@ -90,6 +99,7 @@
 	  <put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
 	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
+	   <put name="applets" value="/decoy.jsp" />
     </definition>
 
 	<definition name="rembrandt.gpJobView" extends="baseDef">
@@ -97,38 +107,46 @@
 		<put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
 		<put name="mainForm" value="/jsp/gpJobView.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
-		<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />		
+		<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />	
+		<put name="applets" value="/decoy.jsp" />	
     </definition> 
-    
+	<definition name="rembrandt.heatMapViewApplet" extends="rembrandt.gpJobView">
+		<put name="applets" value="/Applets/gp/heatMapViewApplet.jsp" />	
+    </definition> 
 
     <definition name="nautilus.menu" extends="baseDef">
     	<put name="mainForm" value="/jsp/menu.jsp" />
     	<put name="title" value="Advanced Search - Build Query" />
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+    	<put name="applets" value="/decoy.jsp" />
     </definition>
 
     <definition name="nautilus.viewResults" extends="baseDef">
       	<put name="mainForm" value="/jsp/viewResults.jsp" />
 	  	<put name="title" value="View Results" />
 	   	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
+	   	<put name="applets" value="/decoy.jsp" />
 	</definition>
  
 	<definition name="nautilus.refine" extends="baseDef">
 		<put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />
 		<put name="title" value="Refine Query" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=2" />
+		<put name="applets" value="/decoy.jsp" />
 	</definition>
 
 	<definition name="nautilus.logout" extends="baseDef">
 		<put name="mainForm" value="/logout.jsp" />
 		<put name="title" value="Logout" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp" />
+		<put name="applets" value="/decoy.jsp" />
 	</definition>
 
 	<definition name="nautilus.home" extends="baseDef">
 		<put name="mainForm" value="/jsp/home.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=1" />
 		<put name="title" value="REMBRANDT Quick Gene Search" />
+		<put name="applets" value="/decoy.jsp" />
 	</definition>
 	<!-- 
 	<definition name="nautilus.home" path="/jsp/homeLayout.jsp">
@@ -147,6 +165,7 @@
 		<put name="mainForm" value="/jsp/analysisHome.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
 		<put name="title" value="REMBRANDT High Order Analysis" />
+		<put name="applets" value="/decoy.jsp" />
 	</definition>
 	<!-- 
     <definition name="nautilus.analysisHome" path="/jsp/homeLayout.jsp">
