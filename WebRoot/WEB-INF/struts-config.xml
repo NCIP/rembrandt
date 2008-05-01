@@ -270,6 +270,7 @@
 		validate="false"
 		parameter="method">
 		<forward name="success" path="rembrandt.gpJobView" />
+		<forward name="appletViewer" path="rembrandt.heatMapViewApplet" />
 	</action>
 	
 	<action path="/hierarchicalClustering"
