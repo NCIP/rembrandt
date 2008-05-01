@@ -52,7 +52,10 @@
 									</div>
 								</div>
 							</td>
-						</tr>	
+						</tr>
+						<tr><td>
+							<tiles:insert attribute="applets"/>
+						</td></tr>	
 					</table>
 				</td>
 				<td valign="top" class="sideBar">
