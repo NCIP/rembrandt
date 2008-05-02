@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 
 import gov.nih.nci.caintegrator.application.cache.PresentationCacheManager;
+import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 
 import gov.nih.nci.caintegrator.service.task.GPTask;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -113,7 +114,8 @@ public class GPProcessAction extends DispatchAction {
 			for(Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
 			
 				GPTask task = (GPTask) i.next();
-				jobList.add(task.getJobId());
+				if (task.getStatus().equals(FindingStatus.Completed))
+					jobList.add(task.getJobId());
 				//System.out.println("******Job Id = " + task.getJobId());
 			}
 		}
@@ -194,7 +196,8 @@ public class GPProcessAction extends DispatchAction {
 			for(Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
 			
 				GPTask task = (GPTask) i.next();
-				jobList.add(task.getJobId());
+				if (task.getStatus().equals(FindingStatus.Completed))
+					jobList.add(task.getJobId());
 				//System.out.println("******Job Id = " + task.getJobId());
 			}
 		}
