@@ -127,7 +127,7 @@ function checkJobId(jobList) {
 						DWREngine.setWarningHandler(customError);
 						DWREngine.setErrorHandler(customError);
 					
-						//setTimeout("A_checkGenePatternStatus('<%= jobId %>')", 0200);
+						setTimeout("A_checkGenePatternStatus('<%= jobId %>')", 0200);
 						var vr_checker = setInterval("A_checkGenePatternStatus('<%= jobId %>')", 5000);
 	
 					</script>
