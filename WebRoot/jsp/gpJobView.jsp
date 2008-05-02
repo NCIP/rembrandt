@@ -38,7 +38,7 @@ function checkJobId(jobList) {
      <fieldset>
      	<legend>Gene Pattern Modules</legend>
      	<br/>
-     	<html:form method="post" action="/gpProcess.do?method=submit" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
+     	<html:form method="post" action="/gpProcess.do?method=startApplet" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
        		<table border="0" cellpadding="3" cellspacing="3">
        			<tr> 
        				<td width="20%">
