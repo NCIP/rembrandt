@@ -14,6 +14,8 @@ import gov.nih.nci.caintegrator.application.cache.CacheFactory;
 import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.service.task.GPTask;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.action.GPProcessAction;
 
 import java.io.Serializable;
@@ -58,13 +60,16 @@ public class GenePatternHelper {
 			}
 		}
 		if (findingStatus != FindingStatus.Running){
-			PresentationTierCache ptc = CacheFactory.getPresentationTierCache();							
+			//PresentationTierCache ptc = CacheFactory.getPresentationTierCache();
+			RembrandtPresentationTierCache ptc = ApplicationFactory.getPresentationTierCache();
 			if(ptc!=null){
 		    	GPTask gpTask = (GPTask)ptc.getNonPersistableObjectFromSessionCache(
 		    			session.getId(), "latestGpTask");
-		    	gpTask.setStatus(findingStatus);
-		    	ptc.addNonPersistableToSessionCache(session.getId(), gpTask.getJobId(),(Serializable) gpTask);
-    			ptc.removeObjectFromNonPersistableSessionCache(session.getId(), "latestGpTask");
+		    	if (gpTask != null){
+		    		gpTask.setStatus(findingStatus);
+		    		ptc.addNonPersistableToSessionCache(session.getId(), gpTask.getJobId(),(Serializable) gpTask);
+		    		ptc.removeObjectFromNonPersistableSessionCache(session.getId(), "latestGpTask");
+		    	}
 			}
 		}
 		return message;
