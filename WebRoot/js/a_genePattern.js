@@ -58,6 +58,12 @@ function A_checkGenePatternStatus_cb(message){
 			curElJobSelect.disabled = false;
 			curElProcessSelect.disabled = false;
 			curElSubmit.disabled = false;
+			
+			//Add the new job id to job list list box.
+			var no = new Option();
+			no.value = sid;
+			no.text = sid;
+			curElJobSelect.options[curElJobSelect.options.length] = no;
 		}
 	}
 	else if(message == 'error')	{
