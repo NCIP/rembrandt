@@ -15,7 +15,7 @@
 
 
 <applet code="gov.nih.nci.caintegrator.application.gpvisualizer.heatmapviewer.CaIntegratorRunVisualizerApplet" 
-	archive="SignedHMVApplet.jar,commons-httpclient-3.1.jar" 
+	archive="SignedHMVApplet.jar,commons-httpclient-3.1.jar,log4j.jar" 
 	codebase="Applets/gp" width="1" height="1" alt="Your browser refuses to run applets" name="a1907740583592007" >
 <param name="name" value="HeatMapViewer" >
 <param name="gp_os" value="any">
