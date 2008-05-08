@@ -177,7 +177,7 @@ public class GPProcessAction extends DispatchAction {
 		String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
 		//fileName = fileName + ticketString;
 		request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, fileName);
-		
+		logger.info("File URL = " + fileName + ticketString);
         //remove the last slash
 		index = gpserverURL.lastIndexOf("/");
 		gpserverURL = gpserverURL.substring(0, index);
