@@ -1,7 +1,5 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-
-import gov.nih.nci.caintegrator.application.cache.PresentationCacheManager;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 
 import gov.nih.nci.caintegrator.service.task.GPTask;
@@ -22,12 +20,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-import org.genepattern.client.GPServer;
+
 import org.genepattern.util.StringUtils;
-import org.genepattern.webservice.AnalysisWebServiceProxy;
-import org.genepattern.webservice.JobInfo;
-import org.genepattern.webservice.Parameter;
-import org.genepattern.webservice.ParameterInfo;
+
 import org.genepattern.webservice.TaskIntegratorProxy;
 import org.genepattern.visualizer.RunVisualizerConstants;
 
@@ -119,7 +114,7 @@ public class GPProcessAction extends DispatchAction {
 				//System.out.println("******Job Id = " + task.getJobId());
 			}
 		}
-		//jobList.add("1815");
+		//jobList.add("1941");
 		gpForm.setJobList(jobList);
 		List<String> processList = new ArrayList<String>();
 		//processList.add("ComparativeMarkerSelection");
@@ -136,12 +131,12 @@ public class GPProcessAction extends DispatchAction {
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
     	System.out.println("Entering startApplet method.......");
-		//System.out.println("checkGPStatus called...");
+
     	GpProcessForm gpForm = (GpProcessForm)form;
 		HttpSession session = request.getSession();
-		//GPServer gpServer = (GPServer)session.getAttribute("genePatternServer");
-			
-		String jobNumber = gpForm.getJobId(); //Integer.parseInt(sid);
+
+		String jobNumber = gpForm.getJobId(); 
+
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		GPTask gpTask = null;
@@ -152,19 +147,12 @@ public class GPProcessAction extends DispatchAction {
 					gpTask = task;
 			}
 		}
-		
+         
 		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
 
 		String gpUserId = (String)session.getAttribute("gpUserId");
-		//if (gpUserId == null)
-		//	gpUserId = "NCITCGAGuest1";
+
 		String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
-		
-		//StringTokenizer st = new StringTokenizer(System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.heatmapviewer.gp_filenames"), ",");
-		//String[] gp_filenames = new String[st.countTokens()];
-		//for (int i = 0; st.hasMoreTokens(); i++){
-		//	gp_filenames[i] = st.nextToken();
-		//}
 		
 	    TaskIntegratorProxy taskIntegratorProxy = new TaskIntegratorProxy(gpserverURL, gpUserId, password, false);
 	    String lsid = System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.heatmapviewer.gp_lsid");
@@ -181,10 +169,15 @@ public class GPProcessAction extends DispatchAction {
         String commandline = System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.heatmapviewer.commandLine");
         commandline = StringUtils.htmlEncode(commandline);
         request.setAttribute(RunVisualizerConstants.COMMAND_LINE, commandline);
-        String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
-        //String fileName = gpserverURL + "gp/jobResults/1815/gp.gct";
-        //String fileName = "http://localhost:8080/tcga/Applets/gp/files/gp.gct"; //gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
-        request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, fileName);
+
+        String gpHomeURL =  (String)request.getSession().getAttribute("ticketString");
+		int ppp = gpHomeURL.indexOf("?");
+		String ticketString = gpHomeURL.substring(ppp);
+		request.setAttribute("ticketString", ticketString);
+		String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
+		//fileName = fileName + ticketString;
+		request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, fileName);
+		
         //remove the last slash
 		index = gpserverURL.lastIndexOf("/");
 		gpserverURL = gpserverURL.substring(0, index);
@@ -201,7 +194,7 @@ public class GPProcessAction extends DispatchAction {
 				//System.out.println("******Job Id = " + task.getJobId());
 			}
 		}
-		//jobList.add("1815");
+		//jobList.add("1941");
 		gpForm.setJobList(jobList);
 		List<String> processList = new ArrayList<String>();
 		processList.add("HeatMapViewer");
