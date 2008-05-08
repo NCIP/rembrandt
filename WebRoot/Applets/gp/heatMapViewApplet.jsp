@@ -9,9 +9,8 @@
 	String commandLine = (String)request.getAttribute("commandLine");
 	String gp_fileDates = (String)request.getAttribute("gp_fileDates");
 	String gp_filenames = (String)request.getAttribute("gp_filenames");
+	String ticketString = (String)request.getAttribute("ticketString");
  %>
-
-
 
 
 <applet code="gov.nih.nci.caintegrator.application.gpvisualizer.heatmapviewer.CaIntegratorRunVisualizerApplet" 
@@ -27,6 +26,7 @@
 <param name="dataset" value="<%= gp_download %>" >
 <param name="gp_download" value="dataset" >
 <param name="commandLine" value="<%= commandLine %>" >
+<param name="ticketString" value="<%= ticketString %>" >
 <param name="DEBUG" value="1" >
 <param name="gp_filenames" value="<%= gp_filenames %>" >
 <param name="gp_fileDates" value="<%= gp_fileDates %>" >
