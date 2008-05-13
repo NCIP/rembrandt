@@ -100,6 +100,7 @@ public class GPProcessAction extends DispatchAction {
 			request.setAttribute("jobIdSelect", gpTask.getJobId() + "_jobId");
 			request.setAttribute("processSelect", gpTask.getJobId() + "_process");
 			request.setAttribute("submitButton", gpTask.getJobId() + "_submit");
+			request.setAttribute("gpStatus", gpTask.getStatus().toString());
     	}
 		
 		List<String> jobList = new ArrayList<String>();
