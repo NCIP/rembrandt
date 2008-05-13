@@ -284,7 +284,7 @@ public class GPIntegrationAction extends DispatchAction {
 						request.setAttribute("jobId", tid);
 						request.setAttribute("gpStatus", "running");
 						session.setAttribute("genePatternServer", gpServer);
-						//request.setAttribute("genePatternURL", ticketString);
+						request.setAttribute("genePatternURL", ticketString);
 						request.getSession().setAttribute("gptid", tid);
 						request.getSession().setAttribute("gpUserId", rembrandtUser);
 						request.getSession().setAttribute("ticketString", ticketString);
