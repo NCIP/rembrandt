@@ -89,8 +89,7 @@ function checkJobId(jobList) {
      		</table>
      		</html:form>
 		</fieldset>
-<br /><br />
-					
+<br /><br />			
 <script type="text/javascript">Help.insertHelp("genepattern_job_result", " align='right'", "padding:2px;");</script>
 <br/>       
      <fieldset>
@@ -134,11 +133,11 @@ function checkJobId(jobList) {
 				
 					<%
 						//Check completion status
-						if(currentStatus.equals("completed"))
+						if(currentStatus.equalsIgnoreCase("completed"))
 							currentStatus = "<b id=\"" + jobId + "_status\">completed</b>  <img src='images/check.png' alt='complete' id=\"" + jobId + "_image\"/>";
-						else if(currentStatus.equals("running"))
+						else if(currentStatus.equalsIgnoreCase("running"))
 							currentStatus = "<b id=\"" + jobId + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + jobId + "_image\" />";
-						else if(currentStatus.equals("error"))	{
+						else if(currentStatus.equalsIgnoreCase("error"))	{
 					
 							String comments = "An error occured during sending your job request to GenePattern or during GenePattern processing";
 							currentStatus = "<b id=\"" + jobId + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','error'));</script></b> <img src='images/error.png' alt='error' id=\"" + jobId + "_image\" />";
