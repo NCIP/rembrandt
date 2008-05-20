@@ -103,20 +103,10 @@ public class GPProcessAction extends DispatchAction {
 			request.setAttribute("gpStatus", gpTask.getStatus().toString());
     	}
 		
-		List<String> jobList = new ArrayList<String>();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 
-		if (tempGpTaskList != null && !tempGpTaskList.isEmpty()){
-			for(Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
-			
-				GPTask task = (GPTask) i.next();
-				if (task.getStatus().equals(FindingStatus.Completed))
-					jobList.add(task.getJobId());
-				//System.out.println("******Job Id = " + task.getJobId());
-			}
-		}
-		//jobList.add("1941");
-		gpForm.setJobList(jobList);
+		gpForm.setJobList(getGPTaskList(tempGpTaskList));
+		
 		List<String> processList = new ArrayList<String>();
 		//processList.add("ComparativeMarkerSelection");
 		//processList.add("GeneNeighbors");
@@ -179,24 +169,13 @@ public class GPProcessAction extends DispatchAction {
 		//fileName = fileName + ticketString;
 		request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, fileName);
 		logger.info("File URL = " + fileName + ticketString);
-        //remove the last slash
-		index = gpserverURL.lastIndexOf("/");
-		gpserverURL = gpserverURL.substring(0, index);
-        request.setAttribute("genePatternServer", gpserverURL);
 
-		List<String> jobList = new ArrayList<String>();
-		/////
-		if (tempGpTaskList != null && !tempGpTaskList.isEmpty()){
-			for(Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
-			
-				GPTask task = (GPTask) i.next();
-				if (task.getStatus().equals(FindingStatus.Completed))
-					jobList.add(task.getJobId());
-				//System.out.println("******Job Id = " + task.getJobId());
-			}
-		}
-		//jobList.add("1941");
-		gpForm.setJobList(jobList);
+		String supportFileURL = System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.heatmapviewer.supportFileURL");
+        request.setAttribute("supportFileURL", supportFileURL);
+        request.setAttribute("name", "Heat Map View");
+        
+
+		gpForm.setJobList(getGPTaskList(tempGpTaskList));
 		List<String> processList = new ArrayList<String>();
 		processList.add("HeatMapViewer");
 		//processList.add("HeatMapImage");
@@ -215,6 +194,19 @@ public class GPProcessAction extends DispatchAction {
         	}
         }
         return sb.toString();
+	}
+	
+	private List<String> getGPTaskList(Collection collection){
+		List<String> jobList = new ArrayList<String>();
+		if (collection != null && !collection.isEmpty()){
+			for(Iterator i = collection.iterator();i.hasNext();)	{
+			
+				GPTask task = (GPTask) i.next();
+				if (task.getStatus().equals(FindingStatus.Completed))
+					jobList.add(task.getJobId());
+			}
+		}
+		return jobList;
 	}
 }
 
