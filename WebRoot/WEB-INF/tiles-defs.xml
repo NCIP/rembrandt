@@ -110,8 +110,8 @@
 		<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />	
 		<put name="applets" value="/decoy.jsp" />	
     </definition> 
-	<definition name="rembrandt.heatMapViewApplet" extends="rembrandt.gpJobView">
-		<put name="applets" value="/Applets/gp/heatMapViewApplet.jsp" />	
+	<definition name="rembrandt.gpApplet" extends="rembrandt.gpJobView">
+		<put name="applets" value="/Applets/gp/gpApplet.jsp" />	
     </definition> 
 
     <definition name="nautilus.menu" extends="baseDef">
