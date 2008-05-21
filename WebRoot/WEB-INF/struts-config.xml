@@ -270,9 +270,12 @@
 		validate="false"
 		parameter="method">
 		<forward name="success" path="rembrandt.gpJobView" />
-		<forward name="appletViewer" path="rembrandt.gpApplet" />
+		<forward name="appletViewer" path="/gpApplet.do" />
 	</action>
 	
+	<action path="/gpApplet"
+         forward="/Applets/gp/gpApplet.jsp" />
+         
 	<action path="/hierarchicalClustering"
          forward="nautilus.hierarchicalClustering" />
 	
