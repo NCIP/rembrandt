@@ -171,8 +171,11 @@ public class GPProcessAction extends DispatchAction {
 		logger.info("File URL = " + fileName + ticketString);
 
 		String supportFileURL = System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.heatmapviewer.supportFileURL");
-        request.setAttribute("supportFileURL", supportFileURL);
-        request.setAttribute("name", "Heat Map View");
+        request.setAttribute("supportFileURL", StringUtils.htmlEncode(supportFileURL));
+        request.setAttribute("name", "HeatMapView");
+        //The line above was set to "Heat Map View" for some bad reason - note the spaces.  
+        //this causes the applet to fail on MAC.  The JSP removes the spaces, but why were they hardcoded here
+        //changed "Heat Map View" to "HeatMapView" .... RL
         
 
 		gpForm.setJobList(getGPTaskList(tempGpTaskList));

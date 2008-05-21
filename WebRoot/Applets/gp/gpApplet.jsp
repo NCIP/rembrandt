@@ -15,25 +15,28 @@
  %>
 
 <b>Please be patient, the viewer is loading...</b><img src="images/indicator.gif"/><br/><br/>
-<applet code="gov.nih.nci.caintegrator.application.gpvisualizer.CaIntegratorRunVisualizerApplet" 
-	archive="SignedGPApplet.jar,GenePattern.jar,commons-httpclient-3.1.jar,commons-logging-1.0.4.jar,commons-codec-1.3.jar" 
-	codebase="Applets/gp" width="100" height="100" alt="Your browser refuses to run applets" name="a1907740583592007" >
-<param name="name" value="<%= name %>" >
-<param name="gp_os" value="any">
-<param name="gp_cpuType" value="any">
-<param name="libdir" value="any">
-<param name="visualizer_java_flags" value="-Xmx512M">
-<param name="gp_paramNames" value="dataset" >
-<param name="supportFileURL" value="<%= supportFileURL %>" >
-<param name="dataset" value="<%= gp_download %>" >
-<param name="gp_download" value="dataset" >
-<param name="commandLine" value="<%= commandLine %>" >
-<param name="ticketString" value="<%= ticketString %>" >
-<param name="DEBUG" value="1" >
-<param name="gp_filenames" value="<%= gp_filenames %>" >
-<param name="gp_fileDates" value="<%= gp_fileDates %>" >
-<param name="gp_lsid" value="<%= gp_lsid %>" >
-</applet>	
+
+<script type="text/javascript">
+document.writeln('<applet code="gov.nih.nci.caintegrator.application.gpvisualizer.CaIntegratorRunVisualizerApplet" archive="SignedGPApplet.jar,GenePattern.jar,commons-httpclient-3.1.jar,commons-logging-1.0.4.jar,commons-codec-1.3.jar" codebase="Applets/gp" width="100" height="100" alt="Your browser refuses to run applets" name="a1907740583592007" >');
+document.writeln('<param name="name" value="<%= name %>" >');
+document.writeln('<param name="gp_os" value="any">');
+document.writeln('<param name="gp_cpuType" value="any">');
+document.writeln('<param name="libdir" value="any">');
+document.writeln('<param name="visualizer_java_flags" value="-Xmx512M">');
+document.writeln('<param name="gp_paramNames" value="dataset" >');
+document.writeln('<param name="supportFileURL" value="<%= supportFileURL %>" >');
+document.writeln('<param name="dataset" value="<%= gp_download %>" >');
+document.writeln('<param name="gp_download" value="dataset" >');
+document.writeln('<param name="commandLine" value="<%= commandLine %>" >');
+document.writeln('<param name="ticketString" value="<%= ticketString %>" >');
+document.writeln('<param name="DEBUG" value="1" >');
+document.writeln('<param name="gp_filenames" value="<%= gp_filenames %>" >');
+document.writeln('<param name="gp_fileDates" value="<%= gp_fileDates %>" >');
+document.writeln('<param name="gp_lsid" value="<%= gp_lsid %>" >');
+
+document.writeln("<PARAM name=\"browserCookie\" value=\"" + document.cookie + "\">");
+document.writeln('</applet>');	
+</script>
 <br/>
 </html>
 	
