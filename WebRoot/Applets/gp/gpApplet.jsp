@@ -15,7 +15,8 @@
 	String appletName = "a" + ("" + Math.random()).substring(2);
  %>
 
-<b>Please be patient, the viewer is loading...</b><img src="images/indicator.gif"/><br/><br/>
+<b>Please be patient, the viewer is loading...</b><img src="images/indicator.gif"/><br/>
+<b>The viewer requires JVM 1.5 or above. <br/><br/>
 
 <script type="text/javascript">
 document.writeln('<applet code="gov.nih.nci.caintegrator.application.gpvisualizer.CaIntegratorRunVisualizerApplet" archive="SignedGPApplet.jar,GenePattern.jar,commons-httpclient-3.1.jar,commons-logging-1.0.4.jar,commons-codec-1.3.jar" codebase="Applets/gp" width="100" height="100" alt="Your browser refuses to run applets" name="<%= appletName %>" >');
