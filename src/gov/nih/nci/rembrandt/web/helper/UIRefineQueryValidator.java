@@ -264,10 +264,10 @@ public class UIRefineQueryValidator {
     	    			//get the specimenNames associated with these samples
     	    			List<String> specimenNames = LookupManager.getSpecimenNames(l.getList());
     	   				//get the samples associated with these specimens
-    	   				List<String> sampleIds = LookupManager.getSampleIDs(l.getList());
+    	   				List<String> sampleIds = LookupManager.getSampleIDs(samples);
     	   				//Add back any samples that were just sampleIds to start with
     	   				if(sampleIds != null){
-    	   					samples.addAll(samples);
+    	   					samples.addAll(sampleIds);
     	   				}
     	   				if(specimenNames != null){
     	   					samples.addAll(specimenNames);
@@ -275,13 +275,20 @@ public class UIRefineQueryValidator {
     	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));
     	    			sampleCrit.setSampleIDs(sampleIDDEList);
     	    		}
+    	    		if (sampleCrit.getSampleIDs().size() > RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT ){
+    	                //throw new Exception("Total Sample Number of Samples can not exceed " + RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT);
+    	    			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
+    	    			
+    	        }//else{
+			     
     	    		if(isAllGenesQuery&&sampleCrit.getSampleIDs().size()> RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET) {
     		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery.toomanysamples", selectedResultSet,Integer.toString(RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET)));
+    		        	
     	    		}else {
     	    			//drop the sample criteria into the compound query, clone it here
     		    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
     	    		}
-               // }	
+                //}	
 	    	}
 			if(errors.isEmpty()) {
 				//store the sessionId that the compound query is associated with
