@@ -11,13 +11,14 @@
 	String gp_filenames = (String)request.getAttribute("gp_filenames");
 	String ticketString = (String)request.getAttribute("ticketString");
 	String name = (String)request.getAttribute("name");
-	name = name.replace(" ", "");
+	
+	String appletName = "a" + ("" + Math.random()).substring(2);
  %>
 
 <b>Please be patient, the viewer is loading...</b><img src="images/indicator.gif"/><br/><br/>
 
 <script type="text/javascript">
-document.writeln('<applet code="gov.nih.nci.caintegrator.application.gpvisualizer.CaIntegratorRunVisualizerApplet" archive="SignedGPApplet.jar,GenePattern.jar,commons-httpclient-3.1.jar,commons-logging-1.0.4.jar,commons-codec-1.3.jar" codebase="Applets/gp" width="100" height="100" alt="Your browser refuses to run applets" name="a1907740583592007" >');
+document.writeln('<applet code="gov.nih.nci.caintegrator.application.gpvisualizer.CaIntegratorRunVisualizerApplet" archive="SignedGPApplet.jar,GenePattern.jar,commons-httpclient-3.1.jar,commons-logging-1.0.4.jar,commons-codec-1.3.jar" codebase="Applets/gp" width="100" height="100" alt="Your browser refuses to run applets" name="<%= appletName %>" >');
 document.writeln('<param name="name" value="<%= name %>" >');
 document.writeln('<param name="gp_os" value="any">');
 document.writeln('<param name="gp_cpuType" value="any">');
