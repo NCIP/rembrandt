@@ -17,6 +17,9 @@
 
 <script type="text/javascript">
 function checkJobId(jobList) {
+
+//refresh the iframe first to keep the session alive
+$('pingFrame').src = $('pingFrame').src;
     if (jobList.options.length == 0) {
         alert("No Gene Pattern Job is available yet");
         return false;
@@ -33,6 +36,11 @@ function checkJobId(jobList) {
 	String submitButton = (String)request.getAttribute("submitButton");
 	String gpurl = (String)request.getAttribute("genePatternURL");
 %>
+<script type="text/javascript">
+Event.observe(window, "load", function()	{
+
+});
+</script>
 <br/>
 <script type="text/javascript">Help.insertHelp("genepattern_job_list", " align='right'", "padding:2px;");</script>
      <fieldset>
@@ -169,6 +177,11 @@ function checkJobId(jobList) {
 						if (gpurl == null) {
 							gpurl = GenePatternIntegrationHelper.gpHomeURL(request);
 						}
+						//ping GP server here to open session
+						%>
+						<iframe id="pingFrame" height="1" size="1" style="display:none" src="<%=gpurl%>"></iframe>
+						<% 
+						
 						//String jobId = (String)request.getAttribute("jobId");
 						if (tempGpTaskList != null && !tempGpTaskList.isEmpty()){
 							for (Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
