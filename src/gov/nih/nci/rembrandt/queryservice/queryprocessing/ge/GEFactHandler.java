@@ -409,7 +409,7 @@ abstract public class GEFactHandler {
     public final static class SingleGEFactHandler extends GEFactHandler {
         ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery geQuery)
         throws Exception {
-            //AllGenesCritValidator.validateSampleIDCrit(geQuery);
+            AllGenesCritValidator.validateSampleIDCrit(geQuery);
 
             PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
             final Criteria sampleCrit = new Criteria();

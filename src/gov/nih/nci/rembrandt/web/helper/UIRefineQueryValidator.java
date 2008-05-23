@@ -275,14 +275,9 @@ public class UIRefineQueryValidator {
     	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));
     	    			sampleCrit.setSampleIDs(sampleIDDEList);
     	    		}
-    	    		if (sampleCrit.getSampleIDs().size() > RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT ){
-    	                //throw new Exception("Total Sample Number of Samples can not exceed " + RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT);
-    	    			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
-    	    			
-    	        }//else{
-			     
-    	    		if(isAllGenesQuery&&sampleCrit.getSampleIDs().size()> RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET) {
-    		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery.toomanysamples", selectedResultSet,Integer.toString(RembrandtConstants.MAX_ALL_GENE_SAMPLE_SET)));
+    	    					     
+    	    		if(isAllGenesQuery&&sampleCrit.getSampleIDs().size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT) {
+    		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
     		        	
     	    		}else {
     	    			//drop the sample criteria into the compound query, clone it here
