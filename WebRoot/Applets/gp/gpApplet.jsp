@@ -11,6 +11,7 @@
 	String gp_filenames = (String)request.getAttribute("gp_filenames");
 	String ticketString = (String)request.getAttribute("ticketString");
 	String name = (String)request.getAttribute("name");
+	String ts = ticketString.replace("?", "&amp;");
 	
 	String appletName = "a" + ("" + Math.random()).substring(2);
  %>
@@ -26,7 +27,7 @@ document.writeln('<param name="gp_cpuType" value="any">');
 document.writeln('<param name="libdir" value="any">');
 document.writeln('<param name="visualizer_java_flags" value="-Xmx512M">');
 document.writeln('<param name="gp_paramNames" value="dataset" >');
-document.writeln('<param name="supportFileURL" value="<%= supportFileURL %>" >');
+document.writeln('<param name="supportFileURL" value="<%= supportFileURL %><%= ts %>" >');
 document.writeln('<param name="dataset" value="<%= gp_download %>" >');
 document.writeln('<param name="gp_download" value="dataset" >');
 document.writeln('<param name="commandLine" value="<%= commandLine %>" >');
