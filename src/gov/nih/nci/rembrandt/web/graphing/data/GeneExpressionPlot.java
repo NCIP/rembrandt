@@ -127,7 +127,7 @@ public class GeneExpressionPlot {
 			DefaultStatisticalCategoryDataset dataset = (DefaultStatisticalCategoryDataset) gpds.getLog2Dataset();
 			
 			//RAW Dataset
-			CategoryDataset fdataset = (CategoryDataset) gpds.getRawDataset();
+			CategoryDataset meanDataset = (CategoryDataset) gpds.getRawDataset();
 			
 			//B&W dataset
 			DefaultBoxAndWhiskerCategoryDataset bwdataset = (DefaultBoxAndWhiskerCategoryDataset) gpds.getBwdataset();
@@ -254,7 +254,7 @@ public class GeneExpressionPlot {
 
 			
 			// create the chart...for LOG2 dataset
-			JFreeChart chart = ChartFactory.createBarChart(
+			JFreeChart log2Chart = ChartFactory.createBarChart(
 					null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/, // chart
 																			// title
 					"Groups", // domain axis label
@@ -267,12 +267,12 @@ public class GeneExpressionPlot {
 					);
 
 			//create the chart .... for RAW dataset
-			JFreeChart fchart = ChartFactory.createBarChart(
+			JFreeChart meanChart = ChartFactory.createBarChart(
 					null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/, // chart
 																			// title
 					"Groups", // domain axis label
 					"Mean Expression Intensity", // range axis label
-					fdataset, // data
+					meanDataset, // data
 					PlotOrientation.VERTICAL, // orientation
 					true, // include legend
 					true, // tooltips?
@@ -292,21 +292,21 @@ public class GeneExpressionPlot {
 					false // URLs?
 					);
 
-			chart.setBackgroundPaint(java.awt.Color.white);
+			log2Chart.setBackgroundPaint(java.awt.Color.white);
 			// lets start some customization to retro fit w/jcharts lookand feel
-			CategoryPlot plot = chart.getCategoryPlot();
-			CategoryAxis axis = plot.getDomainAxis();
-			axis.setLowerMargin(0.02); // two percent
-			axis.setCategoryMargin(0.20); // 20 percent
-			axis.setUpperMargin(0.02); // two percent
+			CategoryPlot log2Plot = log2Chart.getCategoryPlot();
+			CategoryAxis log2Axis = log2Plot.getDomainAxis();
+			log2Axis.setLowerMargin(0.02); // two percent
+			log2Axis.setCategoryMargin(0.20); // 20 percent
+			log2Axis.setUpperMargin(0.02); // two percent
 
 			// same for our fake chart - just to get the tooltips
-			fchart.setBackgroundPaint(java.awt.Color.white);
-			CategoryPlot fplot = fchart.getCategoryPlot();
-			CategoryAxis faxis = fplot.getDomainAxis();
-			faxis.setLowerMargin(0.02); // two percent
-			faxis.setCategoryMargin(0.20); // 20 percent
-			faxis.setUpperMargin(0.02); // two percent
+			meanChart.setBackgroundPaint(java.awt.Color.white);
+			CategoryPlot meanPlot = meanChart.getCategoryPlot();
+			CategoryAxis meanAxis = meanPlot.getDomainAxis();
+			meanAxis.setLowerMargin(0.02); // two percent
+			meanAxis.setCategoryMargin(0.20); // 20 percent
+			meanAxis.setUpperMargin(0.02); // two percent
 
 			//	median plot
 			medianChart.setBackgroundPaint(java.awt.Color.white);
@@ -317,13 +317,13 @@ public class GeneExpressionPlot {
 			medianAxis.setUpperMargin(0.02); // two percent
 			
 			// customise the renderer...
-			StatisticalBarRenderer renderer = new StatisticalBarRenderer();
+			StatisticalBarRenderer log2Renderer = new StatisticalBarRenderer();
 
 			// BarRenderer renderer = (BarRenderer) plot.getRenderer();
-			renderer.setItemMargin(0.01); // one percent
-			renderer.setDrawBarOutline(true);
-			renderer.setOutlinePaint(Color.BLACK);
-			renderer.setToolTipGenerator(new CategoryToolTipGenerator() {
+			log2Renderer.setItemMargin(0.01); // one percent
+			log2Renderer.setDrawBarOutline(true);
+			log2Renderer.setOutlinePaint(Color.BLACK);
+			log2Renderer.setToolTipGenerator(new CategoryToolTipGenerator() {
 
 				public String generateToolTip(CategoryDataset dataset,
 						int series, int item) {
@@ -344,13 +344,42 @@ public class GeneExpressionPlot {
 				}
 
 			});
-
+			log2Plot.setRenderer(log2Renderer);
 			// customize the  renderer
-			BarRenderer frenderer = (BarRenderer) fplot.getRenderer();
-			frenderer.setItemMargin(0.01); // one percent
-			frenderer.setDrawBarOutline(true);
-			frenderer.setOutlinePaint(Color.BLACK);
-			frenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
+			BarRenderer meanRenderer = (BarRenderer) meanPlot.getRenderer();
+			meanRenderer.setItemMargin(0.01); // one percent
+			meanRenderer.setDrawBarOutline(true);
+			meanRenderer.setOutlinePaint(Color.BLACK);
+			meanRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
+
+				public String generateToolTip(CategoryDataset dataset,
+						int series, int item) {
+					HashMap pv = gpds.getPValuesHashMap();
+					HashMap std_d = gpds.getStdDevMap();
+					String currentPV = (String) pv.get(dataset
+							.getRowKey(series)
+							+ "::" + dataset.getColumnKey(item));
+					
+					String stdDev = (String) std_d.get(dataset
+							.getRowKey(series)
+							+ "::" + dataset.getColumnKey(item));
+					
+					return "Probeset : " + dataset.getRowKey(series) +
+							"<br/>Intensity : "+ new DecimalFormat("0.0000").format(dataset.getValue(series, item)) + 
+							"<br/>"+RembrandtConstants.PVALUE +": " + currentPV +
+							"<br/>";
+							//"<br/>Std. Dev.: " + stdDev + "<br/>";
+				}
+
+			});
+
+			meanPlot.setRenderer(meanRenderer);
+			// customize the  renderer
+			BarRenderer medianRenderer = (BarRenderer) medianPlot.getRenderer();
+			medianRenderer.setItemMargin(0.01); // one percent
+			medianRenderer.setDrawBarOutline(true);
+			medianRenderer.setOutlinePaint(Color.BLACK);
+			medianRenderer.setToolTipGenerator(new CategoryToolTipGenerator() {
 
 				public String generateToolTip(CategoryDataset dataset,
 						int series, int item) {
@@ -374,14 +403,14 @@ public class GeneExpressionPlot {
 			});
 
 			// LegendTitle lg = chart.getLegend();
-			plot.setRenderer(renderer);
 
+			medianPlot.setRenderer(medianRenderer);
 			// lets generate a custom legend - assumes theres only one source?
-			LegendItemCollection lic = chart.getLegend().getSources()[0].getLegendItems();
+			LegendItemCollection lic = log2Chart.getLegend().getSources()[0].getLegendItems();
 			legendHtml = LegendCreator.buildLegend(lic, "Probesets");
 
-			chart.removeLegend();
-			fchart.removeLegend();
+			log2Chart.removeLegend();
+			meanChart.removeLegend();
 			medianChart.removeLegend();
 			
 			//bwChart.removeLegend(); // <-- do this above
@@ -402,7 +431,7 @@ public class GeneExpressionPlot {
 				info = new ChartRenderingInfo(new StandardEntityCollection());
 			}
 			//END  BW
-			log2Filename = ServletUtilities.saveChartAsPNG(chart, imgW, 400, info, session);
+			log2Filename = ServletUtilities.saveChartAsPNG(log2Chart, imgW, 400, info, session);
 			ChartUtilities.writeImageMap(pw, log2Filename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
 					new StandardURLTagFragmentGenerator());
@@ -410,18 +439,19 @@ public class GeneExpressionPlot {
 			// error bars
 			info.clear(); // lose the first one
 			info = new ChartRenderingInfo(new StandardEntityCollection());
-			
-			
-			fplot.setRenderer(frenderer);
-			medianPlot.setRenderer(frenderer);
-			rawFilename = ServletUtilities.saveChartAsPNG(fchart, imgW, 400, info, session);
-			medianFilename = ServletUtilities.saveChartAsPNG(medianChart, imgW, 400, info, session);
-			
+			rawFilename = ServletUtilities.saveChartAsPNG(meanChart, imgW, 400, info, session);
 			// Write the image map to the PrintWriter
 			// can use a different writeImageMap to pass tooltip and URL custom
 			ChartUtilities.writeImageMap(pw, rawFilename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
 					new StandardURLTagFragmentGenerator());
+			
+			info.clear(); // lose the first one
+			info = new ChartRenderingInfo(new StandardEntityCollection());
+			medianFilename = ServletUtilities.saveChartAsPNG(medianChart, imgW, 400, info, session);
+			
+			// Write the image map to the PrintWriter
+			// can use a different writeImageMap to pass tooltip and URL custom
 
 			ChartUtilities.writeImageMap(pw, medianFilename, info,
 					new CustomOverlibToolTipTagFragmentGenerator(),
