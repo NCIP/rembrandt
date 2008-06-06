@@ -478,15 +478,15 @@ public class SampleViewHandler {
 	public static SampleViewResultsContainer populateWithClinicalData(SampleViewResultsContainer sampleViewResultsContainer, ClinicalResultSet[] clinicalObjs ) throws Exception {
 		//SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
 		if(clinicalObjs !=null){
-			Set<String> sampleIDset = new HashSet<String>();			
+			Set<String> specimenNameSet = new HashSet<String>();			
 			for (int i = 0; i < clinicalObjs.length; i++) {
-				if(clinicalObjs[i] != null  && clinicalObjs[i].getSampleId()!= null){
-					sampleIDset.add(clinicalObjs[i].getSampleId());
+				if(clinicalObjs[i] != null  && clinicalObjs[i].getSpecimenName()!= null){
+					specimenNameSet.add(clinicalObjs[i].getSpecimenName());
 				}
 			}
 			try {
-				if(sampleIDset != null  && sampleIDset.size() > 0){
-					Collection <SampleResultset> sampleResultsets = ClinicalDataValidator.executeClinicalQueryForSampleList(sampleIDset);
+				if(specimenNameSet != null  && specimenNameSet.size() > 0){
+					Collection <SampleResultset> sampleResultsets = ClinicalDataValidator.getSampleResultsetForSpecimens(specimenNameSet);
 					for(SampleResultset sampleResultset:sampleResultsets){
 						sampleViewResultsContainer.addSampleResultset(sampleResultset);
 					}

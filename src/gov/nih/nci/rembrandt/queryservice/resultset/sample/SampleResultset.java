@@ -1,5 +1,8 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.sample;
 
+import java.io.Serializable;
+
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
@@ -70,7 +73,8 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResul
 * 
 */
 
-public class SampleResultset extends BioSpecimenResultset {
+public class SampleResultset extends BioSpecimenResultset implements Cloneable{
+
 	private DiseaseNameDE disease = null;
 	
 	private GeneExprSingleViewResultsContainer geneExprSingleViewResultsContainer = null;
@@ -114,5 +118,17 @@ public class SampleResultset extends BioSpecimenResultset {
 	public void setCopyNumberSingleViewResultsContainer(
 			CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer) {
 		this.copyNumberSingleViewResultsContainer = copyNumberSingleViewResultsContainer;
+	}
+	/**
+	 * Overrides the protected Object.clone() method exposing it as public.
+	 * It performs a 2 tier copy, that is, it does a memcopy of the instance
+	 * and then sets all the non-primitive data fields to clones of themselves.
+	 * 
+	 * @return -A minimum 2 deep copy of this object.
+	 * @throws CloneNotSupportedException 
+	 */
+	public Object clone() throws CloneNotSupportedException {
+		SampleResultset myClone = (SampleResultset) super.clone();
+		return myClone;
 	}
 }

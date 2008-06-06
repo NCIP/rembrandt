@@ -10,6 +10,7 @@ import java.sql.Date;
 
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
+import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
 import gov.nih.nci.caintegrator.dto.de.LanskyClinicalEvalDE;
@@ -82,7 +83,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 */
 
 
-public abstract class  BioSpecimenResultset implements Serializable{
+public abstract class  BioSpecimenResultset implements Serializable , Cloneable{
 	private BioSpecimenIdentifierDE biospecimen = null;
 	private String institutionName = null;
 	private Long age = null;
@@ -1053,6 +1054,21 @@ public abstract class  BioSpecimenResultset implements Serializable{
 	public void setInstitutionName(String institutionName) {
 		this.institutionName = institutionName;
 	}
+	/**
+	 * Overrides the protected Object.clone() method exposing it as public.
+	 * It performs a 2 tier copy, that is, it does a memcopy of the instance
+	 * and then sets all the non-primitive data fields to clones of themselves.
+	 * 
+	 * @return -A minimum 2 deep copy of this object.
+	 * @throws CloneNotSupportedException 
+	 */
+	public Object clone() throws CloneNotSupportedException {
 
+		BioSpecimenResultset myClone = null;
+		
+		myClone = (BioSpecimenResultset) super.clone();
+		
+		return myClone;
+	}
 
 }
