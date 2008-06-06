@@ -182,8 +182,9 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
                         if (ka != null) {
                           String kaStr = ka.getValueObject();
                           if (kaStr != null) {
-                        	if(kaStr.contains(",")) { 
-                        		String [] kaStrArray = kaStr.split(",");
+                        	if(kaStr.contains("|")) { 
+                        		kaStr =kaStr.trim();
+                        		String [] kaStrArray = kaStr.split("\\|");
 	                        	for(int i =0;i<kaStrArray.length;i++){
 	                        		if (i==0) {
 	                        		  //first score is baseline just use this for now
