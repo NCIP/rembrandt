@@ -17,6 +17,7 @@ import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -141,12 +142,13 @@ public class GPIntegrationAction extends DispatchAction {
            if(patientIdset != null && patientIdset.size()>0) {
         	   
         	   // need to convert pt dids to the specimen ids
-        		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset);        	
+        		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset);     
+                //Validate that samples has GE data
+                List<String> validspecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
         		if(specimenNames != null){
-        			   for (Iterator i = specimenNames.iterator(); i.hasNext(); ) {
-        				   String sampleid  = (String)i.next();     
-        				   // add speicmen ids to the samplegroup with the corresponding selected pt group
-        				   sampleGroup[j].add(sampleid);	        	   			   
+        			   for (String specimenName: specimenNames ) {
+        				   // add specimenName to the samplegroup with the corresponding selected pt group
+        				   sampleGroup[j].add(specimenName);	        	   			   
         		   			
         		          }// end of for
                     }// end of if
