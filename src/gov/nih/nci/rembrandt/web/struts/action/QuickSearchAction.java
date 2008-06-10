@@ -216,7 +216,11 @@ public class QuickSearchAction extends DispatchAction {
 		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {			
             kmResultsContainer = performKMGeneExpressionQuery(constrainSamples, quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet, institutionCriteria);
            	if(kmResultsContainer!=null) {
-				kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
+           		List reporters = kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity();
+           		if(reporters != null  && reporters.size() > 0){
+           			String highestIntensityReporter = (String) reporters.get(0);
+    				kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(highestIntensityReporter);
+           		}
 				if(kmResultsContainer.getGeneSymbol()!= null){
 					kmForm.setGeneOrCytoband(kmResultsContainer.getGeneSymbol().getValue().toString());
 				}
