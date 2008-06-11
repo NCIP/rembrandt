@@ -145,8 +145,8 @@ public class GPIntegrationAction extends DispatchAction {
         		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset);     
                 //Validate that samples has GE data
                 List<String> validspecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
-        		if(specimenNames != null){
-        			   for (String specimenName: specimenNames ) {
+        		if(validspecimenNames != null){
+        			   for (String specimenName: validspecimenNames ) {
         				   // add specimenName to the samplegroup with the corresponding selected pt group
         				   sampleGroup[j].add(specimenName);	        	   			   
         		   			
