@@ -266,7 +266,7 @@ public class UIRefineQueryValidator {
     	   				//get the samples associated with these specimens
     	   				List<String> sampleIds = LookupManager.getSampleIDs(samples);
     	   				//Add back any samples that were just sampleIds to start with
-    	   				if(sampleIds != null){
+    	   				if(sampleIds != null ){
     	   					samples.addAll(sampleIds);
     	   				}
     	   				if(specimenNames != null){
@@ -276,7 +276,7 @@ public class UIRefineQueryValidator {
     	    			sampleCrit.setSampleIDs(sampleIDDEList);
     	    		}
     	    					     
-    	    		if(isAllGenesQuery&&sampleCrit.getSampleIDs().size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT) {
+    	    		if(isAllGenesQuery && (sampleCrit.getSampleIDs()!= null && sampleCrit.getSampleIDs().size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)) {
     		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
     		        	
     	    		}else {

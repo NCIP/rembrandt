@@ -6,6 +6,7 @@ import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dbbean.AccessionNo;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
+import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GEPatientData;
 import gov.nih.nci.rembrandt.dbbean.GESpecimen;
@@ -20,7 +21,9 @@ import gov.nih.nci.rembrandt.dto.lookup.LocusLinkLookUp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -140,7 +143,7 @@ public class DataValidator{
     	return false;
     }
     public static Collection<SampleIDDE> validateSampleIds(Collection<SampleIDDE> sampleIds) throws Exception{
-    	Collection<SampleIDDE> validSampleList = new ArrayList<SampleIDDE>();
+    	Set<SampleIDDE> validSampleList = new HashSet<SampleIDDE>();
     	if(sampleIds != null  && sampleIds.size() > 0){
             
 
@@ -178,7 +181,7 @@ public class DataValidator{
     	return validSampleList;
     }
     public static Collection<String> validateSpecimanNames(Collection<String> specimanNames) throws Exception{
-    	Collection<String> validSpecimenList = new ArrayList<String>();
+    	Set<String> validSpecimenList = new HashSet<String>();
     	if(specimanNames != null  && specimanNames.size() > 0){
             
 
@@ -195,14 +198,14 @@ public class DataValidator{
 
 
 	            Criteria sampleCrit = new Criteria();
-	            sampleCrit.addIn("upper(specimanName)",values);	
-	            Collection sampleCollection = QueryExecuter.executeQuery(PatientData.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+	            sampleCrit.addIn("upper(SPECIMEN_NAME)",values);	
+	            Collection sampleCollection = QueryExecuter.executeQuery(BiospecimenDim.class, sampleCrit,QueryExecuter.NO_CACHE,true);
 
             	if(sampleCollection != null){
             		 for (Object obj : sampleCollection){
-            			 if(obj instanceof PatientData){
-            				 PatientData pateintData = (PatientData) obj;
-            				 validSpecimenList.add(pateintData.getSpecimenName());
+            			 if(obj instanceof BiospecimenDim){
+            				 BiospecimenDim biospecimenDim = (BiospecimenDim) obj;
+            				 validSpecimenList.add(biospecimenDim.getSpecimenName());
             			 }
             		 }
             	}

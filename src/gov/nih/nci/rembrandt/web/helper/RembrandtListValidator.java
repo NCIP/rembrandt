@@ -40,10 +40,13 @@ public class RembrandtListValidator extends ListValidator{
 			switch(listType){
 			case PatientDID:
 				try {
+					//check if these are patient Ids or speciman names
 					Collection<SampleIDDE> samples = ListConvertor.convertToSampleIDDEs(unvalidatedList);
 					samples = DataValidator.validateSampleIds(samples);
+					Collection<String> specimanNames = DataValidator.validateSpecimanNames(unvalidatedList);
 					validList = new ArrayList<String>();
 					validList.addAll(StrategyHelper.extractSamples(samples));
+					validList.addAll(specimanNames);
 					} catch (OperationNotSupportedException e) {
 						validList.clear();
 		    			logger.error("Error in getValidList");
