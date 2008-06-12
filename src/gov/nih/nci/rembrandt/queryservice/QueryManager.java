@@ -105,13 +105,14 @@ public class QueryManager {
     	
     		}
     		// Get query count first
-        	Integer count = getMaximumCountInCompoundQuery(compoundQuery);
-        	if(count < RembrandtConstants.QUERY_LIMIT){
-        		compoundResultset = CompoundQueryProcessor.execute(compoundQuery);
-        	}
-        	else{
-        		throw new Exception(RembrandtConstants.QUERY_OVER_LIMIT);
-        	}
+        	//Integer count = getMaximumCountInCompoundQuery(compoundQuery);
+    		compoundResultset = CompoundQueryProcessor.execute(compoundQuery);
+    		if(compoundResultset != null & compoundResultset.getResults()!= null){
+    			Integer count = compoundResultset.getResults().size();
+	        	if(count > RembrandtConstants.QUERY_LIMIT){	        	
+	        		throw new Exception(RembrandtConstants.QUERY_OVER_LIMIT);
+	        	}
+    		}
     	}
     	
         return compoundResultset;
