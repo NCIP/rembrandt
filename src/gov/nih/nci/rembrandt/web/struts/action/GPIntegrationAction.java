@@ -353,12 +353,21 @@ public class GPIntegrationAction extends DispatchAction {
     	int count = 0; 
     	String fileName = null;
     	String fileExtension = ".txt";
+        File tempdir = new File(getTempDir(), "ConvertToGctAndClsFile");
+        tempdir.mkdirs();
+        File[] currentFiles = tempdir.listFiles();
+        
+    	for (int i = 0; i < currentFiles.length; i++){
+    		
+    		if (currentFiles[i].isFile()){
+    			currentFiles[i].delete();
+    		}
+    	}
 		for (List<String> list : allIdStringList){
 			if (!list.isEmpty()){
 				fileName = fileNameList.get(count);	
-				// this is used to view the file locally
-				//File idFile =File.createTempFile(fileName, fileExtension, new File("C:\\temp\\rembrandt"));
-				File idFile =File.createTempFile(fileName, fileExtension);
+
+				File idFile = new File(tempdir, fileName + fileExtension);
 				FileWriter idFw = new FileWriter(idFile);
 				for (String ids : list){
 					idFw.write(ids);
@@ -373,7 +382,10 @@ public class GPIntegrationAction extends DispatchAction {
 		}
     }
 
-
-    
-
+    protected File getTempDir() throws IOException {
+        File tempdir = File.createTempFile("foo", ".temp");
+    	//File tempdir =File.createTempFile("foo", ".libdir", new File("C:\\temp\\applet"));
+        tempdir.delete();
+        return tempdir.getParentFile();
+    }
 }
