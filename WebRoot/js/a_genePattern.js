@@ -6,12 +6,16 @@ var vr_slow_checker;
 var slow_check_flag = false;
 var sid = "";
 
-var times_to_check = 10;	
+var times_to_check = 10;
+var add = "0";	
 			
-function A_checkGenePatternStatus(jobId){
+function A_checkGenePatternStatus(jobId, indicator){
 
 	//alert("A_checkGenePatternStatus(jobId) called " + jobId);
-	if(sid=="") sid = jobId;
+	if (add == '0'){
+		add = indicator;
+	}
+	if(sid=='') sid = jobId;
 	showLoading(true);
 	vr_totalRuns++;
 	GenePatternHelper.checkGPStatus(sid, A_checkGenePatternStatus_cb);
@@ -59,11 +63,13 @@ function A_checkGenePatternStatus_cb(message){
 			curElProcessSelect.disabled = false;
 			curElSubmit.disabled = false;
 			
-			//Add the new job id to job list list box.
-			var no = new Option();
-			no.value = sid;
-			no.text = sid;
-			curElJobSelect.options[curElJobSelect.options.length] = no;
+			//Add the new job id to job list list box if needed.
+			if (add == "1"){
+				var no = new Option();
+				no.value = sid;
+				no.text = sid;
+				curElJobSelect.options[curElJobSelect.options.length] = no;
+			}
 		}
 	}
 	else if(message == 'error')	{
