@@ -98,7 +98,7 @@
 	  <put name="title" value="Gene Pattern Integration Form" />
 	  <put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
-	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
+	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
 	   <put name="applets" value="/decoy.jsp" />
     </definition>
 
@@ -108,12 +108,18 @@
 		<put name="mainForm" value="/jsp/gpJobView.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
 		<put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />	
-		<put name="applets" value="/decoy.jsp" />	
-    </definition> 
-	<definition name="rembrandt.gpApplet" extends="rembrandt.gpJobView">
 		<put name="applets" value="/Applets/gp/gpApplet.jsp" />	
     </definition> 
-
+    
+    
+	<definition name="rembrandt.gpApplet" path="/Applets/gp/gpApplet.jsp">
+			
+    </definition> 
+    <!-- put name="applets" value="/decoy.jsp" /-->
+	<!-- put name="applets" value="/Applets/gp/gpApplet.jsp" / -->
+	
+	
+	
     <definition name="nautilus.menu" extends="baseDef">
     	<put name="mainForm" value="/jsp/menu.jsp" />
     	<put name="title" value="Advanced Search - Build Query" />

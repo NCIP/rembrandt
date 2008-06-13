@@ -270,9 +270,10 @@
 		validate="false"
 		parameter="method">
 		<forward name="success" path="rembrandt.gpJobView" />
-		<forward name="appletViewer" path="/gpApplet.do" />
+		<forward name="appletViewer" path="rembrandt.gpJobView" />
+		<forward name="viewJob" path="/gpProcess.do?method=setup" />
 	</action>
-	
+	<!-- forward name="appletViewer" path="/gpApplet.do" / -->
 	<action path="/gpApplet"
          forward="/Applets/gp/gpApplet.jsp" />
          
