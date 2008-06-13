@@ -8,9 +8,7 @@ import gov.nih.nci.rembrandt.dbbean.AccessionNo;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
 import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
-import gov.nih.nci.rembrandt.dbbean.GEPatientData;
 import gov.nih.nci.rembrandt.dbbean.GESpecimen;
-import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
 import gov.nih.nci.rembrandt.dbbean.LocusLink;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
@@ -193,23 +191,24 @@ public class DataValidator{
                 if(specimanName.indexOf("*")!= -1 || specimanName.indexOf("%") != -1){
                     throw new Exception("specimanName"+ specimanName+ "contains * or %");         //make sure your not checking for wildcards
                 }
-                values.add(specimanName.toUpperCase());
+                values.add(specimanName);
             }
 
 
 	            Criteria sampleCrit = new Criteria();
-	            sampleCrit.addIn("upper(SPECIMEN_NAME)",values);	
-	            Collection sampleCollection = QueryExecuter.executeQuery(BiospecimenDim.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+	            sampleCrit.addIn("SPECIMEN_NAME",values);	
+				Collection sampleCollection = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,sampleCrit,"SPECIMEN_NAME", true);
 
-            	if(sampleCollection != null){
-            		 for (Object obj : sampleCollection){
-            			 if(obj instanceof BiospecimenDim){
-            				 BiospecimenDim biospecimenDim = (BiospecimenDim) obj;
-            				 validSpecimenList.add(biospecimenDim.getSpecimenName());
-            			 }
-            		 }
-            	}
-
+				if(sampleCollection != null){
+					for(Object ojb:sampleCollection){
+						if(ojb instanceof String) {
+					       	  String termToLookup = (String)ojb;
+					     	  if(termToLookup != null && !termToLookup.equals("")){
+					     		 validSpecimenList.add(termToLookup);
+					     	  }
+						  }
+						}
+					}
 	    		} catch (Exception e) {
 	    			logger.error("Error in validateSampleIds");
 	    			logger.error(e.getMessage());

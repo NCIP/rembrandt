@@ -406,8 +406,15 @@ public class AnnotationHandler {
     		if(affyReporterGeneMap == null){
         		affyReporterGeneMap = execQueryAffyProbeSets();    		
         	}
+    		if(affyReporterGeneSymbolMap == null){
+    			affyReporterGeneSymbolMap = new HashMap<String,String>();
+    		}
 			for(String geneSymbol:affyReporterGeneMap.keySet()){
-				reporters.addAll(affyReporterGeneMap.get(geneSymbol));
+				List<String> myReporters = affyReporterGeneMap.get(geneSymbol);
+				reporters.addAll(myReporters);
+				for(String reporter:myReporters){
+					affyReporterGeneSymbolMap.put(reporter,geneSymbol);
+				}
     		}
 			return reporters;        	
     	}

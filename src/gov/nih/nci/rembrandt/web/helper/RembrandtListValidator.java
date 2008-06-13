@@ -30,11 +30,11 @@ public class RembrandtListValidator extends ListValidator{
         super(listType, unvalidatedList);		
 	}
 	
-	public void validate(ListType listType, ListSubType listSubType, List<String> myunvalidatedList) throws OperationNotSupportedException {
-        List<String> unvalidatedList = new ArrayList<String>();
-        for(String s : myunvalidatedList){         
-         unvalidatedList.add(s.toUpperCase());
-        }
+	public void validate(ListType listType, ListSubType listSubType, List<String> unvalidatedList) throws OperationNotSupportedException {
+        //List<String> unvalidatedList = new ArrayList<String>();
+        //for(String s : myunvalidatedList){         
+        // unvalidatedList.add(s.toUpperCase());
+        //}
         //check if this has been run before
 		if(validList.isEmpty() && invalidList.isEmpty()){
 			switch(listType){
