@@ -17,9 +17,8 @@
 
 <script type="text/javascript">
 function checkJobId(jobList) {
-
 //refresh the iframe first to keep the session alive
-$('pingFrame').src = $('pingFrame').src;
+	$('pingFrame').src = $('pingFrame').src;
     if (jobList.options.length == 0) {
         alert("No Gene Pattern Job is available yet");
         return false;
@@ -34,10 +33,22 @@ $('pingFrame').src = $('pingFrame').src;
 	String jobIdSelect = (String)request.getAttribute("jobIdSelect");
 	String processSelect = (String)request.getAttribute("processSelect");
 	String submitButton = (String)request.getAttribute("submitButton");
-	String gpurl = (String)request.getAttribute("genePatternURL");
+	String gpurl = (String)request.getSession().getAttribute("ticketString");
+	String jobTitle = (String)request.getAttribute("taskModule");
+	String indicator = "1";
+	String actionLink1 = null;
+	if (jobTitle == null)
+		jobTitle = "GenePattern Job";
+	else if (jobTitle != null && jobTitle.equalsIgnoreCase("HC.pipeline")){
+		indicator = "2";
+		actionLink1 = "gpProcess.do?method=hcApplet&jobId=" + jobId;
+	} else if (jobTitle != null && jobTitle.equalsIgnoreCase("KNN.pipeline")){
+		indicator = "2";
+		actionLink1 = "gpProcess.do?method=knnApplet&jobId=" + jobId;
+	}
 %>
 <script type="text/javascript">
-Event.observe(window, "load", function()	{
+	Event.observe(window, "load", function()	{
 
 });
 </script>
@@ -46,7 +57,7 @@ Event.observe(window, "load", function()	{
      <fieldset>
      	<legend>Gene Pattern Modules</legend>
      	<br/>
-     	<html:form method="post" target="_blank" action="/gpProcess.do?method=startApplet" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
+     	<html:form method="post" action="/gpProcess.do?method=startApplet" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
        		<table border="0" cellpadding="3" cellspacing="3">
        			<tr> 
        				<td width="20%">
@@ -134,8 +145,8 @@ Event.observe(window, "load", function()	{
 						DWREngine.setWarningHandler(customError);
 						DWREngine.setErrorHandler(customError);
 					
-						setTimeout("A_checkGenePatternStatus('<%= jobId %>')", 0200);
-						var vr_checker = setInterval("A_checkGenePatternStatus('<%= jobId %>')", 5000);
+						setTimeout("A_checkGenePatternStatus('<%= jobId %>', '<%= indicator %>')", 0200);
+						var vr_checker = setInterval("A_checkGenePatternStatus('<%= jobId %>', '<%= indicator %>')", 5000);
 	
 					</script>
 				
@@ -157,8 +168,11 @@ Event.observe(window, "load", function()	{
 						if(!currentStatus.equals("completed"))	{
 							onclick = "javascript:alert('Gene Pattern Processing Not yet complete');return false;";
 						}
-						out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">GenePattern Job " + jobId + " (" +  resultName + ") </a>");
-					
+						if (indicator.equals("2")){
+							out.println("<a id=\"" + jobId + "_link\" href=\"" + actionLink1 + "\" onclick=\"" + onclick + "\"" + ">" + jobTitle  + " " + jobId + " (" +  resultName + ") </a>");
+						}else {
+							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " " + jobId + " (" +  resultName + ") </a>");
+						}
 						out.println("<br clear=\"all\" />");
 						out.println("<br clear=\"all\" />");
 					%>
@@ -173,7 +187,7 @@ Event.observe(window, "load", function()	{
 					<% 
 						PresentationTierCache ptc = CacheFactory.getPresentationTierCache();
 						Collection tempGpTaskList = ptc.getAllSessionGPTasks(request.getSession().getId());
-
+						String actionLink2 = null;
 						if (gpurl == null) {
 							gpurl = GenePatternIntegrationHelper.gpHomeURL(request);
 						}
@@ -181,13 +195,25 @@ Event.observe(window, "load", function()	{
 						%>
 						<iframe id="pingFrame" height="1" size="1" style="display:none" src="<%=gpurl%>"></iframe>
 						<% 
-						
 						//String jobId = (String)request.getAttribute("jobId");
 						if (tempGpTaskList != null && !tempGpTaskList.isEmpty()){
 							for (Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
 			
 								GPTask task = (GPTask) i.next();
-							
+								if (task.getTaskModule() == null){
+									jobTitle = "GenePattern Job";
+									indicator = "1";
+								}
+								else if (task.getTaskModule().equalsIgnoreCase("HC.pipeline")){
+									jobTitle = task.getTaskModule();
+									actionLink2 = "gpProcess.do?method=hcApplet&jobId=" + task.getJobId();
+									indicator = "2";
+								}
+								else if (task.getTaskModule().equalsIgnoreCase("KNN.pipeline")){
+									jobTitle = task.getTaskModule();
+									actionLink2 = "gpProcess.do?method=knnApplet&jobId=" + task.getJobId();
+									indicator = "2";
+								}
 								if (jobId != null && jobId.equals(task.getJobId()))
 									continue;
 								String nowStatus = "";
@@ -198,8 +224,12 @@ Event.observe(window, "load", function()	{
 									nowStatus = "<b id=\"" + task.getJobId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','error'));</script></b> <img src='images/error.png' alt='error' id=\"" + task.getJobId() + "_image\" />";
 								}
 								out.println("<span style='color:red; float:right'>" + nowStatus + "</span> ");
-								
-								out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">GenePattern Job " + task.getJobId() + " (" + task.getResultName() + ")</a>");
+								if (indicator.equals("2")){
+									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + actionLink2 + "\"" + ">" + jobTitle + " " + task.getJobId() + " (" + task.getResultName() + ")</a>");
+								}
+								else {
+									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">" + jobTitle + " " + task.getJobId() + " (" + task.getResultName() + ")</a>");
+								}
 								out.println("</li>");
 								out.println("<br clear=\"all\" />");
 								//out.println("<br clear=\"all\" />");
