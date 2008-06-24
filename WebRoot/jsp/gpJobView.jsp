@@ -45,6 +45,9 @@ function checkJobId(jobList) {
 	} else if (jobTitle != null && jobTitle.equalsIgnoreCase("KNN.pipeline")){
 		indicator = "2";
 		actionLink1 = "gpProcess.do?method=knnApplet&jobId=" + jobId;
+	} else if (jobTitle != null && jobTitle.equalsIgnoreCase("CMS.pipeline")){
+		indicator = "2";
+		actionLink1 = "gpProcess.do?method=cmsApplet&jobId=" + jobId;
 	}
 %>
 <script type="text/javascript">
@@ -53,12 +56,19 @@ function checkJobId(jobList) {
 });
 </script>
 <br/>
+
 <script type="text/javascript">Help.insertHelp("genepattern_job_list", " align='right'", "padding:2px;");</script>
      <fieldset>
      	<legend>Gene Pattern Modules</legend>
      	<br/>
      	<html:form method="post" action="/gpProcess.do?method=startApplet" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
        		<table border="0" cellpadding="3" cellspacing="3">
+       		    <logic:present name="goApplet" >
+       		    <tr><td colspan="3">
+					<b>Please be patient, the viewer is loading...</b><img src="images/indicator.gif"/><br/>
+					<b>The viewer requires JVM 1.5 or above. <br/><br/>
+				</tr></td>
+				</logic:present >
        			<tr> 
        				<td width="20%">
        					GP job Number
@@ -212,6 +222,11 @@ function checkJobId(jobList) {
 								else if (task.getTaskModule().equalsIgnoreCase("KNN.pipeline")){
 									jobTitle = task.getTaskModule();
 									actionLink2 = "gpProcess.do?method=knnApplet&jobId=" + task.getJobId();
+									indicator = "2";
+								}
+								else if (task.getTaskModule().equalsIgnoreCase("CMS.pipeline")){
+									jobTitle = task.getTaskModule();
+									actionLink2 = "gpProcess.do?method=cmsApplet&jobId=" + task.getJobId();
 									indicator = "2";
 								}
 								if (jobId != null && jobId.equals(task.getJobId()))
