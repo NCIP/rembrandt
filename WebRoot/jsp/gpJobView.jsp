@@ -129,13 +129,20 @@ function checkJobId(jobList) {
        			<logic:present name="jobId" >
        			<tr>
        				<td>
+       				<% if (indicator.equals("2")) { %>
+       					Your request has been sent to GenePattern for processing, and  
+       					your job id is :  <span style="color:red;font-weight:bold"><bean:write name="jobId"/></span>.
+       					When your task is complete, your data will be ready 
+       					for visualizer.  Just click the link below to launch the visualizer you have selected.   
+       					The approximate processing time is 2-3 minutes.<br><br>
+       				<% } else { %> 
        					Your request has been sent to GenePattern for processing, and  
        					your job id is :  <span style="color:red;font-weight:bold"><bean:write name="jobId"/></span>.
        					When your task is complete, your data will be ready 
        					for analysis in GenePattern.  Your available tasks will appear in the right 
        					sidebar of the GenePattern when they are ready.  The approximate 
        					processing time is 2-3 minutes.<br><br>
-       				
+       				<% } %> 
 						<!-- to check if the gene pattern job is completed -->
 					</td>
 				</tr>
