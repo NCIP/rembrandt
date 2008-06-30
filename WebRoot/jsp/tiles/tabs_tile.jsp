@@ -61,6 +61,7 @@
 	String analysis = "";
 	String secondary = "";
 	String list = "";
+	String download="";
 	String advSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"menu.do\">Advanced Search Home</a></li>\n" +
 							//"<li><a href=\"menu.do\">Build Query</a></li>\n" +
@@ -95,6 +96,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				download="<a href=\"download.do\">Download</a>";
 				break;
 			case 2:
 				//2 is adv
@@ -103,6 +105,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				download="<a href=\"download.do\">Download</a>";
 				break;
 			case 3:
 				//3 is view results
@@ -111,6 +114,7 @@
 				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n" + resultSecondary;
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				download="<a href=\"download.do\">Download</a>";
 				break;
 			case 4:
 				//4 is high order analysis
@@ -119,6 +123,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<span>High Order Analysis</span>\n" + analysisSecondary;
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				download="<a href=\"download.do\">Download</a>";
 				break;
 			case 5:
 				//5 is list mgr
@@ -127,6 +132,15 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<span>Manage Lists</span>\n";
+				download="<a href=\"download.do\">Download</a>";
+				break;
+			case 6:
+				simple = "<a href=\"home.do\">Simple Search</a>";
+				adv = "<a href=\"menu.do\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				download="<span>Download</span>\n";
 				break;
 			case 0:
 			default:
@@ -135,6 +149,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				download="<a href=\"download.do\">Download</a>";
 				break;
 		}
 	
@@ -146,6 +161,7 @@
 		<li><%= analysis %></li>
 		<li><%= viewResults %></li>
 		<li><%= list %></li>
+		<li><%= download %></li>
 	</ul>
 </div>
 <%
