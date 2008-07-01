@@ -5,8 +5,10 @@ import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact;
 import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
+import gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.DownloadFile;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
@@ -22,9 +24,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -532,4 +536,58 @@ public class LookupManager{
 			}
 		return specimenNamesList;
 		}
+	public static Integer getClinicalStudyParticipantCount(Set<Long> institutionIds) throws Exception{
+		//select count(PATIENT_DID) from PATIENT_DATA where institution_id = 8;
+
+		Criteria crit = new Criteria();
+		crit.addIn("INSTITUTION_ID",institutionIds);
+			Collection collection=  QueryExecuter.executeQuery(BiospecimenDim.class,crit,"PATIENT_DID", false);
+
+			return collection.size();
+	}
+	public static Integer getClinicalSpecimenCount(Set<Long> institutionIds) throws Exception{
+		//		select count(BIOSPECIMEN_ID) from PATIENT_DATA 	where institution_id = 8;
+
+		Criteria crit = new Criteria();
+		crit.addIn("INSTITUTION_ID",institutionIds);
+			Collection collection=  QueryExecuter.executeQuery(BiospecimenDim.class,crit,"BIOSPECIMEN_ID", false);
+
+			return collection.size();
+	}
+	public static Integer getGESpecimenCount(Set<Long> institutionIds) throws Exception{
+		//		select count(unique BIOSPECIMEN_ID) from DIFFERENTIAL_EXPRESSION_SFACT  where institution_id = 8;
+
+		Criteria crit = new Criteria();
+		crit.addIn(DifferentialExpressionSfact.INSTITUTION_ID,institutionIds);
+			Collection collection=  QueryExecuter.executeQuery(DifferentialExpressionSfact.class,crit,DifferentialExpressionSfact.BIOSPECIMEN_ID, true);
+
+			return collection.size();
+	}
+	public static Integer getGESampleCount(Set<Long> institutionIds) throws Exception{
+		//		select count(unique sample_ID) from DIFFERENTIAL_EXPRESSION_SFACT 	where institution_id = 8;
+
+		Criteria crit = new Criteria();
+		crit.addIn(DifferentialExpressionSfact.INSTITUTION_ID,institutionIds);
+			Collection collection=  QueryExecuter.executeQuery(DifferentialExpressionSfact.class,crit,DifferentialExpressionSfact.SAMPLE_ID, true);
+
+			return collection.size();
+	}
+	public static Integer getCNSpecimenCount(Set<Long> institutionIds) throws Exception{
+		//		select count(unique BIOSPECIMEN_ID)	from ARRAY_GENO_ABN_FACT where institution_id = 8;
+
+		Criteria crit = new Criteria();
+		crit.addIn("INSTITUTION_ID",institutionIds);
+			Collection collection=  QueryExecuter.executeQuery(ArrayGenoAbnFact.class,crit,"BIOSPECIMEN_ID", true);
+
+			return collection.size();
+	}
+	public static Integer getCNSampleCount(Set<Long> institutionIds) throws Exception{
+		//		select count(unique sample_ID) from ARRAY_GENO_ABN_FACT	where institution_id = 8;
+
+		Criteria crit = new Criteria();
+		crit.addIn("INSTITUTION_ID",institutionIds);
+			Collection collection=  QueryExecuter.executeQuery(ArrayGenoAbnFact.class,crit,"SAMPLE_ID", true);
+
+			return collection.size();
+	}
 }
