@@ -2,8 +2,10 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
+<%@ taglib uri="/WEB-INF/c-rt.tld" prefix="c-rt" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
-
+<%@ page import="gov.nih.nci.rembrandt.util.StatisticsInfoJob" %>
 <%
 if(session.getAttribute("logged") == "yes")
 {
@@ -12,7 +14,9 @@ response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 String newLocn = "welcome.jsp";
 response.setHeader("Location",newLocn);
 }
-
+StatisticsInfoJob job = new StatisticsInfoJob();
+HashMap<String, HashMap<String, String>> map = job.getStatisticsMap();
+pageContext.setAttribute("map", map);
 
 %>
 
@@ -43,45 +47,75 @@ response.setHeader("Location",newLocn);
 <!--main content div with table for description and login-->
 <div style="width:765px;">
       
-  <!--content table--> 
-  <table border="0" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765">
-	 <tr>
-	  <!--begin description cell-->
-	  <td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
-         <p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
-		 About this application	
-		 <br /><span style="font-size:.7em;text-align:right;">Release 1.5.1</span>
-		 </p>
+<!--content table--> 
+<table border="1" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765">
+	<tr>
+		<!--begin description cell-->
+		<td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
+			<table width="100%" border="0">
+				<tr>
+					<td>
+						<p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
+						About this application	
+						<br /><span style="font-size:.7em;text-align:right;">Release 1.5.1</span>
+						</p>
 		 
-	
-		 <p style="padding:0px 5px 0px 5px ; font-size:.9em;">REpository for Molecular BRAin 
-		 Neoplasia DaTa (REMBRANDT) is a robust bioinformatics
-		 knowledgebase framework that leverages data warehousing 
-		 technology to host and integrate clinical and functional
-		 genomics data from clinical trials involving patients 
-		 suffering from Gliomas. The knowledge framework will 
-		 provide researchers with the ability to perform ad hoc
-		 querying and reporting across multiple data domains,
-		 such as Gene Expression, Chromosomal aberrations and 
-		 Clinical data. 
-		 </p>
+						<p style="padding:0px 5px 0px 5px ; font-size:.9em;">REpository for Molecular BRAin 
+						Neoplasia DaTa (REMBRANDT) is a robust bioinformatics
+						knowledgebase framework that leverages data warehousing 
+						technology to host and integrate clinical and functional
+						genomics data from clinical trials involving patients 
+						suffering from Gliomas. The knowledge framework will 
+						provide researchers with the ability to perform ad hoc
+						querying and reporting across multiple data domains,
+						such as Gene Expression, Chromosomal aberrations and 
+						Clinical data. 
+						</p>
 		 
-	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px;font-size:.9em;">Scientists
-	     will be able to answer basic questions related to a patient
-	     or patient population and view the integrated data sets in
-	     a variety of contexts. Tools that link data to other
-	     annotations such as cellular pathways, gene ontology
-	     terms and genomic information will be embedded.</p>
+						<p style="margin-bottom:10px; padding:0px 5px 0px 5px;font-size:.9em;">Scientists
+						will be able to answer basic questions related to a patient
+						or patient population and view the integrated data sets in
+						a variety of contexts. Tools that link data to other
+						annotations such as cellular pathways, gene ontology
+						terms and genomic information will be embedded.</p>
 	     
-	     <!-- 
-	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">For optimal
-	     performance, IE 6.0+ is recommended. 
-	     -->
-	     <p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">Please visit <a href="http://rembrandt.nci.nih.gov">http://rembrandt.nci.nih.gov</a>
-	         for more information.</p>
-	     
-	     
-	  </td>
+						<!-- 
+						<p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">For optimal
+						performance, IE 6.0+ is recommended. 
+						-->
+						<p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">Please visit <a href="http://rembrandt.nci.nih.gov">http://rembrandt.nci.nih.gov</a>
+						for more information.</p>
+					</td>
+				</tr>
+				<!--  statistics data -->
+				<tr>
+					<td>
+						<table width="100%">
+							<tr>
+								<td width="40%">&nbsp;</td>
+								<td width="35%" style="font-size:.9em;padding:0px 5px 0px 5px">
+									<c:out value="No of Study Participants"/> 
+								</td>
+								<td style="font-size:0.9em;padding:0px 5px 0px 5px">
+									<c:out value="No of Speciemen"/>
+								</td>
+							</tr>
+							<c:forEach var="dataType" items="${map}">
+							<tr>
+								<td style="font-size:0.9em;padding:0px 5px 0px 5px"> <c:out value="${dataType.key}"/>
+								</td>
+								<c:forEach items="${dataType.value}" var="data">
+								<td style="font-size:0.9em;padding:0px 5px 0px 5px"> 	
+									<c:out value="${data.value}"/>
+								</td>	
+								</c:forEach>
+							</tr>
+							</c:forEach>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
 	  <!--end description cell-->
 	  
       <!--begin login cell-->
