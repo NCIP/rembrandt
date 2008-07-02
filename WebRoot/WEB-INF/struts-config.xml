@@ -495,5 +495,8 @@
 	   <set-property property="definitions-parser-details" value="2" />
 	   <set-property property="moduleAware" value="true" />
 	 </plug-in>
+  <plug-in className="gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn">
+     <set-property property="startOnLoad" value="true" />
+  </plug-in>
 </struts-config>
 
