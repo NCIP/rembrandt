@@ -2,7 +2,7 @@ package gov.nih.nci.rembrandt.util;
 
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
-import gov.nih.nci.rembrandt.cache.RembrandtContextListener;
+
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -10,12 +10,7 @@ import gov.nih.nci.rembrandt.util.StatisticsInfoJob;
 import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException ;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +26,6 @@ import org.xml.sax.InputSource;
 
 import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 
-import org.apache.ojb.broker.core.PersistenceBrokerFactoryFactory;
-import org.apache.ojb.broker.core.PersistenceBrokerFactoryIF;
 import org.apache.ojb.broker.metadata.ConnectionRepository;
 import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
