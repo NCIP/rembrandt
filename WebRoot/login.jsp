@@ -15,7 +15,7 @@ String newLocn = "welcome.jsp";
 response.setHeader("Location",newLocn);
 }
 StatisticsInfoJob job = new StatisticsInfoJob();
-HashMap<String, HashMap<String, String>> map = job.getStatisticsMap();
+HashMap map = job.getStatisticsMap();
 pageContext.setAttribute("map", map);
 
 %>

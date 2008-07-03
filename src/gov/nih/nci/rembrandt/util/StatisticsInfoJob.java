@@ -1,24 +1,15 @@
 package gov.nih.nci.rembrandt.util;
 
-import gov.nih.nci.caintegrator.application.configuration.SpringContext;
-import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
-import gov.nih.nci.caintegrator.studyQueryService.dto.annotation.AnnotationCriteria;
-import gov.nih.nci.caintegrator.studyQueryService.dto.germline.SNPAssociationFindingCriteriaDTO;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionMessages;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.StringTokenizer;
 /**
@@ -87,7 +78,7 @@ import java.util.StringTokenizer;
 public class StatisticsInfoJob implements Job
 {
 	private static Logger logger = Logger.getLogger(StatisticsInfoJob.class);
-	private static HashMap<String, HashMap<String, String>> statisticsMap;
+	private static HashMap statisticsMap;
 	private static Set<Long> institutionIds;
 
 	public void execute(JobExecutionContext context) throws JobExecutionException
@@ -95,7 +86,7 @@ public class StatisticsInfoJob implements Job
 		statisticsMap = getStatisticsMapData();
 	}
 
-	public HashMap<String, HashMap<String, String>> getStatisticsMap() {
+	public HashMap getStatisticsMap() {
 		if (statisticsMap == null)
 		{
 			statisticsMap = getStatisticsMapData();
@@ -104,11 +95,11 @@ public class StatisticsInfoJob implements Job
 		return statisticsMap;
 	}
 
-	public void setStatisticsMap(HashMap<String, HashMap<String, String>> statisticsMap) {
+	public void setStatisticsMap(HashMap statisticsMap) {
 		StatisticsInfoJob.statisticsMap = statisticsMap;
 	}
-	private HashMap<String, HashMap<String, String>> getStatisticsMapData(){
-		HashMap<String, HashMap<String, String>> tempMap = new HashMap<String, HashMap<String, String>>();
+	private HashMap getStatisticsMapData(){
+		HashMap tempMap = new HashMap();
 		if (institutionIds == null){
 			institutionIds = getInstituteIds();
 		}
@@ -116,7 +107,7 @@ public class StatisticsInfoJob implements Job
 			Integer integer1 = LookupManager.getClinicalStudyParticipantCount(institutionIds);
 			Integer integer2 = LookupManager.getClinicalSpecimenCount(institutionIds);
 			
-			HashMap<String, String> map1 = new HashMap<String, String>();
+			HashMap map1 = new HashMap();
 			map1.put("sample", integer1.toString());
 			map1.put("specieman", integer2.toString());
 			tempMap.put("Clinic Data",map1);
@@ -124,7 +115,7 @@ public class StatisticsInfoJob implements Job
 			Integer integer3 = new Integer("34152"); //LookupManager.getGESpecimenCount(institutionIds);
 			Integer integer4 = new Integer("90378"); //LookupManager.getGESampleCount(institutionIds);
 			
-			HashMap<String, String> map2 = new HashMap<String, String>();
+			HashMap map2 = new HashMap();
 			map2.put("sample", integer3.toString());
 			map2.put("specieman", integer4.toString());
 			tempMap.put("Gene Expression Data", map2);
@@ -132,7 +123,7 @@ public class StatisticsInfoJob implements Job
 			Integer integer5 = new Integer("7463"); //LookupManager.getCNSpecimenCount(institutionIds); // new Integer("34141"); //
 			Integer integer6 = new Integer("2673"); //LookupManager.getCNSampleCount(institutionIds);
 
-			HashMap<String, String> map3 = new HashMap<String, String>();
+			HashMap map3 = new HashMap();
 			map3.put("sample", integer5.toString());
 			map3.put("specieman", integer6.toString());
 			tempMap.put("Copy Number Data", map3);
