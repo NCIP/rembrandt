@@ -6,8 +6,6 @@ import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.util.StatisticsInfoJob;
-import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -31,9 +29,6 @@ import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.apache.ojb.broker.PBKey;
 
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
-import org.quartz.TriggerUtils;
 
 
 /**
@@ -214,14 +209,7 @@ public class ApplicationContext{
 		  //Initialize Annotation loading
 		  List<String> affyReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.AFFY_OLIGO_PLATFORM);
 		  //List<String> unifiedReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.UNIFIED_GENE);
-		  //AnnotationHandler.getGeneSymbolsFor(affyReporters,ArrayPlatformType.AFFY_OLIGO_PLATFORM);
-		  //Start job scheduler
-		  
-		  Trigger trigger = TriggerUtils.makeWeeklyTrigger("rembrandtWeeklyTrigger", 1, 1, 1);
-		  JobDetail jobDetail = new JobDetail("rembrandtstatisticsInfoJob", null, StatisticsInfoJob.class);
-		  // Trigger name must be unique so include type and email
-		  StatisticsInfoPlugIn.scheduleWork(jobDetail, trigger);
-		  System.out.println("Scheduler started......");
+		  //AnnotationHandler.getGeneSymbolsFor(affyReporters,ArrayPlatformType.AFFY_OLIGO_PLATFORM); 
 		} catch (NamingException e) {
 	        logger.error(new IllegalStateException("Naming Exception Error getting an instance of AnalysisServerClientManager" ));
 			logger.error(e.getMessage());
