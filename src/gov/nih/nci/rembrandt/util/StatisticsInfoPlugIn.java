@@ -12,6 +12,7 @@ import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.TriggerUtils;
 import org.quartz.ee.servlet.QuartzInitializerServlet;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -135,6 +136,36 @@ public class StatisticsInfoPlugIn implements PlugIn
 	}
 
 	/**
+	 * The init method is called when this plugin is initialized
+	 * <P>
+	 * @param actionServlet The struts ActionServlet
+	 * @param moduleConfig The struts ModuleConfig
+	 */
+	public static void startScheduler(ServletContext context)
+	{
+		  // The Quartz Scheduler
+		  Scheduler scheduler = null;
+
+		  // Retrieve the factory from the ServletContext.
+		  // It will be put there by the Quartz Servlet
+		  StdSchedulerFactory factory = (StdSchedulerFactory) 
+		      context.getAttribute(QuartzInitializerServlet.QUARTZ_FACTORY_KEY);
+		    
+		  try
+		  {
+		        // Retrieve the scheduler from the factory
+		        scheduler = factory.getScheduler();
+		        scheduler.start();
+		  }
+		  catch (Exception e)
+		  {
+		     logger.error("Error setting up scheduler: " + e.getMessage());
+		  }
+		  
+		  sm_scheduler = scheduler;
+	}
+	
+	/**
 	 * The scheduleWork task is called within the application to actually
 	 * schedule a job for later execution.
 	 * <P>
@@ -142,10 +173,24 @@ public class StatisticsInfoPlugIn implements PlugIn
 	 * @param trigger The trigger conditions to use for scheduling
 	 * @throws SchedulerException
 	 */
-	public static void scheduleWork(JobDetail jobDetail, Trigger trigger)
+	//public static void scheduleWork(JobDetail jobDetail, Trigger trigger)
+	public static void scheduleWork(int schedulerType, ServletContext context)
 		throws SchedulerException
 	{
-		sm_scheduler.scheduleJob(jobDetail, trigger);
+		if (sm_scheduler == null){
+			StatisticsInfoPlugIn.startScheduler(context);
+			Trigger trigger = null;
+			if (schedulerType == 1)
+				trigger = TriggerUtils.makeDailyTrigger("rembrandtDailyTrigger", 0, 0);
+			else if (schedulerType == 2)
+				trigger = TriggerUtils.makeWeeklyTrigger("rembrandtWeeklyTrigger", 1, 0, 0);
+			
+			JobDetail jobDetail = new JobDetail("rembrandtstatisticsInfoJob", null, StatisticsInfoJob.class);
+			// Trigger name must be unique so include type and email
+		  
+			sm_scheduler.scheduleJob(jobDetail, trigger);
+			logger.info("Scheduler started......");
+		}
 	}
 
 }
