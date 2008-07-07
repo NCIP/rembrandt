@@ -1,11 +1,9 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.cache.CacheConstants;
 import gov.nih.nci.caintegrator.application.configuration.SpringContext;
-import gov.nih.nci.caintegrator.application.lists.ListLoader;
 import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
-import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -32,6 +30,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.quartz.SchedulerException;
+import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
 
 
 /**
@@ -110,6 +110,14 @@ public final class LoginAction extends Action
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
         RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
+        
+        //check to see if jobscheduler is started.
+        String schedulerType = System.getProperty("rembrandt.scheduler.type");
+        try{
+        	StatisticsInfoPlugIn.scheduleWork(Integer.parseInt(schedulerType), context);
+        }catch (SchedulerException se){
+        	logger.error("Failed to schedule the job: " + se.getMessage());
+        }
         LoginForm f = (LoginForm) form;
         if(f.getUserLoggedIn()){
         	session.setAttribute("logged", "yes");
