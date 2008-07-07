@@ -26,6 +26,14 @@
     	<put name="applets" value="/decoy.jsp" />
     </definition>
 
+    <definition name="nautilus.download" extends="baseDef">
+    	<put name="title" value="Rembrandt Downloads" />
+    	<put name="sideBar" value="/jsp/tiles/sideBar_tile.jsp" />
+    	<put name="mainForm" value="/fileDownload.jsp" />
+    	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=6" />
+    	<put name="applets" value="/decoy.jsp" />
+    </definition>
+    
     <definition name="nautilus.geneExpression" extends="baseDef">
     	<put name="mainForm" value="/jsp/formBody.jsp?s=geneExpression" />
     	<put name="title" value="Gene Expression" />

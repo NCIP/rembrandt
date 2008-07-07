@@ -44,6 +44,7 @@
   <action-mappings>
   
 	<action path="/manageLists" forward="nautilus.manageLists" />
+	<action path="/download" forward="nautilus.download" />
   	<action path="/registration" forward="registration" />
   	
   	<action path="/analysisHome"
