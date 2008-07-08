@@ -1,25 +1,84 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ page language="java" %>
+<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
+<%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-   
-  <body>
-    <fieldset>
+<script type="text/javascript">
+		function getDL(sel)	{
+			var dl = sel.value;
+			//why does this need an whole sep action and mapping?  bad...
+			//var lnk = "fileDownloadforDownloadpage.do?method=brbFileDownload&fileId=";
+			var lnk = "fileDownload.do?method=brbFileDownload&fileId=";
+			window.location.href=lnk+dl;
+		}
+</script>
+
+<fieldset>
 	<legend>
 		Download Results
 	</legend>
 	<br />
-
-	<strong>There are no compound queries to execute at this time.</strong>
+		<strong>There are no compound queries to execute at this time.</strong>
+		<!--  AJAX status checking component goes here -->
 	<br />
 	<br />
 
 </fieldset>
-<br />
-<br />
-  </body>
-</html>
+<br/><br/>
+<html:form action="/download.do?method=caarray">
+<fieldset>
+	<legend>caArray</legend>
+	 	<fieldset class="gray">
+			<legend class="red">Step 1:Choose the saved List:</legend></br> 
+			<html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="">	         	
+	 			<html:optionsCollection name="sampleGroupsList" />
+	 		</html:select>
+		</fieldset>
+		<fieldset class="gray">
+			<legend class="red">Step 2:Choose Array Platform: </legend><br/>
+			<select name="arrayPlatform"> 		
+		    	<option value="<%=Constants.ALL_PLATFROM%>">All</option>
+				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+				<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
+			</select>	
+		</fieldset>
+	    <fieldset class="gray">
+			<legend class="red">Step 3:Select file type to download:</legend><br/>
+			<select name="fileType">
+				<option>CEL</option>
+				<option>CHP</option>
+				<option>ALL</option>
+				<option>OTHER</option>
+			</select>
+		</fieldset><br/>
+		<input type="submit" value="download" style="width:70px"/>	        
+	
+</fieldset>
+</html:form>
+
+<br/><br/>
+<fieldset>
+	<legend>BRB File Downloads</legend>
+    <logic:notEmpty name="downloadFileList">
+        	<select>
+        		<option>BRB Format</option>
+        	</select>
+        	<select id="idfile" style="width:300px">
+		        <logic:iterate name="downloadFileList" id="downloadFile">
+			       <option value="<bean:write name="downloadFile" property="fileId"/>"><bean:write name="downloadFile" property="fileName"/></option>
+		        </logic:iterate>
+	        </select>
+	        <input type="button" onclick="getDL($('idfile'))" value="download" style="width:70px"/>
+     	</logic:notEmpty>
+	    <logic:empty name="downloadFileList">
+		    <strong>There are no files to download at this time.</strong>
+		    <br /><br />
+	    </logic:empty>
+     	<br/><br/>
+	    &nbsp;&nbsp;&nbsp;
+	    <a href="http://linus.nci.nih.gov/BRB-ArrayTools.html" target="_blank"><span style="font-size:.8em;text-align:left;"> BRB-Array Tools </span></a>
+	  	<br /><br />
+</fieldset>

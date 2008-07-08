@@ -26,6 +26,7 @@
 		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>	
 		<form-bean name="gpIntegrationForm" type="gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm"/>
    		<form-bean name="gpProcessForm" type="gov.nih.nci.rembrandt.web.struts.form.GpProcessForm"/>	
+		<form-bean name="downloadForm" type="gov.nih.nci.rembrandt.web.struts.form.DownloadForm"/>	
 		
 		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
    	
@@ -44,7 +45,26 @@
   <action-mappings>
   
 	<action path="/manageLists" forward="nautilus.manageLists" />
-	<action path="/download" forward="nautilus.download" />
+	
+	<action path="/downloadInit"    	    
+	    type="gov.nih.nci.rembrandt.web.struts.action.DownloadAction"
+		name="downloadForm"
+		scope="request"
+		validate="false"
+		parameter="method">
+		<forward name="success" path="nautilus.download" />
+	</action>
+	
+	<action path="/download"
+	    input="/downloadInit.do?method=setup"
+		type="gov.nih.nci.rembrandt.web.struts.action.DownloadAction"
+		name="downloadForm"
+		scope="request"
+		validate="true"
+		parameter="method">
+		<forward name="success" path="nautilus.download" />
+	</action>
+	
   	<action path="/registration" forward="registration" />
   	
   	<action path="/analysisHome"
