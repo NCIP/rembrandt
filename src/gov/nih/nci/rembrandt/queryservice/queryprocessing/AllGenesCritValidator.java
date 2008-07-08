@@ -78,7 +78,7 @@ public class AllGenesCritValidator {
 
     public static void validateSampleIDCrit(Query query) throws Exception{
         SampleCriteria sampleIDCrit = query.getSampleIDCrit();
-        if (sampleIDCrit.getSampleIDs().size() > RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT )
+        if (sampleIDCrit.getSampleIDs()!= null && sampleIDCrit.getSampleIDs().size() > RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT )
             throw new Exception("Total Sample Number of Samples can not exceed " + RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT);
 
     }

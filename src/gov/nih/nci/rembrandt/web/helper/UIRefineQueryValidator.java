@@ -12,6 +12,7 @@ import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
@@ -20,6 +21,7 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -257,12 +259,13 @@ public class UIRefineQueryValidator {
     	    		UserListBeanHelper ul= new UserListBeanHelper(request.getSession());
     	    		UserList l = ul.getUserList(selectedResultSet);
     	    		List<SampleIDDE> sampleIDDEList = new ArrayList<SampleIDDE>();
+    	    		Set<String> samples = null;
     	    		if(l!=null && l.getList()!=null)	{
     	    			//get the samples from that list
     	    			//create the sample crit
-    	    			Set<String> samples = new HashSet<String>(l.getList());
+    	    			 samples = new HashSet<String>(l.getList());
     	    			//get the specimenNames associated with these samples
-    	    			List<String> specimenNames = LookupManager.getSpecimenNames(l.getList());
+    	    			List<String> specimenNames = LookupManager.getSpecimenNames(samples);
     	   				//get the samples associated with these specimens
     	   				List<String> sampleIds = LookupManager.getSampleIDs(samples);
     	   				//Add back any samples that were just sampleIds to start with
@@ -276,10 +279,18 @@ public class UIRefineQueryValidator {
     	    			sampleCrit.setSampleIDs(sampleIDDEList);
     	    		}
     	    					     
-    	    		if(isAllGenesQuery && (sampleCrit.getSampleIDs()!= null && sampleCrit.getSampleIDs().size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)) {
-    		        	errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
+    	    		if(isAllGenesQuery){
+    	    			//Check for specimen_names for all genes Query
+    	    			Collection<String> specimans =  DataValidator.validateSpecimanNames(samples);
+    	    			if(specimans!= null && specimans.size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT){
+    	    				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
+    	    			}else{
+        	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(specimans));        	    			
+    	    			}
+    	    		
     		        	
     	    		}else {
+    	    			sampleCrit.setSampleIDs(sampleIDDEList);
     	    			//drop the sample criteria into the compound query, clone it here
     		    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
     	    		}

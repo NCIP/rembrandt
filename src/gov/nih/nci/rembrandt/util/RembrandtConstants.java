@@ -127,7 +127,7 @@ public final class RembrandtConstants {
     public static final  String DE_BEAN_FILE_NAME ="/deToBeanAttrMappings.xml";
 
     // this max Sample ID count is a temp solution  This will be made more dynamic for 1.0
-    public static final int ALL_GENES_MAX_SAMPLE_COUNT = 22;
+    public static final int ALL_GENES_MAX_SAMPLE_COUNT = 40;
     
     public static final String FILTER_REPORT_SUFFIX = " filter report";
     
@@ -138,8 +138,7 @@ public final class RembrandtConstants {
     public static final String ALL_GENES_COPY_NUMBER_REGULATION = "10";
     
     public static final String ALL_GENES_GENE_EXP_REGULATION = "4";
-    //The maximum number of samples that can be applied to All Gene Reports
-	public static final int MAX_ALL_GENE_SAMPLE_SET = 40;
+
 	
 	public static final String SESSION_CRITERIA_BAG_KEY = "rembrandt.criteriaMap";
 	

@@ -197,15 +197,15 @@ abstract public class GEFactHandler {
   }
     private static void addGEFactCriteria(GeneExpressionQuery geQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
        FoldChangeCriteriaHandler.addFoldChangeCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
-       CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);       
-       CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+       //CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);       
+       CommonFactHandler.addDiseaseSampleCriteria(geQuery, targetFactClass, sampleCrit);
        CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, sampleCrit);
 
     }
     private static void addGEFactCriteriaForAllGenes(GeneExpressionQuery geQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
         FoldChangeCriteriaHandler.addFoldChangeCriteriaForAllGenes(geQuery, targetFactClass, _BROKER, sampleCrit);
-        CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
-        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, sampleCrit);
+        //CommonFactHandler.addDiseaseCriteria(geQuery, targetFactClass, _BROKER, sampleCrit);
+        CommonFactHandler.addDiseaseSampleCriteria(geQuery, targetFactClass, sampleCrit);
         CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, sampleCrit);
 
     }

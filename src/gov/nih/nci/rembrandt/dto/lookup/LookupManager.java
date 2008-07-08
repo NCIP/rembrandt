@@ -541,53 +541,54 @@ public class LookupManager{
 
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
-			Collection collection=  QueryExecuter.executeQuery(BiospecimenDim.class,crit,"PATIENT_DID", false);
+		Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,"PATIENT_DID", false);
 
-			return collection.size();
+			return col.size();
 	}
 	public static Integer getClinicalSpecimenCount(Set<Long> institutionIds) throws Exception{
 		//		select count(BIOSPECIMEN_ID) from PATIENT_DATA 	where institution_id = 8;
 
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
-			Collection collection=  QueryExecuter.executeQuery(BiospecimenDim.class,crit,"BIOSPECIMEN_ID", false);
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,"BIOSPECIMEN_ID", false);
 
-			return collection.size();
+			return col.size();
 	}
 	public static Integer getGESpecimenCount(Set<Long> institutionIds) throws Exception{
 		//		select count(unique BIOSPECIMEN_ID) from DIFFERENTIAL_EXPRESSION_SFACT  where institution_id = 8;
 
 		Criteria crit = new Criteria();
 		crit.addIn(DifferentialExpressionSfact.INSTITUTION_ID,institutionIds);
-			Collection collection=  QueryExecuter.executeQuery(DifferentialExpressionSfact.class,crit,DifferentialExpressionSfact.BIOSPECIMEN_ID, true);
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DifferentialExpressionSfact.class,crit,"BIOSPECIMEN_ID", false);
 
-			return collection.size();
+			return col.size();
 	}
 	public static Integer getGESampleCount(Set<Long> institutionIds) throws Exception{
 		//		select count(unique sample_ID) from DIFFERENTIAL_EXPRESSION_SFACT 	where institution_id = 8;
 
 		Criteria crit = new Criteria();
 		crit.addIn(DifferentialExpressionSfact.INSTITUTION_ID,institutionIds);
-			Collection collection=  QueryExecuter.executeQuery(DifferentialExpressionSfact.class,crit,DifferentialExpressionSfact.SAMPLE_ID, true);
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DifferentialExpressionSfact.class,crit,"SAMPLE_ID", false);
 
-			return collection.size();
+			return col.size();
 	}
 	public static Integer getCNSpecimenCount(Set<Long> institutionIds) throws Exception{
 		//		select count(unique BIOSPECIMEN_ID)	from ARRAY_GENO_ABN_FACT where institution_id = 8;
 
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
-			Collection collection=  QueryExecuter.executeQuery(ArrayGenoAbnFact.class,crit,"BIOSPECIMEN_ID", true);
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(ArrayGenoAbnFact.class,crit,"BIOSPECIMEN_ID", false);
 
-			return collection.size();
+			return col.size();
 	}
 	public static Integer getCNSampleCount(Set<Long> institutionIds) throws Exception{
 		//		select count(unique sample_ID) from ARRAY_GENO_ABN_FACT	where institution_id = 8;
 
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
-			Collection collection=  QueryExecuter.executeQuery(ArrayGenoAbnFact.class,crit,"SAMPLE_ID", true);
-
-			return collection.size();
+		
+		Collection col = QueryExecuter.lookUpClinicalQueryTermValues(ArrayGenoAbnFact.class,crit,"SAMPLE_ID", false);
+			
+			return col.size();
 	}
 }

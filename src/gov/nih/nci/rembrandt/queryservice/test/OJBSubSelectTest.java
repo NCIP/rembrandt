@@ -113,9 +113,9 @@ public class OJBSubSelectTest extends QueryTest{
                     final Criteria sampleCrit = new Criteria();
 
 
-                    CommonFactHandler.addDiseaseCriteria(q, DifferentialExpressionSfact.class, _BROKER, sampleCrit);
+                    //CommonFactHandler.addDiseaseCriteria(q, DifferentialExpressionSfact.class, _BROKER, sampleCrit);
                     FoldChangeCriteriaHandler.addFoldChangeCriteria(q, DifferentialExpressionSfact.class, _BROKER, sampleCrit);
-                    CommonFactHandler.addSampleIDCriteria(q, DifferentialExpressionSfact.class, sampleCrit);
+                    CommonFactHandler.addDiseaseSampleCriteria(q, DifferentialExpressionSfact.class, sampleCrit);
 
                     Criteria probeSubCrit = new Criteria();
                     probeSubCrit.addEqualTo(ProbesetDim.CHROMOSOME, "6");

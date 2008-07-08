@@ -153,8 +153,8 @@ public class ClinicalQueryHandler extends QueryHandler {
         
         // build common factors disease types, sample ids, and institution access to the OJB where clause criteria 
         // for the patient_data table
-        CommonFactHandler.addDiseaseCriteria(clinicalQuery, targetFactClass, _BROKER, allCriteria);
-        CommonFactHandler.addSampleIDCriteria(clinicalQuery, targetFactClass, allCriteria);
+        //CommonFactHandler.addDiseaseCriteria(clinicalQuery, targetFactClass, _BROKER, allCriteria);
+        CommonFactHandler.addDiseaseSampleCriteria(clinicalQuery, targetFactClass, allCriteria);
         CommonFactHandler.addAccessCriteria(clinicalQuery, targetFactClass, allCriteria);
         
         // build nested query for any clinical data which is not located in the patient_data table

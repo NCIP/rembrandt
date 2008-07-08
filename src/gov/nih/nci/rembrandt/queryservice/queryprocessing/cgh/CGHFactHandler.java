@@ -106,9 +106,9 @@ abstract public class CGHFactHandler {
     throws Exception;
 
     private static void addCopyNumbFactCriteria(ComparativeGenomicQuery cghQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
-            CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+            //CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
             CopyNumberCriteriaHandler.addCopyNumberCriteriaForAllGenes(cghQuery, targetFactClass, _BROKER, sampleCrit);
-            CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
+            CommonFactHandler.addDiseaseSampleCriteria(cghQuery, targetFactClass, sampleCrit);
             CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);
     }
 
@@ -130,9 +130,9 @@ abstract public class CGHFactHandler {
                 _BROKER.clearCache();
 
                 final Criteria sampleCrit = new Criteria();
-                CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+                //CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
                 CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
-                CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
+                CommonFactHandler.addDiseaseSampleCriteria(cghQuery, targetFactClass, sampleCrit);
                 CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);         
                 _BROKER.close();
 
@@ -174,9 +174,9 @@ abstract public class CGHFactHandler {
             _BROKER.clearCache();
 
             final Criteria sampleCrit = new Criteria();
-            CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+            //CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
             CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
-            CommonFactHandler.addSampleIDCriteria(cghQuery, targetFactClass, sampleCrit);
+            CommonFactHandler.addDiseaseSampleCriteria(cghQuery, targetFactClass, sampleCrit);
             CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);
             _BROKER.close();
 

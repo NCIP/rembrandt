@@ -112,7 +112,7 @@ abstract public class UnifiedGEFactHandler {
 
         // 2. add Institution criteria
         CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, c);
-        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, c);
+        CommonFactHandler.addDiseaseSampleCriteria(geQuery, targetFactClass, c);
 
 
         
@@ -138,7 +138,7 @@ abstract public class UnifiedGEFactHandler {
 
         // 2. add Institution criteria
         CommonFactHandler.addAccessCriteria(geQuery, targetFactClass, c);
-        CommonFactHandler.addSampleIDCriteria(geQuery, targetFactClass, c);
+        CommonFactHandler.addDiseaseSampleCriteria(geQuery, targetFactClass, c);
 
 
         

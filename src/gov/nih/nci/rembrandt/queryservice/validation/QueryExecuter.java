@@ -147,7 +147,7 @@ public class QueryExecuter{
 		
 		PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
 		crit.addColumnNotNull(fieldToSelect);
-	    ReportQueryByCriteria q = QueryFactory.newReportQuery(bean, crit, true);	
+	    ReportQueryByCriteria q = QueryFactory.newReportQuery(bean, crit, distinct);	
         q.setAttributes(new String[] {fieldToSelect});  
         Iterator iter =  broker.getReportQueryIteratorByQuery(q); 
         Collection col = new ArrayList();    
@@ -174,5 +174,23 @@ public class QueryExecuter{
             }
             broker.close();
        return collection;
+    }
+	/**
+	 * @return Returns the cytobands. 
+	 */ 
+ 
+	public static  Collection executeQueryBySQL(Class bean, String anSQLStatement) {
+		
+		PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
+	    Query q = QueryFactory.newQuery(bean, anSQLStatement);	
+        Iterator iter =  broker.getReportQueryIteratorByQuery(q); 
+        Collection col = new ArrayList();    
+      
+        while (iter.hasNext()) {
+            Object[] values =  (Object[]) iter.next();
+            col.add(values[0]);
+         }
+       broker.close();
+       return col;
     }
 }

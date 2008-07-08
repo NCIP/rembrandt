@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  *
  */
 public class CaArrayFileDownloadTest extends TestCase {
-	private List<String> specimenList = new ArrayList<String>();
+	private List<String> specimenList = null;
 	private FileType type = FileType.AFFYMETRIX_CEL;
 	private final String session ="XYZ";
 	private final String taskId ="123";
@@ -40,21 +40,22 @@ public class CaArrayFileDownloadTest extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
-		specimenList.add("	E05004	");
-		specimenList.add("	E05012	");
-		specimenList.add("	E07733	");
-		specimenList.add("	E08021	");
-		specimenList.add("	E09137	");
-		specimenList.add("	E09138	");
-		specimenList.add("	E09139	");
-		specimenList.add("	E09167	");
-		specimenList.add("	E09176	");
-		specimenList.add("	E09192	");
-		specimenList.add("	E09214	");
-		specimenList.add("	E09231	");
-		specimenList.add("	E09233	");
-		specimenList.add("	E09238	");
-		specimenList.add("	E09262	");
+		specimenList = new ArrayList<String>();
+		specimenList.add("	E05004_T	");
+		specimenList.add("	E05012_B	");
+		specimenList.add("	E07733_T	");
+		specimenList.add("	E08021_T	");
+		specimenList.add("	E09137_B	");
+		specimenList.add("	E09138_T	");
+//		specimenList.add("	E09139	");
+//		specimenList.add("	E09167	");
+//		specimenList.add("	E09176	");
+//		specimenList.add("	E09192	");
+//		specimenList.add("	E09214	");
+//		specimenList.add("	E09231	");
+//		specimenList.add("	E09233	");
+//		specimenList.add("	E09238	");
+//		specimenList.add("	E09262	");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.SERVER_URL,"http://array.nci.nih.gov:8080");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.EXPERIMENT_NAME,"Rembrandt");
 
@@ -104,12 +105,16 @@ public class CaArrayFileDownloadTest extends TestCase {
 		assertTrue(currentStatus != DownloadStatus.Error);
 
 		
-		while(downloadTask.getDownloadStatus() != DownloadStatus.Completed  ||
-				downloadTask.getDownloadStatus() != DownloadStatus.Error){
+		while(true){
 			downloadTask = rbtCaArrayFileDownloadManager.getSessionDownload( session,  taskId);
+			//System.out.println("ElapsedTime:"+downloadTask.getElapsedTime());
 			if(!currentStatus.equals(downloadTask.getDownloadStatus())){
 				currentStatus = downloadTask.getDownloadStatus();
 				System.out.println("Status:"+ currentStatus);
+			}
+			if(downloadTask.getDownloadStatus().equals(DownloadStatus.Completed)  ||
+				(downloadTask.getDownloadStatus().equals(DownloadStatus.Error))){
+				break;
 			}
 			 try {
 				Thread.sleep(500);
@@ -117,7 +122,8 @@ public class CaArrayFileDownloadTest extends TestCase {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Status:"+ currentStatus);
+		System.out.println("Final Status:"+ currentStatus);
+        System.out.println("Total processing time for all files took " + downloadTask.getElapsedTime() + " second(s) or "+ downloadTask.getElapsedTime()/60+" minute(s).");
 		assertTrue(currentStatus == DownloadStatus.Completed);
 		assertFalse(currentStatus == DownloadStatus.Error);
 

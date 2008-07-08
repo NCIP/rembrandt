@@ -11,14 +11,19 @@ import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GEFactHandler;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
@@ -86,16 +91,10 @@ import org.apache.ojb.broker.query.Criteria;
 */
 
 public class CommonFactHandler {
+	/*
     public static void addDiseaseCriteria(Query query, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
-        DiseaseOrGradeCriteria diseaseCrit = query.getDiseaseOrGradeCriteria();
-        if (diseaseCrit != null) {
-            ArrayList diseasesTypes = new ArrayList();
-            for (Iterator iterator = diseaseCrit.getDiseases().iterator(); iterator.hasNext();)
-                diseasesTypes.add(((DiseaseNameDE) iterator.next()).getValueObject());
-            String columnName = QueryHandler.getColumnName(pb, DiseaseNameDE.class.getName(), beanClass.getName());
-            criteria.addIn(columnName, diseasesTypes);
-        }
+    	addDiseaseSampleCriteria( query,  beanClass,  criteria);
     }
     public static void addSingleDiseaseCriteria(DiseaseNameDE disease, Class beanClass, PersistenceBroker pb, Criteria criteria)
     throws Exception {
@@ -109,40 +108,136 @@ public class CommonFactHandler {
                         
     public static void addSampleIDCriteria(Query query, Class beanClass, Criteria criteria)
     throws Exception {
-        SampleCriteria sampleIDCrit = query.getSampleIDCrit();
-        if (sampleIDCrit != null) {
-            ArrayList sampleIDs = new ArrayList();
-            Criteria c = new Criteria();
-            String sampleIDAttr = "SPECIMEN_NAME";
-            if(query instanceof ClinicalDataQuery){
-            	sampleIDAttr = QueryHandler.getAttrNameForTheDE(SampleIDDE.class.getName(), beanClass.getName());
-            }            
-            if(sampleIDCrit.getSampleIDs()!= null){
-//            for (Iterator iterator = sampleIDCrit.getSampleIDs().iterator(); iterator.hasNext();)
-//                sampleIDs.add(((SampleIDDE) iterator.next()).getValueObject());
-            
-	            for(Object sampleID: sampleIDCrit.getSampleIDs()){
-	            	 sampleIDs.add(((SampleIDDE) sampleID).getValueObject());
-	            }
-	            c.addIn(sampleIDAttr, sampleIDs);
-            }
-
-
-            if(sampleIDCrit.getSpecimenType() != null ){
-            	switch (sampleIDCrit.getSpecimenType()){
-            	case BLOOD:
-            		c.addLike(sampleIDAttr, "%_B");
-            		break;
-            	case TISSUE_BRAIN:
-            		c.addNotLike(sampleIDAttr, "%_B");
-            		break;	
-            	}
-            } 
-
-            criteria.addAndCriteria(c);
-        }
+    	addDiseaseSampleCriteria( query,  beanClass,  criteria);
     }
+    */
+    public static void addDiseaseSampleCriteria(Query query, Class beanClass,
+			Criteria criteria) throws Exception {
+		Set<String> samples = null;
+		PatientDataLookup[] patientDataLookupArray = LookupManager
+				.getPatientData();
+		DiseaseOrGradeCriteria diseaseCrit = query.getDiseaseOrGradeCriteria();
+		if (diseaseCrit != null && diseaseCrit.getDiseases() != null) {
+			samples = new HashSet<String>();
+			List<String> diseasesTypes = new ArrayList<String>();
+			for (Object diseaseType : diseaseCrit.getDiseases()) {
+				diseasesTypes.add(((DiseaseNameDE) diseaseType)
+						.getValueObject());
+			}
 
+			for (String diseaseName : diseasesTypes) {
+				for (PatientDataLookup patientDataLookup : patientDataLookupArray) {
+					if (patientDataLookup.getDiseaseType() != null
+							&& patientDataLookup.getDiseaseType()
+									.equalsIgnoreCase(diseaseName)) {
+						if (query instanceof ClinicalDataQuery) {
+							if (patientDataLookup.getSampleId() != null) {
+								samples.add(patientDataLookup.getSampleId());
+							}
+						} else {
+							if (patientDataLookup.getSpecimenName() != null) {
+								samples
+										.add(patientDataLookup
+												.getSpecimenName());
+							}
+						}
+					}
+
+				}
+			}
+		}
+		SampleCriteria sampleIDCrit = query.getSampleIDCrit();
+		if (sampleIDCrit != null && sampleIDCrit.getSampleIDs() != null) {
+			List<String> sampleIDs = new ArrayList<String>();
+			for (Object sampleID : sampleIDCrit.getSampleIDs()) {
+				sampleIDs.add(((SampleIDDE) sampleID).getValueObject());
+			}
+			Set<String> sampleCritList = new HashSet<String>();
+			for (String sampleID : sampleIDs) {
+				for (PatientDataLookup patientDataLookup : patientDataLookupArray) {
+					if (query instanceof ClinicalDataQuery) {
+						if (patientDataLookup.getSampleId() != null
+								&& patientDataLookup.getSampleId()
+										.equalsIgnoreCase(sampleID)) {
+							sampleCritList.add(patientDataLookup.getSampleId());
+						}
+					} else {
+						if (patientDataLookup.getSpecimenName() != null
+								&& patientDataLookup.getSpecimenName()
+										.equalsIgnoreCase(sampleID)) {
+							sampleCritList.add(patientDataLookup
+									.getSpecimenName());
+						}
+					}
+				}
+			}
+			// Retains only the elements in this set that are contained
+			// in the both the disease criteria and sample criteria.
+			// In other words, removes from this set all of its elements that
+			// are not contained
+			// in the samples AND sampleIDs collection.
+			// This operation effectively modifies this set so that its value is
+			// the intersection of the two sets.
+			if(samples == null){
+				samples = new HashSet<String>();
+				samples.addAll(sampleCritList);
+			}
+			else{
+				samples.retainAll(sampleCritList);
+			}
+
+		}
+		if (sampleIDCrit != null && sampleIDCrit.getSpecimenType() != null) {
+			Set<String> specimenTypeList = new HashSet<String>();
+			for (PatientDataLookup patientDataLookup : patientDataLookupArray) {
+				switch (sampleIDCrit.getSpecimenType()) {
+				case BLOOD:
+					if (patientDataLookup.getSpecimenName() != null
+							&& patientDataLookup.getSpecimenName().endsWith(
+									"_B")) {
+						specimenTypeList.add(patientDataLookup
+								.getSpecimenName());
+					}
+					break;
+				case TISSUE_BRAIN:
+					if (patientDataLookup.getSpecimenName() != null
+							&& !patientDataLookup.getSpecimenName().endsWith(
+									"_B")) {// DOES NPT END IN "_B"
+						specimenTypeList.add(patientDataLookup
+								.getSpecimenName());
+					}
+					break;
+				}
+			}
+			// Retains only the elements in this set that are contained
+			// in the disease, sample & specimanType criteria.
+			// In other words, removes from this set all of its elements that
+			// are not contained
+			// in the samples AND sampleIDs AND specimanType collection.
+			// This operation effectively modifies this set so that its value is
+			// the intersection of the three sets.
+			if(samples == null){
+				samples = new HashSet<String>();
+				samples.addAll(specimenTypeList);
+			}
+			else{
+				samples.retainAll(specimenTypeList);
+			}
+		} 
+        if(samples != null){
+	    	Criteria c = new Criteria();
+	        String sampleIDAttr = "SPECIMEN_NAME";
+	        if(query instanceof ClinicalDataQuery){
+	        	sampleIDAttr = QueryHandler.getAttrNameForTheDE(SampleIDDE.class.getName(), beanClass.getName());
+	        }      
+	        if(samples.size()== 0){
+	        	samples.add("DUMMY_ID"); //to make sure the query is constructed properly
+	        }
+	        c.addIn(sampleIDAttr, samples);
+	        criteria.addAndCriteria(c);
+        }
+        
+    }
     public static void addAccessCriteria(Query query, Class beanClass, Criteria criteria)
     throws Exception {
     	//This is a work around interceptor to provide proper access for GE Disease Queries
