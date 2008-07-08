@@ -5,6 +5,7 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 
 import java.util.ArrayList;
@@ -20,20 +21,23 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.util.LabelValueBean;
 
-public class DownloadAction extends Action {
+public class DownloadAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
-	public ActionForward execute(
+	public ActionForward setup(
 			ActionMapping mapping,
 			ActionForm form,
 			HttpServletRequest request,
 			HttpServletResponse response)
 			throws Exception {
+		
+		//prepopulate the fields for BRB downloads
 		List fileList = LookupManager.getDownloadBRBFileList();
-		if (fileList == null || fileList.isEmpty())
-		{
+		if (fileList == null || fileList.isEmpty())	{
 			request.setAttribute("downloadFileList", new ArrayList());
 			return mapping.findForward("success");
 		}
@@ -56,7 +60,32 @@ public class DownloadAction extends Action {
 			}
 		}
 		request.getSession().setAttribute("downloadFileList", downloadFileList);
-	return  mapping.findForward("success");
+		
+		//prepopulate the fields for caArray
+		GroupRetriever groupRetriever = new GroupRetriever();
+		List<LabelValueBean> al = new ArrayList<LabelValueBean>();
+		al.addAll(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+		//specifically remove only these values, not to effect the groupRetriever
+		LabelValueBean tmp = new LabelValueBean("UNKNOWN", "UNKNOWN");
+		al.remove(tmp);
+		tmp = new LabelValueBean("ALL", "ALL");
+		al.remove(tmp);
+		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
+		al.remove(tmp);
+		request.getSession().setAttribute("sampleGroupsList", al);
+		
+		return  mapping.findForward("success");
+	}
+
+	public ActionForward caarray(
+			ActionMapping mapping,
+			ActionForm form,
+			HttpServletRequest request,
+			HttpServletResponse response)
+			throws Exception {
+		
+		//parse the form, and use the API to start the download
+		return  mapping.findForward("success");
 	}
 
 }

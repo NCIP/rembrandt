@@ -22,16 +22,16 @@ public class DownloadForm extends ActionForm{
 
 	private ActionErrors errors = new ActionErrors();;
 	
-	private Collection reportBeans = new ArrayList();
-	private Collection compoundQueries = new ArrayList();
-
-	private String selectedResultSet = null;
+	
 	
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-
+	//caArray Download Fields
 	private String arrayPlatform = "";
-	private String groupNameCompare = null;
-	private Collection<LabelValueBean> sampleGroupsList;
+	private String groupNameCompare = "";
+	private String fileType = "";
+	
+	//BRB download fields
+	
 	
 	public DownloadForm() {
 		super();
@@ -52,18 +52,7 @@ public class DownloadForm extends ActionForm{
         this.arrayPlatform = arrayPlatform;
     }
 
-    /**
-	 * Method reset. Reset all properties to their default values.
-	 * 
-	 * @param ActionMapping
-	 *            mapping used to select this instance.
-	 * @param HttpServletRequest
-	 *            request The servlet request we are processing.
-	 */
-
-	//public void reset(ActionMapping mapping, HttpServletRequest request) {
-	//	setViewResultsLookups(request);
-	//}
+   
 
 	/**
 	 * @return Returns the errors.
@@ -84,29 +73,21 @@ public class DownloadForm extends ActionForm{
 		this.errors.add(string, error);
 	}
 
-	public ActionErrors validate(ActionMapping mapping,
-			HttpServletRequest request) {
 
-		
-		return errors;
-	}
-	
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
-		arrayPlatform = "";
-		GroupRetriever groupRetriever = new GroupRetriever();
-		List<LabelValueBean> al = new ArrayList<LabelValueBean>();
-//		al.add(new LabelValueBean("all", ""));
-		al.addAll(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-		
-		//specifically remove only these values, not to effect the groupRetriever
-		LabelValueBean tmp = new LabelValueBean("UNKNOWN", "UNKNOWN");
-		al.remove(tmp);
-		tmp = new LabelValueBean("ALL", "ALL");
-		al.remove(tmp);
-		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
-		al.remove(tmp);
-		sampleGroupsList = al;
-		
+	}
+	public static Logger getLogger() {
+		return logger;
+	}
+	public static void setLogger(Logger logger) {
+		DownloadForm.logger = logger;
+	}
+	public RembrandtPresentationTierCache getPresentationTierCache() {
+		return presentationTierCache;
+	}
+	public void setPresentationTierCache(
+			RembrandtPresentationTierCache presentationTierCache) {
+		this.presentationTierCache = presentationTierCache;
 	}
 	public String getGroupNameCompare() {
 		return groupNameCompare;
@@ -114,12 +95,11 @@ public class DownloadForm extends ActionForm{
 	public void setGroupNameCompare(String groupNameCompare) {
 		this.groupNameCompare = groupNameCompare;
 	}
+	public String getFileType() {
+		return fileType;
+	}
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
 	
-	public Collection getSampleGroupsList() {
-		return sampleGroupsList;
-	}
-
-	public void setSampleGroupsList(Collection sampleGroupsList) {
-		this.sampleGroupsList = sampleGroupsList;
-	}
 }
