@@ -84,7 +84,11 @@ public class DownloadAction extends DispatchAction {
 			HttpServletResponse response)
 			throws Exception {
 		
-		//parse the form, and use the API to start the download
+		//parse the downloadForm, and use the API to start the download
+		
+		// 1: extract the samples from the group
+		// 2: pass samples to the caARRAY API
+		
 		return  mapping.findForward("success");
 	}
 
