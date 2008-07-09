@@ -819,3 +819,27 @@
 	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
 		jdbc-type="VARCHAR" primarykey="true" />
 </class-descriptor>
+<!--  SPECIMEN_SNP -->
+<class-descriptor class="gov.nih.nci.rembrandt.dbbean.SNPSpecimen"
+	table="SPECIMEN_SNP">
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" primarykey="true" />
+</class-descriptor>
+<!--  REMB_STAT_V -->
+<class-descriptor class="gov.nih.nci.rembrandt.dbbean.DataStatistics"
+	table="REMB_STAT_V">
+	<field-descriptor name="clinicalSpecimenCount" column="SPECI_CLIN"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="clinicalPatientCount" column="PT_CLIN"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="geSpecimenCount" column="SPECI_GE"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="gePatientCount" column="PT_GE"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="cpSpecimenCount" column="SPECI_CP"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="cpPatientCount" column="PT_CP"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="institutionId" column="INSTITUTION_ID"
+		jdbc-type="BIGINT" />
+</class-descriptor>

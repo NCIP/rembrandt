@@ -8,18 +8,22 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact;
 import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
+import gov.nih.nci.rembrandt.dbbean.DataStatistics;
 import gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact;
 import gov.nih.nci.rembrandt.dbbean.DiseaseTypeDim;
 import gov.nih.nci.rembrandt.dbbean.DownloadFile;
 import gov.nih.nci.rembrandt.dbbean.ExpPlatformDim;
+import gov.nih.nci.rembrandt.dbbean.GESpecimen;
 import gov.nih.nci.rembrandt.dbbean.GenePathway;
 import gov.nih.nci.rembrandt.dbbean.InstitutionLookup;
 import gov.nih.nci.rembrandt.dbbean.Pathway;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
+import gov.nih.nci.rembrandt.dbbean.SNPSpecimen;
 import gov.nih.nci.rembrandt.queryservice.validation.QueryExecuter;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -538,57 +542,98 @@ public class LookupManager{
 		}
 	public static Integer getClinicalStudyParticipantCount(Set<Long> institutionIds) throws Exception{
 		//select count(PATIENT_DID) from PATIENT_DATA where institution_id = 8;
-
+		Integer count = 0;
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
-		Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,"PATIENT_DID", false);
-
-			return col.size();
+		Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DataStatistics.class,crit,"PT_CLIN", false);
+		if(col != null){
+			for(Object obj:col){
+				if(obj instanceof BigDecimal) {
+					BigDecimal bigDec = (BigDecimal)obj;
+					count = count + new Integer(bigDec.intValue());
+				  }
+				}
+			}
+		return count;
 	}
 	public static Integer getClinicalSpecimenCount(Set<Long> institutionIds) throws Exception{
 		//		select count(BIOSPECIMEN_ID) from PATIENT_DATA 	where institution_id = 8;
-
+		Integer count = 0;
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
-			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,"BIOSPECIMEN_ID", false);
-
-			return col.size();
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DataStatistics.class,crit,"SPECI_CLIN", false);
+			if(col != null){
+				for(Object obj:col){
+					if(obj instanceof BigDecimal) {
+						BigDecimal bigDec = (BigDecimal)obj;
+						count = count + new Integer(bigDec.intValue());
+					  }
+					}
+				}
+			return count;
 	}
 	public static Integer getGESpecimenCount(Set<Long> institutionIds) throws Exception{
 		//		select count(unique BIOSPECIMEN_ID) from DIFFERENTIAL_EXPRESSION_SFACT  where institution_id = 8;
-
+		Integer count = 0;
 		Criteria crit = new Criteria();
-		crit.addIn(DifferentialExpressionSfact.INSTITUTION_ID,institutionIds);
-			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DifferentialExpressionSfact.class,crit,"BIOSPECIMEN_ID", false);
-
-			return col.size();
+		crit.addIn("INSTITUTION_ID",institutionIds);
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DataStatistics.class,crit,"SPECI_GE", true);
+			if(col != null){
+				for(Object obj:col){
+					if(obj instanceof BigDecimal) {
+						BigDecimal bigDec = (BigDecimal)obj;
+						count = count + new Integer(bigDec.intValue());
+					  }
+					}
+				}
+			return count;
 	}
 	public static Integer getGESampleCount(Set<Long> institutionIds) throws Exception{
 		//		select count(unique sample_ID) from DIFFERENTIAL_EXPRESSION_SFACT 	where institution_id = 8;
-
+		Integer count = 0;
 		Criteria crit = new Criteria();
-		crit.addIn(DifferentialExpressionSfact.INSTITUTION_ID,institutionIds);
-			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DifferentialExpressionSfact.class,crit,"SAMPLE_ID", false);
-
-			return col.size();
+		crit.addIn("INSTITUTION_ID",institutionIds);
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DataStatistics.class,crit,"PT_GE", false);
+			if(col != null ){
+				for(Object obj:col){
+					if(obj instanceof BigDecimal) {
+						BigDecimal bigDec = (BigDecimal)obj;
+						count = count + new Integer(bigDec.intValue());
+					  }
+					}
+				}
+			return count;
 	}
 	public static Integer getCNSpecimenCount(Set<Long> institutionIds) throws Exception{
 		//		select count(unique BIOSPECIMEN_ID)	from ARRAY_GENO_ABN_FACT where institution_id = 8;
-
+		Integer count = 0;
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
-			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(ArrayGenoAbnFact.class,crit,"BIOSPECIMEN_ID", false);
-
-			return col.size();
+			Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DataStatistics.class,crit,"SPECI_CP", true);
+			if(col != null  ){
+				for(Object obj:col){
+					if(obj instanceof BigDecimal) {
+						BigDecimal bigDec = (BigDecimal)obj;
+						count = count + new Integer(bigDec.intValue());
+					  }
+					}
+				}
+			return count;
 	}
 	public static Integer getCNSampleCount(Set<Long> institutionIds) throws Exception{
-		//		select count(unique sample_ID) from ARRAY_GENO_ABN_FACT	where institution_id = 8;
-
+		Integer count = 0;
 		Criteria crit = new Criteria();
 		crit.addIn("INSTITUTION_ID",institutionIds);
 		
-		Collection col = QueryExecuter.lookUpClinicalQueryTermValues(ArrayGenoAbnFact.class,crit,"SAMPLE_ID", false);
-			
-			return col.size();
+		Collection col = QueryExecuter.lookUpClinicalQueryTermValues(DataStatistics.class,crit,"PT_CP", true);
+		if(col != null  ){
+			for(Object obj:col){
+				if(obj instanceof BigDecimal) {
+					BigDecimal bigDec = (BigDecimal)obj;
+					count = count + new Integer(bigDec.intValue());
+				  }
+				}
+			}
+		return count;
 	}
 }

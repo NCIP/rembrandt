@@ -112,19 +112,19 @@ public class StatisticsInfoJob implements Job
 			map1.put("specieman", integer2.toString());
 			tempMap.put("Clinic Data",map1);
 			
-			//Integer integer3 = LookupManager.getGESpecimenCount(institutionIds); // new Integer("34152");
-			Integer integer3 =  new Integer("34152");
-			Integer integer4 = new Integer("123"); //LookupManager.getGESampleCount(institutionIds);
+			Integer integer3 = LookupManager.getGESpecimenCount(institutionIds); // new Integer("34152");
+			//Integer integer3 =  new Integer("34152");
+			Integer integer4 = LookupManager.getGESampleCount(institutionIds);
 			
 			HashMap map2 = new HashMap();
 			map2.put("sample", integer3.toString());
 			map2.put("specieman", integer4.toString());
 			tempMap.put("Gene Expression Data", map2);
 			
-			//Integer integer5 = LookupManager.getCNSpecimenCount(institutionIds); // new Integer("34141"); //
-			Integer integer5 = new Integer("34141"); //
+			Integer integer5 = LookupManager.getCNSampleCount(institutionIds); // new Integer("34141"); //
+			//Integer integer5 = new Integer("34141"); //
 
-			Integer integer6 = new Integer("111"); // LookupManager.getCNSampleCount(institutionIds);
+			Integer integer6 = LookupManager.getCNSpecimenCount(institutionIds);
 
 			HashMap map3 = new HashMap();
 			map3.put("sample", integer5.toString());

@@ -8,7 +8,7 @@ package gov.nih.nci.rembrandt.dbbean;
  * Bean For SPECIMEN_GE_MV
  */
 
-public class GESpecimen {
+public class SNPSpecimen {
     public final static String SPECIMEN_NAME = "specimenName";
 	private String specimenName; //SPECIMEN_NAME
 
