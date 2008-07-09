@@ -6,6 +6,12 @@
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 
+<!-- 
+<script type='text/javascript' src='dwr/interface/Inbox.js'></script>
+ -->
+<script type='text/javascript' src='js/lib/prototype-1.6.0.2.js'></script> 
+<script type='text/javascript' src='js/DownloadInboxWidget.js'></script>
+ 
 <script type="text/javascript">
 		function getDL(sel)	{
 			var dl = sel.value;
@@ -21,11 +27,13 @@
 		Download Results
 	</legend>
 	<br />
-		<strong>There are no compound queries to execute at this time.</strong>
-		<!--  AJAX status checking component goes here -->
-	<br />
-	<br />
-
+	<div id="downloadStatusContainer"></div>
+	<script type="text/javascript">
+		Event.observe(window, 'load', function() {
+	 		DownloadInboxWidgetController.start("downloadStatusContainer", 10);
+		});
+	</script>
+	<a href="#" onclick="DownloadInboxWidgetController.stop();return false;">stop updating</a>
 </fieldset>
 <br/><br/>
 <html:form action="/download.do?method=caarray">
