@@ -1,9 +1,12 @@
 package gov.nih.nci.rembrandt.web.inbox;
 
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
+import gov.nih.nci.caintegrator.application.download.DownloadTask;
+import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import uk.ltd.getahead.dwr.ExecutionContext;
 
@@ -81,6 +85,7 @@ public class QueryInbox {
 	private HttpSession session;
 	private BusinessTierCache btc;
 	private RembrandtPresentationTierCache ptc;
+	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
 	
 	private final String TOKEN = "#$#"; 
 	
@@ -145,7 +150,41 @@ public class QueryInbox {
 		return currentStatuses;
 	}
 	
+	public String checkAllDownloadStatus()	{
 		
+		try {
+			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
+			rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
+			Collection<DownloadTask> downloads = rbtCaArrayFileDownloadManager.getAllSessionDownloads(session.getId());
+			JSONArray dlArray = new JSONArray();
+			JSONObject dlObject = new JSONObject();
+
+			//////// TESTing
+//			dlObject.put("name", "My first download");
+//			dlObject.put("status", "downloading");
+//			dlArray.add(dlObject);
+//			dlObject = new JSONObject();
+//			dlObject.put("name", "My second download");
+//			dlObject.put("status", "zipping");
+//			dlArray.add(dlObject);
+			////// END TESTING
+			
+			for(DownloadTask dl : downloads){
+				dlObject = new JSONObject();
+				dlObject.put("name", dl.getZipFileName());
+				dlObject.put("status", dl.getDownloadStatus().toString());
+				dlArray.add(dlObject);
+			}
+			
+			return dlArray.toString();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
 	public String checkStatus()	{
 		//simulate that the query is still running, assuming we have only 1 query for testing
 
