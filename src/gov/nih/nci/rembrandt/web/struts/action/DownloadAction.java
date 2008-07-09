@@ -39,6 +39,7 @@ public class DownloadAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
+	private static int count = 0;
 	public ActionForward setup(
 			ActionMapping mapping,
 			ActionForm form,
@@ -129,7 +130,7 @@ public class DownloadAction extends DispatchAction {
 			specimenNames = LookupManager.getSpecimenNames(patientIdset);     
 		}// end of if
 		String tempName = groupNameList.toLowerCase();
-		String taskId = tempName + "_" + 1;
+		String taskId = tempName + "_" + count++;
 		FileType type = null;
 		if (dlForm.getFileType().equals("CEL"))
 			type = FileType.AFFYMETRIX_CEL;
