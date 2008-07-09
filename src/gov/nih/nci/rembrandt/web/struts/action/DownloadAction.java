@@ -7,27 +7,38 @@ import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+import gov.nih.nci.rembrandt.web.struts.form.DownloadForm;
+import gov.nih.nci.caarray.domain.file.FileType;
+import gov.nih.nci.caintegrator.application.download.DownloadStatus;
+import gov.nih.nci.caintegrator.application.download.DownloadTask;
+import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
+import gov.nih.nci.caintegrator.application.lists.ListItem;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.HashSet;
 
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.LabelValueBean;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
 
 public class DownloadAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-	
+	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
 	public ActionForward setup(
 			ActionMapping mapping,
 			ActionForm form,
@@ -88,7 +99,56 @@ public class DownloadAction extends DispatchAction {
 		
 		// 1: extract the samples from the group
 		// 2: pass samples to the caARRAY API
+		System.setProperty(RembrandtCaArrayFileDownloadManager.SERVER_URL,"http://array.nci.nih.gov:8080");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.EXPERIMENT_NAME,"Rembrandt");
+		rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
+		rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
+		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+		taskExecutor.setCorePoolSize(5);
+		taskExecutor.setMaxPoolSize(100);
+		taskExecutor.setQueueCapacity(400);
+		taskExecutor.initialize();
+		rbtCaArrayFileDownloadManager.setTaskExecutor(taskExecutor);
+		//rbtCaArrayFileDownloadManager.executeDownloadStrategy(session, taskId, zipFileName, specimenList, type);
+		DownloadForm dlForm = (DownloadForm)form;
+		String groupNameList = dlForm.getGroupNameCompare();
+
+		UserListBeanHelper helper = new UserListBeanHelper(request.getSession().getId());
+		Set<String> patientIdset = new HashSet<String>();
+  
+		List<ListItem> listItemts = helper.getUserList(groupNameList).getListItems();            	
+		List<String> specimenNames = null;
+		for (Iterator i = listItemts.iterator(); i.hasNext(); ) {
+			ListItem item = (ListItem)i.next();
+			String id = item.getName();
+			patientIdset.add(id);
+		}               
+
+		if(patientIdset != null && patientIdset.size()>0) {  
+			// need to convert pt dids to the specimen ids
+			specimenNames = LookupManager.getSpecimenNames(patientIdset);     
+		}// end of if
+		String tempName = groupNameList.toLowerCase();
+		String taskId = tempName + "_" + 1;
+		FileType type = null;
+		if (dlForm.getFileType().equals("CEL"))
+			type = FileType.AFFYMETRIX_CEL;
+		else if (dlForm.getFileType().equals("CHP"))
+			type = FileType.AFFYMETRIX_CHP;
+		else
+			type = FileType.AFFYMETRIX_EXP;
 		
+		rbtCaArrayFileDownloadManager.executeDownloadStrategy(
+				request.getSession().getId(), 
+				taskId,
+				tempName + ".zip", 
+				specimenNames, 
+				type);
+		//Get back a DownloadTask object
+		DownloadTask downloadTask = rbtCaArrayFileDownloadManager.getSessionDownload( request.getSession().getId(),  taskId);
+		//assertTrue(downloadTask!= null);
+		DownloadStatus currentStatus = downloadTask.getDownloadStatus();
+		logger.info("File download status = " + currentStatus);
 		return  mapping.findForward("success");
 	}
 
