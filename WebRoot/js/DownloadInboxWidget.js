@@ -40,7 +40,11 @@ var DownloadInboxWidgetController = {
 
 var DownloadInboxWidgetUI = {
 	draw : function()	{
-		//
+		
+		var myTemplate = new Template("<div style='height:25px;'><span style='float:left'><b>#{name}</b></span> <span style='float:right;'>#{status} <img src='#{img}'/></span></div>");
+		var show;	//to be applied to the template above, based on a scenario/status
+		var areAnyRunning = false; //flag to stop checking it all are complete
+		
 		if(downloadStatuses == "[]")	{
 			$(downloadContainer).update("No Current Downloads in progress");
 		}
@@ -48,7 +52,23 @@ var DownloadInboxWidgetUI = {
 			$(downloadContainer).update("");
 		  	//injects UI HTML into the container div
 		  	downloadStatuses.evalJSON().each(function(e)	{
-		  		$(downloadContainer).insert("<div style='height:25px;'><span style='float:left'><b>" + e.name + "</b></span> <span style='float:right;'>" + e.status + "... <img src='images/indicator.gif'/></span></div>");
+		  		if(e.status.toLowerCase().startsWith("comp"))	{
+		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template
+		  			show = {name: "<a href=''>"+e.name+"</a>", status: e.status, img: 'images/check.png' };
+		  		}
+		  		else	{
+		  			show = {name: e.name, status: e.status, img: 'images/indicator.gif' };
+		  			areAnyRunning = true;
+		  		}
+		  		$(downloadContainer).insert(myTemplate.evaluate(show));
+		  		//$(downloadContainer).insert("<div style='height:25px;'><span style='float:left'><b>" + e.name + "</b></span> <span style='float:right;'>" + e.status + "... <img src='images/indicator.gif'/></span></div>");
+		  		
+		  		if(areAnyRunning == false)	{
+		  			//stop checking since none are still running
+		  			//console.log("stopping...");
+		  			//note: this get triggered twice.  once on inital call, once on initial start interval
+		  			DownloadInboxWidgetController.stop();
+		  		}
 		  	});
 	  	}
 	}
