@@ -141,6 +141,14 @@
 	   	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
 	   	<put name="applets" value="/decoy.jsp" />
 	</definition>
+	
+	<definition name="nautilus.download" extends="baseDef">
+	  	<!--<put name="mainForm" value="/jsp/download.jsp" />  -->
+	  	<put name="mainForm" value="/jsp/formBody.jsp?s=download" />
+	  	<put name="title" value="Download" />
+		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=6" /> 
+		<put name="applets" value="/decoy.jsp" />  
+	</definition>
  
 	<definition name="nautilus.refine" extends="baseDef">
 		<put name="mainForm" value="/jsp/tiles/refine_tile.jsp" />
