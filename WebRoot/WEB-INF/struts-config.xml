@@ -5,7 +5,7 @@
     <!-- ========== Data Source Configuration ============================== -->
     <data-sources />
     <!-- ========== Form Bean Definitions ================================== -->
-    <form-beans>
+    <form-bean>
     	<form-bean name="reportGeneratorForm" type="gov.nih.nci.rembrandt.web.struts.form.ReportGeneratorForm"/>
         <form-bean name="geneexpressionForm" type="gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm"/>
         <form-bean name="comparitivegenomicForm" type="gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm"/>
@@ -26,10 +26,12 @@
 		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>	
 		<form-bean name="gpIntegrationForm" type="gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm"/>
    		<form-bean name="gpProcessForm" type="gov.nih.nci.rembrandt.web.struts.form.GpProcessForm"/>	
-		<form-bean name="downloadForm" type="gov.nih.nci.rembrandt.web.struts.form.DownloadForm"/>	
-		
+
 		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
-   	
+		<form-bean name="downloadForm" type="gov.nih.nci.rembrandt.web.struts.form.DownloadForm"/>	
+>>>>>>> 1.56
+		
+   	    <form-bean name="downloadForm" type="gov.nih.nci.rembrandt.web.struts.form.DownloadForm"/>
   </form-beans>
   <!-- ========== Global Exception Definitions ============================ -->
   <global-exceptions />
@@ -67,6 +69,24 @@
 	
   	<action path="/registration" forward="registration" />
   	
+  	<!-- added for Download tab -->
+  	<action path="/download" 
+  	    input="nautilus.download"
+  	    name="downloadForm"
+  		type="gov.nih.nci.rembrandt.web.struts.action.DownloadAction"
+  		parameter="method"
+  		scope="request"
+  		validate="false">
+  	<forward name="success" path="nautilus.download"/>
+    </action>
+  
+	<action path="/fileDownloadforDownloadpage"
+		type="gov.nih.nci.rembrandt.web.struts.action.FileDownloadforDownloadpage"
+		parameter="method"
+		scope="request">
+		<forward name="success" path="nautilus.download" />
+	</action> 
+	
   	<action path="/analysisHome"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
 		parameter="method">
