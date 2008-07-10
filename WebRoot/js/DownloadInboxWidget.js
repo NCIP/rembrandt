@@ -19,7 +19,7 @@ var DownloadInboxWidget = Class.create({
   	DownloadInboxWidgetUI.draw();
   },
   update : function()	{
-  	$(downloadContainer).update("Updating.....");
+  	//$(downloadContainer).update("Updating.....");
   	//on demand update
   	this.checkAllStatus();
   }
@@ -27,7 +27,7 @@ var DownloadInboxWidget = Class.create({
 
 var DownloadInboxWidgetController = {
  	start : function(container, interv)	{
-		$(container).update("updating...");
+		//$(container).update("updating...");
 		new DownloadInboxWidget(container);
 	  	//start checking every interv seconds
 	  	checker = new PeriodicalExecuter(function() { new DownloadInboxWidget(container)}, interv);
@@ -40,10 +40,16 @@ var DownloadInboxWidgetController = {
 
 var DownloadInboxWidgetUI = {
 	draw : function()	{
-		$(downloadContainer).update("");
-	  	//injects UI HTML into the container div
-	  	downloadStatuses.evalJSON().each(function(e)	{
-	  		$(downloadContainer).insert(e.name + " :" + e.status + "<br/>");
-	  	});
+		//
+		if(downloadStatuses == "[]")	{
+			$(downloadContainer).update("No Current Downloads in progress");
+		}
+		else	{
+			$(downloadContainer).update("");
+		  	//injects UI HTML into the container div
+		  	downloadStatuses.evalJSON().each(function(e)	{
+		  		$(downloadContainer).insert("<div style='height:25px;'><span style='float:left'><b>" + e.name + "</b></span> <span style='float:right;'>" + e.status + "... <img src='images/indicator.gif'/></span></div>");
+		  	});
+	  	}
 	}
 }
