@@ -100,8 +100,6 @@ public class DownloadAction extends DispatchAction {
 		
 		// 1: extract the samples from the group
 		// 2: pass samples to the caARRAY API
-		System.setProperty(RembrandtCaArrayFileDownloadManager.SERVER_URL,"http://array.nci.nih.gov:8080");
-		System.setProperty(RembrandtCaArrayFileDownloadManager.EXPERIMENT_NAME,"Rembrandt");
 		rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
 		rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
 		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
@@ -145,11 +143,7 @@ public class DownloadAction extends DispatchAction {
 				tempName + ".zip", 
 				specimenNames, 
 				type);
-		//Get back a DownloadTask object
-		DownloadTask downloadTask = rbtCaArrayFileDownloadManager.getSessionDownload( request.getSession().getId(),  taskId);
-		//assertTrue(downloadTask!= null);
-		DownloadStatus currentStatus = downloadTask.getDownloadStatus();
-		logger.info("File download status = " + currentStatus);
+
 		return  mapping.findForward("success");
 	}
 
