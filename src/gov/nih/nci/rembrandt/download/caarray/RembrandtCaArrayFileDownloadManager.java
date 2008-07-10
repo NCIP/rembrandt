@@ -13,10 +13,19 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
     
     public static final String PWD = "rembrandt.caarray.user.pwd";
     
+    public static final String INPUT_DIR = "rembrandt.caarray.download.input.dir";
+    
+    public static final String OUTPUT_ZIP_DIR = "rembrandt.caarray.download.output.zip.dir";
+    
+    public static final String DIR_IN_ZIP = "rembrandt.caarray.download.dirInZip";
+    
+    public static final String ZIP_FILE_URL = "rembrandt.caarray.download.zip.url";
+    
 	protected RembrandtCaArrayFileDownloadManager(String caarrayUrl,
-			String experimentName, String username, String password)
+			String experimentName, String username, String password,
+			String inputDirectory, String outputZipDirectory, String directoryInZip, String zipFileUrl) 
 			throws MalformedURLException {
-		super(caarrayUrl, experimentName, username, password);
+		super(caarrayUrl, experimentName, username, password, inputDirectory, outputZipDirectory, directoryInZip,  zipFileUrl); 
 	}
 	public synchronized static CaArrayFileDownloadManager getInstance() throws Exception
 	{
@@ -27,7 +36,11 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
 			  String experimentName = System.getProperty(EXPERIMENT_NAME);
 			  String username = System.getProperty(USER_NAME);
 			  String password = System.getProperty(PWD);
-			instance = new RembrandtCaArrayFileDownloadManager(caarrayUrl, experimentName, username, password);
+			  String inputDirectory = System.getProperty(INPUT_DIR);
+			  String outputZipDirectory = System.getProperty(OUTPUT_ZIP_DIR);
+			  String directoryInZip = System.getProperty(DIR_IN_ZIP);
+			  String zipFileUrl = System.getProperty(ZIP_FILE_URL);
+			instance = new RembrandtCaArrayFileDownloadManager(caarrayUrl, experimentName, username, password,inputDirectory, outputZipDirectory, directoryInZip,  zipFileUrl); 
 		}
 		return instance;
 	}

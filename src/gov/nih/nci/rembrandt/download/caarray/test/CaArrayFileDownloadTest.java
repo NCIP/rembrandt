@@ -58,7 +58,12 @@ public class CaArrayFileDownloadTest extends TestCase {
 //		specimenList.add("	E09262	");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.SERVER_URL,"http://array.nci.nih.gov:8080");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.EXPERIMENT_NAME,"Rembrandt");
-
+		System.setProperty(RembrandtCaArrayFileDownloadManager.USER_NAME,"rembrandtread");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.PWD,"Pass#1234");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.INPUT_DIR,"c:/caArrayDownloadTest");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.OUTPUT_ZIP_DIR,"c:/caArrayDownloadTest");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.DIR_IN_ZIP,"rembrandt");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.ZIP_FILE_URL,"http://localhost:8080/rembrandt/");
 		rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
 		rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
 		
