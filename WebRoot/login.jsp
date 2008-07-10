@@ -48,7 +48,7 @@ pageContext.setAttribute("map", map);
 <div style="width:765px;">
       
 <!--content table--> 
-<table border="1" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765">
+<table border="0" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765">
 	<tr>
 		<!--begin description cell-->
 		<td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
@@ -90,27 +90,28 @@ pageContext.setAttribute("map", map);
 				<!--  statistics data -->
 				<tr>
 					<td>
-						<table width="100%">
-							<tr>
-								<td width="40%">&nbsp;</td>
-								<td width="35%" style="font-size:.9em;padding:0px 5px 0px 5px">
-									<c:out value="No of Study Participants"/> 
+						<table width="100%" align="center" id="statTable" style="">
+							<tr style="background-color:#416599; color:#fff;">
+								<td width="33%" style="background-color:#fff;font-size:.9em; color:gray;">Data Statistics</td>
+								<td width="35%" style="font-size:.9em;padding:0px 5px 0px 5px;">
+									<c:out value="No. of Study Participants"/> 
 								</td>
-								<td style="font-size:0.9em;padding:0px 5px 0px 5px">
-									<c:out value="No of Speciemen"/>
+								<td width="" style="font-size:0.9em;padding:0px 5px 0px 5px">
+									<c:out value="No. of Specimens"/>
 								</td>
 							</tr>
-							<c:forEach var="dataType" items="${map}">
+						<c:forEach var="dataType" items="${map}">
 							<tr>
-								<td style="font-size:0.9em;padding:0px 5px 0px 5px"> <c:out value="${dataType.key}"/>
+								<td style="color:#002185;background-color:#e0e0e0;font-size:0.9em;padding:0px 5px 0px 5px"> 
+									<c:out value="${dataType.key}"/>
 								</td>
 								<c:forEach items="${dataType.value}" var="data">
-								<td style="font-size:0.9em;padding:0px 5px 0px 5px"> 	
-									<c:out value="${data.value}"/>
-								</td>	
+									<td style="background-color:#e0e0e0;font-size:0.9em;padding:0px 5px 0px 5px"> 	
+										<c:out value="${data.value}"/>
+									</td>	
 								</c:forEach>
 							</tr>
-							</c:forEach>
+						</c:forEach>
 						</table>
 					</td>
 				</tr>
