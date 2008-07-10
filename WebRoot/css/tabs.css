@@ -35,14 +35,15 @@
 	}
 
 #header ul#primary a,#header ul#primary span,#header ul#primary a.current {
-	width: 10em; /* 12 */
+	/* width: 8.5em; */ /* 12 */
+	width:89px;
 	display: block;
 	float: left;
 	padding: 4px 0;
 	margin: 1px 2px 0px 0px;
 	text-align: center;
 	font-family: tahoma, verdana, sans-serif;
-	font-size: 75%;
+	font-size: 79%;
 	text-decoration: none;
 	color: #333;
 }
