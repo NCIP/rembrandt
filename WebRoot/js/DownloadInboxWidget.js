@@ -47,6 +47,7 @@ var DownloadInboxWidgetUI = {
 		
 		if(downloadStatuses == "[]")	{
 			$(downloadContainer).update("No Current Downloads in progress");
+			DownloadInboxWidgetController.stop();
 		}
 		else	{
 			$(downloadContainer).update("");
@@ -54,7 +55,7 @@ var DownloadInboxWidgetUI = {
 		  	downloadStatuses.evalJSON().each(function(e)	{
 		  		if(e.status.toLowerCase().startsWith("comp"))	{
 		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template
-		  			show = {name: "<a href=''>"+e.name+"</a>", status: e.status, img: 'images/check.png' };
+		  			show = {name: "<a href='"+e.url+"'>"+e.name+" "+e.size+"</a>", status: e.status, img: 'images/check.png' };
 		  		}
 		  		else	{
 		  			show = {name: e.name, status: e.status, img: 'images/indicator.gif' };

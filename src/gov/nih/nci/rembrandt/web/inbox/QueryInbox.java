@@ -15,6 +15,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -173,6 +174,17 @@ public class QueryInbox {
 				dlObject = new JSONObject();
 				dlObject.put("name", dl.getZipFileName());
 				dlObject.put("status", dl.getDownloadStatus().toString());
+				if(dl.getZipFileURL()!= null)
+					dlObject.put("url", dl.getZipFileURL().toString());
+				else
+					dlObject.put("url", "");		
+				
+				;
+				if(dl.getZipFileSize()!= null)
+					dlObject.put("size", FileUtils.byteCountToDisplaySize(dl.getZipFileSize()));
+				else
+					dlObject.put("size", "");	
+				
 				dlArray.add(dlObject);
 			}
 			
