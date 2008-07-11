@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.application.download.DownloadTask;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
 import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.application.zip.FileNameGenerator;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 
 import java.util.ArrayList;
@@ -128,14 +129,14 @@ public class DownloadAction extends DispatchAction {
 			specimenNames = LookupManager.getSpecimenNames(patientIdset);     
 		}// end of if
 		String tempName = groupNameList.toLowerCase();
+		tempName = FileNameGenerator.generateUniqueFileName(tempName);
 		String taskId = tempName + "_" + count++;
 		FileType type = null;
 		if (dlForm.getFileType().equals("CEL"))
 			type = FileType.AFFYMETRIX_CEL;
 		else if (dlForm.getFileType().equals("CHP"))
 			type = FileType.AFFYMETRIX_CHP;
-		else
-			type = FileType.AFFYMETRIX_EXP;
+
 		
 		rbtCaArrayFileDownloadManager.executeDownloadStrategy(
 				request.getSession().getId(), 
