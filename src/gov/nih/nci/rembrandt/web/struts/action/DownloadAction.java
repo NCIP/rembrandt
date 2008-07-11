@@ -1,29 +1,35 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caarray.domain.file.FileType;
+import gov.nih.nci.caarray.services.ServerConnectionException;
+import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
+import gov.nih.nci.caintegrator.application.lists.ListItem;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.application.zip.FileNameGenerator;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.struts.form.DownloadForm;
-import gov.nih.nci.caarray.domain.file.FileType;
-import gov.nih.nci.caintegrator.application.download.DownloadStatus;
-import gov.nih.nci.caintegrator.application.download.DownloadTask;
-import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
-import gov.nih.nci.caintegrator.application.lists.ListItem;
-import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
-import gov.nih.nci.caintegrator.application.zip.FileNameGenerator;
-import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.HashSet;
-
 import java.util.Set;
+
+import javax.security.auth.login.LoginException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,18 +41,9 @@ import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.LabelValueBean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.io.File;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import javax.servlet.ServletOutputStream;
-
 public class DownloadAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(RefineQueryAction.class);
-	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
-	private static int count = 0;
 	public ActionForward setup(
 			ActionMapping mapping,
 			ActionForm form,
@@ -85,12 +82,12 @@ public class DownloadAction extends DispatchAction {
 		List<LabelValueBean> al = new ArrayList<LabelValueBean>();
 		al.addAll(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
 		//specifically remove only these values, not to effect the groupRetriever
-		LabelValueBean tmp = new LabelValueBean("UNKNOWN", "UNKNOWN");
-		al.remove(tmp);
-		tmp = new LabelValueBean("ALL", "ALL");
-		al.remove(tmp);
-		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
-		al.remove(tmp);
+//		LabelValueBean tmp = new LabelValueBean("UNKNOWN", "UNKNOWN");
+//		al.remove(tmp);
+//		tmp = new LabelValueBean("ALL", "ALL");
+//		al.remove(tmp);
+//		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
+//		al.remove(tmp);
 		request.getSession().setAttribute("sampleGroupsList", al);
 		
 		return  mapping.findForward("success");
@@ -102,20 +99,23 @@ public class DownloadAction extends DispatchAction {
 			HttpServletRequest request,
 			HttpServletResponse response)
 			throws Exception {
-		
-		//parse the downloadForm, and use the API to start the download
-		
-		// 1: extract the samples from the group
-		// 2: pass samples to the caARRAY API
-		rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
-		rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
-		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-		taskExecutor.setCorePoolSize(5);
-		taskExecutor.setMaxPoolSize(100);
-		taskExecutor.setQueueCapacity(400);
-		taskExecutor.initialize();
-		rbtCaArrayFileDownloadManager.setTaskExecutor(taskExecutor);
-		//rbtCaArrayFileDownloadManager.executeDownloadStrategy(session, taskId, zipFileName, specimenList, type);
+
+		try {
+			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
+		} catch (MalformedURLException e) {
+	        logger.error(new IllegalStateException("caArray URL error" ));
+			logger.error(e.getMessage());
+			logger.error(e);
+		} catch (LoginException e) {
+	        logger.error(new IllegalStateException("caArray username/pwd error" ));
+			logger.error(e.getMessage());
+			logger.error(e);
+		} catch (ServerConnectionException e) {
+	        logger.error(new IllegalStateException("caArray server connecrtion error" ));
+			logger.error(e.getMessage());
+			logger.error(e);
+		}
+
 		DownloadForm dlForm = (DownloadForm)form;
 		String groupNameList = dlForm.getGroupNameCompare();
 
@@ -134,7 +134,7 @@ public class DownloadAction extends DispatchAction {
 		}// end of if
 		String tempName = groupNameList.toLowerCase();
 		tempName = FileNameGenerator.generateUniqueFileName(tempName);
-		String taskId = tempName + "_" + count++;
+		String taskId = tempName ;
 		FileType type = null;
 		if (dlForm.getFileType().equals("CEL"))
 			type = FileType.AFFYMETRIX_CEL;

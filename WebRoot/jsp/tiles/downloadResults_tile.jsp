@@ -48,9 +48,9 @@
 		<fieldset class="gray">
 			<legend class="red">Step 2:Choose Array Platform: </legend><br/>
 			<select name="arrayPlatform"> 		
-		    	<option value="<%=Constants.ALL_PLATFROM%>">All</option>
+		    	<!-- <option value="<%=Constants.ALL_PLATFROM%>">All</option>  -->
 				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
-				<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
+				<!-- <option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option> -->
 			</select>	
 		</fieldset>
 	    <fieldset class="gray">
@@ -58,8 +58,8 @@
 			<select name="fileType">
 				<option>CEL</option>
 				<option>CHP</option>
-				<option>ALL</option>
-				<option>OTHER</option>
+				<!-- <option>ALL</option>  -->
+				<!-- <option>OTHER</option> -->
 			</select>
 		</fieldset><br/>
 		<input type="submit" value="download" style="width:70px"/>	        

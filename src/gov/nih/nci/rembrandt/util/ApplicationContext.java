@@ -1,13 +1,17 @@
 package gov.nih.nci.rembrandt.util;
 
+import gov.nih.nci.caarray.services.ServerConnectionException;
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
+import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 
+import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,8 +21,10 @@ import java.util.Properties;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
+import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -102,6 +108,7 @@ public class ApplicationContext{
 	private static Properties labelProps = null;
 	private static Properties messagingProps = null;
     private static Document doc =null;
+	private static CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
    /**
     * COMMENT THIS
     * @return
@@ -223,6 +230,36 @@ public class ApplicationContext{
 			logger.error(t.getMessage());
 			logger.error(t);
 		}
+		
+		//setupcaArrayserver
+		//parse the downloadForm, and use the API to start the download
+		
+		// 1: extract the samples from the group
+		// 2: pass samples to the caARRAY API
+
+			try {
+				rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
+			} catch (MalformedURLException e) {
+		        logger.error(new IllegalStateException("caArray URL error" ));
+				logger.error(e.getMessage());
+				logger.error(e);
+			} catch (LoginException e) {
+		        logger.error(new IllegalStateException("caArray username/pwd error" ));
+				logger.error(e.getMessage());
+				logger.error(e);
+			} catch (ServerConnectionException e) {
+		        logger.error(new IllegalStateException("caArray server connecrtion error" ));
+				logger.error(e.getMessage());
+				logger.error(e);
+			}
+		rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
+		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+		taskExecutor.setCorePoolSize(5);
+		taskExecutor.setMaxPoolSize(100);
+		taskExecutor.setQueueCapacity(400);
+		taskExecutor.initialize();
+		rbtCaArrayFileDownloadManager.setTaskExecutor(taskExecutor);
+		//rbtCaArrayFileDownloadManager.executeDownloadStrategy(session, taskId, zipFileName, specimenList, type);
 
     }
 }

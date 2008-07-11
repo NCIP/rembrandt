@@ -2,11 +2,6 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +10,6 @@ import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.util.LabelValueBean;
 
 public class DownloadForm extends ActionForm{
 	private static Logger logger = Logger.getLogger(RefineQueryForm.class);

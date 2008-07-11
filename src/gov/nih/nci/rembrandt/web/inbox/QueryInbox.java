@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -87,7 +88,7 @@ public class QueryInbox {
 	private BusinessTierCache btc;
 	private RembrandtPresentationTierCache ptc;
 	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
-	
+	private String zipFileUrl = System.getProperty(RembrandtCaArrayFileDownloadManager.ZIP_FILE_URL);
 	private final String TOKEN = "#$#"; 
 	
 	public QueryInbox()	{
@@ -95,6 +96,8 @@ public class QueryInbox {
 		session = ExecutionContext.get().getSession(false);
 		btc = ApplicationFactory.getBusinessTierCache();
 		ptc = ApplicationFactory.getPresentationTierCache();
+		//ServletContext servletContext = session.getServletContext();
+		
 	}
 	
 	public QueryInbox(HttpSession session)	{
@@ -152,7 +155,7 @@ public class QueryInbox {
 	}
 	
 	public String checkAllDownloadStatus()	{
-		
+
 		try {
 			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
 			rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
@@ -174,8 +177,8 @@ public class QueryInbox {
 				dlObject = new JSONObject();
 				dlObject.put("name", dl.getZipFileName());
 				dlObject.put("status", dl.getDownloadStatus().toString());
-				if(dl.getZipFileURL()!= null)
-					dlObject.put("url", dl.getZipFileURL().toString());
+				if(dl.getZipFileName() != null)
+					dlObject.put("url", zipFileUrl +  dl.getZipFileName() );
 				else
 					dlObject.put("url", "");		
 				
