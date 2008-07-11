@@ -35,6 +35,12 @@ import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.LabelValueBean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.servlet.ServletOutputStream;
 
 public class DownloadAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(RefineQueryAction.class);
@@ -118,10 +124,8 @@ public class DownloadAction extends DispatchAction {
   
 		List<ListItem> listItemts = helper.getUserList(groupNameList).getListItems();            	
 		List<String> specimenNames = null;
-		for (Iterator i = listItemts.iterator(); i.hasNext(); ) {
-			ListItem item = (ListItem)i.next();
-			String id = item.getName();
-			patientIdset.add(id);
+		for (ListItem item : listItemts) {
+			patientIdset.add(item.getName());
 		}               
 
 		if(patientIdset != null && patientIdset.size()>0) {  
@@ -147,5 +151,35 @@ public class DownloadAction extends DispatchAction {
 
 		return  mapping.findForward("success");
 	}
+	public ActionForward download(
+			ActionMapping mapping,
+			ActionForm form,
+			HttpServletRequest request,
+			HttpServletResponse response)
+			throws Exception {
+		String dir = System.getProperty("rembrandt.caarray.download.output.zip.dir");
+		String fileName = request.getParameter("file");
+		String filePath = dir + "/"+ fileName;
+		final ServletOutputStream out = response.getOutputStream(); 
+		response.setContentType("application/octet-stream");
+		
+		response.setHeader( "Content-Disposition", "attachment; filename=\"" + fileName + "\"" );
+		File file = null;
+		try {
+			file = new File(filePath);
+			response.setContentLength( (int)file.length() );
+			BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
+			byte[] buf = new byte[4 * 1024]; // 4K buffer
+			int bytesRead;
+			while ((bytesRead = is.read(buf)) != -1) {
+				out.write(buf, 0, bytesRead);
+			}
+			is.close();
+			out.close();
+		}catch (IOException ioe){
+			logger.error("IO exception in sending file " +  file.toString() + ioe.getMessage());
+		}
 
+		return  mapping.findForward("success");
+	}
 }
