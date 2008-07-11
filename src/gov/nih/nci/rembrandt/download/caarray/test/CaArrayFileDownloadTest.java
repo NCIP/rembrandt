@@ -129,6 +129,7 @@ public class CaArrayFileDownloadTest extends TestCase {
         System.out.println("Total processing time for all files took " + downloadTask.getElapsedTime() + " second(s) or "+ downloadTask.getElapsedTime()/60+" minute(s).");
 		assertTrue(currentStatus == DownloadStatus.Completed);
 		System.out.println("Zip file URL:"+downloadTask.getZipFileURL());
+		System.out.println("Zip file Size:"+downloadTask.getZipFileSize());
 		assertFalse(currentStatus == DownloadStatus.Error);
 
 		
