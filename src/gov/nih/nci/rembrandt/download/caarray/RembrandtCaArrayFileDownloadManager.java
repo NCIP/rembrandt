@@ -1,7 +1,11 @@
 package gov.nih.nci.rembrandt.download.caarray;
+import gov.nih.nci.caarray.services.ServerConnectionException;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
 
+import java.io.File;
 import java.net.MalformedURLException;
+
+import javax.security.auth.login.LoginException;
 
 
 public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadManager{
@@ -24,7 +28,7 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
 	protected RembrandtCaArrayFileDownloadManager(String caarrayUrl,
 			String experimentName, String username, String password,
 			String inputDirectory, String outputZipDirectory, String directoryInZip, String zipFileUrl) 
-			throws MalformedURLException {
+			throws MalformedURLException, LoginException, ServerConnectionException {
 		super(caarrayUrl, experimentName, username, password, inputDirectory, outputZipDirectory, directoryInZip,  zipFileUrl); 
 	}
 	public synchronized static CaArrayFileDownloadManager getInstance() throws Exception
@@ -40,6 +44,14 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
 			  String outputZipDirectory = System.getProperty(OUTPUT_ZIP_DIR);
 			  String directoryInZip = System.getProperty(DIR_IN_ZIP);
 			  String zipFileUrl = System.getProperty(ZIP_FILE_URL);
+			  File inputDir = new File(inputDirectory);
+			  if(!inputDir.isDirectory()){
+				  inputDir.mkdir();
+			  }
+			  File outputZipDir = new File(outputZipDirectory);
+			  if(!outputZipDir.isDirectory()){
+				  outputZipDir.mkdir();
+			  }
 			instance = new RembrandtCaArrayFileDownloadManager(caarrayUrl, experimentName, username, password,inputDirectory, outputZipDirectory, directoryInZip,  zipFileUrl); 
 		}
 		return instance;
