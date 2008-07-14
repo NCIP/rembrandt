@@ -115,7 +115,8 @@ public class DownloadAction extends DispatchAction {
 			logger.error(e.getMessage());
 			logger.error(e);
 		}
-
+		//Necessary for cache clean up
+		request.getSession().setAttribute(CaArrayFileDownloadManager.ZIP_FILE_PATH,RembrandtCaArrayFileDownloadManager.getInstance().getOutputZipDirectory());
 		DownloadForm dlForm = (DownloadForm)form;
 		String groupNameList = dlForm.getGroupNameCompare();
 
@@ -157,7 +158,7 @@ public class DownloadAction extends DispatchAction {
 			HttpServletRequest request,
 			HttpServletResponse response)
 			throws Exception {
-		String dir = System.getProperty("rembrandt.caarray.download.output.zip.dir");
+		String dir = System.getProperty(RembrandtCaArrayFileDownloadManager.OUTPUT_ZIP_DIR);
 		String fileName = request.getParameter("file");
 		String filePath = dir + "/"+ fileName;
 		final ServletOutputStream out = response.getOutputStream(); 
