@@ -7,11 +7,9 @@ import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.zip.FileNameGenerator;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
-import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.struts.form.DownloadForm;
@@ -39,7 +37,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.LabelValueBean;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 public class DownloadAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(RefineQueryAction.class);
@@ -181,6 +178,6 @@ public class DownloadAction extends DispatchAction {
 			logger.error("IO exception in sending file " +  file.toString() + ioe.getMessage());
 		}
 
-		return  mapping.findForward("success");
+		return  null;
 	}
 }
