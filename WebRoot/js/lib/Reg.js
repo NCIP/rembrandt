@@ -86,7 +86,7 @@ var Reg = {
 	}
 },
 'isValidEmail' : function(str)	{
-   return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
+   return (str.indexOf(".") > 1) && (str.indexOf("@") > 0);
 }
 
 }
