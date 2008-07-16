@@ -57,20 +57,23 @@ var DownloadInboxWidgetUI = {
 		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template
 		  			show = {name: "<a href='"+e.url+"'>"+e.name+" "+e.size+"</a>", status: e.status, img: 'images/check.png' };
 		  		}
+		  		else if(e.status.toLowerCase().startsWith("err"))	{
+		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template
+		  			show = {name: e.name, status: e.status, img: 'images/error.png' };
+		  		}
 		  		else	{
 		  			show = {name: e.name, status: e.status, img: 'images/indicator.gif' };
 		  			areAnyRunning = true;
 		  		}
 		  		$(downloadContainer).insert(myTemplate.evaluate(show));
 		  		//$(downloadContainer).insert("<div style='height:25px;'><span style='float:left'><b>" + e.name + "</b></span> <span style='float:right;'>" + e.status + "... <img src='images/indicator.gif'/></span></div>");
-		  		
-		  		if(areAnyRunning == false)	{
-		  			//stop checking since none are still running
-		  			//console.log("stopping...");
-		  			//note: this get triggered twice.  once on inital call, once on initial start interval
-		  			DownloadInboxWidgetController.stop();
-		  		}
 		  	});
+		  	if(areAnyRunning == false)	{
+	  			//stop checking since none are still running
+	  			//console.log("stopping...");
+	  			//note: this get triggered twice.  once on inital call, once on initial start interval
+	  			DownloadInboxWidgetController.stop();
+		  	}
 	  	}
 	}
 }
