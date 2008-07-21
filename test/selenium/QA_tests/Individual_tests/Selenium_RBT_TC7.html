@@ -1,6 +1,9 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
 <title>Selenium_RBT_TC7</title>
 </head>
 <body>
@@ -20,10 +23,9 @@
 	<td>link=Simple Search</td>
 	<td></td>
 </tr>
-<!-- Begin test case -->
 <tr>
 	<td>click</td>
-	<td>document.quickSearchForm.plot[2]</td>
+	<td>//input[@name='plot' and @value='kapMaiPlotCN']</td>
 	<td></td>
 </tr>
 <tr>
@@ -35,86 +37,6 @@
 	<td>clickAndWait</td>
 	<td>submitButton</td>
 	<td>30000</td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>selectedReporter</td>
-	<td>label=SNP_A-1735160</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>redrawGraphButton</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Kaplan-Meier Survival Plot for Samples with Copy Number Analysis for WT1(11p13)</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>ALL GLIOMA</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>WT1(11p13) Amplified &gt;= 2.0 copies</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>WT1(11p13) Deleted &lt;= 2.0 copies</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>WT1(11p13) Intermediate</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>View Clinical Reports<br /> Samples with Amplification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Samples with Deletion&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intermediate Samples</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Statistical Report:</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>WT1(11p13)</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>exact:Reporter: SNP_A-1735160</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Number of samples in group:</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Amplified</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Deleted</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Log-rank p-value(for significance of difference of survival between group of samples)</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Amplified vs. Deleted</td>
-	<td></td>
 </tr>
 
 </tbody></table>
