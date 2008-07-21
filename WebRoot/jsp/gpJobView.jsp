@@ -65,7 +65,7 @@ function checkJobId(jobList) {
        		<table border="0" cellpadding="3" cellspacing="3">
        		    <logic:present name="goApplet" >
        		    <tr><td colspan="3">
-					<b>Please be patient, the viewer is loading...</b><img src="images/indicator.gif"/><br/>
+					<b>Please be patient, the viewer is loading...</b><br/> <%-- <img src="images/indicator.gif"/> --%>
 					<b>The viewer requires JVM 1.5 or above. <br/><br/>
 				</tr></td>
 				</logic:present >
@@ -133,8 +133,10 @@ function checkJobId(jobList) {
        					Your request has been sent to GenePattern for processing, and  
        					your job id is :  <span style="color:red;font-weight:bold"><bean:write name="jobId"/></span>.
        					When your task is complete, your data will be ready 
-       					for visualizer.  Just click the link below to launch the visualizer you have selected.   
-       					The approximate processing time is 2-3 minutes.<br><br>
+       					for visualizer.  Just click <img src='images/visualizer.gif' border='0' alt='visualizer' id=\"" + jobId + "_image\" /> next to the link below to 
+       					launch the visualizer you have selected.   
+       					The approximate processing time is 2-8 minutes 
+       					depending on the size of the dataset.<br><br>
        				<% } else { %> 
        					Your request has been sent to GenePattern for processing, and  
        					your job id is :  <span style="color:red;font-weight:bold"><bean:write name="jobId"/></span>.
@@ -186,7 +188,8 @@ function checkJobId(jobList) {
 							onclick = "javascript:alert('Gene Pattern Processing Not yet complete');return false;";
 						}
 						if (indicator.equals("2")){
-							out.println("<a id=\"" + jobId + "_link\" href=\"" + actionLink1 + "\" onclick=\"" + onclick + "\"" + ">" + jobTitle  + " " + jobId + " (" +  resultName + ") </a>");
+							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " " + jobId + " (" +  resultName + ") </a>");
+							out.println("<a id=\"" + jobId + "_v_link\" href=\"" + actionLink1 + "\" onclick=\"" + onclick + "\"" + ">" + "<img src='images/visualizer.gif' border='0' alt='visualizer' id=\"" + jobId + "_image\" /></a>");
 						}else {
 							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " " + jobId + " (" +  resultName + ") </a>");
 						}
@@ -199,7 +202,7 @@ function checkJobId(jobList) {
 				</logic:present>
 				<tr>
 					<td>
-						All available Gene Pattern jobs
+						<!--  All available Gene Pattern jobs -->
 					<ul>
 					<% 
 						PresentationTierCache ptc = CacheFactory.getPresentationTierCache();
@@ -214,6 +217,7 @@ function checkJobId(jobList) {
 						<% 
 						//String jobId = (String)request.getAttribute("jobId");
 						if (tempGpTaskList != null && !tempGpTaskList.isEmpty()){
+							out.println("All available Gene Pattern jobs<br/><br/>");
 							for (Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
 			
 								GPTask task = (GPTask) i.next();
@@ -247,7 +251,8 @@ function checkJobId(jobList) {
 								}
 								out.println("<span style='color:red; float:right'>" + nowStatus + "</span> ");
 								if (indicator.equals("2")){
-									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + actionLink2 + "\"" + ">" + jobTitle + " " + task.getJobId() + " (" + task.getResultName() + ")</a>");
+									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">" + jobTitle + " " + task.getJobId() + " (" + task.getResultName() + ")</a>");
+									out.println("<a id=\"" + task.getJobId() + "_v_link\" href=\"" + actionLink2 + "\"" + ">" + "<img src='images/visualizer.gif' border='0' alt=\"visualizer\" id=\"" + jobId + "_image\" /></a>");
 								}
 								else {
 									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">" + jobTitle + " " + task.getJobId() + " (" + task.getResultName() + ")</a>");
@@ -268,7 +273,8 @@ function checkJobId(jobList) {
 				</tr>
 				<tr>
 					<td>
-       					Please click the above link to launch GenePattern.  If your task does not appear in 
+       					Please click the above link to launch GenePattern or <img src='images/visualizer.gif' border='0' alt='visualizer' id=\"" + jobId + "_image\" /> to launch Visualizer.  
+       					If your task does not appear in 
        					the sidebar, please wait a minute and refresh the GenePattern page to try again.
        				</td>
      			</tr>
