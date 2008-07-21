@@ -92,27 +92,9 @@ public class GPProcessAction extends DispatchAction {
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
     	GpProcessForm gpForm = (GpProcessForm) form;
-		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+    	
+    	processSetUp(gpForm, request);
 
-    	GPTask gpTask = (GPTask)_cacheManager.getNonPersistableObjectFromSessionCache(
-    			request.getSession().getId(), "latestGpTask");
-    	if (gpTask != null){
-    		request.setAttribute("jobId", gpTask.getJobId());
-    		request.setAttribute("resultName", gpTask.getResultName());
-			request.setAttribute("jobIdSelect", gpTask.getJobId() + "_jobId");
-			request.setAttribute("processSelect", gpTask.getJobId() + "_process");
-			request.setAttribute("submitButton", gpTask.getJobId() + "_submit");
-			request.setAttribute("gpStatus", gpTask.getStatus().toString());
-			if (gpTask.getTaskModule() != null){
-				request.setAttribute("taskModule", gpTask.getTaskModule());
-			}
-    	}
-		
-		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
-
-		gpForm.setJobList(getGPTaskList(tempGpTaskList));
-		
-		gpForm.setProcessList(getVisualizers());
         return mapping.findForward("success");
     }
     
@@ -229,7 +211,7 @@ public class GPProcessAction extends DispatchAction {
     	//System.out.println("Entering hcApplet method.......");
 
     	GpProcessForm gpForm = (GpProcessForm)form;
-
+    	processSetUp(gpForm, request);
 		String jobNumber = gpForm.getJobId(); 
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
@@ -251,9 +233,9 @@ public class GPProcessAction extends DispatchAction {
         request.setAttribute("name", "HierarchicalClusteringViewer");
         request.setAttribute("gp_paramNames", "cdt.file,gtr.file,atr.file");
         
-		gpForm.setJobList(getGPTaskList(tempGpTaskList));
+		//gpForm.setJobList(getGPTaskList(tempGpTaskList));
 
-		gpForm.setProcessList(getVisualizers());
+		//gpForm.setProcessList(getVisualizers());
 
         return mapping.findForward("appletViewer");
     }
@@ -263,7 +245,7 @@ public class GPProcessAction extends DispatchAction {
     	//System.out.println("Entering knnApplet method.......");
 
     	GpProcessForm gpForm = (GpProcessForm)form;
-
+    	processSetUp(gpForm, request);
 		String jobNumber = gpForm.getJobId(); 
 
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
@@ -286,9 +268,9 @@ public class GPProcessAction extends DispatchAction {
         request.setAttribute("name", "PredictionResultsViewer");
         request.setAttribute("gp_paramNames", "prediction.results.filename");
         
-		gpForm.setJobList(getGPTaskList(tempGpTaskList));
+		//gpForm.setJobList(getGPTaskList(tempGpTaskList));
 
-		gpForm.setProcessList(getVisualizers());
+		//gpForm.setProcessList(getVisualizers());
 
         return mapping.findForward("appletViewer");
     }
@@ -298,7 +280,7 @@ public class GPProcessAction extends DispatchAction {
     	//System.out.println("Entering cmsApplet method.......");
 
     	GpProcessForm gpForm = (GpProcessForm)form;
-
+    	processSetUp(gpForm, request);
 		String jobNumber = gpForm.getJobId(); 
 
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
@@ -324,9 +306,9 @@ public class GPProcessAction extends DispatchAction {
         request.setAttribute("name", "ComparativeMarkerSelectionViewer");
         request.setAttribute("gp_paramNames", "comparative.marker.selection.filename,dataset.filename");
         
-		gpForm.setJobList(getGPTaskList(tempGpTaskList));
+		//gpForm.setJobList(getGPTaskList(tempGpTaskList));
 
-		gpForm.setProcessList(getVisualizers());
+		//gpForm.setProcessList(getVisualizers());
 
         return mapping.findForward("appletViewer");
     }
@@ -432,5 +414,29 @@ public class GPProcessAction extends DispatchAction {
         
         request.setAttribute("goApplet", "goApplet");
 	}
+    private void processSetUp(GpProcessForm gpForm,
+            HttpServletRequest request)
+    throws Exception {
+    	
+		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+
+    	GPTask gpTask = (GPTask)_cacheManager.getNonPersistableObjectFromSessionCache(
+    			request.getSession().getId(), "latestGpTask");
+    	if (gpTask != null){
+    		request.setAttribute("jobId", gpTask.getJobId());
+    		request.setAttribute("resultName", gpTask.getResultName());
+			request.setAttribute("jobIdSelect", gpTask.getJobId() + "_jobId");
+			request.setAttribute("processSelect", gpTask.getJobId() + "_process");
+			request.setAttribute("submitButton", gpTask.getJobId() + "_submit");
+			request.setAttribute("gpStatus", gpTask.getStatus().toString());
+			if (gpTask.getTaskModule() != null){
+				request.setAttribute("taskModule", gpTask.getTaskModule());
+			}
+    	}
+		
+		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
+		gpForm.setJobList(getGPTaskList(tempGpTaskList));
+		gpForm.setProcessList(getVisualizers());
+    }
 }
 
