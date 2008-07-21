@@ -48,6 +48,7 @@ function A_checkGenePatternStatus_cb(message){
 	var curEl = document.getElementById(sid+"_status");
 	var curElImg = document.getElementById(sid+"_image");
 	var curElLink = document.getElementById(sid+"_link");
+	var curElVLink = document.getElementById(sid+"_v_link");
 	var curElJobSelect = document.getElementById(sid+"_jobId");
 	var curElProcessSelect = document.getElementById(sid+"_process");
 	var curElSubmit = document.getElementById(sid+"_submit");
@@ -56,13 +57,11 @@ function A_checkGenePatternStatus_cb(message){
 		if(curEl.innerHTML != "completed")	{
 			curEl.innerHTML = "completed";
 			//alert("message == 'completed' " + message);
-			curElImg.src = "images/check.png";
-			curElLink.onclick = "";
-			curElLink.removeAttribute("onclick");
 			curElJobSelect.disabled = false;
 			curElProcessSelect.disabled = false;
 			curElSubmit.disabled = false;
-			
+			curElImg.src = "images/check.png";
+
 			//Add the new job id to job list list box if needed.
 			if (add == "1"){
 				var no = new Option();
@@ -70,6 +69,11 @@ function A_checkGenePatternStatus_cb(message){
 				no.text = sid;
 				curElJobSelect.options[curElJobSelect.options.length] = no;
 			}
+			vr_alldone = true;
+			curElLink.onclick = "";
+			curElLink.removeAttribute("onclick");
+			curElVLink.onclick = "";
+			curElVLink.removeAttribute("onclick");
 		}
 	}
 	else if(message == 'error')	{
@@ -80,6 +84,7 @@ function A_checkGenePatternStatus_cb(message){
 			curElImg.src = "images/error.png";
 			//curElLink.onclick = "";
 			//curElLink.removeAttribute("onclick");
+			vr_alldone = true;
 		}
 	}
 	else if(message == 'running' && curEl.innerHTML.indexOf('completed') != -1 )	{
