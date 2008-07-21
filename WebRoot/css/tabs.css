@@ -80,6 +80,7 @@
 
 #header ul#secondary li a,#header ul#secondary li span {
 	width: auto;
+	font-size:12px;
 	display: block;
 	float: left;
 	padding: 0 10px;
