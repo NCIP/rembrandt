@@ -214,6 +214,7 @@ String helpLinkClose = "', 350, 500);\">"+
      </div>
      
 </fieldset>
+<%--
 <br /><br />
 
 	<!--  BEGIN BULK DOWNLOAD SECTION -->
@@ -251,3 +252,4 @@ String helpLinkClose = "', 350, 500);\">"+
 	  	<br /><br />   
 	  </fieldset>
 	  <br/><br/>
+	  --%>
