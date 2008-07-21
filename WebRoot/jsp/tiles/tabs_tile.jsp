@@ -82,7 +82,7 @@
 	String resultSecondary = "<ul id=\"secondary\">\n" +
 							//"<li><a href=\"graph.do?method=setup\">Search</a></li>\n" +
 							"<li><a href=\"viewResults.do\">Report Results</a></li>\n" +
-							"<li><a href=\"gpProcess.do?method=setup\">GP Job Results</a></li>\n" +							
+							"<li><a href=\"gpProcess.do?method=setup\">GenePattern Job Results</a></li>\n" +							
 							"</ul>\n";
 							
 	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;
