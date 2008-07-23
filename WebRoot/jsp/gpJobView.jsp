@@ -38,16 +38,19 @@ function checkJobId(jobList) {
 	String indicator = "1";
 	String actionLink1 = null;
 	if (jobTitle == null)
-		jobTitle = "GenePattern Job";
+		jobTitle = "GenePattern";
 	else if (jobTitle != null && jobTitle.equalsIgnoreCase("HC.pipeline")){
 		indicator = "2";
 		actionLink1 = "gpProcess.do?method=hcApplet&jobId=" + jobId;
+		jobTitle = "Hierarchical Clustering";
 	} else if (jobTitle != null && jobTitle.equalsIgnoreCase("KNN.pipeline")){
 		indicator = "2";
 		actionLink1 = "gpProcess.do?method=knnApplet&jobId=" + jobId;
+		jobTitle = "K-Nearest Neighbors";
 	} else if (jobTitle != null && jobTitle.equalsIgnoreCase("CMS.pipeline")){
 		indicator = "2";
 		actionLink1 = "gpProcess.do?method=cmsApplet&jobId=" + jobId;
+		jobTitle = "Comparative Marker Selection";
 	}
 %>
 <script type="text/javascript">
@@ -88,7 +91,7 @@ function checkJobId(jobList) {
 					<td>
 						<html:select property="processName" style="width:200px"
 							disabled="true" styleId="<%= processSelect %>">
-								<html:options property="processList" />
+								<html:optionsCollection property="processList" />
 						</html:select>
 					</td>
 					<td>
@@ -106,7 +109,7 @@ function checkJobId(jobList) {
 					</td>
 					<td>
 						<html:select property="processName" styleId="geneList" style="width:200px" styleId="<%= processSelect %>">
-								<html:options property="processList" />
+								<html:optionsCollection property="processList" />
 						</html:select>
 					</td>
 					<td>
@@ -188,10 +191,10 @@ function checkJobId(jobList) {
 							onclick = "javascript:alert('Gene Pattern Processing Not yet complete');return false;";
 						}
 						if (indicator.equals("2")){
-							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " " + jobId + " (" +  resultName + ") </a>");
+							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " Job# " + jobId + " (" +  resultName + ") </a>");
 							out.println("<a id=\"" + jobId + "_v_link\" href=\"" + actionLink1 + "\" onclick=\"" + onclick + "\"" + ">" + "<img src='images/visualizer.gif' border='0' alt='visualizer' id=\"" + jobId + "_image\" /></a>");
 						}else {
-							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " " + jobId + " (" +  resultName + ") </a>");
+							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " Job# " + jobId + " (" +  resultName + ") </a>");
 						}
 						out.println("<br clear=\"all\" />");
 						out.println("<br clear=\"all\" />");
@@ -226,17 +229,17 @@ function checkJobId(jobList) {
 									indicator = "1";
 								}
 								else if (task.getTaskModule().equalsIgnoreCase("HC.pipeline")){
-									jobTitle = task.getTaskModule();
+									jobTitle = task.getTaskModuleDisplayName();
 									actionLink2 = "gpProcess.do?method=hcApplet&jobId=" + task.getJobId();
 									indicator = "2";
 								}
 								else if (task.getTaskModule().equalsIgnoreCase("KNN.pipeline")){
-									jobTitle = task.getTaskModule();
+									jobTitle = task.getTaskModuleDisplayName();
 									actionLink2 = "gpProcess.do?method=knnApplet&jobId=" + task.getJobId();
 									indicator = "2";
 								}
 								else if (task.getTaskModule().equalsIgnoreCase("CMS.pipeline")){
-									jobTitle = task.getTaskModule();
+									jobTitle = task.getTaskModuleDisplayName();
 									actionLink2 = "gpProcess.do?method=cmsApplet&jobId=" + task.getJobId();
 									indicator = "2";
 								}
@@ -251,11 +254,11 @@ function checkJobId(jobList) {
 								}
 								out.println("<span style='color:red; float:right'>" + nowStatus + "</span> ");
 								if (indicator.equals("2")){
-									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">" + jobTitle + " " + task.getJobId() + " (" + task.getResultName() + ")</a>");
+									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">" + jobTitle + " Job# " + task.getJobId() + " (" + task.getResultName() + ")</a>");
 									out.println("<a id=\"" + task.getJobId() + "_v_link\" href=\"" + actionLink2 + "\"" + ">" + "<img src='images/visualizer.gif' border='0' alt=\"visualizer\" id=\"" + jobId + "_image\" /></a>");
 								}
 								else {
-									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">" + jobTitle + " " + task.getJobId() + " (" + task.getResultName() + ")</a>");
+									out.println("<li><span id=\"" + task.getJobId() + "_link\" ></span><a id=\"" + task.getJobId() + "_link\" href=\"" + gpurl + "\" target=\"new\">" + jobTitle + " Job# " + task.getJobId() + " (" + task.getResultName() + ")</a>");
 								}
 								out.println("</li>");
 								out.println("<br clear=\"all\" />");
