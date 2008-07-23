@@ -14,13 +14,12 @@ import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-
+import  org.apache.struts.util.LabelValueBean;
 import org.genepattern.client.GPServer;
 import org.genepattern.util.StringUtils;
 
@@ -87,7 +86,18 @@ import org.genepattern.visualizer.RunVisualizerConstants;
 
 public class GPProcessAction extends DispatchAction {
     private static Logger logger = Logger.getLogger(GPProcessAction.class);
-
+    private static String HMV = "Heat Map Viewer";
+    private static String HC = "Hierarchical Clustering";
+    private static String KNN = "K-Nearest Neighbors";
+    private static String CMS = "Comparative Marker Selection";
+    
+    private static String HEAT_MAP_VIEW = "HeatMapViewer";
+    private static String HC_PIPELINE = "HC.pipeline";
+    private static String KNN_PIPELINE = "KNN.pipeline";
+    private static String CMS_PIPELINE = "CMS.pipeline";
+    
+    private static String GP_SERVER = "gov.nih.nci.caintegrator.gp.server";
+    
     public ActionForward setup(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
@@ -105,13 +115,13 @@ public class GPProcessAction extends DispatchAction {
 
     	GpProcessForm gpForm = (GpProcessForm)form;
         String processName = gpForm.getProcessName();
-        if (processName.equalsIgnoreCase("HC.pipeline")){
+        if (processName.equalsIgnoreCase(HC_PIPELINE)){
         	return runHCPipeline(mapping, form, request, response);
         }
-        if (processName.equalsIgnoreCase("KNN.pipeline")){
+        else if (processName.equalsIgnoreCase(KNN_PIPELINE)){
         	return runKNNPipeline(mapping, form, request, response);
         }
-        if (processName.equalsIgnoreCase("CMS.pipeline")){
+        else if (processName.equalsIgnoreCase(CMS_PIPELINE)){
         	return runCMSPipeline(mapping, form, request, response);
         }
 
@@ -120,7 +130,7 @@ public class GPProcessAction extends DispatchAction {
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+		String gpserverURL = System.getProperty(GP_SERVER);
 		setFileInformation(request, gpserverURL,
 				"gov.nih.nci.caintegrator.gpvisualizer.heatmapviewer.gp_lsid",
 				"gov.nih.nci.caintegrator.gpvisualizer.heatmapviewer.commandLine");
@@ -130,7 +140,7 @@ public class GPProcessAction extends DispatchAction {
 		request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, fileName);
 		//logger.info("File URL = " + fileName + ticketString);
 		
-        request.setAttribute("name", "HeatMapViewer");
+        request.setAttribute("name", HEAT_MAP_VIEW);
         request.setAttribute(RunVisualizerConstants.PARAM_NAMES, "dataset");
 
 		gpForm.setJobList(getGPTaskList(tempGpTaskList));
@@ -148,14 +158,14 @@ public class GPProcessAction extends DispatchAction {
 		String jobNumber = gpForm.getJobId(); 
 		GPTask gpTask = getGPTask(request, jobNumber);
 
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+		String gpserverURL = System.getProperty(GP_SERVER);
 		Parameter[] par = new Parameter[1];
 		
 		String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
 
 		par[0] = new Parameter("VariationFiltering1.input.filename", fileName);
 
-		runGenePattern(request, "HC.pipeline", par, gpTask);
+		runGenePattern(request, HC_PIPELINE, par, gpTask);
         return mapping.findForward("viewJob");
     }
     private ActionForward runKNNPipeline(ActionMapping mapping, ActionForm form,
@@ -168,7 +178,7 @@ public class GPProcessAction extends DispatchAction {
 
 		GPTask gpTask = getGPTask(request, jobNumber);
 
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+		String gpserverURL = System.getProperty(GP_SERVER);
 		
 		Parameter[] par = new Parameter[2];
 		
@@ -178,7 +188,7 @@ public class GPProcessAction extends DispatchAction {
 		par[0] = new Parameter("VariationFiltering1.input.filename", fileName1);
 		par[1] = new Parameter("SplitDatasetTrainTest2.cls.input.filename", fileName2);
 
-		runGenePattern(request, "KNN.pipeline", par, gpTask);
+		runGenePattern(request, KNN_PIPELINE, par, gpTask);
         return mapping.findForward("viewJob");
     }
     private ActionForward runCMSPipeline(ActionMapping mapping, ActionForm form,
@@ -191,7 +201,7 @@ public class GPProcessAction extends DispatchAction {
 
 		GPTask gpTask = getGPTask(request, jobNumber);
 
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+		String gpserverURL = System.getProperty(GP_SERVER);
 		
 		Parameter[] par = new Parameter[2];
 		
@@ -201,7 +211,7 @@ public class GPProcessAction extends DispatchAction {
 		par[0] = new Parameter("VariationFiltering1.input.filename", fileName1);
 		par[1] = new Parameter("ComparativeMarkerSelection2.cls.filename", fileName2);
 
-		runGenePattern(request, "CMS.pipeline", par, gpTask);
+		runGenePattern(request, CMS_PIPELINE, par, gpTask);
 				
         return mapping.findForward("viewJob");
     }
@@ -212,18 +222,20 @@ public class GPProcessAction extends DispatchAction {
 
     	GpProcessForm gpForm = (GpProcessForm)form;
     	processSetUp(gpForm, request);
-		String jobNumber = gpForm.getJobId(); 
+		String jobNumber =  gpForm.getJobId();  //"3085";
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+		String gpserverURL = System.getProperty(GP_SERVER);
+		
 		setFileInformation(request, gpserverURL,
 				"gov.nih.nci.caintegrator.gpvisualizer.hcpipeline.gp_lsid",
 				"gov.nih.nci.caintegrator.gpvisualizer.hcpipeline.commandLine");
 
 		int newJobNumber = Integer.parseInt(jobNumber) + 2;
 		
-		String fileName = gpserverURL + "gp/jobResults/" + newJobNumber + "/" + gpTask.getResultName();
+		String fileName = gpserverURL + "gp/jobResults/" + newJobNumber + "/" +  gpTask.getResultName(); 
+
 		request.setAttribute("cdtFile", fileName + ".mad.cdt");
 		request.setAttribute("gtrFile", fileName + ".mad.gtr");
 		request.setAttribute("atrFile", fileName + ".mad.atr");
@@ -252,7 +264,7 @@ public class GPProcessAction extends DispatchAction {
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
 
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+		String gpserverURL = System.getProperty(GP_SERVER);
 		setFileInformation(request, gpserverURL,
 				"gov.nih.nci.caintegrator.gpvisualizer.predictionResultsViewer.gp_lsid",
 				"gov.nih.nci.caintegrator.gpvisualizer.predictionResultsViewer.commandLine");
@@ -287,7 +299,7 @@ public class GPProcessAction extends DispatchAction {
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
 		
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+		String gpserverURL = System.getProperty(GP_SERVER);
 		setFileInformation(request, gpserverURL,
 				"gov.nih.nci.caintegrator.gpvisualizer.comparativeMarkerSelectionViewer.gp_lsid",
 				"gov.nih.nci.caintegrator.gpvisualizer.comparativeMarkerSelectionViewer.commandLine");
@@ -362,17 +374,18 @@ public class GPProcessAction extends DispatchAction {
 		return gpTask;
 	}
 	
-	private List<String> getVisualizers(){
-		List<String> processList = new ArrayList<String>();
-		processList.add("HeatMapViewer");
-		processList.add("HC.pipeline");
-		processList.add("KNN.pipeline");
-		processList.add("CMS.pipeline");
+	private List<LabelValueBean> getVisualizers(){
+		List<LabelValueBean> processList = new ArrayList<LabelValueBean>();
+		processList.add(new LabelValueBean(HMV, HEAT_MAP_VIEW));
+		processList.add(new LabelValueBean(HC, HC_PIPELINE));
+		processList.add(new LabelValueBean(KNN, KNN_PIPELINE));
+		processList.add(new LabelValueBean(CMS, CMS_PIPELINE));
 		return processList;
 	}
 	private void runGenePattern(HttpServletRequest request,
 			String moduleName, Parameter[] par, GPTask gpTask) throws Exception{
 		GPServer gpServer = (GPServer)request.getSession().getAttribute("genePatternServer");
+
 		int nowait = gpServer.runAnalysisNoWait(moduleName, par);
 
 		String tid = String.valueOf(nowait);
@@ -380,6 +393,16 @@ public class GPProcessAction extends DispatchAction {
 		request.setAttribute("gpStatus", "running");
 		GPTask task = new GPTask(tid, gpTask.getResultName(), FindingStatus.Running);
 		task.setTaskModule(moduleName);
+        if (moduleName.equalsIgnoreCase(HC_PIPELINE)){
+        	task.setTaskModuleDisplayName(HC);
+        }
+        else if (moduleName.equalsIgnoreCase(KNN_PIPELINE)){
+        	task.setTaskModuleDisplayName(KNN);
+        }
+        else if (moduleName.equalsIgnoreCase(CMS_PIPELINE)){
+        	task.setTaskModuleDisplayName(CMS);
+        }
+
 		ApplicationFactory.getPresentationTierCache().addNonPersistableToSessionCache(request.getSession().getId(), "latestGpTask",(Serializable)task); 
 	}
 	private void setFileInformation(HttpServletRequest request, String gpserverURL,
