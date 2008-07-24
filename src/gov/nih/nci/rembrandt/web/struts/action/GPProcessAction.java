@@ -23,9 +23,13 @@ import  org.apache.struts.util.LabelValueBean;
 import org.genepattern.client.GPServer;
 import org.genepattern.util.StringUtils;
 
+import org.genepattern.webservice.AnalysisWebServiceProxy;
 import org.genepattern.webservice.Parameter;
 import org.genepattern.webservice.TaskIntegratorProxy;
 import org.genepattern.visualizer.RunVisualizerConstants;
+import org.genepattern.webservice.JobResult;
+import org.genepattern.webservice.WebServiceException;
+
 
 /**
 * caIntegrator License
@@ -138,7 +142,6 @@ public class GPProcessAction extends DispatchAction {
 		String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
 
 		request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, fileName);
-		//logger.info("File URL = " + fileName + ticketString);
 		
         request.setAttribute("name", HEAT_MAP_VIEW);
         request.setAttribute(RunVisualizerConstants.PARAM_NAMES, "dataset");
@@ -218,11 +221,10 @@ public class GPProcessAction extends DispatchAction {
     public ActionForward hcApplet(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-    	//System.out.println("Entering hcApplet method.......");
 
     	GpProcessForm gpForm = (GpProcessForm)form;
     	processSetUp(gpForm, request);
-		String jobNumber =  gpForm.getJobId();  //"3085";
+		String jobNumber =  gpForm.getJobId(); 
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
@@ -232,7 +234,12 @@ public class GPProcessAction extends DispatchAction {
 				"gov.nih.nci.caintegrator.gpvisualizer.hcpipeline.gp_lsid",
 				"gov.nih.nci.caintegrator.gpvisualizer.hcpipeline.commandLine");
 
-		int newJobNumber = Integer.parseInt(jobNumber) + 2;
+		int newJobNumber = findChildJobNumber(request, 
+				Integer.parseInt(jobNumber), 
+				System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.hcpipeline.child_lsid"));
+		
+		if (newJobNumber == -1)
+			return mapping.findForward("appletViewer");
 		
 		String fileName = gpserverURL + "gp/jobResults/" + newJobNumber + "/" +  gpTask.getResultName(); 
 
@@ -244,17 +251,12 @@ public class GPProcessAction extends DispatchAction {
 
         request.setAttribute("name", "HierarchicalClusteringViewer");
         request.setAttribute("gp_paramNames", "cdt.file,gtr.file,atr.file");
-        
-		//gpForm.setJobList(getGPTaskList(tempGpTaskList));
-
-		//gpForm.setProcessList(getVisualizers());
 
         return mapping.findForward("appletViewer");
     }
     public ActionForward knnApplet(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-    	//System.out.println("Entering knnApplet method.......");
 
     	GpProcessForm gpForm = (GpProcessForm)form;
     	processSetUp(gpForm, request);
@@ -269,8 +271,13 @@ public class GPProcessAction extends DispatchAction {
 				"gov.nih.nci.caintegrator.gpvisualizer.predictionResultsViewer.gp_lsid",
 				"gov.nih.nci.caintegrator.gpvisualizer.predictionResultsViewer.commandLine");
 
-		int newJobNumber = Integer.parseInt(jobNumber) + 4;
- 
+		int newJobNumber = findChildJobNumber(request, 
+				Integer.parseInt(jobNumber), 
+				System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.predictionResultsViewer.child_lsid"));
+
+		if (newJobNumber == -1)
+			return mapping.findForward("appletViewer");
+		
 		String fileName = gpserverURL + "gp/jobResults/" + newJobNumber + "/" + gpTask.getResultName() + "..test.0.pred.odf";
 		logger.info("datafile name = " + fileName);
 		request.setAttribute("predictionResultsfilename", fileName);
@@ -279,18 +286,12 @@ public class GPProcessAction extends DispatchAction {
 
         request.setAttribute("name", "PredictionResultsViewer");
         request.setAttribute("gp_paramNames", "prediction.results.filename");
-        
-		//gpForm.setJobList(getGPTaskList(tempGpTaskList));
-
-		//gpForm.setProcessList(getVisualizers());
 
         return mapping.findForward("appletViewer");
     }
     public ActionForward cmsApplet(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-    	//System.out.println("Entering cmsApplet method.......");
-
     	GpProcessForm gpForm = (GpProcessForm)form;
     	processSetUp(gpForm, request);
 		String jobNumber = gpForm.getJobId(); 
@@ -304,10 +305,21 @@ public class GPProcessAction extends DispatchAction {
 				"gov.nih.nci.caintegrator.gpvisualizer.comparativeMarkerSelectionViewer.gp_lsid",
 				"gov.nih.nci.caintegrator.gpvisualizer.comparativeMarkerSelectionViewer.commandLine");
 
-		int newJobNumber = Integer.parseInt(jobNumber) + 1;
+		int newJobNumber = findChildJobNumber(request, 
+				Integer.parseInt(jobNumber), 
+				System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.comparativeMarkerSelectionViewer.one.child_lsid"));
+		if (newJobNumber == -1)
+			return mapping.findForward("appletViewer");
+		
 		String fileName1 = gpserverURL + "gp/jobResults/" + newJobNumber + "/" + gpTask.getResultName() + ".mad.gct";
 		
-		newJobNumber = newJobNumber + 1;  
+		newJobNumber = findChildJobNumber(request, 
+				Integer.parseInt(jobNumber),
+				System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.comparativeMarkerSelectionViewer.two.child_lsid"));
+
+		if (newJobNumber == -1)
+			return mapping.findForward("appletViewer");
+		
 		String fileName2 = gpserverURL + "gp/jobResults/" + newJobNumber + "/" + gpTask.getResultName() + ".mad.comp.marker.odf";
 		
 		request.setAttribute("comparativeMarkerSelectionDatasetFilename", fileName1);
@@ -317,10 +329,6 @@ public class GPProcessAction extends DispatchAction {
 
         request.setAttribute("name", "ComparativeMarkerSelectionViewer");
         request.setAttribute("gp_paramNames", "comparative.marker.selection.filename,dataset.filename");
-        
-		//gpForm.setJobList(getGPTaskList(tempGpTaskList));
-
-		//gpForm.setProcessList(getVisualizers());
 
         return mapping.findForward("appletViewer");
     }
@@ -460,6 +468,26 @@ public class GPProcessAction extends DispatchAction {
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		gpForm.setJobList(getGPTaskList(tempGpTaskList));
 		gpForm.setProcessList(getVisualizers());
+    }
+    private int findChildJobNumber(HttpServletRequest request, int parentJobNumber, String child_lsid){
+    	AnalysisWebServiceProxy analysisProxy = (AnalysisWebServiceProxy)request.getSession().getAttribute("AnalysisWebServiceProxy");
+    	if (analysisProxy == null){
+			return -1;
+		}
+    	GPServer gpServer = (GPServer)request.getSession().getAttribute("genePatternServer");
+    	try {
+    		int[] children = analysisProxy.getChildren(parentJobNumber);
+    		JobResult result = null;
+    		for (int job : children){
+    			result = gpServer.createJobResult(job);
+    			if (result.getLSID().equalsIgnoreCase(child_lsid)){
+    				return result.getJobNumber();
+    			}
+    		}
+    	} catch (WebServiceException we){
+    		logger.error("Failed to obtain child job number: " + we.getMessage());
+    	}
+		return -1;
     }
 }
 
