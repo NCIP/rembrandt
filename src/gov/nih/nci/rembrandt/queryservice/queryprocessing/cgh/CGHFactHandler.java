@@ -275,8 +275,8 @@ abstract public class CGHFactHandler {
                 allSNPProbeIDs.add(o.getSnpProbesetId());
             }
 
-            executeGeneAnnotationQuery(allSNPProbeIDs);
-            ThreadController.sleepOnEvents(annotationEventList);
+            //executeGeneAnnotationQuery(allSNPProbeIDs);
+            //ThreadController.sleepOnEvents(annotationEventList);
 
             // by now CopyNumberObjects and annotations would have populated
             Collection c = cghObjects.values();
@@ -304,8 +304,8 @@ abstract public class CGHFactHandler {
             executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
 
             ThreadController.sleepOnEvents(factEventList);
-            executeGeneAnnotationQuery(allSNPProbeIDs);
-            ThreadController.sleepOnEvents(annotationEventList);
+            //executeGeneAnnotationQuery(allSNPProbeIDs);
+            //ThreadController.sleepOnEvents(annotationEventList);
 
             // by now CopyNumberObjects and annotations would have populated
             Object[]objs = (cghObjects.values().toArray());

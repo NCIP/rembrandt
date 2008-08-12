@@ -1,5 +1,7 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing.ge;
 
+import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.rembrandt.dbbean.DifferentialExpressionGfact;
 import gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact;
 import gov.nih.nci.rembrandt.dbbean.GeneClone;
@@ -12,6 +14,7 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.CommonFactHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.DBEvent;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.util.ThreadPool;
 
@@ -438,11 +441,11 @@ abstract public class GEFactHandler {
                 if (obj.getGeneSymbol() != null) geneSymbols.add(obj.getGeneSymbol());
             }
 
-            executeGenePathwayAnnotationQuery(geneSymbols);
-            executeGeneOntologyAnnotationQuery(geneSymbols);
-            executeCloneAnnotationQuery(allCloneIDs);
-            executeProbeAnnotationQuery(allProbeIDs );
-            ThreadController.sleepOnEvents(annotationEventList);
+//            executeGenePathwayAnnotationQuery(geneSymbols);
+//            executeGeneOntologyAnnotationQuery(geneSymbols);
+//            executeCloneAnnotationQuery(allCloneIDs);
+//            executeProbeAnnotationQuery(allProbeIDs );
+//            ThreadController.sleepOnEvents(annotationEventList);
 
             for (int i = 0; i < objs.length; i++) {
                 GeneExpr.GeneExprSingle obj = (GeneExpr.GeneExprSingle) objs[i];
@@ -477,12 +480,11 @@ abstract public class GEFactHandler {
                 if (obj.getGeneSymbol() != null) geneSymbols.add(obj.getGeneSymbol());
             }
 
-            executeGenePathwayAnnotationQuery(geneSymbols);
-            executeGeneOntologyAnnotationQuery(geneSymbols);
-            executeCloneAnnotationQuery(allCloneIDs);
-            executeProbeAnnotationQuery(allProbeIDs );
-            ThreadController.sleepOnEvents(annotationEventList);
-
+            //executeGenePathwayAnnotationQuery(geneSymbols);
+            //executeGeneOntologyAnnotationQuery(geneSymbols);
+            //executeCloneAnnotationQuery(allCloneIDs);
+            //executeProbeAnnotationQuery(allProbeIDs );
+            // ThreadController.sleepOnEvents(annotationEventList);
             // by now geneExprObjects,  geneAnnotations, cloneAnnotations, probeAnnotations would have populated
             GeneExpr.GeneExprSingle[] results = new GeneExpr.GeneExprSingle[objs.length];
             for (int i = 0; i < objs.length; i++) {

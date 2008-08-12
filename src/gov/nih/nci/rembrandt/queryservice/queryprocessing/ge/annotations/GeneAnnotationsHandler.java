@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class GeneAnnotationsHandler {
     private static Logger logger = Logger.getLogger(GeneAnnotationsHandler .class);
-    private final static int VALUES_PER_THREAD = 50;
+    private final static int VALUES_PER_THREAD = 100;
 
     GeneDimension.PathwayDimension pathwayDim;
     GeneDimension.OntologyDimension ontologyDim ;

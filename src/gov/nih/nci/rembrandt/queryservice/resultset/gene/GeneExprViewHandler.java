@@ -2,11 +2,17 @@ package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
+import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprSingleInterface;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
 
 /**
  * @author SahniH
@@ -93,10 +99,20 @@ public abstract class GeneExprViewHandler {
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one
 		ReporterResultset reporterResultset = null;
+		Map reporterResultsetMap = null;
 		if(geneResultset != null && exprObj != null){
 	    	if(exprObj.getProbesetName() != null && exprObj.getCloneName() == null){
 	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,exprObj.getProbesetName());
 	       		reporterResultset = geneResultset.getRepoterResultset(exprObj.getProbesetName().toString());
+	            List reporterList = new ArrayList();
+	            reporterList.add(exprObj.getProbesetId());
+				ArrayPlatformType arrayPlatform = ArrayPlatformType.AFFY_OLIGO_PLATFORM;
+					//Map<String, ReporterAnnotations> reporterResultsetMap = null;
+					try {
+						reporterResultsetMap = AnnotationHandler.getAllAnnotationsFor(reporterList, arrayPlatform);
+					} catch (Exception e) {
+						e.printStackTrace();
+				}
 	      		if(reporterResultset == null){
 	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}  	
@@ -108,21 +124,21 @@ public abstract class GeneExprViewHandler {
 	      		 	reporterResultset = new ReporterResultset(reporter);
 	      			}
 	  			}
-	            reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
-		  		if(exprObj.getAnnotation() != null){
-		  			GeneExpr.Annotaion annotation = exprObj.getAnnotation();
-		  			reporterResultset.setAssiciatedGenBankAccessionNos(exprObj.getAnnotation().getAccessions());
-		  			reporterResultset.setAssiciatedLocusLinkIDs(exprObj.getAnnotation().getLocusLinks());
-		  		if(exprObj.getAnnotation().getGeneAnnotation() != null){
-		  			if(exprObj.getAnnotation().getGeneAnnotation().getGeneSymbol()!= null){
-			  			Collection geneSymbols = new ArrayList();
-			  			geneSymbols.add(exprObj.getAnnotation().getGeneAnnotation().getGeneSymbol());
-						reporterResultset.setAssiciatedGeneSymbols(geneSymbols);			  			
-		  			}
+            reporterResultset.setValue(new DatumDE(DatumDE.FOLD_CHANGE_RATIO,exprObj.getExpressionRatio()));
+	  		if(reporterResultsetMap != null){
+				ReporterAnnotations ra = (ReporterAnnotations) reporterResultsetMap.get(exprObj.getProbesetId());
+				if(ra != null){
+	  			reporterResultset.setAssiciatedGenBankAccessionNos(ra.getAccessions());
+	  			reporterResultset.setAssiciatedLocusLinkIDs(ra.getLocusLinks());
+	  			if(ra.getGeneSymbol()!= null){
+		  			Collection geneSymbols = new ArrayList();
+		  			geneSymbols.add(ra.getGeneSymbol());
+					reporterResultset.setAssiciatedGeneSymbols(geneSymbols);			  			
+	  			}
 
-		  			reporterResultset.setAssociatedPathways(exprObj.getAnnotation().getGeneAnnotation().getPathwayNames());
-		  		    reporterResultset.setAssociatedGOIds(exprObj.getAnnotation().getGeneAnnotation().getGoIDs());
-		  		}
+	  			reporterResultset.setAssociatedPathways(ra.getPathways());
+	  		    reporterResultset.setAssociatedGOIds(ra.getGoIDS());
+	  		}
 
 	 		}
 		}
