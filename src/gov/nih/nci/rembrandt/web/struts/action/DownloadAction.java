@@ -125,10 +125,11 @@ public class DownloadAction extends DispatchAction {
 		for (ListItem item : listItemts) {
 			patientIdset.add(item.getName());
 		}               
-
+        //Get InsitutionAccess
+        Collection<InstitutionDE> accessInstitutions = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
 		if(patientIdset != null && patientIdset.size()>0) {  
 			// need to convert pt dids to the specimen ids
-			specimenNames = LookupManager.getSpecimenNames(patientIdset);     
+			specimenNames = LookupManager.getSpecimenNames(patientIdset, accessInstitutions);     
 		}// end of if
 		String tempName = groupNameList.toLowerCase();
 		tempName = FileNameGenerator.generateUniqueFileName(tempName);

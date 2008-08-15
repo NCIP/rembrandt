@@ -7,6 +7,7 @@ import gov.nih.nci.caintegrator.application.lists.ListItem;
 
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.security.EncryptionUtil;
 import gov.nih.nci.caintegrator.security.PublicUserPool;
@@ -22,6 +23,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 
 
 
@@ -97,7 +99,7 @@ public class GPIntegrationAction extends DispatchAction {
             List<String> fileNameList = new ArrayList<String>();
             List<String> reportIdStringList = new ArrayList<String>();
 
-         
+
          
     	   GpIntegrationForm gpForm = (GpIntegrationForm) form;
     	   String sessionId = request.getSession().getId();
@@ -110,7 +112,7 @@ public class GPIntegrationAction extends DispatchAction {
        	   SampleGroup[] sampleGroup = new SampleGroup [patientGroups.length];            
        	   
        	   
-       	   
+           Collection<InstitutionDE> accessInstitutions = InsitutionAccessHelper.getInsititutionCollection(session);
     	
            UserListBeanHelper helper = new UserListBeanHelper(request.getSession().getId());
            Set<String> patientIdset = new HashSet<String>();
@@ -142,7 +144,7 @@ public class GPIntegrationAction extends DispatchAction {
            if(patientIdset != null && patientIdset.size()>0) {
         	   
         	   // need to convert pt dids to the specimen ids
-        		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset);     
+        		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset, accessInstitutions);     
                 //Validate that samples has GE data
                 List<String> validspecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
         		if(validspecimenNames != null){

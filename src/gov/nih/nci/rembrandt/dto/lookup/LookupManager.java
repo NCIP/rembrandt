@@ -27,6 +27,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -512,15 +513,31 @@ public class LookupManager{
 		return sampleIDList;
 		}
 	/**
+	 * @param accessInstitutions 
 	 * @param specimenIds
 	 * @return SpecimenNames
 	 */
 	public static List<String> getSpecimenNames(Collection<String> sampleIDS){
+		Collection<InstitutionDE> accessInstitutions = Collections.emptyList();
+		return getSpecimenNames( sampleIDS, accessInstitutions);
+	}
+
+	public static List<String> getSpecimenNames(Collection<String> sampleIDS, Collection<InstitutionDE> accessInstitutions){
 		List<String> specimenNamesList = new ArrayList<String>();
+		List<String> accessIds = new ArrayList<String>();
+		for(InstitutionDE insitution :accessInstitutions){
+			if(insitution.getValueObject()!= null){
+				accessIds.add(insitution.getValueObject().toString());
+			}
+		}
 			try {
 				if(sampleIDS != null && sampleIDS.size() > 0){
 					Criteria crit = new Criteria();
 					crit.addIn(BiospecimenDim.SAMPLE_ID,sampleIDS);
+					if(accessIds.size()>0){
+						crit.addIn("INSTITUTION_ID",accessIds);
+					}
+					crit.addNotEqualTo("SPECIMEN_TYPE", "CELL_LINE");
 					Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,"SPECIMEN_NAME", true);
 					if(col != null){
 						for(Object ojb:col){

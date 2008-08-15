@@ -15,6 +15,7 @@ import gov.nih.nci.caintegrator.dto.critieria.SNPCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
@@ -425,7 +426,9 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
             cghQuery.setAssociatedView(ViewFactory
                     .newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         }
-
+        //Get InsitutionAccess
+        Collection<InstitutionDE> accessInstitutions = InsitutionAccessHelper.getInsititutionCollection(session);
+        
         // set Disease criteria
         DiseaseOrGradeCriteria diseaseOrGradeCriteria = comparativeGenomicForm
                 .getDiseaseOrGradeCriteria();
@@ -471,7 +474,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
                try {
             	    Set<String>list = new HashSet<String>(sampleList.getList());
       				//get the samples associated with these specimens
-      				List<String> samples = LookupManager.getSpecimenNames(list);
+      				List<String> samples = LookupManager.getSpecimenNames(list, accessInstitutions);
       				//Add back any samples that were just sampleIds to start with
       				if(samples != null){
       					list.addAll(samples);
