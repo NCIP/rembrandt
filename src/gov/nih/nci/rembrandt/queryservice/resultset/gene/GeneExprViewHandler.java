@@ -104,8 +104,8 @@ public abstract class GeneExprViewHandler {
 	    	if(exprObj.getProbesetName() != null && exprObj.getCloneName() == null){
 	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,exprObj.getProbesetName());
 	       		reporterResultset = geneResultset.getRepoterResultset(exprObj.getProbesetName().toString());
-	            List reporterList = new ArrayList();
-	            reporterList.add(exprObj.getProbesetId());
+	            List<String> reporterList = new ArrayList<String>();
+	            reporterList.add(exprObj.getProbesetId().toString());
 				ArrayPlatformType arrayPlatform = ArrayPlatformType.AFFY_OLIGO_PLATFORM;
 					//Map<String, ReporterAnnotations> reporterResultsetMap = null;
 					try {
