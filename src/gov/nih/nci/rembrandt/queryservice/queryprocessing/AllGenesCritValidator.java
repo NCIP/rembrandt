@@ -98,7 +98,7 @@ public class AllGenesCritValidator {
        }
 
        else if(type.equals(ExprFoldChangeDE.DOWN_REGULATION)) {
-            if (c.getValueObject().compareTo(FoldChangeCriteriaHandler.ALL_GENES_REGULATION_LIMIT) > 0) {
+            if (c.getValueObject().compareTo(FoldChangeCriteriaHandler.ALL_GENES_REGULATION_LIMIT) < 0) {
                throw new Exception("Fold Change must be at less than or equal to " + FoldChangeCriteriaHandler.ALL_GENES_REGULATION_LIMIT);
            }
        }

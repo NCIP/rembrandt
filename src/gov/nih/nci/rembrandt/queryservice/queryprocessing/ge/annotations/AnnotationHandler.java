@@ -84,7 +84,13 @@ public class AnnotationHandler {
         case AFFY_OLIGO_PLATFORM:{
 		    	if(allAffyReportAnnotationMap != null){
 		    		for(Object obj:reporters){
-		    			String reporterName = (String)obj;
+		    			String reporterName = "";
+		    			if(obj instanceof Long){
+		    				Long reporter = (Long)obj;
+		    				reporterName = reporter.toString();
+		    			}else if(obj instanceof String){
+		    				reporterName = (String) obj;
+		    			}
 		    			if(!allAffyReportAnnotationMap.containsKey(reporterName)){
 		    				isReporterMissing = true;
 		    			}

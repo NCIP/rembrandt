@@ -275,8 +275,7 @@ public class UIRefineQueryValidator {
     	   				if(specimenNames != null){
     	   					samples.addAll(specimenNames);
     	   				}
-    	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));
-    	    			sampleCrit.setSampleIDs(sampleIDDEList);
+    	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));    	    			
     	    		}
     	    					     
     	    		if(isAllGenesQuery){
@@ -285,16 +284,15 @@ public class UIRefineQueryValidator {
     	    			if(specimans!= null && specimans.size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT){
     	    				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
     	    			}else{
-        	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(specimans));        	    			
+    	    				sampleIDDEList.clear();
+        	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(specimans));  
     	    			}
     	    		
-    		        	
-    	    		}else {
+    	    		}	
     	    			sampleCrit.setSampleIDs(sampleIDDEList);
     	    			//drop the sample criteria into the compound query, clone it here
     		    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
-    	    		}
-                //}	
+
 	    	}
 			if(errors.isEmpty()) {
 				//store the sessionId that the compound query is associated with
