@@ -341,21 +341,21 @@ public class ClinicalQueryHandler extends QueryHandler {
 						if(followUpMonth == null) {
 						if(clinicalEvalData.getTimePoint()!= null) {
 						   timePoints.append(clinicalEvalData.getTimePoint());
-						   timePoints.append(", ");
+						   timePoints.append("| ");
 						}
 						if(clinicalEvalData.getFollowupDate() != null) {
 						   followUpdates.append(clinicalEvalData.getFollowupDate());	
-						   followUpdates.append(", ");
+						   followUpdates.append("| ");
 						}
 						
 						if(clinicalEvalData.getFollowupMonth() != null) {
 						   followupMonths.append(clinicalEvalData.getFollowupMonth());
-						   followupMonths.append(", ");
+						   followupMonths.append("| ");
 						}
 						
 						if(clinicalEvalData.getNeuroEvaluationDate() != null) {
 						    neuroEvaluationDates.append(clinicalEvalData.getNeuroEvaluationDate());
-						    neuroEvaluationDates.append(", ");
+						    neuroEvaluationDates.append("| ");
 						}
 						
 						if(clinicalEvalData.getKarnofskyScore() != null) {
@@ -365,37 +365,37 @@ public class ClinicalQueryHandler extends QueryHandler {
 						
 						if(clinicalEvalData.getLanskyScore() != null) {
 						   lanskyScores.append(clinicalEvalData.getLanskyScore());
-						   lanskyScores.append(", ");
+						   lanskyScores.append("| ");
 						}
 						
 						if(clinicalEvalData.getNeuroExam() != null) {
 						    neuroExams.append(clinicalEvalData.getNeuroExam());
-						    neuroExams.append(", ");
+						    neuroExams.append("| ");
 						}
 						
 						if(clinicalEvalData.getMriCtScore() != null) {
 						   mriCtScores.append(clinicalEvalData.getMriCtScore());
-						   mriCtScores.append(", ");
+						   mriCtScores.append("| ");
 						}
 						
 						if(clinicalEvalData.getSteroidDoseStatus() != null) {
 						   steroidDoseStatuses.append(clinicalEvalData.getSteroidDoseStatus());
-						   steroidDoseStatuses.append(", ");
+						   steroidDoseStatuses.append("| ");
 						}
 						
 						if(clinicalEvalData.getAntiConvulsantStatus() != null) {
 						   antiConvulsantStatuses.append(clinicalEvalData.getAntiConvulsantStatus());
-						   antiConvulsantStatuses.append(", ");		
+						   antiConvulsantStatuses.append("| ");		
 						}
 						
 						if(clinicalEvalData.getNeuroExamDesc()!= null) {
 							neuroExamDescs.append(clinicalEvalData.getNeuroExamDesc());
-							neuroExamDescs.append(", ");
+							neuroExamDescs.append("| ");
 						}
 							
 						if(clinicalEvalData.getMriScoreDesc()!= null) {
 							mriCtScoreDescs.append(clinicalEvalData.getMriScoreDesc());
-							mriCtScoreDescs.append(", ");
+							mriCtScoreDescs.append("| ");
 						}						
 						
 					}
@@ -418,11 +418,11 @@ public class ClinicalQueryHandler extends QueryHandler {
 						   if(followUpMonth.intValue()==(int)followUpMonths[q]) {
 							if(clinicalEvalData.getTimePoint()!= null) {
 								   timePoints.append(clinicalEvalData.getTimePoint());
-								   timePoints.append(", ");
+								   timePoints.append("| ");
 								}
 								if(clinicalEvalData.getFollowupDate() != null) {
 								   followUpdates.append(clinicalEvalData.getFollowupDate());	
-								   followUpdates.append(", ");
+								   followUpdates.append("| ");
 								}
 								
 								if(clinicalEvalData.getFollowupMonth() != null) {
@@ -432,7 +432,7 @@ public class ClinicalQueryHandler extends QueryHandler {
 								
 								if(clinicalEvalData.getNeuroEvaluationDate() != null) {
 								    neuroEvaluationDates.append(clinicalEvalData.getNeuroEvaluationDate());
-								    neuroEvaluationDates.append(", ");
+								    neuroEvaluationDates.append("| ");
 								}
 								
 								if(clinicalEvalData.getKarnofskyScore() != null) {
@@ -447,32 +447,32 @@ public class ClinicalQueryHandler extends QueryHandler {
 								
 								if(clinicalEvalData.getNeuroExam() != null) {
 								    neuroExams.append(clinicalEvalData.getNeuroExam());
-								    neuroExams.append(", ");
+								    neuroExams.append("| ");
 								}
 								
 								if(clinicalEvalData.getMriCtScore() != null) {
 								   mriCtScores.append(clinicalEvalData.getMriCtScore());
-								   mriCtScores.append(", ");
+								   mriCtScores.append("| ");
 								}
 								
 								if(clinicalEvalData.getSteroidDoseStatus() != null) {
 								   steroidDoseStatuses.append(clinicalEvalData.getSteroidDoseStatus());
-								   steroidDoseStatuses.append(", ");
+								   steroidDoseStatuses.append("| ");
 								}
 								
 								if(clinicalEvalData.getAntiConvulsantStatus() != null) {
 								   antiConvulsantStatuses.append(clinicalEvalData.getAntiConvulsantStatus());
-								   antiConvulsantStatuses.append(", ");		
+								   antiConvulsantStatuses.append("| ");		
 								}
 								
 								if(clinicalEvalData.getNeuroExamDesc()!= null) {
 									neuroExamDescs.append(clinicalEvalData.getNeuroExamDesc());
-									neuroExamDescs.append(", ");
+									neuroExamDescs.append("| ");
 								}
 									
 								if(clinicalEvalData.getMriScoreDesc()!= null) {
 									mriCtScoreDescs.append(clinicalEvalData.getMriScoreDesc());
-									mriCtScoreDescs.append(", ");
+									mriCtScoreDescs.append("| ");
 								}						
 								
 							
@@ -585,36 +585,36 @@ private PatientData[] addPriorRadiationToPatientData(PatientData[] patientDataRe
 					if(patientDid.toString().equals(ptDid.toString())) {
 						if(priorRadiationData.getTimePoint()!= null) {
 						   timePoints.append(priorRadiationData.getTimePoint());
-						   timePoints.append(", ");
+						   timePoints.append("| ");
 						}
 						if(priorRadiationData.getRadiationSite() != null) {
 							radiationSites.append(priorRadiationData.getRadiationSite());	
-							radiationSites.append(", ");
+							radiationSites.append("| ");
 						}
 						
 						if(priorRadiationData.getDoseStartDate() != null) {
 							doseStartDates.append(priorRadiationData.getDoseStartDate());
-							doseStartDates.append(", ");
+							doseStartDates.append("| ");
 						}
 						
 						if(priorRadiationData.getDoseStopDate() != null) {
 							doseStopDates.append(priorRadiationData.getDoseStopDate());
-						    doseStopDates.append(", ");
+						    doseStopDates.append("| ");
 						}
 						
 						if(priorRadiationData.getFractionDose() != null) {
 							fractionDoses.append(priorRadiationData.getFractionDose());
-							fractionDoses.append(", ");
+							fractionDoses.append("| ");
 						}
 						
 						if(priorRadiationData.getFractionNumber() != null) {
 							fractionNumbers.append(priorRadiationData.getFractionNumber());
-							fractionNumbers.append(", ");
+							fractionNumbers.append("| ");
 						}
 						
 						if(priorRadiationData.getRadiationType() != null) {
 							radiationTypes.append(priorRadiationData.getRadiationType());
-							radiationTypes.append(", ");
+							radiationTypes.append("| ");
 						}
 							
 						
@@ -697,40 +697,40 @@ private PatientData[] addOnStudyRadiationToPatientData(PatientData[] patientData
 				if(patientDid.toString().equals(ptDid.toString())) {
 					if(onStudyRadiationData.getTimePoint()!= null) {
 					   timePoints.append(onStudyRadiationData.getTimePoint());
-					   timePoints.append(", ");
+					   timePoints.append("| ");
 					}
 					if(onStudyRadiationData.getRadiationSite() != null) {
 						radiationSites.append(onStudyRadiationData.getRadiationSite());	
-						radiationSites.append(", ");
+						radiationSites.append("| ");
 					}
 					
 					if(onStudyRadiationData.getDoseStartDate() != null) {
 						doseStartDates.append(onStudyRadiationData.getDoseStartDate());
-						doseStartDates.append(", ");
+						doseStartDates.append("| ");
 					}
 					
 					if(onStudyRadiationData.getDoseStopDate() != null) {
 						doseStopDates.append(onStudyRadiationData.getDoseStopDate());
-					    doseStopDates.append(", ");
+					    doseStopDates.append("| ");
 					}
 					
 					if(onStudyRadiationData.getFractionDose() != null) {
 						fractionDoses.append(onStudyRadiationData.getFractionDose());
-						fractionDoses.append(", ");
+						fractionDoses.append("| ");
 					}
 					
 					if(onStudyRadiationData.getFractionNumber() != null) {
 						fractionNumbers.append(onStudyRadiationData.getFractionNumber());
-						fractionNumbers.append(", ");
+						fractionNumbers.append("| ");
 					}
 					
 					if(onStudyRadiationData.getRadiationType() != null) {
 						radiationTypes.append(onStudyRadiationData.getRadiationType());
-						radiationTypes.append(", ");
+						radiationTypes.append("| ");
 					}
 					if(onStudyRadiationData.getNeurosisStatus() != null) {
 						neurosisStatuses.append(onStudyRadiationData.getNeurosisStatus());
-						neurosisStatuses.append(", ");
+						neurosisStatuses.append("| ");
 					}	
 					
 				}					 
@@ -819,41 +819,41 @@ private PatientData[] addPriorChemoToPatientData(PatientData[] patientDataResult
 					if(patientDid.toString().equals(ptDid.toString())) {
 						if(priorChemoData.getTimePoint()!= null) {
 						   timePoints.append(priorChemoData.getTimePoint());
-						   timePoints.append(", ");
+						   timePoints.append("| ");
 						}
 						if(priorChemoData.getAgentId() != null) {
 							agentIds.append(priorChemoData.getAgentId());	
-							agentIds.append(", ");
+							agentIds.append("| ");
 						}
 						
 						if(priorChemoData.getAgentName() != null) {
 							agentNames.append(priorChemoData.getAgentName());
-							agentNames.append(", ");
+							agentNames.append("| ");
 						}
 						
 						if(priorChemoData.getCourseCount() != null) {
 							courseCounts.append(priorChemoData.getCourseCount());
-							courseCounts.append(", ");
+							courseCounts.append("| ");
 						}
 						
 						if(priorChemoData.getDoseStartDate() != null) {
 							doseStartDates.append(priorChemoData.getDoseStartDate());
-							doseStartDates.append(", ");
+							doseStartDates.append("| ");
 						}
 						
 						if(priorChemoData.getDoseStopDate() != null) {
 							doseStopDates.append(priorChemoData.getDoseStopDate());
-							doseStopDates.append(", ");
+							doseStopDates.append("| ");
 						}
 						
 						if(priorChemoData.getStudySource() != null) {
 							studySources.append(priorChemoData.getStudySource());
-							studySources.append(", ");
+							studySources.append("| ");
 						}
 						
 						if(priorChemoData.getProtocolNumber() != null) {
 							protocolNumbers.append(priorChemoData.getProtocolNumber());
-							protocolNumbers.append(", ");
+							protocolNumbers.append("| ");
 						}
 							
 						
@@ -944,46 +944,46 @@ private PatientData[] addOnStudyChemoToPatientData(PatientData[] patientDataResu
 				if(patientDid.toString().equals(ptDid.toString())) {
 					if(onStudyChemoData.getTimePoint()!= null) {
 					   timePoints.append(onStudyChemoData.getTimePoint());
-					   timePoints.append(", ");
+					   timePoints.append("| ");
 					}
 					if(onStudyChemoData.getAgentId() != null) {
 						agentIds.append(onStudyChemoData.getAgentId());	
-						agentIds.append(", ");
+						agentIds.append("| ");
 					}
 					
 					if(onStudyChemoData.getAgentName() != null) {
 						agentNames.append(onStudyChemoData.getAgentName());
-						agentNames.append(", ");
+						agentNames.append("| ");
 					}
 					
 					if(onStudyChemoData.getCourseCount() != null) {
 						courseCounts.append(onStudyChemoData.getCourseCount());
-						courseCounts.append(", ");
+						courseCounts.append("| ");
 					}
 					
 					if(onStudyChemoData.getDoseStartDate() != null) {
 						doseStartDates.append(onStudyChemoData.getDoseStartDate());
-						doseStartDates.append(", ");
+						doseStartDates.append("| ");
 					}
 					
 					if(onStudyChemoData.getDoseStopDate() != null) {
 						doseStopDates.append(onStudyChemoData.getDoseStopDate());
-						doseStopDates.append(", ");
+						doseStopDates.append("| ");
 					}
 					
 					if(onStudyChemoData.getStudySource() != null) {
 						studySources.append(onStudyChemoData.getStudySource());
-						studySources.append(", ");
+						studySources.append("| ");
 					}
 					
 					if(onStudyChemoData.getProtocolNumber() != null) {
 						protocolNumbers.append(onStudyChemoData.getProtocolNumber());
-						protocolNumbers.append(", ");
+						protocolNumbers.append("| ");
 					}
 						
 					if(onStudyChemoData.getRegimenNumber() != null) {
 						regimenNumbers.append(onStudyChemoData.getRegimenNumber());
-						regimenNumbers.append(", ");
+						regimenNumbers.append("| ");
 					}
 					
 				}					 
@@ -1078,26 +1078,26 @@ private PatientData[] addPriorSurgeryToPatientData(PatientData[] patientDataResu
 					if(patientDid.toString().equals(ptDid.toString())) {
 						if(priorSurgeryData.getTimePoint()!= null) {
 						   timePoints.append(priorSurgeryData.getTimePoint());
-						   timePoints.append(", ");
+						   timePoints.append("| ");
 						}
 						if(priorSurgeryData.getProcedureTitle() != null) {
 							procedureTitles.append(priorSurgeryData.getProcedureTitle());	
-							procedureTitles.append(", ");
+							procedureTitles.append("| ");
 						}
 						
 						if(priorSurgeryData.getTumorHistology() != null) {
 							tumorHistologys.append(priorSurgeryData.getTumorHistology());
-							tumorHistologys.append(", ");
+							tumorHistologys.append("| ");
 						}
 						
 						if(priorSurgeryData.getSurgeryDate() != null) {
 							surgeryDates.append(priorSurgeryData.getSurgeryDate());
-							surgeryDates.append(", ");
+							surgeryDates.append("| ");
 						}
 						
 						if(priorSurgeryData.getSurgeryOutcome() != null) {
 							surgeryOutcomes.append(priorSurgeryData.getSurgeryOutcome());
-							surgeryOutcomes.append(", ");
+							surgeryOutcomes.append("| ");
 						}
 						
 					}					 
@@ -1169,31 +1169,31 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 				if(patientDid.toString().equals(ptDid.toString())) {
 					if(onStudySurgeryData.getTimePoint()!= null) {
 					   timePoints.append(onStudySurgeryData.getTimePoint());
-					   timePoints.append(", ");
+					   timePoints.append("| ");
 					}
 					if(onStudySurgeryData.getProcedureTitle() != null) {
 						procedureTitles.append(onStudySurgeryData.getProcedureTitle());	
-						procedureTitles.append(", ");
+						procedureTitles.append("| ");
 					}
 					
 					if(onStudySurgeryData.getHistoDiagnosis() != null) {
 						histoDiagnoses.append(onStudySurgeryData.getHistoDiagnosis());
-						histoDiagnoses.append(", ");
+						histoDiagnoses.append("| ");
 					}
 					
 					if(onStudySurgeryData.getSurgeryDate() != null) {
 						surgeryDates.append(onStudySurgeryData.getSurgeryDate());
-						surgeryDates.append(", ");
+						surgeryDates.append("| ");
 					}
 					
 					if(onStudySurgeryData.getSurgeryOutcome() != null) {
 						surgeryOutcomes.append(onStudySurgeryData.getSurgeryOutcome());
-						surgeryOutcomes.append(", ");
+						surgeryOutcomes.append("| ");
 					}
 					
 					if(onStudySurgeryData.getIndication() != null) {
 						indications.append(onStudySurgeryData.getIndication());
-						indications.append(", ");
+						indications.append("| ");
 					}
 					
 				}					 
@@ -1293,7 +1293,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
     	   		  
     		  clinicalEvalCrit.addIn(NeuroEvaluation.PATIENT_DID, patientDIDs);
     		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-    	      ReportQueryByCriteria clinicalEvalQuery = QueryFactory.newReportQuery(NeuroEvaluation.class, clinicalEvalCrit, false);
+    	      ReportQueryByCriteria clinicalEvalQuery = QueryFactory.newReportQuery(NeuroEvaluation.class, clinicalEvalCrit, true);
     	       
     	      clinicalEvalQuery.setAttributes(new String[] {
     	    		  NeuroEvaluation.TIME_POINT, NeuroEvaluation.FOLLOWUP_DATE,
@@ -1344,7 +1344,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	    	   		  
 	    	  priorRadiationCrit.addIn(PriorRadiationtherapy.PATIENT_DID, patientDIDs);
 	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-	    	      ReportQueryByCriteria priorRadiationQuery = QueryFactory.newReportQuery(PriorRadiationtherapy.class, priorRadiationCrit, false);
+	    	      ReportQueryByCriteria priorRadiationQuery = QueryFactory.newReportQuery(PriorRadiationtherapy.class, priorRadiationCrit, true);
 	    	       
 	    	      priorRadiationQuery.setAttributes(new String[] {
 	    	    		  PriorRadiationtherapy.TIME_POINT, PriorRadiationtherapy.RADIATION_SITE,
@@ -1392,7 +1392,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	    	   		  
 	    	      onStudyRadiationCrit.addIn(OnStudyRadiationtherapy.PATIENT_DID, patientDIDs);
 	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-	    	      ReportQueryByCriteria onStudyRadiationQuery = QueryFactory.newReportQuery(OnStudyRadiationtherapy.class, onStudyRadiationCrit, false);
+	    	      ReportQueryByCriteria onStudyRadiationQuery = QueryFactory.newReportQuery(OnStudyRadiationtherapy.class, onStudyRadiationCrit, true);
 	    	       
 	    	      onStudyRadiationQuery.setAttributes(new String[] {
 	    	    		  OnStudyRadiationtherapy.TIME_POINT, OnStudyRadiationtherapy.RADIATION_SITE,
@@ -1441,7 +1441,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	    	   		  
 	    	  priorChemoCrit.addIn(PriorChemotherapy.PATIENT_DID, patientDIDs);
 	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-	    	      ReportQueryByCriteria priorChemoQuery = QueryFactory.newReportQuery(PriorChemotherapy.class, priorChemoCrit, false);
+	    	      ReportQueryByCriteria priorChemoQuery = QueryFactory.newReportQuery(PriorChemotherapy.class, priorChemoCrit, true);
 	    	       
 	    	      priorChemoQuery.setAttributes(new String[] {
 	    	    		  PriorChemotherapy.TIME_POINT, PriorChemotherapy.AGENT_ID,
@@ -1490,7 +1490,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	    	   		  
 	    	  onStudyChemoCrit.addIn(OnStudyChemotherapy.PATIENT_DID, patientDIDs);
 	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-	    	      ReportQueryByCriteria onStudyChemoQuery = QueryFactory.newReportQuery(OnStudyChemotherapy.class, onStudyChemoCrit, false);
+	    	      ReportQueryByCriteria onStudyChemoQuery = QueryFactory.newReportQuery(OnStudyChemotherapy.class, onStudyChemoCrit, true);
 	    	       
 	    	      onStudyChemoQuery.setAttributes(new String[] {
 	    	    		  OnStudyChemotherapy.TIME_POINT, OnStudyChemotherapy.AGENT_ID,
@@ -1540,7 +1540,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	    	   		  
 	    	  priorSurgeryCrit.addIn(PriorSurgery.PATIENT_DID, patientDIDs);
 	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-	    	      ReportQueryByCriteria priorSurgeryQuery = QueryFactory.newReportQuery(PriorSurgery.class, priorSurgeryCrit, false);
+	    	      ReportQueryByCriteria priorSurgeryQuery = QueryFactory.newReportQuery(PriorSurgery.class, priorSurgeryCrit, true);
 	    	       
 	    	      priorSurgeryQuery.setAttributes(new String[] {
 	    	    		  PriorSurgery.TIME_POINT, PriorSurgery.PROCEDURE_TITLE,
@@ -1588,7 +1588,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
 	    	   		  
 	    	  onStudySurgeryCrit.addIn(OnStudySurgery.PATIENT_DID, patientDIDs);
 	    		  final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
-	    	      ReportQueryByCriteria onStudySurgeryQuery = QueryFactory.newReportQuery(OnStudySurgery.class, onStudySurgeryCrit, false);
+	    	      ReportQueryByCriteria onStudySurgeryQuery = QueryFactory.newReportQuery(OnStudySurgery.class, onStudySurgeryCrit, true);
 	    	       
 	    	      onStudySurgeryQuery.setAttributes(new String[] {
 	    	    		  OnStudySurgery.TIME_POINT, OnStudySurgery.PROCEDURE_TITLE,
