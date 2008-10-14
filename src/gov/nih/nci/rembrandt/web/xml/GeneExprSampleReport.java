@@ -257,12 +257,13 @@ public class GeneExprSampleReport implements ReportGenerator{
 		        	//header.append("<td colspan="+sampleIds.size()+" class='"+label+"' id=\"header\">"+label+" Samples</td>"); 
 			    	
 			           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
-
-			           		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) sampleIdIterator.next();
-							cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label).addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName());
-						        //data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
-							    if(bioSpecimenIdentifierDE.getSpecimenName()!= null){
-							    	data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());
+						    BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) sampleIdIterator.next();
+							   
+							cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label).addAttribute("sampleId", bioSpecimenIdentifierDE.getSampleId());
+							//cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label).addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName());
+							//data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
+							    if(bioSpecimenIdentifierDE.getSpecimenName()!= null ){
+							    	data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSpecimenName());
 							    }
 							    else{
 							        data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());

@@ -413,8 +413,8 @@
 			<tr class="sampleRow">
 		  	<xsl:for-each select="Cell[@class != 'csv']">
 			  <xsl:variable name="currentGroup" select="@group" />
-			  <xsl:variable name="sample" select="Data" />
-			  <xsl:variable name="specimen" select="@specimen" />
+			  <xsl:variable name="specimen" select="Data" />			  
+			  <xsl:variable name="sample" select="@sampleId" />
 			  <xsl:choose>
 			  <xsl:when test="Data = ' '">
 			  	
@@ -436,8 +436,8 @@
 		      	<!--
 		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
 		      	-->
-		      		<a href="javascript:switchViews('Cl', '{$specimen}')"><xsl:value-of select="Data" /></a>
-		      		<xsl:if test="$specimen != '' and $specimen != $sample"> 
+		      		<a href="javascript:switchViews('Cl', '{$specimen}')"><xsl:value-of select="$sample" /></a>
+		      		<xsl:if test="$specimen != ''and $specimen != $sample"> 
 		      		(<xsl:value-of select="$specimen" />)
 		      		</xsl:if>
 		      	</td>
@@ -491,10 +491,9 @@
 			      					<xsl:when test="$highlightThisCell = 'yes'">
 						      			<span class="highlighted" style="background-color:yellow" id="{$theData}"><xsl:value-of select="Data"/></span>		      				
 			      					</xsl:when>
-			     
 			      					<xsl:when test="$theData = 'G' or $theData = 'C'">
-			      						<xsl:variable name="currentSample" select="..//Cell[1]/Data"/>
-			      						<a href="javascript:switchViews('{$theData}', '{$currentSample}')"><xsl:value-of select="$theData"/></a>
+			      						<xsl:variable name="currentSample" select="@sampleId"/>
+			      						<a href="javascript:switchViews('{$theData}', '{$currentSample}')"><xsl:value-of select="$currentSample"/></a>
 			
 			<!--      						<a href="runReport.do?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a> -->
 			      					</xsl:when>

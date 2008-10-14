@@ -232,10 +232,11 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				           	for (Iterator sampleIdIterator = sampleIds.iterator(); sampleIdIterator.hasNext();) {
         		
 				           		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) sampleIdIterator.next();
-								cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label).addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName());
+								cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label).addAttribute("sampleId", bioSpecimenIdentifierDE.getSampleId());
+								//cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", label).addAttribute("group", label).addAttribute("specimen", bioSpecimenIdentifierDE.getSpecimenName());
 							        //data = cell.addElement("Data").addAttribute("type", "header").addText(s.substring(2));
 								    if(bioSpecimenIdentifierDE.getSpecimenName()!= null){
-								    	data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());
+								    	data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSpecimenName());
 								    }
 								    else{
 								        data = cell.addElement("Data").addAttribute("type", "header").addText(bioSpecimenIdentifierDE.getSampleId());
