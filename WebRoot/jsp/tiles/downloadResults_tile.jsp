@@ -50,7 +50,7 @@
 			<select name="arrayPlatform"> 		
 		    	<!-- <option value="<%=Constants.ALL_PLATFROM%>">All</option>  -->
 				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
-				<!-- <option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option> -->
+				<option value="<%=Constants.AFFY_100K_SNP_ARRAY%>">Affymetrix 100K SNP Array</option> -->
 			</select>	
 		</fieldset>
 	    <fieldset class="gray">
