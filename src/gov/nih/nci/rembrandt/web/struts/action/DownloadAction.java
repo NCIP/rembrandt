@@ -6,6 +6,7 @@ import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownload
 import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.zip.FileNameGenerator;
+import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
@@ -132,21 +133,30 @@ public class DownloadAction extends DispatchAction {
 			specimenNames = LookupManager.getSpecimenNames(patientIdset, accessInstitutions);     
 		}// end of if
 		String tempName = groupNameList.toLowerCase();
-		tempName = FileNameGenerator.generateUniqueFileName(tempName);
+		
+		tempName = FileNameGenerator.generateUniqueFileName(tempName,dlForm.getFileType(),dlForm.getArrayPlatform());
 		String taskId = tempName ;
 		FileType type = null;
+		String experimentName = null;
 		if (dlForm.getFileType().equals("CEL"))
 			type = FileType.AFFYMETRIX_CEL;
 		else if (dlForm.getFileType().equals("CHP"))
 			type = FileType.AFFYMETRIX_CHP;
 
-		
+		if (dlForm.getArrayPlatform().equals(Constants.AFFY_OLIGO_PLATFORM)){
+			experimentName = System.getProperty(RembrandtCaArrayFileDownloadManager.GE_EXPERIMENT_NAME);
+		}
+		else if (dlForm.getArrayPlatform().equals(Constants.AFFY_100K_SNP_ARRAY)){
+			experimentName = System.getProperty(RembrandtCaArrayFileDownloadManager.CN_EXPERIMENT_NAME);
+		}
+		experimentName = experimentName.trim();
 		rbtCaArrayFileDownloadManager.executeDownloadStrategy(
 				request.getSession().getId(), 
 				taskId,
 				tempName + ".zip", 
 				specimenNames, 
-				type);
+				type,
+				experimentName);
 
 		return  mapping.findForward("success");
 	}
