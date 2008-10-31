@@ -252,13 +252,20 @@ public class ApplicationContext{
 				logger.error(e.getMessage());
 				logger.error(e);
 			}
-		rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
-		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-		taskExecutor.setCorePoolSize(5);
-		taskExecutor.setMaxPoolSize(100);
-		taskExecutor.setQueueCapacity(400);
-		taskExecutor.initialize();
-		rbtCaArrayFileDownloadManager.setTaskExecutor(taskExecutor);
+		try {
+			if(rbtCaArrayFileDownloadManager != null){
+				rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
+				ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+				taskExecutor.setCorePoolSize(5);
+				taskExecutor.setMaxPoolSize(100);
+				taskExecutor.setQueueCapacity(400);
+				taskExecutor.initialize();
+				rbtCaArrayFileDownloadManager.setTaskExecutor(taskExecutor);
+			}
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//rbtCaArrayFileDownloadManager.executeDownloadStrategy(session, taskId, zipFileName, specimenList, type);
 
     }
