@@ -7,8 +7,12 @@ import java.net.MalformedURLException;
 
 import javax.security.auth.login.LoginException;
 
+import org.apache.log4j.Logger;
+
 
 public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadManager{
+	public static Logger logger = Logger
+	.getLogger(RembrandtCaArrayFileDownloadManager.class);
     public static final String SERVER_URL = "rembrandt.caarray.server.url";
     
     public static final String GE_EXPERIMENT_NAME = "rembrandt.caarray.ge.experiment.name";
@@ -33,7 +37,7 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
 			throws MalformedURLException, LoginException, ServerConnectionException {
 		super(caarrayUrl, username, password, inputDirectory, outputZipDirectory, directoryInZip); 
 	}
-	public synchronized static CaArrayFileDownloadManager getInstance() throws MalformedURLException, LoginException, ServerConnectionException 
+	public synchronized static CaArrayFileDownloadManager getInstance() 
 	{
 		if (instance == null)
 		{
@@ -65,7 +69,12 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
 			  if(!outputZipDir.isDirectory()){
 				  outputZipDir.mkdir();
 			  }
-			instance = new RembrandtCaArrayFileDownloadManager(caarrayUrl, username, password,inputDirectory, outputZipDirectory, directoryInZip); 
+			try {
+				instance = new RembrandtCaArrayFileDownloadManager(caarrayUrl, username, password,inputDirectory, outputZipDirectory, directoryInZip);
+			} catch (Exception e) {
+				logger.error(e.getMessage(),e);
+				instance = null;
+			} 
 		}
 		return instance;
 	}
