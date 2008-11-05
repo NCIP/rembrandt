@@ -237,22 +237,8 @@ public class ApplicationContext{
 		// 1: extract the samples from the group
 		// 2: pass samples to the caARRAY API
 
-			try {
-				rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
-			} catch (MalformedURLException e) {
-		        logger.error(new IllegalStateException("caArray URL error" ));
-				logger.error(e.getMessage());
-				logger.error(e);
-			} catch (LoginException e) {
-		        logger.error(new IllegalStateException("caArray username/pwd error" ));
-				logger.error(e.getMessage());
-				logger.error(e);
-			} catch (ServerConnectionException e) {
-		        logger.error(new IllegalStateException("caArray server connecrtion error" ));
-				logger.error(e.getMessage());
-				logger.error(e);
-			}
 		try {
+			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
 			if(rbtCaArrayFileDownloadManager != null){
 				rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
 				ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
