@@ -20,7 +20,7 @@ function checkJobId(jobList) {
 //refresh the iframe first to keep the session alive
 	$('pingFrame').src = $('pingFrame').src;
     if (jobList.options.length == 0) {
-        alert("No Gene Pattern Job is available yet");
+        alert("No GenePattern Job is available yet");
         return false;
     } else {
         return true;
@@ -59,10 +59,10 @@ function checkJobId(jobList) {
 });
 </script>
 <br/>
-
-<script type="text/javascript">Help.insertHelp("genepattern_job_list", " align='right'", "padding:2px;");</script>
+  
+<script type="text/javascript">Help.insertHelp("view_genepattern_job_help", " align='right'", "padding:2px;");</script>
      <fieldset>
-     	<legend>Gene Pattern Modules</legend>
+     	<legend>GenePattern Modules <a href="javascript: Help.popHelp('genepattern_Modules_tooltip');">[?]</a></legend>
      	<br/>
      	<html:form method="post" action="/gpProcess.do?method=startApplet" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
        		<table border="0" cellpadding="3" cellspacing="3">
@@ -122,10 +122,9 @@ function checkJobId(jobList) {
      		</html:form>
 		</fieldset>
 <br /><br />			
-<script type="text/javascript">Help.insertHelp("genepattern_job_result", " align='right'", "padding:2px;");</script>
 <br/>       
      <fieldset>
-     	<legend>Gene Pattern Job Results</legend>
+     	<legend>GenePattern Job Results <a href="javascript: Help.popHelp('genepattern_Jobresults_tooltip');">[?]</a></legend>
      	<br/>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
        		<table border="0" cellpadding="3" cellspacing="3">
@@ -148,7 +147,7 @@ function checkJobId(jobList) {
        					sidebar of the GenePattern when they are ready.  The approximate 
        					processing time is 2-3 minutes.<br><br>
        				<% } %> 
-						<!-- to check if the gene pattern job is completed -->
+						<!-- to check if the genepattern job is completed -->
 					</td>
 				</tr>
 				<tr>
@@ -188,7 +187,7 @@ function checkJobId(jobList) {
 					
 						String onclick="";	
 						if(!currentStatus.equals("completed"))	{
-							onclick = "javascript:alert('Gene Pattern Processing Not yet complete');return false;";
+							onclick = "javascript:alert('GenePattern Processing Not yet complete');return false;";
 						}
 						if (indicator.equals("2")){
 							out.println("<a id=\"" + jobId + "_link\" href=\"" + gpurl + "\" onclick=\"" + onclick + "\" target=\"new\">" + jobTitle  + " Job# " + jobId + " (" +  resultName + ") </a>");
@@ -205,7 +204,7 @@ function checkJobId(jobList) {
 				</logic:present>
 				<tr>
 					<td>
-						<!--  All available Gene Pattern jobs -->
+						<!--  All available GenePattern jobs -->
 					<ul>
 					<% 
 						PresentationTierCache ptc = CacheFactory.getPresentationTierCache();
@@ -220,7 +219,7 @@ function checkJobId(jobList) {
 						<% 
 						//String jobId = (String)request.getAttribute("jobId");
 						if (tempGpTaskList != null && !tempGpTaskList.isEmpty()){
-							out.println("All available Gene Pattern jobs<br/><br/>");
+							out.println("All available GenePattern jobs<br/><br/>");
 							for (Iterator i = tempGpTaskList.iterator();i.hasNext();)	{
 			
 								GPTask task = (GPTask) i.next();
@@ -268,7 +267,7 @@ function checkJobId(jobList) {
 							}
 						}
 						else {
-							out.println("<span style='color:red; float:left'>No Gene Pattern jobs available yet.</span> ");
+							out.println("<span style='color:red; float:left'>No GenePattern jobs available yet.</span> ");
 						}
 					%>
 					</ul>

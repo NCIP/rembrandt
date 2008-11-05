@@ -5,7 +5,18 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
-
+<%@ page import="gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager"%>
+<%
+	Object  caArrayInstance = RembrandtCaArrayFileDownloadManager.getInstance();
+	Boolean disableDownload = Boolean.FALSE;
+	if(caArrayInstance == null){
+		disableDownload = Boolean.TRUE;
+		pageContext.setAttribute("disableDownload", disableDownload);
+	}
+	else{
+		pageContext.removeAttribute("disableDownload");
+	}
+ %>
 <!-- 
 <script type='text/javascript' src='dwr/interface/Inbox.js'></script>
  -->
@@ -21,10 +32,10 @@
 			window.location.href=lnk+dl;
 		}
 </script>
-
+<script type="text/javascript">Help.insertHelp("download_data_help", " align='right'", "padding:2px;");</script>
 <fieldset>
 	<legend>
-		Download Results
+		Download Results <a href="javascript: Help.popHelp('results_download_tooltip');">[?]</a>
 	</legend>
 	<br />
 	<div id="downloadStatusContainer"></div>
@@ -38,7 +49,7 @@
 <br/><br/>
 <html:form action="/download.do?method=caarray">
 <fieldset>
-	<legend>caArray</legend>
+	<legend>caArray <a href="javascript: Help.popHelp('caarray_download_tooltip');">[?]</a></legend>
 	 	<fieldset class="gray">
 			<legend class="red">Step 1:Choose the saved List:</legend></br> 
 			<html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="">	         	
@@ -62,14 +73,21 @@
 				<!-- <option>OTHER</option> -->
 			</select>
 		</fieldset><br/>
-		<input type="submit" value="download" style="width:70px"/>	        
+			<logic:present name="disableDownload">
+				<legend class="red">caArray File Download is unavailable at this time <br>as we are unable to successfully connect with caArray server,<br> Please try again later</legend><br/>
+	       		<input type="submit" value="download" style="width:70px" disabled/>	
+			</logic:present>
+			<logic:notPresent name="disableDownload">
+	       		<input type="submit" value="download" style="width:70px"/>	 
+			</logic:notPresent>
+     
 	
 </fieldset>
 </html:form>
 
 <br/><br/>
 <fieldset>
-	<legend>BRB File Downloads</legend>
+	<legend>BRB File Downloads <a href="javascript: Help.popHelp('Brb_download_tooltip');">[?]</a></legend>
     <logic:notEmpty name="downloadFileList">
         	<select>
         		<option>BRB Format</option>
