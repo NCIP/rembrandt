@@ -103,7 +103,7 @@
 
     <definition name="rembrandt.gpIntegration" extends="baseDef">
       <put name="mainForm" value="/jsp/formBody.jsp?s=gpIntegration" />
-	  <put name="title" value="Gene Pattern Integration Form" />
+	  <put name="title" value="GenePattern Integration Form" />
 	  <put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
 	   <put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=4" />
@@ -111,7 +111,7 @@
     </definition>
 
 	<definition name="rembrandt.gpJobView" extends="baseDef">
-		<put name="title" value="Rembrandt View Gene Pattern Job" />
+		<put name="title" value="Rembrandt View GenePattern Job" />
 		<put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
 		<put name="mainForm" value="/jsp/gpJobView.jsp" />
 		<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=3" />
