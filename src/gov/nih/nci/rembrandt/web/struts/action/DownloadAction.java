@@ -100,21 +100,13 @@ public class DownloadAction extends DispatchAction {
 
 		try {
 			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 	        logger.error(new IllegalStateException("caArray URL error" ));
 			logger.error(e.getMessage());
 			logger.error(e);
-		} catch (LoginException e) {
-	        logger.error(new IllegalStateException("caArray username/pwd error" ));
-			logger.error(e.getMessage());
-			logger.error(e);
-		} catch (ServerConnectionException e) {
-	        logger.error(new IllegalStateException("caArray server connecrtion error" ));
-			logger.error(e.getMessage());
-			logger.error(e);
-		}
+		} 
 		//Necessary for cache clean up
-		request.getSession().setAttribute(CaArrayFileDownloadManager.ZIP_FILE_PATH,RembrandtCaArrayFileDownloadManager.getInstance().getOutputZipDirectory());
+		request.getSession().setAttribute(CaArrayFileDownloadManager.ZIP_FILE_PATH,rbtCaArrayFileDownloadManager.getOutputZipDirectory());
 		DownloadForm dlForm = (DownloadForm)form;
 		String groupNameList = dlForm.getGroupNameCompare();
 
