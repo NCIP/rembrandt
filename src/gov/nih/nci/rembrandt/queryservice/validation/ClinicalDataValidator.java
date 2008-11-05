@@ -363,27 +363,15 @@ public class ClinicalDataValidator {
 		}
 		public static Collection<SampleResultset> getSampleResultsetForSpecimens(
 				Collection<String> specimenNameList) {
-			SampleViewResultsContainer sampleViewResultsContainer = new SampleViewResultsContainer();
-			List<SampleResultset> sampleResultsetList = new ArrayList<SampleResultset>();
-			try {
-			Map paitentDataLookupMap = LookupManager.getPatientDataMap();
-			if (specimenNameList != null && specimenNameList.size() > 0) {
-				for (String specimenName : specimenNameList) {
-					PatientDataLookup patient = (PatientDataLookup) paitentDataLookupMap
-							.get(specimenName);
-					if (patient != null) {
-						SampleResultset sampleResultset = SampleViewHandler
-								.handleBioSpecimenResultset(
-										sampleViewResultsContainer,
-										(PatientData) patient);
-						if (sampleResultset != null) {
-							sampleResultsetList.add(sampleResultset);
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-				logger.error(e.getMessage());
+			Collection<SampleResultset> sampleResultsetList = new ArrayList<SampleResultset>();
+			Collection<SampleIDDE> sampleIDDEs = null;
+			if(specimenNameList != null && specimenNameList.size() > 0){
+				try {
+					sampleIDDEs = ListConvertor.convertToSampleIDDEs(LookupManager.getSampleIDs(specimenNameList));
+					sampleResultsetList = executeClinicalQuery(sampleIDDEs);
+				} catch (Exception e) {
+						logger.error("Error Executing executeClinicalQueryForSampleList/n"+ e.getMessage());
+			  	}
 			}
 			return sampleResultsetList;
 		}
