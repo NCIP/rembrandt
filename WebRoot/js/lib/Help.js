@@ -46,6 +46,9 @@ var Help = {
 			case "hierarchicalclustering":
 				ta = "HCA_analysis";
 				break;
+			case "gpintegration":
+				ta = "GenePattern_help";
+				break;
 			default:
 				break;
 		
