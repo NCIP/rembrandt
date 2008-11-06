@@ -14,6 +14,14 @@
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Iterator" %>
 
+<style type="text/css">
+ div.divHide {display:none;}
+div.divShow	{
+	display:block;
+	position:relative;
+	border: 0;
+	}
+</style>
 
 <script type="text/javascript">
 function checkJobId(jobList) {
@@ -54,9 +62,14 @@ function checkJobId(jobList) {
 	}
 %>
 <script type="text/javascript">
-	Event.observe(window, "load", function()	{
-
+	Event.observe(window, "load", function(){
+	setTimeout ( "turnOffLoadingMessage()", 3000 );
 });
+
+function turnOffLoadingMessage(){
+	var div = document.getElementById("advOptions");
+	div.className = 'divHide';
+}
 </script>
 <br/>
   
@@ -68,9 +81,11 @@ function checkJobId(jobList) {
        		<table border="0" cellpadding="3" cellspacing="3">
        		    <logic:present name="goApplet" >
        		    <tr><td colspan="3">
-					<b>Please be patient, the viewer is loading...</b><br/> <%-- <img src="images/indicator.gif"/> --%>
+       		    	<div id="advOptions" class="divShow">
+					<b>Please be patient, the viewer is loading...</b><br/> <img src="images/indicator.gif"/>
 					<b>The viewer requires JVM 1.5 or above. <br/><br/>
-				</tr></td>
+					</div>
+				</td></tr>
 				</logic:present >
        			<tr> 
        				<td width="20%">
@@ -277,7 +292,8 @@ function checkJobId(jobList) {
 					<td>
        					Please click the above link to launch GenePattern or <img src='images/visualizer.gif' border='0' alt='visualizer' id=\"" + jobId + "_image\" /> to launch Visualizer.  
        					If your task does not appear in 
-       					the sidebar, please wait a minute and refresh the GenePattern page to try again.
+       					the sidebar, please wait a minute and refresh the GenePattern page to try again. If some of your jobs are not listed in the
+       					sidebar, they have been moved to the Job results menu.
        				</td>
      			</tr>
      		</table>
