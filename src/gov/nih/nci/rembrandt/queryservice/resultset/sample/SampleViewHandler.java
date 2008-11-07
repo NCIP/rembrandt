@@ -168,7 +168,9 @@ public class SampleViewHandler {
 		//populate the BiospecimenResuluset
 		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = new BioSpecimenIdentifierDE(clinicalObj.getBiospecimenId());
 		bioSpecimenIdentifierDE.setSampleId(clinicalObj.getSampleId());
-		bioSpecimenIdentifierDE.setSpecimenName(clinicalObj.getSpecimenName());
+		if(clinicalObj.getSpecimenName() != null){
+			bioSpecimenIdentifierDE.setSpecimenName(clinicalObj.getSpecimenName());
+		}
 		sampleResultset.setBiospecimen(bioSpecimenIdentifierDE);
 		sampleResultset.setSampleIDDE(new SampleIDDE(clinicalObj.getSampleId().toString()));
 		sampleResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,clinicalObj.getAgeGroup()));

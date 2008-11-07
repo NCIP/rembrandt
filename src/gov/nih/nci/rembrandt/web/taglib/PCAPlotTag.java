@@ -165,8 +165,8 @@ public class PCAPlotTag extends AbstractGraphingTag {
 	                        	pcaPoint.setDiseaseName(DiseaseType.NON_TUMOR.name());
 	                        }
 	                    GenderDE genderDE = rs.getGenderCode();
-	                    if(genderDE != null){
-	                    	String gt =genderDE.getValueObject();
+	                    if(genderDE != null  && genderDE.getValue() != null){
+	                    	String gt =genderDE.getValueObject().trim();
 	                    	if(gt!=null){
 			                        GenderType genderType = GenderType.valueOf(gt);
 			                        if(genderType!=null){
