@@ -218,10 +218,7 @@
 		<copy file="conf/rembrandt.properties" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt-properties-service.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="csm_deploy/oracle-ds.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="csm_deploy/ApplicationSecurityConfig.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="csm_deploy/csm-properties-service.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt_ehcache.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>
 	</target>
