@@ -94,23 +94,23 @@
       <i t="GenePattern Analysis Reports" l="72" />
     </i>
   </i>
-  <i t="Downloading Data" l="73">
-    <i t="Data Download Overview" l="74">
-      <i t="Downloading caArray Tools and Files" l="75" />
-      <i t="Downloading BRB Array Tools and Files" l="76" />
+  <i t="Managing Lists" l="73">
+    <i t="Managing Lists Overview" l="74" />
+    <i t="Adding New Lists" l="75">
+      <i t="Combining Existing Lists to Create a New List" l="76" />
+      <i t="Uploading a List" l="77" />
+      <i t="Manually Entering a List" l="78" />
+    </i>
+    <i t="Viewing the Data Items in a List" l="79" />
+    <i t="Removing Data Items" l="80" />
+    <i t="Deleting an Entire List" l="81" />
+    <i t="Exporting a List" l="82" />
+  </i>
+  <i t="Glossary" l="83" />
+  <i t="Downloading Data" l="84">
+    <i t="Data Download Overview" l="85">
+      <i t="Downloading caArray Tools and Files" l="86" />
+      <i t="Downloading BRB Array Tools and Files" l="87" />
     </i>
   </i>
-  <i t="Managing Lists" l="77">
-    <i t="Managing Lists Overview" l="78" />
-    <i t="Adding New Lists" l="79">
-      <i t="Combining Existing Lists to Create a New List" l="80" />
-      <i t="Uploading a List" l="81" />
-      <i t="Manually Entering a List" l="82" />
-    </i>
-    <i t="Viewing the Data Items in a List" l="83" />
-    <i t="Removing Data Items" l="84" />
-    <i t="Deleting an Entire List" l="85" />
-    <i t="Exporting a List" l="86" />
-  </i>
-  <i t="Glossary" l="87" />
 </WebWorksHelpTOC>

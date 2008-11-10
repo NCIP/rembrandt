@@ -15,16 +15,16 @@
         <j l="41#1150821" />
       </i>
       <i t="list, combining">
-        <j l="80#1095145" />
+        <j l="76#1095145" />
       </i>
       <i t="list, typing">
-        <j l="82#1092623" />
+        <j l="78#1092623" />
       </i>
       <i t="list, uploading">
-        <j l="81#1093218" />
+        <j l="77#1093218" />
       </i>
       <i t="new list (removing data items)">
-        <j l="84#1084855" />
+        <j l="80#1084855" />
       </i>
       <i t="query, overview">
         <j l="35#1145107" />
@@ -101,17 +101,17 @@
       </i>
     </i>
     <i t="BRB-ArrayTools, downloading files">
-      <j l="74#1135496" />
-      <j l="76#1092482" />
+      <j l="85#1135496" />
+      <j l="87#1092482" />
     </i>
   </g>
   <g t="C" o="002">
     <i t="caArray">
       <i t="downloading files">
-        <j l="74#1135496" />
+        <j l="85#1135496" />
       </i>
       <i t="glossary">
-        <j l="87#1065170" />
+        <j l="83#1065170" />
       </i>
     </i>
     <i t="Choose a Saved">
@@ -171,7 +171,7 @@
       <j l="60#1083538" />
     </i>
     <i t="combining lists">
-      <j l="80#1095145" />
+      <j l="76#1095145" />
     </i>
     <i t="Comparative Marker Selection">
       <i t="GenePattern results">
@@ -227,16 +227,16 @@
         <j l="41#1150821" />
       </i>
       <i t="list, combining">
-        <j l="80#1095145" />
+        <j l="76#1095145" />
       </i>
       <i t="list, typing">
-        <j l="82#1092623" />
+        <j l="78#1092623" />
       </i>
       <i t="list, uploading">
-        <j l="81#1093218" />
+        <j l="77#1093218" />
       </i>
       <i t="new list (removing data items)">
-        <j l="84#1084855" />
+        <j l="80#1084855" />
       </i>
       <i t="query, overview">
         <j l="35#1145107" />
@@ -252,10 +252,10 @@
     </i>
     <i t="data items">
       <i t="removing from a list">
-        <j l="84#1084855" />
+        <j l="80#1084855" />
       </i>
       <i t="viewing in a list">
-        <j l="83#1080938" />
+        <j l="79#1080938" />
       </i>
     </i>
     <i t="data, citing REMBRANDT datasets">
@@ -272,11 +272,11 @@
         <j l="41#1121325" />
       </i>
       <i t="list">
-        <j l="85#1097218" />
+        <j l="81#1097218" />
       </i>
     </i>
     <i t="Difference option, description">
-      <j l="80#1092590" />
+      <j l="76#1092590" />
     </i>
     <i t="displaying LOH data in webGenome">
       <j l="63#1112887" />
@@ -286,11 +286,11 @@
     </i>
     <i t="downloading">
       <i t="BRB files">
-        <j l="74#1135496" />
-        <j l="76#1092482" />
+        <j l="85#1135496" />
+        <j l="87#1092482" />
       </i>
       <i t="caArray files">
-        <j l="74#1135496" />
+        <j l="85#1135496" />
       </i>
     </i>
   </g>
@@ -305,7 +305,7 @@
       <j l="47#1088353" />
     </i>
     <i t="exporting list">
-      <j l="86#1095663" />
+      <j l="82#1095663" />
     </i>
   </g>
   <g t="F" o="002">
@@ -414,7 +414,7 @@
       </i>
     </i>
     <i t="Glossary">
-      <j l="87#1065170" />
+      <j l="83#1065170" />
     </i>
     <i t="Graph Type, defined">
       <j l="19#1156549" />
@@ -489,12 +489,12 @@
       <j l="22#1121717" />
     </i>
     <i t="Intersect option, description">
-      <j l="80#1092588" />
+      <j l="76#1092588" />
     </i>
   </g>
   <g t="J" o="002">
     <i t="Join option, description">
-      <j l="80#1092586" />
+      <j l="76#1092586" />
     </i>
   </g>
   <g t="K" o="002">
@@ -555,28 +555,28 @@
     </i>
     <i t="lists">
       <i t="combining lists">
-        <j l="80#1095145" />
+        <j l="76#1095145" />
       </i>
       <i t="creating a new list">
-        <j l="84#1084855" />
+        <j l="80#1084855" />
       </i>
       <i t="deleting">
-        <j l="85#1097218" />
+        <j l="81#1097218" />
       </i>
       <i t="exporting">
-        <j l="86#1095663" />
+        <j l="82#1095663" />
       </i>
       <i t="removing data items">
-        <j l="84#1084855" />
+        <j l="80#1084855" />
       </i>
       <i t="typing a list">
-        <j l="82#1092623" />
+        <j l="78#1092623" />
       </i>
       <i t="uploading a list">
-        <j l="81#1093218" />
+        <j l="77#1093218" />
       </i>
       <i t="viewing data items">
-        <j l="83#1080938" />
+        <j l="79#1080938" />
       </i>
     </i>
     <i t="Log2 Intensity">
@@ -616,10 +616,10 @@
   </g>
   <g t="M" o="002">
     <i t="managing lists, overview">
-      <j l="78#1100384" />
+      <j l="74#1100384" />
     </i>
     <i t="Manually Type List options, description">
-      <j l="82#1092638" />
+      <j l="78#1092638" />
     </i>
     <i t="mean, defined">
       <j l="23#1156799" />
@@ -656,7 +656,7 @@
         <j l="44#1079882" />
       </i>
       <i t="managing lists">
-        <j l="78#1100384" />
+        <j l="74#1100384" />
       </i>
       <i t="simple search">
         <j l="16" />
@@ -798,11 +798,11 @@
     </i>
     <i t="Rembrandt Manage Lists page">
       <i t="description">
-        <j l="78#1100384" />
+        <j l="74#1100384" />
       </i>
     </i>
     <i t="removing data items in a list">
-      <j l="84#1084855" />
+      <j l="80#1084855" />
     </i>
     <i t="Reporter list, selecting and saving">
       <j l="67#1083043" />
@@ -910,8 +910,8 @@
     </i>
     <i t="side bar">
       <i t="manage list information">
-        <j l="83#1087880" />
-        <j l="86#1095711" />
+        <j l="79#1087880" />
+        <j l="82#1095711" />
       </i>
       <i t="managing queries">
         <j l="41#1151565" />
@@ -979,7 +979,7 @@
       <j l="10#1120239" />
     </i>
     <i t="typing a list">
-      <j l="82#1092623" />
+      <j l="78#1092623" />
     </i>
   </g>
   <g t="U" o="002">
@@ -987,7 +987,7 @@
       <j l="19#1156546" />
     </i>
     <i t="uploading a list">
-      <j l="81#1093218" />
+      <j l="77#1093218" />
     </i>
     <i t="user account, creating">
       <j l="7#1116135" />
@@ -1012,7 +1012,7 @@
       <j l="51#1108086" />
     </i>
     <i t="viewing data items in a list">
-      <j l="83#1080938" />
+      <j l="79#1080938" />
     </i>
     <i t="views">
       <i t="Copy Number Data Per Sample view">

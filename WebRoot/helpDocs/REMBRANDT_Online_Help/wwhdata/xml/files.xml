@@ -111,21 +111,21 @@
     <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt_View%20Results.8.21.html" />
     <Document title="Hierarchical Clustering Report" href="rembrandt_View%20Results.8.22.html" />
     <Document title="GenePattern Analysis Reports" href="rembrandt_View%20Results.8.23.html" />
-    <Document title="Downloading Data" href="Downloading%20Data.9.1.html" />
-    <Document title="Data Download Overview" href="Downloading%20Data.9.2.html" />
-    <Document title="Downloading caArray Tools and Files" href="Downloading%20Data.9.3.html" />
-    <Document title="Downloading BRB Array Tools and Files" href="Downloading%20Data.9.4.html" />
-    <Document title="Managing Lists" href="rembrandt_Manage_Lists.10.1.html" />
-    <Document title="Managing Lists Overview" href="rembrandt_Manage_Lists.10.2.html" />
-    <Document title="Adding New Lists" href="rembrandt_Manage_Lists.10.3.html" />
-    <Document title="Combining Existing Lists to Create a New List" href="rembrandt_Manage_Lists.10.4.html" />
-    <Document title="Uploading a List" href="rembrandt_Manage_Lists.10.5.html" />
-    <Document title="Manually Entering a List" href="rembrandt_Manage_Lists.10.6.html" />
-    <Document title="Viewing the Data Items in a List" href="rembrandt_Manage_Lists.10.7.html" />
-    <Document title="Removing Data Items" href="rembrandt_Manage_Lists.10.8.html" />
-    <Document title="Deleting an Entire List" href="rembrandt_Manage_Lists.10.9.html" />
-    <Document title="Exporting a List" href="rembrandt_Manage_Lists.10.10.html" />
-    <Document title="Glossary" href="rembrandt_Glossary.11.1.html" />
+    <Document title="Managing Lists" href="rembrandt_Manage_Lists.9.1.html" />
+    <Document title="Managing Lists Overview" href="rembrandt_Manage_Lists.9.2.html" />
+    <Document title="Adding New Lists" href="rembrandt_Manage_Lists.9.3.html" />
+    <Document title="Combining Existing Lists to Create a New List" href="rembrandt_Manage_Lists.9.4.html" />
+    <Document title="Uploading a List" href="rembrandt_Manage_Lists.9.5.html" />
+    <Document title="Manually Entering a List" href="rembrandt_Manage_Lists.9.6.html" />
+    <Document title="Viewing the Data Items in a List" href="rembrandt_Manage_Lists.9.7.html" />
+    <Document title="Removing Data Items" href="rembrandt_Manage_Lists.9.8.html" />
+    <Document title="Deleting an Entire List" href="rembrandt_Manage_Lists.9.9.html" />
+    <Document title="Exporting a List" href="rembrandt_Manage_Lists.9.10.html" />
+    <Document title="Glossary" href="rembrandt_Glossary.10.1.html" />
+    <Document title="Downloading Data" href="Downloading%20Data.11.1.html" />
+    <Document title="Data Download Overview" href="Downloading%20Data.11.2.html" />
+    <Document title="Downloading caArray Tools and Files" href="Downloading%20Data.11.3.html" />
+    <Document title="Downloading BRB Array Tools and Files" href="Downloading%20Data.11.4.html" />
   </DocumentInfo>
   <TopicMap>
     <Topic name="Welcome" href="Welcome.1.1.html#1052621" />
@@ -223,12 +223,13 @@
     <Topic name="view_genepattern_job_help" href="rembrandt_View%20Results.8.23.html#1134976" />
     <Topic name="genepattern_Jobresults_tooltip" href="rembrandt_View%20Results.8.23.html#1135025" />
     <Topic name="genepattern_Modules_tooltip" href="rembrandt_View%20Results.8.23.html#1135029" />
-    <Topic name="download_data_help" href="Downloading%20Data.9.2.html#1136677" />
-    <Topic name="results_download_tooltip" href="Downloading%20Data.9.2.html#1135496" />
-    <Topic name="caarray_download_tooltip" href="Downloading%20Data.9.3.html#1135495" />
-    <Topic name="caarrayData_tooltip" href="Downloading%20Data.9.3.html#1135407" />
-    <Topic name="caarray_Array_tooltip" href="Downloading%20Data.9.3.html#1135411" />
-    <Topic name="Brb_download_tooltip" href="Downloading%20Data.9.4.html#1135237" />
-    <Topic name="Manage_lists_overview" href="rembrandt_Manage_Lists.10.2.html#1100382" />
+    <Topic name="Manage_lists_overview" href="rembrandt_Manage_Lists.9.2.html#1100382" />
+    <Topic name="download_data_help" href="Downloading%20Data.11.2.html#1136677" />
+    <Topic name="results_download_tooltip" href="Downloading%20Data.11.2.html#1135496" />
+    <Topic name="caarray_download_tooltip" href="Downloading%20Data.11.3.html#1135495" />
+    <Topic name="caarrayData_tooltip" href="Downloading%20Data.11.3.html#1135407" />
+    <Topic name="caarray_Array_tooltip" href="Downloading%20Data.11.3.html#1135411" />
+    <Topic name="download_results_tooltip" href="Downloading%20Data.11.3.html#1135217" />
+    <Topic name="Brb_download_tooltip" href="Downloading%20Data.11.4.html#1135237" />
   </TopicMap>
 </WebWorksHelpBook>
