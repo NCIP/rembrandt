@@ -56,7 +56,7 @@ div.Body_Text_Indent
   margin-left: 18pt;
   margin-right: 0pt;
   margin-top: 3.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -77,7 +77,7 @@ div.Body_Text_Indent
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -102,7 +102,7 @@ div.Body_Text_Indent_2
   margin-left: 36pt;
   margin-right: 0pt;
   margin-top: 3.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -123,7 +123,7 @@ div.Body_Text_Indent_2
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -148,7 +148,7 @@ div.Body_Text_Indent_3
   margin-left: 54pt;
   margin-right: 0pt;
   margin-top: 3.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -169,7 +169,7 @@ div.Body_Text_Indent_3
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -194,7 +194,7 @@ div.Body_Text_Indent_No_Space
   margin-left: 18pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -215,7 +215,7 @@ div.Body_Text_Indent_No_Space
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -240,7 +240,7 @@ div.Body_Text_No_Space
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -261,7 +261,7 @@ div.Body_Text_No_Space
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -286,7 +286,7 @@ div.Bullet
   margin-left: 36pt;
   margin-right: 0pt;
   margin-top: 4.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -307,7 +307,7 @@ div.Bullet
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -332,7 +332,7 @@ div.Bullet_Indent
   margin-left: 54pt;
   margin-right: 0pt;
   margin-top: 4.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -353,7 +353,7 @@ div.Bullet_Indent
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -378,7 +378,7 @@ div.Callout
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -399,7 +399,7 @@ div.Callout
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -550,16 +550,16 @@ div.Chapter
 
 div.Chapter_Name
 {
-  color: #515186;
-  font-family: "Palatino Linotype";
-  font-size: 27.0pt;
+  color: #516186;
+  font-family: Sans-Serif;
+  font-size: 24px;
   font-style: normal;
   font-weight: bold;
   margin-bottom: 13.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
-  text-align: Right;
+  text-align: left;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -574,12 +574,12 @@ div.Chapter_Name
 
 .Chapter_Name_inner
 {
-  color: #515186;
-  font-family: "Palatino Linotype";
-  font-size: 27.0pt;
+  color: #516186;
+  font-family: Sans-Serif;
+  font-size: 24px;
   font-style: normal;
   font-weight: bold;
-  text-align: Right;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -870,8 +870,8 @@ div.Header
 
 div.Heading1
 {
-  color: #515186;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 16.0pt;
   font-style: normal;
   font-variant: normal;
@@ -897,8 +897,8 @@ div.Heading1
 
 .Heading1_inner
 {
-  color: #515186;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 16.0pt;
   font-style: normal;
   font-variant: normal;
@@ -964,8 +964,8 @@ div.Heading1TOC
 
 div.Heading2
 {
-  color: #000000;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 14.0pt;
   font-style: normal;
   font-variant: normal;
@@ -991,8 +991,8 @@ div.Heading2
 
 .Heading2_inner
 {
-  color: #000000;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 14.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1058,8 +1058,8 @@ div.Heading2TOC
 
 div.Heading3
 {
-  color: #000000;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 12.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1085,8 +1085,8 @@ div.Heading3
 
 .Heading3_inner
 {
-  color: #000000;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 12.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1152,12 +1152,12 @@ div.Heading3TOC
 
 div.Heading4
 {
-  color: #000000;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 12.0pt;
   font-style: italic;
   font-variant: normal;
-  font-weight: normal;
+  font-weight: bold;
   margin-bottom: 0px;
   margin-left: 0pt;
   margin-right: 0pt;
@@ -1179,12 +1179,12 @@ div.Heading4
 
 .Heading4_inner
 {
-  color: #000000;
-  font-family: "Palatino Linotype";
+  color: #516186;
+  font-family: Sans-Serif;
   font-size: 12.0pt;
   font-style: italic;
   font-variant: normal;
-  font-weight: normal;
+  font-weight: bold;
   text-align: Left;
   text-transform: none;
   vertical-align: baseline;
@@ -1210,7 +1210,7 @@ div.Lettered_List
   margin-left: 72pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1231,7 +1231,7 @@ div.Lettered_List
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1256,7 +1256,7 @@ div.Lettered_List_1
   margin-left: 72pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1277,7 +1277,7 @@ div.Lettered_List_1
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1393,10 +1393,9 @@ div.Note
   margin-bottom: 2.0pt;
   margin-left: 68.4pt;
   margin-right: 0pt;
-  margin-top: -5px;
-  padding-bottom: 18px;
-  text-align: LeftRight;
-  text-indent: -25px;
+  margin-top: 7.0pt;
+  text-align: justify;
+  text-indent: -32.400000000000006pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1405,8 +1404,7 @@ div.Note
 {
   margin-bottom: 2.0pt;
   margin-right: 0pt;
-  margin-top: -5px;
-  padding-bottom: 18px;
+  margin-top: 7.0pt;
 }
 
 .Note_inner
@@ -1417,7 +1415,7 @@ div.Note
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1442,7 +1440,7 @@ div.Numbered_List
   margin-left: 36pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1463,7 +1461,7 @@ div.Numbered_List
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1488,7 +1486,7 @@ div.Numbered_List_1
   margin-left: 36pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1509,7 +1507,7 @@ div.Numbered_List_1
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1534,7 +1532,7 @@ div.Numbered_List_1_Indent
   margin-left: 54pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1555,7 +1553,7 @@ div.Numbered_List_1_Indent
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1580,7 +1578,7 @@ div.Numbered_List_Indent
   margin-left: 54pt;
   margin-right: 0pt;
   margin-top: 5.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1601,7 +1599,7 @@ div.Numbered_List_Indent
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1717,8 +1715,8 @@ div.SideWords
   margin-bottom: 0.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
-  margin-top: 0px;
-  text-align: left;
+  margin-top: 13.0pt;
+  text-align: Right;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1728,7 +1726,7 @@ div.SideWords
 {
   margin-bottom: 0.0pt;
   margin-right: 0pt;
-  margin-top: 0px;
+  margin-top: 13.0pt;
 }
 
 .SideWords_inner
@@ -1739,7 +1737,7 @@ div.SideWords
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  text-align: left;
+  text-align: Right;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1764,7 +1762,7 @@ div.Table_Bullet
   margin-left: 18pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
-  text-align: LeftRight;
+  text-align: justify;
   text-indent: -18pt;
   text-transform: none;
   vertical-align: baseline;
@@ -1785,7 +1783,7 @@ div.Table_Bullet
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: LeftRight;
+  text-align: justify;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;

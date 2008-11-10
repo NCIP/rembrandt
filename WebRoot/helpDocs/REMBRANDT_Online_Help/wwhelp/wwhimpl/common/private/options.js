@@ -3,11 +3,11 @@
 
 function  WWHCommonSettings_Object()
 {
-  this.mTitle = "REMBRANDT Online Help";
+  this.mTitle = "REMBRANDT_Online_Help";
 
   this.mbCookies            = true;
   this.mCookiesDaysToExpire = 30;
-  this.mCookiesID           = "9AE169AC995A50A6";
+  this.mCookiesID           = "B65B5075893CE74";
 
   this.mAccessible = "false";
 

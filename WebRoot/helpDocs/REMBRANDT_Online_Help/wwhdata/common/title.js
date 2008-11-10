@@ -1,4 +1,4 @@
 function  WWHBookData_Title()
 {
-  return "REMBRANDT Online Help";
+  return "REMBRANDT_Online_Help";
 }

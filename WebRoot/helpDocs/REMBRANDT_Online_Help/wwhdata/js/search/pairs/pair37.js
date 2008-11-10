@@ -1,12 +1,10 @@
 function FileData_Pairs(x)
 {
-x.t("page.","information");
 x.t("once","select");
 x.t("(go)","classification");
 x.t("browser","button");
 x.t("advanced","searches");
 x.t("advanced","search");
-x.t("appears.","add");
 x.t("list","ids");
 x.t("add","advanced");
 x.t("gene","expression");
@@ -20,16 +18,17 @@ x.t("search","click");
 x.t("search","selecting");
 x.t("select","browser");
 x.t("button","gene");
+x.t("appears","add");
 x.t("added","gene");
-x.t("ids","appears.");
+x.t("ids","appears");
+x.t("term","added");
 x.t("click","appropriate");
 x.t("selecting","gene");
-x.t("expression","page.");
 x.t("expression","advanced");
 x.t("expression","page");
 x.t("page","list");
+x.t("page","information");
 x.t("information","gene");
 x.t("ontology","(go)");
-x.t("appropriate","term.");
-x.t("term.","added");
+x.t("appropriate","term");
 }

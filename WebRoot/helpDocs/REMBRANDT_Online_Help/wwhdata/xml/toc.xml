@@ -60,49 +60,57 @@
     <i t="Performing a Class Comparison" l="45" />
     <i t="Performing a Principal Component Analysis" l="46" />
     <i t="Performing Hierarchical Clustering Analysis" l="47" />
+    <i t="Performing a GenePattern Analysis" l="48" />
+    <i t="Launching GenePattern" l="49" />
   </i>
-  <i t="Viewing Results" l="48">
-    <i t="Results Overview" l="49" />
-    <i t="Clinical Reports" l="50">
-      <i t="Viewing Clinical Plots" l="51" />
+  <i t="Viewing Results" l="50">
+    <i t="Results Overview" l="51" />
+    <i t="Clinical Reports" l="52">
+      <i t="Viewing Clinical Plots" l="53" />
     </i>
-    <i t="Advanced Search or Query Results" l="52">
-      <i t="Gene Expression Sample Report" l="53">
-        <i t="Filtering Results by Gene or Reporter (Filter Toolbar)" l="54" />
-        <i t="Highlighting Results By Value (Highlight Toolbar)" l="55" />
-        <i t="Selecting and Saving Sample Results (Select Samples Toolbar)" l="56" />
-        <i t="Differentiating Data (Show All Values Toolbar)" l="57" />
-        <i t="Removing Columns (Hide Diseases toolbar)" l="58" />
-        <i t="Showing Additional Information" l="59" />
+    <i t="Advanced Search or Query Results" l="54">
+      <i t="Gene Expression Sample Report" l="55">
+        <i t="Filtering Results by Gene or Reporter (Filter Toolbar)" l="56" />
+        <i t="Highlighting Results By Value (Highlight Toolbar)" l="57" />
+        <i t="Selecting and Saving Sample Results (Select Samples Toolbar)" l="58" />
+        <i t="Differentiating Data (Show All Values Toolbar)" l="59" />
+        <i t="Removing Columns (Hide Diseases toolbar)" l="60" />
+        <i t="Showing Additional Information" l="61" />
       </i>
-      <i t="Copy Number Sample Report" l="60">
-        <i t="Displaying Copy Number Sample Data in webGenome" l="61" />
+      <i t="Copy Number Sample Report" l="62">
+        <i t="Displaying Copy Number Sample Data in webGenome" l="63" />
       </i>
     </i>
-    <i t="High Order Analysis Results" l="62">
-      <i t="Class Comparison Report" l="63">
-        <i t="Filtering a p-value (Filter p-value Toolbar)" l="64" />
-        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="65" />
-        <i t="Resorting Column Results" l="66" />
+    <i t="High Order Analysis Results" l="64">
+      <i t="Class Comparison Report" l="65">
+        <i t="Filtering a p-value (Filter p-value Toolbar)" l="66" />
+        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="67" />
+        <i t="Resorting Column Results" l="68" />
       </i>
-      <i t="Principal Component Analysis Plot" l="67">
-        <i t="Viewing a Three-dimensional Principal Component Analysis (PCA)" l="68" />
+      <i t="Principal Component Analysis Plot" l="69">
+        <i t="Viewing a Three-dimensional Principal Component Analysis (PCA)" l="70" />
       </i>
-      <i t="Hierarchical Clustering Report" l="69" />
+      <i t="Hierarchical Clustering Report" l="71" />
+      <i t="GenePattern Analysis Reports" l="72" />
     </i>
-    <i t="Downloading BRB Array Tools and Files" l="70" />
   </i>
-  <i t="Managing Lists" l="71">
-    <i t="Managing Lists Overview" l="72" />
-    <i t="Adding New Lists" l="73">
-      <i t="Combining Existing Lists to Create a New List" l="74" />
-      <i t="Uploading a List" l="75" />
-      <i t="Manually Entering a List" l="76" />
+  <i t="Downloading Data" l="73">
+    <i t="Data Download Overview" l="74">
+      <i t="Downloading caArray Tools and Files" l="75" />
+      <i t="Downloading BRB Array Tools and Files" l="76" />
     </i>
-    <i t="Viewing the Data Items in a List" l="77" />
-    <i t="Removing Data Items" l="78" />
-    <i t="Deleting an Entire List" l="79" />
-    <i t="Exporting a List" l="80" />
   </i>
-  <i t="Glossary" l="81" />
+  <i t="Managing Lists" l="77">
+    <i t="Managing Lists Overview" l="78" />
+    <i t="Adding New Lists" l="79">
+      <i t="Combining Existing Lists to Create a New List" l="80" />
+      <i t="Uploading a List" l="81" />
+      <i t="Manually Entering a List" l="82" />
+    </i>
+    <i t="Viewing the Data Items in a List" l="83" />
+    <i t="Removing Data Items" l="84" />
+    <i t="Deleting an Entire List" l="85" />
+    <i t="Exporting a List" l="86" />
+  </i>
+  <i t="Glossary" l="87" />
 </WebWorksHelpTOC>

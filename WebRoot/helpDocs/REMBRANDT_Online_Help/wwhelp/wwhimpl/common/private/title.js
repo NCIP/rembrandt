@@ -1,4 +1,4 @@
 // Copyright (c) 2001-2003 Quadralay Corporation.  All rights reserved.
 //
 
-document.writeln("<title>REMBRANDT Online Help</title>");
+document.writeln("<title>REMBRANDT_Online_Help</title>");
