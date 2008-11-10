@@ -44,7 +44,7 @@
 	 		DownloadInboxWidgetController.start("downloadStatusContainer", 10);
 		});
 	</script>
-	<br clear="all"/><a href="#" onclick="DownloadInboxWidgetController.stop();return false;">stop updating</a>
+	<!-- <br clear="all"/><a href="#" onclick="DownloadInboxWidgetController.stop();return false;">stop updating</a> -->
 </fieldset>
 <br/><br/>
 <html:form action="/download.do?method=caarray">
