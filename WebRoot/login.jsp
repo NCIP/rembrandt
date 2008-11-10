@@ -156,7 +156,7 @@ pageContext.setAttribute("map", map);
 	      <div style="width:80%;margin-left:20px;margin-top:3px;">
 	      <ul>
 	      <li style="list-style:none; color:#000;margin-left:-20px; text-decoration:underline;">Additional Information:</li>
-	      <li><a style="font-size:.9em;" href="docs/Rembrandt1.5_Users_Guide.pdf">Download User Guide (PDF)</a></li>
+	      <li><a style="font-size:.9em;" href="docs/rembrandt_1.5.2_users_guide.pdf">Download User Guide (PDF)</a></li>
 	      <li><a style="font-size:.9em;" href="tutorials.jsp">View Tutorials</a></li>
 	      <li><a style="font-size:.9em" href="javascript:Help.popHelp('cite_data');">How to Cite Rembrandt Data</a></li>	      
 	      <li><a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">Provide us your feedback</a></li>
