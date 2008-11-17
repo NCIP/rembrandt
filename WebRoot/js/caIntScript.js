@@ -19,9 +19,18 @@ function checkNull(text){
 		return false;
 	}
 	else	{
-	
+		clearSpecialCharacters(text);
 		return checkQueryName();
 	}
+}
+
+function clearSpecialCharacters(textField) {
+	var text = textField.value;
+
+	re = /\$|,|@|#|~|`|\%|\*|\^|\&|\(|\)|\+|\=|\[|\-|\_|\]|\[|\}|\{|\;|\:|\'|\"|\<|\>|\?|\||\\|\!|\$|\./g;
+          // remove special characters like "$" and "," etc...
+	text = text.replace(re, "");
+	textField.value = text;
 }
 
 function spawnx(url,winw,winh, name) {
