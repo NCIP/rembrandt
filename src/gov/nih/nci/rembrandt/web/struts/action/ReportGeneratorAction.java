@@ -24,7 +24,6 @@ import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ReportGeneratorForm;
 
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -308,7 +307,8 @@ public class ReportGeneratorAction extends DispatchAction {
 			request.setAttribute("queryName", reportBean.getResultantCacheKey());
 			//Send to the appropriate view as per selection!!
 			thisForward = new ActionForward();
-			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
+
+			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+ reportBean.getResultantCacheKey());
 		}else {
 			logger.error("SessionQueryBag has no Compound queries to execute");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));
@@ -374,7 +374,7 @@ public class ReportGeneratorAction extends DispatchAction {
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			cquery.setQueryName(prb_queryName);
 			//This will generate the report and store it in the cache
-			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds );
+			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
 			//store the name of the query in the form so that we can later pull it out of cache
 			ReportBean reportBean = rgHelper.getReportBean();
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
@@ -409,7 +409,7 @@ public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
 		cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		cquery.setQueryName(prb_queryName);
 		//This will generate the report and store it in the cache
-		ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, (String[])sampleIds.toArray(new String[sampleIds.size()]) );
+		ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, (String[])sampleIds.toArray(new String[sampleIds.size()]), false );
 		//store the name of the query in the form so that we can later pull it out of cache
 		ReportBean reportBean = rgHelper.getReportBean();
 		rgForm.setQueryName(reportBean.getResultantCacheKey());
@@ -438,26 +438,31 @@ public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
 		//get the old 
 		CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
 		if(cquery!=null) {
+			//A clone has to be used in order to avoid view confusion
+			CompoundQuery clonedQuery = (CompoundQuery)cquery.clone();
 			String reportView = (String)rgForm.getReportView();
 			if(reportView != null)	{
 				if(reportView.equals("G"))
-					cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+					clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 				else if(reportView.equals("C"))
-					cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+					clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
 				else
-					cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+					clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			}
 			else	{
 				//clinical by default since thats universal for all query types
-				cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));				
+				clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));				
 			}
 			//This will generate the report and store it in the cache
 			ReportGeneratorHelper rgHelper = null;
 			if(sampleIds.length == 0)	{
-			    rgHelper = new ReportGeneratorHelper(cquery, rgForm.getFilterParams() );
+			    rgHelper = new ReportGeneratorHelper(clonedQuery, rgForm.getFilterParams() );
 			}
-			else	{
-			    rgHelper = new ReportGeneratorHelper(cquery, sampleIds);
+			else	{  
+				//to fix the query name conflict issue, a new boolean value
+				//is added to ReportGeneratorHelper constructor to find out if a new query
+				//name for the query is needed. 
+			    rgHelper = new ReportGeneratorHelper(clonedQuery, sampleIds, true);
 			}
 			
 			
