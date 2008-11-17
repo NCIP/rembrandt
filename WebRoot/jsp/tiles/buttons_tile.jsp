@@ -27,30 +27,30 @@ function refresh()	{
 
 <logic:present name="geneexpressionForm">
 	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="standard">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="clearSpecialCharacters(document.forms[0].queryName);">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
 	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="clearSpecialCharacters(document.forms[0].queryName);">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
 </logic:present>
 <logic:present name="comparitivegenomicForm">
 	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="standard">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="clearSpecialCharacters(document.forms[0].queryName);">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
 	</logic:equal>
 	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="clearSpecialCharacters(document.forms[0].queryName);">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
 </logic:present>
 <logic:present name="clinicaldataForm">
-	<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+	<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="clearSpecialCharacters(document.forms[0].queryName);">
 		<bean:message key="buttons_tile.previewButton" />
 	</html:submit>&nbsp;&nbsp;
 </logic:present>
