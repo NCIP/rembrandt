@@ -141,7 +141,8 @@ public class ReportGeneratorHelper {
 	private CompoundQuery _cQuery;
 	private String _queryName = null;
 	private String _sessionId = null;
-	private static Properties applicationResources = applicationResources = ApplicationContext.getLabelProperties();
+	private boolean newQueryName = false;
+	private static Properties applicationResources = ApplicationContext.getLabelProperties();
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	//Check the applications resource file and turn on report xml logging if 
 	//property nautilus.xml_logging = true, else then no xml report logging.
@@ -275,7 +276,8 @@ public class ReportGeneratorHelper {
 	 * contstrain
 	 * @throws Exception
 	 */
-	public ReportGeneratorHelper(Queriable query, String[] sampleIds) throws IllegalStateException {
+	public ReportGeneratorHelper(Queriable query, String[] sampleIds, boolean newQueryName) throws IllegalStateException {
+		this.newQueryName = newQueryName;
 		//Clone the original query so that we do not modify it when we add samples to it
 		query = (CompoundQuery)query.clone();
 		//check the query to make sure that it is a compound query
@@ -314,7 +316,10 @@ public class ReportGeneratorHelper {
 		 * in the bean.
 		 */
 		if(sampleIdResults!=null&&sampleIdResults.getResultsContainer()!=null) {
-            sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());
+			if (newQueryName)
+				sampleIdResults.getAssociatedQuery().setQueryName("previewResultsBySample");
+			else
+				sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());
 			//store the results and query into the report bean
             _reportBean.setAssociatedQuery(sampleIdResults.getAssociatedQuery());
 			_reportBean.setResultant(sampleIdResults);
@@ -322,7 +327,12 @@ public class ReportGeneratorHelper {
 			throw new IllegalStateException("ResultsetManager returned an empty resultant or threw an Exception");
 		}
 		//store the cache key that can be used to retrieve this bean later
-		_reportBean.setResultantCacheKey(_queryName);
+		if (newQueryName) {//it's a new report bean
+			_reportBean.setResultantCacheKey("previewResultsBySample");
+			//presentationTierCache.addNonPersistableToSessionCache(_sessionId, "previewResultsBySample", _reportBean);
+		}
+		else
+			_reportBean.setResultantCacheKey(_queryName);
 		//this is a result set
 		_reportBean.setSampleSetQuery(true);
 		//generate the reportXML and store in the ReportBean
@@ -555,7 +565,10 @@ public class ReportGeneratorHelper {
 				}
 			}
 			_reportBean.setReportXML(reportXML);
-			presentationTierCache.addNonPersistableToSessionCache(_sessionId,_queryName,_reportBean);
+			if (newQueryName) {//it's a new report bean
+				presentationTierCache.addNonPersistableToSessionCache(_sessionId, "previewResultsBySample", _reportBean);
+			}else
+				presentationTierCache.addNonPersistableToSessionCache(_sessionId,_queryName,_reportBean);
 		   			   
 		    	
 		}else {
