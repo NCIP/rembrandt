@@ -61,6 +61,10 @@ var DownloadInboxWidgetUI = {
 		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template
 		  			show = {name: e.name, status: e.status, img: 'images/error.png' };
 		  		}
+		  		else if(e.status.toLowerCase().startsWith("nofiles"))	{
+		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template
+		  			show = {name: e.name, status: e.status, img: 'images/error.png' };
+		  		}
 		  		else	{
 		  			show = {name: e.name, status: e.status, img: 'images/indicator.gif' };
 		  			areAnyRunning = true;
