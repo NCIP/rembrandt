@@ -28,7 +28,6 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.URLEncoder;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
@@ -214,10 +213,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 			request.setAttribute("queryName", reportBean.getResultantCacheKey());
 			//Send to the appropriate view as per selection!!
 			thisForward = new ActionForward();
-			//Encoding the query name to mask those URL sensitive characters
 			String queryName = reportBean.getResultantCacheKey();
-			queryName = URLEncoder.encode(queryName, "UTF-8");
-			//thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName="+reportBean.getResultantCacheKey());
 			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName=" + queryName);
 		}else {
 			logger.error("SessionQueryBag has no Compound queries to execute");
