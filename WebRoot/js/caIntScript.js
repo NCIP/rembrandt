@@ -18,9 +18,23 @@ function checkNull(text){
 		alert("Please Fill in a Unique Query Name");
 		return false;
 	}
-	else	{
-		clearSpecialCharacters(text);
+	else if (!checkIsHTMLSafe(textField)){
+		alert("Please enter a query name with no special characters");
+		return false;
+	}else {
 		return checkQueryName();
+	}
+}
+
+function checkIsHTMLSafe(textField){
+	var iChars = "!@#$%^&*()+=-[]\';,./{}|\":<>?";
+	var text = textField.value;
+	
+	for (var i = 0; i < text.length; i++) {
+		if (iChars.indexOf(text.charAt(i)) != -1) 
+		{
+			return false;
+		}	
 	}
 }
 
