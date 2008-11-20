@@ -47,7 +47,7 @@ import gov.nih.nci.rembrandt.dbbean.PriorRadiationtherapy;
 import gov.nih.nci.rembrandt.dbbean.PriorSurgery;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.util.RaceType;
-
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -2435,6 +2435,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
             if ((queryName == null || queryName.length() < 1))
                 errors.add("queryName", new ActionError(
                         "gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
+             if (!MoreStringUtils.isHTMLSafe(queryName))
+                errors.add("queryName", new ActionError(
+                        "gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters"));
         }
         // survival range validations
       /*  if ((this.survivalLower != null && !this.survivalLower.equals("")) || (this.survivalUpper != null && !this.survivalUpper.equals(""))) {
