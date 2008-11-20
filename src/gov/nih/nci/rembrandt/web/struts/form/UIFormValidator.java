@@ -1,5 +1,5 @@
 package gov.nih.nci.rembrandt.web.struts.form;
-
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
@@ -144,6 +144,9 @@ public class UIFormValidator {
 			errors.add("queryName", new ActionError(
 					"gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
 		}
+		if (!MoreStringUtils.isHTMLSafe(queryName))
+			errors.add("queryName", new ActionError(
+				"gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters"));
 		return errors;
 	}
     
