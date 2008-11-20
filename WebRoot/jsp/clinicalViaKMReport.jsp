@@ -61,7 +61,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 					cquery.setSessionId(sessionId);		    
 		    		String[] samplesArray = (String[]) samplesList.toArray(new String[0]);
 					//generate the reportBean with the reportXML using the compQury and samples Array
-					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray);
+					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false);
 					ReportBean clincalReportBean = presentationTierCache.getReportBean(sessionId,cquery.getQueryName());
 						if(clincalReportBean!=null){
 							Document reportXML = clincalReportBean.getReportXML();
