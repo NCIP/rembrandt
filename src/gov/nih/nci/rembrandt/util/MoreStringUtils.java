@@ -72,6 +72,12 @@ import org.apache.commons.lang.StringUtils;
 
 public class MoreStringUtils extends StringUtils{
 	/**
+	 * The array of chars represents the illegal characters
+	 * for the Unix file naming system.
+	*/
+	public static final String specialCharacters = "!@#$%^&*()+=-[]\';,./{}|\":<>?\\";
+
+	/**
 	 * This method will take a string of characters that you do not want to
 	 * appear in your string.  It will remove the unallowed characters and then
 	 * return to you the string as it would be without those characters.  For
@@ -114,4 +120,31 @@ public class MoreStringUtils extends StringUtils{
 	public static String cleanString(char[] unallowableCharArray, String stringToClean) {
 		return cleanString(new String(unallowableCharArray), stringToClean);
 	}
+	
+	public static boolean isHTMLSafe(String s){
+		int index = -1;
+		char[] sChar = s.toCharArray();
+        for (int i = 0; i < sChar.length; i++)
+        {
+            index = specialCharacters.indexOf(sChar[i]);
+
+            if (index != -1)
+            {
+                return false;
+            }
+        }
+        return true;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
