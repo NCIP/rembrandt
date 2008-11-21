@@ -22,7 +22,7 @@ function refresh()	{
 </logic:notPresent>
 
 &nbsp;&nbsp;
-<html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser();" />
+<html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser('menu');" />
 &nbsp;&nbsp;
 
 <logic:present name="geneexpressionForm">
@@ -55,7 +55,7 @@ function refresh()	{
 	</html:submit>&nbsp;&nbsp;
 </logic:present>
 
-<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].queryName);">
+<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].queryName, 'true');">
 	<bean:message key="buttons_tile.submittalButton" />
 </html:submit>
 
