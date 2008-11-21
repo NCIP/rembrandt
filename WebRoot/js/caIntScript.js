@@ -18,7 +18,7 @@ function checkNull(text, checkName){
 	}
 	if (!checkIsURLSafe(text)){
 	
-		alert("Please enter a query name with no special characters");
+		alert("Please enter a query name without any special characters such as !@#$%^&*()+=[]\';,./{}|\":<>?");
 		return false;
 	}
 	if (checkName == "true")
