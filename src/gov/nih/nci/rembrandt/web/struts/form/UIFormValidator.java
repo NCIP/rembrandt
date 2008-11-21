@@ -144,7 +144,7 @@ public class UIFormValidator {
 			errors.add("queryName", new ActionError(
 					"gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
 		}
-		if (!MoreStringUtils.isHTMLSafe(queryName))
+		if (!MoreStringUtils.isURLSafe(queryName))
 			errors.add("queryName", new ActionError(
 				"gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters"));
 		return errors;
