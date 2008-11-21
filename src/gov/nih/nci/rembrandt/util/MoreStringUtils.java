@@ -75,7 +75,7 @@ public class MoreStringUtils extends StringUtils{
 	 * The array of chars represents the illegal characters
 	 * for the Unix file naming system.
 	*/
-	public static final String specialCharacters = "!@#$%^&*()+=-[]\';,./{}|\":<>?\\";
+	public static final String specialCharacters = "!@#$%^&*()+=[]\';,./{}|\":<>?\\";
 
 	/**
 	 * This method will take a string of characters that you do not want to
@@ -121,7 +121,7 @@ public class MoreStringUtils extends StringUtils{
 		return cleanString(new String(unallowableCharArray), stringToClean);
 	}
 	
-	public static boolean isHTMLSafe(String s){
+	public static boolean isURLSafe(String s){
 		int index = -1;
 		char[] sChar = s.toCharArray();
         for (int i = 0; i < sChar.length; i++)
