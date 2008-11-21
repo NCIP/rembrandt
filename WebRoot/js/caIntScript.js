@@ -8,26 +8,27 @@ function setBackToDefault(formType){
 	}
 	
 
-function checkNull(text){
-	
+function checkNull(text, checkName){
 	if(text.value == "")	{
-		
 		scroll(0,0);
 		text.focus();
 		text.style.border = "2px solid red";
 		alert("Please Fill in a Unique Query Name");
 		return false;
 	}
-	else if (!checkIsHTMLSafe(textField)){
+	if (!checkIsURLSafe(text)){
+	
 		alert("Please enter a query name with no special characters");
 		return false;
-	}else {
-		return checkQueryName();
 	}
+	if (checkName == "true")
+		return checkQueryName();
+	else
+		return true;
 }
 
-function checkIsHTMLSafe(textField){
-	var iChars = "!@#$%^&*()+=-[]\';,./{}|\":<>?";
+function checkIsURLSafe(textField){
+	var iChars = "!@#$%^&*()+=[]\';,./{}|\":<>?";
 	var text = textField.value;
 	
 	for (var i = 0; i < text.length; i++) {
@@ -36,6 +37,7 @@ function checkIsHTMLSafe(textField){
 			return false;
 		}	
 	}
+	return true;
 }
 
 function clearSpecialCharacters(textField) {
@@ -248,11 +250,14 @@ function deleteRow(queryNum){
 	   
   }
 
- function alertUser(){
+ function alertUser(where){
   
 if(confirm("This will eliminate all data currently entered in the form and will not add a query"))
 {
-location.href='menu.do';
+	if (where == 'menu')
+		location.href='menu.do';
+	if (where == 'analysisHome')
+		location.href='analysisHome.do';
 }
 
   
