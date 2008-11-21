@@ -13,18 +13,27 @@ document.forms[0].target = "_self";
 
 
 <html:reset styleId="clearButton" styleClass="xbutton" value="clear" />&nbsp;&nbsp;
-<html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser();"/>&nbsp;&nbsp;
+<html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser('analysisHome');"/>&nbsp;&nbsp;
 
 <logic:notPresent name="hierarchicalClusteringForm">
-<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript:saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));return checkNull(document.forms[0].analysisResultName)">
-     <bean:message key="buttons_tile.submittalButton"/>
-</html:submit>
+	<logic:present name="gpIntegrationForm">
+		<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); return checkNull(document.forms[0].analysisResultName, 'false');">
+			<bean:message key="buttons_tile.submittalButton" />
+		</html:submit>
+	</logic:present>
+	<logic:notPresent name="gpIntegrationForm">
+	<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript:saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));return checkNull(document.forms[0].analysisResultName, 'true')">
+    	<bean:message key="buttons_tile.submittalButton"/>
+	</html:submit>
+	</logic:notPresent>
 </logic:notPresent>
 
 <logic:present name="hierarchicalClusteringForm">
-<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].analysisResultName)">
+<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].analysisResultName, 'true')">
      <bean:message key="buttons_tile.submittalButton"/>
 </html:submit>
 </logic:present>
+
+
 
 
