@@ -5,7 +5,39 @@
 <xsl:template match="/">
 <xsl:for-each select="Report">
 <span>
-	<xsl:for-each select="Row[@name='headerRow']">
+	 <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
+ 
+		 <xsl:value-of select="' , '"/>
+		<xsl:for-each select="Row[(@name='dataRow')]">
+	  		<xsl:value-of select="Cell[1]/Data" />
+	  		<xsl:value-of select="' - '"/>
+	  		<xsl:value-of select="Cell[2]/Data" />
+	  		<xsl:if test="position() != last()">
+				<xsl:value-of select="', '"/>
+			</xsl:if>
+			<xsl:if test="position() = last()">
+				<xsl:text>&#10;</xsl:text>
+			</xsl:if>
+  		</xsl:for-each>
+		<xsl:for-each select="Row[@name='sampleRow']">
+			<xsl:for-each select="Cell">
+			  	<xsl:if test="Data != ' '">
+			  		<xsl:variable name="pos" select="position()" />
+			  		<xsl:value-of select="Data" />
+			  		<xsl:value-of select="', '"/>
+			  		<xsl:for-each select="//Row[(@name='dataRow')]/Cell[position() = $pos]">
+				  		<xsl:value-of select="Data" />
+				  		<xsl:if test="position() != last()">
+							<xsl:value-of select="', '"/>
+						</xsl:if>
+			  		</xsl:for-each>
+					<xsl:text>&#10;</xsl:text>
+				</xsl:if>
+		    </xsl:for-each>
+		</xsl:for-each>
+	</xsl:if>	
+	<xsl:if test="@reportType = 'Gene Expression Disease' or @reportType = 'Clinical'" >
+ 		<xsl:for-each select="Row[@name='headerRow']">
 			<xsl:for-each select="Cell[@group = 'header']">
 				<xsl:value-of select="Data"/>
 				<xsl:if test="position() != last()">
@@ -15,42 +47,43 @@
 					<xsl:text>&#10;</xsl:text>
 				</xsl:if>	
 			</xsl:for-each>
-	</xsl:for-each>
+		</xsl:for-each>
 	
-	<xsl:for-each select="Row[@name='sampleRow']">
-		<xsl:for-each select="Cell">
-		  <xsl:choose>
-		  	<xsl:when test="Data = ' '"> 
-		  		<xsl:if test="position() != last()">
+		<xsl:for-each select="Row[@name='sampleRow']">
+			<xsl:for-each select="Cell">
+			  <xsl:choose>
+			  	<xsl:when test="Data = ' '"> 
+			  		<xsl:if test="position() != last()">
+						<xsl:value-of select="', '"/>
+					</xsl:if>
+					<xsl:if test="position() = last()">
+						<xsl:text>&#10;</xsl:text>
+					</xsl:if>
+				</xsl:when>
+			  	<xsl:otherwise>
+			  		<xsl:value-of select="Data" />
+			  		<xsl:if test="position() != last()">
+						<xsl:value-of select="', '"/>
+					</xsl:if>
+					<xsl:if test="position() = last()">
+						<xsl:text>&#10;</xsl:text>
+					</xsl:if>
+				</xsl:otherwise>
+		      </xsl:choose>
+		    </xsl:for-each>
+		</xsl:for-each>
+		<xsl:for-each select="Row[(@name='dataRow')] ">
+			<xsl:for-each select="Cell">
+				<xsl:value-of select="Data" />
+				<xsl:if test="position() != last()">
 					<xsl:value-of select="', '"/>
 				</xsl:if>
 				<xsl:if test="position() = last()">
 					<xsl:text>&#10;</xsl:text>
 				</xsl:if>
-			</xsl:when>
-		  	<xsl:otherwise>
-		  		<xsl:value-of select="Data" />
-		  		<xsl:if test="position() != last()">
-					<xsl:value-of select="', '"/>
-				</xsl:if>
-				<xsl:if test="position() = last()">
-					<xsl:text>&#10;</xsl:text>
-				</xsl:if>
-			</xsl:otherwise>
-	      </xsl:choose>
-	    </xsl:for-each>
-	</xsl:for-each>
-	<xsl:for-each select="Row[(@name='dataRow')] ">
-		<xsl:for-each select="Cell">
-			<xsl:value-of select="Data" />
-			<xsl:if test="position() != last()">
-				<xsl:value-of select="', '"/>
-			</xsl:if>
-			<xsl:if test="position() = last()">
-				<xsl:text>&#10;</xsl:text>
-			</xsl:if>
-			</xsl:for-each>
-	</xsl:for-each>
+				</xsl:for-each>
+		</xsl:for-each>		
+	</xsl:if>
 </span>
 </xsl:for-each>
 </xsl:template>
