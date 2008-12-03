@@ -35,7 +35,7 @@
           	<option value=""/>
           	<html:optionsCollection property="cytobands" label="cytoband" value="cytoband"/>	
           </html:select>
-			<input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br />
+			<!--  <input type="button" class="sbutton" value="MAP Browser..." disabled="true"><br /> -->
 			<html:errors property="cytobandRegion"/>
 			
 	<html:radio property="region" value="basePairPosition" styleClass="radio" />
