@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import junit.framework.Test;
@@ -308,6 +309,36 @@ public void testGeneSymbolAlias(){
 		e.printStackTrace();
 	}
 	}
-	
+public void testGeneSymbolAliasList(){
+    try{
+    	List<String> symbols = new ArrayList();
+    	symbols.add("P53");
+    	symbols.add("p53");
+    	symbols.add("tp53");
+    	symbols.add("TP53");
+    	symbols.add("NAT2");
+    	symbols.add("nat2");
+    	symbols.add("EGFR");
+    	symbols.add("XYZ");
+    	symbols.add("TP5*");
+		System.out.println("Entered Symbol"+"\tAccepted Symbol"+"\tGene Name");
+    	Map<String,List<AllGeneAliasLookup>> validMap = DataValidator.searchGeneKeyWordList(symbols);
+		if(validMap != null){
+			for(String symbol:symbols){
+				List<AllGeneAliasLookup> allGeneAliasLookupList = validMap.get(symbol);
+				if(allGeneAliasLookupList != null){
+					for(AllGeneAliasLookup allGeneAliasLookup: allGeneAliasLookupList){
+						System.out.println("Symbol:"+symbol+"\t"+allGeneAliasLookup.getApprovedSymbol()+"\t"+allGeneAliasLookup.getApprovedName()+"\n");	
+					}				
+				}else{ //no symbol found
+					System.out.println("Symbol:"+symbol+"\t"+ "Invalid symbol or not in the database."+"\n");	
+				}
+			}
+		}
+    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
 
 }

@@ -18,9 +18,12 @@ import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LocusLinkLookUp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -425,7 +428,7 @@ public class DataValidator{
 		        approvedNameCrit.addLike("upper(approvedName)",geneKeyWord.toUpperCase());
 		        
 		        //Or the three
-		        approvedSymbolCrit.addOrCriteria(approvedNameCrit);
+		        //approvedSymbolCrit.addOrCriteria(approvedNameCrit);
 		        approvedSymbolCrit.addOrCriteria(aliasCrit);
 		        Collection<AllGeneAliasLookup> allGeneAlias;
 				
@@ -442,5 +445,22 @@ public class DataValidator{
 			}
     	}
 		return null;
+    }
+	@SuppressWarnings("unchecked")
+	public static Map<String,List<AllGeneAliasLookup>> searchGeneKeyWordList(List<String> geneKeyWordList){
+		Map<String,List<AllGeneAliasLookup>> validMap = new HashMap<String,List<AllGeneAliasLookup>>();
+		//check for null and wild charectors
+    	if(geneKeyWordList != null  ){
+    		for(String geneKeyWord: geneKeyWordList){
+    			AllGeneAliasLookup[] allGeneAliasLookupArray = searchGeneKeyWord(geneKeyWord);
+    			if(allGeneAliasLookupArray != null){
+    				List<AllGeneAliasLookup> allGeneAliasLookupList = Arrays.asList(allGeneAliasLookupArray);
+    				validMap.put(geneKeyWord,allGeneAliasLookupList);
+    			}else{ //if no matches found
+    				validMap.put(geneKeyWord,null);
+    			}
+    		}
+    	}
+		return validMap;
     }
 }
