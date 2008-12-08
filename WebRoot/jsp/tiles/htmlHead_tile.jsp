@@ -14,7 +14,7 @@
 	<script language="javascript" src="js/rembrandtScript.js"></script>
 	
 	<script language="javascript" src="js/box/browserSniff.js"></script>
-	<script language="javascript" src="js/lib/prototype_1.5pre.js"></script>
+	<script language="javascript" src="js/lib/prototype-1.6.0.2.js"></script>
 	<script language="javascript" src="js/lib/Help.js"></script>
 	
 	<script language="javascript" src="js/lib/common/JSLoader.js"></script>

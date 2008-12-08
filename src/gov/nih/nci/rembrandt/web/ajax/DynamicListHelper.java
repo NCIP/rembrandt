@@ -207,4 +207,48 @@ public class DynamicListHelper {
 		}
 	    return aliases.toString();
 	}
+	
+	public static String getGeneAliasesList(String commaGenes)	{
+		//accepts a single gene, or a comma delim list of strings
+		JSONArray aliases = new JSONArray();
+		commaGenes = commaGenes.replace(" ", "");
+		List<String> geneList = Arrays.asList(commaGenes.split(","));
+		try	{
+			Map<String,List<AllGeneAliasLookup>> validMap = DataValidator.searchGeneKeyWordList(geneList);
+			if(validMap != null){
+				for(String symbol:geneList){
+					JSONObject a = new JSONObject();
+					a.put("original", symbol);
+					
+					if(DataValidator.isGeneSymbolFound(symbol))	{
+						//valid, no aliases
+						a.put("status", "valid");
+					}
+					else	{
+						List<AllGeneAliasLookup> allGeneAliasLookupList = validMap.get(symbol);
+						if(allGeneAliasLookupList != null){
+							JSONArray ala = new JSONArray();
+							a.put("status", "hasAliases");
+							for(AllGeneAliasLookup allGeneAliasLookup: allGeneAliasLookupList){
+								JSONObject alo = new JSONObject();
+								alo.put("symbol", (allGeneAliasLookup.getApprovedSymbol()!=null) ? allGeneAliasLookup.getApprovedSymbol() : "N/A");
+								alo.put("name",	 (allGeneAliasLookup.getApprovedName()!=null) ? allGeneAliasLookup.getApprovedName() : "N/A");
+								alo.put("alias", (allGeneAliasLookup.getAlias()!=null) ? allGeneAliasLookup.getAlias() : "N/A");
+								ala.add(alo);
+							}	
+							a.put("aliases", ala);
+						}else{ //no symbol found
+							a.put("status", "invalid");
+//							System.out.println("Symbol:"+symbol+"\t"+ "Invalid symbol or not in the database."+"\n");	
+						}
+					}
+					aliases.add(a);
+				}
+			}
+		}
+		catch(Exception e)	{
+			e.printStackTrace();
+		}
+		return aliases.toString();
+	}
 }
