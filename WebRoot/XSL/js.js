@@ -592,10 +592,23 @@ function processFilterForm(key, ac)	{
 
 function prepQuickClinical()	{
 	var s = Array();
+	
+	//console.log($$("tr.sampleRow td input.checkorradio").length);
+	$$("tr.sampleRow td input.checkorradio").each( function(e)	{
+		//console.log(e.value);
+		if(e.value != "")
+			s.push(e.value);
+	});
+	/*
+	console.log("++++++++++++++++++++++");
+	console.log(document.prbSamples.samples);
 	for(var i=0; i<document.prbSamples.samples.length; i++)	{
+		console.log(document.prbSamples.samples[i].value);
 		if(document.prbSamples.samples[i].value && document.prbSamples.samples[i].value.length>0)
 			s.push(document.prbSamples.samples[i].value);
 	}
+	*/
+	
 	//alert(s);
 	switchViewMultiSamples("CLINICAL", s);
 
