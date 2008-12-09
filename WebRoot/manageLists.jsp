@@ -200,3 +200,24 @@ function addLoadEvent(func) {
 <div style="text-align:right; margin:10px;">
 <a href="#" onclick="javascript:scroll(0,0);return false;">[top]</a>
 </div>
+
+<a name="bottom"></a>
+<fieldset class="listForm" id="listForm">
+	<legend class="listLegend">
+		Gene Symbol Alias Lookup
+	</legend>
+	<br/>
+	<div>
+		Type a Comma Separated list of Gene Symbols:<br/>
+		<input type="text" style="width:250px" id="commaAliasGenes"/>
+		<input type="button" value="Lookup" onclick="AliasLookup.setupLookup($F('commaAliasGenes'));"/>
+		<img src="images/indicator.gif" id="aliasIndic" style="display:none;"/>
+		<div id="gAliases" style="display:none">
+		
+		</div>
+	</div>
+</fieldset>
+<div style="text-align:right; margin:10px;">
+<a href="#" onclick="javascript:scroll(0,0);return false;">[top]</a>
+</div>
+

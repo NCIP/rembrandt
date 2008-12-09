@@ -287,18 +287,19 @@
 			    if(!invalidItems.length < 1)	{
 					var intmp = "<div style='margin-left:20px;'><span id='invalid_span' style='color:gray; padding:3px;'><br/>Invalid or does not exist in the database:<br/> ";
 					//wDiv.innerHTML += "<span id='invalid_span' style='color:gray; padding:3px'><br/>Invalid or does not exist in the database:<br/> ";
+					var _intmp = "";
 					for(var i=0; i<invalidItems.length; i++){
 						invalidItemId = invalidItems[i];
 						if((i+1) == invalidItems.length){
 							//wDiv.innerHTML += invalidItemId;
-							intmp += invalidItemId;
+							_intmp += invalidItemId;
 						}
 						else{
-							intmp += invalidItemId + ", ";
+							_intmp += invalidItemId + ", ";
 							//wDiv.innerHTML += invalidItemId + ", ";							
 						}
 					}
-					wDiv.innerHTML +=intmp;		
+					wDiv.innerHTML += intmp + "<a href='#bottom' onclick='AliasLookup.setupLookup(this.innerHTML);'>"+_intmp+"</a>  (Lookup Aliases?)";		
 					wDiv.innerHTML += "<br/></span>";
 							
 				}    
@@ -349,3 +350,74 @@
 	     }
 	};
 	
+	var geneArray = new Array();
+	var AliasLookup = {
+		'lookup' : function(commas)	{
+			//send clean list to DynListHelper
+			DynamicListHelper.getGeneAliasesList(commas, AliasLookup.lookup_cb);
+		},
+		'lookup_cb' : function(r)	{
+			//render the results, symbols linking to processClick()
+			//console.log(r);
+			//console.log(geneArray);
+			
+			$('gAliases').hide();
+			var gas = "";
+			var gArray = eval('(' + r + ')');
+			gArray.each( function(g, indx)	{
+    			gas += "<br/><div style='background-color:silver'>"+(indx+1) + ".) " + g.original + " " + (g.status == "hasAliases" ? "Aliases" : "") + " </div>";
+    			if(g.status == "hasAliases")	{
+    				geneArray = geneArray.without(g.original);
+       				g.aliases.each( function(aa) {
+        				gas+= "<a href='#' onclick=\"AliasLookup.processClick('"+aa.symbol+"');return false;\">"+aa.symbol + "</a> - " +  aa.name.replace(/'/g,"&apos;") + "<br/>";
+       				});
+				}
+				else if(g.status == "valid")	{
+        			gas+= "<a href='#' onclick=\"AliasLookup.processClick('"+g.original+"');return false;\">"+g.original + "</a> - Valid Symbol.<br/>";
+				}
+				else if(g.status == "invalid")	{
+					geneArray = geneArray.without(g.original);
+        			gas+= "<a href='#' onclick=\"AliasLookup.processClick('"+g.original+"');return false;\">"+g.original + "</a> - Invalid symbol or not in the database.<br/>";
+				}
+			});
+			var todo = "<br/><b>Click a symbol listed and it will be added to the list creation tool above</b>";
+			$('gAliases').innerHTML = todo + "<br/>" + gas + "<br/>";
+        		
+  			AliasLookup.processClick("");
+    		$('commaAliasGenes').style.border= "1px solid #AB0303";
+       		$('gAliases').show();
+       		$("aliasIndic").hide();
+		},
+		'setupLookup' : function(g)	{
+			//take the comma list, clean it, and send to lookup
+			$('aliasIndic').show();
+			g = g.gsub(" ", "");
+			
+			if(g == "")	{
+				alert("Please enter a gene");
+				$("aliasIndic").hide();
+				return;
+			}
+			geneArray = g.split(",");
+			geneArray = geneArray.compact();
+			geneArray = geneArray.uniq();
+			$('commaAliasGenes').value = geneArray.join(",");
+			AliasLookup.lookup(geneArray.join(","));
+		},
+		'processClick' : function(g)	{
+			//add e to the line delim list in the manual add
+			if(g!="")	{
+				geneArray.push(g.strip());
+			}
+			geneArray = geneArray.compact();
+			geneArray = geneArray.uniq();
+			
+			try	{
+				FormChanger.upload2type();
+			}
+			catch(e) { }
+			$('typeListIds').style.border= "1px solid #AB0303";
+			$('typeSelector').value = "Gene|GENESYMBOL";
+			$('typeListIds').value = geneArray.join("\n");
+		}
+	};
