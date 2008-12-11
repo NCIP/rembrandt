@@ -350,7 +350,8 @@
 	     }
 	};
 	
-	var geneArray = new Array();
+	var geneArray = new Array(); //hold items sent for validation
+	var geneEnteredArray = new Array(); //holds items to be submitted, not wiped between each validation call
 	var AliasLookup = {
 		'lookup' : function(commas)	{
 			//send clean list to DynListHelper
@@ -412,12 +413,16 @@
 			geneArray = geneArray.compact();
 			geneArray = geneArray.uniq();
 			
+			geneEnteredArray = geneEnteredArray.concat(geneArray);
+			geneEnteredArray = geneEnteredArray.compact();
+			geneEnteredArray = geneEnteredArray.uniq();
+			
 			try	{
 				FormChanger.upload2type();
 			}
 			catch(e) { }
 			$('typeListIds').style.border= "1px solid #AB0303";
 			$('typeSelector').value = "Gene|GENESYMBOL";
-			$('typeListIds').value = geneArray.join("\n");
+			$('typeListIds').value = geneEnteredArray.join("\n");
 		}
 	};
