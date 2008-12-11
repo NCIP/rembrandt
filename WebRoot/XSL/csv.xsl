@@ -7,10 +7,19 @@
 <span>
 	 <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
  
-		 <xsl:value-of select="' , '"/>
+		<xsl:value-of select="' , '"/>
 		<xsl:for-each select="Row[(@name='dataRow')]">
 	  		<xsl:value-of select="Cell[1]/Data" />
-	  		<xsl:value-of select="' - '"/>
+	  		<xsl:if test="position() != last()">
+				<xsl:value-of select="', '"/>
+			</xsl:if>
+			<xsl:if test="position() = last()">
+				<xsl:text>&#10;</xsl:text>
+			</xsl:if>
+  		</xsl:for-each>
+  		
+  		<xsl:value-of select="' , '"/>
+  		<xsl:for-each select="Row[(@name='dataRow')]">
 	  		<xsl:value-of select="Cell[2]/Data" />
 	  		<xsl:if test="position() != last()">
 				<xsl:value-of select="', '"/>
@@ -19,6 +28,7 @@
 				<xsl:text>&#10;</xsl:text>
 			</xsl:if>
   		</xsl:for-each>
+		
 		<xsl:for-each select="Row[@name='sampleRow']">
 			<xsl:for-each select="Cell">
 			  	<xsl:if test="Data != ' '">
