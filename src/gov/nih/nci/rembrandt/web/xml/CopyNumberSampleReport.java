@@ -178,6 +178,10 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				        data = null;
 			        cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        data = cell.addElement("Data").addAttribute("type", "header").addText("Genes");
+			        data = null;
+		            cell = null;
+			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 				        data = cell.addElement("Data").addAttribute("type", "header").addText("Reporter");
 				        data = null;
 			        cell = null;
@@ -206,6 +210,11 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
 			        	data = null;
 			        cell = null;
+			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+		        		data = cell.addElement("Data").addAttribute("type", "header").addText("z ");
+		        		data = null;
+		        	cell = null;
+
 			        cell = sampleRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "csv").addAttribute("group", "header");
 			        	data = cell.addElement("Data").addAttribute("type", "header").addText(" ");
 			        	data = null;
@@ -280,8 +289,8 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				        		//this code will be cleaned up for 1.0
 				        		String genes = "";
 			        			try	{
+			        				if(reporterResultset.getAssiciatedGeneSymbols()!= null){
 					        		HashSet geneSymbols = new HashSet(reporterResultset.getAssiciatedGeneSymbols());
-					        		if(geneSymbols != null){
 					        			genes = StringUtils.join(geneSymbols.toArray(), delim);
 					        			
 					        		}
@@ -303,6 +312,12 @@ public class CopyNumberSampleReport implements ReportGenerator{
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(cytoband);
 							        	data = null;
 							        cell = null;
+							        
+							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "gene").addAttribute("group", "header");
+						        	data = cell.addElement("Data").addAttribute("type", "header").addText(genes);
+						        	data = null;
+						        	cell = null;
+							        
 							        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "reporter").addAttribute("group", "header");
 							        	data = cell.addElement("Data").addAttribute("type", "header").addText(reporterName);
 							        	data = null;
