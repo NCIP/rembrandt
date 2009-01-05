@@ -187,7 +187,8 @@ public class HierarchicalClusteringAction extends DispatchAction {
         UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session);
         
         // create GeneVectorPercentileDE
-            hierarchicalClusteringQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(new Double(hierarchicalClusteringForm.getVariancePercentile()),Operator.GE));
+        	Double hcVariance = new Double (hierarchicalClusteringForm.getVariancePercentile());
+            hierarchicalClusteringQueryDTO.setGeneVectorPercentileDE(new GeneVectorPercentileDE(hcVariance,Operator.LE));
         
         
         /*create GeneIdentifierDEs by looking in the cache for 
