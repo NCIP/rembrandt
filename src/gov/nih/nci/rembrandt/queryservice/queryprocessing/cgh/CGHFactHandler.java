@@ -211,6 +211,7 @@ abstract public class CGHFactHandler {
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria annotCrit = new Criteria();
                 annotCrit.addIn(GeneLlAccSnp.SNP_PROBESET_ID, values);
+                annotCrit.addNotNull(GeneLlAccSnp.GENE_SYMBOL);
                 long time = System.currentTimeMillis();
                 String threadID = "CGHHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
@@ -222,7 +223,7 @@ abstract public class CGHFactHandler {
                                   final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           ReportQueryByCriteria annotQuery =
                           QueryFactory.newReportQuery(GeneLlAccSnp.class, annotCrit, false);
-                          annotQuery.setAttributes(new String[] {GeneLlAccSnp.SNP_PROBESET_ID, GeneLlAccSnp.GENE_SYMBOL, GeneLlAccSnp.LOCUS_LINK_ID, GeneLlAccSnp.ACCESSION});
+                          annotQuery.setAttributes(new String[] {GeneLlAccSnp.SNP_PROBESET_ID, GeneLlAccSnp.GENE_SYMBOL}); //, GeneLlAccSnp.LOCUS_LINK_ID, GeneLlAccSnp.ACCESSION});
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
                           while (iter.hasNext()) {
@@ -234,9 +235,11 @@ abstract public class CGHFactHandler {
                                    a = new CopyNumber.SNPAnnotation(snpProbID, new HashSet(), new HashSet(), new HashSet());
                                    annotations.put(snpProbID, a);
                                  }
+                                 if(attrs[1] != null){
                                  a.getGeneSymbols().add(attrs[1]);
-                                 a.getLocusLinkIDs().add(attrs[2]);
-                                 a.getAccessionNumbers().add(attrs[3]);
+                                 }
+                                 //a.getLocusLinkIDs().add(attrs[2]);
+                                 //a.getAccessionNumbers().add(attrs[3]);
                               }
                           }
                           pb.close();
@@ -304,8 +307,8 @@ abstract public class CGHFactHandler {
             executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
 
             ThreadController.sleepOnEvents(factEventList);
-            //executeGeneAnnotationQuery(allSNPProbeIDs);
-            //ThreadController.sleepOnEvents(annotationEventList);
+            executeGeneAnnotationQuery(allSNPProbeIDs);
+            ThreadController.sleepOnEvents(annotationEventList);
 
             // by now CopyNumberObjects and annotations would have populated
             Object[]objs = (cghObjects.values().toArray());
