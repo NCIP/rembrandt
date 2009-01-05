@@ -101,7 +101,7 @@
 				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="pcaVariancePercentile"/>" />&nbsp;&nbsp;%
 			</logic:present>
 			<logic:present name="hierarchicalClusteringForm"> 
-			Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;
+			Constrain reporters by selecting top variance percentile:&nbsp;&nbsp;&le;
 				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="hcVariancePercentile"/>" />&nbsp;&nbsp;%
 			</logic:present>
 			
