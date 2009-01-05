@@ -81,7 +81,7 @@ public class UserPreferencesBean implements Serializable{
     private String geneSetName = "";
     private String reporterSetName = "";
     private int pcaVariancePercentile = 70;
-    private int hcVariancePercentile = 95;
+    private int hcVariancePercentile = 5; //95;
     
     public UserPreferencesBean(){
         
