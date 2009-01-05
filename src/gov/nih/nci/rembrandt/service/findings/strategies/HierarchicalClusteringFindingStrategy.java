@@ -293,7 +293,7 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 	 */
 	public boolean analyzeResultSet() throws FindingsAnalysisException {
 		hcRequest = new HierarchicalClusteringRequest(sessionId, taskId);
-		hcRequest.setVarianceFilterValue(myQueryDTO.getGeneVectorPercentileDE().getDecimalValue());
+		hcRequest.setVarianceFilterValue(1 - myQueryDTO.getGeneVectorPercentileDE().getDecimalValue());
 		hcRequest.setArrayPlatform(myQueryDTO.getArrayPlatformDE().getValueObjectAsArrayPlatformType());
 		hcRequest.setClusterBy(myQueryDTO.getClusterTypeDE().getValueObject());
 		if(reporterGroup != null){
