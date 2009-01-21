@@ -166,7 +166,15 @@ public class ApplicationContext{
 		     logger.fatal(exception);
 		     throw exception;
 		  }
-		  rembrandtProperties.load(in);  		   
+		  rembrandtProperties.load(in);  
+
+		  //load the second properties file
+		  propertiesFileName = System.getProperty("gov.nih.nci.rembrandtData.properties");
+		  in = new FileInputStream(propertiesFileName);
+		  if(propertiesFileName != null && in!=null)	{
+			  rembrandtProperties.load(in);  
+		  }
+		  
 		  String key = null;
 		  String val = null;
 		  for (Iterator i = rembrandtProperties.keySet().iterator(); i.hasNext(); ) {
