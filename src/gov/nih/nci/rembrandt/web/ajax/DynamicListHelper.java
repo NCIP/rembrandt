@@ -1,5 +1,9 @@
 package gov.nih.nci.rembrandt.web.ajax;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +32,7 @@ import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -172,6 +177,22 @@ public class DynamicListHelper {
 			jfeats = fs.toString();
 		}
 		return jfeats;
+	}
+	
+	public static String getReleaseNotes()	{
+		//read external release notes and return string, usually HTML
+		//find the HTML page
+		String ret = "";
+		String propertiesFileName = System.getProperty("rembrandt.application.releaseNotes");
+		File f = new File(propertiesFileName);
+		try {
+			ret = FileUtils.readFileToString(f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ret = "N/A";
+		}
+		return ret;
 	}
 	
 	public static String getGeneAliases(String gene)	{
