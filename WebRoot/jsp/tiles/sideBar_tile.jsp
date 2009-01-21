@@ -21,6 +21,18 @@
 <!--  end lists related -->
 
 <div width="100%">
+<table width="100%"><tr><td style="vertical-align:bottom;">
+<h3 style="vertical-align:bottom;">About</h3>
+</td><td width="40">
+<a href="javascript: Help.popHelp('Blue_panel');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about the side bar.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+</td></tr></table>
+<div style="font-size:0.8em;padding: 0px 0px 0px 0px;">
+	<span>Application Release: <b><%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%></b>
+	<br/>
+	Data Release Date: <b><%=System.getProperty("rembrandt.data.releaseDate")!=null ? System.getProperty("rembrandt.data.releaseDate") : "2009"%></b>
+	</span> 
+</div>
+
 <h3>Queries</h3>
 <html:form action ="delete_Query.do">
 <script type="text/javascript">
@@ -108,7 +120,7 @@ if(queryCollection != null)	{
 <%
 	
 }
-}	
+} 
 
 if(j !=0 && j>=2)	{
 	if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))))	{
