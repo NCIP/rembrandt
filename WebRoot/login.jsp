@@ -56,8 +56,17 @@ pageContext.setAttribute("map", map);
 				<tr>
 					<td>
 						<p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
-						About this application	
-						<br /><span style="font-size:.7em;text-align:right;">Release 1.5.3.1</span>
+							About this application<br />
+							<span style="font-size:.7em;text-align:right;">
+								Release <%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%>
+								<a style="font-size:1em;" href="#" onclick="$('releaseNotesDiv').toggle();return false;">[more info]</a>
+							</span>
+							<div style="">
+							<div id="releaseNotesDiv" style="padding:0px 0px 5px 5px;display:none;font-size:0.8em;background-color:#e0e0e0;"></div>
+							</div>
+							<script type="text/javascript">
+								new Ajax.Updater('releaseNotesDiv', 'releaseNotes.html');
+							</script>
 						</p>
 		 
 						<p style="padding:0px 5px 0px 5px ; font-size:.9em;">REpository for Molecular BRAin 
@@ -91,6 +100,22 @@ pageContext.setAttribute("map", map);
 				<tr>
 					<td>
 						<table width="100%" align="center" id="statTable" style="">
+							<tr>
+								<td colspan="3">
+								<p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
+									About the Data<br/>
+									<span style="font-size:0.7em;" class="mmsg">
+									Release Date: <%=System.getProperty("rembrandt.data.releaseDate")!=null ? System.getProperty("rembrandt.data.releaseDate") : "2009"%>
+									<a href="#" style="font-size:1.0em;" onclick="$(dataMoreInfo).toggle();return false;">[more info]</a>
+									</span>
+									<div id="dataMoreInfo" style="display:none; color:#000;font-size:0.8em;font-weight:normal; background-color:#e0e0e0;">
+										<h3>Additional Information about this data update:</h3> 
+										<%=System.getProperty("rembrandt.data.notes")!=null ? System.getProperty("rembrandt.data.notes") : "N/A"%>
+										<br/><br/>
+									</div>
+								</p>
+								</td>
+							</tr>
 							<tr style="background-color:#416599; color:#fff;">
 								<td width="33%" style="background-color:#fff;font-size:.9em; color:gray;">Data Statistics</td>
 								<td width="35%" style="font-size:.9em;padding:0px 5px 0px 5px;">
@@ -180,7 +205,7 @@ pageContext.setAttribute("map", map);
 <!--begin footer-->
 <div style="width:765; text-align:center; padding: 3px 0px 10px 0px; background-color:#D5E0E9">
     <a href="menu.do">HOME</a>  |  <a href="http://ncicbsupport.nci.nih.gov/sw/" target="_blank">SUPPORT</a>  |  <a href="http://ncicb.nci.nih.gov" target="_blank">NCICB HOME</a>
-    <br /><span style="font-size:.8em;text-align:right;">Release 1.5.3.1</span> 
+    <br /><span style="font-size:.8em;text-align:right;">Release <%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%></span> 
 </div>
 <!--end footer-->
 
