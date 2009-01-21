@@ -24,6 +24,7 @@ pageContext.setAttribute("map", map);
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
 <link rel="shortcut icon" href="images/favicon.ico" />
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
+<script type='text/javascript' src='dwr/engine.js'></script>
 <script language="javascript" src="js/caIntScript.js"></script>
 </head>
 <body>
@@ -61,11 +62,11 @@ pageContext.setAttribute("map", map);
 								Release <%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%>
 								<a style="font-size:1em;" href="#" onclick="$('releaseNotesDiv').toggle();return false;">[more info]</a>
 							</span>
-							<div style="">
-							<div id="releaseNotesDiv" style="padding:0px 0px 5px 5px;display:none;font-size:0.8em;background-color:#e0e0e0;"></div>
+							<div id="releaseNotesDiv" style="padding:0px 0px 5px 5px;display:none;font-size:0.8em;background-color:#e0e0e0;">
+								
 							</div>
 							<script type="text/javascript">
-								new Ajax.Updater('releaseNotesDiv', 'releaseNotes.html');
+								DynamicListHelper.getReleaseNotes(function(r) {$('releaseNotesDiv').update(r); });
 							</script>
 						</p>
 		 
