@@ -1,6 +1,17 @@
 <!-- Start Footer Table -->
 <div class="content">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+<!--  
+	<tr>
+		<td colspan="2" style="text-align:center;">
+		<div style="color:#416599;font-size:0.8em;text-align:right;text-align:center; padding: 3px 0px 3px 0px; background-color:#fff;">
+			<span>Release <%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%></span>
+			<span>&nbsp;&nbsp;&nbsp;&nbsp; </span> 
+			<span>Data Release Date: <%=System.getProperty("rembrandt.data.releaseDate")!=null ? System.getProperty("rembrandt.data.releaseDate") : "2009"%></span> 
+		</div>
+		</td>
+	</tr>
+-->
 	<tr>
 	<td style="width:150px">
 		<img src="images/caIntegratorLogoPower.png" alt="powered by caIntegrator" />
