@@ -67,6 +67,7 @@
 			<div class="rb" style="text-align:center">
 				<input style="" type="submit" value="login"/>
 			</div>
+			Trouble logging in? <a href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">Contact support</a>
 			<br/><br/>
 			<div id="loginMsg"></div>
 		</fieldset>
