@@ -109,7 +109,7 @@ public class SampleViewHandler {
         	if(geneExprSingleViewContainer == null){
         		geneExprSingleViewContainer = new GeneExprSingleViewResultsContainer();
         	}
-        	geneExprSingleViewContainer = GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleViewContainer,geneExprObj, groupType);
+        	GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleViewContainer,geneExprObj, groupType);
       		sampleResultset.setGeneExprSingleViewResultsContainer(geneExprSingleViewContainer);
            	//Populate the SampleViewResultsContainer
       		sampleViewContainer.addSampleResultset(sampleResultset);

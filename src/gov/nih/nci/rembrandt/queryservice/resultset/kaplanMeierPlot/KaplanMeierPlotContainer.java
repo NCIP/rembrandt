@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.ui.graphing.data.kaplanmeier.KaplanMeierSampleInfo;
+import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
@@ -285,6 +286,16 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	     for(Double intensity:intensityList){
 	    	 reporterList.add(meanIntensityMap.get(intensity));
 	     }
+	     //Make labels verbose
+	     // For the first one
+	     String firstReporter = (String) reporterList.get(0);
+	     String lastReporter = (String) reporterList.get(reporterList.size()-1);
+	     firstReporter = firstReporter.concat(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+	     lastReporter = lastReporter.concat(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
+	     reporterList.remove(0);
+	     reporterList.add(0,firstReporter);
+	     reporterList.remove(reporterList.size()-1);
+	     reporterList.add(reporterList.size(),lastReporter);
 	     return reporterList;
 	 }
 	/**

@@ -75,7 +75,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
 */
 
 public class GeneExprSingleViewHandler extends GeneExprViewHandler{
-		public static GeneExprSingleViewResultsContainer handleGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, GeneExprSingleInterface exprObj,GroupType groupType){
+		public static void handleGeneExprSingleView(GeneExprSingleViewResultsContainer geneViewContainer, GeneExprSingleInterface exprObj,GroupType groupType){
 		GeneResultset geneResultset = null;
 		ReporterResultset reporterResultset = null;
 		SampleFoldChangeValuesResultset biospecimenResultset = null;
@@ -118,7 +118,7 @@ public class GeneExprSingleViewHandler extends GeneExprViewHandler{
       		//add the reporter to geneResultset
       		geneViewContainer.addGeneResultset(geneResultset);
       	}
-      	return geneViewContainer;
+      	//return geneViewContainer;
     }
 
 
