@@ -387,6 +387,7 @@ public class GenePlotDataSet {
 				}
                 }
 			}
+			resultant = null;
 	   }
 	   
 	   public DefaultStatisticalCategoryDataset getLog2Dataset() {
