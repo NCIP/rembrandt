@@ -467,7 +467,17 @@ public class QuickSearchAction extends DispatchAction {
 					} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_BLANK)){
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
 					} else{
-						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+						String reporter = kmForm.getSelectedReporter();
+						int pos = 0;
+							 if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
+								pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+								reporter = reporter.substring(0,pos);
+							} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)){
+								kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+								pos = reporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
+								reporter = reporter.substring(0,pos);
+							}
+						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
 					}
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
