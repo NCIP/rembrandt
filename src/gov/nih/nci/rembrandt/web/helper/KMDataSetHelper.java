@@ -86,13 +86,14 @@ public class KMDataSetHelper {
 		}
 		if (_plotType != null && _kmForm != null) {		
 			if ( _plotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-				//if(_kmForm.getReporterSelection()!= null &&
-				//		_kmForm.getReporterSelection().equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
-				//	reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
-				//}else{
-					//reporters.add(0, CaIntegratorConstants.GRAPH_MEDIAN);
-					//reporters.add(reporters.size(), CaIntegratorConstants.GRAPH_MEAN);
-				//}
+				if(_kmForm.getReporterSelection()!= null &&
+						_kmForm.getReporterSelection().equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
+					reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
+				}else if(_kmForm.getReporterSelection()!= null &&
+						_kmForm.getReporterSelection().equals(RembrandtConstants.REPORTER_SELECTION_AFFY)){
+					reporters.add(reporters.size(), CaIntegratorConstants.GRAPH_MEDIAN);
+					reporters.add(reporters.size(), CaIntegratorConstants.GRAPH_MEAN);
+				}
 			}
 			if (_plotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)
 					&& reporters.size() > 1) {
