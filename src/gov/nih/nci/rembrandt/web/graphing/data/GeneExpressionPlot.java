@@ -284,7 +284,7 @@ public class GeneExpressionPlot {
 					null /*"Gene Expression Plot (" + gene.toUpperCase() + ")"*/, // chart
 																			// title
 					"Groups", // domain axis label
-					"Medain Expression Intensity", // range axis label
+					"Median Expression Intensity", // range axis label
 					medianDataset, // data
 					PlotOrientation.VERTICAL, // orientation
 					true, // include legend
