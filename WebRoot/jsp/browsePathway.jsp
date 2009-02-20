@@ -89,12 +89,15 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   response.flushBuffer();	
   try{  
   		
-  	String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabio.nci.nih.gov/cacore31";
-     URL url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]");  
+  	String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio42";
+     URL url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&startIndex=0&pageSize=1000");  
    
      String urlLink = (String)request.getParameter("url");      
-     if(urlLink != null && urlLink.equals("2")){
-        url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&resultCounter=1000&startIndex=0"); 
+     if(urlLink != null && urlLink.equals("next")){
+        url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&pageSize=1000&startIndex=1000"); 
+      }
+     else if(urlLink != null && urlLink.equals("previous")){
+        url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&pageSize=1000&startIndex=0"); 
       }
     SAXReader reader = new SAXReader();    
     Document reportXML = reader.read(url);  
