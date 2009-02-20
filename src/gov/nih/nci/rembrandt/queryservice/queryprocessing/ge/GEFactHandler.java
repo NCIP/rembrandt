@@ -97,24 +97,16 @@ import org.apache.ojb.broker.query.QueryFactory;
 * 
 */
 
-abstract public class GEFactHandler {
+public class GEFactHandler {
     private static Logger logger = Logger.getLogger(GEFactHandler.class);
-     Map geneExprObjects = Collections.synchronizedMap(new HashMap());
-     Map cloneAnnotations = Collections.synchronizedMap(new HashMap());
-     Map probeAnnotations = Collections.synchronizedMap(new HashMap());
-     Map geneAnnotations = Collections.synchronizedMap(new HashMap());
+     Map geneExprObjects = null;//Collections.synchronizedMap(new HashMap());
+     Map cloneAnnotations = null;//Collections.synchronizedMap(new HashMap());
+     Map probeAnnotations = null;//Collections.synchronizedMap(new HashMap());
+     Map geneAnnotations = null;//Collections.synchronizedMap(new HashMap());
      Integer geneExprCount = 0;
      private final static int VALUES_PER_THREAD = 50;
      List factEventList = Collections.synchronizedList(new ArrayList());
-     abstract void addToResults(Collection results);
-     abstract void addCountToResults(int count);
      List annotationEventList = Collections.synchronizedList(new ArrayList());
-     abstract ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query)
-     throws Exception;
-
-     abstract ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery query)
-     throws Exception;
-
 
       protected void executeQuery(final String probeOrCloneIDAttr, Collection probeOrCloneIDs, final Class targetFactClass, GeneExpressionQuery geQuery ) throws Exception {
             ArrayList arrayIDs = new ArrayList(probeOrCloneIDs);
@@ -408,10 +400,13 @@ abstract public class GEFactHandler {
             }
     }
 
-
-    public final static class SingleGEFactHandler extends GEFactHandler {
         ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery geQuery)
         throws Exception {
+            geneExprObjects = Collections.synchronizedMap(new HashMap());
+            cloneAnnotations = Collections.synchronizedMap(new HashMap());
+            probeAnnotations = Collections.synchronizedMap(new HashMap());
+            geneAnnotations = Collections.synchronizedMap(new HashMap());
+
             AllGenesCritValidator.validateSampleIDCrit(geQuery);
 
             PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
@@ -467,6 +462,10 @@ abstract public class GEFactHandler {
 
         ResultSet[] executeSampleQuery( final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
         throws Exception {
+            geneExprObjects = Collections.synchronizedMap(new HashMap());
+            cloneAnnotations = Collections.synchronizedMap(new HashMap());
+            probeAnnotations = Collections.synchronizedMap(new HashMap());
+            geneAnnotations = Collections.synchronizedMap(new HashMap());
             logger.debug("Total Number Of Probes:" + allProbeIDs.size());
             logger.debug("Total Number Of Clones:" + allCloneIDs.size());
 
@@ -514,6 +513,7 @@ abstract public class GEFactHandler {
             return geneExprCount;
         }
         void addToResults(Collection exprObjects) {
+        	
             for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
                 DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
                 GeneExpr.GeneExprSingle singleExprObj = new GeneExpr.GeneExprSingle();
@@ -552,63 +552,62 @@ abstract public class GEFactHandler {
             singleExprObj.setSurvivalLengthRange(exprObj.getSurvivalLengthRange());
             singleExprObj.setTimecourseId(exprObj.getTimecourseId());
         }
-    }
-    final static class GroupGEFactHanlder extends GEFactHandler {
-            ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
-            throws Exception {
-                if (query.getSampleIDCrit() != null)
-                    throw new Exception("Samples can not be applied to this gorup view ");
-                executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, query);
-                executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, query);
-                //sleepOnFactEvents();
-                ThreadController.sleepOnEvents(factEventList);
-
-                // geneExprObjects would have populated by this time Convert these in to Result objects
-                Object[]objs = (geneExprObjects.values().toArray());
-                GeneExpr.GeneExprGroup[] results = new GeneExpr.GeneExprGroup[objs.length];
-                for (int i = 0; i < objs.length; i++) {
-                    GeneExpr.GeneExprGroup obj = (GeneExpr.GeneExprGroup) objs[i];
-                    results[i] = obj;
-                }
-                return results;
-            }
-
-            ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery query) throws Exception {
-                throw new Exception ("This method is not Supported for Disease Group");
-            }
-
-            void addToResults(Collection exprObjects) {
-                for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
-                    DifferentialExpressionGfact exprObj = (DifferentialExpressionGfact) iterator.next();
-                    GeneExpr.GeneExprGroup groupExprObj = new GeneExpr.GeneExprGroup();
-                    copyTo(groupExprObj, exprObj);
-                    geneExprObjects.put(groupExprObj.getDegId(), groupExprObj);
-                    exprObj = null;
-                }
-            }
-            private void copyTo(GeneExpr.GeneExprGroup groupExprObj, DifferentialExpressionGfact  exprObj) {
-                groupExprObj.setDegId(exprObj.getDegId());
-                groupExprObj.setCloneId(exprObj.getCloneId());
-                groupExprObj.setCloneName(exprObj.getCloneName());
-                groupExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());
-                groupExprObj.setDiseaseType(exprObj.getDiseaseType());
-                groupExprObj.setExpressionRatio(exprObj.getExpressionRatio());
-                groupExprObj.setGeneSymbol(exprObj.getGeneSymbol());
-                groupExprObj.setProbesetId(exprObj.getProbesetId());
-                groupExprObj.setProbesetName(exprObj.getProbesetName());
-                groupExprObj.setNormalIntensity(exprObj.getNormalIntensity());
-                groupExprObj.setSampleIntensity(exprObj.getSampleGIntensity());
-                groupExprObj.setRatioPval(exprObj.getRatioPval());
-                groupExprObj.setTimecourseId(exprObj.getTimecourseId());
-                groupExprObj.setStandardDeviationRatio(exprObj.getStandardDeviationRatio());
-            }
-
-			@Override
-			synchronized void addCountToResults(int count) {
-				// TODO Auto-generated method stub
-				
-			}
-        }
+//    final static class GroupGEFactHanlder extends GEFactHandler {
+//            ResultSet[] executeSampleQuery(final Collection allProbeIDs, final Collection allCloneIDs, GeneExpressionQuery query )
+//            throws Exception {
+//                if (query.getSampleIDCrit() != null)
+//                    throw new Exception("Samples can not be applied to this gorup view ");
+//                executeQuery(DifferentialExpressionGfact.PROBESET_ID, allProbeIDs, DifferentialExpressionGfact.class, query);
+//                executeQuery(DifferentialExpressionGfact.CLONE_ID, allCloneIDs, DifferentialExpressionGfact.class, query);
+//                //sleepOnFactEvents();
+//                ThreadController.sleepOnEvents(factEventList);
+//
+//                // geneExprObjects would have populated by this time Convert these in to Result objects
+//                Object[]objs = (geneExprObjects.values().toArray());
+//                GeneExpr.GeneExprGroup[] results = new GeneExpr.GeneExprGroup[objs.length];
+//                for (int i = 0; i < objs.length; i++) {
+//                    GeneExpr.GeneExprGroup obj = (GeneExpr.GeneExprGroup) objs[i];
+//                    results[i] = obj;
+//                }
+//                return results;
+//            }
+//
+//            ResultSet[] executeSampleQueryForAllGenes(GeneExpressionQuery query) throws Exception {
+//                throw new Exception ("This method is not Supported for Disease Group");
+//            }
+//
+//            void addToResults(Collection exprObjects) {
+//                for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
+//                    DifferentialExpressionGfact exprObj = (DifferentialExpressionGfact) iterator.next();
+//                    GeneExpr.GeneExprGroup groupExprObj = new GeneExpr.GeneExprGroup();
+//                    copyTo(groupExprObj, exprObj);
+//                    geneExprObjects.put(groupExprObj.getDegId(), groupExprObj);
+//                    exprObj = null;
+//                }
+//            }
+//            private void copyTo(GeneExpr.GeneExprGroup groupExprObj, DifferentialExpressionGfact  exprObj) {
+//                groupExprObj.setDegId(exprObj.getDegId());
+//                groupExprObj.setCloneId(exprObj.getCloneId());
+//                groupExprObj.setCloneName(exprObj.getCloneName());
+//                groupExprObj.setDiseaseTypeId(exprObj.getDiseaseTypeId());
+//                groupExprObj.setDiseaseType(exprObj.getDiseaseType());
+//                groupExprObj.setExpressionRatio(exprObj.getExpressionRatio());
+//                groupExprObj.setGeneSymbol(exprObj.getGeneSymbol());
+//                groupExprObj.setProbesetId(exprObj.getProbesetId());
+//                groupExprObj.setProbesetName(exprObj.getProbesetName());
+//                groupExprObj.setNormalIntensity(exprObj.getNormalIntensity());
+//                groupExprObj.setSampleIntensity(exprObj.getSampleGIntensity());
+//                groupExprObj.setRatioPval(exprObj.getRatioPval());
+//                groupExprObj.setTimecourseId(exprObj.getTimecourseId());
+//                groupExprObj.setStandardDeviationRatio(exprObj.getStandardDeviationRatio());
+//            }
+//
+//			@Override
+//			synchronized void addCountToResults(int count) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//        }
     }
 
 

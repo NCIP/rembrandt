@@ -100,7 +100,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
         AllGenesCriteria allGenesCrit = geQuery.getAllGenesCrit();
         if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
 
-            if (! (factHandler instanceof GEFactHandler.SingleGEFactHandler))
+            if (! (factHandler instanceof GEFactHandler))
             throw new Exception("AllGenes criteria is not allowed for Disease view");
 
             if (null == geQuery.getSampleIDCrit())
@@ -119,9 +119,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
     	if (geQuery.getAssociatedView() instanceof GeneExprSampleView ||
         		geQuery.getAssociatedView()instanceof ClinicalSampleView ||
         		geQuery.getAssociatedView()instanceof CopyNumberSampleView)
-                factHandler = new GEFactHandler.SingleGEFactHandler();
-        else if (geQuery.getAssociatedView() instanceof GeneExprDiseaseView)
-                factHandler = new GEFactHandler.GroupGEFactHanlder();
+                factHandler = new GEFactHandler();
         else throw new Exception("Illegal View.  This view is not supported in this Query:");
 
         

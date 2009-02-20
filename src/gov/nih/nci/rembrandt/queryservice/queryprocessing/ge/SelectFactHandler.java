@@ -81,7 +81,7 @@ abstract public class SelectFactHandler implements Runnable{
      Criteria sampleCrit;
      Collection values;
      DBEvent.FactRetrieveEvent dbEvent;
-     Map geneExprObjects;
+     Map geneExprObjects_NewName;
      protected String probeOrCloneIDAttr;
 
     public DBEvent.FactRetrieveEvent getDbEvent() {
@@ -115,7 +115,7 @@ abstract public class SelectFactHandler implements Runnable{
         for (Iterator iterator = exprObjects.iterator(); iterator.hasNext();) {
             DifferentialExpressionSfact exprObj = (DifferentialExpressionSfact) iterator.next();
             if (exprObj != null)
-                geneExprObjects.put(exprObj.getDesId(), exprObj);
+            	geneExprObjects_NewName.put(exprObj.getDesId(), exprObj);
             	logger.debug("BIO ID:" + exprObj.getDesId());
         }
         _BROKER.close();
