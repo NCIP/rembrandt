@@ -99,8 +99,8 @@ import org.apache.log4j.Logger;
 public class ResultsetProcessor {
 	private static Logger logger = Logger.getLogger(ResultsetProcessor.class);
  	public static ResultsContainer handleGeneExprSingleView(Resultant resultant, GeneExpr.GeneExprSingle[] geneExprObjects, GroupType groupType) throws Exception{
- 		DimensionalViewContainer dimensionalViewContainer;
-      	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer;
+ 		DimensionalViewContainer dimensionalViewContainer = null;;
+      	GeneExprSingleViewResultsContainer geneExprSingleResultsContainer = null;
     	SampleViewResultsContainer sampleViewResultsContainer;
   		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
  			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
@@ -137,7 +137,7 @@ public class ResultsetProcessor {
             	if (obj instanceof GeneExpr.GeneExprSingle)  {
 	              	//Propulate the GeneExprSingleResultsContainer
 	               	GeneExprSingle  exprObj = (GeneExpr.GeneExprSingle) obj;
-	               	geneExprSingleResultsContainer = GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleResultsContainer,exprObj, groupType);
+	               	GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleResultsContainer,exprObj, groupType);
 	               	//Populate the SampleViewResultsContainer
 	               	sampleViewResultsContainer = SampleViewHandler.handleSampleView(sampleViewResultsContainer,exprObj,groupType);
 	               	dimensionalViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
@@ -180,9 +180,9 @@ public class ResultsetProcessor {
 	}
 	public static ResultsContainer handleCopyNumberSingleView(Resultant resultant, CopyNumber[] copyNumberObjects, GroupType groupType) throws Exception{
  		ResultsContainer resultsContainer = null;
- 		DimensionalViewContainer dimensionalViewContainer;
- 		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer;
-    	SampleViewResultsContainer sampleViewResultsContainer;
+ 		DimensionalViewContainer dimensionalViewContainer = null;
+ 		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = null;
+    	SampleViewResultsContainer sampleViewResultsContainer = null;
   		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
  			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
   	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
@@ -357,7 +357,7 @@ public class ResultsetProcessor {
 	 					if (obj instanceof UnifiedGeneExpr.UnifiedGeneExprSingle)  {
 		              	//Propulate the GeneExprSingleResultsContainer
 	 					UnifiedGeneExpr.UnifiedGeneExprSingle  exprObj = (UnifiedGeneExpr.UnifiedGeneExprSingle) obj;
-		               	geneExprSingleResultsContainer = GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleResultsContainer,exprObj, groupType);
+		               	GeneExprSingleViewHandler.handleGeneExprSingleView(geneExprSingleResultsContainer,exprObj, groupType);
 		               	//Populate the SampleViewResultsContainer
 		               	sampleViewResultsContainer = SampleViewHandler.handleSampleView(sampleViewResultsContainer,exprObj,groupType);
 		               	dimensionalViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
