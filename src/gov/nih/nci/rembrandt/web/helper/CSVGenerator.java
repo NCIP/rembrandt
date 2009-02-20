@@ -129,41 +129,49 @@ public class CSVGenerator  {
 		 			if (view instanceof GeneExprSampleView)	{ 
 		 				html.append("Gene Expression Fold Change (Tumor/Non-tumor)\n");
 		 				html.append(geneExprSampleView(resultsContainer));
+		 				resultant = null;
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof CopyNumberSampleView)	{ 
 		 				html.append("Copy Number Data\n");
 		 				html.append(copyNumberSampleView(resultsContainer));
+		 				resultant = null;
 		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
 		 				html.append("Mean Gene Expression Fold Change for Tumor Sub-types\n");
 		 				html.append(geneExprDiseaseView(resultsContainer));
+		 				resultant = null;
 		 				return html.toString();
 		 			}
 	 				else if(view instanceof ClinicalSampleView){
 	 					html.append("Sample Report\n");
 	 					html.append(clinicalSampleView(resultsContainer));
+	 					resultant = null;
 	 					return html.toString();
 	 				}	
 	 				else	{
 						errors.append("Error with report view");
+						resultant = null;
 						return errors.toString();
 					}
 			 	}
 			 	else	{
 			 		errors.append("No Results Found, Try a Different Query\n");
+			 		resultant = null;
 			 		return errors.toString();
 			 	}
 			 } //resultant != null
 			 else	{
 			 	errors.append("Resultant is NULL\n");
+			 	resultant = null;
 			 	return errors.toString();
 			 }
 		}
 		
 		catch(Exception e)	{
 			errors.append("Error Displaying the Report.\n");
+			resultant = null;
 			return errors.toString();
 		}
 		

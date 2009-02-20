@@ -570,10 +570,10 @@ public class ReportGeneratorHelper {
 			}else
 				presentationTierCache.addNonPersistableToSessionCache(_sessionId,_queryName,_reportBean);
 		   			   
-		    	
 		}else {
 			throw new IllegalStateException("There is no resultant to create report");
 		}
+		_reportBean = null;
 	}
 	
 	public static void generateReportXML(Finding finding)	{
