@@ -67,9 +67,9 @@
 						
 						  <tr bgcolor="#D5E0E9">
 							   <xsl:for-each select="field">										
-									<xsl:if test="@name = 'description'">
+									<xsl:if test="@name = 'displayValue'">
 									    <th align ="left" width="800">
-										Pathway Description for "<xsl:value-of select="substring(../field[position()=4],3)"/>"
+										Pathway Description for <xsl:value-of select="substring(../field[@name='name'],3)"/> ( <xsl:value-of select="."/> )
 										<!--
 										   <xsl:value-of select="@name = 'name"/></xls>
 										 -->
@@ -98,9 +98,9 @@
 				  </tr>
 				  <tr bgcolor="#FFFFFF" align="left" valign="top">					
 					 <xsl:for-each select="field">								
-							<xsl:if test="@name = 'description'">
+							<xsl:if test="@name = 'name'">
 								<th align ="middle" width="800">
-								    <b>Gene Information for "<xsl:value-of select="substring(../field[position()=4],3)"/>"</b>									
+								    <b>Gene Information for <xsl:value-of select="substring(../field[@name='name'],3)"/></b>									
 								</th>
 							</xsl:if>
 					</xsl:for-each>

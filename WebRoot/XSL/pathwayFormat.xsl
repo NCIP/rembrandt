@@ -112,15 +112,16 @@
 						
 						<tr bgcolor="#D5E0E9">
 							<xsl:for-each select="field">	
-							              <xsl:if test="@name = 'id'">    		  							    
+							    <xsl:if test="@name = 'bigid'">    		  							    
 								       	 <th width="40">
 										No
 									 </th>									
 									</xsl:if>
+							
 							                 
 									<xsl:if test="@name = 'name'">							 
 									   
-		  							    <th width="200">
+		  							    <th width="500">
 										Pathway Name	
 									    </th>
 									   
@@ -139,18 +140,19 @@
  				        
 						<xsl:for-each select="field">				
 	
-	 				      <xsl:variable name="pathId" select="../field[position()=1]"/>	
-	 				      <xsl:variable name="pathName" select="substring(../field[position()=4],3)" />
-	 							<xsl:if test ="@name = 'id'" >
+	 				      <xsl:variable name="pathId" select="../field[@name='bigid']"/>	
+	 				      <xsl:variable name="pathName" select="substring(../field[@name='name'],3)" />
+	 							 
+	 							<xsl:if test ="@name = 'bigid'" >
 								  
 								   <td width="40" nowrap="off">
-								     <!--<xsl:value-of select="."/>-->
-								     <xsl:value-of select="$counter "/>
+								   	<xsl:value-of select="$counter "/>
 								   </td>
 								</xsl:if>
 								
+								
 								<xsl:if test ="@name = 'name'" >
-									<td width="200" nowrap="off">							   
+									<td width="500" nowrap="off">							   
 									 
 								      <input type="checkbox" value="{$pathName}" name="pathwayName"/>
 									   <a href="geneResults.jsp?id={$pathId}" target="_blank">									  						
@@ -188,9 +190,12 @@
 		<xsl:for-each select="/xlink:httpQuery/queryResponse/previous">
 			<td bgcolor="#E0FFFF">
 				<font color="#25587E">
+					<a href="browsePathway.jsp?url=previous"> Previous </a>
+					<!-- 
 					<a href="{@xlink:href}">
 						<xsl:value-of select="."/>
 					</a>
+					-->
 				</font>
 			</td>
 		</xsl:for-each>
@@ -199,9 +204,12 @@
 		<xsl:for-each select="/xlink:httpQuery/queryResponse/next">
 			<td bgcolor="#E0FFFF">
 				<font color="#25587E">
+					 <a href="browsePathway.jsp?url=next"> Next </a>
+					<!-- 
 					<a href="{@xlink:href}">
 						<xsl:value-of select="."/>
 					</a>
+					-->
 				</font>
 			</td>
 		</xsl:for-each>
@@ -214,7 +222,7 @@
 						<font color="#25587E">						
 						<xsl:choose>
 		                   
-		                     <xsl:when test="@xlink:href = 'http://cabio.nci.nih.gov/cacore31/GetXML?query=Pathway&amp;Taxon[@abbreviation=Hs]&amp;pageNumber=1&amp;resultCounter=1000&amp;startIndex=0'">  
+		                     <xsl:when test="@xlink:href = 'http://cabioapi-qa.nci.nih.gov/cabio42/GetXML?query=Pathway&amp;Taxon[@abbreviation=Hs]&amp;pageNumber=1&amp;resultCounter=1000&amp;startIndex=0'">  
 								 <a href="browsePathway.jsp?url=1">
 								    <xsl:value-of select="."/>
 							     </a>
