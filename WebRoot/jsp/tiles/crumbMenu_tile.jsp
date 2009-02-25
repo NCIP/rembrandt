@@ -12,7 +12,7 @@
 <a style="font-size:.8em" href="javascript:Help.popHelp('Welcome');">help</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="docs/rembrandt_1.5.2_users_guide.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="docs/REMBRANDT_1.5_Users_Guide.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="javascript:Help.popHelp('cite_data');">cite data</a>&nbsp;&nbsp;&nbsp;
 </span>
   <span style="text-align:right;font-size:.85em;">
