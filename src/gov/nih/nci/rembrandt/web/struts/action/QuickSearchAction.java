@@ -219,6 +219,10 @@ public class QuickSearchAction extends DispatchAction {
            		List reporters = kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity();
            		if(reporters != null  && reporters.size() > 0){
            			String highestIntensityReporter = (String) reporters.get(0);
+           		 if (highestIntensityReporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
+						int pos = highestIntensityReporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+						highestIntensityReporter = highestIntensityReporter.substring(0,pos);
+					}
     				kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(highestIntensityReporter);
            		}
 				if(kmResultsContainer.getGeneSymbol()!= null){
@@ -446,10 +450,21 @@ public class QuickSearchAction extends DispatchAction {
         }
 		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
 			List reporterList = kmResultsContainer.getAssociatedReporters();
-			if ((kmForm.getSelectedReporter().trim().length() > 0  ) &&
-					((reporterList.contains(kmForm.getSelectedReporter())||
-							kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)
-							|| kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEDIAN)))) {    
+			String reporter = kmForm.getSelectedReporter();
+			//remove extra formatting
+			int pos = 0;
+			 if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
+				pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+				reporter = reporter.substring(0,pos).trim();
+			} else if (reporter.contains(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)){
+				pos = reporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
+				reporter = reporter.substring(0,pos).trim();
+			} 
+			 
+			if ((reporter.trim().length() > 0  ) &&
+					((reporterList.contains(reporter)||
+							reporter.equals(CaIntegratorConstants.GRAPH_MEAN)
+							|| reporter.equals(CaIntegratorConstants.GRAPH_MEDIAN)))) {    
 				kmForm.setPlotVisible(true);
 			} else { // empty graph
 				KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
@@ -458,40 +473,28 @@ public class QuickSearchAction extends DispatchAction {
 			}
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
-					if (kmForm.getSelectedReporter().equals(
+					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
-					} else if (kmForm.getSelectedReporter().equals(
+					} else if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEDIAN)) {
 						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
-					} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_BLANK)){
-						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
-					} else{
-						String reporter = kmForm.getSelectedReporter();
-						int pos = 0;
-							 if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
-								pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
-								reporter = reporter.substring(0,pos);
-							} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)){
-								kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
-								pos = reporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
-								reporter = reporter.substring(0,pos);
-							}
+					} else if (!reporter.equals(CaIntegratorConstants.GRAPH_BLANK)){
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
 					}
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
-					if (kmForm.getSelectedReporter().equals(
+					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
-					} else if (kmForm.getSelectedReporter().equals(
+					} else if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEDIAN)) {
 						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
-					} else if (!kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_BLANK)){
-						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+					} else if (!reporter.equals(CaIntegratorConstants.GRAPH_BLANK)){
+						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
 					}
 					else{
-						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(kmForm.getSelectedReporter());
+						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
 					}
 				}
 
