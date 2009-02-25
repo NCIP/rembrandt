@@ -14,7 +14,7 @@ if(P=="Eliminating_aliases")C="rembrandt_Simple_Searches.5.4.html#1134211";
 if(P=="Simple_gene_expression_plot")C="rembrandt_Simple_Searches.5.5.html#1100403";
 if(P=="Coin_plot")C="rembrandt_Simple_Searches.5.10.html#1118993";
 if(P=="Gene_expression_new_window")C="rembrandt_Simple_Searches.5.11.html#1118352";
-if(P=="Simple_KM_gene_expression_plot")C="rembrandt_Simple_Searches.5.14.html#1080837";
+if(P=="Simple_KM_gene_expression_plot")C="rembrandt_Simple_Searches.5.14.html#1181489";
 if(P=="Simple_KM_copy_number_plot")C="rembrandt_Simple_Searches.5.17.html#1101247";
 if(P=="Simple_KM_sample_plot")C="rembrandt_Simple_Searches.5.19.html#1101398";
 if(P=="Advanced_overview")C="rembrandt_Adv_Searches.6.2.html#1110870";
