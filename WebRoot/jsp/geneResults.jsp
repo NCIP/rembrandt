@@ -51,7 +51,7 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
   response.flushBuffer();	
   try{
     String id = (String)request.getParameter("id");    
-    URL url = new URL("http://cabioapi-qa.nci.nih.gov/cabio42/GetXML?query=Pathway[@bigid="+id+"]");     
+    URL url = new URL("http://cabioapiqa.nci.nih.gov/cabio42/GetXML?query=Pathway[@bigid="+id+"]");     
     SAXReader reader = new SAXReader();    
     Document reportXML = reader.read(url);    
     ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_PATHWAY_DESC_XSLT_FILENAME,out);
