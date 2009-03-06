@@ -30,5 +30,8 @@
     <create creator="new" javascript="GenePatternHelper">
           <param name="class" value="gov.nih.nci.rembrandt.web.ajax.GenePatternHelper"/>
     </create>
+    <create creator="new" javascript="WorkspaceHelper">
+          <param name="class" value="gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper"/>
+    </create>
   </allow>
 </dwr>

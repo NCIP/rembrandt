@@ -18,11 +18,22 @@
     	<put name="mainForm" value="" /><!-- main form page, read from props file -->
     </definition>
 
+<!-- 
+Why is applets defined as decoy in EVERY def instead of just being in the parent and inherited?
+ -->
+
     <definition name="nautilus.manageLists" extends="baseDef">
     	<put name="title" value="Rembrandt Manage Lists" />
     	<put name="sideBar" value="/jsp/tiles/sideBar_tile.jsp" />
     	<put name="mainForm" value="/manageLists.jsp" />
-    	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=5" />
+    	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=7" />
+    	<put name="applets" value="/decoy.jsp" />
+    </definition>
+    <definition name="nautilus.manageWorkspace" extends="baseDef">
+    	<put name="title" value="Rembrandt Manage Workspace" />
+    	<put name="sideBar" value="/jsp/tiles/sideBar_tile.jsp" />
+    	<put name="mainForm" value="/jsp/tiles/manageWorkspace_tile.jsp" />
+    	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=7" />
     	<put name="applets" value="/decoy.jsp" />
     </definition>
 

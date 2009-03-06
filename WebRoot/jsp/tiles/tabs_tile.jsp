@@ -58,6 +58,7 @@
 	String simple = "";
 	String adv = "";
 	String viewResults = "";
+	String myWorkspace = "";
 	String analysis = "";
 	String secondary = "";
 	String list = "";
@@ -84,6 +85,12 @@
 							"<li><a href=\"viewResults.do\">Report Results</a></li>\n" +
 							"<li><a href=\"gpProcess.do?method=setup\">GenePattern Job Results</a></li>\n" +							
 							"</ul>\n";
+	String myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
+							"<li><a href=\"#\">Manage Lists</a></li>\n" +
+							"<li><a href=\"manageWorkspace.do\">Organize</a></li>\n" +
+							"<li><a href=\"importExportWorkspace.do?method=initImport\">Import</a></li>\n" +
+							"<li><a href=\"importExportWorkspace.do?method=initExport\">Export</a></li>\n" +							
+							"</ul>\n";
 							
 	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;
 	if(s != null)	{
@@ -96,6 +103,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
 				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
 			case 2:
@@ -105,6 +113,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
 				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
 			case 3:
@@ -114,6 +123,7 @@
 				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n" + resultSecondary;
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
 				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
 			case 4:
@@ -123,6 +133,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<span>High Order Analysis</span>\n" + analysisSecondary;
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
 				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
 			case 5:
@@ -132,15 +143,26 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<span>Manage Lists</span>\n";
+				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
 				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
-			case 6:
+			case 6: //download
 				simple = "<a href=\"home.do\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
 				download="<span>Download</span>\n";
+				break;
+			case 7: //myworkspace
+				simple = "<a href=\"home.do\">Simple Search</a>";
+				adv = "<a href=\"menu.do\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				myWorkspace="<span>My Workspace</span>\n" + myWorkspaceSecondary;
+				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
 			case 0:
 			default:
@@ -149,6 +171,7 @@
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
 				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
 		}
@@ -160,7 +183,7 @@
 		<li><%= adv %></li>
 		<li><%= analysis %></li>
 		<li><%= viewResults %></li>
-		<li><%= list %></li>
+		<li><%= myWorkspace %></li>
 		<li><%= download %></li>
 	</ul>
 </div>
