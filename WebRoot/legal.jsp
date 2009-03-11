@@ -51,42 +51,42 @@
                    data for the purposes of familiarizing
                     yourself with the structure of the
                      database and interface, evaluate its
-                      usefulness and provide <a href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a> to
-                       the development team. You also may
-                        use the data provided here for
-                         research projects in which you
-                          are involved at present, or to
-                           test hypothesis to develop
-                            future research projects.
-                             Although the raw data will
-                              be available for download 
-                              in an upcoming release of 
-                              the Database, this 
-                              functionality is disabled 
-                              at the moment. It is
-                               requested that reference to,
-                                and acknowledgement of, the
-                                 GMDI and REMBRANDT be
-                                  made in any manuscripts
-                                   that result from the
-                                    direct use of the data 
-                                    contained within. You
-                                     may encounter
-                                      documents or
-                                       portions of
-                                        documents contributed by 
-                                        private institutions or organizations.
-                                         Other parties may retain all rights to
-                                          publish or produce these documents.
-                                           Commercial use of the documents on 
-                                           this site may be protected under United
-                                            States and foreign copyright laws. In
-                                             addition, some of the data may be the 
-                                             subject of patent applications or
-                                              issued patents, and you may need 
-                                              to seek a license for its commercial 
-                                              use. 
-
+                      usefulness and provide <a href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">feedback</a> to 
+                       the development team. You also may 
+                        use the data provided here for 
+                         research projects in which you 
+                          are involved at present, or to 
+                           test hypothesis to develop 
+                            future research projects. 
+                             Although the raw data will 
+                              be available for download  
+                              in an upcoming release of  
+                              the Database, this  
+                              functionality is disabled  
+                              at the moment. It is 
+                               requested that reference to, 
+                                and acknowledgement of, the 
+                                 GMDI and REMBRANDT be 
+                                  made in any manuscripts 
+                                   that result from the 
+                                    direct use of the data  
+                                    contained within by referencing the following manuscript <a style="font-size: 0.9em;" href="http://www.ncbi.nlm.nih.gov/pubmed/19208739?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum" target="_blank">Rembrandt 2009 Publication [PMID: 19208739] in Molecular Cancer Research</a>&nbsp;<a style="font-size: 0.9em;" href="docs/1541-7786.MCR-08-0435v1.pdf" target="_blank"></a>. You 
+                                     may encounter 
+                                      documents or 
+                                       portions of 
+                                        documents contributed by  
+                                        private institutions or organizations. 
+                                         Other parties may retain all rights to 
+                                          publish or produce these documents. 
+                                           Commercial use of the documents on  
+                                           this site may be protected under United 
+                                            States and foreign copyright laws. In 
+                                             addition, some of the data may be the  
+                                             subject of patent applications or 
+                                              issued patents, and you may need  
+                                              to seek a license for its commercial  
+                                              use.  
+ 
 </p>
 		
 		<p style="color:#002185;font-weight:bold;text-align:left">I HAVE READ AND UNDERSTOOD THE ABOVE PROVISIONS,

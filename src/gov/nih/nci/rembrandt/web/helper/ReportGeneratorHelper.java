@@ -573,7 +573,6 @@ public class ReportGeneratorHelper {
 		}else {
 			throw new IllegalStateException("There is no resultant to create report");
 		}
-		_reportBean = null;
 	}
 	
 	public static void generateReportXML(Finding finding)	{
