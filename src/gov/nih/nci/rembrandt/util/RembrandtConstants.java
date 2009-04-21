@@ -175,4 +175,7 @@ public final class RembrandtConstants {
 	public static final Integer QUERY_LIMIT = 500000;
 	public static final String QUERY_OVER_LIMIT = "Query Exceeded Limit";
 	
+    public static final String OLIST_STRUCT = "oListStruct";
+    
+    public static final String WORKSPACE = "workspace";
 }

@@ -1,15 +1,19 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.cache.CacheConstants;
+import gov.nih.nci.caintegrator.application.configuration.SpringContext;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.mail.Mail;
 import gov.nih.nci.caintegrator.application.mail.MailProps;
+import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
+import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LogoutForm;
 
@@ -89,8 +93,10 @@ import java.util.Iterator;
 
 public final class LogoutAction extends Action
 {
-    private static Logger logger = Logger.getLogger(LogoutAction.class);
+	private static Logger logger = Logger.getLogger(LogoutAction.class);
     private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+    private RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
+
     public ActionForward execute(ActionMapping mapping, ActionForm form,
     								HttpServletRequest request, HttpServletResponse response)
     {
@@ -149,7 +155,7 @@ public final class LogoutAction extends Action
         	UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
         	
         	/*******************************************************************
-        	 * HACK! This is only here to prevent a user logged in on the public
+        	 * This is only here to prevent a user logged in on the public
         	 * account "RBTuser" from persisting their session
         	 *******************************************************************/
         	if(!"RBTuser".equals(credentials.getUserName())) {
@@ -162,7 +168,20 @@ public final class LogoutAction extends Action
         		List<UserList> customLists = userListBeanHelper.getAllCustomLists();
         		if (!customLists.isEmpty()){
         			_cacheManager.putRembrandtUserList(request.getSession().getId(), customLists);
+        			myListLoader.saveUserCustomLists(request.getSession().getId(), credentials.getUserName());        			
         		}
+        		List<UserList> removedLists = userListBeanHelper.getAllDeletedCustomLists();
+        		if (!removedLists.isEmpty()){
+        			myListLoader.deleteUserCustomLists(request.getSession().getId(), credentials.getUserName());        			
+        		}
+        		//get Tree from session to save to DB
+    			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
+    			Workspace workspace = (Workspace) request.getSession().getAttribute(RembrandtConstants.WORKSPACE);
+    			Long userId = credentials.getUserId();
+    			//Save Lists
+    			if(tree != null && userId != null){
+    				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, workspace);
+    			}
         		_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
         	}
         	_cacheManager.deleteSessionCache(session.getId());
@@ -194,19 +213,5 @@ public final class LogoutAction extends Action
   
         return (mapping.findForward(forward));
     }
-//    private List<UserList> containsCustomList(List<UserList> userLists){
-//    	List<UserList> customList = new ArrayList<UserList>();
-//    	if (userLists == null || userLists.isEmpty())
-//    		return customList;
-//    	
-//    	for (UserList list : userLists){
-//    		List<ListSubType> subTypes = list.getListSubType();
-//    		for (ListSubType subType : subTypes){
-//    			if ("Custom".equals(subType.name())){
-//    				customList.add(list);
-//    			}
-//    		}
-//    	}
-//    	return customList;
-//    }
+
 }

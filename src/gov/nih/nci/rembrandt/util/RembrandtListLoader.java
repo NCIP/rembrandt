@@ -6,6 +6,9 @@ import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.ListType;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
+import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
@@ -26,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class RembrandtListLoader extends ListLoader {
     private static Logger logger = Logger.getLogger(RembrandtListLoader.class);    
@@ -115,7 +119,7 @@ public class RembrandtListLoader extends ListLoader {
         }
         return userListBean;        
     }
-    public List<UserList> loadUserLists(String institutionName){
+    public List<UserList> loadUserListsByInstitution(String institutionName){
         Session currentSession = sessionFactory.getCurrentSession(); 
         List<UserList> lists = new ArrayList<UserList>();
         String theHQL = "";
@@ -133,4 +137,99 @@ public class RembrandtListLoader extends ListLoader {
         
         return lists;
     }
+    public List<UserList> loadCustomListsByUserName(String userName){
+        Session currentSession = sessionFactory.getCurrentSession(); 
+        List<UserList> lists = new ArrayList<UserList>();
+        String theHQL = "";
+        Query theQuery = null;        
+        Collection<UserList> userLists = null;
+        theHQL = "select distinct ul from UserList ul where ul.author = :userName and ul.listOrigin = :origin";        
+        theQuery = currentSession.createQuery(theHQL);
+        theQuery.setParameter("userName", userName);
+        theQuery.setParameter("origin", ListOrigin.Custom);        
+        System.out.println("HQL: " + theHQL);        
+        userLists = theQuery.list();        
+        for(UserList list: userLists){
+            logger.debug("List name: " + list.getName()); 
+            lists.add(list);
+        }
+        
+        return lists;
+    }
+    public void saveUserCustomLists(String httpSessionID, String userName){
+    	if(httpSessionID != null  && userName != null){
+    		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(httpSessionID);
+    		List<UserList> customlists =  userListBeanHelper.getAllCustomLists();
+    		for(UserList list:customlists){
+		        Session currentSession = sessionFactory.getCurrentSession(); 
+		        currentSession = sessionFactory.openSession();
+		        Transaction transaction = currentSession.beginTransaction();
+		    	transaction = currentSession.beginTransaction();
+		    	transaction.begin();
+    			list.setAuthor(userName);
+		    	currentSession.saveOrUpdate(list);
+		    	transaction.commit();
+		    	currentSession.close();
+    		}
+    	}
+
+    }
+    public void deleteUserCustomLists(String httpSessionID, String userName){
+    	if(httpSessionID != null  && userName != null ){
+    		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(httpSessionID);
+    		List<UserList> customlists =  userListBeanHelper.getAllDeletedCustomLists();
+    		for(UserList list:customlists){
+			        Session currentSession = sessionFactory.getCurrentSession(); 
+			        currentSession = sessionFactory.openSession();
+			        Transaction transaction = currentSession.beginTransaction();
+			    	transaction = currentSession.beginTransaction();
+			    	transaction.begin();
+			    	currentSession.delete(list);
+			    	transaction.commit();
+			    	currentSession.close();
+    		}
+    	}
+
+    }
+    public Workspace  loadTreeStructure(Long userId, TreeStructureType type){
+        Session currentSession = sessionFactory.getCurrentSession(); 
+        List<Workspace> lists = new ArrayList<Workspace>();
+        String theHQL = "";
+        Query theQuery = null;        
+        Collection<Workspace> listWorkspace = null;
+        if(userId != null && type != null){
+	        theHQL = "select w from Workspace w where w.userId = :userId and w.treeType = :treeType";        
+	        theQuery = currentSession.createQuery(theHQL);
+	        theQuery.setParameter("userId", userId);
+	        theQuery.setParameter("treeType", type.toString());        
+	        System.out.println("HQL: " + theHQL);        
+	        listWorkspace = theQuery.list();  
+	        if(listWorkspace != null  && listWorkspace.size() == 1){
+		        for(Workspace wp: listWorkspace){
+		            return wp;
+		        }
+	        }
+        }
+        return null;
+    }
+    
+    public void saveTreeStructure(Long userId, TreeStructureType treeType, String treeStructure, Workspace workspace){
+    	if(userId != null  && treeType != null  &&  treeStructure != null){
+	        Session currentSession = sessionFactory.getCurrentSession(); 
+	        currentSession = sessionFactory.openSession();
+	        Transaction transaction = currentSession.beginTransaction();
+	    	transaction = currentSession.beginTransaction();
+	    	transaction.begin();
+	    	if(workspace == null){ //first time create a new workspace
+	    		workspace = new Workspace();
+		    	workspace.setTreeType(treeType.toString());
+		    	workspace.setUserId(userId);
+	    	}
+	    	workspace.setTreeStructure(treeStructure);
+	    	currentSession.saveOrUpdate(workspace);
+	    	transaction.commit();
+	    	currentSession.close();
+    	}
+    }
+
 }

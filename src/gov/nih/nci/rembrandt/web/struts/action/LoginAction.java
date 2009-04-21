@@ -5,7 +5,10 @@ import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
+import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
@@ -140,31 +143,41 @@ public final class LoginAction extends Action
             	e.printStackTrace();
             }
             //Now check there are customLists in the cache
-            List<UserList> customLists = _cacheManager.getRembrandtUserList(session.getId());
-            if (customLists != null && !customLists.isEmpty()){
-            	for (UserList theList : customLists){
-            		UserList userList = getUserList(theList);
-            		userListBean.addList(userList);
-            	}
-            	//Remove it after retrieval.
-            	_cacheManager.removeRembrandtUserList(request.getSession().getId());
-            }
+//            List<UserList> customLists = _cacheManager.getRembrandtUserList(session.getId());
+//            if (customLists != null && !customLists.isEmpty()){
+//            	for (UserList theList : customLists){
+//            		UserList userList = getUserList(theList);
+//            		userListBean.addList(userList);
+//            	}
+//            	//Remove it after retrieval.
+//            	_cacheManager.removeRembrandtUserList(request.getSession().getId());
+//            }
 
             //add userListBean to session...for now
 
             UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
             
-            
-			Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
-			if(insitutions != null){
-				for(InstitutionDE insitution:insitutions){
-	            List<UserList> userLists = (List<UserList>) myListLoader.loadUserLists(insitution.getInstituteName());
+            //load institution based lists
+			Collection<InstitutionDE> institutions = InsitutionAccessHelper.getInsititutionCollection(session);
+			if(institutions != null){
+				for(InstitutionDE institution:institutions){
+	            List<UserList> userLists = (List<UserList>) myListLoader.loadUserListsByInstitution(institution.getInstituteName());
 		            if(userLists != null && userLists.size() > 0){
 		            	for(UserList ul: userLists){
                             userListBean.addList(ul);
 		            	}
 		            }
 				}
+			}
+			//load custom lists
+			UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+			if(credentials.getUserName() != null  && !credentials.getUserName().equals("RBTuser")){
+	            List<UserList> userLists = (List<UserList>) myListLoader.loadCustomListsByUserName(f.getUserName());
+		            if(userLists != null && userLists.size() > 0){
+		            	for(UserList ul: userLists){
+                            userListBean.addList(ul);
+		            	}
+		            }		       
 			}
             userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
             return (mapping.findForward("success"));

@@ -224,7 +224,7 @@ public class ApplicationContext{
 		  //Initialize Annotation loading
 		  List<String> affyReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.AFFY_OLIGO_PLATFORM);
 		  //List<String> unifiedReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.UNIFIED_GENE);
-		  AnnotationHandler.getAllAnnotationsFor(affyReporters, ArrayPlatformType.AFFY_OLIGO_PLATFORM); 
+		  //AnnotationHandler.getAllAnnotationsFor(affyReporters, ArrayPlatformType.AFFY_OLIGO_PLATFORM); 
 		} catch (NamingException e) {
 	        logger.error(new IllegalStateException("Naming Exception Error getting an instance of AnalysisServerClientManager" ));
 			logger.error(e.getMessage());

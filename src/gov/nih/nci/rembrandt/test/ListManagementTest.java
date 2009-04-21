@@ -45,7 +45,7 @@ public class ListManagementTest extends
 
     public void testListRetrieval() {
         String institutionName = "NOB";
-        List<UserList> userLists = (List<UserList>)this.listLoader.loadUserLists(institutionName);
+        List<UserList> userLists = (List<UserList>)this.listLoader.loadUserListsByInstitution(institutionName);
         for(UserList l: userLists){
             System.out.println(l.getName());
         }
