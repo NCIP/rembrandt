@@ -36,6 +36,11 @@ var TreeFactory = Class.create({
       if(o.isEditable) {
         opts.onEdit = TreeUtils.editFolderName;
       }
+
+	  if(o.isExport) {	
+      	opts.onClick = TreeUtils.exportFile;
+      }
+
       
       //console.log(o);
       
@@ -74,6 +79,9 @@ var TreeUtils = {
     //clean the names here
     return n;
   },
+  exportFile: function(branch)  {
+    window.location.replace( "/rembrandt/workspaceListDownload.do?listId=" + branch.getText() );
+  },
   newFolder: function(t) {     
     //make sure trash stays at bottom, assuming it starts at bottom
     var br = t.getBranchById("root");
@@ -92,8 +100,36 @@ var TreeUtils = {
   	var tf = new TreeFactory();
   	//required: div container w/ id=treeName defined per TafelTree API
   	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
-  	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': true, 'showTrash':true, 'showcheckBox':false, 'isEditable':true});
+  	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': true, 'showTrash':true, 'showcheckBox':false, 'isEditable':true, 'isExport':false });
   	
+  }, 
+  initializeTreeForExport : function()	{
+  	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
+  	//call callback
+  	WorkspaceHelper.fetchTreeStructures(TreeUtils.initializeTreeForExport_cb);
+  },
+  initializeTreeForExport_cb : function(r)	{
+  	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
+  	//convention keys are : oListStruct, eListStruct
+  	var rJSON = r.evalJSON();
+  	var tf = new TreeFactory();
+  	//required: div container w/ id=treeName defined per TafelTree API
+  	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
+  	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': true, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':true });
+  }, 
+  initializeTreeForImport : function()	{
+  	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
+  	//call callback
+  	WorkspaceHelper.fetchTreeStructures(TreeUtils.initializeTreeForImport_cb);
+  },
+  initializeTreeForImport_cb : function(r)	{
+  	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
+  	//convention keys are : oListStruct, eListStruct
+  	var rJSON = r.evalJSON();
+  	var tf = new TreeFactory();
+  	//required: div container w/ id=treeName defined per TafelTree API
+  	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
+  	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': true, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':false });
   }, 
   saveTreeStructs : function()	{
   	//grab the local copies and persist

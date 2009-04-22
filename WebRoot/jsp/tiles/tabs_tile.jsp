@@ -88,8 +88,8 @@
 	String myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"#\">Manage Lists</a></li>\n" +
 							"<li><a href=\"manageWorkspace.do\">Organize</a></li>\n" +
-							"<li><a href=\"importExportWorkspace.do?method=initImport\">Import</a></li>\n" +
-							"<li><a href=\"importExportWorkspace.do?method=initExport\">Export</a></li>\n" +							
+							"<li><a href=\"importWorkspace.do?method=initImport\">Import</a></li>\n" +
+							"<li><a href=\"exportWorkspace.do?method=initExport\">Export</a></li>\n" +							
 							"</ul>\n";
 							
 	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;

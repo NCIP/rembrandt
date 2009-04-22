@@ -36,6 +36,20 @@ Why is applets defined as decoy in EVERY def instead of just being in the parent
     	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=7" />
     	<put name="applets" value="/decoy.jsp" />
     </definition>
+    <definition name="nautilus.exportWorkspace" extends="baseDef">
+    	<put name="title" value="Rembrandt Export Workspace" />
+    	<put name="sideBar" value="/jsp/tiles/sideBar_tile.jsp" />
+    	<put name="mainForm" value="/jsp/tiles/exportWorkspace_tile.jsp" />
+    	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=7" />
+    	<put name="applets" value="/decoy.jsp" />
+    </definition>
+    <definition name="nautilus.importWorkspace" extends="baseDef">
+    	<put name="title" value="Rembrandt Import Workspace" />
+    	<put name="sideBar" value="/jsp/tiles/sideBar_tile.jsp" />
+    	<put name="mainForm" value="/jsp/tiles/importWorkspace_tile.jsp" />
+    	<put name="tabs" value="/jsp/tiles/tabs_tile.jsp?s=7" />
+    	<put name="applets" value="/decoy.jsp" />
+    </definition>
 
     <definition name="nautilus.download" extends="baseDef">
     	<put name="title" value="Rembrandt Downloads" />

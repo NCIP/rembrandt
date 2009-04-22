@@ -27,7 +27,8 @@
 		<form-bean name="gpIntegrationForm" type="gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm"/>
    		<form-bean name="gpProcessForm" type="gov.nih.nci.rembrandt.web.struts.form.GpProcessForm"/>	
 		<form-bean name="downloadForm" type="gov.nih.nci.rembrandt.web.struts.form.DownloadForm"/>	
-		
+		<form-bean name="importWorkspaceForm" type="gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm"/>
+				
 		<form-bean name="logoutForm" type="gov.nih.nci.rembrandt.web.struts.form.LogoutForm"/>
    	
   </form-beans>
@@ -46,7 +47,9 @@
   
 	<action path="/manageLists" forward="nautilus.manageLists" />
 	<action path="/manageWorkspace" forward="nautilus.manageWorkspace" />
-	<action path="/importExportWorkspace" forward="nautilus.manageWorkspace" />
+	<action path="/importExportWorkspace" forward="nautilus.exportWorkspace" />
+	<action path="/exportWorkspace" forward="nautilus.exportWorkspace" />
+	<action path="/importWorkspace" forward="nautilus.importWorkspace" />
 	
 	<action path="/downloadInit"    	    
 	    type="gov.nih.nci.rembrandt.web.struts.action.DownloadAction"
@@ -75,6 +78,10 @@
 		<forward name="success" path="nautilus.analysisHome" />
 	</action>
   
+  	<action path="/workspaceListDownload"
+		type="gov.nih.nci.rembrandt.web.struts.action.WorkspaceListDownloadAction">
+	</action>
+
     <action path="/delete_Query"            
             name="deleteQueryForm"
             type="gov.nih.nci.rembrandt.web.struts.action.DeleteQueryAction"
@@ -187,6 +194,15 @@
 		<forward name="backToUpload" path="/jsp/uploadGeneSet.jsp" />
 	</action>
 	
+    <action path="/importWorkspaceFile"
+		type="gov.nih.nci.rembrandt.web.struts.action.ImportWorkspaceAction"
+		name="importWorkspaceForm"
+		scope="request"
+		input="/importWorkspace"
+		validate="true">
+		<forward name="success" path="nautilus.manageWorkspace" />
+	</action>
+
 	<action path="/uploadReporterSet"
 		type="gov.nih.nci.rembrandt.web.struts.action.UploadReporterSetAction"
 		name="uploadReporterSetForm"

@@ -45,6 +45,19 @@ public class WorkspaceHelper {
 		WebContext ctx = WebContextFactory.get();
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
+		JSONArray jsa = generateJSONArray(sess);
+
+		trees = jsa.toString();
+
+		//store it to DB when DAOs are ready
+		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
+		//}
+				
+		return trees;
+	}
+
+	public static JSONArray generateJSONArray(HttpSession sess) {
+		String trees;
 		UserCredentials credentials = (UserCredentials)sess.getAttribute(RembrandtConstants.USER_CREDENTIALS);
 		
 		////// NOTE: we want to read this from the DB, if null then create and persist
@@ -166,17 +179,7 @@ public class WorkspaceHelper {
 			
 	        jsa.add(root);
 	}
-
-        
-	        trees = jsa.toString();
-
-	        
-			//store it to DB when DAOs are ready
-			sess.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
-		//}
-		
-				
-		return trees;
+		return jsa;
 	}
 	
 	public static String saveTreeStructures(String treeString)	{
@@ -187,14 +190,11 @@ public class WorkspaceHelper {
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
 		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, treeString);
-		saveWorkspace( req.getSession().getId());
+		saveWorkspace( req.getSession().getId(), req, sess );
 		return "pass";
 	}
 
-	public static String saveWorkspace(String sessionId){
-		WebContext ctx = WebContextFactory.get();
-		HttpServletRequest req = ctx.getHttpServletRequest();
-		HttpSession sess = req.getSession(); 
+	public static String saveWorkspace(String sessionId, HttpServletRequest req, HttpSession sess ){
 		/*
     	 * User has selected to save the current session and log out of the
     	 * application

@@ -331,7 +331,19 @@ public class UIFormValidator {
         return errors;
     }
 
-	public static ActionErrors validateCloneId(String cloneId, String cloneListSpecify, FormFile cloneListFile, ActionErrors errors) {
+    public static ActionErrors validateXmlFileType(FormFile formFile, String fileContents, ActionErrors errors) {
+        //Make sure the uploaded File is of type txt and MIME type is text/plain
+            if(formFile != null  &&
+              (!(formFile.getFileName().toLowerCase().endsWith(".xml"))) &&
+              (!(formFile.getContentType().equals("text/xml")))){
+                errors.add(fileContents, new ActionError(
+                                "gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error"));
+            }   
+            
+            return errors;
+        }
+
+    public static ActionErrors validateCloneId(String cloneId, String cloneListSpecify, FormFile cloneListFile, ActionErrors errors) {
          if (cloneId!= null && cloneId.trim().length() >= 1){
             if (cloneListSpecify.trim().length() < 1 && cloneListFile == null){
                 errors.add("cloneId",new ActionError(
