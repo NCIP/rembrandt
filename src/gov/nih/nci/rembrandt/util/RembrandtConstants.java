@@ -178,4 +178,6 @@ public final class RembrandtConstants {
     public static final String OLIST_STRUCT = "oListStruct";
     
     public static final String WORKSPACE = "workspace";
+    
+    public static final String WORKSPACE_LIST_DOWNLOAD_URL = "/rembrandt/workspaceListDownload.do";
 }
