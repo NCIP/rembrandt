@@ -6,6 +6,7 @@ import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
+import gov.nih.nci.caintegrator.application.lists.UserListBean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -113,8 +114,8 @@ public class ImportWorkspaceAction extends Action{
         StringReader reader = new StringReader( importWorkspaceForm.getXmlDoc() );
         ArrayList<UserList> unMarshalledList = (ArrayList)Unmarshaller.unmarshal(ArrayList.class, reader);
 		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(request.getSession().getId());
-		
-        JSONArray jsonArray = WorkspaceHelper.generateJSONArray( session );
+
+		JSONArray jsonArray = WorkspaceHelper.generateJSONArray( session );
         
         String currentDate = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.FULL ).format(Calendar.getInstance().getTime() );
 
@@ -125,9 +126,9 @@ public class ImportWorkspaceAction extends Action{
 		JSONArray importFolderItems = new JSONArray();
 		for(UserList ul : unMarshalledList){
 			JSONObject theList = new JSONObject();
-			theList.put("id", ul.getName()); //can nodes contain spaces?
+			theList.put("id", userListBeanHelper.getUserListBean().checkListName(ul.getName())); //can nodes contain spaces?
 			theList.put("editable", false);
-			theList.put("txt", ul.getName());
+			theList.put("txt", userListBeanHelper.getUserListBean().checkListName(ul.getName()));
 			theList.put("acceptDrop", false);
 			theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
 			//TODO: set the style att for a CSS class that will color by list type?
