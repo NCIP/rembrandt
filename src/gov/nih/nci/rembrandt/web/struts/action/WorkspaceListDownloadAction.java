@@ -177,11 +177,11 @@ public class WorkspaceListDownloadAction extends Action {
 		while(iterator.hasNext()){
 			obj = iterator.next();
 			JSONObject jsaObj = (JSONObject)obj;
-			if(jsaObj.containsValue(listName)) { 
+			if(jsaObj.containsValue(listName)) {		// found the folder 
 				exportFolder = updateExportList(exportFolder, uls, jsaObj);
 				return exportFolder;
 			}
-			else
+			else	// search recursively
 			{
 				JSONArray customItems = (JSONArray) jsaObj.get("items");
 				exportFolder = findExportFolder(exportFolder, listName, uls, customItems);
@@ -219,7 +219,7 @@ public class WorkspaceListDownloadAction extends Action {
 					break;
 				}
 			}
-			if ( ! found )  // then it is a folder
+			if ( ! found )  // then it is a folder. search recursively
 			{
 				workspaceFolder = new WorkspaceList( (String)customObj.get("txt") );
 				exportFolder.addLeaf( updateExportList( workspaceFolder, uls, customObj ) ) ;	// recursive call to catch the underlying folders/files

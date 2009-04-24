@@ -122,9 +122,9 @@ public class ImportWorkspaceAction extends Action{
         String currentDate = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.FULL ).format(Calendar.getInstance().getTime() );
 
 		JSONObject importFolder = new JSONObject();
-		importFolder.put("id", "importFolder");
+		importFolder = setupLeaf( "importFolder", false, false, "" );
 		importFolder.put("txt", "Imported on " + currentDate );
-		importFolder.put("editable", false);
+		
 		JSONArray importFolderItems = new JSONArray();
 		
 		// means this XML file holds just one selection
@@ -132,30 +132,11 @@ public class ImportWorkspaceAction extends Action{
 		{
 			Iterator iterator = unMarshalledList.iterator();
 			importFolderItems = updateImportList(userListBeanHelper, iterator);
-			
-/*			
-			UserList ul = null;
-			while ( iterator.hasNext() ) {
-				ul = (UserList)iterator.next();
-				JSONObject theList = new JSONObject();
-				theList.put("id", userListBeanHelper.getUserListBean().checkListName(ul.getName())); 
-				theList.put("editable", false);
-				theList.put("txt", userListBeanHelper.getUserListBean().checkListName(ul.getName()));
-				theList.put("acceptDrop", false);
-				theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
-	
-				importFolderItems.add(theList);
-				userListBeanHelper.addList(ul);
-			}
-*/					
 		}
-		else  // means it is a folder
+		else  // means it is a folder which might hold many elements as a tree
 		{
 			JSONObject topFolder = new JSONObject();
-			topFolder.put("id", unMarshalledList.getName()); 
-			topFolder.put("editable", false);
-			topFolder.put("txt", unMarshalledList.getName() );
-			topFolder.put("acceptDrop", false);
+			topFolder = setupLeaf( unMarshalledList.getName(), false, false, "" );
 			JSONArray topFolderItems = new JSONArray();
 			
 			Iterator iterator = unMarshalledList.iterator();
@@ -172,12 +153,25 @@ public class ImportWorkspaceAction extends Action{
 		rootItems.add( rootItems.size()-1, importFolder );		// insert before trash
 		
 		trees = jsonArray.toString();
-
 		session.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
-
 		WorkspaceHelper.saveWorkspace( session.getId(), request, session );
         
         return mapping.findForward("success");
+	}
+
+	private JSONObject setupLeaf( String idName, boolean editable, boolean acceptDrop, String toolTip) {
+		JSONObject jsonObject = new JSONObject();
+		
+		jsonObject.put("id", idName ); 
+		jsonObject.put("editable", editable);
+		jsonObject.put("txt", idName );
+		jsonObject.put("acceptDrop", acceptDrop);
+		
+		if ( ! toolTip.equals( "" )){
+			jsonObject.put("tooltip", toolTip );
+		}
+		
+		return jsonObject;
 	}
 
 	private JSONArray updateImportList(UserListBeanHelper userListBeanHelper, Iterator iterator) {
@@ -187,14 +181,11 @@ public class ImportWorkspaceAction extends Action{
 		while ( iterator.hasNext() ) {
 			Object obj = iterator.next();
 			
-			if ( obj instanceof WorkspaceList ) // obj is an instance of WorkspaceList which means it is a folder
+			if ( obj instanceof WorkspaceList ) // obj is an instance of WorkspaceList which means it is a folder. This means it needs a recursive call.
 			{
 				wl = (WorkspaceList)obj;
 				JSONObject wsFolder = new JSONObject();
-				wsFolder.put("id", wl.getName() ); 
-				wsFolder.put("editable", false);
-				wsFolder.put("txt", wl.getName() );
-				wsFolder.put("acceptDrop", false);
+				wsFolder = setupLeaf( wl.getName(), false, false, "" );
 				
 				JSONArray wsFolderItems = new JSONArray();
 				
@@ -208,11 +199,7 @@ public class ImportWorkspaceAction extends Action{
 			{
 				ul = (UserList)obj;
 				JSONObject theList = new JSONObject();
-				theList.put("id", userListBeanHelper.getUserListBean().checkListName(ul.getName())); 
-				theList.put("editable", false);
-				theList.put("txt", userListBeanHelper.getUserListBean().checkListName(ul.getName()));
-				theList.put("acceptDrop", false);
-				theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
+				theList = setupLeaf( userListBeanHelper.getUserListBean().checkListName(ul.getName()), false, false, ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")" );
 
 				folderItems.add(theList);
 				userListBeanHelper.addList(ul);
