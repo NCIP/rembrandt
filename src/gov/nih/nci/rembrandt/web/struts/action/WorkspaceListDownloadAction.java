@@ -134,10 +134,7 @@ public class WorkspaceListDownloadAction extends Action {
 			
 			JSONArray workspaceList=(JSONArray)JSONValue.parse(tree);
  		    
- 		    JSONArray jsa = new JSONArray();
 			JSONObject root = null;
-			JSONObject customList = null;
-			JSONArray customItems = null;
 			JSONArray rootItems = null;
  		    Iterator iterator = workspaceList.iterator();
  		    Object obj = null;

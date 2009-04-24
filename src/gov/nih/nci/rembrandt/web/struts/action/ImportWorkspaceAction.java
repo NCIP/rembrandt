@@ -1,37 +1,29 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
-import gov.nih.nci.caintegrator.application.lists.UserListBean;
-import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
+
+import java.io.StringReader;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-import java.io.StringReader;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import gov.nih.nci.caintegrator.application.lists.UserList;
-
+import org.exolab.castor.xml.Unmarshaller;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.util.Calendar;
-import org.exolab.castor.xml.Unmarshaller;
 
 /**
 * caIntegrator License
@@ -174,7 +166,7 @@ public class ImportWorkspaceAction extends Action{
 		return jsonObject;
 	}
 
-	private JSONArray updateImportList(UserListBeanHelper userListBeanHelper, Iterator iterator) {
+	private JSONArray updateImportList(UserListBeanHelper userListBeanHelper, Iterator<UserList> iterator) {
 		UserList ul = null;
 		WorkspaceList wl = null;
 		JSONArray folderItems = new JSONArray();
