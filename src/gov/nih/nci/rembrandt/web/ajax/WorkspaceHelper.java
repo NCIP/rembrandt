@@ -233,8 +233,4 @@ public class WorkspaceHelper {
 		return "fail";
 	}
 	
-	public String getWorkspaceListDownloadUrl()
-	{
-		return RembrandtConstants.WORKSPACE_LIST_DOWNLOAD_URL;
-	}
 }

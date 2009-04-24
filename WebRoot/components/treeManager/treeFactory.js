@@ -80,7 +80,7 @@ var TreeUtils = {
     return n;
   },
   exportFile: function(branch)  {
-    window.location.replace( WorkspaceHelper.getWorkspaceListDownloadUrl() + "?listId=" + branch.getText() );
+    window.location.replace( "/rembrandt/workspaceListDownload.do?listId=" + branch.getText() );
   },
   newFolder: function(t) {     
     //make sure trash stays at bottom, assuming it starts at bottom

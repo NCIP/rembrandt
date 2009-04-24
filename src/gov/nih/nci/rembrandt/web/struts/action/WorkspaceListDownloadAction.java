@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
+import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -110,28 +111,28 @@ public class WorkspaceListDownloadAction extends Action {
 		throws Exception
 	{
 		HttpSession sess = request.getSession();
-		List<UserList> exportList = null;
+		WorkspaceList exportFolder = null;
 		
 		String listName = request.getParameter( "listId" );
 		
 		UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
 		List<UserList> uls = ulbh.getAllCustomLists(); 
-//		List<UserList> uls = ulbh.getAllLists();		
 
+		// if the user selects just one file, we wrap it manually with an Export Folder and make it the root.
 		for(UserList ul : uls){
 			if ( ul.getName().equals(listName)){
-				exportList = new ArrayList();
-				exportList.add(ul);
+				exportFolder = new WorkspaceList( "Export Folder" );
+				exportFolder.addLeaf(ul);
 				break;
 			}
 		}
 		
-		if ( exportList == null )
+		// means the user clicked on a folder NOT an individual file. The folder becomes the root.
+		if ( exportFolder == null )
 		{
 			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
 			
-			Object obj=JSONValue.parse(tree);
- 		    JSONArray workspaceList=(JSONArray)obj;
+			JSONArray workspaceList=(JSONArray)JSONValue.parse(tree);
  		    
  		    JSONArray jsa = new JSONArray();
 			JSONObject root = null;
@@ -139,25 +140,15 @@ public class WorkspaceListDownloadAction extends Action {
 			JSONArray customItems = null;
 			JSONArray rootItems = null;
  		    Iterator iterator = workspaceList.iterator();
+ 		    Object obj = null;
 			while(iterator.hasNext()){
 				obj = iterator.next();
 				
-				if( obj instanceof JSONObject){
-						root = (JSONObject)obj;
-						if(root.containsValue("Lists")){
-							rootItems = (JSONArray) root.get("items");		
-							Iterator root_iterator = rootItems.iterator();
-							while(root_iterator.hasNext()){
-								obj = root_iterator.next();
-								if( obj instanceof JSONObject){
-									JSONObject jsaObj = (JSONObject)obj;
-									if(jsaObj.containsValue(listName)) { 
-										exportList = updateExportList(uls, jsaObj);
-									}	
-							}
-						}
-					}
-				}							
+				root = (JSONObject)obj;
+				if(root.containsValue("Lists")){
+					rootItems = (JSONArray) root.get("items");		
+					exportFolder = findExportFolder(exportFolder, listName, uls, rootItems);	// recursive call to find the folder in the tree
+				}
 		    }
 		}
 		response.setContentType("application/x-download");
@@ -167,8 +158,8 @@ public class WorkspaceListDownloadAction extends Action {
 			PrintWriter out = response.getWriter();
 			StringWriter writer = new StringWriter();
 
-			if ( exportList != null )
-				Marshaller.marshal(exportList, writer);
+			if ( exportFolder != null )
+				Marshaller.marshal(exportFolder, writer);
 			
 			out.print( writer );
 			writer.close();
@@ -179,30 +170,62 @@ public class WorkspaceListDownloadAction extends Action {
 		return null;
 	}
 
-	private List<UserList> updateExportList(List<UserList> uls, JSONObject jsaObj) {
-		List<UserList> exportList;
+	private WorkspaceList findExportFolder(WorkspaceList exportFolder,
+			String listName, List<UserList> uls, JSONArray items) {
+		Object obj;
+		Iterator iterator = items.iterator();
+		while(iterator.hasNext()){
+			obj = iterator.next();
+			JSONObject jsaObj = (JSONObject)obj;
+			if(jsaObj.containsValue(listName)) { 
+				exportFolder = updateExportList(exportFolder, uls, jsaObj);
+				return exportFolder;
+			}
+			else
+			{
+				JSONArray customItems = (JSONArray) jsaObj.get("items");
+				exportFolder = findExportFolder(exportFolder, listName, uls, customItems);
+				
+				if ( exportFolder != null )
+					return exportFolder;
+			}
+		}
+		return exportFolder;
+	}
+
+	private WorkspaceList updateExportList(WorkspaceList exportFolder, List<UserList> uls, JSONObject jsaObj) {
+		WorkspaceList workspaceFolder;
 		Object obj;
 		JSONObject customList;
 		JSONArray customItems;
-		{
-			customList = jsaObj;
-			customItems = (JSONArray) customList.get("items");
-			exportList = new ArrayList<UserList>();
-			
-			Iterator custom_iterator = customItems.iterator();
-			while(custom_iterator.hasNext()){
-				obj = custom_iterator.next();
-				if( obj instanceof JSONObject){
-					JSONObject customObj = (JSONObject)obj;
-					for(UserList ul : uls){
-						if ( ul.getName().equals(customObj.get("txt"))){
-							exportList.add( ul );
-						}
-					}
-					
-				}
+
+		customList = jsaObj;
+		customItems = (JSONArray) customList.get("items");
+		
+		if ( exportFolder == null )
+		{	
+			exportFolder = new WorkspaceList();
+			exportFolder.setName( (String)jsaObj.get("txt"));
 		}
-}
-		return exportList;
+		Iterator custom_iterator = customItems.iterator();
+		while(custom_iterator.hasNext()){
+			obj = custom_iterator.next();
+			JSONObject customObj = (JSONObject)obj;
+			boolean found = false;
+			for(UserList ul : uls){
+				if ( ul.getName().equals(customObj.get("txt"))){
+					exportFolder.addLeaf( ul );
+					found = true;
+					break;
+				}
+			}
+			if ( ! found )  // then it is a folder
+			{
+				workspaceFolder = new WorkspaceList( (String)customObj.get("txt") );
+				exportFolder.addLeaf( updateExportList( workspaceFolder, uls, customObj ) ) ;	// recursive call to catch the underlying folders/files
+			}
+		}
+
+		return exportFolder;
 	}	
 }

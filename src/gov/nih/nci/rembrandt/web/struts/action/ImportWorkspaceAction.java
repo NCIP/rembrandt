@@ -7,6 +7,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
+import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.apache.struts.action.ActionMapping;
 import java.io.StringReader;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 
 import org.json.simple.JSONArray;
@@ -112,7 +114,7 @@ public class ImportWorkspaceAction extends Action{
         String trees = "";
         HttpSession session = request.getSession();
         StringReader reader = new StringReader( importWorkspaceForm.getXmlDoc() );
-        ArrayList<UserList> unMarshalledList = (ArrayList)Unmarshaller.unmarshal(ArrayList.class, reader);
+        WorkspaceList unMarshalledList = (WorkspaceList)Unmarshaller.unmarshal(WorkspaceList.class, reader);
 		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(request.getSession().getId());
 
 		JSONArray jsonArray = WorkspaceHelper.generateJSONArray( session );
@@ -124,19 +126,47 @@ public class ImportWorkspaceAction extends Action{
 		importFolder.put("txt", "Imported on " + currentDate );
 		importFolder.put("editable", false);
 		JSONArray importFolderItems = new JSONArray();
-		for(UserList ul : unMarshalledList){
-			JSONObject theList = new JSONObject();
-			theList.put("id", userListBeanHelper.getUserListBean().checkListName(ul.getName())); //can nodes contain spaces?
-			theList.put("editable", false);
-			theList.put("txt", userListBeanHelper.getUserListBean().checkListName(ul.getName()));
-			theList.put("acceptDrop", false);
-			theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
-			//TODO: set the style att for a CSS class that will color by list type?
-			importFolderItems.add(theList);
-			userListBeanHelper.addList(ul);
-		}		
-		importFolder.put("items", importFolderItems);
 		
+		// means this XML file holds just one selection
+		if ( unMarshalledList.getName().equals( "Export Folder"))
+		{
+			Iterator iterator = unMarshalledList.iterator();
+			importFolderItems = updateImportList(userListBeanHelper, iterator);
+			
+/*			
+			UserList ul = null;
+			while ( iterator.hasNext() ) {
+				ul = (UserList)iterator.next();
+				JSONObject theList = new JSONObject();
+				theList.put("id", userListBeanHelper.getUserListBean().checkListName(ul.getName())); 
+				theList.put("editable", false);
+				theList.put("txt", userListBeanHelper.getUserListBean().checkListName(ul.getName()));
+				theList.put("acceptDrop", false);
+				theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
+	
+				importFolderItems.add(theList);
+				userListBeanHelper.addList(ul);
+			}
+*/					
+		}
+		else  // means it is a folder
+		{
+			JSONObject topFolder = new JSONObject();
+			topFolder.put("id", unMarshalledList.getName()); 
+			topFolder.put("editable", false);
+			topFolder.put("txt", unMarshalledList.getName() );
+			topFolder.put("acceptDrop", false);
+			JSONArray topFolderItems = new JSONArray();
+			
+			Iterator iterator = unMarshalledList.iterator();
+			
+			topFolderItems = updateImportList(userListBeanHelper, iterator);		
+			topFolder.put("items", topFolderItems);
+			importFolderItems.add(topFolder);
+			
+		}
+		importFolder.put("items", importFolderItems);
+
 		JSONObject root = (JSONObject) jsonArray.get(0);
 		JSONArray rootItems = (JSONArray) root.get("items");
 		rootItems.add( rootItems.size()-1, importFolder );		// insert before trash
@@ -148,6 +178,50 @@ public class ImportWorkspaceAction extends Action{
 		WorkspaceHelper.saveWorkspace( session.getId(), request, session );
         
         return mapping.findForward("success");
+	}
+
+	private JSONArray updateImportList(UserListBeanHelper userListBeanHelper, Iterator iterator) {
+		UserList ul = null;
+		WorkspaceList wl = null;
+		JSONArray folderItems = new JSONArray();
+		while ( iterator.hasNext() ) {
+			Object obj = iterator.next();
+			
+			if ( obj instanceof WorkspaceList ) // obj is an instance of WorkspaceList which means it is a folder
+			{
+				wl = (WorkspaceList)obj;
+				JSONObject wsFolder = new JSONObject();
+				wsFolder.put("id", wl.getName() ); 
+				wsFolder.put("editable", false);
+				wsFolder.put("txt", wl.getName() );
+				wsFolder.put("acceptDrop", false);
+				
+				JSONArray wsFolderItems = new JSONArray();
+				
+				wsFolderItems = updateImportList( userListBeanHelper, wl.getFolderList().iterator() );
+				wsFolder.put("items", wsFolderItems);
+				
+				folderItems.add(wsFolder);
+
+			}
+			else 
+			{
+				ul = (UserList)obj;
+				JSONObject theList = new JSONObject();
+				theList.put("id", userListBeanHelper.getUserListBean().checkListName(ul.getName())); 
+				theList.put("editable", false);
+				theList.put("txt", userListBeanHelper.getUserListBean().checkListName(ul.getName()));
+				theList.put("acceptDrop", false);
+				theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
+
+				folderItems.add(theList);
+				userListBeanHelper.addList(ul);
+				
+			}
+
+		}
+		
+		return folderItems;
 	}
       
 }
