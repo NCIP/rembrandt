@@ -29,6 +29,7 @@ Event.observe(window, 'load', function()	{
 		<tr>
 			<td>
 				<html:form action="importWorkspaceFile.do" enctype="multipart/form-data">
+					<html:errors/>
 					<html:file property="workspaceFile" /> <br /><br />
 					<html:submit styleClass="xbutton" value="Import" />
 				</html:form>			

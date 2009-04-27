@@ -198,7 +198,7 @@
 		type="gov.nih.nci.rembrandt.web.struts.action.ImportWorkspaceAction"
 		name="importWorkspaceForm"
 		scope="request"
-		input="/importWorkspace"
+		input="nautilus.importWorkspace"
 		validate="true">
 		<forward name="success" path="nautilus.manageWorkspace" />
 	</action>
