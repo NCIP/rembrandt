@@ -337,7 +337,7 @@ public class UIFormValidator {
               (!(formFile.getFileName().toLowerCase().endsWith(".xml"))) &&
               (!(formFile.getContentType().equals("text/xml")))){
                 errors.add(fileContents, new ActionError(
-                                "gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error"));
+                                "gov.nih.nci.nautilus.ui.struts.form.importFile.no.error"));
             }   
             
             return errors;
