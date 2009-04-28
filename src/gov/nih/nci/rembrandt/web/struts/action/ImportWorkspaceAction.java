@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
@@ -147,6 +148,8 @@ public class ImportWorkspaceAction extends Action{
 		trees = jsonArray.toString();
 		session.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
 		WorkspaceHelper.saveWorkspace( session.getId(), request, session );
+		
+
         
         return mapping.findForward("success");
 	}
@@ -194,6 +197,7 @@ public class ImportWorkspaceAction extends Action{
 				theList = setupLeaf( userListBeanHelper.getUserListBean().checkListName(ul.getName()), false, false, ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")" );
 
 				folderItems.add(theList);
+				removeId( ul );
 				userListBeanHelper.addList(ul);
 				
 			}
@@ -201,6 +205,17 @@ public class ImportWorkspaceAction extends Action{
 		}
 		
 		return folderItems;
+	}
+	
+	private void removeId( UserList ul )
+	{
+		// need to be set to null so that DB will create a new List & List Item records.
+		ul.setId(null);	
+		for ( ListItem li : ul.getListItems() )
+		{
+			li.setId( null );  // need to be set to null so that DB will create a new List Item record.
+			li.setListId( null );
+		}
 	}
       
 }

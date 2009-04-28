@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
@@ -121,6 +122,7 @@ public class WorkspaceListDownloadAction extends Action {
 		// if the user selects just one file, we wrap it manually with an Export Folder and make it the root.
 		for(UserList ul : uls){
 			if ( ul.getName().equals(listName)){
+				removeId( ul );
 				exportFolder = new WorkspaceList( "Export Folder" );
 				exportFolder.addLeaf(ul);
 				break;
@@ -211,6 +213,7 @@ public class WorkspaceListDownloadAction extends Action {
 			boolean found = false;
 			for(UserList ul : uls){
 				if ( ul.getName().equals(customObj.get("txt"))){
+					removeId( ul );
 					exportFolder.addLeaf( ul );
 					found = true;
 					break;
@@ -224,5 +227,15 @@ public class WorkspaceListDownloadAction extends Action {
 		}
 
 		return exportFolder;
-	}	
+	}
+	
+	private void removeId( UserList ul )
+	{
+		ul.setId(null);	// need to be set to null so that DB will create a new List record.
+		for ( ListItem li : ul.getListItems() )
+		{
+			li.setId( null );  // need to be set to null so that DB will create a new List Item record.
+			li.setListId( null );
+		}
+	}
 }

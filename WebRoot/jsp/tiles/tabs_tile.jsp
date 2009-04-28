@@ -86,10 +86,10 @@
 							"<li><a href=\"gpProcess.do?method=setup\">GenePattern Job Results</a></li>\n" +							
 							"</ul>\n";
 	String myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"#\">Manage Lists</a></li>\n" +
+							"<li><a href=\"manageLists.do\">Manage Lists</a></li>\n" +
 							"<li><a href=\"manageWorkspace.do\">Organize</a></li>\n" +
-							"<li><a href=\"importWorkspace.do?method=initImport\">Import</a></li>\n" +
-							"<li><a href=\"exportWorkspace.do?method=initExport\">Export</a></li>\n" +							
+							"<li><a href=\"importWorkspace.do\">Import</a></li>\n" +
+							"<li><a href=\"exportWorkspace.do\">Export</a></li>\n" +							
 							"</ul>\n";
 							
 	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;

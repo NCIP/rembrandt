@@ -208,18 +208,16 @@ public class WorkspaceHelper {
     	if(!"RBTuser".equals(credentials.getUserName())) {
     		//Check to see user also created some custom lists.
 
-    		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(req.getSession().getId());
-    		
-    		//UserListBean userListBean = (UserListBean) session.getAttribute(CacheConstants.USER_LISTS);
-    		
-    		List<UserList> customLists = userListBeanHelper.getAllCustomLists();
-    		if (!customLists.isEmpty()){
-    			myListLoader.saveUserCustomLists(req.getSession().getId(), credentials.getUserName());        			
-    		}
-    		List<UserList> removedLists = userListBeanHelper.getAllDeletedCustomLists();
-    		if (!removedLists.isEmpty()){
-    			myListLoader.deleteUserCustomLists(req.getSession().getId(), credentials.getUserName());        			
-    		}
+//    		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(req.getSession().getId());
+//    		
+//    		List<UserList> customLists = userListBeanHelper.getAllCustomLists();
+//    		if (!customLists.isEmpty()){
+//    			myListLoader.saveUserCustomLists(req.getSession().getId(), credentials.getUserName());        			
+//    		}
+//    		List<UserList> removedLists = userListBeanHelper.getAllDeletedCustomLists();
+//    		if (!removedLists.isEmpty()){
+//    			myListLoader.deleteUserCustomLists(req.getSession().getId(), credentials.getUserName());        			
+//    		}
     		//get Tree from session to save to DB
 			String tree = (String) req.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
 			Workspace workspace = (Workspace) req.getSession().getAttribute(RembrandtConstants.WORKSPACE);
