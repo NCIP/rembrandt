@@ -74,7 +74,7 @@ public class WorkspaceHelper {
 
 			////////////// TEST DATA String
 			//trees = "[ { 'id' : 'root', 'txt' : 'Lists', 'editable': false, 'items' : [ { 'id' : 'ast', 'txt' : 'ASTROCYTOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t21', 'txt' : 'high survival patients', 'img' : 'folder.gif', 'items' : [ { 'id': 'sub11', 'txt': 'my patient list', 'editable': false, 'acceptdrop' : false } ] }, { 'id' : 'branch_t22', 'txt' : 'ALL GLIOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t23', 'txt' : 'MySaved Patients', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t24', 'txt' : 'Patients_good_survival', 'editable': false, 'acceptdrop' : false }, { 'id' : 'trash', 'last' : true, 'draggable' : false, 'txt' : 'Trash', 'img' : 'trash.gif', 'imgopen' : 'trash.gif', 'imgclose' : 'trash.gif', 'open' : false, 'editable': false, 'tooltip' : 'Items here will be removed when the workspace is saved', 'items' : [ { 'id': 'sub1', 'txt': 'one to delete' , 'editable': false, 'acceptdrop' : false } ] } ] } ]";
-			
+
 			//generate the Tree on the first time thru, and persist
 			UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
 			List<UserList> uls = ulbh.getAllLists(); //getAllLists() for testing,  getAllCustomLists() for prod
@@ -123,7 +123,7 @@ public class WorkspaceHelper {
 										theList.put("id", ul.getName()); //can nodes contain spaces?
 										theList.put("editable", false);
 										theList.put("txt", ul.getName());
-										theList.put("acceptDrop", false);
+										theList.put("acceptdrop", false);
 										theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
 										//TODO: set the style att for a CSS class that will color by list type?
 										newItems.add(theList);
@@ -152,7 +152,7 @@ public class WorkspaceHelper {
 							theList.put("id", ul.getName()); //can nodes contain spaces?
 							theList.put("editable", false);
 							theList.put("txt", ul.getName());
-							theList.put("acceptDrop", false);
+							theList.put("acceptdrop", false);
 							theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
 							//TODO: set the style att for a CSS class that will color by list type?
 							customItems.add(theList);

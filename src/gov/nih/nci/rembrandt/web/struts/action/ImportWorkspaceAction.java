@@ -157,7 +157,7 @@ public class ImportWorkspaceAction extends Action{
 		jsonObject.put("id", idName ); 
 		jsonObject.put("editable", editable);
 		jsonObject.put("txt", idName );
-		jsonObject.put("acceptDrop", acceptDrop);
+		jsonObject.put("acceptdrop", acceptDrop);
 		
 		if ( ! toolTip.equals( "" )){
 			jsonObject.put("tooltip", toolTip );
