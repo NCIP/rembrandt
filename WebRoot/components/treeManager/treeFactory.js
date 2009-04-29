@@ -100,7 +100,7 @@ var TreeUtils = {
   	var tf = new TreeFactory();
   	//required: div container w/ id=treeName defined per TafelTree API
   	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
-  	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': true, 'showTrash':true, 'showcheckBox':false, 'isEditable':true, 'isExport':false });
+  	tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': true, 'showTrash':true, 'showcheckBox':false, 'isEditable':true, 'isExport':false });
   	
   }, 
   initializeTreeForExport : function()	{
@@ -115,7 +115,7 @@ var TreeUtils = {
   	var tf = new TreeFactory();
   	//required: div container w/ id=treeName defined per TafelTree API
   	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
-  	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': false, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':true });
+  	tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': false, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':true });
   }, 
   initializeTreeForImport : function()	{
   	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
@@ -129,7 +129,7 @@ var TreeUtils = {
   	var tf = new TreeFactory();
   	//required: div container w/ id=treeName defined per TafelTree API
   	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
-  	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': false, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':false });
+  	tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': false, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':false });
   }, 
   saveTreeStructs : function()	{
   	//grab the local copies and persist
