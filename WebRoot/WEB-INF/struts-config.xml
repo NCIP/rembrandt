@@ -201,6 +201,7 @@
 		input="nautilus.importWorkspace"
 		validate="true">
 		<forward name="success" path="nautilus.manageWorkspace" />
+		<forward name="failure" path="nautilus.importWorkspace" />
 	</action>
 
 	<action path="/uploadReporterSet"
