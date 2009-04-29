@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -107,7 +109,6 @@ public class ImportWorkspaceAction extends Action{
         String trees = "";
         HttpSession session = request.getSession();
         StringReader reader = new StringReader( importWorkspaceForm.getXmlDoc() );
-        WorkspaceList unMarshalledList = (WorkspaceList)Unmarshaller.unmarshal(WorkspaceList.class, reader);
 		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(request.getSession().getId());
 
 		JSONArray jsonArray = WorkspaceHelper.generateJSONArray( session );
@@ -120,24 +121,36 @@ public class ImportWorkspaceAction extends Action{
 		
 		JSONArray importFolderItems = new JSONArray();
 		
-		// means this XML file holds just one selection
-		if ( unMarshalledList.getName().equals( "Export Folder"))
+		try
 		{
-			Iterator iterator = unMarshalledList.iterator();
-			importFolderItems = updateImportList(userListBeanHelper, iterator);
+	        WorkspaceList unMarshalledList = (WorkspaceList)Unmarshaller.unmarshal(WorkspaceList.class, reader);
+			
+			// means this XML file holds just one selection
+			if ( unMarshalledList.getName().equals( "Export Folder"))
+			{
+				Iterator iterator = unMarshalledList.iterator();
+				importFolderItems = updateImportList(userListBeanHelper, iterator);
+			}
+			else  // means it is a folder which might hold many elements as a tree
+			{
+				JSONObject topFolder = new JSONObject();
+				topFolder = setupLeaf( unMarshalledList.getName(), false, false, "" );
+				JSONArray topFolderItems = new JSONArray();
+				
+				Iterator iterator = unMarshalledList.iterator();
+				
+				topFolderItems = updateImportList(userListBeanHelper, iterator);		
+				topFolder.put("items", topFolderItems);
+				importFolderItems.add(topFolder);
+				
+			}
 		}
-		else  // means it is a folder which might hold many elements as a tree
+		catch( Exception e )
 		{
-			JSONObject topFolder = new JSONObject();
-			topFolder = setupLeaf( unMarshalledList.getName(), false, false, "" );
-			JSONArray topFolderItems = new JSONArray();
-			
-			Iterator iterator = unMarshalledList.iterator();
-			
-			topFolderItems = updateImportList(userListBeanHelper, iterator);		
-			topFolder.put("items", topFolderItems);
-			importFolderItems.add(topFolder);
-			
+			ActionErrors errors = new ActionErrors();
+			errors.add( "Upload Error", new ActionError( "gov.nih.nci.nautilus.ui.struts.form.importFile.malformed.error", importWorkspaceForm.getImportFileName() ) );
+			saveErrors( request, errors );
+			return mapping.findForward("failure");
 		}
 		importFolder.put("items", importFolderItems);
 
