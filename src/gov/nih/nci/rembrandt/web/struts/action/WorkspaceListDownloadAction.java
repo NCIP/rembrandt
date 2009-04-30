@@ -123,7 +123,7 @@ public class WorkspaceListDownloadAction extends Action {
 		for(UserList ul : uls){
 			if ( ul.getName().equals(listName)){
 				removeId( ul );
-				exportFolder = new WorkspaceList( "Export Folder" );
+				exportFolder = new WorkspaceList( "_Export _Folder" );
 				exportFolder.addLeaf(ul);
 				break;
 			}

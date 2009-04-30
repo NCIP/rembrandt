@@ -126,7 +126,7 @@ public class ImportWorkspaceAction extends Action{
 	        WorkspaceList unMarshalledList = (WorkspaceList)Unmarshaller.unmarshal(WorkspaceList.class, reader);
 			
 			// means this XML file holds just one selection
-			if ( unMarshalledList.getName().equals( "Export Folder"))
+			if ( unMarshalledList.getName().equals( "_Export _Folder"))
 			{
 				Iterator iterator = unMarshalledList.iterator();
 				importFolderItems = updateImportList(userListBeanHelper, iterator);
