@@ -39,8 +39,8 @@ var TreeFactory = Class.create({
 
 	  if(o.isExport) {	
       	opts.onClick = TreeUtils.exportFile;
+	  	opts.onMouseOver = TreeUtils.addCursorHand;
       }
-
       
       //console.log(o);
       
@@ -81,6 +81,9 @@ var TreeUtils = {
   },
   exportFile: function(branch)  {
     window.location.replace( "/rembrandt/workspaceListDownload.do?listId=" + branch.getText() );
+  },
+  addCursorHand: function(branch)  {
+    branch.addClass("tafelTreedrag");
   },
   newFolder: function(t) {     
     //make sure trash stays at bottom, assuming it starts at bottom

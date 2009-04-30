@@ -138,6 +138,7 @@ public class WorkspaceListDownloadAction extends Action {
  		    
 			JSONObject root = null;
 			JSONArray rootItems = null;
+			
  		    Iterator iterator = workspaceList.iterator();
  		    Object obj = null;
 			while(iterator.hasNext()){
@@ -145,6 +146,12 @@ public class WorkspaceListDownloadAction extends Action {
 				
 				root = (JSONObject)obj;
 				if(root.containsValue("Lists")){
+					if( listName.equals( "Lists"))		// User wants to export the top root
+					{
+						exportFolder = updateExportList(exportFolder, uls, root);
+						break;
+					}
+
 					rootItems = (JSONArray) root.get("items");		
 					exportFolder = findExportFolder(exportFolder, listName, uls, rootItems);	// recursive call to find the folder in the tree
 				}
@@ -221,6 +228,11 @@ public class WorkspaceListDownloadAction extends Action {
 			}
 			if ( ! found )  // then it is a folder. search recursively
 			{
+				if( ( (String)customObj.get("txt") ).equals( "Trash") )	// ignore the trash folder
+				{
+					continue;
+				}
+					
 				workspaceFolder = new WorkspaceList( (String)customObj.get("txt") );
 				exportFolder.addLeaf( updateExportList( workspaceFolder, uls, customObj ) ) ;	// recursive call to catch the underlying folders/files
 			}
