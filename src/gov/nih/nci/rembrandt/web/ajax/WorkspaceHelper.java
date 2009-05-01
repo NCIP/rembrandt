@@ -14,6 +14,7 @@ import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
 import gov.nih.nci.caintegrator.application.workspace.Workspace;
+import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
@@ -189,7 +190,12 @@ public class WorkspaceHelper {
 		WebContext ctx = WebContextFactory.get();
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
-		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, treeString);
+		
+		UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
+		JSONObject node = findNode( treeString, "Trash" );
+		String tree = removeNodeItems( ulbh, node, treeString );
+
+		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, tree);
 		saveWorkspace( req.getSession().getId(), req, sess );
 		return "pass";
 	}
@@ -231,4 +237,108 @@ public class WorkspaceHelper {
 		return "fail";
 	}
 	
+	
+	public static JSONObject findNode( String tree, String inName )
+	{
+		JSONArray workspaceList=(JSONArray)JSONValue.parse(tree);
+		
+		JSONObject root = null;
+		JSONArray rootItems = null;
+		JSONObject node = null;
+		
+	    Iterator iterator = workspaceList.iterator();
+	    Object obj = null;
+		while(iterator.hasNext()){
+			obj = iterator.next();
+			
+			root = (JSONObject)obj;
+			if(root.containsValue("Lists")){
+				if( inName.equals( "Lists"))		// User wants the top root
+				{
+					return root;
+				}
+
+				rootItems = (JSONArray) root.get("items");		
+				node = findNodeInTree(rootItems, inName );	// recursive call to find the node in the tree
+			}
+	    }
+		
+		return node;
+		
+	}
+	
+	private static JSONObject findNodeInTree(JSONArray items, String inName ) {
+		Object obj;
+		Iterator iterator = items.iterator();
+		while(iterator.hasNext()){
+			obj = iterator.next();
+			JSONObject jsaObj = (JSONObject)obj;
+			if(jsaObj.containsValue(inName)) {		// found the node 
+				return jsaObj;
+			}
+			else	// search recursively
+			{
+				JSONArray customItems = (JSONArray) jsaObj.get("items");
+				jsaObj = findNodeInTree(customItems, inName );
+				
+				if ( jsaObj != null )
+					return jsaObj;
+			}
+		}
+		return null;
+	}
+	
+	private static String removeNodeItems(UserListBeanHelper ulbh, JSONObject node, String treeString) {
+		Object obj;
+		JSONArray customItems;
+
+		customItems = (JSONArray) node.get("items");
+		List<UserList> uls = ulbh.getAllCustomLists();
+		
+		Iterator custom_iterator = customItems.iterator();
+		while(custom_iterator.hasNext()){
+			obj = custom_iterator.next();
+			JSONObject customObj = (JSONObject)obj;
+			boolean found = false;
+			for(UserList ul : uls){
+				if ( ul.getName().equals(customObj.get("txt"))){
+					ulbh.removeList( ul.getName() );
+					found = true;
+					break;
+				}
+			}
+			if ( ! found )  // then it is a folder. search recursively
+			{
+				removeNodeItems( ulbh, customObj, treeString );
+			}
+		}
+
+		JSONArray workspaceList=(JSONArray)JSONValue.parse(treeString);
+		
+		JSONObject root = null;
+		JSONArray rootItems = null;
+		JSONObject customObj = null;
+		
+		root = (JSONObject)workspaceList.get(0);		// the first item is Lists
+		rootItems = (JSONArray) root.get("items");
+		
+	    Iterator iterator = rootItems.iterator();
+		while(iterator.hasNext()){
+			customObj = (JSONObject)iterator.next();
+			
+			if(customObj.containsValue( node.get("txt") )){
+				customObj.clear();
+				
+				break;	
+			}
+	    }
+		
+		return workspaceList.toString();
+
+	}
+	
+
+	
+	
+
 }

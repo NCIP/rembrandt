@@ -29,7 +29,7 @@ var TreeFactory = Class.create({
       'defaultImg' : 'page.gif',
       'defaultImgOpen' : 'folderopen.gif',
       'defaultImgClose' : 'folder.gif'
-      }
+      };
       if(o.dnd) {
         opts.onDrop = function(m,d,f,c)  { return true;};
       }
@@ -46,7 +46,7 @@ var TreeFactory = Class.create({
       
       tree = new TafelTree(o.treeName, o.struct, opts);
       
-      if(o.showTrash == false)  {
+      if(o.showTrash === false)  {
           tree.removeBranch('trash');
       }
       
@@ -142,8 +142,8 @@ var TreeUtils = {
   saveTreeStructs_cb : function(r)	{
   	if(r == "pass")	{
   		alert("Save Successful");
-  		//should rebuild the tree for fun
-  		//TreeUtils.initializeTree();
+  		$('oListTree').innerHTML='';
+  		TreeUtils.initializeTree();
   	}
   }
 

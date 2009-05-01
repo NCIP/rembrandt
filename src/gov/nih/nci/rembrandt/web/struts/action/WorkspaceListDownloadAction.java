@@ -134,29 +134,12 @@ public class WorkspaceListDownloadAction extends Action {
 		{
 			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
 			
-			JSONArray workspaceList=(JSONArray)JSONValue.parse(tree);
- 		    
-			JSONObject root = null;
-			JSONArray rootItems = null;
+			JSONObject node = WorkspaceHelper.findNode(tree, listName);
 			
- 		    Iterator iterator = workspaceList.iterator();
- 		    Object obj = null;
-			while(iterator.hasNext()){
-				obj = iterator.next();
-				
-				root = (JSONObject)obj;
-				if(root.containsValue("Lists")){
-					if( listName.equals( "Lists"))		// User wants to export the top root
-					{
-						exportFolder = updateExportList(exportFolder, uls, root);
-						break;
-					}
-
-					rootItems = (JSONArray) root.get("items");		
-					exportFolder = findExportFolder(exportFolder, listName, uls, rootItems);	// recursive call to find the folder in the tree
-				}
-		    }
+			exportFolder = updateExportList(exportFolder, uls, node);
+			
 		}
+
 		response.setContentType("application/x-download");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + listName + ".xml" + "\"");
 		try
@@ -174,29 +157,6 @@ public class WorkspaceListDownloadAction extends Action {
 		{}
 		
 		return null;
-	}
-
-	private WorkspaceList findExportFolder(WorkspaceList exportFolder,
-			String listName, List<UserList> uls, JSONArray items) {
-		Object obj;
-		Iterator iterator = items.iterator();
-		while(iterator.hasNext()){
-			obj = iterator.next();
-			JSONObject jsaObj = (JSONObject)obj;
-			if(jsaObj.containsValue(listName)) {		// found the folder 
-				exportFolder = updateExportList(exportFolder, uls, jsaObj);
-				return exportFolder;
-			}
-			else	// search recursively
-			{
-				JSONArray customItems = (JSONArray) jsaObj.get("items");
-				exportFolder = findExportFolder(exportFolder, listName, uls, customItems);
-				
-				if ( exportFolder != null )
-					return exportFolder;
-			}
-		}
-		return exportFolder;
 	}
 
 	private WorkspaceList updateExportList(WorkspaceList exportFolder, List<UserList> uls, JSONObject jsaObj) {
