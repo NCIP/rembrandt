@@ -144,6 +144,7 @@ var TreeUtils = {
   		alert("Save Successful");
   		$('oListTree').innerHTML='';
   		TreeUtils.initializeTree();
+  		SidebarHelper.loadSidebar();
   	}
   }
 
