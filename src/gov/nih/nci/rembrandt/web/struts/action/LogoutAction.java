@@ -8,12 +8,14 @@ import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.mail.Mail;
 import gov.nih.nci.caintegrator.application.mail.MailProps;
 import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
+import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LogoutForm;
 
@@ -182,7 +184,10 @@ public final class LogoutAction extends Action
     			if(tree != null && userId != null){
     				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, workspace);
     			}
-        		_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
+    			UserQuery userQuery = (UserQuery) request.getSession().getAttribute(RembrandtConstants.USER_QUERY);
+    			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(request.getSession().getId());
+    			myListLoader.saveSessionQueryBag(userId, queryBag, userQuery);
+        		//_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
         	}
         	_cacheManager.deleteSessionCache(session.getId());
         	//null out the sesssion vars

@@ -8,34 +8,70 @@ import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
+import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.service.findings.strategies.StrategyHelper;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.type.SerializationException;
+import org.hibernate.util.SerializationHelper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.support.AbstractLobCreatingPreparedStatementCallback;
+import org.springframework.jdbc.support.lob.LobHandler;
 
 public class RembrandtListLoader extends ListLoader {
     private static Logger logger = Logger.getLogger(RembrandtListLoader.class);    
     private SessionFactory sessionFactory;
-    
+    private JdbcTemplate jdbcTemplate;
+    private LobHandler lobHandler;
     /**
+	 * @return the lobHandler
+	 */
+	public LobHandler getLobHandler() {
+		return lobHandler;
+	}
+
+	/**
+	 * @param lobHandler the lobHandler to set
+	 */
+	public void setLobHandler(LobHandler lobHandler) {
+		this.lobHandler = lobHandler;
+	}
+
+	/**
+	 * @return the jdbcTemplate
+	 */
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	/**
+	 * @param jdbcTemplate the jdbcTemplate to set
+	 */
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	/**
      * @return Returns the sessionFactory.
      */
     public SessionFactory getSessionFactory() {
@@ -161,15 +197,20 @@ public class RembrandtListLoader extends ListLoader {
     		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(httpSessionID);
     		List<UserList> customlists =  userListBeanHelper.getAllCustomLists();
     		for(UserList list:customlists){
-		        Session currentSession = sessionFactory.getCurrentSession(); 
-		        currentSession = sessionFactory.openSession();
-		        Transaction transaction = currentSession.beginTransaction();
-		    	transaction = currentSession.beginTransaction();
-		    	transaction.begin();
-    			list.setAuthor(userName);
-		    	currentSession.saveOrUpdate(list);
-		    	transaction.commit();
-		    	currentSession.close();
+		        try {
+					Session currentSession = sessionFactory.getCurrentSession(); 
+					currentSession = sessionFactory.openSession();
+					Transaction transaction = currentSession.beginTransaction();
+					transaction = currentSession.beginTransaction();
+					transaction.begin();
+					list.setAuthor(userName);
+					currentSession.saveOrUpdate(list);
+					transaction.commit();
+					currentSession.close();
+				} catch (HibernateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     	}
 
@@ -193,19 +234,18 @@ public class RembrandtListLoader extends ListLoader {
     }
     public Workspace  loadTreeStructure(Long userId, TreeStructureType type){
         Session currentSession = sessionFactory.getCurrentSession(); 
-        List<Workspace> lists = new ArrayList<Workspace>();
+        List<Workspace> lists = null;
         String theHQL = "";
         Query theQuery = null;        
-        Collection<Workspace> listWorkspace = null;
         if(userId != null && type != null){
 	        theHQL = "select w from Workspace w where w.userId = :userId and w.treeType = :treeType";        
 	        theQuery = currentSession.createQuery(theHQL);
 	        theQuery.setParameter("userId", userId);
 	        theQuery.setParameter("treeType", type.toString());        
 	        System.out.println("HQL: " + theHQL);        
-	        listWorkspace = theQuery.list();  
-	        if(listWorkspace != null  && listWorkspace.size() == 1){
-		        for(Workspace wp: listWorkspace){
+	        lists = theQuery.list();  
+	        if(lists != null  && lists.size() == 1){
+		        for(Workspace wp: lists){
 		            return wp;
 		        }
 	        }
@@ -230,6 +270,53 @@ public class RembrandtListLoader extends ListLoader {
 	    	transaction.commit();
 	    	currentSession.close();
     	}
+    }
+    public UserQuery  loadUserQuery(Long userId){
+        Session currentSession = sessionFactory.getCurrentSession(); 
+        String theHQL = "";
+        Query theQuery = null;        
+        List<UserQuery> listUserQuery = null;
+        if(userId != null ){
+	        theHQL = "select u from UserQuery u where u.userId = :userId";        
+	        theQuery = currentSession.createQuery(theHQL);
+	        theQuery.setParameter("userId", userId);   
+	        System.out.println("HQL: " + theHQL);        
+	        listUserQuery = theQuery.list();  
+	        if(listUserQuery != null  && listUserQuery.size() == 1){
+		        for(UserQuery uq: listUserQuery){
+		            return uq;
+		        }
+	        }
+        }
+        return null;
+    }
+    public void saveSessionQueryBag(Long userId, SessionQueryBag queryBag, UserQuery userQuery){
+    	/*if(userId != null   &&  queryBag != null){
+	        try {
+	        	        	
+				Session currentSession = sessionFactory.getCurrentSession(); 
+				currentSession = sessionFactory.openSession();
+				Transaction transaction = currentSession.beginTransaction();
+				transaction = currentSession.beginTransaction();
+				transaction.begin();
+				if(userQuery == null){ //first time create a new userQuery
+					userQuery = new UserQuery();
+					userQuery.setUserId(userId);
+				}
+				byte[] serializedBag = SerializationHelper.serialize(queryBag);
+				userQuery.setQueryContent(serializedBag);
+				currentSession.saveOrUpdate(userQuery);
+				transaction.commit();
+				currentSession.close();
+				
+			} catch (SerializationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (HibernateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}*/
     }
 
 }

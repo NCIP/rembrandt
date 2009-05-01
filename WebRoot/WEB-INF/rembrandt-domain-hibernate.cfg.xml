@@ -6,7 +6,7 @@
 	<session-factory>
 
 		<property name="connection.datasource">java:/rembrandt</property>
-		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="connection.driver_class">org.hibernate.dialect.Oracle9Dialect</property>
 		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.max_fetch_depth">1</property>
 		<property name="hibernate.jdbc.use_streams_for_binary">true</property>
@@ -26,11 +26,11 @@
 		<property name="use_sql_comments">true</property>
 
 
-		<property name="dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="dialect">org.hibernate.dialect.Oracle9Dialect</property>
 		<mapping resource="gov/nih/nci/caintegrator/application/lists/UserList.hbm.xml" />
 		<mapping resource="gov/nih/nci/caintegrator/application/lists/ListItem.hbm.xml" />
 		<mapping resource="gov/nih/nci/caintegrator/application/workspace/Workspace.hbm.xml" />
-
+		<mapping resource="gov/nih/nci/caintegrator/application/workspace/UserQuery.hbm.xml" />
 
 
 	</session-factory>

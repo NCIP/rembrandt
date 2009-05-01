@@ -160,7 +160,7 @@ public class ImportWorkspaceAction extends Action{
 		
 		trees = jsonArray.toString();
 		session.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
-		WorkspaceHelper.saveWorkspace( session.getId(), request, session );
+		WorkspaceHelper.saveWorkspace( session );
 		
 
         

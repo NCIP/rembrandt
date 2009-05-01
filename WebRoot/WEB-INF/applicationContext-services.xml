@@ -13,7 +13,9 @@
 		
 	<bean id="listLoader"
 		class="gov.nih.nci.rembrandt.util.RembrandtListLoader">
-		<property name="sessionFactory" ref="sessionFactory" />		
+		<property name="sessionFactory" ref="sessionFactory" />	
+		<property name="lobHandler" ref="oracleLobHandler"/>
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
 	</bean>
 
 	<!--  Bean for thread pool -->

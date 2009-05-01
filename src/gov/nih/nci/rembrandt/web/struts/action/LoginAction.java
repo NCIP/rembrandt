@@ -6,6 +6,7 @@ import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
+import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.security.UserCredentials;
@@ -13,6 +14,8 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 
+import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
@@ -127,14 +130,20 @@ public final class LoginAction extends Action
             session.setAttribute("name", f.getUserName());
             UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
             session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
-            boolean reloadedCache = _cacheManager.reloadSessionCache(f.getUserName(),session.getId());
-            if(reloadedCache) {
-            	logger.debug("SessionCache reloaded");
-            	Enumeration names = session.getAttributeNames();
-            	System.out.println(names);
-            }else{
-            	logger.debug("No persisted cache available.  Created new SessionCache");
-            }
+            SessionQueryBag theBag = WorkspaceHelper.loadSessionQueryBagFromDB(session);
+    		if(theBag != null){
+        		_cacheManager.putSessionQueryBag(session.getId(), theBag);
+        	}else{ //user has no previously saved session so create one
+        		_cacheManager.putSessionQueryBag(session.getId(), new SessionQueryBag());
+        	} 
+//            boolean reloadedCache = _cacheManager.reloadSessionCache(f.getUserName(),session.getId());
+//            if(reloadedCache) {
+//            	logger.debug("SessionCache reloaded");
+//            	Enumeration names = session.getAttributeNames();
+//            	System.out.println(names);
+//            }else{
+//            	logger.debug("No persisted cache available.  Created new SessionCache");
+//            }
             UserListBean userListBean = new UserListBean();
             try {
             	userListBean = myListLoader.loadDiseaseGroups(userListBean, session);
@@ -170,16 +179,15 @@ public final class LoginAction extends Action
 				}
 			}
 			//load custom lists
-			UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-			if(credentials.getUserName() != null  && !credentials.getUserName().equals("RBTuser")){
-	            List<UserList> userLists = (List<UserList>) myListLoader.loadCustomListsByUserName(f.getUserName());
+	            List<UserList> userLists = WorkspaceHelper.loadCustomListsFromDB(session);
 		            if(userLists != null && userLists.size() > 0){
 		            	for(UserList ul: userLists){
                             userListBean.addList(ul);
 		            	}
-		            }		       
-			}
+		            }
+
             userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
+            //load persisted Q
             return (mapping.findForward("success"));
         }
         else

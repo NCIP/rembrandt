@@ -180,4 +180,5 @@ public final class RembrandtConstants {
     public static final String WORKSPACE = "workspace";
     
     public static final String WORKSPACE_LIST_DOWNLOAD_URL = "/rembrandt/workspaceListDownload.do";
+	public static final String USER_QUERY = "userQuery";
 }
