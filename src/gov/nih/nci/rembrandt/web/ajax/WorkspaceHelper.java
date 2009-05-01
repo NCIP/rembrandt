@@ -299,7 +299,7 @@ public class WorkspaceHelper {
 		while(custom_iterator.hasNext()){
 			obj = custom_iterator.next();
 			JSONObject customObj = (JSONObject)obj;
-			boolean found = ulbh.findList((String)customObj.get("txt") );
+			boolean found = ulbh.listExists((String)customObj.get("txt") );
 			if ( found )
 			{
 				ulbh.removeList( (String)customObj.get("txt") );
@@ -333,7 +333,7 @@ public class WorkspaceHelper {
 				customObj.clear();
 				break;	
 			}
-			boolean found = ulbh.findList((String)customObj.get("txt") );
+			boolean found = ulbh.listExists((String)customObj.get("txt") );
 			if ( ! found )  // then it is a folder. search recursively
 			{
 				cleanTree( ulbh, customObj, treeString );
