@@ -1,27 +1,29 @@
 package gov.nih.nci.rembrandt.web.ajax;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
-
 import gov.nih.nci.caintegrator.application.configuration.SpringContext;
 import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
+import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 import gov.nih.nci.caintegrator.security.UserCredentials;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.hibernate.util.SerializationHelper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -31,6 +33,8 @@ import uk.ltd.getahead.dwr.WebContextFactory;
 
 public class WorkspaceHelper {
     private static RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
+	private static Logger logger = Logger.getLogger(WorkspaceHelper.class);
+    private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 
 	public WorkspaceHelper()	{}
 	public static Workspace fetchWorkspaceFromDB(Long userId){
@@ -39,6 +43,35 @@ public class WorkspaceHelper {
 		 workspace = myListLoader.loadTreeStructure(userId, TreeStructureType.LIST);
 		}		 
 		return workspace;
+	}
+	public static SessionQueryBag loadSessionQueryBagFromDB(HttpSession session){
+		SessionQueryBag queryBag = null;
+		UserQuery userQuery = null;
+		UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+		if(credentials.getUserId() != null  && !credentials.getUserName().equals("RBTuser")){
+            userQuery = myListLoader.loadUserQuery(credentials.getUserId());
+            if(userQuery != null  && userQuery.getQueryContent()!= null){
+            	session.setAttribute(RembrandtConstants.USER_QUERY, userQuery);
+            	byte[] objectData = userQuery.getQueryContent();
+            	Object obj =  SerializationHelper.deserialize(objectData);   
+            	if(obj instanceof SessionQueryBag){
+            		queryBag = (SessionQueryBag)obj;
+            	}
+            }else{
+            	session.removeAttribute(RembrandtConstants.USER_QUERY);
+            }
+		}
+		return queryBag;
+
+	}
+	public static List<UserList> loadCustomListsFromDB(HttpSession session){
+		//load custom lists
+		List<UserList> customLists= new ArrayList<UserList>();
+		UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+		if(credentials.getUserName() != null  && !credentials.getUserName().equals("RBTuser")){
+			customLists = (List<UserList>) myListLoader.loadCustomListsByUserName(credentials.getUserName());	            
+		}
+		return customLists;
 	}
 	public static String fetchTreeStructures()	{
 		String trees = "";
@@ -196,16 +229,17 @@ public class WorkspaceHelper {
 		String tree = removeNodeItems( ulbh, node, treeString );
 
 		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, tree);
-		saveWorkspace( req.getSession().getId(), req, sess );
-		return "pass";
+		saveWorkspace( sess );
+
+	return "pass";
 	}
 
-	public static String saveWorkspace(String sessionId, HttpServletRequest req, HttpSession sess ){
+	public static String saveWorkspace(HttpSession sess ){
 		/*
     	 * User has selected to save the current session and log out of the
     	 * application
     	 */
-    	UserCredentials credentials = (UserCredentials)req.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+    	UserCredentials credentials = (UserCredentials)sess.getAttribute(RembrandtConstants.USER_CREDENTIALS);
     	
     	/*******************************************************************
     	 * This is only here to prevent a user logged in on the public
@@ -224,9 +258,10 @@ public class WorkspaceHelper {
 //    		if (!removedLists.isEmpty()){
 //    			myListLoader.deleteUserCustomLists(req.getSession().getId(), credentials.getUserName());        			
 //    		}
+
     		//get Tree from session to save to DB
-			String tree = (String) req.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
-			Workspace workspace = (Workspace) req.getSession().getAttribute(RembrandtConstants.WORKSPACE);
+			String tree = (String) sess.getAttribute(RembrandtConstants.OLIST_STRUCT);
+			Workspace workspace = (Workspace) sess.getAttribute(RembrandtConstants.WORKSPACE);
 			Long userId = credentials.getUserId();
 			//Save Lists
 			if(tree != null && userId != null){
