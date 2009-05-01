@@ -299,20 +299,23 @@ public class WorkspaceHelper {
 		while(custom_iterator.hasNext()){
 			obj = custom_iterator.next();
 			JSONObject customObj = (JSONObject)obj;
-			boolean found = false;
-			for(UserList ul : uls){
-				if ( ul.getName().equals(customObj.get("txt"))){
-					ulbh.removeList( ul.getName() );
-					found = true;
-					break;
-				}
+			boolean found = ulbh.findList((String)customObj.get("txt") );
+			if ( found )
+			{
+				ulbh.removeList( (String)customObj.get("txt") );
 			}
-			if ( ! found )  // then it is a folder. search recursively
+			else  // then it is a folder. search recursively
 			{
 				removeNodeItems( ulbh, customObj, treeString );
 			}
 		}
 
+		JSONArray workspaceList = cleanTree(ulbh, node, treeString);
+		
+		return workspaceList.toString();
+
+	}
+	private static JSONArray cleanTree(UserListBeanHelper ulbh, JSONObject node, String treeString) {
 		JSONArray workspaceList=(JSONArray)JSONValue.parse(treeString);
 		
 		JSONObject root = null;
@@ -328,13 +331,16 @@ public class WorkspaceHelper {
 			
 			if(customObj.containsValue( node.get("txt") )){
 				customObj.clear();
-				
 				break;	
 			}
-	    }
-		
-		return workspaceList.toString();
+			boolean found = ulbh.findList((String)customObj.get("txt") );
+			if ( ! found )  // then it is a folder. search recursively
+			{
+				cleanTree( ulbh, customObj, treeString );
+			}
 
+	    }
+		return workspaceList;
 	}
 	
 
