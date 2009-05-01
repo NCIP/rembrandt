@@ -310,37 +310,33 @@ public class WorkspaceHelper {
 			}
 		}
 
-		JSONArray workspaceList = cleanTree(ulbh, node, treeString);
+		JSONArray workspaceList=(JSONArray)JSONValue.parse(treeString);
+		JSONObject root = null;
+		root = (JSONObject)workspaceList.get(0);		// the first item is Lists
+		cleanTree(root, ulbh, node, treeString);
 		
 		return workspaceList.toString();
 
 	}
-	private static JSONArray cleanTree(UserListBeanHelper ulbh, JSONObject node, String treeString) {
-		JSONArray workspaceList=(JSONArray)JSONValue.parse(treeString);
-		
-		JSONObject root = null;
-		JSONArray rootItems = null;
-		JSONObject customObj = null;
-		
-		root = (JSONObject)workspaceList.get(0);		// the first item is Lists
-		rootItems = (JSONArray) root.get("items");
-		
-	    Iterator iterator = rootItems.iterator();
+	private static void cleanTree(JSONObject list, UserListBeanHelper ulbh, JSONObject node, String treeString) {
+		JSONObject customObj = null;		
+		JSONArray listItems = (JSONArray) list.get("items");
+	    Iterator iterator = listItems.iterator();
 		while(iterator.hasNext()){
 			customObj = (JSONObject)iterator.next();
 			
 			if(customObj.containsValue( node.get("txt") )){
-				customObj.clear();
+				( (JSONArray)customObj.get("items") ).clear();
 				break;	
 			}
 			boolean found = ulbh.listExists((String)customObj.get("txt") );
 			if ( ! found )  // then it is a folder. search recursively
 			{
-				cleanTree( ulbh, customObj, treeString );
+				cleanTree( customObj, ulbh, node, treeString );
 			}
 
 	    }
-		return workspaceList;
+
 	}
 	
 
