@@ -41,35 +41,7 @@ import org.springframework.jdbc.support.lob.LobHandler;
 public class RembrandtListLoader extends ListLoader {
     private static Logger logger = Logger.getLogger(RembrandtListLoader.class);    
     private SessionFactory sessionFactory;
-    private JdbcTemplate jdbcTemplate;
-    private LobHandler lobHandler;
-    /**
-	 * @return the lobHandler
-	 */
-	public LobHandler getLobHandler() {
-		return lobHandler;
-	}
 
-	/**
-	 * @param lobHandler the lobHandler to set
-	 */
-	public void setLobHandler(LobHandler lobHandler) {
-		this.lobHandler = lobHandler;
-	}
-
-	/**
-	 * @return the jdbcTemplate
-	 */
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
-
-	/**
-	 * @param jdbcTemplate the jdbcTemplate to set
-	 */
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 
 	/**
      * @return Returns the sessionFactory.
