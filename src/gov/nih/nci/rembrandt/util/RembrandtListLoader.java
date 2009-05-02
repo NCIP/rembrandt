@@ -291,7 +291,7 @@ public class RembrandtListLoader extends ListLoader {
         return null;
     }
     public void saveSessionQueryBag(Long userId, SessionQueryBag queryBag, UserQuery userQuery){
-    	/*if(userId != null   &&  queryBag != null){
+    	if(userId != null   &&  queryBag != null){
 	        try {
 	        	        	
 				Session currentSession = sessionFactory.getCurrentSession(); 
@@ -316,7 +316,7 @@ public class RembrandtListLoader extends ListLoader {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	}*/
+    	}
     }
 
 }
