@@ -4,6 +4,8 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -23,6 +25,7 @@ import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ReportGeneratorForm;
+import gov.nih.nci.caintegrator.application.lists.ListItem;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -424,7 +427,48 @@ public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
 	return runGeneViewReport(mapping, rgForm, request, response);
 }
 
-	public ActionForward switchViews(ActionMapping mapping, ActionForm form,
+public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm form,
+		HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
+	ActionForward thisForward = null;
+	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+	//Used to get the old resultant from cache
+	String queryName = rgForm.getQueryName();
+	//This is what the user wants to name the new resultSet
+	String prb_queryName = rgForm.getPrbQueryName();
+	String sessionId = request.getSession().getId();
+	
+	String reportType = request.getParameter( "reportType" );
+	String[] sampleIds = null;
+	
+	if( reportType.equals( "Gene Expression Sample" ) ){
+		sampleIds = (String[])request.getSession().getAttribute("tmp_excel_export");
+	}
+	else {
+		List list = (List)request.getSession().getAttribute("clinical_tmpSampleList");
+		sampleIds = (String[])list.toArray(new String[list.size()]);
+	}
+	
+	//get the old 
+	CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
+	if(cquery!=null) {
+		if( reportType.equals( "Gene Expression Sample" ) )
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+		else	
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
+		
+		cquery.setQueryName(prb_queryName);
+		//This will generate the report and store it in the cache
+		ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
+		//store the name of the query in the form so that we can later pull it out of cache
+		ReportBean reportBean = rgHelper.getReportBean();
+		rgForm.setQueryName(reportBean.getResultantCacheKey());
+   	}
+	//now send everything that we have done to the actual method that will render the report
+	return runGeneViewReport(mapping, rgForm, request, response);
+}
+
+public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ActionForward thisForward = null;

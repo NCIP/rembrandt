@@ -92,6 +92,21 @@ function stupidXSL(i, cPage, total)	{
 		var savedSamples = Array();
 	
 		document.prbSamples.prbQueryName.value = document.getElementById('tmp_prb_queryName').value;
+		var can_continue = checkIfSamplesSelected( savedSamples );
+		
+		if(can_continue)	{
+			try	{
+				if(savedSamples.length>0)
+					DynamicReport.saveSamples(savedSamples.join(","), document.prbSamples.prbQueryName.value, saveSamples_cb);
+			}
+			catch(e){alert("list did not save successfully");}
+			//document.prbSamples.submit();
+		}
+		else	
+			alert("You must select at least one sample");
+	}
+	
+	function checkIfSamplesSelected( savedSamples ) {
 		var can_continue = false;
 		
 		if(document.prbSamples.samples.length > 1)	{
@@ -108,19 +123,10 @@ function stupidXSL(i, cPage, total)	{
 				savedSamples.push(document.prbSamples.samples.value);
 			}
 		}
-		if(can_continue)	{
-			//alert("cool");
-			try	{
-				//alert(savedSamples.join(","));
-				if(savedSamples.length>0)
-					DynamicReport.saveSamples(savedSamples.join(","), document.prbSamples.prbQueryName.value, saveSamples_cb);
-			}
-			catch(e){alert("list did not save successfully");}
-			//document.prbSamples.submit();
-		}
-		else	
-			alert("You must select at least one sample");
+		
+		return can_continue;
 	}
+	
 
 	function saveSamples_cb(txt)	{
 		if(txt!="fail" && document.prbSamples)	{
@@ -334,9 +340,28 @@ function checkElement(id)	{
 			return true;
 }
 
-function stupidXSLEscape(qname)	{
-	var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&csv=true";
-	//alert(dest);
+function stupidXSLEscape(qname, rtype)	{
+	var savedSamples = Array();
+	var can_continue = checkIfSamplesSelected( savedSamples );
+	
+	if ( can_continue ) {
+		try	{
+			if(savedSamples.length>0)
+				DynamicReport.saveSamplesForExcelExport(savedSamples.join(","), qname, rtype, excel_export_cb);
+		}
+		catch(e){alert("list did not save successfully");}
+	}
+	else
+	{
+		alert("You must select at least one sample or select Check All.");
+		return false;
+	}
+	
+}
+
+function excel_export_cb(qnameAndrType) {
+	var qnameAndrTypeArray = qnameAndrType.split(",");
+	var dest = "runReport.do?method=exportToExcelForGeneView&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&csv=true&checkedAll=true";
 	location.href = dest;
 }
 

@@ -39,6 +39,8 @@ import org.json.simple.JSONValue;
 import com.sun.jdori.common.Logger;
 
 import uk.ltd.getahead.dwr.ExecutionContext;
+import uk.ltd.getahead.dwr.WebContext;
+import uk.ltd.getahead.dwr.WebContextFactory;
 
 
 
@@ -382,6 +384,19 @@ public class DynamicReportGenerator {
 		*/
 		return success;
 	}
+	
+	public String saveSamplesForExcelExport(String commaSepList, String queryName, String reportType)	{
+		if ( reportType.equals("Gene Expression Sample")) {
+			String[] listArr = StringUtils.split(commaSepList, ",");
+			WebContext ctx = WebContextFactory.get();
+			HttpServletRequest req = ctx.getHttpServletRequest();
+			HttpSession sess = req.getSession(); 
+			sess.setAttribute("tmp_excel_export", listArr);
+		}
+		
+		return queryName + "," + reportType;
+	}
+	
 
 	public String processAnnotation(String key)	{
 		String s = ""; 
