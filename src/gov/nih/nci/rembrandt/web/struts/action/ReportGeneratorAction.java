@@ -441,7 +441,7 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 	String reportType = request.getParameter( "reportType" );
 	String[] sampleIds = null;
 	
-	if( reportType.equals( "Gene Expression Sample" ) ){
+	if( reportType.equals( "Gene Expression Sample" ) || reportType.equals( "Copy Number" ) ){
 		sampleIds = (String[])request.getSession().getAttribute("tmp_excel_export");
 	}
 	else {
@@ -454,7 +454,9 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 	if(cquery!=null) {
 		if( reportType.equals( "Gene Expression Sample" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-		else	
+		else if ( reportType.equals( "Copy Number" ) )	
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW ));
+		else
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		
 		cquery.setQueryName(prb_queryName);

@@ -386,7 +386,7 @@ public class DynamicReportGenerator {
 	}
 	
 	public String saveSamplesForExcelExport(String commaSepList, String queryName, String reportType)	{
-		if ( reportType.equals("Gene Expression Sample")) {
+		if ( reportType.equals("Gene Expression Sample") || reportType.equals("Copy Number") ) {
 			String[] listArr = StringUtils.split(commaSepList, ",");
 			WebContext ctx = WebContextFactory.get();
 			HttpServletRequest req = ctx.getHttpServletRequest();
