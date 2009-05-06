@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.bean;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -10,10 +11,12 @@ import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -149,7 +152,7 @@ public class SessionQueryBag implements Serializable,Cloneable {
 		return queryMap.values();
 	}
 
-	public Collection getQueryNames() {
+	public Collection<String> getQueryNames() {
 		return queryMap.keySet();
 	}
     public Collection getQueryDTOs() {
@@ -286,6 +289,70 @@ public class SessionQueryBag implements Serializable,Cloneable {
 			}
 		}
 		return allGenesQueries;
+	}
+	/**
+	 * Method to get all the CopyNumber Queries
+	 * 
+	 * @return  -- a list of CopyNumber Queries.
+	 */
+	public List<String> getGeneExpressionQueryNames(){
+		List<String> queryList = new ArrayList<String>();
+		Set<String> keys = queryMap.keySet();
+		for(String key:keys) {
+			Query query = (Query)queryMap.get(key);
+			if(query instanceof GeneExpressionQuery) {
+				queryList.add(query.getQueryName());
+			}
+		}
+		return queryList;
+	}
+	/**
+	 * Method to get all the geneExpr Queries
+	 * 
+	 * @return  -- a list of geneExpr Queries.
+	 */
+	public List<String> getComparativeGenomicQueryNames(){
+		List<String> queryList = new ArrayList<String>();
+		Set<String> keys = queryMap.keySet();
+		for(String key:keys) {
+			Query query = (Query)queryMap.get(key);
+			if(query instanceof ComparativeGenomicQuery) {
+				queryList.add(query.getQueryName());
+			}
+		}
+		return queryList;
+	}
+	/**
+	 * Method to get all the geneExpr Queries 
+	 * 
+	 * @return  -- a list of geneExpr Queries.
+	 */
+	public List<String> getClinicalDataQueryNames(){
+		List<String> queryList = new ArrayList<String>();
+		Set<String> keys = queryMap.keySet();
+		for(String key:keys) {
+			Query query = (Query)queryMap.get(key);
+			if(query instanceof ClinicalDataQuery) {
+				queryList.add(query.getQueryName());
+			}
+		}
+		return queryList;
+	}
+	/**
+	 * Method to get all the geneExpr Queries ClinicalDataQuery
+	 * 
+	 * @return  -- a list of geneExpr Queries.
+	 */
+	public List<ComparativeGenomicQuery> getClinicalGenomicQueries(){
+		List<ComparativeGenomicQuery> queryList = new ArrayList<ComparativeGenomicQuery>();
+		Set<String> keys = queryMap.keySet();
+		for(String key:keys) {
+			Query query = (Query)queryMap.get(key);
+			if(query instanceof ComparativeGenomicQuery) {
+				queryList.add((ComparativeGenomicQuery)query);
+			}
+		}
+		return queryList;
 	}
 	/**
 	 * Creates a new Map that will contain all the current queries that are not
