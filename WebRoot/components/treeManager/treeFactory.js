@@ -91,12 +91,12 @@ var TreeUtils = {
     var lbr = br.getLastBranch();
     var nb = lbr.insertBefore({"id":"newFolder","img":"folder.gif","txt": "New Folder","onedit": TreeUtils.editFolderName});
   },
-  initializeTree : function()	{
+  initializeListTree : function()	{
   	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
   	//call callback
-  	WorkspaceHelper.fetchTreeStructures(TreeUtils.initializeTree_cb);
+  	WorkspaceHelper.fetchListTreeStructures(TreeUtils.initializeListTree_cb);
   },
-  initializeTree_cb : function(r)	{
+  initializeListTree_cb : function(r)	{
   	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
   	//convention keys are : oListStruct, eListStruct
   	var rJSON = r.evalJSON();
@@ -104,12 +104,27 @@ var TreeUtils = {
   	//required: div container w/ id=treeName defined per TafelTree API
   	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
   	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': true, 'showTrash':true, 'showcheckBox':false, 'isEditable':true, 'isExport':false });
-  	
+ 
+  }, 
+  initializeQueryTree : function()	{
+  	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
+  	//call callback
+  	WorkspaceHelper.fetchQueryTreeStructures(TreeUtils.initializeQueryTree_cb);
+  },
+  initializeQueryTree_cb : function(r)	{
+  	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
+  	//convention keys are : oListStruct, eListStruct
+  	var rJSON = r.evalJSON();
+  	var tf = new TreeFactory();
+  	//required: div container w/ id=treeName defined per TafelTree API
+  	oQueryStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
+  	oQueryTree = tf.generateTree({'treeName': 'oQueryTree', 'struct': oQueryStruct, 'dnd': true, 'showTrash':true, 'showcheckBox':false, 'isEditable':true, 'isExport':false });
+ 
   }, 
   initializeTreeForExport : function()	{
   	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
   	//call callback
-  	WorkspaceHelper.fetchTreeStructures(TreeUtils.initializeTreeForExport_cb);
+  	WorkspaceHelper.fetchListTreeStructures(TreeUtils.initializeTreeForExport_cb);
   },
   initializeTreeForExport_cb : function(r)	{
   	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
@@ -123,7 +138,7 @@ var TreeUtils = {
   initializeTreeForImport : function()	{
   	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
   	//call callback
-  	WorkspaceHelper.fetchTreeStructures(TreeUtils.initializeTreeForImport_cb);
+  	WorkspaceHelper.fetchListTreeStructures(TreeUtils.initializeTreeForImport_cb);
   },
   initializeTreeForImport_cb : function(r)	{
   	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
@@ -143,7 +158,8 @@ var TreeUtils = {
   	if(r == "pass")	{
   		alert("Save Successful");
   		$('oListTree').innerHTML='';
-  		TreeUtils.initializeTree();
+  		TreeUtils.initializeListTree();
+  		TreeUtils.initializeQueryTree();
   		SidebarHelper.loadSidebar();
   	}
   }

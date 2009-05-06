@@ -5,7 +5,8 @@
 <script type="text/javascript" src="components/treeManager/treeFactory.js"></script>
 <script type="text/javascript">
 Event.observe(window, 'load', function()	{
-	TreeUtils.initializeTree();
+	TreeUtils.initializeListTree();
+	TreeUtils.initializeQueryTree();
 });
 
 
@@ -24,12 +25,11 @@ Event.observe(window, 'load', function()	{
 				they are available to you when you return to the application at a
 				later date.
 				<br />
-				<!--  
 				<div id="oQueryTree"></div>
 				<a href="#" onclick="TreeUtils.newFolder(oQueryTree);return false;">
-					<img src="images/folder_add.png" border="0" /> new folder</a><br />
+					<img src="components/treeManager/images/folder_add.png" border="0" /> new folder</a><br />
 				<br clear="all" />
-				-->
+			
 				<div id="oListTree"></div>
 				<a href="#" onclick="TreeUtils.newFolder(oListTree);return false;">
 					<img src="components/treeManager/images/folder_add.png" border="0" /> new folder</a><br />
