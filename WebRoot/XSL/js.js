@@ -1,5 +1,5 @@
 hideLoadingMessage();
- 
+
 function stupidXSL(i, cPage, total)	{
 	var str = "";
 	if(i == cPage)
@@ -342,12 +342,19 @@ function checkElement(id)	{
 
 function stupidXSLEscape(qname, rtype)	{
 	var savedSamples = Array();
-	var can_continue = checkIfSamplesSelected( savedSamples );
+	var can_continue = false;
+	
+	if ( rtype == "Gene Expression Sample" ) 
+		can_continue = checkIfSamplesSelected( savedSamples );
+	else
+		can_continue = currentTmpSamplesCount > 0;			// for clinical view, the records selected are stored in this variable.
 	
 	if ( can_continue ) {
 		try	{
-			if(savedSamples.length>0)
+			if(savedSamples.length>0)	// only for Gene Expression Sample View
 				DynamicReport.saveSamplesForExcelExport(savedSamples.join(","), qname, rtype, excel_export_cb);
+			else
+				DynamicReport.saveSamplesForExcelExport("", qname, rtype, excel_export_cb);	 // for clinical view, the selected records are already stored in session.
 		}
 		catch(e){alert("list did not save successfully");}
 	}

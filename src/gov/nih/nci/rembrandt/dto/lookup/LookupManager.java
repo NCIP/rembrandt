@@ -537,7 +537,8 @@ public class LookupManager{
 					if(accessIds.size()>0){
 						crit.addIn("INSTITUTION_ID",accessIds);
 					}
-					crit.addNotEqualTo("SPECIMEN_TYPE", "CELL_LINE");
+					// commented the following line because it was not including cell line specimens for institutional users.	
+					//	crit.addNotEqualTo("SPECIMEN_TYPE", "CELL_LINE");	
 					Collection col = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,crit,"SPECIMEN_NAME", true);
 					if(col != null){
 						for(Object ojb:col){
