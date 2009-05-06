@@ -116,7 +116,7 @@ public final class LoginAction extends Action
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
         RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
-        
+        SessionQueryBag theBag = null;
         //check to see if jobscheduler is started.
         String schedulerType = System.getProperty("rembrandt.scheduler.type");
         try{
@@ -130,7 +130,12 @@ public final class LoginAction extends Action
             session.setAttribute("name", f.getUserName());
             UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
             session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
-            SessionQueryBag theBag = WorkspaceHelper.loadSessionQueryBagFromDB(session);
+        	UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+    		if(credentials.getUserId() != null  && !credentials.getUserName().equals("RBTuser")){
+    			 theBag = WorkspaceHelper.loadSessionQueryBagFromDB(session,credentials.getUserId());
+    			 WorkspaceHelper.fetchListWorkspaceFromDB( session,credentials.getUserId());
+    		}
+
     		if(theBag != null){
         		_cacheManager.putSessionQueryBag(session.getId(), theBag);
         	}else{ //user has no previously saved session so create one
@@ -179,8 +184,9 @@ public final class LoginAction extends Action
 				}
 			}
 			//load custom lists
-	            List<UserList> userLists = WorkspaceHelper.loadCustomListsFromDB(session);
+	            List<UserList> userLists = WorkspaceHelper.loadCustomListsFromDB(credentials.getUserName());
 		            if(userLists != null && userLists.size() > 0){
+		            	WorkspaceHelper.fetchListWorkspaceFromDB(session, credentials.getUserId());
 		            	for(UserList ul: userLists){
                             userListBean.addList(ul);
 		            	}

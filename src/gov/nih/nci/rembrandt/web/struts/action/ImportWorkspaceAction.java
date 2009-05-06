@@ -111,7 +111,7 @@ public class ImportWorkspaceAction extends Action{
         StringReader reader = new StringReader( importWorkspaceForm.getXmlDoc() );
 		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(request.getSession().getId());
 
-		JSONArray jsonArray = WorkspaceHelper.generateJSONArray( session );
+		JSONArray jsonArray = WorkspaceHelper.generateListJSONArray( session );
         
         String currentDate = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.FULL ).format(Calendar.getInstance().getTime() );
 

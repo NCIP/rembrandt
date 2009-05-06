@@ -178,11 +178,11 @@ public final class LogoutAction extends Action
         		}
         		//get Tree from session to save to DB
     			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
-    			Workspace workspace = (Workspace) request.getSession().getAttribute(RembrandtConstants.WORKSPACE);
+    			Workspace listWorkspace = (Workspace) request.getSession().getAttribute(RembrandtConstants.LIST_WORKSPACE);
     			Long userId = credentials.getUserId();
     			//Save Lists
     			if(tree != null && userId != null){
-    				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, workspace);
+    				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, listWorkspace);
     			}
     			UserQuery userQuery = (UserQuery) request.getSession().getAttribute(RembrandtConstants.USER_QUERY);
     			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(request.getSession().getId());

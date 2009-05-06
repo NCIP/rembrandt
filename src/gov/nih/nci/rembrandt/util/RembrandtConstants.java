@@ -177,8 +177,11 @@ public final class RembrandtConstants {
 	
     public static final String OLIST_STRUCT = "oListStruct";
     
-    public static final String WORKSPACE = "workspace";
+    public static final String LIST_WORKSPACE = "listWorkspace";
+    
+    public static final String QUERY_WORKSPACE = "queryWorkspace";
     
     public static final String WORKSPACE_LIST_DOWNLOAD_URL = "/rembrandt/workspaceListDownload.do";
 	public static final String USER_QUERY = "userQuery";
+	public static final String OQUERY_STRUCT = "oQuerytStruct";
 }

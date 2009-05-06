@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -37,19 +38,35 @@ public class WorkspaceHelper {
     private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 
 	public WorkspaceHelper()	{}
-	public static Workspace fetchWorkspaceFromDB(Long userId){
-		Workspace workspace = null;
+	public static Workspace fetchListWorkspaceFromDB(HttpSession sess, Long userId){
+		Workspace listWorkspace = null;
 		if(userId != null){
-		 workspace = myListLoader.loadTreeStructure(userId, TreeStructureType.LIST);
-		}		 
-		return workspace;
+			//get LISTS
+		}
+		listWorkspace = myListLoader.loadTreeStructure(userId, TreeStructureType.LIST);
+		////// NOTE: we want to read this from the DB, if null then create and persist
+		if(listWorkspace != null  && listWorkspace.getTreeStructure()!= null)	{
+			sess.setAttribute(RembrandtConstants.LIST_WORKSPACE, listWorkspace);
+			}
+		return listWorkspace;
 	}
-	public static SessionQueryBag loadSessionQueryBagFromDB(HttpSession session){
+	public static Workspace fetchQueryWorkspaceFromDB(HttpSession sess, Long userId){
+		Workspace queryWorkspace = null;
+		if(userId != null){
+			//get Queries
+		}
+		queryWorkspace = myListLoader.loadTreeStructure(userId, TreeStructureType.QUERY);
+		////// NOTE: we want to read this from the DB, if null then create and persist
+		if(queryWorkspace != null  && queryWorkspace.getTreeStructure()!= null)	{
+			sess.setAttribute(RembrandtConstants.QUERY_WORKSPACE, queryWorkspace);
+			}
+		return queryWorkspace;
+	}
+	public static SessionQueryBag loadSessionQueryBagFromDB(HttpSession session , Long userId){
 		SessionQueryBag queryBag = null;
 		UserQuery userQuery = null;
-		UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-		if(credentials.getUserId() != null  && !credentials.getUserName().equals("RBTuser")){
-            userQuery = myListLoader.loadUserQuery(credentials.getUserId());
+		if(userId != null){
+            userQuery = myListLoader.loadUserQuery(userId);
             if(userQuery != null  && userQuery.getQueryContent()!= null){
             	session.setAttribute(RembrandtConstants.USER_QUERY, userQuery);
             	byte[] objectData = userQuery.getQueryContent();
@@ -64,47 +81,166 @@ public class WorkspaceHelper {
 		return queryBag;
 
 	}
-	public static List<UserList> loadCustomListsFromDB(HttpSession session){
+	public static List<UserList> loadCustomListsFromDB(String userName){
 		//load custom lists
 		List<UserList> customLists= new ArrayList<UserList>();
-		UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-		if(credentials.getUserName() != null  && !credentials.getUserName().equals("RBTuser")){
-			customLists = (List<UserList>) myListLoader.loadCustomListsByUserName(credentials.getUserName());	            
+		if(userName != null ){
+			customLists = (List<UserList>) myListLoader.loadCustomListsByUserName(userName);	            
 		}
 		return customLists;
 	}
-	public static String fetchTreeStructures()	{
-		String trees = "";
-		
+	public static String fetchListTreeStructures()	{
+		String listTrees = "";
 		WebContext ctx = WebContextFactory.get();
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
-		JSONArray jsa = generateJSONArray(sess);
-
-		trees = jsa.toString();
-
+		JSONArray jsaList = generateListJSONArray(sess);
+		
+		listTrees = jsaList.toString();
+		
 		//store it to DB when DAOs are ready
-		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
-		//}
-				
-		return trees;
+		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, listTrees);
+						
+		return listTrees;
 	}
+	public static String fetchQueryTreeStructures()	{
+		String queryTrees = "";
+		WebContext ctx = WebContextFactory.get();
+		HttpServletRequest req = ctx.getHttpServletRequest();
+		HttpSession sess = req.getSession(); 
+		JSONArray jsaQuery = generateQueryJSONArray(sess);
 
-	public static JSONArray generateJSONArray(HttpSession sess) {
+		queryTrees = jsaQuery.toString();
+		//store it to DB when DAOs are ready
+		sess.setAttribute(RembrandtConstants.OQUERY_STRUCT, queryTrees);
+
+				
+		return queryTrees;
+	}
+	public static JSONArray generateQueryJSONArray(HttpSession sess) {
 		String trees;
 		UserCredentials credentials = (UserCredentials)sess.getAttribute(RembrandtConstants.USER_CREDENTIALS);
 		
 		////// NOTE: we want to read this from the DB, if null then create and persist
-		Workspace workspace = fetchWorkspaceFromDB(credentials.getUserId());
-		if(workspace != null  && workspace.getTreeStructure()!= null)	{
-				trees = workspace.getTreeStructure();
-			
-			sess.setAttribute(RembrandtConstants.WORKSPACE, workspace);
+		Workspace queryWorkspace = fetchQueryWorkspaceFromDB(sess, credentials.getUserId());
+		if(queryWorkspace != null  && queryWorkspace.getTreeStructure()!= null)	{
+				trees = queryWorkspace.getTreeStructure();
 			}else{
 				trees = null;
 		}
-		//check the DB first (using session for testing), create initial struct if none exists
-		//if(trees == null)	{
+			////////////// TEST DATA String
+			//trees = "[ { 'id' : 'root', 'txt' : 'Lists', 'editable': false, 'items' : [ { 'id' : 'ast', 'txt' : 'ASTROCYTOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t21', 'txt' : 'high survival patients', 'img' : 'folder.gif', 'items' : [ { 'id': 'sub11', 'txt': 'my patient list', 'editable': false, 'acceptdrop' : false } ] }, { 'id' : 'branch_t22', 'txt' : 'ALL GLIOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t23', 'txt' : 'MySaved Patients', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t24', 'txt' : 'Patients_good_survival', 'editable': false, 'acceptdrop' : false }, { 'id' : 'trash', 'last' : true, 'draggable' : false, 'txt' : 'Trash', 'img' : 'trash.gif', 'imgopen' : 'trash.gif', 'imgclose' : 'trash.gif', 'open' : false, 'editable': false, 'tooltip' : 'Items here will be removed when the workspace is saved', 'items' : [ { 'id': 'sub1', 'txt': 'one to delete' , 'editable': false, 'acceptdrop' : false } ] } ] } ]";
+
+			//generate the Tree on the first time thru, and persist
+			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sess.getId());
+			//convert this into the JSON format we need
+			JSONArray jsa = new JSONArray();
+			JSONObject root = null;
+			JSONObject query = null;
+			JSONArray queryItems = null;
+			JSONArray rootItems = null;
+			if(trees != null){
+				root = findNode( trees, "root" );
+				rootItems = getNodeItems(root);
+				query = findNodeInTree(rootItems,"geQuery");
+				queryItems = getNodeItems(query);				
+				JSONArray newItems = new JSONArray();
+				for(String queryName :  queryBag.getGeneExpressionQueryNames()){
+					if(!foundItemInTree(rootItems, queryName)){
+							String id = queryName;
+							String txt = queryName;
+							String tooltip = queryBag.getQuery(queryName).toString();							JSONObject item = createNodeItem(id,txt,tooltip);
+							newItems.add(item);
+						}
+					}
+				queryItems.addAll(newItems);
+				query = findNodeInTree(rootItems,"cpQuery");
+				queryItems = getNodeItems(query);				
+				newItems = new JSONArray();
+				for(String queryName :  queryBag.getComparativeGenomicQueryNames()){
+					if(!foundItemInTree(rootItems, queryName)){
+							String id = queryName;
+							String txt = queryName;
+							String tooltip = queryBag.getQuery(queryName).toString();							JSONObject item = createNodeItem(id,txt,tooltip);
+							newItems.add(item);
+						}
+					}
+				queryItems.addAll(newItems);
+				query = findNodeInTree(rootItems,"clinicalQuery");
+				queryItems = getNodeItems(query);				
+				newItems = new JSONArray();
+				for(String queryName :  queryBag.getClinicalDataQueryNames()){
+					if(!foundItemInTree(rootItems, queryName)){
+							String id = queryName;
+							String txt = queryName;
+							String tooltip = queryBag.getQuery(queryName).toString();							JSONObject item = createNodeItem(id,txt,tooltip);
+							newItems.add(item);
+						}
+					}
+				queryItems.addAll(newItems);
+				jsa.add(root);
+			}else {
+			root= createNode("root","Queries");
+			rootItems = new JSONArray();
+			//for each list, add it to the root folder, since they are not organized yet
+			//GE
+			query = createNode("geQuery","Gene Expression Queries");
+			queryItems = new JSONArray();
+			for(String queryName :  queryBag.getGeneExpressionQueryNames()){
+							String id = queryName;
+							String txt = queryName;
+							String tooltip = queryBag.getQuery(queryName).toString();
+							JSONObject item = createNodeItem(id,txt,tooltip);
+							queryItems.add(item);
+			}
+			query.put("items", queryItems);
+			rootItems.add(query);
+	        root.put("items", queryItems);
+	        //CP
+			query = createNode("cpQuery","Copy Number Queries");
+			queryItems = new JSONArray();
+			for(String queryName :  queryBag.getComparativeGenomicQueryNames()){
+				String id = queryName;
+				String txt = queryName;
+				String tooltip = queryBag.getQuery(queryName).toString();
+				JSONObject item = createNodeItem(id,txt,tooltip);
+				queryItems.add(item);
+			}
+			query.put("items", queryItems);
+			rootItems.add(query);
+			//CLINICAL
+			query = createNode("clinicalQuery","Clinical Data Queries");
+			queryItems = new JSONArray();
+			for(String queryName :  queryBag.getClinicalDataQueryNames()){
+				String id = queryName;
+				String txt = queryName;
+				String tooltip = queryBag.getQuery(queryName).toString();
+				JSONObject item = createNodeItem(id,txt,tooltip);
+				queryItems.add(item);
+			}
+			query.put("items", queryItems);
+			rootItems.add(query);
+			//add the trash
+			JSONObject trashList = createTrashNode();			
+			rootItems.add(trashList);
+	        root.put("items", rootItems);
+			
+	        jsa.add(root);
+	}
+		return jsa;
+	}
+	public static JSONArray generateListJSONArray(HttpSession sess) {
+		String trees;
+		UserCredentials credentials = (UserCredentials)sess.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+		
+		////// NOTE: we want to read this from the DB, if null then create and persist
+		Workspace workspace = fetchListWorkspaceFromDB(sess, credentials.getUserId());
+		if(workspace != null  && workspace.getTreeStructure()!= null)	{
+				trees = workspace.getTreeStructure();
+			}else{
+				trees = null;
+		}
+
 
 			////////////// TEST DATA String
 			//trees = "[ { 'id' : 'root', 'txt' : 'Lists', 'editable': false, 'items' : [ { 'id' : 'ast', 'txt' : 'ASTROCYTOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t21', 'txt' : 'high survival patients', 'img' : 'folder.gif', 'items' : [ { 'id': 'sub11', 'txt': 'my patient list', 'editable': false, 'acceptdrop' : false } ] }, { 'id' : 'branch_t22', 'txt' : 'ALL GLIOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t23', 'txt' : 'MySaved Patients', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t24', 'txt' : 'Patients_good_survival', 'editable': false, 'acceptdrop' : false }, { 'id' : 'trash', 'last' : true, 'draggable' : false, 'txt' : 'Trash', 'img' : 'trash.gif', 'imgopen' : 'trash.gif', 'imgclose' : 'trash.gif', 'open' : false, 'editable': false, 'tooltip' : 'Items here will be removed when the workspace is saved', 'items' : [ { 'id': 'sub1', 'txt': 'one to delete' , 'editable': false, 'acceptdrop' : false } ] } ] } ]";
@@ -115,107 +251,86 @@ public class WorkspaceHelper {
 			//convert this into the JSON format we need
 			JSONArray jsa = new JSONArray();
 			JSONObject root = null;
-			JSONObject customList = null;
+			JSONObject customNode = null;
 			JSONArray customItems = null;
 			JSONArray rootItems = null;
+			// if one exists, check if all lists are within it
 			if(trees != null){
-				List<String> listNames = new ArrayList<String>();
-				Object obj=JSONValue.parse(trees);
-				jsa=(JSONArray)obj;
-				Iterator jsa_iterator = jsa.iterator();
-				while(jsa_iterator.hasNext()){
-					obj = jsa_iterator.next();
-					if( obj instanceof JSONObject){
-						root = (JSONObject)obj;
-						if(root.containsValue("Lists")){
-							rootItems = (JSONArray) root.get("items");
-							Iterator root_iterator = rootItems.iterator();
-							while(root_iterator.hasNext()){
-								obj = root_iterator.next();
-								if( obj instanceof JSONObject){
-									JSONObject jsaObj = (JSONObject)obj;
-									String txt = (String)jsaObj.get("txt");
-									String id = (String)jsaObj.get("id");
-									if(txt != null && id !=null && txt.equals(id)){
-										listNames.add(id);
-									}
-									if(jsaObj.containsValue("Custom Lists")){
-										customList = jsaObj;
-										customItems = (JSONArray) customList.get("items");
-									}
-								}
+				root = findNode( trees, "root" );
+				rootItems = getNodeItems(root);
+				customNode = findNodeInTree(rootItems,"custom");
+				customItems = getNodeItems(customNode);				
+				JSONArray newItems = new JSONArray();
+				for(UserList ul : uls){
+					if(ul.getListOrigin().equals(ListOrigin.Custom)){
+						if(!foundItemInTree(rootItems, ul.getName())){
+								String id = ul.getName();
+								String txt = ul.getName();
+								String tooltip = ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")";
+								JSONObject item = createNodeItem(id,txt,tooltip);
+								newItems.add(item);
 							}
 						}
 					}
-				}
-				JSONArray newItems = new JSONArray();
-				for(String name: listNames){
-						for(UserList ul : uls){
-							if(ul.getListOrigin().equals(ListOrigin.Custom)){
-								if(!name.equals(ul.getName())){
-										JSONObject theList = new JSONObject();
-										theList.put("id", ul.getName()); //can nodes contain spaces?
-										theList.put("editable", false);
-										theList.put("txt", ul.getName());
-										theList.put("acceptdrop", false);
-										theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
-										//TODO: set the style att for a CSS class that will color by list type?
-										newItems.add(theList);
-									}
-								}
-							}
-					}
 				customItems.addAll(newItems);
+				jsa.add(root);
 				
-			}else {
-			root= new JSONObject();
-			root.put("id", "root");
-			root.put("txt", "Lists");
-			root.put("editable", false);
-			rootItems = new JSONArray();
-			//for each list, add it to the root folder, since they arent organized yet
-			customList = new JSONObject();
-			customList.put("id", "custom");
-			customList.put("txt", "Custom Lists");
-			customList.put("editable", false);
-			customItems = new JSONArray();
-			for(UserList ul : uls){
-				if(ul.getListOrigin().equals(ListOrigin.Custom)){
-					//if(!jsaObj.containsValue(ul.getName())){
-							JSONObject theList = new JSONObject();
-							theList.put("id", ul.getName()); //can nodes contain spaces?
-							theList.put("editable", false);
-							theList.put("txt", ul.getName());
-							theList.put("acceptdrop", false);
-							theList.put("tooltip", ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")");
-							//TODO: set the style att for a CSS class that will color by list type?
-							customItems.add(theList);
-					//	}
-					}
+			}else {	// create initial struct if none exists
+					root= createNode("root","Lists");
+					rootItems = new JSONArray();
+					//for each list, add it to the root folder, since they arent organized yet
+					customNode = createNode("custom","Custom Lists");
+					customItems = new JSONArray();
+					for(UserList ul : uls){
+						if(ul.getListOrigin().equals(ListOrigin.Custom)){
+									String id = ul.getName();
+									String txt = ul.getName();
+									String tooltip = ul.getListOrigin() + " " + ul.getListType() + " (" + ul.getItemCount() + ")";
+									JSONObject item = createNodeItem(id,txt,tooltip);
+									customItems.add(item);
+							}
+					}		
+					customNode.put("items", customItems);
+					rootItems.add(customNode);
+					//add the trash
+			        JSONObject trashList = createTrashNode();
+					rootItems.add(trashList);
+			        root.put("items", rootItems);			
+			        jsa.add(root);
 			}
-			customList.put("items", customItems);
-			rootItems.add(customList);
-	        root.put("items", customItems);
-			//add the trash
-	        JSONObject trashList = new JSONObject();
-			trashList.put("id", "trash");
-			trashList.put("last", true);
-	        trashList.put("draggable", false);
-	        trashList.put("txt", "Trash");
-	        trashList.put("editable", false);
-	        trashList.put("img", "trash.gif");
-	        trashList.put("imgopen", "trash.gif");
-	        trashList.put("imgclose", "trash.gif");
-	        trashList.put("open", false);
-	        trashList.put("tooltip", "Items here will be removed when the workspace is saved");
-			rootItems.add(trashList);
-	        root.put("items", rootItems);
-			
-	        jsa.add(root);
-	}
 		return jsa;
 	}
-	
+	public static JSONObject createTrashNode(){
+        JSONObject trashNode = new JSONObject();
+		trashNode.put("id", "trash");
+		trashNode.put("last", true);
+		trashNode.put("draggable", false);
+		trashNode.put("txt", "Trash");
+		trashNode.put("editable", false);
+		trashNode.put("img", "trash.gif");
+		trashNode.put("imgopen", "trash.gif");
+		trashNode.put("imgclose", "trash.gif");
+		trashNode.put("open", false);
+		trashNode.put("tooltip", "Items here will be removed when the workspace is saved");
+        return trashNode;
+	}
+	public static JSONObject createNodeItem(String id, String txt, String tooltip){
+		JSONObject nodeItem = new JSONObject();
+		nodeItem.put("id", id); //can nodes contain spaces?
+		nodeItem.put("editable", false);
+		nodeItem.put("txt", txt);
+		nodeItem.put("acceptdrop", false);
+		nodeItem.put("tooltip", tooltip);
+		//TODO: set the style att for a CSS class that will color by list type?
+		return nodeItem;
+	}
+	public static JSONObject createNode(String id, String txt){
+		JSONObject node = new JSONObject();
+		node.put("id", id);
+		node.put("txt", txt);
+		node.put("editable", false);
+		return node;
+	}
 	public static String saveTreeStructures(String treeString)	{
 		//this should be an array or hash
 		//for testing, its just 1 string now
@@ -261,18 +376,43 @@ public class WorkspaceHelper {
 
     		//get Tree from session to save to DB
 			String tree = (String) sess.getAttribute(RembrandtConstants.OLIST_STRUCT);
-			Workspace workspace = (Workspace) sess.getAttribute(RembrandtConstants.WORKSPACE);
+			Workspace listWorkspace = (Workspace) sess.getAttribute(RembrandtConstants.LIST_WORKSPACE);
 			Long userId = credentials.getUserId();
 			//Save Lists
 			if(tree != null && userId != null){
-				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, workspace);
+				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, listWorkspace);
 			}
 			return "pass";
     	}
 		return "fail";
 	}
 	
-	
+	public static boolean foundItemInTree(JSONArray treeArray, String itemName){
+		boolean foundInTree = false;
+		JSONObject node = null;
+		JSONArray items = null;
+		if(treeArray != null){
+		    Iterator iterator = treeArray.iterator();
+		    Object obj = null;
+			while(iterator.hasNext()){
+				obj = iterator.next();
+				if( obj instanceof JSONObject){
+					node = (JSONObject)obj;
+					String txt = (String)node.get("id");
+					if(txt != null && txt.equals(itemName)){
+						foundInTree = true;
+						break;
+					}
+					JSONArray nodeItems = getNodeItems(node);
+					if(!foundInTree){
+						foundInTree = foundItemInTree(nodeItems, itemName );	// recursive call to find the item in the tree
+					}
+
+				}
+		    }
+		}
+		return foundInTree;
+	}
 	public static JSONObject findNode( String tree, String inName )
 	{
 		JSONArray workspaceList=(JSONArray)JSONValue.parse(tree);
@@ -287,8 +427,8 @@ public class WorkspaceHelper {
 			obj = iterator.next();
 			
 			root = (JSONObject)obj;
-			if(root.containsValue("Lists")){
-				if( inName.equals( "Lists"))		// User wants the top root
+			if(root.containsValue("root")){
+				if( inName.equals( "root"))		// User wants the top root
 				{
 					return root;
 				}
@@ -301,23 +441,34 @@ public class WorkspaceHelper {
 		return node;
 		
 	}
-	
+	public static JSONArray getNodeItems( JSONObject node)
+	{
+		JSONArray nodeItems = null;
+		if(node != null){
+			nodeItems = (JSONArray) node.get("items");	
+		}
+
+		return nodeItems;
+		
+	}
 	private static JSONObject findNodeInTree(JSONArray items, String inName ) {
 		Object obj;
-		Iterator iterator = items.iterator();
-		while(iterator.hasNext()){
-			obj = iterator.next();
-			JSONObject jsaObj = (JSONObject)obj;
-			if(jsaObj.containsValue(inName)) {		// found the node 
-				return jsaObj;
-			}
-			else	// search recursively
-			{
-				JSONArray customItems = (JSONArray) jsaObj.get("items");
-				jsaObj = findNodeInTree(customItems, inName );
-				
-				if ( jsaObj != null )
+		if(items != null){
+			Iterator iterator = items.iterator();
+			while(iterator.hasNext()){
+				obj = iterator.next();
+				JSONObject jsaObj = (JSONObject)obj;
+				if(jsaObj.containsValue(inName)) {		// found the node 
 					return jsaObj;
+				}
+				else	// search recursively
+				{
+					JSONArray customItems = (JSONArray) jsaObj.get("items");
+					jsaObj = findNodeInTree(customItems, inName );
+					
+					if ( jsaObj != null )
+						return jsaObj;
+				}
 			}
 		}
 		return null;
