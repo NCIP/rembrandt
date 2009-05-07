@@ -6,6 +6,7 @@
 <script type="text/javascript">
 Event.observe(window, 'load', function()	{
 	TreeUtils.initializeTreeForExport();
+	TreeUtils.initializeQueryTreeForExport();
 });
 
 
@@ -21,6 +22,7 @@ Event.observe(window, 'load', function()	{
 				Export your Queries and Lists by clicking on either the folder or 
 				the file and save them as XML files in your local hard-drive. 
 				<br />
+				<div id="oQueryTree"></div>
 				<div id="oListTree"></div>
 			</td>
 		</tr>

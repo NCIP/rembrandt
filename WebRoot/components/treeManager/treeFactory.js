@@ -44,7 +44,7 @@ var TreeFactory = Class.create({
       
       //console.log(o);
       
-      tree = new TafelTree(o.treeName, o.struct, opts);
+      var tree = new TafelTree(o.treeName, o.struct, opts);
       
       if(o.showTrash === false)  {
           tree.removeBranch('trash');
@@ -121,6 +121,21 @@ var TreeUtils = {
   	oQueryTree = tf.generateTree({'treeName': 'oQueryTree', 'struct': oQueryStruct, 'dnd': true, 'showTrash':true, 'showcheckBox':false, 'isEditable':true, 'isExport':false });
  
   }, 
+  initializeQueryTreeForExport : function()	{
+  	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
+  	//call callback
+  	WorkspaceHelper.fetchQueryTreeStructures(TreeUtils.initializeQueryTreeForExport_cb);
+  },
+  initializeQueryTreeForExport_cb : function(r)	{
+  	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
+  	//convention keys are : oListStruct, eListStruct
+  	var rJSON = r.evalJSON();
+  	var tf = new TreeFactory();
+  	//required: div container w/ id=treeName defined per TafelTree API
+  	oQueryStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
+  	oQueryTree = tf.generateTree({'treeName': 'oQueryTree', 'struct': oQueryStruct, 'dnd': false, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':true });
+ 
+  }, 
   initializeTreeForExport : function()	{
   	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
   	//call callback
@@ -148,6 +163,21 @@ var TreeUtils = {
   	//required: div container w/ id=treeName defined per TafelTree API
   	oListStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
   	oListTree = tf.generateTree({'treeName': 'oListTree', 'struct': oListStruct, 'dnd': false, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':false });
+  },
+  initializeQueryTreeForImport : function()	{
+  	//make an ajax call to get the JSON, returned as a Hash of JSON objects (should be 2)
+  	//call callback
+  	WorkspaceHelper.fetchQueryTreeStructures(TreeUtils.initializeQueryTreeForExport_cb);
+  },
+  initializeQueryTreeForImport_cb : function(r)	{
+  	//r = string hash of JSON objects, convert the string to JSON obj w/ prototype
+  	//convention keys are : oListStruct, eListStruct
+  	var rJSON = r.evalJSON();
+  	var tf = new TreeFactory();
+  	//required: div container w/ id=treeName defined per TafelTree API
+  	oQueryStruct = rJSON; //.oListStruct; //local copy, will be updated when the tree is manipulated, then persisted
+  	oQueryTree = tf.generateTree({'treeName': 'oQueryTree', 'struct': oQueryStruct, 'dnd': false, 'showTrash':false, 'showcheckBox':false, 'isEditable':false, 'isExport':false });
+ 
   }, 
   saveTreeStructs : function()	{
   	//grab the local copies and persist

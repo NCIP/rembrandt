@@ -3,14 +3,20 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.workspace.WorkspaceQuery;
 import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -99,6 +105,7 @@ import org.json.simple.parser.JSONParser;
 public class WorkspaceListDownloadAction extends Action {
 
 	private static Logger logger = Logger.getLogger(WorkspaceListDownloadAction.class);
+	private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 	
 	/**
 	 * execute is called when this action is posted to
@@ -112,43 +119,64 @@ public class WorkspaceListDownloadAction extends Action {
 		throws Exception
 	{
 		HttpSession sess = request.getSession();
-		WorkspaceList exportFolder = null;
+		WorkspaceList exportListFolder = null;
+		WorkspaceQuery exportQueryFolder = null;
 		
-		String listName = request.getParameter( "listId" );
+		String nodeName = request.getParameter( "listId" );
 		
 		UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
 		List<UserList> uls = ulbh.getAllCustomLists(); 
 
 		// if the user selects just one file, we wrap it manually with an Export Folder and make it the root.
 		for(UserList ul : uls){
-			if ( ul.getName().equals(listName)){
+			if ( ul.getName().equals(nodeName)){
 				removeId( ul );
-				exportFolder = new WorkspaceList( "_Export _Folder" );
-				exportFolder.addLeaf(ul);
+				exportListFolder = new WorkspaceList( "_Export _Folder" );
+				exportListFolder.addLeaf(ul);
 				break;
 			}
 		}
 		
+		SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sess.getId());
+		for(String queryName :  queryBag.getQueryNames()){
+			if( queryName.equals( nodeName ) ){
+					Query query = queryBag.getQuery(nodeName);
+					exportQueryFolder = new WorkspaceQuery( "_Export _Folder" );
+					exportQueryFolder.addLeaf(query);
+					break;
+			}
+		}
+		
 		// means the user clicked on a folder NOT an individual file. The folder becomes the root.
-		if ( exportFolder == null )
+		if ( exportListFolder == null && exportQueryFolder == null )
 		{
 			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
+			JSONObject node = WorkspaceHelper.findNode(tree, nodeName);
 			
-			JSONObject node = WorkspaceHelper.findNode(tree, listName);
+			if ( node != null )
+				exportListFolder = updateExportList(exportListFolder, uls, node);
+		}
+
+		if ( exportListFolder == null && exportQueryFolder == null )	// could not find the node in the Lists
+		{
+			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OQUERY_STRUCT);
+			JSONObject node = WorkspaceHelper.findNode(tree, nodeName);
 			
-			exportFolder = updateExportList(exportFolder, uls, node);
-			
+			if ( node != null )
+				exportQueryFolder = updateExportQuery(exportQueryFolder, queryBag.getQueries(), node);
 		}
 
 		response.setContentType("application/x-download");
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + listName + ".xml" + "\"");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + nodeName + ".xml" + "\"");
 		try
 		{
 			PrintWriter out = response.getWriter();
 			StringWriter writer = new StringWriter();
 
-			if ( exportFolder != null )
-				Marshaller.marshal(exportFolder, writer);
+			if ( exportListFolder != null )
+				Marshaller.marshal(exportListFolder, writer);
+			else
+				Marshaller.marshal(exportQueryFolder, writer);				
 			
 			out.print( writer );
 			writer.close();
@@ -201,6 +229,47 @@ public class WorkspaceListDownloadAction extends Action {
 		return exportFolder;
 	}
 	
+	private WorkspaceQuery updateExportQuery(WorkspaceQuery exportFolder, Collection<Query> queries, JSONObject jsaObj) {
+		WorkspaceQuery workspaceFolder;
+		Object obj;
+		JSONObject customList;
+		JSONArray customItems;
+
+		customList = jsaObj;
+		customItems = (JSONArray) customList.get("items");
+		
+		if ( exportFolder == null )
+		{	
+			exportFolder = new WorkspaceQuery();
+			exportFolder.setQueryName((String)jsaObj.get("txt"));
+		}
+		Iterator custom_iterator = customItems.iterator();
+		while(custom_iterator.hasNext()){
+			obj = custom_iterator.next();
+			JSONObject customObj = (JSONObject)obj;
+			boolean found = false;
+			for(Query query :  queries ){
+				if( query.getQueryName().equals( customObj.get("txt") ) ){
+					exportFolder.addLeaf(query);
+					found = true;
+					break;
+				}
+			}
+			if ( ! found )  // then it is a folder. search recursively
+			{
+				if( ( (String)customObj.get("txt") ).equals( "Trash") )	// ignore the trash folder
+				{
+					continue;
+				}
+					
+				workspaceFolder = new WorkspaceQuery( (String)customObj.get("txt") );
+				exportFolder.addLeaf( updateExportQuery( workspaceFolder, queries, customObj ) ) ;	// recursive call to catch the underlying folders/files
+			}
+		}
+
+		return exportFolder;
+	}
+
 	private void removeId( UserList ul )
 	{
 		ul.setId(null);	// need to be set to null so that DB will create a new List record.

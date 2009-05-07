@@ -8,6 +8,7 @@
 <script type="text/javascript">
 Event.observe(window, 'load', function()	{
 	TreeUtils.initializeTreeForImport();
+	TreeUtils.initializeQueryTreeForImport();
 });
 
 
@@ -23,6 +24,7 @@ Event.observe(window, 'load', function()	{
 				Import your Queries and Lists by selecting an XML export file
 				from your local hard-drive. 
 				<br />
+				<div id="oQueryTree"></div>
 				<div id="oListTree"></div>
 			</td>
 		</tr>
