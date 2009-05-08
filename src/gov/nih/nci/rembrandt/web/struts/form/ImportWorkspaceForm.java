@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +28,33 @@ public class ImportWorkspaceForm extends ActionForm{
 	private FormFile workspaceFile;	
 	private String xmlDoc = null;
 	private String importFileName = null;
+	private FileTypes fileType = FileTypes.QUERY;	
+	
+	public enum FileTypes 
+	{
+	     QUERY("1"),
+	     LIST("2");
+
+	     private static final Map<String,FileTypes> hashMap 
+	          = new HashMap<String,FileTypes>();
+
+	     static {
+	          for(FileTypes s : EnumSet.allOf(FileTypes.class))
+	        	  hashMap.put(s.getId(), s);
+	     }
+
+	     private String id;
+
+	     private FileTypes(String id) {
+	          this.id = id;
+	     }
+
+	     public String getId() { return id; }
+
+	     public static FileTypes get(String id) { 
+	          return hashMap.get(id); 
+	     }
+	}
 	
 	public FormFile getWorkspaceFile() {
 		return workspaceFile;
@@ -73,7 +103,19 @@ public class ImportWorkspaceForm extends ActionForm{
 		this.importFileName = importFileName;
 	}
 	
-    public ActionErrors validate(ActionMapping mapping,
+    public String getFileType() {
+    	return fileType.getId();
+	}
+
+    public FileTypes getFileTypeEnum() {
+    	return fileType;
+	}
+    
+    public void setFileType(String fileType) {
+    	this.fileType = FileTypes.get( fileType );
+	}
+
+	public ActionErrors validate(ActionMapping mapping,
             HttpServletRequest request) {
 
         ActionErrors errors = new ActionErrors();

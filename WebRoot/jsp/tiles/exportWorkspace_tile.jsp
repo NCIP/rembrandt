@@ -23,6 +23,7 @@ Event.observe(window, 'load', function()	{
 				the file and save them as XML files in your local hard-drive. 
 				<br />
 				<div id="oQueryTree"></div>
+				<br /><br clear="all" /><br />
 				<div id="oListTree"></div>
 			</td>
 		</tr>

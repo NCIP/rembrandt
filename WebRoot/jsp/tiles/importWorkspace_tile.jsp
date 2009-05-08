@@ -25,6 +25,7 @@ Event.observe(window, 'load', function()	{
 				from your local hard-drive. 
 				<br />
 				<div id="oQueryTree"></div>
+				<br /><br clear="all" /><br />
 				<div id="oListTree"></div>
 			</td>
 		</tr>
@@ -32,8 +33,25 @@ Event.observe(window, 'load', function()	{
 			<td>
 				<html:form action="importWorkspaceFile.do" enctype="multipart/form-data">
 					<html:errors/>
-					<html:file property="workspaceFile" /> <br /><br />
-					<html:submit styleClass="xbutton" value="Import" />
+					<table>
+						<tr>
+							<td>
+								File Type : 
+								<html:select property="fileType">
+									<html:option value="1">Query</html:option>
+									<html:option value="2">List</html:option>
+								</html:select>	
+							</td>
+							<td style="padding-left:10px;">
+								<html:file property="workspaceFile" /> 
+							</td>
+						</tr>
+						<tr>
+							<td  style="padding-top:10px;">
+								<html:submit styleClass="xbutton" value="Import" />
+							</td>
+						</tr>
+					</table>			
 				</html:form>			
 			</td>
 		</tr>	

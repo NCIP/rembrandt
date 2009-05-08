@@ -3,10 +3,17 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
+import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm.FileTypes;
+import gov.nih.nci.rembrandt.workspace.WorkspaceQuery;
 
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -87,6 +94,7 @@ import org.json.simple.JSONObject;
 
 public class ImportWorkspaceAction extends Action{
     private static Logger logger = Logger.getLogger(ImportWorkspaceAction.class);
+    private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
     
 	/**
 	 * Method execute
@@ -106,13 +114,15 @@ public class ImportWorkspaceAction extends Action{
         
         ImportWorkspaceForm importWorkspaceForm = (ImportWorkspaceForm) form;
         
+        FileTypes importFileType = importWorkspaceForm.getFileTypeEnum();
+        
         String trees = "";
+        JSONArray jsonArray = null;
         HttpSession session = request.getSession();
         StringReader reader = new StringReader( importWorkspaceForm.getXmlDoc() );
 		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(request.getSession().getId());
+		SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(session.getId());
 
-		JSONArray jsonArray = WorkspaceHelper.generateListJSONArray( session );
-        
         String currentDate = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.FULL ).format(Calendar.getInstance().getTime() );
 
 		JSONObject importFolder = new JSONObject();
@@ -123,26 +133,57 @@ public class ImportWorkspaceAction extends Action{
 		
 		try
 		{
-	        WorkspaceList unMarshalledList = (WorkspaceList)Unmarshaller.unmarshal(WorkspaceList.class, reader);
-			
-			// means this XML file holds just one selection
-			if ( unMarshalledList.getName().equals( "_Export _Folder"))
+			if ( importFileType.equals( FileTypes.LIST ))		
 			{
-				Iterator iterator = unMarshalledList.iterator();
-				importFolderItems = updateImportList(userListBeanHelper, iterator);
+				jsonArray = WorkspaceHelper.generateListJSONArray( session );
+	
+				WorkspaceList unMarshalledList = (WorkspaceList)Unmarshaller.unmarshal(WorkspaceList.class, reader);
+				
+				// means this XML file holds just one selection
+				if ( unMarshalledList.getName().equals( "_Export _Folder"))
+				{
+					Iterator iterator = unMarshalledList.iterator();
+					importFolderItems = updateImportList(userListBeanHelper, iterator);
+				}
+				else  // means it is a folder which might hold many elements as a tree
+				{
+					JSONObject topFolder = new JSONObject();
+					topFolder = setupLeaf( unMarshalledList.getName(), false, false, "" );
+					JSONArray topFolderItems = new JSONArray();
+					
+					Iterator iterator = unMarshalledList.iterator();
+					
+					topFolderItems = updateImportList(userListBeanHelper, iterator);		
+					topFolder.put("items", topFolderItems);
+					importFolderItems.add(topFolder);
+					
+				}
 			}
-			else  // means it is a folder which might hold many elements as a tree
+			else
 			{
-				JSONObject topFolder = new JSONObject();
-				topFolder = setupLeaf( unMarshalledList.getName(), false, false, "" );
-				JSONArray topFolderItems = new JSONArray();
+				jsonArray = WorkspaceHelper.generateQueryJSONArray( session );
+	
+				WorkspaceQuery unMarshalledQuery = (WorkspaceQuery)Unmarshaller.unmarshal(WorkspaceQuery.class, reader);
 				
-				Iterator iterator = unMarshalledList.iterator();
-				
-				topFolderItems = updateImportList(userListBeanHelper, iterator);		
-				topFolder.put("items", topFolderItems);
-				importFolderItems.add(topFolder);
-				
+				// means this XML file holds just one selection
+				if ( unMarshalledQuery.getName().equals( "_Export _Folder"))
+				{
+					Iterator iterator = unMarshalledQuery.iterator();
+					importFolderItems = updateImportQuery(queryBag, iterator);
+				}
+				else  // means it is a folder which might hold many elements as a tree
+				{
+					JSONObject topFolder = new JSONObject();
+					topFolder = setupLeaf( unMarshalledQuery.getName(), false, false, "" );
+					JSONArray topFolderItems = new JSONArray();
+					
+					Iterator iterator = unMarshalledQuery.iterator();
+					
+					topFolderItems = updateImportQuery(queryBag, iterator);		
+					topFolder.put("items", topFolderItems);
+					importFolderItems.add(topFolder);
+					
+				}
 			}
 		}
 		catch( Exception e )
@@ -159,7 +200,15 @@ public class ImportWorkspaceAction extends Action{
 		rootItems.add( rootItems.size()-1, importFolder );		// insert before trash
 		
 		trees = jsonArray.toString();
-		session.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
+		if ( importFileType.equals( FileTypes.LIST ))
+		{
+			session.setAttribute(RembrandtConstants.OLIST_STRUCT, trees);
+		}
+		else
+		{
+			session.setAttribute(RembrandtConstants.OQUERY_STRUCT, trees);
+		}
+			
 		WorkspaceHelper.saveWorkspace( session );
 		
 
@@ -219,6 +268,44 @@ public class ImportWorkspaceAction extends Action{
 		
 		return folderItems;
 	}
+	
+	private JSONArray updateImportQuery(SessionQueryBag queryBag, Iterator<Query> iterator) {
+		Query uq = null;
+		WorkspaceQuery wq = null;
+		JSONArray folderItems = new JSONArray();
+		while ( iterator.hasNext() ) {
+			Object obj = iterator.next();
+			
+			if ( obj instanceof WorkspaceQuery ) // obj is an instance of WorkspaceQuery which means it is a folder. This means it needs a recursive call.
+			{
+				wq = (WorkspaceQuery)obj;
+				JSONObject wsFolder = new JSONObject();
+				wsFolder = setupLeaf( wq.getName(), false, false, "" );
+				
+				JSONArray wsFolderItems = new JSONArray();
+				
+				wsFolderItems = updateImportQuery( queryBag, wq.getFolderList().iterator() );
+				wsFolder.put("items", wsFolderItems);
+				
+				folderItems.add(wsFolder);
+
+			}
+			else 
+			{
+				uq = (Query)obj;
+				JSONObject theQuery = new JSONObject();
+				theQuery = setupLeaf( uq.getQueryName(), false, false, "" );
+
+				folderItems.add(theQuery);
+//				removeId( ul );
+				queryBag.putQuery( uq );
+			}
+
+		}
+		
+		return folderItems;
+	}
+	
 	
 	private void removeId( UserList ul )
 	{

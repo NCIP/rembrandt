@@ -1,6 +1,7 @@
 //Dependencies:  prototype.js, Tree-optimized.js (tafeltree), tree.css and related images
 
 var oListTree = '';
+var oQueryTree = '';
 var TreeFactory = Class.create({
   initialize: function()  {
     //store the trees as name->JSON pair
@@ -182,12 +183,14 @@ var TreeUtils = {
   saveTreeStructs : function()	{
   	//grab the local copies and persist
   	var treeString = oListStruct.toJSON();
-  	WorkspaceHelper.saveTreeStructures(treeString, TreeUtils.saveTreeStructs_cb);
+  	var queryTreeString = oQueryStruct.toJSON();
+  	WorkspaceHelper.saveTreeStructures(treeString, queryTreeString, TreeUtils.saveTreeStructs_cb);
   },
   saveTreeStructs_cb : function(r)	{
   	if(r == "pass")	{
   		alert("Save Successful");
   		$('oListTree').innerHTML='';
+  		$('oQueryTree').innerHTML='';
   		TreeUtils.initializeListTree();
   		TreeUtils.initializeQueryTree();
   		SidebarHelper.loadSidebar();

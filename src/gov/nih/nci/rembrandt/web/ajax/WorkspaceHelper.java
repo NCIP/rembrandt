@@ -331,7 +331,7 @@ public class WorkspaceHelper {
 		node.put("editable", false);
 		return node;
 	}
-	public static String saveTreeStructures(String treeString)	{
+	public static String saveTreeStructures(String treeString, String queryTreeString )	{
 		//this should be an array or hash
 		//for testing, its just 1 string now
 		//need to decouple this from DWR, so other classes (i.e. logoutAction can call this and access the session)
@@ -344,6 +344,7 @@ public class WorkspaceHelper {
 		String tree = removeNodeItems( ulbh, node, treeString );
 
 		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, tree);
+		sess.setAttribute(RembrandtConstants.OQUERY_STRUCT, queryTreeString);
 		saveWorkspace( sess );
 
 	return "pass";
@@ -382,6 +383,14 @@ public class WorkspaceHelper {
 			if(tree != null && userId != null){
 				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, listWorkspace);
 			}
+			
+			tree = (String) sess.getAttribute(RembrandtConstants.OQUERY_STRUCT);
+			Workspace queryWorkspace = (Workspace) sess.getAttribute(RembrandtConstants.QUERY_WORKSPACE);
+			//Save Queries
+			if(tree != null && userId != null){
+				myListLoader.saveTreeStructure(userId, TreeStructureType.QUERY, tree, queryWorkspace);
+			}
+			
 			return "pass";
     	}
 		return "fail";

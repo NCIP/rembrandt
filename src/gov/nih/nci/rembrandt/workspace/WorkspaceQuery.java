@@ -45,6 +45,11 @@ public class WorkspaceQuery extends Query implements Iterable {
     {
     	return null;
     }
+    
+    public String getName()
+    {
+    	return getQueryName();
+    }
 
     public String toString()
     {
