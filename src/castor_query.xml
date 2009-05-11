@@ -11,20 +11,6 @@
          <bind-xml name="queryName" />
       </field>
    </class>
-   <class name="gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery" extends="gov.nih.nci.rembrandt.dto.query.Query">
-      <field name="QueryName" type="java.lang.String">
-         <bind-xml name="queryName" />
-      </field>
-      <field name="QueryType" type="gov.nih.nci.caintegrator.dto.query.QueryType">
-         <bind-xml name="queryType" />
-      </field>
-      <field name="GeneIDCrit" type="gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria">
-         <bind-xml name="geneIDCrit" />
-      </field>
-      <field name="InstitutionCriteria" type="gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria">
-         <bind-xml name="institutionCriteria" />
-      </field>
-   </class>
    <class name="gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria">
       <field name="Institutions"
 	         type="gov.nih.nci.caintegrator.dto.de.InstitutionDE"
