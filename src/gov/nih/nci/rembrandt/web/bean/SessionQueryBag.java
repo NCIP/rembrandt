@@ -1,4 +1,5 @@
 package gov.nih.nci.rembrandt.web.bean;
+import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
@@ -476,4 +477,35 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	public void setCompoundQueryMap(Map<String, Queriable> compoundQueryMap) {
 		this.compoundQueryMap = compoundQueryMap;
 	}
+	
+    public String checkQueryName(String queryName){
+    	String iKey = "_renamed";
+    	
+    	String cleanName = queryName;
+    	int i = 0;
+    	Collection<String> queryNames = queryMap.keySet();
+    	 for(String name: queryNames){
+    		 if(name.equalsIgnoreCase(cleanName)){
+    			 //hit
+    			 if(cleanName.indexOf(iKey)!= -1)	{
+    				 String c = cleanName.substring(cleanName.indexOf(iKey)+iKey.length());
+    				 Integer it;
+    				 try	{
+    					 it = Integer.parseInt(c)+1;
+    				 }
+    				 catch (Exception e) {
+    					 it = 1;
+					}
+    				 cleanName = cleanName.substring(0, cleanName.indexOf(iKey)) +  iKey + it; 
+    			 }
+    			 else	{
+    				 //this is the first hit
+    				 cleanName += iKey+"1";
+    			 }
+    			 cleanName = this.checkQueryName(cleanName);
+    		 }
+    	 }
+    	return cleanName;
+    }
+	
  }

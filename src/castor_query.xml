@@ -41,5 +41,91 @@
          <bind-xml name="valueObject" />
       </field>
    </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.RaceCriteria">
+      <field name="Races"
+	         type="gov.nih.nci.caintegrator.dto.de.RaceDE"
+	         collection="arraylist">
+         <bind-xml name="races" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria">
+      <field name="Diseases"
+	         type="gov.nih.nci.caintegrator.dto.de.DiseaseNameDE"
+	         collection="arraylist">
+         <bind-xml name="diseases" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria">
+      <field name="PathwayNames"
+	         type="gov.nih.nci.caintegrator.dto.de.PathwayDE"
+	         collection="arraylist">
+         <bind-xml name="pathwayNames" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria">
+      <field name="Titles"
+	         type="gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE"
+	         collection="arraylist">
+         <bind-xml name="titles" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryTitleCriteria">
+      <field name="Titles"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudySurgeryTitleDE"
+	         collection="arraylist">
+         <bind-xml name="titles" />
+      </field>
+   </class>
+
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryOutcomeCriteria">
+      <field name="Outcomes"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudySurgeryOutcomeDE"
+	         collection="arraylist">
+         <bind-xml name="outcomes" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria">
+      <field name="Outcomes"
+	         type="gov.nih.nci.caintegrator.dto.de.SurgeryOutcomeDE"
+	         collection="arraylist">
+         <bind-xml name="outcomes" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudyRadiationTherapyCriteria">
+      <field name="Radiations"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudyRadiationTherapyDE"
+	         collection="arraylist">
+         <bind-xml name="radiations" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria">
+      <field name="Radiations"
+	         type="gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE"
+	         collection="arraylist">
+         <bind-xml name="radiations" />
+      </field>
+   </class>
+
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudyChemoAgentCriteria">
+      <field name="Agents"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudyChemoAgentDE"
+	         collection="arraylist">
+         <bind-xml name="agents" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria">
+      <field name="Agents"
+	         type="gov.nih.nci.caintegrator.dto.de.ChemoAgentDE"
+	         collection="arraylist">
+         <bind-xml name="agents" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SampleCriteria">
+      <field name="SampleIDs"
+	         type="gov.nih.nci.caintegrator.dto.de.SampleIDDE"
+	         collection="arraylist">
+         <bind-xml name="sample-iDs" />
+      </field>
+   </class>
 
 </mapping>

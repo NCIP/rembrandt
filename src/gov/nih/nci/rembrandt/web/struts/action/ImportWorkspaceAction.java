@@ -303,6 +303,7 @@ public class ImportWorkspaceAction extends Action{
 			{
 				uq = (Query)obj;
 				JSONObject theQuery = new JSONObject();
+				uq.setQueryName( queryBag.checkQueryName( uq.getQueryName() ) );
 				theQuery = setupLeaf( uq.getQueryName(), false, false, "" );
 
 				folderItems.add(theQuery);
