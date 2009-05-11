@@ -31,6 +31,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -172,17 +174,33 @@ public class WorkspaceListDownloadAction extends Action {
 		{
 			PrintWriter out = response.getWriter();
 			StringWriter writer = new StringWriter();
+			
+			Mapping castorMapping = new Mapping();
+			castorMapping.loadMapping("C:/bin/jboss-4.0.5.GA/server/default/deploy/rembrandt.war/WEB-INF/classes/castor_query.xml");
 
 			if ( exportListFolder != null )
+			{
 				Marshaller.marshal(exportListFolder, writer);
+			}
 			else
-				Marshaller.marshal(exportQueryFolder, writer);				
+			{
+				Marshaller marshaller = new Marshaller(writer);
+
+				marshaller.setMapping(castorMapping);
+				marshaller.marshal(exportQueryFolder);
+			}
 			
 			out.print( writer );
 			writer.close();
 		}
 		catch( IOException e )
-		{}
+		{
+			System.out.println( "" );
+		}
+		catch( MappingException e )
+		{
+			System.out.println( "" );
+		}
 		
 		return null;
 	}

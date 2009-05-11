@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class WorkspaceQuery extends Query implements Iterable {
-	private List<Query> folderList = new ArrayList<Query>();
+	private ArrayList<Query> folderList = new ArrayList<Query>();
 	
 	public WorkspaceQuery()
 	{
@@ -27,7 +27,7 @@ public class WorkspaceQuery extends Query implements Iterable {
 		folderList.add( query );
 	}
 
-	public List<Query> getFolderList() {
+	public ArrayList<Query> getFolderList() {
 		return folderList;
 	}
 	

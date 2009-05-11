@@ -34,6 +34,9 @@ import org.apache.struts.action.ActionMapping;
 import org.exolab.castor.xml.Unmarshaller;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
+
 
 /**
 * caIntegrator License
@@ -163,7 +166,13 @@ public class ImportWorkspaceAction extends Action{
 			{
 				jsonArray = WorkspaceHelper.generateQueryJSONArray( session );
 	
-				WorkspaceQuery unMarshalledQuery = (WorkspaceQuery)Unmarshaller.unmarshal(WorkspaceQuery.class, reader);
+				Mapping castorMapping = new Mapping();
+				castorMapping.loadMapping("C:/bin/jboss-4.0.5.GA/server/default/deploy/rembrandt.war/WEB-INF/classes/castor_query.xml");
+
+				Unmarshaller unmar = new Unmarshaller(WorkspaceQuery.class);
+				unmar.setMapping( castorMapping );
+
+				WorkspaceQuery unMarshalledQuery = (WorkspaceQuery)unmar.unmarshal(reader);
 				
 				// means this XML file holds just one selection
 				if ( unMarshalledQuery.getName().equals( "_Export _Folder"))
