@@ -183,9 +183,9 @@ var TreeUtils = {
   }, 
   saveTreeStructs : function()	{
   	//grab the local copies and persist
-  	var treeString = oListStruct.toJSON();
+  	var listTreeString = oListStruct.toJSON();
   	var queryTreeString = oQueryStruct.toJSON();
-  	WorkspaceHelper.saveTreeStructures(treeString, queryTreeString, TreeUtils.saveTreeStructs_cb);
+  	WorkspaceHelper.saveTreeStructures(listTreeString, queryTreeString, TreeUtils.saveTreeStructs_cb);
   },
   saveTreeStructs_cb : function(r)	{
   	if(r == "pass")	{

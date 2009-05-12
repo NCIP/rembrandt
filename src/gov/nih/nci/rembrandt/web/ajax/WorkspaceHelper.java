@@ -17,6 +17,7 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -180,11 +181,11 @@ public class WorkspaceHelper {
 				queryItems.addAll(newItems);
 				jsa.add(root);
 			}else {
-			root= createNode("root","Queries");
+			root= createDefaultNode("root","Queries");
 			rootItems = new JSONArray();
 			//for each list, add it to the root folder, since they are not organized yet
 			//GE
-			query = createNode("geQuery","Gene Expression Queries");
+			query = createDefaultNode("geQuery","Gene Expression Queries");
 			queryItems = new JSONArray();
 			for(String queryName :  queryBag.getGeneExpressionQueryNames()){
 							String id = queryName;
@@ -197,7 +198,7 @@ public class WorkspaceHelper {
 			rootItems.add(query);
 	        root.put("items", queryItems);
 	        //CP
-			query = createNode("cpQuery","Copy Number Queries");
+			query = createDefaultNode("cpQuery","Copy Number Queries");
 			queryItems = new JSONArray();
 			for(String queryName :  queryBag.getComparativeGenomicQueryNames()){
 				String id = queryName;
@@ -209,7 +210,7 @@ public class WorkspaceHelper {
 			query.put("items", queryItems);
 			rootItems.add(query);
 			//CLINICAL
-			query = createNode("clinicalQuery","Clinical Data Queries");
+			query = createDefaultNode("clinicalQuery","Clinical Data Queries");
 			queryItems = new JSONArray();
 			for(String queryName :  queryBag.getClinicalDataQueryNames()){
 				String id = queryName;
@@ -272,14 +273,16 @@ public class WorkspaceHelper {
 							}
 						}
 					}
-				customItems.addAll(newItems);
+				if(customItems != null){
+					customItems.addAll(newItems);
+				}
 				jsa.add(root);
 				
 			}else {	// create initial struct if none exists
-					root= createNode("root","Lists");
+					root= createDefaultNode("root","Lists");
 					rootItems = new JSONArray();
 					//for each list, add it to the root folder, since they arent organized yet
-					customNode = createNode("custom","Custom Lists");
+					customNode = createDefaultNode("custom","Custom Lists");
 					customItems = new JSONArray();
 					for(UserList ul : uls){
 						if(ul.getListOrigin().equals(ListOrigin.Custom)){
@@ -324,32 +327,74 @@ public class WorkspaceHelper {
 		//TODO: set the style att for a CSS class that will color by list type?
 		return nodeItem;
 	}
-	public static JSONObject createNode(String id, String txt){
+	public static JSONObject createDefaultNode(String id, String txt){
 		JSONObject node = new JSONObject();
 		node.put("id", id);
 		node.put("txt", txt);
 		node.put("editable", false);
+		node.put("draggable", false);
+		node.put("img", "folder.gif");
 		return node;
 	}
-	public static String saveTreeStructures(String treeString, String queryTreeString )	{
+	public static String saveTreeStructures(String listTreeString, String queryTreeString)	{
 		//this should be an array or hash
 		//for testing, its just 1 string now
 		//need to decouple this from DWR, so other classes (i.e. logoutAction can call this and access the session)
 		WebContext ctx = WebContextFactory.get();
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
+		//delete any items in the trash can in the Lists Tree
+		String listTree = removeListsFromTrash( listTreeString, sess.getId() );
+		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, listTree);
 		
-		UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
-		JSONObject node = findNode( treeString, "Trash" );
-		String tree = removeNodeItems( ulbh, node, treeString );
-
-		sess.setAttribute(RembrandtConstants.OLIST_STRUCT, tree);
-		sess.setAttribute(RembrandtConstants.OQUERY_STRUCT, queryTreeString);
+		String queryTree = removeQueriesFromTrash( queryTreeString, sess.getId() );
+		sess.setAttribute(RembrandtConstants.OQUERY_STRUCT, queryTree);
+		
 		saveWorkspace( sess );
 
 	return "pass";
 	}
-
+	private static String removeListsFromTrash(String listTreeString, String sessionId) {
+		JSONArray jsa = new JSONArray();
+		JSONObject root = findNode( listTreeString, "root" );
+		JSONArray rootItems = getNodeItems(root);
+		JSONObject trashNode = findNodeInTree( rootItems, "trash" );	
+		JSONArray trashItems = getNodeItems(trashNode);
+		UserListBeanHelper ulbh = new UserListBeanHelper(sessionId);
+		List<UserList> userLists = ulbh.getAllCustomLists();
+		for(UserList userList :userLists){
+			if(foundItemInTree(trashItems, userList.getName())){
+				ulbh.removeList(userList.getName());
+			}
+		}
+		trashItems.clear();
+		jsa.add(root);
+		return jsa.toString();	
+		}
+	private static String removeQueriesFromTrash(String queryTreeString, String sessionId) {
+		JSONArray jsa = new JSONArray();
+		JSONObject root = findNode( queryTreeString, "root" );
+		JSONArray rootItems = getNodeItems(root);
+		JSONObject trashNode = findNodeInTree( rootItems, "trash" );	
+		JSONArray trashItems = getNodeItems(trashNode);
+		SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
+//		List<String> trashItemsList = new ArrayList<String>();
+		Collection<String> queryList = queryBag.getQueryNames();
+		for(String queryName :queryList){
+			if(foundItemInTree(trashItems, queryName)){
+//				trashItemsList.add(queryName);
+				queryBag.removeQuery(queryName);
+			}
+		}
+//		for(String trashItem: trashItemsList){
+//			removeItemFromTree(trashItems, trashItem);
+//			queryBag.removeQuery(trashItem);			
+//		}
+		_cacheManager.putSessionQueryBag(sessionId, queryBag);
+		trashItems.clear();
+		jsa.add(root);
+		return jsa.toString();	
+		}
 	public static String saveWorkspace(HttpSession sess ){
 		/*
     	 * User has selected to save the current session and log out of the
@@ -364,33 +409,35 @@ public class WorkspaceHelper {
     	if(!"RBTuser".equals(credentials.getUserName())) {
     		//Check to see user also created some custom lists.
 
-//    		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(req.getSession().getId());
-//    		
-//    		List<UserList> customLists = userListBeanHelper.getAllCustomLists();
-//    		if (!customLists.isEmpty()){
-//    			myListLoader.saveUserCustomLists(req.getSession().getId(), credentials.getUserName());        			
-//    		}
-//    		List<UserList> removedLists = userListBeanHelper.getAllDeletedCustomLists();
-//    		if (!removedLists.isEmpty()){
-//    			myListLoader.deleteUserCustomLists(req.getSession().getId(), credentials.getUserName());        			
-//    		}
+    		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(sess.getId());
+    		
+    		List<UserList> customLists = userListBeanHelper.getAllCustomLists();
+    		if (!customLists.isEmpty()){
+    			myListLoader.saveUserCustomLists(sess.getId(), credentials.getUserName());        			
+    		}
+    		List<UserList> removedLists = userListBeanHelper.getAllDeletedCustomLists();
+    		if (!removedLists.isEmpty()){
+    			myListLoader.deleteUserCustomLists(sess.getId(), credentials.getUserName());        			
+    		}
 
-    		//get Tree from session to save to DB
-			String tree = (String) sess.getAttribute(RembrandtConstants.OLIST_STRUCT);
+    		//get List Tree from session to save to DB
+			String listTree = (String) sess.getAttribute(RembrandtConstants.OLIST_STRUCT);
 			Workspace listWorkspace = (Workspace) sess.getAttribute(RembrandtConstants.LIST_WORKSPACE);
 			Long userId = credentials.getUserId();
 			//Save Lists
-			if(tree != null && userId != null){
-				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, listWorkspace);
+			if(listTree != null && userId != null){
+				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, listTree, listWorkspace);
 			}
-			
-			tree = (String) sess.getAttribute(RembrandtConstants.OQUERY_STRUCT);
+    		//get Query Tree from session to save to DB
+			String queryTree = (String) sess.getAttribute(RembrandtConstants.OQUERY_STRUCT);
+			UserQuery userQuery = (UserQuery) sess.getAttribute(RembrandtConstants.USER_QUERY);
+			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sess.getId());
+			myListLoader.saveSessionQueryBag(userId, queryBag, userQuery);
+			//Save Query
 			Workspace queryWorkspace = (Workspace) sess.getAttribute(RembrandtConstants.QUERY_WORKSPACE);
-			//Save Queries
-			if(tree != null && userId != null){
-				myListLoader.saveTreeStructure(userId, TreeStructureType.QUERY, tree, queryWorkspace);
+			if(queryTree != null && userId != null){
+				myListLoader.saveTreeStructure(userId, TreeStructureType.QUERY, queryTree, queryWorkspace);
 			}
-			
 			return "pass";
     	}
 		return "fail";
@@ -424,13 +471,19 @@ public class WorkspaceHelper {
 	}
 	public static JSONObject findNode( String tree, String inName )
 	{
-		JSONArray workspaceList=(JSONArray)JSONValue.parse(tree);
+		JSONArray jsonArray = null;
+		Object parseObj = JSONValue.parse(tree);
+		if(parseObj instanceof JSONArray){
+			jsonArray =(JSONArray)parseObj;
+		}else if (parseObj instanceof JSONObject){
+			jsonArray = getNodeItems((JSONObject) parseObj);
+		}
 		
 		JSONObject root = null;
 		JSONArray rootItems = null;
 		JSONObject node = null;
 		
-	    Iterator iterator = workspaceList.iterator();
+	    Iterator iterator = jsonArray.iterator();
 	    Object obj = null;
 		while(iterator.hasNext()){
 			obj = iterator.next();
@@ -482,60 +535,6 @@ public class WorkspaceHelper {
 		}
 		return null;
 	}
-	
-	private static String removeNodeItems(UserListBeanHelper ulbh, JSONObject node, String treeString) {
-		Object obj;
-		JSONArray customItems;
-
-		customItems = (JSONArray) node.get("items");
-		List<UserList> uls = ulbh.getAllCustomLists();
-		
-		Iterator custom_iterator = customItems.iterator();
-		while(custom_iterator.hasNext()){
-			obj = custom_iterator.next();
-			JSONObject customObj = (JSONObject)obj;
-			boolean found = ulbh.listExists((String)customObj.get("txt") );
-			if ( found )
-			{
-				ulbh.removeList( (String)customObj.get("txt") );
-			}
-			else  // then it is a folder. search recursively
-			{
-				removeNodeItems( ulbh, customObj, treeString );
-			}
-		}
-
-		JSONArray workspaceList=(JSONArray)JSONValue.parse(treeString);
-		JSONObject root = null;
-		root = (JSONObject)workspaceList.get(0);		// the first item is Lists
-		cleanTree(root, ulbh, node, treeString);
-		
-		return workspaceList.toString();
-
-	}
-	private static void cleanTree(JSONObject list, UserListBeanHelper ulbh, JSONObject node, String treeString) {
-		JSONObject customObj = null;		
-		JSONArray listItems = (JSONArray) list.get("items");
-	    Iterator iterator = listItems.iterator();
-		while(iterator.hasNext()){
-			customObj = (JSONObject)iterator.next();
-			
-			if(customObj.containsValue( node.get("txt") )){
-				( (JSONArray)customObj.get("items") ).clear();
-				break;	
-			}
-			boolean found = ulbh.listExists((String)customObj.get("txt") );
-			if ( ! found )  // then it is a folder. search recursively
-			{
-				cleanTree( customObj, ulbh, node, treeString );
-			}
-
-	    }
-
-	}
-	
-
-	
 	
 
 }

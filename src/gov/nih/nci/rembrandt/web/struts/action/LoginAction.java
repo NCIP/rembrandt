@@ -134,6 +134,7 @@ public final class LoginAction extends Action
     		if(credentials.getUserId() != null  && !credentials.getUserName().equals("RBTuser")){
     			 theBag = WorkspaceHelper.loadSessionQueryBagFromDB(session,credentials.getUserId());
     			 WorkspaceHelper.fetchListWorkspaceFromDB( session,credentials.getUserId());
+    			 WorkspaceHelper.fetchQueryWorkspaceFromDB( session,credentials.getUserId());
     		}
 
     		if(theBag != null){

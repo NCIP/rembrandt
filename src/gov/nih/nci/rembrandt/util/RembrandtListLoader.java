@@ -200,6 +200,7 @@ public class RembrandtListLoader extends ListLoader {
 			    	currentSession.delete(list);
 			    	transaction.commit();
 			    	currentSession.close();
+			    	userListBeanHelper.clearAllDeletedCustomLists();			    	
     		}
     	}
 

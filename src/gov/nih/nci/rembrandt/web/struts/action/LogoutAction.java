@@ -15,6 +15,7 @@ import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
+import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.LogoutForm;
@@ -150,45 +151,8 @@ public final class LogoutAction extends Action
         }
         
         if("logoutSave".equals(logoutSelection)) {
-        	/*
-        	 * User has selected to save the current session and log out of the
-        	 * application
-        	 */
-        	UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-        	
-        	/*******************************************************************
-        	 * This is only here to prevent a user logged in on the public
-        	 * account "RBTuser" from persisting their session
-        	 *******************************************************************/
-        	if(!"RBTuser".equals(credentials.getUserName())) {
-        		//Check to see user also created some custom lists.
-
-        		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(request.getSession().getId());
-        		
-        		//UserListBean userListBean = (UserListBean) session.getAttribute(CacheConstants.USER_LISTS);
-        		
-        		List<UserList> customLists = userListBeanHelper.getAllCustomLists();
-        		if (!customLists.isEmpty()){
-        			_cacheManager.putRembrandtUserList(request.getSession().getId(), customLists);
-        			myListLoader.saveUserCustomLists(request.getSession().getId(), credentials.getUserName());        			
-        		}
-        		List<UserList> removedLists = userListBeanHelper.getAllDeletedCustomLists();
-        		if (!removedLists.isEmpty()){
-        			myListLoader.deleteUserCustomLists(request.getSession().getId(), credentials.getUserName());        			
-        		}
-        		//get Tree from session to save to DB
-    			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
-    			Workspace listWorkspace = (Workspace) request.getSession().getAttribute(RembrandtConstants.LIST_WORKSPACE);
-    			Long userId = credentials.getUserId();
-    			//Save Lists
-    			if(tree != null && userId != null){
-    				myListLoader.saveTreeStructure(userId, TreeStructureType.LIST, tree, listWorkspace);
-    			}
-    			UserQuery userQuery = (UserQuery) request.getSession().getAttribute(RembrandtConstants.USER_QUERY);
-    			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(request.getSession().getId());
-    			myListLoader.saveSessionQueryBag(userId, queryBag, userQuery);
-        		//_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
-        	}
+    		WorkspaceHelper.saveWorkspace(session);
+    		//_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
         	_cacheManager.deleteSessionCache(session.getId());
         	//null out the sesssion vars
             session.setAttribute("logged", null);
