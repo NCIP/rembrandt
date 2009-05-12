@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionMapping;
 import org.exolab.castor.xml.Unmarshaller;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.xml.sax.InputSource;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 
@@ -166,10 +167,10 @@ public class ImportWorkspaceAction extends Action{
 			{
 				jsonArray = WorkspaceHelper.generateQueryJSONArray( session );
 	
+				InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
 				Mapping castorMapping = new Mapping();
-				String mapFile = Thread.currentThread().getContextClassLoader().getResource("castor_query.xml").getFile();
-				castorMapping.loadMapping(mapFile);
-
+				castorMapping.loadMapping(is);
+				
 				Unmarshaller unmar = new Unmarshaller(WorkspaceQuery.class);
 				unmar.setMapping( castorMapping );
 

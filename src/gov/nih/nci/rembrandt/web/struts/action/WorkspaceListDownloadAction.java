@@ -37,6 +37,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
+import org.xml.sax.InputSource;
 
 
 
@@ -175,9 +176,9 @@ public class WorkspaceListDownloadAction extends Action {
 			PrintWriter out = response.getWriter();
 			StringWriter writer = new StringWriter();
 			
+			InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
 			Mapping castorMapping = new Mapping();
-			String mapFile = Thread.currentThread().getContextClassLoader().getResource("castor_query.xml").getFile();
-			castorMapping.loadMapping(mapFile);
+			castorMapping.loadMapping(is);
 
 			if ( exportListFolder != null )
 			{
