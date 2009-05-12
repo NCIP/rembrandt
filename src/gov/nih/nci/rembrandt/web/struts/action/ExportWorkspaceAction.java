@@ -105,9 +105,9 @@ import org.xml.sax.InputSource;
 * 
 */
 
-public class WorkspaceListDownloadAction extends Action {
+public class ExportWorkspaceAction extends Action {
 
-	private static Logger logger = Logger.getLogger(WorkspaceListDownloadAction.class);
+	private static Logger logger = Logger.getLogger(ExportWorkspaceAction.class);
 	private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 	
 	/**
@@ -125,50 +125,56 @@ public class WorkspaceListDownloadAction extends Action {
 		WorkspaceList exportListFolder = null;
 		WorkspaceQuery exportQueryFolder = null;
 		
-		String nodeName = request.getParameter( "listId" );
+		String nodeName = request.getParameter( "node_name" );
+		String nodeType = request.getParameter( "node_type" );
 		
-		UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
-		List<UserList> uls = ulbh.getAllCustomLists(); 
-
-		// if the user selects just one file, we wrap it manually with an Export Folder and make it the root.
-		for(UserList ul : uls){
-			if ( ul.getName().equals(nodeName)){
-				removeId( ul );
-				exportListFolder = new WorkspaceList( "_Export _Folder" );
-				exportListFolder.addLeaf(ul);
-				break;
-			}
-		}
-		
-		SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sess.getId());
-		for(String queryName :  queryBag.getQueryNames()){
-			if( queryName.equals( nodeName ) ){
-					Query query = queryBag.getQuery(nodeName);
-					exportQueryFolder = new WorkspaceQuery( "_Export _Folder" );
-					exportQueryFolder.addLeaf(query);
+		if ( nodeType.equals( "Lists")) {
+			UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
+			List<UserList> uls = ulbh.getAllCustomLists(); 
+			
+			// if the user selects just one file, we wrap it manually with an Export Folder and make it the root.
+			for(UserList ul : uls){
+				if ( ul.getName().equals(nodeName)){
+					removeId( ul );
+					exportListFolder = new WorkspaceList( "_Export _Folder" );
+					exportListFolder.addLeaf(ul);
 					break;
+				}
+			}
+		
+			// means the user clicked on a folder NOT an individual file. The folder becomes the root.
+			if ( exportListFolder == null )
+			{
+				String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
+				JSONObject node = WorkspaceHelper.findNode(tree, nodeName);
+				
+				if ( node != null )
+					exportListFolder = updateExportList(exportListFolder, uls, node);
+			}
+		}
+		else {
+			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sess.getId());
+
+			for(String queryName :  queryBag.getQueryNames()){
+				if( queryName.equals( nodeName ) ){
+						Query query = queryBag.getQuery(nodeName);
+						exportQueryFolder = new WorkspaceQuery( "_Export _Folder" );
+						exportQueryFolder.addLeaf(query);
+						break;
+				}
+			}
+		
+			// means the user clicked on a folder NOT an individual file. The folder becomes the root.
+			if ( exportQueryFolder == null )	
+			{
+				String tree = (String) request.getSession().getAttribute(RembrandtConstants.OQUERY_STRUCT);
+				JSONObject node = WorkspaceHelper.findNode(tree, nodeName);
+				
+				if ( node != null )
+					exportQueryFolder = updateExportQuery(exportQueryFolder, queryBag.getQueries(), node);
 			}
 		}
 		
-		// means the user clicked on a folder NOT an individual file. The folder becomes the root.
-		if ( exportListFolder == null && exportQueryFolder == null )
-		{
-			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OLIST_STRUCT);
-			JSONObject node = WorkspaceHelper.findNode(tree, nodeName);
-			
-			if ( node != null )
-				exportListFolder = updateExportList(exportListFolder, uls, node);
-		}
-
-		if ( exportListFolder == null && exportQueryFolder == null )	// could not find the node in the Lists
-		{
-			String tree = (String) request.getSession().getAttribute(RembrandtConstants.OQUERY_STRUCT);
-			JSONObject node = WorkspaceHelper.findNode(tree, nodeName);
-			
-			if ( node != null )
-				exportQueryFolder = updateExportQuery(exportQueryFolder, queryBag.getQueries(), node);
-		}
-
 		response.setContentType("application/x-download");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + nodeName + ".xml" + "\"");
 		try
@@ -176,18 +182,17 @@ public class WorkspaceListDownloadAction extends Action {
 			PrintWriter out = response.getWriter();
 			StringWriter writer = new StringWriter();
 			
-			InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
-			Mapping castorMapping = new Mapping();
-			castorMapping.loadMapping(is);
-
-			if ( exportListFolder != null )
+			if ( nodeType.equals( "Lists") )
 			{
 				Marshaller.marshal(exportListFolder, writer);
 			}
 			else
 			{
-				Marshaller marshaller = new Marshaller(writer);
+				InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
+				Mapping castorMapping = new Mapping();
+				castorMapping.loadMapping(is);
 
+				Marshaller marshaller = new Marshaller(writer);
 				marshaller.setMapping(castorMapping);
 				marshaller.marshal(exportQueryFolder);
 			}
@@ -197,11 +202,13 @@ public class WorkspaceListDownloadAction extends Action {
 		}
 		catch( IOException e )
 		{
-			System.out.println( "" );
+			logger.error( e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		catch( MappingException e )
 		{
-			System.out.println( "" );
+			logger.error( e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		
 		return null;

@@ -78,8 +78,8 @@
 		<forward name="success" path="nautilus.analysisHome" />
 	</action>
   
-  	<action path="/workspaceListDownload"
-		type="gov.nih.nci.rembrandt.web.struts.action.WorkspaceListDownloadAction">
+  	<action path="/exportWorkspaceFile"
+		type="gov.nih.nci.rembrandt.web.struts.action.ExportWorkspaceAction">
 	</action>
 
     <action path="/delete_Query"            
