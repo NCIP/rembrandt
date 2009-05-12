@@ -167,7 +167,8 @@ public class ImportWorkspaceAction extends Action{
 				jsonArray = WorkspaceHelper.generateQueryJSONArray( session );
 	
 				Mapping castorMapping = new Mapping();
-				castorMapping.loadMapping("C:/bin/jboss-4.0.5.GA/server/default/deploy/rembrandt.war/WEB-INF/classes/castor_query.xml");
+				String mapFile = Thread.currentThread().getContextClassLoader().getResource("castor_query.xml").getFile();
+				castorMapping.loadMapping(mapFile);
 
 				Unmarshaller unmar = new Unmarshaller(WorkspaceQuery.class);
 				unmar.setMapping( castorMapping );

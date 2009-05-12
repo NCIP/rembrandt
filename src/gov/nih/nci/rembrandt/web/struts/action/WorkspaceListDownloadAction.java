@@ -176,7 +176,8 @@ public class WorkspaceListDownloadAction extends Action {
 			StringWriter writer = new StringWriter();
 			
 			Mapping castorMapping = new Mapping();
-			castorMapping.loadMapping("C:/bin/jboss-4.0.5.GA/server/default/deploy/rembrandt.war/WEB-INF/classes/castor_query.xml");
+			String mapFile = Thread.currentThread().getContextClassLoader().getResource("castor_query.xml").getFile();
+			castorMapping.loadMapping(mapFile);
 
 			if ( exportListFolder != null )
 			{
