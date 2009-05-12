@@ -362,10 +362,14 @@ public class WorkspaceHelper {
 		JSONArray trashItems = getNodeItems(trashNode);
 		UserListBeanHelper ulbh = new UserListBeanHelper(sessionId);
 		List<UserList> userLists = ulbh.getAllCustomLists();
+		List<String> removedItems = new ArrayList<String>();
 		for(UserList userList :userLists){
 			if(foundItemInTree(trashItems, userList.getName())){
-				ulbh.removeList(userList.getName());
+				removedItems.add(userList.getName());				
 			}
+		}
+		for(String removedItem : removedItems){
+			ulbh.removeList(removedItem);
 		}
 		trashItems.clear();
 		jsa.add(root);
@@ -378,18 +382,16 @@ public class WorkspaceHelper {
 		JSONObject trashNode = findNodeInTree( rootItems, "trash" );	
 		JSONArray trashItems = getNodeItems(trashNode);
 		SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sessionId);
-//		List<String> trashItemsList = new ArrayList<String>();
+		List<String> removedItems = new ArrayList<String>();
 		Collection<String> queryList = queryBag.getQueryNames();
 		for(String queryName :queryList){
 			if(foundItemInTree(trashItems, queryName)){
-//				trashItemsList.add(queryName);
-				queryBag.removeQuery(queryName);
+				removedItems.add(queryName);
 			}
 		}
-//		for(String trashItem: trashItemsList){
-//			removeItemFromTree(trashItems, trashItem);
-//			queryBag.removeQuery(trashItem);			
-//		}
+		for(String removedItem: removedItems){
+			queryBag.removeQuery(removedItem);			
+		}
 		_cacheManager.putSessionQueryBag(sessionId, queryBag);
 		trashItems.clear();
 		jsa.add(root);
