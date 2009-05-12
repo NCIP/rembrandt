@@ -120,6 +120,10 @@ abstract public class Query implements Queriable, Serializable, Cloneable, Valid
 		this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
 	}
 
+	public void setDiseaseOrGradeCriteria(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
+		this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
+	}
+
 	public SampleCriteria getSampleIDCrit() {
 		return sampleIDCrit;
 	}

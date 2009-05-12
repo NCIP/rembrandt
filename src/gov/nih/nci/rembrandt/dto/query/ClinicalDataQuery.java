@@ -782,8 +782,11 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		return occurrenceCriteria;
 	}
 
-	public void setRadiationTherapyCrit(
-			RadiationTherapyCriteria radiationTherapyCriteria) {
+	public void setRadiationTherapyCrit(RadiationTherapyCriteria radiationTherapyCriteria) {
+		this.radiationTherapyCriteria = radiationTherapyCriteria;
+	}
+
+	public void setRadiationTherapyCriteria(RadiationTherapyCriteria radiationTherapyCriteria) {
 		this.radiationTherapyCriteria = radiationTherapyCriteria;
 	}
 
@@ -796,6 +799,10 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 	}
 
 	public void setChemoAgentCrit(ChemoAgentCriteria chemoAgentCriteria) {
+		this.chemoAgentCriteria = chemoAgentCriteria;
+	}
+
+	public void setChemoAgentCriteria(ChemoAgentCriteria chemoAgentCriteria) {
 		this.chemoAgentCriteria = chemoAgentCriteria;
 	}
 
@@ -815,10 +822,17 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		this.surgeryOutcomeCriteria = surgeryOutcomeCriteria;
 	}
 
+	public void setSurgeryOutcomeCriteria(SurgeryOutcomeCriteria surgeryOutcomeCriteria) {
+		this.surgeryOutcomeCriteria = surgeryOutcomeCriteria;
+	}
+
 	public void setPriorSurgeryTitleCrit(PriorSurgeryTitleCriteria priorSurgeryTitleCriteria) {
 		this.priorSurgeryTitleCriteria = priorSurgeryTitleCriteria;
 	}
 	
+	public void setPriorSurgeryTitleCriteria(PriorSurgeryTitleCriteria priorSurgeryTitleCriteria) {
+		this.priorSurgeryTitleCriteria = priorSurgeryTitleCriteria;
+	}
 	
 	/**
 	 * @return Returns the onStudyChemoAgentCriteria.
