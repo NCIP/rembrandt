@@ -196,6 +196,7 @@
 			<zipfileset dir="${webapp.dir}/jsp" prefix="jsp"/>
 			<zipfileset dir="${webapp.dir}/tutorials" prefix="tutorials"/>
 			<zipfileset dir="${webapp.dir}/XSL" prefix="XSL"/>
+			<zipfileset dir="${webapp.dir}/components" prefix="components"/>
 			<zipfileset dir="${webapp.dir}/WEB-INF" prefix="WEB-INF">
 				 <include name="*.*"/>
 				 <exclude name="web.xml"/>
