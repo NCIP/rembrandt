@@ -134,5 +134,16 @@
          <bind-xml name="gOIdentifiers" />
       </field>
    </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria">
+      <field name="Platform"
+	         type="gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE">
+         <bind-xml name="platform" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE">
+      <field name="Value" type="java.lang.String">
+         <bind-xml name="value" />
+      </field>
+   </class>
 
 </mapping>

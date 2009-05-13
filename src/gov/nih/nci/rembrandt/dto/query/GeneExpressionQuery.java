@@ -551,6 +551,10 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 		this.arrayPlatformCriteria = arrayPlatformCriteria;
 	}
 
+	public void setArrayPlatformCriteria(ArrayPlatformCriteria arrayPlatformCriteria) {
+		this.arrayPlatformCriteria = arrayPlatformCriteria;
+	}
+
 	/**
 	 * Returns a boolean true if the AllGenesCriteria has been set
 	 * 
