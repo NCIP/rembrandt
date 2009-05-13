@@ -127,5 +127,12 @@
          <bind-xml name="sample-iDs" />
       </field>
    </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria">
+      <field name="GOIdentifiers"
+	         type="gov.nih.nci.caintegrator.dto.de.GeneOntologyDE"
+	         collection="arraylist">
+         <bind-xml name="gOIdentifiers" />
+      </field>
+   </class>
 
 </mapping>

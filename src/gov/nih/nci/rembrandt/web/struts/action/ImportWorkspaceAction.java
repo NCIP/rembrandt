@@ -306,7 +306,7 @@ public class ImportWorkspaceAction extends Action{
 				uq = (Query)obj;
 				JSONObject theQuery = new JSONObject();
 				uq.setQueryName( queryBag.checkQueryName( uq.getQueryName() ) );
-				theQuery = setupLeaf( uq.getQueryName(), false, false, "" );
+				theQuery = setupLeaf( uq.getQueryName(), false, false, uq.toString() );
 
 				folderItems.add(theQuery);
 //				removeId( ul );
