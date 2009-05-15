@@ -301,11 +301,17 @@ public class ClinicalDataAction extends LookupDispatchAction {
                    e.printStackTrace();
                }
                if(!sampleIds.isEmpty()){
+                   sampleIDCrit.setSampleFile(clinicalDataForm.getSampleFile());
+                   sampleIDCrit.setSampleGroup(clinicalDataForm.getSampleGroup());
                    sampleIDCrit.setSampleIDs(sampleIds);
                }
            }
        
        }
+        if ( !sampleIDCrit.isEmpty() && clinicalDataForm.getSampleGroup()!=null && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Specify")){
+            sampleIDCrit.setSampleGroup(clinicalDataForm.getSampleGroup());
+        }
+        
 		if (!sampleIDCrit.isEmpty())
 		    clinicalDataQuery.setSampleIDCrit(sampleIDCrit);
 

@@ -12,6 +12,7 @@ import gov.nih.nci.caintegrator.dto.de.PathwayDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
@@ -19,6 +20,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
@@ -324,6 +326,8 @@ public class ImportWorkspaceAction extends Action{
 					form = createGeneExpressionForm( request, (GeneExpressionQuery)uq );
 				else if ( uq instanceof ComparativeGenomicQuery )
 					form = createComparativeGenomicForm( request, (ComparativeGenomicQuery)uq );
+				else if ( uq instanceof ClinicalDataQuery )
+					form = createClinicalDataForm( request, (ClinicalDataQuery)uq );
 				
 				queryBag.putQuery( uq, form );
 			}
@@ -536,5 +540,46 @@ public class ImportWorkspaceAction extends Action{
 		return comparativeGenomicForm;
 		
 	}
-	
+
+	private ClinicalDataForm createClinicalDataForm( HttpServletRequest request, ClinicalDataQuery clinicalDataQuery)
+	{
+		ClinicalDataForm clinicalDataForm = new ClinicalDataForm();
+		clinicalDataForm.reset(new ActionMapping(), request);
+		
+		clinicalDataForm.setQueryName(clinicalDataQuery.getQueryName());
+		
+		clinicalDataForm.setSampleCriteria( clinicalDataQuery.getSampleIDCrit() );
+		if ( clinicalDataQuery.getSampleIDCrit() != null ) {
+			clinicalDataForm.setSampleFile(clinicalDataQuery.getSampleIDCrit().getSampleFile() );
+			clinicalDataForm.setSampleGroup(clinicalDataQuery.getSampleIDCrit().getSampleGroup() );
+			
+			// for a single typed Sample ID
+			if ( clinicalDataQuery.getSampleIDCrit().getSampleGroup() != null && clinicalDataQuery.getSampleIDCrit().getSampleGroup().equals( "Specify")) {
+				Iterator iterator = clinicalDataQuery.getSampleIDCrit().getSampleIDs().iterator();
+				StringBuffer sBuffer = new StringBuffer();
+				while ( iterator.hasNext() ) {
+					sBuffer.append( ( (SampleIDDE)iterator.next() ).getValueObject() );
+				}
+				
+				clinicalDataForm.setSampleList(sBuffer.toString() );
+			}
+		}
+		
+		clinicalDataForm.setDiseaseOrGradeCriteria(clinicalDataQuery.getDiseaseOrGradeCriteria());
+		clinicalDataForm.setTumorType(clinicalDataQuery.getDiseaseOrGradeCriteria() );
+		
+		clinicalDataForm.setSurvivalCriteria(clinicalDataQuery.getSurvivalCriteria() );
+		clinicalDataForm.setAgeCriteria(clinicalDataQuery.getAgeCriteria() );
+		clinicalDataForm.setGenderCriteria(clinicalDataQuery.getGenderCriteria() );
+		clinicalDataForm.setRaceCriteria(clinicalDataQuery.getRaceCriteria() );
+		clinicalDataForm.setOnStudyChemoAgentCriteria( clinicalDataQuery.getOnStudyChemoAgentCriteria());
+		clinicalDataForm.setOnStudyRadiationTherapyCriteria(clinicalDataQuery.getOnStudyRadiationTherapyCriteria());
+		clinicalDataForm.setOnStudySurgeryOutcomeCriteria(clinicalDataQuery.getOnStudySurgeryOutcomeCriteria());
+		clinicalDataForm.setOnStudySurgeryTitleCriteria(clinicalDataQuery.getOnStudySurgeryTitleCriteria());
+		
+
+		return clinicalDataForm;
+		
+	}
+		
 } 

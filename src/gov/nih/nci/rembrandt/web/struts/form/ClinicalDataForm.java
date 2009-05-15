@@ -2099,6 +2099,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudyChemoAgentCriteria;
 	}
 
+	public void setOnStudyChemoAgentCriteria(OnStudyChemoAgentCriteria chemoAgentCriteria) {
+		onStudyChemoAgentCriteria = chemoAgentCriteria;
+	}
 
 
 
@@ -2110,8 +2113,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudyRadiationTherapyCriteria;
 	}
 
-
-
+	public void setOnStudyRadiationTherapyCriteria( OnStudyRadiationTherapyCriteria onStudyRadiationTherapyCriteria) {
+		this.onStudyRadiationTherapyCriteria = onStudyRadiationTherapyCriteria;
+	}
 
 
 	/**
@@ -2121,6 +2125,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudySurgeryOutcomeCriteria;
 	}
 
+	public void setOnStudySurgeryOutcomeCriteria( OnStudySurgeryOutcomeCriteria onStudySurgeryOutcomeCriteria) {
+		this.onStudySurgeryOutcomeCriteria = onStudySurgeryOutcomeCriteria;
+	}
 
 
 
@@ -2132,6 +2139,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudySurgeryTitleCriteria;
 	}
 
+	public void setOnStudySurgeryTitleCriteria( OnStudySurgeryTitleCriteria onStudySurgeryTitleCriteria) {
+		this.onStudySurgeryTitleCriteria = onStudySurgeryTitleCriteria;
+	}
 
 
 
@@ -2140,18 +2150,33 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
         return this.survivalCriteria;
     }
 
-    public AgeCriteria getAgeCriteria() {
+	public void setSurvivalCriteria( SurvivalCriteria survivalCriteria ) {
+		this.survivalCriteria = survivalCriteria;
+	}
+	
+	public AgeCriteria getAgeCriteria() {
         return this.ageCriteria;
     }
 
-    public GenderCriteria getGenderCriteria() {
+	public void setAgeCriteria( AgeCriteria ageCriteria) {
+        this.ageCriteria = ageCriteria;
+    }
+
+	public GenderCriteria getGenderCriteria() {
         return this.genderCriteria;
     }
 
-    public RaceCriteria getRaceCriteria() {
+	public void setGenderCriteria( GenderCriteria genderCriteria) {
+        this.genderCriteria = genderCriteria;
+    }
+
+	public RaceCriteria getRaceCriteria() {
         return this.raceCriteria;
     }
     
+	public void setRaceCriteria( RaceCriteria raceCriteria) {
+        this.raceCriteria = raceCriteria;
+    }
     
     
     /**

@@ -902,11 +902,19 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		this.survivalCriteria = survivalCriteria;
 	}
 
+	public void setSurvivalCriteria(SurvivalCriteria survivalCriteria) {
+		this.survivalCriteria = survivalCriteria;
+	}
+
 	public AgeCriteria getAgeCriteria() {
 		return ageCriteria;
 	}
 
 	public void setAgeCrit(AgeCriteria ageCriteria) {
+		this.ageCriteria = ageCriteria;
+	}
+
+	public void setAgeCriteria(AgeCriteria ageCriteria) {
 		this.ageCriteria = ageCriteria;
 	}
 
@@ -918,6 +926,10 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		this.genderCriteria = genderCriteria;
 	}
 	
+	public void setGenderCriteria(GenderCriteria genderCriteria) {
+		this.genderCriteria = genderCriteria;
+	}
+
 	public RaceCriteria getRaceCriteria() {
 		return raceCriteria;
 	}
@@ -926,6 +938,9 @@ public class ClinicalDataQuery extends Query implements Serializable,Cloneable,C
 		this.raceCriteria = raceCriteria;
 	}
 	
+	public void setRaceCriteria(RaceCriteria raceCriteria) {
+		this.raceCriteria = raceCriteria;
+	}
 	
 	/**
 	 * @return Returns the karnofskyCriteria.

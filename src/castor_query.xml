@@ -221,5 +221,31 @@
          <bind-xml name="regulationStatus" />
       </field>
    </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria">
+      <field name="lowerSurvivalRange"
+	         type="gov.nih.nci.caintegrator.dto.de.SurvivalDE$LowerSurvivalRange">
+         <bind-xml name="lowerSurvivalRange" />
+      </field>
+      <field name="upperSurvivalRange"
+	         type="gov.nih.nci.caintegrator.dto.de.SurvivalDE$UpperSurvivalRange">
+         <bind-xml name="upperSurvivalRange" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.AgeCriteria">
+      <field name="lowerAgeLimit"
+	         type="gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE$LowerAgeLimit">
+         <bind-xml name="lowerAgeLimit" />
+      </field>
+      <field name="upperAgeLimit"
+	         type="gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE$UpperAgeLimit">
+         <bind-xml name="upperAgeLimit" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.GenderCriteria">
+      <field name="genderDE"
+	         type="gov.nih.nci.caintegrator.dto.de.GenderDE">
+         <bind-xml name="genderDE" />
+      </field>
+   </class>
    
 </mapping>
