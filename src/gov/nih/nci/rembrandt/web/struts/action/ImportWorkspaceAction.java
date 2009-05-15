@@ -3,38 +3,31 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
-import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
-import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.Constants;
-import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
-import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
+import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
 import gov.nih.nci.caintegrator.dto.de.PathwayDE;
+import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.struts.form.BaseForm;
+import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm.FileTypes;
 import gov.nih.nci.rembrandt.workspace.WorkspaceQuery;
-import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
-import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 
 import java.io.StringReader;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 
@@ -49,12 +42,11 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.xml.Unmarshaller;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.xml.sax.InputSource;
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.mapping.MappingException;
 
 
 /**
@@ -330,6 +322,8 @@ public class ImportWorkspaceAction extends Action{
 				ActionForm form = null;
 				if ( uq instanceof GeneExpressionQuery )
 					form = createGeneExpressionForm( request, (GeneExpressionQuery)uq );
+				else if ( uq instanceof ComparativeGenomicQuery )
+					form = createComparativeGenomicForm( request, (ComparativeGenomicQuery)uq );
 				
 				queryBag.putQuery( uq, form );
 			}
@@ -372,7 +366,7 @@ public class ImportWorkspaceAction extends Action{
 			geneExpressionForm.setSampleGroup(geneExpQuery.getSampleIDCrit().getSampleGroup() );
 			
 			// for a single typed Sample ID
-			if ( geneExpQuery.getSampleIDCrit().getSampleGroup().equals( "Specify")) {
+			if ( geneExpQuery.getSampleIDCrit().getSampleGroup() != null && geneExpQuery.getSampleIDCrit().getSampleGroup().equals( "Specify")) {
 				Iterator iterator = geneExpQuery.getSampleIDCrit().getSampleIDs().iterator();
 				StringBuffer sBuffer = new StringBuffer();
 				while ( iterator.hasNext() ) {
@@ -459,4 +453,88 @@ public class ImportWorkspaceAction extends Action{
 		
 		return geneExpressionForm;
 	}
+	
+	private ComparativeGenomicForm createComparativeGenomicForm( HttpServletRequest request, ComparativeGenomicQuery cghQuery)
+	{
+		ComparativeGenomicForm comparativeGenomicForm = new ComparativeGenomicForm();
+		comparativeGenomicForm.reset(new ActionMapping(), request);
+		
+		comparativeGenomicForm.setQueryName(cghQuery.getQueryName());
+		
+		if ( ! cghQuery.isAllGenesQuery() ) {
+			comparativeGenomicForm.setGeneIDCriteria( cghQuery.getGeneIDCriteria() );
+			comparativeGenomicForm.getAllGenesCriteria().setAllGenes( false );
+			comparativeGenomicForm.setGeneList( cghQuery.getGeneIDCriteria().getGeneIdentifiers() );
+		}
+		else
+			comparativeGenomicForm.getAllGenesCriteria().setAllGenes( true );
+		
+		comparativeGenomicForm.setSampleCriteria( cghQuery.getSampleIDCrit() );
+		if ( cghQuery.getSampleIDCrit() != null ) {
+			comparativeGenomicForm.setSampleFile(cghQuery.getSampleIDCrit().getSampleFile() );
+			comparativeGenomicForm.setSampleGroup(cghQuery.getSampleIDCrit().getSampleGroup() );
+			
+			// for a single typed Sample ID
+			if ( cghQuery.getSampleIDCrit().getSampleGroup() != null && cghQuery.getSampleIDCrit().getSampleGroup().equals( "Specify")) {
+				Iterator iterator = cghQuery.getSampleIDCrit().getSampleIDs().iterator();
+				StringBuffer sBuffer = new StringBuffer();
+				while ( iterator.hasNext() ) {
+					sBuffer.append( ( (SampleIDDE)iterator.next() ).getValueObject() );
+				}
+				
+				comparativeGenomicForm.setSampleList(sBuffer.toString() );
+			}
+			
+			comparativeGenomicForm.setSpecimenType(cghQuery.getSampleIDCrit().getSpecimenTypeValue() );
+		}
+		
+		comparativeGenomicForm.setRegionCriteria(cghQuery.getRegionCriteria());
+		
+		if( cghQuery.getRegionCriteria() != null ) {
+			comparativeGenomicForm.setRegion(cghQuery.getRegionCriteria().getRegion() );
+			comparativeGenomicForm.setChromosomeNumber( cghQuery.getRegionCriteria().getChromNumber() );
+			comparativeGenomicForm.setCytobandRegionStart( cghQuery.getRegionCriteria().getStartCytoband() );
+			comparativeGenomicForm.setCytobandRegionEnd( cghQuery.getRegionCriteria().getEndCytoband() );
+			comparativeGenomicForm.setBasePairStart( cghQuery.getRegionCriteria().getStart() );
+			comparativeGenomicForm.setBasePairEnd( cghQuery.getRegionCriteria().getEnd() );
+		}
+		
+		comparativeGenomicForm.setDiseaseOrGradeCriteria(cghQuery.getDiseaseOrGradeCriteria());
+		comparativeGenomicForm.setTumorType(cghQuery.getDiseaseOrGradeCriteria() );
+		
+		comparativeGenomicForm.setSNPCriteria(cghQuery.getSNPCriteria() );
+		if ( cghQuery.getSNPCriteria() != null )
+		{
+			comparativeGenomicForm.setSnpId(cghQuery.getSNPCriteria().getSnpId());
+			
+			// single option selected
+			if ( cghQuery.getSNPCriteria().getSnpId().equals( "specify" )) {
+				SNPIdentifierDE snpIde = (SNPIdentifierDE)( (ArrayList)cghQuery.getSNPCriteria().getIdentifiers() ).get(0);
+				comparativeGenomicForm.setSnpList( snpIde.getSNPType() );
+				comparativeGenomicForm.setSnpListSpecify( snpIde.getValueObject() ) ;
+			}
+				
+		}
+		
+		if ( cghQuery.getCopyNumberCriteria() != null ) {
+			Iterator iterator = cghQuery.getCopyNumberCriteria().getCopyNummbers().iterator();
+			while ( iterator.hasNext() ) {
+				CopyNumberDE copyNumberDE = (CopyNumberDE)iterator.next();
+				
+				if ( copyNumberDE.getCGHType().equals(copyNumberDE.AMPLIFICATION ))
+					comparativeGenomicForm.setCnAmplified( copyNumberDE );
+				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.DELETION ))
+					comparativeGenomicForm.setCnDeleted( copyNumberDE );
+				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.UNCHANGED_COPYNUMBER_UPPER_LIMIT ))
+					comparativeGenomicForm.setCnUnchangeTo( copyNumberDE );
+				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.UNCHANGED_COPYNUMBER_DOWN_LIMIT ))
+					comparativeGenomicForm.setCnUnchangeFrom( copyNumberDE );
+			}
+			comparativeGenomicForm.setCopyNumber(cghQuery.getCopyNumberCriteria().getCopyNumber() );
+		}
+
+		return comparativeGenomicForm;
+		
+	}
+	
 } 

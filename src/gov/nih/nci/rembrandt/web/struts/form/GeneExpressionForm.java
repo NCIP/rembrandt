@@ -1363,9 +1363,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void setFoldChangeValueUDUp(ExprFoldChangeDE exprFoldChangeDE) {
 		if ( exprFoldChangeDE != null ) {
 			this.foldChangeValueUDUp = exprFoldChangeDE.getValueObject().toString();
-			
-			if ( exprFoldChangeDE.getValueObject() != 2 )
-				setRegulationStatus("updown");
 		}
 	}	
 	
@@ -1412,9 +1409,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void setFoldChangeValueUDDown(ExprFoldChangeDE exprFoldChangeDE) {
 		if ( exprFoldChangeDE != null ) {
 			this.foldChangeValueUDDown = exprFoldChangeDE.getValueObject().toString();
-			
-			if ( exprFoldChangeDE.getValueObject() != 2 )
-				setRegulationStatus("updown");
 		}
 	}	
 	

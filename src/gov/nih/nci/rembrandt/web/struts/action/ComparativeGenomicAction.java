@@ -486,9 +486,18 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
                }
                if(!sampleIds.isEmpty()){
                    sampleIDCrit.setSampleIDs(sampleIds);
+                   sampleIDCrit.setSampleFile(comparativeGenomicForm.getSampleFile());
+                   sampleIDCrit.setSampleGroup(comparativeGenomicForm.getSampleGroup());
                }
            }
        }
+        
+        
+        if ( !sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup()!=null && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Specify")){
+            sampleIDCrit.setSampleGroup(comparativeGenomicForm.getSampleGroup());
+        }
+        
+        
 		if (!sampleIDCrit.isEmpty())
 		    cghQuery.setSampleIDCrit(sampleIDCrit);
 
@@ -496,12 +505,14 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         CopyNumberCriteria CopyNumberCrit = comparativeGenomicForm
                 .getCopyNumberCriteria();
         if (!CopyNumberCrit.isEmpty()) {
+        	CopyNumberCrit.setCopyNumber(comparativeGenomicForm.getCopyNumber());
             cghQuery.setCopyNumberCrit(CopyNumberCrit);
         }
 
         // set region criteria
         RegionCriteria regionCrit = comparativeGenomicForm.getRegionCriteria();
         if (!regionCrit.isEmpty()) {
+        	regionCrit.setRegion(comparativeGenomicForm.getRegion());
             cghQuery.setRegionCrit(regionCrit);
         }
 
@@ -531,6 +542,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 			}
 		}
         if (!snpCrit.isEmpty()) {
+        	snpCrit.setSnpId(comparativeGenomicForm.getSnpId());
             cghQuery.setSNPCrit(snpCrit);
         }
 

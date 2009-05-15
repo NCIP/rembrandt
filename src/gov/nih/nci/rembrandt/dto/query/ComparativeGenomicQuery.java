@@ -474,6 +474,10 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 		this.geneIDCriteria = geneIDCriteria;
 	}
 
+	public void setGeneIDCriteria(GeneIDCriteria geneIDCriteria) {
+		this.geneIDCriteria = geneIDCriteria;
+	}
+
 	public AllGenesCriteria getAllGenesCrit() {
 		return allGenesCrit;
 	}
@@ -490,11 +494,19 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 		this.regionCriteria = regionCriteria;
 	}
 
+	public void setRegionCriteria(RegionCriteria regionCriteria) {
+		this.regionCriteria = regionCriteria;
+	}
+
 	public CopyNumberCriteria getCopyNumberCriteria() {
 		return copyNumberCriteria;
 	}
 
 	public void setCopyNumberCrit(CopyNumberCriteria copyNumberCriteria) {
+		this.copyNumberCriteria = copyNumberCriteria;
+	}
+
+	public void setCopyNumberCriteria(CopyNumberCriteria copyNumberCriteria) {
 		this.copyNumberCriteria = copyNumberCriteria;
 	}
 
@@ -507,11 +519,20 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 		this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
 	}
 
+	public void setCloneOrProbeIDCriteria(
+			CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
+		this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
+	}
+
 	public SNPCriteria getSNPCriteria() {
 		return snpCriteria;
 	}
 
 	public void setSNPCrit(SNPCriteria snpCriteria) {
+		this.snpCriteria = snpCriteria;
+	}
+
+	public void setSNPCriteria(SNPCriteria snpCriteria) {
 		this.snpCriteria = snpCriteria;
 	}
 
@@ -529,6 +550,10 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 	}
 
 	public void setAssayPlatformCrit(AssayPlatformCriteria assayPlatformCriteria) {
+		this.assayPlatformCriteria = assayPlatformCriteria;
+	}
+
+	public void setAssayPlatformCriteria(AssayPlatformCriteria assayPlatformCriteria) {
 		this.assayPlatformCriteria = assayPlatformCriteria;
 	}
 

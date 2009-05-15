@@ -132,6 +132,9 @@
       <field name="sampleGroup" type="java.lang.String">
          <bind-xml name="sampleGroup" />
       </field>
+      <field name="specimenTypeValue" type="java.lang.String">
+         <bind-xml name="specimenTypeValue" />
+      </field>
    </class>
    <class name="gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria">
       <field name="GOIdentifiers"
@@ -151,6 +154,18 @@
          <bind-xml name="value" />
       </field>
    </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria">
+      <field name="assayPlatformDE"
+	         type="gov.nih.nci.caintegrator.dto.de.AssayPlatformDE">
+         <bind-xml name="assayPlatformDE" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.de.AssayPlatformDE">
+      <field name="Value" type="java.lang.String">
+         <bind-xml name="value" />
+      </field>
+   </class>
+
    <class name="gov.nih.nci.caintegrator.dto.critieria.RegionCriteria">
       <field name="startCytoband"
 	         type="gov.nih.nci.caintegrator.dto.de.CytobandDE">
@@ -176,4 +191,35 @@
          <bind-xml name="region" />
       </field>
    </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SNPCriteria">
+      <field name="SNPIdentifiers"
+	         type="gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE"
+	         collection="arraylist">
+         <bind-xml name="SNPIdentifiers" />
+      </field>
+      <field name="snpId" type="java.lang.String">
+         <bind-xml name="snpId" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria">
+      <field name="CopyNummbers"
+	         type="gov.nih.nci.caintegrator.dto.de.CopyNumberDE"
+	         collection="arraylist">
+         <bind-xml name="CopyNummbers" />
+      </field>
+      <field name="copyNumber" type="java.lang.String">
+         <bind-xml name="copyNumber" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria">
+      <field name="FoldChangeObjects"
+	         type="gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE"
+	         collection="arraylist">
+         <bind-xml name="FoldChangeObjects" />
+      </field>
+      <field name="regulationStatus" type="java.lang.String">
+         <bind-xml name="regulationStatus" />
+      </field>
+   </class>
+   
 </mapping>

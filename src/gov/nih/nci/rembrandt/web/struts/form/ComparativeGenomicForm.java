@@ -116,7 +116,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	private List cytobands = new ArrayList();
 		
 	/** chromosomes property */
-	private static List chromosomes;
+	private static List<ChromosomeBean> chromosomes;
     
     /**geneOption property */    
 	private String geneOption = "standard";
@@ -596,6 +596,21 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         }
     }
     
+	public void setGeneList(Collection<GeneIdentifierDE> geneIdentifiers) {
+		StringBuffer geneBuffer = new StringBuffer();
+		
+		for( GeneIdentifierDE ge :  geneIdentifiers ) {
+			geneBuffer.append( ge.getValueObject() );
+		}
+			
+			this.geneList = geneBuffer.toString();
+	}
+
+	public void setGeneIDCriteria( GeneIDCriteria geneCriteria ) {
+		this.geneCriteria = geneCriteria;
+	}
+	
+    
     /**
 	 * Sets the geneOption
 	 * 
@@ -648,12 +663,20 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         return this.regionCriteria;
     }
 
+	public void setRegionCriteria( RegionCriteria regionCriteria ) {
+		this.regionCriteria = regionCriteria;
+	}
+
     public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria() {
         return this.cloneOrProbeIDCriteria;
     }
 
     public SNPCriteria getSNPCriteria() {
         return this.snpCriteria;
+    }
+
+    public void setSNPCriteria( SNPCriteria sNPCriteria) {
+        this.snpCriteria = sNPCriteria;
     }
 
     public AlleleFrequencyCriteria getAlleleFrequencyCriteria() {
@@ -798,6 +821,17 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
 
     }
+    
+	public void setCytobandRegionStart(CytobandDE cytobandDE) {
+		if ( cytobandDE != null )
+			this.cytobandRegionStart = cytobandDE.getValueObject();
+	}
+	
+	public void setCytobandRegionEnd(CytobandDE cytobandDE) {
+		if ( cytobandDE != null )
+			this.cytobandRegionEnd = cytobandDE.getValueObject();
+	}
+    
 
     /**
      * Returns the snpList.
@@ -875,7 +909,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
             }
          }
         
-  
+    public void setCnAmplified(CopyNumberDE copyNumberDE) {
+    	this.cnAmplified = copyNumberDE.getValueObject().toString();
+    }
+    
     /**
      * Returns the cloneListFile.
      * 
@@ -1099,6 +1136,11 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         }
 
     }
+    
+    public void setCnADAmplified(CopyNumberDE copyNumberDE) {
+    	this.cnADAmplified = copyNumberDE.getValueObject().toString();
+    }
+    
 
     /**
      * Returns the genomicTrack.
@@ -1160,6 +1202,12 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 			}
 		}
     }
+    
+	public void setBasePairEnd(BasePairPositionDE basePairPositionDE ) {
+		if ( basePairPositionDE != null )
+			this.basePairEnd = basePairPositionDE.getValueObject().toString();
+	}
+    
 
     /**
      * Returns the chrosomeNumber.
@@ -1202,6 +1250,19 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 		}
 
 	}
+    
+	public void setChromosomeNumber(ChromosomeNumberDE chromosomeNumberDE) {
+		if ( chromosomeNumberDE != null )
+		{
+			for ( ChromosomeBean chromosome : chromosomes){
+				if ( chromosome.getLabel().equals( chromosomeNumberDE.getValueObject() )) {
+					this.chromosomeNumber = chromosome.getValue();
+					break;
+				}
+			}
+		}
+	}	
+    
 
 
     /**
@@ -1241,6 +1302,12 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
             }
         }
     }
+    
+    public void setCnADDeleted(CopyNumberDE copyNumberDE) {
+    	this.cnADDeleted = copyNumberDE.getValueObject().toString();
+    }
+    
+
 
     /**
      * Returns the cnUnchangeTo.
@@ -1274,6 +1341,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
             }
         }
 
+    }
+
+    public void setCnUnchangeTo(CopyNumberDE copyNumberDE) {
+    	this.cnUnchangeTo = copyNumberDE.getValueObject().toString();
     }
 
     /**
@@ -1426,6 +1497,11 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
             }
         }
     }
+    
+    public void setCnDeleted(CopyNumberDE copyNumberDE) {
+    	this.cnDeleted = copyNumberDE.getValueObject().toString();
+    }
+    
 
     /**
      * Returns the geneGroup.
@@ -1484,6 +1560,11 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
               }
         }
     }
+    
+    public void setCnUnchangeFrom(CopyNumberDE copyNumberDE) {
+    	this.cnUnchangeFrom = copyNumberDE.getValueObject().toString();
+    }
+    
 
     /**
      * Returns the cloneList.
@@ -1583,6 +1664,12 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 		}
 
     }
+    
+	public void setBasePairStart(BasePairPositionDE basePairPositionDE) {
+		if ( basePairPositionDE != null )
+			this.basePairStart = basePairPositionDE.getValueObject().toString();
+	}
+    
 
     public ArrayList getCloneTypeColl() {
         return cloneTypeColl;
@@ -1703,4 +1790,6 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 					}
 			}
 	}
+	
+	
 }
