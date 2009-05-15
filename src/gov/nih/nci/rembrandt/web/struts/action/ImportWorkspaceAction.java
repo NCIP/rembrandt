@@ -31,6 +31,7 @@ import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm.FileTypes;
 import gov.nih.nci.rembrandt.workspace.WorkspaceQuery;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -369,6 +370,18 @@ public class ImportWorkspaceAction extends Action{
 		if ( geneExpQuery.getSampleIDCrit() != null ) {
 			geneExpressionForm.setSampleFile(geneExpQuery.getSampleIDCrit().getSampleFile() );
 			geneExpressionForm.setSampleGroup(geneExpQuery.getSampleIDCrit().getSampleGroup() );
+			
+			// for a single typed Sample ID
+			if ( geneExpQuery.getSampleIDCrit().getSampleGroup().equals( "Specify")) {
+				Iterator iterator = geneExpQuery.getSampleIDCrit().getSampleIDs().iterator();
+				StringBuffer sBuffer = new StringBuffer();
+				while ( iterator.hasNext() ) {
+					sBuffer.append( ( (SampleIDDE)iterator.next() ).getValueObject() );
+				}
+				
+				geneExpressionForm.setSampleList(sBuffer.toString() );
+			}
+				
 		}
 		geneExpressionForm.setCloneOrProbeIDCriteria( geneExpQuery.getCloneOrProbeIDCriteria() );
 		

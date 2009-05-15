@@ -470,6 +470,11 @@ public class GeneExpressionAction extends LookupDispatchAction {
                }
            }
        }
+        
+       if ( !sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup()!=null && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Specify")){
+           sampleIDCrit.setSampleGroup(geneExpressionForm.getSampleGroup());
+       }
+       
 		if (!sampleIDCrit.isEmpty())
 			geneExpQuery.setSampleIDCrit(sampleIDCrit);
         
