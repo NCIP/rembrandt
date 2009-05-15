@@ -105,7 +105,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	private List cytobands = new ArrayList();
 		
 	/** chromosomes property */
-	private static List chromosomes;
+	private static List<ChromosomeBean> chromosomes;
 
 	/** geneOption property */
 	private String geneOption = "standard";
@@ -513,6 +513,15 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		return GeneExpressionForm.chromosomes;
 	}
 
+	public void setGeneList(Collection<GeneIdentifierDE> geneIdentifiers) {
+		StringBuffer geneBuffer = new StringBuffer();
+		
+		for( GeneIdentifierDE ge :  geneIdentifiers ) {
+			geneBuffer.append( ge.getValueObject() );
+		}
+			
+			this.geneList = geneBuffer.toString();
+	}
 	/**
 	 * Set the geneList.
 	 * 
@@ -621,6 +630,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		return this.geneCriteria;
 	}
 
+	public void setGeneIDCriteria( GeneIDCriteria geneCriteria ) {
+		this.geneCriteria = geneCriteria;
+	}
+
 	public AllGenesCriteria getAllGenesCriteria() {
 		return this.allGenesCriteria;
 	}
@@ -631,26 +644,49 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		return this.foldChangeCriteria;
 	}
 
+	public void setFoldChangeCriteria( FoldChangeCriteria foldChangeCriteria) {
+		this.foldChangeCriteria = foldChangeCriteria;
+	}
+
 	public RegionCriteria getRegionCriteria() {
 		return this.regionCriteria;
 	}
 
+	public void setRegionCriteria( RegionCriteria regionCriteria ) {
+		this.regionCriteria = regionCriteria;
+	}
 	
 
 	public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria() {
 		return this.cloneOrProbeIDCriteria;
 	}
 
+	public void setCloneOrProbeIDCriteria( CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
+		this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
+	}
+
 	public GeneOntologyCriteria getGeneOntologyCriteria() {
 		return this.geneOntologyCriteria;
+	}
+
+	public void setGeneOntologyCriteria( GeneOntologyCriteria geneOntologyCriteria) {
+		this.geneOntologyCriteria = geneOntologyCriteria;
 	}
 
 	public PathwayCriteria getPathwayCriteria() {
 		return this.pathwayCriteria;
 	}
 
+	public void setPathwayCriteria( PathwayCriteria pathwayCriteria) {
+		this.pathwayCriteria = pathwayCriteria;
+	}
+
 	public ArrayPlatformCriteria getArrayPlatformCriteria() {
 		return this.arrayPlatformCriteria;
+	}
+
+	public void setArrayPlatformCriteria( ArrayPlatformCriteria arrayPlatformCriteria) {
+		this.arrayPlatformCriteria = arrayPlatformCriteria;
 	}
 
 	/**
@@ -746,6 +782,12 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 	}
 
+	public void setFoldChangeValueDown(ExprFoldChangeDE exprFoldChangeDE) {
+		if ( exprFoldChangeDE != null ) {
+			this.foldChangeValueDown = exprFoldChangeDE.getValueObject().toString();
+		}
+	}	
+
 	/**
 	 * Returns the cytobandRegion.
 	 * 
@@ -783,6 +825,16 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 			}
 		}
 
+	}
+
+	public void setCytobandRegionStart(CytobandDE cytobandDE) {
+		if ( cytobandDE != null )
+			this.cytobandRegionStart = cytobandDE.getValueObject();
+	}
+	
+	public void setCytobandRegionEnd(CytobandDE cytobandDE) {
+		if ( cytobandDE != null )
+			this.cytobandRegionEnd = cytobandDE.getValueObject();
 	}
 
 	/**
@@ -1040,6 +1092,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		}
 	}
 
+	public void setBasePairEnd(BasePairPositionDE basePairPositionDE ) {
+		if ( basePairPositionDE != null )
+			this.basePairEnd = basePairPositionDE.getValueObject().toString();
+	}
+	
 	/**
 	 * Returns the chromosomeNumber.
 	 * 
@@ -1082,6 +1139,18 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 	}
 
+	public void setChromosomeNumber(ChromosomeNumberDE chromosomeNumberDE) {
+		if ( chromosomeNumberDE != null )
+		{
+			for ( ChromosomeBean chromosome : chromosomes){
+				if ( chromosome.getLabel().equals( chromosomeNumberDE.getValueObject() )) {
+					this.chromosomeNumber = chromosome.getValue();
+					break;
+				}
+			}
+		}
+	}	
+	
 	/**
 	 * Returns the regulationStatus.
 	 * 
@@ -1136,6 +1205,13 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 			}
 		}
 	}
+	
+	public void setFoldChangeValueUnchangeFrom(ExprFoldChangeDE exprFoldChangeDE) {
+		if ( exprFoldChangeDE != null ) {
+			this.foldChangeValueUnchangeFrom = exprFoldChangeDE.getValueObject().toString();
+		}
+	}	
+	
 
 	/**
 	 * Returns the foldChangeValueUp.
@@ -1174,6 +1250,13 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 			}
 		}
 	}
+	
+	public void setFoldChangeValueUnchangeTo(ExprFoldChangeDE exprFoldChangeDE) {
+		if ( exprFoldChangeDE != null ) {
+			this.foldChangeValueUnchangeTo = exprFoldChangeDE.getValueObject().toString();
+		}
+	}	
+	
 
 	/**
 	 * Returns the foldChangeValueUp.
@@ -1214,6 +1297,12 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		}
 	}
 
+	public void setFoldChangeValueUp(ExprFoldChangeDE exprFoldChangeDE) {
+		if ( exprFoldChangeDE != null ) {
+			this.foldChangeValueUp = exprFoldChangeDE.getValueObject().toString();
+		}
+	}	
+	
 	/**
 	 * Returns the geneType.
 	 * 
@@ -1270,6 +1359,16 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 			}
 		}
 	}
+	
+	public void setFoldChangeValueUDUp(ExprFoldChangeDE exprFoldChangeDE) {
+		if ( exprFoldChangeDE != null ) {
+			this.foldChangeValueUDUp = exprFoldChangeDE.getValueObject().toString();
+			
+			if ( exprFoldChangeDE.getValueObject() != 2 )
+				setRegulationStatus("updown");
+		}
+	}	
+	
 
 	/**
 	 * Returns the foldChangeValueUDDown.
@@ -1309,6 +1408,16 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		}
 
 	}
+	
+	public void setFoldChangeValueUDDown(ExprFoldChangeDE exprFoldChangeDE) {
+		if ( exprFoldChangeDE != null ) {
+			this.foldChangeValueUDDown = exprFoldChangeDE.getValueObject().toString();
+			
+			if ( exprFoldChangeDE.getValueObject() != 2 )
+				setRegulationStatus("updown");
+		}
+	}	
+	
 
 	/**
 	 * Returns the resultView.
@@ -1432,6 +1541,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 	}
 
+	public void setBasePairStart(BasePairPositionDE basePairPositionDE) {
+		if ( basePairPositionDE != null )
+			this.basePairStart = basePairPositionDE.getValueObject().toString();
+	}
+	
 	public ArrayList getCloneTypeColl() {
 		return cloneTypeColl;
 	}

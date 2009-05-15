@@ -336,10 +336,29 @@ public class BaseForm extends ActionForm implements Serializable{
             }
      
 	       }
+
+	 public void setTumorType(DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
+		 if ( diseaseOrGradeCriteria != null ) {
+			 tumorType = new String[diseaseOrGradeCriteria.getDiseases().size()];
+			 
+			 Iterator iterator = diseaseOrGradeCriteria.getDiseases().iterator();
+			 int i = 0;
+			 while( iterator.hasNext() )
+			 {
+				 tumorType[i] = ( (DiseaseNameDE)iterator.next() ).getValueObject();
+				 i++;
+			 }
+		 }
+	 }	 
+	 
 	 public DiseaseOrGradeCriteria getDiseaseOrGradeCriteria() {
 			return this.diseaseOrGradeCriteria;
 		}
 	 
+	 public void setDiseaseOrGradeCriteria( DiseaseOrGradeCriteria diseaseOrGradeCriteria) {
+			this.diseaseOrGradeCriteria = diseaseOrGradeCriteria;
+		}
+
 	 /**
 		 * Returns the sampleList.
 		 * 
@@ -422,6 +441,10 @@ public class BaseForm extends ActionForm implements Serializable{
 			return this.sampleCriteria;
 		}
 		
+		public void setSampleCriteria( SampleCriteria sampleCriteria ) {
+			this.sampleCriteria = sampleCriteria;
+		}
+
 		/**
 		 * Set the sampleGroup.
 		 * 

@@ -5,15 +5,32 @@ import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
+import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.Constants;
+import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
+import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
+import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
+import gov.nih.nci.caintegrator.dto.de.PathwayDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.struts.form.BaseForm;
+import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm;
 import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm.FileTypes;
 import gov.nih.nci.rembrandt.workspace.WorkspaceQuery;
+import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -180,7 +197,7 @@ public class ImportWorkspaceAction extends Action{
 				if ( unMarshalledQuery.getName().equals( "_Export _Folder"))
 				{
 					Iterator iterator = unMarshalledQuery.iterator();
-					importFolderItems = updateImportQuery(queryBag, iterator);
+					importFolderItems = updateImportQuery(request, queryBag, iterator);
 				}
 				else  // means it is a folder which might hold many elements as a tree
 				{
@@ -190,7 +207,7 @@ public class ImportWorkspaceAction extends Action{
 					
 					Iterator iterator = unMarshalledQuery.iterator();
 					
-					topFolderItems = updateImportQuery(queryBag, iterator);		
+					topFolderItems = updateImportQuery(request, queryBag, iterator);		
 					topFolder.put("items", topFolderItems);
 					importFolderItems.add(topFolder);
 					
@@ -280,7 +297,7 @@ public class ImportWorkspaceAction extends Action{
 		return folderItems;
 	}
 	
-	private JSONArray updateImportQuery(SessionQueryBag queryBag, Iterator<Query> iterator) {
+	private JSONArray updateImportQuery(HttpServletRequest request, SessionQueryBag queryBag, Iterator<Query> iterator) {
 		Query uq = null;
 		WorkspaceQuery wq = null;
 		JSONArray folderItems = new JSONArray();
@@ -295,7 +312,7 @@ public class ImportWorkspaceAction extends Action{
 				
 				JSONArray wsFolderItems = new JSONArray();
 				
-				wsFolderItems = updateImportQuery( queryBag, wq.getFolderList().iterator() );
+				wsFolderItems = updateImportQuery( request, queryBag, wq.getFolderList().iterator() );
 				wsFolder.put("items", wsFolderItems);
 				
 				folderItems.add(wsFolder);
@@ -309,8 +326,11 @@ public class ImportWorkspaceAction extends Action{
 				theQuery = setupLeaf( uq.getQueryName(), false, false, uq.toString() );
 
 				folderItems.add(theQuery);
-//				removeId( ul );
-				queryBag.putQuery( uq );
+				ActionForm form = null;
+				if ( uq instanceof GeneExpressionQuery )
+					form = createGeneExpressionForm( request, (GeneExpressionQuery)uq );
+				
+				queryBag.putQuery( uq, form );
 			}
 
 		}
@@ -329,5 +349,101 @@ public class ImportWorkspaceAction extends Action{
 			li.setListId( null );
 		}
 	}
-      
-}
+	
+	private GeneExpressionForm createGeneExpressionForm( HttpServletRequest request, GeneExpressionQuery geneExpQuery)
+	{
+		GeneExpressionForm geneExpressionForm = new GeneExpressionForm();
+		geneExpressionForm.reset(new ActionMapping(), request);
+		
+		geneExpressionForm.setQueryName(geneExpQuery.getQueryName());
+		
+		if ( ! geneExpQuery.isAllGenesQuery() ) {
+			geneExpressionForm.setGeneIDCriteria( geneExpQuery.getGeneIDCrit() );
+			geneExpressionForm.getAllGenesCriteria().setAllGenes( false );
+			geneExpressionForm.setGeneList( geneExpQuery.getGeneIDCrit().getGeneIdentifiers() );
+		}
+		else
+			geneExpressionForm.getAllGenesCriteria().setAllGenes( true );
+		
+		geneExpressionForm.setSampleCriteria( geneExpQuery.getSampleIDCrit() );
+		if ( geneExpQuery.getSampleIDCrit() != null ) {
+			geneExpressionForm.setSampleFile(geneExpQuery.getSampleIDCrit().getSampleFile() );
+			geneExpressionForm.setSampleGroup(geneExpQuery.getSampleIDCrit().getSampleGroup() );
+		}
+		geneExpressionForm.setCloneOrProbeIDCriteria( geneExpQuery.getCloneOrProbeIDCriteria() );
+		
+		if ( geneExpQuery.getCloneOrProbeIDCriteria() != null ) {
+			Iterator iterator = geneExpQuery.getCloneOrProbeIDCriteria().getIdentifiers().iterator();
+			while ( iterator.hasNext() ) {
+				CloneIdentifierDE cde = (CloneIdentifierDE)iterator.next();
+				
+				if ( cde.getCloneIDType().equals(CloneIdentifierDE.IMAGE_CLONE )) {
+					geneExpressionForm.setCloneList( "IMAGE Id");
+				}
+				else if ( cde.getCloneIDType().equals(CloneIdentifierDE.PROBE_SET )) {
+					geneExpressionForm.setCloneList( "Probe Set Id");
+				}
+				geneExpressionForm.setCloneListSpecify(cde.getValueObject());
+			}
+		}
+			
+		
+		geneExpressionForm.setFoldChangeCriteria(geneExpQuery.getFoldChgCrit());
+		geneExpressionForm.setRegionCriteria(geneExpQuery.getRegionCrit());
+		if ( geneExpQuery.getRegionCrit() != null )
+			geneExpressionForm.setRegion(geneExpQuery.getRegionCrit().getRegion() );
+		geneExpressionForm.setDiseaseOrGradeCriteria(geneExpQuery.getDiseaseOrGradeCriteria());
+		geneExpressionForm.setTumorType(geneExpQuery.getDiseaseOrGradeCriteria() );
+		geneExpressionForm.setGeneOntologyCriteria(geneExpQuery.getGeneOntologyCriteria());
+		if ( geneExpQuery.getGeneOntologyCriteria() != null ) {
+			Iterator iterator = geneExpQuery.getGeneOntologyCriteria().getGOIdentifiers().iterator();
+			StringBuffer gBuffer = new StringBuffer();
+			
+			while ( iterator.hasNext()) {
+				gBuffer.append( ( (GeneOntologyDE)iterator.next() ).getValueObject() + "\n" );
+			}
+			geneExpressionForm.setGoClassification(gBuffer.toString());
+		}
+			
+		geneExpressionForm.setPathwayCriteria(geneExpQuery.getPathwayCriteria());
+		if ( geneExpQuery.getPathwayCriteria() != null ) {
+			Iterator iterator = geneExpQuery.getPathwayCriteria().getPathwayNames().iterator();
+			StringBuffer pBuffer = new StringBuffer();
+			
+			while ( iterator.hasNext()) {
+				pBuffer.append( ( (PathwayDE)iterator.next() ).getValueObject() + "\n" );
+			}
+			geneExpressionForm.setPathways(pBuffer.toString());
+		}
+		geneExpressionForm.setArrayPlatformCriteria(geneExpQuery.getArrayPlatformCriteria());
+		geneExpressionForm.setArrayPlatform( (String)geneExpQuery.getArrayPlatformCriteria().getPlatform().getValue() );
+		
+		if( geneExpQuery.getRegionCrit() != null ) {
+			geneExpressionForm.setChromosomeNumber( geneExpQuery.getRegionCrit().getChromNumber() );
+			geneExpressionForm.setCytobandRegionStart( geneExpQuery.getRegionCrit().getStartCytoband() );
+			geneExpressionForm.setCytobandRegionEnd( geneExpQuery.getRegionCrit().getEndCytoband() );
+			geneExpressionForm.setBasePairStart( geneExpQuery.getRegionCrit().getStart() );
+			geneExpressionForm.setBasePairEnd( geneExpQuery.getRegionCrit().getEnd() );
+		}
+		
+		if ( geneExpQuery.getFoldChgCrit() != null ) {
+			Iterator iterator = geneExpQuery.getFoldChgCrit().getFoldChangeObjects().iterator();
+			while ( iterator.hasNext() ) {
+				ExprFoldChangeDE exprFoldChangeDE = (ExprFoldChangeDE)iterator.next();
+				
+				if ( exprFoldChangeDE.getRegulationType().equals(ExprFoldChangeDE.UP_REGULATION ))
+					geneExpressionForm.setFoldChangeValueUp( exprFoldChangeDE );
+				else if ( exprFoldChangeDE.getRegulationType().equals(ExprFoldChangeDE.DOWN_REGULATION ))
+					geneExpressionForm.setFoldChangeValueDown( exprFoldChangeDE );	
+				else if ( exprFoldChangeDE.getRegulationType().equals(ExprFoldChangeDE.UNCHANGED_REGULATION_UPPER_LIMIT ))
+					geneExpressionForm.setFoldChangeValueUnchangeTo( exprFoldChangeDE );	
+				else if ( exprFoldChangeDE.getRegulationType().equals(ExprFoldChangeDE.UNCHANGED_REGULATION_DOWN_LIMIT ))
+					geneExpressionForm.setFoldChangeValueUnchangeFrom( exprFoldChangeDE );	
+				
+			}
+			geneExpressionForm.setRegulationStatus(geneExpQuery.getFoldChgCrit().getRegulationStatus() );
+		}
+		
+		return geneExpressionForm;
+	}
+} 

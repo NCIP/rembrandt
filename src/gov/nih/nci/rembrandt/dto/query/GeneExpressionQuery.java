@@ -522,8 +522,11 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 		return cloneOrProbeIDCriteria;
 	}
 
-	public void setCloneOrProbeIDCrit(
-			CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
+	public void setCloneOrProbeIDCrit(CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
+		this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
+	}
+
+	public void setCloneOrProbeIDCriteria(CloneOrProbeIDCriteria cloneOrProbeIDCriteria) {
 		this.cloneOrProbeIDCriteria = cloneOrProbeIDCriteria;
 	}
 
@@ -535,6 +538,10 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 		this.geneOntologyCriteria = geneOntologyCriteria;
 	}
 
+	public void setGeneOntologyCriteria(GeneOntologyCriteria geneOntologyCriteria) {
+		this.geneOntologyCriteria = geneOntologyCriteria;
+	}
+
 	public PathwayCriteria getPathwayCriteria() {
 		return pathwayCriteria;
 	}
@@ -543,6 +550,10 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 		this.pathwayCriteria = pathwayCriteria;
 	}
 
+	public void setPathwayCriteria(PathwayCriteria pathwayCriteria) {
+		this.pathwayCriteria = pathwayCriteria;
+	}
+	
 	public ArrayPlatformCriteria getArrayPlatformCriteria() {
 		return arrayPlatformCriteria;
 	}
@@ -567,6 +578,7 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 			return false;
 		}
 	}
+	
 
 	/**
 	 * Overrides the protected Object.clone() method exposing it as public.

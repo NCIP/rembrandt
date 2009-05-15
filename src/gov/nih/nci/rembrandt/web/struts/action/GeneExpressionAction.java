@@ -465,6 +465,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
                }
                if(!sampleIds.isEmpty()){
                    sampleIDCrit.setSampleIDs(sampleIds);
+                   sampleIDCrit.setSampleFile(geneExpressionForm.getSampleFile());
+                   sampleIDCrit.setSampleGroup(geneExpressionForm.getSampleGroup());
                }
            }
        }
@@ -478,8 +480,10 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		if (!foldChangeCrit.isEmpty())
 			geneExpQuery.setFoldChgCrit(foldChangeCrit);
 		RegionCriteria regionCrit = geneExpressionForm.getRegionCriteria();
-		if (!regionCrit.isEmpty())
+		if (!regionCrit.isEmpty()) {
+			regionCrit.setRegion(geneExpressionForm.getRegion());
 			geneExpQuery.setRegionCrit(regionCrit);
+		}
 		DiseaseOrGradeCriteria diseaseOrGradeCriteria = geneExpressionForm
 				.getDiseaseOrGradeCriteria();
 		if (!diseaseOrGradeCriteria.isEmpty())
@@ -532,6 +536,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			arrayPlatformCriteria.setPlatform(new ArrayPlatformDE(Constants.ALL_PLATFROM));
 			geneExpQuery.setArrayPlatformCrit(arrayPlatformCriteria);
 		}
+		
+		if( geneExpQuery.getFoldChgCrit() != null )
+			geneExpQuery.getFoldChgCrit().setRegulationStatus(geneExpressionForm.getRegulationStatus() );
         
 	    return geneExpQuery;
 	}

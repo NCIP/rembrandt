@@ -126,6 +126,12 @@
 	         collection="arraylist">
          <bind-xml name="sample-iDs" />
       </field>
+      <field name="sampleFile" type="java.lang.String">
+         <bind-xml name="sampleFile" />
+      </field>
+      <field name="sampleGroup" type="java.lang.String">
+         <bind-xml name="sampleGroup" />
+      </field>
    </class>
    <class name="gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria">
       <field name="GOIdentifiers"
@@ -145,5 +151,29 @@
          <bind-xml name="value" />
       </field>
    </class>
-
+   <class name="gov.nih.nci.caintegrator.dto.critieria.RegionCriteria">
+      <field name="startCytoband"
+	         type="gov.nih.nci.caintegrator.dto.de.CytobandDE">
+         <bind-xml name="startCytoband" />
+      </field>
+      <field name="endCytoband"
+	         type="gov.nih.nci.caintegrator.dto.de.CytobandDE">
+         <bind-xml name="endCytoband" />
+      </field>
+      <field name="chromNumber"
+	         type="gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE">
+         <bind-xml name="chromNumber" />
+      </field>
+      <field name="start"
+	         type="gov.nih.nci.caintegrator.dto.de.BasePairPositionDE$StartPosition">
+         <bind-xml name="baseStart" />
+      </field>
+      <field name="end"
+	         type="gov.nih.nci.caintegrator.dto.de.BasePairPositionDE$EndPosition">
+         <bind-xml name="baseEnd" />
+      </field>
+      <field name="region" type="java.lang.String">
+         <bind-xml name="region" />
+      </field>
+   </class>
 </mapping>

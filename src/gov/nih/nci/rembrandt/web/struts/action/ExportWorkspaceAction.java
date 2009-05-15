@@ -155,15 +155,13 @@ public class ExportWorkspaceAction extends Action {
 		else {
 			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sess.getId());
 
-			for(String queryName :  queryBag.getQueryNames()){
-				if( queryName.equals( nodeName ) ){
-						Query query = queryBag.getQuery(nodeName);
-						exportQueryFolder = new WorkspaceQuery( "_Export _Folder" );
-						exportQueryFolder.addLeaf(query);
-						break;
-				}
+			Query query = queryBag.getQuery(nodeName);
+			if ( query != null )
+			{
+				exportQueryFolder = new WorkspaceQuery( "_Export _Folder" );
+				exportQueryFolder.addLeaf(query);
 			}
-		
+
 			// means the user clicked on a folder NOT an individual file. The folder becomes the root.
 			if ( exportQueryFolder == null )	
 			{
