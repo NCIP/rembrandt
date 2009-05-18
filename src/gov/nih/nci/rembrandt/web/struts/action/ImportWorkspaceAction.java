@@ -576,8 +576,14 @@ public class ImportWorkspaceAction extends Action{
 		clinicalDataForm.setOnStudyRadiationTherapyCriteria(clinicalDataQuery.getOnStudyRadiationTherapyCriteria());
 		clinicalDataForm.setOnStudySurgeryOutcomeCriteria(clinicalDataQuery.getOnStudySurgeryOutcomeCriteria());
 		clinicalDataForm.setOnStudySurgeryTitleCriteria(clinicalDataQuery.getOnStudySurgeryTitleCriteria());
+		clinicalDataForm.setRadiationTherapyCriteria(clinicalDataQuery.getRadiationTherapyCriteria() );
+		clinicalDataForm.setChemoAgentCriteria(clinicalDataQuery.getChemoAgentCriteria());
+		clinicalDataForm.setPriorSurgeryTitleCriteria(clinicalDataQuery.getPriorSurgeryTitleCriteria());
+		clinicalDataForm.setKarnofskyCriteria(clinicalDataQuery.getKarnofskyCriteria());
+		clinicalDataForm.setLanskyCriteria(clinicalDataQuery.getLanskyCriteria());
+		clinicalDataForm.setMriCriteria(clinicalDataQuery.getMriCriteria());
+		clinicalDataForm.setNeuroExamCriteria(clinicalDataQuery.getNeuroExamCriteria());
 		
-
 		return clinicalDataForm;
 		
 	}

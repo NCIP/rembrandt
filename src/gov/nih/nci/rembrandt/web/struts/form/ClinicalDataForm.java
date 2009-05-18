@@ -1469,8 +1469,59 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     public String getRadiationType() {
         return radiationType;
     }
+    
+    public void setRadiationTherapyCriteria(
+			RadiationTherapyCriteria radiationTherapyCriteria) {
+		this.radiationTherapyCriteria = radiationTherapyCriteria;
+		
+		if ( radiationTherapyCriteria != null ) {
+			if ( radiationTherapyCriteria.getRadiations() != null && radiationTherapyCriteria.getRadiations().size() > 0) {
+				this.radiation = "Specify";
+				
+				if ( radiationTherapyCriteria.getRadiations().size() == 1 )
+					this.radiationType =  ( (RadiationTherapyDE)( (ArrayList)radiationTherapyCriteria.getRadiations() ).get(0) ).getValueObject();
+				else
+					this.radiationType = "Any";
+			}
+		}
+	}
 
-    /**
+
+	public void setChemoAgentCriteria(ChemoAgentCriteria chemoAgentCriteria) {
+		this.chemoAgentCriteria = chemoAgentCriteria;
+		
+		if( chemoAgentCriteria != null ) {
+			if ( chemoAgentCriteria.getAgents() != null && chemoAgentCriteria.getAgents().size() > 0) {
+				this.chemo = "Specify";
+				
+				if ( chemoAgentCriteria.getAgents().size() == 1 )
+					this.chemoType =  ( (ChemoAgentDE)( (ArrayList)chemoAgentCriteria.getAgents() ).get(0) ).getValueObject();
+				else
+					this.chemoType = "Any";
+			}
+		}
+		
+	}
+	
+	public void setPriorSurgeryTitleCriteria(
+			PriorSurgeryTitleCriteria priorSurgeryTitleCriteria) {
+		this.priorSurgeryTitleCriteria = priorSurgeryTitleCriteria;
+		
+		if ( priorSurgeryTitleCriteria != null ) {
+			if ( priorSurgeryTitleCriteria.getTitles() != null && priorSurgeryTitleCriteria.getTitles().size() > 0) {
+				this.surgery = "Specify";
+				
+				if ( priorSurgeryTitleCriteria.getTitles().size() == 1 )
+					this.surgeryTitle =  ( (PriorSurgeryTitleDE)( (ArrayList)priorSurgeryTitleCriteria.getTitles() ).get(0) ).getValueObject();
+				else
+					this.surgeryTitle = "Any";
+			}
+		}
+		
+	}
+
+
+	/**
      * Set the chemo.
      * 
      * @param chemo
@@ -1612,9 +1663,21 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     }
 
     
-    
-    
-    /**
+    public void setSurgeryOutcomeCriteria(
+			SurgeryOutcomeCriteria surgeryOutcomeCriteria) {
+		this.surgeryOutcomeCriteria = surgeryOutcomeCriteria;
+		
+		if ( surgeryOutcomeCriteria != null && surgeryOutcomeCriteria.getOutcomes() != null ) {
+			if ( surgeryOutcomeCriteria.getOutcomes().size() == 1 )
+				this.surgeryOutcome =  ( (SurgeryOutcomeDE)( (ArrayList)surgeryOutcomeCriteria.getOutcomes() ).get(0) ).getValueObject();
+			else
+				this.surgeryOutcome = "any";
+		}
+		
+	}
+
+
+	/**
 	 * @return Returns the onStudyChemo.
 	 */
 	public String getOnStudyChemo() {
@@ -2101,6 +2164,18 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 
 	public void setOnStudyChemoAgentCriteria(OnStudyChemoAgentCriteria chemoAgentCriteria) {
 		onStudyChemoAgentCriteria = chemoAgentCriteria;
+		
+		if ( onStudyChemoAgentCriteria != null ) {
+			if ( onStudyChemoAgentCriteria.getAgents() != null && onStudyChemoAgentCriteria.getAgents().size() > 0) {
+				this.onStudyChemo = "Specify";
+				
+				if ( onStudyChemoAgentCriteria.getAgents().size() == 1 )
+					this.onStudyChemoType =  ( (OnStudyChemoAgentDE)( (ArrayList)onStudyChemoAgentCriteria.getAgents() ).get(0) ).getValueObject();
+				else
+					this.onStudyChemoType = "any";
+			}
+		}
+		
 	}
 
 
@@ -2115,6 +2190,18 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 
 	public void setOnStudyRadiationTherapyCriteria( OnStudyRadiationTherapyCriteria onStudyRadiationTherapyCriteria) {
 		this.onStudyRadiationTherapyCriteria = onStudyRadiationTherapyCriteria;
+		
+		if ( onStudyRadiationTherapyCriteria != null ) {
+			if ( onStudyRadiationTherapyCriteria.getRadiations() != null && onStudyRadiationTherapyCriteria.getRadiations().size() > 0) {
+				this.onStudyRadiation = "Specify";
+				
+				if ( onStudyRadiationTherapyCriteria.getRadiations().size() == 1 )
+					this.onStudyRadiationType =  ( (OnStudyRadiationTherapyDE)( (ArrayList)onStudyRadiationTherapyCriteria.getRadiations() ).get(0) ).getValueObject();
+				else
+					this.onStudyRadiationType = "any";
+			}
+		}
+		
 	}
 
 
@@ -2127,9 +2214,19 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 
 	public void setOnStudySurgeryOutcomeCriteria( OnStudySurgeryOutcomeCriteria onStudySurgeryOutcomeCriteria) {
 		this.onStudySurgeryOutcomeCriteria = onStudySurgeryOutcomeCriteria;
+		
+		if ( onStudySurgeryOutcomeCriteria != null ) {
+			if ( onStudySurgeryOutcomeCriteria.getOutcomes() != null && onStudySurgeryOutcomeCriteria.getOutcomes().size() > 0) {
+				this.onStudySurgery = "Specify";
+				
+				if ( onStudySurgeryOutcomeCriteria.getOutcomes().size() == 1 )
+					this.onStudySurgeryOutcome =  ( (OnStudySurgeryOutcomeDE)( (ArrayList)onStudySurgeryOutcomeCriteria.getOutcomes() ).get(0) ).getValueObject();
+				else
+					this.onStudySurgeryOutcome = "any";
+			}
+		}
+		
 	}
-
-
 
 
 	/**
@@ -2141,6 +2238,17 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 
 	public void setOnStudySurgeryTitleCriteria( OnStudySurgeryTitleCriteria onStudySurgeryTitleCriteria) {
 		this.onStudySurgeryTitleCriteria = onStudySurgeryTitleCriteria;
+		
+		if ( onStudySurgeryTitleCriteria != null ) {
+			if ( onStudySurgeryTitleCriteria.getTitles() != null && onStudySurgeryTitleCriteria.getTitles().size() > 0) {
+				this.onStudySurgery = "Specify";
+				
+				if ( onStudySurgeryTitleCriteria.getTitles().size() == 1 )
+					this.onStudySurgeryTitle =  ( (OnStudySurgeryTitleDE)( (ArrayList)onStudySurgeryTitleCriteria.getTitles() ).get(0) ).getValueObject();
+				else
+					this.onStudySurgeryTitle = "any";
+			}
+		}
 	}
 
 
@@ -2152,6 +2260,14 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 
 	public void setSurvivalCriteria( SurvivalCriteria survivalCriteria ) {
 		this.survivalCriteria = survivalCriteria;
+		
+		if ( survivalCriteria != null && survivalCriteria.getLowerSurvivalRange() != null ) {
+			if ( survivalCriteria.getLowerSurvivalRange().getValueObject() > -1 )
+				this.survivalLower = survivalCriteria.getLowerSurvivalRange().getValueObject().toString();
+			
+			if ( survivalCriteria.getUpperSurvivalRange().getValueObject() > -1 )
+				this.survivalUpper = survivalCriteria.getUpperSurvivalRange().getValueObject().toString();
+		}
 	}
 	
 	public AgeCriteria getAgeCriteria() {
@@ -2160,6 +2276,16 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 
 	public void setAgeCriteria( AgeCriteria ageCriteria) {
         this.ageCriteria = ageCriteria;
+        
+        if ( ageCriteria != null ) {
+        
+	        if ( ageCriteria.getLowerAgeLimit() != null && ageCriteria.getLowerAgeLimit().getValueObject() > -1 )
+	        	this.ageLower = ageCriteria.getLowerAgeLimit().getValueObject().toString();
+	        
+	        if ( ageCriteria.getUpperAgeLimit() != null && ageCriteria.getUpperAgeLimit().getValueObject() > -1 )
+	        	this.ageUpper = ageCriteria.getUpperAgeLimit().getValueObject().toString();
+        }
+        
     }
 
 	public GenderCriteria getGenderCriteria() {
@@ -2168,6 +2294,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 
 	public void setGenderCriteria( GenderCriteria genderCriteria) {
         this.genderCriteria = genderCriteria;
+        
+        if ( genderCriteria != null && genderCriteria.getGenderDE() != null && !genderCriteria.getGenderDE().getValueObject().equals(""))
+        	this.genderType = genderCriteria.getGenderDE().getValueObject();
     }
 
 	public RaceCriteria getRaceCriteria() {
@@ -2176,6 +2305,35 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     
 	public void setRaceCriteria( RaceCriteria raceCriteria) {
         this.raceCriteria = raceCriteria;
+        
+        if ( raceCriteria != null && raceCriteria.getRaces() != null ) {
+	        Iterator iterator = raceCriteria.getRaces().iterator();
+	        RaceDE raceDE = null;
+	        while ( iterator.hasNext() ) {
+	        	raceDE = (RaceDE)iterator.next();
+	        	
+	        	if ( raceDE.getValueObject().equals( RaceType.WHITE.toString() ) ) {
+	        		this.caucasion = "Specify";
+	        	}
+	        	else if ( raceDE.getValueObject().equals( RaceType.BLACK_OR_AFRICAN_AMERICAN.toString() ) ) {
+	        		this.africanAmerican = "Specify";
+	        	}
+	        	else if ( raceDE.getValueObject().equals( RaceType.NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER.toString() ) ) {
+	        		this.nativeHawaiian = "Specify";
+	        	}
+	        	else if ( raceDE.getValueObject().equals( RaceType.ASIAN.toString() ) ) {
+	        		this.asian = "Specify";
+	        	}
+	        	else if ( raceDE.getValueObject().equals( RaceType.OTHER.toString() ) ) {
+	        		this.other = "Specify";
+	        	}
+	        	else if ( raceDE.getValueObject().equals( RaceType.UNKNOWN.toString() ) ) {
+	        		this.unknown = "Specify";
+	        	}
+	
+	        }
+        }
+        	
     }
     
     
@@ -2508,6 +2666,49 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public PriorSurgeryTitleCriteria getPriorSurgeryTitleCriteria() {
 		return priorSurgeryTitleCriteria;
+	}
+
+
+	public void setKarnofskyCriteria(KarnofskyClinicalEvalCriteria karnofskyCriteria) {
+		this.karnofskyCriteria = karnofskyCriteria;
+		
+		if ( karnofskyCriteria != null && karnofskyCriteria.getKarnofskyClinicalEvalDE() != null) {
+			this.karnofsky = "Specify";
+			this.karnofskyType = karnofskyCriteria.getKarnofskyClinicalEvalDE().getValueObject();
+		}
+	}
+
+
+	public void setLanskyCriteria(LanskyClinicalEvalCriteria lanskyCriteria) {
+		this.lanskyCriteria = lanskyCriteria;
+		
+		if ( lanskyCriteria != null && lanskyCriteria.getLanskyClinicalEvalDE() != null ) {
+			this.lansky = "Specify";
+			this.lanskyType = lanskyCriteria.getLanskyClinicalEvalDE().getValueObject();
+		}
+		
+	}
+
+
+	public void setMriCriteria(MRIClinicalEvalCriteria mriCriteria) {
+		this.mriCriteria = mriCriteria;
+		
+		if ( mriCriteria != null && mriCriteria.getMRIClinicalEvalDE() != null ) {
+			this.mri = "Specify";
+			this.mriType = mriCriteria.getMRIClinicalEvalDE().getValueObject();
+		}
+		
+	}
+
+
+	public void setNeuroExamCriteria(NeuroExamClinicalEvalCriteria neuroExamCriteria) {
+		this.neuroExamCriteria = neuroExamCriteria;
+		
+		if ( neuroExamCriteria != null && neuroExamCriteria.getNeuroExamClinicalEvalDE() != null ) {
+			this.neuroExam = "Specify";
+			this.neuroExamType = neuroExamCriteria.getNeuroExamClinicalEvalDE().getValueObject();
+		}
+		
 	}
 
 
