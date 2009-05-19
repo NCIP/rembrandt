@@ -111,7 +111,8 @@ function stupidXSL(i, cPage, total)	{
 		
 		if(document.prbSamples.samples.length > 1)	{
 			for (i = 0; i < document.prbSamples.samples.length; i++)	{
-				if(document.prbSamples.samples[i].checked == true)	{
+				// check if they are selected and the Parent cell <td> is not hidden
+				if(document.prbSamples.samples[i].checked == true && document.prbSamples.samples[i].parentNode.style.display != "none" )	{
 					can_continue = true;
 					savedSamples.push(document.prbSamples.samples[i].value);
 				}
