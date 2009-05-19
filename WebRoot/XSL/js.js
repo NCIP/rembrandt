@@ -342,7 +342,7 @@ function checkElement(id)	{
 
 function stupidXSLEscape(qname, rtype)	{
 	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
-	if ( qname = 'previewResults' ) {
+	if ( qname === 'previewResults' ) {
 		var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&csv=true";
 		location.href = dest;
 		return;
