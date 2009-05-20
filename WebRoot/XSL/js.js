@@ -381,6 +381,11 @@ function excel_export_cb(qnameAndrType) {
 }
 
 function runFindingCSV(key)	{
+	if( currentTmpReportersCount == 0) {
+		alert("You must select at least one reporter.");
+		return false;
+	}
+	
 	var dest = "jsp/csvWrapper.jsp?key="+ escape(key)+"&csv=true";
 	location.href = dest;
 }

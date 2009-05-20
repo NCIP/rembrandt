@@ -13,7 +13,9 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -100,11 +102,14 @@ public class ClassComparisonReport{
 		return getReportXML(finding, filterMapParams, false);
 	}
 	
+	public static Document getReportXML(Finding finding, Map filterMapParams, boolean allAnnotations) {
+		return getReportXML(finding, filterMapParams, allAnnotations, null);
+	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
 	
-	public static Document getReportXML(Finding finding, Map filterMapParams, boolean allAnnotations) {
+	public static Document getReportXML(Finding finding, Map filterMapParams, boolean allAnnotations, ArrayList reporterIdFilter) {
 
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
 		DecimalFormat sciFormat = new DecimalFormat("0.00E0");
@@ -280,9 +285,22 @@ public class ClassComparisonReport{
 		        List<ClassComparisonResultEntry> classComparisonResultEntrys = ccf.getResultEntries();
 				List<String> reporterIds = new ArrayList<String>();
 				
+				if ( reporterIdFilter != null ) {
+					Collections.sort( reporterIdFilter );
+				}
+				
+				int index = 0;
 				for (ClassComparisonResultEntry classComparisonResultEntry: classComparisonResultEntrys){
 					if(classComparisonResultEntry.getReporterId() != null){
-						reporterIds.add(classComparisonResultEntry.getReporterId());
+						if ( reporterIdFilter == null )
+							reporterIds.add(classComparisonResultEntry.getReporterId());
+						else {
+							index = Collections.binarySearch(reporterIdFilter, classComparisonResultEntry.getReporterId() );
+							
+							if ( index >= 0 ){
+								reporterIds.add(classComparisonResultEntry.getReporterId());
+							}
+						}
 					}
 				}
 				
@@ -316,6 +334,14 @@ public class ClassComparisonReport{
 		        */
 				
 		        for(ClassComparisonResultEntry ccre : ccf.getResultEntries())	{
+		        	
+		        	if ( reporterIdFilter != null ) {
+		        		index = Collections.binarySearch(reporterIdFilter, ccre.getReporterId() );
+		        		
+		        		//not found, then skip
+		        		if ( index < 0 )
+		        			continue;
+		        	}
 
 		        	dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 			        cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "reporter").addAttribute("group", "data");
