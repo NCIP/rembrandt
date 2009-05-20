@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.ajax.GenePatternHelper;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -16,13 +17,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
 
 /**
  * @author LandyR
@@ -89,7 +93,7 @@ import org.dom4j.Element;
 */
 
 public class ClassComparisonReport{
-
+	private static Logger logger = Logger.getLogger(ClassComparisonReport.class);
 	/**
 	 * 
 	 */
@@ -284,25 +288,25 @@ public class ClassComparisonReport{
 		        
 		        List<ClassComparisonResultEntry> classComparisonResultEntrys = ccf.getResultEntries();
 				List<String> reporterIds = new ArrayList<String>();
+				HashSet<String> reporterIdSet = null;
+
 				
 				if ( reporterIdFilter != null ) {
-					Collections.sort( reporterIdFilter );
+					reporterIdSet = new HashSet<String>( reporterIdFilter  );
 				}
 				
 				int index = 0;
-				for (ClassComparisonResultEntry classComparisonResultEntry: classComparisonResultEntrys){
-					if(classComparisonResultEntry.getReporterId() != null){
-						if ( reporterIdFilter == null )
+				if ( reporterIdFilter == null ) {
+					for (ClassComparisonResultEntry classComparisonResultEntry: classComparisonResultEntrys){
+						if(classComparisonResultEntry.getReporterId() != null){
 							reporterIds.add(classComparisonResultEntry.getReporterId());
-						else {
-							index = Collections.binarySearch(reporterIdFilter, classComparisonResultEntry.getReporterId() );
-							
-							if ( index >= 0 ){
-								reporterIds.add(classComparisonResultEntry.getReporterId());
-							}
 						}
 					}
 				}
+				else {
+					reporterIds = reporterIdFilter;
+				}
+					
 				
 				Map reporterResultsetMap = null;
 				ArrayPlatformType arrayPlatform = ccdto.getArrayPlatformDE() != null ? ccdto.getArrayPlatformDE().getValueObjectAsArrayPlatformType() : ArrayPlatformType.AFFY_OLIGO_PLATFORM;
@@ -333,13 +337,15 @@ public class ClassComparisonReport{
 		        }
 		        */
 				
+
+				boolean found = false;
 		        for(ClassComparisonResultEntry ccre : ccf.getResultEntries())	{
 		        	
 		        	if ( reporterIdFilter != null ) {
-		        		index = Collections.binarySearch(reporterIdFilter, ccre.getReporterId() );
+		        		found = reporterIdSet.contains( ccre.getReporterId() );
 		        		
 		        		//not found, then skip
-		        		if ( index < 0 )
+		        		if ( ! found )
 		        			continue;
 		        	}
 
