@@ -28,6 +28,9 @@ String key = request.getParameter("key")!=null ? (String) request.getParameter("
 					xmlDocument = FTestReport.getReportXML(frb.getFinding(), new HashMap(), true);
 				}
 				//put frb back in cache
+//				we don't want to save it in cache because from now on each time
+//				the user could export a different set of list.
+//				so, saving the csv in the cache is useless.				
 //				frb.setXmlDocCSV(xmlDocument);
 //				ptc.addNonPersistableToSessionCache(frb.getFinding().getSessionId(),frb.getFinding().getTaskId(), frb);
 			}

@@ -434,12 +434,14 @@ public class WorkspaceHelper {
 			String queryTree = (String) sess.getAttribute(RembrandtConstants.OQUERY_STRUCT);
 			UserQuery userQuery = (UserQuery) sess.getAttribute(RembrandtConstants.USER_QUERY);
 			SessionQueryBag queryBag = _cacheManager.getSessionQueryBag(sess.getId());
-			myListLoader.saveSessionQueryBag(userId, queryBag, userQuery);
+			userQuery = myListLoader.saveSessionQueryBag(userId, queryBag, userQuery);
+			sess.setAttribute(RembrandtConstants.USER_QUERY, userQuery);	
 			//Save Query
 			Workspace queryWorkspace = (Workspace) sess.getAttribute(RembrandtConstants.QUERY_WORKSPACE);
 			if(queryTree != null && userId != null){
 				myListLoader.saveTreeStructure(userId, TreeStructureType.QUERY, queryTree, queryWorkspace);
 			}
+			
 			return "pass";
     	}
 		return "fail";

@@ -263,7 +263,7 @@ public class RembrandtListLoader extends ListLoader {
         }
         return null;
     }
-    public void saveSessionQueryBag(Long userId, SessionQueryBag queryBag, UserQuery userQuery){
+    public UserQuery saveSessionQueryBag(Long userId, SessionQueryBag queryBag, UserQuery userQuery){
     	if(userId != null   &&  queryBag != null){
 	        try {
 	        	        	
@@ -290,6 +290,8 @@ public class RembrandtListLoader extends ListLoader {
 				e.printStackTrace();
 			}
     	}
+    	
+    	return userQuery;
     }
 
 }
