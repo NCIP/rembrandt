@@ -5,6 +5,8 @@ import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.DeleteQueryForm;
@@ -112,6 +114,13 @@ public class DeleteQueryAction extends DispatchAction {
 			  String queryKey = deleteQueryForm.getQueryKey();
 			  logger.debug("queryKey is ************:"+queryKey);		  
 			  queryColl.remove(queryBag.getQuery(queryKey));	 
+			  //remove query from list
+			  String queryTree = (String) request.getSession().getAttribute(RembrandtConstants.OQUERY_STRUCT);
+			  if(queryTree != null){
+				  queryTree = WorkspaceHelper.removeItemFromTree(queryTree,queryKey);
+				  request.getSession().setAttribute(RembrandtConstants.OQUERY_STRUCT, queryTree);
+			  }
+			  //WorkspaceHelper.saveWorkspace( request.getSession() );
 			}  	 	
 		   return mapping.findForward("menuPage");		
 	     }

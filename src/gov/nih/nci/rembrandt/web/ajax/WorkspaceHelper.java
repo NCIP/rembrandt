@@ -7,10 +7,8 @@ import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
 import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.Workspace;
-import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
-import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -33,6 +31,10 @@ import org.json.simple.JSONValue;
 import uk.ltd.getahead.dwr.WebContext;
 import uk.ltd.getahead.dwr.WebContextFactory;
 
+/**
+ * @author sahnih
+ *
+ */
 public class WorkspaceHelper {
     private static RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
 	private static Logger logger = Logger.getLogger(WorkspaceHelper.class);
@@ -91,10 +93,14 @@ public class WorkspaceHelper {
 		return customLists;
 	}
 	public static String fetchListTreeStructures()	{
-		String listTrees = "";
 		WebContext ctx = WebContextFactory.get();
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
+		
+		return loadListTreeStructures(sess);
+	}
+	public static String loadListTreeStructures(HttpSession sess)	{
+		String listTrees = "";
 		JSONArray jsaList = generateListJSONArray(sess);
 		
 		listTrees = jsaList.toString();
@@ -105,10 +111,14 @@ public class WorkspaceHelper {
 		return listTrees;
 	}
 	public static String fetchQueryTreeStructures()	{
-		String queryTrees = "";
 		WebContext ctx = WebContextFactory.get();
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
+				
+		return loadQueryTreeStructures(sess);
+	}
+	public static String loadQueryTreeStructures(HttpSession sess)	{
+		String queryTrees = "";
 		JSONArray jsaQuery = generateQueryJSONArray(sess);
 
 		queryTrees = jsaQuery.toString();
@@ -121,13 +131,15 @@ public class WorkspaceHelper {
 	public static JSONArray generateQueryJSONArray(HttpSession sess) {
 		String trees;
 		UserCredentials credentials = (UserCredentials)sess.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-		
-		////// NOTE: we want to read this from the DB, if null then create and persist
-		Workspace queryWorkspace = fetchQueryWorkspaceFromDB(sess, credentials.getUserId());
-		if(queryWorkspace != null  && queryWorkspace.getTreeStructure()!= null)	{
-				trees = queryWorkspace.getTreeStructure();
+		trees = (String) sess.getAttribute(RembrandtConstants.OQUERY_STRUCT);
+		if(trees == null){
+			////// NOTE: we want to read this from the DB, if null then create and persist
+			Workspace queryWorkspace = fetchQueryWorkspaceFromDB(sess, credentials.getUserId());
+			if(queryWorkspace != null  && queryWorkspace.getTreeStructure()!= null)	{
+					trees = queryWorkspace.getTreeStructure();
 			}else{
-				trees = null;
+					trees = null;
+			}
 		}
 			////////////// TEST DATA String
 			//trees = "[ { 'id' : 'root', 'txt' : 'Lists', 'editable': false, 'items' : [ { 'id' : 'ast', 'txt' : 'ASTROCYTOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t21', 'txt' : 'high survival patients', 'img' : 'folder.gif', 'items' : [ { 'id': 'sub11', 'txt': 'my patient list', 'editable': false, 'acceptdrop' : false } ] }, { 'id' : 'branch_t22', 'txt' : 'ALL GLIOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t23', 'txt' : 'MySaved Patients', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t24', 'txt' : 'Patients_good_survival', 'editable': false, 'acceptdrop' : false }, { 'id' : 'trash', 'last' : true, 'draggable' : false, 'txt' : 'Trash', 'img' : 'trash.gif', 'imgopen' : 'trash.gif', 'imgclose' : 'trash.gif', 'open' : false, 'editable': false, 'tooltip' : 'Items here will be removed when the workspace is saved', 'items' : [ { 'id': 'sub1', 'txt': 'one to delete' , 'editable': false, 'acceptdrop' : false } ] } ] } ]";
@@ -141,6 +153,7 @@ public class WorkspaceHelper {
 			JSONArray queryItems = null;
 			JSONArray rootItems = null;
 			if(trees != null){
+				trees = pruneTree(trees);
 				root = findNode( trees, "root" );
 				rootItems = getNodeItems(root);
 				query = findNodeInTree(rootItems,"geQuery");
@@ -152,8 +165,8 @@ public class WorkspaceHelper {
 							String txt = queryName;
 							String tooltip = queryBag.getQuery(queryName).toString();							JSONObject item = createNodeItem(id,txt,tooltip);
 							newItems.add(item);
-						}
-					}
+						}					
+					}	
 				queryItems.addAll(newItems);
 				query = findNodeInTree(rootItems,"cpQuery");
 				queryItems = getNodeItems(query);				
@@ -233,15 +246,16 @@ public class WorkspaceHelper {
 	public static JSONArray generateListJSONArray(HttpSession sess) {
 		String trees;
 		UserCredentials credentials = (UserCredentials)sess.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-		
-		////// NOTE: we want to read this from the DB, if null then create and persist
-		Workspace workspace = fetchListWorkspaceFromDB(sess, credentials.getUserId());
-		if(workspace != null  && workspace.getTreeStructure()!= null)	{
-				trees = workspace.getTreeStructure();
+		trees = (String) sess.getAttribute(RembrandtConstants.OLIST_STRUCT);
+		if(trees == null){
+			////// NOTE: we want to read this from the DB, if null then create and persist
+			Workspace workspace = fetchListWorkspaceFromDB(sess, credentials.getUserId());
+			if(workspace != null  && workspace.getTreeStructure()!= null)	{
+					trees = workspace.getTreeStructure();
 			}else{
-				trees = null;
+					trees = null;
+				}
 		}
-
 
 			////////////// TEST DATA String
 			//trees = "[ { 'id' : 'root', 'txt' : 'Lists', 'editable': false, 'items' : [ { 'id' : 'ast', 'txt' : 'ASTROCYTOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t21', 'txt' : 'high survival patients', 'img' : 'folder.gif', 'items' : [ { 'id': 'sub11', 'txt': 'my patient list', 'editable': false, 'acceptdrop' : false } ] }, { 'id' : 'branch_t22', 'txt' : 'ALL GLIOMA', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t23', 'txt' : 'MySaved Patients', 'editable': false, 'acceptdrop' : false }, { 'id' : 'branch_t24', 'txt' : 'Patients_good_survival', 'editable': false, 'acceptdrop' : false }, { 'id' : 'trash', 'last' : true, 'draggable' : false, 'txt' : 'Trash', 'img' : 'trash.gif', 'imgopen' : 'trash.gif', 'imgclose' : 'trash.gif', 'open' : false, 'editable': false, 'tooltip' : 'Items here will be removed when the workspace is saved', 'items' : [ { 'id': 'sub1', 'txt': 'one to delete' , 'editable': false, 'acceptdrop' : false } ] } ] } ]";
@@ -257,6 +271,7 @@ public class WorkspaceHelper {
 			JSONArray rootItems = null;
 			// if one exists, check if all lists are within it
 			if(trees != null){
+				trees = pruneTree(trees);
 				root = findNode( trees, "root" );
 				rootItems = getNodeItems(root);
 				customNode = findNodeInTree(rootItems,"custom");
@@ -397,6 +412,48 @@ public class WorkspaceHelper {
 		jsa.add(root);
 		return jsa.toString();	
 		}
+	public static String removeItemFromTree(String treeString, String itemName) {
+		JSONArray jsa = new JSONArray();
+		JSONObject root = findNode( treeString, "root" );
+		JSONArray parent = findNodeParent(root, itemName);
+		JSONObject foundNode = findNodeInTree(getNodeItems(root),itemName);
+		if(parent != null  && foundNode != null){
+			parent.remove(foundNode);
+		}		
+		jsa.add(root);
+		return jsa.toString();	
+		}
+	
+	public static String pruneTree(String rootString) {
+		JSONArray jsa = new JSONArray();
+		JSONObject root = findNode(rootString, "root");
+		JSONArray rootItems = getNodeItems(root);
+		if (rootItems != null) {
+			Iterator iterator = rootItems.iterator();
+			JSONObject node = null;
+			List<String> names = new ArrayList<String>();
+			while (iterator.hasNext()) {
+				node = (JSONObject) iterator.next();
+				JSONArray nodeItems = getNodeItems(node);
+				Object obj = node.get("draggable");
+				if(obj instanceof Long){
+					if (obj.equals(new Long(1)) && nodeItems.isEmpty()) {
+						String nodeName = (String) node.get("id");
+						names.add(nodeName);
+					}
+				}
+			}
+			String tree = null;
+			for (String name : names) {
+				tree = removeItemFromTree(rootString, name);
+			}
+			if (tree != null) {
+				root = findNode(tree, "root");
+			}
+		}
+		jsa.add(root);
+		return jsa.toString();
+	}
 	public static String saveWorkspace(HttpSession sess ){
 		/*
     	 * User has selected to save the current session and log out of the
@@ -475,36 +532,59 @@ public class WorkspaceHelper {
 	}
 	public static JSONObject findNode( String tree, String inName )
 	{
-		JSONArray jsonArray = null;
-		Object parseObj = JSONValue.parse(tree);
-		if(parseObj instanceof JSONArray){
-			jsonArray =(JSONArray)parseObj;
-		}else if (parseObj instanceof JSONObject){
-			jsonArray = getNodeItems((JSONObject) parseObj);
-		}
-		
-		JSONObject root = null;
-		JSONArray rootItems = null;
 		JSONObject node = null;
-		
-	    Iterator iterator = jsonArray.iterator();
-	    Object obj = null;
-		while(iterator.hasNext()){
-			obj = iterator.next();
-			
-			root = (JSONObject)obj;
-			if(root.containsValue("root")){
-				if( inName.equals( "root"))		// User wants the top root
-				{
-					return root;
-				}
-
-				rootItems = (JSONArray) root.get("items");		
-				node = findNodeInTree(rootItems, inName );	// recursive call to find the node in the tree
+		if(tree != null && inName != null){
+			JSONArray jsonArray = null;
+			Object parseObj = JSONValue.parse(tree);
+			if(parseObj instanceof JSONArray){
+				jsonArray =(JSONArray)parseObj;
+			}else if (parseObj instanceof JSONObject){
+				jsonArray = getNodeItems((JSONObject) parseObj);
 			}
-	    }
-		
+			
+			JSONObject root = null;
+			JSONArray rootItems = null;
+	
+			
+		    Iterator iterator = jsonArray.iterator();
+		    Object obj = null;
+			while(iterator.hasNext()){
+				obj = iterator.next();
+				
+				root = (JSONObject)obj;
+				if(root.containsValue("root")){
+					if( inName.equals( "root"))		// User wants the top root
+					{
+						return root;
+					}
+	
+					rootItems = (JSONArray) root.get("items");		
+					node = findNodeInTree(rootItems, inName );	// recursive call to find the node in the tree
+				}
+		    }
+		}
 		return node;
+		
+	}
+	public static JSONArray findNodeParent(JSONObject node, String inName )
+	{
+		if(node != null && inName != null){
+			JSONArray parent = null;
+			JSONArray jsonItems = getNodeItems(node);			
+		    Iterator iterator = jsonItems.iterator();
+		    JSONObject obj = null;
+			while(iterator.hasNext()){
+				obj = (JSONObject) iterator.next();
+				if(obj.containsValue(inName)){
+					return jsonItems;
+				}else{
+				parent = findNodeParent(obj,inName);
+				if ( parent != null )
+					return parent;
+				}
+		    }
+		}
+		return null;
 		
 	}
 	public static JSONArray getNodeItems( JSONObject node)
