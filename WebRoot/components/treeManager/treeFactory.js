@@ -2,6 +2,7 @@
 
 var oListTree = '';
 var oQueryTree = '';
+var needToConfirm = false; 
 var TreeFactory = Class.create({
   initialize: function()  {
     //store the trees as name->JSON pair
@@ -196,6 +197,20 @@ var TreeUtils = {
   		TreeUtils.initializeQueryTree();
   		SidebarHelper.loadSidebar();
   	}
+  },
+  checkTreeStructs : function()	{
+  	//grab the local copies 
+  	var listTreeString = oListStruct.toJSON();
+  	var queryTreeString = oQueryStruct.toJSON();
+  	WorkspaceHelper.checkTreeStructures(listTreeString, queryTreeString, { 
+        async: false,
+        callback: TreeUtils.checkTreeStructs_cb } );
+  },
+  checkTreeStructs_cb : function(r)	{
+  	if ( r == "true" ) {
+  		needToConfirm = true;
+  		}
+  	else
+  		needToConfirm = false;
   }
-
 }

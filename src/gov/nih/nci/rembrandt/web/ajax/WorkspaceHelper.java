@@ -619,6 +619,32 @@ public class WorkspaceHelper {
 		}
 		return null;
 	}
-	
+	public static String checkTreeStructures(String listTreeString, String queryTreeString)	{
+		WebContext ctx = WebContextFactory.get();
+		HttpServletRequest req = ctx.getHttpServletRequest();
+		HttpSession sess = req.getSession(); 
+		boolean treeChanged = false;
+		
+		listTreeString = listTreeString.replaceAll(" ", "");
+		queryTreeString = queryTreeString.replaceAll(" ", "");
+		
+		String sessionListTreeString = ((String)sess.getAttribute(RembrandtConstants.OLIST_STRUCT )).replaceAll(" ", "");
+		String sessionQueryTreeString = ((String)sess.getAttribute(RembrandtConstants.OQUERY_STRUCT )).replaceAll(" ", "");
 
+		listTreeString = listTreeString.replaceAll("\\\\", "");
+		queryTreeString = queryTreeString.replaceAll("\\\\", "");
+		sessionListTreeString = sessionListTreeString.replaceAll("\\\\", "");
+		sessionQueryTreeString = sessionQueryTreeString.replaceAll("\\\\", "");
+		
+		if ( ! listTreeString.equals( sessionListTreeString ) )
+			treeChanged = true;
+		
+		if ( ! queryTreeString.equals( sessionQueryTreeString ) ) 
+			treeChanged = true;
+		
+		if ( treeChanged )
+			return "true";
+		else
+			return "false";
+	}
 }

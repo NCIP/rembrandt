@@ -10,6 +10,16 @@ Event.observe(window, 'load', function()	{
 });
 
 
+window.onbeforeunload = confirmExit;
+
+function confirmExit()
+{
+	TreeUtils.checkTreeStructs();
+	if ( needToConfirm )	
+ 		return ("There were changes to the tree that needs to be saved.");
+} 
+
+
 </script>
 
 <br clear="both"/>
