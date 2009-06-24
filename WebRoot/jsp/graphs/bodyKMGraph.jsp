@@ -181,14 +181,14 @@
     		<logic:greaterThan name="kmDataSetForm" property="storedData.upSampleCount"
 				value="0">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="upOrAmplified" /></td>
+					<td><bean:write name="kmDataSetForm" property="upOrAmplified" />:</td>
 					<td><bean:write name="kmDataSetForm" property="storedData.upSampleCount" /></td>
 				</tr>
 			</logic:greaterThan>
 			<logic:greaterThan name="kmDataSetForm" property="storedData.downSampleCount"
 				value="0">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="downOrDeleted" /></td>
+					<td><bean:write name="kmDataSetForm" property="downOrDeleted" />:</td>
 					<td><bean:write name="kmDataSetForm" property="storedData.downSampleCount" /></td>
 				</tr>
 			</logic:greaterThan>
@@ -236,7 +236,7 @@
 				value="-100">
 				<tr>
 					<td><bean:write name="kmDataSetForm" property="upOrAmplified" />
-					 vs. <bean:write name="kmDataSetForm" property="downOrDeleted" /></td>
+					 vs. <bean:write name="kmDataSetForm" property="downOrDeleted" />:</td>
 					<td><bean:write name="kmDataSetForm" property="storedData.upVsDownPvalue" /></td>
 				</tr>
 			</logic:greaterThan>
