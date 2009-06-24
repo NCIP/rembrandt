@@ -12,6 +12,9 @@
 	#loginTable input	{
 		width:150px;
 	}
+	#loginTable input#join_listServe, input#leave_listServe, input#listServe	{
+		width: 40px;
+	}
 	#loginTable div	{
 		padding-bottom:10px;
 	}
@@ -25,7 +28,7 @@
 		border-top:1px solid #42659C;
 		-moz-border-radius: 0px;
 	}
-	input#userName, input#password	{
+	input#userName, input#password   {
 		width:140px;
 	}
 	
@@ -45,6 +48,26 @@
 		font-weight:bold;
 		padding:5px; 
 	}
+	
+	#loginTable div.label_checkbox_pair {
+	border-left: 2px solid #42659C;
+	border-right: 2px solid #42659C;
+	clear: both;
+	float: none;
+	padding-bottom:10px;
+	position: relative;
+
+	}
+	#loginTable div.label_checkbox_pair input {
+	left: 120px;
+	position: absolute;
+	top: 1px;
+	}
+	#loginTable div.label_checkbox_pair label {
+	display: block;
+	margin-left: 5px;
+	width: 200px;
+	}
 </style>
 
 <table id="loginTable">
@@ -52,8 +75,8 @@
 	<td width="40%" style="border-right:1px dashed gray;">
 	<script type="text/javascript">Help.insertHelp("Logging_in", "", "float:right;padding:_8px;");</script>	
 	<br clear="both"/>
-		<html:form action="alogin.do">
 		<fieldset>
+		<html:form action="alogin.do">		
 		<legend>Existing Users</legend>
 		<br clear="both"/>
 		
@@ -70,8 +93,21 @@
 			Trouble logging in? <a href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">Contact support</a>
 			<br/><br/>
 			<div id="loginMsg"></div>
-		</fieldset>
 		</html:form>
+		<form id="listServeForm">
+			<div class="h">Rembrandt User List Serve:</div>
+			<div class="r" style="text-align:left">The list serve periodically informs Rembrandt users on application and data updates.</div>
+			
+			<div class="r"><label>Email*:</label> <input type="text" name="listemail" id="listemail"/></div>
+			<div class="r"><label for="join_listServe">Join the List:</label><input  checked type="radio" name="listserve_radio" id="join_listServe" value="JOIN" /></div>
+			<div class="r"></div>
+			<div class="r"><label for="leave_listServe">Leave the List:</label><input  type="radio" name="listserve_radio" id="leave_listServe" value="LEAVE" /></div>
+			<div class="r"></div>
+			<div class="rb" style="text-align:center" id="listButtons">
+				<input type="button" value="Submit" onclick="Reg.pListServe();"/>
+			</div>	
+		</form>
+		</fieldset>
 	</td>
 	<td>
 	<script type="text/javascript">Help.insertHelp("Registering", "align='right'", "padding:_8px;");</script>
@@ -80,7 +116,9 @@
 	<fieldset>
 	<legend>New Users</legend>
 	<br clear="both"/>
-	<b>Register for an account to gain instant access to public data</b><br/>
+	<b class="msg">Register for an account to gain instant access to public data</b>
+		<br/>
+	
 	<div id="regErr" class="mmsg"></div><br/>
 	<div><label>&nbsp;</label>* required field</div>
 	<div class="h">Name:</div>
@@ -92,6 +130,9 @@
 	<div class="r"><label>Phone*:</label><input type="text" id="phone"/></div>
 	<div class="r"><label>Institution*:</label> <input type="text" id="institution"/></div>
 	<div class="r"><label>Department:</label><input type="text" id="dept"/></div>
+<!-- 	<div class="r"><label for="listServe">Join Rembrandt User's List Serve?</label><input  type="checkbox" id="listServe"/><br/><br/></div>
+	<div class="r"><label>-<br/><br/></br></label>By joining the Rembrandt User's List Serve, you will periodically receive information on application and data updates </div>
+-->
 	<div class="h">Verification:</div>
 	<div class="r"><label>Image*:</label><img src="Captcha.jpg"/></div>
 	<div class="r"><label>-<br/><br/></label>Please type the text below, displayed in the image above</div>

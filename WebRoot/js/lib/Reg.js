@@ -1,5 +1,48 @@
 var Reg = {
+'pListServe' : function()	{
+ 	var msg = "Please fill in the email";
+ 	var e = "";
+ 	var radio = "";
+	try	{
+		if($('listemail').value == "")	{
+			$('listemail').style.border="1px solid red";
+			e=msg;
+		}
+		if($('listemail').value != "" && !Reg.isValidEmail($('listemail').value))	{
+			$('listemail').style.border="1px solid red";
+			e += "Invalid Email";
+		}
+		if($('join_listServe').checked)
+			radio = $('join_listServe').value;
+		else
+			radio = $('leave_listServe').value;
+		
+		if(e!="")	{
+			throw(e);
+		}
+		
+		//alert(radio);
+		RegHelper.pListServe( $('listemail').value, radio, Reg.pListServe_cb);
+		
+	}
+	catch(err)	{
+		$('regListServeErr').innerHTML = err;
+		Fat.fade_element('regListServeErr');
+	}
+},
+'pListServe_cb' : function(txt)	{
+	//eval the txt and look at .status, .un, and .ps, .msg
+	//alert("Hello CB");
+	var res = eval('(' + txt + ')');
+	if(res.status == "pass")	{
+		//$('listServeForm').reset();
+		//$('email').value = "";
 
+		
+		$('loginMsg').innerHTML = "A confirmation request email regarding your request to join or leave the REMBRANDT_USER_L list serve is being sent under a separate cover.";
+		Fat.fade_element('loginMsg');
+	}
+},
 'pReg' : function()	{
  	var msg = "Please fill in all required fields";
  	var e = "";

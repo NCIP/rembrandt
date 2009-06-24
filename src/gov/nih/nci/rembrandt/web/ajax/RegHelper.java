@@ -1,5 +1,12 @@
 package gov.nih.nci.rembrandt.web.ajax;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -11,7 +18,6 @@ import gov.nih.nci.caintegrator.application.mail.MailProps;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 
 public class RegHelper {
-
 	public static String pReg(String ln, String fn, String em, String in, String ca, String ph, String de)	{
        	//look @ the captcha
 		JSONObject jso = new JSONObject();
@@ -67,6 +73,7 @@ public class RegHelper {
 	        	mp.setMailTo(em.trim());
 	        	mp.setMailFrom(System.getProperty("rembrandt.feedback.mailFrom"));
 	        	Mail.sendMail(mp);
+	        	
 	
 	    	}
 	    	catch (ValidationException e) {
@@ -93,5 +100,47 @@ public class RegHelper {
 			jso.put("ps", "RBTpass");
 		}
 		return jso.toString();
+	}
+	public static String pListServe(String email, String subscription){
+		JSONObject jso = new JSONObject();
+		String status = "pass";
+		   try {
+		        // Construct data
+		        String data = URLEncoder.encode("SUBED2", "UTF-8") + "=" + URLEncoder.encode("REMBRANDT_USER_L", "UTF-8");
+		        data += "&" + URLEncoder.encode("A", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+		        data += "&" + URLEncoder.encode("s", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
+		        //&0=&1=&2=&4=&p=&q=
+		        if(subscription.equals("JOIN")){
+			        data += "&" + URLEncoder.encode("b", "UTF-8") + "=" + URLEncoder.encode("Join+the+list", "UTF-8");
+		        	
+		        }else if(subscription.equals("LEAVE")){
+			        data += "&" + URLEncoder.encode("a", "UTF-8") + "=" + URLEncoder.encode("Leave+the+list", "UTF-8");
+
+		        }
+		        // Send data
+		      	String listServeURL = System.getProperty("gov.nih.nci.rembrandt.list_serve.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.list_serve.url") : "https://list.nih.gov/cgi-bin/wa?";
+
+		        URL url = new URL(listServeURL);
+		        URLConnection conn = url.openConnection();
+		        conn.setDoOutput(true);
+		        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+		        wr.write(data);
+		        wr.flush();
+		    
+		        // Get the response
+		        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		        String line;
+		        while ((line = rd.readLine()) != null) {
+		        	//System.out.println(line);
+		            // Process line...
+		        }
+		        wr.close();
+		        rd.close();
+		    } catch (Exception e) {
+		    	System.out.println("Error in sending list serve from regHelper");
+	    		status = "failed";
+		    }
+		    jso.put("status", status);
+			return jso.toString();
 	}
 }

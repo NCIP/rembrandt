@@ -95,7 +95,7 @@ abstract public class CGHFactHandler {
     Map cghObjects = Collections.synchronizedMap(new HashMap());
     Map annotations = Collections.synchronizedMap(new HashMap());
     Integer copyNumberObjCount = 0;
-    private final static int VALUES_PER_THREAD = 20;
+    private final static int VALUES_PER_THREAD = 50;
     List factEventList = Collections.synchronizedList(new ArrayList());
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
