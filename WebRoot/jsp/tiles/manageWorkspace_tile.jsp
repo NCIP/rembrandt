@@ -16,7 +16,7 @@ function confirmExit()
 {
 	TreeUtils.checkTreeStructs();
 	if ( needToConfirm )	
- 		return ("There were changes to the tree that needs to be saved.");
+ 		return ("There were changes made in 'Organize Workspace' that have not been saved.");
 } 
 
 
