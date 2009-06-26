@@ -16,7 +16,7 @@ function confirmExit()
 {
 	TreeUtils.checkTreeStructs();
 	if ( needToConfirm )	
- 		return ("There were changes made in 'Organize Workspace' that have not been saved.");
+ 		return ("There were changes made in 'Organize Workspace' or you have added/deleted new lists/queries that have not been saved.");
 } 
 
 

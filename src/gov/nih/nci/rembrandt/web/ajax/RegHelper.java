@@ -106,7 +106,8 @@ public class RegHelper {
 		String status = "pass";
 		   try {
 		        // Construct data
-		        String data = URLEncoder.encode("SUBED2", "UTF-8") + "=" + URLEncoder.encode("REMBRANDT_USER_L", "UTF-8");
+		      	String listServeName = System.getProperty("gov.nih.nci.rembrandt.list_serve.name")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.list_serve.name") : "REMBRANDT_USER_L";
+		        String data = URLEncoder.encode("SUBED2", "UTF-8") + "=" + URLEncoder.encode(listServeName, "UTF-8");
 		        data += "&" + URLEncoder.encode("A", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
 		        data += "&" + URLEncoder.encode("s", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
 		        //&0=&1=&2=&4=&p=&q=

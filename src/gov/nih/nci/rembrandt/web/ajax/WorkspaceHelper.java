@@ -570,19 +570,21 @@ public class WorkspaceHelper {
 	{
 		if(node != null && inName != null){
 			JSONArray parent = null;
-			JSONArray jsonItems = getNodeItems(node);			
-		    Iterator iterator = jsonItems.iterator();
-		    JSONObject obj = null;
-			while(iterator.hasNext()){
-				obj = (JSONObject) iterator.next();
-				if(obj.containsValue(inName)){
-					return jsonItems;
-				}else{
-				parent = findNodeParent(obj,inName);
-				if ( parent != null )
-					return parent;
-				}
-		    }
+			JSONArray jsonItems = getNodeItems(node);	
+			if(jsonItems != null){
+			    Iterator iterator = jsonItems.iterator();
+			    JSONObject obj = null;
+				while(iterator.hasNext()){
+					obj = (JSONObject) iterator.next();
+					if(obj.containsValue(inName)){
+						return jsonItems;
+					}else{
+					parent = findNodeParent(obj,inName);
+					if ( parent != null )
+						return parent;
+					}
+			    }
+			}
 		}
 		return null;
 		
