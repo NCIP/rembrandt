@@ -365,9 +365,7 @@ public class WorkspaceHelper {
 		String queryTree = removeQueriesFromTrash( queryTreeString, sess.getId() );
 		sess.setAttribute(RembrandtConstants.OQUERY_STRUCT, queryTree);
 		
-		saveWorkspace( sess );
-
-	return "pass";
+		return saveWorkspace( sess );
 	}
 	private static String removeListsFromTrash(String listTreeString, String sessionId) {
 		JSONArray jsa = new JSONArray();
@@ -465,7 +463,7 @@ public class WorkspaceHelper {
     	 * This is only here to prevent a user logged in on the public
     	 * account "RBTuser" from persisting their session
     	 *******************************************************************/
-    	if(!"RBTuser".equals(credentials.getUserName())) {
+    	if(!isGuestUser(sess)) {
     		//Check to see user also created some custom lists.
 
     		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(sess.getId());
@@ -626,7 +624,10 @@ public class WorkspaceHelper {
 		HttpServletRequest req = ctx.getHttpServletRequest();
 		HttpSession sess = req.getSession(); 
 		boolean treeChanged = false;
-		
+		if(isGuestUser(sess)){
+			// if guest user than you don't need to check if tree structure changed as the session is not saved.
+			return "false";
+		}
 		listTreeString = listTreeString.replaceAll(" ", "");
 		queryTreeString = queryTreeString.replaceAll(" ", "");
 		
@@ -648,5 +649,21 @@ public class WorkspaceHelper {
 			return "true";
 		else
 			return "false";
+	}
+	public static boolean isGuestUser(HttpSession sess){
+		/*
+    	 * User has selected to save the current session and log out of the
+    	 * application
+    	 */
+    	UserCredentials credentials = (UserCredentials)sess.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+    	
+    	/*******************************************************************
+    	 * This is only here to prevent a user logged in on the public
+    	 * account "RBTuser" from persisting their session
+    	 *******************************************************************/
+    	if(credentials.getUserName()!= null && credentials.getUserName().equals("RBTuser")) {
+    		return true;
+    	}
+    	return false;
 	}
 }
