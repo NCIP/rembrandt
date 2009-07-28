@@ -247,5 +247,18 @@
          <bind-xml name="genderDE" />
       </field>
    </class>
-   
+   <class name="gov.nih.nci.caintegrator.dto.view.ClinicalSampleView"> 
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.view.GeneExprSampleView">
+      <field name="groupType"
+	         type="gov.nih.nci.caintegrator.dto.view.GroupType">
+         <bind-xml name="groupType" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView">
+      <field name="groupType"
+	         type="gov.nih.nci.caintegrator.dto.view.GroupType">
+         <bind-xml name="groupType" />
+      </field>
+   </class>
 </mapping>
