@@ -3,9 +3,8 @@ function FileData_Pairs(x)
 x.t("brain","neoplasia");
 x.t("introduce","rembrandt");
 x.t("available","rembrandt");
-x.t("managing","lists");
+x.t("managing","workspace");
 x.t("defines","terms");
-x.t("lists","describes");
 x.t("lists","glossary");
 x.t("describes","add");
 x.t("describes","search");
@@ -55,6 +54,7 @@ x.t("know","rembrandt");
 x.t("options","available");
 x.t("number","clinical");
 x.t("viewing","results");
+x.t("workspace","describes");
 x.t("keyword","reporter");
 x.t("rembrandt","repository");
 x.t("rembrandt","getting");
