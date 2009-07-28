@@ -1,4 +1,4 @@
-
+<%@ page import="gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper"%>
 <link rel="stylesheet" type="text/css" href="components/treeManager/css/tree.css" />
 <script type="text/javascript" src="components/treeManager/Tree-optimized.js"></script>
 <script type='text/javascript' src='dwr/interface/WorkspaceHelper.js'></script>
@@ -19,15 +19,23 @@ function confirmExit()
  		return ("There were changes made in 'Organize Workspace' or you have added/deleted new lists/queries that have not been saved.");
 } 
 
-
+<%
+	boolean disableSAVE = false;
+	if(WorkspaceHelper.isGuestUser(request.getSession())){
+		disableSAVE = true;		
+	}	
+ %>
 </script>
 
 <br clear="both"/>
 <fieldset id="organizeFS">
 <legend>Organize Workspace:</legend>
+			<script type="text/javascript">Help.insertHelp("organize_lists_help", " align='right'", "padding:2px;");</script><br clear="left"/>
+
 <table border="0" cellpadding="10" cellspacing="3">
 	<tbody>
 		<tr>
+		
 			<td>
 				Organize your Queries and Lists by dragging items and creating
 				folders. Your current lists and queries will be saved for future
@@ -45,7 +53,14 @@ function confirmExit()
 					<img src="components/treeManager/images/folder_add.png" border="0" /> new folder</a><br />
 				<br />
 				<div align="center">
-					<button onclick="TreeUtils.saveTreeStructs();">Save</button>
+					 <!-- <button onclick="TreeUtils.saveTreeStructs();">Save</button>  -->  
+					
+					<%if(disableSAVE){ %>
+	       				<button type="button" disabled="disabled">Save</button> 
+						<p><i>Save is disabled as you are logged in as a guest user (RBTuser)</i></p>					
+					<%}else { %>					
+	       				<button onclick="TreeUtils.saveTreeStructs();">Save</button> 
+					<%} %>
 				</div>
 			</td>
 		</tr>

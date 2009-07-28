@@ -196,6 +196,13 @@ var TreeUtils = {
   		TreeUtils.initializeListTree();
   		TreeUtils.initializeQueryTree();
   		SidebarHelper.loadSidebar();
+  	}else {
+  		alert("Could not save the current session because you are logged in as a guest user (RBTuser).");
+  		$('oListTree').innerHTML='';
+  		$('oQueryTree').innerHTML='';
+  		TreeUtils.initializeListTree();
+  		TreeUtils.initializeQueryTree();
+  		SidebarHelper.loadSidebar();
   	}
   },
   checkTreeStructs : function()	{
