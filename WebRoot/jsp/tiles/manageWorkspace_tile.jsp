@@ -21,9 +21,9 @@ function confirmExit()
 
 <%
 	boolean disableSAVE = false;
-	if(WorkspaceHelper.isGuestUser(request.getSession())){
-		disableSAVE = true;		
-	}	
+	//if(WorkspaceHelper.isGuestUser(request.getSession())){
+	//	disableSAVE = true;		
+	//}	
  %>
 </script>
 
