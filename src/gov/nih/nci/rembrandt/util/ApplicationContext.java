@@ -1,18 +1,16 @@
 package gov.nih.nci.rembrandt.util;
 
-import gov.nih.nci.caarray.services.ServerConnectionException;
 import gov.nih.nci.caintegrator.application.analysis.AnalysisServerClientManager;
-import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
+import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManagerInterface;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
-
+import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArray23FileDownloadManager;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,19 +19,17 @@ import java.util.Properties;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
-import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PBKey;
+import org.apache.ojb.broker.metadata.ConnectionRepository;
+import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
-
-import org.apache.ojb.broker.metadata.ConnectionRepository;
-import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
-import org.apache.ojb.broker.metadata.MetadataManager;
-import org.apache.ojb.broker.PBKey;
 
 
 
@@ -108,7 +104,8 @@ public class ApplicationContext{
 	private static Properties labelProps = null;
 	private static Properties messagingProps = null;
     private static Document doc =null;
-	private static CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
+	private static CaArrayFileDownloadManagerInterface caArrayFileDownloadManagerInterface;
+
    /**
     * COMMENT THIS
     * @return
@@ -246,15 +243,19 @@ public class ApplicationContext{
 		// 2: pass samples to the caARRAY API
 
 		try {
-			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
-			if(rbtCaArrayFileDownloadManager != null){
-				rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
+			if(System.getProperty("rembrandt.caarray.api.version") != null && System.getProperty("rembrandt.caarray.api.version").equals("2.3")){
+				caArrayFileDownloadManagerInterface = RembrandtCaArray23FileDownloadManager.getInstance();
+			} else{
+				caArrayFileDownloadManagerInterface = RembrandtCaArrayFileDownloadManager.getInstance();
+			}
+			if(caArrayFileDownloadManagerInterface != null){
+				caArrayFileDownloadManagerInterface.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
 				ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
 				taskExecutor.setCorePoolSize(5);
 				taskExecutor.setMaxPoolSize(100);
 				taskExecutor.setQueueCapacity(400);
 				taskExecutor.initialize();
-				rbtCaArrayFileDownloadManager.setTaskExecutor(taskExecutor);
+				caArrayFileDownloadManagerInterface.setTaskExecutor(taskExecutor);
 			}
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
@@ -263,4 +264,17 @@ public class ApplicationContext{
 		//rbtCaArrayFileDownloadManager.executeDownloadStrategy(session, taskId, zipFileName, specimenList, type);
 
     }
+	/**
+	 * @return the caArrayFileDownloadManagerInterface
+	 */
+	public static CaArrayFileDownloadManagerInterface getCaArrayFileDownloadManagerInterface() {
+		return caArrayFileDownloadManagerInterface;
+	}
+	/**
+	 * @param caArrayFileDownloadManagerInterface the caArrayFileDownloadManagerInterface to set
+	 */
+	public static void setCaArrayFileDownloadManagerInterface(
+			CaArrayFileDownloadManagerInterface caArrayFileDownloadManagerInterface) {
+		ApplicationContext.caArrayFileDownloadManagerInterface = caArrayFileDownloadManagerInterface;
+	}
 }

@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caarray.domain.file.FileType;
 import gov.nih.nci.caarray.services.ServerConnectionException;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
+import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManagerInterface;
 import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.zip.FileNameGenerator;
@@ -11,6 +12,7 @@ import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.struts.form.DownloadForm;
@@ -41,7 +43,7 @@ import org.apache.struts.util.LabelValueBean;
 
 public class DownloadAction extends DispatchAction {
 	private static Logger logger = Logger.getLogger(RefineQueryAction.class);
-	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
+	private CaArrayFileDownloadManagerInterface rbtCaArrayFileDownloadManagerInterface;
 	public ActionForward setup(
 			ActionMapping mapping,
 			ActionForm form,
@@ -99,14 +101,14 @@ public class DownloadAction extends DispatchAction {
 			throws Exception {
 
 		try {
-			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
+			rbtCaArrayFileDownloadManagerInterface = ApplicationContext.getCaArrayFileDownloadManagerInterface();
 		} catch (Exception e) {
 	        logger.error(new IllegalStateException("caArray URL error" ));
 			logger.error(e.getMessage());
 			logger.error(e);
 		} 
 		//Necessary for cache clean up
-		request.getSession().setAttribute(CaArrayFileDownloadManager.ZIP_FILE_PATH,rbtCaArrayFileDownloadManager.getOutputZipDirectory());
+		request.getSession().setAttribute(CaArrayFileDownloadManagerInterface.ZIP_FILE_PATH,rbtCaArrayFileDownloadManagerInterface.getOutputZipDirectory());
 		DownloadForm dlForm = (DownloadForm)form;
 		String groupNameList = dlForm.getGroupNameCompare();
 
@@ -124,6 +126,43 @@ public class DownloadAction extends DispatchAction {
 			// need to convert pt dids to the specimen ids
 			specimenNames = LookupManager.getSpecimenNames(patientIdset, accessInstitutions);     
 		}// end of if
+		
+		//Non tumor sample hack
+		List<String> removeFromList = new ArrayList<String>();
+		List<String> addToList = new ArrayList<String>();		
+		for(String specimenName : specimenNames){
+				if(specimenName.equals("NT1_T")){
+					addToList.add("Normal_1");
+					removeFromList.add(specimenName);
+				}
+				if(specimenName.equals("NT2_T")){
+					addToList.add("Normal_2");
+					removeFromList.add(specimenName);
+				}
+				if(specimenName.equals("NT3_T")){
+					addToList.add("Normal_3");
+					removeFromList.add(specimenName);
+				}
+				if(specimenName.equals("NT4_T")){
+					addToList.add("Normal_4");
+					removeFromList.add(specimenName);
+				}
+				if(specimenName.equals("NT5_T")){
+					addToList.add("Normal_5");
+					removeFromList.add(specimenName);
+				}
+				if(specimenName.equals("NT6_T")){
+					addToList.add("Normal_6");
+					removeFromList.add(specimenName);
+				}
+				if(specimenName.equals("NT7_T")){
+					addToList.add("Normal_7");
+					removeFromList.add(specimenName);
+				}				
+			}
+		specimenNames.removeAll(removeFromList);
+		specimenNames.addAll(addToList);
+		//
 		String tempName = groupNameList.toLowerCase();
 		
 		tempName = FileNameGenerator.generateUniqueFileName(tempName,dlForm.getFileType(),dlForm.getArrayPlatform());
@@ -142,7 +181,7 @@ public class DownloadAction extends DispatchAction {
 			experimentName = System.getProperty(RembrandtCaArrayFileDownloadManager.CN_EXPERIMENT_NAME);
 		}
 		experimentName = experimentName.trim();
-		rbtCaArrayFileDownloadManager.executeDownloadStrategy(
+		rbtCaArrayFileDownloadManagerInterface.executeDownloadStrategy(
 				request.getSession().getId(), 
 				taskId,
 				tempName + ".zip", 

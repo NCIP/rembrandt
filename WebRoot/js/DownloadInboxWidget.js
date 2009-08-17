@@ -55,7 +55,7 @@ var DownloadInboxWidgetUI = {
 		  	downloadStatuses.evalJSON().each(function(e)	{
 		  		if(e.status.toLowerCase().startsWith("comp"))	{
 		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template
-		  			show = {name: "<a href='"+e.url+"'>"+e.name+" "+e.size+"</a>", status: e.status, img: 'images/check.png' };
+		  			show = {name: "<a href='"+e.url+"'>"+e.name+"</a>  "+e.size, status: e.status, img: 'images/check.png' };
 		  		}
 		  		else if(e.status.toLowerCase().startsWith("err"))	{
 		  			//done, show check img and activate link....could also show file size and duration here.  to do so, mod the template

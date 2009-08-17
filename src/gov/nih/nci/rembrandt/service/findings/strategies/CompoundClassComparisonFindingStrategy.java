@@ -262,7 +262,7 @@ public class CompoundClassComparisonFindingStrategy implements FindingStrategy {
 						 Set<String>sampleList = new HashSet<String>(pQuery.getPatientDIDs());
 	                     if(sampleList!=null){
 	                        //get the samples associated with these specimens
-	           				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList);
+	           				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList,  queryDTO.getInstitutionDEs());
 	           				//Add back any samples that were just sampleIds to start with
 	           				if(specimenNames != null){
 	           					sampleList.addAll(specimenNames);

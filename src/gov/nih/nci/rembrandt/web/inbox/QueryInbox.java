@@ -4,13 +4,17 @@ import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.application.download.DownloadStatus;
 import gov.nih.nci.caintegrator.application.download.DownloadTask;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
+import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManagerInterface;
+import gov.nih.nci.caintegrator.application.zip.ZipItem;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -88,7 +92,7 @@ public class QueryInbox {
 	private HttpSession session;
 	private BusinessTierCache btc;
 	private RembrandtPresentationTierCache ptc;
-	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
+	private CaArrayFileDownloadManagerInterface rbtCaArrayFileDownloadManagerInterface;
 	private String zipFileUrl = System.getProperty(RembrandtCaArrayFileDownloadManager.ZIP_FILE_URL);
 	private final String TOKEN = "#$#"; 
 	
@@ -158,18 +162,18 @@ public class QueryInbox {
 	public String checkAllDownloadStatus()	{
 
 		try {
-			rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
+			rbtCaArrayFileDownloadManagerInterface = ApplicationContext.getCaArrayFileDownloadManagerInterface();
 			JSONArray dlArray = new JSONArray();
 			JSONObject dlObject = new JSONObject();
-			if(rbtCaArrayFileDownloadManager == null){
+			if(rbtCaArrayFileDownloadManagerInterface == null){
 				dlObject.put("name", "caArray server unavaiable");
 				dlObject.put("status", DownloadStatus.Error);
 				dlObject.put("url", "");		
 				dlObject.put("size", "");
 			}
 			else{
-				rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
-				Collection<DownloadTask> downloads = rbtCaArrayFileDownloadManager.getAllSessionDownloads(session.getId());
+				rbtCaArrayFileDownloadManagerInterface.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
+				Collection<DownloadTask> downloads = rbtCaArrayFileDownloadManagerInterface.getAllSessionDownloads(session.getId());
 				
 	
 				//////// TESTing
@@ -183,21 +187,42 @@ public class QueryInbox {
 				////// END TESTING
 				
 				for(DownloadTask dl : downloads){
-					dlObject = new JSONObject();
-					dlObject.put("name", dl.getZipFileName());
-					dlObject.put("status", dl.getDownloadStatus().toString());
-					if(dl.getZipFileName() != null)
-						dlObject.put("url", zipFileUrl +  dl.getZipFileName() );
-					else
-						dlObject.put("url", "");		
-					
-					;
-					if(dl.getZipFileSize()!= null)
-						dlObject.put("size", FileUtils.byteCountToDisplaySize(dl.getZipFileSize()));
-					else
-						dlObject.put("size", "");	
-					
-					dlArray.add(dlObject);
+					if(dl.getListOfZipFileLists() == null){
+						dlObject = new JSONObject();
+						dlObject.put("name", dl.getZipFileName());
+						dlObject.put("status", dl.getDownloadStatus().toString());
+						if(dl.getZipFileName() != null)
+							dlObject.put("url", zipFileUrl +  dl.getZipFileName() );
+						else
+							dlObject.put("url", "");		
+						
+						;
+						if(dl.getZipFileSize()!= null)
+							dlObject.put("size", FileUtils.byteCountToDisplaySize(dl.getZipFileSize()));
+						else
+							dlObject.put("size", "");	
+						
+						dlArray.add(dlObject);
+					}else {
+						List<ZipItem> zipItems = dl.getListOfZipFileLists();
+						for(ZipItem zi : zipItems){
+							dlObject = new JSONObject();
+							dlObject.put("name", zi.getFileName());
+							dlObject.put("status", dl.getDownloadStatus().toString());
+							if(zi.getFileName() != null)
+								dlObject.put("url", zipFileUrl +  zi.getFileName() );
+							else
+								dlObject.put("url", "");		
+							
+							;
+							if(zi.getFileSize()!= null)
+								dlObject.put("size", FileUtils.byteCountToDisplaySize(zi.getFileSize()));
+							else
+								dlObject.put("size", "");	
+							
+							dlArray.add(dlObject);
+						}
+					}
 				}
 			}
 			return dlArray.toString();

@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.download.caarray;
 import gov.nih.nci.caarray.services.ServerConnectionException;
-import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
+import gov.nih.nci.caintegrator.application.download.carray23.CaArrayFileDownloadManager;
+
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -11,9 +12,9 @@ import org.apache.log4j.Logger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 
-public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadManager{
+public class RembrandtCaArray23FileDownloadManager extends CaArrayFileDownloadManager{
 	public static Logger logger = Logger
-	.getLogger(RembrandtCaArrayFileDownloadManager.class);
+	.getLogger(RembrandtCaArray23FileDownloadManager.class);
     public static final String SERVER_URL = "rembrandt.caarray.server.url";
     
     public static final String GE_EXPERIMENT_NAME = "rembrandt.caarray.ge.experiment.name";
@@ -32,7 +33,7 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
     
     public static final String ZIP_FILE_URL = "rembrandt.caarray.download.zip.url";
     
-	protected RembrandtCaArrayFileDownloadManager(String caarrayUrl,
+	protected RembrandtCaArray23FileDownloadManager(String caarrayUrl,
 			String username, String password,
 			String inputDirectory, String outputZipDirectory, String directoryInZip) 
 			throws MalformedURLException, LoginException, ServerConnectionException {
@@ -71,7 +72,7 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
 				  outputZipDir.mkdir();
 			  }
 			try {
-				instance = new RembrandtCaArrayFileDownloadManager(caarrayUrl, username, password,inputDirectory, outputZipDirectory, directoryInZip);
+				instance = new RembrandtCaArray23FileDownloadManager(caarrayUrl, username, password,inputDirectory, outputZipDirectory, directoryInZip);
 			} catch (Exception e) {
 				logger.error(e.getMessage(),e);
 				instance = null;

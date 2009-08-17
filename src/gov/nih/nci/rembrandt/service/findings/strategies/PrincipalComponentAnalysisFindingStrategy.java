@@ -189,8 +189,7 @@ public class PrincipalComponentAnalysisFindingStrategy implements FindingStrateg
                  Set<String>sampleList = new HashSet<String>(pQuery.getPatientDIDs());
                  if(sampleList!=null){
                     //get the samples associated with these specimens
-       				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList);
-       				//Add back any samples that were just sampleIds to start with
+       				List<String> specimenNames = LookupManager.getSpecimenNames(sampleList,  myQueryDTO.getInstitutionDEs());       				//Add back any samples that were just sampleIds to start with
        				if(specimenNames != null){
        					sampleList.addAll(specimenNames);
        				}

@@ -209,7 +209,7 @@ public class HierarchicalClusteringFindingStrategy implements FindingStrategy {
 							List<String> validSpecimenNames = null;
 							if(sampleIDs!=null){
 		                        //get the samples associated with these specimens
-								List<String> specimenNames = LookupManager.getSpecimenNames(sampleIDs);
+								List<String> specimenNames = LookupManager.getSpecimenNames(sampleIDs,  myQueryDTO.getInstitutionDEs());
 		           				      
 			                     //Validate that samples has GE data
 			                     validSpecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
