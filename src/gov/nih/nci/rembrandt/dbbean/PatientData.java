@@ -78,14 +78,14 @@ public class PatientData implements ResultSet, ClinicalResultSet, PatientDataLoo
    public final static String GENDER = "GENDER";
    public final static String RACE = "race";
    public final static String AGE_GROUP = "ageGroup";
-   public final static String SURVIVAL_LENGTH_RANGE = "survivalLengthRange";
+   public final static String SURVIVAL_LENGTH_MONTH = "survivalLengthMonth";
    public final static String DISEASE_TYPE= "diseaseType";
    public final static String INSTITUTION_ID = "institutionId";
    public final static String WHO_GRADE = "whoGrade";
    public final static String CENSORING_STATUS = "censoringStatus";
    public final static String INSTITUTION_NAME = "institutionName";
    public final static String SPECIMEN_NAME = "specimenName";
-   
+   private Double survivalLengthMonth;
 	private String specimenName; //SPECIMEN_NAME  
 
     private Long age;
@@ -1366,6 +1366,20 @@ public String getSpecimenName() {
  */
 public void setSpecimenName(String specimenName) {
 	this.specimenName = specimenName;
+}
+
+/**
+ * @return the survivalLengthMonth
+ */
+public Double getSurvivalLengthMonth() {
+	return survivalLengthMonth;
+}
+
+/**
+ * @param survivalLengthMonth the survivalLengthMonth to set
+ */
+public void setSurvivalLengthMonth(Double survivalLengthMonth) {
+	this.survivalLengthMonth = survivalLengthMonth;
 }
 
 
