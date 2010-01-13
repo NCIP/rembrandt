@@ -1252,7 +1252,7 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
         sampleQuery.setAttributes(new String[] {
                        PatientData.BIOSPECIMEN_ID, PatientData.GENDER,
                        PatientData.DISEASE_TYPE, PatientData.AGE_GROUP,
-                       PatientData.SAMPLE_ID, PatientData.SURVIVAL_LENGTH_RANGE,
+                       PatientData.SAMPLE_ID, PatientData.SURVIVAL_LENGTH_MONTH,
                        PatientData.RACE,PatientData.PATIENT_DID,
                        PatientData.SURVIVAL_LENGTH,PatientData.CENSORING_STATUS,
                        PatientData.AGE,PatientData.WHO_GRADE,
@@ -1634,7 +1634,12 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
             String diseaseType = (String)objs[2];
             String ageGroup = (String)objs[3];
             String sampleID = (String)objs[4];
-            String survLenRange = (String)objs[5];
+            Double survLenMonth = null;
+            if(objs[5] != null){
+            	survLenMonth = new Double(((BigDecimal)objs[5]).doubleValue());   
+            	//String survLenRange = (String)objs[5];
+            }
+            
             String race = (String)objs[6];
             Long ptDID = new Long(((BigDecimal)objs[7]).longValue());
             Long survivalLength = null;
@@ -1655,7 +1660,10 @@ private PatientData[] addOnStudySurgeryToPatientData(PatientData[] patientDataRe
             p.setDiseaseType(diseaseType);
             p.setAgeGroup(ageGroup);
             p.setSampleId(sampleID);
-            p.setSurvivalLengthRange(survLenRange);  
+            p.setSurvivalLengthMonth(survLenMonth);
+            if(survLenMonth != null){
+            	p.setSurvivalLengthRange(survLenMonth.toString());  
+            }
 			p.setRace(race);   
 			p.setPatientDid(ptDID);
 			p.setWhoGrade(whoGrade);
