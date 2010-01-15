@@ -455,6 +455,7 @@
 		  	  			<xsl:variable name="class" select="@group" />
 		  	  			<xsl:variable name="styleclass" select="@class" />
 		  	  			<xsl:variable name="theData" select="Data"/>
+		  	  			<xsl:variable name="tooltip" select="Data/@datainfo"/>
 		  	  			
 		  	  			<xsl:variable name="highlightThisCell">
 							<xsl:choose>
@@ -502,10 +503,26 @@
 									</xsl:when>
 			      					<xsl:otherwise>
 			      						<xsl:if test="$styleclass = 'highlighted'">
-			      							<span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      						    <!-- JB Begin: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip) -->
+			      						    <!-- <span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span> -->
+			      				            <xsl:if test="$rType = 'Clinical'">
+			      								<span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span>
+			      							</xsl:if>
+			      				            <xsl:if test="$rType != 'Clinical'">
+			      								<a href="javascript:void(0);" onmouseover="return overlib('{$tooltip}', WIDTH, 500, HEIGHT, 300, CAPTION, 'Data Details', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);');" onmouseout="return nd();"><span class="missing" style="color:gray;"><xsl:value-of select="Data" disable-output-escaping="yes" /></span></a>
+			      							</xsl:if>
+											<!-- JB End: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip) -->
 			      						</xsl:if>
 				      					<xsl:if test="$styleclass != 'highlighted'">
-				      						<xsl:value-of select="Data" disable-output-escaping="yes" />
+			      						    <!-- JB Begin: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip) -->
+			      						    <!-- <xsl:value-of select="Data" disable-output-escaping="yes" /> -->
+			      				            <xsl:if test="$rType = 'Clinical'">
+				      							<xsl:value-of select="Data" disable-output-escaping="yes" />
+				      						</xsl:if>
+			      				            <xsl:if test="$rType != 'Clinical'">
+				      							<a href="javascript:void(0);" onmouseover="return overlib('{$tooltip}',  WIDTH, 500, HEIGHT, 300, CAPTION, 'Data Details', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"><xsl:value-of select="Data" disable-output-escaping="yes" /></a>
+				      						</xsl:if>
+											<!-- JB End: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip) -->
 				      					</xsl:if>
 			      					</xsl:otherwise>
 			      				</xsl:choose>
