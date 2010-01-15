@@ -113,6 +113,11 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	private Integer numberOfPlots = null;
 
 	private String selectedDataset;
+
+	//JB: Added in support of GF Tracker #23351 - Ability to Hide/Display Groups on KM Plot
+    private String[] selectedItems = {"All Group Samples", "Up-Regulated", "Down-Regulated", "Intermediate"}; 
+    private String[] items = {"All Group Samples", "Up-Regulated", "Down-Regulated", "Intermediate"}; 
+	//JB End: Added in support of GF Tracker #23351 - Ability to Hide/Display Groups on KM Plot
     
     private String reporterSelection = RembrandtConstants.REPORTER_SELECTION_AFFY;
     
@@ -354,7 +359,7 @@ public class KMDataSetForm extends ActionForm implements Serializable {
 	public void setNumberOfPlots(Integer numberOfPlots) {
 		this.numberOfPlots = numberOfPlots;
 	}
-
+	
 	/**
 	 * @return Returns the selectedDataset.
 	 */
@@ -426,5 +431,28 @@ public class KMDataSetForm extends ActionForm implements Serializable {
         return algorithms;
     }
 
-   
+    
+	//JB: Added in support of GF Tracker #23351 - Ability to Hide/Display Groups on KM Plot
+    /**
+     * @return Returns the selected plot options.
+     */
+    public String[] getItems() { 
+      return this.items; 
+    } 
+    
+    /**
+     * @return Returns the selected plot options.
+     */
+    public String[] getSelectedItems() { 
+      return this.selectedItems; 
+    } 
+    
+    /**
+     * @param selectedItems The selected plot options.
+     */
+    public void setSelectedItems(String[] selectedItems) { 
+      this.selectedItems = selectedItems; 
+    }
+	//JB End: Added in support of GF Tracker #23351 - Ability to Hide/Display Groups on KM Plot
+
 }

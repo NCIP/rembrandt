@@ -498,7 +498,15 @@ public class QuickSearchAction extends DispatchAction {
 					}
 				}
 
-			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup);
+			//System.out.println("\n***********************************************************");
+			//for (int i=0; i < selectedPlots.length; i++ ) {
+			//	System.out.println(selectedPlots[i]);
+			//}
+			//System.out.println("\n***********************************************************");
+				
+			//KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup);
+			String[] selectedPlots = kmForm.getSelectedItems();
+			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup, selectedPlots);
 			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
 			storedData.setId("KAPLAN");
 			kmForm.setStoredData(storedData);

@@ -1,6 +1,10 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.application.cache.CacheConstants;
+import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBean;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.util.ClassHelper;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.de.MultiGroupComparisonAdjustmentTypeDE;
@@ -30,6 +34,7 @@ import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +46,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.util.LabelValueBean;
 
 
 
@@ -167,39 +173,107 @@ public class ClassComparisonAction extends DispatchAction {
     public ActionForward setup(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-        ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
+    	ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
         /*setup the defined Disease query names and the list of samples selected from a Resultset*/  
         GroupRetriever groupRetriever = new GroupRetriever();
-        classComparisonForm.setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));
-        
+	    
+        // JB:Begin - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
+	    // Add the list names (labels) to the existing groups list for UI display
+        List<LabelValueBean> existingGroups = groupRetriever.getClinicalGroupsCollection(request.getSession());
+	    existingGroups.add(new LabelValueBean("REST OF ALL SAMPLES", "gov.nih.nci.caintegrator.application.lists.UserList#REST OF ALL SAMPLES"));
+	    existingGroups.add(new LabelValueBean("REST OF ALL GLIOMAS", "gov.nih.nci.caintegrator.application.lists.UserList#REST OF ALL GLIOMAS"));
+        //classComparisonForm.setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));
+        classComparisonForm.setExistingGroupsList(existingGroups);
+        // JB:End - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
+         
         return mapping.findForward("backToClassComparison");
     }
         
     private ClassComparisonQueryDTO createClassComparisonQueryDTO(ClassComparisonForm classComparisonQueryForm, HttpSession session){
-
-        ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
-        classComparisonQueryDTO.setQueryName(classComparisonQueryForm.getAnalysisResultName());
-        
-        
-        //Create the clinical query DTO collection from the selected groups in the form
-        List<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
-        
+ 
+    		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
+    		UserListBean userListBean = userListBeanHelper.getUserListBean();
+	    	List<String> selectedGroupNames = Arrays.asList(classComparisonQueryForm.getSelectedGroups());
+	    	
+	        ClassComparisonQueryDTO classComparisonQueryDTO = (ClassComparisonQueryDTO)ApplicationFactory.newQueryDTO(QueryType.CLASS_COMPARISON_QUERY);
+	        classComparisonQueryDTO.setQueryName(classComparisonQueryForm.getAnalysisResultName());
+	        
+	        
+	        //Create the clinical query DTO collection from the selected groups in the form
+	        List<ClinicalQueryDTO> clinicalQueryCollection = new ArrayList<ClinicalQueryDTO>();
+	        
             if(classComparisonQueryForm.getSelectedGroups() != null && classComparisonQueryForm.getSelectedGroups().length >= 2 ){
-                for(int i=0; i<classComparisonQueryForm.getSelectedGroups().length; i++){
-                    
-//                    //lets ensure the that the baseline is added last
-//                    if(!classComparisonQueryForm.getSelectedGroups()[i].equals(classComparisonQueryForm.getBaselineGroup()))	{
-//                    	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getSelectedGroups()[i]);
-//                        //add logic to if there is no predefined query.. use the given samples from the user
-//                        	
-//                    	//bag and construct a clinical query to add into the collection
-//                        clinicalQueryCollection.add(clinicalDataQuery);
-//                    }  
-//                }
-//                //now process the baseline
-//            	clinicalDataQuery = sampleBasedQueriesRetriever.getQuery(sessionId, classComparisonQueryForm.getBaselineGroup());
-//            	clinicalQueryCollection.add(clinicalDataQuery);
-                    
+
+                
+                // JB:Begin - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
+            	
+                // Create/Adjust "REST OF..." selection (if they exist to remove overlapping samples)
+        		String restOfAllSamplesLabelValue = "gov.nih.nci.caintegrator.application.lists.UserList#REST OF ALL SAMPLES";
+        		String restOfAllGliomasLabelValue = "gov.nih.nci.caintegrator.application.lists.UserList#REST OF ALL GLIOMAS";
+ 
+        		List<UserList> allUserLists = userListBean.getEntireList();
+            	
+            	if ( selectedGroupNames.contains(restOfAllSamplesLabelValue) ) {
+                    UserList allSamplesUserList =  userListBeanHelper.getUserList("ALL");
+                    List<ListItem> restOfAllSamplesUserListItems =  new ArrayList<ListItem>(allSamplesUserList.getListItems());
+
+                	for ( String selectedGroupName:selectedGroupNames ) {
+                        String[] selectedGroupNameValue = selectedGroupName.split("#");
+                        String listName = selectedGroupNameValue[1];
+                        if ( !listName.equals("REST OF ALL SAMPLES") ) {
+	                        List<ListItem> listItems = userListBeanHelper.getUserList(listName).getListItems();
+                        	//*******   This isn't working for some reason *************
+                        	//if ( restOfAllSamplesUserListItems.containsAll(listItems) ) {
+                        	//	restOfAllSamplesUserListItems.removeAll(listItems);
+                        	//}
+	                        for (ListItem listItem:listItems) {
+	                        	for (ListItem restOfAllListItem:restOfAllSamplesUserListItems) {
+	                        		if ( restOfAllListItem.getName().equals(listItem.getName()) ) {
+	                        			restOfAllSamplesUserListItems.remove(restOfAllListItem);
+	                        			break;
+	                        		}
+	                        	}
+	                        }
+                    	}
+                    }
+            	    UserList restOfAllSamplesUserList = 
+            	    	new UserList("REST OF ALL SAMPLES", allSamplesUserList.getListType(), 
+            	    			restOfAllSamplesUserListItems, allSamplesUserList.getInvalidListItems());
+            	    allUserLists.add(restOfAllSamplesUserList);
+                	
+            	} else if ( selectedGroupNames.contains(restOfAllGliomasLabelValue) ) {
+                    UserList allGliomasUserList =  userListBeanHelper.getUserList("ALL GLIOMA");
+                    List<ListItem> restOfAllGliomasUserListItems =  allGliomasUserList.getListItems();
+                    for(String selectedGroupName:selectedGroupNames){
+                        String[] selectedGroupNameValue = selectedGroupName.split("#");
+                        String listName = selectedGroupNameValue[1];
+                        if ( !listName.equals("REST OF ALL GLIOMAS") ) {
+	                        List<ListItem> listItems = userListBeanHelper.getUserList(listName).getListItems();
+                        	//*******   This isn't working for some reason *************
+                        	//if ( restOfAllGliomasUserListItems.containsAll(listItems) ) {
+                        	//	restOfAllGliomasUserListItems.removeAll(listItems);
+                        	//}
+	                        for (ListItem listItem:listItems) {
+	                        	for (ListItem restOfAllGliomaListItem:restOfAllGliomasUserListItems) {
+	                        		if ( restOfAllGliomaListItem.getName().equals(listItem.getName()) ) {
+	                        			restOfAllGliomasUserListItems.remove(restOfAllGliomaListItem);
+	                        			break;
+	                        		}
+	                        	}
+	                        }
+                    	}
+                    }          		
+            	    UserList restOfAllGliomasUserList =
+            	    	new UserList("REST OF ALL GLIOMAS", allGliomasUserList.getListType(), 
+            	    			restOfAllGliomasUserListItems, allGliomasUserList.getInvalidListItems());
+            	    allUserLists.add(restOfAllGliomasUserList);
+                }
+                // JB:End - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
+            	
+            	
+            	
+            	for(int i=0; i<classComparisonQueryForm.getSelectedGroups().length; i++){
+
                     /*
                      * parse the selected groups, create the appropriate EnumType and add it
                      * to its respective EnumSet
@@ -291,6 +365,15 @@ public class ClassComparisonAction extends DispatchAction {
                 StatisticTypeDE statisticTypeDE = new StatisticTypeDE(statisticalMethodType);
                 classComparisonQueryDTO.setStatisticTypeDE(statisticTypeDE);
             }
+            
+            // JB:Begin - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
+        	
+            // Clean up temporary "REST OF..." lists created earlier
+    	    userListBean.removeList("REST OF ALL SAMPLES");
+    	    userListBean.removeList("REST OF ALL GLIOMAS");
+        	userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
+        	
+            // JB:End - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
             
             return classComparisonQueryDTO;
     }

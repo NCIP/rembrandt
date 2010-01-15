@@ -353,6 +353,10 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					                       		
 					                       		if(sampleResultset2 != null){
 					                       			
+					                       			//JB Begin: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
+					                       			String tooltip = "Cytoband = " + cytoband + ", Gene = " + genes + ", Reporter = " + reporterName + ", Sample = " + sampleId.getSampleId() + " (" + sampleId.getSpecimenName() + ")";
+						                       		//JB End: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
+					                       			
 					                       			if(sampleResultset2.isHighlighted())
 				                       					hClass="highlighted";
 					                       			else
@@ -362,8 +366,11 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					                       			if(ratio != null)	{
 					                       				//sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");
 					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
-						    					        	data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
-						    					        	data = null;
+						                       			//JB Begin: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
+					    					        	//data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
+					    					        	data = cell.addElement("Data").addAttribute("type", "data").addAttribute("datainfo", tooltip).addText(resultFormat.format(ratio));
+						                       			//JB End: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
+						    					        data = null;
 						    					        cell = null;
 					                       			}
 					                       			else	{
