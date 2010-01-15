@@ -1,4 +1,4 @@
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<br><%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
@@ -9,7 +9,7 @@
 
 String act = request.getParameter("act");
 %>
-	
+<!--  
 <script type="text/javascript">
 
 	var geneArray = new Array();
@@ -140,7 +140,9 @@ String act = request.getParameter("act");
 	}
 
 </script>
+-->
 
+<A NAME="geneTile">
 <fieldset class="gray">
 <legend class="red">Gene
     <a href="javascript: Help.popHelp('<%=act%>_Gene_tooltip');">[?]</a>    
@@ -196,7 +198,9 @@ String act = request.getParameter("act");
 <br/>
 <html:radio property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" />All Genes Query
 		
-</fieldset>		
+</fieldset>	
+</A>
+	
 <script language="javascript">
 //run this onload
 if($("geneFileDD").options.length<1)	{

@@ -12,7 +12,10 @@
 	<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
 	<script language="javascript" src="js/caIntScript.js"></script>
 	<script language="javascript" src="js/rembrandtScript.js"></script>
-	
+	<!-- JB Begin: GF#19875 Gene Alias validation - without clicking the 'check alias' -->
+	<script language="JavaScript" src="js/geneexpression.js"></script>
+	<!-- JB End: GF#19875 Gene Alias validation - without clicking the 'check alias' -->
+		
 	<script language="javascript" src="js/box/browserSniff.js"></script>
 	<script language="javascript" src="js/lib/prototype-1.6.0.2.js"></script>
 	<script language="javascript" src="js/lib/Help.js"></script>

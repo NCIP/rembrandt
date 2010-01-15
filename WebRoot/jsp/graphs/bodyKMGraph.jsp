@@ -104,13 +104,24 @@
 						<html:options property="reporters" />
 					</html:select>
 				</td>
-				
-	
+			</tr>
+			
+			<tr>
+				<td align="center" colspan="2" style="font-size:.9em;margin-left:10px">
+					<p align="left">Select which plots should be visible in the redrawn graph:<br/></p>
+				    <logic:iterate id="item" property="items" name="kmDataSetForm">
+				      	<html:multibox property="selectedItems" name="kmDataSetForm">
+				       		<bean:write name="item"/> 
+				      	</html:multibox> 
+				       	<bean:write name="item"/> 
+				    </logic:iterate>
+				</td>
 			</tr>
 			
 		</table>
 	</div>
-		<html:submit value="Redraw Graph" styleId="redrawGraphButton" />
+	<br/>
+	<html:submit value="Redraw Graph" styleId="redrawGraphButton" />
 	</logic:notEqual>
 		
 	<div>
@@ -294,7 +305,7 @@
 			</logic:lessEqual>
 		</table>
 		</fieldset>
-		</b>
+		
 	</logic:equal> <!-- TAG CREATION WOULD NEED TO CONTAIN THE ABOVE --> 
 	<logic:equal name="kmDataSetForm" property="plotVisible" value="false">
 		<p>To display graph, Please select a Reporter for the Gene: 

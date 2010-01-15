@@ -26,13 +26,13 @@ function refresh()	{
 &nbsp;&nbsp;
 
 <logic:present name="geneexpressionForm">
-	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="standard">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="standard"> 
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return autoCheckAliases();">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
 	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return autoCheckAliases();">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
@@ -44,7 +44,7 @@ function refresh()	{
 		</html:submit>&nbsp;&nbsp;
 	</logic:equal>
 	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" >
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return autoCheckAliases();">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
@@ -55,10 +55,10 @@ function refresh()	{
 	</html:submit>&nbsp;&nbsp;
 </logic:present>
 
-<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].queryName, 'true');">
+<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="return gecnSubmit();">
 	<bean:message key="buttons_tile.submittalButton" />
 </html:submit>
 
-<html:submit styleId="multiUseButton" styleClass="subButtonInv" property="method">
+<html:submit styleId="multiUseButton" styleClass="subButtonInv" property="method"  onclick="return autoCheckAliases();">
 	<bean:message key="buttons_tile.multiUseButton" />
 </html:submit>
