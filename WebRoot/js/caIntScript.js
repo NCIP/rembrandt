@@ -337,49 +337,54 @@ function move(fbox, tbox) {
 }
 
 function saveMe(tbox,fbox) {
-
-
-var strValues = "";
-
-//if(tbox == null || fbox == null || !tbox.length || !fbox.length){
-
-if(tbox == null || fbox == null || !tbox.length){
-	return;
+	
+	var strValues = "";
+	
+	//if(tbox == null || fbox == null || !tbox.length || !fbox.length){
+	
+	if(tbox == null || fbox == null || !tbox.length){
+		return;
+	}
+		
+	var boxLength = 0;
+	if(tbox.length)	{ boxLength = tbox.length; }
+	
+	var fboxLength = 0;
+	if(fbox.length) { fboxLength = fbox.length;}
+	
+	var count = 0;
+	if (boxLength != 0) {
+	
+		for (i = 0; i < boxLength; i++) {
+			if (count == 0) {
+				strValues = tbox.options[i].value;
+			}
+			else {
+				strValues = strValues + "," + tbox.options[i].value;
+			}
+			count++;
+		}
 	}
 	
-var boxLength = 0;
-if(tbox.length)	{ boxLength = tbox.length; }
-
-var fboxLength = 0;
-if(fbox.length) { fboxLength = fbox.length;}
-
-var count = 0;
-if (boxLength != 0) {
-
-	for (i = 0; i < boxLength; i++) {
-		if (count == 0) {
-		strValues = tbox.options[i].value;
+	var posOfAllSamples=strValues.indexOf("REST OF ALL SAMPLES")
+	var posOfAllGliomas=strValues.indexOf("REST OF ALL GLIOMAS")
+	
+	if (strValues.length == 0) {
+		alert("You have not made any selections");
+	}
+	else if (posOfAllSamples >= 0 && posOfAllGliomas >= 0) {
+		alert("You cannot specify both 'REST OF ALL SAMPLES' AND 'REST OF ALL GLIOMAS'.  Please select one or the other.")
+	}
+	else {
+	
+		//alert("Here are your values you've selected:\r\n" + strValues);
+		for(i=0; i < boxLength; i++)
+		{
+		    tbox.options[i].selected = true;
+		    
 		}
-		else {
-		strValues = strValues + "," + tbox.options[i].value;
-		}
-	count++;
-   }
-}
-if (strValues.length == 0) {
-alert("You have not made any selections");
-}
-else {
-
-//alert("Here are your values you've selected:\r\n" + strValues);
-for(i=0; i < boxLength; i++)
-  {
-    tbox.options[i].selected = true;
-    
-  }
-
-}
-
+		
+	}
 }
  
 function toggleSDiv(divId,aId){
