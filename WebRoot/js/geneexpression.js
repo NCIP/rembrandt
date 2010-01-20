@@ -109,13 +109,13 @@ function autoCheckAliases() {
 	var returnValue = false;
 	
 	if ( aliasChkPerformed == false ) {
-		alert("The unchecked genelist is: " + geneList + "  returnValue = " + returnValue);
+		//alert("The unchecked genelist is: " + geneList + "  returnValue = " + returnValue);
 		GeneAlias.checkAlias(geneList);
 		aliasChkPerformed = true;
 		window.location.hash="geneTile";
 	} else {
 		returnValue = true;
-		alert("The checked genelist is: " + geneList + "  returnValue = " + returnValue);
+		//alert("The checked genelist is: " + geneList + "  returnValue = " + returnValue);
 	}
 	return returnValue;
 }
