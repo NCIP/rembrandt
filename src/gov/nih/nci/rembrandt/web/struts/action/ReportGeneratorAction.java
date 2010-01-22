@@ -4,8 +4,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
-import gov.nih.nci.caintegrator.application.lists.UserList;
-import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -15,7 +13,6 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
-import gov.nih.nci.rembrandt.util.PropertyLoader;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -25,7 +22,6 @@ import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ReportGeneratorForm;
-import gov.nih.nci.caintegrator.application.lists.ListItem;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -619,8 +615,11 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
             ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
             //String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
                         //getProperty("webGenome.hostURL");
+            ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+        	//actually get the list of specimen names
+           List<String> specimenNames = Arrays.asList(rgForm.getSamples());
            String hostURL = System.getProperty("webGenome.url");
-           String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
+           String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL, specimenNames);
 
             logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
             ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
@@ -634,11 +633,14 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
             String queryName = ((ReportGeneratorForm)form).getQueryName();
 
             // build WebGenome request URL
+        	//actually get the list of specimen names
+            ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+        	List<String> specimenNames = Arrays.asList(rgForm.getSamples());
             ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
  /*           String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
                         getProperty("webGenomeTest.hostURL");
  */        String hostURL = System.getProperty("webGenome.url");
-           String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL);
+           String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL, specimenNames);
 
             logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
             ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
