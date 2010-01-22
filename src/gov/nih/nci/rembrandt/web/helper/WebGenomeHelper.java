@@ -108,7 +108,7 @@ public class WebGenomeHelper {
 
     private static Logger _logger = Logger.getLogger(WebGenomeHelper.class);
 
-    public static String buildURL(ReportBean report, String sessionID, String hostURL) throws Exception {
+    public static String buildURL(ReportBean report, String sessionID, String hostURL, List<String> specimenNames) throws Exception {
         Resultant resultant = report.getResultant();
         ResultsContainer  resultsContainer = resultant.getResultsContainer();
 
@@ -147,7 +147,9 @@ public class WebGenomeHelper {
                 List<String> specimenList = new ArrayList<String>();
                 for(Object obj:sampleIds){
                 	BioSpecimenIdentifierDE bioSpecimenIdentifierDE = (BioSpecimenIdentifierDE) obj;
-                	specimenList.add(bioSpecimenIdentifierDE.getSpecimenName());
+                	if(specimenNames.contains(bioSpecimenIdentifierDE.getSpecimenName())){
+                		specimenList.add(bioSpecimenIdentifierDE.getSpecimenName());
+                	}
                 }
                 String[] sampleIDArray = specimenList.toArray(new String[specimenList.size()]);
                 groupsWithSamples.put(groupName, sampleIDArray);
