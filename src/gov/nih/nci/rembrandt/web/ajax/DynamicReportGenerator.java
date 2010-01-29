@@ -397,6 +397,20 @@ public class DynamicReportGenerator {
 		return queryName + "," + reportType;
 	}
 	
+	public String saveSamplesForWebGenome(String commaSepList, String queryName)	{
+			String success = "fail";
+			String[] listArr = StringUtils.split(commaSepList, ",");
+			if(listArr.length>0){
+			WebContext ctx = WebContextFactory.get();
+			HttpServletRequest req = ctx.getHttpServletRequest();
+			HttpSession sess = req.getSession(); 
+			sess.setAttribute("tmp_web_genome", listArr);
+			sess.setAttribute("tmp_web_genome_qname", queryName);
+			success = "pass";
+			}
+		
+		return success;
+	}
 
 	public String processAnnotation(String key)	{
 		String s = ""; 

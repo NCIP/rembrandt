@@ -609,18 +609,18 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
             String sessionID = request.getSession().getId();
-            String queryName = ((ReportGeneratorForm)form).getQueryName();
-
-            // build WebGenome request URL
-            ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
-            //String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
-                        //getProperty("webGenome.hostURL");
-            ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
-        	//actually get the list of specimen names
-           List<String> specimenNames = Arrays.asList(rgForm.getSamples());
+          //String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
+            //getProperty("webGenome.hostURL");
+           //actually get the list of specimen names
+	       String[] specimanIds = (String[])request.getSession().getAttribute("tmp_web_genome");
+	       String queryName =(String)request.getSession().getAttribute("tmp_web_genome_qname");
+           // build WebGenome request URL
+           ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
+	       List<String> specimenNames = Arrays.asList(specimanIds);
            String hostURL = System.getProperty("webGenome.url");
            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL, specimenNames);
-
+           //request.getSession().removeAttribute("tmp_web_genome");
+	       //request.getSession().removeAttribute("tmp_web_genome_qname");
             logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
             ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
             return f2;
@@ -629,21 +629,6 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
     public ActionForward webGenomeRequestTest(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-            String sessionID = request.getSession().getId();
-            String queryName = ((ReportGeneratorForm)form).getQueryName();
-
-            // build WebGenome request URL
-        	//actually get the list of specimen names
-            ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
-        	List<String> specimenNames = Arrays.asList(rgForm.getSamples());
-            ReportBean report = presentationTierCache.getReportBean(sessionID, queryName);
- /*           String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).
-                        getProperty("webGenomeTest.hostURL");
- */        String hostURL = System.getProperty("webGenome.url");
-           String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL, specimenNames);
-
-            logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
-            ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
-            return f2;
+    		return webGenomeRequest( mapping,  form, request,  response);
     }
 }

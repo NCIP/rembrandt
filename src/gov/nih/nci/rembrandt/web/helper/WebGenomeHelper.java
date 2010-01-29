@@ -151,8 +151,10 @@ public class WebGenomeHelper {
                 		specimenList.add(bioSpecimenIdentifierDE.getSpecimenName());
                 	}
                 }
-                String[] sampleIDArray = specimenList.toArray(new String[specimenList.size()]);
-                groupsWithSamples.put(groupName, sampleIDArray);
+                if(specimenList.size()>0){
+	                String[] sampleIDArray = specimenList.toArray(new String[specimenList.size()]);                
+	                groupsWithSamples.put(groupName, sampleIDArray);
+                }
             }
         }
         dto.setCytobands(cytobands);
@@ -161,7 +163,7 @@ public class WebGenomeHelper {
         dto.setUserID(sessionID);
 
         // 2. build the URL params to be sent out to WebGenome request
-        String urlParams = buildURLParams(groups, positions, dto);
+        String urlParams = buildURLParams(groupsWithSamples.keySet(), positions, dto);
 
         // 3. retrieve the where webGenome app is hosted from property file
         //String hostURL = PropertyLoader.loadProperties(RembrandtConstants.WEB_GENOMEAPP_PROPERTIES).

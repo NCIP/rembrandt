@@ -211,7 +211,8 @@
 	  <!-- Added for WebGenome Testing -->
 	  <div class="filterForm" style="height:auto">
 	  <form action="null" method="post" name="reportGeneratorForm" style="padding:0px; margin:0px;">
-	    <b><span>WebGenome:</span></b> <input type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')" value="View Plots (in WebGenome)" />
+	    <!-- <b><span>WebGenome:</span></b> <input type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')" value="View Plots (in WebGenome)" />-->
+	    <b><span>WebGenome:</span></b> <input type="button" name="webGenome" onclick="javascript:webGenomePlotRequest('{$qName}'); return false;" value="View Plots (in WebGenome)" />
 	    <span id="wgThresh"></span>
       </form>
       

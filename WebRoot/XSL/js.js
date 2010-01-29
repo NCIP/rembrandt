@@ -106,6 +106,29 @@ function stupidXSL(i, cPage, total)	{
 			alert("You must select at least one sample");
 	}
 	
+	function webGenomePlotRequest(qName)	{
+	//save the list via first, then process the report
+	var savedSamples = Array();
+
+	document.prbSamples.prbQueryName.value = document.getElementById('tmp_prb_queryName').value;
+	var can_continue = checkIfSamplesSelected( savedSamples );
+	
+	if(can_continue)	{
+		try	{
+			if(savedSamples.length>0 && savedSamples.length<=50 ){
+				DynamicReport.saveSamplesForWebGenome(savedSamples.join(","), qName, webGenome_cb);
+				}
+			else	{
+				alert("For WebGenome plot, Please select less than 50 samples at a time");
+				}
+		}
+		catch(e){alert("Web Genome Plot Request Unsuccessful");}
+		//document.prbSamples.submit();
+	}
+	else	
+		alert("For WebGenome plot, you must select at least one sample but not more than 20 samples");
+	}
+	
 	function checkIfSamplesSelected( savedSamples ) {
 		var can_continue = false;
 		
@@ -136,7 +159,18 @@ function stupidXSL(i, cPage, total)	{
 		else
 			alert('list didnt save');
 	}
-
+	
+	function webGenome_cb(txt) {
+		if(txt!="fail")	{
+		var dest ="runReport.do?method=webGenomeRequest"
+		var winw = 800;
+		var winh = 550;
+		spawn(dest, winw, winh);
+		}
+		else
+			alert('No samples selected for Web Genome Plot');
+	}
+	
 	function groupCheck(field, idx, ischecked)	{
 		if(ischecked)	{
 			checkById(field, idx);
@@ -292,6 +326,9 @@ function spawn(url,winw,winh) {
    w = window.open(url, "_blank",
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
       ",scrollbars=yes,resizable=yes");
+   if (window.focus){w.focus()}
+
+return false;   
 }
 
 function rbtFrame(page)	{
