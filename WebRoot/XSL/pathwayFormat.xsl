@@ -128,7 +128,7 @@
 									</xsl:if>
 									
 									<xsl:if test="@name = 'displayValue'">
-									    <th width="400">
+									    <th width="200">
 										Pathway Title
 									    </th>
 									</xsl:if>
@@ -155,8 +155,8 @@
 									<td width="500" nowrap="off">							   
 									 
 								      <input type="checkbox" value="{$pathName}" name="pathwayName"/>
-									   <a href="geneResults.jsp?id={$pathId}" target="_blank">									  						
-									     <xsl:value-of select="substring(.,3)"/>
+									   <a href="geneResults.jsp?id={$pathId}" target="_blank">	
+									     <xsl:value-of select="substring(.,3)"/>							  						
 									   </a>
 									
 									   
@@ -164,7 +164,7 @@
 								</xsl:if>
 								
 								<xsl:if test ="@name = 'displayValue'" >
-									<td width="400" nowrap="off">
+									<td width="200" nowrap="off">
 									<xsl:value-of select="."/>
 									</td>
 								</xsl:if>
