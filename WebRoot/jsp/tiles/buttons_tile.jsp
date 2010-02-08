@@ -18,21 +18,21 @@ function refresh()	{
 </script>
 
 <logic:notPresent name="deleteQueryForm">
-<input type="button" id="clearButton" class="xbutton" value="clear" onclick="refresh();"/>
+<input type="button" id="clearButton" class="xbutton" value="Clear" onclick="refresh();"/>
 </logic:notPresent>
 
 &nbsp;&nbsp;
-<html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser('menu');" />
+<html:button styleClass="xbutton" property="method" value="Cancel" onclick="javascript:alertUser('menu');" />
 &nbsp;&nbsp;
 
 <logic:present name="geneexpressionForm">
 	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="standard"> 
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return autoCheckAliases();">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
 	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return autoCheckAliases();">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value 'Preview');">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
@@ -44,7 +44,7 @@ function refresh()	{
 		</html:submit>&nbsp;&nbsp;
 	</logic:equal>
 	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return autoCheckAliases();">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value 'Preview');">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
  	</logic:equal>
@@ -59,6 +59,6 @@ function refresh()	{
 	<bean:message key="buttons_tile.submittalButton" />
 </html:submit>
 
-<html:submit styleId="multiUseButton" styleClass="subButtonInv" property="method"  onclick="return autoCheckAliases();">
+<html:submit styleId="multiUseButton" styleClass="subButtonInv" property="method">
 	<bean:message key="buttons_tile.multiUseButton" />
 </html:submit>

@@ -373,7 +373,7 @@ function saveMe(tbox,fbox) {
 		alert("You have not made any selections");
 	}
 	else if (posOfAllSamples >= 0 && posOfAllGliomas >= 0) {
-		alert("You cannot specify both 'REST OF ALL SAMPLES' AND 'REST OF ALL GLIOMAS'.  Please select one or the other.")
+		alert("You cannot perform class comparison with overlapping groups.  Therefore you cannot select both 'REST OF ALL SAMPLES' AND 'REST OF ALL GLIOMAS'.  Please select one or the other.")
 	}
 	else {
 	

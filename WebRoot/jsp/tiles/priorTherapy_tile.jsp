@@ -35,6 +35,7 @@
 <html:optionsCollection property="surgeryTitleColl" />
 </html:select><html:errors property="surgeryTitle"/>
 
+<Br>
 &nbsp;&nbsp;&nbsp;&nbsp;- Outcome:&nbsp;
 <html:select property="surgeryOutcome" >
 <html:optionsCollection property="surgeryOutcomeColl" />

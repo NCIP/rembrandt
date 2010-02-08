@@ -61,13 +61,47 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 					cquery.setSessionId(sessionId);		    
 		    		String[] samplesArray = (String[]) samplesList.toArray(new String[0]);
 					//generate the reportBean with the reportXML using the compQury and samples Array
-					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false);
+					//JB: Changing this call to support the limitation to the number of samples allowed
+					//for clinical reports.
+					//ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false);
+					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false,true);
 					ReportBean clincalReportBean = presentationTierCache.getReportBean(sessionId,cquery.getQueryName());
 						if(clincalReportBean!=null){
 							Document reportXML = clincalReportBean.getReportXML();
 							String report = reportGeneratorHelper.renderReport(params,reportXML,"report.xsl");
+							
+							//JB:  This the extension of a previous hack (see ReportGeneratorActionrunGeneViewReport() 
+							//by RCL).  We need to make sure the uery Deatils are available on the initial page of the
+							//clinical report.
+				    		StringBuffer sb = new StringBuffer();
+				    		sb.append(report);
+				    		if(cquery != null) {			
+				    			String theQuery  =  cquery.toString();
+				    	 		sb.append("<br><a name=\'queryInfo\'></a>Query: "+theQuery);
+				    	 		sb.append("<table>");
+				    	 		sb.append("<tr>");
+				    	 		//Query[] queries = cquery.getAssociatiedQueries();
+				    	 		Query[] queries = clincalReportBean.getAssociatedQuery().getAssociatiedQueries();
+				    	 		for(int i = 0; i<queries.length; i++){
+				    	 			sb.append("<td>");
+				    	 			sb.append(queries[i]);
+				    	 			sb.append("</td>");
+				    	 		}
+				    	 		sb.append("</tr>");
+				    	 		sb.append("</table>");
+				    		}
+				    		
+				    		/*
+				    		String noHTMLString = sb.toString();
+				    		//noHTMLString = noHTMLString.replaceAll("\\<.*?\\>","");
+				    		noHTMLString = noHTMLString.replaceAll("<", "{");
+				    		noHTMLString = noHTMLString.replaceAll(">", "}");
+				    		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
+							*/
+							
 							//return the string buffer and print
-							out.write(report);
+							//out.write(report);
+							out.write(sb.toString());
 						}
 						else{
 						out.println("No Records Available for this query");

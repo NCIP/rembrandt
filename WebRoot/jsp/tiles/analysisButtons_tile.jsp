@@ -12,8 +12,8 @@ document.forms[0].target = "_self";
 </script>
 
 
-<html:reset styleId="clearButton" styleClass="xbutton" value="clear" />&nbsp;&nbsp;
-<html:button styleClass="xbutton" property="method" value="cancel" onclick="javascript:alertUser('analysisHome');"/>&nbsp;&nbsp;
+<html:reset styleId="clearButton" styleClass="xbutton" value="Clear" />&nbsp;&nbsp;
+<html:button styleClass="xbutton" property="method" value="Cancel" onclick="javascript:alertUser('analysisHome');"/>&nbsp;&nbsp;
 
 <logic:notPresent name="hierarchicalClusteringForm">
 	<logic:present name="gpIntegrationForm">

@@ -66,16 +66,16 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <b>Component: </b>
 <%
 if(componentStr.equals("KarnofskyScorevsAgeAtDx"))
-	out.write("<a href=\"clinicalPlots.do?taskId="+key+"&comp=SurvivalvsAgeAtDx\">SurvivalvsAgeAtDx</a>");		
+	out.write("<a href=\"clinicalPlots.do?taskId="+key+"&comp=SurvivalvsAgeAtDx\">Survival vs Age At Dx</a>");		
 else
-	out.write("SurvivalvsAgeAtDx");
+	out.write("Survival vs Age At Dx");
 	
 out.write(" | ");
 
 if(componentStr.equals("SurvivalvsAgeAtDx"))
-	out.write("<a href=\"clinicalPlots.do?taskId="+key+"&comp=KarnofskyScorevsAgeAtDx\">KarnofskyScorevsAgeAtDx</a>");		
+	out.write("<a href=\"clinicalPlots.do?taskId="+key+"&comp=KarnofskyScorevsAgeAtDx\">Karnofsky Score vs Age At Dx</a>");		
 else
-	out.write("KarnofskyScorevsAgeAtDx");
+	out.write("Karnofsky Score vs Age At Dx");
 %>
 <br/><br/>
 </div>

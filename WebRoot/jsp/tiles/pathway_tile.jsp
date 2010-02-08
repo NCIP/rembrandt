@@ -23,11 +23,11 @@
 <script language="javascript">
 
  function browseData(){ 	
-     window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
+     window.open( 'jsp/browsePathway.jsp', 'page2', 'status,resizable,scrollbars,width=1000px,height=500px,screenX=50,screenY=100');
    }
    
  function browseKegg(){ 	
-     window.open( 'browseKeggPathway.do', 'page2', 'status,resizable,scrollbars,width=765px,height=500px,screenX=100,screenY=100');
+     window.open( 'browseKeggPathway.do', 'page2', 'status,resizable,scrollbars,width=1000px,height=500px,screenX=50,screenY=100');
    }
 </script>
 
@@ -36,7 +36,7 @@
  <a href="javascript:browseData()"><img src="images/btnBrowse2.gif" border="0" /></a>
 
      <br />
-    <input type="button" class="xbutton" onclick="javascript:resetVal(pathways)" value="clear text area" />
+    <input type="button" class="xbutton" onclick="javascript:resetVal(pathways)" value="Clear Text Area" />
 
 
 

@@ -35,6 +35,7 @@
 <html:optionsCollection property="onStudySurgeryTitleColl" />
 </html:select><html:errors property="onStudySurgeryTitle"/>
 
+<Br>
 &nbsp;&nbsp;&nbsp;&nbsp;- Outcome:&nbsp;
 <html:select property="onStudySurgeryOutcome" >
 <html:optionsCollection property="onStudySurgeryOutcomeColl" />

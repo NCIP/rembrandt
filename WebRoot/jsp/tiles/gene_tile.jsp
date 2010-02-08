@@ -151,31 +151,37 @@ String act = request.getParameter("act");
 
 <br/>
 <html:radio property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>
-  
 	Type Genes:&nbsp;&nbsp;
 	<html:select property="geneType" styleId="geneType" disabled="false" onchange="GeneAlias.armAliasLink();">
 		<html:optionsCollection property="geneTypeColl" />
 	</html:select>
- 	
-			<html:text property="geneList" styleId="geneList" disabled="false" onfocus="" onblur="" />
-			<a href="#" id="aliasLink" onclick="GeneAlias.checkAlias($('geneList').value);return false;">check aliases</a>
-			<img src="images/indicator.gif" id="indicator" style="display:none;"/>
-			<br/><br/>
-			<div id="gAliases" style="display:none; margin-left:20px;border:1px solid #AB0303;"></div>
-			<br/><br/>
+	
+	<br/><br/>
+ 	<html:textarea property="geneList" styleId="geneList" cols="65" rows="5" disabled="false" />
+	<!-- 
+	<html:text property="geneList" styleId="geneList" disabled="false" onfocus="" onblur="" />
+	-->
+	
+	<span valign="middle">
+		<a href="#" id="aliasLink" onclick="GeneAlias.checkAlias($('geneList').value);return false;">check aliases</a>
+	</span>			
+	<img src="images/indicator.gif" id="indicator" style="display:none;"/>
+	<br/><br/>
+	<div id="gAliases" style="display:none; margin-left:20px;border:1px solid #AB0303;"></div>
+	<br/><br/>
 			
-			<html:radio property="geneOption" styleClass="radio" value="geneList" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/>
+	<html:radio property="geneOption" styleClass="radio" value="geneList" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/>
 		
-			 Choose a saved Gene List:&nbsp;&nbsp;
-			<html:select property="geneFile" disabled="false" styleId="geneFileDD">
-				<html:optionsCollection property="savedGeneList" />
-			</html:select>
-			<br/>
+		Choose a saved Gene List:&nbsp;&nbsp;
+	<html:select property="geneFile" disabled="false" styleId="geneFileDD">
+		<html:optionsCollection property="savedGeneList" />
+	</html:select>
+	<br/>
 		   		
-			<html:errors property="geneFile"/>
-			<html:errors property="geneGroup"/>
-			<html:errors property="geneList"/>
-			<html:errors property="geneType"/>
+	<html:errors property="geneFile"/>
+	<html:errors property="geneGroup"/>
+	<html:errors property="geneList"/>
+	<html:errors property="geneType"/>
 	
 	<!-- 	
 	<logic:present name="comparitivegenomicForm">
