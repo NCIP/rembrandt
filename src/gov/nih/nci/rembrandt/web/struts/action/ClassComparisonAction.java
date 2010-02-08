@@ -35,7 +35,9 @@ import gov.nih.nci.rembrandt.web.struts.form.ClassComparisonForm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +47,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DispatchAction;
+//import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts.util.LabelValueBean;
 
 
@@ -107,7 +110,8 @@ import org.apache.struts.util.LabelValueBean;
 * 
 */
 
-public class ClassComparisonAction extends DispatchAction {
+//public class ClassComparisonAction extends DispatchAction {
+public class ClassComparisonAction extends LookupDispatchAction {
 	
 	private UserCredentials credentials;  
 	private static Logger logger = Logger.getLogger(ClassComparisonAction.class);
@@ -132,7 +136,18 @@ public class ClassComparisonAction extends DispatchAction {
      *            response
      * @return ActionForward
      * @throws Exception
+    public ActionForward Submit(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception 
+    {
+        try {
+        	return submit(mapping, form, request, response);
+        } catch (Exception e) {
+        	throw e;
+        }
+    }
      */
+    
     public ActionForward submit(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -378,5 +393,18 @@ public class ClassComparisonAction extends DispatchAction {
             return classComparisonQueryDTO;
     }
     
-    
+	
+	protected Map getKeyMethodMap() {
+		 
+       HashMap<String,String> map = new HashMap<String,String>();
+              
+       //Setup
+       map.put("ClassComparisonAction.setup", "setup");
+
+       //Submit Query Button using class comparison submittal method
+       map.put("buttons_tile.submittalButton", "submit");
+
+       return map;
+       
+       }
 }

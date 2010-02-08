@@ -123,6 +123,8 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private boolean isAllGenesQuery = false ;
+    
+    private String queryDetails = "";
  
 	public RefineQueryForm() {
 		super();
@@ -337,6 +339,14 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		this.selectedResultSet = selectedResultSet;
 	}
 
+	
+	public String getQueryDetails() {
+		return queryDetails;
+	}
+	public void setQueryDetails(String queryDetails) {
+		this.queryDetails = queryDetails;
+	}
+	
 	/**
 	 * Method validate
 	 * 

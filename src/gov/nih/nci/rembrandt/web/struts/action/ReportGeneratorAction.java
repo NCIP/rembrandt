@@ -457,7 +457,8 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 		
 		cquery.setQueryName(prb_queryName);
 		//This will generate the report and store it in the cache
-		ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
+		//ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
+		ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false, true );
 		//store the name of the query in the form so that we can later pull it out of cache
 		ReportBean reportBean = rgHelper.getReportBean();
 		rgForm.setQueryName(reportBean.getResultantCacheKey());

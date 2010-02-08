@@ -272,4 +272,27 @@ public class DynamicListHelper {
 		}
 		return aliases.toString();
 	}
+	
+	public static String validateAliases(String commaGenes)	{
+		// Accepts a single gene, or a comma delimited list of strings
+		Boolean allGeneSymbolsValid = true;
+		commaGenes = commaGenes.replace(" ", "");
+		List<String> geneList = Arrays.asList(commaGenes.split(","));
+		try	{
+			Map<String,List<AllGeneAliasLookup>> validMap = DataValidator.searchGeneKeyWordList(geneList);
+			if(validMap != null){
+				for(String symbol:geneList){
+					
+					if(!DataValidator.isGeneSymbolFound(symbol))	{
+						//valid, no aliases
+						allGeneSymbolsValid = false;
+						break;
+					}
+				}
+			}
+		} catch(Exception e)	{
+			e.printStackTrace();
+		}
+		return allGeneSymbolsValid.toString();
+	}
 }
