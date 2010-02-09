@@ -572,7 +572,10 @@
  				No Records Returned.
 		  </xsl:otherwise>
 		</xsl:choose>
+		 <!--  		 
 		 <br/><a style="margin-right:10px" href="javascript:history.back()">Back </a><a href="javascript:window.close()">Close</a></h3>
+		 -->
+		 <br/><a href="javascript:window.close()">Close</a></h3>
   	</xsl:if>
   </xsl:for-each>
 

@@ -57,7 +57,8 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 			<script language="javascript">
 				if(document.getElementById('spnLoading') != null &&	document.getElementById('spnLoading').style.display != "none")	{
 					hideLoadingMessage();
-					document.write("<h3 style=\"text-align:center; margin-top:200px;\">No Records Returned.  Please modify the query. <br/><a style=\"margin-right:10px\" href=\"javascript:history.back()\">Back</a><a href=\"javascript:window.close()\">Close</a></h3>");
+					//document.write("<h3 style=\"text-align:center; margin-top:200px;\">No Records Returned.  Please modify the query. <br/><a style=\"margin-right:10px\" href=\"javascript:history.back()\">Back</a><a href=\"javascript:window.close()\">Close</a></h3>");
+					document.write("<h3 style=\"text-align:center; margin-top:200px;\">No Records Returned.  Please modify the query. <br/><a href=\"javascript:window.close()\">Close</a></h3>");
 				}
 			</script>
 <%

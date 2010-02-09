@@ -219,8 +219,11 @@ public class QuickSearchAction extends DispatchAction {
            		List reporters = kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity();
            		if(reporters != null  && reporters.size() > 0){
            			String highestIntensityReporter = (String) reporters.get(0);
-           		 if (highestIntensityReporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
+           			if (highestIntensityReporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
 						int pos = highestIntensityReporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+						highestIntensityReporter = highestIntensityReporter.substring(0,pos);
+					} else if (reporters.size() == 1 && highestIntensityReporter.contains(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)) {
+						int pos = highestIntensityReporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
 						highestIntensityReporter = highestIntensityReporter.substring(0,pos);
 					}
     				kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(highestIntensityReporter);
