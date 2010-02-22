@@ -8,9 +8,15 @@
 <%@ page import="java.util.*, java.lang.*, java.io.*, java.net.URLEncoder " %>
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>
 <%@ page import="gov.nih.nci.caintegrator.application.cache.BusinessTierCache" %>
+<%@ page import="gov.nih.nci.rembrandt.cache.RembrandtPresentationCacheManager"%>
+<%@ page import="gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache"%>
 <%@ page import="gov.nih.nci.caintegrator.service.findings.*" %>
 <%@ page import="gov.nih.nci.caintegrator.enumeration.*" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="gov.nih.nci.caintegrator.service.task.*" %>
+<%@ page import="gov.nih.nci.rembrandt.dto.query.*" %>
+<%@ page import="gov.nih.nci.caintegrator.dto.view.*" %>
+
 
 <script language="javascript">
 	if(location.href.indexOf("viewResults") == -1)	{
@@ -32,12 +38,16 @@ String helpLinkClose = "', 350, 500);\">"+
 
   <script type="text/javascript">Help.insertHelp("View_results_overview", " align='right'", "padding:2px;");</script>
     <br />
-    <form action="#">     
+    
+    
+    
+    <form action="#">    
+      <!--  
       <fieldset>
         <legend>
           Query Results
         </legend>
-        <br/>
+        <br/>      
         <logic:notEmpty name="viewResultsForm" property="compoundQueries">
         
         <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
@@ -96,10 +106,114 @@ String helpLinkClose = "', 350, 500);\">"+
      </logic:empty>
         
      </fieldset>
+     -->
      <br /><br />
      <!--  <form> -->
-     
      <fieldset>
+     	<legend>Query Results</legend>
+       	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
+       	
+     <%
+     			
+		RembrandtPresentationTierCache ptc = RembrandtPresentationCacheManager.getInstance();						
+		if(ptc!=null){
+		%>
+			<%
+			//get all tasks from presentation tier
+			List tasks = ptc.getAllSessionTaskResults(request.getSession().getId());
+			if(tasks!=null && !tasks.isEmpty()){
+		
+						
+				//looks like we have some findings, generate the JS to check the status of them
+				%>
+				<script language="javascript" src="js/a_functions.js"></script>
+				<script language="javascript">	
+					//testMap("testingtesting");
+					var customError = function(message)	{};
+					DWREngine.setWarningHandler(customError);
+					DWREngine.setErrorHandler(customError);
+					
+					setTimeout("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 0200);
+					var vr_checker = setInterval("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 10000);
+	
+				</script>
+				<%
+				
+				//why arent these in the backingbean?  - we need to check these directly from cache
+				// because they are dynamic - we can not look at a copy placed in the backing bean
+				//for(Object o : sessionFindings)	{ //no 1.5 stuff allowed
+				for(Iterator i = tasks.iterator();i.hasNext();)	{
+					TaskResult task = (TaskResult) i.next();
+					String qname = "N/A";										
+					qname =  task.getTask().getQueryDTO().getQueryName();						
+					String comments = "";
+					String queryOnclick="";	
+					String currentStatus = "running";
+					String emailIcon = " ";
+					if(task.getTask().getStatus() == FindingStatus.Completed){
+						currentStatus = "<b id=\"" +task.getTask().getId() + "_status\">completed</b>  <img src='images/check.png' alt='complete' id=\"" + task.getTask().getId() + "_image\"/>";
+						emailIcon = " ";
+						queryOnclick = "";
+						emailIcon = "<img src='images/blank.gif' alt='email results' BORDER=0  id=\"" + task.getTask().getId() + "_email\"/>";
+						
+						}
+					else if(task.getTask().getStatus() == FindingStatus.Running){
+						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + task.getTask().getId() + "_image\" />";
+						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
+						emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"javascript:spawnx('email.do?taskId=' + encodeURIComponent('" + URLEncoder.encode(task.getTask().getId()) + "') + '&cacheId=" + task.getTask().getCacheId() + "', 750, 500,'_report');\" onclick=\"return false;\"><img src='images/blank.gif' alt='email results' BORDER=0 /></a>";
+						//emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"#\"><img src='images/blank.gif' BORDER=0 /></a>"; 
+			
+						}
+					else if(task.getTask().getStatus() == FindingStatus.Error)	{					
+						comments = StringEscapeUtils.escapeJavaScript(comments);
+						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','error'));</script></b> <img src='images/error.png' alt='error' id=\"" + task.getTask().getId() + "_image\" />";
+						emailIcon = "<img src='images/blank.gif' alt='email results'  BORDER=0 id=\"" + task.getTask().getId() + "_email\"/>";
+						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
+					}
+					
+					out.println("<span style='color:red; float:right'>" + currentStatus + emailIcon +"</span> ");					
+									
+					//if(task.getTask().getStatus()!= FindingStatus.Completed)	{
+					//	queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
+					//}	
+					//check the type of finding and create the appropriate link
+					if(task.getTask().getQueryDTO() instanceof CompoundQuery){	
+						CompoundQuery compoundQuery = (CompoundQuery) task.getTask().getQueryDTO();	
+						String	view = "";
+						if(compoundQuery.getAssociatedView() instanceof ClinicalSampleView ){
+							view = "C";
+						}else if(compoundQuery.getAssociatedView() instanceof GeneExprSampleView){
+							view = "GE";
+						}else if(compoundQuery.getAssociatedView()instanceof CopyNumberSampleView){
+							view = "CN";
+						}
+						//out.println("<li><a id=\"" + qname + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReport&queryName=previewResults&showSampleSelect=false', 770, 550, '_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(Clinical)</i> ");
+						out.println("<li><a id=\"" + task.getTask().getId() + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReportFromCache&taskId=' + encodeURIComponent('" + URLEncoder.encode(task.getTask().getId()) + "') + '&cacheId=" + task.getTask().getCacheId() + "', 750, 500,'_report');\" onclick=\"" + queryOnclick + "\">" + qname + "</a> <i>("+view+")</i> ");
+					}
+
+					out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + task.getTask().getId() + "_time\" >" + task.getTask().getElapsedTime()/1000 + "</span> sec) </span>");
+					out.println("</li>");
+					out.println("<br clear=\"all\" />");
+					out.println("<br clear=\"all\" />");
+				}
+			}
+			else{
+			//no tasks found in cache
+			out.println("<strong>No Query Results at this time.</strong><br/><br/>");
+			}
+		}
+		else{
+		  out.println("<strong>No presentation tier cache available at this time.</strong><br/><br/>");
+		}
+		      %>
+          <br/><br/>
+     <div style="font-size:9px;text-align:center;">
+     (C)   Clinical Study Analysis| 
+     (GE)  Gene Expression Analysis| 
+     (CN)  Copy Number Analysis       
+     </div>
+    </fieldset>
+    <fieldset>
      	<legend>High Order Analysis</legend>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
      <%
@@ -190,7 +304,7 @@ String helpLinkClose = "', 350, 500);\">"+
 				
 				out.println(_htm);
 				_htm = "";
-				out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime() + "</span>ms) </span>");
+				out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + f.getTaskId() + "_time\" >" + f.getElapsedTime()/1000 + "</span> sec) </span>");
 				out.println("</li>");
 				out.println("<br clear=\"all\" />");
 				out.println("<br clear=\"all\" />");

@@ -7,6 +7,7 @@
     <!-- ========== Form Bean Definitions ================================== -->
     <form-beans>
     	<form-bean name="reportGeneratorForm" type="gov.nih.nci.rembrandt.web.struts.form.ReportGeneratorForm"/>
+    	<form-bean name="emailQueryForm" type="gov.nih.nci.rembrandt.web.struts.form.EmailQueryForm"/>
         <form-bean name="geneexpressionForm" type="gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm"/>
         <form-bean name="comparitivegenomicForm" type="gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm"/>
         <form-bean name="clinicaldataForm" type="gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm"/>
@@ -228,6 +229,7 @@
          <forward name="previewReport" path="/previewGeneReport.do?method=previewReport"/>
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
          <forward name="showAllGenes" path="nautilus.allGenesGE" />
+         <forward name="viewResults" path="/viewResults.do" />
 	</action>
 	
 	<action path="/classComparison"
@@ -358,6 +360,19 @@
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
     </action>
     
+   <action path="/scheduleGeneReport"
+            forward="/schedulegenereport.do" />
+
+	<action path="/schedulegenereport"
+            name="geneexpressionForm"
+            type="gov.nih.nci.rembrandt.web.struts.action.ReportGeneratorAction"
+            scope="request"
+            parameter="method"
+            validate="false">
+         <forward name="failure" path="/menu.do" /> 
+         <forward name="backToGeneExp" path="nautilus.geneExpression" />
+    </action>
+    
 	<action path="/previewCGReport"
             forward="/previewcgreport.do" />
 
@@ -371,7 +386,18 @@
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 	
-	
+	<action path="/scheduleCGReport"
+            forward="/schedulecgreport.do" />
+
+	<action path="/schedulecgreport"
+            name="comparitivegenomicForm"
+            type="gov.nih.nci.rembrandt.web.struts.action.ReportGeneratorAction"
+            scope="request"
+            parameter="method"
+            validate="false">
+         <forward name="failure" path="/menu.do" /> 
+         <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
+	</action>
 		
     <action path="/comparitiveGenomic"
             forward="nautilus.comparitiveGenomic" />
@@ -387,6 +413,8 @@
          <forward name="previewReport" path="/previewCGReport.do?method=previewReport"/>
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
          <forward name="showAllGenes" path="nautilus.allGenesCGH" />
+         <forward name="viewResults" path="/viewResults.do" />
+         
 	</action>
 	
 	<action  path="/clinicalData"
@@ -402,6 +430,8 @@
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="previewReport" path="/previewClinicalReport.do?method=previewReport"/>
          <forward name="backToClinical" path="nautilus.clinical" />
+		 <forward name="viewResults" path="/viewResults.do" />
+         
 	</action>
 
 	<action path="/menu"
@@ -457,6 +487,19 @@
          <forward name="backToClinical" path="nautilus.clinical" />
 	</action>
 
+	<action path="/scheduleClinicalReport"
+            forward="/previewclinicalreport.do" />
+
+	<action path="/scheduleclinicalreport"
+            name="clinicaldataForm"
+            type="gov.nih.nci.rembrandt.web.struts.action.ReportGeneratorAction"
+            scope="request"
+            parameter="method"
+            validate="false">
+         <forward name="failure" path="/menu.do" /> 
+         <forward name="backToClinical" path="nautilus.clinical" />
+	</action>
+	
 	<action path="/home"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
 		parameter="method">
@@ -483,6 +526,7 @@
          <forward name="displayQuery" path="nautilus.refine" />
          <forward name="advanceSearchMenu" path="nautilus.menu" />
          <forward name="failure" path="/refine.do" />
+         <forward name="viewResults" path="/viewResults.do" />
 	</action>
 	
 	<action path="/runCompoundQuery"
@@ -515,8 +559,22 @@
            parameter="method"
            validate="false">
          <forward name="runGeneViewReport" path="/jsp/geneViewReport.jsp" />
+         <forward name="runGeneViewReportFromCache" path="/jsp/geneViewReport.jsp" />
          <forward name="runCSVGeneViewReport" path="/jsp/geneViewReportCSV.jsp" />
     </action>
+    
+    <action path="/emailReport"
+           name="emailQueryForm"
+	       type="gov.nih.nci.rembrandt.web.struts.action.EmailQueryAction"
+	       scope="request"
+           parameter="method"
+           input="/jsp/emailReport.jsp"
+           validate="true">
+          <forward name="success" path="/jsp/emailReport.jsp" />
+         <forward name="advanceSearchMenu" path="nautilus.menu" />
+         <forward name="submitReport" path="/emailReport.do?method=submitReport"/>
+    </action>
+    
 	<action path="/browseKeggPathway"
             type="gov.nih.nci.rembrandt.web.struts.action.BrowseKeggPathwayAction">
          <forward name="success" path="/jsp/browseKeggPathway.jsp" /> 
