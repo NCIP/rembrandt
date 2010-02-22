@@ -23,6 +23,7 @@ boolean cgh = false;
 if(act.equalsIgnoreCase("geneexpression"))	{
 	strIncFile2 = "/jsp/tiles/foldChange_tile.jsp?act="+act;
 	strIncFile3 = "/jsp/tiles/arrayPlatform_tile.jsp?act="+act;
+	strIncFile5 = "/jsp/tiles/resection_tile.jsp?act="+act;
 } 
 else	{
 cgh = true;
