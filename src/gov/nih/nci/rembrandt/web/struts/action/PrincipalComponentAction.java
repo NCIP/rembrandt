@@ -33,7 +33,9 @@ import gov.nih.nci.rembrandt.web.struts.form.PrincipalComponentForm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +46,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.actions.LookupDispatchAction;
 
 
 
@@ -104,7 +107,8 @@ import org.apache.struts.actions.DispatchAction;
 * 
 */
 
-public class PrincipalComponentAction extends DispatchAction {
+//public class PrincipalComponentAction extends DispatchAction {
+public class PrincipalComponentAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ClassComparisonAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;
@@ -286,7 +290,20 @@ public class PrincipalComponentAction extends DispatchAction {
     }
 
         
-    
+	
+	protected Map getKeyMethodMap() {
+		 
+       HashMap<String,String> map = new HashMap<String,String>();
+              
+       //Setup
+       map.put("PrincipalComponentAction.setup", "setup");
+
+       //Submit Query Button using class comparison submittal method
+       map.put("buttons_tile.submittalButton", "submit");
+
+       return map;
+       
+       }
     
     
 }

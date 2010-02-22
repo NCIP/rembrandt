@@ -1,7 +1,9 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.ListType;
@@ -47,6 +49,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.actions.LookupDispatchAction;
 
 
 
@@ -107,7 +110,8 @@ import org.apache.struts.actions.DispatchAction;
 * 
 */
 
-public class HierarchicalClusteringAction extends DispatchAction {
+//public class HierarchicalClusteringAction extends DispatchAction {
+public class HierarchicalClusteringAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(HierarchicalClusteringAction.class);
     private UserCredentials credentials;
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
@@ -308,6 +312,21 @@ public class HierarchicalClusteringAction extends DispatchAction {
         return hierarchicalClusteringQueryDTO;
     }
 
+    
+	
+	protected Map getKeyMethodMap() {
+		 
+       HashMap<String,String> map = new HashMap<String,String>();
+              
+       //Setup
+       map.put("HierarchicalClusteringAction.setup", "setup");
+
+       //Submit Query Button using class comparison submittal method
+       map.put("buttons_tile.submittalButton", "submit");
+
+       return map;
+       
+       }
     
     
 }

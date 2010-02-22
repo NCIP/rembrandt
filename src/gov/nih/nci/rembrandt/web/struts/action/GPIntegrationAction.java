@@ -37,9 +37,11 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.io.Serializable;
 
@@ -52,10 +54,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.actions.LookupDispatchAction;
+
 import org.genepattern.client.GPServer;
 import org.genepattern.webservice.Parameter;
 
-public class GPIntegrationAction extends DispatchAction {
+//public class GPIntegrationAction extends DispatchAction {
+public class GPIntegrationAction extends LookupDispatchAction {
 	
 	  private IdMapper idMappingManager;
 	  
@@ -390,4 +395,19 @@ public class GPIntegrationAction extends DispatchAction {
         tempdir.delete();
         return tempdir.getParentFile();
     }
+        
+	
+	protected Map getKeyMethodMap() {
+		 
+       HashMap<String,String> map = new HashMap<String,String>();
+              
+       //Setup
+       map.put("GPIntegrationAction.setup", "setup");
+
+       //Submit Query Button using class comparison submittal method
+       map.put("buttons_tile.submittalButton", "submit");
+
+       return map;
+       
+       }
 }
