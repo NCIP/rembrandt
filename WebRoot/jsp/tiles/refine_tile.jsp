@@ -146,7 +146,8 @@
 				<!--check to see if query has been validated and the runFlag has been set on the form-->
 				<logic:equal name="refineQueryForm" property="runFlag" value="yes" >
 					<!-- JavaScript here is to create a popup for the ReportResults -->
-					<html:submit styleClass="xbutton" styleId="runReportButton" property="method" onclick="javascript:return formNewTargetSimple('_report', 770, 550);">
+					<% //<html:submit styleClass="xbutton" styleId="runReportButton" property="method" onclick="javascript:return formNewTargetSimple('_report', 770, 550);"> %>
+					<html:submit styleClass="xbutton" styleId="runReportButton" property="method">
 						<bean:message key="RefineQueryAction.runReportButton"/>
 					</html:submit>
 				</logic:equal> 
