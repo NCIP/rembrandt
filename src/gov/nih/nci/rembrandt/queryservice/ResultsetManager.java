@@ -75,7 +75,6 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr.GeneExprSingle;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprGroup;
 import gov.nih.nci.rembrandt.queryservice.resultset.AddConstrainsToQueriesHelper;
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.CompoundResultSet;
@@ -85,10 +84,14 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.ShowAllValuesHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.filter.CopyNumberFilter;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotHandler;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 
 
@@ -187,6 +190,8 @@ public class ResultsetManager {
 								GeneExprSampleView geneExprSampleView = (GeneExprSampleView) associatedView;
 								groupType = geneExprSampleView.getGroupType();
 							}
+							//add checkToExcludeResections
+							resultsets = checkToExcludeResections((GeneExprSingle[]) resultsets,queryToExecute );
 							ResultsContainer resultsContainer = ResultsetProcessor
 									.handleGeneExprSingleView(resultant,
 											(GeneExprSingle[]) resultsets,
@@ -246,6 +251,37 @@ public class ResultsetManager {
 		return resultant;
 	}
 
+	private static GeneExprSingle[] checkToExcludeResections(
+			GeneExprSingle[] resultsets, Queriable queryToExecute) {
+		Query[] queries = queryToExecute.getAssociatiedQueries();
+		boolean exludeResections = false;
+		List<GeneExprSingle> exludedResultsets = new ArrayList<GeneExprSingle>();
+		List<GeneExprSingle> geneExprSingleReultsets = new ArrayList<GeneExprSingle>(Arrays.asList(resultsets));
+
+		for(Query query : queries){
+			if(query.getSampleIDCrit()!=null  && query.getSampleIDCrit().getExcludeResections()!= null && query.getSampleIDCrit().getExcludeResections() == true)	{
+				exludeResections = true;
+				break;
+			}
+		}
+		if(exludeResections){
+			try {
+				Collection<String> resectionSpecimans = DataValidator.getAllResections();
+				for(GeneExprSingle geneExprSingle: geneExprSingleReultsets){
+					if(geneExprSingle.getSpecimenName()!= null && resectionSpecimans.contains(geneExprSingle.getSpecimenName())){
+						exludedResultsets.add(geneExprSingle);
+					}
+					
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			geneExprSingleReultsets.removeAll(exludedResultsets);
+		}
+		return geneExprSingleReultsets.toArray(new GeneExprSingle[0]);
+	}
+
 	public static Resultant executeGeneExpressPlotQuery(Query geneQuery, String session)
 			throws Throwable {
 
@@ -277,6 +313,8 @@ public class ResultsetManager {
 				queryToExecute.setAssociatedView(associatedView);
 				ResultSet[] resultsets = QueryManager
 						.executeQuery(queryToExecute);
+				//add checkToExcludeResections
+				resultsets = checkToExcludeResections((GeneExprSingle[]) resultsets, queryToExecute );
 				ResultsContainer resultsContainer = KaplanMeierPlotHandler
 						.handleKMGeneExprPlotContainer((GeneExpr.GeneExprSingle[]) resultsets);
 				resultant.setResultsContainer(resultsContainer);

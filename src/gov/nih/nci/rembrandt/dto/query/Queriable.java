@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.dto.query;
 
+import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
 import java.io.Serializable;
 
@@ -65,7 +66,7 @@ import java.io.Serializable;
 * 
 */
 
-public interface Queriable extends Serializable, Cloneable {
+public interface Queriable extends QueryDTO, Serializable, Cloneable {
 	/**
 	 * IMPORTANT! This class requires a clone method! This requires that any new
 	 * data field that is added to this class also be cloneable and be added to

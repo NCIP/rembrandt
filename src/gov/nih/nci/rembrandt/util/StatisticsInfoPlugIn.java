@@ -193,4 +193,17 @@ public class StatisticsInfoPlugIn implements PlugIn
 		}
 	}
 
+	/**
+	 * The scheduleWork task is called within the application to actually
+	 * schedule a job for later execution.
+	 * <P>
+	 * @param jobDetail The details of the job to schedule
+	 * @param trigger The trigger conditions to use for scheduling
+	 * @throws SchedulerException
+	 */
+	public static void scheduleWork(JobDetail jobDetail, Trigger trigger)
+		throws SchedulerException
+	{
+			sm_scheduler.scheduleJob(jobDetail, trigger);
+	}
 }

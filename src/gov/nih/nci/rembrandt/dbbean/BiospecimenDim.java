@@ -66,6 +66,7 @@ public class BiospecimenDim
 {
   public final static String SPECIMEN_NAME = "specimenName";
   public static final String SAMPLE_ID = "SAMPLE_ID";
+  private String resectionStatus;
   private Long biospecimenId;
 
   private Long patientDid;
@@ -160,6 +161,18 @@ public class BiospecimenDim
   {
     this.collDifferentialExpressionSfact = param;
   }
+/**
+ * @return the resectionStatus
+ */
+public String getResectionStatus() {
+	return resectionStatus;
+}
+/**
+ * @param resectionStatus the resectionStatus to set
+ */
+public void setResectionStatus(String resectionStatus) {
+	this.resectionStatus = resectionStatus;
+}
 
 
 }

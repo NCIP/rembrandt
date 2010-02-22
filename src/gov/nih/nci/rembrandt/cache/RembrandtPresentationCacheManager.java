@@ -6,9 +6,12 @@ import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.service.task.Task;
+import gov.nih.nci.caintegrator.service.task.TaskResult;
 import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
+import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionCriteriaBag;
@@ -17,7 +20,9 @@ import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 
 import java.io.File;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -919,5 +924,49 @@ public class RembrandtPresentationCacheManager extends  gov.nih.nci.caintegrator
 //			dir.delete();
 //			}
 //		}
+	public List<TaskResult> getAllSessionTaskResults(String sessionId) {
+        List<TaskResult> tasks = new ArrayList<TaskResult>();
+        Cache sessionCache = getSessionCache(sessionId);
+        try {
+            List keys = sessionCache.getKeys();
+            for(Iterator i = keys.iterator();i.hasNext();) {
+                Element element = sessionCache.get((String)i.next());
+                Object object = element.getValue();
+                if(object instanceof TaskResult) {
+                    tasks.add((TaskResult)object);
+                }
+            }
+        }catch(CacheException ce) {
+            logger.error(ce);
+        }
+		return tasks;
+	}
+	public TaskResult getTaskResult(String sessionId, String taskId) {
+		try {
+			taskId = URLDecoder.decode ( taskId , "UTF-8" ) ;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TaskResult taskResult = null;
+		
+        Cache sessionCache = getSessionCache(sessionId);
+        try {
+            List keys = sessionCache.getKeys();
+            for(Iterator i = keys.iterator();i.hasNext();) {
+                Element element = sessionCache.get((String)i.next());
+                Object object = element.getValue();
+                if(object instanceof TaskResult) {
+                    TaskResult task = (TaskResult)object;
+                    if(task.getTask() != null && task.getTask().getId().equals(taskId)){
+                    	taskResult = task;
+                    }
+                }
+            }
+        }catch(CacheException ce) {
+            logger.error(ce);
+        }
+		return taskResult;
+	}
 
 }

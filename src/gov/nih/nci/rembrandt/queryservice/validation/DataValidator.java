@@ -220,6 +220,78 @@ public class DataValidator{
     	}
     	return validSpecimenList;
     }
+    public static Collection<String> getAllResections() throws Exception{
+    	Set<String> resectionSpecimenList = new HashSet<String>();
+    	           
+
+            try {
+        	//Create a Criteria to get all  resections Specimens 
+           
+
+
+	            Criteria resectionCrit = new Criteria();
+	            resectionCrit.addEqualTo("upper(RESECTION_STATUS)","TRUE");
+				Collection sampleCollection = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,resectionCrit,"SPECIMEN_NAME", true);
+
+				if(sampleCollection != null){
+					for(Object ojb:sampleCollection){
+						if(ojb instanceof String) {
+					       	  String termToLookup = (String)ojb;
+					     	  if(termToLookup != null && !termToLookup.equals("")){
+					     		 resectionSpecimenList.add(termToLookup);
+					     	  }
+						  }
+						}
+					}
+	    		} catch (Exception e) {
+	    			logger.error("Error in validateSampleIds");
+	    			logger.error(e.getMessage());
+	    			throw e;
+	    		}
+    	return resectionSpecimenList;
+    }
+    public static Collection<String> ExcludeResections(Collection<String> specimanNames) throws Exception{
+    	Set<String> resectionExcludedSpecimenList = new HashSet<String>();
+    	if(specimanNames != null  && specimanNames.size() > 0){
+            
+
+            try {
+        	//Create a Criteria for Excluded Resections from Specimen List
+           
+            Collection<String> values = new ArrayList<String>();
+            for (String specimanName : specimanNames){
+                if(specimanName.indexOf("*")!= -1 || specimanName.indexOf("%") != -1){
+                    throw new Exception("specimanName"+ specimanName+ "contains * or %");         //make sure your not checking for wildcards
+                }
+                values.add(specimanName);
+            }
+
+
+	            Criteria sampleCrit = new Criteria();
+	            sampleCrit.addIn("SPECIMEN_NAME",values);	
+	            Criteria resectionCrit = new Criteria();
+	            resectionCrit.addNotEqualTo("upper(RESECTION_STATUS)","TRUE");
+	            sampleCrit.addAndCriteria(resectionCrit);
+				Collection sampleCollection = QueryExecuter.lookUpClinicalQueryTermValues(BiospecimenDim.class,sampleCrit,"SPECIMEN_NAME", true);
+
+				if(sampleCollection != null){
+					for(Object ojb:sampleCollection){
+						if(ojb instanceof String) {
+					       	  String termToLookup = (String)ojb;
+					     	  if(termToLookup != null && !termToLookup.equals("")){
+					     		 resectionExcludedSpecimenList.add(termToLookup);
+					     	  }
+						  }
+						}
+					}
+	    		} catch (Exception e) {
+	    			logger.error("Error in validateSampleIds");
+	    			logger.error(e.getMessage());
+	    			throw e;
+	    		}
+    	}
+    	return resectionExcludedSpecimenList;
+    }
     public static List<String> validateSampleIdsForGEData(Collection<String> sampleIds) throws Exception{
     	List<String> validSampleList = new ArrayList<String>();
     	if(sampleIds != null  && sampleIds.size() > 0){

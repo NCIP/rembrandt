@@ -25,6 +25,7 @@ import org.apache.ojb.broker.PBKey;
 import org.apache.ojb.broker.metadata.ConnectionRepository;
 import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -105,7 +106,7 @@ public class ApplicationContext{
 	private static Properties messagingProps = null;
     private static Document doc =null;
 	private static CaArrayFileDownloadManagerInterface caArrayFileDownloadManagerInterface;
-
+    private static TaskExecutor taskExecutor;
    /**
     * COMMENT THIS
     * @return
@@ -124,6 +125,14 @@ public class ApplicationContext{
     	 logger.debug("Loading Application Resources");
          labelProps = PropertyLoader.loadProperties(RembrandtConstants.APPLICATION_RESOURCES);
          messagingProps = PropertyLoader.loadProperties(RembrandtConstants.JMS_PROPERTIES);
+         
+         //set TaskExecutor
+			ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+			threadPoolTaskExecutor.setCorePoolSize(5);
+			threadPoolTaskExecutor.setMaxPoolSize(100);
+			threadPoolTaskExecutor.setQueueCapacity(400);
+			threadPoolTaskExecutor.initialize();
+			setTaskExecutor(threadPoolTaskExecutor);
          try {
 	          logger.debug("Bean to Attribute Mappings");
 	          InputStream inStream = QueryHandler.class.getResourceAsStream(RembrandtConstants.DE_BEAN_FILE_NAME);
@@ -250,12 +259,7 @@ public class ApplicationContext{
 			}
 			if(caArrayFileDownloadManagerInterface != null){
 				caArrayFileDownloadManagerInterface.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
-				ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-				taskExecutor.setCorePoolSize(5);
-				taskExecutor.setMaxPoolSize(100);
-				taskExecutor.setQueueCapacity(400);
-				taskExecutor.initialize();
-				caArrayFileDownloadManagerInterface.setTaskExecutor(taskExecutor);
+				caArrayFileDownloadManagerInterface.setTaskExecutor((ThreadPoolTaskExecutor) taskExecutor);
 			}
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
@@ -276,5 +280,17 @@ public class ApplicationContext{
 	public static void setCaArrayFileDownloadManagerInterface(
 			CaArrayFileDownloadManagerInterface caArrayFileDownloadManagerInterface) {
 		ApplicationContext.caArrayFileDownloadManagerInterface = caArrayFileDownloadManagerInterface;
+	}
+	/**
+	 * @return the taskExecutor
+	 */
+	public static TaskExecutor getTaskExecutor() {
+		return taskExecutor;
+	}
+	/**
+	 * @param taskExecutor the taskExecutor to set
+	 */
+	public static void setTaskExecutor(TaskExecutor taskExecutor) {
+		ApplicationContext.taskExecutor = taskExecutor;
 	}
 }

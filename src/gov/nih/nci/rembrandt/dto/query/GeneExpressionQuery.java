@@ -218,19 +218,25 @@ public class GeneExpressionQuery extends Query implements Serializable,Cloneable
 								.lastIndexOf(".") + 1)) + "</B>";
 				Collection sampleIDObjects = thisSampleIDCrit.getSampleIDs();
 				int count = 0;
-				for (Iterator iter = sampleIDObjects.iterator(); iter.hasNext()
-						&& count < 5;) {
-					count++;
-					DomainElement de = (DomainElement) iter.next();
-					String thisDomainElement = de.getClass().getName();
-					OutStr += "<BR>&nbsp;&nbsp;"
-							+ labels.getString(thisDomainElement
-									.substring(thisDomainElement
-											.lastIndexOf(".") + 1)) + ": "
-							+ de.getValue();
+				
+				if(sampleIDObjects != null ){
+					for (Iterator iter = sampleIDObjects.iterator(); iter.hasNext()
+							&& count < 5;) {
+						count++;
+						DomainElement de = (DomainElement) iter.next();
+						String thisDomainElement = de.getClass().getName();
+						OutStr += "<BR>&nbsp;&nbsp;"
+								+ labels.getString(thisDomainElement
+										.substring(thisDomainElement
+												.lastIndexOf(".") + 1)) + ": "
+								+ de.getValue();
+					}
 				}
 				if (sampleIDObjects != null && sampleIDObjects.size() > 5) {
 					OutStr += "<BR>&nbsp;&nbsp;...";
+				}
+				if(thisSampleIDCrit.getExcludeResections()!= null && thisSampleIDCrit.getExcludeResections()== true){
+					OutStr += "<BR>Exclude Re-Resection Sets";
 				}
 			} else
 				logger

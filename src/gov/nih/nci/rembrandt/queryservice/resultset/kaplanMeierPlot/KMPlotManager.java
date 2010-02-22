@@ -122,6 +122,7 @@ public class KMPlotManager {
 				if(samples!=null)	{
 	            	SampleCriteria sampleCriteria = new SampleCriteria();
 	            	sampleCriteria.setSampleIDs(samples);
+	            	sampleCriteria.setExcludeResections(true);
 	            	geneQuery.setSampleIDCrit(sampleCriteria);
 	            }
 				

@@ -1,7 +1,12 @@
 package gov.nih.nci.rembrandt.queryservice;
 
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.rembrandt.dto.query.*;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
+import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.Query;
+import gov.nih.nci.rembrandt.dto.query.UnifiedGeneExpressionQuery;
+
 
 /**
  * @author BhattarR. sahnih

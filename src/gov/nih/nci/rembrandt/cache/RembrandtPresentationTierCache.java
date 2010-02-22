@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.application.cache.PresentationTierCache;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.dto.view.View;
+import gov.nih.nci.caintegrator.service.task.TaskResult;
 import gov.nih.nci.caintegrator.ui.graphing.data.CachableGraphData;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
@@ -119,6 +120,10 @@ public interface RembrandtPresentationTierCache extends PresentationTierCache{
 	public boolean reloadSessionCache(String userName, String sessionId);
 
 	public void deleteSessionCache(String id);
+	
+	public List<TaskResult> getAllSessionTaskResults(String sessionId);
+	
+	public TaskResult getTaskResult(String sessionId,String taskId);
 }
 
 	
