@@ -56,7 +56,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.actions.LookupDispatchAction;
 
-import org.genepattern.client.GPServer;
+import org.genepattern.client.GPClient;
 import org.genepattern.webservice.Parameter;
 
 //public class GPIntegrationAction extends DispatchAction {
@@ -236,7 +236,7 @@ public class GPIntegrationAction extends LookupDispatchAction {
 						}
 						
 							//Check to see the user is already created otherwise create one.
-						GPServer gpServer = null;
+						GPClient gpClient = null;
 						if (rembrandtUser.equals(publicUser)){
 							String gpUser = (String)session.getAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME);
 							if (gpUser == null){
@@ -266,7 +266,7 @@ public class GPIntegrationAction extends LookupDispatchAction {
 			            }
 			            
 			            
-						gpServer = new GPServer(gpserverURL, rembrandtUser, password);
+						gpClient = new GPClient(gpserverURL, rembrandtUser, password);
 						int size = filePathList.size();
 						Parameter[] par = new Parameter[filePathList.size() + 3 + 3];
 						int currpos= 1;
@@ -286,13 +286,13 @@ public class GPIntegrationAction extends LookupDispatchAction {
 						par[++currpos] = new Parameter("output.gct.file",analysisResultName+".gct");
 						
 						//JobResult preprocess = gpServer.runAnalysis(gpModule, par);
-						int nowait = gpServer.runAnalysisNoWait(gpModule, par);
+						int nowait = gpClient.runAnalysisNoWait(gpModule, par);
 
 						tid = String.valueOf(nowait);
 						//LSID = urn:lsid:8080.root.localhost:genepatternmodules:20:2.1.7
 						request.setAttribute("jobId", tid);
 						request.setAttribute("gpStatus", "running");
-						session.setAttribute("genePatternServer", gpServer);
+						session.setAttribute("genePatternServer", gpClient);
 						request.setAttribute("genePatternURL", ticketString);
 						request.getSession().setAttribute("gptid", tid);
 						request.getSession().setAttribute("gpUserId", rembrandtUser);
