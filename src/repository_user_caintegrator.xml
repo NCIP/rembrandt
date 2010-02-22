@@ -814,6 +814,9 @@
 		jdbc-type="BIGINT" />
 	<field-descriptor name="patientDid" column="PATIENT_DID"
 		jdbc-type="BIGINT" />
+	<field-descriptor name="resectionStatus" column="RESECTION_STATUS"
+		jdbc-type="VARCHAR" />
+		
 </class-descriptor>
 <!--  SPECIMEN_GE -->
 <class-descriptor class="gov.nih.nci.rembrandt.dbbean.GESpecimen"

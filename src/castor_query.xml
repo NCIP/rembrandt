@@ -135,6 +135,9 @@
       <field name="specimenTypeValue" type="java.lang.String">
          <bind-xml name="specimenTypeValue" />
       </field>
+      <field name="excludeResections" type="java.lang.Boolean">
+         <bind-xml name="excludeResections" />
+      </field>
    </class>
    <class name="gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria">
       <field name="GOIdentifiers"
