@@ -21,12 +21,14 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -373,7 +375,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	    request.setAttribute("previewForm",geneExpressionForm.cloneMe());
         logger.debug("This is a Preview Report");
 	    CompoundQuery compoundQuery = new CompoundQuery(geneExpQuery);
-	    compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
+	    //compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
+        compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
         logger.debug("Setting query name to:"+compoundQuery.getQueryName());
 	    compoundQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
         logger.debug("Associated View for the Preview:"+compoundQuery.getAssociatedView().getClass());
@@ -381,8 +384,20 @@ public class GeneExpressionAction extends LookupDispatchAction {
         compoundQuery.setSessionId(request.getSession().getId());
         //Generate the reportXML for the preview.  It will be stored in the session
 	    //cache for later retrieval
-        ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery, new HashMap());
-        return mapping.findForward("previewReport");
+        //request.getSession().setAttribute("emailQueryName", geneExpressionForm.getQueryName());
+        //ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery, new HashMap());
+        //return mapping.findForward("previewReport");
+        
+        
+        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
+        try {
+			asynchronousFindingManagerImpl.submitQuery(request.getSession().getId(), compoundQuery);
+		} catch (FindingsQueryException e) {
+			logger.error(e.getMessage());
+		}
+		//wait for few seconds for the jobs to get added to the cache
+		Thread.sleep(1000);
+        return mapping.findForward("viewResults");
 	}
 	
 	public ActionForward getCytobands(ActionMapping mapping, ActionForm form,
@@ -447,7 +462,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		//Set sample Criteria
         SampleCriteria sampleIDCrit = geneExpressionForm.getSampleCriteria();
         Collection<SampleIDDE> sampleIds = null;
-        if(sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup()!=null && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
+        if( geneExpressionForm.getSampleGroup()!=null && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
            UserList sampleList = helper.getUserList(geneExpressionForm.getSampleFile());
            if(sampleList!=null){
                try {
@@ -471,11 +486,15 @@ public class GeneExpressionAction extends LookupDispatchAction {
            }
        }
         
-       if ( !sampleIDCrit.isEmpty() && geneExpressionForm.getSampleGroup()!=null && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Specify")){
+       if ( geneExpressionForm.getSampleGroup()!=null && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Specify")){
            sampleIDCrit.setSampleGroup(geneExpressionForm.getSampleGroup());
        }
-       
-		if (!sampleIDCrit.isEmpty())
+		if(geneExpressionForm.getExcludeResections() == true){
+			sampleIDCrit.setExcludeResections(true);
+		}else{
+			sampleIDCrit.setExcludeResections(null);
+		}
+		if (sampleIDCrit != null && !sampleIDCrit.isEmpty())
 			geneExpQuery.setSampleIDCrit(sampleIDCrit);
         
 		AllGenesCriteria allGenesCrit = geneExpressionForm.getAllGenesCriteria();

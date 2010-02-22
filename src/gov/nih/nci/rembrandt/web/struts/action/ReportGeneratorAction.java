@@ -7,11 +7,13 @@ import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.service.task.TaskResult;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -255,7 +257,153 @@ public class ReportGeneratorAction extends DispatchAction {
     	//Go to the geneViewReport.jsp to render the report
     	return mapping.findForward("runGeneViewReport");
     }
-    
+    /**
+     * This action method should be called when it is desired to actually render
+     * a report to a jsp.  It will grab the desired report XML to display from the cache
+     * and store it in the request so that it can be rendered.  
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward runGeneViewReportFromCache(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+    	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+    	String sessionId = request.getSession().getId();
+		String taskId = request.getParameter("taskId");
+		
+    	//get the specified report bean from the cache using the query name as the key
+    	RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);
+    	ReportBean reportBean = taskResult.getReportBean();
+    	/*
+    	 * check to see if this is a filter submission.  If it is then
+    	 * we are going to need to generate XML most likely.  WE should probably
+    	 * differentiate what are XML generation filter options and what are
+    	 * XSLT filter options.  But for now they are all contained in the 
+    	 * filterParams HashMap...  This could be clearer as it will definatley
+    	 * cause some confusion for maintenance.
+    	 * 
+    	 * --Dave 
+    	 */
+    	Map filterParams = rgForm.getFilterParams();
+    	/*
+    	 * If there is a filter_type specified, we know that the UI
+    	 * wants to perform a filter.  So we need to annotate the 
+    	 * queryName to show that it is filter report.
+    	 */
+    	if(filterParams!=null&&filterParams.containsKey("filter_type")) {
+    		//get the old resultant
+    		Resultant resultant = reportBean.getResultant();
+    		//get the old query
+    		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
+    		//Mark this as a filter report
+    		String queryName = cQuery.getQueryName();
+    		//don't mark it again as a filter report if it is already a filter 
+    		//report at present this will cause the old result in cache
+    		//to be overwritten...
+    		if(queryName.indexOf("filter report")<0) {
+    			queryName = queryName + RembrandtConstants.FILTER_REPORT_SUFFIX;
+    		}
+    		//change the name of the associated query
+    		cQuery.setQueryName(queryName);
+    		
+    		//Create a new bean to store the new resultant, name, param combination
+    		ReportBean newReportBean = new ReportBean();
+    		//set the retrieval key for the ReportBean
+    		newReportBean.setResultantCacheKey(queryName);
+//    		set the modified query in to the resultant and the report bean
+    		resultant.setAssociatedQuery(cQuery);
+    		newReportBean.setAssociatedQuery(cQuery);
+    		//add the resultant to the new bean
+    		newReportBean.setResultant(resultant);
+    		//put the new bean in cache
+    		BusinessCacheManager.getInstance().addToSessionCache(sessionId, queryName,newReportBean );
+    		/*
+    		 *  Generate new XML for the old resultant under the new QueryName.
+    		 *	The filter param maps is necesary because it contains data that
+    		 *  will be necesary to generate the correct XML for the filter
+    		 *  specified...  This does beg the question, Why are we 
+    		 *  regenerating the XML to apply a filter when we could do that in
+    		 *  XSL.  Need to take a look at that in subsequent releases.
+    		 *  
+    		 *  --Dave
+    		 *   
+    		 */
+    		
+    		ReportGeneratorHelper generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    		//get the final constructed report bean
+    		reportBean = generatorHelper.getReportBean();
+    	}
+    	//Do we have a ReportBean... we have to have a ReportBean
+    	if(reportBean!=null) {
+	    	//Check to see if there is an XSLT specified
+    		if("".equals(rgForm.getXsltFileName())||rgForm.getXsltFileName()==null) {
+	    		//If no filters specified then use the default XSLT
+	    		request.setAttribute(RembrandtConstants.XSLT_FILE_NAME,RembrandtConstants.DEFAULT_XSLT_FILENAME);
+	    	}else {
+	    		//Apply any XSL filters defined in the form
+	    		request.setAttribute(RembrandtConstants.XSLT_FILE_NAME,rgForm.getXsltFileName());
+	    	}
+    		/*
+    		 * decide whether the XSL should allow an "Show All Values" button.
+    		 * At this time the AllGenedQuery has just too many values to return,
+    		 * especially for a CopyNumber AllGEnes query 
+    		 */
+    		if(reportBean.isAllGenesQuery()) {
+    			rgForm.setAllowShowAllValues("false");
+    		}
+    		
+    		/*
+    		 *	put the textual description of the compound query into the report. 
+    		 *
+    		 * 	this is a complete hack and should be revisited as soon as we re-do the 
+    		 *  toString() for each query - note the ugly HTML that does not belong here.
+    		 *  also, due to the stupidity of XSL, we need to replace certain chars:
+    		 *  such as <,  >, and & before sending it over.  we are then relying on 
+    		 *  trusty old javascript to convert back into HTML for presentation
+    		 * 
+    		 *  -RCL
+    		 */
+    		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
+    		StringBuffer sb = new StringBuffer();
+    		if(compoundQuery != null) {			
+    			String theQuery  =  compoundQuery.toString();
+    	 		sb.append("<br><a name=\'queryInfo\'></a>Query: "+theQuery);
+    	 		sb.append("<table>");
+    	 		sb.append("<tr>");
+    	 		Query[] queries = compoundQuery.getAssociatiedQueries();
+    	 		for(int i = 0; i<queries.length; i++){
+    	 			sb.append("<td>");
+    	 			sb.append(queries[i]);
+    	 			sb.append("</td>");
+    	 		}
+    	 		sb.append("</tr>");
+    	 		sb.append("</table>");
+    		}
+    		
+    		String noHTMLString = sb.toString();
+    		//noHTMLString = noHTMLString.replaceAll("\\<.*?\\>","");
+    		noHTMLString = noHTMLString.replaceAll("<", "{");
+    		noHTMLString = noHTMLString.replaceAll(">", "}");
+    		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
+    		rgForm.setQueryDetails(noHTMLString);
+    		
+	    	//add the Filter Parameters from the form to the forwarding request
+	    	request.setAttribute(RembrandtConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
+	    	//put the report xml in the request
+	    	request.setAttribute(RembrandtConstants.REPORT_XML, reportBean.getReportXML());
+    	}else {
+    		//Throw an exception because you should never call this action method
+    		//unless you have already generated the report and stored it in the cache
+    		logger.error( new IllegalStateException("Missing ReportBean for: "+rgForm.getQueryName()));
+    	}
+    	//Go to the geneViewReport.jsp to render the report
+    	return mapping.findForward("runGeneViewReport");
+    }
 	/**
 	 * Makes the necessary calls to run a compound query, then forwards the 
 	 * request to the report rendering mechanism.

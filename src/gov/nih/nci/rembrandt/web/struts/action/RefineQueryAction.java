@@ -6,6 +6,7 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
+import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
@@ -17,6 +18,7 @@ import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
+import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.rembrandt.dto.query.Query;
 
 import java.util.ArrayList;
@@ -207,7 +209,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 			//serialize and later execution.
             queryBag.putCompoundQuery(cQuery);
             presentationTierCache.putSessionQueryBag(sessionId, queryBag);
-            
+            /*
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
 			ReportBean reportBean = rgHelper.getReportBean();
 			request.setAttribute("queryName", reportBean.getResultantCacheKey());
@@ -215,6 +217,16 @@ public class RefineQueryAction extends LookupDispatchAction {
 			thisForward = new ActionForward();
 			String queryName = reportBean.getResultantCacheKey();
 			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName=" + queryName);
+			*/
+            RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
+            try {
+    			asynchronousFindingManagerImpl.submitQuery(request.getSession().getId(), cQuery);
+    		} catch (FindingsQueryException e) {
+    			logger.error(e.getMessage());
+    		}
+    		//wait for few seconds for the jobs to get added to the cache
+    		Thread.sleep(1000);
+    		thisForward = mapping.findForward("viewResults");
 		}else {
 			logger.error("SessionQueryBag has no Compound queries to execute");
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.executequery.querycoll.no.error"));

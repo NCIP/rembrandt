@@ -25,11 +25,14 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
+import gov.nih.nci.caintegrator.studyQueryService.FindingsManager;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -125,7 +128,6 @@ import org.apache.struts.actions.LookupDispatchAction;
 public class ClinicalDataAction extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ClinicalDataAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-    
    //if multiUse button clicked (with styles de-activated) forward back to page
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -254,8 +256,17 @@ public class ClinicalDataAction extends LookupDispatchAction {
         compoundQuery.setSessionId(request.getSession().getId());
         //Generate the reportXML for the preview.  It will be stored in the session
 	    //cache for later retrieval
-        ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery,new HashMap());
-        return mapping.findForward("previewReport");
+        //ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery,new HashMap());
+        //return mapping.findForward("previewReport");
+        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
+        try {
+			asynchronousFindingManagerImpl.submitQuery(request.getSession().getId(), compoundQuery);
+		} catch (FindingsQueryException e) {
+			logger.error(e.getMessage());
+		}
+		//wait for few seconds for the jobs to get added to the cache
+		Thread.sleep(2000);
+        return mapping.findForward("viewResults");
 	}
        
     /**
@@ -459,6 +470,10 @@ public class ClinicalDataAction extends LookupDispatchAction {
      return map;
      
      }
+
+
+
+
 
 
 }

@@ -379,6 +379,9 @@ public class ImportWorkspaceAction extends Action{
 				
 				geneExpressionForm.setSampleList(sBuffer.toString() );
 			}
+			if ( geneExpQuery.getSampleIDCrit().getExcludeResections() != null && geneExpQuery.getSampleIDCrit().getExcludeResections()== true) {
+				geneExpressionForm.setExcludeResections(true);
+			}
 				
 		}
 		geneExpressionForm.setCloneOrProbeIDCriteria( geneExpQuery.getCloneOrProbeIDCriteria() );

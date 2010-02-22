@@ -6,7 +6,10 @@ import gov.nih.nci.caintegrator.application.download.DownloadTask;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManagerInterface;
 import gov.nih.nci.caintegrator.application.zip.ZipItem;
+import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.service.findings.Finding;
+import gov.nih.nci.caintegrator.service.task.Task;
+import gov.nih.nci.caintegrator.service.task.TaskResult;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -112,6 +115,30 @@ public class QueryInbox {
 	}
 	
 	
+	public String checkSingleTaskResult(String sid, String tid)	{
+		//check the status of a single task
+		String currentStatus = "";
+		
+		TaskResult t = ptc.getTaskResult(sid, tid);
+		
+		switch(t.getTask().getStatus())	{
+			case Completed:
+				currentStatus = "completed";
+			break;
+			case Running:
+				currentStatus = "running";
+			break;
+			case Error:
+				currentStatus = "error";
+			break;
+			default:
+				currentStatus = "running";
+			break;
+		}
+		
+		return currentStatus;
+	}
+	
 	public String checkSingle(String sid, String tid)	{
 		//check the status of a single task
 		String currentStatus = "";
@@ -154,6 +181,37 @@ public class QueryInbox {
 				fdata.put("comments", StringEscapeUtils.escapeJavaScript(f.getStatus().getComment()));
 			}
 			currentStatuses.put(f.getTaskId(), fdata);
+		}
+		
+		return currentStatuses;
+	}
+	
+	public Map checkAllTaskResultsStatus(String sid)	{
+		Map currentStatuses = new HashMap();
+		
+		Collection<TaskResult> tasks = ptc.getAllSessionTaskResults(sid);
+		for(TaskResult taskResult: tasks){
+			Task t = taskResult.getTask();
+			String tmp = new String();
+			tmp = this.checkSingleTaskResult(sid, t.getId());
+			
+			Map fdata = new HashMap();
+			fdata.put("task_id", t.getId());
+			fdata.put("cache_id", sid);
+			fdata.put("time", String.valueOf(t.getElapsedTimeInSec()));
+			if(t.getStatus()!= null && t.getStatus().equals(FindingStatus.Running) && t.getElapsedTimeInSec()> 5){
+				fdata.put("email_timeout", "true");
+			}else{
+				fdata.put("email_timeout", "false");
+			}
+			fdata.put("status", tmp);
+			if(t.getStatus()!= null && !t.getStatus().equals(FindingStatus.Completed)){
+				fdata.put("emailIcon", " ");
+			}
+			if(t.getStatus()!=null && t.getStatus().getComment()!=null)	{
+				fdata.put("comments", StringEscapeUtils.escapeJavaScript(t.getStatus().getComment()));
+			}
+			currentStatuses.put(t.getId(), fdata);
 		}
 		
 		return currentStatuses;

@@ -1,7 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
-
 import gov.nih.nci.caintegrator.service.task.GPTask;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -12,22 +11,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-import  org.apache.struts.util.LabelValueBean;
-import org.genepattern.client.GPServer;
+import org.apache.struts.util.LabelValueBean;
+import org.genepattern.client.GPClient;
 import org.genepattern.util.StringUtils;
-
+import org.genepattern.visualizer.RunVisualizerConstants;
 import org.genepattern.webservice.AnalysisWebServiceProxy;
+import org.genepattern.webservice.JobResult;
 import org.genepattern.webservice.Parameter;
 import org.genepattern.webservice.TaskIntegratorProxy;
-import org.genepattern.visualizer.RunVisualizerConstants;
-import org.genepattern.webservice.JobResult;
 import org.genepattern.webservice.WebServiceException;
 
 
@@ -392,9 +392,9 @@ public class GPProcessAction extends DispatchAction {
 	}
 	private void runGenePattern(HttpServletRequest request,
 			String moduleName, Parameter[] par, GPTask gpTask) throws Exception{
-		GPServer gpServer = (GPServer)request.getSession().getAttribute("genePatternServer");
+		GPClient gpClient = (GPClient)request.getSession().getAttribute("genePatternServer");
 
-		int nowait = gpServer.runAnalysisNoWait(moduleName, par);
+		int nowait = gpClient.runAnalysisNoWait(moduleName, par);
 
 		String tid = String.valueOf(nowait);
 		request.setAttribute("jobId", tid);
@@ -474,12 +474,12 @@ public class GPProcessAction extends DispatchAction {
     	if (analysisProxy == null){
 			return -1;
 		}
-    	GPServer gpServer = (GPServer)request.getSession().getAttribute("genePatternServer");
+    	GPClient gpClient = (GPClient)request.getSession().getAttribute("genePatternServer");
     	try {
     		int[] children = analysisProxy.getChildren(parentJobNumber);
     		JobResult result = null;
     		for (int job : children){
-    			result = gpServer.createJobResult(job);
+    			result = gpClient.createJobResult(job);
     			if (result.getLSID().equalsIgnoreCase(child_lsid)){
     				return result.getJobNumber();
     			}

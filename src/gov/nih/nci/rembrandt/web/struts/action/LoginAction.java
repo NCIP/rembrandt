@@ -132,6 +132,7 @@ public final class LoginAction extends Action
             session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
         	UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
     		if(credentials.getUserId() != null  && !credentials.getUserName().equals("RBTuser")){
+                 session.setAttribute("email", credentials.getEmailAddress());
     			 theBag = WorkspaceHelper.loadSessionQueryBagFromDB(session,credentials.getUserId());
     			 WorkspaceHelper.loadListTreeStructures(session);
     			 WorkspaceHelper.loadQueryTreeStructures(session);
