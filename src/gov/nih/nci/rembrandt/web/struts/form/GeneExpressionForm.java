@@ -242,6 +242,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	// default, on the jsp, it may be commented out for now
 	private UntranslatedRegionCriteria untranslatedRegionCriteria;		
 
+	private boolean excludeResections = false;
 	private transient SessionQueryBag queryCollection;
 	
 	private boolean isAllGenes = false;
@@ -472,7 +473,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 		diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
 		geneCriteria = new GeneIDCriteria();
-		sampleCriteria = new SampleCriteria();
 		foldChangeCriteria = new FoldChangeCriteria();
 		regionCriteria = new RegionCriteria();
 		cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
@@ -480,7 +480,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		pathwayCriteria = new PathwayCriteria();
 		arrayPlatformCriteria = new ArrayPlatformCriteria();
 		allGenesCriteria = new AllGenesCriteria(isAllGenes);
-
+		sampleCriteria = new SampleCriteria();
 		// arrayPlatformCriteria = new ArrayPlatformCriteria();
 
 	}
@@ -1604,6 +1604,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		form.setQueryName(queryName);
 		form.setBasePairStart(basePairStart);
 		form.setQueryCollection(queryCollection);
+		form.setExcludeResections(excludeResections);
 		/*
 		 * form.setCloneTypeColl(cloneTypeColl);
 		 * form.setArrayPlatformTypeColl(arrayPlatformTypeColl);
@@ -1699,4 +1700,22 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public static void setSavedCloneList(Collection savedCloneList) {
 		GeneExpressionForm.savedCloneList = savedCloneList;
 	}
+
+
+	/**
+	 * @return the excludeResections
+	 */
+	public boolean getExcludeResections() {
+		return excludeResections;
+	}
+
+
+	/**
+	 * @param excludeResections the excludeResections to set
+	 */
+	public void setExcludeResections(boolean excludeResections) {
+		this.excludeResections = excludeResections;
+	}
+
+
 }

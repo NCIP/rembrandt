@@ -5,6 +5,12 @@ import gov.nih.nci.rembrandt.web.bean.ReportBean;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+
 /**
  * @author bauerd
  *
@@ -103,6 +109,8 @@ public class ReportGeneratorForm extends BaseForm {
     private String queryDetails = "";
         
     private String reportView = "";
+
+
 	/**
 	 * 
 	 * @return Returns the query.
