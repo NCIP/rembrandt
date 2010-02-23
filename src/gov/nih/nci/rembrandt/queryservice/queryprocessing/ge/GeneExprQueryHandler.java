@@ -117,6 +117,7 @@ final public class GeneExprQueryHandler extends QueryHandler {
    }
     private void handleView(GeneExpressionQuery geQuery) throws Exception {
     	if (geQuery.getAssociatedView() instanceof GeneExprSampleView ||
+        		geQuery.getAssociatedView()instanceof GeneExprDiseaseView ||
         		geQuery.getAssociatedView()instanceof ClinicalSampleView ||
         		geQuery.getAssociatedView()instanceof CopyNumberSampleView)
                 factHandler = new GEFactHandler();
