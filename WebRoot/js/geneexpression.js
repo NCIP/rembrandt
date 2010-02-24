@@ -39,6 +39,7 @@ var GeneAlias = {
 		},
 		'validateAliases_cb' : function(r)	{
 			if ( r != "true" ) {
+				$('geneList').value = r;
 				GeneAlias.checkAlias($('geneList').value);
 				window.location.hash="geneTile";
 			} else {
@@ -75,6 +76,7 @@ var GeneAlias = {
 			
 			$('gAliases').update("");
 			$('gAliases').hide();
+			var validGenes = "";
 			var gArray = eval('(' + r + ')');
 			try	{
 				var clearEntriesFlag = false;
@@ -88,6 +90,7 @@ var GeneAlias = {
 				gArray.each( function(g, indx)	{
 					if ( g.status == "valid" ) {
 						orightm += "<a href='#' onclick=\"GeneAlias.handleSymbol('"+g.original+"');return false;\">"+g.original + "</a>  ";
+						validGenes += g.original + ",";
 					} else {
 						orightm += g.original + "  ";
 					}
@@ -119,6 +122,10 @@ var GeneAlias = {
         			GeneAlias.handleSymbol("");
         			$('geneList').style.border= "1px solid #AB0303";
         		}
+        		if (validGenes.substr(validGenes.length-1) == ",") {
+        			validGenes = validGenes.substr(0, validGenes.length-2)
+        		}
+    			$('geneList').value = validGenes;
         		$('gAliases').show();
         		$('gAliases').focus();
         		$("indicator").hide();

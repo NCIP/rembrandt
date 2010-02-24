@@ -8,6 +8,11 @@
 
 %>
 <script language="javascript">
+	window.onload = function() {
+		updateG();
+		updateR();
+	}
+
 	function setUserDefaults(analysis){
 		var variance = document.getElementById("variancePercentile").value;
 		var geneSetName = document.getElementById("geneList").value;

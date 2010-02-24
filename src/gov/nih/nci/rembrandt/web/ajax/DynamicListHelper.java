@@ -277,6 +277,7 @@ public class DynamicListHelper {
 		// Accepts a single gene, or a comma delimited list of strings
 		Boolean allGeneSymbolsValid = true;
 		commaGenes = commaGenes.replace(" ", "");
+		String validGeneSymbolStr = commaGenes;
 		List<String> geneList = Arrays.asList(commaGenes.split(","));
 		try	{
 			Map<String,List<AllGeneAliasLookup>> validMap = DataValidator.searchGeneKeyWordList(geneList);
@@ -285,14 +286,21 @@ public class DynamicListHelper {
 					
 					if(!DataValidator.isGeneSymbolFound(symbol))	{
 						//valid, no aliases
-						allGeneSymbolsValid = false;
-						break;
+						//allGeneSymbolsValid = false;
+						//break;
+						int startPos = commaGenes.indexOf(symbol);
+						int endPos = commaGenes.lastIndexOf(symbol);						
+						validGeneSymbolStr = commaGenes.substring(0,startPos-1) + commaGenes.substring(endPos+1);
 					}
 				}
 			}
 		} catch(Exception e)	{
 			e.printStackTrace();
 		}
-		return allGeneSymbolsValid.toString();
+		
+		if (validGeneSymbolStr.equals(commaGenes))
+			return allGeneSymbolsValid.toString();
+		else
+			return validGeneSymbolStr;
 	}
 }
