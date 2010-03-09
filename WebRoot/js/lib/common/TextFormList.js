@@ -21,7 +21,7 @@
 		     	//ids = typeListIds.split(",");
 		     	ids = typeListIds.split("\n");
 		     	for(var t=0; t<ids.length;t++)	{
-		     		ids[t] = ids[t].replace(/^\s*|\s*$/g,""); //aka trim()
+		     		ids[t] = ids[t].replace(/^\s*|\s*$/g,"").toUpperCase(); //aka trim()
 		     	}
 		     	//clean on the sside
 		     	//ajax call

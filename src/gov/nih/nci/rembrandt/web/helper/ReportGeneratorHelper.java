@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.helper;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
+import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.View;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
@@ -257,88 +258,6 @@ public class ReportGeneratorHelper {
 		//All done...
 	}
 	
-	public ReportGeneratorHelper(Queriable query, String[] sampleIds, boolean newQueryName, boolean clinicalView) throws IllegalStateException {
-		this.newQueryName = newQueryName;
-		List<String> specimenNames = null;
-		//Clone the original query so that we do not modify it when we add samples to it
-		query = (CompoundQuery)query.clone();
-		//check the query to make sure that it is a compound query
-		checkCompoundQuery(query);
-		//check to make sure that we have a sessionId
-		checkSessionId( _cQuery.getSessionId());
-		//check that we have a queryName
-		checkQueryName( _cQuery.getQueryName());
-		//create a new ReportBean
-		_reportBean = new ReportBean();
-		Resultant sampleIdResults = null;
-		String[] targetSamples = new String[40];
-		if(sampleIds!=null){
-         	//Set<String> samples = new HashSet<String> (Arrays.asList(sampleIds));
-         	Set<String> selectedSamples = new HashSet<String>(Arrays.asList(sampleIds));
-         	Set<String> samples = new HashSet<String>();
-         	//if ( !_cQuery.getAssociatedView().equals(ViewFactory.newView(ViewType.CLINICAL_VIEW)) ) {
-    			// Get the samples associated with these specimens
-    		//specimenNames = LookupManager.getSpecimenNames(samples);
-    		specimenNames = LookupManager.getSpecimenNames(selectedSamples);
-         	//}
-			//get the samples associated with these specimens
-			//List<String> sampleList = LookupManager.getSampleIDs(samples);
-			List<String> sampleList = LookupManager.getSampleIDs(selectedSamples);
-			//Add back any samples that were just sampleIds to start with
-			if(sampleList != null){
-				samples.addAll(sampleList);
-			}
-			//Add back any samples that were just sampleIds to start with
-			if(specimenNames != null && specimenNames.size()>0){
-				samples.addAll(specimenNames);
-			}
-			//sampleIds = samples.toArray(new String[samples.size()]);
-			//JB: This should be handled better.  There is a limit (40) to the number of 
-			//samples that can be processed for clinical reports.
-			if ( samples.size() > targetSamples.length ) {
-				Iterator iterator = samples.iterator();
-				for (int i=0; i < targetSamples.length; i++ ) {
-					targetSamples[i] = (String)iterator.next();
-				}
-			} else {				
-				targetSamples = samples.toArray(new String[samples.size()]);
-			}
-        }
-		try {
-			//sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);			
-			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, targetSamples);			
-		}catch(Exception e) {
-			logger.error("The ResultsetManager threw some exception");
-			logger.error(e);
-		}
-		/*
-		 * Make sure we got a result set back and then store all the information
-		 * in the bean.
-		 */
-		if(sampleIdResults!=null&&sampleIdResults.getResultsContainer()!=null) {
-			if (newQueryName)
-				sampleIdResults.getAssociatedQuery().setQueryName("previewResultsBySample");
-			else
-				sampleIdResults.getAssociatedQuery().setQueryName(_cQuery.getQueryName());
-			//store the results and query into the report bean
-            _reportBean.setAssociatedQuery(sampleIdResults.getAssociatedQuery());
-			_reportBean.setResultant(sampleIdResults);
-		}else {
-			throw new IllegalStateException("ResultsetManager returned an empty resultant or threw an Exception");
-		}
-		//store the cache key that can be used to retrieve this bean later
-		if (newQueryName) {//it's a new report bean
-			_reportBean.setResultantCacheKey("previewResultsBySample");
-			//presentationTierCache.addNonPersistableToSessionCache(_sessionId, "previewResultsBySample", _reportBean);
-		}
-		else
-			_reportBean.setResultantCacheKey(_queryName);
-		//this is a result set
-		_reportBean.setSampleSetQuery(true);
-		//generate the reportXML and store in the ReportBean
-		generateReportXML();
-	}
-	
 
 	/**
 	 * This is intended to be used to generate a ReportBean when you have a
@@ -375,20 +294,42 @@ public class ReportGeneratorHelper {
 		Resultant sampleIdResults = null;
 		if(sampleIds!=null){
          	Set<String> samples = new HashSet<String> (Arrays.asList(sampleIds));
-         	if ( !_cQuery.getAssociatedView().equals(ViewFactory.newView(ViewType.CLINICAL_VIEW)) ) {
+         	/*
+            if ( _cQuery.getAssociatedView() instanceof ClinicalSampleView ) {
+         		  			
+         		//get the samples associated with these specimens
+    			List<String> sampleList = LookupManager.getSampleIDs(samples);
+    			//Add back any samples that were just sampleIds to start with
+    			if(sampleList != null){
+    				samples.addAll(sampleList);
+    			}
+         	} else {
+
     			// Get the samples associated with these specimens
     			specimenNames = LookupManager.getSpecimenNames(samples);
+    			
+    			//Add back any samples that were just sampleIds to start with
+    			if(specimenNames != null && specimenNames.size()>0){
+    				samples.addAll(specimenNames);
+    			}
          	}
-			//get the samples associated with these specimens
+	  		*/
+	  		
+     		//get the samples associated with these specimens
 			List<String> sampleList = LookupManager.getSampleIDs(samples);
 			//Add back any samples that were just sampleIds to start with
 			if(sampleList != null){
 				samples.addAll(sampleList);
 			}
+
+			// Get the samples associated with these specimens
+			specimenNames = LookupManager.getSpecimenNames(samples);
+			
 			//Add back any samples that were just sampleIds to start with
 			if(specimenNames != null && specimenNames.size()>0){
 				samples.addAll(specimenNames);
 			}
+        		
 			sampleIds = samples.toArray(new String[samples.size()]);
         }
 		try {

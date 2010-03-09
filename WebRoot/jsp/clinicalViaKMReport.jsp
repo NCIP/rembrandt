@@ -63,8 +63,8 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 					//generate the reportBean with the reportXML using the compQury and samples Array
 					//JB: Changing this call to support the limitation to the number of samples allowed
 					//for clinical reports.
-					//ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false);
-					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false,true);
+					ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false);
+					//ReportGeneratorHelper reportGeneratorHelper = new ReportGeneratorHelper(cquery, samplesArray,false,true);
 					ReportBean clincalReportBean = presentationTierCache.getReportBean(sessionId,cquery.getQueryName());
 						if(clincalReportBean!=null){
 							Document reportXML = clincalReportBean.getReportXML();

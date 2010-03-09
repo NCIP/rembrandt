@@ -264,17 +264,22 @@ public class UIRefineQueryValidator {
     	    			//get the samples from that list
     	    			//create the sample crit
     	    			 samples = new HashSet<String>(l.getList());
-    	    			//get the specimenNames associated with these samples
-    	    			List<String> specimenNames = LookupManager.getSpecimenNames(samples);
-    	   				//get the samples associated with these specimens
-    	   				List<String> sampleIds = LookupManager.getSampleIDs(samples);
-    	   				//Add back any samples that were just sampleIds to start with
-    	   				if(sampleIds != null ){
-    	   					samples.addAll(sampleIds);
-    	   				}
-    	   				if(specimenNames != null){
-    	   					samples.addAll(specimenNames);
-    	   				}
+ 
+    	    			 //get the samples associated with these specimens
+     	   				List<String> sampleIds = LookupManager.getSampleIDs(samples);
+     	   				//Add back any samples that were just sampleIds to start with
+     	   				if(sampleIds != null ){
+     	   					samples.addAll(sampleIds);
+     	   				}
+    	    			 
+     	   				//if (!isAllGenesQuery) {
+	    	    		//get the specimenNames associated with these samples
+	    	    		List<String> specimenNames = LookupManager.getSpecimenNames(samples);
+	    	   			if(specimenNames != null){
+	    	   				samples.addAll(specimenNames);
+	    	   			}
+     	   				//}
+    	   				
     	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));    	    			
     	    		}
     	    					     
