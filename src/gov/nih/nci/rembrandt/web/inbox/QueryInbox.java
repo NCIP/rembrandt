@@ -123,16 +123,22 @@ public class QueryInbox {
 		
 		switch(t.getTask().getStatus())	{
 			case Completed:
-				currentStatus = "completed";
+				currentStatus = "Completed";
 			break;
 			case Running:
-				currentStatus = "running";
+				currentStatus = "Running";
 			break;
 			case Error:
-				currentStatus = "error";
+				currentStatus = "Error";
+			break;
+			case Emailed:
+				currentStatus = "Email";
+			break;
+			case Loading:
+				currentStatus = "Retrieving";
 			break;
 			default:
-				currentStatus = "running";
+				currentStatus = "Running";
 			break;
 		}
 		
@@ -147,16 +153,22 @@ public class QueryInbox {
 		
 		switch(f.getStatus())	{
 			case Completed:
-				currentStatus = "completed";
+				currentStatus = "Completed";
 			break;
 			case Running:
-				currentStatus = "running";
+				currentStatus = "Running";
 			break;
 			case Error:
-				currentStatus = "error";
+				currentStatus = "Error";
+			break;
+			case Emailed:
+				currentStatus = "Email";
+			break;
+			case Loading:
+				currentStatus = "Retrieving";
 			break;
 			default:
-				currentStatus = "running";
+				currentStatus = "Running";
 			break;
 		}
 		
@@ -188,7 +200,16 @@ public class QueryInbox {
 	
 	public Map checkAllTaskResultsStatus(String sid)	{
 		Map currentStatuses = new HashMap();
-		
+		String numberOfSeconds = System.getProperty("rembrandt.numberOfSecondsToWaitBeforeEmail");
+		int numberOfSecondsToWaitBeforeEmail = 45;
+		if(numberOfSeconds != null){
+					try {
+						numberOfSecondsToWaitBeforeEmail = Integer.parseInt(numberOfSeconds.trim());
+					} catch (NumberFormatException e) {
+						numberOfSecondsToWaitBeforeEmail = 45;
+					}
+
+		}
 		Collection<TaskResult> tasks = ptc.getAllSessionTaskResults(sid);
 		for(TaskResult taskResult: tasks){
 			Task t = taskResult.getTask();
@@ -199,7 +220,7 @@ public class QueryInbox {
 			fdata.put("task_id", t.getId());
 			fdata.put("cache_id", sid);
 			fdata.put("time", String.valueOf(t.getElapsedTimeInSec()));
-			if(t.getStatus()!= null && t.getStatus().equals(FindingStatus.Running) && t.getElapsedTimeInSec()> 5){
+			if(t.getStatus()!= null && t.getStatus().equals(FindingStatus.Running) && t.getElapsedTimeInSec()> numberOfSecondsToWaitBeforeEmail){
 				fdata.put("email_timeout", "true");
 			}else{
 				fdata.put("email_timeout", "false");

@@ -23,6 +23,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
@@ -56,6 +57,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
 import org.dom4j.Document;
 import org.dom4j.io.HTMLWriter;
 import org.dom4j.io.OutputFormat;
@@ -280,7 +283,6 @@ public class ReportGeneratorHelper {
 	 */
 	public ReportGeneratorHelper(Queriable query, String[] sampleIds, boolean newQueryName) throws IllegalStateException {
 		this.newQueryName = newQueryName;
-		List<String> specimenNames = null;
 		//Clone the original query so that we do not modify it when we add samples to it
 		query = (CompoundQuery)query.clone();
 		//check the query to make sure that it is a compound query
@@ -294,44 +296,35 @@ public class ReportGeneratorHelper {
 		Resultant sampleIdResults = null;
 		if(sampleIds!=null){
          	Set<String> samples = new HashSet<String> (Arrays.asList(sampleIds));
-         	/*
-            if ( _cQuery.getAssociatedView() instanceof ClinicalSampleView ) {
-         		  			
-         		//get the samples associated with these specimens
-    			List<String> sampleList = LookupManager.getSampleIDs(samples);
-    			//Add back any samples that were just sampleIds to start with
-    			if(sampleList != null){
-    				samples.addAll(sampleList);
-    			}
-         	} else {
+			 //get the samples associated with these specimens
+				List<String> sampleIDList = LookupManager.getSampleIDs(samples);
+				//Add back any samples that were just sampleIds to start with
+				if(sampleIDList != null ){
+					samples.addAll(sampleIDList);
+				}
+			 
+    		//get the specimenNames associated with these samples
+    		List<String> specimenNames = LookupManager.getSpecimenNames(samples);
+   			if(specimenNames != null){
+   				samples.addAll(specimenNames);
+   			}
 
-    			// Get the samples associated with these specimens
-    			specimenNames = LookupManager.getSpecimenNames(samples);
-    			
-    			//Add back any samples that were just sampleIds to start with
-    			if(specimenNames != null && specimenNames.size()>0){
-    				samples.addAll(specimenNames);
-    			}
-         	}
-	  		*/
-	  		
-     		//get the samples associated with these specimens
-			List<String> sampleList = LookupManager.getSampleIDs(samples);
-			//Add back any samples that were just sampleIds to start with
-			if(sampleList != null){
-				samples.addAll(sampleList);
-			}
+					     
+		try {
+			if(_cQuery.isAllGenesQuery()){
+				//Check for specimen_names for all genes Query
+				Collection<String> specimans;
+				specimans = DataValidator.validateSpecimanNames(samples);
+				List<String> list = new ArrayList<String>();
+				list.addAll(specimans);
+				sampleIds = list.toArray(new String[0]);
+				}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
 
-			// Get the samples associated with these specimens
-			specimenNames = LookupManager.getSpecimenNames(samples);
-			
-			//Add back any samples that were just sampleIds to start with
-			if(specimenNames != null && specimenNames.size()>0){
-				samples.addAll(specimenNames);
-			}
-        		
-			sampleIds = samples.toArray(new String[samples.size()]);
-        }
 		try {
 			sampleIdResults = ResultsetManager.executeCompoundQuery(_cQuery, sampleIds);			
 		}catch(Exception e) {

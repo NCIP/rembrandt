@@ -34,16 +34,17 @@ public class EmailQueryForm extends ActionForm
 		ActionErrors errors = new ActionErrors();
 		
 		// Validate that they have selected a study and a query type
-		if ((getEmail() == null) || (getEmail().length() < 1))
-			errors.add("email", new ActionMessage("error.email.required"));
-		else
+		//if ((getEmail() == null) || (getEmail().length() < 1))
+		//	errors.add("email", new ActionMessage("error.email.required"));
+		//else
+		if ((getEmail() != null) && (getEmail().length() > 1))
 		{
 			// Validate the email address is somewhat valid
 			String email = getEmail();
 			StringBuffer sb1 = new StringBuffer("@");
 			StringBuffer sb2 = new StringBuffer(".");
 			if ((!email.contains(sb1)) || (!email.contains(sb2)))
-				errors.add("email", new ActionMessage("error.email.invalid"));
+				errors.add("email", new ActionMessage("gov.nih.nci.rembrandt.ui.struts.form.emailQuery.email.invalid.error"));
 		}
 		
 		return errors;

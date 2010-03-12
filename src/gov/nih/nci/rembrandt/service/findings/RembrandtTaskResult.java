@@ -14,22 +14,23 @@ import gov.nih.nci.rembrandt.web.bean.ReportBean;
 public class RembrandtTaskResult extends TaskResultImpl {
 
 	private static final long serialVersionUID = -1459623075327806364L;
-	private ReportBean reportBean = null;
+	private String reportBeanCacheKey = null;
 	public RembrandtTaskResult(Task task) {
 		this.setTask(task);
 	}
 	/**
-	 * @return the reportBean
+	 * @return the reportBeanCacheKey
 	 */
-	public ReportBean getReportBean() {
-		return reportBean;
+	public String getReportBeanCacheKey() {
+		return reportBeanCacheKey;
 	}
 	/**
-	 * @param reportBean the reportBean to set
+	 * @param reportBeanCacheKey the reportBeanCacheKey to set
 	 */
-	public void setReportBean(ReportBean reportBean) {
-		this.reportBean = reportBean;
+	public void setReportBeanCacheKey(String reportBeanCacheKey) {
+		this.reportBeanCacheKey = reportBeanCacheKey;
 	}
+
 
 
 

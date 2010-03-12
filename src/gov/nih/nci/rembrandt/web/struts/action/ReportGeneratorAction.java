@@ -7,10 +7,11 @@ import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.caintegrator.service.task.TaskResult;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
@@ -278,7 +279,8 @@ public class ReportGeneratorAction extends DispatchAction {
 		
     	//get the specified report bean from the cache using the query name as the key
     	RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);
-    	ReportBean reportBean = taskResult.getReportBean();
+    	String reportBeanCacheKey = taskResult.getReportBeanCacheKey();
+    	ReportBean reportBean = (ReportBean) presentationTierCache.getReportBean(sessionId, reportBeanCacheKey);
     	/*
     	 * check to see if this is a filter submission.  If it is then
     	 * we are going to need to generate XML most likely.  WE should probably
@@ -595,6 +597,7 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 	
 	//get the old 
 	CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
+	
 	if(cquery!=null) {
 		if( reportType.equals( "Gene Expression Sample" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
@@ -606,8 +609,9 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 		cquery.setQueryName(prb_queryName);
 		//This will generate the report and store it in the cache
 		//ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
-		ReportGeneratorHelper rgHelper = null;
-		rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false);			
+		ReportGeneratorHelper rgHelper = null;	
+			rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false);
+
 		/*
 		if (!reportType.equals("Gene Expression Sample") && !reportType.equals("Copy Number")) {
 			rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false, true );

@@ -1,11 +1,16 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 
+import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.security.UserCredentials;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.schedule.GenerateReportJob;
+import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
+import gov.nih.nci.rembrandt.web.bean.ReportBean;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.EmailQueryForm;
@@ -24,8 +29,10 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.quartz.JobDetail;
+import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerUtils;
 
@@ -38,6 +45,12 @@ import org.quartz.TriggerUtils;
 public class EmailQueryAction extends Action
 {
 	private static Logger logger = Logger.getLogger(DownloadAction.class);
+    private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+    private String  taskId = null;
+    private String 	userName = null;
+    private String  sessionId = null;
+    private String  reportBeanCacheKey = null; 
+    private String  email = null;
 	/**
 	 * execute is called when this action is posted to
 	 * <P>
@@ -66,61 +79,54 @@ public class EmailQueryAction extends Action
 
 		if( request.getSession().getAttribute("emailform-init")== null){
 			request.getSession().setAttribute("emailform-init", true);
+			String taskId = request.getParameter("taskId");
+			request.getSession().setAttribute("taskId", taskId);
 			return forward;
 		}
 		else{
-			request.getSession().removeAttribute("emailform-init");
-		String goBack=null;	
-        if(form instanceof GeneExpressionForm) {
-            request.setAttribute("geneexpressionForm", request.getAttribute("previewForm"));
-            goBack = "backToGeneExp";
-        }else if(form instanceof ClinicalDataForm) {
-            request.setAttribute("clinicaldataForm", request.getAttribute("previewForm"));
-            goBack = "backToClinical";
-        }else if(form instanceof ComparativeGenomicForm) {
-            request.setAttribute("comparitivegenomicForm", request.getAttribute("previewForm"));
-            goBack = "backToCGH";
-        }
-        request.setAttribute("queryName",RembrandtConstants.PREVIEW_RESULTS);
-        logger.debug("back: " + goBack);
-		// Figure out the state of the form
-		EmailQueryForm dForm = (EmailQueryForm)form;
-		String email = dForm.getEmail();
-		Date now = new Date();
-		// Schedule the job for immediate execution and only once
-		JobDetail jobDetail = null;
-		Trigger trigger = TriggerUtils.makeImmediateTrigger(0, 0);
-			// If the query was association then setup the association job
-			if (email != null  && email.length()>0)
-			{
-				jobDetail = new JobDetail("generateReportJob" + email + now, null, GenerateReportJob.class);
-				// Trigger name must be unique so include type and email
-				trigger.setName("immediateTriggerReportJob" + email + now);
-			}
 			
-			String sessionId = request.getSession().getId();
-			String queryName = (String) request.getSession().getAttribute("emailQueryName");
-			String userName = (String) request.getSession().getAttribute("name");
-			// Add the form and email address to the job details
-			if (jobDetail != null)
-			{
-				jobDetail.getJobDataMap().put("email", email);
-				jobDetail.getJobDataMap().put("userName", userName);
-				jobDetail.getJobDataMap().put("queryName", queryName);
-				jobDetail.getJobDataMap().put("sessionId", sessionId);
-			}
+		EmailQueryForm dForm = (EmailQueryForm)form;
+		email = dForm.getEmail();
+		sessionId = request.getSession().getId();
+		taskId = (String) request.getSession().getAttribute("taskId");
+		if(taskId != null){
+		//get the specified report bean from the cache using the query name as the key
+		RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);		
+		FindingStatus status = taskResult.getTask().getStatus();
+		userName = (String) request.getSession().getAttribute("name");
+			switch (status){
+				case Running:{
+					 generateJob();
+					 break;
 
-		if (jobDetail != null)
-			StatisticsInfoPlugIn.scheduleWork(jobDetail, trigger);
+				}
+				case Completed:{
+					errors.add("email", new ActionMessage("gov.nih.nci.rembrandt.ui.struts.form.emailQuery.email.completed.error"));
+					 break;
+
+				}
+				case Error:{
+					errors.add("email", new ActionMessage("gov.nih.nci.rembrandt.ui.struts.form.emailQuery.email.error.error"));
+					 break;
+
+				}
+			}
+		}
+
 		
 		// If there were errors then return to the input page else go on
 	    if (!errors.isEmpty())
 	    {
 	      addErrors(request, errors);
+	      request.getSession().removeAttribute("emailform-init");
+	      request.getSession().removeAttribute("taskId");
 	      forward = new ActionForward(mapping.getInput());
 	    }
-	    else
-	    	forward = mapping.findForward("advanceSearchMenu");
+	    else{
+	    	request.getSession().removeAttribute("emailform-init");
+	    	request.getSession().removeAttribute("taskId");
+	    	forward = mapping.findForward("close");
+	    }
 		}
 		return forward;
 	}
@@ -139,4 +145,39 @@ public class EmailQueryAction extends Action
         return map;
         
         }
+    private void generateJob() throws SchedulerException{
+    	 //request.setAttribute("queryName",RembrandtConstants.PREVIEW_RESULTS);
+		// Figure out the state of the form
+		Date now = new Date();
+		// Schedule the job for immediate execution and only once
+		JobDetail jobDetail = null;
+		Trigger trigger = TriggerUtils.makeImmediateTrigger(0, 0);
+		if (email != null &&  taskId != null && sessionId != null){
+			// If the query was association then setup the association job
+			if (email != null  && email.length()>0)
+			{
+				jobDetail = new JobDetail("generateReportJob" + email + now, null, GenerateReportJob.class);
+				// Trigger name must be unique so include type and email
+				trigger.setName("immediateTriggerReportJob" + email + now);
+			}
+			
+		
+			// Add the form and email address to the job details
+			if (jobDetail != null)
+			{
+				jobDetail.getJobDataMap().put("email", email);
+				/*if(userName == null || userName.equals("RBTuser")){
+					//if its a guest user than use the email user name
+				 String [] temp = email.split("@");
+				 userName = temp[0];
+				}*/
+				jobDetail.getJobDataMap().put("taskId", taskId);
+				jobDetail.getJobDataMap().put("userName", userName);
+				jobDetail.getJobDataMap().put("sessionId", sessionId);
+			}
+
+		if (jobDetail != null)
+			StatisticsInfoPlugIn.scheduleWork(jobDetail, trigger);
+		}
+    }
 }

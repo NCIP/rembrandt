@@ -1,5 +1,8 @@
 package gov.nih.nci.rembrandt.util;
 
+import gov.nih.nci.caintegrator.application.mail.MailConfig;
+import gov.nih.nci.caintegrator.application.schedule.DeleteOldFilesJob;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
@@ -7,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.action.PlugIn;
 import org.apache.struts.config.ModuleConfig;
-
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -185,10 +187,24 @@ public class StatisticsInfoPlugIn implements PlugIn
 			else if (schedulerType == 2)
 				trigger = TriggerUtils.makeWeeklyTrigger("rembrandtWeeklyTrigger", 1, 0, 0);
 			
-			JobDetail jobDetail = new JobDetail("rembrandtstatisticsInfoJob", null, StatisticsInfoJob.class);
+			JobDetail rembrandtstatisticsInfoJob = new JobDetail("rembrandtstatisticsInfoJob", null, StatisticsInfoJob.class);
+			JobDetail deleteOldResultsFilesJob = new JobDetail("DeleteOldResultsFilesJob", null, DeleteOldFilesJob.class);
 			// Trigger name must be unique so include type and email
 		  
-			sm_scheduler.scheduleJob(jobDetail, trigger);
+			// Add the form and email address to the job details
+			if (deleteOldResultsFilesJob != null)
+			{				
+				String dirPath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
+				String fileRetentionPeriodInDays = MailConfig.getInstance(ApplicationContext.GOV_NIH_NCI_REMBRANDT_PROPERTIES).getFileRetentionPeriodInDays();
+
+				deleteOldResultsFilesJob.getJobDataMap().put("dirPath", dirPath);
+				deleteOldResultsFilesJob.getJobDataMap().put("fileRetentionPeriodInDays", fileRetentionPeriodInDays);
+
+			}
+			
+			
+			sm_scheduler.scheduleJob(rembrandtstatisticsInfoJob, trigger);
+			sm_scheduler.scheduleJob(deleteOldResultsFilesJob, TriggerUtils.makeDailyTrigger("DeleteOldResultsFilesJob", 0, 0)); //run it daily at midnight			
 			logger.info("Scheduler started......");
 		}
 	}

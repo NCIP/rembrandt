@@ -2,29 +2,27 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.cache.CacheConstants;
 import gov.nih.nci.caintegrator.application.configuration.SpringContext;
 import gov.nih.nci.caintegrator.application.lists.ListOrigin;
-import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
-import gov.nih.nci.caintegrator.application.workspace.TreeStructureType;
-import gov.nih.nci.caintegrator.application.workspace.UserQuery;
-import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
-
+import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.DownloadEmailedReportHelper;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
 
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.List;
 import java.text.ParseException;
+import java.util.Collection;
+import java.util.List;
+
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +35,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.quartz.SchedulerException;
-import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
 
 
 /**
@@ -120,7 +117,10 @@ public final class LoginAction extends Action
         //check to see if jobscheduler is started.
         String schedulerType = System.getProperty("rembrandt.scheduler.type");
         try{
-        	StatisticsInfoPlugIn.scheduleWork(Integer.parseInt(schedulerType), context);
+        	if(System.getProperty("rembrandt.scheduler.started") == null){
+        		StatisticsInfoPlugIn.scheduleWork(Integer.parseInt(schedulerType), context);
+        		System.setProperty("rembrandt.scheduler.started","TRUE");
+        	}
         }catch (SchedulerException se){
         	logger.error("Failed to schedule the job: " + se.getMessage());
         }
@@ -196,6 +196,12 @@ public final class LoginAction extends Action
 
             userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
             //load persisted Q
+            
+            String reportName = (String) request.getSession().getAttribute("emailFileName");
+            if(reportName != null){
+            	DownloadEmailedReportHelper.retrieveReport(reportName,request.getSession().getId(),f.getUserName());
+            	request.getSession().removeAttribute("emailFileName");
+            }
             return (mapping.findForward("success"));
         }
         else

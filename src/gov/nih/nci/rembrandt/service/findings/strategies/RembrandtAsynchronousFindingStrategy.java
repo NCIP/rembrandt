@@ -46,12 +46,11 @@ public class RembrandtAsynchronousFindingStrategy extends AsynchronousFindingStr
                      ReportGeneratorHelper reportHelper = new ReportGeneratorHelper((Queriable)getTaskResult().getTask().getQueryDTO(),new HashMap()); 
                 	 if(reportHelper.getReportBean()!= null ){
   
-                		 getTaskResult().setReportBean(reportHelper.getReportBean());
+                		 getTaskResult().setReportBeanCacheKey(reportHelper.getReportBean().getAssociatedQuery().getQueryName());
                 		 getTaskResult().getTask().setStatus(FindingStatus.Completed);
 
                 	 }else{
-                		 getTaskResult().setReportBean(reportHelper.getReportBean());
-	                		 FindingStatus status = FindingStatus.Error;
+                		 	 FindingStatus status = FindingStatus.Error;
 	                         status.setComment("Error occued while executing the query");
 	                         getTaskResult().getTask().setStatus(status);
                 	 };

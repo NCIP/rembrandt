@@ -25,6 +25,10 @@ import org.apache.ojb.broker.PBKey;
 import org.apache.ojb.broker.metadata.ConnectionRepository;
 import org.apache.ojb.broker.metadata.JdbcConnectionDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
+import org.quartz.JobDetail;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerUtils;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.w3c.dom.Document;
@@ -99,7 +103,7 @@ import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 */
 
 public class ApplicationContext{
-	private static final String GOV_NIH_NCI_REMBRANDT_PROPERTIES = "gov.nih.nci.rembrandt.properties";
+	public static final String GOV_NIH_NCI_REMBRANDT_PROPERTIES = "gov.nih.nci.rembrandt.properties";
 	private static Map mappings = new HashMap();
 	private static Logger logger = Logger.getLogger(ApplicationContext.class);
 	private static Properties labelProps = null;
@@ -266,7 +270,6 @@ public class ApplicationContext{
 			e.printStackTrace();
 		}
 		//rbtCaArrayFileDownloadManager.executeDownloadStrategy(session, taskId, zipFileName, specimenList, type);
-
     }
 	/**
 	 * @return the caArrayFileDownloadManagerInterface
