@@ -14,6 +14,7 @@
 <%@ page import="gov.nih.nci.caintegrator.enumeration.*" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="gov.nih.nci.caintegrator.service.task.*" %>
+<%@ page import="gov.nih.nci.rembrandt.service.findings.*" %>
 <%@ page import="gov.nih.nci.rembrandt.dto.query.*" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.view.*" %>
 
@@ -23,6 +24,13 @@
 		location.replace("viewResults.do");
 	}
 </script>
+<script type="text/javascript">
+function showPopup(url) {
+newwindow=(url, "_blank",
+      "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=750,height=500,scrollbars=no,resizable=no");
+if (window.focus) {newwindow.focus()}
+}
+</script> 
 <!--
 <script type="text/javascript" src="soundMgr/soundmanager.js"></script>
 <script type="text/javascript">soundManagerInit();</script>
@@ -112,9 +120,7 @@ String helpLinkClose = "', 350, 500);\">"+
      <fieldset>
      	<legend>Query Results</legend>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
-       	
-     <%
-     			
+        <%     	
 		RembrandtPresentationTierCache ptc = RembrandtPresentationCacheManager.getInstance();						
 		if(ptc!=null){
 		%>
@@ -143,30 +149,45 @@ String helpLinkClose = "', 350, 500);\">"+
 				// because they are dynamic - we can not look at a copy placed in the backing bean
 				//for(Object o : sessionFindings)	{ //no 1.5 stuff allowed
 				for(Iterator i = tasks.iterator();i.hasNext();)	{
-					TaskResult task = (TaskResult) i.next();
-					String qname = "N/A";										
-					qname =  task.getTask().getQueryDTO().getQueryName();						
+					RembrandtTaskResult task = (RembrandtTaskResult) i.next();
+					String qname = "N/A";	
+					if(	 task.getTask().getQueryDTO()!= null &&  task.getTask().getQueryDTO().getQueryName()!= null){								
+					qname =  task.getTask().getQueryDTO().getQueryName();	
+					}else{
+					qname = task.getReportBeanCacheKey();
+					}			
 					String comments = "";
 					String queryOnclick="";	
-					String currentStatus = "running";
+					String currentStatus = "Running";
 					String emailIcon = " ";
 					if(task.getTask().getStatus() == FindingStatus.Completed){
-						currentStatus = "<b id=\"" +task.getTask().getId() + "_status\">completed</b>  <img src='images/check.png' alt='complete' id=\"" + task.getTask().getId() + "_image\"/>";
+						currentStatus = "<b id=\"" +task.getTask().getId() + "_status\">Completed</b>  <img src='images/check.png' alt='complete' id=\"" + task.getTask().getId() + "_image\"/>";
 						emailIcon = " ";
 						queryOnclick = "";
 						emailIcon = "<img src='images/blank.gif' alt='email results' BORDER=0  id=\"" + task.getTask().getId() + "_email\"/>";
 						
 						}
 					else if(task.getTask().getStatus() == FindingStatus.Running){
-						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + task.getTask().getId() + "_image\" />";
+						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" >Running</b> <img src='images/circle.gif' alt='running' id=\"" + task.getTask().getId() + "_image\" />";
 						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
-						emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"javascript:spawnx('email.do?taskId=' + encodeURIComponent('" + URLEncoder.encode(task.getTask().getId()) + "') + '&cacheId=" + task.getTask().getCacheId() + "', 750, 500,'_report');\" onclick=\"return false;\"><img src='images/blank.gif' alt='email results' BORDER=0 /></a>";
-						//emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"#\"><img src='images/blank.gif' BORDER=0 /></a>"; 
+						emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"#\" onclick=\"return false;\"><img src='images/blank.gif' alt='email results' BORDER=0 /></a>";
+	
+						}
+					else if(task.getTask().getStatus() == FindingStatus.Loading){
+						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" >Retrieving</b> <img src='images/circle.gif' alt='loading' id=\"" + task.getTask().getId() + "_image\" />";
+						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
+						emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"#\" onclick=\"return false;\"><img src='images/blank.gif' alt='email results' BORDER=0 /></a>";
 			
 						}
 					else if(task.getTask().getStatus() == FindingStatus.Error)	{					
-						comments = StringEscapeUtils.escapeJavaScript(comments);
-						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','error'));</script></b> <img src='images/error.png' alt='error' id=\"" + task.getTask().getId() + "_image\" />";
+						comments = StringEscapeUtils.escapeJavaScript(task.getTask().getStatus().getComment());
+						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','Error'));</script></b> <img src='images/error.png' alt='error' id=\"" + task.getTask().getId() + "_image\" />";
+						emailIcon = "<img src='images/blank.gif' alt='email results'  BORDER=0 id=\"" + task.getTask().getId() + "_email\"/>";
+						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
+						}
+					else if(task.getTask().getStatus() == FindingStatus.Emailed)	{					
+						comments = StringEscapeUtils.escapeJavaScript(task.getTask().getStatus().getComment());
+						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','Email'));</script></b> <img src='images/mail_icon.gif' alt='email' id=\"" + task.getTask().getId() + "_image\" />";
 						emailIcon = "<img src='images/blank.gif' alt='email results'  BORDER=0 id=\"" + task.getTask().getId() + "_email\"/>";
 						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
 					}
@@ -177,19 +198,20 @@ String helpLinkClose = "', 350, 500);\">"+
 					//	queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
 					//}	
 					//check the type of finding and create the appropriate link
+					String	view = "";
 					if(task.getTask().getQueryDTO() instanceof CompoundQuery){	
 						CompoundQuery compoundQuery = (CompoundQuery) task.getTask().getQueryDTO();	
-						String	view = "";
 						if(compoundQuery.getAssociatedView() instanceof ClinicalSampleView ){
-							view = "C";
+							view = "(C)";
 						}else if(compoundQuery.getAssociatedView() instanceof GeneExprSampleView){
-							view = "GE";
+							view = "(GE)";
 						}else if(compoundQuery.getAssociatedView()instanceof CopyNumberSampleView){
-							view = "CN";
+							view = "(CN)";
 						}
-						//out.println("<li><a id=\"" + qname + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReport&queryName=previewResults&showSampleSelect=false', 770, 550, '_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(Clinical)</i> ");
-						out.println("<li><a id=\"" + task.getTask().getId() + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReportFromCache&taskId=' + encodeURIComponent('" + URLEncoder.encode(task.getTask().getId()) + "') + '&cacheId=" + task.getTask().getCacheId() + "', 750, 500,'_report');\" onclick=\"" + queryOnclick + "\">" + qname + "</a> <i>("+view+")</i> ");
 					}
+						//out.println("<li><a id=\"" + qname + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReport&queryName=previewResults&showSampleSelect=false', 770, 550, '_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(Clinical)</i> ");
+						out.println("<li><a id=\"" + task.getTask().getId() + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReportFromCache&taskId=' + encodeURIComponent('" + URLEncoder.encode(task.getTask().getId()) + "') + '&cacheId=" + task.getTask().getCacheId() + "', 750, 500,'_report');\" onclick=\"" + queryOnclick + "\">" + qname + "</a> <i>"+view+"</i> ");
+
 
 					out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + task.getTask().getId() + "_time\" >" + task.getTask().getElapsedTime()/1000 + "</span> sec) </span>");
 					out.println("</li>");
@@ -261,16 +283,16 @@ String helpLinkClose = "', 350, 500);\">"+
 				String comments = "";
 				String _htm = "";
 				
-				String currentStatus = "running";
+				String currentStatus = "Running";
 				if(f.getStatus() == FindingStatus.Completed)
-					currentStatus = "<b id=\"" +f.getTaskId() + "_status\">completed</b>  <img src='images/check.png' alt='complete' id=\"" + f.getTaskId() + "_image\"/>";
+					currentStatus = "<b id=\"" +f.getTaskId() + "_status\">Completed</b>  <img src='images/check.png' alt='complete' id=\"" + f.getTaskId() + "_image\"/>";
 				else if(f.getStatus() == FindingStatus.Running)
-					currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
+					currentStatus = "<b id=\"" + f.getTaskId() + "_status\" >Running</b> <img src='images/circle.gif' alt='running' id=\"" + f.getTaskId() + "_image\" />";
 				else if(f.getStatus() == FindingStatus.Error)	{
 					comments = f.getStatus().getComment() != null ? f.getStatus().getComment() : "Unspecified Error";
 					//currentStatus = "<b id=\"" + f.getTaskId() + "_status\" ><a href=\"#\" onmouseover=\"return overlibWrapper('"+comments+"');return false;\" onmouseout=\"return nd();\" ><strong>error</strong></a></b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
 					comments = StringEscapeUtils.escapeJavaScript(comments);
-					currentStatus = "<b id=\"" + f.getTaskId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','error'));</script></b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
+					currentStatus = "<b id=\"" + f.getTaskId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','Error'));</script></b> <img src='images/error.png' alt='error' id=\"" + f.getTaskId() + "_image\" />";
 				}
 				
 				_htm += "<span style='color:red; float:right'>" + currentStatus + "</span> ";

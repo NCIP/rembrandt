@@ -52,10 +52,10 @@ function A_checkGenePatternStatus_cb(message){
 	var curElJobSelect = document.getElementById(sid+"_jobId");
 	var curElProcessSelect = document.getElementById(sid+"_process");
 	var curElSubmit = document.getElementById(sid+"_submit");
-	if(message == 'completed')	{
+	if(message == 'Completed')	{
 		//its done, see if the innerhtml already says done	
-		if(curEl.innerHTML != "completed")	{
-			curEl.innerHTML = "completed";
+		if(curEl.innerHTML != "Completed")	{
+			curEl.innerHTML = "Completed";
 			//alert("message == 'completed' " + message);
 			curElJobSelect.disabled = false;
 			curElProcessSelect.disabled = false;
@@ -76,18 +76,18 @@ function A_checkGenePatternStatus_cb(message){
 			curElVLink.removeAttribute("onclick");
 		}
 	}
-	else if(message == 'error')	{
+	else if(message == 'Error')	{
 		//its done, see if the innerhtml already says done	
-		if(curEl.innerHTML.indexOf('error') == -1)	{
+		if(curEl.innerHTML.indexOf('Error') == -1)	{
 			var comments = "Unspecified Error";	
-			curEl.innerHTML = showErrorHelp(comments, "error");
+			curEl.innerHTML = showErrorHelp(comments, "Error");
 			curElImg.src = "images/error.png";
 			//curElLink.onclick = "";
 			//curElLink.removeAttribute("onclick");
 			vr_alldone = true;
 		}
 	}
-	else if(message == 'running' && curEl.innerHTML.indexOf('completed') != -1 )	{
+	else if(message == 'Running' && curEl.innerHTML.indexOf('Completed') != -1 )	{
 		//handle overlapping AJAX calls...this ones already completed...dont reset to running
 		//basically just ignore it
 	}

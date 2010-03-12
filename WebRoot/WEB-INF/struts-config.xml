@@ -561,6 +561,8 @@
          <forward name="runGeneViewReport" path="/jsp/geneViewReport.jsp" />
          <forward name="runGeneViewReportFromCache" path="/jsp/geneViewReport.jsp" />
          <forward name="runCSVGeneViewReport" path="/jsp/geneViewReportCSV.jsp" />
+         <forward name="runEmailedGeneViewReport" path="/jsp/geneViewReport.jsp" />
+         
     </action>
     
     <action path="/emailReport"
@@ -571,10 +573,21 @@
            input="/jsp/emailReport.jsp"
            validate="true">
           <forward name="success" path="/jsp/emailReport.jsp" />
-         <forward name="advanceSearchMenu" path="nautilus.menu" />
+          <forward name="close" path="/jsp/close.jsp" />
+         <forward name="viewResults" path="nautilus.viewResults" />
          <forward name="submitReport" path="/emailReport.do?method=submitReport"/>
     </action>
     
+        
+    <action path="/queryResult"
+		type="gov.nih.nci.rembrandt.web.struts.action.DownloadReportFileAction"
+		scope="request"
+		>
+	<forward name="viewResults" path="/viewResults.do" />
+	<forward name="registration" path="/registration.do"/>
+	</action>
+	
+	
 	<action path="/browseKeggPathway"
             type="gov.nih.nci.rembrandt.web.struts.action.BrowseKeggPathwayAction">
          <forward name="success" path="/jsp/browseKeggPathway.jsp" /> 

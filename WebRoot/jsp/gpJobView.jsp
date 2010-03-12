@@ -201,7 +201,7 @@ function turnOffLoadingMessage(){
 						out.println("<span style='color:red; float:right'>" + currentStatus + "</span> ");
 					
 						String onclick="";	
-						if(!currentStatus.equals("completed"))	{
+						if(!currentStatus.equalsIgnoreCase("completed"))	{
 							onclick = "javascript:alert('GenePattern Processing Not yet complete');return false;";
 						}
 						if (indicator.equals("2")){
