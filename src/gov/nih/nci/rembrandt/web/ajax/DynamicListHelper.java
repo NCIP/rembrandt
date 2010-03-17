@@ -288,9 +288,17 @@ public class DynamicListHelper {
 						//valid, no aliases
 						//allGeneSymbolsValid = false;
 						//break;
-						int startPos = commaGenes.indexOf(symbol);
-						int endPos = commaGenes.lastIndexOf(symbol);						
-						validGeneSymbolStr = commaGenes.substring(0,startPos-1) + commaGenes.substring(endPos+1);
+						int startPos;
+						if ( geneList.size() > 1 )
+							startPos = validGeneSymbolStr.indexOf(symbol) - 1;
+						else
+							startPos = validGeneSymbolStr.indexOf(symbol);
+						int endPos = startPos + symbol.length();
+						if ( (endPos + 1) > validGeneSymbolStr.length() ) {
+							validGeneSymbolStr = validGeneSymbolStr.substring(0,startPos);
+						} else {
+							validGeneSymbolStr = validGeneSymbolStr.substring(0,startPos) + validGeneSymbolStr.substring(endPos+1);
+						}
 					}
 				}
 			}
@@ -301,6 +309,6 @@ public class DynamicListHelper {
 		if (validGeneSymbolStr.equals(commaGenes))
 			return allGeneSymbolsValid.toString();
 		else
-			return validGeneSymbolStr;
+			return validGeneSymbolStr + "|" + commaGenes;
 	}
 }
