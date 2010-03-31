@@ -108,7 +108,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	private static List<ChromosomeBean> chromosomes;
 
 	/** geneOption property */
-	private String geneOption = "standard";
+	//private String geneOption = "standard";
+	private String geneOption;
     
     //private Collection savedSampleList;
     
@@ -339,7 +340,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 			// Validate minimum criteria's for GE Query
 			if (this.getQueryName() != null
 					&& this.getQueryName().length() >= 1
-					&& this.getGeneOption().equalsIgnoreCase("standard")) {
+					&& (this.getGeneOption() != null && this.getGeneOption().equalsIgnoreCase("standard"))) {
 				if (
 						(this.getGeneList() == null || this.getGeneList().trim().length() < 1)
 						&& (this.getCloneId() == null || this.getCloneId()

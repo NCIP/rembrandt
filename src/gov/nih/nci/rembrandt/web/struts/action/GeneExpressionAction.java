@@ -438,7 +438,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		//for some reason the gene converter is not with the sample convertor
 		//see ListConvertor
 		
-		if(geneIDCrit.isEmpty() && geneExpressionForm.getGeneOption().equalsIgnoreCase("geneList")){
+		//if(geneIDCrit.isEmpty() && geneExpressionForm.getGeneOption().equalsIgnoreCase("geneList")){
+		if(geneIDCrit.isEmpty() && (geneExpressionForm.getGeneOption() != null && geneExpressionForm.getGeneOption().equalsIgnoreCase("geneList"))){
 			Collection<GeneIdentifierDE> genes = null;
 			UserList geneList = helper.getUserList(geneExpressionForm.getGeneFile());
 			if(geneList!=null){

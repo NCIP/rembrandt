@@ -451,7 +451,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         // Set gene criteria
         GeneIDCriteria geneIDCrit = comparativeGenomicForm.getGeneIDCriteria();
         
-        if(geneIDCrit.isEmpty() && comparativeGenomicForm.getGeneOption().equalsIgnoreCase("geneList")){
+        //if(geneIDCrit.isEmpty() && comparativeGenomicForm.getGeneOption().equalsIgnoreCase("geneList")){
+        if(geneIDCrit.isEmpty() && (comparativeGenomicForm.getGeneOption() != null && comparativeGenomicForm.getGeneOption().equalsIgnoreCase("geneList"))){
 			Collection<GeneIdentifierDE> genes = null;
 			UserList geneList = helper.getUserList(comparativeGenomicForm.getGeneFile());
 			if(geneList!=null){

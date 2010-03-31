@@ -119,7 +119,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	private static List<ChromosomeBean> chromosomes;
     
     /**geneOption property */    
-	private String geneOption = "standard";
+	//private String geneOption = "standard";
+	private String geneOption;
 
     /** geneList property */
     private String geneList;
@@ -383,7 +384,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeTo,"cnUnchangeTo",errors);
         
         // Validate minimum criteria's for CGH Query
-        if (this.getQueryName() != null && this.getQueryName().length() >= 1 && this.getGeneOption().equalsIgnoreCase("standard")) {
+        if (this.getQueryName() != null && this.getQueryName().length() >= 1 && 
+        		(this.getGeneOption() != null && this.getGeneOption().equalsIgnoreCase("standard"))) {
             if ((this.getGeneList() == null || this.getGeneList().trim()
                     .length() < 1)
                     && (this.getChromosomeNumber() == null || this
