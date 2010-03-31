@@ -19,10 +19,12 @@ var GeneAlias = {
 				a = a.gsub("\\n", ",");
 				a = a.gsub(",,", ",");
 				a = a.gsub(" ", "");
-					
-				if(a == "")	{
-					alert("Please enter a gene");
-					return;
+				
+				if ($('geneOption') != null && $('geneOption').value == "standard") {
+					if(a == "")	{
+						alert("Please enter a gene");
+						return;
+					}
 				}
 	
 				geneArray = a.split(",");
@@ -60,10 +62,12 @@ var GeneAlias = {
 			g = g.gsub(",,", ",");
 			g = g.gsub(" ", "");
 			
-			if(g == "")	{
-				alert("Please enter a gene");
-				$("indicator").hide();
-				return;
+			if ($('geneOption') != null && $('geneOption').value == "standard") {
+				if(g == "")	{
+					alert("Please enter a gene");
+					$("indicator").hide();
+					return;
+				}
 			}
 
 			geneArray = g.split(",");
@@ -156,6 +160,7 @@ var GeneAlias = {
 				$('aliasLink').show();
 			}
 		}
+
 }
 
 function gecnSubmit() {
@@ -163,13 +168,19 @@ function gecnSubmit() {
 	if ( checkNull(document.forms[0].queryName, 'true') ) {
 		for (var i=0; i < document.forms[0].geneOption.length; i++) {
 			var geneOptionVal = document.forms[0].geneOption[i].value;
-	  		if (document.forms[0].geneOption[i].checked) {
+		  	if (document.forms[0].geneOption[i].checked) {
 			   if ( geneOptionVal == "standard" ) {
 			       return GeneAlias.validateAliases($('geneList').value, 'Submit');
 			   }
 		       break;
 	  		}
 		}
+		/*
+		if ( $('geneList').value != null || $('geneList').value != "" ) {
+			   alert("Calling...GeneAlias.validateAliases");
+		       return GeneAlias.validateAliases($('geneList').value, 'Submit');
+		}
+		*/
 	} else {
 		return false;
 	}

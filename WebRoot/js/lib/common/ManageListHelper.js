@@ -195,10 +195,12 @@
 		 // the div with an id matching this name and removes it from the DOM. -KR
 		'deleteList' : function(name){
 			if(confirm("Delete this List?")) {
+				/*
 				if (name == UserPreferences.getGeneSetName())
 					UserPreferences.setGeneSetName("");
 				if (name == UserPreferences.getReporterSetName())
 					UserPreferences.setReporterSetName("");
+				*/
 				UserListHelper.removeListFromAjax(name, ManageListHelper.generic_cb);
 			}
 		},

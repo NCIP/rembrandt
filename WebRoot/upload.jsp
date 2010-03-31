@@ -70,7 +70,7 @@
 			HashSet h = new HashSet();
 			for (int i = 0; i < myUndefinedList.size(); i++)	{
 				if(myUndefinedList.get(i)!=null && !myUndefinedList.get(i).equals(""))
-					h.add(((String)myUndefinedList.get(i)).trim());
+					h.add(((String)myUndefinedList.get(i)).trim().toUpperCase());
 			}
 			List cleanList = new ArrayList();			
 			cleanList.addAll(h);

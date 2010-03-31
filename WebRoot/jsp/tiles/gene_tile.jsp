@@ -152,12 +152,12 @@ String act = request.getParameter("act");
 <br/>
 <html:radio property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>
 	Type Genes:&nbsp;&nbsp;
-	<html:select property="geneType" styleId="geneType" disabled="false" onchange="GeneAlias.armAliasLink();">
+	<html:select property="geneType" styleId="geneType" disabled="false" onchange="checkStandardOption();GeneAlias.armAliasLink();">
 		<html:optionsCollection property="geneTypeColl" />
 	</html:select>
 	
 	<br/><br/>
- 	<html:textarea property="geneList" styleId="geneList" cols="65" rows="5" disabled="false" />
+ 	<html:textarea property="geneList" styleId="geneList" cols="65" rows="5" disabled="false" onclick="checkStandardOption();"/>
 	<!-- 
 	<html:text property="geneList" styleId="geneList" disabled="false" onfocus="" onblur="" />
 	-->
@@ -170,7 +170,7 @@ String act = request.getParameter("act");
 	<div id="gAliases" style="display:none; margin-left:20px;border:1px solid #AB0303;"></div>
 	<br/><br/>
 			
-	<html:radio property="geneOption" styleClass="radio" value="geneList" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/>
+	<html:radio property="geneOption" styleClass="radio" value="geneList" disabled="false" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/>
 		
 		Choose a saved Gene List:&nbsp;&nbsp;
 	<html:select property="geneFile" disabled="false" styleId="geneFileDD">
@@ -231,4 +231,9 @@ function submitStandardQuery(){
 		document.forms[0].multiUseButton.click();
 	//}
 }
+function checkStandardOption()	{
+	//$("geneOption").value = "standard";
+	document.forms[0].geneOption[0].checked = true;
+}
+
 </script>	

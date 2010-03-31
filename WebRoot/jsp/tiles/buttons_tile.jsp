@@ -26,6 +26,11 @@ function refresh()	{
 &nbsp;&nbsp;
 
 <logic:present name="geneexpressionForm">
+	<logic:empty name="geneexpressionForm" property="geneOption" scope="request"> 
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
+			<bean:message key="buttons_tile.previewButton" />
+		</html:submit>&nbsp;&nbsp;
+ 	</logic:empty>
 	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="standard"> 
 		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
 			<bean:message key="buttons_tile.previewButton" />
@@ -38,6 +43,11 @@ function refresh()	{
  	</logic:equal>
 </logic:present>
 <logic:present name="comparitivegenomicForm">
+	<logic:empty name="comparitivegenomicForm" property="geneOption" scope="request">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+			<bean:message key="buttons_tile.previewButton" />
+		</html:submit>&nbsp;&nbsp;
+	</logic:empty>
 	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="standard">
 		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
 			<bean:message key="buttons_tile.previewButton" />
