@@ -3,7 +3,6 @@ package gov.nih.nci.rembrandt.web.inbox;
 import gov.nih.nci.caintegrator.application.cache.BusinessTierCache;
 import gov.nih.nci.caintegrator.application.download.DownloadStatus;
 import gov.nih.nci.caintegrator.application.download.DownloadTask;
-import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManagerInterface;
 import gov.nih.nci.caintegrator.application.zip.ZipItem;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
@@ -11,17 +10,17 @@ import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.caintegrator.service.task.Task;
 import gov.nih.nci.caintegrator.service.task.TaskResult;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
-import gov.nih.nci.rembrandt.util.ApplicationContext;
-import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -120,7 +119,8 @@ public class QueryInbox {
 		String currentStatus = "";
 		
 		TaskResult t = ptc.getTaskResult(sid, tid);
-		
+        System.out.println("Reading to cache Id: "+ t.getTask().getId()+" Status: "+t.getTask().getStatus());
+
 		switch(t.getTask().getStatus())	{
 			case Completed:
 				currentStatus = "Completed";
@@ -131,10 +131,10 @@ public class QueryInbox {
 			case Error:
 				currentStatus = "Error";
 			break;
-			case Emailed:
+			case Email:
 				currentStatus = "Email";
 			break;
-			case Loading:
+			case Retrieving:
 				currentStatus = "Retrieving";
 			break;
 			default:
@@ -161,10 +161,10 @@ public class QueryInbox {
 			case Error:
 				currentStatus = "Error";
 			break;
-			case Emailed:
+			case Email:
 				currentStatus = "Email";
 			break;
-			case Loading:
+			case Retrieving:
 				currentStatus = "Retrieving";
 			break;
 			default:
@@ -187,7 +187,7 @@ public class QueryInbox {
 			tmp = this.checkSingle(sid, f.getTaskId());
 			
 			Map fdata = new HashMap();
-			fdata.put("time", String.valueOf(f.getElapsedTime()));
+			fdata.put("time", String.valueOf(f.getElapsedTime()/1000));
 			fdata.put("status", tmp);
 			if(f.getStatus()!=null && f.getStatus().getComment()!=null)	{
 				fdata.put("comments", StringEscapeUtils.escapeJavaScript(f.getStatus().getComment()));
