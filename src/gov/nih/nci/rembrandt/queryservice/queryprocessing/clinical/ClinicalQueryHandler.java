@@ -360,7 +360,7 @@ public class ClinicalQueryHandler extends QueryHandler {
 						
 						if(clinicalEvalData.getKarnofskyScore() != null) {
 						    karnofskyScores.append(clinicalEvalData.getKarnofskyScore());
-						    karnofskyScores.append("|");
+						    karnofskyScores.append("| ");
 						}
 						
 						if(clinicalEvalData.getLanskyScore() != null) {
