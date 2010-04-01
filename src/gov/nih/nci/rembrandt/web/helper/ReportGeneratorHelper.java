@@ -309,7 +309,7 @@ public class ReportGeneratorHelper {
    				samples.addAll(specimenNames);
    			}
 
-					     
+   			sampleIds = samples.toArray(new String[0])     ;		
 		try {
 			if(_cQuery.isAllGenesQuery()){
 				//Check for specimen_names for all genes Query

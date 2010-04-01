@@ -6,8 +6,10 @@ import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
@@ -199,7 +201,12 @@ public final class LoginAction extends Action
             
             String reportName = (String) request.getSession().getAttribute("emailFileName");
             if(reportName != null){
-            	DownloadEmailedReportHelper.retrieveReport(reportName,request.getSession().getId(),f.getUserName());
+		        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
+		        try {
+					asynchronousFindingManagerImpl.retrieveResultsFromFile(request.getSession().getId(), reportName, credentials.getUserName());
+				} catch (FindingsQueryException e) {
+					logger.error(e.getMessage());
+				}
             	request.getSession().removeAttribute("emailFileName");
             }
             return (mapping.findForward("success"));

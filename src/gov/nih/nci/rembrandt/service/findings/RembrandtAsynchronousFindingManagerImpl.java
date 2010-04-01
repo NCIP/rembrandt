@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.service.task.Task;
 import gov.nih.nci.caintegrator.service.task.TaskResult;
 import gov.nih.nci.caintegrator.studyQueryService.germline.FindingsManager;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.service.findings.strategies.RembrandtAsynchronousFileRetrivalStrategy;
 import gov.nih.nci.rembrandt.service.findings.strategies.RembrandtAsynchronousFindingStrategy;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
@@ -29,6 +30,20 @@ public class RembrandtAsynchronousFindingManagerImpl extends FindingsManager {
         	RembrandtAsynchronousFindingStrategy strategy = new RembrandtAsynchronousFindingStrategy(taskResult);
             strategy.executeQuery();  
             return task;
+    }
+	   /**
+     * Submit query looks at the list of strategies it has available
+     * and chooses the correct strategy based on the queryDTO type.
+     * It then creates a new Task to be handed by to the user, while
+     * it called the execute method of the strategy asynchronously.
+     */
+    public Task retrieveResultsFromFile(String sessionID, String reportName, String userName) throws FindingsQueryException {
+ 		Task task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionID,FindingStatus.Retrieving,null);
+        RembrandtTaskResult taskResult = new RembrandtTaskResult(task);
+        taskResult.setReportBeanCacheKey(reportName);
+        RembrandtAsynchronousFileRetrivalStrategy strategy = new RembrandtAsynchronousFileRetrivalStrategy(taskResult, reportName, userName);
+        strategy.executeStrategy();
+        return task;
     }
     /**
      * This method locates the desired Task by calling chooseStrategy

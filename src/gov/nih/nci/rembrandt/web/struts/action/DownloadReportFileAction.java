@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.mail.MailConfig;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
+import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.caintegrator.service.task.Task;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -66,7 +67,12 @@ public class DownloadReportFileAction extends Action
 		if ((logged != null  && (logged.equals("yes")))){
 				
 			UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-					DownloadEmailedReportHelper.retrieveReport(reportName,request.getSession().getId(), credentials.getUserName() );
+			        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
+			        try {
+						asynchronousFindingManagerImpl.retrieveResultsFromFile(request.getSession().getId(), reportName, credentials.getUserName());
+					} catch (FindingsQueryException e) {
+						logger.error(e.getMessage());
+					}
 					// Set the forward
 					forward = mapping.findForward("viewResults");			
 					logger.debug("redirecting to download");	

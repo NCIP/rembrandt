@@ -129,18 +129,16 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 		var curElEmailLink = document.getElementById(key+"_email_link");
 		//curElLink.onclick = "";
 		curElEmailLink.innerHTML = "<img src='images/blank.gif' BORDER=0 />"
-		//curElEmailLink.onclick = "return false;";
+		//curElEmailLink.removeAttribute("href");
+		//curElEmailLink.onclick = function(){return false;};
 		var emailImage = "images/blank.gif";
 		var taskId = tasks[key]["task_id"];
 		var cacheId = tasks[key]["cache_id"];
 			if( tasks[key]["email_timeout"]=='true'){
 				var newhref= "emailReport.do?taskId=" + taskId + "&cacheId=" + cacheId ;
-				curElEmailLink.removeAttribute("onclick");
-				//curElEmailLink.setAttribute("onClick","javascript:spawnx("+newhref+",750, 500,'_email');return(false);");
-				curElEmailLink.setAttribute("onClick","javascript:window.open(\""+newhref+"\",\"_blank\",\"toolbar=no,width=850,height=400,top=0,left=0,toolbar=0, menubar=0, location=0, status=0, scrollbars=0, resizable=0\")");
 				curElEmailLink.innerHTML = "<img src='images/mail_icon.gif' alt='email results' BORDER=0 />"
-		
-			}
+				curElEmailLink.onclick = new Function( "return newWindow('" + newhref + "');" );
+ 			}
 			if(tasks[key]["status"] == 'Completed')	{
 				
 				//its done, see if the innerhtml already says done	
@@ -149,6 +147,7 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 					curElImg.src = "images/check.png";
 					curElLink.onclick = "";
 					curElLink.removeAttribute("onclick");
+					curElEmailLink.detachEvent("onclick");
 					emailImage = "images/blank.gif";
 					curElEmailLink.removeAttribute("href");
 					//try and play a sound
@@ -171,28 +170,30 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 					curEl.innerHTML = showErrorHelp(comments, "Error");
 					emailImage = "images/blank.gif";
 					curElEmailLink.removeAttribute("href");
+					curElEmailLink.detachEvent("onclick");
 					curElImg.src = "images/error.png";
 					//curElLink.onclick = "";
 					//curElLink.removeAttribute("onclick");
 				}
 			}
-			else if(tasks[key]["status"] == 'Emailed')	{
+			else if(tasks[key]["status"] == 'Email')	{
 				//its done, see if the innerhtml already says done	
-				if(curEl.innerHTML.indexOf('Emailed') == -1)	{
-					var comments = "Reported will be emailed";
+				if(curEl.innerHTML.indexOf('Email') == -1)	{
+					var comments = "Report will be emailed";
 					
 					if(tasks[key]["comments"] && tasks[key]["comments"] != "")	{
 						comments = tasks[key]["comments"];
 					}
-					curEl.innerHTML = showErrorHelp(comments, "Emailed");
+					curEl.innerHTML = showErrorHelp(comments, "Email");
 					emailImage = "images/blank.gif";
 					curElEmailLink.removeAttribute("href");
+					curElEmailLink.detachEvent("onclick");
 					curElImg.src = "images/mail_icon.gif";
 					//curElLink.onclick = "";
 					//curElLink.removeAttribute("onclick");
 				}
 			}
-			else if((tasks[key]["status"] == 'Running')&& curEl.innerHTML.indexOf('Completed') != -1 )	{
+			else if(((tasks[key]["status"] == 'Running')|| (tasks[key]["status"] == 'Retrieving'))&& curEl.innerHTML.indexOf('Completed') != -1 )	{
 				//handle overlapping AJAX calls...this ones already completed...dont reset to running
 				//basically just ignore it
 			}
@@ -255,4 +256,10 @@ function overlibWrapper(txt)	{
 	var t = err != "" ? txt  : "Unspecified Error.";
 	t=unescape(t);
 	return overlib(t, CAPTION, "Details");
+}
+
+
+function newWindow(newhref)
+{ 
+	window.open(newhref,'_blank','toolbar=no,width=850,height=400,top=0,left=0,toolbar=0, menubar=0, location=0, status=0, scrollbars=0, resizable=0'); 
 }

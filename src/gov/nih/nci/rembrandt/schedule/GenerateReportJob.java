@@ -75,7 +75,7 @@ public class GenerateReportJob implements Job {
 				FindingStatus status = taskResult.getTask().getStatus();
 				switch (status) {
 				case Running: {
-					 FindingStatus newStatus = FindingStatus.Emailed;
+					 FindingStatus newStatus = FindingStatus.Email;
 					 newStatus.setComment("Upon competion of this query, an email will be sent to "+email);
                      taskResult.getTask().setStatus(newStatus);
                      presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(), 
@@ -120,12 +120,15 @@ public class GenerateReportJob implements Job {
 		ReportBean reportBean = null;
 		try {
 			Queriable query = (Queriable) taskResult.getTask().getQueryDTO();
+			String uniqueFilename = FileNameGenerator.generateFileName(userName);
+			uniqueFilename = uniqueFilename + "-"+ query.getQueryName();
+			query.setQueryName(uniqueFilename);
 			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(query,
 					new HashMap());
 			reportBean = rgHelper.getReportBean();
 			if (reportBean != null) {
 				String filename = null;
-					filename = sereializeReportBean(userName, reportBean);				
+					filename = sereializeReportBean(uniqueFilename, reportBean);				
 				if (filename != null) {
 					sendMail(email, filename, queryText);
 				}
@@ -133,6 +136,8 @@ public class GenerateReportJob implements Job {
 		} catch (Exception e) {
 			sendErrorMail(email, queryText);
 			logger.error("Error from GenerateReportJob for Query: \n" + queryText, e);
+			logger.error(e.getMessage());
+		} catch (ValidationException e) {
 			logger.error(e.getMessage());
 		}
 
@@ -151,14 +156,13 @@ public class GenerateReportJob implements Job {
 
 	}
 
-	private String sereializeReportBean(String userName, ReportBean reportBean)
+	private String sereializeReportBean(String uniqueFilename, ReportBean reportBean)
 			throws Exception {
 		try {
-			String uniqueFilename = FileNameGenerator.generateFileName(userName);
+			reportBean.setResultantCacheKey(uniqueFilename);
 			String dirPath = System
 					.getProperty("gov.nih.nci.rembrandt.data_directory");
-			String filename = dirPath + File.separator + uniqueFilename + "-"
-					+ reportBean.getResultantCacheKey();
+			String filename = dirPath + File.separator + uniqueFilename;
 			FileOutputStream fo = new FileOutputStream(filename);
 			ObjectOutputStream so = new ObjectOutputStream(fo);
 			so.writeObject(reportBean);
@@ -167,9 +171,6 @@ public class GenerateReportJob implements Job {
 			fo.close();
 			return filename;
 		} catch (IOException e) {
-			logger.error(e.getMessage());
-			throw new Exception(e.getMessage());
-		} catch (ValidationException e) {
 			logger.error(e.getMessage());
 			throw new Exception(e.getMessage());
 		}

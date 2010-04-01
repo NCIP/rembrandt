@@ -37,13 +37,18 @@ public class DownloadEmailedReportHelper {
 			fileRetentionPeriodInDays = "5";
 		}
 		final String  finalFileRetentionPeriodInDays = fileRetentionPeriodInDays;
+ 		Task task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,FindingStatus.Retrieving,null);
+        RembrandtTaskResult taskResult = new RembrandtTaskResult(task);
+        taskResult.setReportBeanCacheKey(reportName);
+        presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(),
+        		taskResult.getTask().getId(), taskResult);	
 		if (!reportName.contains(userName)){
 			// NOT  the users report
 			////
 			FindingStatus errorStatus = FindingStatus.Error;
 			errorStatus.setComment("Sorry, reports are available only to users that generated them"); 
-			 Task task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,errorStatus ,null);
-			 RembrandtTaskResult taskResult = new RembrandtTaskResult(task);
+			  task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,errorStatus ,null);
+			  taskResult = new RembrandtTaskResult(task);
             taskResult.setReportBeanCacheKey(reportName);
         presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(),
         		taskResult.getTask().getId(), taskResult);	
@@ -51,39 +56,38 @@ public class DownloadEmailedReportHelper {
 		else{
 		       Runnable load = new Runnable() {
 		             public void run() {
-			         		Task task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,FindingStatus.Loading,null);
-			                RembrandtTaskResult taskResult = new RembrandtTaskResult(task);
-			                taskResult.setReportBeanCacheKey(reportName);
-			                presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(),
-			                		taskResult.getTask().getId(), taskResult);	
-		                 try {
-		                	 
+		                 try {		          
+		              		Task newtask = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,FindingStatus.Retrieving,null);
+		                    RembrandtTaskResult newTaskResult = new RembrandtTaskResult(newtask);
 			         		ReportBean reportBean = deSerializeReportBean(reportName);
 			        	    if(reportBean!=null) {	    		
 			        	    		QueryDTO queryDTO = reportBean.getResultant().getAssociatedQuery();
 			        	    		queryDTO.setQueryName(reportName);
-			        	    		task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,FindingStatus.Completed,queryDTO);
-			        	            task.setQueryDTO(queryDTO);    
-			        	            taskResult = new RembrandtTaskResult(task);
-			        	            taskResult.setReportBeanCacheKey(reportName);
+			        	    		newtask = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,FindingStatus.Completed,queryDTO);
+			        	    		newtask.setQueryDTO(queryDTO);    
+			        	            newTaskResult = new RembrandtTaskResult(newtask);
+			        	            newTaskResult.setReportBeanCacheKey(reportName);
 			        	    		presentationTierCache.addNonPersistableToSessionCache(sessionId,reportName,reportBean);
 			        		}else { //post an error in the cache
 			        			FindingStatus errorStatus = FindingStatus.Error;
 			        			errorStatus.setComment("Could not locate "+ reportName + " as after "+ finalFileRetentionPeriodInDays  +" days the emailed query results are deleted from the Rembrandt server."); 
-			        			task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,errorStatus ,null);
-			        			taskResult = new RembrandtTaskResult(task);
-			                    taskResult.setReportBeanCacheKey(reportName);
+			        			newtask = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,errorStatus ,null);
+			        			newTaskResult = new RembrandtTaskResult(newtask);
+			        			newTaskResult.setReportBeanCacheKey(reportName);
 			        			
 			        		}//to generate error or completed.
+			                 presentationTierCache.addNonPersistableToSessionCache(newTaskResult.getTask().getCacheId(), 
+			                		 newTaskResult.getTask().getId(), newTaskResult);
 			                 } catch(Exception e) {
-				            		 logger.error("Download Retrieval error", e);
-				            		 FindingStatus status = FindingStatus.Error;
-				                     status.setComment(e.getMessage());
-				                     taskResult.getTask().setStatus(status);
+			            		 logger.error("Download Retrieval error", e);
+ 			            		    FindingStatus errorStatus = FindingStatus.Error;
+ 			            		    errorStatus.setComment(e.getMessage());
+					              	Task errorTask = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionId,errorStatus,null);
+					                RembrandtTaskResult errorTaskResult = new RembrandtTaskResult(errorTask);
+  				                    presentationTierCache.addNonPersistableToSessionCache(errorTaskResult.getTask().getCacheId(), 
+					                		 errorTaskResult.getTask().getId(), errorTaskResult);
 			                 }
 
-		                 presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(), 
-		                		 taskResult.getTask().getId(), taskResult);
 		                 logger.info("Download Retrieval has completed, task has been placed back in cache");
 		     
 		             }

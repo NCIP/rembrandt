@@ -2,7 +2,6 @@ package gov.nih.nci.rembrandt.service.findings.strategies;
 
 import gov.nih.nci.caintegrator.application.service.strategy.AsynchronousFindingStrategy;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
-import gov.nih.nci.rembrandt.cache.RembrandtPresentationCacheManager;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;

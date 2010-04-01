@@ -139,8 +139,8 @@ String helpLinkClose = "', 350, 500);\">"+
 					DWREngine.setWarningHandler(customError);
 					DWREngine.setErrorHandler(customError);
 					
-					setTimeout("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 0200);
-					var vr_checker = setInterval("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 10000);
+					// setTimeout("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 0200);
+					var vr_checker1 = setInterval("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 10000);
 	
 				</script>
 				<%
@@ -151,7 +151,7 @@ String helpLinkClose = "', 350, 500);\">"+
 				for(Iterator i = tasks.iterator();i.hasNext();)	{
 					RembrandtTaskResult task = (RembrandtTaskResult) i.next();
 					String qname = "N/A";	
-					if(	 task.getTask().getQueryDTO()!= null &&  task.getTask().getQueryDTO().getQueryName()!= null){								
+					if(task.getReportBeanCacheKey() == null ){								
 					qname =  task.getTask().getQueryDTO().getQueryName();	
 					}else{
 					qname = task.getReportBeanCacheKey();
@@ -170,10 +170,10 @@ String helpLinkClose = "', 350, 500);\">"+
 					else if(task.getTask().getStatus() == FindingStatus.Running){
 						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" >Running</b> <img src='images/circle.gif' alt='running' id=\"" + task.getTask().getId() + "_image\" />";
 						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
-						emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"#\" onclick=\"return false;\"><img src='images/blank.gif' alt='email results' BORDER=0 /></a>";
+						emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"#\" ><img src='images/blank.gif' alt='email results' BORDER=0 /></a>";
 	
 						}
-					else if(task.getTask().getStatus() == FindingStatus.Loading){
+					else if(task.getTask().getStatus() == FindingStatus.Retrieving){
 						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" >Retrieving</b> <img src='images/circle.gif' alt='loading' id=\"" + task.getTask().getId() + "_image\" />";
 						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
 						emailIcon = "<a id=\"" + task.getTask().getId() + "_email_link\" href=\"#\" onclick=\"return false;\"><img src='images/blank.gif' alt='email results' BORDER=0 /></a>";
@@ -185,7 +185,7 @@ String helpLinkClose = "', 350, 500);\">"+
 						emailIcon = "<img src='images/blank.gif' alt='email results'  BORDER=0 id=\"" + task.getTask().getId() + "_email\"/>";
 						queryOnclick = "javascript:alert('Analysis Not yet complete');return false;";
 						}
-					else if(task.getTask().getStatus() == FindingStatus.Emailed)	{					
+					else if(task.getTask().getStatus() == FindingStatus.Email)	{					
 						comments = StringEscapeUtils.escapeJavaScript(task.getTask().getStatus().getComment());
 						currentStatus = "<b id=\"" + task.getTask().getId() + "_status\" ><script language=\"javascript\">document.write(showErrorHelp('"+comments+"','Email'));</script></b> <img src='images/mail_icon.gif' alt='email' id=\"" + task.getTask().getId() + "_image\" />";
 						emailIcon = "<img src='images/blank.gif' alt='email results'  BORDER=0 id=\"" + task.getTask().getId() + "_email\"/>";
