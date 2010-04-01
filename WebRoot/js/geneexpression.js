@@ -51,7 +51,11 @@ var GeneAlias = {
 				if ( previewClicked ) {
 					document.forms[0].previewButton.click();
 				} else {
-					document.forms[0].submittalButton.click();
+					if ( checkNull(document.forms[0].queryName, 'true') ) {
+						document.forms[0].submittalButton.click();
+					} else {
+						return false;
+					}
 				}
 			}
 		},
@@ -165,24 +169,39 @@ var GeneAlias = {
 
 function gecnSubmit() {
 	document.forms[0].target='_self';	
-	if ( checkNull(document.forms[0].queryName, 'true') ) {
-		for (var i=0; i < document.forms[0].geneOption.length; i++) {
-			var geneOptionVal = document.forms[0].geneOption[i].value;
-		  	if (document.forms[0].geneOption[i].checked) {
-			   if ( geneOptionVal == "standard" ) {
-			       return GeneAlias.validateAliases($('geneList').value, 'Submit');
-			   }
-		       break;
-	  		}
-		}
-		/*
-		if ( $('geneList').value != null || $('geneList').value != "" ) {
-			   alert("Calling...GeneAlias.validateAliases");
-		       return GeneAlias.validateAliases($('geneList').value, 'Submit');
-		}
-		*/
-	} else {
-		return false;
+	for (var i=0; i < document.forms[0].geneOption.length; i++) {
+		var geneOptionVal = document.forms[0].geneOption[i].value;
+		  if (document.forms[0].geneOption[i].checked) {
+			  if ( geneOptionVal == "standard" ) {
+			      return GeneAlias.validateAliases($('geneList').value, 'Submit');
+			  }
+		      break;
+	  	}
 	}
+	return;
 }
+
+
+//function gecnSubmit() {
+//	document.forms[0].target='_self';	
+//	if ( checkNull(document.forms[0].queryName, 'true') ) {
+//		for (var i=0; i < document.forms[0].geneOption.length; i++) {
+//			var geneOptionVal = document.forms[0].geneOption[i].value;
+//		  	if (document.forms[0].geneOption[i].checked) {
+//			   if ( geneOptionVal == "standard" ) {
+//			       return GeneAlias.validateAliases($('geneList').value, 'Submit');
+//			   }
+//		       break;
+//	  		}
+//		}
+//		/*
+//		if ( $('geneList').value != null || $('geneList').value != "" ) {
+//			   alert("Calling...GeneAlias.validateAliases");
+//		       return GeneAlias.validateAliases($('geneList').value, 'Submit');
+//		}
+//		*/
+//	} else {
+//		return false;
+//	}
+//}
 
