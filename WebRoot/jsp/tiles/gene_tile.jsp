@@ -220,6 +220,8 @@ if($("geneFileDD").options.length<1)	{
 
 function submitAllGenesQuery(){
 	//if(document.forms[0].multiUseButton.value!="AllGenes")	{
+	document.forms[0].geneList.value = "";
+	//document.forms[0].geneType.disabled = true;
 		document.forms[0].multiUseButton.value="AllGenes";
 		document.forms[0].multiUseButton.click();
 //	}
@@ -227,6 +229,8 @@ function submitAllGenesQuery(){
 	    
 function submitStandardQuery(){
 	//if(document.forms[0].multiUseButton.value!="Standard")	{
+	//document.forms[0].geneList.disabled = true;
+	//document.forms[0].geneType.disabled = false;
 		document.forms[0].multiUseButton.value="Standard";
 		document.forms[0].multiUseButton.click();
 	//}
