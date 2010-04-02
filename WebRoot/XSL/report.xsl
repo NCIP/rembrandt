@@ -48,8 +48,7 @@
 		<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE" />
 		<META HTTP-EQUIV="Expires" CONTENT="-1" />
 	</head>
-  <body>
-  
+  <body onload="javascript:A_clearTmpSamples();return false;">
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
   <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
