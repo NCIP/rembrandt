@@ -1,0 +1,11 @@
+<project name="ispy" default="compile_applet" basedir=".">
+	<target name="compile_applet">
+		<javac srcdir="." destdir="." source="1.4" debug="true" debuglevel="lines,vars,source">
+			<classpath>
+					<fileset dir=".">
+						<include name="*.jar"/>
+					</fileset>
+			</classpath>
+		</javac>
+	</target>
+</project>

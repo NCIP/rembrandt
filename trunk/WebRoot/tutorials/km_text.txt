@@ -1,0 +1,389 @@
+NumFrames: 84
+Frame: 1
+Title: 
+NumCallouts: 1
++--->
+This Tutorial will cover:
+
+-Simple Search:  
+
+Kaplan-Meier Survival Plots for Gene Exp.
+
+Kaplan-Meier Survival Plots for Copy Number
+
+Kaplan-Meieer Survival Plots for Sample Data
+
+
+
+To access the Simple Search page, click the Simple Search tab at the top of the page.
++--->
+Frame: 2
+Title: 
+NumCallouts: 1
++--->
+To perform a Kaplan-Meier survival plot for Gene Expression Data, select the appropriate radio button, then enter a gene keyword.  Your gene will be validated prior to submission.
++--->
+Frame: 3
+Title: 
+NumCallouts: 0
++--->
+Frame: 4
+Title: 
+NumCallouts: 0
++--->
+Frame: 5
+Title: 
+NumCallouts: 0
++--->
+Frame: 6
+Title: 
+NumCallouts: 0
++--->
+Frame: 7
+Title: 
+NumCallouts: 1
++--->
+To restrict the results to a specific group of samples, select a sample group in the drop down.
++--->
+Frame: 8
+Title: 
+NumCallouts: 0
++--->
+Frame: 9
+Title: 
+NumCallouts: 0
++--->
+Frame: 10
+Title: 
+NumCallouts: 0
++--->
+Frame: 11
+Title: 
+NumCallouts: 0
++--->
+Frame: 12
+Title: 
+NumCallouts: 0
++--->
+Frame: 13
+Title: 
+NumCallouts: 0
++--->
+Frame: 14
+Title: 
+NumCallouts: 1
++--->
+The results of the search are shown on the plot below.
++--->
+Frame: 15
+Title: 
+NumCallouts: 1
++--->
+You may also view a clinical report for the samples displayed on the plot by clicking the links below.  The clinical report will open in a new window.
++--->
+Frame: 16
+Title: 
+NumCallouts: 0
++--->
+Frame: 17
+Title: 
+NumCallouts: 1
++--->
+You can view the relevant clinical data for each patient set.  You can also save patient lists from this report or export this report as with other Rembrandt reports.
++--->
+Frame: 18
+Title: 
+NumCallouts: 0
++--->
+Frame: 19
+Title: 
+NumCallouts: 1
++--->
+Below the plot, detailed information if displayed about the samples and the Log-rank p-value.
++--->
+Frame: 20
+Title: 
+NumCallouts: 1
++--->
+To switch reporters or reporter types, make a selection at the top of the plot and click "Redraw Graph".
+
+You may also change the fold change in a similar manner.
++--->
+Frame: 21
+Title: 
+NumCallouts: 0
++--->
+Frame: 22
+Title: 
+NumCallouts: 0
++--->
+Frame: 23
+Title: 
+NumCallouts: 0
++--->
+Frame: 24
+Title: 
+NumCallouts: 0
++--->
+Frame: 25
+Title: 
+NumCallouts: 0
++--->
+Frame: 26
+Title: 
+NumCallouts: 0
++--->
+Frame: 27
+Title: 
+NumCallouts: 0
++--->
+Frame: 28
+Title: 
+NumCallouts: 0
++--->
+Frame: 29
+Title: 
+NumCallouts: 0
++--->
+Frame: 30
+Title: 
+NumCallouts: 0
++--->
+Frame: 31
+Title: 
+NumCallouts: 1
++--->
+The new results will be displayed once you Redraw the Graph.
++--->
+Frame: 32
+Title: 
+NumCallouts: 1
++--->
+To perform additional Kaplan-Meier Simple searches, click the "Simple Search Home" link at the top of the page.
++--->
+Frame: 33
+Title: 
+NumCallouts: 0
++--->
+Frame: 34
+Title: 
+NumCallouts: 0
++--->
+Frame: 35
+Title: 
+NumCallouts: 1
++--->
+To perform a Kaplan-Meier survival plot for Copy Number Data, follow a similar workflow.
++--->
+Frame: 36
+Title: 
+NumCallouts: 0
++--->
+Frame: 37
+Title: 
+NumCallouts: 0
++--->
+Frame: 38
+Title: 
+NumCallouts: 0
++--->
+Frame: 39
+Title: 
+NumCallouts: 0
++--->
+Frame: 40
+Title: 
+NumCallouts: 0
++--->
+Frame: 41
+Title: 
+NumCallouts: 0
++--->
+Frame: 42
+Title: 
+NumCallouts: 0
++--->
+Frame: 43
+Title: 
+NumCallouts: 0
++--->
+Frame: 44
+Title: 
+NumCallouts: 0
++--->
+Frame: 45
+Title: 
+NumCallouts: 0
++--->
+Frame: 46
+Title: 
+NumCallouts: 0
++--->
+Frame: 47
+Title: 
+NumCallouts: 0
++--->
+Frame: 48
+Title: 
+NumCallouts: 0
++--->
+Frame: 49
+Title: 
+NumCallouts: 0
++--->
+Frame: 50
+Title: 
+NumCallouts: 0
++--->
+Frame: 51
+Title: 
+NumCallouts: 0
++--->
+Frame: 52
+Title: 
+NumCallouts: 0
++--->
+Frame: 53
+Title: 
+NumCallouts: 0
++--->
+Frame: 54
+Title: 
+NumCallouts: 1
++--->
+To change the reporter selection use the drop down at the top of the plot.
+
+You may also select Mean and Median as an option. 
+
+Click "Redraw Graph" to show the updated plot.
++--->
+Frame: 55
+Title: 
+NumCallouts: 0
++--->
+Frame: 56
+Title: 
+NumCallouts: 0
++--->
+Frame: 57
+Title: 
+NumCallouts: 0
++--->
+Frame: 58
+Title: 
+NumCallouts: 0
++--->
+Frame: 59
+Title: 
+NumCallouts: 0
++--->
+Frame: 60
+Title: 
+NumCallouts: 0
++--->
+Frame: 61
+Title: 
+NumCallouts: 1
++--->
+To select a specific reporter, choose one from the drop down below and Redraw the Graph.
++--->
+Frame: 62
+Title: 
+NumCallouts: 0
++--->
+Frame: 63
+Title: 
+NumCallouts: 0
++--->
+Frame: 64
+Title: 
+NumCallouts: 0
++--->
+Frame: 65
+Title: 
+NumCallouts: 0
++--->
+Frame: 66
+Title: 
+NumCallouts: 0
++--->
+Frame: 67
+Title: 
+NumCallouts: 0
++--->
+Frame: 68
+Title: 
+NumCallouts: 1
++--->
+To perform a Kaplan-Meier survival plot for Copy Number Data, follow a similar workflow.
++--->
+Frame: 69
+Title: 
+NumCallouts: 0
++--->
+Frame: 70
+Title: 
+NumCallouts: 1
++--->
+To perform a Kaplan-Meier Survival plot for Sample Data, select the appropriate radio button, and choose 2 sample groups to compare.
++--->
+Frame: 71
+Title: 
+NumCallouts: 0
++--->
+Frame: 72
+Title: 
+NumCallouts: 0
++--->
+Frame: 73
+Title: 
+NumCallouts: 0
++--->
+Frame: 74
+Title: 
+NumCallouts: 0
++--->
+Frame: 75
+Title: 
+NumCallouts: 0
++--->
+Frame: 76
+Title: 
+NumCallouts: 0
++--->
+Frame: 77
+Title: 
+NumCallouts: 0
++--->
+Frame: 78
+Title: 
+NumCallouts: 0
++--->
+Frame: 79
+Title: 
+NumCallouts: 1
++--->
+The results are displayed, as with other Kaplan-Meier plots.  To view clinical reports for each of the 2 groups compared, click the links below the plot.
++--->
+Frame: 80
+Title: 
+NumCallouts: 0
++--->
+Frame: 81
+Title: 
+NumCallouts: 0
++--->
+Frame: 82
+Title: 
+NumCallouts: 0
++--->
+Frame: 83
+Title: 
+NumCallouts: 0
++--->
+Frame: 84
+Title: 
+NumCallouts: 1
++--->
+End of Tutorial.
++--->

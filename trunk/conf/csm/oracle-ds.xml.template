@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id: oracle-ds.xml.template,v 1.1 2005-11-18 04:32:37 bauerd Exp $ -->
+<!-- ==================================================================== -->
+<!--  Datasource config for Oracle                                        -->
+<!-- ==================================================================== -->
+<datasources>
+   <local-tx-datasource>
+               <jndi-name>@DATASOURCE_JNDI@</jndi-name>
+               <connection-url>@DB_CONNECTION_URL@</connection-url>
+               <user-name>@DB_USERNAME@</user-name>
+               <password>@DB_PASSWORD@</password>
+               <driver-class>@ORACLE_DRIVER_CLASS@</driver-class>
+               <exception-sorter-class-name>@EXCEPTION_SORTER_CLASS@</exception-sorter-class-name>
+   </local-tx-datasource>
+</datasources>
+

@@ -1,0 +1,67 @@
+Developer Steps for setting up CSM locally:
+************************************
+
+1. Make sure that the jboss.install.dir property points to your local jboss
+ directory.
+ 
+ For example 
+ jboss.install.dir=C:/jboss-4.0.2
+   also uncomment the "local developer settings" as shown below
+ 
+###################################
+# CSM properties				  #
+###################################
+#local developer settings
+csm.application.config.file=${jboss.conf.dir}/ApplicationSecurityConfig.xml
+csm.hibernate.config.file=${jboss.conf.dir}/rembrandt.hibernate.cfg.xml
+
+*************************************
+
+2. Run the ant script task target "developement_config_common_security_module"
+
+*************************************
+    
+3. Verify the following files have been placed in your JBossDir/server/default/conf
+	(for e.g. C:/JBoss/jboss-4.0.2/server/default/conf/)
+	
+	ApplicationSecurityConfig.xml
+	rembrandt.hibernate.cfg.xml
+
+**************************************
+
+4. Verify that oracle-ds.xml has been placed it in JBossDir/server/default/deploy/
+
+**************************************
+
+5. Grab the text that is inside the file csm_deploy/properties-service.xml which should
+look something like:
+	<attribute name="Properties">
+      gov.nih.nci.security.configFile=C:/JBoss/jboss-4.0.2/server/default/conf/ApplicationSecurityConfig.xml
+	</attribute>
+	
+	and add it to the 
+		<mbean code="org.jboss.varia.property.SystemPropertiesService"... tag 
+	
+	inside the properties-services.xml file that you can find located in 
+	JBossDir/server/default/deploy/
+
+***************************************
+
+6. Add the following lines to jboss-4.0.2\server\default\conf\login-config.xml
+
+    <application-policy name="rembrandt">
+		<authentication>
+			<login-module code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="required">
+				<module-option name="ldapHost">ldaps://ncids4a.nci.nih.gov:636</module-option>
+				<module-option name="ldapSearchableBase">ou=nci,o=nih</module-option>
+				<module-option name="ldapUserIdLabel">cn</module-option>
+			</login-module>			
+		</authentication>
+	</application-policy>
+	
+****************************************
+
+7.  Lastly, until the CSM is upgraded you must delete the conficting folder that
+	is JBoss/server/default/deploy/jboss-hibernate.deployer.
+
+	Right now there is a conflict between the different versions of hibernate.

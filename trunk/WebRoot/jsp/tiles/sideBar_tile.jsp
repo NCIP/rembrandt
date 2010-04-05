@@ -1,0 +1,161 @@
+<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ page import="java.util.*,
+				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
+				 gov.nih.nci.rembrandt.util.RembrandtConstants,
+				 gov.nih.nci.rembrandt.dto.query.CompoundQuery,
+	 			 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
+	 			 gov.nih.nci.rembrandt.web.factory.ApplicationFactory,
+	 			 gov.nih.nci.caintegrator.application.lists.ListType" %> 
+
+<!--  lists related -->
+
+
+
+
+<style>
+	#sidebar div b {
+		border-bottom: 1px solid #A90101;
+	}
+</style>
+<!--  end lists related -->
+
+<div width="100%">
+<table width="100%"><tr><td style="vertical-align:bottom;">
+<h3 style="vertical-align:bottom;">About</h3>
+</td><td width="40">
+<a href="javascript: Help.popHelp('Blue_panel');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about the side bar.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+</td></tr></table>
+<div style="font-size:0.8em;padding: 0px 0px 0px 0px;">
+	<span>Application Release: <b><%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%></b>
+	<br/>
+	Data Release Date: <b><%=System.getProperty("rembrandt.data.releaseDate")!=null ? System.getProperty("rembrandt.data.releaseDate") : "2009"%></b>
+	</span> 
+</div>
+
+<h3>Queries</h3>
+<html:form action ="delete_Query.do">
+<script type="text/javascript">
+	var method;
+	var queryKey; 
+	function setMode(method, queryKey){   
+		document.deleteQueryForm.method.value = method;
+		document.deleteQueryForm.queryKey.value = queryKey;  
+	}
+</script>
+				 
+<%
+RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
+String  query = "";	
+String cquery = "";
+int j = 0;	
+String queryKey = null;
+	
+String pageStr = (String)request.getSession().getAttribute("currentPage");					   
+String pageStr2 = (String)request.getSession().getAttribute("currentPage2");  
+
+String sessionId = request.getSession().getId();
+SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
+
+if(queryCollection != null)	{
+
+	Collection queryColl = queryCollection.getQueries();
+	Collection queryKeys = queryCollection.getQueryNames();
+	Collection compoundQueryKeys = queryCollection.getCompoundQueryNames();
+	Map cqs = queryCollection.getCompoundQueryMap();
+	
+	Iterator i = queryColl.iterator();
+	while (i.hasNext()) { 
+	     j++;
+	     query =i.next().toString();
+		 	
+		 Iterator iter = queryKeys.iterator();
+	     while(iter.hasNext())	{
+	     	queryKey = (String)iter.next();
+			String queryName = queryCollection.getQuery(queryKey).toString();
+			if(query.equalsIgnoreCase(queryName))	{
+				break;
+			}
+		}
+%>
+		<table border="0" style="font-size:.9em">
+			<tr>
+				<td><%=query%>
+<%
+			if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))) )	{%>
+			     <input type="submit" class="sbutton" style="width:50px" value="delete" onclick="setMode('deleteQuery', '<%=queryKey%>')">
+			     <input type="submit" class="sbutton" style="width:50px" value="edit" onclick="setMode('editQuery', '<%=queryKey%>')">
+			     <input type="submit" class="sbutton" style="width:50px" value="copy" onclick="setMode('copyQuery', '<%=queryKey%>')">	
+<%
+			}
+%>
+				</td>
+			</tr>
+		</table>
+<%
+	}
+	i = compoundQueryKeys.iterator();
+	while (i.hasNext()) { 
+		query = (String)i.next();
+		CompoundQuery cq = (CompoundQuery)cqs.get(query);
+		cquery = cq.toStringForSideBar();
+		j++;
+		
+%>
+		<table border="0" style="font-size:.9em">
+			<tr>
+				<td><%=cquery%>
+
+<%
+			if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))) )	{
+%>
+			     <input type="submit" class="sbutton" style="width:50px" value="delete" onclick="setMode('deleteCompoundQuery', '<%=query%>')">	
+<%
+			}
+%>
+
+				</td>
+			</tr>
+		</table>
+<%
+	
+}
+} 
+
+if(j !=0 && j>=2)	{
+	if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))))	{
+%>
+		<html:submit styleClass="xbutton" value="delete all queries" onclick="setMode('deleteAll', 'all')"/>
+<%
+	}
+}
+%>
+	<html:hidden property="method"/>
+	<html:hidden property="queryKey" />
+	</html:form>
+	<br/>
+</div>
+
+<!------------------ lists -------------------->
+<div id="sidebar">
+<h3>Lists</h3>
+<%
+	ListType[] lts = ListType.values();
+	for(int i=0; i<lts.length; i++)	{
+		String label = lts[i].toString();
+%>
+	<div style="text-align:left; margin-top:10px;">
+		<b><%=label%> Lists:</b>
+		<div id="sidebar<%=label%>UL">
+			<img src="images/indicator.gif"/>
+		</div>	
+	</div>
+<%
+	}
+%>
+	<br/><br/>
+	<b style="color:#A90101; font-size:10px;">Items in Red are "custom" lists</b>
+</div>
+<script language="javascript">
+	SidebarHelper.loadSidebar();
+</script>

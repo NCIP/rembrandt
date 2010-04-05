@@ -1,0 +1,37 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN"
+    "http://getahead.org/dwr/dwr10.dtd">
+<dwr>
+  <allow>
+    <create creator="new" javascript="JDate">
+      <param name="class" value="java.util.Date"/>
+    </create>
+    <create creator="new" javascript="Inbox">
+      <param name="class" value="gov.nih.nci.rembrandt.web.inbox.QueryInbox"/>
+    </create>
+    <create creator="new" javascript="DynamicReport">
+      <param name="class" value="gov.nih.nci.rembrandt.web.ajax.DynamicReportGenerator"/>
+    </create>
+    <create creator="new" javascript="UserPreferences">
+      <param name="class" value="gov.nih.nci.rembrandt.web.helper.UserPreferencesHelper"/>
+    </create>
+    <create creator="new" javascript="DynamicListHelper">
+      <param name="class" value="gov.nih.nci.rembrandt.web.ajax.DynamicListHelper"/>
+    </create>
+    <create creator="new" javascript="RegHelper">
+      <param name="class" value="gov.nih.nci.rembrandt.web.ajax.RegHelper"/>
+    </create>
+    <create creator="new" javascript="UserListHelper">
+      <param name="class" value="gov.nih.nci.caintegrator.application.lists.UserListBeanHelper"/>
+    </create>
+    <create creator="new" javascript="ListFilter">
+      <param name="class" value="gov.nih.nci.rembrandt.util.RembrandtListFilter"/>
+    </create>
+    <create creator="new" javascript="GenePatternHelper">
+          <param name="class" value="gov.nih.nci.rembrandt.web.ajax.GenePatternHelper"/>
+    </create>
+    <create creator="new" javascript="WorkspaceHelper">
+          <param name="class" value="gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper"/>
+    </create>
+  </allow>
+</dwr>

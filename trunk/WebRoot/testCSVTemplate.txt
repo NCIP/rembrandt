@@ -1,0 +1,11 @@
+<t:headerCell>
+	{v:headerColspan}{v:headerValue},
+</t:headerCell>\n
+<t:sampleCell>
+	{v:sampleColspan}{v:sampleValue},
+</t:sampleCell>\n
+<t:row>
+	<t:cell> 
+		{v:value}{v:class}, 
+	</t:cell>
+</t:row>\n

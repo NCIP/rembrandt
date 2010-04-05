@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WebWorksHelpTOC version="5.0" xmlns="urn:WebWorks-Help-TOC-Schema">
+  <i t="Welcome to the REMBRANDT Online Help" l="0" />
+  <i t="Online Help Tips" l="1" />
+  <i t="Application Support" l="2" />
+  <i t="Getting Started with REMBRANDT" l="3">
+    <i t="About REMBRANDT" l="4">
+      <i t="How to Cite REMBRANDT Data" l="5" />
+    </i>
+    <i t="REMBRANDT’s Opening Page" l="6" />
+    <i t="Logging In" l="7">
+      <i t="Accepting REMBRANDT Provisions" l="8" />
+    </i>
+    <i t="REMBRANDT Menu" l="9" />
+    <i t="REMBRANDT Tabs" l="10" />
+    <i t="REMBRANDT Side Bar" l="11" />
+    <i t="Application Support" l="12" />
+    <i t="Logging Out" l="13" />
+  </i>
+  <i t="Conducting a Simple Search" l="14">
+    <i t="Simple Search Overview" l="15" />
+    <i t="Gene Expression Simple Search" l="16">
+      <i t="Eliminating Aliases" l="17" />
+      <i t="Understanding a Gene Expression Plot" l="18">
+        <i t="Median Plot Details" l="19" />
+        <i t="Geometric Mean Plot Details" l="20" />
+        <i t="Log2 Intensity Gene Expression Plot Details" l="21" />
+        <i t="Box and Whisker Log2 Intensity Gene Expression Plot Details" l="22">
+          <i t="Displaying a Coin Plot" l="23" />
+        </i>
+        <i t="Saving, Printing, and E-mailing a Gene Expression Plot" l="24" />
+      </i>
+    </i>
+    <i t="K-M Gene Expression Simple Search" l="25">
+      <i t="Redrawing the K-M Survival Plot for Gene Expression Data" l="26" />
+    </i>
+    <i t="Understanding K-M Survival Plot for Gene Expression Data" l="27" />
+    <i t="K-M Copy Number Simple Search" l="28">
+      <i t="Redrawing the K-M Survival Plot for Copy Number Data" l="29" />
+      <i t="Understanding K-M Survival Plot for Copy Number Data" l="30" />
+    </i>
+    <i t="K-M Sample Search" l="31">
+      <i t="Understanding K-M Survival Plot for Sample Data" l="32" />
+    </i>
+  </i>
+  <i t="Conducting Advanced Searches" l="33">
+    <i t="Advanced Searches Overview" l="34" />
+    <i t="Gene Expression Advanced Search" l="35">
+      <i t="Selecting a Gene Ontology (GO) Classification" l="36" />
+      <i t="Selecting a Pathway" l="37" />
+    </i>
+    <i t="Copy Number Advanced Search" l="38" />
+    <i t="Clinical Study Advanced Search" l="39" />
+    <i t="Managing Individual and Compound Queries" l="40" />
+    <i t="Refining a Query" l="41" />
+  </i>
+  <i t="High Order Analysis" l="42">
+    <i t="High Order Analysis Overview" l="43" />
+    <i t="Performing a Class Comparison" l="44" />
+    <i t="Performing a Principal Component Analysis" l="45" />
+    <i t="Performing Hierarchical Clustering Analysis" l="46" />
+    <i t="Performing a GenePattern Analysis" l="47" />
+    <i t="Launching GenePattern" l="48" />
+  </i>
+  <i t="Viewing Results" l="49">
+    <i t="Results Overview" l="50" />
+    <i t="Notification of Prolonged Queries" l="51" />
+    <i t="Clinical Reports" l="52">
+      <i t="Viewing Clinical Plots" l="53" />
+    </i>
+    <i t="Advanced Search or Query Results" l="54">
+      <i t="Gene Expression Sample Report" l="55">
+        <i t="Filtering Results by Gene or Reporter (Filter Toolbar)" l="56" />
+        <i t="Highlighting Results By Value (Highlight Toolbar)" l="57" />
+        <i t="Selecting and Saving Sample Results (Select Samples Toolbar)" l="58" />
+        <i t="Differentiating Data (Show All Values Toolbar)" l="59" />
+        <i t="Removing Columns (Hide Diseases toolbar)" l="60" />
+        <i t="Showing Additional Information" l="61" />
+      </i>
+      <i t="Copy Number Sample Report" l="62">
+        <i t="Displaying Copy Number Sample Data in webGenome" l="63" />
+      </i>
+    </i>
+    <i t="High Order Analysis Results" l="64">
+      <i t="Class Comparison Report" l="65">
+        <i t="Filtering a p-value (Filter p-value Toolbar)" l="66" />
+        <i t="Selecting and Saving Reporters (Select Reporters toolbar)" l="67" />
+        <i t="Resorting Column Results" l="68" />
+      </i>
+      <i t="Principal Component Analysis Plot" l="69">
+        <i t="Viewing a Three-dimensional Principal Component Analysis (PCA)" l="70" />
+      </i>
+      <i t="Hierarchical Clustering Report" l="71" />
+      <i t="GenePattern Analysis Reports" l="72" />
+    </i>
+  </i>
+  <i t="Downloading Data" l="73">
+    <i t="Data Download Overview" l="74">
+      <i t="Downloading caArray Tools and Files" l="75" />
+      <i t="Downloading BRB Array Tools and Files" l="76" />
+    </i>
+  </i>
+  <i t="Managing Your Workspace" l="77">
+    <i t="Managing Lists Overview" l="78">
+      <i t="Adding New Lists" l="79">
+        <i t="Combining Existing Lists to Create a New List" l="80" />
+        <i t="Uploading a List" l="81" />
+        <i t="Manually Entering a List" l="82" />
+      </i>
+      <i t="Viewing the Data Items in a List" l="83" />
+      <i t="Removing Data Items" l="84" />
+      <i t="Deleting an Entire List" l="85" />
+    </i>
+    <i t="Organizing Existing Lists and Queries" l="86" />
+    <i t="Importing Lists and Queries" l="87" />
+    <i t="Exporting Lists and Queries" l="88" />
+  </i>
+  <i t="Glossary" l="89" />
+</WebWorksHelpTOC>

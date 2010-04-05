@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Understanding K-M Survival Plot for Gene Expression Data</title>
+    <link rel="StyleSheet" href="css/rembrandt_Simple_Searches.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body style="" onLoad="WWHUpdate();" onUnload="WWHUnload();" onKeyDown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onKeyPress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onKeyUp="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="rembrandt_Simple_Searches.5.1.html#1190034">Conducting a Simple Search</a> &gt; Understanding K-M Survival Plot for Gene Expression Data</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1"><a name="1190034">Understanding K-M Survival Plot for Gene Expression Data</a></div>
+      <div class="Body_Text"><a name="1189910">A K-M Survival Plot for Gene Expression Data displays the survival rate at each time </a>point for samples with certain expression characteristics (e.g., EGFR expression levels in tumor samples greater than those in the non-tumor samples by 3 fold or higher). Kaplan-Meier estimates are calculated based on the last follow-up time and the censor status (0=alive, 1=dead) from the samples of interest.The Kaplan-Meier estimates are then plotted against the survival time. The points that correspond to the events with censor status of 0 are indicated on the graph. You can dynamically modify the fold change (up and down regulation) thresholds and redraw the plot.</div>
+      <div class="Note_Main_Body_outer" style="margin-left: 13px;">
+        <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1182777">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Note_Main_Body_inner" style="width: 15px; white-space: nowrap;">
+                <span style="left: -20px; position: relative; top: 15px;">
+                  <img src="note_NCI.gif" alt="*" id="bullet1182777" border="0" width="30" height="30" />
+                </span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Note_Main_Body_inner"><a name="1182777">Samples for which there is no survival information and censor status are excluded from </a>the Kaplan Meier Plot Analysis.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body_Text"><a name="1182991">The following discussion summarizes the relationships between Affymetrix probe sets </a>to genes, as annotated by NetAffx. </div>
+      <div class="Anchor_Para"><a name="1182809">&nbsp;</a></div>
+      <table id="1182778" class="Table_-_Single_Cell" style="text-align: left;" cellspacing="2">
+        <caption></caption>
+        <tr>
+          <td id="tc1182794" style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: #000000; border-left-style: solid; border-left-width: 1px; border-right-color: #000000; border-right-style: solid; border-right-width: 1px; border-top-color: #000000; border-top-style: solid; border-top-width: 1px; padding-bottom: 4pt; padding-left: 6pt; padding-right: 4pt; padding-top: 4pt; vertical-align: top;">
+            <div class="Table_Text" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><a name="1182780">Note on Probe Set to Gene Summarization</a></span></div>
+            <div class="Table_Text"><a name="1182781">NetAffx annotation of Affymetrix expression probe sets contains a relationship between probe </a>sets and genes, and many genes are represented by multiple probe sets. Often researchers need to calculate expression of a particular gene in a sample as a single value. Several methods are widely used: (1) selecting the “best” single probe set for each gene by either highest mean, or median, or maximum expression across all the samples in the dataset; (2) combining probes into a re-annotated sets and creating a custom CDF file; (3) simply averaging expression values of all probe sets associated with the same gene. The second method, while perhaps biologically more relevant, requires re-processing the whole data set starting from raw data in CEL files. The third method, although quite simple, should be avoided.</div>
+            <div class="Table_Text"><a name="1182786"> The following figure</a> shows pair-wise correlations between all probe sets associated with the EGFR gene. The histograms on the diagonal are distributions of expression values (log2-transformed) for each probe set. On the correlation plots, each dot represents a sample, and color corresponds to Pearson’s correlation coefficient. The probe sets (eight in the case of the EGFR gene) are sorted by their mean expression across all the samples. Thus low expressing probe sets are located in the upper left corner of the figure, and high expressing in the lower right corner. <img id="1182788" class="Default" src="images/EGFR_plotmatrix_cc.png" width="551" height="401" style="display: block; float: none; left: 0.0; text-align: center; top: 0.0;" alt="screen shot pairwise correlations example" /></div>
+            <div class="Table_Text"><a name="1182792">It is clear that different probe sets have very different expression ranges, and averaging them </a>by either mean or median is (a) simply incorrect, because values do not belong to the same population (one-way ANOVA analysis gives zero p-value), and (b) results in lower values and larger noise, making any further analysis very difficult.</div>
+            <div class="Table_Text"><a name="1182793">Another observation from the figure is that probe sets with highest expression are usually </a>correlated with each other very well, in contrast to low expression probe sets, suggesting that a single probe set with relatively high expression can be used to represent the gene (method 1 above).</div>
+            <div class="Table_Text"><a name="1182794">The EGFR gene has been chosen only because of its known wide range of expression in </a>brain tumors. However, this pattern is very similar for the majority of genes represented by multiple probe sets on Affymetrix platform.</div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body_Text"><a name="1181354">To redraw the survival plot, see </a><span class="Emphasis" style="color: #515186;"><a href="javascript:WWHClickedPopup('REMBRANDT_Online_Help', 'rembrandt_Simple_Searches.5.13.html#1080839', '');">Redrawing the K-M Survival Plot for Gene Expression Data</a></span>.The following table describes areas on the Kaplan-Meier Survival Plot for Gene Expression data page.</div>
+      <table id="1181357" class="Table_-_Column_Header" style="text-align: left;" cellspacing="2">
+        <caption></caption>
+        <tr>
+          <td id="tc1181359" style="background-color: LightSteelBlue; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: middle; width: 92.25pt;">
+            <div class="Table_Header"><a name="1181359">Item</a></div>
+          </td>
+          <td id="tc1181361" style="background-color: LightSteelBlue; border-bottom-color: Black; border-bottom-style: solid; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: middle; width: 329.25096pt;">
+            <div class="Table_Header"><a name="1181361">Special Instructions</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td id="tc1181366" style="background-color: WhiteSmoke; border-bottom-color: #000000; border-bottom-style: none; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: top;">
+            <div class="Table_Text" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><span class="Bold"><a name="1181366"><img id="1181364" class="Default" src="images/rembrandt_Simple_Searches.5.14.2.jpg" width="100" height="28" style="display: block; float: none; left: 0.0; text-align: left; top: 0.0;" alt="standard icons for working with graphs" /></a></span></div>
+          </td>
+          <td id="tc1181368" style="background-color: WhiteSmoke; border-bottom-color: #000000; border-bottom-style: none; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: top;">
+            <div class="Table_Text"><a name="1181368">Mouse-over the graph, and standard icons appear in the upper left-hand </a>corner. Click the appropriate icon to save, print, or e-mail the graph. See <span class="Emphasis" style="color: #515186;"><a href="javascript:WWHClickedPopup('REMBRANDT_Online_Help', 'rembrandt_Simple_Searches.5.11.html#1118352', '');">Saving, Printing, and E-mailing a Gene Expression Plot</a></span>.</div>
+          </td>
+        </tr>
+        <tr>
+          <td id="tc1181373" style="background-color: White; border-bottom-color: #000000; border-bottom-style: none; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: top;">
+            <div class="Table_Text" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><span class="Bold"><a name="1181373">View Clinical </a></span><span class="Bold">Reports</span></div>
+          </td>
+          <td id="tc1181378" style="background-color: White; border-bottom-color: #000000; border-bottom-style: none; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: top;">
+            <div class="Table_Text"><a name="1181378">When you apply a gene expression filter, REMBRANDT provides links to </a>display the gene expression for <span class="Bold">Upregulating Samples</span>, <span class="Bold">Downregulating Samples</span>, and <span class="Bold">Intermediate Samples</span>. For more information, see <span class="Emphasis" style="color: #515186;"><a href="javascript:WWHClickedPopup('REMBRANDT_Online_Help', 'rembrandt_View%20Results.8.4.html#1136593', '');">Clinical Reports</a></span>.</div>
+          </td>
+        </tr>
+        <tr>
+          <td id="tc1181383" style="background-color: WhiteSmoke; border-bottom-color: #000000; border-bottom-style: none; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: top;">
+            <div class="Table_Text" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline;"><span class="Bold"><a name="1181383">Statistical Report</a></span></div>
+          </td>
+          <td id="tc1181388" style="background-color: WhiteSmoke; border-bottom-color: #000000; border-bottom-style: none; border-bottom-width: 1px; border-left-color: #000000; border-left-style: none; border-left-width: 1px; border-right-color: #000000; border-right-style: none; border-right-width: 1px; border-top-color: #000000; border-top-style: none; border-top-width: 1px; padding-bottom: 6px; padding-left: 6px; padding-right: 6px; padding-top: 6px; vertical-align: top;">
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1181385">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><a name="1181385">Displays the gene keyword entered as search criteria for the plot.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1181386">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><a name="1181386">Displays the reporter selected for the plot.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1181387">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><span class="Bold"><a name="1181387">Number of Samples</a></span> specifies the number of Up-Regulated, Intermediate, Down-Regulated samples, if any. </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Table_Bullet_outer" style="margin-left: 0pt;">
+              <table border="0" cellspacing="0" cellpadding="0" id="SummaryNotRequired_np1181388">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Table_Bullet_inner" style="width: 18pt; white-space: nowrap;">
+                      <span style="left: 10px; position: relative;">•</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Table_Bullet_inner"><span class="Bold"><a name="1181388">Log-rank </a></span><span class="Emphasis">p</span><span class="Bold" style="font-style: normal;">-Value</span> indicates the significance of the difference in survival between any two groups of samples segregated based on gene expression of the gene of interest. The log rank <span class="Emphasis">p</span>-value is calculated using Mantel-Haenszel procedure. The <span class="Emphasis">p</span>-values are recalculated every time a new threshold is selected. </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          // Add related topics
+          //
+          WWHAddRelatedTopic("Redrawing the K-M Survival Plot for Gene Expression Data", "REMBRANDT_Online_Help", "rembrandt_Simple_Searches.5.13.html#1080839");
+          WWHAddRelatedTopic("Clinical Reports", "REMBRANDT_Online_Help", "rembrandt_View%20Results.8.4.html#1136593");
+          WWHAddRelatedTopic("K-M Gene Expression Simple Search", "REMBRANDT_Online_Help", "rembrandt_Simple_Searches.5.12.html#1131913");
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

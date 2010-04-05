@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>_QA_baseline_RBT_HOA_Tests</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Login to Rembrandt</td></tr>
+</thead><tbody>
+<!--  Connect to the desired Testing tier -->
+<tr>
+	<td>open</td>
+	<td>/rembrandt/</td>
+	<td></td>
+</tr>
+<!--  Login credentials -->
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Browse Rembrandt Data']</td>
+	<td>10000</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td></td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userName</td>
+	<td>RBTuser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>RBTpass</td>
+</tr>
+<!--  Navigate to body of the application -->
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='login']</td>
+	<td>10000</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=CLICKING HERE</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

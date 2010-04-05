@@ -1,0 +1,13 @@
+java.naming.factory.initial=org.jnp.interfaces.NamingContextFactory
+java.naming.factory.url.pkgs=org.jboss.naming.client
+java.naming.provider.url=@JNDI-URL@
+
+#Cbiodev52
+#java.naming.provider.url=jnp://156.40.131.82:1099
+
+#cbioqatest501:
+#java.naming.provider.url=jnp://156.40.130.106:1099
+
+#localhost
+#java.naming.provider.url=jnp://localhost:1099
+    
