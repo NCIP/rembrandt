@@ -1,6 +1,7 @@
 function FileData_Pairs(x)
 {
 x.t("managing","individual");
+x.t("right","side");
 x.t("build","query");
 x.t("describes","manage");
 x.t("create","compound");
@@ -14,6 +15,7 @@ x.t("delete","compound");
 x.t("delete","queries");
 x.t("delete","button");
 x.t("delete","existing");
+x.t("listed","right");
 x.t("listed","side");
 x.t("advanced","searches");
 x.t("advanced","search");

@@ -89,27 +89,28 @@
     <Document title="Launching GenePattern" href="rembrandt_High_Order_Analysis.7.7.html" />
     <Document title="Viewing Results" href="rembrandt_View%20Results.8.1.html" />
     <Document title="Results Overview" href="rembrandt_View%20Results.8.2.html" />
-    <Document title="Clinical Reports" href="rembrandt_View%20Results.8.3.html" />
-    <Document title="Viewing Clinical Plots" href="rembrandt_View%20Results.8.4.html" />
-    <Document title="Advanced Search or Query Results" href="rembrandt_View%20Results.8.5.html" />
-    <Document title="Gene Expression Sample Report" href="rembrandt_View%20Results.8.6.html" />
-    <Document title="Filtering Results by Gene or Reporter (Filter Toolbar)" href="rembrandt_View%20Results.8.7.html" />
-    <Document title="Highlighting Results By Value (Highlight Toolbar)" href="rembrandt_View%20Results.8.8.html" />
-    <Document title="Selecting and Saving Sample Results (Select Samples Toolbar)" href="rembrandt_View%20Results.8.9.html" />
-    <Document title="Differentiating Data (Show All Values Toolbar)" href="rembrandt_View%20Results.8.10.html" />
-    <Document title="Removing Columns (Hide Diseases toolbar)" href="rembrandt_View%20Results.8.11.html" />
-    <Document title="Showing Additional Information" href="rembrandt_View%20Results.8.12.html" />
-    <Document title="Copy Number Sample Report" href="rembrandt_View%20Results.8.13.html" />
-    <Document title="Displaying Copy Number Sample Data in webGenome" href="rembrandt_View%20Results.8.14.html" />
-    <Document title="High Order Analysis Results" href="rembrandt_View%20Results.8.15.html" />
-    <Document title="Class Comparison Report" href="rembrandt_View%20Results.8.16.html" />
-    <Document title="Filtering a p-value (Filter p-value Toolbar)" href="rembrandt_View%20Results.8.17.html" />
-    <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt_View%20Results.8.18.html" />
-    <Document title="Resorting Column Results" href="rembrandt_View%20Results.8.19.html" />
-    <Document title="Principal Component Analysis Plot" href="rembrandt_View%20Results.8.20.html" />
-    <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt_View%20Results.8.21.html" />
-    <Document title="Hierarchical Clustering Report" href="rembrandt_View%20Results.8.22.html" />
-    <Document title="GenePattern Analysis Reports" href="rembrandt_View%20Results.8.23.html" />
+    <Document title="Notification of Prolonged Queries" href="rembrandt_View%20Results.8.3.html" />
+    <Document title="Clinical Reports" href="rembrandt_View%20Results.8.4.html" />
+    <Document title="Viewing Clinical Plots" href="rembrandt_View%20Results.8.5.html" />
+    <Document title="Advanced Search or Query Results" href="rembrandt_View%20Results.8.6.html" />
+    <Document title="Gene Expression Sample Report" href="rembrandt_View%20Results.8.7.html" />
+    <Document title="Filtering Results by Gene or Reporter (Filter Toolbar)" href="rembrandt_View%20Results.8.8.html" />
+    <Document title="Highlighting Results By Value (Highlight Toolbar)" href="rembrandt_View%20Results.8.9.html" />
+    <Document title="Selecting and Saving Sample Results (Select Samples Toolbar)" href="rembrandt_View%20Results.8.10.html" />
+    <Document title="Differentiating Data (Show All Values Toolbar)" href="rembrandt_View%20Results.8.11.html" />
+    <Document title="Removing Columns (Hide Diseases toolbar)" href="rembrandt_View%20Results.8.12.html" />
+    <Document title="Showing Additional Information" href="rembrandt_View%20Results.8.13.html" />
+    <Document title="Copy Number Sample Report" href="rembrandt_View%20Results.8.14.html" />
+    <Document title="Displaying Copy Number Sample Data in webGenome" href="rembrandt_View%20Results.8.15.html" />
+    <Document title="High Order Analysis Results" href="rembrandt_View%20Results.8.16.html" />
+    <Document title="Class Comparison Report" href="rembrandt_View%20Results.8.17.html" />
+    <Document title="Filtering a p-value (Filter p-value Toolbar)" href="rembrandt_View%20Results.8.18.html" />
+    <Document title="Selecting and Saving Reporters (Select Reporters toolbar)" href="rembrandt_View%20Results.8.19.html" />
+    <Document title="Resorting Column Results" href="rembrandt_View%20Results.8.20.html" />
+    <Document title="Principal Component Analysis Plot" href="rembrandt_View%20Results.8.21.html" />
+    <Document title="Viewing a Three-dimensional Principal Component Analysis (PCA)" href="rembrandt_View%20Results.8.22.html" />
+    <Document title="Hierarchical Clustering Report" href="rembrandt_View%20Results.8.23.html" />
+    <Document title="GenePattern Analysis Reports" href="rembrandt_View%20Results.8.24.html" />
     <Document title="Downloading Data" href="Downloading%20Data.9.1.html" />
     <Document title="Data Download Overview" href="Downloading%20Data.9.2.html" />
     <Document title="Downloading caArray Tools and Files" href="Downloading%20Data.9.3.html" />
@@ -148,11 +149,10 @@
     <Topic name="Advanced_overview" href="rembrandt_Adv_Searches.6.2.html#1110870" />
     <Topic name="Advanced_gene_expression" href="rembrandt_Adv_Searches.6.3.html#1151242" />
     <Topic name="geneexpression_Query_tooltip" href="rembrandt_Adv_Searches.6.3.html#1157904" />
-    <Topic name="geneexpression_Gene_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140856" />
-    <Topic name="geneexpression_Region_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140888" />
-    <Topic name="geneexpression_Go_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140931" />
-    <Topic name="geneexpression_Pathway_tooltip" href="rembrandt_Adv_Searches.6.3.html#1140951" />
-    <Topic name="geneexpression_Clone_tooltip" href="rembrandt_Adv_Searches.6.3.html#1158147" />
+    <Topic name="geneexpression_Gene_tooltip" href="rembrandt_Adv_Searches.6.3.html#1171907" />
+    <Topic name="geneexpression_Clone_tooltip" href="rembrandt_Adv_Searches.6.3.html#1171962" />
+    <Topic name="geneexpression_Go_tooltip" href="rembrandt_Adv_Searches.6.3.html#1171974" />
+    <Topic name="geneexpression_Pathway_tooltip" href="rembrandt_Adv_Searches.6.3.html#1172238" />
     <Topic name="geneexpression_Disease_tooltip" href="rembrandt_Adv_Searches.6.3.html#1129761" />
     <Topic name="geneexpression_Grade_tooltip" href="rembrandt_Adv_Searches.6.3.html#1158196" />
     <Topic name="geneexpression_Sample_tooltip" href="rembrandt_Adv_Searches.6.3.html#1129773" />
@@ -213,17 +213,17 @@
     <Topic name="gpintegration_Array_tooltip" href="rembrandt_High_Order_Analysis.7.6.html#1106545" />
     <Topic name="gpintegration_Name_tooltip" href="rembrandt_High_Order_Analysis.7.6.html#1106484" />
     <Topic name="View_results_overview" href="rembrandt_View%20Results.8.2.html#1067499" />
-    <Topic name="Clinical_report" href="rembrandt_View%20Results.8.3.html#1136593" />
-    <Topic name="Clinical_plot" href="rembrandt_View%20Results.8.4.html#1165532" />
-    <Topic name="Gene_Expression_Sample" href="rembrandt_View%20Results.8.6.html#1101944" />
-    <Topic name="Copy_Number_Sample" href="rembrandt_View%20Results.8.13.html#1114118" />
-    <Topic name="Class_comparison_report" href="rembrandt_View%20Results.8.16.html#1082972" />
-    <Topic name="PCA_report" href="rembrandt_View%20Results.8.20.html#1082922" />
-    <Topic name="3d_pca" href="rembrandt_View%20Results.8.21.html#1108688" />
-    <Topic name="HCA_report" href="rembrandt_View%20Results.8.22.html#1088992" />
-    <Topic name="view_genepattern_job_help" href="rembrandt_View%20Results.8.23.html#1134976" />
-    <Topic name="genepattern_Jobresults_tooltip" href="rembrandt_View%20Results.8.23.html#1135025" />
-    <Topic name="genepattern_Modules_tooltip" href="rembrandt_View%20Results.8.23.html#1135029" />
+    <Topic name="Clinical_report" href="rembrandt_View%20Results.8.4.html#1136593" />
+    <Topic name="Clinical_plot" href="rembrandt_View%20Results.8.5.html#1165532" />
+    <Topic name="Gene_Expression_Sample" href="rembrandt_View%20Results.8.7.html#1101944" />
+    <Topic name="Copy_Number_Sample" href="rembrandt_View%20Results.8.14.html#1114118" />
+    <Topic name="Class_comparison_report" href="rembrandt_View%20Results.8.17.html#1082972" />
+    <Topic name="PCA_report" href="rembrandt_View%20Results.8.21.html#1082922" />
+    <Topic name="3d_pca" href="rembrandt_View%20Results.8.22.html#1108688" />
+    <Topic name="HCA_report" href="rembrandt_View%20Results.8.23.html#1088992" />
+    <Topic name="view_genepattern_job_help" href="rembrandt_View%20Results.8.24.html#1134976" />
+    <Topic name="genepattern_Jobresults_tooltip" href="rembrandt_View%20Results.8.24.html#1135025" />
+    <Topic name="genepattern_Modules_tooltip" href="rembrandt_View%20Results.8.24.html#1135029" />
     <Topic name="download_data_help" href="Downloading%20Data.9.2.html#1136677" />
     <Topic name="results_download_tooltip" href="Downloading%20Data.9.2.html#1135496" />
     <Topic name="caarray_download_tooltip" href="Downloading%20Data.9.3.html#1135495" />
