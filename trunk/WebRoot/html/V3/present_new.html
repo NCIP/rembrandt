@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>caIntegrator: Presentation Options</title>
+	
+	<link href="bigStyle.css" rel="stylesheet" type="text/css">
+    <script language="javascript" src="caIntScript.js"></script>
+	<script type="text/javascript" src="menuSwapper.js"></script>
+	<script type="text/javascript" src="overlib.js"></script>
+	<script type="text/javascript" src="overlib_hideform.js"></script><script type="text/javascript">
+<!--
+
+function olMouseMove(e) {
+    var e = (e) ? e : event;
+    if (e.pageX) {
+        o3_x = e.pageX;
+        o3_y = e.pageY;
+    } else {
+        if (e.clientX) {
+            o3_x = eval("e.clientX+o3_frame." + docRoot + ".scrollLeft");
+            o3_y = eval("e.clientY+o3_frame." + docRoot + ".scrollTop");
+        }
+    }
+    if (o3_allowmove == 1)  { runHook("placeLayer",FREPLACE); if(olHideForm) hideSelectBox();    }
+    if (hoveringSwitch && !olNs4 && runHook("cursorOff", FREPLACE)) {
+        cClick();
+        hoveringSwitch = !hoveringSwitch;
+    }
+}
+
+//-->
+</script>
+
+	<script type="text/javascript" src="moveUpDown.js"></script></head>
+
+
+<body>
+<div id="overDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
+  
+<div class="content">
+		<div class="crumb">	<a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/index.html">Home</a> &gt;
+	            <a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/aSearchMenu.html">Build Query</a> &gt;
+                <a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/refine.html">Refine Query</a> &gt;
+                <a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/present.html"><b>Select Presentation</b></a> &gt;
+                <a href="#">Generate Report</a>
+		</div>
+		1. Select Presentation Focus:
+		<a href="javascript:void(0);" onmouseover="return overlib('For \'Sample View\' all results are for returned samples that meets the query criteria and  \'GeneView\'  returns results for every Gene that meets the query criteria or select a previouly saved presentation template', CAPTION, 'Help');" onmouseout="return nd();">[?]</a><br>
+		<div class="pOptions">
+		<input class="radio" name="Focus" value="yes" checked="checked" type="radio">Sample View
+		<br>
+		<div class="pOptions">
+		Select which elements you want to appear as columns in the Sample View Report (in order). <a href="javascript:void(0);" onmouseover="return overlib('Select the elements you want to appear in the report from the left box, and click \'>>\' to move them to the right box.  The elements in the right box will appear in the report.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+				<form name="combo_box">
+				<table>
+					<tbody><tr>
+						<td>
+						<select multiple="multiple" size="10" name="list1" style="width: 150px;">Disease Type</option><option value="9">Treatment</option><option value="7">Survival Range</option><option value="77">Gender</option><option value="36">Age at Diagnosis</option><option value="87">Study Dataset</option><option value="66">Generating Institute</option><option value="34">Prior Therapy</option><option value="24">Tumor Weight</option><option value="30">Occurance</option><option value="32">GeneExpression</option><option value="15">CopyNumber</option></select>
+						</td>
+						<td align="center" valign="middle"><br><br><br>
+						<input onclick="move(this.form.list2,this.form.list1)" value="&lt;&lt;" onmouseover="return overlib('Remove selection from the report.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" type="button">
+						<input onclick="move(this.form.list1,this.form.list2)" value="&gt;&gt;" onmouseover="return overlib('Add selection to the report.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" type="button">
+						</td>
+						<td>
+						<select multiple="multiple" size="10" name="list2" style="width: 150px;"></select>
+						</td>
+						<td style="padding: 5px; vertical-align: middle;" valign="middle">
+						<a href="javascript:void(0);" onmouseover="return overlib('You may highlight an item in the right box and select to move it up or down in the list.  This will control the order in which the field is displayed in the report.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a><br><br>
+						<input style="width: 20px; font-size: 16px; font-weight: normal;" value="/\" onmouseover="return overlib('Move the selection up.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" onclick="javascript:moveUpList(list2);" type="button"><br><br><!-- value="&uarr;" -->
+						<input style="width: 20px; font-size: 16px; font-weight: normal;" value="\/" onmouseover="return overlib('Move the selection down.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" onclick="javascript:moveDownList(list2);" type="button">
+						</td>
+					</tr>
+				</tbody></table>
+			</form>
+		</div>
+		<input class="radio" name="Focus" value="geneView" type="radio">Gene View
+		<br><br>
+		<input class="radio" name="Focus" value="template" type="radio">Apply a saved Template 	<a href="javascript:void(0);" onmouseover="return overlib('You can use a previously saved template', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		&nbsp;Upload Template:&nbsp;<input type="file">
+		<br>
+		<br>
+		</div>
+		2. Preview the report:  <input class="sbutton" value="preview" onclick="javascript:spawn('preview.html', 780, 300);" type="button"><br><br>
+		3. Save/Download the Presentation Template (optional) <input class="sbutton" value="Save As..." type="button">
+	
+	<br>
+	<br>
+	<input class="xbutton" value="back" onclick="javascript:history.back();" type="button">  
+	<input class="xbutton" value="Run Report" onclick="javascript:location.href='output_2.html';" type="button">
+
+</div>
+
+</body></html>

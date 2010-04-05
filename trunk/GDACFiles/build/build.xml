@@ -1,0 +1,46 @@
+<project name="commons-httpclient" default="compile" basedir="..">
+<!-- Destination directory for the build -->  <property name="build.dir" value="."/>
+  <property name="src.dir"   value="src"/>
+  <property name="dest.dir"   value="classes"/>
+  <path id="cp">
+   <fileset dir="jars">
+    <include name="**/*.jar"/>
+   </fileset>
+  </path>
+
+  <target name="compile">
+
+   <javac srcdir="${src.dir}" destdir="${dest.dir}">
+    <classpath refid="cp"/>
+   </javac>
+
+  </target>
+
+ <target name="run">
+     <input message="Please enter the name of program name in the classes\ folder that you want to run:"
+	addProperty="filename"/>
+	<java classname="${filename}"
+	   fork="true"
+           failonerror="true"
+           maxmemory="256m"
+           >
+
+         <arg value="-h"/>
+          <classpath>
+      		<pathelement path="${classpath}"/>
+      		<fileset dir="jars">
+        		<include name="**/*.jar"/>
+      		</fileset>
+      		<pathelement location="classes"/>
+      			<dirset dir="${build.dir}">
+        			<!-- <include name="**/classes"/> -->
+<include name="C:\\jakarta-tomcat-3.2.3\\webapps\\httpclientest"/>
+        			<exclude name="**/*Test*"/>
+      			</dirset>
+
+    	 </classpath>
+       </java>
+  </target>
+
+
+</project>

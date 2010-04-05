@@ -1,0 +1,245 @@
+<html><head><!--TOOLBAR_START--><!--TOOLBAR_EXEMPT--><!--TOOLBAR_END--><title>caIntegrator: Generated Report</title>
+		
+		<link href="output_2_files/bigStyle.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="output_2_files/overlib.js"></script>
+		<script type="text/javascript" src="output_2_files/overlib_hideform.js"></script><script type="text/javascript">
+<!--
+
+function olMouseMove(e) {
+    var e = (e) ? e : event;
+    if (e.pageX) {
+        o3_x = e.pageX;
+        o3_y = e.pageY;
+    } else {
+        if (e.clientX) {
+            o3_x = eval("e.clientX+o3_frame." + docRoot + ".scrollLeft");
+            o3_y = eval("e.clientY+o3_frame." + docRoot + ".scrollTop");
+        }
+    }
+    if (o3_allowmove == 1)  { runHook("placeLayer",FREPLACE); if(olHideForm) hideSelectBox();    }
+    if (hoveringSwitch && !olNs4 && runHook("cursorOff", FREPLACE)) {
+        cClick();
+        hoveringSwitch = !hoveringSwitch;
+    }
+}
+
+//-->
+</script></head>
+
+
+
+	<body>
+<div id="overDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
+
+<form name="report" method="post" action="#">
+<div class="content">
+		<div class="crumb">	<a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/index.html">Home</a> &gt;
+	            <a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/aSearchMenu.html">Build Query</a> &gt;
+                <a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/refine.html">Refine Query</a> &gt;
+                <a href="http://cbiodev23.nci.nih.gov/caIntegrator/V3/present.html">Select Presentation</a> &gt;
+                <a href="#"><b>Generate Report</b></a>
+		</div>
+	<h3>Generated Report</h3>
+	
+	<table border="0" cellpadding="2" cellspacing="2" width="100%">
+	<tbody><tr class="report">
+	<td>Export Report:</td>
+	<td>
+	<select><option>Excel (.xsl)</option><option>CSV (comma delimited)</option><option>XML</option></select>
+	</td>
+	<td width="50%"><input class="sbutton" value="export report..." type="button">
+	<a href="javascript:void(0);" onmouseover="return overlib('You can download the generated report by selecting a format in the dropdown.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+	</td>
+	</tr>
+	<tr class="report">
+	<td>Save the query:</td>
+	<td><input value="my_query" type="text"></td>
+	<td><input value="save query" class="sbutton" type="button">
+	<a href="javascript:void(0);" onmouseover="return overlib('Save the query for use in the future.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+	</td>
+	</tr>
+	</tbody></table>		
+	<div class="report">
+	Generated Report:   <a href="#">Printable Version</a>-
+	<a href="javascript:void(0);" onmouseover="return overlib('Open the report in a new window - \(HTML web format\) for printing.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+	<a href="#"><img alt="printable version" src="output_2_files/printer2.gif" onmouseover="return overlib('Open the report in a new window - \(HTML web format\) for printing.', CAPTION, 'Help');" onmouseout="return nd();" border="0" hspace="10"></a><br>
+	<br>
+	<span class="message">
+	  
+	 <input class="xbutton" style="padding: 0px; width: 30px; font-family: verdana; height: 15px;" value="&lt;&lt;" onmouseover="return overlib('Previous Page.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" type="button">
+	 <input class="xbutton" style="padding: 0px; width: 30px; font-family: verdana; height: 15px;" value="&gt;&gt;" onmouseover="return overlib('Next Page.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" type="button">
+	
+	 Displaying 1-20 of 173 records
+	 | Page:
+	<select><option>1
+		</option><option>2
+		</option><option>3
+		</option><option>4
+		</option><option>5
+		</option><option>6
+		</option><option>7
+	</option></select>
+	of 14
+	 | 
+	 <input class="sbutton" style="padding: 0px; width: 70px; height: 15px;" value="Show All" onmouseover="return overlib('Show all pages in the report on one scrollable page.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" type="button">
+	<!--
+	&nbsp;<input type="button" class="sbutton" style="width:70px; height:15px; padding:0px;" value="First Page" onmouseover="return overlib('Show the first page.', CAPTION, 'Help');" onmouseout="return nd();">
+	&nbsp;<input type="button" class="sbutton" style="width:70px; height:15px; padding:0px;" value="Last Page" onmouseover="return overlib('Show the last page.', CAPTION, 'Help');" onmouseout="return nd();">
+	-->
+	</span>
+	</div>
+	<br>
+	<b class="message" style="margin-left: 10px;">IE 6+ users click a column header to sort data.  You may arrange columns by dragging and dropping them.</b>
+	<div style="border: 1px solid silver; height: 200px; width: 770px; overflow: auto;">
+	<table id="MyTable" style="width: 100%; background-color: rgb(255, 255, 255);" dragcolor="gray" slcolor="#ffffcc" hlcolor="#BEC5DE" border="0" cellpadding="2" cellspacing="2">
+	  <thead>
+	  <tr style="background-color: silver;" align="center">
+	    <td width="200">Sample</td>
+	    <td width="200">GeneExpression</td>
+	    <td width="200">CopyNumber</td>
+   	    <td width="200">&nbsp;Tumor&nbsp;Category&nbsp;</td>
+	    <td width="200">Survival&nbsp;Range</td>
+
+	    
+	  </tr>
+	  </thead>
+	  <tbody>
+	<tr>
+	    <td>E09419</td>
+	    <td><A HREF="GeneView=E09419" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09419</A></td>
+	    <td><A HREF="CopyNumber=E09419" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09419</A></td>
+	    <td> Mixed glioma (grade 1)</td>
+	    <td> 50-59</td>
+	</tr>
+	<tr>
+	    <td>E09448</td>
+	    <td><A HREF="GeneView=E09448" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09448</A></td>
+	    <td><A HREF="CopyNumber=E09448" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09448</A></td>
+	    <td> glioblastoma multiforme (grade 3)</td>
+	    <td> 60-69</td>
+	</tr>
+	<tr>
+	    <td>E09421</td>
+	    <td><A HREF="GeneView=E09421" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09421</A></td>
+	    <td><A HREF="CopyNumber=E09421" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09421</A></td>
+	    <td> Meningioma </td>
+	    <td> 50-59</td>
+	</tr>
+	<tr>
+	    <td>E09441</td>
+	    <td><A HREF="GeneView=E09441" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09441</A></td>
+	    <td><A HREF="CopyNumber=E09441" ONMOUSEOVER="window.status='Provides a Gene View of Gene Expression results for this sample '; return true" ONMOUSEOUT="window.status=''; return true">E09441</A></td>
+	    <td> Brain stem glioma </td>
+	    <td> 20-29</td>	    
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>7.44</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>30.29</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>105.80</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>498.07</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>3.98</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>1.04</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>4.63</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>2.04</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>8.88</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>45.07</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>31.39</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	<tr>
+	    <td>Data Element</td>
+	    <td>11.54</td>
+	    <td>another value</td>
+	    <td> value</td>
+	    <td> more data</td>
+	</tr>
+	
+	  </tbody>
+	</table>
+	
+	</div>
+	<br>
+	<b class="message">Filter Results:  You may filter the results by column</b>
+	<a href="javascript:void(0);" onmouseover="return overlib('This feature allows you to search within the results.  By entering a value, or range, for one or more columns, you may search within your results.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		
+	<table border="0" cellpadding="2" cellspacing="2">
+	  <tbody><tr style="background-color: silver;" align="left">
+	    <td width="200"><input type="text"></td>
+	    <td width="200"><input type="text"></td>
+	    <td width="200"><input type="text"></td>
+	    <td width="200"><input type="text"></td>
+	    <td width="200"><input type="text"></td>
+	  </tr>
+	  <tr class="report">
+	  <td colspan="6" align="center">
+	  <input class="xbutton" value="back" onclick="javascript:history.back();" type="button">  
+	  <input class="xbutton" value="filter query" type="button">
+	<!--  <a href="javascript:void(0);" onmouseover="return overlib('You can filter your query by searching the specified columns for the entered search text.  Only matching records will be displayed.', ABOVE, CAPTION, 'Help');" onmouseout="return nd();">[?]</a> -->
+	  </td>
+	  </tr>
+	</tbody></table>
+</div>
+</form></body></html>

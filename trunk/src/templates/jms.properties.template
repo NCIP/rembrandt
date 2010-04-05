@@ -1,0 +1,2 @@
+JBOSS_URL=@JBOSS_URL@
+FACTORY_JNDI=ConnectionFactory

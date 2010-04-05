@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>caIntegrator: Presentation Options</title>
+	<LINK href="bigStyle.css" rel="stylesheet" type="text/css">
+    <script language="javascript" src="caIntScript.js"></script>
+	<script type="text/javascript" src="menuSwapper.js"></script>
+	<script type="text/javascript" src="overlib.js"></script>
+	<script type="text/javascript" src="overlib_hideform.js"></script>
+	<script type="text/javascript" src="moveUpDown.js"></script>
+</head>
+
+<body>
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+  
+<div class="content">
+		<DIV class="crumb">	<a href="index.html">Home</A> &gt;
+	            <A href="aSearchMenu.html">Build Query</A> &gt;
+                <A href="refine.html">Refine Query</A> &gt;
+                <A href="present.html"><b>Select Presentation</b></A> &gt;
+                <A href="#">Generate Report</A>
+		</DIV>
+	<h3>Select Presentation Template</h3>
+	<br>
+	<input type="radio" class="radio" name="template" value="yes" checked>Apply a saved Template
+	&nbsp;&nbsp;
+	<a href="javascript:void(0);" onmouseover="return overlib('You can use a previously saved template or create a new one below.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+	<br>
+	<div class="pOptions">
+		<input type="radio" class="radio" name="upload" value="yes" checked>
+		
+		<select>
+			<option>Session Template 1</option>
+			<option>Session Template 2</option>
+			<option>Presentation Template 3</option>
+			<option>Presentation Template 4</option>		
+		</select>
+		
+		&nbsp;&nbsp;-or-&nbsp;&nbsp;
+		<input type="radio" class="radio" name="upload" value="yes">upload&nbsp;<input type="file">
+	</div>
+	<br>
+	<input type="radio" class="radio" name="template" value="no">Create a new Template
+	&nbsp;&nbsp;
+	<a href="javascript:void(0);" onmouseover="return overlib('Create a new presentation template by entering selections below.  This will control how your report is displayed.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+	<br>
+	<div class="pOptions">
+		1. Select which elements you want to appear in the report in order.
+		<a href="javascript:void(0);" onmouseover="return overlib('Select the elements you want to appear in the report from the left box, and click \'&gt;&gt;\' to move them to the right box.  The elements in the right box will appear in the report.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		<form name="combo_box">
+		<table>
+			<tr>
+				<td>
+				<select multiple size="10" name="list1" style="width:150">
+				<option value="12">Gene Name</option>
+				<option value="54">Fold Change</option>
+				<option value="65">GO</option>
+				<option value="45">Pathway</option>
+				<option value="2">Assay Platform</option>
+				<option value="9">Clone Location 5' UTR</option>
+				<option value="7">Clone Location 3' UTR</option>
+				<option value="77">Clone Id</option>
+				<option value="36">Chromosome No.</option>
+				<option value="87">Chromosome Name</option>
+				<option value="66">SNP Id</option>
+				<option value="34">Allele Frequency</option>
+				</select>
+				</td>
+				<td align="center" valign="middle"><br><br><br>
+				<input type="button" onClick="move(this.form.list2,this.form.list1)" value="<<" onmouseover="return overlib('Remove selection from the report.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();">
+				<input type="button" onClick="move(this.form.list1,this.form.list2)" value=">>" onmouseover="return overlib('Add selection to the report.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();">
+				</td>
+				<td>
+				<select multiple size="10" name="list2" style="width:150">
+				</select>
+				</td>
+				<Td valign="middle" style="vertical-align:middle; padding:5px;">
+				<a href="javascript:void(0);" onmouseover="return overlib('You may highlight an item in the right box and select to move it up or down in the list.  This will control the order in which the field is displayed in the report.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a><br><br>
+				<input type="button" style="width:20px;font-size:16px;font-weight:normal;" value="/\" onmouseover="return overlib('Move the selection up.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" onclick="javascript:moveUpList(list2);"><br><br><!-- value="&uarr;" -->
+				<input type="button" style="width:20px;font-size:16px;font-weight:normal;" value="\/" onmouseover="return overlib('Move the selection down.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" onclick="javascript:moveDownList(list2);">
+				</td>
+			</tr>
+		</table>
+		
+		
+		<br>
+		2. Preview the report: &nbsp;<input type="button" class="sbutton" value="preview" onclick="javascript:spawn('preview.html', 780, 300);"><br><Br>
+		3. Save/Download the Presentation Template (optional)&nbsp;<input type="button" class="sbutton" value="Save As...">
+	</div>
+	<br>
+	<input type="button" class="xbutton" value="back" onclick="javascript:history.back();">&nbsp;&nbsp;
+	<input type="button" class="xbutton" value="Run Report" onclick="javascript:location.href='output_2.html';">
+
+</div>
+
+</body>
+</html>

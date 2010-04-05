@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation">
+			<value>/WEB-INF/rembrandt-domain-hibernate.cfg.xml</value>
+		</property>
+
+		<property name="lobHandler" ref="oracleLobHandler"/>
+		
+	</bean>
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:/rembrandt</value>
+		</property>
+	</bean>
+	
+	<bean id="nativeJdbcExtractor"  
+		class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor"
+  		lazy-init="true">
+  	</bean>
+   
+	<!-- JdbcTemplate -->
+	<bean id="jdbcTemplate"
+	 class="org.springframework.jdbc.core.JdbcTemplate"
+	 lazy-init="true">
+	  <property name="dataSource">
+	    <ref local="dataSource"/>
+	  </property>
+	  <property name="nativeJdbcExtractor">
+	    <ref local="nativeJdbcExtractor"/>
+	  </property>
+	</bean>
+	
+	<!-- LobHandler for Oracle JDBC drivers -->
+	<bean id="oracleLobHandler" 
+	 class="org.springframework.jdbc.support.lob.OracleLobHandler" 
+	 lazy-init="true">
+	  <property name="nativeJdbcExtractor">
+	    <ref local="nativeJdbcExtractor"/>
+	  </property>
+	</bean>
+    
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	
+
+	<!-- Transactional advice pointcut definition -->
+	
+			
+	<aop:config>
+		<aop:pointcut id="lookupListMethods"
+			expression="execution(* gov.nih.nci.rembrandt.util.RembrandtListLoader.*(..))" />
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="lookupListMethods" />
+	</aop:config>	
+
+
+</beans>
