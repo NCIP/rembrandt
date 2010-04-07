@@ -1,0 +1,101 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\fswiss\fprq2\fcharset0 Arial;}{\f2\fswiss\fprq2\fcharset0 Verdana;}{\f3\froman\fprq2\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue255;\red0\green0\blue127;\red0\green0\blue0;\red192\green192\blue192;\red255\green255\blue255;}
+{\stylesheet{ Normal;}{\s1 heading 1;}{\s2 heading 2;}}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrt\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b\f0\fs20 Application and Submitter Information\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx4548\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx6119\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0 Submitted by\cell Jenny Glenn/ Himanso Sahni\cell Date\cell 1/4/2007\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx4548\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx6119\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Application\cell Rembrandt\cell Release/Version\cell 1.5\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b Build Information\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1750\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx4548\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx6119\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0 Module\cell caintegrator\par
+caintegrator-analysis-commons\par
+caintegrator-spec\par
+caintegrator-application-commons\cell Tag\cell\cf1\b\fs24 RBT_STAGE_04JAN2007_BUILD1\cf2\f1\fs20\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1750\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\cf0\b0\f0 Associated change requests\cell WebGenomeIntegrationDeploymentRequest_STAGE_8JAN2007.doc\par
+WebGenomeDeploymentRequest_STAGE_8JAN2007.doc\par
+RembrandtAnalysisServerDeploymentRequest_STAGE_8JAN2007.doc\par
+\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1750\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Changes to build instructions \cell __ No\par
+_x_ Yes [updated build instructions must be attached]\par
+\b All Deployment Artifacts are now copied to the anthill.artifacts.dir folder\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Dependencies\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0 Software\cell\pard\intbl\nowidctlpar\hyphpar0\sb60\sa60\sl240\slmult0\f1 Technology Stack : jdk1.5.0_06, jboss 4.0.4, ant 1.6.2\par
+\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\f0 caCORE v3.1 (XML interface)\par
+CSM v3.1 /UPT v 3.1\par
+LPG\par
+caIntegrator Analysis Server\par
+WebGenome Integration module\par
+WebGenome\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Hardware\cell caIntegrator Analysis Server\par
+WebGenome server\par
+\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Database\cell\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b Additional Instructions \cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0 Additional deployment instructions \cell\pard\intbl\nowidctlpar\hyphpar0\fi-360\li720\sl240\slmult0\tx720 1.\tab Update externalized properties  (all necessary steps highlighted in gray)  using the attached RembrandtDeploymentInstruction_v15.doc\par
+2.\tab Update log4 Configuration, (all necessary steps highlighted in gray)  using the attached RembrandtDeploymentInstruction_v15.doc\par
+3.\tab Deploy new war file\par
+\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Additional post-deployment test case instructions\cell\pard\intbl\nowidctlpar\hyphpar0\sb60\sa60\sl240\slmult0\f1 The following test script will test the CSM configuration, Higher Order Analysis, BRB File download and WebGenome dependency. So it should be used after the Higher Order Analysis and WebGenome have been installed and started.\par
+\par
+Step 1) To verify CSM configuration, Use the following account to log in for testing of the application:\par
+Username: RBT_Test1\line Password:\~ RBTp@ss1 \par
+Step 2) You should be greeted with the legal rules of the road page, press \ldblquote clicking here\rdblquote  and you should go to the next page\'85 the \ldblquote Simple Search\rdblquote  Tab\par
+\par
+Step 3) To verify DB configuration, Select the option  Kaplan-Meier survival plot for Gene Expression Data\par
+\~And type \ldblquote EGFR\rdblquote  in the text field next to \ldblquote Gene Keyword\rdblquote  and press the \ldblquote Go\rdblquote  button.\par
+ This should take you to a page that shows a Kaplan-Meier plot\par
+\par
+Step 4) To Verify Higher Order Analysis configuration, click on the \ldblquote Higher Order Analsysis\rdblquote  tab which should take you to a page with three buttons:  \par
+               \ldblquote Class Comparison\rdblquote\par
+               \ldblquote Principal Component Analysis (PCA)\rdblquote\par
+               \ldblquote Hierarchical Clustering Analysis\rdblquote\par
+\par
+Step 5)  Press the \ldblquote Principal Component Analysis (PCA)\rdblquote  button which should take you to a new page that allows you to construct a Higher Order Analysis request.\par
+\par
+Step 6)  Name the \ldblquote Analysis Result\rdblquote  something and press \ldblquote submit\rdblquote .  This should take you to the \ldblquote View Results\rdblquote  page where you should see the Analysis request you submitted with a \ldblquote running\'85\rdblquote  message.  After some unknown time you should see this change to a check mark with a \ldblquote completed\rdblquote  message.\par
+\par
+Step 7) Click the link that is the name that you gave the Analysis Result in Step 6 and you should see a pop up of a PCA graph with 3 tabs.\par
+\par
+Step 8) To verify BRB files setup, Click on the \ldblquote View Results\rdblquote  tab, Scroll down until you see the \ldblquote Bulk Downloads\rdblquote  section. Click on the \ldblquote Download\rdblquote  button and verify a zip file is being downloaded.\par
+\par
+Step 9) To verify Web Genome configuration, Click on the Advanced Search tab, select \ldblquote Copy Number Data Analysis\rdblquote  button. Give the Query some name, type \ldblquote EGFR\rdblquote  as gene Name,  Select \ldblquote MIXED\rdblquote  from the Disease Type list box and click on the \ldblquote Preview\rdblquote  button.\par
+\par
+Step 10) you will see a pop up report , click on the \ldblquote View Plots (in Web Genome)\rdblquote  and WebGenome Application should popup in another window . Verify a plot and close all browser windows, the test is completed.\par
+\cf3\f2\fs18\par
+\par
+\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\cf0\f0\fs20\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b Proposed deployment to staging\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0 Requested Date\cell Jan 8, 2007\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Actual Date\cell\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b Approval For Promotion to Production\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0 Date\cell\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\tx1560 Decision\cell __Approved\par
+__Not Approved  \cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Approved by\cell\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b Proposed deployment to production\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0 Requested Date\cell Jan 16, 2007\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx1779\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0 Actual Date\cell\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat4\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b Notes\cell\row\trowd\trgaph115\trleft-115\trqc\trrh20\trpaddl115\trpaddr115\trpaddfl3\trpaddfr3
+\clcbpat5\clbrdrl\brdrw15\brdrs\brdrcf3\clbrdrr\brdrw15\brdrs\brdrcf3\clbrdrb\brdrw15\brdrs\brdrcf3 \cellx8803\pard\intbl\nowidctlpar\hyphpar0\sl240\slmult0\b0\cell\row\pard\keepn\nowidctlpar\hyphpar0\s1\sb240\sa120\sl240\slmult0\tx0\b\fs32\page\f1 Field Definitions\par
+\pard\nowidctlpar\hyphpar0\sa120\sl240\slmult0\b0\f0\fs20 Most of the fields should be self-explanatory, so this section will only cover those that are not.  If you have any questions about filling out this form, please contact the NCICB SCM Administrator\par
+\pard\keepn\nowidctlpar\hyphpar0\s2\sb240\sa120\sl240\slmult0\tx0\b\i\f1\fs28 Application and Submitter Information\par
+\pard\nowidctlpar\hyphpar0\fi-360\li720\sa120\sl240\slmult0\tx720\b0\i0\f3\fs18\'b7\tab\f0\fs20 Release/Version.  This section should include the product's official version number, in the form <major>.<minor>.<patch>.  For example, 2.3.04.\par
+\pard\keepn\nowidctlpar\hyphpar0\s2\sb240\sa120\sl240\slmult0\tx0\b\i\f1\fs28 Build Information\par
+\pard\nowidctlpar\hyphpar0\fi-360\li720\sa120\sl240\slmult0\tx720\b0\i0\f3\fs18\'b7\tab\f0\fs20 Module \endash  the name of your software module in CVS (i.e., the name you pass in to the CVS checkout command.)\par
+\f3\fs18\'b7\tab\f0\fs20 Tag \endash  the tag that you have created to denote the build you wish to be promoted. This should ideally consist of the application name, version number, and date.\par
+\pard\keepn\nowidctlpar\hyphpar0\s2\sb240\sa120\sl240\slmult0\tx0\b\i\f1\fs28 Dependencies\par
+\pard\nowidctlpar\hyphpar0\sa120\sl240\slmult0\b0\i0\f0\fs20 Most of this information should have already been covered in the Deployment Instructions Guide, but if some of those dependencies have changed, and deployment  coordination between your application and the other application, is necessary, document it here.\par
+\pard\keepn\nowidctlpar\hyphpar0\s2\sb240\sa120\sl240\slmult0\tx0\b\i\f1\fs28 Additional Instructions\par
+\pard\nowidctlpar\hyphpar0\sa120\sl240\slmult0\b0\i0\f0\fs20 Again, most of this information should be covered in the Deployment Instructions Guide, but if there are additional deployment or test instructions that apply only to this build, include them here.  If the deployment process changes are going to be permanent, they need to get included in the Deployment Instructions Guide.\par
+\pard\keepn\nowidctlpar\hyphpar0\s2\sb240\sa120\sl240\slmult0\tx0\b\i\f1\fs28 Proposed Deployment to Staging\par
+\pard\nowidctlpar\hyphpar0\fi-360\li720\sa120\sl240\slmult0\tx720\b0\i0\f3\fs18\'b7\tab\f0\fs20 Keeping in mind the published deployment windows and the 24-hour turn-around time on requests, enter the date you want to deploy here. The Systems Team/SCM administrator will fill in the actual date after deployment.\par
+\f3\fs18\'b7\tab\f0\fs20 Document any emergency/expedited deployment request in the Notes section\par
+\pard\keepn\nowidctlpar\hyphpar0\s2\sb240\sa120\sl240\slmult0\tx0\b\i\f1\fs28 Proposed Deployment to Production\par
+\pard\nowidctlpar\hyphpar0\fi-360\li720\sa120\sl240\slmult0\tx720\b0\i0\f3\fs18\'b7\tab\f0\fs20 Again, keeping in mind the published deployment windows, and the 24 hour staging requirement, enter the date you wish to go live here.  The Systems Team/SCM administrator will fill in the actual date after deployment.\par
+\f3\fs18\'b7\tab\f0\fs20 As discussed above, applications successfully staged will never be automatically deployed to production without a formal request.\par
+\f3\fs18\'b7\tab\f0\fs20 Document any emergency/expedited deployment request in the Notes section.\par
+\pard\keepn\nowidctlpar\hyphpar0\s2\sb240\sa120\sl240\slmult0\tx0\b\i\f1\fs28 Notes\par
+\pard\nowidctlpar\hyphpar0\fi-360\li720\sa120\sl240\slmult0\tx720\b0\i0\f3\fs18\'b7\tab\f0\fs20 This section can include any other information that is not covered elsewhere that you feel is important.\par
+\f3\fs18\'b7\tab\f0\fs20 If this is an emergency deployment request, please document it here, including a detailed justification of why this deployment should occur outside a scheduled window.\par
+\pard\nowidctlpar\hyphpar0\sa120\sl240\slmult0\par
+}
+ 
