@@ -44,12 +44,12 @@ function refresh()	{
 </logic:present>
 <logic:present name="comparitivegenomicForm">
 	<logic:empty name="comparitivegenomicForm" property="geneOption" scope="request">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
 	</logic:empty>
 	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="standard">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method">
+		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
 			<bean:message key="buttons_tile.previewButton" />
 		</html:submit>&nbsp;&nbsp;
 	</logic:equal>
