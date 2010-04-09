@@ -45,76 +45,11 @@ String helpLinkClose = "', 350, 500);\">"+
 
 
   <script type="text/javascript">Help.insertHelp("View_results_overview", " align='right'", "padding:2px;");</script>
-    <br />
     
     
     
     <form action="#">    
-      <!--  
-      <fieldset>
-        <legend>
-          Query Results
-        </legend>
-        <br/>      
-        <logic:notEmpty name="viewResultsForm" property="compoundQueries">
-        
-        <table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
-		  <tr>
-            <td class="message">Compound Query</td>
-            <td class="message">Institutions</td> 
-            <td class="message">View</td>
-          </tr>
-          <nested:iterate name="viewResultsForm" 
-				property="compoundQueries" 
-				id="compoundQuery"  
-				indexId="index">
-              <tr style="background-color:#f2f2f2;font-size:.8em">
-              <td><table><tr>
-                 <td><bean:write name="compoundQuery" property="queryNameWithLink" 	filter="false"/></td>
-                 </tr>
-                 </table>
-                </td>
-                
-                
-                <td>
-                	<nested:notEmpty name="compoundQuery" property="institutionCriteria">
-          			<nested:iterate name="compoundQuery" 
-						property="institutionCriteria.institutions" 
-						id="institute"  
-						indexId="index">
-						<nested:write name ="institute" property="instituteName"/><br><br>
-                	</nested:iterate>
-                	</nested:notEmpty>
-	            </td>
-	            
-	            <td>
-	            	<nested:notEmpty name="compoundQuery" property="validViewStrings" >
-          			<nested:iterate name="compoundQuery"
-          				property="validViewStrings" 
-						id="validView"  
-						indexId="index">
-						<logic:notEqual name="validView" property="value" value="2">
-						<a href="#" onclick="javascript:spawnx('runCompoundQuery.do?method=runCompoundQueryReport&queryName=<nested:write name="compoundQuery" property="queryName"/>&typeOfView=<nested:write name="validView" property="value"/>',770,550,'_report');return false;" 
-							style="font-size:.9em" target="_blank">
-						<nested:write name="validView" property="label"/></a><br><br>
-						</logic:notEqual>
-                	</nested:iterate>
-                	</nested:notEmpty>
-	            </td>	  
-              </tr>
-          </nested:iterate>
-         </table>
-         
-     
-     </logic:notEmpty>
-     
-     <logic:empty name="viewResultsForm" property="compoundQueries">
-     <strong>There are no compound queries to execute at this time.</strong>
-     <br /><br />
-     </logic:empty>
-        
-     </fieldset>
-     -->
+      
      <br /><br />
      <!--  <form> -->
      <fieldset>
@@ -139,8 +74,8 @@ String helpLinkClose = "', 350, 500);\">"+
 					DWREngine.setWarningHandler(customError);
 					DWREngine.setErrorHandler(customError);
 					
-					// setTimeout("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 0200);
-					var vr_checker1 = setInterval("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 10000);
+					 setTimeout("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 0200);
+					var vr_checker1 = setInterval("A_checkAllTaskResultsStatus('<%=session.getId()%>')", 5000);
 	
 				</script>
 				<%

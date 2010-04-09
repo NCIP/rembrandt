@@ -323,10 +323,12 @@ function checkWGThresh_cb(txt)	{
 }
 
 function spawn(url,winw,winh) {
-   w = window.open(url, "_blank",
+	if(window){
+  	 w = window.open(url, "_blank",
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
       ",scrollbars=yes,resizable=yes");
-   if (window.focus){w.focus()}
+   	if (window.focus){w.focus()}
+   }
 
 return false;   
 }

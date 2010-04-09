@@ -32,7 +32,7 @@ function A_checkAllTaskResultsStatus(sessionId)	{
 	vr_totalRuns++;
 	Inbox.checkAllTaskResultsStatus(sessionId, A_checkAllTaskResultsStatus_cb);
 	if(vr_totalRuns > times_to_check) 	{ //avoid infinte loops
-		clearInterval(vr_checker);
+		clearInterval(vr_checker1);
 		
 		//lets slow the interval for checking...1 minute
 		if(!slow_check_flag)	{
@@ -118,29 +118,32 @@ function A_checkFindingStatus_cb(tasks)	{
 function A_checkAllTaskResultsStatus_cb(tasks)	{
 	//looking for an assoc array arr[taskId]=arr[status, time]
 	var vr_alldone = true;
-	
-	for(key in tasks)	{
-		
+		for(key in tasks)	{
 		var curElTime = document.getElementById(key+"_time");
-		var curEl = document.getElementById(key+"_status");
-		var curElImg = document.getElementById(key+"_image");
+		var curEl = document.getElementById(key+"_status");		
+		var curElImg = document.getElementById(key+"_image");		
 		var curElLink = document.getElementById(key+"_link");
-		var curElEmail = document.getElementById(key+"_email");
+		var curElEmail = document.getElementById(key+"_email");		
 		var curElEmailLink = document.getElementById(key+"_email_link");
 		//curElLink.onclick = "";
-		curElEmailLink.innerHTML = "<img src='images/blank.gif' BORDER=0 />"
-		//curElEmailLink.removeAttribute("href");
-		//curElEmailLink.onclick = function(){return false;};
-		var emailImage = "images/blank.gif";
+		if(curElEmailLink){
+			curElEmailLink.innerHTML = "<img src='images/blank.gif' BORDER=0 />";
+			//curElEmailLink.removeAttribute("href");
+		    //curElEmailLink.onclick = function(){return false;};
+		}
+
+		
+		var emailImage = "images/blank.gif";		
 		var taskId = tasks[key]["task_id"];
-		var cacheId = tasks[key]["cache_id"];
+		var cacheId = tasks[key]["cache_id"];			
+	
+			
 			if( tasks[key]["email_timeout"]=='true'){
 				var newhref= "emailReport.do?taskId=" + taskId + "&cacheId=" + cacheId ;
-				curElEmailLink.innerHTML = "<img src='images/mail_icon.gif' alt='email results' BORDER=0 />"
+				curElEmailLink.innerHTML = "<img src='images/mail_icon.gif' alt='email results' BORDER=0 />";
 				curElEmailLink.onclick = new Function( "return newWindow('" + newhref + "');" );
  			}
-			if(tasks[key]["status"] == 'Completed')	{
-				
+ 			if(tasks[key]["status"] == 'Completed')	{
 				//its done, see if the innerhtml already says done	
 				if(curEl.innerHTML != "Completed")	{
 					curEl.innerHTML = "Completed";
@@ -208,7 +211,7 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 	
 	if(vr_alldone)	{
 		//stop checking, theyre all done
-		clearInterval(vr_checker);
+		clearInterval(vr_checker1);
 	}
 
 }

@@ -119,7 +119,7 @@ public class QueryInbox {
 		String currentStatus = "";
 		
 		TaskResult t = ptc.getTaskResult(sid, tid);
-        System.out.println("Reading to cache Id: "+ t.getTask().getId()+" Status: "+t.getTask().getStatus());
+        //System.out.println("Reading to cache Id: "+ t.getTask().getId()+" Status: "+t.getTask().getStatus());
 
 		switch(t.getTask().getStatus())	{
 			case Completed:
@@ -217,24 +217,28 @@ public class QueryInbox {
 			tmp = this.checkSingleTaskResult(sid, t.getId());
 			
 			Map fdata = new HashMap();
-			fdata.put("task_id", t.getId());
 			fdata.put("cache_id", sid);
+			fdata.put("task_id", t.getId());
 			fdata.put("time", String.valueOf(t.getElapsedTimeInSec()));
+	        System.out.println("Cache Id: "+ sid+ "Task Id: "+ t.getId()+" Status: "+tmp+" Time: "+t.getElapsedTimeInSec());
+
 			if(t.getStatus()!= null && t.getStatus().equals(FindingStatus.Running) && t.getElapsedTimeInSec()> numberOfSecondsToWaitBeforeEmail){
 				fdata.put("email_timeout", "true");
 			}else{
 				fdata.put("email_timeout", "false");
 			}
 			fdata.put("status", tmp);
-			if(t.getStatus()!= null && !t.getStatus().equals(FindingStatus.Completed)){
+			if(!tmp.equals("Completed")){
 				fdata.put("emailIcon", " ");
 			}
 			if(t.getStatus()!=null && t.getStatus().getComment()!=null)	{
 				fdata.put("comments", StringEscapeUtils.escapeJavaScript(t.getStatus().getComment()));
 			}
 			currentStatuses.put(t.getId(), fdata);
+	        
+
 		}
-		
+		System.out.println(currentStatuses);
 		return currentStatuses;
 	}
 	

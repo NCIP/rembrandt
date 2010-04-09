@@ -115,7 +115,9 @@ function A_uncheckAll(field)	{
 	else
 		field.checked = false;
 		
-	$("checkAll").checked = false;
+	if($('checkAll')){		
+		$("checkAll").checked = false;
+		}
 		
 }
 
