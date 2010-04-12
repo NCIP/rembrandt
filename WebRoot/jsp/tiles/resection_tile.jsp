@@ -8,7 +8,7 @@
 
 <fieldset class="gray">
 <legend class="red">Re-Resection Sets
-<a href="javascript: Help.popHelp('<%=act%>_excludeResections_tooltip');">[?]</a>   
+<!-- <a href="javascript: Help.popHelp('<%=act%>_excludeResections_tooltip');">[?]</a> -->   
 
 <!-- <app:help help="Indicate the tissue type that was used for the comparative genomic study."/>-->
 </legend><br />
