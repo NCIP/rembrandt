@@ -165,8 +165,8 @@ String helpLinkClose = "', 350, 500);\">"+
 		      %>
           <br/><br/>
      <div style="font-size:9px;text-align:center;">
-     (C)   Clinical Study Analysis| 
-     (GE)  Gene Expression Analysis| 
+     Report View Type : (C)   Clinical Study Analysis | 
+     (GE)  Gene Expression Analysis | 
      (CN)  Copy Number Analysis       
      </div>
     </fieldset>
