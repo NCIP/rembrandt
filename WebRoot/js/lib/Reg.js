@@ -35,11 +35,17 @@ var Reg = {
 	//alert("Hello CB");
 	var res = eval('(' + txt + ')');
 	if(res.status == "pass")	{
-		//$('listServeForm').reset();
-		//$('email').value = "";
+		$('listServeForm').reset();
+		$('email').value = "";
 
 		
 		$('loginMsg').innerHTML = "A confirmation request email regarding your request to join or leave the REMBRANDT_USER_L list serve is being sent under a separate cover.";
+		Fat.fade_element('loginMsg');
+	} else 	{
+		$('listServeForm').reset();
+		$('email').value = "";
+		
+		$('loginMsg').innerHTML = "We apologize as the system failed to process your request to join or leave the REMBRANDT_USER_L list serve, Please report it to Rembrandt application support";
 		Fat.fade_element('loginMsg');
 	}
 },
