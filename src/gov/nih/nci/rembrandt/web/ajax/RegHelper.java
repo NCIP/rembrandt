@@ -101,7 +101,7 @@ public class RegHelper {
 		}
 		return jso.toString();
 	}
-	public static String pListServe(String email, String subscription){
+	/*public static String pListServe1(String email, String subscription){
 		JSONObject jso = new JSONObject();
 		String status = "pass";
 		   try {
@@ -141,6 +141,45 @@ public class RegHelper {
 		    	System.out.println("Error in sending list serve from regHelper");
 	    		status = "failed";
 		    }
+		    jso.put("status", status);
+			return jso.toString();
+	}
+	*/
+	public static String pListServe(String email, String subscription){
+		JSONObject jso = new JSONObject();
+		String status = "pass";
+		   try {
+			 //need to clean the generalFeedback field, also put this in the props as a template
+		      	String listServeName = System.getProperty("gov.nih.nci.rembrandt.list_serve.name")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.list_serve.name") : "REMBRANDT_USER_L";
+		      	String listServeMailTo = System.getProperty("gov.nih.nci.rembrandt.list_serve.mailTo.support")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.list_serve.mailTo.support") : "listserv@list.nih.gov";
+
+
+	        	MailProps mp = new MailProps();
+ 
+	        	//the fields below should be in a props file
+	         	mp.setSmtp(System.getProperty("rembrandt.feedback.mailSMPT"));	        	
+	        	mp.setMailTo(listServeMailTo);
+	        	mp.setMailFrom(email);
+	        	
+
+		        // Construct data
+	    		String message ="";
+		        if(subscription.equals("JOIN")){
+		        	message = "subscribe "+ listServeName + " Anonymous";
+		        	
+		        }else if(subscription.equals("LEAVE")){
+		        	message = "unsubscribe "+listServeName;
+
+		        }
+		        mp.setSubject(message);
+	        	mp.setBody(message);
+	        	
+	    		Mail.sendMail(mp);
+
+		    }  catch (ValidationException e) {
+		    	System.out.println("Error in sending list serve from regHelper");
+	    		status = "failed";
+			}
 		    jso.put("status", status);
 			return jso.toString();
 	}

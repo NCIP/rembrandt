@@ -284,7 +284,7 @@ public class DynamicListHelper {
 			if(validMap != null){
 				for(String symbol:geneList){
 					
-					if(!DataValidator.isGeneSymbolFound(symbol) ||
+					if(!DataValidator.isGeneSymbolFound(symbol) &&
 						DataValidator.searchGeneKeyWord(symbol).length > 1) {
 						//valid, no aliases
 						//allGeneSymbolsValid = false;
