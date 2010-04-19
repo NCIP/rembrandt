@@ -7,14 +7,14 @@
 
 
 <fieldset class="gray">
-<legend class="red">Re-Resection Sets
-<!-- <a href="javascript: Help.popHelp('<%=act%>_excludeResections_tooltip');">[?]</a> -->   
+<legend class="red">Re-Resection Tumor Samples:
 
-<!-- <app:help help="Indicate the tissue type that was used for the comparative genomic study."/>-->
+ <a href="javascript: Help.popHelp('<%=act%>_excludeResections_tooltip');">[?]</a>
+
 </legend><br />
 
 &nbsp;&nbsp;
-<input type="checkbox" name="excludeResections" class="radio" >Exclude Re-Resection Sets
+<input type="checkbox" name="excludeResections" class="radio" >Exclude Re-Resection Tumor Samples
 &nbsp;&nbsp;
 <html:errors property="excludeResections"/>
 </fieldset>

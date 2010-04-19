@@ -27,6 +27,7 @@ if(P=="geneexpression_Pathway_tooltip")C="rembrandt_Adv_Searches.6.3.html#117223
 if(P=="geneexpression_Disease_tooltip")C="rembrandt_Adv_Searches.6.3.html#1129761";
 if(P=="geneexpression_Grade_tooltip")C="rembrandt_Adv_Searches.6.3.html#1158196";
 if(P=="geneexpression_Sample_tooltip")C="rembrandt_Adv_Searches.6.3.html#1129773";
+if(P=="geneexpression_excludeResections_tooltip")C="rembrandt_Adv_Searches.6.3.html#1172939";
 if(P=="geneexpression_Fold_tooltip")C="rembrandt_Adv_Searches.6.3.html#1129783";
 if(P=="geneexpression_Array_tooltip")C="rembrandt_Adv_Searches.6.3.html#1129792";
 if(P=="GO_id_list")C="rembrandt_Adv_Searches.6.4.html#1169575";
