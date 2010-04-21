@@ -282,13 +282,12 @@ public class DynamicListHelper {
 		try	{
 			Map<String,List<AllGeneAliasLookup>> validMap = DataValidator.searchGeneKeyWordList(geneList);
 			if(validMap != null){
-				for(String symbol:geneList){
+				for (String symbol:geneList) {
 					
-					if(!DataValidator.isGeneSymbolFound(symbol) &&
-						DataValidator.searchGeneKeyWord(symbol).length > 1) {
-						//valid, no aliases
-						//allGeneSymbolsValid = false;
-						//break;
+					if(!DataValidator.isGeneSymbolFound(symbol) ||
+						(DataValidator.searchGeneKeyWord(symbol) != null && 
+						 DataValidator.searchGeneKeyWord(symbol).length > 1)) {
+
 						int startPos;
 						if ( geneList.size() > 1 )
 							startPos = validGeneSymbolStr.indexOf(symbol) - 1;
