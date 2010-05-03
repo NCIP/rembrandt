@@ -42,7 +42,7 @@ public class RembrandtAsynchronousFindingManagerImpl extends FindingsManager {
      * it called the execute method of the strategy asynchronously.
 	 * @throws UnsupportedEncodingException 
      */
-    public Task retrieveResultsFromFile(String sessionID, String reportName, String userName, HttpSession session) throws FindingsQueryException, UnsupportedEncodingException {
+    public Task retrieveResultsFromFile(String sessionID, String reportName, String userName, HttpSession session) throws FindingsQueryException {
  		Task task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionID,FindingStatus.Retrieving,null);
         RembrandtTaskResult taskResult = new RembrandtTaskResult(task);
         taskResult.setReportBeanCacheKey(reportName);

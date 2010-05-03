@@ -34,9 +34,9 @@ public class RembrandtAsynchronousFileRetrivalStrategy extends AsynchronousFindi
 	private String userName;
     private HttpSession session = null;
 
-	public RembrandtAsynchronousFileRetrivalStrategy(RembrandtTaskResult taskResult,String reportName, String userName, HttpSession session) throws UnsupportedEncodingException {
+	public RembrandtAsynchronousFileRetrivalStrategy(RembrandtTaskResult taskResult,String reportName, String userName, HttpSession session) {
 		this.setTaskResult(taskResult);
-		this.reportName = URLDecoder.decode(reportName,"UTF-8");
+		this.reportName = reportName;;
 		this.userName = userName;
 		this.session = session;
 	}

@@ -1,26 +1,15 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.application.mail.MailConfig;
-import gov.nih.nci.caintegrator.dto.query.QueryDTO;
-import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
-import gov.nih.nci.caintegrator.service.task.Task;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
-import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
-import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.helper.DownloadEmailedReportHelper;
-import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,8 +47,12 @@ public class DownloadReportFileAction extends Action
 
 		ActionForward forward = null;
 		String reportName = (String)request.getParameter("reportName");	
+		
 		if(reportName == null){
 			reportName = (String) request.getSession().getAttribute("emailFileName");
+		}
+		if(reportName != null){
+			reportName = URLDecoder.decode(reportName,"UTF-8");
 		}
 		// Check if the user is logged in
 		String logged = (String)request.getSession().getAttribute("logged");
