@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.hibernate.type.SerializationException;
 import org.hibernate.util.SerializationHelper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -73,10 +74,15 @@ public class WorkspaceHelper {
             if(userQuery != null  && userQuery.getQueryContent()!= null){
             	session.setAttribute(RembrandtConstants.USER_QUERY, userQuery);
             	byte[] objectData = userQuery.getQueryContent();
-            	Object obj =  SerializationHelper.deserialize(objectData);   
-            	if(obj instanceof SessionQueryBag){
-            		queryBag = (SessionQueryBag)obj;
-            	}
+            	Object obj = null;
+				try {
+					obj = SerializationHelper.deserialize(objectData);
+	            	if(obj != null && obj instanceof SessionQueryBag){
+	            		queryBag = (SessionQueryBag)obj;
+	            	}
+				} catch (SerializationException e) {
+					session.removeAttribute(RembrandtConstants.USER_QUERY);
+				}   
             }else{
             	session.removeAttribute(RembrandtConstants.USER_QUERY);
             }

@@ -120,11 +120,17 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 	var vr_alldone = true;
 		for(key in tasks)	{
 		var curElTime = document.getElementById(key+"_time");
-		var curEl = document.getElementById(key+"_status");		
-		var curElImg = document.getElementById(key+"_image");		
+		//alert("curElTime ="+curElTime);
+		var curEl = document.getElementById(key+"_status");	
+		//alert("curEl ="+curEl);	
+		var curElImg = document.getElementById(key+"_image");
+		//alert("curElImg ="+curElImg);		
 		var curElLink = document.getElementById(key+"_link");
+		//alert("curElLink ="+curElLink);
 		var curElEmail = document.getElementById(key+"_email");		
+		//alert("curElEmail ="+curElEmail);
 		var curElEmailLink = document.getElementById(key+"_email_link");
+		//alert("curElEmailLink ="+curElEmailLink);
 		//curElLink.onclick = "";
 		if(curElEmailLink){
 			curElEmailLink.innerHTML = "<img src='images/blank.gif' BORDER=0 />";
@@ -199,6 +205,7 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 			else if(((tasks[key]["status"] == 'Running')|| (tasks[key]["status"] == 'Retrieving'))&& curEl.innerHTML.indexOf('Completed') != -1 )	{
 				//handle overlapping AJAX calls...this ones already completed...dont reset to running
 				//basically just ignore it
+				vr_alldone = false;
 			}
 			else	{
 				//its running, need to continue
@@ -206,7 +213,9 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 			}
 
 			curElTime.innerHTML = tasks[key]["time"];
-			curElEmail.src = emailImage;
+			if(curElEmail){
+				curElEmail.src = emailImage;
+			}
 	}
 	
 	if(vr_alldone)	{
