@@ -17,9 +17,9 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.apache.log4j.Logger;
-import org.springframework.core.task.TaskExecutor;
 
 /**
  * @author sahnih
@@ -27,7 +27,7 @@ import org.springframework.core.task.TaskExecutor;
  */
 public class DownloadEmailedReportHelper {
 	private static Logger logger = Logger.getLogger(DownloadEmailedReportHelper.class); 
-    private static TaskExecutor taskExecutor = ApplicationContext.getTaskExecutor();
+    private static ThreadPoolExecutor taskExecutor = ApplicationContext.getTaskExecutor();
 	private static RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	private static String dirPath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
 	

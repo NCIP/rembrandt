@@ -220,7 +220,7 @@ public class RefineQueryAction extends LookupDispatchAction {
 			*/
             RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
             try {
-    			asynchronousFindingManagerImpl.submitQuery(request.getSession().getId(), cQuery);
+    			asynchronousFindingManagerImpl.submitQuery(request.getSession(), cQuery);
     		} catch (FindingsQueryException e) {
     			logger.error(e.getMessage());
     		}

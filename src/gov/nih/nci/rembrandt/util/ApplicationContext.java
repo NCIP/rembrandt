@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -110,7 +113,7 @@ public class ApplicationContext{
 	private static Properties messagingProps = null;
     private static Document doc =null;
 	private static CaArrayFileDownloadManagerInterface caArrayFileDownloadManagerInterface;
-    private static TaskExecutor taskExecutor;
+    private static ThreadPoolExecutor taskExecutor;
    /**
     * COMMENT THIS
     * @return
@@ -131,12 +134,16 @@ public class ApplicationContext{
          messagingProps = PropertyLoader.loadProperties(RembrandtConstants.JMS_PROPERTIES);
          
          //set TaskExecutor
-			ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-			threadPoolTaskExecutor.setCorePoolSize(5);
-			threadPoolTaskExecutor.setMaxPoolSize(100);
-			threadPoolTaskExecutor.setQueueCapacity(400);
-			threadPoolTaskExecutor.initialize();
-			setTaskExecutor(threadPoolTaskExecutor);
+         int poolSize = 5;         
+         int maxPoolSize = 50;      
+         long keepAliveTime = 10;      
+         ThreadPoolExecutor threadPoolExecutor = null;      
+         final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(100);
+
+         threadPoolExecutor = new ThreadPoolExecutor(poolSize, maxPoolSize,
+                 keepAliveTime, TimeUnit.SECONDS, queue);
+
+			setTaskExecutor(threadPoolExecutor);
          try {
 	          logger.debug("Bean to Attribute Mappings");
 	          InputStream inStream = QueryHandler.class.getResourceAsStream(RembrandtConstants.DE_BEAN_FILE_NAME);
@@ -263,7 +270,7 @@ public class ApplicationContext{
 			}
 			if(caArrayFileDownloadManagerInterface != null){
 				caArrayFileDownloadManagerInterface.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
-				caArrayFileDownloadManagerInterface.setTaskExecutor((ThreadPoolTaskExecutor) taskExecutor);
+				caArrayFileDownloadManagerInterface.setTaskExecutor((ThreadPoolExecutor) taskExecutor);
 			}
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
@@ -287,13 +294,13 @@ public class ApplicationContext{
 	/**
 	 * @return the taskExecutor
 	 */
-	public static TaskExecutor getTaskExecutor() {
+	public static ThreadPoolExecutor getTaskExecutor() {
 		return taskExecutor;
 	}
 	/**
 	 * @param taskExecutor the taskExecutor to set
 	 */
-	public static void setTaskExecutor(TaskExecutor taskExecutor) {
+	public static void setTaskExecutor(ThreadPoolExecutor taskExecutor) {
 		ApplicationContext.taskExecutor = taskExecutor;
 	}
 }

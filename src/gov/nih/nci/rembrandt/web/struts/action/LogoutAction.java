@@ -12,7 +12,9 @@ import gov.nih.nci.caintegrator.application.workspace.UserQuery;
 import gov.nih.nci.caintegrator.application.workspace.Workspace;
 import gov.nih.nci.caintegrator.exceptions.ValidationException;
 import gov.nih.nci.caintegrator.security.UserCredentials;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationCacheManager;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
@@ -35,6 +37,9 @@ import org.apache.struts.util.MessageResources;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
 * caIntegrator License
@@ -150,11 +155,11 @@ public final class LogoutAction extends Action
         	}
         }
         
-        if("logoutSave".equals(logoutSelection)) {
-    		WorkspaceHelper.saveWorkspace(session);
+        if("logoutSave".equals(logoutSelection)) {             
+     		WorkspaceHelper.saveWorkspace(session);
     		//_cacheManager.persistUserSession(credentials.getUserName(), request.getSession().getId());
         	_cacheManager.deleteSessionCache(session.getId());
-        	//null out the sesssion vars
+         	//null out the sesssion vars
             session.setAttribute("logged", null);
         	//kill the session and unbinds any objects bound to it.
             session.invalidate();

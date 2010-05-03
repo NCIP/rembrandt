@@ -1,5 +1,9 @@
 package gov.nih.nci.rembrandt.service.findings;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.http.HttpSession;
+
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
@@ -21,13 +25,13 @@ public class RembrandtAsynchronousFindingManagerImpl extends FindingsManager {
      * It then creates a new Task to be handed by to the user, while
      * it called the execute method of the strategy asynchronously.
      */
-    public Task submitQuery(String sessionID, QueryDTO queryDTO) throws FindingsQueryException {
-           Task task = new Task(REMBRANDT_TASK_RESULT+queryDTO.getQueryName(),sessionID,FindingStatus.Running,queryDTO);
+    public Task submitQuery(HttpSession session, QueryDTO queryDTO) throws FindingsQueryException {
+           Task task = new Task(REMBRANDT_TASK_RESULT+queryDTO.getQueryName(),session.getId(),FindingStatus.Running,queryDTO);
             task.setQueryDTO(queryDTO);    
             RembrandtTaskResult taskResult = new RembrandtTaskResult(task);
          	//presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(),
          	//		taskResult.getTask().getId(), taskResult);
-        	RembrandtAsynchronousFindingStrategy strategy = new RembrandtAsynchronousFindingStrategy(taskResult);
+        	RembrandtAsynchronousFindingStrategy strategy = new RembrandtAsynchronousFindingStrategy(taskResult, session);
             strategy.executeQuery();  
             return task;
     }
@@ -36,12 +40,13 @@ public class RembrandtAsynchronousFindingManagerImpl extends FindingsManager {
      * and chooses the correct strategy based on the queryDTO type.
      * It then creates a new Task to be handed by to the user, while
      * it called the execute method of the strategy asynchronously.
+	 * @throws UnsupportedEncodingException 
      */
-    public Task retrieveResultsFromFile(String sessionID, String reportName, String userName) throws FindingsQueryException {
+    public Task retrieveResultsFromFile(String sessionID, String reportName, String userName, HttpSession session) throws FindingsQueryException, UnsupportedEncodingException {
  		Task task = new Task(RembrandtAsynchronousFindingManagerImpl.REMBRANDT_TASK_RESULT+reportName,sessionID,FindingStatus.Retrieving,null);
         RembrandtTaskResult taskResult = new RembrandtTaskResult(task);
         taskResult.setReportBeanCacheKey(reportName);
-        RembrandtAsynchronousFileRetrivalStrategy strategy = new RembrandtAsynchronousFileRetrivalStrategy(taskResult, reportName, userName);
+        RembrandtAsynchronousFileRetrivalStrategy strategy = new RembrandtAsynchronousFileRetrivalStrategy(taskResult, reportName, userName, session);
         strategy.executeStrategy();
         return task;
     }

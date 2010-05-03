@@ -20,9 +20,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
@@ -96,7 +98,14 @@ public class EmailQueryAction extends Action
 		userName = (String) request.getSession().getAttribute("name");
 			switch (status){
 				case Running:{
+					 FindingStatus newStatus = FindingStatus.Email;
+					 newStatus.setComment("Upon competion of this query, an email will be sent to "+email);
+                     taskResult.getTask().setStatus(newStatus);
+                     presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(), 
+                    		 taskResult.getTask().getId(), taskResult);
+                           logger.info("Query has been email, task has been placed back in cache");
 					 generateJob();
+					 cancelJob(request.getSession(),taskId);
 					 break;
 
 				}
@@ -179,5 +188,23 @@ public class EmailQueryAction extends Action
 		if (jobDetail != null)
 			StatisticsInfoPlugIn.scheduleWork(jobDetail, trigger);
 		}
+    }
+    private void cancelJob(HttpSession session, String taskId){
+    	
+    	Map<String,Future<?>> futureTaskMap = (Map<String,Future<?>>) session.getAttribute("FutureTaskMap");
+
+    	if(futureTaskMap != null){
+    		for(String taskKey: futureTaskMap.keySet()){
+    			if(taskKey.equals(taskId)){
+    				Future<?> future = futureTaskMap.get(taskKey);
+    				if(future != null && !future.isDone()){
+    					System.out.println("cancel" + taskKey);
+    					future.cancel(true);
+    				}
+    			}
+
+    		}
+    	}
+
     }
 }

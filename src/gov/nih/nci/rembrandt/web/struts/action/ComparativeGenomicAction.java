@@ -413,7 +413,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         
         RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
         try {
-			asynchronousFindingManagerImpl.submitQuery(request.getSession().getId(), compoundQuery);
+			asynchronousFindingManagerImpl.submitQuery(request.getSession(), compoundQuery);
 		} catch (FindingsQueryException e) {
 			logger.error(e.getMessage());
 		}

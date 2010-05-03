@@ -4,47 +4,51 @@ import gov.nih.nci.caintegrator.application.mail.MailConfig;
 import gov.nih.nci.caintegrator.application.service.strategy.AsynchronousFindingStrategy;
 import gov.nih.nci.caintegrator.dto.query.QueryDTO;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
-import gov.nih.nci.caintegrator.service.task.Task;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
-import gov.nih.nci.rembrandt.dto.query.Queriable;
-import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
 import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.Collection;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.core.task.TaskExecutor;
 
 public class RembrandtAsynchronousFileRetrivalStrategy extends AsynchronousFindingStrategy {
     private static Logger logger = Logger.getLogger(RembrandtAsynchronousFileRetrivalStrategy.class);   
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-    private TaskExecutor taskExecutor = ApplicationContext.getTaskExecutor();
+    private ThreadPoolExecutor taskExecutor = ApplicationContext.getTaskExecutor();
 	private String dirPath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
 	private String reportName;
 	private String userName;
+    private HttpSession session = null;
 
-	public RembrandtAsynchronousFileRetrivalStrategy(RembrandtTaskResult taskResult,String reportName, String userName) {
+	public RembrandtAsynchronousFileRetrivalStrategy(RembrandtTaskResult taskResult,String reportName, String userName, HttpSession session) throws UnsupportedEncodingException {
 		this.setTaskResult(taskResult);
-		this.reportName = reportName;
+		this.reportName = URLDecoder.decode(reportName,"UTF-8");
 		this.userName = userName;
+		this.session = session;
 	}
 
 	public RembrandtAsynchronousFileRetrivalStrategy() {
 	}
 
-	public TaskExecutor getTaskExecutor() {
+	public ThreadPoolExecutor getThreadPoolExecutor() {
         return taskExecutor;
     }
 
-    public void setTaskExecutor(TaskExecutor taskExecutor) {
+    public void setThreadPoolExecutor(ThreadPoolExecutor taskExecutor) {
         this.taskExecutor = taskExecutor;
     }
 
@@ -68,8 +72,8 @@ public class RembrandtAsynchronousFileRetrivalStrategy extends AsynchronousFindi
 	        		taskResult.getTask().getId(), getTaskResult());	
 			}
 			else{
-	       Runnable task = new Runnable() {
-	             public void run() {
+				Callable task = new Callable() {
+	             public RembrandtTaskResult call() {
 	                 try {
 	                	 ReportBean reportBean =  presentationTierCache.getReportBean( sessionId,  reportName);
 	                	 if(reportBean == null){ //if not in cache already than lets try to deserialize it
@@ -96,15 +100,23 @@ public class RembrandtAsynchronousFileRetrivalStrategy extends AsynchronousFindi
 	                         status.setComment("Error occued while retrieving the results");
 	                         getTaskResult().getTask().setStatus(status);
 	                 }
+	                 finally{
 	                 System.out.println("Writing to cache Id: "+ getTaskResult().getTask().getId()+" Status: "+getTaskResult().getTask().getStatus());
 	                 presentationTierCache.addNonPersistableToSessionCache(getTaskResult().getTask().getCacheId(), 
 	                   getTaskResult().getTask().getId(), getTaskResult());
 	                 logger.info("File retrieval has completed, task has been placed back in cache");
-	     
+	                 }
+	                 return getTaskResult();
 	             }
 	             
 	         };
-	         taskExecutor.execute(task);
+	         Future<?> future = taskExecutor.submit(task);
+	         Map<String,Future<?>> futureTaskMap = (Map<String,Future<?>>) session.getAttribute("FutureTaskMap");
+	         if(futureTaskMap == null){
+	        	 futureTaskMap = new HashMap<String,Future<?>>();
+	         }
+	         futureTaskMap.put(getTaskResult().getTask().getId(),future);
+	         session.setAttribute("FutureTaskMap",futureTaskMap);
 			}
      	}else{
    		 FindingStatus status = FindingStatus.Error;

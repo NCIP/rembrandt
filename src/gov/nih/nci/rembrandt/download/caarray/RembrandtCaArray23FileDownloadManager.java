@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.application.download.carray23.CaArrayFileDownloa
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.security.auth.login.LoginException;
 
@@ -82,6 +83,10 @@ public class RembrandtCaArray23FileDownloadManager extends CaArrayFileDownloadMa
 	}
 	public void setTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
+		
+	}
+	public void setTaskExecutor(ThreadPoolExecutor taskExecutor) {
+		// TODO Auto-generated method stub
 		
 	}
 }

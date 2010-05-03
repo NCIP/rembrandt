@@ -69,7 +69,7 @@ public class DownloadReportFileAction extends Action
 			UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
 			        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
 			        try {
-						asynchronousFindingManagerImpl.retrieveResultsFromFile(request.getSession().getId(), reportName, credentials.getUserName());
+						asynchronousFindingManagerImpl.retrieveResultsFromFile(request.getSession().getId(), reportName, credentials.getUserName(),request.getSession());
 					} catch (FindingsQueryException e) {
 						logger.error(e.getMessage());
 					}

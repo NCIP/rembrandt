@@ -21,6 +21,7 @@ import gov.nih.nci.rembrandt.web.helper.DownloadEmailedReportHelper;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.struts.form.LoginForm;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
@@ -203,7 +204,11 @@ public final class LoginAction extends Action
             if(reportName != null){
 		        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
 		        try {
-					asynchronousFindingManagerImpl.retrieveResultsFromFile(request.getSession().getId(), reportName, credentials.getUserName());
+					try {
+						asynchronousFindingManagerImpl.retrieveResultsFromFile(request.getSession().getId(), reportName, credentials.getUserName(), request.getSession());
+					} catch (UnsupportedEncodingException e) {
+						logger.debug("ReportName has a malformed name.");
+					}
 				} catch (FindingsQueryException e) {
 					logger.error(e.getMessage());
 				}

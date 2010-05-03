@@ -43,7 +43,7 @@ public class GenerateReportJob implements Job {
 	public void execute(JobExecutionContext context)
 		{
 		// Set the thread priority to a nicer value for background processing
-		Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+		Thread.currentThread().setPriority(Thread.MIN_PRIORITY+4);
 		DateFormat dateFormat = DateFormat.getDateTimeInstance();
 		String now = dateFormat.format(new Date());
 			
@@ -74,13 +74,7 @@ public class GenerateReportJob implements Job {
 
 				FindingStatus status = taskResult.getTask().getStatus();
 				switch (status) {
-				case Running: {
-					 FindingStatus newStatus = FindingStatus.Email;
-					 newStatus.setComment("Upon competion of this query, an email will be sent to "+email);
-                     taskResult.getTask().setStatus(newStatus);
-                     presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(), 
-                    		 taskResult.getTask().getId(), taskResult);
-                           logger.info("Query has been email, task has been placed back in cache");
+				case Email: {					
 					scheduleJob(taskResult, userName, email, queryText);
 					break;
 
@@ -175,4 +169,5 @@ public class GenerateReportJob implements Job {
 			throw new Exception(e.getMessage());
 		}
 	}
+	
 }

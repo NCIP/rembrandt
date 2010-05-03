@@ -1,78 +1,64 @@
 package gov.nih.nci.rembrandt.service.findings.strategies;
 
 import gov.nih.nci.caintegrator.application.service.strategy.AsynchronousFindingStrategy;
-import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
-import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.core.task.TaskExecutor;
+
+import uk.ltd.getahead.dwr.ExecutionContext;
 
 public class RembrandtAsynchronousFindingStrategy extends AsynchronousFindingStrategy {
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-    private TaskExecutor taskExecutor = ApplicationContext.getTaskExecutor();
+    private ThreadPoolExecutor threadPoolExecutor = ApplicationContext.getTaskExecutor();
     private static Logger logger = Logger.getLogger(RembrandtAsynchronousFindingStrategy.class);   
-	public RembrandtAsynchronousFindingStrategy(RembrandtTaskResult taskResult) {
+    private HttpSession session = null;
+    private Map<String,Future<?>> futureTaskMap = null;
+	public RembrandtAsynchronousFindingStrategy(RembrandtTaskResult taskResult, HttpSession session) {
 		this.setTaskResult(taskResult);
+		this.session = session;
 	}
 
 	public RembrandtAsynchronousFindingStrategy() {
 	}
 
-	public TaskExecutor getTaskExecutor() {
-        return taskExecutor;
+	public ThreadPoolExecutor getThreadPoolExecutor() {
+        return threadPoolExecutor;
     }
 
-    public void setTaskExecutor(TaskExecutor taskExecutor) {
-        this.taskExecutor = taskExecutor;
+    public void setThreadPoolExecutor(ThreadPoolExecutor threadPoolExecutor) {
+        this.threadPoolExecutor = threadPoolExecutor;
     }
 
     protected void executeStrategy() {
         logger.info("Task has been set to running and placed in cache, query will be run");
      	presentationTierCache.addNonPersistableToSessionCache(getTaskResult().getTask().getCacheId(),
      			getTaskResult().getTask().getId(), getTaskResult());
-
-       Runnable task = new Runnable() {
-             public void run() {
-                 try {
-                	 
-                     ReportGeneratorHelper reportHelper = new ReportGeneratorHelper((Queriable)getTaskResult().getTask().getQueryDTO(),new HashMap()); 
-                	 if(reportHelper.getReportBean()!= null ){
-  
-                		 getTaskResult().setReportBeanCacheKey(reportHelper.getReportBean().getAssociatedQuery().getQueryName());
-                		 getTaskResult().getTask().setStatus(FindingStatus.Completed);
-
-                	 }else{
-                		 	 FindingStatus status = FindingStatus.Error;
-	                         status.setComment("Error occued while executing the query");
-	                         getTaskResult().getTask().setStatus(status);
-                	 };
-                 	
-                 //to generate error or completed.
-                 } catch(Exception e) {
-	            		 logger.error("Error issuing query", e);
-	            		 FindingStatus status = FindingStatus.Error;
-	                     status.setComment(e.getMessage());
-	                     getTaskResult().getTask().setStatus(status);
-                 }
-
-                 presentationTierCache.addNonPersistableToSessionCache(getTaskResult().getTask().getCacheId(), 
-                   getTaskResult().getTask().getId(), getTaskResult());
-                 logger.info("Query has completed, task has been placed back in cache");
-     
-             }
-             
-         };
-         taskExecutor.execute(task);
-
-
-
+     	FutureTask<RembrandtTaskResult> future = new FutureTask<RembrandtTaskResult>(
+               getTaskResult());    	
+               
+         Future<?> future2 = threadPoolExecutor.submit(future);
+        
+         futureTaskMap = (Map<String,Future<?>>) session.getAttribute("FutureTaskMap");
+         if(futureTaskMap == null){
+        	 futureTaskMap = new HashMap<String,Future<?>>();
+         }
+         futureTaskMap.put(getTaskResult().getTask().getId(),future2);
+         session.setAttribute("FutureTaskMap",futureTaskMap);
     }
 
 	/**
