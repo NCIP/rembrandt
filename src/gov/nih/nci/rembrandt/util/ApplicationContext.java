@@ -135,10 +135,10 @@ public class ApplicationContext{
          
          //set TaskExecutor
          int poolSize = 5;         
-         int maxPoolSize = 50;      
+         int maxPoolSize = 100;      
          long keepAliveTime = 10;      
          ThreadPoolExecutor threadPoolExecutor = null;      
-         final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(100);
+         final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(200);
 
          threadPoolExecutor = new ThreadPoolExecutor(poolSize, maxPoolSize,
                  keepAliveTime, TimeUnit.SECONDS, queue);

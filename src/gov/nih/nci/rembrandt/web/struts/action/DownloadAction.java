@@ -24,10 +24,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Future;
 
 import javax.security.auth.login.LoginException;
 import javax.servlet.ServletOutputStream;
@@ -181,7 +184,7 @@ public class DownloadAction extends DispatchAction {
 			experimentName = System.getProperty(RembrandtCaArrayFileDownloadManager.CN_EXPERIMENT_NAME);
 		}
 		experimentName = experimentName.trim();
-		rbtCaArrayFileDownloadManagerInterface.executeDownloadStrategy(
+		Future<?> future = rbtCaArrayFileDownloadManagerInterface.executeDownloadStrategy(
 				request.getSession().getId(), 
 				taskId,
 				tempName + ".zip", 
@@ -189,6 +192,12 @@ public class DownloadAction extends DispatchAction {
 				type,
 				experimentName);
 
+        Map<String,Future<?>> futureTaskMap = (Map<String,Future<?>>) request.getSession().getAttribute("FutureTaskMap");
+        if(futureTaskMap == null){
+       	 futureTaskMap = new HashMap<String,Future<?>>();
+        }
+        futureTaskMap.put(taskId,future);
+        request.getSession().setAttribute("FutureTaskMap",futureTaskMap);
 		return  mapping.findForward("success");
 	}
 	public ActionForward download(

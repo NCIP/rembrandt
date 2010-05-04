@@ -2,7 +2,6 @@ package gov.nih.nci.rembrandt.download.caarray;
 import gov.nih.nci.caarray.services.ServerConnectionException;
 import gov.nih.nci.caintegrator.application.download.carray23.CaArrayFileDownloadManager;
 
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -10,7 +9,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 
 public class RembrandtCaArray23FileDownloadManager extends CaArrayFileDownloadManager{
@@ -81,12 +79,8 @@ public class RembrandtCaArray23FileDownloadManager extends CaArrayFileDownloadMa
 		}
 		return instance;
 	}
-	public void setTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
-		this.taskExecutor = taskExecutor;
-		
-	}
 	public void setTaskExecutor(ThreadPoolExecutor taskExecutor) {
-		// TODO Auto-generated method stub
+		this.taskExecutor = taskExecutor;
 		
 	}
 }

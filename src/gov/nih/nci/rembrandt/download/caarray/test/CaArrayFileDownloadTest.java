@@ -12,6 +12,8 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -71,12 +73,12 @@ public class CaArrayFileDownloadTest extends TestCase {
 //	  		<property name="maxPoolSize" value="100" />
 //	  		<property name="queueCapacity" value="400" />
 //		</bean>
-		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-		taskExecutor.setCorePoolSize(5);
-		taskExecutor.setMaxPoolSize(100);
-		taskExecutor.setQueueCapacity(400);
-		taskExecutor.initialize();
-		rbtCaArrayFileDownloadManager.setTaskExecutor(taskExecutor);
+        int poolSize = 5;         
+        int maxPoolSize = 100;      
+        long keepAliveTime = 10;      
+        ThreadPoolExecutor threadPoolExecutor = null;      
+        final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(200);
+		rbtCaArrayFileDownloadManager.setTaskExecutor(threadPoolExecutor);
 		super.setUp();
 	}
 

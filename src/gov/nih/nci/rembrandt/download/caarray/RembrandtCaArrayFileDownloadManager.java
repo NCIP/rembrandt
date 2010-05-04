@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 
 public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadManager{
@@ -80,12 +79,9 @@ public class RembrandtCaArrayFileDownloadManager extends CaArrayFileDownloadMana
 		}
 		return instance;
 	}
-	public void setTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
+	public void setTaskExecutor(ThreadPoolExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
 		
 	}
-	public void setTaskExecutor(ThreadPoolExecutor taskExecutor) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }
