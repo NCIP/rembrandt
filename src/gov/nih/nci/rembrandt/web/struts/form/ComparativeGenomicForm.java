@@ -119,8 +119,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	private static List<ChromosomeBean> chromosomes;
     
     /**geneOption property */    
-	//private String geneOption = "standard";
-	private String geneOption;
+	private String geneOption = "standard";
+	//private String geneOption;
 
     /** geneList property */
     private String geneList;

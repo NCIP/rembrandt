@@ -289,8 +289,11 @@ public class DynamicListHelper {
 						 DataValidator.searchGeneKeyWord(symbol).length > 1)) {
 
 						int startPos;
-						if ( geneList.size() > 1 )
+						if ( geneList.size() > 1 ){
 							startPos = validGeneSymbolStr.indexOf(symbol) - 1;
+							if (startPos < 0)
+								startPos = 0;
+						}						
 						else
 							startPos = validGeneSymbolStr.indexOf(symbol);
 						int endPos = startPos + symbol.length();

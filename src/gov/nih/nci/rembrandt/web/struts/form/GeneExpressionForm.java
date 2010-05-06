@@ -108,8 +108,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	private static List<ChromosomeBean> chromosomes;
 
 	/** geneOption property */
-	//private String geneOption = "standard";
-	private String geneOption;
+	private String geneOption = "standard";
+	//private String geneOption;
     
     //private Collection savedSampleList;
     

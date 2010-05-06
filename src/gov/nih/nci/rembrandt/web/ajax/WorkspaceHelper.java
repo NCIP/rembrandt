@@ -81,6 +81,8 @@ public class WorkspaceHelper {
 	            		queryBag = (SessionQueryBag)obj;
 	            	}
 				} catch (SerializationException e) {
+					System.out.println(e);
+					logger.error(e.getMessage());
 					session.removeAttribute(RembrandtConstants.USER_QUERY);
 				}   
             }else{

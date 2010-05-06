@@ -121,7 +121,7 @@ public class AddConstrainsToQueriesHelper {
 							sampleCrit);
 				} else if (leftQuery instanceof Query) {
 					Query query = (Query) leftQuery;
-					if(query.getSampleIDCrit() != null && query.getSampleIDCrit().getExcludeResections()== true){
+					if(query.getSampleIDCrit() != null && query.getSampleIDCrit().getExcludeResections()!= null && query.getSampleIDCrit().getExcludeResections()== true){
 						sampleCrit.setExcludeResections(true);
 					}
 					query.setSampleIDCrit(sampleCrit);
@@ -134,7 +134,7 @@ public class AddConstrainsToQueriesHelper {
 							sampleCrit);
 				} else if (rightQuery instanceof Query) {
 					Query query = (Query) rightQuery;
-					if(query.getSampleIDCrit() != null && query.getSampleIDCrit().getExcludeResections()== true){
+					if(query.getSampleIDCrit() != null && query.getSampleIDCrit().getExcludeResections()!= null && query.getSampleIDCrit().getExcludeResections()== true){
 						sampleCrit.setExcludeResections(true);
 					}
 					query.setSampleIDCrit(sampleCrit);
