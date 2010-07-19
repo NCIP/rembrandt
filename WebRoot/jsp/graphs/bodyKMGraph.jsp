@@ -4,6 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
+<%@ page import="java.util.*" %>
 
 <div><html:errors /> <%
    String km = "kmplotGE";
@@ -144,19 +145,61 @@
 		<!--  BEGIN LEGEND: LINKS TO CLINICAL -->
 		
 		View Clinical Reports<br />
-	
 		
+		<bean:define id="selectedItemsId" name="kmDataSetForm" property="selectedItems" />
+		<% 
+		String[] selectedGroups = (String[])selectedItemsId; 
+		List selectedGrpList = Arrays.asList(selectedGroups);
+		%>
+
 		<!--check what type of plot it is as to display the correct link text-->
 		<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">		
+			<%
+			if ( selectedGrpList != null && selectedGrpList.contains("Up-Regulated") ) {
+			%>
+				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
+			<%
+			}
+			if ( selectedGrpList != null && selectedGrpList.contains("Down-Regulated") ) {
+			%>
+		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
+			<%
+			}
+			%>
+			<!--  
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
 		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
+			-->
 		</logic:equal>
 		<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">		
+			<%
+			if ( selectedGrpList != null && selectedGrpList.contains("Up-Regulated") ) {
+			%>
+				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
+			<%
+			}
+			if ( selectedGrpList != null && selectedGrpList.contains("Down-Regulated") ) {
+			%>
+		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
+			<%
+			}
+			%>
+			<!--  
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
 		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
+			-->
 		</logic:equal>
 		<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
+			<%
+			if ( selectedGrpList != null && selectedGrpList.contains("Intermediate") ) {
+			%>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
+			<%
+			}
+			%>
+			<!--  
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
+			-->		
 		</logic:notEqual>
 		<logic:equal name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list1',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /></a>

@@ -1,5 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*" %>
 <%
 //below, we need to set the form action to the name cooresponding bean/action -
@@ -18,6 +19,7 @@ String strIncFile2 = "";
 String strIncFile3 = "";
 String strIncFile4 = "/jsp/tiles/sample_tile.jsp?act="+act;
 String strIncFile5 = "/jsp/tiles/empty_tile.jsp";
+String strIncFile6 = "";
 
 boolean cgh = false;
 if(act.equalsIgnoreCase("geneexpression"))	{
@@ -30,6 +32,7 @@ cgh = true;
 strIncFile2 = "/jsp/tiles/copyNumber_tile.jsp?act="+act;
 strIncFile3 = "/jsp/tiles/assayPlatform_tile.jsp?act="+act;
 strIncFile5 = "/jsp/tiles/tissueType_tile.jsp?act="+act;
+strIncFile6 = "/jsp/tiles/segmentMean_tile.jsp?act="+act;
 }
 %>
 
@@ -39,10 +42,34 @@ strIncFile5 = "/jsp/tiles/tissueType_tile.jsp?act="+act;
 <tiles:insert page="<%= strIncFile %>" flush="false" />
 <tiles:insert page="<%= strIncFile4 %>" flush="false" />
 <tiles:insert page="<%= strIncFile5 %>" flush="false" />
-<tiles:insert page="<%= strIncFile2 %>" flush="false" />
+
+<html:radio property="copyNumberView" name="cnView" value="calculatedCN" styleClass="radio" onclick="javascript:toggleCopyNumberView('calculatedCN');" /> Calculated Copy Number &nbsp;&nbsp;&nbsp;
+<html:radio property="copyNumberView" name="smView" value="segmentMean" styleClass="radio" onclick="javascript:toggleCopyNumberView('segmentMean');" /> Segment Mean 
+<br/>
+<br/>
+
+<script type="text/javascript">
+	//run this onload
+	document.getElementById("segmentMean").style.display = "none";
+	
+	function toggleCopyNumberView(selectedView) {
+		if ( selectedView == "calculatedCN" ) {
+			$('calculatedCN').show();
+			$('segmentMean').hide();
+		} else {
+			$('calculatedCN').hide();
+			$('segmentMean').show();
+		}
+	}
+</script>
+
+<div id="calculatedCN">
+	<tiles:insert page="<%= strIncFile2 %>" flush="false" />
+</div>
+<div id="segmentMean">
+	<tiles:insert page="<%= strIncFile6 %>" flush="false" />
+</div>
 <tiles:insert page="<%= strIncFile3 %>" flush="false" />
-
-
 
 <Br>
 </fieldset>
