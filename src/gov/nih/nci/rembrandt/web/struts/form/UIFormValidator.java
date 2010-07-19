@@ -293,6 +293,22 @@ public class UIFormValidator {
     	return errors;
     }
     
+    
+    public static ActionErrors validateSegmentMean(String segmentMean, String actualSegmentMeanType, String segMean, String segMeanType, ActionErrors errors) {
+        if (segmentMean != null && segmentMean.equalsIgnoreCase(actualSegmentMeanType) && segMean != null  && segMean.trim().length() > 0) {
+        	segMean = segMean.trim();
+        	try{
+        		float n = Float.parseFloat(segMean);
+        	}
+        	catch (NumberFormatException ne){
+        		    
+        		 errors.add(segMeanType, new ActionError("gov.nih.nci.nautilus.ui.struts.form.segmentMean.numeric.error"));
+        	 
+        	}
+        }
+    	return errors;
+    }
+    
     public static ActionErrors validateFoldChange(String regulationStatus, String actualRegulationStatus,String foldChangeNo, String foldChangeType, ActionErrors errors) {
         if (regulationStatus != null && regulationStatus.equalsIgnoreCase(actualRegulationStatus)&& foldChangeNo!= null  && foldChangeNo.trim().length() > 0) {
         	foldChangeNo = foldChangeNo.trim();

@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SegmentMeanCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
@@ -223,11 +224,16 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
         //set all Genes query and give copyNumber default value
 		comparativeGenomicForm.setGeneGroup("");
+		comparativeGenomicForm.setCopyNumberView("calculatedCN");
 		comparativeGenomicForm.setCopyNumber("amplified");
 		comparativeGenomicForm.setCnAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
 		comparativeGenomicForm.setCnADAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
 		comparativeGenomicForm.setCnADDeleted("1");
 		comparativeGenomicForm.setCnDeleted("1");
+
+		comparativeGenomicForm.setSegmentMean("");
+		comparativeGenomicForm.setSmAmplified("");
+		comparativeGenomicForm.setSmDeleted("");
          
 		logger.debug("This is an All Genes cgh Submital");
 		return mapping.findForward("showAllGenes");
@@ -263,6 +269,10 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		comparativeGenomicForm.setCnADAmplified("");
 		comparativeGenomicForm.setCnADDeleted("");
 		comparativeGenomicForm.setCnDeleted("");
+
+		comparativeGenomicForm.setSegmentMean("");
+		comparativeGenomicForm.setSmAmplified("");
+		comparativeGenomicForm.setSmDeleted("");
 		
 		logger.debug("This is an Standard cgh Submital");
 		return mapping.findForward("backToCGH");
@@ -514,14 +524,21 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		if (!sampleIDCrit.isEmpty())
 		    cghQuery.setSampleIDCrit(sampleIDCrit);
 
-        // set copy number criteria
-        CopyNumberCriteria CopyNumberCrit = comparativeGenomicForm
-                .getCopyNumberCriteria();
-        if (!CopyNumberCrit.isEmpty()) {
-        	CopyNumberCrit.setCopyNumber(comparativeGenomicForm.getCopyNumber());
-            cghQuery.setCopyNumberCrit(CopyNumberCrit);
-        }
-
+        // set copy number or segmentMean criteria
+		if ( comparativeGenomicForm.getCopyNumberView().equals("calculatedCN") ) {
+	        CopyNumberCriteria CopyNumberCrit = comparativeGenomicForm.getCopyNumberCriteria();
+		    if (!CopyNumberCrit.isEmpty()) {
+		    	CopyNumberCrit.setCopyNumber(comparativeGenomicForm.getCopyNumber());
+		        cghQuery.setCopyNumberCrit(CopyNumberCrit);
+		    }
+		} else {
+	        SegmentMeanCriteria segmentMeanCrit = comparativeGenomicForm.getSegmentMeanCriteria();
+	        if (!segmentMeanCrit.isEmpty()) {
+	        	segmentMeanCrit.setSegmentMean(comparativeGenomicForm.getSegmentMean());
+	            cghQuery.setSegmentMeanCriteria(segmentMeanCrit);
+	        }
+		}
+		
         // set region criteria
         RegionCriteria regionCrit = comparativeGenomicForm.getRegionCriteria();
         if (!regionCrit.isEmpty()) {

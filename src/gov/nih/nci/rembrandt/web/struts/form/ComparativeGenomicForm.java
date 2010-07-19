@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.dto.critieria.AlleleFrequencyCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SegmentMeanCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
@@ -16,6 +17,7 @@ import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
+import gov.nih.nci.caintegrator.dto.de.SegmentMeanDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
@@ -153,6 +155,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     /** cnAmplified property */
     private String cnAmplified;
 
+    /** smAmplified property */
+    private String smAmplified;
+
    
 
     /** cloneListFile property */
@@ -185,6 +190,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     /** cnUnchangeTo property */
     private String cnUnchangeTo;
 
+    /** smUnchangeTo property */
+    private String smUnchangeTo;
+
     /** alleleFrequency property */
     private String alleleFrequency;
 
@@ -208,12 +216,18 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     /** cnDeleted property */
     private String cnDeleted;
 
+    /** smDeleted property */
+    private String smDeleted;
+
     /** geneGroup property */
     private String geneGroup;
       
 
     /** cnUnchangeFrom property */
     private String cnUnchangeFrom;
+
+    /** smUnchangeFrom property */
+    private String smUnchangeFrom;
 
     /** cloneList property */
     private String cloneList;
@@ -223,6 +237,12 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     /** copyNumber property */
     private String copyNumber;
+
+    /** copyNumberView property */
+    private String copyNumberView = "calculatedCN";
+
+    /** segmentMean property */
+    private String segmentMean;
 
     /** basePairStart property */
     private String basePairStart;
@@ -258,6 +278,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     private AllGenesCriteria allGenesCriteria;  
 
     private CopyNumberCriteria copyNumberCriteria;
+
+    private SegmentMeanCriteria segmentMeanCriteria;
 
     private RegionCriteria regionCriteria;
 
@@ -341,9 +363,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 		    if(this.getGeneGroup().equalsIgnoreCase("Upload")){
 		        this.setGeneGroup("");
 		    }
-		    if(this.getSnpId().equalsIgnoreCase("Upload")){
-		        this.setSnpId("");
-		    }
+		    //JB: Removed per CN/Segmented Data Changes
+		    //if(this.getSnpId().equalsIgnoreCase("Upload")){
+		    //    this.setSnpId("");
+		    //}
 		    if(this.getSampleGroup().equalsIgnoreCase("Upload")){
 		        this.setSampleGroup("");
 		    }
@@ -375,13 +398,21 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         //Validate snpId
        // errors = UIFormValidator.validateSnpId(snpId, snpList, snpListFile, errors);
       
-        // validate copy number,it has to be        
-        errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADAmplified,"cnADAmplified",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADDeleted,"cnADDeleted",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,"amplified",cnAmplified,"cnAmplified",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,"deleted",cnDeleted,"cnDeleted",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeFrom,"cnUnchangeFrom",errors);
-        errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeTo,"cnUnchangeTo",errors);
+        //JB: Add validation for segment mean
+        // validate copy number or segment mean,it has to be 
+        if ( this.getCopyNumberView().equals("calculatedCN") ) {
+	        errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADAmplified,"cnADAmplified",errors);
+	        errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADDeleted,"cnADDeleted",errors);
+	        errors = UIFormValidator.validateCopyNo(copyNumber,"amplified",cnAmplified,"cnAmplified",errors);
+	        errors = UIFormValidator.validateCopyNo(copyNumber,"deleted",cnDeleted,"cnDeleted",errors);
+	        errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeFrom,"cnUnchangeFrom",errors);
+	        errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeTo,"cnUnchangeTo",errors);
+        } else { // validate segment mean
+	        errors = UIFormValidator.validateSegmentMean(segmentMean,"amplified",smAmplified,"smAmplified",errors);
+	        errors = UIFormValidator.validateSegmentMean(segmentMean,"deleted",smDeleted,"smDeleted",errors);
+	        errors = UIFormValidator.validateSegmentMean(segmentMean,"unchange",smUnchangeFrom,"smUnchangeFrom",errors);
+	        errors = UIFormValidator.validateSegmentMean(segmentMean,"unchange",smUnchangeTo,"smUnchangeTo",errors);
+        }
         
         // Validate minimum criteria's for CGH Query
         if (this.getQueryName() != null && this.getQueryName().length() >= 1 && 
@@ -390,6 +421,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     .length() < 1)
                     && (this.getChromosomeNumber() == null || this
                             .getChromosomeNumber().trim().length() < 1)) {
+            	/*
                 if ((this.getSnpId() == null || this.getSnpId().trim().length() < 1)
                         || (this.getSnpListSpecify().length() < 1 && this
                                 .getSnpListFile() == null)
@@ -397,12 +429,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                                 .getSnpList().equalsIgnoreCase("dBSNPId") && !this
                                 .getSnpList().equalsIgnoreCase("probeSetId")))) {
 
-                    errors
-                            .add(
-                                    ActionErrors.GLOBAL_ERROR,
-                                    new ActionError(
-                                            "gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error"));
+                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error"));
                 }
+                */
+                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error"));
             }
           }
         }
@@ -434,6 +464,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         snpList = "";
         cloneId = "";
         cnAmplified = "";
+        smAmplified = "";
         specimenType = "";
         cloneListFile = "";
         snpListFile = null;
@@ -445,6 +476,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         chromosomeNumber = "";
         cnADDeleted = "";
         cnUnchangeTo = "";
+        smUnchangeTo = "";
         alleleFrequency = "";
         geneType = "";
         validatedSNP = "";
@@ -452,11 +484,15 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         geneFile = null;
         snpId = "";
         cnDeleted = "";
+        smDeleted = "";
         geneGroup = "";
         cnUnchangeFrom = "";
+        smUnchangeFrom = "";
         cloneList = "";
         queryName = "";
         copyNumber = "";
+        copyNumberView = "calculatedCN";
+        segmentMean = "";
         basePairStart = "";       
         //sampleGroup = "";
 		sampleList = "";
@@ -467,6 +503,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         geneCriteria = new GeneIDCriteria();
         sampleCriteria = new SampleCriteria();
         copyNumberCriteria = new CopyNumberCriteria();
+        segmentMeanCriteria = new SegmentMeanCriteria();
         regionCriteria = new RegionCriteria();
         cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
         snpCriteria = new SNPCriteria();
@@ -654,11 +691,13 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     public AllGenesCriteria getAllGenesCriteria(){
         return this.allGenesCriteria;
     }
-    
-   
 
     public CopyNumberCriteria getCopyNumberCriteria() {
         return this.copyNumberCriteria;
+    }
+
+    public SegmentMeanCriteria getSegmentMeanCriteria() {
+        return this.segmentMeanCriteria;
     }
 
     public RegionCriteria getRegionCriteria() {
@@ -883,6 +922,15 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     }
 
     /**
+     * Returns the smAmplified.
+     * 
+     * @return String
+     */
+    public String getSmAmplified() {
+        return smAmplified;
+    }
+
+    /**
      * Set the cnAmplified.
      * 
      * @param cnAmplified
@@ -910,9 +958,40 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                
             }
          }
-        
+
+    /**
+     * Set the smAmplified.
+     * 
+     * @param smAmplified
+     *            The smAmplified to set
+     */
+    public void setSmAmplified(String smAmplified) {
+        this.smAmplified = smAmplified;
+        if (thisRequest != null) {
+            // need to make sure the parameters such as segmentMeanAmplified and
+            // regulationStatus
+            // match the ones declared on the segmentMean_tile.jsp
+            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+            if (thisSegmentMean != null
+                    && thisSegmentMean.equalsIgnoreCase("amplified")
+                    && (this.smAmplified != null && this.smAmplified.trim().length() > 0)) {
+              try {
+           	         	
+              	 segmentMeanCriteria = new SegmentMeanCriteria();
+              	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.Amplification(Float.valueOf(this.smAmplified));
+              	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);            	                                            
+           	  } catch(NumberFormatException e){
+           	  }
+           }        
+        }
+    }
+    
     public void setCnAmplified(CopyNumberDE copyNumberDE) {
     	this.cnAmplified = copyNumberDE.getValueObject().toString();
+    }
+    
+    public void setSmAmplified(SegmentMeanDE segmentMeanDE) {
+    	this.smAmplified = segmentMeanDE.getValueObject().toString();
     }
     
     /**
@@ -1320,6 +1399,16 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         return cnUnchangeTo;
     }
 
+
+    /**
+     * Returns the smUnchangeTo.
+     * 
+     * @return String
+     */
+    public String getSmUnchangeTo() {
+        return smUnchangeTo;
+    }
+
     /**
      * Set the cnUnchangeTo.
      * 
@@ -1345,8 +1434,37 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     }
 
+    /**
+     * Set the smUnchangeTo.
+     * 
+     * @param smUnchangeTo
+     *            The smUnchangeTo to set
+     */
+    public void setSmUnchangeTo(String smUnchangeTo) {
+        this.smUnchangeTo = smUnchangeTo;
+        if (thisRequest != null) {
+            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+            if (thisSegmentMean != null
+                    && thisSegmentMean.equalsIgnoreCase("unchange")
+                    && (this.smUnchangeTo != null && this.smUnchangeTo.trim().length() > 0)) {
+            	 try{
+            		 
+            		 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.UnChangedSegmentMeanUpperLimit(Float.valueOf(this.smUnchangeTo));
+		        	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);  
+	            	 }
+
+            	 catch(NumberFormatException e){}
+            }
+        }
+
+    }
+
     public void setCnUnchangeTo(CopyNumberDE copyNumberDE) {
     	this.cnUnchangeTo = copyNumberDE.getValueObject().toString();
+    }
+
+    public void setSmUnchangeTo(SegmentMeanDE segmentMeanDE) {
+    	this.smUnchangeTo = segmentMeanDE.getValueObject().toString();
     }
 
     /**
@@ -1473,6 +1591,15 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     }
 
     /**
+     * Returns the smDeleted.
+     * 
+     * @return String
+     */
+    public String getSmDeleted() {
+        return smDeleted;
+    }
+
+    /**
      * Set the cnDeleted.
      * 
      * @param cnDeleted
@@ -1499,9 +1626,41 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
             }
         }
     }
+
+    /**
+     * Set the smDeleted.
+     * 
+     * @param smDeleted
+     *            The smDeleted to set
+     */
+    public void setSmDeleted(String smDeleted) {
+        this.smDeleted = smDeleted;
+        if (thisRequest != null) {
+            // need to make sure the parameters such as segmentMeanDeleted and
+            // regulationStatus
+            // match the ones declared on the segmentMean_tile.jsp
+            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+            if (thisSegmentMean != null
+                    && thisSegmentMean.equalsIgnoreCase("deleted")
+                    && (this.smDeleted != null && this.smDeleted.trim().length() > 0)) {
+           	try{
+                 		
+            	 segmentMeanCriteria = new SegmentMeanCriteria();
+            	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.Deletion(Float.valueOf(this.smDeleted));
+            	 segmentMeanCriteria.setSegmentMean(segmentMeanDE); 
+           	 
+             }
+            catch(NumberFormatException e){}
+            }
+        }
+    }
     
     public void setCnDeleted(CopyNumberDE copyNumberDE) {
     	this.cnDeleted = copyNumberDE.getValueObject().toString();
+    }
+    
+    public void setSmDeleted(SegmentMeanDE segmentMeanDE) {
+    	this.smDeleted = segmentMeanDE.getValueObject().toString();
     }
     
 
@@ -1540,6 +1699,15 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     }
 
     /**
+     * Returns the smUnchangeFrom.
+     * 
+     * @return String
+     */
+    public String getSmUnchangeFrom() {
+        return smUnchangeFrom;
+    }
+
+    /**
      * Set the cnUnchangeFrom.
      * 
      * @param cnUnchangeFrom
@@ -1562,9 +1730,37 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
               }
         }
     }
+
+    /**
+     * Set the smUnchangeFrom.
+     * 
+     * @param smUnchangeFrom
+     *            The smUnchangeFrom to set
+     */
+    public void setSmUnchangeFrom(String smUnchangeFrom) {
+        this.smUnchangeFrom = smUnchangeFrom;
+        if (thisRequest != null) {
+            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+            if (thisSegmentMean != null
+                    && thisSegmentMean.equalsIgnoreCase("unchange")
+                    && (this.smUnchangeFrom != null && this.smUnchangeFrom.trim().length() > 0)) {
+            	try{
+	            	
+			        	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.UnChangedSegmentMeanDownLimit(Float.valueOf(this.smUnchangeFrom));
+			        	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);           	                                            
+		           }
+            	    
+            	 catch(NumberFormatException e){}
+              }
+        }
+    }
     
     public void setCnUnchangeFrom(CopyNumberDE copyNumberDE) {
     	this.cnUnchangeFrom = copyNumberDE.getValueObject().toString();
+    }
+    
+    public void setSmUnchangeFrom(SegmentMeanDE segmentMeanDE) {
+    	this.smUnchangeFrom = segmentMeanDE.getValueObject().toString();
     }
     
 
@@ -1607,6 +1803,25 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     }
 
     /**
+     * Returns the copyNumberView.
+     * 
+     * @return String
+     */
+    public String getCopyNumberView() {
+        return copyNumberView;
+    }
+
+    /**
+     * Set the copyNumberView.
+     * 
+     * @param copyNumberView
+     *            The copyNumberView to set
+     */
+    public void setCopyNumberView(String copyNumberView) {
+        this.copyNumberView = copyNumberView;
+    }
+
+    /**
      * Returns the copyNumber.
      * 
      * @return String
@@ -1623,6 +1838,25 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCopyNumber(String copyNumber) {
         this.copyNumber = copyNumber;
+    }
+
+    /**
+     * Returns the segmentMean.
+     * 
+     * @return String
+     */
+    public String getSegmentMean() {
+        return segmentMean;
+    }
+
+    /**
+     * Set the segmentMean.
+     * 
+     * @param segmentMean
+     *            The segmentMean to set
+     */
+    public void setSegmentMean(String segmentMean) {
+        this.segmentMean = segmentMean;
     }
 
     /**
@@ -1732,19 +1966,25 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         form.setBasePairStart(basePairStart);
         form.setSnpList(snpList);
         form.setCnAmplified(cnAmplified);
+        form.setSmAmplified(smAmplified);
         form.setSnpListFile(snpListFile);
         form.setSnpListSpecify(snpListSpecify);
         form.setCnADAmplified(cnADAmplified);
         form.setGenomicTrack(genomicTrack);
         form.setCnADDeleted(cnADDeleted);
         form.setCnUnchangeTo(cnUnchangeTo);
+        form.setSmUnchangeTo(smUnchangeTo);
         form.setAlleleFrequency(alleleFrequency);
         form.setValidatedSNP(validatedSNP);
         form.setSnpId(snpId);
         form.setCnDeleted(cnDeleted);
+        form.setSmDeleted(smDeleted);
         form.setGeneGroup(geneGroup);
         form.setCnUnchangeFrom(cnUnchangeFrom);
+        form.setSmUnchangeFrom(smUnchangeFrom);
         form.setCopyNumber(copyNumber);
+        form.setCopyNumberView(copyNumberView);
+        form.setSegmentMean(segmentMean);
         form.setSpecimenType(specimenType);
         return form;
     }
