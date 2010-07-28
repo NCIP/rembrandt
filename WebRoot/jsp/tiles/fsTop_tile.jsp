@@ -43,8 +43,8 @@ strIncFile6 = "/jsp/tiles/segmentMean_tile.jsp?act="+act;
 <tiles:insert page="<%= strIncFile4 %>" flush="false" />
 <tiles:insert page="<%= strIncFile5 %>" flush="false" />
 
-<html:radio property="copyNumberView" name="cnView" value="calculatedCN" styleClass="radio" onclick="javascript:toggleCopyNumberView('calculatedCN');" /> Calculated Copy Number &nbsp;&nbsp;&nbsp;
-<html:radio property="copyNumberView" name="smView" value="segmentMean" styleClass="radio" onclick="javascript:toggleCopyNumberView('segmentMean');" /> Segment Mean 
+<html:radio property="copyNumberView" value="calculatedCN" styleClass="radio" onclick="javascript:toggleCopyNumberView('calculatedCN');" /> Calculated Copy Number &nbsp;&nbsp;&nbsp;
+<html:radio property="copyNumberView" value="segmentMean" styleClass="radio" onclick="javascript:toggleCopyNumberView('segmentMean');" /> Segment Mean 
 <br/>
 <br/>
 
