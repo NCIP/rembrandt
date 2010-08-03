@@ -101,7 +101,31 @@ String param = request.getParameter("s");
   	String strIncFile = "";
   	%>
     <script type="text/javascript">Help.convertHelp("<%=act%>", " align='right'", "float:right;padding:2px;");</script>
-  	<%
+
+	<script type="text/javascript">
+		Event.observe(window, "load", function() {
+			document.getElementById("segmentMean").style.display = "none";
+			document.getElementById("segmentMean").style.visibility = "hidden";
+		});
+		
+		function toggleCopyNumberView(selectedView) {
+			if ( selectedView == "calculatedCN" ) {
+				document.getElementById("segmentMean").style.display = "none";
+				document.getElementById("segmentMean").style.visibility = "hidden";
+				
+				document.getElementById("calculatedCN").style.display = "block";
+				document.getElementById("calculatedCN").style.visibility = "visible";
+			} else {
+				document.getElementById("segmentMean").style.display = "block";
+				document.getElementById("segmentMean").style.visibility = "visible";
+				
+				document.getElementById("calculatedCN").style.display = "none";
+				document.getElementById("calculatedCN").style.visibility = "hidden";
+			}
+		}
+	</script>  	
+	
+	<%
   	for (int t=1; t<props.size()+1; t++)	{
   		strIncFile = "/jsp/tiles/"+props.getProperty(String.valueOf(t))+"_tile.jsp?act="+act;
   		System.out.println();

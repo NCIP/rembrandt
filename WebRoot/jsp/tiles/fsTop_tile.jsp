@@ -48,21 +48,6 @@ strIncFile6 = "/jsp/tiles/segmentMean_tile.jsp?act="+act;
 <br/>
 <br/>
 
-<script type="text/javascript">
-	//run this onload
-	document.getElementById("segmentMean").style.display = "none";
-	
-	function toggleCopyNumberView(selectedView) {
-		if ( selectedView == "calculatedCN" ) {
-			$('calculatedCN').show();
-			$('segmentMean').hide();
-		} else {
-			$('calculatedCN').hide();
-			$('segmentMean').show();
-		}
-	}
-</script>
-
 <div id="calculatedCN">
 	<tiles:insert page="<%= strIncFile2 %>" flush="false" />
 </div>
