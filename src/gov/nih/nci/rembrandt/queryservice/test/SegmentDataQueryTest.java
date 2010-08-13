@@ -1,23 +1,21 @@
-/*
- * Created on Nov 6, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
-package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
+package gov.nih.nci.rembrandt.queryservice.test;
 
-import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
-import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
-import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.caintegrator.dto.de.DatumDE;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.test.QueryTest;
+import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.Constants;
+import gov.nih.nci.caintegrator.dto.de.AssayPlatformDE;
+import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
+import gov.nih.nci.rembrandt.queryservice.QueryManager;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryProcessor;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 
 /**
- * @author Himanso
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * User: sahnih
+ * To change this template use File | Settings | File Templates.
  */
 
 
@@ -78,56 +76,48 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 * 
 */
 
-public class CopyNumberViewHandler {
-    protected static CytobandResultset handleCytobandResulset (CopyNumberResultsContainer copyNumberResultsContainer, CopyNumber copyNumberObj){
-  		//get the gene accessesion number for this record
-  		//check if the gene exsists in the CopyNumberResultsContainer, otherwise add a new one.
-    	String segment = "chr"+copyNumberObj.getChromosome()+" "+ copyNumberObj.getChromosomeSegmentStart()+"-"+copyNumberObj.getChromosomeSegmentEnd();
-		CytobandResultset cytobandResultset = copyNumberResultsContainer.getCytobandResultset(segment);
-  		if(cytobandResultset == null){ // no record found
-  			cytobandResultset = new CytobandResultset();
-  		}
-  		if(segment!= null){
-  		cytobandResultset.setCytoband(new CytobandDE(segment));
-  		}
-  		else{
-  			cytobandResultset.setAnonymousCytoband(true);
-  		}
-  		return cytobandResultset;
+ public class SegmentDataQueryTest extends QueryTest {
+       public void testSegmentQuery() {
+        ComparativeGenomicQuery q = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
+             q.setQueryName("Test Segment Query");
+             q.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+             //q.setAssociatedView(ViewFactory.newView(ViewType.GENE_GROUP_SAMPLE_VIEW));
+            q.setGeneIDCrit(geneIDCrit);
+            //q.setGeneOntologyCrit(ontologyCrit);
+            //q.setRegionCrit(regionCrit);
+            //q.setPathwayCrit(pathwayCrit);
 
-    }
-	protected static ReporterResultset handleReporterResultset(CytobandResultset cytobandResultset,CopyNumber copyNumberObj){
-  		// find out if it has a probeset or a clone associated with it
-  		//populate ReporterResultset with the approciate one
-		ReporterResultset reporterResultset = null;
-		if(cytobandResultset != null && copyNumberObj != null){
-	    	if(copyNumberObj.getSnpSegmentName() != null ){
-	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpSegmentName());
-	       		reporterResultset = cytobandResultset.getRepoterResultset(copyNumberObj.getSnpSegmentName().toString());
-	      		if(reporterResultset == null){
-	      		 	reporterResultset = new ReporterResultset(reporter);                    
-	      			}  	
-	    	}
-            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
-            reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getChromosomeSegmentStart()));
-            reporterResultset.setEndPhysicalLocation(new BasePairPositionDE.EndPosition(copyNumberObj.getChromosomeSegmentEnd()));
-    	  	reporterResultset.setChromosomeNumber(new ChromosomeNumberDE(copyNumberObj.getChromosome()));
-    	  	
-	  		if(copyNumberObj.getAnnotations() != null){
-	  			CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
-                if(annotation.getAccessionNumbers()!= null){
-                    reporterResultset.setAssiciatedGenBankAccessionNos(annotation.getAccessionNumbers());
+            AssayPlatformCriteria crit = new AssayPlatformCriteria();
+            crit.setAssayPlatformDE(new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY));
+            q.setAssayPlatformCrit(crit);
+            //q.setRegionCrit(regionCrit);
+            //q.setSNPCrit(snpCrit);
+            //q.setAllGenesCrit(allGenesCriteria);
+            //q.setDiseaseOrGradeCrit(diseaseCrit);
+            //q.setCopyNumberCrit(copyNumberCrit);
+            q.setSampleIDCrit(sampleCrit);
+            try {
+                //ResultSetInterface[] cghObjects = QueryManager.executeQuery(q);
+                ResultSet[] cghObjects = QueryProcessor.execute(q);
+                //print(geneExprObjects);
+                //testResultset(geneExprObjects);
+                System.out.println("Size: " + cghObjects.length);
+                for (int i = 0; i < cghObjects.length; i++) {
+                    CopyNumber cghObject =
+                            (CopyNumber) cghObjects[i];
+                    System.out.println("SampleID: " + cghObject.getSampleId() + " || Copy Number: "
+                    + cghObject.getCalculatedCopyNumber() + " || SNPSegmentName: " + cghObject.getSnpSegmentName()
+                    + " || Chromosome: " + cghObject.getCytoband() );
+                    if (cghObject.getAnnotations() != null)
+                    System.out.println( "Annotation GeneSymbols: " +
+                            cghObject.getAnnotations().getGeneSymbols()+
+                       "  LocusLinks: " + cghObject.getAnnotations().getLocusLinkIDs() +
+                    "  Accessions Numbers: " + cghObject.getAnnotations().getAccessionNumbers());
                 }
-                if(annotation.getLocusLinkIDs()!=null){
-                    reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
-                }
-                if(annotation.getGeneSymbols()!=null){
-                    reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
-                }
-	  			
-	  		}
-	    	
-		}
-        return reporterResultset;
-    }
+            } catch(Throwable t ) {
+                t.printStackTrace();
+            }
+
+        }
 }
+

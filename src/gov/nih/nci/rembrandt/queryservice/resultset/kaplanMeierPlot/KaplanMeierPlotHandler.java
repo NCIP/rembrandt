@@ -181,14 +181,14 @@ public class KaplanMeierPlotHandler {
         //populate ReporterResultset with the approciate one
         ReporterResultset reporterResultset = null;
         if(sampleResultset != null && copyNumberObj != null){
-            if(copyNumberObj.getSnpProbesetName() != null ){
-                DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpProbesetName());
-                reporterResultset = sampleResultset.getReporterResultset(copyNumberObj.getSnpProbesetName().toString());
+            if(copyNumberObj.getSnpSegmentName() != null ){
+                DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpSegmentName());
+                reporterResultset = sampleResultset.getReporterResultset(copyNumberObj.getSnpSegmentName().toString());
                 if(reporterResultset == null){
                     reporterResultset = new ReporterResultset(reporter);                    
                     }   
             }
-            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCopyNumber()));
+            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
             reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getPhysicalPosition()));
             if(copyNumberObj.getAnnotations() != null){
                 CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();

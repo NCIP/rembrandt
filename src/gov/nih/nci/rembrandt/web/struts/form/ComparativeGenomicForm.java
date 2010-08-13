@@ -17,6 +17,7 @@ import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
+import gov.nih.nci.caintegrator.dto.de.SNPableDE;
 import gov.nih.nci.caintegrator.dto.de.SegmentMeanDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
@@ -356,9 +357,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         
        //if method is "getCytobands" AND they have upload formFiles, do necessary validation for uploaded files
 		try{
-		    if ((this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup().equalsIgnoreCase("Upload"))	
-		        || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSnpId().equalsIgnoreCase("Upload"))
-		          || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup().equalsIgnoreCase("Upload"))){
+		    if ((this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup()!=null && this.getGeneGroup().equalsIgnoreCase("Upload"))	
+		        || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSnpId()!=null && this.getSnpId().equalsIgnoreCase("Upload"))
+		          || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup()!= null && this.getSampleGroup().equalsIgnoreCase("Upload"))){
 		    //errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, snpListFile, snpId, sampleFile, sampleGroup, errors);
 		    if(this.getGeneGroup().equalsIgnoreCase("Upload")){
 		        this.setGeneGroup("");
@@ -949,7 +950,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
               try{
            	         	
               	 copyNumberCriteria = new CopyNumberCriteria();
-            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnAmplified));
+            	 SNPableDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnAmplified));
             	 copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
            	    }
              catch(NumberFormatException e){}
@@ -986,7 +987,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         }
     }
     
-    public void setCnAmplified(CopyNumberDE copyNumberDE) {
+    public void setCnAmplified(SNPableDE copyNumberDE) {
     	this.cnAmplified = copyNumberDE.getValueObject().toString();
     }
     
@@ -1208,7 +1209,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && (this.cnADAmplified != null && this.cnADAmplified.trim().length() >=1)) {
             	try{       		
 	                	
-	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnADAmplified));
+	            	 SNPableDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnADAmplified));
 	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
 	           	   
             	 }
@@ -1218,7 +1219,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     }
     
-    public void setCnADAmplified(CopyNumberDE copyNumberDE) {
+    public void setCnADAmplified(SNPableDE copyNumberDE) {
     	this.cnADAmplified = copyNumberDE.getValueObject().toString();
     }
     
@@ -1375,7 +1376,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
             	try{ 
             	
 	            	
-	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnADDeleted));
+	            	 SNPableDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnADDeleted));
 	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
             	     
             	  }
@@ -1384,7 +1385,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         }
     }
     
-    public void setCnADDeleted(CopyNumberDE copyNumberDE) {
+    public void setCnADDeleted(SNPableDE copyNumberDE) {
     	this.cnADDeleted = copyNumberDE.getValueObject().toString();
     }
     
@@ -1424,7 +1425,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && (this.cnUnchangeTo != null && this.cnUnchangeTo.trim().length() > 0)) {
             	 try{
             		 
-	            	 CopyNumberDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(Float.valueOf(this.cnUnchangeTo));
+	            	 SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(Float.valueOf(this.cnUnchangeTo));
 		        	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
 	            	 }
 
@@ -1459,7 +1460,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     }
 
-    public void setCnUnchangeTo(CopyNumberDE copyNumberDE) {
+    public void setCnUnchangeTo(SNPableDE copyNumberDE) {
     	this.cnUnchangeTo = copyNumberDE.getValueObject().toString();
     }
 
@@ -1618,7 +1619,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
            	try{
                  		
             	 copyNumberCriteria = new CopyNumberCriteria();
-            	 CopyNumberDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnDeleted));
+            	 SNPableDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnDeleted));
             	 copyNumberCriteria.setCopyNumber(copyNumberDE); 
            	 
              }
@@ -1655,7 +1656,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         }
     }
     
-    public void setCnDeleted(CopyNumberDE copyNumberDE) {
+    public void setCnDeleted(SNPableDE copyNumberDE) {
     	this.cnDeleted = copyNumberDE.getValueObject().toString();
     }
     
@@ -1722,7 +1723,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && (this.cnUnchangeFrom != null && this.cnUnchangeFrom.trim().length() > 0)) {
             	try{
 	            	
-			        	 CopyNumberDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(Float.valueOf(this.cnUnchangeFrom));
+			        	 SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(Float.valueOf(this.cnUnchangeFrom));
 			        	 copyNumberCriteria.setCopyNumber(copyNumberDE);           	                                            
 		           }
             	    
@@ -1755,7 +1756,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         }
     }
     
-    public void setCnUnchangeFrom(CopyNumberDE copyNumberDE) {
+    public void setCnUnchangeFrom(SNPableDE copyNumberDE) {
     	this.cnUnchangeFrom = copyNumberDE.getValueObject().toString();
     }
     

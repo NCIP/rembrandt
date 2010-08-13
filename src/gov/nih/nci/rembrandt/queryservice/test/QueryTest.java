@@ -128,6 +128,7 @@ public class QueryTest extends TestCase {
      InstitutionCriteria accessCrit;
 
     protected void setUp() throws Exception {
+    	System.setProperty("gov.nih.nci.rembrandtData.properties", "C:/local/content/rembrandt/config/rembrandt.properties");
         ApplicationContext.init();
         buildSampleIDCrit();
         buildAccessCrit();
@@ -402,7 +403,7 @@ public class QueryTest extends TestCase {
                     CopyNumber cghObject =
                             (CopyNumber) cghObjects[i];
                     System.out.println("SampleID: " + cghObject.getSampleId() + " || Copy Number: "
-                    + cghObject.getCopyNumber() + " || SNPProbesetName: " + cghObject.getSnpProbesetName()
+                    + cghObject.getCalculatedCopyNumber() + " || SNPSegmentName: " + cghObject.getSnpSegmentName()
                     + " || Chromosome: " + cghObject.getCytoband() );
                     if (cghObject.getAnnotations() != null)
                     System.out.println( "Annotation GeneSymbols: " +

@@ -72,6 +72,7 @@ public class SampleCopyNumberValuesResultset extends BioSpecimenResultset{
 	private DatumDE channelRatioValue;
 	private DatumDE copyNumberPvalue;
 	private DatumDE loh;
+	private DatumDE segmentMean = null;
 	private boolean highlighted = false;
 	/**
 	 * @return Returns the channelRatioValue.
@@ -134,5 +135,17 @@ public class SampleCopyNumberValuesResultset extends BioSpecimenResultset{
 	 */
 	public void setHighlighted(boolean highlighted) {
 		this.highlighted = highlighted;
+	}
+	/**
+	 * @return the segmentMean
+	 */
+	public DatumDE getSegmentMean() {
+		return segmentMean;
+	}
+	/**
+	 * @param segmentMean the segmentMean to set
+	 */
+	public void setSegmentMean(DatumDE segmentMean) {
+		this.segmentMean = segmentMean;
 	}
 }

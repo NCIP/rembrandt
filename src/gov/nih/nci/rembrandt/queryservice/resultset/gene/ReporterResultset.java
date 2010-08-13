@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.gene;
 import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
+import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 
 import java.io.Serializable;
@@ -82,6 +83,8 @@ public class ReporterResultset implements Serializable{
     private DatumDE value = null;
     private DatumDE intensityValue = null;
     private BasePairPositionDE.StartPosition startPhysicalLocation = null;
+    private BasePairPositionDE.EndPosition endPhysicalLocation = null;
+    private ChromosomeNumberDE chromosomeNumber = null;
 	private SortedMap groupTypes = new TreeMap();
     private Collection assiciatedGeneSymbols = null;
     private Collection assiciatedLocusLinkIDs =  null;
@@ -233,5 +236,30 @@ public class ReporterResultset implements Serializable{
 	}
 	public void setIntensityValue(DatumDE intensityValue) {
 		this.intensityValue = intensityValue;
+	}
+	/**
+	 * @return the endPhysicalLocation
+	 */
+	public BasePairPositionDE.EndPosition getEndPhysicalLocation() {
+		return endPhysicalLocation;
+	}
+	/**
+	 * @param endPhysicalLocation the endPhysicalLocation to set
+	 */
+	public void setEndPhysicalLocation(
+			BasePairPositionDE.EndPosition endPhysicalLocation) {
+		this.endPhysicalLocation = endPhysicalLocation;
+	}
+	/**
+	 * @return the chromosomeNumber
+	 */
+	public ChromosomeNumberDE getChromosomeNumber() {
+		return chromosomeNumber;
+	}
+	/**
+	 * @param chromosomeNumber the chromosomeNumber to set
+	 */
+	public void setChromosomeNumber(ChromosomeNumberDE chromosomeNumber) {
+		this.chromosomeNumber = chromosomeNumber;
 	}
 }

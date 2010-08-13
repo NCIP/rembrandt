@@ -108,7 +108,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
                     CopyNumber cghObject =
                             (CopyNumber) cghObjects[i];
                     System.out.println("SampleID: " + cghObject.getSampleId() + " || Copy Number: "
-                    + cghObject.getCopyNumber() + " || SNPProbesetName: " + cghObject.getSnpProbesetName()
+                    + cghObject.getCalculatedCopyNumber() + " || SNPProbesetName: " + cghObject.getSnpSegmentName()
                     + " || Chromosome: " + cghObject.getCytoband() );
                     if (cghObject.getAnnotations() != null)
                     System.out.println( "Annotation GeneSymbols: " +
