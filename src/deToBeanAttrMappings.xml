@@ -38,9 +38,11 @@
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE$GeneSymbol">
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.ProbesetDim"
                    attribute="geneSymbol"/>
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.GeneSnpSegment"
+                   attribute="geneSymbol"/>
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.GeneClone"
                    attribute="geneSymbol"/>
-                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.GeneSnp"
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.GeneSnp"
                     attribute="geneSymbol"/>
 
     </DomainElement>
@@ -61,7 +63,7 @@
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.SampleIDDE">
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionSfact"
                    attribute="sampleId"/>
-                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact"
                    attribute="sampleId"/>
 
     </DomainElement>
@@ -79,7 +81,7 @@
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.PatientDim"
                     attribute="institutionId"/>
                       
-                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact"
                    attribute="institutionId"/>
 
     </DomainElement>
@@ -88,7 +90,7 @@
                    attribute="institutionName"/>
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.PatientDim"
                     attribute="institutionName"/>                      
-                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact"
                    attribute="institutionName"/>
     </DomainElement>
 
@@ -99,13 +101,17 @@
                    attribute="diseaseType"/>
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.DifferentialExpressionGfact"
                    attribute="diseaseType"/>
-                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
+                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact"
                    attribute="diseaseType"/>
 
     </DomainElement>
     <DomainElement name="gov.nih.nci.caintegrator.dto.de.CopyNumberDE">
-                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact"
-                   attribute="copyNumber"/>
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact"
+                   attribute="calculatedCopyNumber"/>
+    </DomainElement>
+    <DomainElement name="gov.nih.nci.caintegrator.dto.de.SegmentMeanDE">
+                   <mappedBean name="gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact"
+                   attribute="segmentMean"/>
     </DomainElement>
    <DomainElement name="gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE$BACClone">
                    <mappedBean name="gov.nih.nci.rembrandt.dbbean.CloneDim"
