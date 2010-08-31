@@ -223,6 +223,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		
 		ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
         //set all Genes query and give copyNumber default value
+		comparativeGenomicForm.setSampleType("PairedTissue");
 		comparativeGenomicForm.setGeneGroup("");
 		comparativeGenomicForm.setCopyNumberView("calculatedCN");
 		comparativeGenomicForm.setCopyNumber("amplified");

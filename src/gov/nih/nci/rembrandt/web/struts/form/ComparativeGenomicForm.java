@@ -242,6 +242,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     /** copyNumberView property */
     private String copyNumberView = "calculatedCN";
 
+    /** sampleType property */
+    private String sampleType;
+
     /** segmentMean property */
     private String segmentMean;
 
@@ -262,6 +265,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      * * moved to the upper class: BaseForm.java private ArrayList diseaseTypes;
      * private ArrayList geneTypeColl;
      */
+    private ArrayList sampleTypeColl = new ArrayList();
+    
     private ArrayList cloneTypeColl = new ArrayList();
 
     private ArrayList snpTypes = new ArrayList();;
@@ -308,6 +313,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
          * * moved to the upper class: BaseForm.java diseaseTypes = new
          * ArrayList(); geneTypeColl = new ArrayList();
          */
+        sampleTypeColl = new ArrayList();
         cloneTypeColl = new ArrayList();
         snpTypes = new ArrayList();
         alleleTypes = new ArrayList();
@@ -339,6 +345,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         assayTypes.add(new LabelValueBean("100K SNP Array", "100K SNP Array"));
         assayTypes.add(new LabelValueBean("Array CGH", "Array CGH"));
 
+        sampleTypeColl.add(new LabelValueBean("Paired Tissue Samples (Tissue vs. Blood paired samples)", "PairedTissue"));
+        sampleTypeColl.add(new LabelValueBean("Unpaired Tissue Samples (Tissue vs. Reference samples)", "UnpairedTissue"));
+        sampleTypeColl.add(new LabelValueBean("Unpaired Control Samples (Blood vs. reference samples)", "UnpairedControl"));
     }
 
     /**
@@ -494,6 +503,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         copyNumber = "";
         copyNumberView = "calculatedCN";
         segmentMean = "";
+        sampleType = "PairedTissue";
         basePairStart = "";       
         //sampleGroup = "";
 		sampleList = "";
@@ -746,6 +756,29 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setTumorGrade(String tumorGrade) {
         this.tumorGrade = tumorGrade;
+    }
+
+    /**
+     * Returns the sampleType.
+     * 
+     * @return String
+     */
+    public String getSampleType() {
+        return sampleType;
+    }
+
+    /**
+     * Set the sampleType.
+     * 
+     * @param sampleType
+     *            The sampleType to set
+     */
+    public void setSampleType(String sampleType) {
+        this.sampleType = sampleType;
+     	segmentMeanCriteria = new SegmentMeanCriteria();
+      	SegmentMeanDE segmentMeanDE = new SegmentMeanDE.SampleType(this.sampleType);
+        segmentMeanCriteria.setSegmentMean(segmentMeanDE);            	                                            
+      
     }
 
     /**
@@ -1918,6 +1951,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     public ArrayList getAlleleTypes() {
         return alleleTypes;
+    }
+
+    public ArrayList getSampleTypeColl() {
+        return sampleTypeColl;
     }
     
     /**

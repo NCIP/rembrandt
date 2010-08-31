@@ -15,6 +15,12 @@
 
 </legend>
 
+Sample Type:&nbsp;&nbsp;
+<html:select property="sampleType" styleId="geneType" disabled="false">
+	<html:optionsCollection property="sampleTypeColl" />
+</html:select>
+<br/><br/>
+
 	
 <html:radio property="segmentMean" value="amplified" styleClass="radio"/> Amplified &ge;
 				<html:text property="smAmplified" onfocus="javascript:radioFold(this);" />&nbsp;mean<br>
