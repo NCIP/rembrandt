@@ -106,6 +106,9 @@ String param = request.getParameter("s");
 		Event.observe(window, "load", function() {
 			document.getElementById("segmentMean").style.display = "none";
 			document.getElementById("segmentMean").style.visibility = "hidden";
+			
+			document.getElementById("regionView").style.display = "none";
+			document.getElementById("regionView").style.visibility = "hidden";
 		});
 		
 		function toggleCopyNumberView(selectedView) {
@@ -121,6 +124,22 @@ String param = request.getParameter("s");
 				
 				document.getElementById("calculatedCN").style.display = "none";
 				document.getElementById("calculatedCN").style.visibility = "hidden";
+			}
+		}
+		
+		function toggleGeneRegionView(selectedView) {
+			if ( selectedView == "regionView" ) {
+				document.getElementById("geneView").style.display = "none";
+				document.getElementById("geneView").style.visibility = "hidden";
+				
+				document.getElementById("regionView").style.display = "block";
+				document.getElementById("regionView").style.visibility = "visible";
+			} else {
+				document.getElementById("geneView").style.display = "block";
+				document.getElementById("geneView").style.visibility = "visible";
+				
+				document.getElementById("regionView").style.display = "none";
+				document.getElementById("regionView").style.visibility = "hidden";
 			}
 		}
 	</script>  	

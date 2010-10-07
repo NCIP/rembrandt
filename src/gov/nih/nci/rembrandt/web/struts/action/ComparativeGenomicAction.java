@@ -226,6 +226,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		comparativeGenomicForm.setSampleType("PairedTissue");
 		comparativeGenomicForm.setGeneGroup("");
 		comparativeGenomicForm.setCopyNumberView("calculatedCN");
+		comparativeGenomicForm.setGeneRegionView("geneView");
 		comparativeGenomicForm.setCopyNumber("amplified");
 		comparativeGenomicForm.setCnAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
 		comparativeGenomicForm.setCnADAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);

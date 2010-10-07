@@ -15,6 +15,12 @@
 </legend>
 
 
+<br/>&nbsp;&nbsp;Analysis Type:&nbsp;&nbsp;
+<html:select property="analysisType" disabled="false">
+	<html:optionsCollection property="analysisTypeColl" />
+</html:select>
+<br/><br/>
+
 	
 <br />	&nbsp;&nbsp;Chromosome Number&nbsp;
 	<html:select property="chromosomeNumber" onchange="javascript:cytobandChange()">

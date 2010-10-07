@@ -475,7 +475,12 @@ public class QuickSearchAction extends DispatchAction {
 				kmForm.setPlotVisible(false);
 			}
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
+					List geReporters = kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity();
+					if ( geReporters == null || geReporters.size() == 0 ) {
+						return mapping.findForward("kmplot");
+					}
+					//kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
+					kmForm = KMDataSetHelper.populateReporters(geReporters, kmplotType, kmForm);
 					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();

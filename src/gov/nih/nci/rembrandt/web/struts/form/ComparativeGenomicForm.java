@@ -242,8 +242,14 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     /** copyNumberView property */
     private String copyNumberView = "calculatedCN";
 
+    /** geneRegionView property */
+    private String geneRegionView = "geneView";
+
     /** sampleType property */
     private String sampleType;
+
+    /** analysisType property */
+    private String analysisType;
 
     /** segmentMean property */
     private String segmentMean;
@@ -266,6 +272,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      * private ArrayList geneTypeColl;
      */
     private ArrayList sampleTypeColl = new ArrayList();
+    
+    private ArrayList analysisTypeColl = new ArrayList();
     
     private ArrayList cloneTypeColl = new ArrayList();
 
@@ -314,6 +322,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
          * ArrayList(); geneTypeColl = new ArrayList();
          */
         sampleTypeColl = new ArrayList();
+        analysisTypeColl = new ArrayList();
         cloneTypeColl = new ArrayList();
         snpTypes = new ArrayList();
         alleleTypes = new ArrayList();
@@ -348,6 +357,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         sampleTypeColl.add(new LabelValueBean("Paired Tissue Samples (Tissue vs. Blood paired samples)", "PairedTissue"));
         sampleTypeColl.add(new LabelValueBean("Unpaired Tissue Samples (Tissue vs. Reference samples)", "UnpairedTissue"));
         sampleTypeColl.add(new LabelValueBean("Unpaired Control Samples (Blood vs. reference samples)", "UnpairedControl"));
+
+        analysisTypeColl.add(new LabelValueBean("Paired Tissue Samples (Tissue vs. Blood paired samples)", "Paired"));
+        analysisTypeColl.add(new LabelValueBean("Unpaired Tissue Samples (Tissue vs. Reference samples)", "Unpaired"));
+        analysisTypeColl.add(new LabelValueBean("Normal Samples (Blood vs. reference samples)", "Normal"));
     }
 
     /**
@@ -502,8 +515,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         queryName = "";
         copyNumber = "";
         copyNumberView = "calculatedCN";
+        geneRegionView = "geneView";
         segmentMean = "";
         sampleType = "PairedTissue";
+        analysisType = "Paired";
         basePairStart = "";       
         //sampleGroup = "";
 		sampleList = "";
@@ -778,6 +793,28 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      	segmentMeanCriteria = new SegmentMeanCriteria();
       	SegmentMeanDE segmentMeanDE = new SegmentMeanDE.SampleType(this.sampleType);
         segmentMeanCriteria.setSegmentMean(segmentMeanDE);            	                                            
+      
+    }
+
+    /**
+     * Returns the analysisType.
+     * 
+     * @return String
+     */
+    public String getAnalysisType() {
+        return analysisType;
+    }
+
+    /**
+     * Set the analysisType.
+     * 
+     * @param analysisType
+     *            The analysisType to set
+     */
+    public void setAnalysisType(String analysisType) {
+        this.analysisType = analysisType;
+     	regionCriteria = new RegionCriteria();
+      	regionCriteria.setAnalysisType(analysisType);            	                                            
       
     }
 
@@ -1856,6 +1893,25 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     }
 
     /**
+     * Returns the geneRegionView.
+     * 
+     * @return String
+     */
+    public String getGeneRegionView() {
+        return geneRegionView;
+    }
+
+    /**
+     * Set the geneRegionView.
+     * 
+     * @param geneRegionView
+     *            The geneRegionView to set
+     */
+    public void setGeneRegionView(String geneRegionView) {
+        this.geneRegionView = geneRegionView;
+    }
+
+    /**
      * Returns the copyNumber.
      * 
      * @return String
@@ -1955,6 +2011,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     public ArrayList getSampleTypeColl() {
         return sampleTypeColl;
+    }
+
+    public ArrayList getAnalysisTypeColl() {
+        return analysisTypeColl;
     }
     
     /**

@@ -351,7 +351,7 @@
 		
 	</logic:equal> <!-- TAG CREATION WOULD NEED TO CONTAIN THE ABOVE --> 
 	<logic:equal name="kmDataSetForm" property="plotVisible" value="false">
-		<p>To display graph, Please select a Reporter for the Gene: 
+		<p>To display graph, Please select a(nother) Reporter for the Gene: 
 		<bean:write	name="kmDataSetForm" property="geneOrCytoband" /> and select "Redraw Graph"
 		</p>
 	</logic:equal>
