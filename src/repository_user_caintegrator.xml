@@ -71,9 +71,9 @@
 		primarykey="true" />
 	<field-descriptor name="chromosome" column="CHROMOSOME"
 		jdbc-type="VARCHAR" />
-	<field-descriptor name="chromosomeSegmentStart" column="CHR_SEGM_START"
+	<field-descriptor name="chromosomeStart" column="CHR_SEGM_START"
 		jdbc-type="BIGINT" />
-	<field-descriptor name="chromosomeSegmentEnd" column="CHR_SEGM_END"
+	<field-descriptor name="chromosomeEnd" column="CHR_SEGM_END"
 		jdbc-type="BIGINT" />		
 	<field-descriptor name="segmentMean" column="SEGMENT_MEAN"
 		jdbc-type="DOUBLE" />
@@ -104,7 +104,43 @@
 	<field-descriptor name="snpSegmentId" column="SNP_SEGMENT_ID"
 		jdbc-type="BIGINT" />
 </class-descriptor>
-
+<class-descriptor class="gov.nih.nci.rembrandt.dbbean.ArrayGeneSegmentFact"
+	table="ARRAY_GENE_SEGM_MW_FACT">
+	<field-descriptor name="aGeneSegMWFId" column="AGSMWF_ID" jdbc-type="BIGINT"
+		primarykey="true" />
+	<field-descriptor name="weightedMean" column="WEIGHT_MEAN"
+		jdbc-type="DOUBLE" />
+	<field-descriptor name="geneSymbol" column="GENE_SYMBOL"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="geneDimId" column="GENE_DIM_ID"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="sampleId" column="SAMPLE_ID"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="biospecimenId" column="BIOSPECIMEN_ID"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="institutionId" column="INSTITUTION_ID"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="institutionName" column="INSTITUTION_NAME"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="diseaseTypeId" column="DISEASE_TYPE_ID"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="diseaseType" column="DISEASE_TYPE"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="analysisType" column="ANALYSIS_TYPE"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="specimenType" column="SPECIMEN_TYPE"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="patientDid" column="PATIENT_DID"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="chromosome" column="CHROMOSOME"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="chromosomeStart" column="GENE_START_POSITION"
+		jdbc-type="BIGINT" />
+	<field-descriptor name="chromosomeEnd" column="GENE_END_POSITION"
+		jdbc-type="BIGINT" />	
+</class-descriptor>
 <class-descriptor class="gov.nih.nci.rembrandt.dbbean.SnpProbesetDim"
 	table="SNP_PROBESET_DIM">
 
