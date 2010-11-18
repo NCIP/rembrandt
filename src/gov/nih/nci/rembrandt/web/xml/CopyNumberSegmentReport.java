@@ -1,22 +1,32 @@
-/*
- * Created on Sep 10, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
-package gov.nih.nci.rembrandt.queryservice.resultset.gene;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+package gov.nih.nci.rembrandt.web.xml;
 
-import java.io.Serializable;
+import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
+import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSegmentViewResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.SampleCopyNumberValuesResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.util.DEUtils;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
 /**
- * @author SahniH
- *
- * This class encapulates a collection of ReporterResultset objects.
+ * @author LandyR
+ * Feb 8, 2005
+ * 
  */
 
 
@@ -77,118 +87,126 @@ import java.util.TreeMap;
 * 
 */
 
-public class GeneResultset implements Serializable{
-	private static final long serialVersionUID = 1L;
-	private GeneIdentifierDE.GeneSymbol geneSymbol = null;
-	  private boolean isAnonymousGene = false;
-	  //private DataSetDE. dataset;
-	  private SortedMap reporters = new TreeMap();
-	  private SortedMap groupTypes = new TreeMap();
+public class CopyNumberSegmentReport implements ReportGenerator {
 
 	/**
-	 * @return Returns the geneSymbol.
+	 * 
 	 */
-	public GeneIdentifierDE.GeneSymbol getGeneSymbol() {
-		return geneSymbol;
+	public CopyNumberSegmentReport () {
+		super();
 	}
-	/**
-	 * @param geneSymbol The geneSymbol to set.
-	 */
-	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
-		this.geneSymbol = geneSymbol;
-	}
-	/**
-	 * @param reporterResultset Adds reporterResultset to this GeneResultset object.
-	 */
-	public void addReporterResultset(ReporterResultset reporterResultset){
-		if(reporterResultset != null && reporterResultset.getReporter() != null){
-			reporters.put(reporterResultset.getReporter().getValue().toString(), reporterResultset);
-		}
-	}
-	/**
-	 * @param reporterResultset Removes reporterResultset from this GeneResultset object.
-	 */
-	public void removeRepoterResultset(ReporterResultset reporterResultset){
-		if(reporterResultset != null && reporterResultset.getReporter() != null){
-			reporters.remove(reporterResultset.getReporter().getValue().toString());
-		}
-	}
-    /**
-     * @param reporter
-	 * @return reporterResultset Returns reporterResultset for this GeneResultset.
-	 */
-    public ReporterResultset getRepoterResultset(String reporter){
-    	if(reporter != null){
-			return (ReporterResultset) reporters.get(reporter);
-		}
-    		return null;
-    }
-	/**
-	 * @return reporterResultset Returns reporterResultset to this GeneResultset object.
-	 */
-    public Collection getReporterResultsets(){
-    		return reporters.values();
-    }
-	/**
-	 * @param none Removes all reporterResultset in this GeneResultset object.
-	 */
-    public void removeAllReporterResultsets(){
-    	reporters.clear();
-    }
 
-	/**
-	 * For genes that do not have a Gene Symbol associated with it
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
-	public void setAnonymousGene() {
-		isAnonymousGene = true;
+	@SuppressWarnings("unchecked")
+	public Document getReportXML(Resultant resultant, Map filterMapParams) {
+
+		//String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
+		DecimalFormat resultFormat = new DecimalFormat("0.0000");
+		String defaultV = "-";
 		
+			Document document = DocumentHelper.createDocument();
+
+			try	{
+			Element report = document.addElement( "Report" );
+			Element cell = null;
+			Element data = null;
+			Element dataRow = null;
+			//add the atts
+	        report.addAttribute("reportType", "Copy Number");
+	        //fudge these for now
+	        report.addAttribute("groupBy", "none");
+	        String queryName = resultant.getAssociatedQuery().getQueryName();
+	        
+	        //set the queryName to be unique for session/cache access
+	        report.addAttribute("queryName", queryName);
+	        report.addAttribute("sessionId", "the session id");
+	        report.addAttribute("creationTime", "right now");
+	        //hold a message to display on the report
+	        report.addAttribute("msg", (resultant.isOverLimit() ? "over limit" : ""));
+	        
+			StringBuffer sb = new StringBuffer();
+			
+			ResultsContainer  resultsContainer = resultant.getResultsContainer();
+			CopyNumberSegmentViewResultsContainer segmentViewResultsContainer = null;
+			if(resultsContainer instanceof DimensionalViewContainer)	{
+				
+				DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+						
+
+				segmentViewResultsContainer = dimensionalViewContainer.getCopyNumberSegmentViewResultsContainer();
+				
+			}
+			else if (resultsContainer instanceof CopyNumberSegmentViewResultsContainer)	{
+				segmentViewResultsContainer = (CopyNumberSegmentViewResultsContainer) resultsContainer;
+			}
+			
+			Collection segments = segmentViewResultsContainer.getSampleCopyNumberValuesResultsets();
+
+			//	set up the headers for this table 
+			Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
+			
+			for(String h : CopyNumberSegmentReport.getCopyNumberSegmentHeaderValues()){
+				cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
+			        data = cell.addElement("Data").addAttribute("type", "header").addText(h);
+			        data = null;
+		        cell = null;			
+			}
+
+			
+   			for (Iterator sampleIterator = segments.iterator(); sampleIterator.hasNext();) {
+
+   				SampleCopyNumberValuesResultset sampleResultset =  (SampleCopyNumberValuesResultset)sampleIterator.next();   			
+				
+				dataRow = report.addElement("Row").addAttribute("name", "dataRow");
+				
+				List rows = new ArrayList();
+				rows = CopyNumberSegmentReport.getClinicalRowValues(sampleResultset);
+				
+				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "sample");
+			        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(0)));
+	        		data = null;
+	        	 cell = null;
+        	 
+				for(int i=1; i<rows.size(); i++)	{
+					 cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
+				        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(i)));
+		        		data = null;
+		        	 cell = null;
+				}
+				
+    		}
+			}
+			catch(Exception e)	{
+				System.out.println(e);
+			}
+		    return document;		     
 	}
-	/**
-	 * @return Returns the isAnonymousGene.
-	 */
-	public boolean isAnonymousGene() {
-		return this.isAnonymousGene;
+	
+	@SuppressWarnings("unchecked")
+	public static List getClinicalRowValues(SampleCopyNumberValuesResultset sampleResultset){
+		String defaultV = "-";
+		List rows = new ArrayList();
+
+
+		rows.add(sampleResultset.getBiospecimen().getSpecimenName());
+		rows.add(sampleResultset.getChr());
+		rows.add(sampleResultset.getLocStart());
+		rows.add(sampleResultset.getLocEnd());
+		rows.add(sampleResultset.getNumberOFMarks());
+		rows.add(sampleResultset.getSegmentMean());
+//		rows.add(sampleResultset.getSampleIDDE());
+//		rows.add(sampleResultset.getDisease());
+
+		
+		return rows;
 	}
-    public List getReporterNames(){
-    	return new ArrayList(reporters.keySet());
-    }
-	/**
-	 * @param groupResultset Adds groupResultset to this ReporterResultset object.
-	 */
-	public void addGroupByResultset(Groupable groupResultset){
-		if(groupResultset != null && groupResultset.getType() != null){
-			groupTypes.put(groupResultset.getType().getValue().toString(), groupResultset);
-		}
+	
+	public static List<String> getCopyNumberSegmentHeaderValues()	{
+		String headers = "Specimen,Chr No.,Start Position, End Position,Number of Marks,Segment Mean";//Number of Marks,,Sample,Disease";
+		List<String> heads = new ArrayList<String>();
+		heads = Arrays.asList(StringUtils.split(headers, ","));
+		return heads;
 	}
-	/**
-	 * @param groupResultset Removes groupResultset to this ReporterResultset object.
-	 */
-	public void removeGroupByResultset(Groupable groupResultset){
-		if(groupResultset != null && groupResultset.getType() != null){
-			groupTypes.remove(groupResultset.getType().getValue().toString());
-		}
-	}
-    /**
-     * @param disease
-	 * @return groupResultset Returns reporterResultset for this ReporterResultset.
-	 */
-    public Groupable getGroupByResultset(String groupType){
-    	if(groupType != null){
-			return (Groupable) groupTypes.get(groupType);
-		}
-    		return null;
-    }
-	/**
-	 * @return Collection Returns collection of GroupResultsets to this ReporterResultset object.
-	 */
-    public Collection getGroupByResultsets(){
-    		return groupTypes.values();
-    }
-	/**
-	 * @param none Removes all groupResultset in this ReporterResultset object.
-	 */
-    public void removeAllGroupByResultset(){
-    	groupTypes.clear();
-    }
-    
 }

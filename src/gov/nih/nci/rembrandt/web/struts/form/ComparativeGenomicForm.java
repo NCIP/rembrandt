@@ -25,6 +25,7 @@ import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.SpecimenType;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
@@ -813,8 +814,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setAnalysisType(String analysisType) {
         this.analysisType = analysisType;
-     	regionCriteria = new RegionCriteria();
-      	regionCriteria.setAnalysisType(analysisType);            	                                            
+     	//regionCriteria = new RegionCriteria();
+      	//regionCriteria.setAnalysisType(analysisType);            	                                            
       
     }
 
@@ -1020,8 +1021,13 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
               try{
            	         	
               	 copyNumberCriteria = new CopyNumberCriteria();
-            	 SNPableDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnAmplified));
-            	 copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
+     			if(this.cnAmplified != null){
+    				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnAmplified)/2) ;
+    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+               	 	SNPableDE copyNumberDE = new CopyNumberDE.Amplification(calculatedCopyNumber.floatValue());
+               	 	copyNumberCriteria.setCopyNumber(copyNumberDE);   
+    			}
+         	                                            
            	    }
              catch(NumberFormatException e){}
             	
@@ -1278,9 +1284,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && thisCopyNumber.equalsIgnoreCase("ampdel")
                     && (this.cnADAmplified != null && this.cnADAmplified.trim().length() >=1)) {
             	try{       		
-	                	
-	            	 SNPableDE copyNumberDE = new CopyNumberDE.Amplification(Float.valueOf(this.cnADAmplified));
-	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
+        				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnADAmplified)/2) ;
+        				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+        				SNPableDE copyNumberDE = new CopyNumberDE.Amplification(calculatedCopyNumber.floatValue());
+        				copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
 	           	   
             	 }
                catch(NumberFormatException e){}
@@ -1445,9 +1452,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && (this.cnADDeleted != null && this.cnADDeleted.trim().length() >=1)) {
             	try{ 
             	
-	            	
-	            	 SNPableDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnADDeleted));
-	            	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
+    				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnADDeleted)/2) ;
+    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+    				SNPableDE copyNumberDE = new CopyNumberDE.Deletion(calculatedCopyNumber.floatValue());
+    				copyNumberCriteria.setCopyNumber(copyNumberDE);    
             	     
             	  }
             	 catch(NumberFormatException e){}
@@ -1494,9 +1502,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && thisCopyNumber.equalsIgnoreCase("unchange")
                     && (this.cnUnchangeTo != null && this.cnUnchangeTo.trim().length() > 0)) {
             	 try{
-            		 
-	            	 SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(Float.valueOf(this.cnUnchangeTo));
-		        	 copyNumberCriteria.setCopyNumber(copyNumberDE);  
+	     				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnUnchangeTo)/2) ;
+	    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+	    				SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(calculatedCopyNumber.floatValue());
+	    				copyNumberCriteria.setCopyNumber(copyNumberDE); 
 	            	 }
 
             	 catch(NumberFormatException e){}
@@ -1688,9 +1697,11 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && (this.cnDeleted != null && this.cnDeleted.trim().length() > 0)) {
            	try{
                  		
-            	 copyNumberCriteria = new CopyNumberCriteria();
-            	 SNPableDE copyNumberDE = new CopyNumberDE.Deletion(Float.valueOf(this.cnDeleted));
-            	 copyNumberCriteria.setCopyNumber(copyNumberDE); 
+       			copyNumberCriteria = new CopyNumberCriteria();
+ 				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnDeleted)/2) ;
+				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+				SNPableDE copyNumberDE = new CopyNumberDE.Deletion(calculatedCopyNumber.floatValue());
+				copyNumberCriteria.setCopyNumber(copyNumberDE); 
            	 
              }
             catch(NumberFormatException e){}
@@ -1793,8 +1804,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
                     && (this.cnUnchangeFrom != null && this.cnUnchangeFrom.trim().length() > 0)) {
             	try{
 	            	
-			        	 SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(Float.valueOf(this.cnUnchangeFrom));
-			        	 copyNumberCriteria.setCopyNumber(copyNumberDE);           	                                            
+		 				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnUnchangeFrom)/2) ;
+						calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+						SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(calculatedCopyNumber.floatValue());
+						copyNumberCriteria.setCopyNumber(copyNumberDE); 
 		           }
             	    
             	 catch(NumberFormatException e){}

@@ -674,7 +674,7 @@ public class ReportGeneratorHelper {
 	 * @param xsltFilename --this the XSLT that you want to use
 	 * @param out --the JSPWriter you want the transformed document to go to...
 	 */
-	public static void renderReport(HttpServletRequest request, Document reportXML, String xsltFilename, JspWriter out) {
+	public static void renderReport(HttpServletRequest request, Document reportXML, String xsltFilename, JspWriter out, String isIGV) {
 		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
 		// load the transformer using JAX
 		logger.debug("Applying XSLT "+xsltFilename);
@@ -715,6 +715,9 @@ public class ReportGeneratorHelper {
 	        else	{
 	            String csv = transformedDoc.getStringValue();
 	            csv.trim();
+	            if(isIGV!= null && isIGV.equals("true")){
+	            	 csv = csv.replaceAll(",\\s+", "\t");
+	            }
 	            out.println(csv);
 	        }
 		}catch (UnsupportedEncodingException uee) {

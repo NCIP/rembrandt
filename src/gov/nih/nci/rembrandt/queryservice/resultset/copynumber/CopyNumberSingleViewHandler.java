@@ -8,6 +8,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
+import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
@@ -124,7 +125,14 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
       	}
       	return copyNumberContainer;
     }
-
+	public static CopyNumberSegmentViewResultsContainer handleCopyNumberSegmentView(CopyNumberSegmentViewResultsContainer copyNumberContainer, CopyNumber copyNumberObj){
+		SampleCopyNumberValuesResultset biospecimenResultset = null;
+      	if (copyNumberObj != null){
+      		biospecimenResultset = handleCopyNumberChangeValuesResultset(copyNumberObj);
+      		copyNumberContainer.addSampleCopyNumberValuesResultset(biospecimenResultset);
+      	}
+      	return copyNumberContainer;
+    }
     private static SampleCopyNumberValuesResultset handleCopyNumberChangeValuesResultset(CopyNumber copyNumberObj){
 		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
 		//populate the BiospecimenResuluset
@@ -135,9 +143,17 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
 		sampleCopyNumberValuesResultset.setBiospecimen(bioSpecimenIdentifierDE);
 
 		sampleCopyNumberValuesResultset.setSampleIDDE(new SampleIDDE(copyNumberObj.getSampleId()));
+		
+    	String segment = "chr:"+copyNumberObj.getChromosome()+" "+ copyNumberObj.getChromosomeStart()+"-"+copyNumberObj.getChromosomeStart();
 
+		sampleCopyNumberValuesResultset.setSegment(new DatumDE(DatumDE.COPY_NUMBER,segment));
+		sampleCopyNumberValuesResultset.setChr(copyNumberObj.getChromosome());
+		sampleCopyNumberValuesResultset.setLocStart(copyNumberObj.getChromosomeStart().toString());
+		sampleCopyNumberValuesResultset.setLocEnd(copyNumberObj.getChromosomeEnd().toString());
 		sampleCopyNumberValuesResultset.setCopyNumber(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
 		sampleCopyNumberValuesResultset.setSegmentMean(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getSegmentMean()));
+		sampleCopyNumberValuesResultset.setNumberOFMarks(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getNumberMark()));
+		sampleCopyNumberValuesResultset.setDisease(new DiseaseNameDE(copyNumberObj.getDiseaseType()));
 
 		//sampleCopyNumberValuesResultset.setChannelRatioValue(new DatumDE(DatumDE.COPY_NUMBER_CHANNEL_RATIO,copyNumberObj.getChannelRatio()));
 		//sampleCopyNumberValuesResultset.setCopyNumberPvalue(new DatumDE(DatumDE.COPY_NUMBER_RATIO_PVAL,copyNumberObj.getCopynoPval()));

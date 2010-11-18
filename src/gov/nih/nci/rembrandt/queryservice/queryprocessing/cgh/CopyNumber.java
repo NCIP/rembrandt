@@ -86,10 +86,10 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private Long biospecimenId;
   private Double channelRatio;
   private String chromosome;
+  private String geneSymbol;
+  private Long chromosomeStart;
   
-  private Long chromosomeSegmentStart;
-  
-  private Long chromosomeSegmentEnd;
+  private Long chromosomeEnd;
   
   private Double segmentMean;
 
@@ -1381,33 +1381,7 @@ public void setRace(String race) {
 		this.censor = censor;
 	}
 
-	/**
-	 * @return the chromosomeSegmentStart
-	 */
-	public Long getChromosomeSegmentStart() {
-		return chromosomeSegmentStart;
-	}
 
-	/**
-	 * @param chromosomeSegmentStart the chromosomeSegmentStart to set
-	 */
-	public void setChromosomeSegmentStart(Long chromosomeSegmentStart) {
-		this.chromosomeSegmentStart = chromosomeSegmentStart;
-	}
-
-	/**
-	 * @return the chromosomeSegmentEnd
-	 */
-	public Long getChromosomeSegmentEnd() {
-		return chromosomeSegmentEnd;
-	}
-
-	/**
-	 * @param chromosomeSegmentEnd the chromosomeSegmentEnd to set
-	 */
-	public void setChromosomeSegmentEnd(Long chromosomeSegmentEnd) {
-		this.chromosomeSegmentEnd = chromosomeSegmentEnd;
-	}
 
 	/**
 	 * @return the calculatedCopyNumber
@@ -1491,6 +1465,48 @@ public void setRace(String race) {
 	 */
 	public void setSnpSegmentName(String snpSegmentName) {
 		this.snpSegmentName = snpSegmentName;
+	}
+
+	/**
+	 * @return the geneSymbol
+	 */
+	public String getGeneSymbol() {
+		return geneSymbol;
+	}
+
+	/**
+	 * @param geneSymbol the geneSymbol to set
+	 */
+	public void setGeneSymbol(String geneSymbol) {
+		this.geneSymbol = geneSymbol;
+	}
+
+	/**
+	 * @return the chromosomeStart
+	 */
+	public Long getChromosomeStart() {
+		return chromosomeStart;
+	}
+
+	/**
+	 * @param chromosomeStart the chromosomeStart to set
+	 */
+	public void setChromosomeStart(Long chromosomeStart) {
+		this.chromosomeStart = chromosomeStart;
+	}
+
+	/**
+	 * @return the chromosomeEnd
+	 */
+	public Long getChromosomeEnd() {
+		return chromosomeEnd;
+	}
+
+	/**
+	 * @param chromosomeEnd the chromosomeEnd to set
+	 */
+	public void setChromosomeEnd(Long chromosomeEnd) {
+		this.chromosomeEnd = chromosomeEnd;
 	}
 
 

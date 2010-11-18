@@ -1,24 +1,35 @@
-/*
- * Created on Nov 6, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 
-import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
-import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
-import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.caintegrator.dto.de.DatumDE;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-/**
- * @author Himanso
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
+import gov.nih.nci.caintegrator.dto.de.DatumDE;
+import gov.nih.nci.caintegrator.dto.de.GenderDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.dto.view.GroupType;
+import gov.nih.nci.caintegrator.util.MathUtil;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExprSingleInterface;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.UnifiedGeneExprSingle;
+import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.AgeGroupResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.DiseaseTypeResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprViewHandler;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.SurvivalRangeResultset;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
+
 
 
 /**
@@ -78,41 +89,90 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 * 
 */
 
-public class CopyNumberViewHandler {
-    protected static CytobandResultset handleCytobandResulset (CopyNumberResultsContainer copyNumberResultsContainer, CopyNumber copyNumberObj){
-  		//get the gene accessesion number for this record
-  		//check if the gene exsists in the CopyNumberResultsContainer, otherwise add a new one.
-    	String segment = "chr:"+copyNumberObj.getChromosome()+" "+ copyNumberObj.getChromosomeStart()+"-"+copyNumberObj.getChromosomeEnd();
-		CytobandResultset cytobandResultset = copyNumberResultsContainer.getCytobandResultset(segment);
-  		if(cytobandResultset == null){ // no record found
-  			cytobandResultset = new CytobandResultset();
+public class CopyNumberGeneBasedViewHandler extends GeneExprViewHandler{
+		public static CopyNumberGeneViewResultsContainer handleCopyNumberGeneBasedView(CopyNumberGeneViewResultsContainer geneViewContainer, CopyNumber copyNumberObj,GroupType groupType){
+		GeneResultset geneResultset = null;
+		//ReporterResultset reporterResultset = null;
+		SampleCopyNumberValuesResultset biospecimenResultset = null;
+		DiseaseTypeResultset diseaseResultset = null;
+      	if (copyNumberObj != null){
+      		geneResultset = handleGeneResulset(geneViewContainer, copyNumberObj.getGeneSymbol());
+      		biospecimenResultset = handleCopyNumberChangeValuesResultset(copyNumberObj);
+      		//if(copyNumberObj instanceof CopyNumber){
+      		//	reporterResultset = handleReporterResultset(geneResultset,copyNumberObj);
+      		//} 
+      		if(groupType.getGroupType().equals(GroupType.DISEASE_TYPE_GROUP)){
+      			diseaseResultset = ViewByGroupResultsetHandler.handleDiseaseTypeResultset(geneResultset,copyNumberObj);
+
+      			if(diseaseResultset != null){
+      				diseaseResultset.addBioSpecimenResultset(biospecimenResultset);
+      			}
+      			geneResultset.addGroupByResultset(diseaseResultset);
+          		geneViewContainer.addBiospecimensToGroups(copyNumberObj.getDiseaseType(),biospecimenResultset.getBiospecimen());
+      		}
+      		
+      		//geneResultset.addReporterResultset(reporterResultset);
+      		//add the reporter to geneResultset
+      		geneViewContainer.addGeneResultset(geneResultset);
+      	}
+      	return geneViewContainer;
+    }
+
+
+
+
+
+
+
+
+
+	private static GeneResultset handleGeneResulset(
+				CopyNumberGeneBasedResultsContainer1 geneViewContainer,
+				String geneSymbol) {
+ 		//get the gene accessesion number for this record
+  		//check if the gene exsists in the GeneExprSingleViewResultsContainer, otherwise add a new one.
+		GeneResultset geneResultset = geneViewContainer.getGeneResultset(geneSymbol);
+  		if(geneResultset == null){ // no record found
+  			geneResultset = new GeneResultset();
   		}
-  		if(segment!= null){
-  		cytobandResultset.setCytoband(new CytobandDE(segment));
-  		}
+  		if(geneSymbol!= null){
+  		geneResultset.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(geneSymbol));
+ 		}
   		else{
-  			cytobandResultset.setAnonymousCytoband(true);
+  			geneResultset.setAnonymousGene();
   		}
-  		return cytobandResultset;
+  		return geneResultset;
 
     }
-	protected static ReporterResultset handleReporterResultset(CytobandResultset cytobandResultset,CopyNumber copyNumberObj){
+
+
+	protected static ReporterResultset handleReporterResultset(GeneResultset geneViewContainer,CopyNumber copyNumberObj){
   		// find out if it has a probeset or a clone associated with it
   		//populate ReporterResultset with the approciate one
 		ReporterResultset reporterResultset = null;
-		if(cytobandResultset != null && copyNumberObj != null){
-	    	if(copyNumberObj.getSnpSegmentName() != null ){
-	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpSegmentName());
-	       		reporterResultset = cytobandResultset.getRepoterResultset(copyNumberObj.getSnpSegmentName().toString());
+		if(geneViewContainer != null && copyNumberObj != null){
+	  			DatumDE reporter = new DatumDE(DatumDE.COPY_NUMBER,geneViewContainer.getGeneSymbol());
+	       		reporterResultset = geneViewContainer.getRepoterResultset(geneViewContainer.getGeneSymbol().toString());
 	      		if(reporterResultset == null){
 	      		 	reporterResultset = new ReporterResultset(reporter);                    
 	      			}  	
-	    	}
-            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
+	      	Long start =  new Long(0);
+	      	Long end = new Long(0);
+	      	if(reporterResultset.getStartPhysicalLocation()!= null ){
+	      		start = new Long (reporterResultset.getStartPhysicalLocation().toString());
+	      	}
+	      	if(reporterResultset.getEndPhysicalLocation()!= null ){
+	      		end = new Long (reporterResultset.getEndPhysicalLocation().toString());
+	      	}
+	      	if(copyNumberObj.getChromosomeStart() != null && copyNumberObj.getChromosomeStart()<= start){
             reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getChromosomeStart()));
+	      	}
+	      	if(copyNumberObj.getChromosomeEnd()!= null && copyNumberObj.getChromosomeEnd()>= end){
             reporterResultset.setEndPhysicalLocation(new BasePairPositionDE.EndPosition(copyNumberObj.getChromosomeEnd()));
-    	  	reporterResultset.setChromosomeNumber(new ChromosomeNumberDE(copyNumberObj.getChromosome()));
-    	  	
+	      	}
+	      	if(copyNumberObj.getChromosome()!= null ){
+	    	  	reporterResultset.setChromosomeNumber(new ChromosomeNumberDE(copyNumberObj.getChromosome()));		      	
+			}
 	  		if(copyNumberObj.getAnnotations() != null){
 	  			CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
                 if(annotation.getAccessionNumbers()!= null){
@@ -129,5 +189,31 @@ public class CopyNumberViewHandler {
 	    	
 		}
         return reporterResultset;
-    }
+	}
+
+        private static SampleCopyNumberValuesResultset handleCopyNumberChangeValuesResultset(CopyNumber copyNumberObj){
+    		//find out the biospecimenID associated with the GeneExpr.GeneExprSingle
+    		//populate the BiospecimenResuluset
+        	SampleCopyNumberValuesResultset sampleCopyNumberValuesResultset = new SampleCopyNumberValuesResultset();
+    		BioSpecimenIdentifierDE bioSpecimenIdentifierDE = new BioSpecimenIdentifierDE(copyNumberObj.getBiospecimenId());
+    		bioSpecimenIdentifierDE.setSampleId(copyNumberObj.getSampleId());
+    		bioSpecimenIdentifierDE.setSpecimenName(copyNumberObj.getSpecimenName());
+    		sampleCopyNumberValuesResultset.setBiospecimen(bioSpecimenIdentifierDE);
+
+    		sampleCopyNumberValuesResultset.setSampleIDDE(new SampleIDDE(copyNumberObj.getSampleId()));
+
+    		//sampleCopyNumberValuesResultset.setCopyNumber(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
+    		sampleCopyNumberValuesResultset.setSegmentMean(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getSegmentMean()));
+
+    		//sampleCopyNumberValuesResultset.setChannelRatioValue(new DatumDE(DatumDE.COPY_NUMBER_CHANNEL_RATIO,copyNumberObj.getChannelRatio()));
+    		//sampleCopyNumberValuesResultset.setCopyNumberPvalue(new DatumDE(DatumDE.COPY_NUMBER_RATIO_PVAL,copyNumberObj.getCopynoPval()));
+    		//sampleCopyNumberValuesResultset.setLOH(new DatumDE(DatumDE.COPY_NUMBER_LOH,copyNumberObj.getLoh()));		
+    		//sampleCopyNumberValuesResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,copyNumberObj.getAgeGroup()));
+    		//sampleCopyNumberValuesResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,copyNumberObj.getSurvivalLengthRange()));
+    		//sampleCopyNumberValuesResultset.setGenderCode(new GenderDE(copyNumberObj.getGenderCode()));
+    		
+      	
+      		return sampleCopyNumberValuesResultset;
+        }
+
 }

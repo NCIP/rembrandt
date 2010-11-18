@@ -249,6 +249,23 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	     }     
 	     return new ArrayList(positionReporterMap.values());
 	 }
+	 public List getAssociatedCopyNumberReporters(){
+		  Set reporterResultsets = new HashSet();
+		  Set reporters = new HashSet();
+		     Collection<SampleResultset> samples = this.getSampleResultsets();
+		     for(SampleResultset sampleResultset:samples ){
+		      SampleKaplanMeierPlotResultset kmSample = (SampleKaplanMeierPlotResultset)sampleResultset;
+		      reporterResultsets.addAll(kmSample.getReporterResultsets());
+		     }     
+		     for(Object reporter:reporterResultsets){
+		      ReporterResultset reporterResultset = (ReporterResultset)reporter;
+		      if(reporterResultset.getReporter()!= null){
+		       String reporterName = reporterResultset.getReporter().getValue().toString();
+		       reporters.add(reporterName);
+		      }
+		     }     
+		     return new ArrayList(reporters);
+		 }
 	@SuppressWarnings("unchecked")
 	 public List getAssociatedGEReportersSortedByMeanIntensity(){
 	  Set reporters = new HashSet();

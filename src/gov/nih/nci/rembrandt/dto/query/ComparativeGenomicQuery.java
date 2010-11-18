@@ -20,8 +20,14 @@ import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSegmentView;
+import gov.nih.nci.caintegrator.dto.view.ViewFactory;
+import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.enumeration.SpecimenType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CGHFactHandler;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
@@ -131,7 +137,11 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 	}
 
 	public QueryType getQueryType() throws Exception {
-		return QueryType.CGH_QUERY_TYPE;
+		QueryType queryType = QueryType.CGH_GENE_QUERY_TYPE;
+		if(getAssociatedView() instanceof CopyNumberSegmentView){
+			queryType = QueryType.CGH_QUERY_TYPE;
+		}
+		return queryType;
 	}
 
 	public ComparativeGenomicQuery() {
@@ -602,6 +612,22 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 		} else {
 			return false;
 		}
+	}
+	
+	public Viewable getAssociatedView() {
+        AllGenesCriteria allGenesCrit = getAllGenesCrit();
+        Viewable associatedView = null;
+        if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
+        	associatedView = ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW);
+        }
+        if (getRegionCriteria() != null  && getGeneIDCriteria() == null) {
+        	associatedView = ViewFactory.newView(ViewType.COPYNUMBER_SEGMENT_VIEW);
+       }
+        if (getGeneIDCriteria() != null && getRegionCriteria() == null ) {
+        	associatedView = ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW);
+       }
+        setAssociatedView(associatedView);
+		return associatedView;
 	}
 	/**
 	 * Overrides the protected Object.clone() method exposing it as public.

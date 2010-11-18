@@ -73,6 +73,13 @@ public class SampleCopyNumberValuesResultset extends BioSpecimenResultset{
 	private DatumDE copyNumberPvalue;
 	private DatumDE loh;
 	private DatumDE segmentMean = null;
+	private DatumDE numberOFMarks = null;
+	private DatumDE segment = null;
+	private String chr = null;
+	private String locStart = null;
+	private String locEnd = null;
+
+	
 	private boolean highlighted = false;
 	/**
 	 * @return Returns the channelRatioValue.
@@ -148,4 +155,78 @@ public class SampleCopyNumberValuesResultset extends BioSpecimenResultset{
 	public void setSegmentMean(DatumDE segmentMean) {
 		this.segmentMean = segmentMean;
 	}
+	/**
+	 * @return the loh
+	 */
+	public DatumDE getLoh() {
+		return loh;
+	}
+	/**
+	 * @param loh the loh to set
+	 */
+	public void setLoh(DatumDE loh) {
+		this.loh = loh;
+	}
+	/**
+	 * @return the numberOFMarks
+	 */
+	public DatumDE getNumberOFMarks() {
+		return numberOFMarks;
+	}
+	/**
+	 * @param numberOFMarks the numberOFMarks to set
+	 */
+	public void setNumberOFMarks(DatumDE numberOFMarks) {
+		this.numberOFMarks = numberOFMarks;
+	}
+	/**
+	 * @return the segment
+	 */
+	public DatumDE getSegment() {
+		return segment;
+	}
+	/**
+	 * @param segment the segment to set
+	 */
+	public void setSegment(DatumDE segment) {
+		this.segment = segment;
+	}
+	/**
+	 * @return the chr
+	 */
+	public String getChr() {
+		return chr;
+	}
+	/**
+	 * @param chr the chr to set
+	 */
+	public void setChr(String chr) {
+		this.chr = chr;
+	}
+	/**
+	 * @return the locStart
+	 */
+	public String getLocStart() {
+		return locStart;
+	}
+	/**
+	 * @param locStart the locStart to set
+	 */
+	public void setLocStart(String locStart) {
+		this.locStart = locStart;
+	}
+	/**
+	 * @return the locEnd
+	 */
+	public String getLocEnd() {
+		return locEnd;
+	}
+	/**
+	 * @param locEnd the locEnd to set
+	 */
+	public void setLocEnd(String locEnd) {
+		this.locEnd = locEnd;
+	}
+
+
 }

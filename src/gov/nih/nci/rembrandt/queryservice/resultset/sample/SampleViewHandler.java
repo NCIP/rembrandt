@@ -22,6 +22,8 @@ import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneBasedViewHandler;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewHandler;
@@ -124,13 +126,24 @@ public class SampleViewHandler {
           	//Propulate the GeneExprSingleResultsContainer
    
           	//Propulate the GeneExprSingleResultsContainer
-      		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = sampleResultset.getCopyNumberSingleViewResultsContainer();
-        	if(copyNumberSingleViewResultsContainer == null){
-        		copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
-        	}
-        	copyNumberSingleViewResultsContainer = CopyNumberSingleViewHandler.handleCopyNumberSingleView(copyNumberSingleViewResultsContainer,copyNumberObj, groupType);
-      		sampleResultset.setCopyNumberSingleViewResultsContainer(copyNumberSingleViewResultsContainer);
+      		if(copyNumberObj.getGeneSymbol()== null){
+	      		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = sampleResultset.getCopyNumberSingleViewResultsContainer();
+	        	if(copyNumberSingleViewResultsContainer == null){
+	        		copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
+	        	}
+	        	copyNumberSingleViewResultsContainer = CopyNumberSingleViewHandler.handleCopyNumberSingleView(copyNumberSingleViewResultsContainer,copyNumberObj, groupType);
+	      		sampleResultset.setCopyNumberSingleViewResultsContainer(copyNumberSingleViewResultsContainer);
+      		}else {
+      			CopyNumberGeneViewResultsContainer copyNumberGeneViewResultsContainer = sampleResultset.getCopyNumberGeneViewResultsContainer();
+	        	if(copyNumberGeneViewResultsContainer == null){
+	        		copyNumberGeneViewResultsContainer = new CopyNumberGeneViewResultsContainer();
+	        	}
+	        	copyNumberGeneViewResultsContainer = CopyNumberGeneBasedViewHandler.handleCopyNumberGeneBasedView(copyNumberGeneViewResultsContainer,copyNumberObj, groupType);
+	      		sampleResultset.setCopyNumberGeneViewResultsContainer(copyNumberGeneViewResultsContainer);
+
+      		}
            	//Populate the SampleViewResultsContainer
+      		
       		sampleViewContainer.addSampleResultset(sampleResultset);
     	}
 

@@ -1,7 +1,9 @@
 package gov.nih.nci.rembrandt.web.xml;
 
 import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberGeneBasedSampleView;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSegmentView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
@@ -87,10 +89,14 @@ public class ReportGeneratorFactory {
            reportGen = new ClinicalSampleReport();
         }else if(viewType instanceof CopyNumberSampleView) {
             reportGen = new CopyNumberSampleReport();
+        }else if(viewType instanceof CopyNumberSegmentView) {
+            reportGen = new CopyNumberSegmentReport();
         }else if(viewType instanceof GeneExprDiseaseView) {
             reportGen = new GeneExprDiseaseReport();
         }else if(viewType instanceof GeneExprSampleView) {
             reportGen = new GeneExprSampleReport();
+        }else if(viewType instanceof CopyNumberGeneBasedSampleView) {
+            reportGen = new CopyNumberGeneBasedSampleReport();
         }
      	return reportGen;
     }

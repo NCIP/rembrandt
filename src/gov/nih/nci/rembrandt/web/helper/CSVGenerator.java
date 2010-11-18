@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE.GeneSymbol;
 import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSegmentView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
@@ -12,6 +13,7 @@ import gov.nih.nci.rembrandt.queryservice.ResultsetManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSegmentViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CytobandResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.SampleCopyNumberValuesResultset;
@@ -24,14 +26,19 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesR
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.util.DEUtils;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.xml.CopyNumberSegmentReport;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.dom4j.Element;
 
 
 
@@ -137,6 +144,11 @@ public class CSVGenerator  {
 		 				html.append(copyNumberSampleView(resultsContainer));
 		 				resultant = null;
 		 				return html.toString();
+		 			}else if (view instanceof CopyNumberSegmentView)	{ 
+		 				html.append("Copy Number Data\n");
+		 				html.append(copyNumberSegmentView(resultsContainer));
+		 				resultant = null;
+		 				return html.toString();
 		 			}
 		 			else if (view instanceof GeneExprDiseaseView)	{
 		 				html.append("Mean Gene Expression Fold Change for Tumor Sub-types\n");
@@ -217,7 +229,7 @@ public class CSVGenerator  {
    					sampleResultset.getAgeGroup().getValue()+ "," +
 					sampleResultset.getGenderCode().getValue()+ "," +
 					sampleResultset.getSurvivalLengthRange().getValue()+ "," +
-					sampleResultset.getDisease().getValue());
+					sampleResultset.getDisease());
 	   			if(gLinks)
 	   				sb.append(",G");
 	   			if(cLinks)
@@ -554,6 +566,53 @@ public class CSVGenerator  {
 				
 	}
 
+	public static String copyNumberSegmentView(ResultsContainer resultsContainer)	{
+		
+		StringBuffer sb = new StringBuffer();
+    	StringBuffer header = new StringBuffer();
+    	StringBuffer sampleNames = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer theLabels = new StringBuffer();
+        StringBuffer tempSampleNames = new StringBuffer();
+        
+		int recordCount = 0;
+		
+		CopyNumberSegmentViewResultsContainer copyNumberContainer = null;
+
+		if(resultsContainer instanceof DimensionalViewContainer)	{
+			DimensionalViewContainer dimensionalViewContainer = (DimensionalViewContainer) resultsContainer;
+			if(dimensionalViewContainer != null)	{
+				copyNumberContainer = dimensionalViewContainer.getCopyNumberSegmentViewResultsContainer();
+			}
+		}
+		else if(resultsContainer instanceof CopyNumberSingleViewResultsContainer)	{ //for single
+			copyNumberContainer = (CopyNumberSegmentViewResultsContainer) resultsContainer;
+		}
+		if(copyNumberContainer != null)	{		
+			Collection segments = copyNumberContainer.getSampleCopyNumberValuesResultsets();
+
+			sb.append("ID,chrom,loc.start,loc.end,num.mark,seg.mean");
+
+			
+ 		   	sb.append("\n");
+   			for (Iterator segmentIterator = segments.iterator(); segmentIterator.hasNext();) {
+   				SampleCopyNumberValuesResultset sampleResultset =  (SampleCopyNumberValuesResultset)segmentIterator.next();
+   				
+	   			sb.append(sampleResultset.getBiospecimen().getSpecimenName()+ "," +
+   					sampleResultset.getChr()+ "," +
+					sampleResultset.getLocStart()+ "," +
+					sampleResultset.getLocEnd()+ "," +
+					sampleResultset.getNumberOFMarks()+","+
+					sampleResultset.getSegmentMean());
+	   			sb.append("\n");
+    		}
+		}else	{
+		sb.append("Copy Number container is empty");
+	}	
+		
+	return sb.toString();
+		
+}
 
 	public static String geneExprSampleView(ResultsContainer resultsContainer)	{
 		

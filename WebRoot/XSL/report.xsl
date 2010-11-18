@@ -211,7 +211,7 @@
 	  <div class="filterForm" style="height:auto">
 	  <form action="null" method="post" name="reportGeneratorForm" style="padding:0px; margin:0px;">
 	    <!-- <b><span>WebGenome:</span></b> <input type="button" name="webGenome" onclick="javascript:return window.open('runReport.do?method=webGenomeRequest&amp;queryName={$qName}')" value="View Plots (in WebGenome)" />-->
-	    <b><span>WebGenome:</span></b> <input type="button" name="webGenome" onclick="javascript:webGenomePlotRequest('{$qName}'); return false;" value="View Plots (in WebGenome)" />
+	    <b><span>Integrative Genomics Viewer (IGV):</span></b> <input type="button" name="webGenome" onclick="javascript:igvEscape('{$qName}'); return false;" value="Download Data to View in IGV" />
 	    <span id="wgThresh"></span>
       </form>
       
@@ -535,7 +535,7 @@
 		    			</xsl:for-each>
 		    		</tr>
 
-				<xsl:if test="/Report[@reportType != 'Clinical'] and ./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text() and following::Cell[1]/Data[1]/text() != ''">
+				<xsl:if test="/Report[@reportType != 'Clinical'] and /Report[@reportType != 'Copy Number'] and ./Cell[1]/Data[1]/text() != following::Cell[1]/Data[1]/text() and following::Cell[1]/Data[1]/text() != ''">
 					<tr>
 		      			<td colspan="{$colCount}" class="geneSpacerStyle">--</td>
 		    		</tr>

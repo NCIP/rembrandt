@@ -241,7 +241,7 @@ public class ResultsetViewTest extends TestCase {
     private void buildComparativeGenomicQuery(){
         snpQuery = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
         snpQuery.setQueryName("SNPSampleQuery");
-        snpQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+        snpQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_SEGMENT_VIEW));
         //snpQuery.setGeneIDCrit(geneCrit);
         snpQuery.setSNPCrit(snpCrit);
         AssayPlatformCriteria assayPlatformCrit = new AssayPlatformCriteria();

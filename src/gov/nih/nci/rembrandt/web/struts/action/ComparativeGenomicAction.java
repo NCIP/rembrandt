@@ -413,8 +413,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
         compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
         logger.debug("Setting query name to:"+compoundQuery.getQueryName());
-        compoundQuery.setAssociatedView(ViewFactory
-                .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+        compoundQuery.setAssociatedView(cghQuery.getAssociatedView());
         logger.debug("Associated View for the Preview:"+compoundQuery.getAssociatedView().getClass());
 	    //Save the sessionId that this preview query is associated with
         compoundQuery.setSessionId(request.getSession().getId());

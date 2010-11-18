@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 
@@ -75,23 +76,12 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResul
 
 public class SampleResultset extends BioSpecimenResultset implements Cloneable{
 
-	private DiseaseNameDE disease = null;
+
 	
 	private GeneExprSingleViewResultsContainer geneExprSingleViewResultsContainer = null;
 	private CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = null;
+	private CopyNumberGeneViewResultsContainer copyNumberGeneViewResultsContainer = null;
 
-	/**
-	 * @return Returns the disease.
-	 */
-	public DiseaseNameDE getDisease() {
-		return this.disease;
-	}
-	/**
-	 * @param disease The disease to set.
-	 */
-	public void setDisease(DiseaseNameDE disease) {
-		this.disease = disease;
-	}
 	/**
 	 * @return Returns the geneExprSingleViewResultsContainer.
 	 */
@@ -130,5 +120,18 @@ public class SampleResultset extends BioSpecimenResultset implements Cloneable{
 	public Object clone() throws CloneNotSupportedException {
 		SampleResultset myClone = (SampleResultset) super.clone();
 		return myClone;
+	}
+	/**
+	 * @return the copyNumberGeneViewResultsContainer
+	 */
+	public CopyNumberGeneViewResultsContainer getCopyNumberGeneViewResultsContainer() {
+		return copyNumberGeneViewResultsContainer;
+	}
+	/**
+	 * @param copyNumberGeneViewResultsContainer the copyNumberGeneViewResultsContainer to set
+	 */
+	public void setCopyNumberGeneViewResultsContainer(
+			CopyNumberGeneViewResultsContainer copyNumberGeneViewResultsContainer) {
+		this.copyNumberGeneViewResultsContainer = copyNumberGeneViewResultsContainer;
 	}
 }

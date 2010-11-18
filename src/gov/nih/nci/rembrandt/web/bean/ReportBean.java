@@ -5,6 +5,8 @@ import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberGeneBasedSampleView;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberSegmentView;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
@@ -230,6 +232,12 @@ public class ReportBean implements Serializable{
 	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$ClinicalView");
 	    }
 	    if(associatedView instanceof CopyNumberSampleView){
+	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$CopyNumberSampleView");
+	    }
+	    if(associatedView instanceof CopyNumberGeneBasedSampleView){
+	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$CopyNumberSampleView");
+	    }
+	    if(associatedView instanceof CopyNumberSegmentView){
 	        this.beanView = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("gov.nih.nci.caintegrator.dto.view.ViewType$CopyNumberSampleView");
 	    }
 	    if(associatedView instanceof GeneExprDiseaseView){

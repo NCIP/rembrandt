@@ -1,22 +1,27 @@
 /*
- * Created on Sep 10, 2004
+ * Created on Sep 14, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.rembrandt.queryservice.resultset.gene;
-import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
+package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
+import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.sample.BioSpecimenResultset;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+
 /**
  * @author SahniH
+ * GeneExprSingleViewResultsContainer contains a collection for GeneResultset object
+ * 
  *
- * This class encapulates a collection of ReporterResultset objects.
+ * 
  */
 
 
@@ -77,118 +82,86 @@ import java.util.TreeMap;
 * 
 */
 
-public class GeneResultset implements Serializable{
-	private static final long serialVersionUID = 1L;
-	private GeneIdentifierDE.GeneSymbol geneSymbol = null;
-	  private boolean isAnonymousGene = false;
-	  //private DataSetDE. dataset;
-	  private SortedMap reporters = new TreeMap();
-	  private SortedMap groupTypes = new TreeMap();
-
+public class CopyNumberGeneViewResultsContainer extends GeneExprResultsContainer{
+	
 	/**
-	 * @return Returns the geneSymbol.
+	 * @return Returns the biospecimenLabels.
 	 */
-	public GeneIdentifierDE.GeneSymbol getGeneSymbol() {
-		return geneSymbol;
+	public Collection getBiospecimenLabels(String groupLabel) {
+		return (SortedSet) groupsLabels.get(groupLabel);
 	}
 	/**
-	 * @param geneSymbol The geneSymbol to set.
+	 * @return Returns all  biospecimenLabels.
 	 */
-	public void setGeneSymbol(GeneIdentifierDE.GeneSymbol geneSymbol) {
-		this.geneSymbol = geneSymbol;
-	}
-	/**
-	 * @param reporterResultset Adds reporterResultset to this GeneResultset object.
-	 */
-	public void addReporterResultset(ReporterResultset reporterResultset){
-		if(reporterResultset != null && reporterResultset.getReporter() != null){
-			reporters.put(reporterResultset.getReporter().getValue().toString(), reporterResultset);
+	public SortedSet<BioSpecimenIdentifierDE> getAllBiospecimenLabels() {
+		SortedSet<BioSpecimenIdentifierDE> biospecimenlabels = new TreeSet<BioSpecimenIdentifierDE>();
+		for(String grouplabel:groupsLabels.keySet()){
+			biospecimenlabels.addAll(groupsLabels.get(grouplabel));
 		}
+		return (SortedSet) biospecimenlabels;
 	}
 	/**
-	 * @param reporterResultset Removes reporterResultset from this GeneResultset object.
+	 * @param groupsLabels The groupsLabels to set.
 	 */
-	public void removeRepoterResultset(ReporterResultset reporterResultset){
-		if(reporterResultset != null && reporterResultset.getReporter() != null){
-			reporters.remove(reporterResultset.getReporter().getValue().toString());
+	public void addBiospecimensToGroups(String groupLabel, BioSpecimenIdentifierDE biospecimenId) {
+		if(groupLabel == null){
+			groupLabel = RembrandtConstants.UNASSIGNED;
 		}
-	}
-    /**
-     * @param reporter
-	 * @return reporterResultset Returns reporterResultset for this GeneResultset.
-	 */
-    public ReporterResultset getRepoterResultset(String reporter){
-    	if(reporter != null){
-			return (ReporterResultset) reporters.get(reporter);
-		}
-    		return null;
-    }
-	/**
-	 * @return reporterResultset Returns reporterResultset to this GeneResultset object.
-	 */
-    public Collection getReporterResultsets(){
-    		return reporters.values();
-    }
-	/**
-	 * @param none Removes all reporterResultset in this GeneResultset object.
-	 */
-    public void removeAllReporterResultsets(){
-    	reporters.clear();
-    }
-
-	/**
-	 * For genes that do not have a Gene Symbol associated with it
-	 */
-	public void setAnonymousGene() {
-		isAnonymousGene = true;
-		
-	}
-	/**
-	 * @return Returns the isAnonymousGene.
-	 */
-	public boolean isAnonymousGene() {
-		return this.isAnonymousGene;
-	}
-    public List getReporterNames(){
-    	return new ArrayList(reporters.keySet());
-    }
-	/**
-	 * @param groupResultset Adds groupResultset to this ReporterResultset object.
-	 */
-	public void addGroupByResultset(Groupable groupResultset){
-		if(groupResultset != null && groupResultset.getType() != null){
-			groupTypes.put(groupResultset.getType().getValue().toString(), groupResultset);
-		}
-	}
-	/**
-	 * @param groupResultset Removes groupResultset to this ReporterResultset object.
-	 */
-	public void removeGroupByResultset(Groupable groupResultset){
-		if(groupResultset != null && groupResultset.getType() != null){
-			groupTypes.remove(groupResultset.getType().getValue().toString());
+		if(biospecimenId != null){
+			SortedSet<BioSpecimenIdentifierDE> biospecimenLabels = null;
+			if(groupsLabels.containsKey(groupLabel)){
+				biospecimenLabels =  (SortedSet) groupsLabels.get(groupLabel);
+			}
+			else { ///key does not exsist
+				biospecimenLabels = new TreeSet<BioSpecimenIdentifierDE>();			
+			}
+			biospecimenLabels.add(biospecimenId);
+			groupsLabels.put(groupLabel,biospecimenLabels);
 		}
 	}
     /**
-     * @param disease
-	 * @return groupResultset Returns reporterResultset for this ReporterResultset.
+     * @param geneSymbol,reporterName,groupType
+	 * @return groupResultset Returns groupResultset for this groupType, reporterName , geneSymbol.
 	 */
-    public Groupable getGroupByResultset(String groupType){
-    	if(groupType != null){
-			return (Groupable) groupTypes.get(groupType);
+    public Collection getBioSpecimentResultsets(String geneSymbol,String reporterName, String groupType){
+    	if(geneSymbol== null){
+    		geneSymbol = GeneExprResultsContainer.NO_GENE_SYMBOL;
+    	}
+    	if(reporterName != null && genes.size() == 1  && geneSymbol.equalsIgnoreCase((String)genes.firstKey())){
+    		GeneResultset geneResultset = (GeneResultset) genes.get(genes.firstKey());
+            if(geneResultset != null){
+        		ReporterResultset reporterResultset = geneResultset.getRepoterResultset(reporterName);
+    			if(reporterResultset != null){
+                    ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
+                    if(groupResultset != null){
+                        return groupResultset.getBioSpecimenResultsets();
+                    }
+            }
+            }
 		}
     		return null;
     }
-	/**
-	 * @return Collection Returns collection of GroupResultsets to this ReporterResultset object.
+    /**
+     * @param geneSymbol,reporterName,groupType,bioSpecimenID
+	 * @return bioSpecimenResultset Returns BioSpecimenResultset for this bioSpecimenID,groupType, reporterName , geneSymbol.
 	 */
-    public Collection getGroupByResultsets(){
-    		return groupTypes.values();
+    public BioSpecimenResultset getBioSpecimentResultset(String geneSymbol,String reporterName, String groupType, String bioSpecimenID){
+    	if(geneSymbol== null){
+    		geneSymbol = GeneExprResultsContainer.NO_GENE_SYMBOL;
+    	}
+    	if(reporterName != null){
+    		GeneResultset geneResultset = (GeneResultset) genes.get(geneSymbol);
+            if(geneResultset != null){
+        		ReporterResultset reporterResultset = geneResultset.getRepoterResultset(reporterName);
+                if(reporterResultset != null){
+        			ViewByGroupResultset groupResultset = (ViewByGroupResultset) reporterResultset.getGroupByResultset(groupType);
+                    if(groupResultset!= null){
+                        return groupResultset.getBioSpecimenResultset(bioSpecimenID);
+                    }
+                }
+            }
+		}
+    		return null;
     }
-	/**
-	 * @param none Removes all groupResultset in this ReporterResultset object.
-	 */
-    public void removeAllGroupByResultset(){
-    	groupTypes.clear();
-    }
-    
+
 }

@@ -62,31 +62,26 @@ package gov.nih.nci.rembrandt.dbbean;
 * 
 */
 
-public class ArraySNPSegmentFact
+public class ArrayGeneSegmentFact
 {
     public final static String DISEASE_TYPE = "diseaseType";
     public final static String INSTITUTION_NAME = "institutionName";
     public final static String SPECIMEN_NAME = "specimenName";
-    public final static String SNP_SEGMENT_ID = "snpSegmentId";
+    public final static String GENE_SYMBOL = "geneSymbol";
     public final static String CHROMOSOME = "chromosome";
     public final static String CHR_SEGMENT_START = "chromosomeSegmentStart";
     public final static String CHR_SEGMENT_END = "chromosomeSegmentEnd";
-    
-  private Long aSnpSegFId;
 
-  private String chromosome;
-  
-  private Long chromosomeStart;
-  
-  private Long chromosomeEnd;
-  
-  private Double segmentMean;
+    
+  private Long aGeneSegMWFId;
+
+  private Double weightedMean;
 
   private Double calculatedCopyNumber;
   
-  private Long numberMark;
-  
   private String analysisType;
+  
+  private String geneSymbol;
   
   private String specimenType;
 
@@ -102,83 +97,18 @@ public class ArraySNPSegmentFact
   
   private String institutionName;
   
-  private Long snpSegmentId;
+  private Long geneDimId;
   
   private Long biospecimenId;
   
   private Long patientDid;
-  
 
-/**
- * @return the chromosomeStart
- */
-public Long getChromosomeStart() {
-	return chromosomeStart;
-}
+  private String chromosome;
 
-/**
- * @param chromosomeStart the chromosomeStart to set
- */
-public void setChromosomeStart(Long chromosomeStart) {
-	this.chromosomeStart = chromosomeStart;
-}
+  private Long chromosomeStart;
 
-/**
- * @return the chromosomeEnd
- */
-public Long getChromosomeEnd() {
-	return chromosomeEnd;
-}
+  private Long chromosomeEnd;
 
-/**
- * @param chromosomeEnd the chromosomeEnd to set
- */
-public void setChromosomeEnd(Long chromosomeEnd) {
-	this.chromosomeEnd = chromosomeEnd;
-}
-
-/**
- * @return the aSnpSegFId
- */
-public Long getASnpSegFId() {
-	return aSnpSegFId;
-}
-
-/**
- * @param snpSegFId the aSnpSegFId to set
- */
-public void setASnpSegFId(Long snpSegFId) {
-	aSnpSegFId = snpSegFId;
-}
-
-/**
- * @return the chromosome
- */
-public String getChromosome() {
-	return chromosome;
-}
-
-/**
- * @param chromosome the chromosome to set
- */
-public void setChromosome(String chromosome) {
-	this.chromosome = chromosome;
-}
-
-
-/**
- * @return the segmentMean
- */
-public Double getSegmentMean() {
-	return segmentMean;
-}
-
-/**
- * @param segmentMean the segmentMean to set
- */
-public void setSegmentMean(Double segmentMean) {
-	this.segmentMean = segmentMean;
-}
 
 /**
  * @return the calculatedCopyNumber
@@ -194,19 +124,6 @@ public void setCalculatedCopyNumber(Double calculatedCopyNumber) {
 	this.calculatedCopyNumber = calculatedCopyNumber;
 }
 
-/**
- * @return the numberMark
- */
-public Long getNumberMark() {
-	return numberMark;
-}
-
-/**
- * @param numberMark the numberMark to set
- */
-public void setNumberMark(Long numberMark) {
-	this.numberMark = numberMark;
-}
 
 /**
  * @return the specimenName
@@ -292,19 +209,6 @@ public void setInstitutionName(String institutionName) {
 	this.institutionName = institutionName;
 }
 
-/**
- * @return the snpSegmentId
- */
-public Long getSnpSegmentId() {
-	return snpSegmentId;
-}
-
-/**
- * @param snpSegmentId the snpSegmentId to set
- */
-public void setSnpSegmentId(Long snpSegmentId) {
-	this.snpSegmentId = snpSegmentId;
-}
 
 /**
  * @return the dISEASE_TYPE
@@ -382,6 +286,106 @@ public String getSpecimenType() {
 public void setSpecimenType(String specimenType) {
 	this.specimenType = specimenType;
 }
+
+/**
+ * @return the aGeneSegMWFId
+ */
+public Long getAGeneSegMWFId() {
+	return aGeneSegMWFId;
+}
+
+/**
+ * @param geneSegMWFId the aGeneSegMWFId to set
+ */
+public void setAGeneSegMWFId(Long geneSegMWFId) {
+	aGeneSegMWFId = geneSegMWFId;
+}
+
+/**
+ * @return the weightedMean
+ */
+public Double getWeightedMean() {
+	return weightedMean;
+}
+
+/**
+ * @param weightedMean the weightedMean to set
+ */
+public void setWeightedMean(Double weightedMean) {
+	this.weightedMean = weightedMean;
+}
+
+/**
+ * @return the geneSymbol
+ */
+public String getGeneSymbol() {
+	return geneSymbol;
+}
+
+/**
+ * @param geneSymbol the geneSymbol to set
+ */
+public void setGeneSymbol(String geneSymbol) {
+	this.geneSymbol = geneSymbol;
+}
+
+/**
+ * @return the geneDimId
+ */
+public Long getGeneDimId() {
+	return geneDimId;
+}
+
+/**
+ * @param geneDimId the geneDimId to set
+ */
+public void setGeneDimId(Long geneDimId) {
+	this.geneDimId = geneDimId;
+}
+
+/**
+ * @return the chromosome
+ */
+public String getChromosome() {
+	return chromosome;
+}
+
+/**
+ * @param chromosome the chromosome to set
+ */
+public void setChromosome(String chromosome) {
+	this.chromosome = chromosome;
+}
+
+/**
+ * @return the chromosomeStart
+ */
+public Long getChromosomeStart() {
+	return chromosomeStart;
+}
+
+/**
+ * @param chromosomeStart the chromosomeStart to set
+ */
+public void setChromosomeStart(Long chromosomeStart) {
+	this.chromosomeStart = chromosomeStart;
+}
+
+/**
+ * @return the chromosomeEnd
+ */
+public Long getChromosomeEnd() {
+	return chromosomeEnd;
+}
+
+/**
+ * @param chromosomeEnd the chromosomeEnd to set
+ */
+public void setChromosomeEnd(Long chromosomeEnd) {
+	this.chromosomeEnd = chromosomeEnd;
+}
+
+
 
 
 

@@ -6,6 +6,8 @@ import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.SNPableDE;
 import gov.nih.nci.caintegrator.dto.de.SegmentMeanDE;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberGeneBasedSampleView;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 
@@ -107,8 +109,14 @@ public class CopyNumberCriteriaHandler {
     static void addCopyNumberCriteria(ComparativeGenomicQuery cghQuery, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
         CopyNumberCriteria copyNumberCrit = cghQuery.getCopyNumberCriteria();
         SegmentMeanCriteria segmentMeanCrit = cghQuery.getSegmentMeanCriteria();
+        String columnName = "SEGMENT_MEAN";
+        if(cghQuery.getAssociatedView() instanceof CopyNumberGeneBasedSampleView){
+        	columnName = "WEIGHT_MEAN";
+        }
         if (copyNumberCrit != null) {
-               String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());
+            //String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());
+            //String columnName = "WEIGHT_MEAN";
+
                Collection objs = copyNumberCrit.getCopyNummbers();
                Object[] copyObjs = objs.toArray();
 
@@ -134,7 +142,7 @@ public class CopyNumberCriteriaHandler {
                 }
          }
         else if (segmentMeanCrit != null) {
-            String columnName = QueryHandler.getColumnName(pb, SegmentMeanDE.class.getName(), beanClass.getName());
+            //String columnName = QueryHandler.getColumnName(pb, SegmentMeanDE.class.getName(), beanClass.getName());
             Collection objs = segmentMeanCrit.getSegmentMeanData();
             Object[] segMeanObjs = objs.toArray();
 

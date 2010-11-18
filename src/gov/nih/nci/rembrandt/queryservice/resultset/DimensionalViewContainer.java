@@ -4,6 +4,8 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset;
 
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneViewResultsContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSegmentViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
@@ -77,32 +79,34 @@ import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsCont
 public class DimensionalViewContainer implements ResultsContainer {
 	private GeneExprSingleViewResultsContainer geneExprSingleViewContainer = null;
 	private CopyNumberSingleViewResultsContainer copyNumberSingleViewContainer = null;
+	private CopyNumberGeneViewResultsContainer copyNumberGeneViewResultsContainer = null;
+	private CopyNumberSegmentViewResultsContainer copyNumberSegmentViewResultsContainer = null;
 	private SampleViewResultsContainer sampleViewResultsContainer = null;
-	/**
-	 * @param sampleID
-	 * @return
-	 */
-	public CopyNumberSingleViewResultsContainer getCopyNumberSingleViewContainerForSample(String sampleID){
-		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getSampleResultset(sampleID);
-		return sampleResultset.getCopyNumberSingleViewResultsContainer();
-	}
-	/**
-	 * @param sampleID
-	 * @return
-	 */
-	public GeneExprSingleViewResultsContainer getGeneExprSingleViewResultsContainerForSample(String sampleID){
-		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getSampleResultset(sampleID);
-		return sampleResultset.getGeneExprSingleViewResultsContainer();
-	}
-	/**
-	 * @param sampleID
-	 * @return
-	 */
-	public SampleViewResultsContainer getSampleViewResultsContainerForSample(String sampleID){
-		SampleViewResultsContainer sampleContainer = new SampleViewResultsContainer();
-		sampleContainer.addSampleResultset(getSampleViewResultsContainer().getSampleResultset(sampleID));
-		return sampleContainer;
-	}
+//	/**
+//	 * @param sampleID
+//	 * @return
+//	 */
+//	public CopyNumberSingleViewResultsContainer getCopyNumberSingleViewContainerForSample(String sampleID){
+//		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getSampleResultset(sampleID);
+//		return sampleResultset.getCopyNumberSingleViewResultsContainer();
+//	}
+//	/**
+//	 * @param sampleID
+//	 * @return
+//	 */
+//	public GeneExprSingleViewResultsContainer getGeneExprSingleViewResultsContainerForSample(String sampleID){
+//		SampleResultset sampleResultset =  (SampleResultset) getSampleViewResultsContainer().getSampleResultset(sampleID);
+//		return sampleResultset.getGeneExprSingleViewResultsContainer();
+//	}
+//	/**
+//	 * @param sampleID
+//	 * @return
+//	 */
+//	public SampleViewResultsContainer getSampleViewResultsContainerForSample(String sampleID){
+//		SampleViewResultsContainer sampleContainer = new SampleViewResultsContainer();
+//		sampleContainer.addSampleResultset(getSampleViewResultsContainer().getSampleResultset(sampleID));
+//		return sampleContainer;
+//	}
 	/**
 	 * @return Returns the copyNumberSingleViewContainer.
 	 */
@@ -142,5 +146,31 @@ public class DimensionalViewContainer implements ResultsContainer {
 	public void setGeneExprSingleViewContainer(
 			GeneExprSingleViewResultsContainer geneExprSingleViewContainer) {
 		this.geneExprSingleViewContainer = geneExprSingleViewContainer;
+	}
+	/**
+	 * @return the copyNumberGeneViewResultsContainer
+	 */
+	public CopyNumberGeneViewResultsContainer getCopyNumberGeneViewResultsContainer() {
+		return copyNumberGeneViewResultsContainer;
+	}
+	/**
+	 * @param copyNumberGeneViewResultsContainer the copyNumberGeneViewResultsContainer to set
+	 */
+	public void setCopyNumberGeneViewResultsContainer(
+			CopyNumberGeneViewResultsContainer copyNumberGeneViewResultsContainer) {
+		this.copyNumberGeneViewResultsContainer = copyNumberGeneViewResultsContainer;
+	}
+	/**
+	 * @return the copyNumberSegmentViewResultsContainer
+	 */
+	public CopyNumberSegmentViewResultsContainer getCopyNumberSegmentViewResultsContainer() {
+		return copyNumberSegmentViewResultsContainer;
+	}
+	/**
+	 * @param copyNumberSegmentViewResultsContainer the copyNumberSegmentViewResultsContainer to set
+	 */
+	public void setCopyNumberSegmentViewResultsContainer(
+			CopyNumberSegmentViewResultsContainer copyNumberSegmentViewResultsContainer) {
+		this.copyNumberSegmentViewResultsContainer = copyNumberSegmentViewResultsContainer;
 	}
 }

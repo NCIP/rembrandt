@@ -15,18 +15,12 @@
 
 </legend>
 
-Sample Type:&nbsp;&nbsp;
-<html:select property="sampleType" styleId="geneType" disabled="false">
-	<html:optionsCollection property="sampleTypeColl" />
-</html:select>
-<br/><br/>
-
 	
-<html:radio property="segmentMean" value="amplified" styleClass="radio"/> Amplified &ge;
-				<html:text property="smAmplified" onfocus="javascript:radioFold(this);" />&nbsp;mean<br>
+<html:radio property="segmentMean" value="amplified" styleClass="radio"/> Mean &ge;
+				<html:text property="smAmplified" onfocus="javascript:radioFold(this);" />&nbsp;<br>
 <html:errors property="smAmplified"/>
-<html:radio property="segmentMean" value="deleted" styleClass="radio"/> Deleted &nbsp;&nbsp;&le;
-				<html:text property="smDeleted" onfocus="javascript:radioFold(this);" />&nbsp;mean<br>
+<html:radio property="segmentMean" value="deleted" styleClass="radio"/> Mean &le;
+				<html:text property="smDeleted" onfocus="javascript:radioFold(this);" />&nbsp;<br>
 <html:errors property="smDeleted"/>			
 
 <html:radio property="segmentMean" value="unchange" styleClass="radio"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -48,6 +48,9 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
  * 
  * @author SahniH
  */
+import org.apache.struts.util.LabelValueBean;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 
 /**
@@ -140,9 +143,11 @@ public class LookupManager{
 	 */
 	public static CytobandLookup[] getCytobandPositions() throws Exception{
 		
-		Criteria crit = new Criteria();
-		crit.addOrderByAscending("chrCytoband");
-		cytobands = (CytobandLookup[]) QueryExecuter.executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION, true).toArray(new CytobandLookup[1]);
+		if (cytobands == null){
+				Criteria crit = new Criteria();
+				crit.addOrderByAscending("chromosome");
+				cytobands = (CytobandLookup[]) QueryExecuter.executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION, true).toArray(new CytobandLookup[1]);
+			}
 		
 		return cytobands;
 	}
@@ -172,14 +177,19 @@ public class LookupManager{
 		CytobandLookup[] cytobandLookups = getCytobandPositions();
 		if(cytobandLookups != null){
 			for (int i = 0;i < cytobandLookups.length;i++){
-				if(chromosomeDE.getValue().toString().equals(cytobandLookups[i].getChromosome())){
+				String chr = cytobandLookups[i].getChromosome();
+				if(chromosomeDE.getValue().toString().equals(chr)){
 					cytobandDE = new CytobandDE(cytobandLookups[i].getCytoband());
 					cytobandDEs.add(cytobandDE);	
 				}
 			}
 		}
-		return (CytobandDE[]) cytobandDEs.toArray(new CytobandDE[1]);
+		if (cytobandDEs.size()>0){
+			return (CytobandDE[]) cytobandDEs.toArray(new CytobandDE[cytobandDEs.size()]);
+		}
+		return null;
 	}
+
 	/**
 	 * @return Returns the pathways.
 	 */

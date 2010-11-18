@@ -449,6 +449,7 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		ArrayList queryTypesCollection = null;
 		boolean isGEQuery = false;
 		boolean isCGHQuery = false;
+		boolean isCGHGeneQuery = false;
 		boolean isClinical = false;
 
 		boolean constrainBySamples = false;
@@ -467,6 +468,8 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 				isGEQuery = true;
 			if (thisQuery == QueryType.CGH_QUERY_TYPE)
 				isCGHQuery = true;
+			if (thisQuery == QueryType.CGH_GENE_QUERY_TYPE)
+				isCGHGeneQuery = true;
 			if (thisQuery == QueryType.CLINICAL_DATA_QUERY_TYPE)
 				isClinical = true;
 		}
@@ -476,39 +479,50 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 		//	isClinicalSampleSet = false;
 		//	} 
 		// Gene Expression Only
-		if (isGEQuery && !isCGHQuery && !isClinical) {
-			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
+		if (isGEQuery && !isCGHQuery && !isCGHGeneQuery && !isClinical) {
+			validViewTypes = new ViewType[] { 
+					ViewType.CLINICAL_VIEW,
 					ViewType.GENE_SINGLE_SAMPLE_VIEW,
 					ViewType.GENE_GROUP_SAMPLE_VIEW };
 		}
 		
 		
 		// Genomic Only
-		else if (!isGEQuery && isCGHQuery && !isClinical) {
+		else if (!isGEQuery && isCGHQuery  && !isCGHGeneQuery && !isClinical) {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
-					ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW };
+					ViewType.COPYNUMBER_SEGMENT_VIEW };
+		}
+		// Gene based Genomic Only
+		else if (!isGEQuery && isCGHGeneQuery  && !isCGHQuery && !isClinical) {
+			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
+					ViewType.COPYNUMBER_GENE_SAMPLE_VIEW };
 		}
 		// Clinical Only
-		else if (!isGEQuery && !isCGHQuery && isClinical) {
+		else if (!isGEQuery && !isCGHQuery && !isCGHGeneQuery && isClinical) {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW };
 		}
 		// Gene Expression and Clinical Only
-		else if (isGEQuery && !isCGHQuery && isClinical) {
+		else if (isGEQuery && !isCGHQuery && !isCGHGeneQuery && isClinical) {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
 					ViewType.GENE_SINGLE_SAMPLE_VIEW };
 		}
 		// Genomic and Clinical Only
-		else if (!isGEQuery && isCGHQuery && isClinical) {
+		else if (!isGEQuery && isCGHQuery  && !isCGHGeneQuery && isClinical) {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
-					ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW };
+					ViewType.COPYNUMBER_SEGMENT_VIEW };
 		}
-		
+		// Gene Based Genomic and Clinical Only
+		else if (!isGEQuery && !isCGHQuery  && isCGHGeneQuery && isClinical) {
+			validViewTypes = new ViewType[] { 
+					ViewType.CLINICAL_VIEW,
+					ViewType.COPYNUMBER_GENE_SAMPLE_VIEW };
+		}
       
 		// The rest compound queries
 		else {
 			validViewTypes = new ViewType[] { ViewType.CLINICAL_VIEW,
 					ViewType.GENE_SINGLE_SAMPLE_VIEW,
-					ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW };
+					ViewType.COPYNUMBER_GENE_SAMPLE_VIEW };
 		}
 		
 		//see if we are constraining by a specific sample set...if we are, the group view doesnt make sense
