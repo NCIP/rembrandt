@@ -138,6 +138,7 @@ abstract public class CGHFactHandler {
                 final Criteria sampleCrit = new Criteria();
                 //CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
                 CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+                CopyNumberCriteriaHandler.addAnalysisTypeCriteria(cghQuery, sampleCrit);
                 CommonFactHandler.addDiseaseSampleCriteria(cghQuery, targetFactClass, sampleCrit);
                 CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);         
                 _BROKER.close();

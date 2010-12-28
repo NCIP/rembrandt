@@ -552,6 +552,13 @@
 		<forward name="success" path="nautilus.viewResults" />
 	</action>
 	
+	<action path="/igvFileDownload"
+		type="gov.nih.nci.rembrandt.web.struts.action.IGVFileDownloadAction"
+		parameter="method"
+		scope="request">
+		<forward name="success" path="/jsp/segmentViewIGVReport.jsp" />
+	</action>
+	
 	<action path="/runReport"
            name="reportGeneratorForm"
 	       type="gov.nih.nci.rembrandt.web.struts.action.ReportGeneratorAction"
@@ -562,7 +569,7 @@
          <forward name="runGeneViewReportFromCache" path="/jsp/geneViewReport.jsp" />
          <forward name="runCSVGeneViewReport" path="/jsp/geneViewReportCSV.jsp" />
          <forward name="runEmailedGeneViewReport" path="/jsp/geneViewReport.jsp" />
-	     <forward name="runIGVSegmentViewReport" path="/jsp/segmentViewIGVReport.jsp" />
+	     <forward name="runIGVReport" path="/jsp/segmentViewIGVReport.jsp" />
          
     </action>
     

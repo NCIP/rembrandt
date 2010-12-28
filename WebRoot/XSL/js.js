@@ -421,7 +421,7 @@ function excel_export_cb(qnameAndrType) {
 function igvEscape(qname)	{
 	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
 	if ( qname === 'previewResults' ) {
-		var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&igv=true";
+		var dest = "runReport.do?method=runIGVReport&queryName="+ escape(qname)+"&igv=true";
 		location.href = dest;
 		return;
 	}
@@ -450,7 +450,7 @@ function igvEscape(qname)	{
 
 function igv_export_cb(qnameAndrType) {
 	var qnameAndrTypeArray = qnameAndrType.split(",");
-	var dest = "runReport.do?method=exportToExcelForGeneView&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&checkedAll=true"+"&igv=true";
+	var dest = "runReport.do?method=runIGVReport&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&checkedAll=true"+"&igv=true";
 //	var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&igv=true";
 	location.href = dest;
 }

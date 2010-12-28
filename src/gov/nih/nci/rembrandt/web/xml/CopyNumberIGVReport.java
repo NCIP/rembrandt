@@ -99,6 +99,9 @@ public class CopyNumberIGVReport{
 	/**
 	 * 
 	 */
+	private String chr;
+	private Long startLoc = null;
+	private Long endLoc = null;
 	public CopyNumberIGVReport () {
 		super();
 	}
@@ -107,7 +110,7 @@ public class CopyNumberIGVReport{
 	 * @see gov.nih.nci.nautilus.ui.report.ReportGenerator#getTemplate(gov.nih.nci.nautilus.resultset.Resultant, java.lang.String)
 	 */
 	@SuppressWarnings("unchecked")
-	public static StringBuffer getIGVReport(Resultant resultant) throws IOException {
+	public  StringBuffer getIGVReport(Resultant resultant) throws IOException {
 
 		//String theColors[] = { "B6C5F2","F2E3B5","DAE1F9","C4F2B5","819BE9", "E9CF81" };
 		DecimalFormat resultFormat = new DecimalFormat("0.0000");
@@ -162,7 +165,7 @@ public class CopyNumberIGVReport{
 				//	set up the headers for this table 
 				//Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 
-				sb = sb.append(CopyNumberIGVReport.getCopyNumberSegmentHeaderValues());
+				//sb = sb.append(getCopyNumberSegmentHeaderValues());
 //				for(String h : CopyNumberIGVReport.getCopyNumberSegmentHeaderValues()){
 //					cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 //					data = cell.addElement("Data").addAttribute("type", "header").addText(h);
@@ -178,7 +181,10 @@ public class CopyNumberIGVReport{
 					//dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 
 					//List rows = new ArrayList();
-					sb = sb.append(CopyNumberIGVReport.getClinicalRowValues(sampleResultset));
+					chr = getChromosome(sampleResultset);
+					startLoc = getStartLoc(startLoc , sampleResultset);
+					endLoc = getEndLoc(endLoc , sampleResultset);
+					sb = sb.append(getClinicalRowValues(sampleResultset));
 
 					//cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "sample");
 					//data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(0)));
@@ -202,7 +208,7 @@ public class CopyNumberIGVReport{
 					GeneResultset geneResultset = (GeneResultset)geneIterator.next();
 					//	set up the headers for this table 
 					//Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
-					sb = sb.append(CopyNumberIGVReport.getCopyNumberSegmentHeaderValues());
+					//sb = sb.append(getCopyNumberSegmentHeaderValues());
 //					for(String h : CopyNumberIGVReport.getCopyNumberSegmentHeaderValues()){
 //						cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
 //						data = cell.addElement("Data").addAttribute("type", "header").addText(h);
@@ -223,11 +229,13 @@ public class CopyNumberIGVReport{
 								BioSpecimenIdentifierDE sampleId = (BioSpecimenIdentifierDE) sampleIdIterator.next();
 								SampleCopyNumberValuesResultset biospecimenResultset = (SampleCopyNumberValuesResultset) groupResultset.getBioSpecimenResultset(sampleId.getSpecimenName());
 								if(biospecimenResultset != null){
-
+									chr = getChromosome(biospecimenResultset);
+									startLoc = getStartLoc(startLoc , biospecimenResultset);
+									endLoc = getEndLoc(endLoc , biospecimenResultset);
 //									dataRow = report.addElement("Row").addAttribute("name", "dataRow");
 //
 //									List rows = new ArrayList();
-									sb.append(CopyNumberIGVReport.getClinicalRowValues(biospecimenResultset));
+									sb.append(getClinicalRowValues(biospecimenResultset));
 //
 //									cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "sample");
 //									data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(0)));
@@ -258,15 +266,15 @@ public class CopyNumberIGVReport{
 	}
 
 	@SuppressWarnings("unchecked")
-	public static String getClinicalRowValues(SampleCopyNumberValuesResultset sampleResultset){
-		//String defaultV = "-";
+	public  String getClinicalRowValues(SampleCopyNumberValuesResultset sampleResultset){
+		String defaultV = "-";
 		//List rows = new ArrayList();
-		String row = sampleResultset.getBiospecimen().getSpecimenName()+"/t"+
-		sampleResultset.getChr()+"/t"+
-		sampleResultset.getLocStart()+"/t"+
-		sampleResultset.getLocEnd()+"/t"+
-		sampleResultset.getNumberOFMarks()+"/t"+
-		sampleResultset.getSegmentMean();//Number of Marks,,Sample,Disease";
+		String row = sampleResultset.getBiospecimen().getSpecimenName()+"\t"+
+		(sampleResultset.getChr()!= null? sampleResultset.getChr():defaultV)+"\t"+
+		(sampleResultset.getLocStart()!= null? sampleResultset.getLocStart():defaultV)+"\t"+
+		(sampleResultset.getLocEnd()!= null? sampleResultset.getLocEnd():defaultV)+"\t"+
+		(sampleResultset.getNumberOFMarks()!= null? sampleResultset.getNumberOFMarks().getValue().toString():defaultV)+"\t"+
+		(sampleResultset.getSegmentMean()!= null? sampleResultset.getSegmentMean().getValue().toString():defaultV)+"\n";//Number of Marks,,Sample,Disease";
 
 
 //		rows.add(sampleResultset.getBiospecimen().getSpecimenName());
@@ -281,11 +289,71 @@ public class CopyNumberIGVReport{
 
 		return row;
 	}
-
-	public static String getCopyNumberSegmentHeaderValues()	{
-		String headers = "Specimen"+"/t"+"Chr No."+"/t"+"Start Position"+"/t"+"End Position"+"/t"+"Number of Marks"+"/t"+"Segment Mean";//Number of Marks,,Sample,Disease";
+	@SuppressWarnings("unchecked")
+	private  String getChromosome(SampleCopyNumberValuesResultset sampleResultset){
+		String chr = "";
+		if(sampleResultset.getChr()!= null){
+			chr =  sampleResultset.getChr();
+		}
+		return chr;
+	}
+	@SuppressWarnings("unchecked")
+	private  Long getStartLoc(Long  defaultStart, SampleCopyNumberValuesResultset sampleResultset){
+		Long startLoc = new Long(0);
+		if(sampleResultset.getLocStart()!= null){
+			startLoc =  new Long(sampleResultset.getLocStart());
+		}
+		if(startLoc!= null){
+			if( defaultStart == null){
+				defaultStart = startLoc;//first time
+			}
+			if(startLoc < defaultStart){
+				return startLoc;
+			}
+		}
+		return defaultStart;
+	}
+	@SuppressWarnings("unchecked")
+	private  Long getEndLoc(Long  defaultEnd, SampleCopyNumberValuesResultset sampleResultset){
+		Long endLoc = new Long(0);
+		if(sampleResultset.getLocStart()!= null){
+			endLoc =  new Long(sampleResultset.getLocEnd());
+		}
+		if(startLoc!= null){
+			if( defaultEnd == null){
+				defaultEnd = endLoc;//first time
+			}
+			if(endLoc > defaultEnd){
+				return endLoc;
+			}
+		}
+		return defaultEnd;
+	}
+	public  String getCopyNumberSegmentHeaderValues()	{
+		String headers = "Specimen"+"\t"+"Chr No."+"\t"+"Start Position"+"\t"+"End Position"+"\t"+"Number of Marks"+"\t"+"Segment Mean"+"\n";//Number of Marks,,Sample,Disease";
 		//List<String> heads = new ArrayList<String>();
 		//heads = Arrays.asList(StringUtils.split(headers, ","));
 		return headers;
+	}
+
+	/**
+	 * @return the chr
+	 */
+	public String getChr() {
+		return chr;
+	}
+
+	/**
+	 * @return the startLoc
+	 */
+	public Long getStartLoc() {
+		return startLoc;
+	}
+
+	/**
+	 * @return the endLoc
+	 */
+	public Long getEndLoc() {
+		return endLoc;
 	}
 }

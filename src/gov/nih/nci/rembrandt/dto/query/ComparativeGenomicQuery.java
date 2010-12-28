@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.dto.query;
 
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AlleleFrequencyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
@@ -128,6 +129,8 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 	private AlleleFrequencyCriteria alleleFrequencyCriteria;
 
 	private AssayPlatformCriteria assayPlatformCriteria;
+	
+	private AnalysisTypeCriteria analysisTypeCriteria;
 
 	private QueryHandler HANDLER;
 
@@ -666,9 +669,26 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
         if(snpCriteria != null){
             myClone.snpCriteria = (SNPCriteria) snpCriteria.clone();
         }
+        if(analysisTypeCriteria != null){
+            myClone.analysisTypeCriteria = (AnalysisTypeCriteria) analysisTypeCriteria.clone();
+        }
 		return myClone;
 	}
 
 	class Handler {
+	}
+
+	/**
+	 * @return the analysisTypeCriteria
+	 */
+	public AnalysisTypeCriteria getAnalysisTypeCriteria() {
+		return analysisTypeCriteria;
+	}
+
+	/**
+	 * @param analysisTypeCriteria the analysisTypeCriteria to set
+	 */
+	public void setAnalysisTypeCriteria(AnalysisTypeCriteria analysisTypeCriteria) {
+		this.analysisTypeCriteria = analysisTypeCriteria;
 	}
 }

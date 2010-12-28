@@ -238,14 +238,17 @@ public class LookupManager{
 	}
 	
 	/**
-	 * @return Returns the pathways.
+	 * @param accessCollection 
+	 * @return Returns the DownloadFileLookup.
 	 */
 	@SuppressWarnings({"deprecation","unchecked"})
-	public static List getDownloadBRBFileList() {
+	public static List<DownloadFileLookup> getDownloadFileList(String fileType) {
 		List<DownloadFileLookup> downloadFileList
 			= new ArrayList<DownloadFileLookup>();
 		Criteria crit = new Criteria();
-		crit.addColumnEqualTo("FILE_TYPE","BRB");
+		if(fileType != null){
+			crit.addColumnEqualTo("FILE_TYPE",fileType);
+		}
 		String filePath = System.getProperty("gov.nih.nci.rembrandt.brb_filepath");
 		ReportQueryByCriteria qbc = new ReportQueryByCriteria(DownloadFile.class, crit, false);
 		qbc.addOrderByAscending("fileId");
@@ -271,7 +274,6 @@ public class LookupManager{
 		}
 		return downloadFileList;
 	}
-	
 	/**
 	 * @return Returns the patientData.
 	 * @throws Exception

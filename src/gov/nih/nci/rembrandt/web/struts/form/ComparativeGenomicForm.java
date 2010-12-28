@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AlleleFrequencyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
@@ -23,6 +24,7 @@ import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.SpecimenType;
 import gov.nih.nci.caintegrator.util.MathUtil;
@@ -306,7 +308,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     private AssayPlatformCriteria assayPlatformCriteria;
 
- 
+    private AnalysisTypeCriteria analysisTypeCriteria;
 
     //----------------------------constuctor()
 
@@ -355,13 +357,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         assayTypes.add(new LabelValueBean("100K SNP Array", "100K SNP Array"));
         assayTypes.add(new LabelValueBean("Array CGH", "Array CGH"));
 
-        sampleTypeColl.add(new LabelValueBean("Paired Tissue Samples (Tissue vs. Blood paired samples)", "PairedTissue"));
-        sampleTypeColl.add(new LabelValueBean("Unpaired Tissue Samples (Tissue vs. Reference samples)", "UnpairedTissue"));
-        sampleTypeColl.add(new LabelValueBean("Unpaired Control Samples (Blood vs. reference samples)", "UnpairedControl"));
-
-        analysisTypeColl.add(new LabelValueBean("Paired Tissue Samples (Tissue vs. Blood paired samples)", "Paired"));
-        analysisTypeColl.add(new LabelValueBean("Unpaired Tissue Samples (Tissue vs. Reference samples)", "Unpaired"));
-        analysisTypeColl.add(new LabelValueBean("Normal Samples (Blood vs. reference samples)", "Normal"));
+         analysisTypeColl.add(new LabelValueBean(AnalysisType.PAIRED.toString(),AnalysisType.PAIRED.name()));
+        analysisTypeColl.add(new LabelValueBean(AnalysisType.UNPAIRED.toString(),AnalysisType.UNPAIRED.name()));
+        analysisTypeColl.add(new LabelValueBean(AnalysisType.NORMAL.toString(),AnalysisType.NORMAL.name()));
     }
 
     /**
@@ -519,7 +517,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         geneRegionView = "geneView";
         segmentMean = "";
         sampleType = "PairedTissue";
-        analysisType = "Paired";
+        analysisType = AnalysisType.PAIRED.name();
         basePairStart = "";       
         //sampleGroup = "";
 		sampleList = "";
@@ -537,7 +535,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         alleleFrequencyCriteria = new AlleleFrequencyCriteria();
         assayPlatformCriteria = new AssayPlatformCriteria();
         allGenesCriteria = new AllGenesCriteria(isAllGenes);
-
+        analysisTypeCriteria = new AnalysisTypeCriteria(AnalysisType.PAIRED);
         // reset the request object
         this.thisRequest = request;
 
@@ -751,10 +749,13 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         return this.alleleFrequencyCriteria;
     }
 
+    public AnalysisTypeCriteria getAnalysisTypeCriteria() {
+        return analysisTypeCriteria;
+    }
+
     public AssayPlatformCriteria getAssayPlatformCriteria() {
         return assayPlatformCriteria;
     }
-
     /**
      * Returns the tumorGrade.
      * 
@@ -791,9 +792,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setSampleType(String sampleType) {
         this.sampleType = sampleType;
-     	segmentMeanCriteria = new SegmentMeanCriteria();
-      	SegmentMeanDE segmentMeanDE = new SegmentMeanDE.SampleType(this.sampleType);
-        segmentMeanCriteria.setSegmentMean(segmentMeanDE);            	                                            
+        	                                            
       
     }
 
@@ -812,12 +811,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      * @param analysisType
      *            The analysisType to set
      */
-    public void setAnalysisType(String analysisType) {
-        this.analysisType = analysisType;
-     	//regionCriteria = new RegionCriteria();
-      	//regionCriteria.setAnalysisType(analysisType);            	                                            
-      
-    }
+	public void setAnalysisType(String analysisType) {
+		this.analysisType = analysisType;
+	}
 
     /**
      * Returns the assayPlatform.
@@ -2096,6 +2092,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         form.setCopyNumber(copyNumber);
         form.setCopyNumberView(copyNumberView);
         form.setSegmentMean(segmentMean);
+        form.setAnalysisType(analysisType);
         form.setSpecimenType(specimenType);
         return form;
     }
@@ -2142,6 +2139,13 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 						sampleCriteria.setSpecimenType(SpecimenType.TISSUE_BRAIN);
 					}
 			}
+	}
+
+	/**
+	 * @param analysisTypeCriteria the analysisTypeCriteria to set
+	 */
+	public void setAnalysisTypeCriteria(AnalysisTypeCriteria analysisTypeCriteria) {
+		this.analysisTypeCriteria = analysisTypeCriteria;
 	}
 	
 	

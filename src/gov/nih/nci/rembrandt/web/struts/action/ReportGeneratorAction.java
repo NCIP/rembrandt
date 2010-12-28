@@ -15,6 +15,7 @@ import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
+import gov.nih.nci.rembrandt.util.IGVHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -371,16 +372,28 @@ public class ReportGeneratorAction extends DispatchAction {
 	    	//add the Filter Parameters from the form to the forwarding request
 	    	request.setAttribute(RembrandtConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
 	    	//put the report xml in the request
-	    	
-	    	StringBuffer stringBuffer = CopyNumberIGVReport.getIGVReport(reportBean.getResultant());
-	    	request.setAttribute(RembrandtConstants.REPORT_IGV, stringBuffer);
+	    	CopyNumberIGVReport copyNumberIGVReport = new CopyNumberIGVReport();
+	    	StringBuffer stringBuffer = copyNumberIGVReport.getIGVReport(reportBean.getResultant());
+	    	String locus = "chr"+copyNumberIGVReport.getChr()+":"+copyNumberIGVReport.getStartLoc()+"-"+copyNumberIGVReport.getEndLoc(); //chromosome:start-end
+	    	String genome = "hg18";//TODO move to property file
+	    	String url = request.getRequestURL().toString();
+	    	url = url.substring(0, url.lastIndexOf("/")+1);
+	    	IGVHelper igvHelper = new IGVHelper(sessionId, genome,  locus,  url);
+	    	//fileDownload.do?method=brbFileDownload&fileId=
+	    	//url = url+"igvfileDownload.do?method=igvFileDownload&igv=";
+	    	String cnFileName = igvHelper.getIgvCopyNumberFileName();
+	    	igvHelper.writeStringtoFile(stringBuffer.toString(), cnFileName);
+	    	String igvURL = igvHelper.getIgvJNPL();
+	    	if(igvURL != null){
+	    		request.setAttribute(RembrandtConstants.REPORT_IGV, igvURL);
+	    	}
     	}else {
     		//Throw an exception because you should never call this action method
     		//unless you have already generated the report and stored it in the cache
     		logger.error( new IllegalStateException("Missing ReportBean for: "+rgForm.getQueryName()));
     	}
     	//Go to the geneViewReport.jsp to render the report
-    	return mapping.findForward("runGeneViewReport");
+    	return mapping.findForward("runIGVReport");
     }
     /**
      * This action method should be called when it is desired to actually render

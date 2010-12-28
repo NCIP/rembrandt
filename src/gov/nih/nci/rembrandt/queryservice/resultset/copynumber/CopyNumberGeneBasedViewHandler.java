@@ -201,8 +201,10 @@ public class CopyNumberGeneBasedViewHandler extends GeneExprViewHandler{
     		sampleCopyNumberValuesResultset.setBiospecimen(bioSpecimenIdentifierDE);
 
     		sampleCopyNumberValuesResultset.setSampleIDDE(new SampleIDDE(copyNumberObj.getSampleId()));
-
-    		//sampleCopyNumberValuesResultset.setCopyNumber(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
+    		sampleCopyNumberValuesResultset.setChr(copyNumberObj.getChromosome());
+    		sampleCopyNumberValuesResultset.setLocStart(copyNumberObj.getChromosomeStart().toString());
+    		sampleCopyNumberValuesResultset.setLocEnd(copyNumberObj.getChromosomeEnd().toString());
+    		sampleCopyNumberValuesResultset.setCopyNumber(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
     		sampleCopyNumberValuesResultset.setSegmentMean(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getSegmentMean()));
 
     		//sampleCopyNumberValuesResultset.setChannelRatioValue(new DatumDE(DatumDE.COPY_NUMBER_CHANNEL_RATIO,copyNumberObj.getChannelRatio()));

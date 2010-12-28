@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,12 +26,16 @@ import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.lists.ajax.CommonListFunctions;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 //import gov.nih.nci.ispy.util.ispyConstants;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.RembrandtListValidator;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
+import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 
 import javax.naming.OperationNotSupportedException;
@@ -347,5 +352,27 @@ public class DynamicListHelper {
 		}
 
         return cytobands;
+}
+	public static String[] getFileNamesForFileType(String fileType){
+		 List<String> fileNames =  new ArrayList<String>();
+		if (fileType != null && fileType.length() > 0){
+			try {
+				HttpSession session = ExecutionContext.get().getSession();
+				Collection<InstitutionDE> insitutions = InsitutionAccessHelper.getInsititutionCollection(session);
+				List<DownloadFileLookup> fileList = LookupManager.getDownloadFileList(fileType);
+			        for (DownloadFileLookup downloadFileLookup: fileList) {
+			    		for(InstitutionDE insitution :insitutions){
+			    			if(insitution.getValueObject().equals(downloadFileLookup.getAccessCode())){
+					         	fileNames.add(downloadFileLookup.getFileName());
+			    			}
+			    		}
+
+			        }
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+
+       return (String[]) fileNames.toArray(new String[0]);
 }
 }

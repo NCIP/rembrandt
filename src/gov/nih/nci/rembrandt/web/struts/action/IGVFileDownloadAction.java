@@ -1,23 +1,18 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
-import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
-import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
-import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
-import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DispatchAction;
 /**
  * This action is associated with the refine_tile.jsp tile and is mapped
  * for buttons on the page.  This is basicly the UI mechanism for creating
@@ -87,10 +82,9 @@ import org.apache.struts.action.ActionMapping;
 * 
 */
 
-public class ViewResultsAction extends Action{
-    private static Logger logger = Logger.getLogger(RefineQueryAction.class);
-	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-	
+public class IGVFileDownloadAction extends DispatchAction{
+    private static Logger logger = Logger.getLogger(IGVFileDownloadAction.class);
+
 	/**
 	 * Method execute
 	 * @param ActionMapping mapping
@@ -100,39 +94,70 @@ public class ViewResultsAction extends Action{
 	 * @return ActionForward
 	 * @throws Exception
 	 */
-	public ActionForward execute(
+	public ActionForward igvFileDownload(
 		ActionMapping mapping,
 		ActionForm form,
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
 		
-		List fileList = LookupManager.getDownloadFileList("BRB");
-		if (fileList == null || fileList.isEmpty())
-		{
-			request.setAttribute("downloadFileList", new ArrayList());
-			return mapping.findForward("success");
+		String igvFileName = request.getParameter("igv")!=null ? (String) request.getParameter("igv") : null;	
+		String cnFileName = request.getParameter("cn")!=null ? (String) request.getParameter("cn") : null;	
+		String clFileName = request.getParameter("cl")!=null ? (String) request.getParameter("cl") : null;	
+		String sessionId = request.getParameter("uid")!=null ? (String) request.getParameter("uid") : null;	
+		String fileName = null;
+		String contextType = "application/x-download";
+		String[] names = null;
+		if(igvFileName != null){
+			names = igvFileName.split("-");
+		}else if(cnFileName != null){
+			names = cnFileName.split("-");
+			contextType = "application/txt";
+		}else if(clFileName != null){
+			names = clFileName.split("-");
+			contextType = "application/txt";
 		}
-		List<DownloadFileLookup> downloadFileList = new ArrayList<DownloadFileLookup>();
 		
-		Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollection(request.getSession());
-
-		for (int i = 0; i < fileList.size(); i++){
-			DownloadFileLookup lookup = (DownloadFileLookup)fileList.get(i);
-			//if (lookup.getAccessCode().equals(new Long(8))){
-			//	downloadFileList.add(lookup);
-			//	continue;
-			//}
-			for (Iterator it = collection.iterator(); it.hasNext();){
-				InstitutionDE de = (InstitutionDE)it.next();
-			
-				if (lookup.getAccessCode().equals((Long)de.getValue())){
-					downloadFileList.add(lookup);
-				}
-			}
+    	if(names != null){
+    		sessionId = names[0];
+    		fileName = names[1];
+    		if(fileName.contains(".idx")){
+    			fileName = fileName.substring(0,fileName.lastIndexOf(".idx"));
+    		}
+    	}
+    	String filePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
+    	if(filePath != null){
+    		filePath = filePath + File.separator + sessionId+File.separator;
+    	}
+		if (fileName == null && filePath == null){
+			logger.info("File Id not available from URL.");
+			return null;
 		}
-		request.getSession().setAttribute("downloadFileList", downloadFileList);
-	return  mapping.findForward("success");
- }
+        try
+        {
+        	File file = new File(filePath, fileName);
+        	BufferedInputStream bis =  new BufferedInputStream(new FileInputStream(file));
+        	
+            // set a non-standard content type to force brower to open Save As dialog
+            response.setContentType(contextType);
+            response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
+            ServletOutputStream sos = response.getOutputStream();
+
+			byte[] buf = new byte[1024 * 10]; // ~= 10KB
+			for (int len = -1; (len = bis.read(buf)) != -1; ){
+				sos.write(buf, 0, len);
+			}
+		    response.setContentLength((int)file.length());
+		        
+		    sos.flush(); // let the Servlet container handle closing of this ServletOutputStream
+		    bis.close();
+        }
+        catch(Exception e)	{
+        	logger.error("Error occured: " + e.getMessage());
+		}
+        logger.info(fileName + " was downloaded.");
+        return null;
+	}
       
 }
+

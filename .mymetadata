@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="rembrandt"
+  name="rembrandt-nci-svn"
   id="myeclipse.1125610600035"
   context-root="/rembrandt"
   j2ee-spec="1.4"
-  archive="rembrandt.war">
+  archive="rembrandt-nci-svn.war">
   <attributes>
     <attribute name="webrootdir" value="/WebRoot" />
   </attributes>

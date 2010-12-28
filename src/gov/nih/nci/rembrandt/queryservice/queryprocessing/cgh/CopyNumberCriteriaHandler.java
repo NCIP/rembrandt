@@ -1,12 +1,15 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh;
 
+import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.SegmentMeanCriteria;
 import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SNPableDE;
 import gov.nih.nci.caintegrator.dto.de.SegmentMeanDE;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberGeneBasedSampleView;
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
@@ -105,7 +108,18 @@ public class CopyNumberCriteriaHandler {
             }
         }
     }
+    static void addAnalysisTypeCriteria(ComparativeGenomicQuery cghQuery, Criteria criteria) throws Exception {
+    	AnalysisTypeCriteria analysisTypeCriteria = cghQuery.getAnalysisTypeCriteria();
+        String columnName = "ANALYSIS_TYPE";
+        if (analysisTypeCriteria != null  && analysisTypeCriteria.getAnalysisType() != null) {
 
+        	AnalysisType analysisType = analysisTypeCriteria.getAnalysisType();
+               Criteria c = new Criteria();
+               c.addEqualTo(columnName, analysisType.name());
+               criteria.addAndCriteria(c);
+ 
+      }
+    }
     static void addCopyNumberCriteria(ComparativeGenomicQuery cghQuery, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
         CopyNumberCriteria copyNumberCrit = cghQuery.getCopyNumberCriteria();
         SegmentMeanCriteria segmentMeanCrit = cghQuery.getSegmentMeanCriteria();

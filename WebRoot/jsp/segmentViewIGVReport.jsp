@@ -5,10 +5,10 @@ org.dom4j.Document,org.dom4j.io.XMLWriter,org.dom4j.io.OutputFormat"
 response.setDateHeader ("Expires", -1);
 
 	//generate the CSV
-	response.setContentType("application/txt");
-	response.setHeader("Content-Disposition", "attachment; filename=report.seg");
+	response.setContentType("application/x-java-jnlp-file");
+	response.setHeader("Content-Disposition", "attachment; filename=igv.jnlp");
 	try{	
-	StringBuffer sb = (StringBuffer)request.getAttribute(RembrandtConstants.REPORT_IGV);
+	String sb = (String)request.getAttribute(RembrandtConstants.REPORT_IGV);
 	if(sb != null )
  		out.println(sb);
  	}

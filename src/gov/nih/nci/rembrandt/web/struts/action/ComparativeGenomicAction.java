@@ -4,6 +4,7 @@ import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AlleleFrequencyCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
@@ -22,6 +23,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
@@ -575,6 +577,12 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
         if (!snpCrit.isEmpty()) {
         	snpCrit.setSnpId(comparativeGenomicForm.getSnpId());
             cghQuery.setSNPCrit(snpCrit);
+        }
+     // set AnalysisType criteria
+        String analysisType = comparativeGenomicForm.getAnalysisType();
+        if (analysisType!= null) {
+        	AnalysisTypeCriteria analysisTypeCriteri = new AnalysisTypeCriteria(AnalysisType.valueOf(analysisType));
+            cghQuery.setAnalysisTypeCriteria(analysisTypeCriteri);
         }
 
         // set allele criteria

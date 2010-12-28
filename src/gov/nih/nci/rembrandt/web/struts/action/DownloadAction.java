@@ -55,9 +55,9 @@ public class DownloadAction extends DispatchAction {
 			throws Exception {
 		
 		//prepopulate the fields for BRB downloads
-		List fileList = LookupManager.getDownloadBRBFileList();
+		List<DownloadFileLookup> fileList = LookupManager.getDownloadFileList(null);
 		if (fileList == null || fileList.isEmpty())	{
-			request.setAttribute("downloadFileList", new ArrayList());
+			request.setAttribute("downloadFileList", new ArrayList<DownloadFileLookup>());
 			return mapping.findForward("success");
 		}
 		List<DownloadFileLookup> downloadFileList = new ArrayList<DownloadFileLookup>();
@@ -66,10 +66,10 @@ public class DownloadAction extends DispatchAction {
 
 		for (int i = 0; i < fileList.size(); i++){
 			DownloadFileLookup lookup = (DownloadFileLookup)fileList.get(i);
-			if (lookup.getAccessCode().equals(new Long(8))){
-				downloadFileList.add(lookup);
-				continue;
-			}
+			//if (lookup.getAccessCode().equals(new Long(8))){
+			//	downloadFileList.add(lookup);
+			//	continue;
+			//}
 			for (Iterator it = collection.iterator(); it.hasNext();){
 				InstitutionDE de = (InstitutionDE)it.next();
 			

@@ -69,8 +69,8 @@ public class ArraySNPSegmentFact
     public final static String SPECIMEN_NAME = "specimenName";
     public final static String SNP_SEGMENT_ID = "snpSegmentId";
     public final static String CHROMOSOME = "chromosome";
-    public final static String CHR_SEGMENT_START = "chromosomeSegmentStart";
-    public final static String CHR_SEGMENT_END = "chromosomeSegmentEnd";
+    public final static String CHR_SEGMENT_START = "chromosomeStart";
+    public final static String CHR_SEGMENT_END = "chromosomeEnd";
     
   private Long aSnpSegFId;
 
