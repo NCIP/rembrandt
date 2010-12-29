@@ -224,6 +224,8 @@
 		<copy file="csm_deploy/oracle-ds.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt_ehcache.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/igv-template.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/rembrandt-igv-template.jnlp" todir="${anthill.artifacts.dir}"/>
 	</target>
 	<target name="noop"/>
 	<!--
