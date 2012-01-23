@@ -38,14 +38,14 @@ Event.observe(window, 'load', function()	{
 					<table>
 						<tr>
 							<td>
-								File Type : 
-								<html:select property="fileType">
+								<label for="fileType">File Type :</label> 
+								<html:select styleId="fileType" property="fileType">
 									<html:option value="1">Query</html:option>
 									<html:option value="2">List</html:option>
 								</html:select>	
 							</td>
 							<td style="padding-left:10px;">
-								<html:file property="workspaceFile" /> 
+								<html:file styleId="workspaceFile" property="workspaceFile" /><label for="workspaceFile">&nbsp;</label> 
 							</td>
 						</tr>
 						<tr>
