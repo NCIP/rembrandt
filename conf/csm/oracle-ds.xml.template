@@ -12,6 +12,15 @@
 <!-- ==================================================================== -->
 <datasources>
    <local-tx-datasource>
+               <jndi-name>@DATASOURCE_REMBRANDT@</jndi-name>
+               <connection-url>@DB_CONNECTION_URL@</connection-url>
+               <user-name>@DB_USERNAME@</user-name>
+               <password>@DB_PASSWORD@</password>
+               <driver-class>@ORACLE_DRIVER_CLASS@</driver-class>
+               <exception-sorter-class-name>@EXCEPTION_SORTER_CLASS@</exception-sorter-class-name>
+   </local-tx-datasource>
+   
+   <local-tx-datasource>
                <jndi-name>@DATASOURCE_JNDI@</jndi-name>
                <connection-url>@DB_CONNECTION_URL@</connection-url>
                <user-name>@DB_USERNAME@</user-name>

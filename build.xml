@@ -1,11 +1,67 @@
 <project name="rembrandt" default="build_war_anthill" basedir=".">
 	<property file="build.properties" />
+	<target name="systemProperties">
+	            <echo message="${ant.home}"/>
+	            <echo message="Java Runtime Environment 
+	                          version: ${ant.java.version}" />
+	            <echo message="Java Runtime Environment 
+	              version: ${java.version}" />
+	            <echo message="Java Runtime Environment 
+	              vendor: ${java.vendor}" />
+	            <echo message="Java Runtime Environment 
+	              vendor URL: ${java.vendor.url}" />
+	            <echo message="Java installation 
+	              directory: ${java.home}" />
+	            <echo message="Java Virtual Machine 
+	              specification version: 
+	              ${java.vm.specification.version}" />
+	            <echo message="Java Virtual Machine 
+	              specification vendor: 
+	              ${java.vm.specification.vendor}" />
+	            <echo message="Java Virtual Machine 
+	              specification name: 
+	              ${java.vm.specification.name}" />
+	            <echo message="Java Virtual Machine 
+	              implementation version: 
+	              ${java.vm.version}" />
+	            <echo message="Java Virtual Machine 
+	              implementation vendor: 
+	              ${java.vm.vendor}" />
+	            <echo message="Java Virtual Machine 
+	              implementation name: ${java.vm.name}" />
+	            <echo message="Java Runtime Environment 
+	              specification version: 
+	              ${java.specification.version}" />
+	            <echo message="Java Runtime Environment 
+	              specification vendor: 
+	              ${java.specification.vendor}" />
+	            <echo message="Java Runtime Environment 
+	              specification name: 
+	              ${java.specification.name}" />
+	            <echo message="Java class format version 
+	              number: ${java.class.version}" />
+	            <echo message="Java class path: 
+	              ${java.class.path}" />
+	            <echo message="List of paths to search when 
+	              loading libraries: ${java.library.path}" />
+	            <echo message="Path of extension directory 
+	              or directories: ${java.ext.dirs}" />
+	            <echo message="Default temp file path: 
+	              ${java.io.tmpdir}" />
+	            <echo message="Operating system name: 
+	              ${os.name}" />
+	            <echo message="Operating system 
+	              architecture: ${os.arch}" />
+	            <echo message="Operating system version: 
+	              ${os.version}" />
+	      </target>
+	
 
 	<!--
 	TARGET: COMPILE
 		Compiles the source directory with anthill dependencies
 	-->
-	<target name="compile_anthill" depends="warning">
+	<target name="compile_anthill" depends="warning,build:sub-projects">
 			<delete dir="${build.classes.dir}"/>
 			<mkdir dir="${build.classes.dir}"/>
 			<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -66,7 +122,7 @@
 		<delete file="src/ehcache.xml"/>
 		<delete file="conf/rembrandt_ehcache.xml"/>
 		<copy file="src/ehcache.xml.templates" tofile="conf/rembrandt_ehcache.xml"/>
-		<replaceregexp file="conf/rembrandt_ehcache.xml" match="@echache_path@" replace="/local/content/rembrandt/cache" flags="g"/>
+		<replaceregexp file="conf/rembrandt_ehcache.xml" match="@echache_path@" replace="${ncicb.configure.directory}${cache.path}" flags="g"/>
 		<copy file="src/ehcache.xml.templates" tofile="src/ehcache.xml"/>
 		<replaceregexp file="src/ehcache.xml" match="@echache_path@" replace="/local/content/${app.war.name}/ehcache" flags="g"/>
 	</target>
@@ -90,14 +146,14 @@
 		<replaceregexp file="csm_deploy/rembrandt.hibernate.cfg.xml" match="@DATASOURCE_JNDI@" replace="${csm.jndi.connection.datasource}" flags="g"/>
 		<!-- Configuring oracle-ds.xml -->
 		<echo message="Configuring oracle-ds.xml"/>
-		<delete file="csm_deploy/oracle-ds.xml"/>
-		<copy file="conf/csm/oracle-ds.xml.template" tofile="csm_deploy/oracle-ds.xml"/>
-		<replaceregexp file="csm_deploy/oracle-ds.xml" match="@DATASOURCE_JNDI@" replace="${csm.jndi.connection.datasource}" flags="g"/>
-		<replaceregexp file="csm_deploy/oracle-ds.xml" match="@DB_CONNECTION_URL@" replace="jdbc:oracle:${urlDbalias}" flags="g"/>
-		<replaceregexp file="csm_deploy/oracle-ds.xml" match="@DB_USERNAME@" replace="${databaseUser}" flags="g"/>
-		<replaceregexp file="csm_deploy/oracle-ds.xml" match="@DB_PASSWORD@" replace="${databasePassword}" flags="g"/>
-		<replaceregexp file="csm_deploy/oracle-ds.xml" match="@ORACLE_DRIVER_CLASS@" replace="${jdbcRuntimeDriver}" flags="g"/>
-		<replaceregexp file="csm_deploy/oracle-ds.xml" match="@EXCEPTION_SORTER_CLASS@" replace="${csm.exception.sorter.class}" flags="g"/>
+		<delete file="csm_deploy/rembrandt-ds.xml"/>
+		<copy file="conf/csm/oracle-ds.xml.template" tofile="csm_deploy/rembrandt-ds.xml"/>
+		<replaceregexp file="csm_deploy/rembrandt-ds.xml" match="@DATASOURCE_JNDI@" replace="${csm.jndi.connection.datasource}" flags="g"/>
+		<replaceregexp file="csm_deploy/rembrandt-ds.xml" match="@DB_CONNECTION_URL@" replace="jdbc:oracle:${urlDbalias}" flags="g"/>
+		<replaceregexp file="csm_deploy/rembrandt-ds.xml" match="@DB_USERNAME@" replace="${databaseUser}" flags="g"/>
+		<replaceregexp file="csm_deploy/rembrandt-ds.xml" match="@DB_PASSWORD@" replace="${databasePassword}" flags="g"/>
+		<replaceregexp file="csm_deploy/rembrandt-ds.xml" match="@ORACLE_DRIVER_CLASS@" replace="${jdbcRuntimeDriver}" flags="g"/>
+		<replaceregexp file="csm_deploy/rembrandt-ds.xml" match="@EXCEPTION_SORTER_CLASS@" replace="${csm.exception.sorter.class}" flags="g"/>
 		<!-- Configuring properties-service.xml -->
 		<echo message="Configuring properties-service.xml"/>
 		<delete file="csm_deploy/properties-service.xml"/>
@@ -112,7 +168,7 @@
 		-->
 	<target name="developement_config_common_security_module" depends="config_common_security_module">
 		<!-- Copy it to Jboss Deploy folder -->
-		<copy file="csm_deploy/oracle-ds.xml" todir="${jboss.deploy.dir}"/>
+		<copy file="csm_deploy/rembrandt-ds.xml" todir="${jboss.deploy.dir}"/>
 		<!-- Copy it to Jboss Conf folder -->
 		<copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${jboss.conf.dir}"/>
 		<!-- Copy it to Jboss Conf folder -->
@@ -176,7 +232,7 @@
 			<webinf dir="${webapp.dir}/WEB-INF"/>
 		</war>
 	</target>
-                                                                                                                                                                                                                                                                                                                                                                                                        <target name="deployWar" depends="build_war">
+    <target name="deployWar" depends="build_war">
 
     </target>
     <!--
@@ -215,15 +271,27 @@
 		<copy file="rembrandt.war" todir="${anthill.artifacts.dir}"/>
 
 	</target>
-	<target name="retrieve_deployment_artifacts">
+	<target name="retrieve_deployment_artifacts" depends="config_common_security_module">
 		<copy file="conf/rembrandt.properties" todir="${anthill.artifacts.dir}"/>
+		<replaceregexp file="${anthill.artifacts.dir}/rembrandt.properties" match="YOUR_DB_ALIAS" replace="${urlDbalias}" flags="g"/>
+		<replaceregexp file="${anthill.artifacts.dir}/rembrandt.properties" match="YOUR_DB_USER" replace="${databaseUser}" flags="g"/>
+		<replaceregexp file="${anthill.artifacts.dir}/rembrandt.properties" match="YOUR_DB_PASSWORD" replace="${databasePassword}" flags="g"/>
 		<copy file="conf/releaseNotes.html" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandtData.properties" todir="${anthill.artifacts.dir}"/>
-		<copy file="conf/rembrandt-properties-service.xml" todir="${anthill.artifacts.dir}"/>
+<!--		<copy file="conf/rembrandt-properties-service.xml" todir="${anthill.artifacts.dir}"/>		-->
 		<copy file="conf/rembrandt-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="csm_deploy/oracle-ds.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt_ehcache.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>		
+		<copy file="conf/log4j.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/login-config.xml" todir="${anthill.artifacts.dir}"/>
+		<replaceregexp file="${anthill.artifacts.dir}/login-config.xml" match="@LDAP_SERVER@" replace="${ldap.provider.url}" flags="g"/>
+		<copy file="csm_deploy/ApplicationSecurityConfig.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${anthill.artifacts.dir}"/>
+		<replaceregexp file="csm_deploy/rembrandt-ds.xml" match="@DATASOURCE_REMBRANDT@" replace="${rembrandt.connection.datasource}" flags="g"/>
+		<copy file="csm_deploy/rembrandt-ds.xml" todir="${anthill.artifacts.dir}"/>
+		<replaceregexp file="csm_deploy/properties-service.xml" match="@REMBRANDT_DATA_PROPERTIES@" replace="${ncicb.configure.directory}${rembrandt.data.properties.file}" flags="g"/>
+		<replaceregexp file="csm_deploy/properties-service.xml" match="@REMBRANDT_PROPERTIES@" replace="${ncicb.configure.directory}${rembrandt.properties.file}" flags="g"/>
+		<copy file="csm_deploy/properties-service.xml" todir="${anthill.artifacts.dir}"/>
 	</target>
 	<target name="noop"/>
 	<!--
@@ -335,6 +403,27 @@
 	                  keystore="${keystore.location}" 
 	                  signedjar="${applet.build.dir}/SignedPCAApplet.jar" /> 
 	    </target>
+	    
+	<target name="build:caintegrator-analysis-commons" description="Call caintegrator-analysis-commons sub-project build target to produce artifiacts">
+		<!-- setting the property in the ant call overrides the property in the sub-project allowing the artifact to be produced where needed -->
+		<ant inheritAll="false" inheritRefs="false" antfile="build.xml" target="build_dependency" dir="${caintegrator-analysis-commons.path}">
+		</ant>
+	</target>
+	
+	<target name="build:caIntegrator-spec" depends="build:caintegrator-analysis-commons" description="Call caIntegrator-spec sub-project build target to produce artifiacts">
+		<!-- setting the property in the ant call overrides the property in the sub-project allowing the artifact to be produced where needed -->
+		<ant inheritAll="false" inheritRefs="false" antfile="build.xml" target="build_dependency" dir="${caIntegrator-spec.path}">
+		</ant>
+	</target>
+
+	<target name="build:caintegrator-application-commons" depends="build:caIntegrator-spec" description="Call caintegrator-application-commons sub-project build target to produce artifiacts">
+		<!-- setting the property in the ant call overrides the property in the sub-project allowing the artifact to be produced where needed -->
+		<ant inheritAll="false" inheritRefs="false" antfile="build.xml" target="build_dependency" dir="${caintegrator-application-commons.path}">
+		</ant>
+	</target>
+	
+	<target name="build:sub-projects" depends="build:caintegrator-application-commons" description="Call sub-projects build target to produce sub-project artifiacts">
+	</target>
 
 
 </project>
